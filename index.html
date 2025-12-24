@@ -7173,10 +7173,5 @@
         if (state.user && navigator.geolocation) setTimeout(() => getUserLocation(), 500);
         render();
     </script>
-    <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js');
-  }
-</script>
 </body>
 </html>
