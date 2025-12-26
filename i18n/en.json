@@ -1,0 +1,89 @@
+{
+  "app": {
+    "name": "SpotHitch",
+    "tagline": "The hitchhikers community"
+  },
+  "nav": {
+    "map": "Map",
+    "planner": "Planner",
+    "community": "Community",
+    "guides": "Guides",
+    "profile": "Profile"
+  },
+  "actions": {
+    "search": "Search",
+    "filter": "Filter",
+    "add": "Add",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "share": "Share",
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign up"
+  },
+  "spots": {
+    "title": "Spots",
+    "addSpot": "Add a spot",
+    "noSpots": "No spots found",
+    "noSpotsMessage": "Try broadening your search",
+    "rating": "Rating",
+    "waitTime": "Wait time",
+    "checkin": "I'm here!",
+    "verified": "Verified"
+  },
+  "trip": {
+    "title": "Trip Planner",
+    "createTrip": "Create a trip",
+    "noTrips": "No trips planned",
+    "addStep": "Add a step",
+    "calculate": "Calculate route"
+  },
+  "community": {
+    "title": "Community",
+    "chat": "Chat",
+    "noMessages": "No messages yet",
+    "sendMessage": "Send"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "forgotPassword": "Forgot password?",
+    "loginError": "Login error",
+    "signupError": "Signup error"
+  },
+  "errors": {
+    "network": "Network connection error",
+    "unknown": "An error occurred",
+    "required": "This field is required",
+    "invalidEmail": "Invalid email",
+    "passwordShort": "Password too short (6 characters min)"
+  },
+  "success": {
+    "saved": "Saved!",
+    "deleted": "Deleted",
+    "spotAdded": "Spot added successfully!",
+    "loginSuccess": "Login successful"
+  },
+  "offline": {
+    "title": "Offline mode",
+    "message": "Saved spots are available",
+    "limited": "Some features are limited"
+  },
+  "onboarding": {
+    "welcome": "Welcome to SpotHitch!",
+    "step1Title": "Explore the map",
+    "step1Content": "Discover verified hitchhiking spots",
+    "step2Title": "Search",
+    "step2Content": "Find spots by city or country",
+    "step3Title": "Plan",
+    "step3Content": "Create your itinerary",
+    "step4Title": "Community",
+    "step4Content": "Connect with other hitchhikers",
+    "skip": "Skip",
+    "next": "Next",
+    "finish": "Finish"
+  }
+}
