@@ -2,6 +2,20 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <!-- Content Security Policy - Sécurité critique -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.tailwindcss.com https://www.gstatic.com https://cdnjs.cloudflare.com https://*.sentry.io;
+        style-src 'self' 'unsafe-inline' https://unpkg.com https://cdnjs.cloudflare.com https://fonts.googleapis.com;
+        img-src 'self' data: blob: https: http:;
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+        connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://firestore.googleapis.com https://nominatim.openstreetmap.org https://router.project-osrm.org https://*.tile.openstreetmap.org https://basemaps.cartocdn.com https://*.sentry.io wss://*.firebaseio.com;
+        frame-src 'self' https://*.firebaseapp.com;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        upgrade-insecure-requests;
+    ">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0ea5e9">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a">
@@ -150,6 +164,37 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
+        }
+
+    
+        /* Enhanced Skeleton Loaders */
+        .skeleton-card {
+            background: linear-gradient(90deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s ease-in-out infinite;
+            border-radius: 12px;
+        }
+        
+        .skeleton-text { height: 1em; margin-bottom: 0.5em; border-radius: 4px; }
+        .skeleton-text-sm { width: 60%; }
+        .skeleton-text-md { width: 80%; }
+        .skeleton-text-lg { width: 100%; }
+        
+        .skeleton-avatar { width: 48px; height: 48px; border-radius: 50%; }
+        .skeleton-image { width: 100%; height: 150px; border-radius: 8px; }
+        
+        .skeleton-spot-card {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
     </style>
@@ -713,6 +758,9 @@
     }
     </script>
     
+
+    <!-- DOMPurify pour sanitisation XSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js" integrity="sha512-H+rglffZ6f5gF7UJgvH4Naa+fGCgjrHKMgoFOGmcPjXuemyLSoCJFWwzPNgFKLqJqozlpMn0Lr5zRP5pphhk8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-sky-500 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
@@ -733,6 +781,11 @@
         </script>
         </div>
     </div>
+    
+    
+    <!-- ARIA Live Regions pour notifications accessibles -->
+    <div id="aria-live-polite" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    <div id="aria-live-assertive" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
     
     <div id="app" role="main"></div>
 
@@ -855,6 +908,55 @@
         
         // ==================== CLEANUP MANAGER ====================
         // Gère le nettoyage des ressources pour éviter les fuites mémoire
+        
+        // ==================== FOCUS MANAGEMENT ====================
+        // Gère le focus pour les modales et overlays
+        const FocusManager = {
+            previousFocus: null,
+            
+            // Sauvegarde le focus actuel et focus sur l'élément cible
+            trapFocus(containerSelector) {
+                this.previousFocus = document.activeElement;
+                const container = document.querySelector(containerSelector);
+                if (!container) return;
+                
+                const focusables = container.querySelectorAll(
+                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                );
+                
+                if (focusables.length > 0) {
+                    focusables[0].focus();
+                }
+                
+                // Trap focus dans le conteneur
+                container.addEventListener('keydown', this.handleTabKey.bind(this, focusables));
+            },
+            
+            handleTabKey(focusables, e) {
+                if (e.key !== 'Tab') return;
+                
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            },
+            
+            // Restaure le focus précédent
+            restoreFocus() {
+                if (this.previousFocus && typeof this.previousFocus.focus === 'function') {
+                    this.previousFocus.focus();
+                }
+                this.previousFocus = null;
+            }
+        };
+
+
         const CleanupManager = {
             listeners: [],
             timers: [],
@@ -901,6 +1003,212 @@
         
         // Nettoyer avant de quitter la page
         window.addEventListener('beforeunload', () => CleanupManager.cleanup());
+
+
+        
+        // ==================== ANNONCES ACCESSIBILITÉ ====================
+        // Annonce un message aux lecteurs d'écran
+        function announce(message, priority = 'polite') {
+            const region = document.getElementById(`aria-live-${priority}`);
+            if (region) {
+                region.textContent = '';
+                setTimeout(() => { region.textContent = message; }, 100);
+            }
+        }
+        
+        // Annonce succès/erreur pour les actions
+        function announceAction(action, success = true) {
+            const messages = {
+                'spot-added': success ? 'Spot ajouté avec succès' : 'Erreur lors de l\'ajout du spot',
+                'login': success ? 'Connexion réussie' : 'Erreur de connexion',
+                'logout': 'Déconnexion réussie',
+                'filter': 'Filtres appliqués',
+                'search': 'Résultats de recherche mis à jour'
+            };
+            announce(messages[action] || action, success ? 'polite' : 'assertive');
+        }
+
+
+        
+        // ==================== EMPTY STATES ====================
+        // Messages pour les états vides
+        function renderEmptyState(type) {
+            const emptyStates = {
+                'no-spots': {
+                    icon: '🗺️',
+                    title: t('noSpotsTitle') || 'Aucun spot trouvé',
+                    message: t('noSpotsMessage') || 'Essayez d\'élargir votre recherche ou changez les filtres',
+                    action: { text: t('resetFilters') || 'Réinitialiser les filtres', onclick: 'resetFilters()' }
+                },
+                'no-results': {
+                    icon: '🔍',
+                    title: t('noResultsTitle') || 'Pas de résultats',
+                    message: t('noResultsMessage') || 'Aucun résultat pour cette recherche',
+                    action: null
+                },
+                'no-trips': {
+                    icon: '🚗',
+                    title: t('noTripsTitle') || 'Aucun voyage',
+                    message: t('noTripsMessage') || 'Planifiez votre premier voyage en autostop !',
+                    action: { text: t('createTrip') || 'Créer un voyage', onclick: 'state.tripPlannerOpen=true;render()' }
+                },
+                'no-messages': {
+                    icon: '💬',
+                    title: t('noMessagesTitle') || 'Pas encore de messages',
+                    message: t('noMessagesMessage') || 'Soyez le premier à écrire !',
+                    action: null
+                },
+                'offline': {
+                    icon: '📡',
+                    title: t('offlineTitle') || 'Hors ligne',
+                    message: t('offlineMessage') || 'Certaines fonctionnalités ne sont pas disponibles',
+                    action: { text: t('retry') || 'Réessayer', onclick: 'location.reload()' }
+                }
+            };
+            
+            const state = emptyStates[type] || emptyStates['no-results'];
+            
+            return `
+                <div class="flex flex-col items-center justify-center p-8 text-center">
+                    <div class="text-6xl mb-4">${state.icon}</div>
+                    <h3 class="text-xl font-bold text-white mb-2">${state.title}</h3>
+                    <p class="text-slate-400 mb-4 max-w-sm">${state.message}</p>
+                    ${state.action ? `<button onclick="${state.action.onclick}" class="btn btn-primary">${state.action.text}</button>` : ''}
+                </div>
+            `;
+        }
+        
+        function resetFilters() {
+            state.activeFilter = 'all';
+            state.filterCountry = 'all';
+            state.filterMinRating = 0;
+            state.filterMaxWait = 999;
+            state.searchQuery = '';
+            render();
+            announce('Filtres réinitialisés');
+        }
+
+
+        
+        // ==================== SKELETON LOADERS ====================
+        function renderSkeletonSpotCard() {
+            return `
+                <div class="skeleton-spot-card">
+                    <div class="skeleton-card skeleton-image" style="width:80px;height:80px;flex-shrink:0"></div>
+                    <div style="flex:1">
+                        <div class="skeleton-card skeleton-text skeleton-text-lg"></div>
+                        <div class="skeleton-card skeleton-text skeleton-text-md"></div>
+                        <div class="skeleton-card skeleton-text skeleton-text-sm"></div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderSkeletonList(count = 3) {
+            return Array(count).fill(0).map(() => renderSkeletonSpotCard()).join('');
+        }
+
+
+        
+        // ==================== ANALYTICS ====================
+        // Tracking d'événements basique (RGPD-friendly, pas de cookies)
+        const Analytics = {
+            events: [],
+            
+            track(eventName, properties = {}) {
+                const event = {
+                    name: eventName,
+                    properties: {
+                        ...properties,
+                        timestamp: new Date().toISOString(),
+                        page: state.activeTab,
+                        userAgent: navigator.userAgent.substring(0, 100),
+                        screenSize: `${window.innerWidth}x${window.innerHeight}`,
+                        online: navigator.onLine,
+                        lang: state.lang
+                    }
+                };
+                
+                this.events.push(event);
+                
+                // Garder seulement les 100 derniers événements en mémoire
+                if (this.events.length > 100) {
+                    this.events = this.events.slice(-100);
+                }
+                
+                // Log en dev uniquement
+                if (DEBUG_MODE) {
+                    console.log('📊 Analytics:', eventName, properties);
+                }
+                
+                // Envoyer à Firebase Analytics si disponible
+                if (typeof firebase !== 'undefined' && firebase.analytics) {
+                    try {
+                        firebase.analytics().logEvent(eventName, properties);
+                    } catch (e) {}
+                }
+            },
+            
+            // Événements prédéfinis
+            pageView(page) { this.track('page_view', { page }); },
+            spotView(spotId) { this.track('spot_view', { spotId }); },
+            spotAdd() { this.track('spot_add'); },
+            search(query) { this.track('search', { query: query.substring(0, 50) }); },
+            filterApply(filters) { this.track('filter_apply', filters); },
+            tripCreate() { this.track('trip_create'); },
+            login(method) { this.track('login', { method }); },
+            signup(method) { this.track('signup', { method }); },
+            install() { this.track('pwa_install'); },
+            share(type) { this.track('share', { type }); },
+            error(message) { this.track('error', { message: message.substring(0, 200) }); }
+        };
+        
+        // Tracker le changement d'onglet
+        const originalChangeTab = typeof changeTab === 'function' ? changeTab : null;
+        function changeTab(tab) {
+            Analytics.pageView(tab);
+            state.activeTab = tab;
+            render();
+        }
+
+
+        
+        // ==================== i18n LOADER ====================
+        // Prépare le chargement dynamique des traductions
+        const i18nLoader = {
+            // URLs des fichiers de traduction (à créer)
+            urls: {
+                fr: '/Spothitch/i18n/fr.json',
+                en: '/Spothitch/i18n/en.json',
+                es: '/Spothitch/i18n/es.json'
+            },
+            
+            cache: {},
+            
+            // Charge une langue de manière asynchrone
+            async load(lang) {
+                if (this.cache[lang]) return this.cache[lang];
+                
+                try {
+                    const response = await fetch(this.urls[lang]);
+                    if (response.ok) {
+                        this.cache[lang] = await response.json();
+                        return this.cache[lang];
+                    }
+                } catch (e) {
+                    console.warn(`i18n: Impossible de charger ${lang}, utilisation du fallback`);
+                }
+                
+                return null; // Utiliser les traductions inline
+            },
+            
+            // Détecte la langue préférée du navigateur
+            detectLanguage() {
+                const browserLang = navigator.language?.substring(0, 2);
+                const supportedLangs = ['fr', 'en', 'es'];
+                return supportedLangs.includes(browserLang) ? browserLang : 'fr';
+            }
+        };
 
 
         const Storage = {
@@ -2944,6 +3252,28 @@
         }
 
         // ==================== SÉCURITÉ XSS ====================
+        
+        // ==================== SANITISATION RENFORCÉE ====================
+        // Utilise DOMPurify si disponible, sinon fallback sur escapeHtml basique
+        function sanitize(text) {
+            if (typeof DOMPurify !== 'undefined') {
+                return DOMPurify.sanitize(text, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
+            }
+            return escapeHtml(text);
+        }
+        
+        // Sanitize HTML qui peut contenir du formatage basique
+        function sanitizeHTML(html) {
+            if (typeof DOMPurify !== 'undefined') {
+                return DOMPurify.sanitize(html, { 
+                    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'br', 'p'],
+                    ALLOWED_ATTR: []
+                });
+            }
+            return escapeHtml(html);
+        }
+
+
         function escapeHtml(text) {
             if (!text) return '';
             if (typeof text !== 'string') text = String(text);
@@ -7852,6 +8182,279 @@
         
         // Call hideLoader after first render
         setTimeout(hideLoader, 100);
+
+        // ==================== OFFLINE UX AMÉLIORÉ ====================
+        // Indicateur de fonctionnalités limitées offline
+        const OfflineManager = {
+            offlineFeatures: ['map', 'cached-spots', 'saved-trips'],
+            onlineOnlyFeatures: ['add-spot', 'chat', 'sync', 'search-new'],
+            
+            init() {
+                this.updateUI();
+                window.addEventListener('online', () => this.onOnline());
+                window.addEventListener('offline', () => this.onOffline());
+            },
+            
+            onOffline() {
+                this.updateUI();
+                this.showOfflineBanner();
+                announce('Mode hors-ligne activé. Certaines fonctionnalités sont limitées.', 'polite');
+            },
+            
+            onOnline() {
+                this.updateUI();
+                this.hideOfflineBanner();
+                this.syncPendingData();
+                announce('Connexion rétablie. Synchronisation en cours...', 'polite');
+            },
+            
+            showOfflineBanner() {
+                if (document.getElementById('offline-banner')) return;
+                
+                const banner = document.createElement('div');
+                banner.id = 'offline-banner';
+                banner.style.cssText = `
+                    position: fixed; top: 0; left: 0; right: 0;
+                    background: linear-gradient(135deg, #f59e0b, #d97706);
+                    color: white; padding: 8px 16px;
+                    text-align: center; font-size: 14px;
+                    z-index: 10000; display: flex;
+                    align-items: center; justify-content: center; gap: 8px;
+                `;
+                banner.innerHTML = `
+                    <span>📡</span>
+                    <span>Mode hors-ligne - Les spots sauvegardés sont disponibles</span>
+                    <button onclick="OfflineManager.hideOfflineBanner()" style="background:rgba(255,255,255,0.2);border:none;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;margin-left:8px">×</button>
+                `;
+                document.body.prepend(banner);
+                
+                // Décaler le contenu
+                document.body.style.paddingTop = '40px';
+            },
+            
+            hideOfflineBanner() {
+                const banner = document.getElementById('offline-banner');
+                if (banner) {
+                    banner.remove();
+                    document.body.style.paddingTop = '';
+                }
+            },
+            
+            updateUI() {
+                // Désactiver visuellement les boutons des features online-only quand offline
+                if (!navigator.onLine) {
+                    document.querySelectorAll('[data-requires-online]').forEach(el => {
+                        el.style.opacity = '0.5';
+                        el.style.pointerEvents = 'none';
+                        el.title = 'Disponible uniquement en ligne';
+                    });
+                } else {
+                    document.querySelectorAll('[data-requires-online]').forEach(el => {
+                        el.style.opacity = '';
+                        el.style.pointerEvents = '';
+                        el.title = '';
+                    });
+                }
+            },
+            
+            syncPendingData() {
+                // Tenter de sync les données en attente
+                if (typeof SpotHitchDB !== 'undefined') {
+                    SpotHitchDB.getPendingSync().then(pending => {
+                        if (pending && pending.length > 0) {
+                            showToast('info', `🔄 Synchronisation de ${pending.length} élément(s)...`);
+                            // La sync réelle dépend de l'implémentation Firebase
+                        }
+                    });
+                }
+            }
+        };
+        
+        // Initialiser au démarrage
+        OfflineManager.init();
+
+
+
+        // ==================== ONBOARDING ====================
+        // Guide les nouveaux utilisateurs
+        const Onboarding = {
+            steps: [
+                {
+                    target: '#map-container',
+                    title: '🗺️ Explorez la carte',
+                    content: 'Découvrez les spots d\'autostop vérifiés par la communauté. Cliquez sur un marqueur pour voir les détails.',
+                    position: 'bottom'
+                },
+                {
+                    target: '#search-input',
+                    title: '🔍 Recherchez',
+                    content: 'Trouvez des spots par ville, pays ou direction. Utilisez les filtres pour affiner.',
+                    position: 'bottom'
+                },
+                {
+                    target: '#nav-planner',
+                    title: '📍 Planifiez',
+                    content: 'Créez votre itinéraire en ajoutant des étapes. L\'app calcule le meilleur chemin.',
+                    position: 'top'
+                },
+                {
+                    target: '#nav-community',
+                    title: '👥 Communauté',
+                    content: 'Échangez avec d\'autres autostoppeurs, partagez vos conseils et expériences.',
+                    position: 'top'
+                }
+            ],
+            
+            currentStep: 0,
+            
+            shouldShow() {
+                return !Storage.get('onboardingCompleted') && !state.user;
+            },
+            
+            start() {
+                if (!this.shouldShow()) return;
+                this.currentStep = 0;
+                this.showStep();
+            },
+            
+            showStep() {
+                const step = this.steps[this.currentStep];
+                if (!step) { this.complete(); return; }
+                
+                // Supprimer l'ancien tooltip
+                const existing = document.getElementById('onboarding-tooltip');
+                if (existing) existing.remove();
+                
+                const target = document.querySelector(step.target);
+                if (!target) { this.next(); return; }
+                
+                const rect = target.getBoundingClientRect();
+                
+                const tooltip = document.createElement('div');
+                tooltip.id = 'onboarding-tooltip';
+                tooltip.style.cssText = `
+                    position: fixed;
+                    z-index: 10001;
+                    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 16px;
+                    max-width: 300px;
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+                    animation: fadeInScale 0.3s ease;
+                `;
+                
+                // Position
+                if (step.position === 'bottom') {
+                    tooltip.style.top = (rect.bottom + 10) + 'px';
+                    tooltip.style.left = Math.max(10, rect.left) + 'px';
+                } else {
+                    tooltip.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+                    tooltip.style.left = Math.max(10, rect.left) + 'px';
+                }
+                
+                tooltip.innerHTML = `
+                    <div style="font-size:18px;font-weight:bold;margin-bottom:8px">${step.title}</div>
+                    <div style="font-size:14px;opacity:0.9;margin-bottom:16px">${step.content}</div>
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <span style="font-size:12px;opacity:0.7">${this.currentStep + 1}/${this.steps.length}</span>
+                        <div>
+                            <button onclick="Onboarding.skip()" style="background:rgba(255,255,255,0.2);border:none;color:white;padding:8px 12px;border-radius:8px;cursor:pointer;margin-right:8px">Passer</button>
+                            <button onclick="Onboarding.next()" style="background:white;border:none;color:#0284c7;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:bold">${this.currentStep < this.steps.length - 1 ? 'Suivant' : 'Terminer'}</button>
+                        </div>
+                    </div>
+                `;
+                
+                // Overlay
+                let overlay = document.getElementById('onboarding-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.id = 'onboarding-overlay';
+                    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:10000';
+                    document.body.appendChild(overlay);
+                }
+                
+                // Highlight target
+                target.style.position = 'relative';
+                target.style.zIndex = '10001';
+                target.style.boxShadow = '0 0 0 4px #0ea5e9';
+                
+                document.body.appendChild(tooltip);
+            },
+            
+            next() {
+                // Reset previous target
+                const prevStep = this.steps[this.currentStep];
+                if (prevStep) {
+                    const prevTarget = document.querySelector(prevStep.target);
+                    if (prevTarget) {
+                        prevTarget.style.zIndex = '';
+                        prevTarget.style.boxShadow = '';
+                    }
+                }
+                
+                this.currentStep++;
+                if (this.currentStep >= this.steps.length) {
+                    this.complete();
+                } else {
+                    this.showStep();
+                }
+            },
+            
+            skip() {
+                this.complete();
+            },
+            
+            complete() {
+                Storage.set('onboardingCompleted', true);
+                
+                const tooltip = document.getElementById('onboarding-tooltip');
+                const overlay = document.getElementById('onboarding-overlay');
+                if (tooltip) tooltip.remove();
+                if (overlay) overlay.remove();
+                
+                // Reset all targets
+                this.steps.forEach(step => {
+                    const target = document.querySelector(step.target);
+                    if (target) {
+                        target.style.zIndex = '';
+                        target.style.boxShadow = '';
+                    }
+                });
+                
+                showToast('success', '🎉 Bienvenue sur SpotHitch !');
+            }
+        };
+        
+        // Démarrer l'onboarding après le premier rendu si nouveau user
+        setTimeout(() => {
+            if (Onboarding.shouldShow() && state.activeTab === 'map') {
+                Onboarding.start();
+            }
+        }, 2000);
+
+
+
+        // ==================== NAVIGATION CLAVIER ====================
+        // Gère les raccourcis clavier globaux
+        document.addEventListener('keydown', (e) => {
+            // Escape ferme les modales/overlays
+            if (e.key === 'Escape') {
+                if (state.selectedSpot) { state.selectedSpot = null; render(); FocusManager.restoreFocus(); }
+                else if (state.showFilters) { state.showFilters = false; render(); FocusManager.restoreFocus(); }
+                else if (state.showAddSpot) { state.showAddSpot = false; render(); FocusManager.restoreFocus(); }
+                else if (state.tripPlannerOpen) { state.tripPlannerOpen = false; render(); FocusManager.restoreFocus(); }
+            }
+            
+            // Ctrl+K pour recherche rapide
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) searchInput.focus();
+            }
+        });
+
+
 
         // ==================== NETWORK STATUS INDICATOR ====================
         function updateNetworkStatus() {
