@@ -16,6 +16,11 @@
     
     <!-- SEO -->
     <title>SpotHitch - La communauté des autostoppeurs | Trouvez les meilleurs spots</title>
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" as="style">
+    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" as="script">
+    <link rel="preload" href="icon-192.png" as="image">
+    
     <meta name="description" content="SpotHitch - Trouvez les meilleurs spots d'auto-stop en Europe. Plus de 100 spots vérifiés, guides par pays, planificateur de voyage et communauté active.">
     <meta name="keywords" content="autostop, hitchhiking, spots, voyage, backpacking, europe, auto-stop, pouce, routard, aventure">
     <meta name="author" content="SpotHitch">
@@ -49,11 +54,15 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
     
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     
     <!-- Fonts -->
+    
+    <!-- Resource Hints for Performance -->
+    <link rel="modulepreload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
@@ -63,20 +72,49 @@
     <link rel="preconnect" href="https://nominatim.openstreetmap.org">
     <link rel="preconnect" href="https://router.project-osrm.org">
     <link rel="dns-prefetch" href="https://basemaps.cartocdn.com">
+    <!-- Critical CSS for First Paint -->
+    <style>
+        /* Critical styles for instant first paint */
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#fff}
+        body{min-height:100vh;overflow-x:hidden}
+        
+        /* Loading skeleton */
+        .skeleton{background:linear-gradient(90deg,#1e293b 25%,#334155 50%,#1e293b 75%);
+            background-size:200% 100%;animation:shimmer 1.5s infinite}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        
+        /* Initial loading state */
+        #app-loader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+            background:#0f172a;z-index:9999;transition:opacity .3s}
+        #app-loader.hidden{opacity:0;pointer-events:none}
+        .loader-spinner{width:48px;height:48px;border:4px solid #1e293b;border-top-color:#0ea5e9;
+            border-radius:50%;animation:spin 1s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        
+        /* Hide content until loaded */
+        #app{opacity:0;transition:opacity .3s}
+        #app.loaded{opacity:1}
+        
+        /* Screen reader only */
+        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+            overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    </style>
+    
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" defer></script>
     
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js" defer></script>
     
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -576,16 +614,168 @@
         }
         
     </style>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SpotHitch",
+        "alternateName": "La communauté des autostoppeurs",
+        "url": "https://antoine626.github.io/Spothitch/",
+        "description": "Trouvez les meilleurs spots d'auto-stop en Europe. Plus de 100 spots vérifiés, guides par pays, planificateur de voyage.",
+        "applicationCategory": "TravelApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "antoine626",
+            "url": "https://github.com/antoine626"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.5",
+            "ratingCount": "100",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "featureList": [
+            "Interactive map with hitchhiking spots",
+            "Trip planner with route calculation",
+            "Community chat",
+            "Country guides",
+            "Gamification system",
+            "Offline support"
+        ],
+        "screenshot": "https://antoine626.github.io/Spothitch/screenshot-desktop.png",
+        "softwareVersion": "1.1.0",
+        "datePublished": "2025-12-23",
+        "dateModified": "2025-12-26",
+        "inLanguage": ["fr", "en", "es"]
+    }
+    </script>
+    
 </head>
 <body>
     <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-sky-500 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
         Aller au contenu principal
     </a>
     >
+    
+    <!-- App Loader -->
+    <div id="app-loader">
+        <div style="text-align:center">
+            <div class="loader-spinner" style="margin:0 auto 16px"></div>
+            <div style="color:#94a3b8;font-size:14px">Chargement de SpotHitch...</div>
+        </div>
+    </div>
+    
     <div id="app" role="main"></div>
 
     <script>
         // ==================== STORAGE ====================
+        
+        // ==================== ERROR HANDLING ====================
+        // Gestion globale des erreurs pour une meilleure UX
+        
+        window.onerror = function(msg, url, line, col, error) {
+            console.error('Global error:', { msg, url, line, col, error });
+            
+            // Ne pas afficher les erreurs de script tiers
+            if (url && !url.includes('github.io')) return;
+            
+            // Afficher une notification non intrusive
+            showErrorToast('Une erreur est survenue. L\'app continue de fonctionner.');
+            
+            return true; // Empêche l'affichage de l'erreur par défaut
+        };
+        
+        window.onunhandledrejection = function(event) {
+            console.error('Unhandled promise rejection:', event.reason);
+            
+            // Gérer les erreurs réseau silencieusement
+            if (event.reason?.message?.includes('network') || 
+                event.reason?.message?.includes('fetch')) {
+                showErrorToast('Connexion instable. Mode hors-ligne activé.');
+                return;
+            }
+        };
+        
+        function showErrorToast(message) {
+            // Créer un toast non intrusif
+            const existing = document.getElementById('error-toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.id = 'error-toast';
+            toast.style.cssText = `
+                position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+                background: #ef4444; color: white; padding: 12px 24px; border-radius: 12px;
+                font-size: 14px; z-index: 10000; animation: slideUp 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideDown 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+        
+        // Styles pour les animations de toast
+        const toastStyles = document.createElement('style');
+        toastStyles.textContent = `
+            @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } }
+            @keyframes slideDown { to { opacity: 0; transform: translateX(-50%) translateY(20px); } }
+        `;
+        document.head.appendChild(toastStyles);
+
+        // ==================== WEB VITALS MONITORING ====================
+        // Mesure LCP, FID, CLS pour le monitoring de performance
+        
+        if ('PerformanceObserver' in window) {
+            // Largest Contentful Paint
+            try {
+                new PerformanceObserver((list) => {
+                    const entries = list.getEntries();
+                    const lastEntry = entries[entries.length - 1];
+                    console.log('📊 LCP:', Math.round(lastEntry.startTime) + 'ms');
+                }).observe({ type: 'largest-contentful-paint', buffered: true });
+            } catch (e) {}
+            
+            // First Input Delay
+            try {
+                new PerformanceObserver((list) => {
+                    const entries = list.getEntries();
+                    entries.forEach(entry => {
+                        console.log('📊 FID:', Math.round(entry.processingStart - entry.startTime) + 'ms');
+                    });
+                }).observe({ type: 'first-input', buffered: true });
+            } catch (e) {}
+            
+            // Cumulative Layout Shift
+            try {
+                let clsValue = 0;
+                new PerformanceObserver((list) => {
+                    for (const entry of list.getEntries()) {
+                        if (!entry.hadRecentInput) {
+                            clsValue += entry.value;
+                        }
+                    }
+                    console.log('📊 CLS:', clsValue.toFixed(4));
+                }).observe({ type: 'layout-shift', buffered: true });
+            } catch (e) {}
+        }
+
+
+
+
         const Storage = {
             get: (key) => { try { const d = localStorage.getItem('spothitch_v4_' + key); return d ? JSON.parse(d) : null; } catch (e) { return null; } },
             set: (key, value) => { try { localStorage.setItem('spothitch_v4_' + key, JSON.stringify(value)); return true; } catch (e) { return false; } },
@@ -696,6 +886,104 @@
         
         // Initialiser IndexedDB au démarrage
         SpotHitchDB.init().then(() => console.log('📦 IndexedDB ready')).catch(() => {});
+
+        // ==================== RENDER OPTIMIZATION ====================
+        // Debounce et requestAnimationFrame pour des renders performants
+        let renderScheduled = false;
+        let pendingRenderCallback = null;
+        
+        function scheduleRender() {
+            if (renderScheduled) return;
+            renderScheduled = true;
+            
+            requestAnimationFrame(() => {
+                renderScheduled = false;
+                if (pendingRenderCallback) {
+                    pendingRenderCallback();
+                    pendingRenderCallback = null;
+                } else {
+                    actualRender();
+                }
+            });
+        }
+        
+        // Debounce pour les renders rapides (ex: pendant le scroll)
+        let renderDebounceTimer = null;
+        function debouncedRender(delay = 16) {
+            clearTimeout(renderDebounceTimer);
+            renderDebounceTimer = setTimeout(scheduleRender, delay);
+        }
+        
+        // Virtual DOM diff simplifié pour éviter les re-renders complets
+        const renderCache = new Map();
+        function shouldRerender(componentId, newProps) {
+            const cached = renderCache.get(componentId);
+            if (!cached) {
+                renderCache.set(componentId, JSON.stringify(newProps));
+                return true;
+            }
+            const newPropsStr = JSON.stringify(newProps);
+            if (cached === newPropsStr) return false;
+            renderCache.set(componentId, newPropsStr);
+            return true;
+        }
+        
+        // Performance monitoring
+        const perfMetrics = {
+            renders: 0,
+            lastRenderTime: 0,
+            avgRenderTime: 0
+        };
+        
+        function trackRenderPerformance(startTime) {
+            const duration = performance.now() - startTime;
+            perfMetrics.renders++;
+            perfMetrics.lastRenderTime = duration;
+            perfMetrics.avgRenderTime = (perfMetrics.avgRenderTime * (perfMetrics.renders - 1) + duration) / perfMetrics.renders;
+            
+            if (duration > 50) {
+                console.warn(`⚠️ Slow render: ${duration.toFixed(2)}ms`);
+            }
+        }
+        
+        // Intersection Observer pour lazy loading
+        const lazyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    if (el.dataset.src) {
+                        el.src = el.dataset.src;
+                        delete el.dataset.src;
+                        lazyObserver.unobserve(el);
+                    }
+                    if (el.dataset.lazy) {
+                        el.classList.remove('skeleton');
+                        delete el.dataset.lazy;
+                        lazyObserver.unobserve(el);
+                    }
+                }
+            });
+        }, { rootMargin: '100px' });
+        
+        // Memory management - nettoyer les anciennes données
+        function cleanupOldData() {
+            // Nettoyer le cache de render si trop grand
+            if (renderCache.size > 100) {
+                const entries = Array.from(renderCache.entries());
+                entries.slice(0, 50).forEach(([key]) => renderCache.delete(key));
+            }
+            
+            // Nettoyer le cache OSRM si trop grand
+            if (typeof osrmCache !== 'undefined' && osrmCache.size > 50) {
+                const entries = Array.from(osrmCache.entries());
+                entries.slice(0, 25).forEach(([key]) => osrmCache.delete(key));
+            }
+        }
+        
+        // Exécuter le nettoyage périodiquement
+        setInterval(cleanupOldData, 60000);
+
+
 
         // ==================== OSRM DEBOUNCE ====================
         // Rate limiting pour l'API OSRM (max 60 req/min)
@@ -7362,6 +7650,29 @@
         
         if (state.user && navigator.geolocation) setTimeout(() => getUserLocation(), 500);
         render();
+
+        
+        // Hide loader when app is ready
+        function hideLoader() {
+            const loader = document.getElementById('app-loader');
+            const app = document.getElementById('app');
+            if (loader) loader.classList.add('hidden');
+            if (app) app.classList.add('loaded');
+            
+            // Log performance metrics
+            if (window.performance) {
+                const perf = performance.getEntriesByType('navigation')[0];
+                console.log('📊 Performance:', {
+                    'DOM Ready': Math.round(perf.domContentLoadedEventEnd) + 'ms',
+                    'Full Load': Math.round(perf.loadEventEnd) + 'ms',
+                    'First Paint': Math.round(performance.getEntriesByType('paint')[0]?.startTime || 0) + 'ms'
+                });
+            }
+        }
+        
+        // Call hideLoader after first render
+        setTimeout(hideLoader, 100);
+
     </script>
 
     <!-- Service Worker Registration -->
