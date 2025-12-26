@@ -1,0 +1,89 @@
+{
+  "app": {
+    "name": "SpotHitch",
+    "tagline": "La communauté des autostoppeurs"
+  },
+  "nav": {
+    "map": "Carte",
+    "planner": "Planifier",
+    "community": "Communauté",
+    "guides": "Guides",
+    "profile": "Profil"
+  },
+  "actions": {
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "add": "Ajouter",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "share": "Partager",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "signup": "Inscription"
+  },
+  "spots": {
+    "title": "Spots",
+    "addSpot": "Ajouter un spot",
+    "noSpots": "Aucun spot trouvé",
+    "noSpotsMessage": "Essayez d'élargir votre recherche",
+    "rating": "Note",
+    "waitTime": "Temps d'attente",
+    "checkin": "Je suis ici !",
+    "verified": "Vérifié"
+  },
+  "trip": {
+    "title": "Planificateur",
+    "createTrip": "Créer un voyage",
+    "noTrips": "Aucun voyage planifié",
+    "addStep": "Ajouter une étape",
+    "calculate": "Calculer l'itinéraire"
+  },
+  "community": {
+    "title": "Communauté",
+    "chat": "Chat",
+    "noMessages": "Pas encore de messages",
+    "sendMessage": "Envoyer"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "loginError": "Erreur de connexion",
+    "signupError": "Erreur d'inscription"
+  },
+  "errors": {
+    "network": "Erreur de connexion réseau",
+    "unknown": "Une erreur est survenue",
+    "required": "Ce champ est obligatoire",
+    "invalidEmail": "Email invalide",
+    "passwordShort": "Mot de passe trop court (6 caractères min)"
+  },
+  "success": {
+    "saved": "Sauvegardé !",
+    "deleted": "Supprimé",
+    "spotAdded": "Spot ajouté avec succès !",
+    "loginSuccess": "Connexion réussie"
+  },
+  "offline": {
+    "title": "Mode hors-ligne",
+    "message": "Les spots sauvegardés sont disponibles",
+    "limited": "Certaines fonctionnalités sont limitées"
+  },
+  "onboarding": {
+    "welcome": "Bienvenue sur SpotHitch !",
+    "step1Title": "Explorez la carte",
+    "step1Content": "Découvrez les spots d'autostop vérifiés",
+    "step2Title": "Recherchez",
+    "step2Content": "Trouvez des spots par ville ou pays",
+    "step3Title": "Planifiez",
+    "step3Content": "Créez votre itinéraire",
+    "step4Title": "Communauté",
+    "step4Content": "Échangez avec d'autres autostoppeurs",
+    "skip": "Passer",
+    "next": "Suivant",
+    "finish": "Terminer"
+  }
+}
