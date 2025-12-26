@@ -1,21 +1,17 @@
 # Dependencies
 node_modules/
-package-lock.json
 
-# Environment variables
+# Build output
+dist/
+
+# Environment files
 .env
 .env.local
-.env.production
-
-# Firebase
-.firebase/
-firebase-debug.log
-firestore-debug.log
-ui-debug.log
+.env.*.local
 
 # IDE
-.vscode/
 .idea/
+.vscode/
 *.swp
 *.swo
 
@@ -23,11 +19,11 @@ ui-debug.log
 .DS_Store
 Thumbs.db
 
-# Build
-dist/
-build/
+# Logs
 *.log
+npm-debug.log*
 
-# Cache
-.cache/
-*.cache
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
