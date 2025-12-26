@@ -1,22 +1,28 @@
 // ============================================================
 // 🔧 SPOTHITCH SERVICE WORKER - Offline-First Strategy
 // ============================================================
-// Version: 1.0.0
-// Date: 23/12/2024
+// Version: 1.1.0
+// Date: 26/12/2024
+// Updated for GitHub Pages deployment
 // ============================================================
 
-const CACHE_VERSION = 'spothitch-v1';
+const CACHE_VERSION = 'spothitch-v2';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const DYNAMIC_CACHE = `${CACHE_VERSION}-dynamic`;
 const API_CACHE = `${CACHE_VERSION}-api`;
 
+// Base path for GitHub Pages
+const BASE_PATH = '/Spothitch';
+
 // Assets à mettre en cache immédiatement
 const STATIC_ASSETS = [
-    '/',
-    '/index.html',
-    '/manifest.json',
-    '/icon-192.png',
-    '/icon-512.png',
+    `${BASE_PATH}/`,
+    `${BASE_PATH}/index.html`,
+    `${BASE_PATH}/manifest.json`,
+    `${BASE_PATH}/offline.html`,
+    `${BASE_PATH}/icon-192.png`,
+    `${BASE_PATH}/icon-512.png`,
+    `${BASE_PATH}/favicon.png`,
     // CDN dependencies (cache externe)
     'https://cdn.tailwindcss.com',
     'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
@@ -40,13 +46,20 @@ const NOMINATIM_PATTERN = /nominatim\.openstreetmap\.org/;
 
 // ==================== INSTALL ====================
 self.addEventListener('install', (event) => {
-    console.log('[SW] Installing Service Worker v1...');
+    console.log('[SW] Installing Service Worker v2...');
     
     event.waitUntil(
         caches.open(STATIC_CACHE)
             .then(cache => {
                 console.log('[SW] Caching static assets');
-                return cache.addAll(STATIC_ASSETS);
+                // Cache assets one by one to handle failures gracefully
+                return Promise.allSettled(
+                    STATIC_ASSETS.map(url => 
+                        cache.add(url).catch(err => {
+                            console.warn(`[SW] Failed to cache: ${url}`, err);
+                        })
+                    )
+                );
             })
             .then(() => {
                 console.log('[SW] Static assets cached');
@@ -67,7 +80,10 @@ self.addEventListener('activate', (event) => {
             .then(keys => {
                 return Promise.all(
                     keys
-                        .filter(key => key !== STATIC_CACHE && key !== DYNAMIC_CACHE && key !== API_CACHE)
+                        .filter(key => key.startsWith('spothitch-') && 
+                                      key !== STATIC_CACHE && 
+                                      key !== DYNAMIC_CACHE && 
+                                      key !== API_CACHE)
                         .map(key => {
                             console.log('[SW] Deleting old cache:', key);
                             return caches.delete(key);
@@ -119,11 +135,48 @@ self.addEventListener('fetch', (event) => {
         return;
     }
     
-    // Strategy: Static assets → Cache-first
-    event.respondWith(cacheFirst(event.request, STATIC_CACHE));
+    // Strategy: Static assets → Cache-first with offline fallback
+    event.respondWith(cacheFirstWithOfflineFallback(event.request));
 });
 
 // ==================== STRATEGIES ====================
+
+/**
+ * Cache-First Strategy with Offline Fallback
+ * Pour les pages HTML, retourne offline.html si pas de cache
+ */
+async function cacheFirstWithOfflineFallback(request) {
+    const cached = await caches.match(request);
+    if (cached) {
+        return cached;
+    }
+    
+    try {
+        const response = await fetch(request);
+        
+        // Ne mettre en cache que les réponses valides
+        if (response.ok) {
+            const cache = await caches.open(STATIC_CACHE);
+            cache.put(request, response.clone());
+        }
+        
+        return response;
+    } catch (err) {
+        // Si offline et requête de document, retourner offline.html
+        if (request.destination === 'document' || request.headers.get('accept')?.includes('text/html')) {
+            const offlinePage = await caches.match(`${BASE_PATH}/offline.html`);
+            if (offlinePage) {
+                return offlinePage;
+            }
+        }
+        
+        // Sinon retourner une réponse d'erreur
+        return new Response('Offline - Resource not cached', {
+            status: 503,
+            statusText: 'Service Unavailable'
+        });
+    }
+}
 
 /**
  * Cache-First Strategy
@@ -146,7 +199,6 @@ async function cacheFirst(request, cacheName) {
         
         return response;
     } catch (err) {
-        // Si offline et pas de cache, retourner une réponse d'erreur
         return new Response('Offline - Resource not cached', {
             status: 503,
             statusText: 'Service Unavailable'
@@ -234,15 +286,8 @@ self.addEventListener('sync', (event) => {
 });
 
 async function syncPendingSpots() {
-    // Cette fonction sera appelée quand l'utilisateur revient en ligne
-    // Elle doit lire les spots en attente depuis IndexedDB et les envoyer à Firebase
     console.log('[SW] Syncing pending spots...');
-    
     // TODO: Implémenter avec IndexedDB
-    // const pendingSpots = await idb.get('pending-spots');
-    // for (const spot of pendingSpots) {
-    //     await fetch('/api/spots', { method: 'POST', body: JSON.stringify(spot) });
-    // }
 }
 
 async function syncPendingValidations() {
@@ -251,7 +296,6 @@ async function syncPendingValidations() {
 }
 
 // ==================== PUSH NOTIFICATIONS ====================
-// Pour les futures notifications push
 
 self.addEventListener('push', (event) => {
     if (!event.data) return;
@@ -260,11 +304,11 @@ self.addEventListener('push', (event) => {
     
     const options = {
         body: data.body || 'Nouvelle notification SpotHitch',
-        icon: '/icon-192.png',
-        badge: '/icon-96.png',
+        icon: `${BASE_PATH}/icon-192.png`,
+        badge: `${BASE_PATH}/icon-96.png`,
         vibrate: [100, 50, 100],
         data: {
-            url: data.url || '/'
+            url: data.url || `${BASE_PATH}/`
         },
         actions: [
             { action: 'open', title: 'Ouvrir' },
@@ -282,25 +326,22 @@ self.addEventListener('notificationclick', (event) => {
     
     if (event.action === 'dismiss') return;
     
-    const url = event.notification.data?.url || '/';
+    const url = event.notification.data?.url || `${BASE_PATH}/`;
     
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true })
             .then(clientList => {
-                // Si une fenêtre existe déjà, la focus
                 for (const client of clientList) {
-                    if (client.url.includes(self.registration.scope) && 'focus' in client) {
+                    if (client.url.includes(BASE_PATH) && 'focus' in client) {
                         return client.focus();
                     }
                 }
-                // Sinon, ouvrir une nouvelle fenêtre
                 return clients.openWindow(url);
             })
     );
 });
 
 // ==================== PERIODIC SYNC ====================
-// Pour rafraîchir les données en arrière-plan
 
 self.addEventListener('periodicsync', (event) => {
     if (event.tag === 'refresh-spots') {
@@ -313,4 +354,4 @@ async function refreshSpotsCache() {
     // TODO: Fetch latest spots and update cache
 }
 
-console.log('[SW] Service Worker script loaded');
+console.log('[SW] Service Worker script loaded (v2 - GitHub Pages)');
