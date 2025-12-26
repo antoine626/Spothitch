@@ -43,6 +43,17 @@
     <meta name="twitter:description" content="Trouvez les meilleurs spots d'auto-stop en Europe">
     <meta name="twitter:image" content="https://antoine626.github.io/Spothitch/screenshot-mobile.png">
     
+    
+    <!-- Additional SEO meta tags -->
+    <meta name="rating" content="General">
+    <meta name="revisit-after" content="7 days">
+    <meta name="distribution" content="global">
+    <meta name="geo.region" content="EU">
+    <meta property="og:site_name" content="SpotHitch">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:creator" content="@spothitch">
+    
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -75,11 +86,21 @@
     <!-- Critical CSS for First Paint -->
     <style>
         /* Critical styles for instant first paint */
+
+        /* Focus styles for accessibility */
+        button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 2px solid #0ea5e9 !important;
+            outline-offset: 2px !important;
+        }
+        
+        .focus-ring:focus { ring: 2px; ring-color: #0ea5e9; }
+
         *{margin:0;padding:0;box-sizing:border-box}
         html{font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#fff}
         body{min-height:100vh;overflow-x:hidden}
         
         /* Loading skeleton */
+                /* Skeleton loading animation */        .skeleton {            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);            background-size: 200% 100%;            animation: skeleton-shimmer 1.5s ease-in-out infinite;        }                @keyframes skeleton-shimmer {            0% { background-position: 200% 0; }            100% { background-position: -200% 0; }        }                .skeleton-text {            height: 1em;            border-radius: 4px;            margin-bottom: 0.5em;        }                .skeleton-avatar {            width: 40px;            height: 40px;            border-radius: 50%;        }                .skeleton-card {            height: 120px;            border-radius: 12px;        }
         .skeleton{background:linear-gradient(90deg,#1e293b 25%,#334155 50%,#1e293b 75%);
             background-size:200% 100%;animation:shimmer 1.5s infinite}
         @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -99,6 +120,38 @@
         /* Screen reader only */
         .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
             overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    
+        /* Responsive improvements */
+        @media (max-width: 640px) {
+            .hide-mobile { display: none !important; }
+            .text-mobile-sm { font-size: 0.875rem; }
+            .p-mobile-2 { padding: 0.5rem; }
+        }
+        
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md\:flex-row { flex-direction: row; }
+        }
+        
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .lg\:w-96 { width: 24rem; }
+        }
+        
+        /* Touch-friendly tap targets */
+        @media (pointer: coarse) {
+            button, a, .clickable { min-height: 44px; min-width: 44px; }
+        }
+        
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
     </style>
     
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -671,7 +724,13 @@
     <div id="app-loader">
         <div style="text-align:center">
             <div class="loader-spinner" style="margin:0 auto 16px"></div>
-            <div style="color:#94a3b8;font-size:14px">Chargement de SpotHitch...</div>
+            <div style="color:#94a3b8;font-size:14px" id="loader-text">Chargement...</div>
+        <script>
+            // Localiser le loader selon la langue du navigateur
+            const userLang = navigator.language?.substring(0,2) || 'fr';
+            const loaderTexts = { fr: 'Chargement de SpotHitch...', en: 'Loading SpotHitch...', es: 'Cargando SpotHitch...' };
+            document.getElementById('loader-text').textContent = loaderTexts[userLang] || loaderTexts.fr;
+        </script>
         </div>
     </div>
     
@@ -680,7 +739,24 @@
     <script>
         // ==================== STORAGE ====================
         
-        // ==================== ERROR HANDLING ====================
+        
+        // ==================== DEBUG WRAPPER ====================
+        // Désactiver les logs en production
+        const DEBUG_MODE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const originalConsole = { ...console };
+        
+        if (!DEBUG_MODE) {
+            console.log = () => {};
+            console.debug = () => {};
+            // Garder warn et error pour le monitoring
+        }
+        
+        // Fonction pour forcer un log même en production
+        function debugLog(...args) {
+            originalConsole.log('[SpotHitch]', ...args);
+        }
+
+// ==================== ERROR HANDLING ====================
         // Gestion globale des erreurs pour une meilleure UX
         
         window.onerror = function(msg, url, line, col, error) {
@@ -747,7 +823,7 @@
                     const lastEntry = entries[entries.length - 1];
                     console.log('📊 LCP:', Math.round(lastEntry.startTime) + 'ms');
                 }).observe({ type: 'largest-contentful-paint', buffered: true });
-            } catch (e) {}
+            } catch (e) { console.warn("Error:", e); }
             
             // First Input Delay
             try {
@@ -757,7 +833,7 @@
                         console.log('📊 FID:', Math.round(entry.processingStart - entry.startTime) + 'ms');
                     });
                 }).observe({ type: 'first-input', buffered: true });
-            } catch (e) {}
+            } catch (e) { console.warn("Error:", e); }
             
             // Cumulative Layout Shift
             try {
@@ -770,10 +846,61 @@
                     }
                     console.log('📊 CLS:', clsValue.toFixed(4));
                 }).observe({ type: 'layout-shift', buffered: true });
-            } catch (e) {}
+            } catch (e) { console.warn("Error:", e); }
         }
 
 
+
+
+        
+        // ==================== CLEANUP MANAGER ====================
+        // Gère le nettoyage des ressources pour éviter les fuites mémoire
+        const CleanupManager = {
+            listeners: [],
+            timers: [],
+            
+            addListener(element, event, handler, options) {
+                element.addEventListener(event, handler, options);
+                this.listeners.push({ element, event, handler, options });
+                return () => this.removeListener(element, event, handler);
+            },
+            
+            removeListener(element, event, handler) {
+                element.removeEventListener(event, handler);
+                this.listeners = this.listeners.filter(l => 
+                    !(l.element === element && l.event === event && l.handler === handler)
+                );
+            },
+            
+            addTimer(callback, delay, isInterval = false) {
+                const id = isInterval ? setInterval(callback, delay) : setTimeout(callback, delay);
+                this.timers.push({ id, isInterval });
+                return id;
+            },
+            
+            clearTimer(id) {
+                const timer = this.timers.find(t => t.id === id);
+                if (timer) {
+                    timer.isInterval ? clearInterval(id) : clearTimeout(id);
+                    this.timers = this.timers.filter(t => t.id !== id);
+                }
+            },
+            
+            cleanup() {
+                this.listeners.forEach(({ element, event, handler }) => {
+                    element.removeEventListener(event, handler);
+                });
+                this.listeners = [];
+                
+                this.timers.forEach(({ id, isInterval }) => {
+                    isInterval ? clearInterval(id) : clearTimeout(id);
+                });
+                this.timers = [];
+            }
+        };
+        
+        // Nettoyer avant de quitter la page
+        window.addEventListener('beforeunload', () => CleanupManager.cleanup());
 
 
         const Storage = {
@@ -885,7 +1012,7 @@
         };
         
         // Initialiser IndexedDB au démarrage
-        SpotHitchDB.init().then(() => console.log('📦 IndexedDB ready')).catch(() => {});
+        SpotHitchDB.init().then(() => console.log('📦 IndexedDB ready')).catch(err => console.warn("Promise error:", err));
 
         // ==================== RENDER OPTIMIZATION ====================
         // Debounce et requestAnimationFrame pour des renders performants
@@ -1050,6 +1177,14 @@
         const translations = {
             fr: {
                 appName: 'SpotHitch', tagline: 'La communauté des autostoppeurs',
+                // System messages
+                loadingApp: 'Chargement de SpotHitch...',
+                networkError: 'Erreur de connexion. Vérifiez votre réseau.',
+                saveSuccess: 'Sauvegardé avec succès !',
+                saveFailed: 'Erreur lors de la sauvegarde',
+                locationDenied: 'Accès à la position refusé',
+                photoRequired: 'Une photo est requise',
+                fieldRequired: 'Ce champ est obligatoire',
                 welcome: 'Bienvenue !', welcomeDesc: 'Rejoins la communauté des autostoppeurs',
                 yourUsername: 'Ton pseudo', chooseAvatar: 'Choisis ton avatar', letsGo: "C'est parti !",
                 spots: 'Spots', map: 'Carte', planner: 'Voyage', chat: 'Chat', profile: 'Profil',
@@ -2636,6 +2771,8 @@
         // ==================== STATE ====================
         let state = {
             lang: Storage.get('lang') || 'fr',
+            isLoading: false,
+            loadingMessage: '',
             theme: Storage.get('theme') || 'dark',
             user: Storage.get('user') || null,
             spots: Storage.get('spots') || [...sampleSpots],
@@ -3239,7 +3376,7 @@
                         </div>
                         <div class="mb-6 text-left">
                             <label class="block text-sm font-medium text-slate-300 mb-2">${t('yourUsername')}</label>
-                            <input type="text" id="username-input" class="input-modern" placeholder="Ex: Alex_Voyageur" value="${state.tempUsername || ''}" oninput="state.tempUsername=this.value" />
+                            <input type="text" id="username-input" class="input-modern" required minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]+" autocomplete="username" placeholder="Ex: Alex_Voyageur" value="${state.tempUsername || ''}" oninput="state.tempUsername=this.value" />
                         </div>
                         <button onclick="completeWelcome()" class="btn btn-primary w-full text-lg py-4 mb-4">${t('letsGo')}</button>
                         <div class="flex justify-center gap-4">
@@ -3300,12 +3437,12 @@
                     
                     <div>
                         <label class="block text-sm font-medium text-slate-300 mb-2">${t('email')}</label>
-                        <input type="email" id="auth-email" class="input-modern" placeholder="email@exemple.com" value="${state.authEmail}" oninput="state.authEmail=this.value" />
+                        <input type="email" id="auth-email" class="input-modern" required autocomplete="email" placeholder="email@exemple.com" value="${state.authEmail}" oninput="state.authEmail=this.value" />
                     </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-slate-300 mb-2">${t('password')}</label>
-                        <input type="password" id="auth-password" class="input-modern" placeholder="••••••••" value="${state.authPassword}" oninput="state.authPassword=this.value" />
+                        <input type="password" id="auth-password" class="input-modern" required minlength="6" autocomplete="current-password" placeholder="••••••••" value="${state.authPassword}" oninput="state.authPassword=this.value" />
                     </div>
                     
                     <button onclick="handleLogin()" class="btn btn-primary w-full py-4 text-lg" ${state.authLoading ? 'disabled' : ''}>
@@ -3347,17 +3484,17 @@
                     
                     <div>
                         <label class="block text-sm font-medium text-slate-300 mb-2">${t('email')}</label>
-                        <input type="email" id="auth-email" class="input-modern" placeholder="email@exemple.com" value="${state.authEmail}" oninput="state.authEmail=this.value" />
+                        <input type="email" id="auth-email" class="input-modern" required autocomplete="email" placeholder="email@exemple.com" value="${state.authEmail}" oninput="state.authEmail=this.value" />
                     </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-slate-300 mb-2">${t('password')}</label>
-                        <input type="password" id="auth-password" class="input-modern" placeholder="••••••••" value="${state.authPassword}" oninput="state.authPassword=this.value" />
+                        <input type="password" id="auth-password" class="input-modern" required minlength="6" autocomplete="current-password" placeholder="••••••••" value="${state.authPassword}" oninput="state.authPassword=this.value" />
                     </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-slate-300 mb-2">${t('confirmPassword')}</label>
-                        <input type="password" id="auth-confirm" class="input-modern" placeholder="••••••••" value="${state.authConfirmPassword}" oninput="state.authConfirmPassword=this.value" />
+                        <input type="password" id="auth-confirm" class="input-modern" required minlength="6" autocomplete="new-password" placeholder="••••••••" value="${state.authConfirmPassword}" oninput="state.authConfirmPassword=this.value" />
                     </div>
                     
                     <button onclick="handleRegister()" class="btn btn-primary w-full py-4 text-lg" ${state.authLoading ? 'disabled' : ''}>
@@ -3408,7 +3545,7 @@
                     
                     <div>
                         <label class="block text-sm font-medium text-slate-300 mb-2">${t('email')}</label>
-                        <input type="email" id="auth-email" class="input-modern" placeholder="email@exemple.com" value="${state.authEmail}" oninput="state.authEmail=this.value" />
+                        <input type="email" id="auth-email" class="input-modern" required autocomplete="email" placeholder="email@exemple.com" value="${state.authEmail}" oninput="state.authEmail=this.value" />
                     </div>
                     
                     <button onclick="handleForgotPassword()" class="btn btn-primary w-full py-4 text-lg" ${state.authLoading ? 'disabled' : ''}>
@@ -3440,7 +3577,7 @@
                         
                         <div class="mb-6 text-left">
                             <label class="block text-sm font-medium text-slate-300 mb-2">${t('yourUsername')}</label>
-                            <input type="text" id="username-input" class="input-modern" placeholder="Ex: Alex_Voyageur" value="${state.tempUsername || ''}" oninput="state.tempUsername=this.value" />
+                            <input type="text" id="username-input" class="input-modern" required minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]+" autocomplete="username" placeholder="Ex: Alex_Voyageur" value="${state.tempUsername || ''}" oninput="state.tempUsername=this.value" />
                         </div>
                         
                         <button onclick="completeProfileSetup()" class="btn btn-primary w-full text-lg py-4">${t('letsGo')}</button>
@@ -3511,7 +3648,7 @@
                         <div class="grid gap-3">
                             ${popularSpots.map(spot => `
                                 <div onclick="state.selectedSpot=${spot.id};render();" class="flex gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all cursor-pointer">
-                                    <img src="${spot.photoUrl}" class="w-20 h-20 rounded-lg object-cover" />
+                                    <img loading="lazy" alt="Photo du spot" src="${spot.photoUrl}" class="w-20 h-20 rounded-lg object-cover" />
                                     <div class="flex-1">
                                         <div class="flex items-center gap-2 mb-1">
                                             <span class="font-bold">${spot.from}</span>
@@ -3803,7 +3940,7 @@
                                 return `
                                     <div ${i === 0 ? 'id="first-spot-card"' : ''} onclick="state.selectedSpot=${spot.id};render();" class="spot-card-simple fade-in stagger-${Math.min(i + 1, 4)}">
                                         <div class="relative">
-                                            <img src="${spot.photoUrl}" class="w-full h-44 object-cover" onerror="this.src='https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600'" />
+                                            <img loading="lazy" alt="Photo du spot" src="${spot.photoUrl}" class="w-full h-44 object-cover" onerror="this.src='https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600'" />
                                             <span class="spot-type-badge ${colors[type]}">${type === 'top' ? '🔥 Top' : type === 'new' ? '✨ New' : ''}</span>
                                             <span class="absolute top-3 right-3 px-2 py-1 rounded-lg bg-black/50 text-sm">${weather.icon} ${weather.temp}°</span>
                                             ${spot.distance ? `<span class="absolute bottom-3 right-3 badge badge-primary">${Geo.formatDistance(spot.distance)}</span>` : ''}
@@ -3849,8 +3986,8 @@
                     <div class="absolute inset-0 bg-black/70"></div>
                     <div class="card w-full sm:max-w-2xl max-h-[90vh] overflow-y-auto relative z-10 slide-up sm:rounded-2xl rounded-t-3xl">
                         <div class="relative">
-                            <img src="${spot.photoUrl}" class="w-full h-56 object-cover" />
-                            <button onclick="state.selectedSpot=null;render();" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white text-xl flex items-center justify-center" aria-label="Fermer">×</button>
+                            <img loading="lazy" alt="Photo du spot" src="${spot.photoUrl}" class="w-full h-56 object-cover" />
+                            <button aria-label="Fermer les détails du spot" onclick="state.selectedSpot=null;render();" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white text-xl flex items-center justify-center" aria-label="Fermer">×</button>
                             <div class="absolute top-4 left-4 px-3 py-2 rounded-xl bg-black/50 flex items-center gap-2">
                                 <span class="text-xl">${weather.icon}</span>
                                 <span class="font-bold">${weather.temp}°C</span>
@@ -4042,7 +4179,7 @@
                 const cls = { top: 'marker-top', good: 'marker-good', new: 'marker-new', old: 'marker-old' }[type];
                 const icon = L.divIcon({ className: `custom-marker ${cls}`, html: `<span style="font-size:14px;">${spot.globalRating.toFixed(1)}</span>`, iconSize: [36, 36], iconAnchor: [18, 18] });
                 const marker = L.marker([spot.coordinates.lat, spot.coordinates.lng], { icon });
-                marker.bindPopup(`<div style="min-width:200px;"><img src="${spot.photoUrl}" loading="lazy" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-bottom:8px;"/><h3 style="font-weight:bold;">${spot.from} → ${spot.to}</h3><p style="font-size:12px;color:#94a3b8;">⭐ ${spot.globalRating.toFixed(1)} • ⏱️ ~${spot.avgWaitTime}min</p><button onclick="state.selectedSpot='${spot.id}';render();" style="width:100%;padding:8px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;margin-top:8px;">Voir</button></div>`);
+                marker.bindPopup(`<div style="min-width:200px;"><img alt="Photo du spot" src="${spot.photoUrl}" loading="lazy" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-bottom:8px;"/><h3 style="font-weight:bold;">${spot.from} → ${spot.to}</h3><p style="font-size:12px;color:#94a3b8;">⭐ ${spot.globalRating.toFixed(1)} • ⏱️ ~${spot.avgWaitTime}min</p><button onclick="state.selectedSpot='${spot.id}';render();" style="width:100%;padding:8px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;margin-top:8px;">Voir</button></div>`);
                 markers.addLayer(marker);
             });
             
@@ -4177,7 +4314,7 @@
                                 <div class="space-y-2 max-h-64 overflow-y-auto">
                                     ${routeSpots.map(s => `
                                         <div class="flex items-center gap-3 p-3 rounded-xl bg-white/5 cursor-pointer hover:bg-white/10 transition-all" onclick="focusSpotOnPlannerMap(${s.id})">
-                                            <img src="${s.photoUrl}" loading="lazy" class="w-16 h-16 rounded-lg object-cover" />
+                                            <img alt="Photo du spot" src="${s.photoUrl}" loading="lazy" class="w-16 h-16 rounded-lg object-cover" />
                                             <div class="flex-1">
                                                 <p class="font-medium">${s.from} → ${s.to}</p>
                                                 <div class="flex items-center gap-3 text-xs text-slate-400">
@@ -4376,7 +4513,7 @@
                     if (data.length > 0) {
                         coords.push([parseFloat(data[0].lat), parseFloat(data[0].lon)]);
                     }
-                } catch (e) {}
+                } catch (e) { console.warn("Error:", e); }
             }
             
             if (coords.length >= 2) {
@@ -5158,7 +5295,7 @@
                     <div class="card p-6 max-w-md w-full relative z-10 fade-in">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl font-bold">⚙️ ${t('filters')}</h2>
-                            <button onclick="state.showFilters=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
+                            <button aria-label="Fermer les filtres" onclick="state.showFilters=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                         </div>
                         <div class="space-y-6">
                             <div>
@@ -5177,7 +5314,7 @@
                                 <button onclick="state.filterMinRating=0;state.filterMaxWait=60;render();" class="btn btn-ghost flex-1">
                                     ${t('resetFilters')}
                                 </button>
-                                <button onclick="state.showFilters=false;render();" class="btn btn-primary flex-1">
+                                <button aria-label="Fermer les filtres" onclick="state.showFilters=false;render();" class="btn btn-primary flex-1">
                                     ${t('applyFilters')}
                                 </button>
                             </div>
@@ -5383,7 +5520,7 @@
                             ${savedSpots.map((spot, i) => `
                                 <div onclick="state.selectedSpot=${spot.id};render();" class="spot-card-simple fade-in stagger-${Math.min(i + 1, 4)}">
                                     <div class="relative">
-                                        <img src="${spot.photoUrl}" class="w-full h-36 object-cover" />
+                                        <img loading="lazy" alt="Photo du spot" src="${spot.photoUrl}" class="w-full h-36 object-cover" />
                                         <span class="absolute top-3 right-3 text-emerald-400">📥</span>
                                     </div>
                                     <div class="p-4">
@@ -5657,7 +5794,7 @@
                                 </div>
                                 <div class="photo-upload ${data.photo ? 'has-photo' : ''}" onclick="document.getElementById('photo-input').click();" style="min-height: 200px;">
                                     ${data.photo ? `
-                                        <img src="${data.photo}" alt="Preview" />
+                                        <img loading="lazy" src="${data.photo}" alt="Preview" />
                                     ` : `
                                         <div class="text-6xl mb-3">📸</div>
                                         <p class="text-slate-300 font-medium">${t('takePhoto')}</p>
@@ -5715,7 +5852,7 @@
                                 
                                 <!-- Récapitulatif -->
                                 <div class="card p-4 bg-white/5">
-                                    <img src="${data.photo}" class="w-full h-40 object-cover rounded-xl mb-4" />
+                                    <img loading="lazy" alt="Photo du spot" src="${data.photo}" class="w-full h-40 object-cover rounded-xl mb-4" />
                                     <div class="flex items-center gap-2 mb-2">
                                         <span class="font-bold text-lg">${data.from}</span>
                                         <span class="text-sky-400">→</span>
@@ -6815,7 +6952,7 @@
             if (!spot) return;
             const text = `🚗 ${spot.from} → ${spot.to}\n⭐ ${spot.globalRating.toFixed(1)} • ⏱️ ~${spot.avgWaitTime}min\n${spot.description}\n\n📍 SpotHitch`;
             if (navigator.share) {
-                navigator.share({ title: 'SpotHitch', text: text }).catch(() => {});
+                navigator.share({ title: 'SpotHitch', text: text }).catch(err => console.warn("Promise error:", err));
             } else {
                 navigator.clipboard.writeText(text);
                 showToast(t('linkCopied'));
@@ -7652,6 +7789,49 @@
         render();
 
         
+        
+        // ==================== PWA INSTALL PROMPT ====================
+        let deferredPrompt = null;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Afficher après 30s si pas installé
+            setTimeout(() => {
+                if (deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+                    showInstallBanner();
+                }
+            }, 30000);
+        });
+        
+        function showInstallBanner() {
+            if (!deferredPrompt) return;
+            
+            const banner = document.createElement('div');
+            banner.id = 'install-banner';
+            banner.style.cssText = 'position:fixed;bottom:80px;left:16px;right:16px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;padding:16px;border-radius:16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);z-index:9999;animation:slideUp 0.3s ease';
+            banner.innerHTML = '<span style="font-size:24px">📲</span><div style="flex:1"><div style="font-weight:600">Installer SpotHitch</div><div style="font-size:12px;opacity:0.9">Accès rapide et hors-ligne</div></div><button onclick="installPWA()" style="background:white;color:#0ea5e9;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer">Installer</button><button onclick="dismissInstallBanner()" style="background:transparent;border:none;color:white;font-size:20px;cursor:pointer">×</button>';
+            document.body.appendChild(banner);
+        }
+        
+        async function installPWA() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') showToast('success', '🎉 SpotHitch installé !');
+            deferredPrompt = null;
+            dismissInstallBanner();
+        }
+        
+        function dismissInstallBanner() {
+            const banner = document.getElementById('install-banner');
+            if (banner) { banner.style.animation = 'slideDown 0.3s ease'; setTimeout(() => banner.remove(), 300); }
+        }
+        
+        window.addEventListener('appinstalled', () => { deferredPrompt = null; dismissInstallBanner(); });
+
+
         // Hide loader when app is ready
         function hideLoader() {
             const loader = document.getElementById('app-loader');
@@ -7672,6 +7852,51 @@
         
         // Call hideLoader after first render
         setTimeout(hideLoader, 100);
+
+        // ==================== NETWORK STATUS INDICATOR ====================
+        function updateNetworkStatus() {
+            const isOnline = navigator.onLine;
+            let indicator = document.getElementById('network-indicator');
+            
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.id = 'network-indicator';
+                indicator.style.cssText = `
+                    position: fixed; top: 0; left: 0; right: 0;
+                    padding: 8px; text-align: center; font-size: 12px;
+                    z-index: 10000; transition: transform 0.3s ease;
+                    transform: translateY(-100%);
+                `;
+                document.body.prepend(indicator);
+            }
+            
+            if (!isOnline) {
+                indicator.style.background = '#f59e0b';
+                indicator.style.color = '#000';
+                indicator.textContent = '📡 Mode hors-ligne - Les données seront synchronisées à la reconnexion';
+                indicator.style.transform = 'translateY(0)';
+            } else {
+                indicator.style.transform = 'translateY(-100%)';
+            }
+        }
+        
+        window.addEventListener('online', () => {
+            updateNetworkStatus();
+            showToast('success', '✅ Connexion rétablie');
+            // Tenter de synchroniser les données en attente
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'SYNC_PENDING' });
+            }
+        });
+        
+        window.addEventListener('offline', () => {
+            updateNetworkStatus();
+        });
+        
+        // Vérifier au démarrage
+        updateNetworkStatus();
+
+
 
     </script>
 
