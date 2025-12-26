@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0ea5e9">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a">
+    <meta name="color-scheme" content="dark light">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="SpotHitch">
+    <meta name="msapplication-TileColor" content="#0ea5e9">
+    <meta name="msapplication-TileImage" content="icon-144.png">
+    <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
@@ -13,27 +20,33 @@
     <meta name="keywords" content="autostop, hitchhiking, spots, voyage, backpacking, europe, auto-stop, pouce, routard, aventure">
     <meta name="author" content="SpotHitch">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://spothitch.app">
+    <link rel="canonical" href="https://antoine626.github.io/Spothitch">
     
     <!-- Open Graph (Facebook, LinkedIn) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://spothitch.app">
+    <meta property="og:url" content="https://antoine626.github.io/Spothitch">
     <meta property="og:title" content="SpotHitch - La communauté des autostoppeurs">
     <meta property="og:description" content="Trouvez les meilleurs spots d'auto-stop en Europe. Partagez vos expériences et planifiez vos voyages.">
-    <meta property="og:image" content="https://spothitch.app/og-image.jpg">
+    <meta property="og:image" content="https://antoine626.github.io/Spothitch/screenshot-desktop.png">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:locale:alternate" content="en_US">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://spothitch.app">
+    <meta name="twitter:url" content="https://antoine626.github.io/Spothitch">
     <meta name="twitter:title" content="SpotHitch - La communauté des autostoppeurs">
     <meta name="twitter:description" content="Trouvez les meilleurs spots d'auto-stop en Europe">
-    <meta name="twitter:image" content="https://spothitch.app/twitter-image.jpg">
+    <meta name="twitter:image" content="https://antoine626.github.io/Spothitch/screenshot-mobile.png">
     
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icon-144.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icon-128.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icon-96.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -43,6 +56,13 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Preconnect pour les APIs externes -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://nominatim.openstreetmap.org">
+    <link rel="preconnect" href="https://router.project-osrm.org">
+    <link rel="dns-prefetch" href="https://basemaps.cartocdn.com">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
@@ -558,7 +578,11 @@
     </style>
 </head>
 <body>
-    <div id="app"></div>
+    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-sky-500 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+        Aller au contenu principal
+    </a>
+    >
+    <div id="app" role="main"></div>
 
     <script>
         // ==================== STORAGE ====================
@@ -2807,7 +2831,7 @@
                     <div class="card p-6 max-w-md w-full fade-in">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-bold text-red-400 flex items-center gap-2"><span>🚨</span> ${t('reportSpot')}</h2>
-                            <button onclick="closeReportModal()" class="text-slate-400 hover:text-white text-2xl">×</button>
+                            <button onclick="closeReportModal()" class="text-slate-400 hover:text-white text-2xl" aria-label="Fermer">×</button>
                         </div>
                         <div class="bg-slate-800/50 p-3 rounded-lg mb-4">
                             <p class="text-sm text-slate-400">Spot</p>
@@ -3229,7 +3253,7 @@
                         <div class="relative mb-4">
                             <input type="text" id="search-input" class="input-modern pl-12 pr-12" placeholder="${t('searchSpot')}" value="${state.searchQuery}" oninput="handleSearch(this.value)" />
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
-                            <button onclick="state.showFilters=true;render();" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg hover:bg-white/10">
+                            <button onclick="state.showFilters=true;render();" aria-label="Ouvrir les filtres" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg hover:bg-white/10">
                                 <span class="text-lg">⚙️</span>
                             </button>
                         </div>
@@ -3424,7 +3448,7 @@
                         <div class="relative mb-4">
                             <input type="text" id="search-input" class="input-modern pl-12 pr-12" placeholder="${t('searchSpot')}" value="${state.searchQuery}" oninput="handleSearch(this.value)" />
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
-                            <button onclick="state.showFilters=true;render();" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg hover:bg-white/10">
+                            <button onclick="state.showFilters=true;render();" aria-label="Ouvrir les filtres" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg hover:bg-white/10">
                                 <span class="text-lg">⚙️</span>
                             </button>
                         </div>
@@ -3538,7 +3562,7 @@
                     <div class="card w-full sm:max-w-2xl max-h-[90vh] overflow-y-auto relative z-10 slide-up sm:rounded-2xl rounded-t-3xl">
                         <div class="relative">
                             <img src="${spot.photoUrl}" class="w-full h-56 object-cover" />
-                            <button onclick="state.selectedSpot=null;render();" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white text-xl flex items-center justify-center">×</button>
+                            <button onclick="state.selectedSpot=null;render();" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 text-white text-xl flex items-center justify-center" aria-label="Fermer">×</button>
                             <div class="absolute top-4 left-4 px-3 py-2 rounded-xl bg-black/50 flex items-center gap-2">
                                 <span class="text-xl">${weather.icon}</span>
                                 <span class="font-bold">${weather.temp}°C</span>
@@ -3754,7 +3778,7 @@
                                     <div class="trip-step-dot" style="${i === 0 ? 'background:#0ea5e9;' : i === state.plannerSteps.length - 1 ? 'background:#10b981;' : ''}"></div>
                                     <div class="flex gap-2">
                                         <input type="text" class="input-modern flex-1" placeholder="${i === 0 ? t('startCity') : i === state.plannerSteps.length - 1 ? t('endCity') : 'Étape ' + i}" value="${step.city}" oninput="updatePlannerStep(${i}, this.value)" />
-                                        ${i > 0 && i < state.plannerSteps.length - 1 ? `<button onclick="removePlannerStep(${i})" class="btn btn-ghost px-3 text-red-400">✕</button>` : ''}
+                                        ${i > 0 && i < state.plannerSteps.length - 1 ? `<button onclick="removePlannerStep(${i})" class="btn btn-ghost px-3 text-red-400" aria-label="Fermer">✕</button>` : ''}
                                     </div>
                                 </div>
                             `).join('')}
@@ -3956,7 +3980,7 @@
                             <!-- Header -->
                             <div class="flex items-center justify-between">
                                 <h2 class="text-2xl font-bold">🧭 ${trip.steps[0]} → ${trip.steps[trip.steps.length - 1]}</h2>
-                                <button onclick="state.selectedSavedTrip=null;render();" class="text-slate-400 hover:text-white text-2xl">✕</button>
+                                <button onclick="state.selectedSavedTrip=null;render();" class="text-slate-400 hover:text-white text-2xl" aria-label="Fermer">✕</button>
                             </div>
                             
                             <!-- Itinéraire -->
@@ -4361,7 +4385,7 @@
                                         <span class="badge badge-info">🛡️ ${g.safety}/5</span>
                                     </div>
                                 </div>
-                                <button onclick="state.selectedCountryGuide=null;render();" class="text-slate-400 hover:text-white text-2xl">✕</button>
+                                <button onclick="state.selectedCountryGuide=null;render();" class="text-slate-400 hover:text-white text-2xl" aria-label="Fermer">✕</button>
                             </div>
                             
                             <!-- Conseils -->
@@ -4846,7 +4870,7 @@
                     <div class="card p-6 max-w-md w-full relative z-10 fade-in">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl font-bold">⚙️ ${t('filters')}</h2>
-                            <button onclick="state.showFilters=false;render();" class="text-2xl text-slate-400">×</button>
+                            <button onclick="state.showFilters=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                         </div>
                         <div class="space-y-6">
                             <div>
@@ -4883,7 +4907,7 @@
                     <div class="card p-6 max-w-md w-full max-h-[80vh] overflow-y-auto relative z-10 fade-in">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl font-bold">🏆 ${t('badges')}</h2>
-                            <button onclick="state.showBadges=false;render();" class="text-2xl text-slate-400">×</button>
+                            <button onclick="state.showBadges=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                         </div>
                         <p class="text-slate-400 mb-4">${earnedBadges.length}/${allBadges.length} ${state.lang === 'fr' ? 'débloqués' : 'unlocked'}</p>
                         <div class="grid grid-cols-3 gap-3">
@@ -4911,7 +4935,7 @@
                     <div class="card p-6 max-w-md w-full max-h-[80vh] overflow-y-auto relative z-10 fade-in">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl font-bold">🎯 ${t('challenges')}</h2>
-                            <button onclick="state.showChallenges=false;render();" class="text-2xl text-slate-400">×</button>
+                            <button onclick="state.showChallenges=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                         </div>
                         
                         <h3 class="font-bold mb-3 text-amber-400">📅 ${t('dailyChallenge')}</h3>
@@ -4969,7 +4993,7 @@
                     <div class="card p-6 max-w-md w-full max-h-[80vh] overflow-y-auto relative z-10 fade-in">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl font-bold">✉️ ${t('messages')}</h2>
-                            <button onclick="state.showPrivateMessages=false;render();" class="text-2xl text-slate-400">×</button>
+                            <button onclick="state.showPrivateMessages=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                         </div>
                         ${state.privateMessages.length === 0 ? `
                             <div class="text-center py-8">
@@ -5006,7 +5030,7 @@
                     <div class="card p-6 max-w-md w-full max-h-[80vh] overflow-y-auto relative z-10 fade-in">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl font-bold">📊 ${t('statistics')}</h2>
-                            <button onclick="state.showStats=false;render();" class="text-2xl text-slate-400">×</button>
+                            <button onclick="state.showStats=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4 mb-6">
@@ -5148,7 +5172,7 @@
                         <div class="sticky top-0 bg-slate-900/95 backdrop-blur p-4 border-b border-white/10 z-10">
                             <div class="flex items-center justify-between mb-4">
                                 <h2 class="text-xl font-bold">🎁 ${t('shop')}</h2>
-                                <button onclick="state.showShop=false;render();" class="text-2xl text-slate-400">×</button>
+                                <button onclick="state.showShop=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                             </div>
                             
                             <!-- Points & VIP -->
@@ -5265,7 +5289,7 @@
                                 <button onclick="state.showMyRewards=false;state.showShop=true;render();" class="text-xl">←</button>
                                 <h2 class="text-xl font-bold">🎟️ ${t('myRewards')}</h2>
                             </div>
-                            <button onclick="state.showMyRewards=false;render();" class="text-2xl text-slate-400">×</button>
+                            <button onclick="state.showMyRewards=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                         </div>
                         
                         ${rewards.length === 0 ? `
@@ -5321,7 +5345,7 @@
                         <!-- Header avec fermeture -->
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-xl font-bold">📍 ${t('addSpot')}</h2>
-                            <button onclick="closeAddSpot()" class="text-2xl text-slate-400 hover:text-white">×</button>
+                            <button onclick="closeAddSpot()" class="text-2xl text-slate-400 hover:text-white" aria-label="Fermer">×</button>
                         </div>
                         
                         <!-- Indicateur d'étapes -->
@@ -5441,7 +5465,7 @@
                     <div class="card w-full sm:max-w-lg max-h-[90vh] overflow-y-auto relative z-10 slide-up sm:rounded-2xl rounded-t-3xl p-6">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-xl font-bold">⭐ ${t('rateSpot')}</h2>
-                            <button onclick="state.showRateSpot=false;render();" class="text-2xl text-slate-400">×</button>
+                            <button onclick="state.showRateSpot=false;render();" class="text-2xl text-slate-400" aria-label="Fermer">×</button>
                         </div>
                         <p class="text-slate-400 mb-6">${spot.from} → ${spot.to}</p>
                         <form onsubmit="handleRate(event, ${spot.id})" class="space-y-4">
@@ -5760,7 +5784,7 @@
             return `
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
-                        <button onclick="resetQuiz()" class="btn btn-ghost px-3">✕</button>
+                        <button onclick="resetQuiz()" class="btn btn-ghost px-3" aria-label="Fermer">✕</button>
                         <span class="badge badge-primary">${t('quizQuestion')} ${state.quizCurrentIndex + 1}/5</span>
                         <span class="badge badge-success">${t('quizScore')}: ${state.quizScore}</span>
                     </div>
