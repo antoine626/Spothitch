@@ -21,30 +21,30 @@ export async function getRoute(waypoints) {
   if (!waypoints || waypoints.length < 2) {
     throw new Error('At least 2 waypoints required');
   }
-  
+
   // Build coordinates string
   const coords = waypoints
     .map(wp => `${wp.lng.toFixed(6)},${wp.lat.toFixed(6)}`)
     .join(';');
-  
+
   // Build URL
   const url = `${OSRM_BASE_URL}${coords}?overview=full&geometries=geojson&steps=true`;
-  
+
   try {
     const response = await fetch(url);
-    
+
     if (!response.ok) {
       throw new Error(`OSRM error: ${response.status}`);
     }
-    
+
     const data = await response.json();
-    
+
     if (data.code !== 'Ok') {
       throw new Error(`OSRM error: ${data.code}`);
     }
-    
+
     const route = data.routes[0];
-    
+
     return {
       distance: route.distance, // meters
       duration: route.duration, // seconds
@@ -66,35 +66,35 @@ export async function getRoute(waypoints) {
 export function getRouteDebounced(waypoints, delay = 500) {
   return new Promise((resolve, reject) => {
     clearTimeout(debounceTimer);
-    
+
     debounceTimer = setTimeout(async () => {
       try {
         // Check cache first
         const cacheKey = waypoints
           .map(wp => `${wp.lat.toFixed(3)},${wp.lng.toFixed(3)}`)
           .join('|');
-        
+
         const cached = routeCache.get(cacheKey);
         if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
           resolve(cached.data);
           return;
         }
-        
+
         // Fetch new route
         const result = await getRoute(waypoints);
-        
+
         // Cache result
         routeCache.set(cacheKey, {
           data: result,
           timestamp: Date.now(),
         });
-        
+
         // Trim cache if too large
         if (routeCache.size > 50) {
           const oldestKey = routeCache.keys().next().value;
           routeCache.delete(oldestKey);
         }
-        
+
         resolve(result);
       } catch (error) {
         reject(error);
@@ -123,11 +123,11 @@ export function formatDistance(meters) {
 export function formatDuration(seconds) {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.round((seconds % 3600) / 60);
-  
+
   if (hours === 0) {
     return `${minutes} min`;
   }
-  
+
   return `${hours}h ${minutes}min`;
 }
 
@@ -140,22 +140,22 @@ export async function searchLocation(query) {
   if (!query || query.length < 3) {
     return [];
   }
-  
+
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`;
-  
+
   try {
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'SpotHitch/2.0 (https://antoine626.github.io/Spothitch)',
       },
     });
-    
+
     if (!response.ok) {
       throw new Error(`Nominatim error: ${response.status}`);
     }
-    
+
     const data = await response.json();
-    
+
     return data.map(item => ({
       name: item.display_name,
       lat: parseFloat(item.lat),
@@ -176,20 +176,20 @@ export async function searchLocation(query) {
  */
 export async function reverseGeocode(lat, lng) {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
-  
+
   try {
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'SpotHitch/2.0 (https://antoine626.github.io/Spothitch)',
       },
     });
-    
+
     if (!response.ok) {
       throw new Error(`Nominatim error: ${response.status}`);
     }
-    
+
     const data = await response.json();
-    
+
     return {
       name: data.display_name,
       city: data.address?.city || data.address?.town || data.address?.village,

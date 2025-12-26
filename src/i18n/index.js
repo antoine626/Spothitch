@@ -12,7 +12,7 @@ const translations = {
     appName: 'SpotHitch',
     tagline: 'La communauté des autostoppeurs',
     loading: 'Chargement...',
-    
+
     // Navigation
     home: 'Accueil',
     spots: 'Spots',
@@ -20,14 +20,14 @@ const translations = {
     planner: 'Voyage',
     chat: 'Chat',
     profile: 'Profil',
-    
+
     // Welcome
     welcome: 'Bienvenue !',
     welcomeDesc: 'Rejoins la communauté des autostoppeurs',
     yourUsername: 'Ton pseudo',
     chooseAvatar: 'Choisis ton avatar',
     letsGo: "C'est parti !",
-    
+
     // Spots
     searchSpot: 'Rechercher un spot...',
     addSpot: 'Ajouter un spot',
@@ -47,7 +47,7 @@ const translations = {
     lastUsed: 'Dernière utilisation',
     checkin: 'Check-in',
     checkinSuccess: 'Check-in enregistré !',
-    
+
     // Ratings
     rate: 'Évaluer',
     rateSpot: 'Évalue ce spot',
@@ -58,7 +58,7 @@ const translations = {
     traffic: 'Trafic',
     comment: 'Commentaire',
     submit: 'Publier',
-    
+
     // Trip Planner
     planTrip: 'Planifier un voyage',
     addStep: 'Ajouter une étape',
@@ -68,7 +68,7 @@ const translations = {
     saveTrip: 'Sauvegarder',
     myTrips: 'Mes voyages',
     noTrips: 'Aucun voyage',
-    
+
     // Profile
     level: 'Niveau',
     points: 'points',
@@ -82,7 +82,7 @@ const translations = {
     lightMode: 'Mode clair',
     language: 'Langue',
     logout: 'Déconnexion',
-    
+
     // Filters
     filterAll: 'Tous',
     filterTop: 'Top',
@@ -93,7 +93,7 @@ const translations = {
     maxWait: 'Attente max',
     applyFilters: 'Appliquer',
     resetFilters: 'Réinitialiser',
-    
+
     // SOS
     sosTitle: 'Mode Urgence',
     sosDesc: 'Partage ta position avec tes contacts',
@@ -101,13 +101,13 @@ const translations = {
     emergencyContacts: "Contacts d'urgence",
     addContact: 'Ajouter',
     iAmSafe: 'Je suis en sécurité',
-    
+
     // Tutorial
     tutoSkip: 'Passer',
     tutoNext: 'Suivant',
     tutoPrev: 'Précédent',
     tutoFinish: 'Terminer',
-    
+
     // Auth
     login: 'Connexion',
     register: 'Inscription',
@@ -119,31 +119,31 @@ const translations = {
     alreadyAccount: 'Déjà un compte ?',
     createAccount: 'Créer un compte',
     continueWithGoogle: 'Continuer avec Google',
-    
+
     // Errors
     networkError: 'Erreur de connexion',
     authError: "Erreur d'authentification",
     saveSuccess: 'Sauvegardé !',
     saveFailed: 'Erreur lors de la sauvegarde',
-    
+
     // Empty states
     noSpots: 'Aucun spot trouvé',
     noResults: 'Pas de résultats',
     beFirst: 'Sois le premier !',
-    
+
     // Chat
     general: 'Général',
     help: 'Aide',
     typeMessage: 'Écris ton message...',
     send: 'Envoyer',
   },
-  
+
   en: {
     // App
     appName: 'SpotHitch',
     tagline: 'The hitchhiking community',
     loading: 'Loading...',
-    
+
     // Navigation
     home: 'Home',
     spots: 'Spots',
@@ -151,14 +151,14 @@ const translations = {
     planner: 'Trips',
     chat: 'Chat',
     profile: 'Profile',
-    
+
     // Welcome
     welcome: 'Welcome!',
     welcomeDesc: 'Join the hitchhiking community',
     yourUsername: 'Username',
     chooseAvatar: 'Choose avatar',
     letsGo: "Let's go!",
-    
+
     // Spots
     searchSpot: 'Search spot...',
     addSpot: 'Add spot',
@@ -178,7 +178,7 @@ const translations = {
     lastUsed: 'Last used',
     checkin: 'Check-in',
     checkinSuccess: 'Check-in recorded!',
-    
+
     // Ratings
     rate: 'Rate',
     rateSpot: 'Rate this spot',
@@ -189,7 +189,7 @@ const translations = {
     traffic: 'Traffic',
     comment: 'Comment',
     submit: 'Submit',
-    
+
     // Trip Planner
     planTrip: 'Plan a trip',
     addStep: 'Add stop',
@@ -199,7 +199,7 @@ const translations = {
     saveTrip: 'Save',
     myTrips: 'My trips',
     noTrips: 'No trips',
-    
+
     // Profile
     level: 'Level',
     points: 'points',
@@ -213,7 +213,7 @@ const translations = {
     lightMode: 'Light mode',
     language: 'Language',
     logout: 'Logout',
-    
+
     // Filters
     filterAll: 'All',
     filterTop: 'Top',
@@ -224,7 +224,7 @@ const translations = {
     maxWait: 'Max wait',
     applyFilters: 'Apply',
     resetFilters: 'Reset',
-    
+
     // SOS
     sosTitle: 'Emergency Mode',
     sosDesc: 'Share your location with contacts',
@@ -232,13 +232,13 @@ const translations = {
     emergencyContacts: 'Emergency contacts',
     addContact: 'Add',
     iAmSafe: 'I am safe',
-    
+
     // Tutorial
     tutoSkip: 'Skip',
     tutoNext: 'Next',
     tutoPrev: 'Previous',
     tutoFinish: 'Finish',
-    
+
     // Auth
     login: 'Login',
     register: 'Register',
@@ -250,25 +250,25 @@ const translations = {
     alreadyAccount: 'Already have an account?',
     createAccount: 'Create account',
     continueWithGoogle: 'Continue with Google',
-    
+
     // Errors
     networkError: 'Connection error',
     authError: 'Authentication error',
     saveSuccess: 'Saved!',
     saveFailed: 'Save failed',
-    
+
     // Empty states
     noSpots: 'No spots found',
     noResults: 'No results',
     beFirst: 'Be the first!',
-    
+
     // Chat
     general: 'General',
     help: 'Help',
     typeMessage: 'Type message...',
     send: 'Send',
   },
-  
+
   es: {
     appName: 'SpotHitch',
     tagline: 'La comunidad de autoestopistas',
@@ -318,12 +318,12 @@ export function t(key, params = {}) {
   const { lang } = getState();
   const langTranslations = translations[lang] || translations.fr;
   let text = langTranslations[key] || translations.fr[key] || key;
-  
+
   // Simple interpolation
   Object.entries(params).forEach(([k, v]) => {
     text = text.replace(`{${k}}`, v);
   });
-  
+
   return text;
 }
 

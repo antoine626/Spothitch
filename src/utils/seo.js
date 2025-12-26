@@ -152,14 +152,14 @@ export function getFAQSchema() {
  */
 export function injectSchema(schema, id = 'structured-data') {
   let script = document.getElementById(id);
-  
+
   if (!script) {
     script = document.createElement('script');
     script.id = id;
     script.type = 'application/ld+json';
     document.head.appendChild(script);
   }
-  
+
   script.textContent = JSON.stringify(schema);
 }
 
@@ -174,25 +174,25 @@ export function updateMetaTags({ title, description, image, url, type = 'website
     updateMeta('og:title', title);
     updateMeta('twitter:title', title);
   }
-  
+
   // Description
   if (description) {
     updateMeta('description', description);
     updateMeta('og:description', description);
     updateMeta('twitter:description', description);
   }
-  
+
   // Image
   if (image) {
     updateMeta('og:image', image);
     updateMeta('twitter:image', image);
   }
-  
+
   // URL
   const pageUrl = url || window.location.href;
   updateMeta('og:url', pageUrl);
   updateLink('canonical', pageUrl);
-  
+
   // Type
   updateMeta('og:type', type);
 }
@@ -200,27 +200,27 @@ export function updateMetaTags({ title, description, image, url, type = 'website
 function updateMeta(name, content) {
   const isOG = name.startsWith('og:') || name.startsWith('twitter:');
   const attr = isOG ? 'property' : 'name';
-  
+
   let meta = document.querySelector(`meta[${attr}="${name}"]`);
-  
+
   if (!meta) {
     meta = document.createElement('meta');
     meta.setAttribute(attr, name);
     document.head.appendChild(meta);
   }
-  
+
   meta.setAttribute('content', content);
 }
 
 function updateLink(rel, href) {
   let link = document.querySelector(`link[rel="${rel}"]`);
-  
+
   if (!link) {
     link = document.createElement('link');
     link.rel = rel;
     document.head.appendChild(link);
   }
-  
+
   link.href = href;
 }
 
@@ -241,7 +241,7 @@ export function generateSitemapXML(spots) {
       lastmod: spot.lastUsed || new Date().toISOString().split('T')[0]
     }))
   ];
-  
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(url => `  <url>
@@ -262,7 +262,7 @@ export function initSEO() {
     getOrganizationSchema(),
     getWebAppSchema()
   ], 'app-schema');
-  
+
   // Set default meta tags
   updateMetaTags({
     title: 'Trouvez les meilleurs spots d\'autostop',
@@ -280,7 +280,7 @@ export function trackPageView(page) {
   const url = `${BASE_URL}/?tab=${page}`;
   updateLink('canonical', url);
   updateMeta('og:url', url);
-  
+
   // Analytics event (if available)
   if (window.gtag) {
     window.gtag('event', 'page_view', {

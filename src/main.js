@@ -34,29 +34,29 @@ import { announce, prefersReducedMotion } from './utils/a11y.js';
  */
 async function init() {
   console.log('🚀 SpotHitch initializing...');
-  
+
   // Set detected language
   const lang = detectLanguage();
   setLanguage(lang);
-  
+
   // Initialize SEO
   initSEO();
-  
+
   // Check reduced motion preference
   if (prefersReducedMotion()) {
     document.documentElement.classList.add('reduce-motion');
   }
-  
+
   // Initialize error tracking
   await initSentry();
   setupGlobalErrorHandlers();
-  
+
   // Initialize Firebase
-  const firebaseReady = initializeFirebase();
-  
+  initializeFirebase();
+
   // Initialize notifications
   await initNotifications();
-  
+
   // Listen to auth state changes
   onAuthChange((user) => {
     actions.setUser(user);
@@ -65,24 +65,24 @@ async function init() {
       console.log('✅ User logged in:', user.displayName);
     }
   });
-  
+
   // Load initial data
   loadInitialData();
-  
+
   // Subscribe to state changes and render
   subscribe((state) => {
     render(state);
   });
-  
+
   // Hide loader
   hideLoader();
-  
+
   // Register service worker
   registerServiceWorker();
-  
+
   // Setup keyboard shortcuts
   setupKeyboardShortcuts();
-  
+
   console.log('✅ SpotHitch ready!');
 }
 
@@ -92,7 +92,7 @@ async function init() {
 function loadInitialData() {
   // Load sample spots for demo
   actions.setSpots(sampleSpots);
-  
+
   // Try to get user location
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -116,12 +116,12 @@ function loadInitialData() {
 function hideLoader() {
   const loader = document.getElementById('app-loader');
   const app = document.getElementById('app');
-  
+
   if (loader) {
     loader.classList.add('hidden');
     setTimeout(() => loader.remove(), 300);
   }
-  
+
   if (app) {
     app.classList.add('loaded');
   }
@@ -133,9 +133,9 @@ function hideLoader() {
 function render(state) {
   const app = document.getElementById('app');
   if (!app) return;
-  
+
   app.innerHTML = renderApp(state);
-  
+
   // Initialize map if on spots tab with map view
   if (state.activeTab === 'spots' && state.viewMode === 'map') {
     initMap(state);
@@ -148,20 +148,20 @@ function render(state) {
 function initMap(state) {
   const mapContainer = document.getElementById('map');
   if (!mapContainer || window.spotHitchMap) return;
-  
+
   // Dynamically import Leaflet
   import('leaflet').then((L) => {
     const map = L.map('map').setView([48.8566, 2.3522], 5);
-    
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
       maxZoom: 18,
     }).addTo(map);
-    
+
     // Add spot markers
     state.spots.forEach((spot) => {
       if (spot.coordinates) {
-        const marker = L.marker([spot.coordinates.lat, spot.coordinates.lng])
+        L.marker([spot.coordinates.lat, spot.coordinates.lng])
           .addTo(map)
           .bindPopup(`
             <div class="p-2">
@@ -171,7 +171,7 @@ function initMap(state) {
           `);
       }
     });
-    
+
     window.spotHitchMap = map;
   });
 }
@@ -184,7 +184,7 @@ async function registerServiceWorker() {
     try {
       const registration = await navigator.serviceWorker.register('/Spothitch/sw.js');
       console.log('✅ Service Worker registered');
-      
+
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         newWorker.addEventListener('statechange', () => {
@@ -216,7 +216,7 @@ function setupKeyboardShortcuts() {
         selectedSpot: null,
       });
     }
-    
+
     // Ctrl+K for search
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
@@ -255,7 +255,7 @@ window.prevTutorial = () => actions.prevTutorialStep();
 window.skipTutorial = () => actions.skipTutorial();
 window.setFilter = (filter) => actions.setFilter(filter);
 window.handleSearch = (query) => actions.setSearchQuery(query);
-window.doCheckin = (spotId) => {
+window.doCheckin = (_spotId) => {
   actions.incrementCheckins();
   showToast(t('checkinSuccess'), 'success');
 };

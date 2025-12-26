@@ -7,7 +7,7 @@ import { t } from '../../i18n/index.js';
 export function renderProfile(state) {
   const levelProgress = (state.points % 100);
   const pointsToNext = 100 - levelProgress;
-  
+
   return `
     <div class="p-4 space-y-6">
       <!-- Profile Header -->
@@ -54,15 +54,15 @@ export function renderProfile(state) {
       <section>
         <h3 class="text-lg font-bold mb-4">🏆 Badges</h3>
         <div class="flex flex-wrap gap-2">
-          ${state.badges.length > 0 
-            ? state.badges.map(badge => `
+          ${state.badges.length > 0
+    ? state.badges.map(badge => `
                 <div class="badge badge-success">
                   <i class="fas fa-medal"></i>
                   ${badge}
                 </div>
               `).join('')
-            : `<p class="text-slate-400 text-sm">Aucun badge encore. Continue à explorer !</p>`
-          }
+    : '<p class="text-slate-400 text-sm">Aucun badge encore. Continue à explorer !</p>'
+}
         </div>
       </section>
       
@@ -114,7 +114,8 @@ export function renderProfile(state) {
           ${state.isLoggedIn ? `
             <button 
               onclick="handleLogout()"
-              class="card p-4 w-full flex items-center gap-3 text-left hover:border-danger-500/50 transition-all text-danger-400"
+              class="card p-4 w-full flex items-center gap-3 text-left
+                hover:border-danger-500/50 transition-all text-danger-400"
             >
               <i class="fas fa-sign-out-alt"></i>
               <span>${t('logout')}</span>

@@ -19,7 +19,7 @@ export const Storage = {
       return null;
     }
   },
-  
+
   /**
    * Set item in localStorage
    * @param {string} key - Storage key
@@ -35,7 +35,7 @@ export const Storage = {
       return false;
     }
   },
-  
+
   /**
    * Remove item from localStorage
    * @param {string} key - Storage key
@@ -50,7 +50,7 @@ export const Storage = {
       return false;
     }
   },
-  
+
   /**
    * Clear all SpotHitch data from localStorage
    */
@@ -74,33 +74,33 @@ export const SpotHitchDB = {
   dbName: 'spothitch-cache',
   version: 1,
   db: null,
-  
+
   /**
    * Initialize IndexedDB
    */
   async init() {
     if (this.db) return this.db;
-    
+
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, this.version);
-      
+
       request.onerror = () => reject(request.error);
-      
+
       request.onsuccess = () => {
         this.db = request.result;
         resolve(this.db);
       };
-      
+
       request.onupgradeneeded = (event) => {
         const db = event.target.result;
-        
+
         // Spots store
         if (!db.objectStoreNames.contains('spots')) {
           const spotsStore = db.createObjectStore('spots', { keyPath: 'id' });
           spotsStore.createIndex('country', 'country', { unique: false });
           spotsStore.createIndex('rating', 'rating', { unique: false });
         }
-        
+
         // Pending sync store
         if (!db.objectStoreNames.contains('pending-sync')) {
           db.createObjectStore('pending-sync', { keyPath: 'id', autoIncrement: true });
@@ -108,7 +108,7 @@ export const SpotHitchDB = {
       };
     });
   },
-  
+
   /**
    * Save spots to IndexedDB
    * @param {Array} spots - Spots to save
@@ -117,17 +117,17 @@ export const SpotHitchDB = {
     const db = await this.init();
     const tx = db.transaction('spots', 'readwrite');
     const store = tx.objectStore('spots');
-    
+
     for (const spot of spots) {
       store.put({ ...spot, cachedAt: Date.now() });
     }
-    
+
     return new Promise((resolve, reject) => {
       tx.oncomplete = () => resolve();
       tx.onerror = () => reject(tx.error);
     });
   },
-  
+
   /**
    * Get all spots from IndexedDB
    */
@@ -135,14 +135,14 @@ export const SpotHitchDB = {
     const db = await this.init();
     const tx = db.transaction('spots', 'readonly');
     const store = tx.objectStore('spots');
-    
+
     return new Promise((resolve, reject) => {
       const request = store.getAll();
       request.onsuccess = () => resolve(request.result || []);
       request.onerror = () => reject(request.error);
     });
   },
-  
+
   /**
    * Add pending sync operation
    */
@@ -150,14 +150,14 @@ export const SpotHitchDB = {
     const db = await this.init();
     const tx = db.transaction('pending-sync', 'readwrite');
     const store = tx.objectStore('pending-sync');
-    
+
     return new Promise((resolve, reject) => {
       const request = store.add({ ...operation, createdAt: Date.now() });
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
   },
-  
+
   /**
    * Get all pending sync operations
    */
@@ -165,14 +165,14 @@ export const SpotHitchDB = {
     const db = await this.init();
     const tx = db.transaction('pending-sync', 'readonly');
     const store = tx.objectStore('pending-sync');
-    
+
     return new Promise((resolve, reject) => {
       const request = store.getAll();
       request.onsuccess = () => resolve(request.result || []);
       request.onerror = () => reject(request.error);
     });
   },
-  
+
   /**
    * Clear pending sync operations
    */
@@ -180,7 +180,7 @@ export const SpotHitchDB = {
     const db = await this.init();
     const tx = db.transaction('pending-sync', 'readwrite');
     const store = tx.objectStore('pending-sync');
-    
+
     return new Promise((resolve, reject) => {
       const request = store.clear();
       request.onsuccess = () => resolve();

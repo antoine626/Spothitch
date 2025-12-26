@@ -16,12 +16,14 @@ export function renderSOS(state) {
       
       <!-- Modal -->
       <div 
-        class="relative bg-dark-primary border-2 border-danger-500/50 rounded-3xl w-full max-w-md overflow-hidden slide-up"
+        class="relative bg-dark-primary border-2 border-danger-500/50 rounded-3xl
+          w-full max-w-md overflow-hidden slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Header -->
         <div class="bg-danger-500/20 p-6 text-center">
-          <div class="w-20 h-20 rounded-full bg-danger-500 flex items-center justify-center text-4xl mx-auto mb-4 animate-pulse">
+          <div class="w-20 h-20 rounded-full bg-danger-500 flex items-center justify-center
+            text-4xl mx-auto mb-4 animate-pulse">
             🆘
           </div>
           <h2 class="text-2xl font-bold text-danger-400">${t('sosTitle')}</h2>
@@ -65,8 +67,8 @@ export function renderSOS(state) {
             </div>
             
             <div class="space-y-2">
-              ${state.emergencyContacts.length > 0 
-                ? state.emergencyContacts.map((contact, i) => `
+              ${state.emergencyContacts.length > 0
+    ? state.emergencyContacts.map((contact, i) => `
                     <div class="card p-3 flex items-center justify-between">
                       <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center">
@@ -85,13 +87,13 @@ export function renderSOS(state) {
                       </button>
                     </div>
                   `).join('')
-                : `
+    : `
                   <div class="text-center text-slate-400 py-4">
                     <i class="fas fa-user-plus text-2xl mb-2"></i>
                     <p class="text-sm">Ajoute des contacts de confiance</p>
                   </div>
                 `
-              }
+}
             </div>
           </div>
           
@@ -134,41 +136,41 @@ window.shareSOSLocation = async () => {
   const { getState, actions } = await import('../../stores/state.js');
   const { showSuccess, showError } = await import('../../services/notifications.js');
   const state = getState();
-  
+
   if (state.sosActive) {
     // Stop sharing
     actions.toggleSOS();
     showSuccess('Partage de position arrêté');
     return;
   }
-  
+
   // Start sharing
   if (!navigator.geolocation) {
     showError('Géolocalisation non disponible');
     return;
   }
-  
+
   navigator.geolocation.getCurrentPosition(
     async (position) => {
       const { lat, lng } = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       };
-      
+
       actions.toggleSOS();
       actions.setUserLocation({ lat, lng });
-      
+
       // In production, send to backend and notify contacts
       console.log('SOS Location:', lat, lng);
-      
+
       showSuccess(t('locationShared'));
-      
+
       // Share via native share if available
       if (navigator.share) {
         try {
           await navigator.share({
             title: '🆘 Position SOS - SpotHitch',
-            text: `Je partage ma position d'urgence`,
+            text: 'Je partage ma position d\'urgence',
             url: `https://www.google.com/maps?q=${lat},${lng}`,
           });
         } catch (e) {
@@ -187,13 +189,13 @@ window.shareSOSLocation = async () => {
 window.addEmergencyContact = async () => {
   const name = prompt('Nom du contact:');
   if (!name) return;
-  
+
   const phone = prompt('Numéro de téléphone:');
   if (!phone) return;
-  
+
   const { actions } = await import('../../stores/state.js');
   actions.addEmergencyContact({ name, phone });
-  
+
   const { showSuccess } = await import('../../services/notifications.js');
   showSuccess('Contact ajouté');
 };
@@ -209,7 +211,7 @@ window.removeEmergencyContact = async (index) => {
 window.markSafe = async () => {
   const { actions } = await import('../../stores/state.js');
   const { showSuccess } = await import('../../services/notifications.js');
-  
+
   actions.toggleSOS();
   showSuccess('Super ! Content que tu sois en sécurité 🙌');
 };

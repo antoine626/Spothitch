@@ -5,7 +5,7 @@
 
 import { t } from '../../i18n/index.js';
 
-export function renderAddSpot(state) {
+export function renderAddSpot(_state) {
   return `
     <div 
       class="fixed inset-0 z-50 flex items-end sm:items-center justify-center"
@@ -16,7 +16,8 @@ export function renderAddSpot(state) {
       
       <!-- Modal -->
       <div 
-        class="relative bg-dark-primary border border-white/10 rounded-t-3xl sm:rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"
+        class="relative bg-dark-primary border border-white/10 rounded-t-3xl sm:rounded-3xl
+          w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Header -->
@@ -141,17 +142,17 @@ window.triggerPhotoUpload = () => {
 window.handlePhotoSelect = async (event) => {
   const file = event.target.files?.[0];
   if (!file) return;
-  
+
   // Compress image
   try {
     const { compressImage } = await import('../../utils/image.js');
     const compressed = await compressImage(file);
     window.spotFormData.photo = compressed;
-    
+
     // Show preview
     const uploadDiv = document.getElementById('photo-upload');
     const previewDiv = document.getElementById('photo-preview');
-    
+
     if (uploadDiv && previewDiv) {
       uploadDiv.classList.add('has-photo');
       previewDiv.innerHTML = `<img src="${compressed}" alt="Preview" />`;
@@ -165,24 +166,24 @@ window.handlePhotoSelect = async (event) => {
 
 window.getSpotLocation = () => {
   const display = document.getElementById('location-display');
-  
+
   if (!navigator.geolocation) {
     if (display) display.textContent = 'Géolocalisation non supportée';
     return;
   }
-  
+
   if (display) display.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Localisation...';
-  
+
   navigator.geolocation.getCurrentPosition(
     async (position) => {
       window.spotFormData.lat = position.coords.latitude;
       window.spotFormData.lng = position.coords.longitude;
-      
+
       // Reverse geocode
       try {
         const { reverseGeocode } = await import('../../services/osrm.js');
         const location = await reverseGeocode(position.coords.latitude, position.coords.longitude);
-        
+
         if (display) {
           display.innerHTML = `
             <i class="fas fa-check-circle text-success-400"></i>
@@ -208,41 +209,41 @@ window.getSpotLocation = () => {
 
 window.handleAddSpot = async (event) => {
   event.preventDefault();
-  
+
   const from = document.getElementById('spot-from')?.value.trim();
   const to = document.getElementById('spot-to')?.value.trim();
   const description = document.getElementById('spot-description')?.value.trim();
   const submitBtn = document.getElementById('submit-spot-btn');
-  
+
   // Validation
   if (!from || !to) {
     const { showError } = await import('../../services/notifications.js');
     showError('Remplis les champs obligatoires');
     return;
   }
-  
+
   if (!window.spotFormData.photo) {
     const { showError } = await import('../../services/notifications.js');
     showError('Une photo est requise');
     return;
   }
-  
+
   // Disable button
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
   }
-  
+
   try {
     // Upload photo
     const { uploadImage, addSpot } = await import('../../services/firebase.js');
     const photoPath = `spots/${Date.now()}.jpg`;
     const photoResult = await uploadImage(window.spotFormData.photo, photoPath);
-    
+
     if (!photoResult.success) {
       throw new Error('Photo upload failed');
     }
-    
+
     // Create spot
     const spotData = {
       from,
@@ -262,17 +263,17 @@ window.handleAddSpot = async (event) => {
       globalRating: 0,
       avgWaitTime: 30,
     };
-    
+
     const result = await addSpot(spotData);
-    
+
     if (result.success) {
       const { showSuccess } = await import('../../services/notifications.js');
       const { actions, setState } = await import('../../stores/state.js');
-      
+
       showSuccess('Spot ajouté avec succès ! 🎉');
       actions.incrementSpotsCreated();
       setState({ showAddSpot: false });
-      
+
       // Reset form data
       window.spotFormData = { photo: null, lat: null, lng: null };
     } else {

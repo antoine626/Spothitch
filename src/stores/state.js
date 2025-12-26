@@ -12,14 +12,14 @@ const initialState = {
   username: '',
   avatar: '🤙',
   isLoggedIn: false,
-  
+
   // UI
   activeTab: 'home',
   viewMode: 'list',
   showWelcome: true,
   theme: 'dark',
   lang: 'fr',
-  
+
   // Spots
   spots: [],
   selectedSpot: null,
@@ -28,7 +28,7 @@ const initialState = {
   filterCountry: 'all',
   filterMinRating: 0,
   filterMaxWait: 999,
-  
+
   // Modals
   showAddSpot: false,
   showRating: false,
@@ -37,13 +37,13 @@ const initialState = {
   showSettings: false,
   showQuiz: false,
   showAuth: false,
-  
+
   // Trip Planner
   tripSteps: [],
   activeTrip: null,
   savedTrips: [],
   tripRoute: null,
-  
+
   // Gamification
   points: 0,
   level: 1,
@@ -53,23 +53,23 @@ const initialState = {
   streak: 0,
   badges: [],
   rewards: [],
-  
+
   // Chat
   chatRoom: 'general',
   messages: [],
-  
+
   // SOS
   sosActive: false,
   emergencyContacts: [],
-  
+
   // Location
   userLocation: null,
   gpsEnabled: false,
-  
+
   // Tutorial
   showTutorial: true,
   tutorialStep: 0,
-  
+
   // Loading states
   isLoading: false,
   isLoadingSpots: false,
@@ -170,36 +170,36 @@ export const actions = {
   changeTab(tab) {
     setState({ activeTab: tab, selectedSpot: null });
   },
-  
+
   // Theme
   toggleTheme() {
     const newTheme = state.theme === 'dark' ? 'light' : 'dark';
     setState({ theme: newTheme });
     document.body.classList.toggle('light-theme', newTheme === 'light');
   },
-  
+
   // Language
   setLanguage(lang) {
     setState({ lang });
   },
-  
+
   // Spots
   setSpots(spots) {
     setState({ spots, isLoadingSpots: false });
   },
-  
+
   selectSpot(spot) {
     setState({ selectedSpot: spot });
   },
-  
+
   setFilter(filter) {
     setState({ activeFilter: filter });
   },
-  
+
   setSearchQuery(query) {
     setState({ searchQuery: query });
   },
-  
+
   // User
   setUser(user) {
     setState({
@@ -208,7 +208,7 @@ export const actions = {
       username: user?.displayName || state.username,
     });
   },
-  
+
   updateProfile(updates) {
     setState({
       username: updates.username || state.username,
@@ -216,7 +216,7 @@ export const actions = {
       showWelcome: false,
     });
   },
-  
+
   // Gamification
   addPoints(amount) {
     const newPoints = state.points + amount;
@@ -226,28 +226,28 @@ export const actions = {
       level: Math.max(state.level, newLevel),
     });
   },
-  
+
   incrementCheckins() {
     setState({
       checkins: state.checkins + 1,
     });
     actions.addPoints(5);
   },
-  
+
   incrementSpotsCreated() {
     setState({
       spotsCreated: state.spotsCreated + 1,
     });
     actions.addPoints(20);
   },
-  
+
   incrementReviews() {
     setState({
       reviewsGiven: state.reviewsGiven + 1,
     });
     actions.addPoints(10);
   },
-  
+
   addBadge(badge) {
     if (!state.badges.includes(badge)) {
       setState({
@@ -256,29 +256,29 @@ export const actions = {
       actions.addPoints(50);
     }
   },
-  
+
   // Trips
   setTripSteps(steps) {
     setState({ tripSteps: steps });
   },
-  
+
   saveTrip(trip) {
     setState({
       savedTrips: [...state.savedTrips, trip],
     });
   },
-  
+
   // SOS
   toggleSOS() {
     setState({ sosActive: !state.sosActive });
   },
-  
+
   addEmergencyContact(contact) {
     setState({
       emergencyContacts: [...state.emergencyContacts, contact],
     });
   },
-  
+
   // Tutorial
   nextTutorialStep() {
     if (state.tutorialStep < 7) {
@@ -287,17 +287,17 @@ export const actions = {
       setState({ showTutorial: false, tutorialStep: 0 });
     }
   },
-  
+
   prevTutorialStep() {
     if (state.tutorialStep > 0) {
       setState({ tutorialStep: state.tutorialStep - 1 });
     }
   },
-  
+
   skipTutorial() {
     setState({ showTutorial: false, tutorialStep: 0 });
   },
-  
+
   // Location
   setUserLocation(location) {
     setState({
@@ -305,7 +305,7 @@ export const actions = {
       gpsEnabled: !!location,
     });
   },
-  
+
   // Online status
   setOnlineStatus(isOnline) {
     setState({ isOnline });

@@ -13,42 +13,45 @@
 export async function compressImage(file, maxWidth = 1200, quality = 0.8) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    
+
     reader.onload = (e) => {
       const img = new Image();
-      
+
       img.onload = () => {
         let { width, height } = img;
-        
+
         // Calculate new dimensions
         if (width > maxWidth) {
           height = Math.round(height * (maxWidth / width));
           width = maxWidth;
         }
-        
+
         // Create canvas
         const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
-        
+
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
-        
+
         // Convert to base64
         const compressed = canvas.toDataURL('image/jpeg', quality);
-        
+
         // Log compression ratio
         const originalSize = e.target.result.length;
         const compressedSize = compressed.length;
-        console.log(`📸 Compressed: ${Math.round(originalSize/1024)}KB → ${Math.round(compressedSize/1024)}KB (${Math.round(compressedSize/originalSize*100)}%)`);
-        
+        const ratio = Math.round(compressedSize / originalSize * 100);
+        const origKB = Math.round(originalSize / 1024);
+        const compKB = Math.round(compressedSize / 1024);
+        console.log(`📸 Compressed: ${origKB}KB → ${compKB}KB (${ratio}%)`);
+
         resolve(compressed);
       };
-      
+
       img.onerror = () => reject(new Error('Failed to load image'));
       img.src = e.target.result;
     };
-    
+
     reader.onerror = () => reject(new Error('Failed to read file'));
     reader.readAsDataURL(file);
   });
@@ -64,25 +67,25 @@ export async function compressImage(file, maxWidth = 1200, quality = 0.8) {
 export async function compressDataUrl(dataUrl, maxWidth = 1200, quality = 0.8) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    
+
     img.onload = () => {
       let { width, height } = img;
-      
+
       if (width > maxWidth) {
         height = Math.round(height * (maxWidth / width));
         width = maxWidth;
       }
-      
+
       const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
-      
+
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
-      
+
       resolve(canvas.toDataURL('image/jpeg', quality));
     };
-    
+
     img.onerror = () => reject(new Error('Failed to load image'));
     img.src = dataUrl;
   });

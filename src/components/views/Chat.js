@@ -11,7 +11,7 @@ export function renderChat(state) {
     { id: 'meetups', name: 'Rencontres', icon: '🤝', active: false },
     { id: 'routes', name: 'Itinéraires', icon: '🛣️', active: false },
   ];
-  
+
   return `
     <div class="flex flex-col h-[calc(100vh-140px)]">
       <!-- Room Tabs -->
@@ -28,10 +28,10 @@ export function renderChat(state) {
       
       <!-- Messages -->
       <div class="flex-1 overflow-y-auto p-4 space-y-3">
-        ${state.messages.length > 0 
-          ? state.messages.map(msg => renderMessage(msg, state)).join('')
-          : renderEmptyChat()
-        }
+        ${state.messages.length > 0
+    ? state.messages.map(msg => renderMessage(msg, state)).join('')
+    : renderEmptyChat()
+}
       </div>
       
       <!-- Message Input -->
@@ -59,7 +59,7 @@ export function renderChat(state) {
 
 function renderMessage(msg, state) {
   const isSent = msg.userId === state.user?.uid;
-  
+
   return `
     <div class="chat-bubble ${isSent ? 'sent' : 'received'}">
       ${!isSent ? `
@@ -106,10 +106,10 @@ window.handleChatKeypress = (e) => {
 window.sendMessage = async () => {
   const input = document.getElementById('chat-input');
   if (!input?.value.trim()) return;
-  
+
   const text = input.value.trim();
   input.value = '';
-  
+
   // Import and send via Firebase
   try {
     const { sendChatMessage } = await import('../../services/firebase.js');

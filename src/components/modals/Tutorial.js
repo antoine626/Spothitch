@@ -60,7 +60,7 @@ export function renderTutorial(state) {
   const step = tutorialSteps[state.tutorialStep] || tutorialSteps[0];
   const isLast = state.tutorialStep === tutorialSteps.length - 1;
   const isFirst = state.tutorialStep === 0;
-  
+
   return `
     <!-- Overlay -->
     <div class="tuto-overlay" onclick="skipTutorial()"></div>

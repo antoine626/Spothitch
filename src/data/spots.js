@@ -82,7 +82,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'FR',
   },
-  
+
   // GERMANY
   {
     id: 5,
@@ -122,7 +122,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'DE',
   },
-  
+
   // BELGIUM
   {
     id: 7,
@@ -143,7 +143,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'BE',
   },
-  
+
   // NETHERLANDS
   {
     id: 8,
@@ -164,7 +164,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'NL',
   },
-  
+
   // SPAIN
   {
     id: 9,
@@ -185,7 +185,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'ES',
   },
-  
+
   // ITALY
   {
     id: 10,
@@ -206,7 +206,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'IT',
   },
-  
+
   // POLAND
   {
     id: 11,
@@ -227,7 +227,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'PL',
   },
-  
+
   // IRELAND
   {
     id: 12,
@@ -248,7 +248,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'IE',
   },
-  
+
   // AUSTRIA
   {
     id: 13,
@@ -269,7 +269,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'AT',
   },
-  
+
   // CZECH REPUBLIC
   {
     id: 14,
@@ -290,7 +290,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'CZ',
   },
-  
+
   // PORTUGAL
   {
     id: 15,
@@ -311,7 +311,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'PT',
   },
-  
+
   // SWITZERLAND
   {
     id: 16,
@@ -332,7 +332,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'CH',
   },
-  
+
   // CROATIA
   {
     id: 17,
@@ -353,7 +353,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'HR',
   },
-  
+
   // HUNGARY
   {
     id: 18,
@@ -374,7 +374,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'HU',
   },
-  
+
   // DENMARK
   {
     id: 19,
@@ -395,7 +395,7 @@ export const sampleSpots = [
     source: 'hitchwiki',
     country: 'DK',
   },
-  
+
   // SWEDEN
   {
     id: 20,

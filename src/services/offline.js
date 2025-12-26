@@ -3,70 +3,70 @@
  * Handles offline detection, UI feedback, and data syncing
  */
 
-import { Storage } from '../utils/storage.js'
+import { Storage } from '../utils/storage.js';
 
 // Offline state
-let isOffline = !navigator.onLine
-let offlineIndicator = null
-let pendingActions = []
+let isOffline = !navigator.onLine;
+let offlineIndicator = null;
+let pendingActions = [];
 
 /**
  * Initialize offline handling
  */
 export function initOfflineHandler() {
   // Create offline indicator
-  createOfflineIndicator()
+  createOfflineIndicator();
 
   // Listen for online/offline events
-  window.addEventListener('online', handleOnline)
-  window.addEventListener('offline', handleOffline)
+  window.addEventListener('online', handleOnline);
+  window.addEventListener('offline', handleOffline);
 
   // Initial state check
   if (isOffline) {
-    showOfflineIndicator()
+    showOfflineIndicator();
   }
 
   // Load pending actions from storage
-  loadPendingActions()
+  loadPendingActions();
 
-  console.log('📡 Offline handler initialized')
+  console.log('📡 Offline handler initialized');
 }
 
 /**
  * Create offline indicator element
  */
 function createOfflineIndicator() {
-  offlineIndicator = document.createElement('div')
-  offlineIndicator.className = 'offline-indicator hidden'
-  offlineIndicator.setAttribute('role', 'alert')
-  offlineIndicator.setAttribute('aria-live', 'assertive')
+  offlineIndicator = document.createElement('div');
+  offlineIndicator.className = 'offline-indicator hidden';
+  offlineIndicator.setAttribute('role', 'alert');
+  offlineIndicator.setAttribute('aria-live', 'assertive');
   offlineIndicator.innerHTML = `
     <span>📡 Mode hors-ligne - Certaines fonctionnalités sont limitées</span>
-  `
-  document.body.prepend(offlineIndicator)
+  `;
+  document.body.prepend(offlineIndicator);
 }
 
 /**
  * Handle going online
  */
 function handleOnline() {
-  isOffline = false
-  hideOfflineIndicator()
-  syncPendingActions()
+  isOffline = false;
+  hideOfflineIndicator();
+  syncPendingActions();
 
   // Announce to screen readers
-  announceToSR('Connexion rétablie')
+  announceToSR('Connexion rétablie');
 }
 
 /**
  * Handle going offline
  */
 function handleOffline() {
-  isOffline = true
-  showOfflineIndicator()
+  isOffline = true;
+  showOfflineIndicator();
 
   // Announce to screen readers
-  announceToSR('Mode hors-ligne activé')
+  announceToSR('Mode hors-ligne activé');
 }
 
 /**
@@ -74,8 +74,8 @@ function handleOffline() {
  */
 function showOfflineIndicator() {
   if (offlineIndicator) {
-    offlineIndicator.classList.remove('hidden')
-    document.body.style.paddingTop = '40px'
+    offlineIndicator.classList.remove('hidden');
+    document.body.style.paddingTop = '40px';
   }
 }
 
@@ -84,8 +84,8 @@ function showOfflineIndicator() {
  */
 function hideOfflineIndicator() {
   if (offlineIndicator) {
-    offlineIndicator.classList.add('hidden')
-    document.body.style.paddingTop = '0'
+    offlineIndicator.classList.add('hidden');
+    document.body.style.paddingTop = '0';
   }
 }
 
@@ -94,7 +94,7 @@ function hideOfflineIndicator() {
  * @returns {boolean}
  */
 export function isCurrentlyOffline() {
-  return isOffline
+  return isOffline;
 }
 
 /**
@@ -105,17 +105,17 @@ export function queueOfflineAction(action) {
   pendingActions.push({
     ...action,
     timestamp: Date.now(),
-  })
-  savePendingActions()
+  });
+  savePendingActions();
 }
 
 /**
  * Load pending actions from storage
  */
 function loadPendingActions() {
-  const stored = Storage.get('pendingActions')
+  const stored = Storage.get('pendingActions');
   if (stored && Array.isArray(stored)) {
-    pendingActions = stored
+    pendingActions = stored;
   }
 }
 
@@ -123,33 +123,33 @@ function loadPendingActions() {
  * Save pending actions to storage
  */
 function savePendingActions() {
-  Storage.set('pendingActions', pendingActions)
+  Storage.set('pendingActions', pendingActions);
 }
 
 /**
  * Sync pending actions when online
  */
 async function syncPendingActions() {
-  if (pendingActions.length === 0) return
+  if (pendingActions.length === 0) return;
 
-  console.log(`🔄 Syncing ${pendingActions.length} pending actions...`)
+  console.log(`🔄 Syncing ${pendingActions.length} pending actions...`);
 
-  const actionsToSync = [...pendingActions]
-  pendingActions = []
-  savePendingActions()
+  const actionsToSync = [...pendingActions];
+  pendingActions = [];
+  savePendingActions();
 
   for (const action of actionsToSync) {
     try {
-      await processAction(action)
-      console.log(`✅ Synced action: ${action.type}`)
+      await processAction(action);
+      console.log(`✅ Synced action: ${action.type}`);
     } catch (error) {
-      console.error(`❌ Failed to sync action: ${action.type}`, error)
+      console.error(`❌ Failed to sync action: ${action.type}`, error);
       // Re-queue failed action
-      pendingActions.push(action)
+      pendingActions.push(action);
     }
   }
 
-  savePendingActions()
+  savePendingActions();
 }
 
 /**
@@ -160,16 +160,16 @@ async function processAction(action) {
   switch (action.type) {
     case 'ADD_SPOT':
       // Would integrate with firebase service
-      console.log('Would sync spot:', action.data)
-      break
+      console.log('Would sync spot:', action.data);
+      break;
     case 'ADD_RATING':
-      console.log('Would sync rating:', action.data)
-      break
+      console.log('Would sync rating:', action.data);
+      break;
     case 'SEND_MESSAGE':
-      console.log('Would sync message:', action.data)
-      break
+      console.log('Would sync message:', action.data);
+      break;
     default:
-      console.warn('Unknown action type:', action.type)
+      console.warn('Unknown action type:', action.type);
   }
 }
 
@@ -178,12 +178,12 @@ async function processAction(action) {
  * @param {string} message
  */
 function announceToSR(message) {
-  const region = document.getElementById('aria-live-assertive')
+  const region = document.getElementById('aria-live-assertive');
   if (region) {
-    region.textContent = ''
+    region.textContent = '';
     setTimeout(() => {
-      region.textContent = message
-    }, 100)
+      region.textContent = message;
+    }, 100);
   }
 }
 
@@ -195,7 +195,7 @@ export function cacheSpots(spots) {
   Storage.set('cachedSpots', {
     data: spots,
     timestamp: Date.now(),
-  })
+  });
 }
 
 /**
@@ -203,15 +203,15 @@ export function cacheSpots(spots) {
  * @returns {Array|null}
  */
 export function getCachedSpots() {
-  const cached = Storage.get('cachedSpots')
+  const cached = Storage.get('cachedSpots');
   if (cached && cached.data) {
     // Check if cache is less than 24 hours old
-    const maxAge = 24 * 60 * 60 * 1000
+    const maxAge = 24 * 60 * 60 * 1000;
     if (Date.now() - cached.timestamp < maxAge) {
-      return cached.data
+      return cached.data;
     }
   }
-  return null
+  return null;
 }
 
 /**
@@ -221,9 +221,9 @@ export function getCachedSpots() {
  * @returns {boolean}
  */
 export function isCacheFresh(key, maxAge = 3600000) {
-  const cached = Storage.get(key)
-  if (!cached || !cached.timestamp) return false
-  return Date.now() - cached.timestamp < maxAge
+  const cached = Storage.get(key);
+  if (!cached || !cached.timestamp) return false;
+  return Date.now() - cached.timestamp < maxAge;
 }
 
 export default {
@@ -233,4 +233,4 @@ export default {
   cacheSpots,
   getCachedSpots,
   isCacheFresh,
-}
+};

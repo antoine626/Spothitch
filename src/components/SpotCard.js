@@ -15,7 +15,7 @@ export function renderSpotCard(spot, variant = 'default') {
 function renderDefaultCard(spot) {
   const typeClass = getSpotTypeClass(spot);
   const typeLabel = getSpotTypeLabel(spot);
-  
+
   return `
     <article 
       class="card overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform"

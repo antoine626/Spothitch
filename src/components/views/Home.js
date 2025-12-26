@@ -10,11 +10,11 @@ export function renderHome(state) {
   const topSpots = state.spots
     .filter(s => s.globalRating >= 4.5)
     .slice(0, 5);
-  
+
   const recentSpots = state.spots
     .sort((a, b) => new Date(b.lastUsed) - new Date(a.lastUsed))
     .slice(0, 5);
-  
+
   return `
     <div class="p-4 space-y-6">
       <!-- Welcome Banner -->

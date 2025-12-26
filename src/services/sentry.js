@@ -15,24 +15,24 @@ export async function initSentry() {
     console.log('⚠️ Sentry DSN not configured, skipping initialization');
     return false;
   }
-  
+
   try {
     // Dynamically import Sentry to reduce bundle size
     const SentryModule = await import('@sentry/browser');
     Sentry = SentryModule;
-    
+
     Sentry.init({
       dsn: SENTRY_DSN,
       environment: import.meta.env.MODE || 'development',
       release: `spothitch@${import.meta.env.VITE_APP_VERSION || '2.0.0'}`,
-      
+
       // Performance monitoring
       tracesSampleRate: 0.1, // 10% of transactions
-      
+
       // Session replay (optional)
       replaysSessionSampleRate: 0.1,
       replaysOnErrorSampleRate: 1.0,
-      
+
       integrations: [
         Sentry.browserTracingIntegration(),
         Sentry.replayIntegration({
@@ -40,7 +40,7 @@ export async function initSentry() {
           blockAllMedia: false,
         }),
       ],
-      
+
       // Filter out common non-errors
       ignoreErrors: [
         'ResizeObserver loop limit exceeded',
@@ -49,15 +49,15 @@ export async function initSentry() {
         /^Network Error$/,
         /^Loading chunk \d+ failed/,
       ],
-      
+
       // Before sending error
-      beforeSend(event, hint) {
+      beforeSend(event, _hint) {
         // Don't send errors in development
         if (import.meta.env.DEV) {
           console.log('🐛 Sentry event (dev):', event);
           return null;
         }
-        
+
         // Add extra context
         event.tags = {
           ...event.tags,
@@ -66,11 +66,11 @@ export async function initSentry() {
           online: navigator.onLine,
           pwa: window.matchMedia('(display-mode: standalone)').matches,
         };
-        
+
         return event;
       },
     });
-    
+
     console.log('✅ Sentry initialized');
     return true;
   } catch (error) {
@@ -87,7 +87,7 @@ export function captureException(error, context = {}) {
     console.error('Error (Sentry not initialized):', error);
     return;
   }
-  
+
   Sentry.withScope((scope) => {
     Object.entries(context).forEach(([key, value]) => {
       scope.setExtra(key, value);
@@ -104,7 +104,7 @@ export function captureMessage(message, level = 'info', context = {}) {
     console.log(`Message (Sentry not initialized): ${message}`);
     return;
   }
-  
+
   Sentry.withScope((scope) => {
     Object.entries(context).forEach(([key, value]) => {
       scope.setExtra(key, value);
@@ -118,7 +118,7 @@ export function captureMessage(message, level = 'info', context = {}) {
  */
 export function setUser(user) {
   if (!Sentry) return;
-  
+
   if (user) {
     Sentry.setUser({
       id: user.uid,
@@ -135,7 +135,7 @@ export function setUser(user) {
  */
 export function addBreadcrumb(message, category = 'default', level = 'info', data = {}) {
   if (!Sentry) return;
-  
+
   Sentry.addBreadcrumb({
     message,
     category,
@@ -150,7 +150,7 @@ export function addBreadcrumb(message, category = 'default', level = 'info', dat
  */
 export function startTransaction(name, op = 'navigation') {
   if (!Sentry) return null;
-  
+
   return Sentry.startTransaction({
     name,
     op,
@@ -170,14 +170,14 @@ export function setupGlobalErrorHandlers() {
     });
     return false;
   };
-  
+
   // Unhandled promise rejections
   window.onunhandledrejection = (event) => {
     captureException(event.reason || new Error('Unhandled rejection'), {
       type: 'unhandledrejection',
     });
   };
-  
+
   console.log('✅ Global error handlers set up');
 }
 

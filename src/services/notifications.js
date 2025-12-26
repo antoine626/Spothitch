@@ -29,7 +29,7 @@ export async function initNotifications() {
     `;
     document.body.appendChild(toastContainer);
   }
-  
+
   // Request push notification permission
   if ('Notification' in window) {
     const token = await requestNotificationPermission();
@@ -39,7 +39,7 @@ export async function initNotifications() {
       await saveNotificationToken(token);
     }
   }
-  
+
   // Listen for foreground messages
   onForegroundMessage((payload) => {
     console.log('📬 Foreground message:', payload);
@@ -65,27 +65,27 @@ export function showToast(message, type = 'info', duration = 4000) {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
   toast.style.pointerEvents = 'auto';
-  
+
   const icons = {
     success: '✓',
     error: '✕',
     info: 'ℹ',
     warning: '⚠',
   };
-  
+
   toast.innerHTML = `
     <span style="font-size: 20px">${icons[type] || icons.info}</span>
     <span>${message}</span>
   `;
-  
+
   toastContainer.appendChild(toast);
-  
+
   // Remove after duration
   setTimeout(() => {
     toast.style.animation = 'fadeOut 0.3s ease-out';
     setTimeout(() => toast.remove(), 300);
   }, duration);
-  
+
   // Add fadeOut animation
   const style = document.createElement('style');
   style.textContent = `
@@ -150,7 +150,7 @@ export function sendLocalNotification(title, body, data = {}) {
     showToast(body, 'info');
     return;
   }
-  
+
   if (Notification.permission === 'granted') {
     const notification = new Notification(title, {
       body,
@@ -159,7 +159,7 @@ export function sendLocalNotification(title, body, data = {}) {
       data,
       vibrate: [100, 50, 100],
     });
-    
+
     notification.onclick = () => {
       window.focus();
       notification.close();
@@ -177,16 +177,16 @@ export function sendLocalNotification(title, body, data = {}) {
  */
 export function scheduleNotification(title, body, triggerTime, data = {}) {
   const delay = triggerTime - Date.now();
-  
+
   if (delay < 0) {
     console.warn('Notification time is in the past');
     return null;
   }
-  
+
   const timeoutId = setTimeout(() => {
     sendLocalNotification(title, body, data);
   }, delay);
-  
+
   return timeoutId;
 }
 

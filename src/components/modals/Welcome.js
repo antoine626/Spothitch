@@ -7,9 +7,10 @@ import { t } from '../../i18n/index.js';
 
 const avatars = ['🤙', '😎', '🧳', '🎒', '🌍', '✌️', '🚗', '🛣️', '⛺', '🏕️', '🌄', '🗺️'];
 
-export function renderWelcome(state) {
+export function renderWelcome(_state) {
   return `
-    <div class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-dark-primary to-dark-secondary">
+    <div class="min-h-screen flex items-center justify-center p-4
+      bg-gradient-to-br from-dark-primary to-dark-secondary">
       <div class="card p-8 max-w-md w-full text-center fade-in">
         <!-- Logo -->
         <div class="text-6xl mb-4">🤙</div>
@@ -70,7 +71,7 @@ window.selectedAvatar = '🤙';
 
 window.selectAvatar = (avatar) => {
   window.selectedAvatar = avatar;
-  
+
   // Update UI
   document.querySelectorAll('.avatar-option').forEach(el => {
     el.classList.toggle('selected', el.dataset.avatar === avatar);
@@ -80,13 +81,13 @@ window.selectAvatar = (avatar) => {
 window.completeWelcome = async () => {
   const usernameInput = document.getElementById('welcome-username');
   const username = usernameInput?.value.trim() || 'Voyageur';
-  
+
   const { actions } = await import('../../stores/state.js');
   actions.updateProfile({
     username,
     avatar: window.selectedAvatar,
   });
-  
+
   // Show success toast
   const { showSuccess } = await import('../../services/notifications.js');
   showSuccess(`Bienvenue ${username} !`);

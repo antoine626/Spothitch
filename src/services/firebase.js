@@ -4,9 +4,9 @@
  */
 
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
@@ -15,27 +15,24 @@ import {
   signInWithPopup,
   updateProfile
 } from 'firebase/auth';
-import { 
-  getFirestore, 
-  collection, 
-  doc, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc,
-  getDoc,
-  getDocs, 
-  query, 
-  where, 
-  orderBy, 
+import {
+  getFirestore,
+  collection,
+  doc,
+  addDoc,
+  updateDoc,
+  getDocs,
+  query,
+  orderBy,
   limit,
   onSnapshot,
-  serverTimestamp 
+  serverTimestamp
 } from 'firebase/firestore';
-import { 
-  getStorage, 
-  ref, 
-  uploadString, 
-  getDownloadURL 
+import {
+  getStorage,
+  ref,
+  uploadString,
+  getDownloadURL
 } from 'firebase/storage';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
@@ -63,12 +60,12 @@ export function initializeFirebase() {
     auth = getAuth(app);
     db = getFirestore(app);
     storage = getStorage(app);
-    
+
     // Initialize messaging only in supported browsers
     if ('serviceWorker' in navigator && 'PushManager' in window) {
       messaging = getMessaging(app);
     }
-    
+
     console.log('✅ Firebase initialized');
     return true;
   } catch (error) {
@@ -255,7 +252,7 @@ export async function getReviews(spotId) {
 export function subscribeToChatRoom(room, callback) {
   const messagesRef = collection(db, 'chat', room, 'messages');
   const q = query(messagesRef, orderBy('createdAt', 'desc'), limit(50));
-  
+
   return onSnapshot(q, (snapshot) => {
     const messages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     callback(messages.reverse());
@@ -311,16 +308,16 @@ export async function requestNotificationPermission() {
       console.log('Messaging not supported');
       return null;
     }
-    
+
     const permission = await Notification.requestPermission();
     if (permission !== 'granted') {
       return null;
     }
-    
+
     const token = await getToken(messaging, {
       vapidKey: 'YOUR_VAPID_KEY' // Replace with actual VAPID key
     });
-    
+
     return token;
   } catch (error) {
     console.error('Error getting FCM token:', error);

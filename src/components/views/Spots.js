@@ -8,7 +8,7 @@ import { renderSpotCard } from '../SpotCard.js';
 
 export function renderSpots(state) {
   const filteredSpots = filterSpots(state);
-  
+
   return `
     <div class="p-4">
       <!-- Search & View Toggle -->
@@ -49,10 +49,10 @@ export function renderSpots(state) {
       </div>
       
       <!-- Content -->
-      ${state.viewMode === 'list' 
-        ? renderSpotsList(filteredSpots)
-        : renderSpotsMap()
-      }
+      ${state.viewMode === 'list'
+    ? renderSpotsList(filteredSpots)
+    : renderSpotsMap()
+}
     </div>
   `;
 }
@@ -64,7 +64,7 @@ function renderFilterButtons(state) {
     { id: 'recent', label: t('filterRecent'), icon: 'fa-clock' },
     { id: 'nearby', label: t('filterNearby'), icon: 'fa-location-arrow' },
   ];
-  
+
   return filters.map(filter => `
     <button 
       onclick="setFilter('${filter.id}')"
@@ -90,7 +90,7 @@ function renderSpotsList(spots) {
       </div>
     `;
   }
-  
+
   return `
     <div class="space-y-3">
       ${spots.map(spot => renderSpotCard(spot)).join('')}
@@ -122,17 +122,17 @@ function renderSpotsMap() {
 
 function filterSpots(state) {
   let spots = [...state.spots];
-  
+
   // Search filter
   if (state.searchQuery) {
     const query = state.searchQuery.toLowerCase();
-    spots = spots.filter(s => 
+    spots = spots.filter(s =>
       s.from.toLowerCase().includes(query) ||
       s.to.toLowerCase().includes(query) ||
       s.description?.toLowerCase().includes(query)
     );
   }
-  
+
   // Type filter
   switch (state.activeFilter) {
     case 'top':
@@ -158,34 +158,34 @@ function filterSpots(state) {
       }
       break;
   }
-  
+
   // Country filter
   if (state.filterCountry !== 'all') {
     spots = spots.filter(s => s.country === state.filterCountry);
   }
-  
+
   // Rating filter
   if (state.filterMinRating > 0) {
     spots = spots.filter(s => s.globalRating >= state.filterMinRating);
   }
-  
+
   // Wait time filter
   if (state.filterMaxWait < 999) {
     spots = spots.filter(s => s.avgWaitTime <= state.filterMaxWait);
   }
-  
+
   return spots;
 }
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
   if (!lat1 || !lon1 || !lat2 || !lon2) return Infinity;
-  
+
   const R = 6371; // Earth's radius in km
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = 
+  const a =
     Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLon/2) * Math.sin(dLon/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return R * c;

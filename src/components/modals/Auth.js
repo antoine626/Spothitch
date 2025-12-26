@@ -5,7 +5,7 @@
 
 import { t } from '../../i18n/index.js';
 
-export function renderAuth(state) {
+export function renderAuth(_state) {
   return `
     <div 
       class="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -153,7 +153,7 @@ window.authMode = 'login';
 
 window.setAuthMode = (mode) => {
   window.authMode = mode;
-  
+
   // Update tabs
   document.querySelectorAll('.auth-tab').forEach(tab => {
     const isActive = tab.dataset.mode === mode;
@@ -162,13 +162,13 @@ window.setAuthMode = (mode) => {
     tab.classList.toggle('border-primary-400', isActive);
     tab.classList.toggle('text-slate-400', !isActive);
   });
-  
+
   // Show/hide fields
   const confirmField = document.getElementById('confirm-password-field');
   const usernameField = document.getElementById('username-field');
   const forgotLink = document.getElementById('forgot-password-link');
   const submitText = document.getElementById('auth-submit-text');
-  
+
   if (mode === 'register') {
     confirmField?.classList.remove('hidden');
     usernameField?.classList.remove('hidden');
@@ -184,40 +184,40 @@ window.setAuthMode = (mode) => {
 
 window.handleAuth = async (event) => {
   event.preventDefault();
-  
+
   const email = document.getElementById('auth-email')?.value.trim();
   const password = document.getElementById('auth-password')?.value;
   const submitBtn = document.getElementById('auth-submit-btn');
-  
+
   if (!email || !password) return;
-  
+
   // Disable button
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
   }
-  
+
   try {
     const { signIn, signUp } = await import('../../services/firebase.js');
     const { showSuccess, showError } = await import('../../services/notifications.js');
     const { setState } = await import('../../stores/state.js');
-    
+
     let result;
-    
+
     if (window.authMode === 'register') {
       const confirmPassword = document.getElementById('auth-password-confirm')?.value;
       const username = document.getElementById('auth-username')?.value.trim() || 'Voyageur';
-      
+
       if (password !== confirmPassword) {
         showError(t('passwordMismatch'));
         return;
       }
-      
+
       result = await signUp(email, password, username);
     } else {
       result = await signIn(email, password);
     }
-    
+
     if (result.success) {
       showSuccess(window.authMode === 'register' ? 'Compte créé !' : 'Connecté !');
       setState({ showAuth: false });
@@ -241,9 +241,9 @@ window.handleGoogleSignIn = async () => {
     const { signInWithGoogle } = await import('../../services/firebase.js');
     const { showSuccess, showError } = await import('../../services/notifications.js');
     const { setState } = await import('../../stores/state.js');
-    
+
     const result = await signInWithGoogle();
-    
+
     if (result.success) {
       showSuccess('Connecté avec Google !');
       setState({ showAuth: false });
@@ -257,19 +257,19 @@ window.handleGoogleSignIn = async () => {
 
 window.handleForgotPassword = async () => {
   const email = document.getElementById('auth-email')?.value.trim();
-  
+
   if (!email) {
     const { showError } = await import('../../services/notifications.js');
     showError('Entre ton email d\'abord');
     return;
   }
-  
+
   try {
     const { resetPassword } = await import('../../services/firebase.js');
     const { showSuccess, showError } = await import('../../services/notifications.js');
-    
+
     const result = await resetPassword(email);
-    
+
     if (result.success) {
       showSuccess(t('passwordResetSent'));
     } else {

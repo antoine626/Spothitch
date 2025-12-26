@@ -8,7 +8,7 @@ import { t } from '../../i18n/index.js';
 export function renderSpotDetail(state) {
   const spot = state.selectedSpot;
   if (!spot) return '';
-  
+
   return `
     <div 
       class="fixed inset-0 z-50 flex items-end sm:items-center justify-center"
@@ -19,13 +19,15 @@ export function renderSpotDetail(state) {
       
       <!-- Modal -->
       <div 
-        class="relative bg-dark-primary border border-white/10 rounded-t-3xl sm:rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"
+        class="relative bg-dark-primary border border-white/10 rounded-t-3xl sm:rounded-3xl
+          w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Close Button -->
         <button 
           onclick="closeSpotDetail()"
-          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 flex items-center justify-center text-white"
+          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50
+            flex items-center justify-center text-white"
           aria-label="Fermer"
         >
           <i class="fas fa-times"></i>
@@ -162,7 +164,7 @@ function renderRatingBar(label, value) {
 // Global handlers
 window.openNavigation = (lat, lng) => {
   if (!lat || !lng) return;
-  
+
   // Try Google Maps first, fallback to OpenStreetMap
   const googleUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
   window.open(googleUrl, '_blank');

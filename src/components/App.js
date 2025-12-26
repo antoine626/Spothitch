@@ -25,7 +25,7 @@ export function renderApp(state) {
   if (state.showWelcome && !state.username) {
     return renderWelcome(state);
   }
-  
+
   // Main app content
   return `
     ${renderHeader(state)}
@@ -79,7 +79,7 @@ function renderActiveView(state) {
 /**
  * Render Trip Planner (simplified for now)
  */
-function renderPlanner(state) {
+function renderPlanner(_state) {
   return `
     <div class="p-4">
       <h2 class="text-2xl font-bold gradient-text mb-6">${t('planTrip')}</h2>
