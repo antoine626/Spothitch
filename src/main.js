@@ -10,7 +10,16 @@ import './styles/main.css';
 import { getState, setState, subscribe, actions } from './stores/state.js';
 
 // Services
-import { initializeFirebase, onAuthChange } from './services/firebase.js';
+import {
+  initializeFirebase,
+  onAuthChange,
+  signIn,
+  signUp,
+  signInWithGoogle,
+  logOut,
+  resetPassword,
+  sendChatMessage
+} from './services/firebase.js';
 import { initSentry, setupGlobalErrorHandlers, setUser as setSentryUser } from './services/sentry.js';
 import { initNotifications, showToast } from './services/notifications.js';
 import { initOfflineHandler } from './services/offline.js';
@@ -114,7 +123,9 @@ async function init() {
           <div style="color:#ef4444;font-size:48px;margin-bottom:16px">⚠️</div>
           <div style="color:#fff;font-size:18px;margin-bottom:8px">Erreur de chargement</div>
           <div style="color:#94a3b8;font-size:14px">${error.message}</div>
-          <button onclick="location.reload()" style="margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;border:none;border-radius:8px;cursor:pointer">Réessayer</button>
+          <button onclick="location.reload()" class="reload-btn">Réessayer</button>
+          <style>.reload-btn{margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;
+            border:none;border-radius:8px;cursor:pointer}</style>
         </div>
       `;
     }
@@ -295,6 +306,177 @@ window.doCheckin = (_spotId) => {
   showToast(t('checkinSuccess'), 'success');
 };
 window.t = t;
+
+// Auth handlers
+window.setAuthMode = (mode) => setState({ authMode: mode });
+window.handleLogin = async (e) => {
+  e?.preventDefault();
+  const form = document.getElementById('auth-form');
+  if (!form) return;
+  const email = form.querySelector('[name="email"]')?.value;
+  const password = form.querySelector('[name="password"]')?.value;
+  if (!email || !password) {
+    showToast('Veuillez remplir tous les champs', 'error');
+    return;
+  }
+  const result = await signIn(email, password);
+  if (result.success) {
+    setState({ showAuth: false });
+    showToast('Connexion réussie !', 'success');
+  } else {
+    showToast('Erreur de connexion', 'error');
+  }
+};
+window.handleSignup = async (e) => {
+  e?.preventDefault();
+  const form = document.getElementById('auth-form');
+  if (!form) return;
+  const name = form.querySelector('[name="name"]')?.value;
+  const email = form.querySelector('[name="email"]')?.value;
+  const password = form.querySelector('[name="password"]')?.value;
+  if (!email || !password) {
+    showToast('Veuillez remplir tous les champs', 'error');
+    return;
+  }
+  const result = await signUp(email, password, name || 'Utilisateur');
+  if (result.success) {
+    setState({ showAuth: false });
+    showToast('Compte créé !', 'success');
+  } else {
+    showToast('Erreur lors de l\'inscription', 'error');
+  }
+};
+window.handleGoogleSignIn = async () => {
+  const result = await signInWithGoogle();
+  if (result.success) {
+    setState({ showAuth: false });
+    showToast('Connexion Google réussie !', 'success');
+  } else {
+    showToast('Erreur de connexion Google', 'error');
+  }
+};
+window.handleForgotPassword = async () => {
+  const email = document.querySelector('[name="email"]')?.value;
+  if (!email) {
+    showToast('Entrez votre email d\'abord', 'warning');
+    return;
+  }
+  const result = await resetPassword(email);
+  if (result.success) {
+    showToast('Email de réinitialisation envoyé !', 'success');
+  } else {
+    showToast('Erreur lors de l\'envoi', 'error');
+  }
+};
+window.handleLogout = async () => {
+  await logOut();
+  actions.setUser(null);
+  showToast('Déconnexion réussie', 'success');
+};
+
+// Welcome handlers
+window.selectAvatar = (avatar) => setState({ selectedAvatar: avatar });
+window.completeWelcome = () => {
+  const { selectedAvatar } = getState();
+  const name = document.getElementById('welcome-name')?.value || 'Voyageur';
+  localStorage.setItem('spothitch_user', JSON.stringify({ name, avatar: selectedAvatar }));
+  setState({ showWelcome: false, userName: name, userAvatar: selectedAvatar });
+  showToast(`Bienvenue ${name} !`, 'success');
+};
+window.skipWelcome = () => {
+  localStorage.setItem('spothitch_welcomed', 'true');
+  setState({ showWelcome: false });
+};
+
+// Spot handlers
+window.openRating = (spotId) => setState({ showRating: true, ratingSpotId: spotId });
+window.closeRating = () => setState({ showRating: false, ratingSpotId: null });
+window.openNavigation = (lat, lng) => {
+  if (lat && lng) {
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, '_blank');
+  }
+};
+window.getSpotLocation = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude.toFixed(6);
+        const lng = position.coords.longitude.toFixed(6);
+        const latInput = document.getElementById('spot-lat');
+        const lngInput = document.getElementById('spot-lng');
+        if (latInput) latInput.value = lat;
+        if (lngInput) lngInput.value = lng;
+        showToast('Position récupérée !', 'success');
+      },
+      () => showToast('Impossible de récupérer la position', 'error'),
+      { enableHighAccuracy: true }
+    );
+  }
+};
+window.triggerPhotoUpload = () => {
+  const input = document.getElementById('spot-photo-input');
+  if (input) input.click();
+};
+
+// Chat handlers
+window.setChatRoom = (room) => setState({ chatRoom: room });
+window.sendMessage = async () => {
+  const input = document.getElementById('chat-input');
+  const text = input?.value?.trim();
+  if (!text) return;
+  const { chatRoom } = getState();
+  await sendChatMessage(chatRoom || 'general', text);
+  if (input) input.value = '';
+};
+
+// SOS handlers
+window.shareSOSLocation = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        if (navigator.share) {
+          navigator.share({
+            title: 'Ma position SOS - SpotHitch',
+            text: 'Je suis en situation d\'urgence. Voici ma position :',
+            url: url
+          });
+        } else {
+          navigator.clipboard.writeText(url);
+          showToast('Lien copié !', 'success');
+        }
+      },
+      () => showToast('Impossible de récupérer la position', 'error')
+    );
+  }
+};
+window.markSafe = () => {
+  setState({ sosActive: false });
+  showToast('Vous êtes marqué en sécurité', 'success');
+};
+window.addEmergencyContact = () => {
+  const name = document.getElementById('emergency-name')?.value;
+  const phone = document.getElementById('emergency-phone')?.value;
+  if (!name || !phone) {
+    showToast('Remplissez le nom et le numéro', 'warning');
+    return;
+  }
+  const { emergencyContacts = [] } = getState();
+  setState({ emergencyContacts: [...emergencyContacts, { name, phone }] });
+  document.getElementById('emergency-name').value = '';
+  document.getElementById('emergency-phone').value = '';
+  showToast('Contact ajouté !', 'success');
+};
+window.removeEmergencyContact = (index) => {
+  const { emergencyContacts = [] } = getState();
+  setState({ emergencyContacts: emergencyContacts.filter((_, i) => i !== index) });
+};
+
+// Tutorial handlers
+window.startTutorial = () => {
+  setState({ showTutorial: true, tutorialStep: 0 });
+};
 
 // ==================== START APP ====================
 
