@@ -10,9 +10,9 @@ import './styles/main.css';
 import { getState, setState, subscribe, actions } from './stores/state.js';
 
 // Services
-import { initializeFirebase, onAuthChange, signIn, signUp, signInWithGoogle, logOut } from './services/firebase.js';
+import { initializeFirebase, onAuthChange } from './services/firebase.js';
 import { initSentry, setupGlobalErrorHandlers, setUser as setSentryUser } from './services/sentry.js';
-import { initNotifications, showToast, showSuccess, showError } from './services/notifications.js';
+import { initNotifications, showToast } from './services/notifications.js';
 import { initOfflineHandler } from './services/offline.js';
 
 // i18n
@@ -49,17 +49,18 @@ async function init() {
       document.documentElement.classList.add('reduce-motion');
     }
 
-    // Initialize error tracking
+    // Initialize error tracking (optional - won't break app if fails)
     try {
       await initSentry();
       setupGlobalErrorHandlers();
     } catch (e) {
-      console.warn('Sentry skipped:', e.message);
+      console.warn('Sentry init skipped:', e.message);
     }
 
-    // Initialize Firebase
+    // Initialize Firebase (optional - won't break app if fails)
     try {
       initializeFirebase();
+      // Listen to auth state changes
       onAuthChange((user) => {
         actions.setUser(user);
         setSentryUser(user);
@@ -68,17 +69,17 @@ async function init() {
         }
       });
     } catch (e) {
-      console.warn('Firebase skipped:', e.message);
+      console.warn('Firebase init skipped:', e.message);
     }
 
-    // Initialize notifications
+    // Initialize notifications (optional)
     try {
       await initNotifications();
     } catch (e) {
-      console.warn('Notifications skipped:', e.message);
+      console.warn('Notifications init skipped:', e.message);
     }
 
-    // Initialize offline handler
+    // Initialize offline handler (optional)
     try {
       initOfflineHandler();
     } catch (e) {
@@ -105,7 +106,18 @@ async function init() {
     console.log('✅ SpotHitch ready!');
   } catch (error) {
     console.error('❌ Init error:', error);
-    showErrorScreen(error.message);
+    // Show error to user but still try to render
+    const loader = document.getElementById('app-loader');
+    if (loader) {
+      loader.innerHTML = `
+        <div style="text-align:center;padding:20px">
+          <div style="color:#ef4444;font-size:48px;margin-bottom:16px">⚠️</div>
+          <div style="color:#fff;font-size:18px;margin-bottom:8px">Erreur de chargement</div>
+          <div style="color:#94a3b8;font-size:14px">${error.message}</div>
+          <button onclick="location.reload()" style="margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;border:none;border-radius:8px;cursor:pointer">Réessayer</button>
+        </div>
+      `;
+    }
   }
 }
 
@@ -151,23 +163,6 @@ function hideLoader() {
 }
 
 /**
- * Show error screen
- */
-function showErrorScreen(message) {
-  const loader = document.getElementById('app-loader');
-  if (loader) {
-    loader.innerHTML = `
-      <div style="text-align:center;padding:20px;max-width:400px">
-        <div style="color:#ef4444;font-size:48px;margin-bottom:16px">⚠️</div>
-        <div style="color:#fff;font-size:18px;margin-bottom:8px">Erreur</div>
-        <div style="color:#94a3b8;font-size:12px">${message}</div>
-        <button onclick="location.reload()" style="margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;border:none;border-radius:8px;cursor:pointer">Réessayer</button>
-      </div>
-    `;
-  }
-}
-
-/**
  * Main render function
  */
 function render(state) {
@@ -180,9 +175,6 @@ function render(state) {
   if (state.activeTab === 'spots' && state.viewMode === 'map') {
     initMap(state);
   }
-
-  // Track page view
-  trackPageView(state.activeTab);
 }
 
 /**
@@ -220,15 +212,25 @@ function initMap(state) {
 }
 
 /**
- * Register service worker for PWA
+ * Register service worker
  */
-function registerServiceWorker() {
+async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/Spothitch/sw.js')
-        .then((reg) => console.log('✅ Service Worker registered'))
-        .catch((err) => console.log('SW registration failed:', err));
-    });
+    try {
+      const registration = await navigator.serviceWorker.register('/Spothitch/sw.js');
+      console.log('✅ Service Worker registered');
+
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showToast('Mise à jour disponible ! Rechargez la page.', 'info', 10000);
+          }
+        });
+      });
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
+    }
   }
 }
 
@@ -239,255 +241,60 @@ function setupKeyboardShortcuts() {
   document.addEventListener('keydown', (e) => {
     // Escape to close modals
     if (e.key === 'Escape') {
-      const state = getState();
-      if (state.selectedSpot) actions.selectSpot(null);
-      if (state.showAddSpot) setState({ showAddSpot: false });
-      if (state.showAuth) setState({ showAuth: false });
-      if (state.showSOS) setState({ showSOS: false });
+      setState({
+        showAddSpot: false,
+        showRating: false,
+        showSOS: false,
+        showSettings: false,
+        showQuiz: false,
+        showAuth: false,
+        selectedSpot: null,
+      });
     }
 
-    // Ctrl/Cmd + K for search
+    // Ctrl+K for search
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
-      document.querySelector('input[type="search"]')?.focus();
-    }
-
-    // Number keys for tabs
-    if (e.key >= '1' && e.key <= '5' && !e.ctrlKey && !e.metaKey) {
-      const tabs = ['home', 'spots', 'planner', 'chat', 'profile'];
-      const tabIndex = parseInt(e.key) - 1;
-      if (tabs[tabIndex]) {
-        actions.setTab(tabs[tabIndex]);
-      }
+      const searchInput = document.querySelector('#search-input');
+      if (searchInput) searchInput.focus();
     }
   });
 }
 
-// ==================== GLOBAL FUNCTIONS FOR ONCLICK ====================
+// ==================== GLOBAL HANDLERS ====================
 
-// Navigation
-window.setTab = (tab) => {
-  actions.setTab(tab);
-  announce(t(tab));
+// Make functions available globally for onclick handlers
+window.changeTab = (tab) => {
+  actions.changeTab(tab);
+  trackPageView(tab);
+  announce(`Navigation vers ${tab}`);
 };
-
-window.setViewMode = (mode) => {
-  actions.setViewMode(mode);
-  if (mode === 'map') {
-    // Reset map on view change
-    window.spotHitchMap = null;
-  }
+window.toggleTheme = () => actions.toggleTheme();
+window.setViewMode = (mode) => setState({ viewMode: mode });
+window.selectSpot = (id) => {
+  const { spots } = getState();
+  const spot = spots.find(s => s.id === id);
+  actions.selectSpot(spot);
 };
-
-// Spots
-window.openSpotDetail = (spotId) => {
-  const state = getState();
-  const spot = state.spots.find(s => s.id === spotId);
-  if (spot) {
-    actions.selectSpot(spot);
-  }
-};
-
-window.closeSpotDetail = () => {
-  actions.selectSpot(null);
-};
-
-window.openAddSpot = () => {
-  setState({ showAddSpot: true });
-};
-
-window.closeAddSpot = () => {
-  setState({ showAddSpot: false });
-};
-
-window.submitSpot = async () => {
-  const from = document.getElementById('spot-from')?.value;
-  const to = document.getElementById('spot-to')?.value;
-  const description = document.getElementById('spot-description')?.value;
-
-  if (from && to) {
-    // Add spot logic here
-    showSuccess('Spot ajouté avec succès !');
-    setState({ showAddSpot: false });
-  } else {
-    showError('Veuillez remplir tous les champs');
-  }
-};
-
-// Auth
-window.openAuth = () => {
-  setState({ showAuth: true });
-};
-
-window.closeAuth = () => {
-  setState({ showAuth: false });
-};
-
-window.handleLogin = async (e) => {
-  e?.preventDefault();
-  const email = document.getElementById('login-email')?.value;
-  const password = document.getElementById('login-password')?.value;
-
-  if (email && password) {
-    const result = await signIn(email, password);
-    if (result.success) {
-      setState({ showAuth: false });
-      showSuccess('Connexion réussie !');
-    } else {
-      showError('Email ou mot de passe incorrect');
-    }
-  }
-};
-
-window.handleSignup = async (e) => {
-  e?.preventDefault();
-  const email = document.getElementById('signup-email')?.value;
-  const password = document.getElementById('signup-password')?.value;
-  const name = document.getElementById('signup-name')?.value;
-
-  if (email && password && name) {
-    const result = await signUp(email, password, name);
-    if (result.success) {
-      setState({ showAuth: false });
-      showSuccess('Compte créé avec succès !');
-    } else {
-      showError('Erreur lors de l\'inscription');
-    }
-  }
-};
-
-window.handleGoogleLogin = async () => {
-  const result = await signInWithGoogle();
-  if (result.success) {
-    setState({ showAuth: false });
-    showSuccess('Connexion réussie !');
-  }
-};
-
-window.handleLogout = async () => {
-  await logOut();
-  showSuccess('Déconnexion réussie');
-};
-
-window.handleForgotPassword = () => {
-  showToast('Fonctionnalité bientôt disponible', 'info');
-};
-
-// SOS
-window.openSOS = () => {
-  setState({ showSOS: true });
-};
-
-window.closeSOS = () => {
-  setState({ showSOS: false });
-};
-
-window.sendSOSAlert = () => {
-  showToast('🆘 Alerte SOS envoyée !', 'warning');
-  setState({ showSOS: false });
-};
-
-window.callEmergency = (number) => {
-  window.location.href = `tel:${number}`;
-};
-
-window.shareLocation = async () => {
-  if (navigator.share && navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const url = `https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
-      try {
-        await navigator.share({
-          title: 'Ma position - SpotHitch SOS',
-          text: 'J\'ai besoin d\'aide à cette position',
-          url: url
-        });
-        showSuccess('Position partagée');
-      } catch (e) {
-        // User cancelled
-      }
-    });
-  } else {
-    showError('Partage non disponible sur cet appareil');
-  }
-};
-
-// Welcome
-window.completeWelcome = () => {
-  const username = document.getElementById('welcome-username')?.value?.trim() || 'Voyageur';
-  actions.updateProfile({
-    username,
-    avatar: window.selectedAvatar || '🤙',
-  });
-  showSuccess(`Bienvenue ${username} !`);
-};
-
-window.skipWelcome = () => {
-  setState({ showWelcome: false });
-};
-
-window.selectedAvatar = '🤙';
-window.selectAvatar = (avatar) => {
-  window.selectedAvatar = avatar;
-  document.querySelectorAll('.avatar-option').forEach(el => {
-    el.classList.toggle('selected', el.dataset.avatar === avatar);
-  });
-};
-
-// Tutorial
+window.closeSpotDetail = () => actions.selectSpot(null);
+window.openAddSpot = () => setState({ showAddSpot: true });
+window.closeAddSpot = () => setState({ showAddSpot: false });
+window.openSOS = () => setState({ showSOS: true });
+window.closeSOS = () => setState({ showSOS: false });
+window.openSettings = () => setState({ showSettings: true });
+window.closeSettings = () => setState({ showSettings: false });
+window.openAuth = () => setState({ showAuth: true });
+window.closeAuth = () => setState({ showAuth: false });
 window.nextTutorial = () => actions.nextTutorialStep();
 window.prevTutorial = () => actions.prevTutorialStep();
 window.skipTutorial = () => actions.skipTutorial();
-
-// Filters & Search
 window.setFilter = (filter) => actions.setFilter(filter);
 window.handleSearch = (query) => actions.setSearchQuery(query);
-window.setCountryFilter = (country) => actions.setCountryFilter(country);
-
-// Check-in & Rating
-window.doCheckin = (spotId) => {
+window.doCheckin = (_spotId) => {
   actions.incrementCheckins();
-  showSuccess(t('checkinSuccess'));
+  showToast(t('checkinSuccess'), 'success');
 };
-
-window.rateSpot = (spotId, rating) => {
-  showSuccess('Note enregistrée !');
-};
-
-// Language
-window.changeLanguage = (lang) => {
-  setLanguage(lang);
-  actions.setLanguage(lang);
-  showSuccess(`Langue changée: ${lang.toUpperCase()}`);
-};
-
-// Theme
-window.toggleTheme = () => {
-  const state = getState();
-  const newTheme = state.theme === 'dark' ? 'light' : 'dark';
-  actions.setTheme(newTheme);
-};
-
-// Chat
-window.sendMessage = async () => {
-  const input = document.getElementById('chat-input');
-  const message = input?.value?.trim();
-  if (message) {
-    // Send message logic
-    input.value = '';
-    showToast('Message envoyé', 'success');
-  }
-};
-
-// Profile
-window.updateProfile = () => {
-  showToast('Profil mis à jour', 'success');
-};
-
-// Translation function
 window.t = t;
-
-// Expose showToast globally
-window.showToast = showToast;
 
 // ==================== START APP ====================
 
