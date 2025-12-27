@@ -149,6 +149,27 @@ npm run lint:fix     # Corriger automatiquement
 
 ---
 
+### 2025-12-27 - Correction des handlers globaux manquants
+**Résumé** : Restauration de toutes les fonctionnalités onclick après le déploiement.
+
+**Problème résolu** : L'application ne fonctionnait pas sur GitHub Pages car de nombreux handlers globaux onclick étaient manquants dans main.js.
+
+**Actions réalisées** :
+1. Audit complet de tous les onclick dans les composants
+2. Ajout de 20+ handlers globaux manquants dans main.js :
+   - **Auth** : `setAuthMode`, `handleLogin`, `handleSignup`, `handleGoogleSignIn`, `handleForgotPassword`, `handleLogout`
+   - **Welcome** : `selectAvatar`, `completeWelcome`, `skipWelcome`
+   - **Spots** : `openRating`, `closeRating`, `openNavigation`, `getSpotLocation`, `triggerPhotoUpload`
+   - **Chat** : `setChatRoom`, `sendMessage`
+   - **SOS** : `shareSOSLocation`, `markSafe`, `addEmergencyContact`, `removeEmergencyContact`
+   - **Tutorial** : `startTutorial`
+3. Import des fonctions Firebase nécessaires (`signIn`, `signUp`, `signInWithGoogle`, `logOut`, `resetPassword`, `sendChatMessage`)
+4. Build et déploiement réussis
+
+**Commit** : `fix: add all missing global window handlers for full functionality`
+
+---
+
 ### 2025-12-26 - Migration ES Modules v2.0
 **Résumé** : Migration complète du projet vers ES Modules avec Vite.
 
@@ -185,10 +206,10 @@ npm run lint:fix     # Corriger automatiquement
 
 | ID | Problème | Statut | Priorité |
 |----|----------|--------|----------|
-| #1 | Assets manquants (icons, images) | Ouvert | Haute |
-| #2 | Firebase non configuré (pas de .env.local) | Ouvert | Haute |
+| #1 | Assets manquants (icons, images) | Résolu | - |
+| #2 | Firebase non configuré (pas de .env.local) | Config GitHub Secrets | Moyenne |
 | #3 | Warnings Vite sur imports dynamiques vs statiques | Mineur | Basse |
-| #4 | 18 vulnérabilités npm (17 moderate, 1 critical) | Ouvert | Moyenne |
+| #4 | Vulnérabilités npm | Réduit à 4 | Basse |
 
 ---
 
@@ -214,4 +235,4 @@ VITE_SENTRY_DSN=xxx (optionnel)
 
 ---
 
-*Dernière mise à jour : 2025-12-26 (Session 2 - Améliorations)*
+*Dernière mise à jour : 2025-12-27 (Session 3 - Correction handlers)*
