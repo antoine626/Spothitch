@@ -3,6 +3,32 @@
  * La communauté des autostoppeurs
  */
 
+// Global error handler - catch any unhandled errors
+window.onerror = (msg, url, line) => {
+  console.error('Global error:', msg, url, line);
+  showErrorScreen(`${msg} (ligne ${line})`);
+};
+
+window.onunhandledrejection = (event) => {
+  console.error('Unhandled rejection:', event.reason);
+  showErrorScreen(event.reason?.message || 'Promise rejection');
+};
+
+function showErrorScreen(message) {
+  const loader = document.getElementById('app-loader');
+  if (loader && !loader.dataset.error) {
+    loader.dataset.error = 'true';
+    loader.innerHTML = `
+      <div style="text-align:center;padding:20px;max-width:400px">
+        <div style="color:#ef4444;font-size:48px;margin-bottom:16px">⚠️</div>
+        <div style="color:#fff;font-size:18px;margin-bottom:8px">Erreur</div>
+        <div style="color:#94a3b8;font-size:12px;word-break:break-all">${message}</div>
+        <button onclick="location.reload()" style="margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;border:none;border-radius:8px;cursor:pointer">Réessayer</button>
+      </div>
+    `;
+  }
+}
+
 // Styles
 import './styles/main.css';
 
@@ -296,3 +322,6 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+// Debug: Show we got this far
+console.log('📦 Main module loaded successfully');
