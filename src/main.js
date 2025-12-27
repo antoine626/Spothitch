@@ -74,37 +74,7 @@ async function init() {
       document.documentElement.classList.add('reduce-motion');
     }
 
-    // Initialize error tracking (optional)
-    try {
-      await initSentry();
-      setupGlobalErrorHandlers();
-    } catch (e) {
-      console.warn('Sentry init skipped:', e.message);
-    }
-
-    // Initialize Firebase (optional)
-    try {
-      initializeFirebase();
-      // Listen to auth state changes
-      onAuthChange((user) => {
-        actions.setUser(user);
-        setSentryUser(user);
-        if (user) {
-          console.log('✅ User logged in:', user.displayName);
-        }
-      });
-    } catch (e) {
-      console.warn('Firebase init skipped:', e.message);
-    }
-
-    // Initialize notifications (optional)
-    try {
-      await initNotifications();
-    } catch (e) {
-      console.warn('Notifications init skipped:', e.message);
-    }
-
-    // Load initial data
+    // Load initial data FIRST
     loadInitialData();
 
     // Subscribe to state changes and render
@@ -112,30 +82,44 @@ async function init() {
       render(state);
     });
 
-    // Hide loader
+    // Hide loader immediately
     hideLoader();
 
-    // Register service worker
-    registerServiceWorker();
+    console.log('✅ SpotHitch basic init done!');
 
-    // Setup keyboard shortcuts
-    setupKeyboardShortcuts();
+    // Non-blocking optional services
+    setTimeout(async () => {
+      try {
+        initializeFirebase();
+        onAuthChange((user) => {
+          actions.setUser(user);
+          setSentryUser(user);
+        });
+      } catch (e) {
+        console.warn('Firebase skipped:', e.message);
+      }
 
-    console.log('✅ SpotHitch ready!');
+      try {
+        await initSentry();
+        setupGlobalErrorHandlers();
+      } catch (e) {
+        console.warn('Sentry skipped:', e.message);
+      }
+
+      try {
+        await initNotifications();
+      } catch (e) {
+        console.warn('Notifications skipped:', e.message);
+      }
+
+      registerServiceWorker();
+      setupKeyboardShortcuts();
+      console.log('✅ SpotHitch fully ready!');
+    }, 100);
+
   } catch (error) {
     console.error('❌ Init error:', error);
-    // Show error to user
-    const loader = document.getElementById('app-loader');
-    if (loader) {
-      loader.innerHTML = `
-        <div style="text-align:center;padding:20px">
-          <div style="color:#ef4444;font-size:48px;margin-bottom:16px">⚠️</div>
-          <div style="color:#fff;font-size:18px;margin-bottom:8px">Erreur de chargement</div>
-          <div style="color:#94a3b8;font-size:14px">${error.message}</div>
-          <button onclick="location.reload()" style="margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;border:none;border-radius:8px;cursor:pointer">Réessayer</button>
-        </div>
-      `;
-    }
+    showErrorScreen(error.message);
   }
 }
 
