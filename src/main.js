@@ -33,57 +33,84 @@ import { announce, prefersReducedMotion } from './utils/a11y.js';
  * Initialize the application
  */
 async function init() {
-  console.log('🚀 SpotHitch initializing...');
+  try {
+    console.log('🚀 SpotHitch initializing...');
 
-  // Set detected language
-  const lang = detectLanguage();
-  setLanguage(lang);
+    // Set detected language
+    const lang = detectLanguage();
+    setLanguage(lang);
 
-  // Initialize SEO
-  initSEO();
+    // Initialize SEO
+    initSEO();
 
-  // Check reduced motion preference
-  if (prefersReducedMotion()) {
-    document.documentElement.classList.add('reduce-motion');
-  }
-
-  // Initialize error tracking
-  await initSentry();
-  setupGlobalErrorHandlers();
-
-  // Initialize Firebase
-  initializeFirebase();
-
-  // Initialize notifications
-  await initNotifications();
-
-  // Listen to auth state changes
-  onAuthChange((user) => {
-    actions.setUser(user);
-    setSentryUser(user);
-    if (user) {
-      console.log('✅ User logged in:', user.displayName);
+    // Check reduced motion preference
+    if (prefersReducedMotion()) {
+      document.documentElement.classList.add('reduce-motion');
     }
-  });
 
-  // Load initial data
-  loadInitialData();
+    // Initialize error tracking (optional)
+    try {
+      await initSentry();
+      setupGlobalErrorHandlers();
+    } catch (e) {
+      console.warn('Sentry init skipped:', e.message);
+    }
 
-  // Subscribe to state changes and render
-  subscribe((state) => {
-    render(state);
-  });
+    // Initialize Firebase (optional)
+    try {
+      initializeFirebase();
+      // Listen to auth state changes
+      onAuthChange((user) => {
+        actions.setUser(user);
+        setSentryUser(user);
+        if (user) {
+          console.log('✅ User logged in:', user.displayName);
+        }
+      });
+    } catch (e) {
+      console.warn('Firebase init skipped:', e.message);
+    }
 
-  // Hide loader
-  hideLoader();
+    // Initialize notifications (optional)
+    try {
+      await initNotifications();
+    } catch (e) {
+      console.warn('Notifications init skipped:', e.message);
+    }
 
-  // Register service worker
-  registerServiceWorker();
+    // Load initial data
+    loadInitialData();
 
-  // Setup keyboard shortcuts
-  setupKeyboardShortcuts();
+    // Subscribe to state changes and render
+    subscribe((state) => {
+      render(state);
+    });
 
-  console.log('✅ SpotHitch ready!');
+    // Hide loader
+    hideLoader();
+
+    // Register service worker
+    registerServiceWorker();
+
+    // Setup keyboard shortcuts
+    setupKeyboardShortcuts();
+
+    console.log('✅ SpotHitch ready!');
+  } catch (error) {
+    console.error('❌ Init error:', error);
+    // Show error to user
+    const loader = document.getElementById('app-loader');
+    if (loader) {
+      loader.innerHTML = `
+        <div style="text-align:center;padding:20px">
+          <div style="color:#ef4444;font-size:48px;margin-bottom:16px">⚠️</div>
+          <div style="color:#fff;font-size:18px;margin-bottom:8px">Erreur de chargement</div>
+          <div style="color:#94a3b8;font-size:14px">${error.message}</div>
+          <button onclick="location.reload()" style="margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;border:none;border-radius:8px;cursor:pointer">Réessayer</button>
+        </div>
+      `;
+    }
+  }
 }
 
 /**
