@@ -90,6 +90,25 @@
             <div style="color:#94a3b8;font-size:14px" id="loader-text">Chargement de SpotHitch...</div>
         </div>
     </div>
+
+    <!-- Timeout fallback -->
+    <script>
+        setTimeout(function() {
+            var loader = document.getElementById('app-loader');
+            var app = document.getElementById('app');
+            if (loader && !loader.classList.contains('hidden') && (!app || !app.innerHTML)) {
+                document.getElementById('loader-text').innerHTML =
+                    'Chargement lent...<br><small style="color:#64748b">Vérifiez votre connexion</small>';
+            }
+        }, 8000);
+    </script>
+
+    <noscript>
+        <div style="text-align:center;padding:40px;color:#fff">
+            <h1>JavaScript requis</h1>
+            <p>Activez JavaScript pour utiliser SpotHitch</p>
+        </div>
+    </noscript>
     
     <!-- ARIA Live Regions -->
     <div id="aria-live-polite" class="sr-only" aria-live="polite" aria-atomic="true"></div>

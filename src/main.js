@@ -29,6 +29,11 @@ function showErrorScreen(message) {
   }
 }
 
+function updateLoaderText(text) {
+  const el = document.getElementById('loader-text');
+  if (el) el.textContent = text;
+}
+
 // Styles
 import './styles/main.css';
 
@@ -61,13 +66,16 @@ import { announce, prefersReducedMotion } from './utils/a11y.js';
 async function init() {
   try {
     console.log('🚀 SpotHitch initializing...');
+    updateLoaderText('Initialisation...');
 
     // Set detected language
     const lang = detectLanguage();
     setLanguage(lang);
+    console.log('Language set:', lang);
 
     // Initialize SEO
     initSEO();
+    console.log('SEO initialized');
 
     // Check reduced motion preference
     if (prefersReducedMotion()) {
@@ -75,10 +83,14 @@ async function init() {
     }
 
     // Load initial data FIRST
+    updateLoaderText('Chargement des spots...');
     loadInitialData();
+    console.log('Data loaded');
 
     // Subscribe to state changes and render
+    updateLoaderText('Affichage...');
     subscribe((state) => {
+      console.log('Render triggered, spots:', state.spots?.length);
       render(state);
     });
 
