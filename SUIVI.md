@@ -420,6 +420,86 @@
 
 ---
 
+## Session 9 - 2026-02-04 (Service Swipe Navigation)
+
+**Résumé** : Création d'un service modulaire pour la détection des gestes tactiles (swipe) permettant la navigation entre onglets.
+
+**Actions réalisées** :
+
+1. **Service `swipeNavigation.js`** (165 lignes)
+   - Fonctions principales :
+     - `initSwipeNavigation(container)` - Initialise les event listeners touch
+     - `handleTouchStart(e)` - Capture le point de départ du swipe
+     - `handleTouchEnd(e)` - Détecte le swipe et change d'onglet
+     - `getNextTab(currentTab, direction)` - Retourne le prochain onglet (left/right)
+     - `destroySwipeNavigation()` - Nettoie les listeners
+     - `getAvailableTabs()` - Retourne l'ordre des onglets
+     - `isValidTab(tabName)` - Valide le nom d'un onglet
+   - Ordre des onglets : home, map, spots, chat, profile
+   - Swipe gauche = onglet suivant, swipe droite = onglet précédent
+   - Seuil minimum de swipe : 50px
+   - Ignore les swipes verticaux (scroll)
+   - Utilise state.actions.changeTab() pour navigation
+   - Export default avec tous les exports
+
+2. **Tests unitaires complets** (`tests/swipeNavigation.test.js` - 32 tests)
+   - Tests initSwipeNavigation (3 tests) : container personnalisé, défaut, listeners
+   - Tests handleTouchStart (2 tests) : capture coords, touches multiples
+   - Tests handleTouchEnd (5 tests) : swipe gauche/droite, ignorer vertical, seuil
+   - Tests getNextTab (10 tests) : navigation dans tous les sens, boundaries, invalides
+   - Tests destroySwipeNavigation (3 tests) : remove listeners, nettoyage, avertissements
+   - Tests getAvailableTabs (3 tests) : ordre correct, immuabilité
+   - Tests isValidTab (2 tests) : valides/invalides
+   - Tests d'intégration (4 tests) : cycle complet, rapidité, boundaries
+   - ✅ 32/32 tests PASSENT
+
+3. **Caractéristiques du service**
+   - Modulaire : Fonction par fonction, réutilisable
+   - Performance : Event listeners natifs (pas de frameworks)
+   - Flexible : Container optionnel (défaut: document.body)
+   - Robuste : Gestion des cas limites (boundaries, touches invalides)
+   - Logging : Messages debug cohérents avec préfixe [SwipeNav]
+   - État centralisé : Utilise state.js pour la cohérence
+
+4. **Ordre des onglets**
+   ```
+   home → map → spots → chat → profile
+     ↑                           ↓
+     (swipe right)         (swipe left)
+   ```
+
+5. **Statistiques**
+   - 1 fichier service créé (165 lignes)
+   - 1 fichier tests créé (480+ lignes)
+   - 32 tests passant à 100%
+   - Build réussie (npm run build - 31.01s)
+   - 513/513 tests passent au total
+
+**Fichiers créés** :
+- `src/services/swipeNavigation.js`
+- `tests/swipeNavigation.test.js`
+
+**Fichiers modifiés** :
+- `SUIVI.md` - Mise à jour statut item #42 (❌ → ✅)
+
+**Export et utilisation** :
+```javascript
+import { initSwipeNavigation, getNextTab, destroySwipeNavigation } from 'src/services/swipeNavigation.js'
+
+// Initialiser
+initSwipeNavigation(document.getElementById('app'))
+
+// Tester le prochain onglet
+const nextTab = getNextTab('spots', 'left')  // → 'chat'
+
+// Nettoyer
+destroySwipeNavigation()
+```
+
+**Nota** : Service indépendant de `src/utils/swipe.js` existant (logique et ordre différents)
+
+---
+
 ## Session 8 - 2026-02-04 (Service Infinite Scroll)
 
 **Résumé** : Création d'un service complet pour l'infinite scroll utilisant Intersection Observer API (performant et léger).
