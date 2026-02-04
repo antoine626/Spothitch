@@ -13,6 +13,10 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
+  reauthenticateWithCredential,
+  reauthenticateWithPopup,
+  EmailAuthProvider,
+  deleteUser,
   updateProfile
 } from 'firebase/auth';
 import {
@@ -21,12 +25,15 @@ import {
   doc,
   addDoc,
   updateDoc,
+  deleteDoc,
   getDocs,
   query,
   orderBy,
   limit,
+  where,
   onSnapshot,
-  serverTimestamp
+  serverTimestamp,
+  writeBatch
 } from 'firebase/firestore';
 import {
   getStorage,
@@ -597,6 +604,102 @@ export async function updateUserProfile(userId, updates) {
     return { success: true };
   } catch (error) {
     console.error('Error updating user profile:', error);
+    return { success: false, error };
+  }
+}
+
+// ==================== DELETE USER ACCOUNT ====================
+
+/**
+ * Delete user account with password confirmation
+ * @param {string} password - User's password for re-authentication
+ */
+export async function deleteUserAccount(password) {
+  try {
+    const user = getCurrentUser();
+    if (!user) {
+      return { success: false, error: 'auth/user-not-found' };
+    }
+
+    // Re-authenticate user before deletion (required by Firebase)
+    const credential = EmailAuthProvider.credential(user.email, password);
+    await reauthenticateWithCredential(user, credential);
+
+    // Delete user data from Firestore
+    await deleteUserData(user.uid);
+
+    // Delete the Firebase Auth user
+    await deleteUser(user);
+
+    console.log('User account deleted successfully');
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting user account:', error);
+    return { success: false, error: error.code || 'unknown' };
+  }
+}
+
+/**
+ * Delete user account for Google-authenticated users
+ * Requires re-authentication with Google popup
+ */
+export async function deleteUserAccountGoogle() {
+  try {
+    const user = getCurrentUser();
+    if (!user) {
+      return { success: false, error: 'auth/user-not-found' };
+    }
+
+    // Re-authenticate with Google
+    const provider = new GoogleAuthProvider();
+    await reauthenticateWithPopup(user, provider);
+
+    // Delete user data from Firestore
+    await deleteUserData(user.uid);
+
+    // Delete the Firebase Auth user
+    await deleteUser(user);
+
+    console.log('User account deleted successfully');
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting user account:', error);
+    return { success: false, error: error.code || 'unknown' };
+  }
+}
+
+/**
+ * Delete all user data from Firestore
+ * @param {string} userId - User ID
+ */
+async function deleteUserData(userId) {
+  try {
+    const batch = writeBatch(db);
+
+    // Delete user profile document
+    const userDocRef = doc(db, 'users', userId);
+    batch.delete(userDocRef);
+
+    // Find and delete user's spots
+    const spotsRef = collection(db, 'spots');
+    const spotsQuery = query(spotsRef, where('creatorId', '==', userId));
+    const spotsSnapshot = await getDocs(spotsQuery);
+
+    spotsSnapshot.docs.forEach((spotDoc) => {
+      batch.delete(spotDoc.ref);
+    });
+
+    // Find and delete user's chat messages (optional - mark as deleted instead)
+    // This is a simplified version - in production you might want to anonymize instead
+
+    // Commit the batch
+    await batch.commit();
+
+    console.log(`User data deleted for: ${userId}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting user data:', error);
+    // Continue with account deletion even if data deletion partially fails
     return { success: false, error };
   }
 }

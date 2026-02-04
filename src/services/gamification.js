@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js';
 import { allBadges, getEarnedBadges, getBadgeById } from '../data/badges.js';
 import { vipLevels, leagues, getVipLevel, getNextVipLevel, getLeague, getNextLeague } from '../data/vip-levels.js';
+import { getTitleForLevel, checkTitleChange, getNextTitle, getTitleProgress, getUnlockedTitles, getLockedTitles, getAllTitles } from '../data/titles.js';
 import { showToast } from './notifications.js';
 
 /**
@@ -21,6 +22,7 @@ export function addPoints(pts, reason = '') {
   const newPoints = state.points + multipliedPts;
   const newLevel = Math.floor(newPoints / 100) + 1;
   const leveledUp = newLevel > state.level;
+  const oldLevel = state.level;
 
   setState({
     points: newPoints,
@@ -38,6 +40,12 @@ export function addPoints(pts, reason = '') {
       window.showLevelUp(newLevel);
     } else {
       showToast(`Niveau ${newLevel} atteint !`, 'success');
+    }
+
+    // Check for title change
+    const newTitle = checkTitleChange(oldLevel, newLevel);
+    if (newTitle) {
+      showTitleUnlock(newTitle);
     }
   }
 
@@ -229,6 +237,71 @@ function showBadgePopup(badge) {
 }
 
 /**
+ * Show title unlock notification
+ * @param {Object} title - Title object
+ */
+function showTitleUnlock(title) {
+  // Use the enhanced animation if available, otherwise fallback to toast
+  if (window.showTitleUnlock) {
+    window.showTitleUnlock(title);
+  } else if (window.showSuccessAnimation) {
+    window.showSuccessAnimation(`Nouveau titre : ${title.name} !`, {
+      emoji: title.emoji,
+      confetti: true,
+    });
+  } else {
+    showToast(`${title.emoji} Nouveau titre : ${title.name} !`, 'success', 5000);
+  }
+
+  // Store for modal display
+  setState({
+    newTitle: title,
+    showTitlePopup: true,
+  });
+
+  // Auto-hide after 5 seconds
+  setTimeout(() => {
+    setState({ showTitlePopup: false, newTitle: null });
+  }, 5000);
+}
+
+/**
+ * Get user's current title based on level
+ * @returns {Object} Current title object
+ */
+export function getUserTitle() {
+  const state = getState();
+  return getTitleForLevel(state.level || 1);
+}
+
+/**
+ * Get user's title progress info
+ * @returns {Object} Title progress info
+ */
+export function getUserTitleProgress() {
+  const state = getState();
+  return getTitleProgress(state.level || 1);
+}
+
+/**
+ * Get all unlocked titles for current user
+ * @returns {Object[]} Array of unlocked titles
+ */
+export function getUserUnlockedTitles() {
+  const state = getState();
+  return getUnlockedTitles(state.level || 1);
+}
+
+/**
+ * Get all locked titles for current user
+ * @returns {Object[]} Array of locked titles
+ */
+export function getUserLockedTitles() {
+  const state = getState();
+  return getLockedTitles(state.level || 1);
+}
+
+/**
  * Increment checkin count and award points
  */
 export function recordCheckin() {
@@ -343,10 +416,14 @@ export function getGamificationSummary() {
   const vipLevel = getVipLevel(state.points);
   const league = getLeague(state.seasonPoints || 0);
   const nextVip = getNextVipLevel(state.points);
+  const title = getTitleForLevel(state.level || 1);
+  const titleProgress = getTitleProgress(state.level || 1);
 
   return {
     points: state.points,
     level: state.level,
+    title,
+    titleProgress,
     vipLevel,
     league,
     streak: state.streak || 0,
@@ -358,6 +435,9 @@ export function getGamificationSummary() {
     totalBadges: allBadges.length,
     nextVip,
     pointsToNextVip: nextVip ? nextVip.minPoints - state.points : 0,
+    unlockedTitles: getUnlockedTitles(state.level || 1),
+    lockedTitles: getLockedTitles(state.level || 1),
+    totalTitles: getAllTitles().length,
   };
 }
 
@@ -376,4 +456,9 @@ export default {
   updateStreak,
   recordCountryVisit,
   getGamificationSummary,
+  // Title exports
+  getUserTitle,
+  getUserTitleProgress,
+  getUserUnlockedTitles,
+  getUserLockedTitles,
 };

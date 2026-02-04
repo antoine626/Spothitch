@@ -26,7 +26,7 @@ import {
   reportSpot,
 } from './services/firebase.js';
 import { initSentry, setupGlobalErrorHandlers, setUser as setSentryUser } from './services/sentry.js';
-import { initNotifications, showToast } from './services/notifications.js';
+import { initNotifications, showToast, showFriendlyError } from './services/notifications.js';
 import { initOfflineHandler } from './services/offline.js';
 import { initMap as initMapService, initMapService as initMainMapService, initPlannerMap, initSavedTripMap, centerOnSpot, centerOnUser, destroyMaps } from './services/map.js';
 import {
@@ -65,6 +65,7 @@ import { t, detectLanguage, setLanguage, getAvailableLanguages } from './i18n/in
 
 // Components
 import { renderApp, afterRender } from './components/App.js';
+import { initSplashScreen, hideSplashScreen } from './components/SplashScreen.js';
 
 // Data
 import { sampleSpots } from './data/spots.js';
@@ -87,6 +88,7 @@ import { setupGlobalErrorHandlers as setupErrorHandlers, withErrorBoundary } fro
 import { showSuccessAnimation, showErrorAnimation, showBadgeUnlockAnimation, showLevelUpAnimation, showPointsAnimation, playSound } from './utils/animations.js';
 import { shareSpot, shareBadge, shareStats, shareApp } from './utils/share.js';
 import { launchConfetti, launchConfettiBurst } from './utils/confetti.js';
+import { getErrorMessage, getFormattedError, isRecoverableError } from './utils/errorMessages.js';
 import { getFilteredSpots, resetFilters as resetFiltersUtil } from './components/modals/Filters.js';
 import { redeemReward } from './components/modals/Shop.js';
 import './components/modals/Leaderboard.js'; // Register global handlers
@@ -155,6 +157,15 @@ import {
   preloadModals,
   preloadOnIdle,
 } from './utils/lazyLoad.js';
+import { exportUserData, getExportSummary } from './utils/dataExport.js';
+import {
+  showLoading,
+  hideLoading,
+  setLoadingMessage,
+  setLoadingProgress,
+  isLoading,
+  withLoading,
+} from './components/LoadingIndicator.js';
 
 // ==================== INITIALIZATION ====================
 
@@ -163,6 +174,9 @@ import {
  */
 async function init() {
   console.log('🚀 SpotHitch initializing...');
+
+  // Initialize fun splash screen immediately
+  initSplashScreen();
 
   // Check for reset parameter in URL
   if (window.location.search.includes('reset')) {
@@ -356,20 +370,11 @@ function loadInitialData() {
 }
 
 /**
- * Hide the loading screen
+ * Hide the loading screen (splash screen)
  */
 function hideLoader() {
-  const loader = document.getElementById('app-loader');
-  const app = document.getElementById('app');
-
-  if (loader) {
-    loader.classList.add('hidden');
-    setTimeout(() => loader.remove(), 300);
-  }
-
-  if (app) {
-    app.classList.add('loaded');
-  }
+  // Use the splash screen hide function
+  hideSplashScreen();
 }
 
 // Scroll position storage
@@ -618,7 +623,16 @@ window.stopNavigation = stopNavigation;
 window.openExternalNavigation = openExternalNavigation;
 
 // SOS handlers
-window.openSOS = () => setState({ showSOS: true });
+window.openSOS = async () => {
+  setState({ showSOS: true });
+  // Show contextual tip for SOS feature
+  try {
+    const { triggerSOSTip } = await import('./services/contextualTips.js');
+    triggerSOSTip();
+  } catch (e) {
+    // Silently fail if tips service not available
+  }
+};
 window.closeSOS = () => setState({ showSOS: false });
 window.shareSOSLocation = () => {
   if (navigator.geolocation) {
@@ -1083,6 +1097,14 @@ window.validateImage = validateImage;
 // Lazy load handlers
 window.loadModal = loadModal;
 window.preloadModals = preloadModals;
+
+// Loading indicator handlers
+window.showLoading = showLoading;
+window.hideLoading = hideLoading;
+window.setLoadingMessage = setLoadingMessage;
+window.setLoadingProgress = setLoadingProgress;
+window.isLoading = isLoading;
+window.withLoading = withLoading;
 
 // ==================== START APP ====================
 

@@ -5,6 +5,7 @@
 
 import { t } from '../../i18n/index.js';
 import { countryGuides, getGuideByCode } from '../../data/guides.js';
+import { renderSpotOfTheDayCompact } from '../SpotOfTheDay.js';
 
 export function renderMap(state) {
   // Get current country from search or map center
@@ -126,6 +127,11 @@ export function renderMap(state) {
       >
         <i class="fas fa-plus" aria-hidden="true"></i>
       </button>
+
+      <!-- Spot of the Day -->
+      <div class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 w-11/12 max-w-md">
+        ${renderSpotOfTheDayCompact(state)}
+      </div>
 
       <!-- Spots count -->
       <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">

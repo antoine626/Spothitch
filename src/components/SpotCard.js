@@ -6,6 +6,7 @@
 import { t } from '../i18n/index.js';
 import { escapeHTML } from '../utils/sanitize.js';
 import { getStatusBadge, getSpotVerification } from '../services/verification.js';
+import { renderFreshnessIndicator, getFreshnessLevel, getFreshnessBadge, getTimeAgo, FRESHNESS_LEVELS } from '../utils/dateHelpers.js';
 
 export function renderSpotCard(spot, variant = 'default') {
   if (variant === 'compact') {
@@ -19,6 +20,9 @@ function renderDefaultCard(spot) {
   const typeLabel = getSpotTypeLabel(spot);
   const ratingText = spot.globalRating ? `Note: ${spot.globalRating.toFixed(1)} sur 5` : 'Non note';
   const waitText = spot.avgWaitTime ? `Attente moyenne: ${spot.avgWaitTime} minutes` : '';
+  const freshnessLevel = getFreshnessLevel(spot.lastCheckin || spot.lastUsed);
+  const freshnessBadge = getFreshnessBadge(freshnessLevel);
+  const lastCheckinTime = getTimeAgo(spot.lastCheckin || spot.lastUsed);
 
   // Sanitize user-provided data
   const safeFrom = escapeHTML(spot.from || '');
@@ -43,8 +47,17 @@ function renderDefaultCard(spot) {
           class="w-full h-full object-cover"
           loading="lazy"
         />
-        <div class="absolute top-3 right-3">
+        <div class="absolute top-3 right-3 flex flex-col gap-1 items-end">
           <span class="badge ${typeClass}" aria-label="Type de spot: ${typeLabel}">${typeLabel}</span>
+          <!-- Freshness Badge -->
+          <span
+            class="badge ${freshnessBadge.bgColor} ${freshnessBadge.textColor} border ${freshnessBadge.borderColor}"
+            aria-label="Fraicheur: ${freshnessBadge.label}"
+            title="${freshnessBadge.description}"
+          >
+            <i class="fas fa-circle ${freshnessBadge.iconColor} text-[8px] mr-1" aria-hidden="true"></i>
+            ${freshnessBadge.label}
+          </span>
         </div>
         ${(() => {
     const verification = getSpotVerification(spot.id);
@@ -87,6 +100,14 @@ function renderDefaultCard(spot) {
             <span>~${spot.avgWaitTime || '?'} min</span>
           </div>
         </div>
+
+        <!-- Last Check-in Info -->
+        ${lastCheckinTime ? `
+          <div class="flex items-center gap-2 mt-2 pt-2 border-t border-white/5 text-xs text-slate-500">
+            ${renderFreshnessIndicator(spot.lastCheckin || spot.lastUsed)}
+            <span>Check-in: ${lastCheckinTime}</span>
+          </div>
+        ` : ''}
       </div>
     </article>
   `;
@@ -94,6 +115,8 @@ function renderDefaultCard(spot) {
 
 function renderCompactCard(spot) {
   const ratingText = spot.globalRating ? `Note: ${spot.globalRating.toFixed(1)} sur 5` : 'Non note';
+  const freshnessLevel = getFreshnessLevel(spot.lastCheckin || spot.lastUsed);
+  const freshnessBadge = getFreshnessBadge(freshnessLevel);
 
   // Sanitize user-provided data
   const safeFrom = escapeHTML(spot.from || '');
@@ -109,14 +132,18 @@ function renderCompactCard(spot) {
       tabindex="0"
       aria-label="Spot d'autostop de ${safeFrom} vers ${safeTo}. ${ratingText}."
     >
-      <!-- Photo -->
-      <div class="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+      <!-- Photo with freshness indicator -->
+      <div class="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
         <img
           src="${safePhotoUrl}"
           alt="Photo du spot a ${safeFrom}"
           class="w-full h-full object-cover"
           loading="lazy"
         />
+        <!-- Freshness indicator dot -->
+        <div class="absolute bottom-1 right-1" title="${freshnessBadge.label}">
+          ${renderFreshnessIndicator(spot.lastCheckin || spot.lastUsed)}
+        </div>
       </div>
 
       <!-- Content -->
@@ -131,6 +158,8 @@ function renderCompactCard(spot) {
           </span>
           <span aria-hidden="true">•</span>
           <span aria-label="Temps d'attente: ${spot.avgWaitTime || 'inconnu'} minutes">~${spot.avgWaitTime || '?'} min</span>
+          <span aria-hidden="true">•</span>
+          <span class="${freshnessBadge.textColor}" aria-label="Fraicheur: ${freshnessBadge.label}">${freshnessBadge.label}</span>
         </div>
       </div>
 

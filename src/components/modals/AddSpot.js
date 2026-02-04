@@ -287,12 +287,20 @@ window.handleAddSpot = async (event) => {
       const { showSuccess } = await import('../../services/notifications.js');
       const { actions, setState } = await import('../../stores/state.js');
 
-      showSuccess('Spot ajouté avec succès ! 🎉');
+      showSuccess('Spot ajouté avec succès !');
       actions.incrementSpotsCreated();
       setState({ showAddSpot: false });
 
       // Reset form data
       window.spotFormData = { photo: null, lat: null, lng: null };
+
+      // Show contextual tip for first spot created
+      try {
+        const { triggerSpotCreatedTip } = await import('../../services/contextualTips.js');
+        triggerSpotCreatedTip();
+      } catch (e) {
+        // Silently fail if tips service not available
+      }
     } else {
       throw new Error('Failed to add spot');
     }

@@ -59,25 +59,26 @@ describe('i18n', () => {
   describe('detectLanguage', () => {
     it('should return a supported language', () => {
       const lang = detectLanguage();
-      expect(['fr', 'en', 'es']).toContain(lang);
+      expect(['fr', 'en', 'es', 'de']).toContain(lang);
     });
   });
   
   describe('getAvailableLanguages', () => {
     it('should return array of language objects', () => {
       const languages = getAvailableLanguages();
-      expect(languages).toHaveLength(3);
+      expect(languages).toHaveLength(4);
       expect(languages[0]).toHaveProperty('code');
       expect(languages[0]).toHaveProperty('name');
       expect(languages[0]).toHaveProperty('flag');
     });
-    
-    it('should include fr, en, es', () => {
+
+    it('should include fr, en, es, de', () => {
       const languages = getAvailableLanguages();
       const codes = languages.map(l => l.code);
       expect(codes).toContain('fr');
       expect(codes).toContain('en');
       expect(codes).toContain('es');
+      expect(codes).toContain('de');
     });
   });
   

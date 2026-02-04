@@ -6,6 +6,8 @@
 import { t } from '../../i18n/index.js';
 import { escapeHTML } from '../../utils/sanitize.js';
 import { renderVerificationBadge, renderVoteButtons, getSpotVerification } from '../../services/verification.js';
+import { renderFreshnessSection, renderFreshnessBadge, getFreshnessLevel, FRESHNESS_LEVELS } from '../../utils/dateHelpers.js';
+import { getAvailableNavigationApps, detectPlatform } from '../../utils/navigation.js';
 
 export function renderSpotDetail(state) {
   const spot = state.selectedSpot;
@@ -56,6 +58,7 @@ export function renderSpotDetail(state) {
             </h2>
             <div class="flex items-center gap-2 mt-1 flex-wrap">
               ${renderVerificationBadge(spot.id)}
+              ${renderFreshnessBadge(spot.lastCheckin || spot.lastUsed, 'sm')}
               <span class="text-sm text-slate-400">
                 <i class="fas fa-flag mr-1" aria-hidden="true"></i> <span aria-label="Pays: ${escapeHTML(spot.country || 'Europe')}">${escapeHTML(spot.country || 'EU')}</span>
               </span>
@@ -95,6 +98,9 @@ export function renderSpotDetail(state) {
             </p>
           </div>
 
+          <!-- Freshness Section - VERY VISIBLE -->
+          ${renderFreshnessSection(spot.lastCheckin || spot.lastUsed)}
+
           <!-- Ratings Breakdown -->
           <div class="mb-4">
             <h3 class="font-semibold mb-3"><span aria-hidden="true">⭐</span> Evaluations detaillees</h3>
@@ -104,12 +110,6 @@ export function renderSpotDetail(state) {
               ${renderRatingBar(t('visibility'), spot.ratings?.visibility)}
               ${renderRatingBar(t('traffic'), spot.ratings?.traffic)}
             </div>
-          </div>
-
-          <!-- Last Used -->
-          <div class="text-sm text-slate-400 mb-4">
-            <i class="fas fa-clock mr-2" aria-hidden="true"></i>
-            ${t('lastUsed')}: <time>${escapeHTML(spot.lastUsed || 'Inconnu')}</time>
           </div>
 
           <!-- Actions -->
@@ -132,25 +132,37 @@ export function renderSpotDetail(state) {
             </button>
           </div>
 
-          <!-- Navigation & Share Buttons -->
-          <div class="grid grid-cols-3 gap-2">
+          <!-- Main Y aller Button -->
+          <button
+            onclick="showNavigationPicker(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeHTML((spot.from + ' - ' + spot.to).replace(/'/g, "\\'"))}')"
+            class="w-full btn text-white font-bold text-lg py-4 mb-4 shadow-lg shadow-emerald-500/30"
+            style="background: linear-gradient(135deg, #10b981, #059669);"
+            type="button"
+            aria-label="Y aller - choisir une application de navigation"
+          >
+            <i class="fas fa-route mr-2" aria-hidden="true"></i>
+            Y aller
+            <i class="fas fa-chevron-right ml-2" aria-hidden="true"></i>
+          </button>
+
+          <!-- Navigation Apps Quick Access -->
+          <div class="mb-4">
+            <p class="text-xs text-slate-400 mb-2 text-center">Ouvrir directement dans :</p>
+            <div class="flex gap-2 justify-center">
+              ${renderNavigationAppButtons(spot.coordinates?.lat, spot.coordinates?.lng, spot.from + ' - ' + spot.to)}
+            </div>
+          </div>
+
+          <!-- In-App Navigation & Share -->
+          <div class="grid grid-cols-2 gap-2">
             <button
-              onclick="startSpotNavigation(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${spot.from} → ${spot.to}')"
-              class="btn btn-primary text-sm py-2"
+              onclick="startSpotNavigation(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeHTML((spot.from + ' - ' + spot.to).replace(/'/g, "\\'"))}')"
+              class="btn btn-ghost text-sm py-2"
               type="button"
-              aria-label="Naviguer vers ce spot"
+              aria-label="Navigation guidee dans l'app"
             >
-              <i class="fas fa-route" aria-hidden="true"></i>
-              Naviguer
-            </button>
-            <button
-              onclick="openNavigation(${spot.coordinates?.lat}, ${spot.coordinates?.lng})"
-              class="btn btn-success text-sm py-2"
-              type="button"
-              aria-label="Ouvrir dans Maps"
-            >
-              <i class="fas fa-map-marked-alt" aria-hidden="true"></i>
-              Maps
+              <i class="fas fa-compass" aria-hidden="true"></i>
+              Navigation guidee
             </button>
             <button
               onclick="shareSpot(window.getState().selectedSpot)"
@@ -192,6 +204,38 @@ function renderRatingBar(label, value) {
       <span class="text-sm font-medium w-8" aria-hidden="true">${value?.toFixed(1) || '-'}</span>
     </div>
   `;
+}
+
+/**
+ * Render navigation app quick access buttons
+ */
+function renderNavigationAppButtons(lat, lng, name) {
+  if (!lat || !lng) return '';
+
+  const apps = getAvailableNavigationApps();
+  const escapedName = (name || '').replace(/'/g, "\\'");
+
+  return apps.map(app => {
+    // Determine which icon to use (brand vs fallback)
+    const iconClass = app.id === 'google-maps' ? 'fab fa-google'
+      : app.id === 'waze' ? 'fab fa-waze'
+      : app.id === 'apple-maps' ? 'fab fa-apple'
+      : 'fas ' + app.iconFallback;
+
+    return `
+      <button
+        onclick="openInNavigationApp('${app.id}', ${lat}, ${lng}, '${escapedName}')"
+        class="nav-app-btn flex flex-col items-center gap-1 p-3 rounded-xl transition-all hover:-translate-y-1"
+        style="background: ${app.color}20; border: 1px solid ${app.color}40;"
+        type="button"
+        aria-label="Ouvrir dans ${app.name}"
+        title="${app.name}"
+      >
+        <i class="${iconClass} text-xl" style="color: ${app.color};" aria-hidden="true"></i>
+        <span class="text-xs font-medium" style="color: ${app.color};">${app.name}</span>
+      </button>
+    `;
+  }).join('');
 }
 
 // Global handlers

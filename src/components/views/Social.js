@@ -448,6 +448,14 @@ window.sendMessage = async (room) => {
     const { getState } = await import('../../stores/state.js');
     const state = getState();
     await sendChatMessage(room, text);
+
+    // Show contextual tip for first message
+    try {
+      const { triggerMessageTip } = await import('../../services/contextualTips.js');
+      triggerMessageTip();
+    } catch (e) {
+      // Silently fail if tips service not available
+    }
   } catch (error) {
     console.error('Failed to send message:', error);
     window.showError?.('Erreur d\'envoi');
@@ -466,10 +474,18 @@ window.sendPrivateMessage = async (friendId) => {
   window.showToast?.('Message envoyé', 'success');
 };
 
-window.acceptFriendRequest = (requestId) => {
+window.acceptFriendRequest = async (requestId) => {
   // TODO: Implement
   console.log('Accept friend request:', requestId);
   window.showSuccess?.('Ami ajouté !');
+
+  // Show contextual tip for first friend added
+  try {
+    const { triggerFriendAddedTip } = await import('../../services/contextualTips.js');
+    triggerFriendAddedTip();
+  } catch (e) {
+    // Silently fail if tips service not available
+  }
 };
 
 window.declineFriendRequest = (requestId) => {

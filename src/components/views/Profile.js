@@ -7,6 +7,7 @@ import { t } from '../../i18n/index.js';
 import { vipLevels } from '../../data/vip-levels.js';
 import { renderDonationCard } from '../ui/DonationCard.js';
 import { renderTrustScoreCard, getUserTrustScore } from '../../services/trustScore.js';
+import { getTitleForLevel, getTitleProgress, getUnlockedTitles, getLockedTitles, getAllTitles } from '../../data/titles.js';
 
 export function renderProfile(state) {
   const levelProgress = (state.points || 0) % 100;
@@ -19,6 +20,13 @@ export function renderProfile(state) {
   const leagues = ['Bronze', 'Argent', 'Or', 'Platine', 'Diamant'];
   const currentLeagueIndex = Math.min(Math.floor((state.seasonPoints || 0) / 500), leagues.length - 1);
   const currentLeague = leagues[currentLeagueIndex];
+
+  // Get narrative title
+  const currentTitle = getTitleForLevel(state.level || 1);
+  const titleProgress = getTitleProgress(state.level || 1);
+  const unlockedTitles = getUnlockedTitles(state.level || 1);
+  const lockedTitles = getLockedTitles(state.level || 1);
+  const allTitles = getAllTitles();
 
   return `
     <div class="p-4 space-y-4 pb-24">
@@ -38,6 +46,12 @@ export function renderProfile(state) {
         </div>
         <h2 class="text-xl font-bold">${state.username || 'Voyageur'}</h2>
         <p class="text-slate-400 text-sm">${state.user?.email || 'Non connecté'}</p>
+
+        <!-- Narrative Title Badge -->
+        <div class="inline-flex items-center gap-2 mt-2 px-3 py-1.5 rounded-full" style="background: linear-gradient(135deg, ${currentTitle.color}20, ${currentTitle.color}40); border: 1px solid ${currentTitle.color}50;">
+          <span class="text-lg">${currentTitle.emoji}</span>
+          <span class="font-medium" style="color: ${currentTitle.color}">${currentTitle.name}</span>
+        </div>
 
         <!-- VIP Badge -->
         <div class="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
@@ -64,9 +78,9 @@ export function renderProfile(state) {
           <div class="text-xl font-bold text-primary-400">${state.points || 0}</div>
           <div class="text-xs text-slate-500">Points</div>
         </button>
-        <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-xl font-bold text-emerald-400">Niv.${state.level || 1}</div>
-          <div class="text-xs text-slate-500">Niveau</div>
+        <button onclick="openTitles()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
+          <div class="text-xl font-bold" style="color: ${currentTitle.color}">${currentTitle.emoji}</div>
+          <div class="text-xs text-slate-500">Niv.${state.level || 1}</div>
         </button>
         <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold text-amber-400">${currentLeague[0]}</div>
@@ -81,20 +95,54 @@ export function renderProfile(state) {
       <!-- Level Progress -->
       <div class="card p-4">
         <div class="flex justify-between text-sm mb-2">
-          <span class="text-primary-400 font-medium">Niveau ${state.level || 1}</span>
+          <span class="font-medium" style="color: ${currentTitle.color}">${currentTitle.emoji} ${currentTitle.name} - Niveau ${state.level || 1}</span>
           <span class="text-slate-400">${pointsToNext} pts → Niveau ${(state.level || 1) + 1}</span>
         </div>
         <div class="h-3 bg-white/10 rounded-full overflow-hidden">
           <div
-            class="h-full bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full transition-all"
-            style="width: ${levelProgress}%"
+            class="h-full rounded-full transition-all"
+            style="width: ${levelProgress}%; background: linear-gradient(90deg, ${currentTitle.color}, ${currentTitle.color}80)"
             role="progressbar"
             aria-valuenow="${levelProgress}"
             aria-valuemin="0"
             aria-valuemax="100"
           ></div>
         </div>
+        ${titleProgress.next ? `
+        <div class="text-xs text-slate-500 mt-2 text-center">
+          ${titleProgress.levelsNeeded} niveau${titleProgress.levelsNeeded > 1 ? 'x' : ''} avant le titre "${titleProgress.next.emoji} ${titleProgress.next.name}"
+        </div>
+        ` : `
+        <div class="text-xs text-amber-400 mt-2 text-center">
+          Tu as atteint le titre ultime !
+        </div>
+        `}
       </div>
+
+      <!-- Titles Section -->
+      <button
+        onclick="openTitles()"
+        class="card p-4 w-full text-left hover:border-amber-500/50 transition-all"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, ${currentTitle.color}30, ${currentTitle.color}50);">
+              <span class="text-2xl">${currentTitle.emoji}</span>
+            </div>
+            <div>
+              <div class="font-semibold">Titres Narratifs</div>
+              <div class="text-sm text-slate-400">${unlockedTitles.length}/${allTitles.length} titres debloqués</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex -space-x-1">
+              ${unlockedTitles.slice(0, 3).map(t => `<span class="text-sm">${t.emoji}</span>`).join('')}
+              ${unlockedTitles.length > 3 ? `<span class="text-xs text-slate-400">+${unlockedTitles.length - 3}</span>` : ''}
+            </div>
+            <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+          </div>
+        </div>
+      </button>
 
       <!-- Activity Stats -->
       <div class="card p-4">
@@ -230,6 +278,18 @@ export function renderProfile(state) {
           <div class="flex items-center gap-3">
             <i class="fas fa-question-circle text-sky-400" aria-hidden="true"></i>
             <span>Revoir le tutoriel</span>
+          </div>
+          <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+        </button>
+
+        <!-- GDPR My Data -->
+        <button
+          onclick="openMyData()"
+          class="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
+        >
+          <div class="flex items-center gap-3">
+            <i class="fas fa-database text-blue-400" aria-hidden="true"></i>
+            <span>Mes donnees (RGPD)</span>
           </div>
           <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
         </button>

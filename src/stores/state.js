@@ -31,6 +31,11 @@ const initialState = {
   filterMinRating: 0,
   filterMaxWait: 999,
 
+  // Favorites
+  favorites: [],
+  favoritesSort: 'date',
+  showFavoritesOnMap: false,
+
   // Modals
   showAddSpot: false,
   showRating: false,
@@ -97,11 +102,18 @@ const initialState = {
   // Location
   userLocation: null,
   gpsEnabled: false,
+  showLocationPermission: false,
+  locationPermissionChoice: 'unknown', // 'granted' | 'denied' | 'unknown'
 
   // Tutorial
   showTutorial: false, // Will be set true only if tutorialCompleted is false on first load
   tutorialStep: 0,
   tutorialCompleted: false,
+
+  // Check-in history
+  checkinHistory: [],
+  checkinHistoryFilter: 'all',
+  checkinDisplayLimit: 20,
 
   // Loading states
   isLoading: false,
@@ -153,6 +165,9 @@ function persistState() {
     rewards: state.rewards,
     savedTrips: state.savedTrips,
     emergencyContacts: state.emergencyContacts,
+    favorites: state.favorites,
+    favoritesSort: state.favoritesSort,
+    checkinHistory: state.checkinHistory,
   };
   Storage.set('state', stateToPersist);
 }
@@ -352,6 +367,20 @@ export const actions = {
   // Online status
   setOnlineStatus(isOnline) {
     setState({ isOnline });
+  },
+
+  // Check-in history
+  addCheckinToHistory(checkinData) {
+    const checkinHistory = state.checkinHistory || [];
+    const newCheckin = {
+      id: `checkin_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      ...checkinData,
+      timestamp: checkinData.timestamp || new Date().toISOString(),
+    };
+    setState({
+      checkinHistory: [newCheckin, ...checkinHistory],
+    });
+    return newCheckin;
   },
 };
 

@@ -5,6 +5,7 @@
 
 import { requestNotificationPermission, onForegroundMessage } from './firebase.js';
 import { escapeHTML } from '../utils/sanitize.js';
+import { getErrorMessage, getFormattedError } from '../utils/errorMessages.js';
 
 // Toast container reference
 let toastContainer = null;
@@ -109,9 +110,23 @@ export function showSuccess(message, duration) {
 
 /**
  * Show error toast
+ * @param {string} message - Error message or error code
+ * @param {number} duration - Duration in ms
  */
 export function showError(message, duration) {
   showToast(message, 'error', duration);
+}
+
+/**
+ * Show friendly error toast based on error code
+ * Uses humorous, user-friendly messages
+ * @param {string} errorCode - Error code (e.g., 'NETWORK_OFFLINE', 'auth/user-not-found')
+ * @param {number} duration - Duration in ms
+ */
+export function showFriendlyError(errorCode, duration = 5000) {
+  const errorInfo = getErrorMessage(errorCode);
+  const fullMessage = `${errorInfo.icon} ${errorInfo.message}`;
+  showToast(fullMessage, errorInfo.type, duration);
 }
 
 /**
@@ -354,6 +369,7 @@ export default {
   showToast,
   showSuccess,
   showError,
+  showFriendlyError,
   showInfo,
   showWarning,
   announce,

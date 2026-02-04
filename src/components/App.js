@@ -53,6 +53,8 @@ import { renderReportModal } from '../services/moderation.js';
 import { renderSOSTrackingWidget } from '../services/sosTracking.js';
 import { renderTeamDashboard } from '../services/teamChallenges.js';
 import { renderAdminPanel } from './modals/AdminPanel.js';
+import { renderCookieBanner } from './modals/CookieBanner.js';
+import { renderMyDataModal } from './modals/MyData.js';
 
 /**
  * Render the complete application
@@ -118,6 +120,9 @@ export function renderApp(state) {
     <!-- Admin Panel -->
     ${state.showAdminPanel ? renderAdminPanel(state) : ''}
 
+    <!-- GDPR My Data Modal -->
+    ${state.showMyData ? renderMyDataModal() : ''}
+
     <!-- Admin Button (floating) -->
     <button
       onclick="openAdminPanel()"
@@ -127,6 +132,9 @@ export function renderApp(state) {
     >
       <i class="fas fa-shield-alt text-lg" aria-hidden="true"></i>
     </button>
+
+    <!-- Cookie Banner (RGPD) -->
+    ${renderCookieBanner()}
   `;
 }
 

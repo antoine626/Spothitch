@@ -859,6 +859,19 @@ a:not(.btn):not(.nav-btn):hover {
   20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
+@keyframes bounceSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 2s ease-in-out infinite;
+}
+
 /* Offline Mode Indicator */
 .offline-indicator {
   @apply fixed top-0 left-0 right-0 bg-warning-500 text-white text-center py-2 text-sm font-medium z-[9999];
@@ -1208,4 +1221,522 @@ textarea[aria-invalid="true"] {
 
 .light-theme .leaflet-control-zoom a:hover {
   @apply bg-slate-100;
+}
+
+/* ===== SPLASH SCREEN ===== */
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.splash-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+  animation: splashBgPulse 4s ease-in-out infinite;
+}
+
+@keyframes splashBgPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Animated road lines at bottom */
+.splash-road {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to top, #1e293b, transparent);
+  overflow: hidden;
+}
+
+.road-line {
+  position: absolute;
+  bottom: 20px;
+  width: 60px;
+  height: 4px;
+  background: #f59e0b;
+  border-radius: 2px;
+  animation: roadLineMove 1.5s linear infinite;
+}
+
+.road-line:nth-child(1) { left: -60px; animation-delay: 0s; }
+.road-line:nth-child(2) { left: -60px; animation-delay: 0.5s; }
+.road-line:nth-child(3) { left: -60px; animation-delay: 1s; }
+
+@keyframes roadLineMove {
+  0% { transform: translateX(-60px); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(calc(100vw + 60px)); opacity: 0; }
+}
+
+/* Main content */
+.splash-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Logo */
+.splash-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  animation: splashLogoIn 0.8s ease-out;
+}
+
+.splash-logo-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  box-shadow: 0 10px 40px rgba(14, 165, 233, 0.4);
+  animation: splashIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes splashIconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.splash-logo-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0ea5e9, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes splashLogoIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hitchhiker animation */
+.splash-animation {
+  position: relative;
+  height: 100px;
+  width: 280px;
+  margin: 2rem auto;
+}
+
+.splash-hitchhiker {
+  position: absolute;
+  left: 20%;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: hitchhikerBounce 1s ease-in-out infinite;
+}
+
+.hitchhiker-body {
+  font-size: 3rem;
+  color: #0ea5e9;
+}
+
+.hitchhiker-thumb {
+  position: absolute;
+  top: -5px;
+  right: -20px;
+  font-size: 1.5rem;
+  color: #10b981;
+  animation: thumbWave 0.6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes hitchhikerBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes thumbWave {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(15deg); }
+}
+
+/* Car animation */
+.splash-car {
+  position: absolute;
+  right: -80px;
+  bottom: 5px;
+  font-size: 2.5rem;
+  color: #f59e0b;
+  animation: carDrive 3s ease-in-out infinite;
+}
+
+@keyframes carDrive {
+  0% { transform: translateX(100px); opacity: 0; }
+  20% { opacity: 1; }
+  45% { transform: translateX(-80px); opacity: 1; }
+  50% { transform: translateX(-80px) scaleX(-1); opacity: 1; }
+  55% { transform: translateX(-80px) scaleX(-1); opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(-200px) scaleX(-1); opacity: 0; }
+}
+
+/* Loading message */
+.splash-message {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.125rem;
+  color: #94a3b8;
+  margin-top: 1.5rem;
+  min-height: 28px;
+  transition: opacity 0.2s ease;
+}
+
+.splash-message-fade {
+  opacity: 0;
+}
+
+/* Progress dots */
+.splash-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.5rem;
+}
+
+.splash-dot {
+  width: 10px;
+  height: 10px;
+  background: #0ea5e9;
+  border-radius: 50%;
+  animation: splashDotPulse 1.4s ease-in-out infinite;
+}
+
+.splash-dot:nth-child(1) { animation-delay: 0s; }
+.splash-dot:nth-child(2) { animation-delay: 0.2s; }
+.splash-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes splashDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Decorative elements */
+.splash-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.splash-sun {
+  position: absolute;
+  top: 10%;
+  right: 15%;
+  font-size: 2.5rem;
+  color: #f59e0b;
+  animation: splashSunGlow 2s ease-in-out infinite;
+}
+
+@keyframes splashSunGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+    transform: rotate(0deg);
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.8));
+    transform: rotate(10deg);
+  }
+}
+
+.splash-cloud {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.1);
+  font-size: 3rem;
+}
+
+.splash-cloud-1 {
+  top: 15%;
+  left: 10%;
+  animation: cloudFloat 6s ease-in-out infinite;
+}
+
+.splash-cloud-2 {
+  top: 25%;
+  right: 25%;
+  font-size: 2rem;
+  animation: cloudFloat 8s ease-in-out infinite reverse;
+}
+
+@keyframes cloudFloat {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+}
+
+/* Exit animation */
+.splash-exit {
+  animation: splashFadeOut 0.5s ease-out forwards;
+}
+
+@keyframes splashFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .splash-screen *,
+  .splash-screen *::before,
+  .splash-screen *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .splash-logo-icon {
+    animation: none;
+  }
+
+  .splash-car {
+    display: none;
+  }
+
+  .road-line {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ===== GLOBAL LOADING INDICATOR ===== */
+
+/* Container */
+#global-loader {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#global-loader.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#global-loader.hiding {
+  opacity: 0;
+}
+
+/* Progress Bar (YouTube style) */
+.loading-bar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+  z-index: 9999;
+}
+
+.loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5e9, #06b6d4, #10b981);
+  transition: width 0.2s ease-out;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.7), 0 0 5px rgba(14, 165, 233, 0.5);
+}
+
+.light-theme .loading-bar {
+  background: linear-gradient(90deg, #f97316, #f59e0b, #ec4899);
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.7), 0 0 5px rgba(249, 115, 22, 0.5);
+}
+
+/* Spinner Overlay */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.light-theme .loading-overlay {
+  background: rgba(255, 248, 240, 0.9);
+}
+
+.loading-content {
+  text-align: center;
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Thumb Animation */
+.loading-thumb-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+}
+
+.loading-thumb {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  animation: thumbBounce 1s ease-in-out infinite;
+  z-index: 2;
+}
+
+.loading-ripple {
+  position: absolute;
+  inset: 0;
+  border: 3px solid rgba(14, 165, 233, 0.4);
+  border-radius: 50%;
+  animation: ripple 1.5s ease-out infinite;
+}
+
+.loading-ripple-delayed {
+  animation-delay: 0.5s;
+}
+
+.light-theme .loading-ripple {
+  border-color: rgba(249, 115, 22, 0.4);
+}
+
+/* Message */
+.loading-message {
+  @apply text-xl font-semibold text-white mb-3;
+  animation: messageSlide 0.4s ease-out;
+  min-height: 2rem;
+}
+
+.light-theme .loading-message {
+  @apply text-slate-800;
+}
+
+/* Loading Dots */
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.loading-dot {
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  border-radius: 50%;
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+
+.loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.light-theme .loading-dot {
+  background: linear-gradient(135deg, #f97316, #ec4899);
+}
+
+/* Keyframes for Loading Indicator */
+@keyframes thumbBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(-10deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(10deg);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes messageSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Reduced motion for Loading Indicator */
+@media (prefers-reduced-motion: reduce) {
+  .loading-thumb,
+  .loading-ripple,
+  .loading-dot {
+    animation: none;
+  }
+
+  .loading-thumb {
+    transform: none;
+  }
+
+  .loading-ripple {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  .loading-dot {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

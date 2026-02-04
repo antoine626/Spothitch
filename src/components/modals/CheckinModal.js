@@ -176,7 +176,7 @@ export function renderCheckinModal(state) {
 
 // Global handlers
 export function registerCheckinHandlers() {
-  window.openCheckinModal = (spotId) => {
+  window.openCheckinModal = async (spotId) => {
     const state = getState();
     const spot = state.spots.find(s => s.id === spotId) || state.selectedSpot;
     if (spot) {
@@ -186,6 +186,14 @@ export function registerCheckinHandlers() {
         checkinChars: {},
         checkinPhotoData: null
       });
+
+      // Show contextual tip for first check-in
+      try {
+        const { triggerCheckinTip } = await import('../../services/contextualTips.js');
+        triggerCheckinTip();
+      } catch (e) {
+        // Silently fail if tips service not available
+      }
     }
   };
 
