@@ -116,10 +116,77 @@ npm run lint:fix     # Corriger automatiquement
 - [ ] Configurer Sentry avec vrai DSN
 - [ ] Ajouter plus de langues (DE, IT, PT)
 - [ ] Documentation API
+- [ ] Tests E2E pour les nouvelles fonctionnalités
 
 ---
 
 ## Historique des Sessions
+
+### 2026-02-04 - Ajout fonctionnalités avancées et panneau admin
+**Résumé** : Ajout de nombreuses fonctionnalités de gamification, panneau admin, et améliorations UX.
+
+**Actions réalisées** :
+
+1. **Panneau Admin** (`src/components/modals/AdminPanel.js`)
+   - Bouton flottant orange en bas à droite
+   - Accès rapide à toutes les fonctionnalités
+   - Gestion des ressources (ajouter points, skill points, level up, MAX ALL)
+   - Navigation rapide entre les onglets
+   - Export/Reset de l'état
+
+2. **Contrôles de carte améliorés** (`src/components/views/Map.js`)
+   - Nouveaux boutons zoom (+/-) sur le côté gauche
+   - Bouton "Ma position" (GPS)
+   - Design cohérent avec l'application
+   - Suppression des contrôles Leaflet par défaut
+
+3. **Tutoriel interactif** (`src/components/modals/Tutorial.js`)
+   - Réécriture complète pour expérience interactive
+   - L'utilisateur doit cliquer sur les vrais éléments
+   - Spotlight sur les éléments cibles
+   - Types d'étapes : modal, click, highlight
+   - Barre de progression en haut
+   - +10 points par étape, +100 bonus à la fin
+
+4. **Boutons d'accès aux nouvelles fonctionnalités**
+   - Profile : Arbre de compétences, Personnalisation
+   - ChallengesHub : Défis d'équipe
+   - Social : Onglet Groupes, Amis à proximité
+
+5. **Tests unitaires** (71 nouveaux tests)
+   - `tests/gamification.test.js` - Service gamification
+   - `tests/skillTree.test.js` - Arbre de compétences
+   - `tests/tutorial.test.js` - Tutoriel interactif
+   - `tests/adminPanel.test.js` - Panneau admin
+   - `tests/navigation.test.js` - Composant navigation
+   - `tests/mapControls.test.js` - Contrôles carte
+
+**Fichiers créés** :
+- `src/components/modals/AdminPanel.js`
+- `tests/gamification.test.js`
+- `tests/skillTree.test.js`
+- `tests/tutorial.test.js`
+- `tests/adminPanel.test.js`
+- `tests/navigation.test.js`
+- `tests/mapControls.test.js`
+
+**Fichiers modifiés** :
+- `src/components/views/Map.js` - Nouveaux contrôles zoom
+- `src/components/views/Profile.js` - Boutons skill tree et customization
+- `src/components/views/ChallengesHub.js` - Bouton défis d'équipe
+- `src/components/views/Social.js` - Onglet groupes
+- `src/components/modals/Tutorial.js` - Réécriture interactive
+- `src/components/Navigation.js` - Attributs data-tab
+- `src/components/App.js` - Import admin panel
+- `src/services/map.js` - Suppression zoom control par défaut
+- `src/main.js` - Nouveaux handlers globaux
+
+**Statistiques tests** :
+- 14 fichiers de tests
+- 215 tests passent
+- Couverture services : ~90%
+
+---
 
 ### 2025-12-26 - Amélioration globale de l'application
 **Résumé** : Amélioration complète de l'application sur tous les aspects (sécurité, tests, accessibilité, performances).
@@ -235,4 +302,4 @@ VITE_SENTRY_DSN=xxx (optionnel)
 
 ---
 
-*Dernière mise à jour : 2025-12-27 (Session 3 - Correction handlers)*
+*Dernière mise à jour : 2026-02-04 (Session 4 - Fonctionnalités avancées et tests)*
