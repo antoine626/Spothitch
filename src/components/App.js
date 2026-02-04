@@ -44,12 +44,13 @@ import { renderDonationModal } from './ui/DonationCard.js';
 
 // New Feature Modals
 import { renderSkillTree } from '../services/skillTree.js';
-import { renderTravelGroupDetail } from '../services/travelGroups.js';
+import { renderTravelGroupDetail, renderTravelGroupsList } from '../services/travelGroups.js';
 import { renderNearbyFriendsWidget, renderNearbyFriendsList } from '../services/nearbyFriends.js';
 import { renderCustomizationModal } from '../services/profileCustomization.js';
 import { renderAccessibilityHelp } from '../services/screenReader.js';
 import { renderReportModal } from '../services/moderation.js';
 import { renderSOSTrackingWidget } from '../services/sosTracking.js';
+import { renderTeamDashboard } from '../services/teamChallenges.js';
 
 /**
  * Render the complete application
@@ -104,6 +105,8 @@ export function renderApp(state) {
     ${state.showReport ? renderReportModal(state) : ''}
     ${state.showAccessibilityHelp ? renderAccessibilityHelp(state) : ''}
     ${state.showTravelGroupDetail ? renderTravelGroupDetail(state) : ''}
+    ${state.showTeamChallenges ? renderTeamDashboard(state) : ''}
+    ${state.showCreateTravelGroup ? renderTravelGroupsList(state) : ''}
 
     <!-- Floating Widgets -->
     ${renderNearbyFriendsWidget(state)}

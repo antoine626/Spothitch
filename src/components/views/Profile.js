@@ -29,11 +29,11 @@ export function renderProfile(state) {
             ${state.avatar || '🤙'}
           </div>
           <button
-            onclick="editAvatar()"
+            onclick="openProfileCustomization()"
             class="absolute bottom-2 right-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm hover:bg-primary-600 transition-all"
-            aria-label="Changer l'avatar"
+            aria-label="Personnaliser le profil"
           >
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+            <i class="fas fa-palette" aria-hidden="true"></i>
           </button>
         </div>
         <h2 class="text-xl font-bold">${state.username || 'Voyageur'}</h2>
@@ -47,6 +47,15 @@ export function renderProfile(state) {
 }
           <span class="font-medium text-purple-300">${currentVipLevel.name}</span>
         </div>
+
+        <!-- Customize Button -->
+        <button
+          onclick="openProfileCustomization()"
+          class="mt-3 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm"
+        >
+          <i class="fas fa-wand-magic-sparkles mr-2" aria-hidden="true"></i>
+          Personnaliser (cadres & titres)
+        </button>
       </div>
 
       <!-- Quick Stats -->
@@ -115,6 +124,28 @@ export function renderProfile(state) {
 
       <!-- Trust Score -->
       ${renderTrustScoreCard()}
+
+      <!-- Skills Section -->
+      <button
+        onclick="openSkillTree()"
+        class="card p-4 w-full text-left hover:border-purple-500/50 transition-all"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/30 to-pink-500/30 flex items-center justify-center">
+              <i class="fas fa-tree text-purple-400 text-xl" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="font-semibold">Arbre de compétences</div>
+              <div class="text-sm text-slate-400">${state.skillPoints || 0} points disponibles</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-purple-400">${(state.unlockedSkills || []).length} skills</span>
+            <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+          </div>
+        </div>
+      </button>
 
       <!-- Friends Link -->
       <button

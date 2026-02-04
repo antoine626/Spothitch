@@ -124,6 +124,30 @@ export function renderChallengesHub(state) {
         </button>
       </div>
 
+      <!-- Team Challenges Section -->
+      <button
+        onclick="openTeamChallenges()"
+        class="card p-4 w-full text-left hover:border-orange-500/50 transition-all"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500/30 to-red-500/30 flex items-center justify-center">
+              <span class="text-3xl">⚔️</span>
+            </div>
+            <div>
+              <div class="font-bold text-lg">Défis d'équipe</div>
+              <div class="text-sm text-slate-400">Relevez des défis collectifs avec vos amis</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-sm font-medium">
+              Nouveau
+            </span>
+            <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+          </div>
+        </div>
+      </button>
+
       <!-- Active Challenges Preview -->
       <div class="card p-4">
         <div class="flex items-center justify-between mb-4">

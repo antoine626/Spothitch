@@ -1015,6 +1015,8 @@ window.unlockSkillAction = unlockSkill;
 window.awardSkillPoints = awardSkillPoints;
 
 // Team challenges handlers
+window.openTeamChallenges = () => setState({ showTeamChallenges: true });
+window.closeTeamChallenges = () => setState({ showTeamChallenges: false });
 window.openCreateTeam = () => setState({ showCreateTeam: true });
 window.closeCreateTeam = () => setState({ showCreateTeam: false });
 window.createTeamAction = createTeam;
@@ -1024,12 +1026,18 @@ window.startTeamChallengeAction = startTeamChallenge;
 
 // Travel groups handlers
 window.openTravelGroups = () => setState({ activeTab: 'travel-groups' });
+window.openCreateTravelGroup = () => setState({ showCreateTravelGroup: true });
+window.closeCreateTravelGroup = () => setState({ showCreateTravelGroup: false });
+window.openTravelGroupDetail = (groupId) => setState({ showTravelGroupDetail: true, selectedTravelGroupId: groupId });
+window.closeTravelGroupDetail = () => setState({ showTravelGroupDetail: false, selectedTravelGroupId: null });
 window.createTravelGroupAction = createTravelGroup;
 window.joinTravelGroupAction = joinTravelGroup;
 window.leaveTravelGroupAction = leaveTravelGroup;
 
 // Nearby friends handlers
 window.toggleNearbyFriends = toggleNearbyFriends;
+window.openNearbyFriends = () => setState({ showNearbyFriends: true });
+window.closeNearbyFriends = () => setState({ showNearbyFriends: false });
 
 // Profile customization handlers
 window.openProfileCustomization = () => setState({ showProfileCustomization: true });
