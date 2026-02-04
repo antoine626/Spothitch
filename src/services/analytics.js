@@ -56,26 +56,32 @@ export async function initAnalytics() {
  */
 async function initMixpanel() {
   try {
-    // Dynamically import Mixpanel
-    const MixpanelModule = await import('mixpanel-browser')
-    mixpanel = MixpanelModule.default
+    // Dynamically import Mixpanel only if available
+    if (MIXPANEL_TOKEN && typeof window !== 'undefined') {
+      try {
+        const MixpanelModule = await import('mixpanel-browser')
+        mixpanel = MixpanelModule.default
 
-    mixpanel.init(MIXPANEL_TOKEN, {
-      debug: import.meta.env.DEV,
-      track_pageview: true,
-      persistence: 'localStorage',
-      ignore_dnt: false, // Respect Do Not Track
-      api_host: 'https://api-eu.mixpanel.com', // EU endpoint for GDPR
-    })
+        mixpanel.init(MIXPANEL_TOKEN, {
+          debug: import.meta.env.DEV,
+          track_pageview: true,
+          persistence: 'localStorage',
+          ignore_dnt: false, // Respect Do Not Track
+          api_host: 'https://api-eu.mixpanel.com', // EU endpoint for GDPR
+        })
 
-    // Identify user
-    mixpanel.identify(userId)
-    mixpanel.people.set({
-      $created: new Date().toISOString(),
-      cohort_week: cohortWeek,
-    })
+        // Identify user
+        mixpanel.identify(userId)
+        mixpanel.people.set({
+          $created: new Date().toISOString(),
+          cohort_week: cohortWeek,
+        })
+      } catch (importError) {
+        console.warn('Mixpanel import failed:', importError.message)
+      }
+    }
   } catch (error) {
-    console.warn('Mixpanel not available:', error.message)
+    console.warn('Mixpanel initialization error:', error.message)
   }
 }
 
@@ -98,8 +104,27 @@ function initPlausible() {
  * @param {Object} properties - Event properties
  */
 export function trackEvent(eventName, properties = {}) {
-  if (!isInitialized && ANALYTICS_PROVIDER !== 'none') {
-    initAnalytics()
+  // Lazy initialize if needed (without awaiting)
+  if (!isInitialized) {
+    if (ANALYTICS_PROVIDER !== 'none') {
+      // Initialize async but don't wait for it
+      initAnalytics()
+    } else {
+      // At minimum, initialize the session if not yet done
+      if (!sessionId) {
+        sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+      }
+      if (!userId) {
+        userId = localStorage.getItem('spothitch_analytics_user_id')
+        if (!userId) {
+          userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`
+          localStorage.setItem('spothitch_analytics_user_id', userId)
+        }
+      }
+      if (!cohortWeek) {
+        cohortWeek = getCohortWeek()
+      }
+    }
   }
 
   // Enhance properties
@@ -317,9 +342,21 @@ function storeEventLocally(eventName, properties) {
       events.splice(0, events.length - MAX_LOCAL_EVENTS)
     }
 
-    localStorage.setItem('spothitch_analytics_events', JSON.stringify(events))
+    const jsonStr = JSON.stringify(events)
+    localStorage.setItem('spothitch_analytics_events', jsonStr)
+
+    // Verify it was stored
+    if (import.meta.env.DEV) {
+      const stored = localStorage.getItem('spothitch_analytics_events')
+      if (!stored) {
+        console.warn('Event storage verification failed - data not persisted')
+      }
+    }
   } catch (error) {
-    // Ignore storage errors
+    // Log in dev mode
+    if (import.meta.env.DEV) {
+      console.warn('Failed to store event locally:', error)
+    }
   }
 }
 
@@ -398,6 +435,60 @@ export function trackFeatureUsage(feature, action = 'used') {
 }
 
 /**
+ * Track user action
+ * @param {string} action - Action type (click, submit, navigate, etc)
+ * @param {string} target - Target element or feature
+ * @param {Object} metadata - Additional metadata
+ */
+export function trackUserAction(action, target, metadata = {}) {
+  trackEvent('user_action', {
+    action,
+    target,
+    ...metadata,
+  })
+}
+
+/**
+ * Set user properties (traits/attributes)
+ * @param {Object} props - User properties to set
+ */
+export function setUserProperties(props = {}) {
+  if (ANALYTICS_PROVIDER === 'mixpanel' && mixpanel) {
+    // Set user properties in Mixpanel
+    mixpanel.people.set({
+      ...props,
+      $last_updated: new Date().toISOString(),
+    })
+  }
+
+  // Store user properties locally
+  try {
+    const stored = localStorage.getItem('spothitch_user_properties')
+    const userProps = stored ? JSON.parse(stored) : {}
+    const updated = { ...userProps, ...props }
+    localStorage.setItem('spothitch_user_properties', JSON.stringify(updated))
+  } catch (error) {
+    console.warn('Failed to store user properties:', error)
+  }
+
+  // Track the property update event
+  trackEvent('user_properties_set', props)
+}
+
+/**
+ * Get stored user properties
+ * @returns {Object} User properties
+ */
+export function getUserProperties() {
+  try {
+    const stored = localStorage.getItem('spothitch_user_properties')
+    return stored ? JSON.parse(stored) : {}
+  } catch {
+    return {}
+  }
+}
+
+/**
  * Track error occurrence
  */
 export function trackError(errorType, errorMessage, context = {}) {
@@ -451,6 +542,9 @@ export default {
   trackPageView,
   identifyUser,
   resetUser,
+  trackUserAction,
+  setUserProperties,
+  getUserProperties,
   trackFunnelStage,
   getFunnelStatus,
   getCohortInfo,

@@ -59,6 +59,18 @@ import {
   clearTripSteps,
 } from './services/planner.js';
 import { searchLocation, reverseGeocode, formatDistance, formatDuration } from './services/osrm.js';
+import {
+  createChallenge,
+  acceptChallenge,
+  declineChallenge,
+  cancelChallenge,
+  updateChallengeProgress,
+  getActiveChallenges as getActiveFriendChallenges,
+  getPendingChallenges,
+  getChallengeStats,
+  getChallengeTypes,
+  syncChallengeProgress,
+} from './services/friendChallenges.js';
 
 // i18n
 import { t, detectLanguage, setLanguage, getAvailableLanguages } from './i18n/index.js';
@@ -1043,6 +1055,48 @@ window.copyFriendLink = () => {
   navigator.clipboard.writeText('spothitch.app/add/user123');
   showToast('Lien copié !', 'success');
 };
+
+// Friend Challenges handlers (#157)
+window.createFriendChallenge = (friendId, typeId, target = null, durationDays = 7) => {
+  const challenge = createChallenge(friendId, typeId, target, durationDays);
+  if (challenge) {
+    trackPageView('/action/challenge_created');
+  }
+};
+
+window.acceptFriendChallenge = (challengeId) => {
+  const success = acceptChallenge(challengeId);
+  if (success) {
+    trackPageView('/action/challenge_accepted');
+  }
+  renderApp();
+};
+
+window.declineFriendChallenge = (challengeId) => {
+  const success = declineChallenge(challengeId);
+  if (success) {
+    trackPageView('/action/challenge_declined');
+  }
+  renderApp();
+};
+
+window.cancelFriendChallenge = (challengeId) => {
+  const success = cancelChallenge(challengeId);
+  if (success) {
+    trackPageView('/action/challenge_cancelled');
+  }
+  renderApp();
+};
+
+window.syncFriendChallenges = () => {
+  syncChallengeProgress();
+  renderApp();
+};
+
+window.getActiveFriendChallenges = getActiveFriendChallenges;
+window.getPendingFriendChallenges = getPendingChallenges;
+window.getChallengeStats = getChallengeStats;
+window.getChallengeTypes = getChallengeTypes;
 
 // Legal handlers
 window.showLegalPage = (page = 'cgu') => setState({ activeTab: 'legal', legalPage: page });

@@ -1,6 +1,11 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      'mixpanel-browser': new URL('./tests/mocks/mixpanel.js', import.meta.url).pathname,
+    },
+  },
   test: {
     globals: true,
     environment: 'happy-dom',

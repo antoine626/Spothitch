@@ -91,6 +91,11 @@ const initialState = {
   privateMessages: {},
   unreadFriendMessages: 0,
 
+  // Friend Challenges (#157)
+  friendChallenges: [],
+  activeChallenges: [],
+  pendingChallenges: [],
+
   // Season/Leagues
   seasonPoints: 0,
   totalPoints: 0,
@@ -114,6 +119,15 @@ const initialState = {
   checkinHistory: [],
   checkinHistoryFilter: 'all',
   checkinDisplayLimit: 20,
+
+  // Identity Verification (#190)
+  verificationLevel: 0, // 0: unverified, 1: email, 2: phone, 3: photo, 4: identity
+  pendingPhoneVerification: null,
+  pendingPhotoVerification: null,
+  pendingIdentityVerification: null,
+  verifiedPhone: null,
+  verifiedPhotoUrl: null,
+  identityVerifiedAt: null,
 
   // Loading states
   isLoading: false,
@@ -168,6 +182,9 @@ function persistState() {
     favorites: state.favorites,
     favoritesSort: state.favoritesSort,
     checkinHistory: state.checkinHistory,
+    verificationLevel: state.verificationLevel,
+    verifiedPhone: state.verifiedPhone,
+    identityVerifiedAt: state.identityVerifiedAt,
   };
   Storage.set('state', stateToPersist);
 }
