@@ -1106,6 +1106,26 @@ window.compressImage = compressImage;
 window.generateThumbnail = generateThumbnail;
 window.validateImage = validateImage;
 
+// Landing page & help handlers
+window.openFAQ = () => {
+  setState({ activeTab: 'guides' });
+  showToast('Ouverture de la FAQ...', 'info');
+};
+window.openHelpCenter = () => {
+  setState({ activeTab: 'guides' });
+  showToast('Centre d\'aide ouvert', 'info');
+};
+window.openChangelog = () => {
+  showToast('Changelog - Version 2.0\n\n✨ Nouvelle interface avec Vite\n🎮 Gamification améliorée\n🗺️ Carte interactive Leaflet\n📱 PWA complète\n🌍 Support multilingue', 'info');
+};
+window.openRoadmap = () => {
+  showToast('Roadmap SpotHitch 2026\n\n✅ Chat temps réel\n✅ Messages privés\n✅ Vérification identité\n🔄 Guerres de guildes\n🔄 Événements saisonniers\n🔄 Intégration natives (iOS/Android)', 'info');
+};
+window.openContactForm = () => {
+  setState({ showContactForm: true });
+  showToast('Formulaire de contact ouvert', 'info');
+};
+
 // Lazy load handlers
 window.loadModal = loadModal;
 window.preloadModals = preloadModals;
