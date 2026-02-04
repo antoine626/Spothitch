@@ -97,6 +97,18 @@
     @apply bg-slate-200;
   }
 
+  .btn-secondary {
+    @apply px-4 py-2 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-all;
+  }
+
+  .admin-btn {
+    @apply flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all text-sm text-left;
+  }
+
+  .admin-btn:hover {
+    @apply bg-white/15;
+  }
+
   /* Light theme buttons */
   .light-theme .btn-primary {
     background: linear-gradient(135deg, #F97316, #EC4899);

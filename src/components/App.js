@@ -51,6 +51,7 @@ import { renderAccessibilityHelp } from '../services/screenReader.js';
 import { renderReportModal } from '../services/moderation.js';
 import { renderSOSTrackingWidget } from '../services/sosTracking.js';
 import { renderTeamDashboard } from '../services/teamChallenges.js';
+import { renderAdminPanel } from './modals/AdminPanel.js';
 
 /**
  * Render the complete application
@@ -111,6 +112,19 @@ export function renderApp(state) {
     <!-- Floating Widgets -->
     ${renderNearbyFriendsWidget(state)}
     ${renderSOSTrackingWidget(state)}
+
+    <!-- Admin Panel -->
+    ${state.showAdminPanel ? renderAdminPanel(state) : ''}
+
+    <!-- Admin Button (floating) -->
+    <button
+      onclick="openAdminPanel()"
+      class="fixed bottom-24 right-4 w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all z-40 flex items-center justify-center"
+      aria-label="Panneau Admin"
+      title="Panneau Admin"
+    >
+      <i class="fas fa-shield-alt text-lg" aria-hidden="true"></i>
+    </button>
   `;
 }
 
