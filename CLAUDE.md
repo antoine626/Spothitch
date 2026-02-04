@@ -2,6 +2,14 @@
 
 > **INSTRUCTION OBLIGATOIRE** : Ce fichier DOIT être mis à jour à la fin de chaque session Claude avec : ce qui a été fait, les décisions prises, et les TODO restants.
 
+> **RÈGLE DE TEST OBLIGATOIRE** : Après CHAQUE modification de code, Claude DOIT :
+> 1. Exécuter `npm run test:run` pour vérifier les tests unitaires
+> 2. Exécuter `npm run build` pour vérifier la compilation
+> 3. Si des tests échouent → corriger AVANT de commit
+> 4. Ne JAMAIS commit du code qui ne passe pas les tests
+>
+> Cette règle est NON NÉGOCIABLE et s'applique à TOUTES les modifications.
+
 ---
 
 ## Vue du Projet
