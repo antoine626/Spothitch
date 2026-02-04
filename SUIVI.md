@@ -68,7 +68,7 @@
 | 39 | Animations réduites (option) | ❌ | À faire |
 | 40 | Ordre onglets personnalisable | 🚫 | Non sélectionné |
 | 41 | Raccourcis clavier | 🚫 | Non sélectionné |
-| 42 | Gestes tactiles (swipe) | ❌ | SEULEMENT pour changer d'onglet |
+| 42 | Gestes tactiles (swipe) | ✅ | `swipeNavigation.js` - Service modulaire |
 | 43 | Pull to refresh | ✅ | `PullToRefresh.js` |
 | 44 | Infinite scroll | ✅ | `infiniteScroll.js` - Service avec Intersection Observer |
 | 45 | Recherche globale | 🚫 | Non sélectionné |
