@@ -95,8 +95,7 @@ export async function initMap(containerId = 'map') {
       attributionControl: true,
     });
 
-    // Add zoom control on right side
-    L.default.control.zoom({ position: 'topright' }).addTo(mainMap);
+    // No default zoom control - using custom buttons in Map.js view
 
     // Add tile layer
     L.default.tileLayer(getMapTileUrl(state.theme), {

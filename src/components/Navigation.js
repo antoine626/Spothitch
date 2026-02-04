@@ -28,6 +28,8 @@ export function renderNavigation(state) {
 }"
               role="tab"
               id="tab-${tab.id}"
+              data-tab="${tab.id}"
+              aria-label="${tab.label}"
               aria-selected="${state.activeTab === tab.id ? 'true' : 'false'}"
               aria-controls="panel-${tab.id}"
               tabindex="${state.activeTab === tab.id ? '0' : '-1'}"

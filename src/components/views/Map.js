@@ -89,10 +89,38 @@ export function renderMap(state) {
         </button>
       </div>
 
+      <!-- Map Controls (Zoom + Location) -->
+      <div class="absolute left-4 bottom-32 z-20 flex flex-col gap-2">
+        <button
+          onclick="mapZoomIn()"
+          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
+          aria-label="Zoomer"
+          title="Zoom +"
+        >
+          <i class="fas fa-plus" aria-hidden="true"></i>
+        </button>
+        <button
+          onclick="mapZoomOut()"
+          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
+          aria-label="Dézoomer"
+          title="Zoom -"
+        >
+          <i class="fas fa-minus" aria-hidden="true"></i>
+        </button>
+        <button
+          onclick="centerOnUser()"
+          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
+          aria-label="Ma position"
+          title="Ma position"
+        >
+          <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
+        </button>
+      </div>
+
       <!-- Add Spot FAB -->
       <button
         onclick="openAddSpot()"
-        class="absolute bottom-20 right-4 z-20 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-xl hover:bg-primary-600 hover:scale-110 transition-all"
+        class="absolute bottom-32 right-4 z-20 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-xl hover:bg-primary-600 hover:scale-110 transition-all"
         aria-label="Ajouter un nouveau spot"
         title="Ajouter un spot"
       >
@@ -211,6 +239,19 @@ window.openCountryGuide = (countryCode) => {
       activeSubTab: 'guides'
     });
     window.changeTab?.('travel');
+  }
+};
+
+// Map zoom controls
+window.mapZoomIn = () => {
+  if (window.mapInstance) {
+    window.mapInstance.zoomIn();
+  }
+};
+
+window.mapZoomOut = () => {
+  if (window.mapInstance) {
+    window.mapInstance.zoomOut();
   }
 };
 

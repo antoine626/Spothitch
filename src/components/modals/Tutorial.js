@@ -1,356 +1,435 @@
 /**
- * Tutorial Modal Component
- * Interactive onboarding tutorial with rewards
+ * Interactive Tutorial Component
+ * Step-by-step onboarding where users click on actual elements
  */
 
-import { t } from '../../i18n/index.js';
+import { getState, setState } from '../../stores/state.js';
 
 // Tutorial rewards
 const TUTORIAL_REWARDS = {
   completeAll: { points: 100, badge: 'tutorial_master' },
-  perStep: 5, // Points per step completed
+  perStep: 10,
 };
 
+// Interactive tutorial steps
 const tutorialSteps = [
-  // Introduction
+  // Welcome
   {
     id: 'welcome',
     icon: '🤙',
     title: 'Bienvenue sur SpotHitch !',
-    desc: 'L\'app communautaire des autostoppeurs. Découvre comment trouver les meilleurs spots, planifier tes voyages et rejoindre la communauté.',
+    desc: 'Découvre l\'app en quelques clics. Je vais te guider vers chaque fonctionnalité.',
+    type: 'modal', // Just show modal, no interaction
     position: 'center',
-    highlight: null,
   },
-  // Navigation - Accueil
+  // Step 1: Map tab
   {
-    id: 'nav-home',
-    icon: '🏠',
-    title: 'L\'Accueil',
-    desc: 'Ta page principale avec tes stats, les top spots, et un accès rapide à toutes les fonctionnalités. C\'est ton tableau de bord personnel.',
+    id: 'nav-map',
+    icon: '🗺️',
+    title: 'La Carte',
+    desc: 'Clique sur l\'onglet Carte pour voir tous les spots d\'auto-stop.',
+    type: 'click',
+    target: 'nav-map', // ID of the nav button
+    targetSelector: '[data-tab="map"], [aria-label*="Carte"]',
     position: 'top',
-    highlight: '[aria-label="Accueil"], button:has(.fa-home)',
-    action: () => window.changeTab?.('home'),
+    onComplete: () => window.changeTab?.('map'),
   },
-  // Gamification - Stats
+  // Step 2: Explain the map
   {
-    id: 'stats',
-    icon: '📊',
-    title: 'Tes Statistiques',
-    desc: 'Clique sur tes stats (Spots, Points, Niveau) pour voir ton profil complet : VIP, ligue, badges débloqués, distance parcourue...',
-    position: 'top',
-    highlight: '.grid-cols-3 button',
-  },
-  // Gamification - Badges
-  {
-    id: 'badges',
-    icon: '🏅',
-    title: 'Les Badges',
-    desc: 'Gagne des badges en utilisant l\'app : premier check-in, série de jours, spots créés... Collectionne-les tous !',
+    id: 'map-explore',
+    icon: '📍',
+    title: 'Explore les spots',
+    desc: 'Les marqueurs colorés sont des spots. Vert = excellent, Rouge = à éviter. Utilise les boutons à gauche pour zoomer.',
+    type: 'modal',
     position: 'center',
-    highlight: '[onclick*="openBadges"]',
+    prerequisiteTab: 'map',
   },
-  // Gamification - Défis
+  // Step 3: Add spot button
   {
-    id: 'challenges',
+    id: 'add-spot-btn',
+    icon: '➕',
+    title: 'Ajouter un spot',
+    desc: 'Tu connais un bon spot ? Clique sur le bouton + bleu pour le partager !',
+    type: 'highlight',
+    targetSelector: '[aria-label*="Ajouter"]',
+    position: 'left',
+    prerequisiteTab: 'map',
+  },
+  // Step 4: Challenges tab
+  {
+    id: 'nav-challenges',
     icon: '🎯',
     title: 'Les Défis',
-    desc: 'Des défis quotidiens et hebdomadaires pour gagner des points bonus. Complète-les pour monter dans les ligues !',
+    desc: 'Clique sur Défis pour découvrir la gamification : badges, quiz, boutique...',
+    type: 'click',
+    targetSelector: '[data-tab="challenges"], [aria-label*="Défis"]',
+    position: 'top',
+    onComplete: () => window.changeTab?.('challenges'),
+  },
+  // Step 5: Explain challenges
+  {
+    id: 'challenges-explore',
+    icon: '🏆',
+    title: 'Gagne des récompenses',
+    desc: 'Complète des défis quotidiens, gagne des points, monte de niveau et débloque des badges !',
+    type: 'modal',
     position: 'center',
-    highlight: '[onclick*="openChallenges"]',
+    prerequisiteTab: 'challenges',
   },
-  // Gamification - Boutique
+  // Step 6: Social tab
   {
-    id: 'shop',
-    icon: '🛒',
-    title: 'La Boutique',
-    desc: 'Dépense tes points pour débloquer des avatars, cadres, titres et fonctionnalités exclusives. Plus tu es VIP, plus tu as de réductions !',
-    position: 'center',
-    highlight: '[onclick*="openShop"]',
-  },
-  // Gamification - Quiz
-  {
-    id: 'quiz',
-    icon: '🧠',
-    title: 'Le Quiz',
-    desc: 'Teste tes connaissances sur l\'auto-stop ! 10 questions, 60 secondes. Gagne des points et le badge "Expert" si tu fais un sans-faute.',
-    position: 'center',
-    highlight: '[onclick*="openQuiz"]',
-  },
-  // Navigation - Spots
-  {
-    id: 'nav-spots',
-    icon: '📍',
-    title: 'Les Spots',
-    desc: 'Explore la carte interactive avec 94+ spots vérifiés en Europe. Filtre par pays, note, temps d\'attente...',
-    position: 'top',
-    highlight: '[aria-label="Spots"], button:has(.fa-map-marker-alt)',
-    action: () => window.changeTab?.('spots'),
-  },
-  // Spots - Carte
-  {
-    id: 'map-view',
-    icon: '🗺️',
-    title: 'Vue Carte',
-    desc: 'Bascule entre la liste et la carte. Sur la carte, les spots sont colorés selon leur note : vert (excellent) → rouge (éviter).',
-    position: 'top',
-    highlight: '[aria-label="Vue carte"], button:has(.fa-map)',
-  },
-  // Spots - Filtres
-  {
-    id: 'filters',
-    icon: '🔍',
-    title: 'Les Filtres',
-    desc: 'Filtre les spots par pays, note minimum, temps d\'attente max, spots vérifiés uniquement. Trouve LE spot parfait !',
-    position: 'top',
-    highlight: '[onclick*="openFilters"], .badge:has(.fa-sliders)',
-  },
-  // Spots - Ajouter
-  {
-    id: 'add-spot',
-    icon: '➕',
-    title: 'Ajouter un Spot',
-    desc: 'Tu connais un bon spot ? Partage-le ! Ajoute une photo, décris l\'endroit, et aide la communauté. Tu gagnes 50 points par spot validé.',
-    position: 'top',
-    highlight: '.fab, [onclick*="openAddSpot"]',
-  },
-  // Spot Detail
-  {
-    id: 'spot-detail',
-    icon: '📸',
-    title: 'Détail d\'un Spot',
-    desc: 'Clique sur un spot pour voir : photos, description, notes, commentaires, temps d\'attente moyen. Tu peux aussi signaler ou valider un spot.',
-    position: 'center',
-    highlight: '.card',
-  },
-  // Navigation - Planner
-  {
-    id: 'nav-planner',
-    icon: '🧭',
-    title: 'Le Planificateur',
-    desc: 'Planifie ton voyage étape par étape. L\'app calcule l\'itinéraire et te suggère les meilleurs spots sur ta route.',
-    position: 'top',
-    highlight: '[aria-label="Voyage"], button:has(.fa-route)',
-    action: () => window.changeTab?.('planner'),
-  },
-  // Navigation - Chat
-  {
-    id: 'nav-chat',
+    id: 'nav-social',
     icon: '💬',
-    title: 'Le Chat',
-    desc: 'Discute avec la communauté ! Pose des questions, partage tes expériences, trouve des compagnons de voyage.',
+    title: 'La Communauté',
+    desc: 'Clique sur Social pour discuter avec d\'autres autostoppeurs.',
+    type: 'click',
+    targetSelector: '[data-tab="social"], [aria-label*="Social"]',
     position: 'top',
-    highlight: '[aria-label="Chat"], button:has(.fa-comments)',
-    action: () => window.changeTab?.('chat'),
+    onComplete: () => window.changeTab?.('social'),
   },
-  // Navigation - Profil
+  // Step 7: Explain social
+  {
+    id: 'social-explore',
+    icon: '👥',
+    title: 'Chat & Groupes',
+    desc: 'Discute dans le chat général, ajoute des amis, et crée des groupes de voyage !',
+    type: 'modal',
+    position: 'center',
+    prerequisiteTab: 'social',
+  },
+  // Step 8: Profile tab
   {
     id: 'nav-profile',
     icon: '👤',
     title: 'Ton Profil',
-    desc: 'Gère ton compte, change ton avatar, consulte tes voyages sauvegardés, et paramètre l\'app (langue, thème, notifications).',
+    desc: 'Clique sur Profil pour personnaliser ton compte et accéder aux paramètres.',
+    type: 'click',
+    targetSelector: '[data-tab="profile"], [aria-label*="Profil"]',
     position: 'top',
-    highlight: '[aria-label="Profil"], button:has(.fa-user)',
-    action: () => window.changeTab?.('profile'),
+    onComplete: () => window.changeTab?.('profile'),
   },
-  // Header - SOS
+  // Step 9: Profile features
   {
-    id: 'sos',
+    id: 'profile-features',
+    icon: '⚙️',
+    title: 'Personnalisation',
+    desc: 'Change ton avatar, accède à l\'arbre de compétences, gère tes paramètres et bien plus !',
+    type: 'modal',
+    position: 'center',
+    prerequisiteTab: 'profile',
+  },
+  // Step 10: SOS Button
+  {
+    id: 'sos-btn',
     icon: '🆘',
     title: 'Mode SOS',
-    desc: 'En cas d\'urgence, le bouton SOS partage ta position GPS avec tes contacts d\'urgence et affiche les numéros utiles du pays.',
+    desc: 'En cas d\'urgence, le bouton SOS (en haut) partage ta position et affiche les numéros utiles.',
+    type: 'highlight',
+    targetSelector: '[aria-label*="SOS"], .sos-btn',
     position: 'bottom',
-    highlight: '.sos-header-btn, [onclick*="openSOS"]',
   },
-  // Header - Reset (Dev)
+  // Step 11: Admin panel
   {
-    id: 'reset',
-    icon: '🔄',
-    title: 'Bouton Reset',
-    desc: 'Ce bouton réinitialise l\'app (données locales). Utile pour tester ou si tu rencontres un bug.',
-    position: 'bottom',
-    highlight: '[onclick*="resetApp"]',
+    id: 'admin-panel',
+    icon: '🛡️',
+    title: 'Panneau Admin',
+    desc: 'Le bouton orange en bas à droite ouvre le panneau admin pour accéder rapidement à TOUTES les fonctionnalités.',
+    type: 'highlight',
+    targetSelector: '[aria-label*="Admin"]',
+    position: 'left',
   },
   // Conclusion
   {
     id: 'ready',
     icon: '🚀',
     title: 'Tu es prêt !',
-    desc: 'Tu connais maintenant toutes les fonctionnalités de SpotHitch. Bonne route et bon stop ! N\'oublie pas : la communauté compte sur toi pour partager tes spots.',
+    desc: 'Tu connais maintenant SpotHitch. Bonne route et n\'oublie pas de partager tes spots !',
+    type: 'modal',
     position: 'center',
-    highlight: null,
+    isLast: true,
   },
 ];
 
 export function renderTutorial(state) {
   const stepIndex = state.tutorialStep || 0;
-  const step = tutorialSteps[stepIndex] || tutorialSteps[0];
-  const isLast = stepIndex === tutorialSteps.length - 1;
-  const isFirst = stepIndex === 0;
+  const step = tutorialSteps[stepIndex];
+
+  if (!step) {
+    finishTutorial();
+    return '';
+  }
+
+  const isLast = step.isLast || stepIndex === tutorialSteps.length - 1;
   const progress = ((stepIndex + 1) / tutorialSteps.length) * 100;
 
-  // Position classes
-  const positionClasses = {
-    center: 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-    top: 'top-20 left-4 right-4',
-    bottom: 'bottom-32 left-4 right-4',
-  };
+  // Check prerequisite tab
+  if (step.prerequisiteTab && state.activeTab !== step.prerequisiteTab) {
+    window.changeTab?.(step.prerequisiteTab);
+  }
 
   return `
-    <!-- Dark Overlay with spotlight effect -->
-    <div class="fixed inset-0 z-[100] bg-black/80 transition-opacity duration-300" onclick="skipTutorial()" aria-hidden="true">
-      ${step.highlight ? `
-        <div class="tuto-spotlight" data-highlight="${step.highlight}"></div>
-      ` : ''}
-    </div>
+    <div class="tutorial-overlay" id="tutorial-overlay">
+      <!-- Progress bar at top -->
+      <div class="fixed top-0 left-0 right-0 z-[102] h-1 bg-slate-800">
+        <div class="h-full bg-gradient-to-r from-primary-500 to-emerald-500 transition-all duration-500" style="width: ${progress}%"></div>
+      </div>
 
-    <!-- Tutorial Card -->
-    <div class="fixed z-[101] ${positionClasses[step.position] || positionClasses.center}
-                max-w-md w-full mx-auto animate-fade-in"
-         onclick="event.stopPropagation()"
-         role="dialog"
-         aria-modal="true"
-         aria-labelledby="tutorial-title"
-         aria-describedby="tutorial-desc">
-      <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-6 mx-4
-                  border border-white/10 shadow-2xl">
+      <!-- Skip button -->
+      <button
+        onclick="skipTutorial()"
+        class="fixed top-4 right-4 z-[103] px-4 py-2 rounded-full bg-slate-800/90 text-slate-400 text-sm hover:text-white hover:bg-slate-700 transition-all"
+      >
+        Passer <i class="fas fa-forward ml-1" aria-hidden="true"></i>
+      </button>
 
-        <!-- Progress Bar -->
-        <div class="h-1 bg-slate-700 rounded-full mb-6 overflow-hidden">
-          <div class="h-full bg-gradient-to-r from-primary-500 to-emerald-500 transition-all duration-500"
-               style="width: ${progress}%"></div>
-        </div>
+      <!-- Dark overlay -->
+      <div class="fixed inset-0 z-[100] bg-black/70 transition-opacity duration-300" id="tutorial-backdrop"></div>
 
-        <!-- Icon with glow effect -->
-        <div class="flex justify-center mb-4" aria-hidden="true">
-          <div class="text-6xl animate-bounce-slow filter drop-shadow-lg">
-            ${step.icon}
+      <!-- Spotlight on target element -->
+      ${step.targetSelector ? `<div class="tutorial-spotlight" id="tutorial-spotlight"></div>` : ''}
+
+      <!-- Tutorial card -->
+      <div class="tutorial-card ${getPositionClass(step.position)}" id="tutorial-card">
+        <div class="flex items-start gap-4">
+          <div class="text-4xl flex-shrink-0">${step.icon}</div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg font-bold text-white mb-2">${step.title}</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">${step.desc}</p>
           </div>
         </div>
 
-        <!-- Title -->
-        <h3 id="tutorial-title" class="text-2xl font-bold text-center mb-3 text-white">
-          ${step.title}
-        </h3>
-
-        <!-- Description -->
-        <p id="tutorial-desc" class="text-slate-300 text-center leading-relaxed mb-6">
-          ${step.desc}
-        </p>
-
-        <!-- Progress Dots -->
-        <div class="flex justify-center gap-1.5 mb-6">
-          ${tutorialSteps.map((_, i) => `
-            <div class="w-2 h-2 rounded-full transition-all duration-300
-                        ${i === stepIndex ? 'w-6 bg-primary-500' :
-    i < stepIndex ? 'bg-emerald-500' : 'bg-slate-600'}">
-            </div>
-          `).join('')}
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="flex gap-3">
-          ${!isFirst ? `
-            <button
-              onclick="prevTutorial()"
-              class="flex-1 py-3 px-4 rounded-xl bg-slate-700 text-white font-medium
-                     hover:bg-slate-600 transition-colors flex items-center justify-center gap-2"
-              type="button"
-            >
-              <i class="fas fa-arrow-left" aria-hidden="true"></i>
-              Precedent
+        <!-- Action hint -->
+        ${step.type === 'click' ? `
+          <div class="mt-4 flex items-center gap-2 text-primary-400 text-sm animate-pulse">
+            <i class="fas fa-hand-pointer" aria-hidden="true"></i>
+            <span>Clique sur l'élément mis en surbrillance</span>
+          </div>
+        ` : step.type === 'highlight' ? `
+          <div class="mt-4 flex gap-2">
+            <button onclick="nextTutorial()" class="flex-1 py-2 px-4 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
+              Compris ! <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
             </button>
-          ` : `
-            <button
-              onclick="skipTutorial()"
-              class="flex-1 py-3 px-4 rounded-xl bg-slate-700/50 text-slate-400 font-medium
-                     hover:bg-slate-700 hover:text-white transition-colors"
-              type="button"
-            >
-              Passer le tutoriel
+          </div>
+        ` : `
+          <div class="mt-4 flex gap-2">
+            ${stepIndex > 0 ? `
+              <button onclick="prevTutorial()" class="py-2 px-4 rounded-lg bg-slate-700 text-white hover:bg-slate-600 transition-colors">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+              </button>
+            ` : ''}
+            <button onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}" class="flex-1 py-2 px-4 rounded-lg ${isLast ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-primary-500 hover:bg-primary-600'} text-white font-medium transition-colors">
+              ${isLast ? 'Commencer !' : 'Suivant'} <i class="fas fa-${isLast ? 'rocket' : 'arrow-right'} ml-2" aria-hidden="true"></i>
             </button>
-          `}
-
-          <button
-            onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}"
-            class="flex-1 py-3 px-4 rounded-xl font-medium transition-all
-                   ${isLast
-    ? 'bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:from-emerald-600 hover:to-green-600'
-    : 'bg-gradient-to-r from-primary-500 to-cyan-500 text-white hover:from-primary-600 hover:to-cyan-600'}
-                   flex items-center justify-center gap-2"
-            type="button"
-          >
-            ${isLast ? 'Commencer !' : 'Suivant'}
-            ${!isLast ? '<i class="fas fa-arrow-right" aria-hidden="true"></i>' : '<i class="fas fa-rocket" aria-hidden="true"></i>'}
-          </button>
-        </div>
-
-        <!-- Step Counter & Rewards -->
-        <div class="text-center mt-4">
-          <div class="text-slate-500 text-sm">
-            Étape ${stepIndex + 1} sur ${tutorialSteps.length}
           </div>
-          <div class="text-xs text-amber-400 mt-1">
-            <i class="fas fa-star mr-1"></i>
-            +${TUTORIAL_REWARDS.perStep} pts par étape • +${TUTORIAL_REWARDS.completeAll.points} pts bonus à la fin !
-          </div>
+        `}
+
+        <!-- Step indicator -->
+        <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
+          <span>Étape ${stepIndex + 1}/${tutorialSteps.length}</span>
+          <span class="text-amber-400"><i class="fas fa-star mr-1"></i>+${TUTORIAL_REWARDS.perStep} pts</span>
         </div>
       </div>
     </div>
 
     <style>
-      .animate-bounce-slow {
-        animation: bounce-slow 2s ease-in-out infinite;
-      }
-      @keyframes bounce-slow {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-      }
-      .animate-fade-in {
-        animation: fade-in 0.3s ease-out;
-      }
-      @keyframes fade-in {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-      }
-      .tuto-spotlight {
-        position: absolute;
-        background: transparent;
-        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.8);
-        border-radius: 12px;
+      .tutorial-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 99;
         pointer-events: none;
+      }
+      .tutorial-overlay > * {
+        pointer-events: auto;
+      }
+      .tutorial-card {
+        position: fixed;
+        z-index: 103;
+        max-width: 360px;
+        width: calc(100% - 32px);
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        animation: slideIn 0.3s ease-out;
+      }
+      .tutorial-card.pos-center {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .tutorial-card.pos-top {
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .tutorial-card.pos-bottom {
+        bottom: 140px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .tutorial-card.pos-left {
+        bottom: 140px;
+        left: 16px;
+        transform: none;
+      }
+      .tutorial-spotlight {
+        position: fixed;
+        z-index: 101;
+        border-radius: 12px;
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.5), 0 0 0 9999px rgba(0, 0, 0, 0.75);
+        pointer-events: none;
+        transition: all 0.3s ease-out;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      .tutorial-card.pos-top {
+        animation: slideInTop 0.3s ease-out;
+      }
+      @keyframes slideInTop {
+        from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
+      }
+      .tutorial-card.pos-bottom, .tutorial-card.pos-left {
+        animation: slideInBottom 0.3s ease-out;
+      }
+      @keyframes slideInBottom {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .tutorial-card.pos-left {
+        animation: slideInLeft 0.3s ease-out;
+      }
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
       }
     </style>
   `;
 }
 
-// Execute step action (like changing tab)
-export function executeStepAction(stepIndex) {
+function getPositionClass(position) {
+  const posMap = {
+    'center': 'pos-center',
+    'top': 'pos-top',
+    'bottom': 'pos-bottom',
+    'left': 'pos-left',
+  };
+  return posMap[position] || 'pos-center';
+}
+
+// Position spotlight on target element
+export function positionSpotlight() {
+  const state = getState();
+  const stepIndex = state.tutorialStep || 0;
   const step = tutorialSteps[stepIndex];
-  if (step?.action) {
-    step.action();
+
+  if (!step?.targetSelector) return;
+
+  const spotlight = document.getElementById('tutorial-spotlight');
+  if (!spotlight) return;
+
+  const target = document.querySelector(step.targetSelector);
+  if (target) {
+    const rect = target.getBoundingClientRect();
+    const padding = 8;
+    spotlight.style.top = `${rect.top - padding}px`;
+    spotlight.style.left = `${rect.left - padding}px`;
+    spotlight.style.width = `${rect.width + padding * 2}px`;
+    spotlight.style.height = `${rect.height + padding * 2}px`;
+    spotlight.style.display = 'block';
+
+    // Make target clickable for 'click' type steps
+    if (step.type === 'click') {
+      target.style.position = 'relative';
+      target.style.zIndex = '102';
+      target.dataset.tutorialTarget = 'true';
+
+      // Add click listener
+      const handleClick = () => {
+        target.removeEventListener('click', handleClick);
+        target.style.zIndex = '';
+        delete target.dataset.tutorialTarget;
+        if (step.onComplete) step.onComplete();
+        nextTutorial();
+      };
+      target.addEventListener('click', handleClick, { once: true });
+    }
+  } else {
+    spotlight.style.display = 'none';
   }
 }
 
-// Highlight element for current step
-export function highlightElement(stepIndex) {
-  const step = tutorialSteps[stepIndex];
-  if (!step?.highlight) return;
+// Global handlers
+window.nextTutorial = () => {
+  const state = getState();
+  const newStep = (state.tutorialStep || 0) + 1;
 
-  // Remove previous highlights
-  document.querySelectorAll('.tuto-highlighted').forEach(el => {
-    el.classList.remove('tuto-highlighted');
+  if (newStep >= tutorialSteps.length) {
+    finishTutorial();
+  } else {
+    setState({ tutorialStep: newStep });
+    // Position spotlight after render
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => positionSpotlight());
+    });
+  }
+};
+
+window.prevTutorial = () => {
+  const state = getState();
+  const newStep = Math.max(0, (state.tutorialStep || 0) - 1);
+  setState({ tutorialStep: newStep });
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => positionSpotlight());
+  });
+};
+
+window.skipTutorial = () => {
+  // Clean up any tutorial targets
+  document.querySelectorAll('[data-tutorial-target]').forEach(el => {
+    el.style.zIndex = '';
+    delete el.dataset.tutorialTarget;
+  });
+  setState({ showTutorial: false, tutorialStep: 0 });
+  window.showToast?.('Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
+};
+
+window.finishTutorial = () => {
+  // Clean up
+  document.querySelectorAll('[data-tutorial-target]').forEach(el => {
+    el.style.zIndex = '';
+    delete el.dataset.tutorialTarget;
   });
 
-  // Find and highlight element
-  setTimeout(() => {
-    const selector = step.highlight;
-    const element = document.querySelector(selector);
-    if (element) {
-      element.classList.add('tuto-highlighted');
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, 100);
-}
+  const state = getState();
+  const totalPoints = tutorialSteps.length * TUTORIAL_REWARDS.perStep + TUTORIAL_REWARDS.completeAll.points;
+
+  setState({
+    showTutorial: false,
+    tutorialStep: 0,
+    tutorialCompleted: true,
+    points: (state.points || 0) + totalPoints,
+    totalPoints: (state.totalPoints || 0) + totalPoints,
+  });
+
+  window.showToast?.(`Tutoriel terminé ! +${totalPoints} points gagnés`, 'success');
+};
+
+window.startTutorial = () => {
+  setState({ showTutorial: true, tutorialStep: 0 });
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => positionSpotlight());
+  });
+};
 
 export { tutorialSteps };
-export default { renderTutorial, tutorialSteps, executeStepAction, highlightElement };
+export default { renderTutorial, tutorialSteps, positionSpotlight };
