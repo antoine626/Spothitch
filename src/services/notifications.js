@@ -191,6 +191,164 @@ export function scheduleNotification(title, body, triggerTime, data = {}) {
   return timeoutId;
 }
 
+// ==================== SPOT NOTIFICATIONS ====================
+
+// Store subscribed spots in localStorage
+const SPOT_SUBSCRIPTIONS_KEY = 'spothitch_spot_subscriptions';
+
+/**
+ * Get notification settings for spots
+ */
+export function getSpotNotificationSettings() {
+  try {
+    const saved = localStorage.getItem(SPOT_SUBSCRIPTIONS_KEY);
+    return saved ? JSON.parse(saved) : { enabled: true, spots: [], types: ['checkin', 'rating', 'comment'] };
+  } catch {
+    return { enabled: true, spots: [], types: ['checkin', 'rating', 'comment'] };
+  }
+}
+
+/**
+ * Save notification settings for spots
+ */
+function saveSpotNotificationSettings(settings) {
+  try {
+    localStorage.setItem(SPOT_SUBSCRIPTIONS_KEY, JSON.stringify(settings));
+  } catch (e) {
+    console.warn('Failed to save spot notification settings:', e);
+  }
+}
+
+/**
+ * Subscribe to notifications for a spot you created
+ * @param {number|string} spotId - The spot ID
+ * @param {string} spotName - The spot name for display
+ */
+export function subscribeToSpotNotifications(spotId, spotName) {
+  const settings = getSpotNotificationSettings();
+
+  if (!settings.spots.find(s => s.id === spotId)) {
+    settings.spots.push({
+      id: spotId,
+      name: spotName,
+      subscribedAt: new Date().toISOString()
+    });
+    saveSpotNotificationSettings(settings);
+    showToast(`Notifications activées pour "${spotName}"`, 'success');
+  }
+
+  return true;
+}
+
+/**
+ * Unsubscribe from notifications for a spot
+ * @param {number|string} spotId - The spot ID
+ */
+export function unsubscribeFromSpotNotifications(spotId) {
+  const settings = getSpotNotificationSettings();
+  settings.spots = settings.spots.filter(s => s.id !== spotId);
+  saveSpotNotificationSettings(settings);
+  showToast('Notifications désactivées pour ce spot', 'info');
+}
+
+/**
+ * Check if subscribed to a spot's notifications
+ * @param {number|string} spotId - The spot ID
+ */
+export function isSubscribedToSpot(spotId) {
+  const settings = getSpotNotificationSettings();
+  return settings.spots.some(s => s.id === spotId);
+}
+
+/**
+ * Toggle spot notification subscription
+ * @param {number|string} spotId - The spot ID
+ * @param {string} spotName - The spot name for display
+ */
+export function toggleSpotNotifications(spotId, spotName) {
+  if (isSubscribedToSpot(spotId)) {
+    unsubscribeFromSpotNotifications(spotId);
+    return false;
+  } else {
+    subscribeToSpotNotifications(spotId, spotName);
+    return true;
+  }
+}
+
+/**
+ * Notify about activity on a spot
+ * This is called when someone interacts with a spot you're subscribed to
+ * @param {string} type - 'checkin' | 'rating' | 'comment'
+ * @param {object} data - Activity data
+ */
+export function notifySpotActivity(type, data) {
+  const settings = getSpotNotificationSettings();
+
+  // Check if notifications are enabled and spot is subscribed
+  if (!settings.enabled) return;
+  if (!settings.types.includes(type)) return;
+
+  const isSubscribed = settings.spots.some(s => s.id === data.spotId);
+  if (!isSubscribed) return;
+
+  const messages = {
+    checkin: {
+      title: '📍 Nouveau check-in !',
+      body: `${data.userName || 'Un voyageur'} a validé ton spot "${data.spotName}"`,
+    },
+    rating: {
+      title: '⭐ Nouvelle évaluation !',
+      body: `${data.userName || 'Un voyageur'} a noté ton spot "${data.spotName}" : ${data.rating}/5`,
+    },
+    comment: {
+      title: '💬 Nouveau commentaire !',
+      body: `${data.userName || 'Un voyageur'} a commenté ton spot "${data.spotName}"`,
+    },
+  };
+
+  const msg = messages[type];
+  if (msg) {
+    sendLocalNotification(msg.title, msg.body, {
+      type: 'spot_activity',
+      spotId: data.spotId,
+      activityType: type,
+      url: `/Spothitch/?spot=${data.spotId}`
+    });
+
+    // Also show in-app toast
+    showToast(msg.body, 'info', 5000);
+  }
+}
+
+/**
+ * Get all subscribed spots
+ */
+export function getSubscribedSpots() {
+  const settings = getSpotNotificationSettings();
+  return settings.spots;
+}
+
+/**
+ * Set notification types to receive
+ * @param {string[]} types - Array of types: 'checkin', 'rating', 'comment'
+ */
+export function setSpotNotificationTypes(types) {
+  const settings = getSpotNotificationSettings();
+  settings.types = types;
+  saveSpotNotificationSettings(settings);
+}
+
+/**
+ * Toggle all spot notifications
+ * @param {boolean} enabled - Enable or disable
+ */
+export function setSpotNotificationsEnabled(enabled) {
+  const settings = getSpotNotificationSettings();
+  settings.enabled = enabled;
+  saveSpotNotificationSettings(settings);
+  showToast(enabled ? 'Notifications de spots activées' : 'Notifications de spots désactivées', 'info');
+}
+
 export default {
   initNotifications,
   showToast,
@@ -201,4 +359,14 @@ export default {
   announce,
   sendLocalNotification,
   scheduleNotification,
+  // Spot notifications
+  getSpotNotificationSettings,
+  subscribeToSpotNotifications,
+  unsubscribeFromSpotNotifications,
+  isSubscribedToSpot,
+  toggleSpotNotifications,
+  notifySpotActivity,
+  getSubscribedSpots,
+  setSpotNotificationTypes,
+  setSpotNotificationsEnabled,
 };

@@ -238,8 +238,18 @@ export function renderTutorial(state) {
         z-index: 99;
         pointer-events: none;
       }
-      .tutorial-overlay > * {
+      /* Only specific elements capture clicks - not the backdrop for click-type steps */
+      .tutorial-overlay .tutorial-card,
+      .tutorial-overlay button {
         pointer-events: auto;
+      }
+      /* Backdrop blocks clicks except on click-type steps where target needs to be clickable */
+      .tutorial-overlay #tutorial-backdrop {
+        pointer-events: auto;
+      }
+      /* Progress bar doesn't need to capture clicks */
+      .tutorial-overlay .h-1 {
+        pointer-events: none;
       }
       .tutorial-card {
         position: fixed;
@@ -326,15 +336,27 @@ function getPositionClass(position) {
   return posMap[position] || 'pos-center';
 }
 
+// Track active click handlers to prevent duplicates
+let activeClickHandler = null;
+let activeClickTarget = null;
+
 // Position spotlight on target element
 export function positionSpotlight() {
   const state = getState();
   const stepIndex = state.tutorialStep || 0;
   const step = tutorialSteps[stepIndex];
 
+  // Clean up previous click handler if exists
+  if (activeClickHandler && activeClickTarget) {
+    activeClickTarget.removeEventListener('click', activeClickHandler);
+    activeClickHandler = null;
+    activeClickTarget = null;
+  }
+
   if (!step?.targetSelector) return;
 
   const spotlight = document.getElementById('tutorial-spotlight');
+  const backdrop = document.getElementById('tutorial-backdrop');
   if (!spotlight) return;
 
   const target = document.querySelector(step.targetSelector);
@@ -349,87 +371,152 @@ export function positionSpotlight() {
 
     // Make target clickable for 'click' type steps
     if (step.type === 'click') {
+      // Make backdrop click-through so user can click the target
+      if (backdrop) {
+        backdrop.style.pointerEvents = 'none';
+      }
+
       target.style.position = 'relative';
       target.style.zIndex = '102';
       target.dataset.tutorialTarget = 'true';
 
-      // Add click listener
-      const handleClick = () => {
-        target.removeEventListener('click', handleClick);
-        target.style.zIndex = '';
-        delete target.dataset.tutorialTarget;
+      // Create and store click handler
+      activeClickHandler = () => {
+        // Clean up
+        if (activeClickTarget) {
+          activeClickTarget.style.zIndex = '';
+          activeClickTarget.style.position = '';
+          delete activeClickTarget.dataset.tutorialTarget;
+        }
+        if (backdrop) {
+          backdrop.style.pointerEvents = '';
+        }
+        activeClickHandler = null;
+        activeClickTarget = null;
+
+        // Execute step completion callback
         if (step.onComplete) step.onComplete();
-        nextTutorial();
+
+        // Move to next step
+        window.nextTutorial?.();
       };
-      target.addEventListener('click', handleClick, { once: true });
+      activeClickTarget = target;
+
+      target.addEventListener('click', activeClickHandler, { once: true });
+    } else {
+      // For non-click steps, backdrop should block clicks
+      if (backdrop) {
+        backdrop.style.pointerEvents = 'auto';
+      }
     }
   } else {
     spotlight.style.display = 'none';
+    // Restore backdrop blocking
+    if (backdrop) {
+      backdrop.style.pointerEvents = 'auto';
+    }
   }
 }
 
-// Global handlers
-window.nextTutorial = () => {
-  const state = getState();
-  const newStep = (state.tutorialStep || 0) + 1;
-
-  if (newStep >= tutorialSteps.length) {
-    finishTutorial();
-  } else {
-    setState({ tutorialStep: newStep });
-    // Position spotlight after render
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => positionSpotlight());
-    });
+/**
+ * Clean up tutorial target elements (remove z-index and data attributes)
+ * Also cleans up any active click handlers
+ */
+export function cleanupTutorialTargets() {
+  // Remove click handler if active
+  if (activeClickHandler && activeClickTarget) {
+    activeClickTarget.removeEventListener('click', activeClickHandler);
+    activeClickHandler = null;
+    activeClickTarget = null;
   }
-};
 
-window.prevTutorial = () => {
-  const state = getState();
-  const newStep = Math.max(0, (state.tutorialStep || 0) - 1);
-  setState({ tutorialStep: newStep });
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => positionSpotlight());
-  });
-};
-
-window.skipTutorial = () => {
-  // Clean up any tutorial targets
+  // Clean up all tutorial target elements
   document.querySelectorAll('[data-tutorial-target]').forEach(el => {
     el.style.zIndex = '';
-    delete el.dataset.tutorialTarget;
-  });
-  setState({ showTutorial: false, tutorialStep: 0 });
-  window.showToast?.('Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
-};
-
-window.finishTutorial = () => {
-  // Clean up
-  document.querySelectorAll('[data-tutorial-target]').forEach(el => {
-    el.style.zIndex = '';
+    el.style.position = '';
     delete el.dataset.tutorialTarget;
   });
 
-  const state = getState();
-  const totalPoints = tutorialSteps.length * TUTORIAL_REWARDS.perStep + TUTORIAL_REWARDS.completeAll.points;
+  // Restore backdrop pointer events
+  const backdrop = document.getElementById('tutorial-backdrop');
+  if (backdrop) {
+    backdrop.style.pointerEvents = '';
+  }
+}
 
-  setState({
-    showTutorial: false,
-    tutorialStep: 0,
-    tutorialCompleted: true,
-    points: (state.points || 0) + totalPoints,
-    totalPoints: (state.totalPoints || 0) + totalPoints,
-  });
+/**
+ * Execute action for a specific step (called from main.js handlers)
+ * @param {number} stepIndex - The step index
+ */
+export function executeStepAction(stepIndex) {
+  const step = tutorialSteps[stepIndex];
+  if (!step) return;
 
-  window.showToast?.(`Tutoriel terminé ! +${totalPoints} points gagnés`, 'success');
-};
-
-window.startTutorial = () => {
-  setState({ showTutorial: true, tutorialStep: 0 });
+  // Position spotlight after DOM update
   requestAnimationFrame(() => {
     requestAnimationFrame(() => positionSpotlight());
   });
-};
+}
+
+// NOTE: Global handlers are defined in main.js to avoid duplicate definitions
+// The following are kept as fallbacks only if main.js handlers aren't loaded yet
+
+if (typeof window.nextTutorial === 'undefined') {
+  window.nextTutorial = () => {
+    const state = getState();
+    const newStep = (state.tutorialStep || 0) + 1;
+
+    if (newStep >= tutorialSteps.length) {
+      window.finishTutorial?.();
+    } else {
+      setState({ tutorialStep: newStep });
+      executeStepAction(newStep);
+    }
+  };
+}
+
+if (typeof window.prevTutorial === 'undefined') {
+  window.prevTutorial = () => {
+    const state = getState();
+    const newStep = Math.max(0, (state.tutorialStep || 0) - 1);
+    setState({ tutorialStep: newStep });
+    executeStepAction(newStep);
+  };
+}
+
+if (typeof window.skipTutorial === 'undefined') {
+  window.skipTutorial = () => {
+    cleanupTutorialTargets();
+    setState({ showTutorial: false, tutorialStep: 0 });
+    window.showToast?.('Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
+  };
+}
+
+if (typeof window.finishTutorial === 'undefined') {
+  window.finishTutorial = () => {
+    cleanupTutorialTargets();
+
+    const state = getState();
+    const totalPoints = tutorialSteps.length * TUTORIAL_REWARDS.perStep + TUTORIAL_REWARDS.completeAll.points;
+
+    setState({
+      showTutorial: false,
+      tutorialStep: 0,
+      tutorialCompleted: true,
+      points: (state.points || 0) + totalPoints,
+      totalPoints: (state.totalPoints || 0) + totalPoints,
+    });
+
+    window.showToast?.(`Tutoriel terminé ! +${totalPoints} points gagnés`, 'success');
+  };
+}
+
+if (typeof window.startTutorial === 'undefined') {
+  window.startTutorial = () => {
+    setState({ showTutorial: true, tutorialStep: 0 });
+    executeStepAction(0);
+  };
+}
 
 export { tutorialSteps };
-export default { renderTutorial, tutorialSteps, positionSpotlight };
+export default { renderTutorial, tutorialSteps, positionSpotlight, executeStepAction, cleanupTutorialTargets };

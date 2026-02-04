@@ -172,7 +172,7 @@ window.handlePhotoSelect = async (event) => {
 
     if (uploadDiv && previewDiv) {
       uploadDiv.classList.add('has-photo');
-      previewDiv.innerHTML = `<img src="${compressed}" alt="Preview" />`;
+      previewDiv.innerHTML = `<img src="${compressed}" alt="Preview" loading="lazy" />`;
     }
   } catch (error) {
     console.error('Photo processing failed:', error);

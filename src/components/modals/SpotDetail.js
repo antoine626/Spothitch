@@ -45,6 +45,7 @@ export function renderSpotDetail(state) {
             src="${escapeHTML(spot.photoUrl)}"
             alt="Photo du spot d'autostop de ${escapeHTML(spot.from)} vers ${escapeHTML(spot.to)}"
             class="w-full h-full object-cover"
+            loading="lazy"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
           
@@ -114,12 +115,12 @@ export function renderSpotDetail(state) {
           <!-- Actions -->
           <div class="grid grid-cols-2 gap-3 mb-4">
             <button
-              onclick="doCheckin(${spot.id})"
+              onclick="openCheckinModal(${spot.id})"
               class="btn btn-primary"
               type="button"
             >
               <i class="fas fa-map-pin" aria-hidden="true"></i>
-              ${t('checkin')}
+              Valider
             </button>
             <button
               onclick="openRating(${spot.id})"

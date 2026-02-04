@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { renderTutorial, tutorialSteps } from '../src/components/modals/Tutorial.js';
+import { renderTutorial, tutorialSteps, cleanupTutorialTargets, executeStepAction } from '../src/components/modals/Tutorial.js';
 
 describe('Tutorial Component', () => {
   describe('tutorialSteps', () => {
@@ -96,6 +96,50 @@ describe('Tutorial Component', () => {
       const state = { ...mockState, tutorialStep: clickStepIndex };
       const html = renderTutorial(state);
       expect(html).toContain('hand-pointer');
+    });
+
+    it('should render spotlight div for steps with targetSelector', () => {
+      const clickStepIndex = tutorialSteps.findIndex(s => s.type === 'click' && s.targetSelector);
+      const state = { ...mockState, tutorialStep: clickStepIndex };
+      const html = renderTutorial(state);
+      expect(html).toContain('tutorial-spotlight');
+    });
+
+    it('should show Compris button for highlight type steps', () => {
+      const highlightStepIndex = tutorialSteps.findIndex(s => s.type === 'highlight');
+      const state = { ...mockState, tutorialStep: highlightStepIndex };
+      const html = renderTutorial(state);
+      expect(html).toContain('Compris');
+    });
+
+    it('should show Commencer button on last step', () => {
+      const state = { ...mockState, tutorialStep: tutorialSteps.length - 1 };
+      const html = renderTutorial(state);
+      expect(html).toContain('Commencer');
+    });
+  });
+
+  describe('cleanupTutorialTargets', () => {
+    it('should be a function', () => {
+      expect(typeof cleanupTutorialTargets).toBe('function');
+    });
+
+    it('should not throw when called', () => {
+      expect(() => cleanupTutorialTargets()).not.toThrow();
+    });
+  });
+
+  describe('executeStepAction', () => {
+    it('should be a function', () => {
+      expect(typeof executeStepAction).toBe('function');
+    });
+
+    it('should not throw when called with valid step index', () => {
+      expect(() => executeStepAction(0)).not.toThrow();
+    });
+
+    it('should not throw when called with invalid step index', () => {
+      expect(() => executeStepAction(999)).not.toThrow();
     });
   });
 });

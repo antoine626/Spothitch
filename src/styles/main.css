@@ -190,21 +190,43 @@
 
   /* Toast Notifications */
   .toast {
-    @apply fixed top-20 left-1/2 -translate-x-1/2 px-6 py-4 rounded-xl text-white font-medium;
-    @apply z-[9999] flex items-center gap-3 shadow-2xl max-w-[90vw];
-    animation: fadeIn 0.3s ease-out;
+    @apply fixed top-20 left-1/2 -translate-x-1/2 px-6 py-4 rounded-xl text-white font-semibold;
+    @apply z-[9999] flex items-center gap-3 max-w-[90vw];
+    @apply border border-white/20;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    animation: toastSlideIn 0.4s ease-out;
+  }
+
+  @keyframes toastSlideIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -20px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
   }
 
   .toast-success {
-    background: linear-gradient(135deg, #10b981, #059669);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
+    border-color: rgba(16, 185, 129, 0.5);
   }
 
   .toast-error {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95));
+    border-color: rgba(239, 68, 68, 0.5);
   }
 
   .toast-info {
-    background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.95), rgba(2, 132, 199, 0.95));
+    border-color: rgba(14, 165, 233, 0.5);
+  }
+
+  .toast-warning {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.95));
+    border-color: rgba(245, 158, 11, 0.5);
   }
 
   /* Chat Bubbles */
@@ -845,6 +867,64 @@ a:not(.btn):not(.nav-btn):hover {
 
 .offline-indicator.hidden {
   animation: slideUp 0.3s ease-out reverse;
+}
+
+/* ===== LAZY LOADING IMAGES ===== */
+
+/* Images with data-src (before loading) */
+img[data-src] {
+  @apply bg-slate-700;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+/* Light theme placeholder */
+.light-theme img[data-src] {
+  @apply bg-slate-200;
+}
+
+/* Images after lazy loading */
+img.lazy-loaded {
+  opacity: 1;
+}
+
+/* Native lazy loading fade-in effect */
+img[loading="lazy"] {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Placeholder animation while loading */
+@keyframes imagePlaceholder {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+img[data-src]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: imagePlaceholder 1.5s ease-in-out infinite;
+}
+
+/* Ensure images don't cause layout shift */
+img {
+  content-visibility: auto;
+}
+
+/* Image loading error fallback */
+img[data-error="true"] {
+  @apply bg-slate-700 flex items-center justify-center;
+}
+
+img[data-error="true"]::after {
+  content: 'Image unavailable';
+  @apply text-slate-500 text-xs;
 }
 
 /* ===== ADDITIONAL ACCESSIBILITY STYLES ===== */

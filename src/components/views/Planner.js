@@ -329,7 +329,7 @@ export function renderSavedTripDetail(tripId) {
                     <div class="flex items-center gap-3 p-2 bg-gray-800 rounded-lg cursor-pointer
                                 hover:bg-gray-750"
                          onclick="selectSpot(${spot.id})">
-                      <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-lg object-cover" />
+                      <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
                       <div class="flex-1">
                         <div class="text-white text-sm">${spot.from}</div>
                         <div class="text-gray-500 text-xs">⭐${spot.globalRating?.toFixed(1)} • ${spot.avgWaitTime}min</div>

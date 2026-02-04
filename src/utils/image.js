@@ -129,10 +129,116 @@ export async function createThumbnail(src, size = 100) {
   return compressDataUrl(src, size, 0.7);
 }
 
+/**
+ * Lazy load images using Intersection Observer
+ * More control than native loading="lazy" for custom behavior
+ * @param {string} selector - CSS selector for images to observe
+ * @param {Object} options - IntersectionObserver options
+ * @returns {IntersectionObserver|null} The observer instance
+ */
+export function lazyLoadImages(selector = 'img[data-src]', options = {}) {
+  // Check for browser support
+  if (!('IntersectionObserver' in window)) {
+    // Fallback: load all images immediately
+    const images = document.querySelectorAll(selector);
+    images.forEach((img) => {
+      if (img.dataset.src) {
+        img.src = img.dataset.src;
+        delete img.dataset.src;
+      }
+    });
+    return null;
+  }
+
+  const defaultOptions = {
+    root: null,
+    rootMargin: '50px 0px', // Start loading 50px before entering viewport
+    threshold: 0.01,
+  };
+
+  const observerOptions = { ...defaultOptions, ...options };
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+
+        // Load the image
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          delete img.dataset.src;
+        }
+
+        // Add loaded class for fade-in animation
+        img.classList.add('lazy-loaded');
+
+        // Stop observing this image
+        obs.unobserve(img);
+      }
+    });
+  }, observerOptions);
+
+  // Observe all matching images
+  const images = document.querySelectorAll(selector);
+  images.forEach((img) => observer.observe(img));
+
+  return observer;
+}
+
+/**
+ * Initialize lazy loading for dynamically added images
+ * Call this after adding new images to the DOM
+ * @param {HTMLElement} container - Container element to search within
+ * @param {IntersectionObserver} observer - Existing observer instance
+ */
+export function observeNewImages(container, observer) {
+  if (!observer) return;
+
+  const images = container.querySelectorAll('img[data-src]');
+  images.forEach((img) => observer.observe(img));
+}
+
+/**
+ * Create a placeholder for lazy loading
+ * @param {number} width - Width of the placeholder
+ * @param {number} height - Height of the placeholder
+ * @param {string} color - Background color (default: slate-700)
+ * @returns {string} Base64 SVG placeholder
+ */
+export function createPlaceholder(width = 400, height = 300, color = '#334155') {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <rect width="100%" height="100%" fill="${color}"/>
+  </svg>`;
+  return `data:image/svg+xml;base64,${btoa(svg)}`;
+}
+
+/**
+ * Preload critical images (above the fold)
+ * @param {string[]} urls - Array of image URLs to preload
+ * @returns {Promise<void[]>}
+ */
+export function preloadImages(urls) {
+  return Promise.all(
+    urls.map(
+      (url) =>
+        new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error(`Failed to preload: ${url}`));
+          img.src = url;
+        })
+    )
+  );
+}
+
 export default {
   compressImage,
   compressDataUrl,
   getImageDimensions,
   fileToBase64,
   createThumbnail,
+  lazyLoadImages,
+  observeNewImages,
+  createPlaceholder,
+  preloadImages,
 };

@@ -16,7 +16,7 @@ export default defineConfig({
   ],
   
   use: {
-    baseURL: 'http://localhost:4173',
+    baseURL: 'http://localhost:4173/Spothitch/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -47,7 +47,7 @@ export default defineConfig({
 
   webServer: {
     command: 'npm run preview',
-    url: 'http://localhost:4173',
+    url: 'http://localhost:4173/Spothitch/',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
   },

@@ -90,6 +90,7 @@ import { launchConfetti, launchConfettiBurst } from './utils/confetti.js';
 import { getFilteredSpots, resetFilters as resetFiltersUtil } from './components/modals/Filters.js';
 import { redeemReward } from './components/modals/Shop.js';
 import './components/modals/Leaderboard.js'; // Register global handlers
+import { registerCheckinHandlers } from './components/modals/CheckinModal.js'; // Checkin modal handlers
 import { setupGlobalSwipe } from './utils/swipe.js'; // Swipe navigation
 import { startNavigation, stopNavigation, openExternalNavigation } from './services/navigation.js'; // GPS navigation
 import {
@@ -259,13 +260,16 @@ async function init() {
     // Cleanup old cached data
     cleanupOldData();
 
-    // Load initial data
-    loadInitialData();
-
     // Subscribe to state changes and render
     subscribe((state) => {
       scheduleRender(() => render(state));
     });
+
+    // Load initial data (AFTER subscribe so state changes trigger render)
+    loadInitialData();
+
+    // Trigger initial render
+    scheduleRender(() => render(getState()));
 
     // Handle deep links from URL params
     try {
@@ -295,6 +299,13 @@ async function init() {
       setupGlobalSwipe();
     } catch (e) {
       console.warn('Swipe navigation skipped:', e.message);
+    }
+
+    // Register checkin modal handlers
+    try {
+      registerCheckinHandlers();
+    } catch (e) {
+      console.warn('Checkin handlers skipped:', e.message);
     }
 
     // Register cleanup on page unload
@@ -748,14 +759,23 @@ window.startTutorial = () => {
   setState({ showTutorial: true, tutorialStep: 0 });
   // Go to map tab for tutorial
   actions.changeTab('map');
+  // Position spotlight after render
+  import('./components/modals/Tutorial.js').then(({ executeStepAction }) => {
+    executeStepAction(0);
+  });
 };
 window.nextTutorial = () => {
   const { tutorialStep } = getState();
   const newStep = (tutorialStep || 0) + 1;
-  setState({ tutorialStep: newStep });
-  // Import and execute step action
-  import('./components/modals/Tutorial.js').then(({ executeStepAction }) => {
-    executeStepAction(newStep);
+
+  // Import tutorial to check step count and execute action
+  import('./components/modals/Tutorial.js').then(({ tutorialSteps, executeStepAction, cleanupTutorialTargets }) => {
+    if (newStep >= tutorialSteps.length) {
+      window.finishTutorial();
+    } else {
+      setState({ tutorialStep: newStep });
+      executeStepAction(newStep);
+    }
   });
 };
 window.prevTutorial = () => {
@@ -767,12 +787,22 @@ window.prevTutorial = () => {
   });
 };
 window.skipTutorial = () => {
+  // Clean up tutorial targets
+  import('./components/modals/Tutorial.js').then(({ cleanupTutorialTargets }) => {
+    cleanupTutorialTargets();
+  });
   setState({ showTutorial: false, tutorialStep: 0 });
   actions.changeTab('map');
+  showToast('Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
 };
 window.finishTutorial = () => {
   const state = getState();
   const tutorialCompleted = state.tutorialCompleted;
+
+  // Clean up tutorial targets
+  import('./components/modals/Tutorial.js').then(({ cleanupTutorialTargets }) => {
+    cleanupTutorialTargets();
+  });
 
   setState({ showTutorial: false, tutorialStep: 0, tutorialCompleted: true });
   actions.changeTab('map');
@@ -781,13 +811,13 @@ window.finishTutorial = () => {
   if (!tutorialCompleted) {
     addPoints(100, 'tutorial_complete');
     addSeasonPoints(20);
-    showToast('🎉 Tutoriel terminé ! +100 points bonus !', 'success');
+    showToast('Tutoriel termine ! +100 points bonus !', 'success');
     // Trigger confetti
     if (window.launchConfetti) {
       window.launchConfetti();
     }
   } else {
-    showToast('🎉 Tutoriel revu ! Bonne route !', 'success');
+    showToast('Tutoriel revu ! Bonne route !', 'success');
   }
 };
 

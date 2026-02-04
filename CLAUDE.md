@@ -123,12 +123,44 @@ npm run lint:fix     # Corriger automatiquement
 - [ ] Configurer Firebase avec vraies clés (remplir `.env.local`)
 - [ ] Configurer Sentry avec vrai DSN
 - [ ] Ajouter plus de langues (DE, IT, PT)
-- [ ] Documentation API
+- [x] Documentation API → `docs/API.md` et `docs/CONTRIBUTING.md` créés
 - [ ] Tests E2E pour les nouvelles fonctionnalités
 
 ---
 
 ## Historique des Sessions
+
+### 2026-02-04 - Documentation API et guide de contribution
+**Résumé** : Création de la documentation technique complète pour les services et le guide de contribution.
+
+**Actions réalisées** :
+
+1. **Documentation API** (`docs/API.md`)
+   - State management (getState, setState, subscribe, actions)
+   - Firebase service (auth, spots, chat, storage)
+   - OSRM routing service (routes, geocoding)
+   - Gamification service (points, badges, VIP, leagues)
+   - Map service (Leaflet initialization, routes)
+   - Notifications service (toasts, push notifications)
+   - Trip planner service (route planning, spots)
+   - Offline service (caching, sync)
+   - Sentry service (error monitoring)
+   - Storage utilities (localStorage, IndexedDB)
+   - i18n (translations)
+
+2. **Guide de contribution** (`docs/CONTRIBUTING.md`)
+   - Development setup (Node.js, npm, environment variables)
+   - Code conventions (JS, HTML, security)
+   - Running tests (Vitest, Playwright)
+   - Adding new features (services, components, translations)
+   - Pull request guidelines (commits, review process)
+   - Project structure overview
+
+**Fichiers créés** :
+- `docs/API.md`
+- `docs/CONTRIBUTING.md`
+
+---
 
 ### 2026-02-04 - Ajout fonctionnalités avancées et panneau admin
 **Résumé** : Ajout de nombreuses fonctionnalités de gamification, panneau admin, et améliorations UX.
@@ -310,4 +342,4 @@ VITE_SENTRY_DSN=xxx (optionnel)
 
 ---
 
-*Dernière mise à jour : 2026-02-04 (Session 4 - Fonctionnalités avancées et tests)*
+*Dernière mise à jour : 2026-02-04 (Session 5 - Documentation API et contribution)*

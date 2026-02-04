@@ -47,6 +47,12 @@ const initialState = {
   showMyRewards: false,
   showSideMenu: false,
 
+  // Checkin Modal
+  checkinSpot: null,
+  checkinWaitTime: null,
+  checkinChars: {},
+  checkinPhotoData: null,
+
   // New badges/challenges
   newBadge: null,
   selectedCountryGuide: null,
@@ -93,8 +99,9 @@ const initialState = {
   gpsEnabled: false,
 
   // Tutorial
-  showTutorial: true,
+  showTutorial: false, // Will be set true only if tutorialCompleted is false on first load
   tutorialStep: 0,
+  tutorialCompleted: false,
 
   // Loading states
   isLoading: false,
@@ -114,6 +121,15 @@ function loadPersistedState() {
   if (persisted) {
     // Merge persisted state with initial state (to add any new properties)
     state = { ...initialState, ...persisted };
+
+    // For new users who haven't completed the tutorial, show it automatically
+    // But only if they haven't explicitly skipped it (showTutorial would be false in that case)
+    if (!state.tutorialCompleted && state.showWelcome) {
+      state.showTutorial = true;
+    }
+  } else {
+    // Brand new user - show tutorial
+    state.showTutorial = true;
   }
 }
 
@@ -126,6 +142,7 @@ function persistState() {
     lang: state.lang,
     showWelcome: state.showWelcome,
     showTutorial: state.showTutorial,
+    tutorialCompleted: state.tutorialCompleted,
     points: state.points,
     level: state.level,
     checkins: state.checkins,

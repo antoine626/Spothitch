@@ -37,6 +37,7 @@ import { renderChallengesModal } from './modals/Challenges.js';
 import { renderShopModal, renderMyRewardsModal } from './modals/Shop.js';
 import { renderQuiz } from './modals/Quiz.js';
 import { renderLeaderboardModal } from './modals/Leaderboard.js';
+import { renderCheckinModal } from './modals/CheckinModal.js';
 
 // UI Components
 import { renderNavigationOverlay } from './ui/NavigationOverlay.js';
@@ -91,6 +92,7 @@ export function renderApp(state) {
     ${state.showMyRewards ? renderMyRewardsModal() : ''}
     ${state.showQuiz ? renderQuiz() : ''}
     ${state.showLeaderboard ? renderLeaderboardModal() : ''}
+    ${state.checkinSpot ? renderCheckinModal(state) : ''}
     ${state.newBadge ? renderBadgePopup(state.newBadge) : ''}
 
     <!-- Navigation Overlay -->
