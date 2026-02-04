@@ -3,16 +3,16 @@
  * Trip planning interface
  */
 
-import { getState, setState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
-import { formatDistance, formatDuration } from '../../services/osrm.js'
-import { getSavedTrips, getTripById } from '../../services/planner.js'
+import { getState, setState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
+import { formatDistance, formatDuration } from '../../services/osrm.js';
+import { getSavedTrips, getTripById } from '../../services/planner.js';
 
 /**
  * Render the trip planner view
  */
 export function renderPlanner(state) {
-  const { tripSteps = [], activeTrip, savedTrips = [] } = state
+  const { tripSteps = [], activeTrip, savedTrips = [] } = state;
 
   return `
     <div class="planner-view pb-24">
@@ -28,14 +28,14 @@ export function renderPlanner(state) {
 
         <div id="trip-steps" class="space-y-2">
           ${tripSteps.length === 0
-            ? `
+    ? `
               <div class="text-center py-8 text-gray-500">
                 <span class="text-4xl">🗺️</span>
                 <p class="mt-2">Ajoute une ville de départ</p>
               </div>
             `
-            : tripSteps.map((step, index) => renderTripStep(step, index, tripSteps.length)).join('')
-          }
+    : tripSteps.map((step, index) => renderTripStep(step, index, tripSteps.length)).join('')
+}
         </div>
 
         <!-- Add Step Input -->
@@ -90,29 +90,29 @@ export function renderPlanner(state) {
         </h2>
 
         ${savedTrips.length === 0
-          ? `
+    ? `
             <div class="text-center py-6 text-gray-500">
               <span class="text-3xl">📋</span>
               <p class="mt-2 text-sm">${t('noTrips')}</p>
             </div>
           `
-          : `
+    : `
             <div class="space-y-2">
               ${savedTrips.map(trip => renderSavedTripCard(trip)).join('')}
             </div>
           `
-        }
+}
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render a single trip step
  */
 function renderTripStep(step, index, totalSteps) {
-  const isFirst = index === 0
-  const isLast = index === totalSteps - 1
+  const isFirst = index === 0;
+  const isLast = index === totalSteps - 1;
 
   return `
     <div class="trip-step flex items-center gap-3 p-3 bg-gray-800 rounded-xl group">
@@ -151,7 +151,7 @@ function renderTripStep(step, index, totalSteps) {
         </button>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -190,7 +190,7 @@ function renderActiveTripDetails(trip) {
             <div class="bg-gray-800/50 rounded-lg p-3">
               <div class="text-sm text-gray-300 mb-2">${leg.from} → ${leg.to}</div>
               ${leg.spots.length > 0
-                ? `<div class="flex flex-wrap gap-2">
+    ? `<div class="flex flex-wrap gap-2">
                     ${leg.spots.slice(0, 3).map(spot => `
                       <span class="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs rounded-full cursor-pointer"
                             onclick="selectSpot(${spot.id})">
@@ -198,24 +198,24 @@ function renderActiveTripDetails(trip) {
                       </span>
                     `).join('')}
                   </div>`
-                : '<p class="text-gray-500 text-xs">Pas de spots connus sur ce tronçon</p>'
-              }
+    : '<p class="text-gray-500 text-xs">Pas de spots connus sur ce tronçon</p>'
+}
             </div>
           `).join('')}
         </div>
       ` : ''}
     </div>
-  `
+  `;
 }
 
 /**
  * Render saved trip card
  */
 function renderSavedTripCard(trip) {
-  const stepNames = trip.steps.map(s => s.name)
+  const stepNames = trip.steps.map(s => s.name);
   const route = stepNames.length > 2
     ? `${stepNames[0]} → ... → ${stepNames[stepNames.length - 1]}`
-    : stepNames.join(' → ')
+    : stepNames.join(' → ');
 
   return `
     <div class="saved-trip p-3 bg-gray-800 rounded-xl flex items-center gap-3 cursor-pointer
@@ -237,14 +237,14 @@ function renderSavedTripCard(trip) {
         🗑️
       </button>
     </div>
-  `
+  `;
 }
 
 /**
  * Render saved trip detail page
  */
 export function renderSavedTripDetail(tripId) {
-  const trip = getTripById(tripId)
+  const trip = getTripById(tripId);
 
   if (!trip) {
     return `
@@ -255,7 +255,7 @@ export function renderSavedTripDetail(tripId) {
           Retour au planificateur
         </button>
       </div>
-    `
+    `;
   }
 
   return `
@@ -351,10 +351,10 @@ export function renderSavedTripDetail(tripId) {
         </button>
       </div>
     </div>
-  `
+  `;
 }
 
 export default {
   renderPlanner,
   renderSavedTripDetail,
-}
+};

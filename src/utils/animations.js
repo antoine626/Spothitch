@@ -3,7 +3,7 @@
  * Success, error, and feedback animations
  */
 
-import { launchConfettiBurst, floatingEmojisBurst } from './confetti.js'
+import { launchConfettiBurst, floatingEmojisBurst } from './confetti.js';
 
 /**
  * Show success animation with optional confetti
@@ -16,11 +16,11 @@ export function showSuccessAnimation(message, options = {}) {
     emoji = '✓',
     duration = 2000,
     position = 'center', // 'center', 'top', 'bottom'
-  } = options
+  } = options;
 
   // Create overlay
-  const overlay = document.createElement('div')
-  overlay.className = 'success-animation-overlay'
+  const overlay = document.createElement('div');
+  overlay.className = 'success-animation-overlay';
   overlay.style.cssText = `
     position: fixed;
     inset: 0;
@@ -30,11 +30,11 @@ export function showSuccessAnimation(message, options = {}) {
     padding: ${position === 'center' ? '0' : '100px'};
     pointer-events: none;
     z-index: 9998;
-  `
+  `;
 
   // Create animation container
-  const container = document.createElement('div')
-  container.className = 'success-animation'
+  const container = document.createElement('div');
+  container.className = 'success-animation';
   container.innerHTML = `
     <div style="
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
@@ -47,22 +47,22 @@ export function showSuccessAnimation(message, options = {}) {
       <div style="font-size: 3rem; margin-bottom: 12px; animation: successBounce 0.6s ease-out;">${emoji}</div>
       <div style="color: white; font-size: 1.25rem; font-weight: 600;">${message}</div>
     </div>
-  `
+  `;
 
-  overlay.appendChild(container)
-  document.body.appendChild(overlay)
+  overlay.appendChild(container);
+  document.body.appendChild(overlay);
 
   // Launch confetti if enabled
   if (confetti) {
-    setTimeout(() => launchConfettiBurst(), 200)
+    setTimeout(() => launchConfettiBurst(), 200);
   }
 
   // Remove after duration
   setTimeout(() => {
-    overlay.style.opacity = '0'
-    overlay.style.transition = 'opacity 0.3s ease-out'
-    setTimeout(() => overlay.remove(), 300)
-  }, duration)
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.3s ease-out';
+    setTimeout(() => overlay.remove(), 300);
+  }, duration);
 }
 
 /**
@@ -70,8 +70,8 @@ export function showSuccessAnimation(message, options = {}) {
  * @param {string} message - Error message
  */
 export function showErrorAnimation(message) {
-  const overlay = document.createElement('div')
-  overlay.className = 'error-animation-overlay'
+  const overlay = document.createElement('div');
+  overlay.className = 'error-animation-overlay';
   overlay.style.cssText = `
     position: fixed;
     inset: 0;
@@ -80,9 +80,9 @@ export function showErrorAnimation(message) {
     justify-content: center;
     pointer-events: none;
     z-index: 9998;
-  `
+  `;
 
-  const container = document.createElement('div')
+  const container = document.createElement('div');
   container.innerHTML = `
     <div style="
       background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95));
@@ -95,16 +95,16 @@ export function showErrorAnimation(message) {
       <div style="font-size: 3rem; margin-bottom: 12px;">❌</div>
       <div style="color: white; font-size: 1.25rem; font-weight: 600;">${message}</div>
     </div>
-  `
+  `;
 
-  overlay.appendChild(container)
-  document.body.appendChild(overlay)
+  overlay.appendChild(container);
+  document.body.appendChild(overlay);
 
   setTimeout(() => {
-    overlay.style.opacity = '0'
-    overlay.style.transition = 'opacity 0.3s ease-out'
-    setTimeout(() => overlay.remove(), 300)
-  }, 2000)
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.3s ease-out';
+    setTimeout(() => overlay.remove(), 300);
+  }, 2000);
 }
 
 /**
@@ -112,8 +112,8 @@ export function showErrorAnimation(message) {
  * @param {Object} badge - Badge object with icon, name, points
  */
 export function showBadgeUnlockAnimation(badge) {
-  const overlay = document.createElement('div')
-  overlay.className = 'badge-unlock-overlay'
+  const overlay = document.createElement('div');
+  overlay.className = 'badge-unlock-overlay';
   overlay.style.cssText = `
     position: fixed;
     inset: 0;
@@ -123,7 +123,7 @@ export function showBadgeUnlockAnimation(badge) {
     background: rgba(0, 0, 0, 0.8);
     z-index: 9999;
     animation: fadeIn 0.3s ease-out;
-  `
+  `;
 
   overlay.innerHTML = `
     <div style="
@@ -172,31 +172,31 @@ export function showBadgeUnlockAnimation(badge) {
         +${badge.points} points
       </div>
     </div>
-  `
+  `;
 
   // Close on click
   overlay.onclick = () => {
-    overlay.style.opacity = '0'
-    overlay.style.transition = 'opacity 0.3s ease-out'
-    setTimeout(() => overlay.remove(), 300)
-  }
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.3s ease-out';
+    setTimeout(() => overlay.remove(), 300);
+  };
 
-  document.body.appendChild(overlay)
+  document.body.appendChild(overlay);
 
   // Play sound if available
-  playSound('badge')
+  playSound('badge');
 
   // Launch confetti
-  setTimeout(() => launchConfettiBurst(), 500)
+  setTimeout(() => launchConfettiBurst(), 500);
 
   // Auto close after 4 seconds
   setTimeout(() => {
     if (overlay.parentNode) {
-      overlay.style.opacity = '0'
-      overlay.style.transition = 'opacity 0.3s ease-out'
-      setTimeout(() => overlay.remove(), 300)
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.3s ease-out';
+      setTimeout(() => overlay.remove(), 300);
     }
-  }, 4000)
+  }, 4000);
 }
 
 /**
@@ -204,9 +204,9 @@ export function showBadgeUnlockAnimation(badge) {
  * @param {number} newLevel - New level reached
  */
 export function showLevelUpAnimation(newLevel) {
-  floatingEmojisBurst('⬆️', 8)
+  floatingEmojisBurst('⬆️', 8);
 
-  const overlay = document.createElement('div')
+  const overlay = document.createElement('div');
   overlay.style.cssText = `
     position: fixed;
     inset: 0;
@@ -215,7 +215,7 @@ export function showLevelUpAnimation(newLevel) {
     justify-content: center;
     pointer-events: none;
     z-index: 9998;
-  `
+  `;
 
   overlay.innerHTML = `
     <div style="
@@ -230,17 +230,17 @@ export function showLevelUpAnimation(newLevel) {
       <div style="color: white; font-size: 1rem; opacity: 0.8;">NIVEAU</div>
       <div style="color: white; font-size: 3rem; font-weight: 800;">${newLevel}</div>
     </div>
-  `
+  `;
 
-  document.body.appendChild(overlay)
-  playSound('levelup')
-  launchConfettiBurst()
+  document.body.appendChild(overlay);
+  playSound('levelup');
+  launchConfettiBurst();
 
   setTimeout(() => {
-    overlay.style.opacity = '0'
-    overlay.style.transition = 'opacity 0.3s ease-out'
-    setTimeout(() => overlay.remove(), 300)
-  }, 2500)
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.3s ease-out';
+    setTimeout(() => overlay.remove(), 300);
+  }, 2500);
 }
 
 /**
@@ -250,10 +250,10 @@ export function showLevelUpAnimation(newLevel) {
  * @param {number} y - Y position (optional)
  */
 export function showPointsAnimation(points, x, y) {
-  const posX = x || window.innerWidth / 2
-  const posY = y || window.innerHeight / 2
+  const posX = x || window.innerWidth / 2;
+  const posY = y || window.innerHeight / 2;
 
-  const element = document.createElement('div')
+  const element = document.createElement('div');
   element.style.cssText = `
     position: fixed;
     left: ${posX}px;
@@ -266,11 +266,11 @@ export function showPointsAnimation(points, x, y) {
     pointer-events: none;
     z-index: 9999;
     animation: pointsFloat 1.5s ease-out forwards;
-  `
-  element.textContent = `+${points}`
+  `;
+  element.textContent = `+${points}`;
 
-  document.body.appendChild(element)
-  setTimeout(() => element.remove(), 1500)
+  document.body.appendChild(element);
+  setTimeout(() => element.remove(), 1500);
 }
 
 /**
@@ -281,18 +281,18 @@ export function playSound(type) {
   // Create audio context on first interaction
   if (!window.audioContext) {
     try {
-      window.audioContext = new (window.AudioContext || window.webkitAudioContext)()
+      window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     } catch (e) {
-      return // Audio not supported
+      return; // Audio not supported
     }
   }
 
-  const ctx = window.audioContext
-  const oscillator = ctx.createOscillator()
-  const gainNode = ctx.createGain()
+  const ctx = window.audioContext;
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
 
-  oscillator.connect(gainNode)
-  gainNode.connect(ctx.destination)
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
 
   // Different sounds for different events
   const sounds = {
@@ -301,25 +301,25 @@ export function playSound(type) {
     success: { freq: [523, 659], duration: 0.2 },
     error: { freq: [200, 150], duration: 0.3 },
     click: { freq: [800], duration: 0.05 },
-  }
+  };
 
-  const sound = sounds[type] || sounds.click
-  let time = ctx.currentTime
+  const sound = sounds[type] || sounds.click;
+  const time = ctx.currentTime;
 
-  gainNode.gain.setValueAtTime(0.1, time)
+  gainNode.gain.setValueAtTime(0.1, time);
 
   sound.freq.forEach((freq, i) => {
-    oscillator.frequency.setValueAtTime(freq, time + i * (sound.duration / sound.freq.length))
-  })
+    oscillator.frequency.setValueAtTime(freq, time + i * (sound.duration / sound.freq.length));
+  });
 
-  gainNode.gain.exponentialRampToValueAtTime(0.01, time + sound.duration)
+  gainNode.gain.exponentialRampToValueAtTime(0.01, time + sound.duration);
 
-  oscillator.start(time)
-  oscillator.stop(time + sound.duration)
+  oscillator.start(time);
+  oscillator.stop(time + sound.duration);
 }
 
 // Add required CSS animations
-const style = document.createElement('style')
+const style = document.createElement('style');
 style.textContent = `
   @keyframes successPop {
     0% { transform: scale(0) rotate(-10deg); opacity: 0; }
@@ -365,8 +365,8 @@ style.textContent = `
     from { opacity: 0; }
     to { opacity: 1; }
   }
-`
-document.head.appendChild(style)
+`;
+document.head.appendChild(style);
 
 export default {
   showSuccessAnimation,
@@ -375,4 +375,4 @@ export default {
   showLevelUpAnimation,
   showPointsAnimation,
   playSound,
-}
+};

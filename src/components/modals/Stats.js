@@ -3,30 +3,30 @@
  * User statistics and analytics
  */
 
-import { getState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
-import { getVipLevel, getLeague, getVipProgress, getLeagueProgress } from '../../data/vip-levels.js'
-import { getGamificationSummary } from '../../services/gamification.js'
+import { getState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
+import { getVipLevel, getLeague, getVipProgress, getLeagueProgress } from '../../data/vip-levels.js';
+import { getGamificationSummary } from '../../services/gamification.js';
 
 /**
  * Render stats modal
  */
 export function renderStatsModal() {
-  const state = getState()
-  const { showStats } = state
+  const state = getState();
+  const { showStats } = state;
 
-  if (!showStats) return ''
+  if (!showStats) return '';
 
-  const summary = getGamificationSummary()
-  const vipProgress = getVipProgress(state.points)
-  const leagueProgress = getLeagueProgress(state.seasonPoints || 0)
+  const summary = getGamificationSummary();
+  const vipProgress = getVipProgress(state.points);
+  const leagueProgress = getLeagueProgress(state.seasonPoints || 0);
 
   // Calculate additional stats
   const avgWaitTime = state.totalWaitTime && state.checkins
     ? Math.round(state.totalWaitTime / state.checkins)
-    : 0
-  const totalDistance = state.totalDistance || 0
-  const countriesVisited = state.visitedCountries?.length || 0
+    : 0;
+  const totalDistance = state.totalDistance || 0;
+  const countriesVisited = state.visitedCountries?.length || 0;
 
   return `
     <div class="stats-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
@@ -82,9 +82,9 @@ export function renderStatsModal() {
                   <div class="w-12 h-12 rounded-full flex items-center justify-center"
                        style="background-color: ${summary.vipLevel.color}20">
                     ${summary.vipLevel.image
-                      ? `<img src="${summary.vipLevel.image}" alt="${summary.vipLevel.name}" class="w-10 h-10 object-contain" loading="lazy" />`
-                      : `<span class="text-3xl">${summary.vipLevel.icon}</span>`
-                    }
+    ? `<img src="${summary.vipLevel.image}" alt="${summary.vipLevel.name}" class="w-10 h-10 object-contain" loading="lazy" />`
+    : `<span class="text-3xl">${summary.vipLevel.icon}</span>`
+}
                   </div>
                   <div>
                     <div class="text-white font-bold">${summary.vipLevel.name}</div>
@@ -110,9 +110,9 @@ export function renderStatsModal() {
               <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-3">
                   ${summary.league.image
-                    ? `<img src="${summary.league.image}" alt="${summary.league.name}" class="w-10 h-10 object-contain" loading="lazy" />`
-                    : `<span class="text-3xl">${summary.league.icon}</span>`
-                  }
+    ? `<img src="${summary.league.image}" alt="${summary.league.name}" class="w-10 h-10 object-contain" loading="lazy" />`
+    : `<span class="text-3xl">${summary.league.icon}</span>`
+}
                   <div>
                     <div class="text-white font-bold">${summary.league.name}</div>
                     <div class="text-gray-500 text-xs">${state.seasonPoints || 0} pts saison</div>
@@ -123,9 +123,9 @@ export function renderStatsModal() {
                     <div class="text-gray-500 text-xs">Prochain</div>
                     <div class="text-white flex items-center gap-1 justify-end">
                       ${leagueProgress.next.image
-                        ? `<img src="${leagueProgress.next.image}" alt="${leagueProgress.next.name}" class="w-5 h-5 object-contain" loading="lazy" />`
-                        : `<span>${leagueProgress.next.icon}</span>`
-                      }
+    ? `<img src="${leagueProgress.next.image}" alt="${leagueProgress.next.name}" class="w-5 h-5 object-contain" loading="lazy" />`
+    : `<span>${leagueProgress.next.icon}</span>`
+}
                       ${leagueProgress.next.name}
                     </div>
                   </div>
@@ -143,13 +143,13 @@ export function renderStatsModal() {
             <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">Activité</h3>
             <div class="grid grid-cols-3 gap-3">
               ${[
-                { label: 'Check-ins', value: summary.checkins, icon: '📍' },
-                { label: 'Spots créés', value: summary.spotsCreated, icon: '🗺️' },
-                { label: 'Avis donnés', value: summary.reviewsGiven, icon: '⭐' },
-                { label: 'Série actuelle', value: `${summary.streak}j`, icon: '🔥' },
-                { label: 'Record série', value: `${summary.maxStreak}j`, icon: '🏆' },
-                { label: 'Badges', value: `${summary.badgesCount}/${summary.totalBadges}`, icon: '🎖️' },
-              ].map(stat => `
+    { label: 'Check-ins', value: summary.checkins, icon: '📍' },
+    { label: 'Spots créés', value: summary.spotsCreated, icon: '🗺️' },
+    { label: 'Avis donnés', value: summary.reviewsGiven, icon: '⭐' },
+    { label: 'Série actuelle', value: `${summary.streak}j`, icon: '🔥' },
+    { label: 'Record série', value: `${summary.maxStreak}j`, icon: '🏆' },
+    { label: 'Badges', value: `${summary.badgesCount}/${summary.totalBadges}`, icon: '🎖️' },
+  ].map(stat => `
                 <div class="bg-gray-800 rounded-xl p-3 text-center">
                   <div class="text-xl mb-1">${stat.icon}</div>
                   <div class="text-xl font-bold text-white">${stat.value}</div>
@@ -211,27 +211,27 @@ export function renderStatsModal() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Format distance for display
  */
 function formatDistance(meters) {
-  if (!meters) return '0 km'
-  if (meters < 1000) return `${Math.round(meters)} m`
-  return `${(meters / 1000).toFixed(0)} km`
+  if (!meters) return '0 km';
+  if (meters < 1000) return `${Math.round(meters)} m`;
+  return `${(meters / 1000).toFixed(0)} km`;
 }
 
 /**
  * Format date for display
  */
 function formatDate(date) {
-  if (!date) return ''
-  const d = new Date(date)
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
+  if (!date) return '';
+  const d = new Date(date);
+  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
 }
 
 export default {
   renderStatsModal,
-}
+};

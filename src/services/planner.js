@@ -3,10 +3,10 @@
  * Handles route planning and spot suggestions
  */
 
-import { getState, setState } from '../stores/state.js'
-import { getRoute, searchLocation, reverseGeocode } from './osrm.js'
-import { sampleSpots } from '../data/spots.js'
-import { showToast } from './notifications.js'
+import { getState, setState } from '../stores/state.js';
+import { getRoute, searchLocation, reverseGeocode } from './osrm.js';
+import { sampleSpots } from '../data/spots.js';
+import { showToast } from './notifications.js';
 
 /**
  * Calculate distance between two points (Haversine formula)
@@ -17,17 +17,17 @@ import { showToast } from './notifications.js'
  * @returns {number} Distance in kilometers
  */
 function haversineDistance(lat1, lng1, lat2, lng2) {
-  const R = 6371 // Earth's radius in km
-  const dLat = ((lat2 - lat1) * Math.PI) / 180
-  const dLng = ((lng2 - lng1) * Math.PI) / 180
+  const R = 6371; // Earth's radius in km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos((lat1 * Math.PI) / 180) *
       Math.cos((lat2 * Math.PI) / 180) *
       Math.sin(dLng / 2) *
-      Math.sin(dLng / 2)
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-  return R * c
+      Math.sin(dLng / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 /**
@@ -39,19 +39,19 @@ function haversineDistance(lat1, lng1, lat2, lng2) {
  */
 function isPointNearRoute(point, routeCoords, maxDistanceKm = 10) {
   for (let i = 0; i < routeCoords.length - 1; i++) {
-    const [lng1, lat1] = routeCoords[i]
-    const [lng2, lat2] = routeCoords[i + 1]
+    const [lng1, lat1] = routeCoords[i];
+    const [lng2, lat2] = routeCoords[i + 1];
 
     // Simple distance check to route segment midpoint
-    const midLat = (lat1 + lat2) / 2
-    const midLng = (lng1 + lng2) / 2
+    const midLat = (lat1 + lat2) / 2;
+    const midLng = (lng1 + lng2) / 2;
 
-    const distance = haversineDistance(point.lat, point.lng, midLat, midLng)
+    const distance = haversineDistance(point.lat, point.lng, midLat, midLng);
     if (distance <= maxDistanceKm) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 
 /**
@@ -63,36 +63,36 @@ function isPointNearRoute(point, routeCoords, maxDistanceKm = 10) {
 export async function getSpotsForRoute(from, to, maxDistanceKm = 15) {
   try {
     // Get route from OSRM
-    const route = await getRoute([from, to])
+    const route = await getRoute([from, to]);
 
     if (!route || !route.geometry) {
-      console.warn('No route found')
-      return { route: null, spots: [] }
+      console.warn('No route found');
+      return { route: null, spots: [] };
     }
 
     // Find spots near the route
-    const spots = getState().spots || sampleSpots
+    const spots = getState().spots || sampleSpots;
     const nearbySpots = spots.filter(spot => {
-      if (!spot.coordinates) return false
-      return isPointNearRoute(spot.coordinates, route.geometry, maxDistanceKm)
-    })
+      if (!spot.coordinates) return false;
+      return isPointNearRoute(spot.coordinates, route.geometry, maxDistanceKm);
+    });
 
     // Sort by distance from start
     nearbySpots.sort((a, b) => {
-      const distA = haversineDistance(from.lat, from.lng, a.coordinates.lat, a.coordinates.lng)
-      const distB = haversineDistance(from.lat, from.lng, b.coordinates.lat, b.coordinates.lng)
-      return distA - distB
-    })
+      const distA = haversineDistance(from.lat, from.lng, a.coordinates.lat, a.coordinates.lng);
+      const distB = haversineDistance(from.lat, from.lng, b.coordinates.lat, b.coordinates.lng);
+      return distA - distB;
+    });
 
     return {
       route,
       spots: nearbySpots,
       distance: route.distance,
       duration: route.duration,
-    }
+    };
   } catch (error) {
-    console.error('Error getting spots for route:', error)
-    return { route: null, spots: [] }
+    console.error('Error getting spots for route:', error);
+    return { route: null, spots: [] };
   }
 }
 
@@ -102,18 +102,18 @@ export async function getSpotsForRoute(from, to, maxDistanceKm = 15) {
  * @param {Object} to - Ending point
  */
 export function getSpotsBetween(from, to) {
-  const spots = getState().spots || sampleSpots
+  const spots = getState().spots || sampleSpots;
 
-  const minLat = Math.min(from.lat, to.lat) - 0.5
-  const maxLat = Math.max(from.lat, to.lat) + 0.5
-  const minLng = Math.min(from.lng, to.lng) - 0.5
-  const maxLng = Math.max(from.lng, to.lng) + 0.5
+  const minLat = Math.min(from.lat, to.lat) - 0.5;
+  const maxLat = Math.max(from.lat, to.lat) + 0.5;
+  const minLng = Math.min(from.lng, to.lng) - 0.5;
+  const maxLng = Math.max(from.lng, to.lng) + 0.5;
 
   return spots.filter(spot => {
-    if (!spot.coordinates) return false
-    const { lat, lng } = spot.coordinates
-    return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng
-  })
+    if (!spot.coordinates) return false;
+    const { lat, lng } = spot.coordinates;
+    return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
+  });
 }
 
 /**
@@ -122,12 +122,12 @@ export function getSpotsBetween(from, to) {
  * @param {number} maxKm - Maximum distance from route
  */
 export function findSpotsNearRoute(routeCoords, maxKm = 10) {
-  const spots = getState().spots || sampleSpots
+  const spots = getState().spots || sampleSpots;
 
   return spots.filter(spot => {
-    if (!spot.coordinates) return false
-    return isPointNearRoute(spot.coordinates, routeCoords, maxKm)
-  })
+    if (!spot.coordinates) return false;
+    return isPointNearRoute(spot.coordinates, routeCoords, maxKm);
+  });
 }
 
 /**
@@ -136,44 +136,44 @@ export function findSpotsNearRoute(routeCoords, maxKm = 10) {
  */
 export async function createTrip(steps) {
   if (steps.length < 2) {
-    showToast('Il faut au moins 2 étapes', 'error')
-    return null
+    showToast('Il faut au moins 2 étapes', 'error');
+    return null;
   }
 
-  const waypoints = steps.map(s => ({ lat: s.lat, lng: s.lng }))
+  const waypoints = steps.map(s => ({ lat: s.lat, lng: s.lng }));
 
   try {
-    const route = await getRoute(waypoints)
+    const route = await getRoute(waypoints);
 
     // Find spots along the entire route
-    const allSpots = findSpotsNearRoute(route.geometry, 15)
+    const allSpots = findSpotsNearRoute(route.geometry, 15);
 
     // Group spots by leg
-    const spotsByLeg = []
+    const spotsByLeg = [];
     for (let i = 0; i < steps.length - 1; i++) {
-      const legStart = steps[i]
-      const legEnd = steps[i + 1]
+      const legStart = steps[i];
+      const legEnd = steps[i + 1];
       const legSpots = allSpots.filter(spot => {
-        if (!spot.coordinates) return false
+        if (!spot.coordinates) return false;
         const distStart = haversineDistance(
           legStart.lat, legStart.lng,
           spot.coordinates.lat, spot.coordinates.lng
-        )
+        );
         const distEnd = haversineDistance(
           legEnd.lat, legEnd.lng,
           spot.coordinates.lat, spot.coordinates.lng
-        )
+        );
         const legDist = haversineDistance(
           legStart.lat, legStart.lng,
           legEnd.lat, legEnd.lng
-        )
-        return distStart + distEnd <= legDist * 1.3 // Within 30% of direct path
-      })
+        );
+        return distStart + distEnd <= legDist * 1.3; // Within 30% of direct path
+      });
       spotsByLeg.push({
         from: legStart.name,
         to: legEnd.name,
         spots: legSpots.slice(0, 5), // Top 5 spots per leg
-      })
+      });
     }
 
     const trip = {
@@ -185,13 +185,13 @@ export async function createTrip(steps) {
       totalDistance: route.distance,
       totalDuration: route.duration,
       estimatedDays: Math.ceil(route.distance / 300000), // ~300km per day
-    }
+    };
 
-    return trip
+    return trip;
   } catch (error) {
-    console.error('Error creating trip:', error)
-    showToast('Erreur lors de la création du voyage', 'error')
-    return null
+    console.error('Error creating trip:', error);
+    showToast('Erreur lors de la création du voyage', 'error');
+    return null;
   }
 }
 
@@ -200,21 +200,21 @@ export async function createTrip(steps) {
  * @param {Object} trip - Trip object
  */
 export function saveTrip(trip) {
-  const state = getState()
-  const savedTrips = state.savedTrips || []
+  const state = getState();
+  const savedTrips = state.savedTrips || [];
 
   // Check if already saved
   if (savedTrips.find(t => t.id === trip.id)) {
-    showToast('Voyage déjà sauvegardé', 'info')
-    return false
+    showToast('Voyage déjà sauvegardé', 'info');
+    return false;
   }
 
   setState({
     savedTrips: [...savedTrips, trip],
-  })
+  });
 
-  showToast('Voyage sauvegardé !', 'success')
-  return true
+  showToast('Voyage sauvegardé !', 'success');
+  return true;
 }
 
 /**
@@ -222,22 +222,22 @@ export function saveTrip(trip) {
  * @param {string} tripId - Trip ID
  */
 export function deleteTrip(tripId) {
-  const state = getState()
-  const savedTrips = state.savedTrips || []
+  const state = getState();
+  const savedTrips = state.savedTrips || [];
 
   setState({
     savedTrips: savedTrips.filter(t => t.id !== tripId),
-  })
+  });
 
-  showToast('Voyage supprimé', 'info')
+  showToast('Voyage supprimé', 'info');
 }
 
 /**
  * Get saved trips
  */
 export function getSavedTrips() {
-  const state = getState()
-  return state.savedTrips || []
+  const state = getState();
+  return state.savedTrips || [];
 }
 
 /**
@@ -245,8 +245,8 @@ export function getSavedTrips() {
  * @param {string} tripId - Trip ID
  */
 export function getTripById(tripId) {
-  const trips = getSavedTrips()
-  return trips.find(t => t.id === tripId)
+  const trips = getSavedTrips();
+  return trips.find(t => t.id === tripId);
 }
 
 /**
@@ -254,13 +254,13 @@ export function getTripById(tripId) {
  * @param {string} query - Search query
  */
 export async function searchTripLocation(query) {
-  const results = await searchLocation(query)
+  const results = await searchLocation(query);
   return results.map(r => ({
     name: r.name.split(',')[0], // Just city name
     fullName: r.name,
     lat: r.lat,
     lng: r.lng,
-  }))
+  }));
 }
 
 /**
@@ -268,12 +268,12 @@ export async function searchTripLocation(query) {
  * @param {Object} step - Step object {name, lat, lng}
  */
 export function addTripStep(step) {
-  const state = getState()
-  const steps = state.tripSteps || []
+  const state = getState();
+  const steps = state.tripSteps || [];
 
   setState({
     tripSteps: [...steps, step],
-  })
+  });
 }
 
 /**
@@ -281,12 +281,12 @@ export function addTripStep(step) {
  * @param {number} index - Step index
  */
 export function removeTripStep(index) {
-  const state = getState()
-  const steps = state.tripSteps || []
+  const state = getState();
+  const steps = state.tripSteps || [];
 
   setState({
     tripSteps: steps.filter((_, i) => i !== index),
-  })
+  });
 }
 
 /**
@@ -295,15 +295,15 @@ export function removeTripStep(index) {
  * @param {number} toIndex - New index
  */
 export function reorderTripSteps(fromIndex, toIndex) {
-  const state = getState()
-  const steps = [...(state.tripSteps || [])]
+  const state = getState();
+  const steps = [...(state.tripSteps || [])];
 
-  const [removed] = steps.splice(fromIndex, 1)
-  steps.splice(toIndex, 0, removed)
+  const [removed] = steps.splice(fromIndex, 1);
+  steps.splice(toIndex, 0, removed);
 
   setState({
     tripSteps: steps,
-  })
+  });
 }
 
 /**
@@ -314,7 +314,7 @@ export function clearTripSteps() {
     tripSteps: [],
     activeTrip: null,
     tripRoute: null,
-  })
+  });
 }
 
 /**
@@ -323,7 +323,7 @@ export function clearTripSteps() {
  * @param {number} limit - Max spots to return
  */
 export function getSuggestedStartingSpots(location, limit = 5) {
-  const spots = getState().spots || sampleSpots
+  const spots = getState().spots || sampleSpots;
 
   const sortedSpots = spots
     .filter(spot => spot.coordinates)
@@ -334,9 +334,9 @@ export function getSuggestedStartingSpots(location, limit = 5) {
         spot.coordinates.lat, spot.coordinates.lng
       ),
     }))
-    .sort((a, b) => a.distance - b.distance)
+    .sort((a, b) => a.distance - b.distance);
 
-  return sortedSpots.slice(0, limit)
+  return sortedSpots.slice(0, limit);
 }
 
 export default {
@@ -354,4 +354,4 @@ export default {
   reorderTripSteps,
   clearTripSteps,
   getSuggestedStartingSpots,
-}
+};

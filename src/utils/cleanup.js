@@ -4,10 +4,10 @@
  */
 
 // Store cleanup functions
-const cleanupFns = new Map()
-const observers = new Map()
-const intervals = new Map()
-const timeouts = new Set()
+const cleanupFns = new Map();
+const observers = new Map();
+const intervals = new Map();
+const timeouts = new Set();
 
 /**
  * Register a cleanup function for a component/feature
@@ -17,9 +17,9 @@ const timeouts = new Set()
 export function registerCleanup(id, cleanupFn) {
   if (cleanupFns.has(id)) {
     // Run existing cleanup first
-    runCleanup(id)
+    runCleanup(id);
   }
-  cleanupFns.set(id, cleanupFn)
+  cleanupFns.set(id, cleanupFn);
 }
 
 /**
@@ -27,14 +27,14 @@ export function registerCleanup(id, cleanupFn) {
  * @param {string} id - Unique identifier
  */
 export function runCleanup(id) {
-  const fn = cleanupFns.get(id)
+  const fn = cleanupFns.get(id);
   if (fn) {
     try {
-      fn()
+      fn();
     } catch (e) {
-      console.warn(`Cleanup error for ${id}:`, e)
+      console.warn(`Cleanup error for ${id}:`, e);
     }
-    cleanupFns.delete(id)
+    cleanupFns.delete(id);
   }
 }
 
@@ -44,34 +44,34 @@ export function runCleanup(id) {
 export function runAllCleanup() {
   cleanupFns.forEach((fn, id) => {
     try {
-      fn()
+      fn();
     } catch (e) {
-      console.warn(`Cleanup error for ${id}:`, e)
+      console.warn(`Cleanup error for ${id}:`, e);
     }
-  })
-  cleanupFns.clear()
+  });
+  cleanupFns.clear();
 
   // Disconnect all observers
   observers.forEach((observer) => {
     try {
-      observer.disconnect()
+      observer.disconnect();
     } catch (e) {
-      console.warn('Observer disconnect error:', e)
+      console.warn('Observer disconnect error:', e);
     }
-  })
-  observers.clear()
+  });
+  observers.clear();
 
   // Clear all intervals
   intervals.forEach((intervalId) => {
-    clearInterval(intervalId)
-  })
-  intervals.clear()
+    clearInterval(intervalId);
+  });
+  intervals.clear();
 
   // Clear all timeouts
   timeouts.forEach((timeoutId) => {
-    clearTimeout(timeoutId)
-  })
-  timeouts.clear()
+    clearTimeout(timeoutId);
+  });
+  timeouts.clear();
 }
 
 /**
@@ -83,17 +83,17 @@ export function runAllCleanup() {
  * @param {Object} options - Event listener options
  */
 export function addTrackedListener(id, target, event, handler, options = {}) {
-  if (!target) return
+  if (!target) return;
 
-  target.addEventListener(event, handler, options)
+  target.addEventListener(event, handler, options);
 
   // Store cleanup function
-  const existingCleanup = cleanupFns.get(id)
+  const existingCleanup = cleanupFns.get(id);
   const newCleanup = () => {
-    target.removeEventListener(event, handler, options)
-    if (existingCleanup) existingCleanup()
-  }
-  cleanupFns.set(id, newCleanup)
+    target.removeEventListener(event, handler, options);
+    if (existingCleanup) existingCleanup();
+  };
+  cleanupFns.set(id, newCleanup);
 }
 
 /**
@@ -106,12 +106,12 @@ export function addTrackedListener(id, target, event, handler, options = {}) {
 export function createTrackedObserver(id, callback, options = {}) {
   // Disconnect existing observer if any
   if (observers.has(id)) {
-    observers.get(id).disconnect()
+    observers.get(id).disconnect();
   }
 
-  const observer = new IntersectionObserver(callback, options)
-  observers.set(id, observer)
-  return observer
+  const observer = new IntersectionObserver(callback, options);
+  observers.set(id, observer);
+  return observer;
 }
 
 /**
@@ -124,12 +124,12 @@ export function createTrackedObserver(id, callback, options = {}) {
 export function createTrackedInterval(id, callback, delay) {
   // Clear existing interval if any
   if (intervals.has(id)) {
-    clearInterval(intervals.get(id))
+    clearInterval(intervals.get(id));
   }
 
-  const intervalId = setInterval(callback, delay)
-  intervals.set(id, intervalId)
-  return intervalId
+  const intervalId = setInterval(callback, delay);
+  intervals.set(id, intervalId);
+  return intervalId;
 }
 
 /**
@@ -140,11 +140,11 @@ export function createTrackedInterval(id, callback, delay) {
  */
 export function createTrackedTimeout(callback, delay) {
   const timeoutId = setTimeout(() => {
-    callback()
-    timeouts.delete(timeoutId)
-  }, delay)
-  timeouts.add(timeoutId)
-  return timeoutId
+    callback();
+    timeouts.delete(timeoutId);
+  }, delay);
+  timeouts.add(timeoutId);
+  return timeoutId;
 }
 
 /**
@@ -153,8 +153,8 @@ export function createTrackedTimeout(callback, delay) {
  */
 export function clearTrackedInterval(id) {
   if (intervals.has(id)) {
-    clearInterval(intervals.get(id))
-    intervals.delete(id)
+    clearInterval(intervals.get(id));
+    intervals.delete(id);
   }
 }
 
@@ -164,15 +164,15 @@ export function clearTrackedInterval(id) {
  */
 export function disconnectObserver(id) {
   if (observers.has(id)) {
-    observers.get(id).disconnect()
-    observers.delete(id)
+    observers.get(id).disconnect();
+    observers.delete(id);
   }
 }
 
 // Clean up on page unload
 if (typeof window !== 'undefined') {
-  window.addEventListener('beforeunload', runAllCleanup)
-  window.addEventListener('pagehide', runAllCleanup)
+  window.addEventListener('beforeunload', runAllCleanup);
+  window.addEventListener('pagehide', runAllCleanup);
 }
 
 export default {
@@ -185,4 +185,4 @@ export default {
   createTrackedTimeout,
   clearTrackedInterval,
   disconnectObserver,
-}
+};

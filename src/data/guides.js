@@ -399,47 +399,47 @@ export const countryGuides = [
     },
     bestSpots: ['Dublin M7 Sud'],
   },
-]
+];
 
 /**
  * Get guide by country code
  */
 export function getGuideByCode(code) {
-  return countryGuides.find(g => g.code === code)
+  return countryGuides.find(g => g.code === code);
 }
 
 /**
  * Get all guides sorted by difficulty
  */
 export function getGuidesByDifficulty() {
-  return [...countryGuides].sort((a, b) => a.difficulty - b.difficulty)
+  return [...countryGuides].sort((a, b) => a.difficulty - b.difficulty);
 }
 
 /**
  * Get easiest countries
  */
 export function getEasiestCountries(limit = 5) {
-  return getGuidesByDifficulty().slice(0, limit)
+  return getGuidesByDifficulty().slice(0, limit);
 }
 
 /**
  * Get guides by legality
  */
 export function getGuidesByLegality(legality) {
-  return countryGuides.filter(g => g.legality === legality)
+  return countryGuides.filter(g => g.legality === legality);
 }
 
 /**
  * Search guides
  */
 export function searchGuides(query) {
-  const lowerQuery = query.toLowerCase()
+  const lowerQuery = query.toLowerCase();
   return countryGuides.filter(
     g =>
       g.name.toLowerCase().includes(lowerQuery) ||
       (g.nameEn && g.nameEn.toLowerCase().includes(lowerQuery)) ||
       g.code.toLowerCase().includes(lowerQuery)
-  )
+  );
 }
 
 /**
@@ -451,15 +451,15 @@ export function getCountryList() {
     name: g.name,
     nameEn: g.nameEn || g.name,
     flag: g.flag,
-  }))
+  }));
 }
 
 /**
  * Get emergency numbers for a country
  */
 export function getEmergencyNumbers(countryCode) {
-  const guide = getGuideByCode(countryCode)
-  return guide?.emergencyNumbers || { european: '112' }
+  const guide = getGuideByCode(countryCode);
+  return guide?.emergencyNumbers || { european: '112' };
 }
 
 export default {
@@ -471,4 +471,4 @@ export default {
   searchGuides,
   getCountryList,
   getEmergencyNumbers,
-}
+};

@@ -192,7 +192,7 @@ export const allChallenges = {
       xp: 400,
     },
   ],
-}
+};
 
 /**
  * Get daily challenges
@@ -201,14 +201,14 @@ export function getDailyChallenges() {
   // Rotate based on day of year
   const dayOfYear = Math.floor(
     (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000
-  )
-  const challenges = [...allChallenges.daily]
-  const start = dayOfYear % challenges.length
+  );
+  const challenges = [...allChallenges.daily];
+  const start = dayOfYear % challenges.length;
   return [
     challenges[start],
     challenges[(start + 1) % challenges.length],
     challenges[(start + 2) % challenges.length],
-  ]
+  ];
 }
 
 /**
@@ -218,36 +218,36 @@ export function getWeeklyChallenges() {
   // Rotate based on week number
   const weekOfYear = Math.floor(
     (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / (7 * 86400000)
-  )
-  const challenges = [...allChallenges.weekly]
-  const start = weekOfYear % challenges.length
+  );
+  const challenges = [...allChallenges.weekly];
+  const start = weekOfYear % challenges.length;
   return [
     challenges[start],
     challenges[(start + 1) % challenges.length],
     challenges[(start + 2) % challenges.length],
-  ]
+  ];
 }
 
 /**
  * Get all long-term challenges
  */
 export function getLongtermChallenges() {
-  return allChallenges.longterm
+  return allChallenges.longterm;
 }
 
 /**
  * Calculate challenge progress
  */
 export function getChallengeProgress(challenge, userStats) {
-  const current = userStats[challenge.type] || 0
-  const progress = Math.min(current / challenge.target, 1)
+  const current = userStats[challenge.type] || 0;
+  const progress = Math.min(current / challenge.target, 1);
   return {
     ...challenge,
     current,
     progress,
     completed: current >= challenge.target,
     remaining: Math.max(0, challenge.target - current),
-  }
+  };
 }
 
 /**
@@ -258,7 +258,7 @@ export function getActiveChallenges(userStats) {
     daily: getDailyChallenges().map(c => getChallengeProgress(c, userStats)),
     weekly: getWeeklyChallenges().map(c => getChallengeProgress(c, userStats)),
     longterm: getLongtermChallenges().map(c => getChallengeProgress(c, userStats)),
-  }
+  };
 }
 
 export default {
@@ -268,4 +268,4 @@ export default {
   getLongtermChallenges,
   getChallengeProgress,
   getActiveChallenges,
-}
+};

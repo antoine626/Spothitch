@@ -3,37 +3,37 @@
  * Display user badges and progress
  */
 
-import { getState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
-import { allBadges, getBadgesByCategory, getEarnedBadges, getNextBadges } from '../../data/badges.js'
+import { getState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
+import { allBadges, getBadgesByCategory, getEarnedBadges, getNextBadges } from '../../data/badges.js';
 
 /**
  * Render badges modal
  */
 export function renderBadgesModal() {
-  const state = getState()
-  const { showBadges } = state
+  const state = getState();
+  const { showBadges } = state;
 
-  if (!showBadges) return ''
+  if (!showBadges) return '';
 
-  const earnedBadgeIds = state.badges || []
+  const earnedBadgeIds = state.badges || [];
   const userStats = {
     checkins: state.checkins || 0,
     spotsCreated: state.spotsCreated || 0,
     reviewsGiven: state.reviewsGiven || 0,
     streak: state.streak || 0,
     countriesVisited: state.countriesVisited || 0,
-  }
+  };
 
-  const earnedBadges = getEarnedBadges(userStats, earnedBadgeIds)
-  const nextBadges = getNextBadges(userStats, earnedBadgeIds, 3)
+  const earnedBadges = getEarnedBadges(userStats, earnedBadgeIds);
+  const nextBadges = getNextBadges(userStats, earnedBadgeIds, 3);
 
   const categories = [
     { id: 'beginner', name: 'Débutant', nameEn: 'Beginner', icon: '🌱' },
     { id: 'progress', name: 'Progression', nameEn: 'Progress', icon: '📈' },
     { id: 'streak', name: 'Séries', nameEn: 'Streaks', icon: '🔥' },
     { id: 'special', name: 'Spécial', nameEn: 'Special', icon: '⭐' },
-  ]
+  ];
 
   return `
     <div class="badges-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
@@ -79,9 +79,9 @@ export function renderBadgesModal() {
                 ${nextBadges.map(badge => `
                   <div class="bg-gray-800 rounded-xl p-3 text-center opacity-60">
                     ${badge.image
-                      ? `<img src="${badge.image}" alt="${badge.name}" class="w-12 h-12 mx-auto mb-2 grayscale" loading="lazy" />`
-                      : `<div class="text-3xl mb-2 grayscale">${badge.icon}</div>`
-                    }
+    ? `<img src="${badge.image}" alt="${badge.name}" class="w-12 h-12 mx-auto mb-2 grayscale" loading="lazy" />`
+    : `<div class="text-3xl mb-2 grayscale">${badge.icon}</div>`
+}
                     <div class="text-white text-xs font-medium">${badge.name}</div>
                     <div class="text-gray-500 text-xs mt-1">+${badge.points} pts</div>
                   </div>
@@ -92,10 +92,10 @@ export function renderBadgesModal() {
 
           <!-- Badges by category -->
           ${categories.map(category => {
-            const categoryBadges = getBadgesByCategory(category.id)
-            const earned = categoryBadges.filter(b => earnedBadgeIds.includes(b.id) || b.condition(userStats))
+    const categoryBadges = getBadgesByCategory(category.id);
+    const earned = categoryBadges.filter(b => earnedBadgeIds.includes(b.id) || b.condition(userStats));
 
-            return `
+    return `
               <section class="mb-6">
                 <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-2">
                   ${category.icon} ${category.name}
@@ -103,41 +103,41 @@ export function renderBadgesModal() {
                 </h3>
                 <div class="grid grid-cols-3 gap-3">
                   ${categoryBadges.map(badge => {
-                    const isEarned = earnedBadgeIds.includes(badge.id) || badge.condition(userStats)
-                    return `
+    const isEarned = earnedBadgeIds.includes(badge.id) || badge.condition(userStats);
+    return `
                       <div class="badge-card bg-gray-800 rounded-xl p-3 text-center cursor-pointer
                                   ${isEarned ? 'hover:bg-gray-700' : 'opacity-40'}"
                            onclick="${isEarned ? `showBadgeDetail('${badge.id}')` : ''}">
                         ${badge.image
-                          ? `<img src="${badge.image}" alt="${badge.name}" class="w-12 h-12 mx-auto mb-2 ${isEarned ? '' : 'grayscale'}" loading="lazy" />`
-                          : `<div class="text-3xl mb-2 ${isEarned ? '' : 'grayscale'}">${badge.icon}</div>`
-                        }
+    ? `<img src="${badge.image}" alt="${badge.name}" class="w-12 h-12 mx-auto mb-2 ${isEarned ? '' : 'grayscale'}" loading="lazy" />`
+    : `<div class="text-3xl mb-2 ${isEarned ? '' : 'grayscale'}">${badge.icon}</div>`
+}
                         <div class="text-white text-xs font-medium truncate">${badge.name}</div>
                         ${isEarned
-                          ? `<div class="text-green-400 text-xs mt-1">✓ Débloqué</div>`
-                          : `<div class="text-gray-500 text-xs mt-1">🔒</div>`
-                        }
+    ? '<div class="text-green-400 text-xs mt-1">✓ Débloqué</div>'
+    : '<div class="text-gray-500 text-xs mt-1">🔒</div>'
+}
                       </div>
-                    `
-                  }).join('')}
+                    `;
+  }).join('')}
                 </div>
               </section>
-            `
-          }).join('')}
+            `;
+  }).join('')}
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render badge popup (when a new badge is earned)
  */
 export function renderBadgePopup() {
-  const state = getState()
-  const { showBadgePopup, newBadge } = state
+  const state = getState();
+  const { showBadgePopup, newBadge } = state;
 
-  if (!showBadgePopup || !newBadge) return ''
+  if (!showBadgePopup || !newBadge) return '';
 
   return `
     <div class="badge-popup fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
@@ -159,9 +159,9 @@ export function renderBadgePopup() {
 
           <div class="relative">
             ${newBadge.image
-              ? `<img src="${newBadge.image}" alt="${newBadge.name}" class="w-20 h-20 mx-auto mb-4 animate-bounce" />`
-              : `<div class="text-6xl mb-4 animate-bounce">${newBadge.icon}</div>`
-            }
+    ? `<img src="${newBadge.image}" alt="${newBadge.name}" class="w-20 h-20 mx-auto mb-4 animate-bounce" />`
+    : `<div class="text-6xl mb-4 animate-bounce">${newBadge.icon}</div>`
+}
             <h2 class="text-xl font-bold text-white">Nouveau Badge !</h2>
           </div>
         </div>
@@ -183,16 +183,16 @@ export function renderBadgePopup() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render badge detail (when clicking on earned badge)
  */
 export function renderBadgeDetail(badgeId) {
-  const badge = allBadges.find(b => b.id === badgeId)
+  const badge = allBadges.find(b => b.id === badgeId);
 
-  if (!badge) return ''
+  if (!badge) return '';
 
   return `
     <div class="badge-detail fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
@@ -201,9 +201,9 @@ export function renderBadgeDetail(badgeId) {
            onclick="event.stopPropagation()">
         <div class="bg-gradient-to-r from-amber-500/20 to-orange-500/20 p-8 text-center">
           ${badge.image
-            ? `<img src="${badge.image}" alt="${badge.name}" class="w-20 h-20 mx-auto" />`
-            : `<div class="text-6xl">${badge.icon}</div>`
-          }
+    ? `<img src="${badge.image}" alt="${badge.name}" class="w-20 h-20 mx-auto" />`
+    : `<div class="text-6xl">${badge.icon}</div>`
+}
         </div>
 
         <div class="p-6 text-center">
@@ -228,11 +228,11 @@ export function renderBadgeDetail(badgeId) {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 export default {
   renderBadgesModal,
   renderBadgePopup,
   renderBadgeDetail,
-}
+};

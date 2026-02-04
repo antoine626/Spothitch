@@ -4,9 +4,9 @@
  */
 
 // Base paths for images (use import.meta.env.BASE_URL for correct path resolution)
-const BASE = import.meta.env.BASE_URL || '/'
-const VIP_IMG_PATH = `${BASE}images/vip`
-const LEAGUE_IMG_PATH = `${BASE}images/leagues`
+const BASE = import.meta.env.BASE_URL || '/';
+const VIP_IMG_PATH = `${BASE}images/vip`;
+const LEAGUE_IMG_PATH = `${BASE}images/leagues`;
 
 export const vipLevels = [
   {
@@ -139,7 +139,7 @@ export const vipLevels = [
     discountPercent: 20,
     xpMultiplier: 1.5,
   },
-]
+];
 
 /**
  * League definitions for competitive seasons
@@ -194,7 +194,7 @@ export const leagues = [
     minSeasonPoints: 2500,
     maxSeasonPoints: Infinity,
   },
-]
+];
 
 /**
  * Get VIP level from points
@@ -202,39 +202,39 @@ export const leagues = [
 export function getVipLevel(points) {
   return vipLevels.find(
     level => points >= level.minPoints && points <= level.maxPoints
-  ) || vipLevels[0]
+  ) || vipLevels[0];
 }
 
 /**
  * Get next VIP level
  */
 export function getNextVipLevel(points) {
-  const currentLevel = getVipLevel(points)
-  const currentIndex = vipLevels.findIndex(l => l.id === currentLevel.id)
-  return vipLevels[currentIndex + 1] || null
+  const currentLevel = getVipLevel(points);
+  const currentIndex = vipLevels.findIndex(l => l.id === currentLevel.id);
+  return vipLevels[currentIndex + 1] || null;
 }
 
 /**
  * Get progress to next level
  */
 export function getVipProgress(points) {
-  const current = getVipLevel(points)
-  const next = getNextVipLevel(points)
+  const current = getVipLevel(points);
+  const next = getNextVipLevel(points);
 
   if (!next) {
-    return { current, next: null, progress: 1, pointsNeeded: 0 }
+    return { current, next: null, progress: 1, pointsNeeded: 0 };
   }
 
-  const levelRange = current.maxPoints - current.minPoints + 1
-  const pointsInLevel = points - current.minPoints
-  const progress = pointsInLevel / levelRange
+  const levelRange = current.maxPoints - current.minPoints + 1;
+  const pointsInLevel = points - current.minPoints;
+  const progress = pointsInLevel / levelRange;
 
   return {
     current,
     next,
     progress,
     pointsNeeded: next.minPoints - points,
-  }
+  };
 }
 
 /**
@@ -243,62 +243,62 @@ export function getVipProgress(points) {
 export function getLeague(seasonPoints) {
   return leagues.find(
     league => seasonPoints >= league.minSeasonPoints && seasonPoints <= league.maxSeasonPoints
-  ) || leagues[0]
+  ) || leagues[0];
 }
 
 /**
  * Get next league
  */
 export function getNextLeague(seasonPoints) {
-  const currentLeague = getLeague(seasonPoints)
-  const currentIndex = leagues.findIndex(l => l.id === currentLeague.id)
-  return leagues[currentIndex + 1] || null
+  const currentLeague = getLeague(seasonPoints);
+  const currentIndex = leagues.findIndex(l => l.id === currentLeague.id);
+  return leagues[currentIndex + 1] || null;
 }
 
 /**
  * Get league progress
  */
 export function getLeagueProgress(seasonPoints) {
-  const current = getLeague(seasonPoints)
-  const next = getNextLeague(seasonPoints)
+  const current = getLeague(seasonPoints);
+  const next = getNextLeague(seasonPoints);
 
   if (!next) {
-    return { current, next: null, progress: 1, pointsNeeded: 0 }
+    return { current, next: null, progress: 1, pointsNeeded: 0 };
   }
 
-  const leagueRange = current.maxSeasonPoints - current.minSeasonPoints + 1
-  const pointsInLeague = seasonPoints - current.minSeasonPoints
-  const progress = pointsInLeague / leagueRange
+  const leagueRange = current.maxSeasonPoints - current.minSeasonPoints + 1;
+  const pointsInLeague = seasonPoints - current.minSeasonPoints;
+  const progress = pointsInLeague / leagueRange;
 
   return {
     current,
     next,
     progress,
     pointsNeeded: next.minSeasonPoints - seasonPoints,
-  }
+  };
 }
 
 /**
  * Calculate discount for reward purchase
  */
 export function applyVipDiscount(originalCost, userPoints) {
-  const vipLevel = getVipLevel(userPoints)
-  const discount = originalCost * (vipLevel.discountPercent / 100)
-  return Math.floor(originalCost - discount)
+  const vipLevel = getVipLevel(userPoints);
+  const discount = originalCost * (vipLevel.discountPercent / 100);
+  return Math.floor(originalCost - discount);
 }
 
 /**
  * Get all VIP levels
  */
 export function getAllVipLevels() {
-  return vipLevels
+  return vipLevels;
 }
 
 /**
  * Get all leagues
  */
 export function getAllLeagues() {
-  return leagues
+  return leagues;
 }
 
 export default {
@@ -313,4 +313,4 @@ export default {
   applyVipDiscount,
   getAllVipLevels,
   getAllLeagues,
-}
+};

@@ -354,7 +354,7 @@ export function renderPagination(currentPage, totalPages, onPageChange = 'goToPa
   const pages = [];
   const maxVisible = 5;
   let start = Math.max(0, currentPage - Math.floor(maxVisible / 2));
-  let end = Math.min(totalPages, start + maxVisible);
+  const end = Math.min(totalPages, start + maxVisible);
 
   if (end - start < maxVisible) {
     start = Math.max(0, end - maxVisible);
@@ -376,23 +376,23 @@ export function renderPagination(currentPage, totalPages, onPageChange = 'goToPa
       </button>
 
       ${pages
-        .map(
-          (page) => `
+    .map(
+      (page) => `
         <button
           onclick="${onPageChange}(${page})"
           class="w-10 h-10 rounded-lg transition-colors ${
-            page === currentPage
-              ? 'bg-primary-500 text-white'
-              : 'bg-white/5 hover:bg-white/10'
-          }"
+  page === currentPage
+    ? 'bg-primary-500 text-white'
+    : 'bg-white/5 hover:bg-white/10'
+}"
           aria-label="Page ${page + 1}"
           ${page === currentPage ? 'aria-current="page"' : ''}
         >
           ${page + 1}
         </button>
       `
-        )
-        .join('')}
+    )
+    .join('')}
 
       <button
         onclick="${onPageChange}(${currentPage + 1})"

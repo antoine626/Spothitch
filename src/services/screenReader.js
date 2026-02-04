@@ -13,13 +13,13 @@ const PRIORITY = {
 };
 
 // Store reference to live regions
-let liveRegions = {
+const liveRegions = {
   polite: null,
   assertive: null,
 };
 
 // Announcement queue for managing multiple announcements
-let announcementQueue = [];
+const announcementQueue = [];
 let isAnnouncing = false;
 
 /**

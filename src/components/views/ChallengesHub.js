@@ -42,9 +42,9 @@ export function renderChallengesHub(state) {
         </div>
         <div class="card p-3 text-center">
           ${currentVipLevel.image
-            ? `<img src="${currentVipLevel.image}" alt="${currentVipLevel.name}" class="w-8 h-8 mx-auto" loading="lazy" />`
-            : `<div class="text-2xl">${currentVipLevel.icon}</div>`
-          }
+    ? `<img src="${currentVipLevel.image}" alt="${currentVipLevel.name}" class="w-8 h-8 mx-auto" loading="lazy" />`
+    : `<div class="text-2xl">${currentVipLevel.icon}</div>`
+}
           <div class="text-xs text-slate-400">${currentVipLevel.name}</div>
         </div>
       </div>
@@ -138,8 +138,8 @@ export function renderChallengesHub(state) {
 
         <div class="space-y-3">
           ${activeChallenges.map(challenge => {
-            const progress = Math.min((state[challenge.type] || 0) / challenge.target * 100, 100);
-            return `
+    const progress = Math.min((state[challenge.type] || 0) / challenge.target * 100, 100);
+    return `
               <div class="p-3 rounded-lg bg-white/5">
                 <div class="flex items-center justify-between mb-2">
                   <div class="flex items-center gap-2">
@@ -147,8 +147,8 @@ export function renderChallengesHub(state) {
                     <span class="font-medium">${challenge.name}</span>
                   </div>
                   <span class="text-xs px-2 py-0.5 rounded-full ${
-                    challenge.challengeType === 'daily' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'
-                  }">${challenge.challengeType === 'daily' ? 'Quotidien' : 'Hebdo'}</span>
+  challenge.challengeType === 'daily' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'
+}">${challenge.challengeType === 'daily' ? 'Quotidien' : 'Hebdo'}</span>
                 </div>
                 <div class="flex items-center gap-3">
                   <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
@@ -158,7 +158,7 @@ export function renderChallengesHub(state) {
                 </div>
               </div>
             `;
-          }).join('')}
+  }).join('')}
         </div>
       </div>
 
@@ -197,8 +197,8 @@ export function renderChallengesHub(state) {
         <div class="flex gap-1">
           ${leagues.map((league, i) => `
             <div class="flex-1 h-2 rounded-full ${
-              i <= currentLeagueIndex ? 'bg-gradient-to-r from-amber-500 to-amber-400' : 'bg-white/10'
-            }"></div>
+  i <= currentLeagueIndex ? 'bg-gradient-to-r from-amber-500 to-amber-400' : 'bg-white/10'
+}"></div>
           `).join('')}
         </div>
         <div class="flex justify-between mt-1 text-xs text-slate-500">
@@ -211,9 +211,9 @@ export function renderChallengesHub(state) {
         <div class="flex items-center gap-4">
           <div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/30 to-pink-500/30 flex items-center justify-center">
             ${currentVipLevel.image
-              ? `<img src="${currentVipLevel.image}" alt="${currentVipLevel.name}" class="w-12 h-12 object-contain" loading="lazy" />`
-              : `<span class="text-3xl">${currentVipLevel.icon}</span>`
-            }
+    ? `<img src="${currentVipLevel.image}" alt="${currentVipLevel.name}" class="w-12 h-12 object-contain" loading="lazy" />`
+    : `<span class="text-3xl">${currentVipLevel.icon}</span>`
+}
           </div>
           <div class="flex-1">
             <div class="text-xs text-purple-400 mb-1">Statut VIP</div>

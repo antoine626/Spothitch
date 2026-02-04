@@ -242,7 +242,7 @@ export function renderTutorial(state) {
           ${tutorialSteps.map((_, i) => `
             <div class="w-2 h-2 rounded-full transition-all duration-300
                         ${i === stepIndex ? 'w-6 bg-primary-500' :
-                          i < stepIndex ? 'bg-emerald-500' : 'bg-slate-600'}">
+    i < stepIndex ? 'bg-emerald-500' : 'bg-slate-600'}">
             </div>
           `).join('')}
         </div>
@@ -274,8 +274,8 @@ export function renderTutorial(state) {
             onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}"
             class="flex-1 py-3 px-4 rounded-xl font-medium transition-all
                    ${isLast
-                     ? 'bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:from-emerald-600 hover:to-green-600'
-                     : 'bg-gradient-to-r from-primary-500 to-cyan-500 text-white hover:from-primary-600 hover:to-cyan-600'}
+    ? 'bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:from-emerald-600 hover:to-green-600'
+    : 'bg-gradient-to-r from-primary-500 to-cyan-500 text-white hover:from-primary-600 hover:to-cyan-600'}
                    flex items-center justify-center gap-2"
             type="button"
           >

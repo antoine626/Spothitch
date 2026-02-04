@@ -3,7 +3,7 @@
  * Prevents XSS attacks by sanitizing HTML content
  */
 
-import DOMPurify from 'dompurify'
+import DOMPurify from 'dompurify';
 
 // Configure DOMPurify
 const config = {
@@ -29,7 +29,7 @@ const config = {
   ],
   ALLOW_DATA_ATTR: true,
   ADD_ATTR: ['onclick', 'onchange', 'onsubmit', 'oninput'],
-}
+};
 
 /**
  * Sanitize HTML string to prevent XSS
@@ -37,8 +37,8 @@ const config = {
  * @returns {string} Sanitized HTML
  */
 export function sanitize(dirty) {
-  if (!dirty || typeof dirty !== 'string') return ''
-  return DOMPurify.sanitize(dirty, config)
+  if (!dirty || typeof dirty !== 'string') return '';
+  return DOMPurify.sanitize(dirty, config);
 }
 
 /**
@@ -47,8 +47,8 @@ export function sanitize(dirty) {
  * @param {string} html - HTML content to set
  */
 export function safeInnerHTML(element, html) {
-  if (!element) return
-  element.innerHTML = sanitize(html)
+  if (!element) return;
+  element.innerHTML = sanitize(html);
 }
 
 /**
@@ -57,9 +57,9 @@ export function safeInnerHTML(element, html) {
  * @returns {DocumentFragment} Sanitized document fragment
  */
 export function createSafeHTML(html) {
-  const template = document.createElement('template')
-  template.innerHTML = sanitize(html)
-  return template.content
+  const template = document.createElement('template');
+  template.innerHTML = sanitize(html);
+  return template.content;
 }
 
 /**
@@ -68,10 +68,10 @@ export function createSafeHTML(html) {
  * @returns {string} Escaped text
  */
 export function escapeHTML(text) {
-  if (!text || typeof text !== 'string') return ''
-  const div = document.createElement('div')
-  div.textContent = text
-  return div.innerHTML
+  if (!text || typeof text !== 'string') return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 /**
@@ -80,8 +80,8 @@ export function escapeHTML(text) {
  * @returns {string} Sanitized input
  */
 export function sanitizeInput(input) {
-  if (!input || typeof input !== 'string') return ''
-  return escapeHTML(input.trim())
+  if (!input || typeof input !== 'string') return '';
+  return escapeHTML(input.trim());
 }
 
 export default {
@@ -90,4 +90,4 @@ export default {
   createSafeHTML,
   escapeHTML,
   sanitizeInput,
-}
+};

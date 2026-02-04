@@ -3,18 +3,18 @@
  * Leaflet map initialization and utilities
  */
 
-import { getState } from '../stores/state.js'
-import { sampleSpots } from '../data/spots.js'
+import { getState } from '../stores/state.js';
+import { sampleSpots } from '../data/spots.js';
 
 // Map instances
-let mainMap = null
-let plannerMap = null
-let tripDetailMap = null
-let routeLayer = null
+let mainMap = null;
+let plannerMap = null;
+let tripDetailMap = null;
+let routeLayer = null;
 
 // Default center (Europe)
-const DEFAULT_CENTER = [48.8566, 2.3522]
-const DEFAULT_ZOOM = 5
+const DEFAULT_CENTER = [48.8566, 2.3522];
+const DEFAULT_ZOOM = 5;
 
 /**
  * Get map tile URL based on theme
@@ -25,15 +25,15 @@ export function getMapTileUrl(theme = 'dark') {
     light: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     dark: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
     satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-  }
-  return tiles[theme] || tiles.dark
+  };
+  return tiles[theme] || tiles.dark;
 }
 
 /**
  * Get map attribution
  */
 export function getMapAttribution() {
-  return '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors | Data from <a href="https://hitchwiki.org">Hitchwiki</a> (ODBL)'
+  return '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors | Data from <a href="https://hitchwiki.org">Hitchwiki</a> (ODBL)';
 }
 
 /**
@@ -41,113 +41,113 @@ export function getMapAttribution() {
  * @param {string} containerId - Map container element ID (default: 'map')
  */
 export async function initMap(containerId = 'map') {
-  console.log('🗺️ initMap called for:', containerId)
-  const mapContainer = document.getElementById(containerId)
+  console.log('🗺️ initMap called for:', containerId);
+  const mapContainer = document.getElementById(containerId);
   if (!mapContainer) {
-    console.warn('🗺️ Map container not found:', containerId)
-    return null
+    console.warn('🗺️ Map container not found:', containerId);
+    return null;
   }
-  console.log('🗺️ Map container found:', mapContainer)
+  console.log('🗺️ Map container found:', mapContainer);
 
   // Always clean up existing map first to prevent memory leaks
   if (mainMap) {
     try {
       // Check if the map container is the same
       if (mainMap.getContainer() === mapContainer) {
-        mainMap.invalidateSize()
-        return mainMap
+        mainMap.invalidateSize();
+        return mainMap;
       }
       // Different container or container was replaced, destroy old map
-      console.log('🗺️ Destroying old map instance')
-      mainMap.remove()
+      console.log('🗺️ Destroying old map instance');
+      mainMap.remove();
     } catch (e) {
-      console.warn('🗺️ Error cleaning up old map:', e)
+      console.warn('🗺️ Error cleaning up old map:', e);
     }
-    mainMap = null
-    window.spotHitchMap = null
+    mainMap = null;
+    window.spotHitchMap = null;
   }
 
   // Clear container content (loading spinner)
-  mapContainer.innerHTML = ''
+  mapContainer.innerHTML = '';
 
   try {
-    const L = await import('leaflet')
-    await import('leaflet/dist/leaflet.css')
+    const L = await import('leaflet');
+    await import('leaflet/dist/leaflet.css');
 
     // Import marker cluster
     try {
-      await import('leaflet.markercluster')
-      await import('leaflet.markercluster/dist/MarkerCluster.css')
-      await import('leaflet.markercluster/dist/MarkerCluster.Default.css')
+      await import('leaflet.markercluster');
+      await import('leaflet.markercluster/dist/MarkerCluster.css');
+      await import('leaflet.markercluster/dist/MarkerCluster.Default.css');
     } catch (e) {
-      console.warn('MarkerCluster not available')
+      console.warn('MarkerCluster not available');
     }
 
-    const state = getState()
+    const state = getState();
     const center = state.userLocation
       ? [state.userLocation.lat, state.userLocation.lng]
-      : DEFAULT_CENTER
+      : DEFAULT_CENTER;
 
     mainMap = L.default.map(containerId, {
       center,
       zoom: state.userLocation ? 10 : DEFAULT_ZOOM,
       zoomControl: false,
       attributionControl: true,
-    })
+    });
 
     // Add zoom control on right side
-    L.default.control.zoom({ position: 'topright' }).addTo(mainMap)
+    L.default.control.zoom({ position: 'topright' }).addTo(mainMap);
 
     // Add tile layer
     L.default.tileLayer(getMapTileUrl(state.theme), {
       attribution: getMapAttribution(),
       maxZoom: 18,
-    }).addTo(mainMap)
+    }).addTo(mainMap);
 
     // Add spots markers
-    addSpotsToMap(mainMap, L.default, state.spots || sampleSpots)
+    addSpotsToMap(mainMap, L.default, state.spots || sampleSpots);
 
     // Add user location marker if available
     if (state.userLocation) {
-      addUserLocationMarker(mainMap, L.default, state.userLocation)
+      addUserLocationMarker(mainMap, L.default, state.userLocation);
     }
 
     // Store reference globally (for searchLocation and other features)
-    window.spotHitchMap = mainMap
-    window.mapInstance = mainMap
+    window.spotHitchMap = mainMap;
+    window.mapInstance = mainMap;
 
     // Force resize after render to fix sizing issues (multiple attempts)
     const forceResize = () => {
       if (mainMap) {
-        mainMap.invalidateSize()
+        mainMap.invalidateSize();
       }
-    }
+    };
 
     // Multiple resize attempts to ensure map renders correctly
-    setTimeout(forceResize, 0)
-    setTimeout(forceResize, 100)
-    setTimeout(forceResize, 300)
-    setTimeout(forceResize, 500)
+    setTimeout(forceResize, 0);
+    setTimeout(forceResize, 100);
+    setTimeout(forceResize, 300);
+    setTimeout(forceResize, 500);
 
     // Also use ResizeObserver for dynamic resizing
     if (window.ResizeObserver && mapContainer) {
       const resizeObserver = new ResizeObserver(() => {
         if (mainMap) {
-          mainMap.invalidateSize()
+          mainMap.invalidateSize();
         }
-      })
-      resizeObserver.observe(mapContainer)
+      });
+      resizeObserver.observe(mapContainer);
 
       // Store observer for cleanup
-      mainMap._resizeObserver = resizeObserver
+      mainMap._resizeObserver = resizeObserver;
     }
 
-    console.log('✅ Map initialized with', (state.spots || sampleSpots).length, 'spots')
-    return mainMap
+    console.log('✅ Map initialized with', (state.spots || sampleSpots).length, 'spots');
+    return mainMap;
   } catch (error) {
-    console.error('Map initialization failed:', error)
-    displayFallbackSpots(mapContainer)
-    return null
+    console.error('Map initialization failed:', error);
+    displayFallbackSpots(mapContainer);
+    return null;
   }
 }
 
@@ -155,41 +155,41 @@ export async function initMap(containerId = 'map') {
  * Initialize planner map
  */
 export async function initPlannerMap() {
-  const mapContainer = document.getElementById('planner-map')
-  if (!mapContainer) return null
+  const mapContainer = document.getElementById('planner-map');
+  if (!mapContainer) return null;
 
   // Clean up existing planner map to prevent memory leaks
   if (plannerMap) {
     try {
       if (plannerMap.getContainer() === mapContainer) {
-        plannerMap.invalidateSize()
-        return plannerMap
+        plannerMap.invalidateSize();
+        return plannerMap;
       }
-      plannerMap.remove()
+      plannerMap.remove();
     } catch (e) {
-      console.warn('Error cleaning up planner map:', e)
+      console.warn('Error cleaning up planner map:', e);
     }
-    plannerMap = null
+    plannerMap = null;
   }
 
   try {
-    const L = await import('leaflet')
+    const L = await import('leaflet');
 
     plannerMap = L.default.map('planner-map', {
       center: DEFAULT_CENTER,
       zoom: 4,
       zoomControl: false,
-    })
+    });
 
     L.default.tileLayer(getMapTileUrl('dark'), {
       attribution: getMapAttribution(),
       maxZoom: 18,
-    }).addTo(plannerMap)
+    }).addTo(plannerMap);
 
-    return plannerMap
+    return plannerMap;
   } catch (error) {
-    console.error('Planner map initialization failed:', error)
-    return null
+    console.error('Planner map initialization failed:', error);
+    return null;
   }
 }
 
@@ -198,46 +198,46 @@ export async function initPlannerMap() {
  * @param {string} tripId - Trip ID
  */
 export async function initSavedTripMap(tripId) {
-  const mapContainer = document.getElementById('trip-detail-map')
-  if (!mapContainer) return null
+  const mapContainer = document.getElementById('trip-detail-map');
+  if (!mapContainer) return null;
 
   // Clean up existing trip detail map to prevent memory leaks
   if (tripDetailMap) {
     try {
-      tripDetailMap.remove()
+      tripDetailMap.remove();
     } catch (e) {
-      console.warn('Error cleaning up trip detail map:', e)
+      console.warn('Error cleaning up trip detail map:', e);
     }
-    tripDetailMap = null
+    tripDetailMap = null;
   }
 
   try {
-    const L = await import('leaflet')
-    const { getTripById } = await import('./planner.js')
+    const L = await import('leaflet');
+    const { getTripById } = await import('./planner.js');
 
-    const trip = getTripById(tripId)
-    if (!trip) return null
+    const trip = getTripById(tripId);
+    if (!trip) return null;
 
     tripDetailMap = L.default.map('trip-detail-map', {
       center: DEFAULT_CENTER,
       zoom: 5,
       zoomControl: false,
-    })
+    });
 
     L.default.tileLayer(getMapTileUrl('dark'), {
       attribution: getMapAttribution(),
       maxZoom: 18,
-    }).addTo(tripDetailMap)
+    }).addTo(tripDetailMap);
 
     // Draw route if available
     if (trip.route?.geometry) {
-      drawRoute(tripDetailMap, L.default, trip.route.geometry)
+      drawRoute(tripDetailMap, L.default, trip.route.geometry);
     }
 
     // Add step markers
     trip.steps.forEach((step, index) => {
-      const isFirst = index === 0
-      const isLast = index === trip.steps.length - 1
+      const isFirst = index === 0;
+      const isLast = index === trip.steps.length - 1;
 
       L.default.marker([step.lat, step.lng], {
         icon: L.default.divIcon({
@@ -247,17 +247,17 @@ export async function initSavedTripMap(tripId) {
                    ${isFirst ? '🚀' : isLast ? '🏁' : index}
                  </div>`,
         }),
-      }).addTo(tripDetailMap)
-    })
+      }).addTo(tripDetailMap);
+    });
 
     // Fit bounds
-    const bounds = trip.steps.map(s => [s.lat, s.lng])
-    tripDetailMap.fitBounds(bounds, { padding: [30, 30] })
+    const bounds = trip.steps.map(s => [s.lat, s.lng]);
+    tripDetailMap.fitBounds(bounds, { padding: [30, 30] });
 
-    return tripDetailMap
+    return tripDetailMap;
   } catch (error) {
-    console.error('Trip map initialization failed:', error)
-    return null
+    console.error('Trip map initialization failed:', error);
+    return null;
   }
 }
 
@@ -265,45 +265,45 @@ export async function initSavedTripMap(tripId) {
  * Add spots markers to map
  */
 function addSpotsToMap(map, L, spots) {
-  if (!map || !L || !spots) return
+  if (!map || !L || !spots) return;
 
   // Try to use MarkerCluster if available
-  let markerGroup
+  let markerGroup;
   try {
     markerGroup = L.markerClusterGroup({
       maxClusterRadius: 50,
       spiderfyOnMaxZoom: true,
       showCoverageOnHover: false,
       disableClusteringAtZoom: 12,
-    })
+    });
   } catch (e) {
-    markerGroup = L.layerGroup()
+    markerGroup = L.layerGroup();
   }
 
   spots.forEach(spot => {
-    if (!spot.coordinates) return
+    if (!spot.coordinates) return;
 
     const marker = L.marker([spot.coordinates.lat, spot.coordinates.lng], {
       icon: createSpotIcon(L, spot),
-    })
+    });
 
-    marker.bindPopup(createSpotPopup(spot))
+    marker.bindPopup(createSpotPopup(spot));
     marker.on('click', () => {
-      window.selectSpot?.(spot.id)
-    })
+      window.selectSpot?.(spot.id);
+    });
 
-    markerGroup.addLayer(marker)
-  })
+    markerGroup.addLayer(marker);
+  });
 
-  map.addLayer(markerGroup)
+  map.addLayer(markerGroup);
 }
 
 /**
  * Create custom spot icon
  */
 function createSpotIcon(L, spot) {
-  const rating = spot.globalRating || 0
-  const color = rating >= 4.5 ? '#22c55e' : rating >= 4 ? '#0ea5e9' : rating >= 3 ? '#f59e0b' : '#ef4444'
+  const rating = spot.globalRating || 0;
+  const color = rating >= 4.5 ? '#22c55e' : rating >= 4 ? '#0ea5e9' : rating >= 3 ? '#f59e0b' : '#ef4444';
 
   return L.divIcon({
     className: 'spot-marker',
@@ -320,7 +320,7 @@ function createSpotIcon(L, spot) {
     iconSize: [32, 40],
     iconAnchor: [16, 40],
     popupAnchor: [0, -40],
-  })
+  });
 }
 
 /**
@@ -341,7 +341,7 @@ function createSpotPopup(spot) {
         Voir détails
       </button>
     </div>
-  `
+  `;
 }
 
 /**
@@ -360,46 +360,46 @@ function addUserLocationMarker(map, L, location) {
       iconSize: [16, 16],
       iconAnchor: [8, 8],
     }),
-  })
+  });
 
-  userMarker.addTo(map)
-  userMarker.bindTooltip('Vous êtes ici')
+  userMarker.addTo(map);
+  userMarker.bindTooltip('Vous êtes ici');
 }
 
 /**
  * Draw route on map
  */
 export function drawRoute(map, L, routeCoords) {
-  if (!map || !L || !routeCoords) return
+  if (!map || !L || !routeCoords) return;
 
   // Remove existing route
   if (routeLayer) {
-    map.removeLayer(routeLayer)
+    map.removeLayer(routeLayer);
   }
 
   // routeCoords is in [lng, lat] format from OSRM, convert to [lat, lng]
-  const latLngs = routeCoords.map(coord => [coord[1], coord[0]])
+  const latLngs = routeCoords.map(coord => [coord[1], coord[0]]);
 
   routeLayer = L.polyline(latLngs, {
     color: '#0ea5e9',
     weight: 4,
     opacity: 0.8,
     smoothFactor: 1,
-  }).addTo(map)
+  }).addTo(map);
 
   // Fit map to route bounds
-  map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] })
+  map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
 
-  return routeLayer
+  return routeLayer;
 }
 
 /**
  * Display fallback spots (when map fails to load)
  */
 export function displayFallbackSpots(container) {
-  if (!container) return
+  if (!container) return;
 
-  const spots = getState().spots || sampleSpots
+  const spots = getState().spots || sampleSpots;
 
   container.innerHTML = `
     <div class="fallback-spots p-4 bg-gray-800 rounded-xl text-center">
@@ -415,39 +415,39 @@ export function displayFallbackSpots(container) {
         `).join('')}
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Update map theme
  */
 export async function updateMapTheme(theme) {
-  if (!mainMap) return
+  if (!mainMap) return;
 
-  const L = await import('leaflet')
+  const L = await import('leaflet');
 
   // Remove old tile layer
   mainMap.eachLayer(layer => {
     if (layer instanceof L.default.TileLayer) {
-      mainMap.removeLayer(layer)
+      mainMap.removeLayer(layer);
     }
-  })
+  });
 
   // Add new tile layer
   L.default.tileLayer(getMapTileUrl(theme), {
     attribution: getMapAttribution(),
     maxZoom: 18,
-  }).addTo(mainMap)
+  }).addTo(mainMap);
 }
 
 /**
  * Center map on user location
  */
 export function centerOnUser() {
-  const state = getState()
+  const state = getState();
 
   if (mainMap && state.userLocation) {
-    mainMap.setView([state.userLocation.lat, state.userLocation.lng], 12)
+    mainMap.setView([state.userLocation.lat, state.userLocation.lng], 12);
   }
 }
 
@@ -456,7 +456,7 @@ export function centerOnUser() {
  */
 export function centerOnSpot(spot) {
   if (mainMap && spot?.coordinates) {
-    mainMap.setView([spot.coordinates.lat, spot.coordinates.lng], 14)
+    mainMap.setView([spot.coordinates.lat, spot.coordinates.lng], 14);
   }
 }
 
@@ -464,40 +464,40 @@ export function centerOnSpot(spot) {
  * Destroy map instances (cleanup to prevent memory leaks)
  */
 export function destroyMaps() {
-  console.log('🗺️ Destroying map instances for cleanup')
+  console.log('🗺️ Destroying map instances for cleanup');
   if (mainMap) {
     try {
       // Clean up ResizeObserver if exists
       if (mainMap._resizeObserver) {
-        mainMap._resizeObserver.disconnect()
+        mainMap._resizeObserver.disconnect();
       }
-      mainMap.remove()
+      mainMap.remove();
     } catch (e) {
-      console.warn('Error removing main map:', e)
+      console.warn('Error removing main map:', e);
     }
-    mainMap = null
+    mainMap = null;
   }
   if (plannerMap) {
     try {
-      plannerMap.remove()
+      plannerMap.remove();
     } catch (e) {
-      console.warn('Error removing planner map:', e)
+      console.warn('Error removing planner map:', e);
     }
-    plannerMap = null
+    plannerMap = null;
   }
   if (tripDetailMap) {
     try {
-      tripDetailMap.remove()
+      tripDetailMap.remove();
     } catch (e) {
-      console.warn('Error removing trip detail map:', e)
+      console.warn('Error removing trip detail map:', e);
     }
-    tripDetailMap = null
+    tripDetailMap = null;
   }
   if (routeLayer) {
-    routeLayer = null
+    routeLayer = null;
   }
-  window.spotHitchMap = null
-  window.mapInstance = null
+  window.spotHitchMap = null;
+  window.mapInstance = null;
 }
 
 /**
@@ -505,7 +505,7 @@ export function destroyMaps() {
  * Used by the Map view component
  */
 export async function initMapService(state) {
-  return initMap('main-map')
+  return initMap('main-map');
 }
 
 export default {
@@ -521,4 +521,4 @@ export default {
   centerOnUser,
   centerOnSpot,
   destroyMaps,
-}
+};

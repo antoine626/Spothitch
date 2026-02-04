@@ -418,21 +418,21 @@ export function renderCustomizationModal(state) {
             <h3 class="font-semibold mb-3">Cadres</h3>
             <div class="grid grid-cols-3 gap-3">
               ${Object.values(PROFILE_FRAMES)
-                .map((frame) => {
-                  const isUnlocked = unlockedFrames.includes(frame.id);
-                  const isEquipped = currentFrame === frame.id;
-                  const rarity = RARITY_COLORS[frame.rarity] || RARITY_COLORS.common;
+    .map((frame) => {
+      const isUnlocked = unlockedFrames.includes(frame.id);
+      const isEquipped = currentFrame === frame.id;
+      const rarity = RARITY_COLORS[frame.rarity] || RARITY_COLORS.common;
 
-                  return `
+      return `
                   <button
                     onclick="${isUnlocked ? `equipFrame('${frame.id}')` : ''}"
                     class="relative p-3 rounded-xl border-2 transition-all ${
-                      isEquipped
-                        ? 'border-primary-500 bg-primary-500/10'
-                        : isUnlocked
-                          ? 'border-white/10 hover:border-white/30 bg-white/5'
-                          : 'border-slate-700 bg-white/5 opacity-50'
-                    }"
+  isEquipped
+    ? 'border-primary-500 bg-primary-500/10'
+    : isUnlocked
+      ? 'border-white/10 hover:border-white/30 bg-white/5'
+      : 'border-slate-700 bg-white/5 opacity-50'
+}"
                     ${!isUnlocked ? 'disabled' : ''}
                   >
                     <div class="w-12 h-12 mx-auto rounded-full ${frame.gradient ? `bg-gradient-to-br ${frame.gradient}` : 'bg-slate-600'} flex items-center justify-center mb-2">
@@ -443,8 +443,8 @@ export function renderCustomizationModal(state) {
                     ${!isUnlocked ? '<i class="fas fa-lock absolute top-2 right-2 text-slate-500"></i>' : ''}
                   </button>
                 `;
-                })
-                .join('')}
+    })
+    .join('')}
             </div>
           </div>
 
@@ -453,20 +453,20 @@ export function renderCustomizationModal(state) {
             <h3 class="font-semibold mb-3">Titres</h3>
             <div class="space-y-2">
               ${Object.values(PROFILE_TITLES)
-                .map((title) => {
-                  const isUnlocked = unlockedTitles.includes(title.id);
-                  const isEquipped = currentTitle === title.id;
+    .map((title) => {
+      const isUnlocked = unlockedTitles.includes(title.id);
+      const isEquipped = currentTitle === title.id;
 
-                  return `
+      return `
                   <button
                     onclick="${isUnlocked ? `equipTitle('${title.id}')` : ''}"
                     class="w-full p-3 rounded-xl flex items-center gap-3 transition-all ${
-                      isEquipped
-                        ? 'bg-primary-500/10 border-2 border-primary-500'
-                        : isUnlocked
-                          ? 'bg-white/5 border-2 border-transparent hover:border-white/20'
-                          : 'bg-white/5 border-2 border-transparent opacity-50'
-                    }"
+  isEquipped
+    ? 'bg-primary-500/10 border-2 border-primary-500'
+    : isUnlocked
+      ? 'bg-white/5 border-2 border-transparent hover:border-white/20'
+      : 'bg-white/5 border-2 border-transparent opacity-50'
+}"
                     ${!isUnlocked ? 'disabled' : ''}
                   >
                     <span class="${title.color} font-medium">${title.name}</span>
@@ -474,8 +474,8 @@ export function renderCustomizationModal(state) {
                     ${!isUnlocked ? '<i class="fas fa-lock text-slate-500 ml-auto"></i>' : ''}
                   </button>
                 `;
-                })
-                .join('')}
+    })
+    .join('')}
             </div>
           </div>
         </div>

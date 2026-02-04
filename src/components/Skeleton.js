@@ -27,7 +27,7 @@ export function renderSkeletonSpotCard() {
         </div>
       </div>
     </article>
-  `
+  `;
 }
 
 /**
@@ -35,7 +35,7 @@ export function renderSkeletonSpotCard() {
  * @param {number} count - Number of skeleton cards
  */
 export function renderSkeletonList(count = 3) {
-  return Array(count).fill(null).map(() => renderSkeletonSpotCard()).join('')
+  return Array(count).fill(null).map(() => renderSkeletonSpotCard()).join('');
 }
 
 /**
@@ -50,7 +50,7 @@ export function renderSkeletonCompactCard() {
         <div class="h-4 bg-white/10 rounded w-1/2"></div>
       </div>
     </article>
-  `
+  `;
 }
 
 /**
@@ -67,7 +67,7 @@ export function renderSkeletonMap() {
         <div class="h-3 bg-white/10 rounded w-24 mx-auto"></div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -76,7 +76,7 @@ export function renderSkeletonMap() {
  */
 export function renderSkeletonMessages(count = 5) {
   return Array(count).fill(null).map((_, i) => {
-    const isOwn = i % 3 === 0
+    const isOwn = i % 3 === 0;
     return `
       <div class="flex gap-3 ${isOwn ? 'flex-row-reverse' : ''} animate-pulse">
         <div class="w-8 h-8 rounded-full bg-white/10 flex-shrink-0"></div>
@@ -88,8 +88,8 @@ export function renderSkeletonMessages(count = 5) {
           </div>
         </div>
       </div>
-    `
-  }).join('')
+    `;
+  }).join('');
 }
 
 /**
@@ -107,7 +107,7 @@ export function renderSkeletonBadges(count = 6) {
         </div>
       `).join('')}
     </div>
-  `
+  `;
 }
 
 /**
@@ -146,7 +146,7 @@ export function renderSkeletonProfile() {
         `).join('')}
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -168,7 +168,7 @@ export function renderSkeletonReward() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -179,14 +179,14 @@ export function renderLoadingSpinner(size = 'md', text = '') {
     sm: 'w-4 h-4',
     md: 'w-8 h-8',
     lg: 'w-12 h-12',
-  }
+  };
 
   return `
     <div class="flex flex-col items-center justify-center py-8">
       <div class="${sizeClasses[size] || sizeClasses.md} border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
       ${text ? `<p class="mt-3 text-slate-400 text-sm">${text}</p>` : ''}
     </div>
-  `
+  `;
 }
 
 export default {
@@ -199,4 +199,4 @@ export default {
   renderSkeletonProfile,
   renderSkeletonReward,
   renderLoadingSpinner,
-}
+};

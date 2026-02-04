@@ -3,8 +3,8 @@
  * Weekly and monthly rankings
  */
 
-import { getState, setState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
+import { getState, setState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
 
 // Mock leaderboard data (in real app, this would come from Firebase)
 const mockLeaderboardData = {
@@ -44,30 +44,30 @@ const mockLeaderboardData = {
     { id: 9, username: 'RoadTripper', avatar: '🚗', points: 25000, level: 25, streak: 80, country: 'PT' },
     { id: 10, username: 'Backpacker', avatar: '🧳', points: 22000, level: 22, streak: 60, country: 'AT' },
   ],
-}
+};
 
 const countryFlags = {
   FR: '🇫🇷', DE: '🇩🇪', NL: '🇳🇱', ES: '🇪🇸', IT: '🇮🇹',
   BE: '🇧🇪', PT: '🇵🇹', AT: '🇦🇹', CH: '🇨🇭', PL: '🇵🇱',
-}
+};
 
 /**
  * Render leaderboard modal
  */
 export function renderLeaderboardModal() {
-  const state = getState()
-  const { showLeaderboard, leaderboardTab = 'weekly' } = state
+  const state = getState();
+  const { showLeaderboard, leaderboardTab = 'weekly' } = state;
 
-  if (!showLeaderboard) return ''
+  if (!showLeaderboard) return '';
 
-  const leaderboardData = mockLeaderboardData[leaderboardTab] || []
+  const leaderboardData = mockLeaderboardData[leaderboardTab] || [];
   const currentUser = {
     username: state.username || 'Vous',
     avatar: state.avatar || '🤙',
     points: state.points || 0,
     level: state.level || 1,
     rank: 42, // Mock rank
-  }
+  };
 
   return `
     <div class="leaderboard-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
@@ -160,22 +160,22 @@ export function renderLeaderboardModal() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render podium place (top 3)
  */
 function renderPodiumPlace(user, position) {
-  if (!user) return ''
+  if (!user) return '';
 
   const podiumStyles = {
     1: { height: 'h-28', medal: '🥇', bg: 'from-amber-500/30 to-amber-600/30', border: 'border-amber-500/50' },
     2: { height: 'h-24', medal: '🥈', bg: 'from-gray-400/30 to-gray-500/30', border: 'border-gray-400/50' },
     3: { height: 'h-20', medal: '🥉', bg: 'from-orange-700/30 to-orange-800/30', border: 'border-orange-700/50' },
-  }
+  };
 
-  const style = podiumStyles[position]
+  const style = podiumStyles[position];
 
   return `
     <div class="flex flex-col items-center ${position === 1 ? 'order-2' : position === 2 ? 'order-1' : 'order-3'}">
@@ -186,7 +186,7 @@ function renderPodiumPlace(user, position) {
         <span class="text-2xl">${style.medal}</span>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -211,14 +211,14 @@ function renderLeaderboardRow(user, rank) {
         <div class="text-gray-500 text-xs">points</div>
       </div>
     </div>
-  `
+  `;
 }
 
 // Global handlers
-window.openLeaderboard = () => setState({ showLeaderboard: true })
-window.closeLeaderboard = () => setState({ showLeaderboard: false })
-window.setLeaderboardTab = (tab) => setState({ leaderboardTab: tab })
+window.openLeaderboard = () => setState({ showLeaderboard: true });
+window.closeLeaderboard = () => setState({ showLeaderboard: false });
+window.setLeaderboardTab = (tab) => setState({ leaderboardTab: tab });
 
 export default {
   renderLeaderboardModal,
-}
+};

@@ -3,24 +3,24 @@
  * Friends list and private chat
  */
 
-import { getState, setState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
+import { getState, setState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
 
 /**
  * Render friends list view
  */
 export function renderFriends(state) {
-  const { friends = [], friendRequests = [], searchFriendQuery = '' } = state
+  const { friends = [], friendRequests = [], searchFriendQuery = '' } = state;
 
   // Filter friends by search
-  let displayFriends = friends
+  let displayFriends = friends;
   if (searchFriendQuery) {
-    const query = searchFriendQuery.toLowerCase()
-    displayFriends = friends.filter(f => f.name.toLowerCase().includes(query))
+    const query = searchFriendQuery.toLowerCase();
+    displayFriends = friends.filter(f => f.name.toLowerCase().includes(query));
   }
 
-  const onlineFriends = displayFriends.filter(f => f.online)
-  const offlineFriends = displayFriends.filter(f => !f.online)
+  const onlineFriends = displayFriends.filter(f => f.online);
+  const offlineFriends = displayFriends.filter(f => !f.online);
 
   return `
     <div class="friends-view pb-24">
@@ -127,7 +127,7 @@ export function renderFriends(state) {
         </div>
       ` : ''}
     </div>
-  `
+  `;
 }
 
 /**
@@ -157,33 +157,33 @@ function renderFriendCard(friend, isOnline) {
         </div>
       ` : ''}
     </div>
-  `
+  `;
 }
 
 /**
  * Format relative time
  */
 function formatRelativeTime(timestamp) {
-  const now = Date.now()
-  const diff = now - new Date(timestamp).getTime()
+  const now = Date.now();
+  const diff = now - new Date(timestamp).getTime();
 
-  const minutes = Math.floor(diff / 60000)
-  const hours = Math.floor(diff / 3600000)
-  const days = Math.floor(diff / 86400000)
+  const minutes = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
 
-  if (minutes < 1) return 'à l\'instant'
-  if (minutes < 60) return `il y a ${minutes} min`
-  if (hours < 24) return `il y a ${hours}h`
-  if (days < 7) return `il y a ${days}j`
-  return new Date(timestamp).toLocaleDateString()
+  if (minutes < 1) return 'à l\'instant';
+  if (minutes < 60) return `il y a ${minutes} min`;
+  if (hours < 24) return `il y a ${hours}h`;
+  if (days < 7) return `il y a ${days}j`;
+  return new Date(timestamp).toLocaleDateString();
 }
 
 /**
  * Render friends chat view
  */
 export function renderFriendsChat(friendId) {
-  const { friends = [], privateChatMessages = {} } = getState()
-  const friend = friends.find(f => f.id === friendId)
+  const { friends = [], privateChatMessages = {} } = getState();
+  const friend = friends.find(f => f.id === friendId);
 
   if (!friend) {
     return `
@@ -194,10 +194,10 @@ export function renderFriendsChat(friendId) {
           Retour aux amis
         </button>
       </div>
-    `
+    `;
   }
 
-  const messages = privateChatMessages[friendId] || []
+  const messages = privateChatMessages[friendId] || [];
 
   return `
     <div class="friends-chat flex flex-col h-full">
@@ -259,15 +259,15 @@ export function renderFriendsChat(friendId) {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render a private message
  */
 function renderPrivateMessage(message, friend) {
-  const { user } = getState()
-  const isOwn = message.senderId === user?.uid
+  const { user } = getState();
+  const isOwn = message.senderId === user?.uid;
 
   return `
     <div class="flex ${isOwn ? 'justify-end' : 'justify-start'}">
@@ -286,7 +286,7 @@ function renderPrivateMessage(message, friend) {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -346,11 +346,11 @@ export function renderAddFriendModal() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 export default {
   renderFriends,
   renderFriendsChat,
   renderAddFriendModal,
-}
+};

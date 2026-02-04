@@ -3,7 +3,7 @@
  * CGU, Privacy Policy, Legal Notice
  */
 
-import { getState } from '../../stores/state.js'
+import { getState } from '../../stores/state.js';
 
 /**
  * Render legal page container
@@ -13,7 +13,7 @@ export function renderLegalPage(page = 'cgu') {
     cgu: renderCGU(),
     privacy: renderPrivacyPolicy(),
     legal: renderLegalNotice(),
-  }
+  };
 
   return `
     <div class="legal-page pb-24">
@@ -50,7 +50,7 @@ export function renderLegalPage(page = 'cgu') {
         ${content[page] || content.cgu}
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -131,7 +131,7 @@ export function renderCGU() {
         Pour toute question : contact@spothitch.app
       </p>
     </div>
-  `
+  `;
 }
 
 /**
@@ -211,7 +211,7 @@ export function renderPrivacyPolicy() {
         Pour exercer vos droits ou poser des questions : privacy@spothitch.app
       </p>
     </div>
-  `
+  `;
 }
 
 /**
@@ -268,7 +268,7 @@ export function renderLegalNotice() {
         GitHub Issues : <a href="https://github.com/antoine626/Spothitch/issues" class="text-sky-400">Signaler un problème</a>
       </p>
     </div>
-  `
+  `;
 }
 
 export default {
@@ -276,4 +276,4 @@ export default {
   renderCGU,
   renderPrivacyPolicy,
   renderLegalNotice,
-}
+};

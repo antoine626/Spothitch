@@ -64,9 +64,9 @@ export function renderSpots(state) {
       
       <!-- Content -->
       ${state.spotsLoading
-        ? (state.viewMode === 'list' ? renderSkeletonSpotList(5) : renderSpotsMapLoading())
-        : (state.viewMode === 'list' ? renderSpotsList(filteredSpots) : renderSpotsMap())
-      }
+    ? (state.viewMode === 'list' ? renderSkeletonSpotList(5) : renderSpotsMapLoading())
+    : (state.viewMode === 'list' ? renderSpotsList(filteredSpots) : renderSpotsMap())
+}
     </div>
   `;
 }

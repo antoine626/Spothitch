@@ -35,11 +35,11 @@ export function renderChat(state) {
       <!-- Messages -->
       <div class="flex-1 overflow-y-auto p-4 space-y-3" id="chat-messages" role="log" aria-live="polite" aria-label="Messages du chat">
         ${state.chatLoading
-          ? renderSkeletonChatList(6)
-          : (state.messages.length > 0
-            ? state.messages.map(msg => renderMessage(msg, state)).join('')
-            : renderEmptyChat())
-        }
+    ? renderSkeletonChatList(6)
+    : (state.messages.length > 0
+      ? state.messages.map(msg => renderMessage(msg, state)).join('')
+      : renderEmptyChat())
+}
       </div>
 
       <!-- Message Input -->

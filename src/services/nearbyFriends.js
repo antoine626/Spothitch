@@ -20,7 +20,7 @@ const CONFIG = {
 // State
 let locationWatchId = null;
 let checkInterval = null;
-let lastNotifiedFriends = new Map(); // friendId -> timestamp
+const lastNotifiedFriends = new Map(); // friendId -> timestamp
 let userLocation = null;
 
 /**
@@ -372,11 +372,11 @@ export function renderNearbyFriendsList(state) {
           ${nearbyFriends.length > 0 ? `
             <div class="p-4 space-y-3">
               ${nearbyFriends.map((friend) => {
-                const proximity = CONFIG.proximityThresholds.find(
-                  (t) => friend.distance <= t.distance
-                ) || CONFIG.proximityThresholds[2];
+    const proximity = CONFIG.proximityThresholds.find(
+      (t) => friend.distance <= t.distance
+    ) || CONFIG.proximityThresholds[2];
 
-                return `
+    return `
                   <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                     <div class="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center text-xl">
                       ${friend.avatar || '👤'}
@@ -406,7 +406,7 @@ export function renderNearbyFriendsList(state) {
                     </div>
                   </div>
                 `;
-              }).join('')}
+  }).join('')}
             </div>
           ` : `
             <div class="p-8 text-center text-slate-400">

@@ -3,22 +3,22 @@
  * Partner rewards - Exchange thumbs (pouces) for real discounts
  */
 
-import { getState, setState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
-import { shopRewards, rewardCategories, getRewardsByCategory, getRewardById, canAfford } from '../../data/rewards.js'
-import { showToast } from '../../services/notifications.js'
+import { getState, setState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
+import { shopRewards, rewardCategories, getRewardsByCategory, getRewardById, canAfford } from '../../data/rewards.js';
+import { showToast } from '../../services/notifications.js';
 
 /**
  * Render shop modal
  */
 export function renderShopModal() {
-  const state = getState()
-  const { showShop, thumbs = 0, points = 0, redeemedCodes = [], lang = 'fr', shopCategory = 'all' } = state
+  const state = getState();
+  const { showShop, thumbs = 0, points = 0, redeemedCodes = [], lang = 'fr', shopCategory = 'all' } = state;
 
-  if (!showShop) return ''
+  if (!showShop) return '';
 
-  const userThumbs = thumbs || points // Backward compatibility
-  const categoryRewards = getRewardsByCategory(shopCategory)
+  const userThumbs = thumbs || points; // Backward compatibility
+  const categoryRewards = getRewardsByCategory(shopCategory);
 
   return `
     <div class="shop-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
@@ -59,8 +59,8 @@ export function renderShopModal() {
             <button onclick="setShopCategory('${cat.id}')"
                     class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap
                            ${shopCategory === cat.id
-                             ? 'bg-primary-500 text-white'
-                             : 'bg-white/5 text-slate-400 hover:bg-white/10'}">
+    ? 'bg-primary-500 text-white'
+    : 'bg-white/5 text-slate-400 hover:bg-white/10'}">
               ${cat.icon} ${cat.name}
             </button>
           `).join('')}
@@ -90,17 +90,17 @@ export function renderShopModal() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render a partner reward card
  */
 function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
-  const name = lang === 'en' && reward.nameEn ? reward.nameEn : reward.name
-  const description = lang === 'en' && reward.descriptionEn ? reward.descriptionEn : reward.description
-  const isRedeemed = redeemedCodes?.includes(reward.id)
-  const canBuy = userThumbs >= reward.cost && !isRedeemed
+  const name = lang === 'en' && reward.nameEn ? reward.nameEn : reward.name;
+  const description = lang === 'en' && reward.descriptionEn ? reward.descriptionEn : reward.description;
+  const isRedeemed = redeemedCodes?.includes(reward.id);
+  const canBuy = userThumbs >= reward.cost && !isRedeemed;
 
   return `
     <div class="card p-4 ${isRedeemed ? 'opacity-60' : ''} ${canBuy ? 'hover:border-primary-500/50' : ''}">
@@ -152,19 +152,19 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render user's redeemed codes
  */
 export function renderMyRewardsModal() {
-  const state = getState()
-  const { showMyRewards, redeemedCodes = [], lang = 'fr' } = state
+  const state = getState();
+  const { showMyRewards, redeemedCodes = [], lang = 'fr' } = state;
 
-  if (!showMyRewards) return ''
+  if (!showMyRewards) return '';
 
-  const redeemedRewards = redeemedCodes.map(id => getRewardById(id)).filter(Boolean)
+  const redeemedRewards = redeemedCodes.map(id => getRewardById(id)).filter(Boolean);
 
   return `
     <div class="my-rewards-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
@@ -249,48 +249,48 @@ export function renderMyRewardsModal() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Redeem a reward (exchange thumbs for code)
  */
 export function redeemReward(rewardId) {
-  const state = getState()
-  const reward = getRewardById(rewardId)
+  const state = getState();
+  const reward = getRewardById(rewardId);
 
-  if (!reward) return
+  if (!reward) return;
 
-  const userThumbs = state.thumbs || state.points || 0
+  const userThumbs = state.thumbs || state.points || 0;
 
   if (userThumbs < reward.cost) {
-    showToast('Pas assez de pouces ! 👍', 'error')
-    return
+    showToast('Pas assez de pouces ! 👍', 'error');
+    return;
   }
 
   if (state.redeemedCodes?.includes(rewardId)) {
-    showToast('Code déjà obtenu !', 'info')
-    return
+    showToast('Code déjà obtenu !', 'info');
+    return;
   }
 
   setState({
     thumbs: userThumbs - reward.cost,
     points: userThumbs - reward.cost, // Keep both in sync
     redeemedCodes: [...(state.redeemedCodes || []), rewardId],
-  })
+  });
 
-  showToast(`🎉 Code ${reward.partner} obtenu ! Retrouve-le dans "Mes codes"`, 'success')
+  showToast(`🎉 Code ${reward.partner} obtenu ! Retrouve-le dans "Mes codes"`, 'success');
 }
 
 // Global handlers
-window.redeemReward = redeemReward
+window.redeemReward = redeemReward;
 window.copyCode = (code) => {
-  navigator.clipboard.writeText(code)
-  showToast('Code copié ! 📋', 'success')
-}
+  navigator.clipboard.writeText(code);
+  showToast('Code copié ! 📋', 'success');
+};
 
 export default {
   renderShopModal,
   renderMyRewardsModal,
   redeemReward,
-}
+};

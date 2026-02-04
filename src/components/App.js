@@ -10,7 +10,6 @@
  * - Profile: User info + Settings
  */
 
-import { t } from '../i18n/index.js';
 import { renderHeader } from './Header.js';
 import { renderNavigation } from './Navigation.js';
 
@@ -22,9 +21,7 @@ import { renderSocial } from './views/Social.js';
 import { renderProfile } from './views/Profile.js';
 
 // Keep old views for backward compatibility
-import { renderHome } from './views/Home.js';
 import { renderSpots } from './views/Spots.js';
-import { renderChat } from './views/Chat.js';
 
 // Modals
 import { renderWelcome } from './modals/Welcome.js';
@@ -47,8 +44,7 @@ import { renderDonationModal } from './ui/DonationCard.js';
 
 // New Feature Modals
 import { renderSkillTree } from '../services/skillTree.js';
-import { renderTeamDashboard } from '../services/teamChallenges.js';
-import { renderTravelGroupsList, renderTravelGroupDetail } from '../services/travelGroups.js';
+import { renderTravelGroupDetail } from '../services/travelGroups.js';
 import { renderNearbyFriendsWidget, renderNearbyFriendsList } from '../services/nearbyFriends.js';
 import { renderCustomizationModal } from '../services/profileCustomization.js';
 import { renderAccessibilityHelp } from '../services/screenReader.js';

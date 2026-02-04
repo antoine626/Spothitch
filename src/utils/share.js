@@ -3,30 +3,30 @@
  * Share spots, achievements, and content on social media
  */
 
-const APP_URL = 'https://antoine626.github.io/Spothitch'
+const APP_URL = 'https://antoine626.github.io/Spothitch';
 
 /**
  * Share content using Web Share API or fallback
  * @param {Object} data - Share data { title, text, url }
  */
 export async function share(data) {
-  const { title, text, url } = data
+  const { title, text, url } = data;
 
   // Try Web Share API first (mobile)
   if (navigator.share) {
     try {
-      await navigator.share({ title, text, url })
-      return { success: true, method: 'native' }
+      await navigator.share({ title, text, url });
+      return { success: true, method: 'native' };
     } catch (err) {
       if (err.name === 'AbortError') {
-        return { success: false, reason: 'cancelled' }
+        return { success: false, reason: 'cancelled' };
       }
     }
   }
 
   // Fallback: show share modal
-  showShareModal(data)
-  return { success: true, method: 'modal' }
+  showShareModal(data);
+  return { success: true, method: 'modal' };
 }
 
 /**
@@ -34,11 +34,11 @@ export async function share(data) {
  * @param {Object} spot - Spot object
  */
 export function shareSpot(spot) {
-  const title = `${spot.from} → ${spot.to} | SpotHitch`
-  const text = `J'ai trouvé un super spot d'autostop ! ${spot.from} → ${spot.to} (${spot.globalRating?.toFixed(1) || '?'}/5) 🚗👍`
-  const url = `${APP_URL}/?spot=${spot.id}`
+  const title = `${spot.from} → ${spot.to} | SpotHitch`;
+  const text = `J'ai trouvé un super spot d'autostop ! ${spot.from} → ${spot.to} (${spot.globalRating?.toFixed(1) || '?'}/5) 🚗👍`;
+  const url = `${APP_URL}/?spot=${spot.id}`;
 
-  return share({ title, text, url })
+  return share({ title, text, url });
 }
 
 /**
@@ -46,11 +46,11 @@ export function shareSpot(spot) {
  * @param {Object} badge - Badge object
  */
 export function shareBadge(badge) {
-  const title = `Badge débloqué : ${badge.name} | SpotHitch`
-  const text = `${badge.icon} Je viens de débloquer le badge "${badge.name}" sur SpotHitch ! ${badge.description}`
-  const url = APP_URL
+  const title = `Badge débloqué : ${badge.name} | SpotHitch`;
+  const text = `${badge.icon} Je viens de débloquer le badge "${badge.name}" sur SpotHitch ! ${badge.description}`;
+  const url = APP_URL;
 
-  return share({ title, text, url })
+  return share({ title, text, url });
 }
 
 /**
@@ -58,27 +58,27 @@ export function shareBadge(badge) {
  * @param {Object} stats - User stats
  */
 export function shareStats(stats) {
-  const title = 'Mes stats SpotHitch'
+  const title = 'Mes stats SpotHitch';
   const text = `🎯 Mes stats d'autostop:
 📍 ${stats.checkins || 0} check-ins
 🗺️ ${stats.spotsCreated || 0} spots partagés
 🔥 ${stats.streak || 0} jours de série
 🏆 Niveau ${stats.level || 1}
-Rejoins-moi sur SpotHitch !`
-  const url = APP_URL
+Rejoins-moi sur SpotHitch !`;
+  const url = APP_URL;
 
-  return share({ title, text, url })
+  return share({ title, text, url });
 }
 
 /**
  * Share app invite
  */
 export function shareApp() {
-  const title = 'SpotHitch - La communauté des autostoppeurs'
-  const text = `🚗👍 Découvre SpotHitch, l'app pour trouver les meilleurs spots d'autostop en Europe ! Plus de 100 spots vérifiés, guides par pays, et une communauté active.`
-  const url = APP_URL
+  const title = 'SpotHitch - La communauté des autostoppeurs';
+  const text = '🚗👍 Découvre SpotHitch, l\'app pour trouver les meilleurs spots d\'autostop en Europe ! Plus de 100 spots vérifiés, guides par pays, et une communauté active.';
+  const url = APP_URL;
 
-  return share({ title, text, url })
+  return share({ title, text, url });
 }
 
 /**
@@ -87,19 +87,19 @@ export function shareApp() {
  */
 export async function copyToClipboard(text) {
   try {
-    await navigator.clipboard.writeText(text)
-    return true
+    await navigator.clipboard.writeText(text);
+    return true;
   } catch (err) {
     // Fallback for older browsers
-    const textarea = document.createElement('textarea')
-    textarea.value = text
-    textarea.style.position = 'fixed'
-    textarea.style.opacity = '0'
-    document.body.appendChild(textarea)
-    textarea.select()
-    const success = document.execCommand('copy')
-    document.body.removeChild(textarea)
-    return success
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const success = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return success;
   }
 }
 
@@ -108,10 +108,10 @@ export async function copyToClipboard(text) {
  * @param {Object} data - Share data
  */
 function showShareModal(data) {
-  const { title, text, url } = data
-  const encodedText = encodeURIComponent(text)
-  const encodedUrl = encodeURIComponent(url)
-  const encodedTitle = encodeURIComponent(title)
+  const { title, text, url } = data;
+  const encodedText = encodeURIComponent(text);
+  const encodedUrl = encodeURIComponent(url);
+  const encodedTitle = encodeURIComponent(title);
 
   const socialLinks = [
     {
@@ -150,10 +150,10 @@ function showShareModal(data) {
       color: '#6b7280',
       url: `mailto:?subject=${encodedTitle}&body=${encodedText}%0A%0A${encodedUrl}`,
     },
-  ]
+  ];
 
-  const modal = document.createElement('div')
-  modal.className = 'share-modal'
+  const modal = document.createElement('div');
+  modal.className = 'share-modal';
   modal.style.cssText = `
     position: fixed;
     inset: 0;
@@ -163,7 +163,7 @@ function showShareModal(data) {
     justify-content: center;
     z-index: 9999;
     animation: fadeIn 0.2s ease-out;
-  `
+  `;
 
   modal.innerHTML = `
     <div style="
@@ -250,33 +250,33 @@ function showShareModal(data) {
         ">Copier</button>
       </div>
     </div>
-  `
+  `;
 
   modal.onclick = (e) => {
-    if (e.target === modal) modal.remove()
-  }
+    if (e.target === modal) modal.remove();
+  };
 
-  document.body.appendChild(modal)
+  document.body.appendChild(modal);
 
   // Add slideUp animation
   if (!document.getElementById('share-modal-styles')) {
-    const style = document.createElement('style')
-    style.id = 'share-modal-styles'
+    const style = document.createElement('style');
+    style.id = 'share-modal-styles';
     style.textContent = `
       @keyframes slideUp {
         from { transform: translateY(100%); }
         to { transform: translateY(0); }
       }
-    `
-    document.head.appendChild(style)
+    `;
+    document.head.appendChild(style);
   }
 }
 
 // Expose globally
-window.shareSpot = shareSpot
-window.shareBadge = shareBadge
-window.shareStats = shareStats
-window.shareApp = shareApp
+window.shareSpot = shareSpot;
+window.shareBadge = shareBadge;
+window.shareStats = shareStats;
+window.shareApp = shareApp;
 
 export default {
   share,
@@ -285,4 +285,4 @@ export default {
   shareStats,
   shareApp,
   copyToClipboard,
-}
+};

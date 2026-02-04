@@ -3,11 +3,11 @@
  * Catches and handles rendering errors gracefully
  */
 
-import { showToast } from '../services/notifications.js'
+import { showToast } from '../services/notifications.js';
 
 // Error log for debugging
-const errorLog = []
-const MAX_ERRORS = 50
+const errorLog = [];
+const MAX_ERRORS = 50;
 
 /**
  * Wrap a render function with error handling
@@ -19,15 +19,15 @@ const MAX_ERRORS = 50
 export function withErrorBoundary(renderFn, componentName, fallbackHtml = null) {
   return function safeRender(...args) {
     try {
-      return renderFn(...args)
+      return renderFn(...args);
     } catch (error) {
-      logError(componentName, error)
-      console.error(`[${componentName}] Render error:`, error)
+      logError(componentName, error);
+      console.error(`[${componentName}] Render error:`, error);
 
       // Return fallback UI
-      return fallbackHtml || renderErrorFallback(componentName, error)
+      return fallbackHtml || renderErrorFallback(componentName, error);
     }
-  }
+  };
 }
 
 /**
@@ -39,11 +39,11 @@ export function withErrorBoundary(renderFn, componentName, fallbackHtml = null) 
  */
 export function safeExecute(fn, context, fallbackValue = null) {
   try {
-    return fn()
+    return fn();
   } catch (error) {
-    logError(context, error)
-    console.error(`[${context}] Execution error:`, error)
-    return fallbackValue
+    logError(context, error);
+    console.error(`[${context}] Execution error:`, error);
+    return fallbackValue;
   }
 }
 
@@ -56,11 +56,11 @@ export function safeExecute(fn, context, fallbackValue = null) {
  */
 export async function safeExecuteAsync(asyncFn, context, fallbackValue = null) {
   try {
-    return await asyncFn()
+    return await asyncFn();
   } catch (error) {
-    logError(context, error)
-    console.error(`[${context}] Async execution error:`, error)
-    return fallbackValue
+    logError(context, error);
+    console.error(`[${context}] Async execution error:`, error);
+    return fallbackValue;
   }
 }
 
@@ -71,7 +71,7 @@ export async function safeExecuteAsync(asyncFn, context, fallbackValue = null) {
  * @returns {string} Error fallback HTML
  */
 function renderErrorFallback(componentName, error) {
-  const isDev = import.meta.env.DEV
+  const isDev = import.meta.env.DEV;
 
   return `
     <div class="error-boundary p-4 bg-danger-500/10 border border-danger-500/30 rounded-xl text-center">
@@ -88,7 +88,7 @@ function renderErrorFallback(componentName, error) {
         Recharger la page
       </button>
     </div>
-  `
+  `;
 }
 
 /**
@@ -103,20 +103,20 @@ function logError(context, error) {
     stack: error.stack,
     timestamp: new Date().toISOString(),
     url: window.location.href,
-  }
+  };
 
-  errorLog.push(entry)
+  errorLog.push(entry);
 
   // Keep only last N errors
   if (errorLog.length > MAX_ERRORS) {
-    errorLog.shift()
+    errorLog.shift();
   }
 
   // Send to Sentry if available
   if (window.Sentry) {
     window.Sentry.captureException(error, {
       tags: { context },
-    })
+    });
   }
 }
 
@@ -125,26 +125,26 @@ function logError(context, error) {
  * @returns {Array} Error log entries
  */
 export function getErrorLog() {
-  return [...errorLog]
+  return [...errorLog];
 }
 
 /**
  * Clear error log
  */
 export function clearErrorLog() {
-  errorLog.length = 0
+  errorLog.length = 0;
 }
 
 /**
  * Escape string for safe HTML display
  */
 function escapeForHtml(str) {
-  if (!str) return ''
+  if (!str) return '';
   return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
+    .replace(/"/g, '&quot;');
 }
 
 /**
@@ -153,21 +153,21 @@ function escapeForHtml(str) {
 export function setupGlobalErrorHandlers() {
   // Catch unhandled errors
   window.addEventListener('error', (event) => {
-    logError('GlobalError', event.error || new Error(event.message))
+    logError('GlobalError', event.error || new Error(event.message));
 
     // Show user-friendly message
-    showToast('Une erreur est survenue', 'error')
-  })
+    showToast('Une erreur est survenue', 'error');
+  });
 
   // Catch unhandled promise rejections
   window.addEventListener('unhandledrejection', (event) => {
-    logError('UnhandledRejection', event.reason || new Error('Promise rejected'))
+    logError('UnhandledRejection', event.reason || new Error('Promise rejected'));
 
     // Show user-friendly message
-    showToast('Une erreur est survenue', 'error')
-  })
+    showToast('Une erreur est survenue', 'error');
+  });
 
-  console.log('✅ Global error handlers setup')
+  console.log('✅ Global error handlers setup');
 }
 
 export default {
@@ -177,4 +177,4 @@ export default {
   getErrorLog,
   clearErrorLog,
   setupGlobalErrorHandlers,
-}
+};

@@ -3,34 +3,34 @@
  * Hitchhiking knowledge quiz
  */
 
-import { getState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
-import { getQuizState, quizQuestions } from '../../services/quiz.js'
+import { getState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
+import { getQuizState, quizQuestions } from '../../services/quiz.js';
 
 /**
  * Render quiz modal
  */
 export function renderQuiz() {
-  const state = getState()
-  const { showQuiz } = state
+  const state = getState();
+  const { showQuiz } = state;
 
-  if (!showQuiz) return ''
+  if (!showQuiz) return '';
 
-  const quizState = getQuizState()
+  const quizState = getQuizState();
 
   // Show result if quiz is finished
   if (quizState.result) {
-    return renderQuizResult(quizState.result)
+    return renderQuizResult(quizState.result);
   }
 
   // Show quiz question if active
   if (quizState.isActive && quizState.questions) {
-    const currentQuestion = quizState.questions[quizState.currentIndex]
-    return renderQuizQuestion(currentQuestion, quizState)
+    const currentQuestion = quizState.questions[quizState.currentIndex];
+    return renderQuizQuestion(currentQuestion, quizState);
   }
 
   // Show quiz intro/start screen
-  return renderQuizIntro()
+  return renderQuizIntro();
 }
 
 /**
@@ -83,18 +83,18 @@ function renderQuizIntro() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render quiz question
  */
 function renderQuizQuestion(question, quizState) {
-  const { lang } = getState()
-  const qText = lang === 'en' && question.questionEn ? question.questionEn : question.question
-  const options = lang === 'en' && question.optionsEn ? question.optionsEn : question.options
+  const { lang } = getState();
+  const qText = lang === 'en' && question.questionEn ? question.questionEn : question.question;
+  const options = lang === 'en' && question.optionsEn ? question.optionsEn : question.options;
 
-  const progress = ((quizState.currentIndex) / quizState.questions.length) * 100
+  const progress = ((quizState.currentIndex) / quizState.questions.length) * 100;
 
   return `
     <div class="quiz-modal fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
@@ -148,24 +148,24 @@ function renderQuizQuestion(question, quizState) {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render quiz result
  */
 function renderQuizResult(result) {
-  const { percentage, isPerfect, correctAnswers, totalQuestions, totalPoints, timeTaken } = result
+  const { percentage, isPerfect, correctAnswers, totalQuestions, totalPoints, timeTaken } = result;
 
   const getMessage = () => {
-    if (isPerfect) return { emoji: '🏆', title: 'Parfait !', subtitle: 'Tu es un vrai pro du stop !' }
-    if (percentage >= 80) return { emoji: '🎉', title: 'Excellent !', subtitle: 'Tu connais bien le sujet !' }
-    if (percentage >= 60) return { emoji: '👍', title: 'Bien joué !', subtitle: 'Continue de progresser !' }
-    if (percentage >= 40) return { emoji: '🤔', title: 'Pas mal', subtitle: 'Il y a encore du travail' }
-    return { emoji: '📚', title: 'À réviser', subtitle: 'Consulte les guides pour t\'améliorer' }
-  }
+    if (isPerfect) return { emoji: '🏆', title: 'Parfait !', subtitle: 'Tu es un vrai pro du stop !' };
+    if (percentage >= 80) return { emoji: '🎉', title: 'Excellent !', subtitle: 'Tu connais bien le sujet !' };
+    if (percentage >= 60) return { emoji: '👍', title: 'Bien joué !', subtitle: 'Continue de progresser !' };
+    if (percentage >= 40) return { emoji: '🤔', title: 'Pas mal', subtitle: 'Il y a encore du travail' };
+    return { emoji: '📚', title: 'À réviser', subtitle: 'Consulte les guides pour t\'améliorer' };
+  };
 
-  const message = getMessage()
+  const message = getMessage();
 
   return `
     <div class="quiz-modal fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
@@ -225,14 +225,14 @@ function renderQuizResult(result) {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render answer feedback (quick popup)
  */
 export function renderAnswerFeedback(isCorrect, explanation) {
-  const { lang } = getState()
+  const { lang } = getState();
 
   return `
     <div class="fixed bottom-24 left-4 right-4 z-50 animate-slide-up">
@@ -246,10 +246,10 @@ export function renderAnswerFeedback(isCorrect, explanation) {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 export default {
   renderQuiz,
   renderAnswerFeedback,
-}
+};

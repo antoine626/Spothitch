@@ -3,29 +3,29 @@
  * Country guides and safety information
  */
 
-import { getState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
-import { countryGuides, getGuideByCode, getEasiestCountries } from '../../data/guides.js'
+import { getState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
+import { countryGuides, getGuideByCode, getEasiestCountries } from '../../data/guides.js';
 
 /**
  * Render guides list view
  */
 export function renderGuides(state) {
-  const { lang = 'fr', searchGuideQuery = '' } = state
+  const { lang = 'fr', searchGuideQuery = '' } = state;
 
   // Filter guides by search
-  let displayGuides = countryGuides
+  let displayGuides = countryGuides;
   if (searchGuideQuery) {
-    const query = searchGuideQuery.toLowerCase()
+    const query = searchGuideQuery.toLowerCase();
     displayGuides = countryGuides.filter(
       g => g.name.toLowerCase().includes(query) ||
            (g.nameEn && g.nameEn.toLowerCase().includes(query))
-    )
+    );
   }
 
   // Sort by difficulty
-  const sortedGuides = [...displayGuides].sort((a, b) => a.difficulty - b.difficulty)
-  const easiest = getEasiestCountries(3)
+  const sortedGuides = [...displayGuides].sort((a, b) => a.difficulty - b.difficulty);
+  const easiest = getEasiestCountries(3);
 
   return `
     <div class="guides-view pb-24">
@@ -97,7 +97,7 @@ export function renderGuides(state) {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -110,9 +110,9 @@ function renderGuideCard(guide, lang = 'fr') {
     3: 'text-amber-400 bg-amber-500/20',
     4: 'text-orange-400 bg-orange-500/20',
     5: 'text-red-400 bg-red-500/20',
-  }
-  const color = difficultyColors[guide.difficulty] || difficultyColors[3]
-  const name = lang === 'en' && guide.nameEn ? guide.nameEn : guide.name
+  };
+  const color = difficultyColors[guide.difficulty] || difficultyColors[3];
+  const name = lang === 'en' && guide.nameEn ? guide.nameEn : guide.name;
 
   return `
     <div class="guide-card flex items-center gap-3 p-3 bg-gray-800 rounded-xl cursor-pointer
@@ -130,15 +130,15 @@ function renderGuideCard(guide, lang = 'fr') {
         <span class="text-gray-500">→</span>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render country detail page
  */
 export function renderCountryDetail(countryCode) {
-  const guide = getGuideByCode(countryCode)
-  const { lang = 'fr' } = getState()
+  const guide = getGuideByCode(countryCode);
+  const { lang = 'fr' } = getState();
 
   if (!guide) {
     return `
@@ -149,13 +149,13 @@ export function renderCountryDetail(countryCode) {
           Retour aux guides
         </button>
       </div>
-    `
+    `;
   }
 
-  const name = lang === 'en' && guide.nameEn ? guide.nameEn : guide.name
-  const tips = lang === 'en' && guide.tipsEn ? guide.tipsEn : guide.tips
-  const legalityText = lang === 'en' && guide.legalityTextEn ? guide.legalityTextEn : guide.legalityText
-  const difficultyText = lang === 'en' && guide.difficultyTextEn ? guide.difficultyTextEn : guide.difficultyText
+  const name = lang === 'en' && guide.nameEn ? guide.nameEn : guide.name;
+  const tips = lang === 'en' && guide.tipsEn ? guide.tipsEn : guide.tips;
+  const legalityText = lang === 'en' && guide.legalityTextEn ? guide.legalityTextEn : guide.legalityText;
+  const difficultyText = lang === 'en' && guide.difficultyTextEn ? guide.difficultyTextEn : guide.difficultyText;
 
   const difficultyColors = {
     1: 'from-green-500 to-green-600',
@@ -163,7 +163,7 @@ export function renderCountryDetail(countryCode) {
     3: 'from-amber-500 to-orange-500',
     4: 'from-orange-500 to-red-500',
     5: 'from-red-500 to-red-600',
-  }
+  };
 
   return `
     <div class="country-detail pb-24">
@@ -225,7 +225,7 @@ export function renderCountryDetail(countryCode) {
           <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Meilleure période</h2>
           <div class="flex flex-wrap gap-2">
             ${['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
-              .map((month, i) => `
+    .map((month, i) => `
                 <span class="px-3 py-1 rounded-full text-sm
                             ${guide.bestMonths.includes(i + 1) ? 'bg-green-500/20 text-green-400' : 'bg-gray-700 text-gray-500'}">
                   ${month}
@@ -269,7 +269,7 @@ export function renderCountryDetail(countryCode) {
         </div>
       ` : ''}
     </div>
-  `
+  `;
 }
 
 /**
@@ -297,12 +297,12 @@ export function renderSafety() {
           </h2>
           <div class="space-y-3">
             ${[
-              'Fais confiance à ton instinct - si quelque chose ne va pas, refuse poliment',
-              'Informe toujours quelqu\'un de ton itinéraire prévu',
-              'Garde ton téléphone chargé et accessible',
-              'Note les plaques d\'immatriculation et partage-les',
-              'Assieds-toi près de la porte quand possible',
-            ].map(tip => `
+    'Fais confiance à ton instinct - si quelque chose ne va pas, refuse poliment',
+    'Informe toujours quelqu\'un de ton itinéraire prévu',
+    'Garde ton téléphone chargé et accessible',
+    'Note les plaques d\'immatriculation et partage-les',
+    'Assieds-toi près de la porte quand possible',
+  ].map(tip => `
               <div class="flex gap-3 p-3 bg-gray-800 rounded-xl">
                 <span class="text-green-400">✓</span>
                 <p class="text-gray-300 text-sm">${tip}</p>
@@ -318,12 +318,12 @@ export function renderSafety() {
           </h2>
           <div class="space-y-3">
             ${[
-              'Ne fais pas de stop la nuit si possible',
-              'Évite les véhicules avec plusieurs occupants inconnus',
-              'Ne révèle pas où tu loges exactement',
-              'N\'accepte pas de nourriture/boissons ouvertes',
-              'Ne laisse pas tes affaires hors de ta vue',
-            ].map(tip => `
+    'Ne fais pas de stop la nuit si possible',
+    'Évite les véhicules avec plusieurs occupants inconnus',
+    'Ne révèle pas où tu loges exactement',
+    'N\'accepte pas de nourriture/boissons ouvertes',
+    'Ne laisse pas tes affaires hors de ta vue',
+  ].map(tip => `
               <div class="flex gap-3 p-3 bg-gray-800 rounded-xl">
                 <span class="text-red-400">✕</span>
                 <p class="text-gray-300 text-sm">${tip}</p>
@@ -339,12 +339,12 @@ export function renderSafety() {
           </h2>
           <div class="space-y-3">
             ${[
-              'Privilégie les familles et les couples',
-              'Voyage en binôme quand possible',
-              'Fais semblant d\'appeler quelqu\'un si tu te sens mal à l\'aise',
-              'Porte une alliance factice si tu le souhaites',
-              'Aie un numéro d\'urgence en raccourci',
-            ].map(tip => `
+    'Privilégie les familles et les couples',
+    'Voyage en binôme quand possible',
+    'Fais semblant d\'appeler quelqu\'un si tu te sens mal à l\'aise',
+    'Porte une alliance factice si tu le souhaites',
+    'Aie un numéro d\'urgence en raccourci',
+  ].map(tip => `
               <div class="flex gap-3 p-3 bg-gray-800 rounded-xl">
                 <span class="text-purple-400">💜</span>
                 <p class="text-gray-300 text-sm">${tip}</p>
@@ -377,14 +377,14 @@ export function renderSafety() {
           </h2>
           <div class="space-y-2" role="group" aria-labelledby="checklist-heading">
             ${[
-              'Telephone charge + batterie externe',
-              'Carte papier en backup',
-              'Eau et snacks',
-              'Pancarte et feutre',
-              'Contacts d\'urgence notes',
-              'Copie des documents d\'identite',
-              'Premiers soins basiques',
-            ].map((item, index) => `
+    'Telephone charge + batterie externe',
+    'Carte papier en backup',
+    'Eau et snacks',
+    'Pancarte et feutre',
+    'Contacts d\'urgence notes',
+    'Copie des documents d\'identite',
+    'Premiers soins basiques',
+  ].map((item, index) => `
               <label class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl cursor-pointer" for="checklist-item-${index}">
                 <input type="checkbox"
                        id="checklist-item-${index}"
@@ -397,11 +397,11 @@ export function renderSafety() {
         </section>
       </div>
     </div>
-  `
+  `;
 }
 
 export default {
   renderGuides,
   renderCountryDetail,
   renderSafety,
-}
+};

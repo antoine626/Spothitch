@@ -481,17 +481,17 @@ export function renderTeamDashboard(state) {
         </div>
 
         ${
-          activeChallenges.length > 0
-            ? `
+  activeChallenges.length > 0
+    ? `
           <div class="space-y-3">
             ${activeChallenges
-              .map((challenge) => {
-                const type = typeInfo[challenge.type.toUpperCase()] || {};
-                const progress = Math.min(
-                  (challenge.progress / challenge.target) * 100,
-                  100
-                );
-                return `
+    .map((challenge) => {
+      const type = typeInfo[challenge.type.toUpperCase()] || {};
+      const progress = Math.min(
+        (challenge.progress / challenge.target) * 100,
+        100
+      );
+      return `
                 <div class="bg-dark-card rounded-xl p-4">
                   <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 rounded-lg bg-gradient-to-br ${type.color || 'from-slate-500 to-slate-600'} flex items-center justify-center text-white">
@@ -516,11 +516,11 @@ export function renderTeamDashboard(state) {
                   </div>
                 </div>
               `;
-              })
-              .join('')}
+    })
+    .join('')}
           </div>
         `
-            : `
+    : `
           <div class="text-center py-8 text-slate-400">
             <i class="fas fa-flag text-3xl mb-2" aria-hidden="true"></i>
             <p>Aucun défi actif</p>
@@ -532,7 +532,7 @@ export function renderTeamDashboard(state) {
             </button>
           </div>
         `
-        }
+}
       </div>
 
       <!-- Members -->
@@ -549,15 +549,15 @@ export function renderTeamDashboard(state) {
         </div>
         <div class="flex flex-wrap gap-2">
           ${team.members
-            .map(
-              (memberId) => `
+    .map(
+      (memberId) => `
             <div class="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-full text-sm">
               <span class="w-6 h-6 rounded-full bg-primary-500 flex items-center justify-center text-xs">👤</span>
               <span>${memberId === team.leader ? '👑 ' : ''}Membre</span>
             </div>
           `
-            )
-            .join('')}
+    )
+    .join('')}
         </div>
       </div>
     </div>
@@ -597,10 +597,10 @@ function renderNoTeam(state) {
         <h3 class="font-semibold text-lg mb-4">Défis d'équipe disponibles</h3>
         <div class="space-y-3">
           ${TEAM_CHALLENGES.slice(0, 3)
-            .map((challenge) => {
-              const type =
+    .map((challenge) => {
+      const type =
                 TEAM_CHALLENGE_TYPES[challenge.type.toUpperCase()] || {};
-              return `
+      return `
             <div class="bg-dark-card rounded-xl p-4">
               <div class="flex items-center gap-3">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${type.color || 'from-slate-500 to-slate-600'} flex items-center justify-center text-white text-xl">
@@ -617,8 +617,8 @@ function renderNoTeam(state) {
               </div>
             </div>
           `;
-            })
-            .join('')}
+    })
+    .join('')}
         </div>
       </div>
     </div>

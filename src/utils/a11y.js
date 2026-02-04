@@ -262,12 +262,12 @@ export function announceAction(action, success = true, customMessage = '') {
     login_error: 'Erreur de connexion',
     network_error: 'Erreur de connexion au réseau',
     generic_error: 'Une erreur est survenue',
-  }
+  };
 
-  const key = success ? `${action}_success` : `${action}_error`
-  const message = customMessage || messages[key] || messages[action] || action
+  const key = success ? `${action}_success` : `${action}_error`;
+  const message = customMessage || messages[key] || messages[action] || action;
 
-  announce(message, success ? 'polite' : 'assertive')
+  announce(message, success ? 'polite' : 'assertive');
 }
 
 /**
@@ -276,29 +276,29 @@ export function announceAction(action, success = true, customMessage = '') {
  * @param {string} politeness - 'polite', 'assertive', or 'off'
  */
 export function createLiveRegion(regionId, politeness = 'polite') {
-  let region = document.getElementById(regionId)
+  let region = document.getElementById(regionId);
 
   if (!region) {
-    region = document.createElement('div')
-    region.id = regionId
-    region.className = 'sr-only'
-    region.setAttribute('role', 'status')
-    region.setAttribute('aria-live', politeness)
-    region.setAttribute('aria-atomic', 'true')
-    document.body.appendChild(region)
+    region = document.createElement('div');
+    region.id = regionId;
+    region.className = 'sr-only';
+    region.setAttribute('role', 'status');
+    region.setAttribute('aria-live', politeness);
+    region.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(region);
   }
 
   return {
     update: (message) => {
-      region.textContent = ''
+      region.textContent = '';
       setTimeout(() => {
-        region.textContent = message
-      }, 100)
+        region.textContent = message;
+      }, 100);
     },
     clear: () => {
-      region.textContent = ''
+      region.textContent = '';
     },
-  }
+  };
 }
 
 /**
@@ -306,16 +306,16 @@ export function createLiveRegion(regionId, politeness = 'polite') {
  * @param {string} pageTitle - Title of the new page/view
  */
 export function announcePageChange(pageTitle) {
-  announce(`Navigation vers ${pageTitle}`, 'polite')
+  announce(`Navigation vers ${pageTitle}`, 'polite');
 
   // Focus the main content area
   requestAnimationFrame(() => {
-    const main = document.querySelector('main, [role="main"], #main-content')
+    const main = document.querySelector('main, [role="main"], #main-content');
     if (main) {
-      main.setAttribute('tabindex', '-1')
-      main.focus()
+      main.setAttribute('tabindex', '-1');
+      main.focus();
     }
-  })
+  });
 }
 
 /**
@@ -324,15 +324,15 @@ export function announcePageChange(pageTitle) {
  * @param {boolean} isLoading - Loading state
  */
 export function setLoadingState(element, isLoading) {
-  if (!element) return
+  if (!element) return;
 
-  element.setAttribute('aria-busy', isLoading.toString())
+  element.setAttribute('aria-busy', isLoading.toString());
 
   if (isLoading) {
-    element.setAttribute('aria-describedby', 'loading-message')
-    announce('Chargement en cours...', 'polite')
+    element.setAttribute('aria-describedby', 'loading-message');
+    announce('Chargement en cours...', 'polite');
   } else {
-    element.removeAttribute('aria-describedby')
+    element.removeAttribute('aria-describedby');
   }
 }
 

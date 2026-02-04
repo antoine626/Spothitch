@@ -3,18 +3,18 @@
  * Spot filtering options
  */
 
-import { getState, setState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
-import { countries } from '../../data/spots.js'
+import { getState, setState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
+import { countries } from '../../data/spots.js';
 
 /**
  * Render filters modal
  */
 export function renderFiltersModal() {
-  const state = getState()
-  const { showFilters, filterCountry = 'all', filterMinRating = 0, filterMaxWait = 999, filterVerifiedOnly = false } = state
+  const state = getState();
+  const { showFilters, filterCountry = 'all', filterMinRating = 0, filterMaxWait = 999, filterVerifiedOnly = false } = state;
 
-  if (!showFilters) return ''
+  if (!showFilters) return '';
 
   // Available filter options
   const countryOptions = [
@@ -31,7 +31,7 @@ export function renderFiltersModal() {
     { code: 'CH', name: 'Suisse', flag: '🇨🇭' },
     { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
     { code: 'IE', name: 'Irlande', flag: '🇮🇪' },
-  ]
+  ];
 
   const ratingOptions = [
     { value: 0, label: 'Tous' },
@@ -39,7 +39,7 @@ export function renderFiltersModal() {
     { value: 3.5, label: '⭐ 3.5+' },
     { value: 4, label: '⭐ 4+' },
     { value: 4.5, label: '⭐ 4.5+' },
-  ]
+  ];
 
   const waitOptions = [
     { value: 999, label: 'Peu importe' },
@@ -47,7 +47,7 @@ export function renderFiltersModal() {
     { value: 30, label: '< 30 min' },
     { value: 20, label: '< 20 min' },
     { value: 10, label: '< 10 min' },
-  ]
+  ];
 
   return `
     <div class="filters-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
@@ -86,8 +86,8 @@ export function renderFiltersModal() {
                 <button onclick="setFilterCountry('${opt.code}')"
                         class="p-2 rounded-xl text-center transition-colors
                                ${filterCountry === opt.code
-                                 ? 'bg-sky-500 text-white'
-                                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+    ? 'bg-sky-500 text-white'
+    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
                   <span class="text-lg">${opt.flag}</span>
                   <span class="block text-xs mt-1 truncate">${opt.code === 'all' ? 'Tous' : opt.code}</span>
                 </button>
@@ -105,8 +105,8 @@ export function renderFiltersModal() {
                 <button onclick="setFilterMinRating(${opt.value})"
                         class="px-4 py-2 rounded-xl transition-colors
                                ${filterMinRating === opt.value
-                                 ? 'bg-sky-500 text-white'
-                                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+    ? 'bg-sky-500 text-white'
+    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
                   ${opt.label}
                 </button>
               `).join('')}
@@ -123,8 +123,8 @@ export function renderFiltersModal() {
                 <button onclick="setFilterMaxWait(${opt.value})"
                         class="px-4 py-2 rounded-xl transition-colors
                                ${filterMaxWait === opt.value
-                                 ? 'bg-sky-500 text-white'
-                                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+    ? 'bg-sky-500 text-white'
+    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
                   ${opt.label}
                 </button>
               `).join('')}
@@ -154,16 +154,16 @@ export function renderFiltersModal() {
             </label>
             <div class="grid grid-cols-2 gap-2">
               ${[
-                { value: 'rating', label: 'Note', icon: '⭐' },
-                { value: 'recent', label: 'Récent', icon: '🕐' },
-                { value: 'popular', label: 'Populaire', icon: '🔥' },
-                { value: 'distance', label: 'Distance', icon: '📍' },
-              ].map(opt => `
+    { value: 'rating', label: 'Note', icon: '⭐' },
+    { value: 'recent', label: 'Récent', icon: '🕐' },
+    { value: 'popular', label: 'Populaire', icon: '🔥' },
+    { value: 'distance', label: 'Distance', icon: '📍' },
+  ].map(opt => `
                 <button onclick="setSortBy('${opt.value}')"
                         class="p-3 rounded-xl text-left transition-colors flex items-center gap-2
                                ${state.sortBy === opt.value
-                                 ? 'bg-sky-500 text-white'
-                                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+    ? 'bg-sky-500 text-white'
+    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
                   <span>${opt.icon}</span>
                   <span>${opt.label}</span>
                 </button>
@@ -182,14 +182,14 @@ export function renderFiltersModal() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Apply filters and close modal
  */
 export function applyFilters() {
-  setState({ showFilters: false })
+  setState({ showFilters: false });
   // Filters are applied reactively through state
 }
 
@@ -203,89 +203,89 @@ export function resetFilters() {
     filterMaxWait: 999,
     filterVerifiedOnly: false,
     sortBy: 'rating',
-  })
+  });
 }
 
 /**
  * Filter spots based on current filter state
  */
 export function getFilteredSpots(spots, state) {
-  let filtered = [...spots]
+  let filtered = [...spots];
 
   // Filter by country
   if (state.filterCountry && state.filterCountry !== 'all') {
-    filtered = filtered.filter(s => s.country === state.filterCountry)
+    filtered = filtered.filter(s => s.country === state.filterCountry);
   }
 
   // Filter by minimum rating
   if (state.filterMinRating > 0) {
-    filtered = filtered.filter(s => (s.globalRating || 0) >= state.filterMinRating)
+    filtered = filtered.filter(s => (s.globalRating || 0) >= state.filterMinRating);
   }
 
   // Filter by maximum wait time
   if (state.filterMaxWait < 999) {
-    filtered = filtered.filter(s => (s.avgWaitTime || 999) <= state.filterMaxWait)
+    filtered = filtered.filter(s => (s.avgWaitTime || 999) <= state.filterMaxWait);
   }
 
   // Filter by verified only
   if (state.filterVerifiedOnly) {
-    filtered = filtered.filter(s => s.verified)
+    filtered = filtered.filter(s => s.verified);
   }
 
   // Filter by search query
   if (state.searchQuery) {
-    const query = state.searchQuery.toLowerCase()
+    const query = state.searchQuery.toLowerCase();
     filtered = filtered.filter(s =>
       s.from?.toLowerCase().includes(query) ||
       s.to?.toLowerCase().includes(query) ||
       s.description?.toLowerCase().includes(query)
-    )
+    );
   }
 
   // Sort
   switch (state.sortBy) {
     case 'rating':
-      filtered.sort((a, b) => (b.globalRating || 0) - (a.globalRating || 0))
-      break
+      filtered.sort((a, b) => (b.globalRating || 0) - (a.globalRating || 0));
+      break;
     case 'recent':
-      filtered.sort((a, b) => new Date(b.lastUsed || 0) - new Date(a.lastUsed || 0))
-      break
+      filtered.sort((a, b) => new Date(b.lastUsed || 0) - new Date(a.lastUsed || 0));
+      break;
     case 'popular':
-      filtered.sort((a, b) => (b.checkins || 0) - (a.checkins || 0))
-      break
+      filtered.sort((a, b) => (b.checkins || 0) - (a.checkins || 0));
+      break;
     case 'distance':
       if (state.userLocation) {
         filtered.sort((a, b) => {
-          const distA = getDistance(state.userLocation, a.coordinates)
-          const distB = getDistance(state.userLocation, b.coordinates)
-          return distA - distB
-        })
+          const distA = getDistance(state.userLocation, a.coordinates);
+          const distB = getDistance(state.userLocation, b.coordinates);
+          return distA - distB;
+        });
       }
-      break
+      break;
     default:
-      filtered.sort((a, b) => (b.globalRating || 0) - (a.globalRating || 0))
+      filtered.sort((a, b) => (b.globalRating || 0) - (a.globalRating || 0));
   }
 
-  return filtered
+  return filtered;
 }
 
 /**
  * Calculate distance between two points
  */
 function getDistance(point1, point2) {
-  if (!point1 || !point2) return Infinity
+  if (!point1 || !point2) return Infinity;
 
-  const R = 6371 // Earth's radius in km
-  const dLat = ((point2.lat - point1.lat) * Math.PI) / 180
-  const dLng = ((point2.lng - point1.lng) * Math.PI) / 180
+  const R = 6371; // Earth's radius in km
+  const dLat = ((point2.lat - point1.lat) * Math.PI) / 180;
+  const dLng = ((point2.lng - point1.lng) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos((point1.lat * Math.PI) / 180) *
       Math.cos((point2.lat * Math.PI) / 180) *
       Math.sin(dLng / 2) *
-      Math.sin(dLng / 2)
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-  return R * c
+      Math.sin(dLng / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 export default {
@@ -293,4 +293,4 @@ export default {
   applyFilters,
   resetFilters,
   getFilteredSpots,
-}
+};

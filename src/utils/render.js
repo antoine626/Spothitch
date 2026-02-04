@@ -3,19 +3,19 @@
  * Performance optimizations for rendering
  */
 
-import { sanitize } from './sanitize.js'
+import { sanitize } from './sanitize.js';
 
 // RAF scheduling
-let rafId = null
-let pendingRender = null
+let rafId = null;
+let pendingRender = null;
 
 // Render cache for diffing
-const renderCache = new Map()
-const CACHE_MAX_SIZE = 100
+const renderCache = new Map();
+const CACHE_MAX_SIZE = 100;
 
 // Performance metrics
-let renderCount = 0
-let totalRenderTime = 0
+let renderCount = 0;
+let totalRenderTime = 0;
 
 /**
  * Schedule a render using requestAnimationFrame
@@ -23,21 +23,21 @@ let totalRenderTime = 0
  * @param {Function} renderFn - Function to call
  */
 export function scheduleRender(renderFn) {
-  pendingRender = renderFn
+  pendingRender = renderFn;
 
   if (rafId !== null) {
-    return // Already scheduled
+    return; // Already scheduled
   }
 
   rafId = requestAnimationFrame(() => {
-    rafId = null
+    rafId = null;
     if (pendingRender) {
-      const start = performance.now()
-      pendingRender()
-      trackRenderPerformance(start)
-      pendingRender = null
+      const start = performance.now();
+      pendingRender();
+      trackRenderPerformance(start);
+      pendingRender = null;
     }
-  })
+  });
 }
 
 /**
@@ -45,9 +45,9 @@ export function scheduleRender(renderFn) {
  */
 export function cancelScheduledRender() {
   if (rafId !== null) {
-    cancelAnimationFrame(rafId)
-    rafId = null
-    pendingRender = null
+    cancelAnimationFrame(rafId);
+    rafId = null;
+    pendingRender = null;
   }
 }
 
@@ -57,17 +57,17 @@ export function cancelScheduledRender() {
  * @param {Function} renderFn - Function to call
  * @param {number} delay - Debounce delay in ms
  */
-let debounceTimer = null
+let debounceTimer = null;
 
 export function debouncedRender(renderFn, delay = 100) {
   if (debounceTimer) {
-    clearTimeout(debounceTimer)
+    clearTimeout(debounceTimer);
   }
 
   debounceTimer = setTimeout(() => {
-    debounceTimer = null
-    scheduleRender(renderFn)
-  }, delay)
+    debounceTimer = null;
+    scheduleRender(renderFn);
+  }, delay);
 }
 
 /**
@@ -78,23 +78,23 @@ export function debouncedRender(renderFn, delay = 100) {
  * @returns {boolean} True if render needed
  */
 export function shouldRerender(id, props) {
-  const cached = renderCache.get(id)
-  const propsString = JSON.stringify(props)
+  const cached = renderCache.get(id);
+  const propsString = JSON.stringify(props);
 
   if (cached === propsString) {
-    return false // Props unchanged
+    return false; // Props unchanged
   }
 
   // Update cache
-  renderCache.set(id, propsString)
+  renderCache.set(id, propsString);
 
   // Trim cache if too large
   if (renderCache.size > CACHE_MAX_SIZE) {
-    const firstKey = renderCache.keys().next().value
-    renderCache.delete(firstKey)
+    const firstKey = renderCache.keys().next().value;
+    renderCache.delete(firstKey);
   }
 
-  return true
+  return true;
 }
 
 /**
@@ -103,9 +103,9 @@ export function shouldRerender(id, props) {
  */
 export function clearRenderCache(id) {
   if (id) {
-    renderCache.delete(id)
+    renderCache.delete(id);
   } else {
-    renderCache.clear()
+    renderCache.clear();
   }
 }
 
@@ -114,13 +114,13 @@ export function clearRenderCache(id) {
  * @param {number} startTime - Performance.now() at render start
  */
 export function trackRenderPerformance(startTime) {
-  const duration = performance.now() - startTime
-  renderCount++
-  totalRenderTime += duration
+  const duration = performance.now() - startTime;
+  renderCount++;
+  totalRenderTime += duration;
 
   // Log slow renders in development
   if (duration > 16.67) { // Slower than 60fps
-    console.warn(`Slow render: ${duration.toFixed(2)}ms`)
+    console.warn(`Slow render: ${duration.toFixed(2)}ms`);
   }
 }
 
@@ -133,15 +133,15 @@ export function getRenderStats() {
     renderCount,
     totalTime: totalRenderTime,
     averageTime: renderCount > 0 ? totalRenderTime / renderCount : 0,
-  }
+  };
 }
 
 /**
  * Reset performance tracking
  */
 export function resetRenderStats() {
-  renderCount = 0
-  totalRenderTime = 0
+  renderCount = 0;
+  totalRenderTime = 0;
 }
 
 /**
@@ -151,10 +151,10 @@ export function resetRenderStats() {
  */
 export function batchUpdates(updates, renderFn) {
   // Execute all updates without triggering individual renders
-  updates.forEach(update => update())
+  updates.forEach(update => update());
 
   // Single render at the end
-  scheduleRender(renderFn)
+  scheduleRender(renderFn);
 }
 
 /**
@@ -164,20 +164,20 @@ export function batchUpdates(updates, renderFn) {
  * @param {Function} getDeps - Function returning dependencies array
  */
 export function memoizedRender(renderFn, getDeps) {
-  let lastDeps = null
-  let lastResult = null
+  let lastDeps = null;
+  let lastResult = null;
 
   return (...args) => {
-    const deps = getDeps()
-    const depsChanged = !lastDeps || deps.some((d, i) => d !== lastDeps[i])
+    const deps = getDeps();
+    const depsChanged = !lastDeps || deps.some((d, i) => d !== lastDeps[i]);
 
     if (depsChanged) {
-      lastDeps = deps
-      lastResult = renderFn(...args)
+      lastDeps = deps;
+      lastResult = renderFn(...args);
     }
 
-    return lastResult
-  }
+    return lastResult;
+  };
 }
 
 /**
@@ -188,13 +188,13 @@ export function memoizedRender(renderFn, getDeps) {
  * @param {boolean} skipSanitize - Skip sanitization for trusted content
  */
 export function patchElement(element, newContent, skipSanitize = false) {
-  if (!element) return
+  if (!element) return;
 
-  const content = skipSanitize ? newContent : sanitize(newContent)
+  const content = skipSanitize ? newContent : sanitize(newContent);
 
   // Simple optimization: only update if content changed
   if (element.innerHTML !== content) {
-    element.innerHTML = content
+    element.innerHTML = content;
   }
 }
 
@@ -205,24 +205,24 @@ export function patchElement(element, newContent, skipSanitize = false) {
  * @param {Function} renderFn - Render function
  */
 export function lazyRender(selector, renderFn) {
-  const element = document.querySelector(selector)
-  if (!element) return
+  const element = document.querySelector(selector);
+  if (!element) return;
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          renderFn(element)
-          observer.unobserve(element)
+          renderFn(element);
+          observer.unobserve(element);
         }
-      })
+      });
     },
     { threshold: 0.1 }
-  )
+  );
 
-  observer.observe(element)
+  observer.observe(element);
 
-  return () => observer.disconnect()
+  return () => observer.disconnect();
 }
 
 export default {
@@ -238,4 +238,4 @@ export default {
   memoizedRender,
   patchElement,
   lazyRender,
-}
+};

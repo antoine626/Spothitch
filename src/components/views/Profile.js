@@ -42,9 +42,9 @@ export function renderProfile(state) {
         <!-- VIP Badge -->
         <div class="inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
           ${currentVipLevel.image
-            ? `<img src="${currentVipLevel.image}" alt="${currentVipLevel.name}" class="w-6 h-6 object-contain" loading="lazy" />`
-            : `<span class="text-lg">${currentVipLevel.icon}</span>`
-          }
+    ? `<img src="${currentVipLevel.image}" alt="${currentVipLevel.name}" class="w-6 h-6 object-contain" loading="lazy" />`
+    : `<span class="text-lg">${currentVipLevel.icon}</span>`
+}
           <span class="font-medium text-purple-300">${currentVipLevel.name}</span>
         </div>
       </div>

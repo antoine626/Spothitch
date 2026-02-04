@@ -3,11 +3,11 @@
  * Progressive Web App installation and management
  */
 
-import { getState, setState } from '../stores/state.js'
-import { showToast } from '../services/notifications.js'
+import { getState, setState } from '../stores/state.js';
+import { showToast } from '../services/notifications.js';
 
 // Store the deferred install prompt
-let deferredPrompt = null
+let deferredPrompt = null;
 
 /**
  * Initialize PWA handlers
@@ -15,28 +15,28 @@ let deferredPrompt = null
 export function initPWA() {
   // Listen for the beforeinstallprompt event
   window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault()
-    deferredPrompt = e
+    e.preventDefault();
+    deferredPrompt = e;
 
     // Show install banner after a delay
     setTimeout(() => {
       if (!isAppInstalled()) {
-        showInstallBanner()
+        showInstallBanner();
       }
-    }, 30000) // 30 seconds delay
-  })
+    }, 30000); // 30 seconds delay
+  });
 
   // Listen for app installed event
   window.addEventListener('appinstalled', () => {
-    deferredPrompt = null
-    setState({ isPWAInstalled: true })
-    showToast('Application installée !', 'success')
-    dismissInstallBanner()
-  })
+    deferredPrompt = null;
+    setState({ isPWAInstalled: true });
+    showToast('Application installée !', 'success');
+    dismissInstallBanner();
+  });
 
   // Check if already installed
   if (isAppInstalled()) {
-    setState({ isPWAInstalled: true })
+    setState({ isPWAInstalled: true });
   }
 }
 
@@ -46,20 +46,20 @@ export function initPWA() {
 export function isAppInstalled() {
   // Check display-mode
   if (window.matchMedia('(display-mode: standalone)').matches) {
-    return true
+    return true;
   }
 
   // Check iOS standalone
   if (window.navigator.standalone === true) {
-    return true
+    return true;
   }
 
   // Check localStorage flag
   if (localStorage.getItem('pwa_installed') === 'true') {
-    return true
+    return true;
   }
 
-  return false
+  return false;
 }
 
 /**
@@ -67,24 +67,24 @@ export function isAppInstalled() {
  */
 export function showInstallBanner() {
   // Check if user has dismissed before
-  const dismissed = localStorage.getItem('install_banner_dismissed')
+  const dismissed = localStorage.getItem('install_banner_dismissed');
   if (dismissed) {
-    const dismissedDate = new Date(dismissed)
-    const daysSinceDismissed = (Date.now() - dismissedDate) / (1000 * 60 * 60 * 24)
+    const dismissedDate = new Date(dismissed);
+    const daysSinceDismissed = (Date.now() - dismissedDate) / (1000 * 60 * 60 * 24);
     if (daysSinceDismissed < 7) {
-      return // Don't show again for 7 days
+      return; // Don't show again for 7 days
     }
   }
 
-  setState({ showInstallBanner: true })
+  setState({ showInstallBanner: true });
 }
 
 /**
  * Dismiss the install banner
  */
 export function dismissInstallBanner() {
-  setState({ showInstallBanner: false })
-  localStorage.setItem('install_banner_dismissed', new Date().toISOString())
+  setState({ showInstallBanner: false });
+  localStorage.setItem('install_banner_dismissed', new Date().toISOString());
 }
 
 /**
@@ -93,29 +93,29 @@ export function dismissInstallBanner() {
 export async function installPWA() {
   if (!deferredPrompt) {
     // Show manual install instructions
-    showManualInstallInstructions()
-    return false
+    showManualInstallInstructions();
+    return false;
   }
 
   try {
     // Show the install prompt
-    deferredPrompt.prompt()
+    deferredPrompt.prompt();
 
     // Wait for the user's response
-    const { outcome } = await deferredPrompt.userChoice
+    const { outcome } = await deferredPrompt.userChoice;
 
     if (outcome === 'accepted') {
-      localStorage.setItem('pwa_installed', 'true')
-      showToast('Installation en cours...', 'info')
+      localStorage.setItem('pwa_installed', 'true');
+      showToast('Installation en cours...', 'info');
     }
 
-    deferredPrompt = null
-    dismissInstallBanner()
+    deferredPrompt = null;
+    dismissInstallBanner();
 
-    return outcome === 'accepted'
+    return outcome === 'accepted';
   } catch (error) {
-    console.error('PWA install error:', error)
-    return false
+    console.error('PWA install error:', error);
+    return false;
   }
 }
 
@@ -123,31 +123,31 @@ export async function installPWA() {
  * Show manual installation instructions based on browser/OS
  */
 function showManualInstallInstructions() {
-  const ua = navigator.userAgent.toLowerCase()
-  let instructions = ''
+  const ua = navigator.userAgent.toLowerCase();
+  let instructions = '';
 
   if (/iphone|ipad|ipod/.test(ua)) {
-    instructions = 'Appuyez sur le bouton Partager puis "Sur l\'écran d\'accueil"'
+    instructions = 'Appuyez sur le bouton Partager puis "Sur l\'écran d\'accueil"';
   } else if (/android/.test(ua)) {
-    instructions = 'Appuyez sur le menu (⋮) puis "Ajouter à l\'écran d\'accueil"'
+    instructions = 'Appuyez sur le menu (⋮) puis "Ajouter à l\'écran d\'accueil"';
   } else if (/chrome/.test(ua)) {
-    instructions = 'Cliquez sur l\'icône d\'installation dans la barre d\'adresse'
+    instructions = 'Cliquez sur l\'icône d\'installation dans la barre d\'adresse';
   } else if (/firefox/.test(ua)) {
-    instructions = 'Ce navigateur ne supporte pas l\'installation PWA'
+    instructions = 'Ce navigateur ne supporte pas l\'installation PWA';
   } else {
-    instructions = 'Utilisez Chrome ou Safari pour installer l\'application'
+    instructions = 'Utilisez Chrome ou Safari pour installer l\'application';
   }
 
-  showToast(instructions, 'info', 8000)
+  showToast(instructions, 'info', 8000);
 }
 
 /**
  * Render install banner component
  */
 export function renderInstallBanner() {
-  const { showInstallBanner } = getState()
+  const { showInstallBanner } = getState();
 
-  if (!showInstallBanner) return ''
+  if (!showInstallBanner) return '';
 
   return `
     <div class="install-banner fixed bottom-20 left-4 right-4 bg-gradient-to-r from-sky-500 to-cyan-500
@@ -177,22 +177,22 @@ export function renderInstallBanner() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Check for service worker updates
  */
 export async function checkForUpdates() {
-  if (!('serviceWorker' in navigator)) return false
+  if (!('serviceWorker' in navigator)) return false;
 
   try {
-    const registration = await navigator.serviceWorker.ready
-    await registration.update()
-    return true
+    const registration = await navigator.serviceWorker.ready;
+    await registration.update();
+    return true;
   } catch (error) {
-    console.error('Update check failed:', error)
-    return false
+    console.error('Update check failed:', error);
+    return false;
   }
 }
 
@@ -203,13 +203,13 @@ export function applyUpdate() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(registration => {
       if (registration.waiting) {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' })
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
       }
-    })
+    });
   }
 
   // Reload the page
-  window.location.reload()
+  window.location.reload();
 }
 
 /**
@@ -217,22 +217,22 @@ export function applyUpdate() {
  */
 export function getDisplayMode() {
   if (window.matchMedia('(display-mode: standalone)').matches) {
-    return 'standalone'
+    return 'standalone';
   }
   if (window.matchMedia('(display-mode: fullscreen)').matches) {
-    return 'fullscreen'
+    return 'fullscreen';
   }
   if (window.matchMedia('(display-mode: minimal-ui)').matches) {
-    return 'minimal-ui'
+    return 'minimal-ui';
   }
-  return 'browser'
+  return 'browser';
 }
 
 /**
  * Check if device supports PWA installation
  */
 export function canInstallPWA() {
-  return deferredPrompt !== null || /chrome|chromium/i.test(navigator.userAgent)
+  return deferredPrompt !== null || /chrome|chromium/i.test(navigator.userAgent);
 }
 
 export default {
@@ -246,4 +246,4 @@ export default {
   applyUpdate,
   getDisplayMode,
   canInstallPWA,
-}
+};

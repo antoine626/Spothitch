@@ -3,18 +3,18 @@
  * Daily, weekly, and long-term challenges
  */
 
-import { getState } from '../../stores/state.js'
-import { t } from '../../i18n/index.js'
-import { getActiveChallenges } from '../../data/challenges.js'
+import { getState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
+import { getActiveChallenges } from '../../data/challenges.js';
 
 /**
  * Render challenges modal
  */
 export function renderChallengesModal() {
-  const state = getState()
-  const { showChallenges, lang = 'fr', challengeTab = 'daily' } = state
+  const state = getState();
+  const { showChallenges, lang = 'fr', challengeTab = 'daily' } = state;
 
-  if (!showChallenges) return ''
+  if (!showChallenges) return '';
 
   const userStats = {
     checkins: state.checkins || 0,
@@ -30,9 +30,9 @@ export function renderChallengesModal() {
     totalReviews: state.reviewsGiven || 0,
     maxStreak: state.maxStreak || 0,
     fiveStarSpots: state.fiveStarSpots || 0,
-  }
+  };
 
-  const challenges = getActiveChallenges(userStats)
+  const challenges = getActiveChallenges(userStats);
 
   return `
     <div class="challenges-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
@@ -124,23 +124,23 @@ export function renderChallengesModal() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Render a single challenge card
  */
 export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
-  const name = lang === 'en' && challenge.nameEn ? challenge.nameEn : challenge.name
-  const description = lang === 'en' && challenge.descriptionEn ? challenge.descriptionEn : challenge.description
-  const progressPercent = Math.min(challenge.progress * 100, 100)
-  const isCompleted = challenge.completed
+  const name = lang === 'en' && challenge.nameEn ? challenge.nameEn : challenge.name;
+  const description = lang === 'en' && challenge.descriptionEn ? challenge.descriptionEn : challenge.description;
+  const progressPercent = Math.min(challenge.progress * 100, 100);
+  const isCompleted = challenge.completed;
 
   const typeColors = {
     daily: 'from-sky-500 to-cyan-500',
     weekly: 'from-purple-500 to-pink-500',
     longterm: 'from-amber-500 to-orange-500',
-  }
+  };
 
   return `
     <div class="challenge-card p-4 bg-gray-800 rounded-xl ${isCompleted ? 'opacity-60' : ''}">
@@ -183,34 +183,34 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
  * Get time until midnight
  */
 function getTimeUntilMidnight() {
-  const now = new Date()
-  const midnight = new Date(now)
-  midnight.setHours(24, 0, 0, 0)
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0);
 
-  const diff = midnight - now
-  const hours = Math.floor(diff / 3600000)
-  const minutes = Math.floor((diff % 3600000) / 60000)
+  const diff = midnight - now;
+  const hours = Math.floor(diff / 3600000);
+  const minutes = Math.floor((diff % 3600000) / 60000);
 
-  return `${hours}h ${minutes}min`
+  return `${hours}h ${minutes}min`;
 }
 
 /**
  * Get days until Sunday
  */
 function getDaysUntilSunday() {
-  const now = new Date()
-  const daysUntil = 7 - now.getDay()
-  return daysUntil === 0 ? 7 : daysUntil
+  const now = new Date();
+  const daysUntil = 7 - now.getDay();
+  return daysUntil === 0 ? 7 : daysUntil;
 }
 
 export default {
   renderChallengesModal,
   renderChallengeCard,
-}
+};

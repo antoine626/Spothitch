@@ -3,9 +3,9 @@
  * Handles hitchhiking quiz logic and scoring
  */
 
-import { getState, setState } from '../stores/state.js'
-import { addPoints, addSeasonPoints, checkBadges } from './gamification.js'
-import { showToast } from './notifications.js'
+import { getState, setState } from '../stores/state.js';
+import { addPoints, addSeasonPoints, checkBadges } from './gamification.js';
+import { showToast } from './notifications.js';
 
 // Quiz questions database
 export const quizQuestions = [
@@ -219,17 +219,17 @@ export const quizQuestions = [
     explanationEn: '112 works in all European Union countries.',
     points: 10,
   },
-]
+];
 
 // Quiz state
-let quizTimer = null
-let quizStartTime = null
+let quizTimer = null;
+let quizStartTime = null;
 
 /**
  * Start a new quiz
  */
 export function startQuiz() {
-  const shuffled = [...quizQuestions].sort(() => Math.random() - 0.5).slice(0, 5)
+  const shuffled = [...quizQuestions].sort(() => Math.random() - 0.5).slice(0, 5);
 
   setState({
     quizActive: true,
@@ -239,11 +239,11 @@ export function startQuiz() {
     quizScore: 0,
     quizTimeLeft: 60, // 60 seconds per quiz
     quizStartTime: Date.now(),
-  })
+  });
 
-  startQuizTimer()
+  startQuizTimer();
 
-  return shuffled
+  return shuffled;
 }
 
 /**
@@ -251,22 +251,22 @@ export function startQuiz() {
  */
 export function startQuizTimer() {
   if (quizTimer) {
-    clearInterval(quizTimer)
+    clearInterval(quizTimer);
   }
 
-  quizStartTime = Date.now()
+  quizStartTime = Date.now();
 
   quizTimer = setInterval(() => {
-    const state = getState()
-    const elapsed = Math.floor((Date.now() - quizStartTime) / 1000)
-    const timeLeft = Math.max(0, 60 - elapsed)
+    const state = getState();
+    const elapsed = Math.floor((Date.now() - quizStartTime) / 1000);
+    const timeLeft = Math.max(0, 60 - elapsed);
 
-    setState({ quizTimeLeft: timeLeft })
+    setState({ quizTimeLeft: timeLeft });
 
     if (timeLeft <= 0) {
-      finishQuiz()
+      finishQuiz();
     }
-  }, 1000)
+  }, 1000);
 }
 
 /**
@@ -274,8 +274,8 @@ export function startQuizTimer() {
  */
 export function stopQuizTimer() {
   if (quizTimer) {
-    clearInterval(quizTimer)
-    quizTimer = null
+    clearInterval(quizTimer);
+    quizTimer = null;
   }
 }
 
@@ -284,9 +284,9 @@ export function stopQuizTimer() {
  * @param {number} answerIndex - Index of selected answer
  */
 export function answerQuestion(answerIndex) {
-  const state = getState()
-  const currentQuestion = state.quizQuestions[state.quizCurrentIndex]
-  const isCorrect = answerIndex === currentQuestion.correctIndex
+  const state = getState();
+  const currentQuestion = state.quizQuestions[state.quizCurrentIndex];
+  const isCorrect = answerIndex === currentQuestion.correctIndex;
 
   const newAnswers = [
     ...state.quizAnswers,
@@ -296,10 +296,10 @@ export function answerQuestion(answerIndex) {
       isCorrect,
       points: isCorrect ? currentQuestion.points : 0,
     },
-  ]
+  ];
 
-  const newScore = state.quizScore + (isCorrect ? currentQuestion.points : 0)
-  const nextIndex = state.quizCurrentIndex + 1
+  const newScore = state.quizScore + (isCorrect ? currentQuestion.points : 0);
+  const nextIndex = state.quizCurrentIndex + 1;
 
   setState({
     quizAnswers: newAnswers,
@@ -309,45 +309,45 @@ export function answerQuestion(answerIndex) {
       isCorrect,
       explanation: currentQuestion.explanation,
     },
-  })
+  });
 
   // Check if quiz is complete
   if (nextIndex >= state.quizQuestions.length) {
-    finishQuiz()
+    finishQuiz();
   }
 
-  return { isCorrect, explanation: currentQuestion.explanation }
+  return { isCorrect, explanation: currentQuestion.explanation };
 }
 
 /**
  * Finish the quiz and calculate final score
  */
 export function finishQuiz() {
-  stopQuizTimer()
+  stopQuizTimer();
 
-  const state = getState()
-  const totalQuestions = state.quizQuestions?.length || 5
-  const correctAnswers = state.quizAnswers?.filter(a => a.isCorrect).length || 0
-  const score = state.quizScore || 0
-  const timeTaken = state.quizStartTime ? Math.floor((Date.now() - state.quizStartTime) / 1000) : 60
+  const state = getState();
+  const totalQuestions = state.quizQuestions?.length || 5;
+  const correctAnswers = state.quizAnswers?.filter(a => a.isCorrect).length || 0;
+  const score = state.quizScore || 0;
+  const timeTaken = state.quizStartTime ? Math.floor((Date.now() - state.quizStartTime) / 1000) : 60;
 
-  const isPerfect = correctAnswers === totalQuestions
-  const percentage = Math.round((correctAnswers / totalQuestions) * 100)
+  const isPerfect = correctAnswers === totalQuestions;
+  const percentage = Math.round((correctAnswers / totalQuestions) * 100);
 
   // Calculate bonus points
-  let bonusPoints = 0
+  let bonusPoints = 0;
   if (isPerfect) {
-    bonusPoints = 50 // Perfect score bonus
+    bonusPoints = 50; // Perfect score bonus
   } else if (percentage >= 80) {
-    bonusPoints = 20 // Good score bonus
+    bonusPoints = 20; // Good score bonus
   }
 
   // Time bonus (max 10 points if under 30 seconds)
   if (timeTaken < 30) {
-    bonusPoints += Math.floor((30 - timeTaken) / 3)
+    bonusPoints += Math.floor((30 - timeTaken) / 3);
   }
 
-  const totalPoints = score + bonusPoints
+  const totalPoints = score + bonusPoints;
 
   const result = {
     totalQuestions,
@@ -358,38 +358,38 @@ export function finishQuiz() {
     percentage,
     isPerfect,
     timeTaken,
-  }
+  };
 
   setState({
     quizActive: false,
     quizResult: result,
     perfectQuiz: state.perfectQuiz || isPerfect,
-  })
+  });
 
   // Award points
-  addPoints(totalPoints, 'quiz')
-  addSeasonPoints(Math.floor(totalPoints / 2))
+  addPoints(totalPoints, 'quiz');
+  addSeasonPoints(Math.floor(totalPoints / 2));
 
   // Check for quiz master badge
   if (isPerfect) {
-    checkBadges()
-    showToast('🧠 Score parfait ! Quiz Master débloqué !', 'success')
+    checkBadges();
+    showToast('🧠 Score parfait ! Quiz Master débloqué !', 'success');
   } else if (percentage >= 80) {
-    showToast(`🎉 Excellent ! ${percentage}% de bonnes réponses !`, 'success')
+    showToast(`🎉 Excellent ! ${percentage}% de bonnes réponses !`, 'success');
   } else if (percentage >= 60) {
-    showToast(`👍 Bien joué ! ${percentage}% de bonnes réponses`, 'info')
+    showToast(`👍 Bien joué ! ${percentage}% de bonnes réponses`, 'info');
   } else {
-    showToast(`📚 ${percentage}% - Continue de t'entraîner !`, 'info')
+    showToast(`📚 ${percentage}% - Continue de t'entraîner !`, 'info');
   }
 
-  return result
+  return result;
 }
 
 /**
  * Get current quiz state
  */
 export function getQuizState() {
-  const state = getState()
+  const state = getState();
   return {
     isActive: state.quizActive,
     questions: state.quizQuestions,
@@ -398,22 +398,22 @@ export function getQuizState() {
     score: state.quizScore,
     timeLeft: state.quizTimeLeft,
     result: state.quizResult,
-  }
+  };
 }
 
 /**
  * Get a random question for practice
  */
 export function getRandomQuestion() {
-  const randomIndex = Math.floor(Math.random() * quizQuestions.length)
-  return quizQuestions[randomIndex]
+  const randomIndex = Math.floor(Math.random() * quizQuestions.length);
+  return quizQuestions[randomIndex];
 }
 
 /**
  * Get all questions (for review mode)
  */
 export function getAllQuestions() {
-  return quizQuestions
+  return quizQuestions;
 }
 
 export default {
@@ -426,4 +426,4 @@ export default {
   getQuizState,
   getRandomQuestion,
   getAllQuestions,
-}
+};

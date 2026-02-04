@@ -447,13 +447,13 @@ export function renderSkillTree(state) {
       <!-- Categories -->
       <div class="space-y-6">
         ${Object.entries(SKILL_CATEGORIES)
-          .map(([key, category]) => {
-            const catSkills = Object.values(SKILLS).filter(
-              (s) => s.category === key.toLowerCase()
-            );
-            const catProgress = progress.byCategory[key];
+    .map(([key, category]) => {
+      const catSkills = Object.values(SKILLS).filter(
+        (s) => s.category === key.toLowerCase()
+      );
+      const catProgress = progress.byCategory[key];
 
-            return `
+      return `
             <div class="bg-dark-card rounded-2xl overflow-hidden">
               <!-- Category Header -->
               <div class="p-4 bg-gradient-to-r ${category.color}">
@@ -474,17 +474,17 @@ export function renderSkillTree(state) {
               <!-- Skills -->
               <div class="p-4 grid grid-cols-2 gap-3">
                 ${catSkills
-                  .sort((a, b) => a.tier - b.tier)
-                  .map((skill) => {
-                    const isUnlocked = unlockedSkills.includes(skill.id);
-                    const { canUnlock } = canUnlockSkill(skill.id);
-                    const statusClass = isUnlocked
-                      ? 'border-emerald-500 bg-emerald-500/10'
-                      : canUnlock
-                        ? 'border-primary-500 bg-primary-500/10 cursor-pointer hover:bg-primary-500/20'
-                        : 'border-slate-700 bg-white/5 opacity-60';
+    .sort((a, b) => a.tier - b.tier)
+    .map((skill) => {
+      const isUnlocked = unlockedSkills.includes(skill.id);
+      const { canUnlock } = canUnlockSkill(skill.id);
+      const statusClass = isUnlocked
+        ? 'border-emerald-500 bg-emerald-500/10'
+        : canUnlock
+          ? 'border-primary-500 bg-primary-500/10 cursor-pointer hover:bg-primary-500/20'
+          : 'border-slate-700 bg-white/5 opacity-60';
 
-                    return `
+      return `
                     <button
                       onclick="${!isUnlocked && canUnlock ? `unlockSkillAction('${skill.id}')` : ''}"
                       class="p-3 rounded-xl border-2 ${statusClass} text-left transition-all"
@@ -497,24 +497,24 @@ export function renderSkillTree(state) {
                       </div>
                       <p class="text-xs text-slate-400 mb-2">${skill.description}</p>
                       ${
-                        !isUnlocked
-                          ? `
+  !isUnlocked
+    ? `
                         <div class="text-xs ${canUnlock ? 'text-primary-400' : 'text-slate-500'}">
                           <i class="fas fa-coins mr-1" aria-hidden="true"></i>
                           ${skill.cost} points
                         </div>
                       `
-                          : ''
-                      }
+    : ''
+}
                     </button>
                   `;
-                  })
-                  .join('')}
+    })
+    .join('')}
               </div>
             </div>
           `;
-          })
-          .join('')}
+    })
+    .join('')}
       </div>
     </div>
   `;

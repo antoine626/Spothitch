@@ -47,9 +47,9 @@ function renderDefaultCard(spot) {
           <span class="badge ${typeClass}" aria-label="Type de spot: ${typeLabel}">${typeLabel}</span>
         </div>
         ${(() => {
-          const verification = getSpotVerification(spot.id);
-          const badge = getStatusBadge(verification.status);
-          return verification.status !== 'unverified' ? `
+    const verification = getSpotVerification(spot.id);
+    const badge = getStatusBadge(verification.status);
+    return verification.status !== 'unverified' ? `
             <div class="absolute top-3 left-3">
               <span class="badge ${badge.bg} ${badge.color}" aria-label="${badge.label}">
                 <i class="fas ${badge.icon}" aria-hidden="true"></i>
@@ -57,7 +57,7 @@ function renderDefaultCard(spot) {
               </span>
             </div>
           ` : '';
-        })()}
+  })()}
       </div>
 
       <!-- Content -->

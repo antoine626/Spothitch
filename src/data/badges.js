@@ -4,8 +4,8 @@
  */
 
 // Base path for badge images (use import.meta.env.BASE_URL for correct path resolution)
-const BASE = import.meta.env.BASE_URL || '/'
-const BADGE_IMG_PATH = `${BASE}images/badges`
+const BASE = import.meta.env.BASE_URL || '/';
+const BADGE_IMG_PATH = `${BASE}images/badges`;
 
 export const allBadges = [
   // Beginner badges
@@ -275,13 +275,13 @@ export const allBadges = [
     condition: (stats) => stats.totalPoints >= 10000,
     points: 500,
   },
-]
+];
 
 /**
  * Get badges by category
  */
 export function getBadgesByCategory(category) {
-  return allBadges.filter(b => b.category === category)
+  return allBadges.filter(b => b.category === category);
 }
 
 /**
@@ -290,7 +290,7 @@ export function getBadgesByCategory(category) {
 export function getEarnedBadges(userStats, earnedBadgeIds = []) {
   return allBadges.filter(
     badge => earnedBadgeIds.includes(badge.id) || badge.condition(userStats)
-  )
+  );
 }
 
 /**
@@ -299,14 +299,14 @@ export function getEarnedBadges(userStats, earnedBadgeIds = []) {
 export function getNextBadges(userStats, earnedBadgeIds = [], limit = 3) {
   return allBadges
     .filter(badge => !earnedBadgeIds.includes(badge.id) && !badge.condition(userStats))
-    .slice(0, limit)
+    .slice(0, limit);
 }
 
 /**
  * Get badge by ID
  */
 export function getBadgeById(badgeId) {
-  return allBadges.find(b => b.id === badgeId)
+  return allBadges.find(b => b.id === badgeId);
 }
 
 /**
@@ -315,7 +315,7 @@ export function getBadgeById(badgeId) {
 export function getTotalBadgePoints(earnedBadgeIds = []) {
   return allBadges
     .filter(b => earnedBadgeIds.includes(b.id))
-    .reduce((sum, b) => sum + b.points, 0)
+    .reduce((sum, b) => sum + b.points, 0);
 }
 
 export default {
@@ -325,4 +325,4 @@ export default {
   getNextBadges,
   getBadgeById,
   getTotalBadgePoints,
-}
+};

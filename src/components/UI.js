@@ -3,17 +3,17 @@
  * Shared UI elements and utilities
  */
 
-import { getState } from '../stores/state.js'
-import { t } from '../i18n/index.js'
+import { getState } from '../stores/state.js';
+import { t } from '../i18n/index.js';
 
 /**
  * Render side menu (hamburger menu)
  */
 export function renderSideMenu() {
-  const state = getState()
-  const { showSideMenu, user, isLoggedIn, lang = 'fr' } = state
+  const state = getState();
+  const { showSideMenu, user, isLoggedIn, lang = 'fr' } = state;
 
-  if (!showSideMenu) return ''
+  if (!showSideMenu) return '';
 
   const menuItems = [
     { id: 'home', icon: '🏠', label: 'Accueil', labelEn: 'Home' },
@@ -23,13 +23,13 @@ export function renderSideMenu() {
     { id: 'chat', icon: '💬', label: 'Chat', labelEn: 'Chat' },
     { id: 'friends', icon: '👥', label: 'Amis', labelEn: 'Friends' },
     { id: 'profile', icon: '👤', label: 'Profil', labelEn: 'Profile' },
-  ]
+  ];
 
   const bottomItems = [
     { action: 'openSettings', icon: '⚙️', label: 'Paramètres', labelEn: 'Settings' },
     { action: 'showLegalPage', icon: '📋', label: 'Mentions légales', labelEn: 'Legal' },
     { action: 'openSOS', icon: '🆘', label: 'Mode SOS', labelEn: 'SOS Mode' },
-  ]
+  ];
 
   return `
     <div class="side-menu-overlay fixed inset-0 bg-black/60 z-50" onclick="closeSideMenu()" role="presentation">
@@ -68,8 +68,8 @@ export function renderSideMenu() {
             <button onclick="closeSideMenu(); changeTab('${item.id}')"
                     class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left
                            ${state.activeTab === item.id
-                             ? 'bg-sky-500/20 text-sky-400'
-                             : 'text-gray-300 hover:bg-gray-800'}"
+    ? 'bg-sky-500/20 text-sky-400'
+    : 'text-gray-300 hover:bg-gray-800'}"
                     type="button"
                     aria-current="${state.activeTab === item.id ? 'page' : 'false'}">
               <span class="text-xl" aria-hidden="true">${item.icon}</span>
@@ -102,17 +102,17 @@ export function renderSideMenu() {
         </div>
       </aside>
     </div>
-  `
+  `;
 }
 
 /**
  * Render floating action button (FAB)
  */
 export function renderFAB() {
-  const state = getState()
+  const state = getState();
 
   // Only show on certain tabs
-  if (!['spots', 'home'].includes(state.activeTab)) return ''
+  if (!['spots', 'home'].includes(state.activeTab)) return '';
 
   return `
     <button onclick="openAddSpot()"
@@ -126,7 +126,7 @@ export function renderFAB() {
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
       </svg>
     </button>
-  `
+  `;
 }
 
 /**
@@ -170,9 +170,9 @@ export function renderEmptyState(type = 'spots') {
       description: 'Contenu limité en mode hors-ligne',
       action: null,
     },
-  }
+  };
 
-  const state = emptyStates[type] || emptyStates.spots
+  const state = emptyStates[type] || emptyStates.spots;
 
   return `
     <div class="empty-state py-16 px-8 text-center">
@@ -187,7 +187,7 @@ export function renderEmptyState(type = 'spots') {
         </button>
       ` : ''}
     </div>
-  `
+  `;
 }
 
 /**
@@ -206,7 +206,7 @@ export function renderSkeletonSpotCard() {
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -217,7 +217,7 @@ export function renderSkeletonList(count = 4) {
     <div class="skeleton-list grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
       ${Array(count).fill(0).map(() => renderSkeletonSpotCard()).join('')}
     </div>
-  `
+  `;
 }
 
 /**
@@ -228,14 +228,14 @@ export function renderSpinner(size = 'md', text = '') {
     sm: 'w-5 h-5',
     md: 'w-8 h-8',
     lg: 'w-12 h-12',
-  }
+  };
 
   return `
     <div class="spinner flex flex-col items-center justify-center gap-3">
       <div class="${sizes[size]} border-2 border-gray-700 border-t-sky-500 rounded-full animate-spin"></div>
       ${text ? `<div class="text-gray-500 text-sm">${text}</div>` : ''}
     </div>
-  `
+  `;
 }
 
 /**
@@ -247,14 +247,14 @@ export function renderToast(message, type = 'info', duration = 3000) {
     error: 'bg-red-500',
     warning: 'bg-amber-500',
     info: 'bg-sky-500',
-  }
+  };
 
   const icons = {
     success: '✓',
     error: '✕',
     warning: '⚠',
     info: 'ℹ',
-  }
+  };
 
   return `
     <div class="toast fixed bottom-24 left-4 right-4 z-50 animate-slide-up">
@@ -263,7 +263,7 @@ export function renderToast(message, type = 'info', duration = 3000) {
         <span class="flex-1">${message}</span>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -296,7 +296,7 @@ export function renderConfirmDialog(title, message, onConfirm, onCancel = 'close
         </div>
       </div>
     </div>
-  `
+  `;
 }
 
 /**
@@ -312,16 +312,16 @@ export function renderBackButton(onclick = 'history.back()') {
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
     </button>
-  `
+  `;
 }
 
 /**
  * Render rating stars
  */
 export function renderRatingStars(rating, interactive = false, size = 'md') {
-  const sizes = { sm: 'text-sm', md: 'text-lg', lg: 'text-2xl' }
-  const fullStars = Math.floor(rating)
-  const hasHalf = rating - fullStars >= 0.5
+  const sizes = { sm: 'text-sm', md: 'text-lg', lg: 'text-2xl' };
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating - fullStars >= 0.5;
 
   if (interactive) {
     return `
@@ -337,14 +337,14 @@ export function renderRatingStars(rating, interactive = false, size = 'md') {
           </button>
         `).join('')}
       </div>
-    `
+    `;
   }
 
   return `
     <span class="rating-stars ${sizes[size]}" aria-label="Note: ${rating} sur 5">
       <span aria-hidden="true">${Array(fullStars).fill('★').join('')}${hasHalf ? '½' : ''}${Array(5 - fullStars - (hasHalf ? 1 : 0)).fill('☆').join('')}</span>
     </span>
-  `
+  `;
 }
 
 /**
@@ -357,13 +357,13 @@ export function renderBadge(text, type = 'default') {
     success: 'bg-green-500/20 text-green-400',
     warning: 'bg-amber-500/20 text-amber-400',
     danger: 'bg-red-500/20 text-red-400',
-  }
+  };
 
   return `
     <span class="badge px-2 py-0.5 rounded-full text-xs font-medium ${typeStyles[type]}">
       ${text}
     </span>
-  `
+  `;
 }
 
 /**
@@ -375,8 +375,8 @@ export function renderProgressBar(progress, color = 'sky') {
     purple: 'from-purple-500 to-pink-500',
     amber: 'from-amber-500 to-orange-500',
     green: 'from-green-500 to-emerald-500',
-  }
-  const percentage = Math.min(progress * 100, 100)
+  };
+  const percentage = Math.min(progress * 100, 100);
 
   return `
     <div class="progress-bar h-2 bg-gray-700 rounded-full overflow-hidden"
@@ -388,7 +388,7 @@ export function renderProgressBar(progress, color = 'sky') {
       <div class="h-full bg-gradient-to-r ${colors[color]} transition-all duration-500"
            style="width: ${percentage}%"></div>
     </div>
-  `
+  `;
 }
 
 export default {
@@ -404,4 +404,4 @@ export default {
   renderRatingStars,
   renderBadge,
   renderProgressBar,
-}
+};

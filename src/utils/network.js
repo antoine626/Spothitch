@@ -3,66 +3,66 @@
  * Handles online/offline state and data sync
  */
 
-import { getState, setState } from '../stores/state.js'
-import { showToast } from '../services/notifications.js'
-import { Storage } from './storage.js'
+import { getState, setState } from '../stores/state.js';
+import { showToast } from '../services/notifications.js';
+import { Storage } from './storage.js';
 
 // Network state
-let wasOffline = false
-const OFFLINE_QUEUE_KEY = 'spothitch_offline_queue'
-const CACHE_TIMESTAMP_KEY = 'spothitch_cache_timestamp'
-const MAX_CACHE_AGE = 7 * 24 * 60 * 60 * 1000 // 7 days
+let wasOffline = false;
+const OFFLINE_QUEUE_KEY = 'spothitch_offline_queue';
+const CACHE_TIMESTAMP_KEY = 'spothitch_cache_timestamp';
+const MAX_CACHE_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 /**
  * Initialize network monitoring
  */
 export function initNetworkMonitor() {
   // Set initial state
-  updateNetworkStatus()
+  updateNetworkStatus();
 
   // Listen for online/offline events
-  window.addEventListener('online', handleOnline)
-  window.addEventListener('offline', handleOffline)
+  window.addEventListener('online', handleOnline);
+  window.addEventListener('offline', handleOffline);
 
   // Periodic connectivity check
-  setInterval(checkConnectivity, 30000) // Every 30 seconds
+  setInterval(checkConnectivity, 30000); // Every 30 seconds
 }
 
 /**
  * Update network status in state
  */
 export function updateNetworkStatus() {
-  const isOnline = navigator.onLine
-  const state = getState()
+  const isOnline = navigator.onLine;
+  const state = getState();
 
   if (state.isOnline !== isOnline) {
-    setState({ isOnline })
+    setState({ isOnline });
   }
 
-  return isOnline
+  return isOnline;
 }
 
 /**
  * Handle coming online
  */
 function handleOnline() {
-  setState({ isOnline: true })
+  setState({ isOnline: true });
 
   if (wasOffline) {
-    showToast('Connexion rétablie', 'success')
-    syncOfflineQueue()
+    showToast('Connexion rétablie', 'success');
+    syncOfflineQueue();
   }
 
-  wasOffline = false
+  wasOffline = false;
 }
 
 /**
  * Handle going offline
  */
 function handleOffline() {
-  setState({ isOnline: false })
-  wasOffline = true
-  showToast('Mode hors-ligne activé', 'warning')
+  setState({ isOnline: false });
+  wasOffline = true;
+  showToast('Mode hors-ligne activé', 'warning');
 }
 
 /**
@@ -73,13 +73,13 @@ export async function checkConnectivity() {
     const response = await fetch('/Spothitch/manifest.json', {
       method: 'HEAD',
       cache: 'no-store',
-    })
-    const isOnline = response.ok
-    setState({ isOnline })
-    return isOnline
+    });
+    const isOnline = response.ok;
+    setState({ isOnline });
+    return isOnline;
   } catch {
-    setState({ isOnline: false })
-    return false
+    setState({ isOnline: false });
+    return false;
   }
 }
 
@@ -88,50 +88,50 @@ export async function checkConnectivity() {
  * @param {Object} action - Action to queue
  */
 export function queueOfflineAction(action) {
-  const queue = getOfflineQueue()
+  const queue = getOfflineQueue();
   queue.push({
     ...action,
     timestamp: Date.now(),
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-  })
-  Storage.set(OFFLINE_QUEUE_KEY, queue)
+  });
+  Storage.set(OFFLINE_QUEUE_KEY, queue);
 }
 
 /**
  * Get offline queue
  */
 export function getOfflineQueue() {
-  return Storage.get(OFFLINE_QUEUE_KEY) || []
+  return Storage.get(OFFLINE_QUEUE_KEY) || [];
 }
 
 /**
  * Sync offline queue when back online
  */
 export async function syncOfflineQueue() {
-  const queue = getOfflineQueue()
+  const queue = getOfflineQueue();
 
-  if (queue.length === 0) return
+  if (queue.length === 0) return;
 
-  showToast(`Synchronisation de ${queue.length} action(s)...`, 'info')
+  showToast(`Synchronisation de ${queue.length} action(s)...`, 'info');
 
-  const failedActions = []
+  const failedActions = [];
 
   for (const action of queue) {
     try {
-      await processOfflineAction(action)
+      await processOfflineAction(action);
     } catch (error) {
-      console.error('Failed to sync action:', action, error)
-      failedActions.push(action)
+      console.error('Failed to sync action:', action, error);
+      failedActions.push(action);
     }
   }
 
   // Save failed actions back to queue
-  Storage.set(OFFLINE_QUEUE_KEY, failedActions)
+  Storage.set(OFFLINE_QUEUE_KEY, failedActions);
 
   if (failedActions.length === 0) {
-    showToast('Synchronisation terminée !', 'success')
+    showToast('Synchronisation terminée !', 'success');
   } else {
-    showToast(`${failedActions.length} action(s) non synchronisée(s)`, 'warning')
+    showToast(`${failedActions.length} action(s) non synchronisée(s)`, 'warning');
   }
 }
 
@@ -142,27 +142,27 @@ export async function syncOfflineQueue() {
 async function processOfflineAction(action) {
   switch (action.type) {
     case 'ADD_SPOT':
-      const { saveSpotToFirebase } = await import('../services/firebase.js')
-      await saveSpotToFirebase(action.data)
-      break
+      const { saveSpotToFirebase } = await import('../services/firebase.js');
+      await saveSpotToFirebase(action.data);
+      break;
 
     case 'CHECKIN':
-      const { saveValidationToFirebase } = await import('../services/firebase.js')
-      await saveValidationToFirebase(action.spotId, action.userId)
-      break
+      const { saveValidationToFirebase } = await import('../services/firebase.js');
+      await saveValidationToFirebase(action.spotId, action.userId);
+      break;
 
     case 'REVIEW':
-      const { saveCommentToFirebase } = await import('../services/firebase.js')
-      await saveCommentToFirebase(action.data)
-      break
+      const { saveCommentToFirebase } = await import('../services/firebase.js');
+      await saveCommentToFirebase(action.data);
+      break;
 
     case 'CHAT_MESSAGE':
-      const { sendChatMessage } = await import('../services/firebase.js')
-      await sendChatMessage(action.room, action.text)
-      break
+      const { sendChatMessage } = await import('../services/firebase.js');
+      await sendChatMessage(action.room, action.text);
+      break;
 
     default:
-      console.warn('Unknown offline action type:', action.type)
+      console.warn('Unknown offline action type:', action.type);
   }
 }
 
@@ -170,15 +170,15 @@ async function processOfflineAction(action) {
  * Clear offline queue
  */
 export function clearOfflineQueue() {
-  Storage.remove(OFFLINE_QUEUE_KEY)
+  Storage.remove(OFFLINE_QUEUE_KEY);
 }
 
 /**
  * Clean up old cached data
  */
 export function cleanupOldData() {
-  const timestamp = Storage.get(CACHE_TIMESTAMP_KEY)
-  const now = Date.now()
+  const timestamp = Storage.get(CACHE_TIMESTAMP_KEY);
+  const now = Date.now();
 
   if (!timestamp || now - timestamp > MAX_CACHE_AGE) {
     // Clear old caches
@@ -186,20 +186,20 @@ export function cleanupOldData() {
       'spothitch_spots_cache',
       'spothitch_messages_cache',
       'spothitch_route_cache',
-    ]
+    ];
 
     keysToClean.forEach(key => {
       try {
-        localStorage.removeItem(key)
+        localStorage.removeItem(key);
       } catch (e) {
-        console.warn('Failed to clear cache:', key, e)
+        console.warn('Failed to clear cache:', key, e);
       }
-    })
+    });
 
     // Update timestamp
-    Storage.set(CACHE_TIMESTAMP_KEY, now)
+    Storage.set(CACHE_TIMESTAMP_KEY, now);
 
-    console.log('Old cache data cleaned up')
+    console.log('Old cache data cleaned up');
   }
 }
 
@@ -207,7 +207,7 @@ export function cleanupOldData() {
  * Get network status info
  */
 export function getNetworkInfo() {
-  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
 
   return {
     online: navigator.onLine,
@@ -216,47 +216,47 @@ export function getNetworkInfo() {
     downlink: connection?.downlink || null,
     rtt: connection?.rtt || null,
     saveData: connection?.saveData || false,
-  }
+  };
 }
 
 /**
  * Check if we should use low bandwidth mode
  */
 export function shouldUseLowBandwidth() {
-  const info = getNetworkInfo()
+  const info = getNetworkInfo();
 
   // Use low bandwidth on slow connections or save-data mode
   return info.saveData ||
          info.effectiveType === 'slow-2g' ||
-         info.effectiveType === '2g'
+         info.effectiveType === '2g';
 }
 
 /**
  * Prefetch critical resources when online
  */
 export function prefetchResources() {
-  if (!navigator.onLine) return
+  if (!navigator.onLine) return;
 
   const criticalUrls = [
     '/Spothitch/manifest.json',
     '/Spothitch/icon-192.png',
-  ]
+  ];
 
   criticalUrls.forEach(url => {
-    const link = document.createElement('link')
-    link.rel = 'prefetch'
-    link.href = url
-    document.head.appendChild(link)
-  })
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = url;
+    document.head.appendChild(link);
+  });
 }
 
 /**
  * Render offline indicator
  */
 export function renderOfflineIndicator() {
-  const { isOnline } = getState()
+  const { isOnline } = getState();
 
-  if (isOnline) return ''
+  if (isOnline) return '';
 
   return `
     <div class="offline-indicator fixed top-0 left-0 right-0 bg-amber-500 text-amber-900
@@ -269,7 +269,7 @@ export function renderOfflineIndicator() {
         Mode hors-ligne
       </span>
     </div>
-  `
+  `;
 }
 
 export default {
@@ -285,4 +285,4 @@ export default {
   shouldUseLowBandwidth,
   prefetchResources,
   renderOfflineIndicator,
-}
+};

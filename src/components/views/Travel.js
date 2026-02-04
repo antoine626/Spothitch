@@ -17,10 +17,10 @@ export function renderTravel(state) {
         <button
           onclick="setSubTab('planner')"
           class="flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
-            activeSubTab === 'planner'
-              ? 'bg-primary-500 text-white'
-              : 'text-slate-400 hover:text-white hover:bg-white/5'
-          }"
+  activeSubTab === 'planner'
+    ? 'bg-primary-500 text-white'
+    : 'text-slate-400 hover:text-white hover:bg-white/5'
+}"
           aria-selected="${activeSubTab === 'planner'}"
         >
           <i class="fas fa-route mr-2" aria-hidden="true"></i>
@@ -29,10 +29,10 @@ export function renderTravel(state) {
         <button
           onclick="setSubTab('guides')"
           class="flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
-            activeSubTab === 'guides'
-              ? 'bg-primary-500 text-white'
-              : 'text-slate-400 hover:text-white hover:bg-white/5'
-          }"
+  activeSubTab === 'guides'
+    ? 'bg-primary-500 text-white'
+    : 'text-slate-400 hover:text-white hover:bg-white/5'
+}"
           aria-selected="${activeSubTab === 'guides'}"
         >
           <i class="fas fa-book mr-2" aria-hidden="true"></i>
@@ -184,8 +184,8 @@ function renderTripResults(results) {
       ${results.countries && results.countries.length > 0 ? `
         <div class="flex flex-wrap gap-2">
           ${results.countries.map(code => {
-            const guide = getGuideByCode(code);
-            return guide ? `
+    const guide = getGuideByCode(code);
+    return guide ? `
               <button
                 onclick="setSubTab('guides'); selectGuide('${code}')"
                 class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-sm hover:bg-emerald-500/30 transition-all"
@@ -195,7 +195,7 @@ function renderTripResults(results) {
                 <i class="fas fa-book text-xs" aria-hidden="true"></i>
               </button>
             ` : '';
-          }).join('')}
+  }).join('')}
         </div>
       ` : ''}
 
@@ -282,9 +282,9 @@ function renderGuides(state, selectedGuide) {
               <div>
                 <div class="font-bold">${guide.name}</div>
                 <div class="text-xs ${
-                  guide.difficulty === 1 ? 'text-emerald-400' :
-                  guide.difficulty === 2 ? 'text-primary-400' : 'text-amber-400'
-                }">${guide.difficultyText}</div>
+  guide.difficulty === 1 ? 'text-emerald-400' :
+    guide.difficulty === 2 ? 'text-primary-400' : 'text-amber-400'
+}">${guide.difficultyText}</div>
               </div>
             </div>
             <div class="flex items-center gap-2 text-xs text-slate-400">
@@ -364,10 +364,10 @@ function renderGuideDetail(guide) {
         <div class="flex flex-wrap gap-2">
           ${['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'].map((month, i) => `
             <span class="px-3 py-1 rounded-full text-sm ${
-              guide.bestMonths.includes(i + 1)
-                ? 'bg-emerald-500/20 text-emerald-400'
-                : 'bg-white/5 text-slate-500'
-            }">${month}</span>
+  guide.bestMonths.includes(i + 1)
+    ? 'bg-emerald-500/20 text-emerald-400'
+    : 'bg-white/5 text-slate-500'
+}">${month}</span>
           `).join('')}
         </div>
       </div>
