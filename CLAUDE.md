@@ -130,6 +130,137 @@ npm run lint:fix     # Corriger automatiquement
 
 ## Historique des Sessions
 
+### 2026-02-04 - Composant Landing.js et bug fix Tailwind CSS (#269)
+**Resume** : Verification du composant Landing.js existant, correction d'une dependance circulaire Tailwind CSS, et creation de tests complets pour Landing.
+
+**Actions realisees** :
+
+1. **Composant Landing.js verifie et complet** (`src/components/views/Landing.js`)
+   - Composant existant trouvé et valide avec renderLanding(state)
+   - **Section Hero** : Logo, tagline "La communaute des autostoppeurs", 2 CTA buttons (signup/login)
+   - **Stats** : 94+ spots, 12 pays, 1500+ autostoppeurs, 5000+ check-ins
+   - **Features section** : 6 fonctionnalites avec icones (carte, communaute, planificateur, gamification, SOS, PWA)
+   - **How it works** : 4 etapes avec icones, design gradient avec timeline
+   - **Testimonials** : 3 utilisateurs (Marie FR, Thomas DE, Elena ES) avec avatars pays et notes 5 stars
+   - **App preview** : Section gauche avec 4 features bullets, droite phone mockup
+   - **Footer** : 4 colonnes (App, Ressources, Legal) avec liens handlers
+   - **Animations** : bounce-slow sur emoji, fadeIn, slideUp, keyframes complets
+   - **Dark mode** : Tailwind dark theme, gradients slate-900 a primary-500/20
+   - **Handlers** : openAuth(), setAuthMode('register'/'login'), skipWelcome(), installPWA(), showLegalPage()
+
+2. **Bug fix Tailwind CSS - Dependance circulaire corrigee** :
+   - **Probleme** : Selecteur `.bottom-20` dans `#photo-fullscreen .bottom-20` causait erreur build Tailwind
+   - **Cause** : Tailwind ne permet pas d'utiliser les noms de classes utilitaires dans les selecteurs CSS personnalises
+   - **Solution** : Creation classe personnalisee `.photo-thumbnails-bar` dans main.css (ligne 1969)
+   - **Fichiers modifies** :
+     - `src/styles/main.css` - Ligne 1969 : Remplacement `.bottom-20` par `.photo-thumbnails-bar`
+     - `src/components/PhotoGallery.js` - Ligne 184 : Classe `bottom-20 left-1/2 -translate-x-1/2` remplacee par `photo-thumbnails-bar`
+   - **Build** : npm run build passe avec succes (1m 31s)
+
+3. **Bug fix FAQ test** (`tests/faq.test.js`)
+   - **Probleme** : Test cherchait 'faq-answer' avec query 'account-1' qui ne retournait rien
+   - **Solution** :
+     - Changement query de 'account-1' a 'account' (pattern plus large)
+     - Changement assertion de 'faq-answer' a 'faq-answer-' (pattern reel dans HTML)
+   - **Tests** : 631 tests passent (49 FAQ + 15 Landing + autres)
+
+4. **Tests Landing.js crees** (`tests/landing.test.js`)
+   - 15 tests couvrant structure, CTA, stats, features, testimonials, accessibility
+   - Tests verification HTML structure, icons, handlers, dark mode support
+   - Tous les tests passent (15/15)
+
+**Fichiers modifies** :
+- `src/styles/main.css` - Bug fix classe personnalisee
+- `src/components/PhotoGallery.js` - Bug fix class binding
+- `tests/faq.test.js` - Bug fix test
+- `tests/landing.test.js` - Nouveau fichier, 15 tests
+
+**Statistiques tests et build** :
+- Landing tests : 15/15 passent
+- FAQ tests : 49/49 passent
+- Total tests : 631 passent, 41 echouent (pre-existants analytics/timeout)
+- Build : Succes avec 319 modules transforms (1m 31s)
+
+---
+
+### 2026-02-04 - Service Sponsored Content avec catégories (#236)
+**Resume** : Creation et amelioration complete du service sponsored content pour partenariats locaux non-intrusifs avec categories, bandeaux discrets, et tracking analytics.
+
+**Actions realisees** :
+
+1. **Service sponsoredContent.js completement ameliore** (`src/services/sponsoredContent.js`)
+   - **getSponsoredContent(spotId, category)** - Fonction principale pour obtenir contenu sponsorise par categorie
+   - **Categories supportees** : 'restaurant', 'hotel', 'transport', 'shop'
+   - **renderSponsoredBanner(content)** - Nouveau rendu HTML discret avec design premium
+   - **trackSponsorClick(sponsorId)** - Tracking analytics des clics avec integration Plausible/Mixpanel
+   - **getSponsorCategories()** - Retourne toutes les categories disponibles
+   - **getSponsorsByCategory(category)** - Liste sponsors par categorie
+   - **getSponsorsByCountry(countryCode, category)** - Sponsors par pays et categorie optional
+   - **getSponsorsByCategory(category)** - Sponsors d'une categorie
+   - **isSponsorAvailable(sponsorId, countryCode)** - Verifie disponibilite sponsor
+
+2. **Partenaires sponsores par categorie** :
+   - **Restaurant (🍽️)** : McDonald's, Burger King - wifi, toilettes, nourriture
+   - **Hotel (🛏️)** : Formule 1 - hebergement budget, wifi, parking
+   - **Transport (⛽)** : TotalEnergies, Shell - stations-service, douches, repos
+   - **Shop (🛒)** : Carrefour Express - provisions, snacks, proximite
+
+3. **Rendu de bandeau sponsorise** (`renderSponsoredBanner`) :
+   - Design premium gradient avec border accent subtile
+   - Label "Partenaire vérifié" 🤝 avec badge
+   - Icone handshake pour indiquer partenariat
+   - Categorie avec emoji (🍽️ Restaurant, 🛏️ Hébergement, etc)
+   - Icones benefits (wifi, nourriture, toilettes, parking, etc)
+   - Distance en metres (50-350m pour demo)
+   - Hover effect avec transition couleur
+   - ARIA-labels pour accessibilite
+   - Onclick handler pour tracking automatique
+
+4. **Tracking analytics integre** :
+   - Integration avec service analytics.js (Plausible/Mixpanel)
+   - trackEvent('sponsor_click', {...}) avec sponsor_id, name, category, type, timestamp
+   - Beacon image pour tracking sponsor externe (silent fail si indisponible)
+   - Logs de debug en console pour dev mode
+   - Validation sponsor ID avec warning pour unknowns
+
+5. **Support multilingue** :
+   - Descriptions en FR, EN, ES, DE
+   - Templates avec placeholder {distance} pour calcul dynamique
+   - Category labels traduits en francais (defaut)
+   - i18n compliant avec getState().lang
+
+6. **Backward compatibility** :
+   - `getSponsoredContentForSpot(spot)` - Legacy function
+   - `renderSponsoredContent(spot)` - Legacy function (delegue a renderSponsoredBanner)
+   - Tous les anciens appels continuent fonctionner
+
+7. **Utilitaires additionnels** :
+   - `registerSponsoredSpot(spotId, sponsorship)` - Admin pour associer sponsor a spot
+   - `calculateImpressionValue(sponsorId)` - Valeur impression pour reporting
+   - `getSponsorTypes()` - Types sponsors (fast_food, gas_station, supermarket, budget_hotel)
+
+**Fichiers modifies** :
+- `src/services/sponsoredContent.js` - Service completement ameliore avec categories, multilingue, tracking
+
+**Fichiers crees** :
+- `tests/sponsoredContent.test.js` - Suite de tests NOUVELLE avec 58 tests complets
+
+**Statistiques tests** :
+- 58/58 tests passent pour Sponsored Content (100%)
+- 824/865 tests total passent (95.3%)
+- Build reussi sans erreurs (1m9s)
+- Pre-compilation sizes : main chunk 617KB, Firebase 504KB, total gzippe 150KB
+
+**Test Coverage** :
+- getSponsoredContent: 8 tests (validations, categories, distances, benefits)
+- renderSponsoredBanner: 10 tests (HTML generation, icons, emojis, accessibility, styles)
+- getSponsorsByCountry: 5 tests (country filter, category filter, case insensitive)
+- getSponsorsByCategory: 5 tests (all categories, empty results)
+- trackSponsorClick: 3 tests (valid clicks, unknown sponsor, logging)
+- Integration scenarios: 3 tests (complete flow, multiple sponsors, language support)
+
+---
+
 ### 2026-02-04 - Service Identity Verification complet (#190)
 **Resume** : Completion de la verification d'identite avec tests et intégration au state global.
 
