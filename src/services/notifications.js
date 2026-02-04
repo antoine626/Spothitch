@@ -1,14 +1,52 @@
 /**
  * Notifications Service
  * Handles push notifications and in-app toasts
+ * Enhanced with social, gamification, and proximity notifications
  */
 
 import { requestNotificationPermission, onForegroundMessage } from './firebase.js';
 import { escapeHTML } from '../utils/sanitize.js';
 import { getErrorMessage, getFormattedError } from '../utils/errorMessages.js';
+import { getState, setState, subscribe } from '../stores/state.js';
 
 // Toast container reference
 let toastContainer = null;
+
+// Notification preferences storage key
+const NOTIFICATION_PREFS_KEY = 'spothitch_notification_prefs';
+
+// Default notification preferences
+const DEFAULT_NOTIFICATION_PREFS = {
+  enabled: true,
+  // Social notifications
+  newFriend: true,
+  newMessage: true,
+  friendNearby: true,
+  // Gamification notifications
+  badgeUnlocked: true,
+  levelUp: true,
+  streakReminder: true,
+  dailyReward: true,
+  // Spot notifications
+  spotCheckin: true,
+  spotRating: true,
+  spotComment: true,
+  // System notifications
+  appUpdates: true,
+  tips: true,
+  // Timing preferences
+  quietHoursEnabled: false,
+  quietHoursStart: 22, // 10 PM
+  quietHoursEnd: 8, // 8 AM
+  // Nearby distance threshold (in km)
+  nearbyDistance: 10,
+};
+
+// Scheduled notification IDs
+const scheduledNotifications = new Map();
+
+// Streak reminder check interval (1 hour)
+let streakCheckInterval = null;
 
 /**
  * Initialize notifications
@@ -364,6 +402,374 @@ export function setSpotNotificationsEnabled(enabled) {
   showToast(enabled ? 'Notifications de spots activées' : 'Notifications de spots désactivées', 'info');
 }
 
+// ==================== NOTIFICATION PREFERENCES ====================
+
+/**
+ * Get notification preferences
+ * @returns {Object} Notification preferences
+ */
+export function getNotificationPreferences() {
+  try {
+    const saved = localStorage.getItem(NOTIFICATION_PREFS_KEY);
+    return saved ? { ...DEFAULT_NOTIFICATION_PREFS, ...JSON.parse(saved) } : { ...DEFAULT_NOTIFICATION_PREFS };
+  } catch {
+    return { ...DEFAULT_NOTIFICATION_PREFS };
+  }
+}
+
+/**
+ * Save notification preferences
+ * @param {Object} prefs - Preferences to save
+ */
+export function saveNotificationPreferences(prefs) {
+  try {
+    const current = getNotificationPreferences();
+    const updated = { ...current, ...prefs };
+    localStorage.setItem(NOTIFICATION_PREFS_KEY, JSON.stringify(updated));
+    return updated;
+  } catch (e) {
+    console.warn('Failed to save notification preferences:', e);
+    return getNotificationPreferences();
+  }
+}
+
+/**
+ * Check if a notification type is enabled
+ * @param {string} type - Notification type
+ * @returns {boolean} Whether the notification is enabled
+ */
+export function isNotificationEnabled(type) {
+  const prefs = getNotificationPreferences();
+  if (!prefs.enabled) return false;
+
+  // Check quiet hours
+  if (prefs.quietHoursEnabled) {
+    const hour = new Date().getHours();
+    const start = prefs.quietHoursStart;
+    const end = prefs.quietHoursEnd;
+
+    // Handle overnight quiet hours (e.g., 22:00 - 08:00)
+    if (start > end) {
+      if (hour >= start || hour < end) return false;
+    } else {
+      if (hour >= start && hour < end) return false;
+    }
+  }
+
+  return prefs[type] !== false;
+}
+
+/**
+ * Toggle a notification preference
+ * @param {string} type - Notification type
+ * @returns {boolean} New value
+ */
+export function toggleNotificationPreference(type) {
+  const prefs = getNotificationPreferences();
+  const newValue = !prefs[type];
+  saveNotificationPreferences({ [type]: newValue });
+  return newValue;
+}
+
+// ==================== SOCIAL NOTIFICATIONS ====================
+
+/**
+ * Notify when someone becomes a friend
+ * @param {Object} friend - Friend data
+ */
+export function notifyNewFriend(friend) {
+  if (!isNotificationEnabled('newFriend')) return;
+
+  const title = 'Nouvel ami !';
+  const body = `${friend.name || 'Un voyageur'} a accepte ta demande d'ami`;
+  const icon = friend.avatar || '';
+
+  sendLocalNotification(title, body, {
+    type: 'new_friend',
+    friendId: friend.id,
+    url: '/Spothitch/?tab=social',
+  });
+
+  // Show in-app toast with emoji
+  showToast(`${icon || ''} ${body}`, 'success', 5000);
+
+  // Announce for screen readers
+  announce(`Nouvel ami: ${friend.name || 'Un voyageur'}`);
+}
+
+/**
+ * Notify when receiving a new message
+ * @param {Object} message - Message data
+ */
+export function notifyNewMessage(message) {
+  if (!isNotificationEnabled('newMessage')) return;
+
+  const senderName = message.senderName || 'Un voyageur';
+  const title = `Message de ${senderName}`;
+  const body = message.preview || message.text?.substring(0, 50) + '...' || 'Nouveau message';
+
+  sendLocalNotification(title, body, {
+    type: 'new_message',
+    senderId: message.senderId,
+    messageId: message.id,
+    url: `/Spothitch/?tab=chat&friend=${message.senderId}`,
+  });
+
+  // Show in-app toast
+  showToast(`${message.senderAvatar || ''} ${senderName}: "${body}"`, 'info', 4000);
+
+  // Update unread count in state
+  const state = getState();
+  setState({
+    unreadFriendMessages: (state.unreadFriendMessages || 0) + 1,
+  });
+}
+
+/**
+ * Notify when a friend is nearby
+ * @param {Object} friend - Friend data with location
+ * @param {number} distance - Distance in km
+ */
+export function notifyFriendNearby(friend, distance) {
+  if (!isNotificationEnabled('friendNearby')) return;
+
+  const prefs = getNotificationPreferences();
+  if (distance > prefs.nearbyDistance) return;
+
+  // Avoid duplicate notifications for the same friend
+  const notifyKey = `nearby_${friend.id}`;
+  const lastNotified = sessionStorage.getItem(notifyKey);
+  const now = Date.now();
+
+  // Only notify once per hour per friend
+  if (lastNotified && now - parseInt(lastNotified) < 3600000) return;
+  sessionStorage.setItem(notifyKey, now.toString());
+
+  const title = 'Ami a proximite !';
+  const distanceText = distance < 1
+    ? `a ${Math.round(distance * 1000)}m`
+    : `a ${distance.toFixed(1)}km`;
+  const body = `${friend.name || 'Un ami'} est ${distanceText} de toi`;
+
+  sendLocalNotification(title, body, {
+    type: 'friend_nearby',
+    friendId: friend.id,
+    distance,
+    url: '/Spothitch/?tab=social&nearby=true',
+  });
+
+  // Show prominent in-app notification
+  showToast(`${friend.avatar || ''} ${body}`, 'info', 8000);
+
+  // Play sound if available
+  if (window.playSound) {
+    window.playSound('notification');
+  }
+}
+
+// ==================== GAMIFICATION NOTIFICATIONS ====================
+
+/**
+ * Notify when a badge is unlocked
+ * @param {Object} badge - Badge data
+ */
+export function notifyBadgeUnlocked(badge) {
+  if (!isNotificationEnabled('badgeUnlocked')) return;
+
+  const title = 'Badge debloque !';
+  const body = `Tu as obtenu le badge "${badge.name}"`;
+
+  sendLocalNotification(title, body, {
+    type: 'badge_unlocked',
+    badgeId: badge.id,
+    url: '/Spothitch/?tab=profile&badges=true',
+  });
+
+  // In-app notification is handled by gamification service
+  // but we announce for accessibility
+  announce(`Badge debloque: ${badge.name}`);
+}
+
+/**
+ * Notify when leveling up
+ * @param {number} newLevel - New level reached
+ * @param {Object} rewards - Optional rewards for leveling up
+ */
+export function notifyLevelUp(newLevel, rewards = {}) {
+  if (!isNotificationEnabled('levelUp')) return;
+
+  const title = `Niveau ${newLevel} atteint !`;
+  let body = 'Felicitations ! Continue comme ca !';
+
+  if (rewards.points) {
+    body += ` +${rewards.points} points bonus !`;
+  }
+  if (rewards.title) {
+    body = `Nouveau titre: ${rewards.title.name} !`;
+  }
+
+  sendLocalNotification(title, body, {
+    type: 'level_up',
+    level: newLevel,
+    rewards,
+    url: '/Spothitch/?tab=profile',
+  });
+
+  // Announce for accessibility
+  announce(`Niveau ${newLevel} atteint`);
+}
+
+/**
+ * Check and notify if streak is at risk
+ * Called periodically to remind users
+ */
+export function checkStreakReminder() {
+  if (!isNotificationEnabled('streakReminder')) return;
+
+  const state = getState();
+  const { streak, lastActiveDate } = state;
+
+  if (!streak || streak < 2) return; // Only remind if they have a streak
+
+  const today = new Date().toDateString();
+  if (lastActiveDate === today) return; // Already active today
+
+  const now = new Date();
+  const hours = now.getHours();
+
+  // Remind in the evening (18:00-21:00) if not active today
+  if (hours >= 18 && hours < 21) {
+    const title = 'Ta serie est en danger !';
+    const body = `${streak} jours de suite... Ne les perds pas ! Fais un check-in aujourd'hui.`;
+
+    sendLocalNotification(title, body, {
+      type: 'streak_reminder',
+      streak,
+      url: '/Spothitch/?tab=map',
+    });
+
+    showToast(`Serie de ${streak} jours en danger ! Fais un check-in aujourd'hui.`, 'warning', 8000);
+  }
+}
+
+/**
+ * Start streak reminder checker
+ */
+export function startStreakReminderCheck() {
+  if (streakCheckInterval) return;
+
+  // Check immediately
+  checkStreakReminder();
+
+  // Then check every hour
+  streakCheckInterval = setInterval(checkStreakReminder, 3600000);
+}
+
+/**
+ * Stop streak reminder checker
+ */
+export function stopStreakReminderCheck() {
+  if (streakCheckInterval) {
+    clearInterval(streakCheckInterval);
+    streakCheckInterval = null;
+  }
+}
+
+// ==================== DAILY REWARD NOTIFICATION ====================
+
+/**
+ * Notify about daily reward available
+ */
+export function notifyDailyRewardAvailable() {
+  if (!isNotificationEnabled('dailyReward')) return;
+
+  const state = getState();
+  const lastClaim = state.lastDailyRewardClaim;
+  const today = new Date().toDateString();
+
+  if (lastClaim === today) return; // Already claimed today
+
+  const title = 'Recompense quotidienne !';
+  const body = 'Ta recompense quotidienne t\'attend ! Connecte-toi pour la recuperer.';
+
+  sendLocalNotification(title, body, {
+    type: 'daily_reward',
+    url: '/Spothitch/',
+  });
+
+  showToast('Ta recompense quotidienne est disponible !', 'info', 5000);
+}
+
+// ==================== HELPER FUNCTIONS ====================
+
+/**
+ * Calculate distance between two points in km (Haversine formula)
+ * @param {number} lat1 - Latitude 1
+ * @param {number} lon1 - Longitude 1
+ * @param {number} lat2 - Latitude 2
+ * @param {number} lon2 - Longitude 2
+ * @returns {number} Distance in km
+ */
+export function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+/**
+ * Check friends proximity and notify
+ * @param {Array} friends - Array of friends with locations
+ * @param {Object} userLocation - User's current location
+ */
+export function checkFriendsProximity(friends, userLocation) {
+  if (!friends || !userLocation) return;
+
+  const prefs = getNotificationPreferences();
+
+  friends.forEach(friend => {
+    if (friend.location) {
+      const distance = calculateDistance(
+        userLocation.lat,
+        userLocation.lng,
+        friend.location.lat,
+        friend.location.lng
+      );
+
+      if (distance <= prefs.nearbyDistance) {
+        notifyFriendNearby(friend, distance);
+      }
+    }
+  });
+}
+
+/**
+ * Cancel a scheduled notification
+ * @param {string} id - Notification ID
+ */
+export function cancelScheduledNotification(id) {
+  const timeoutId = scheduledNotifications.get(id);
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+    scheduledNotifications.delete(id);
+  }
+}
+
+/**
+ * Cancel all scheduled notifications
+ */
+export function cancelAllScheduledNotifications() {
+  scheduledNotifications.forEach((timeoutId) => {
+    clearTimeout(timeoutId);
+  });
+  scheduledNotifications.clear();
+}
+
 export default {
   initNotifications,
   showToast,
@@ -385,4 +791,25 @@ export default {
   getSubscribedSpots,
   setSpotNotificationTypes,
   setSpotNotificationsEnabled,
+  // Notification preferences
+  getNotificationPreferences,
+  saveNotificationPreferences,
+  isNotificationEnabled,
+  toggleNotificationPreference,
+  // Social notifications
+  notifyNewFriend,
+  notifyNewMessage,
+  notifyFriendNearby,
+  // Gamification notifications
+  notifyBadgeUnlocked,
+  notifyLevelUp,
+  checkStreakReminder,
+  startStreakReminderCheck,
+  stopStreakReminderCheck,
+  notifyDailyRewardAvailable,
+  // Helper functions
+  calculateDistance,
+  checkFriendsProximity,
+  cancelScheduledNotification,
+  cancelAllScheduledNotifications,
 };

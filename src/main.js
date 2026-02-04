@@ -746,6 +746,18 @@ window.handleLogout = async () => {
   showToast('Déconnexion réussie', 'success');
 };
 
+// Age Verification handlers (RGPD/GDPR)
+window.openAgeVerification = () => {
+  setState({ showAgeVerification: true });
+  // Initialize the date input field on next render
+  setTimeout(() => {
+    const initAgeVerification = window.initAgeVerification;
+    if (initAgeVerification) initAgeVerification();
+  }, 100);
+};
+window.closeAgeVerification = () => setState({ showAgeVerification: false });
+window.showAgeVerification = () => window.openAgeVerification();
+
 // Welcome handlers
 window.selectAvatar = (avatar) => setState({ selectedAvatar: avatar });
 window.completeWelcome = () => {

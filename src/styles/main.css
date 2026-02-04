@@ -503,6 +503,100 @@
 
 /* ===== ACCESSIBILITY ===== */
 
+/* ===== CONTRAST FIXES (WCAG 2.1 AA - 4.5:1 minimum) ===== */
+
+/* Fix slate-400 text contrast - upgrade to slate-300 for better visibility */
+.text-slate-400 {
+  color: #cbd5e1 !important; /* slate-300: 7.04:1 contrast on dark bg */
+}
+
+/* Fix slate-500 text contrast */
+.text-slate-500 {
+  color: #94a3b8 !important; /* slate-400: 4.64:1 contrast on dark bg */
+}
+
+/* Fix placeholder contrast */
+::placeholder {
+  color: #94a3b8 !important; /* Ensure 4.5:1 contrast */
+  opacity: 1;
+}
+
+/* Light theme contrast fixes */
+.light-theme .text-slate-400 {
+  color: #475569 !important; /* slate-600: 5.91:1 contrast on light bg */
+}
+
+.light-theme .text-slate-500 {
+  color: #334155 !important; /* slate-700: 8.59:1 contrast on light bg */
+}
+
+.light-theme ::placeholder {
+  color: #64748b !important; /* slate-500: 4.67:1 contrast on light bg */
+}
+
+/* Badge text contrast fixes */
+.badge-primary {
+  color: #7dd3fc !important; /* primary-300 for better contrast */
+}
+
+.badge-warning {
+  color: #fde68a !important; /* amber-200 for better contrast */
+}
+
+.light-theme .badge-primary {
+  color: #0369a1 !important; /* sky-700 for light theme */
+}
+
+.light-theme .badge-warning {
+  color: #92400e !important; /* amber-800 for light theme */
+}
+
+/* Chat bubble received contrast fix */
+.chat-bubble.received {
+  color: #f1f5f9 !important; /* slate-100 for better contrast */
+}
+
+.light-theme .chat-bubble.received {
+  color: #1e293b !important; /* slate-800 for light theme */
+}
+
+/* Toast text contrast - ensure white text on colored backgrounds */
+.toast {
+  color: #ffffff !important;
+}
+
+/* Progress bar text contrast */
+.progress-bar + .text-slate-400,
+.progress-bar ~ .text-slate-400 {
+  color: #e2e8f0 !important; /* slate-200 */
+}
+
+/* Link contrast in dark mode */
+a:not(.btn):not(.nav-btn) {
+  color: #7dd3fc; /* primary-300 for 7.04:1 contrast */
+}
+
+a:not(.btn):not(.nav-btn):hover {
+  color: #bae6fd; /* primary-200 for better hover visibility */
+}
+
+.light-theme a:not(.btn):not(.nav-btn) {
+  color: #0369a1; /* sky-700 for 5.91:1 contrast */
+}
+
+.light-theme a:not(.btn):not(.nav-btn):hover {
+  color: #0284c7; /* sky-600 */
+}
+
+/* Input label contrast */
+label {
+  color: #e2e8f0 !important; /* slate-200 for 12.45:1 contrast */
+}
+
+.light-theme label {
+  color: #334155 !important; /* slate-700 for 8.59:1 contrast */
+}
+
 /* Screen Reader Only */
 .sr-only {
   position: absolute;

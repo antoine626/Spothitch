@@ -12,7 +12,15 @@ export function renderLegalPage(page = 'cgu') {
   const content = {
     cgu: renderCGU(),
     privacy: renderPrivacyPolicy(),
+    cookies: renderCookiePolicy(),
     legal: renderLegalNotice(),
+  };
+
+  const titles = {
+    cgu: "Conditions d'utilisation",
+    privacy: 'Politique de confidentialité',
+    cookies: 'Politique des cookies',
+    legal: 'Mentions légales',
   };
 
   return `
@@ -24,23 +32,27 @@ export function renderLegalPage(page = 'cgu') {
             ←
           </button>
           <h1 class="text-lg font-bold text-white">
-            ${page === 'cgu' ? "Conditions d'utilisation" : page === 'privacy' ? 'Politique de confidentialité' : 'Mentions légales'}
+            ${titles[page] || titles.cgu}
           </h1>
         </div>
       </div>
 
       <!-- Tabs -->
-      <div class="flex border-b border-gray-700">
+      <div class="flex border-b border-gray-700 overflow-x-auto">
         <button onclick="showLegalPage('cgu')"
-                class="flex-1 py-3 text-sm font-medium ${page === 'cgu' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
           CGU
         </button>
         <button onclick="showLegalPage('privacy')"
-                class="flex-1 py-3 text-sm font-medium ${page === 'privacy' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'privacy' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
           Confidentialité
         </button>
+        <button onclick="showLegalPage('cookies')"
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cookies' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
+          Cookies
+        </button>
         <button onclick="showLegalPage('legal')"
-                class="flex-1 py-3 text-sm font-medium ${page === 'legal' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
           Mentions
         </button>
       </div>
@@ -215,6 +227,210 @@ export function renderPrivacyPolicy() {
 }
 
 /**
+ * Render Cookie Policy (detailed)
+ */
+export function renderCookiePolicy() {
+  return `
+    <div class="legal-content">
+      <h2>Politique des Cookies</h2>
+      <p class="text-gray-400 text-sm">Dernière mise à jour : Février 2026</p>
+
+      <h3>1. Qu'est-ce qu'un cookie ?</h3>
+      <p>
+        Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous visitez un site web.
+        Il permet au site de mémoriser vos actions et préférences (langue, préférences d'affichage, etc.)
+        pendant une période déterminée.
+      </p>
+
+      <h3>2. Les cookies que nous utilisons</h3>
+
+      <h4 class="text-sky-400 mt-4">🔒 Cookies strictement nécessaires</h4>
+      <p>Ces cookies sont essentiels au fonctionnement de l'application :</p>
+      <table class="w-full text-sm mt-2 mb-4">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="text-left py-2">Nom</th>
+            <th class="text-left py-2">Finalité</th>
+            <th class="text-left py-2">Durée</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>spothitch_auth</code></td>
+            <td class="py-2">Authentification utilisateur</td>
+            <td class="py-2">Session</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>spothitch_state</code></td>
+            <td class="py-2">État de l'application (préférences)</td>
+            <td class="py-2">1 an</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>cookie_consent</code></td>
+            <td class="py-2">Mémoriser vos choix de cookies</td>
+            <td class="py-2">1 an</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>consent_history</code></td>
+            <td class="py-2">Historique des consentements (RGPD)</td>
+            <td class="py-2">3 ans</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>spothitch_offline</code></td>
+            <td class="py-2">Données hors-ligne (spots, favoris)</td>
+            <td class="py-2">30 jours</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 class="text-sky-400 mt-4">📊 Cookies analytiques (optionnels)</h4>
+      <p>Ces cookies nous aident à comprendre comment vous utilisez l'application :</p>
+      <table class="w-full text-sm mt-2 mb-4">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="text-left py-2">Nom</th>
+            <th class="text-left py-2">Finalité</th>
+            <th class="text-left py-2">Durée</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>_ga</code></td>
+            <td class="py-2">Google Analytics - identification anonyme</td>
+            <td class="py-2">2 ans</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>mp_*</code></td>
+            <td class="py-2">Mixpanel - analyse d'usage (si activé)</td>
+            <td class="py-2">1 an</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 class="text-sky-400 mt-4">🎯 Cookies de marketing (optionnels)</h4>
+      <p>Ces cookies permettent d'afficher des contenus pertinents :</p>
+      <table class="w-full text-sm mt-2 mb-4">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="text-left py-2">Nom</th>
+            <th class="text-left py-2">Finalité</th>
+            <th class="text-left py-2">Durée</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>spothitch_ads</code></td>
+            <td class="py-2">Partenariats voyage (non intrusifs)</td>
+            <td class="py-2">6 mois</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4 class="text-sky-400 mt-4">✨ Cookies de personnalisation (optionnels)</h4>
+      <p>Ces cookies améliorent votre expérience :</p>
+      <table class="w-full text-sm mt-2 mb-4">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="text-left py-2">Nom</th>
+            <th class="text-left py-2">Finalité</th>
+            <th class="text-left py-2">Durée</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>spothitch_lang</code></td>
+            <td class="py-2">Langue préférée</td>
+            <td class="py-2">1 an</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>spothitch_theme</code></td>
+            <td class="py-2">Thème (clair/sombre)</td>
+            <td class="py-2">1 an</td>
+          </tr>
+          <tr class="border-b border-gray-800">
+            <td class="py-2"><code>spothitch_recent</code></td>
+            <td class="py-2">Spots récemment consultés</td>
+            <td class="py-2">30 jours</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>3. Stockage local (localStorage)</h3>
+      <p>
+        En plus des cookies, nous utilisons le localStorage de votre navigateur pour stocker :
+      </p>
+      <ul>
+        <li>Vos données de compte en cache</li>
+        <li>La liste de vos spots favoris</li>
+        <li>Votre historique de check-ins</li>
+        <li>Les données pour le mode hors-ligne</li>
+        <li>Vos préférences d'application</li>
+      </ul>
+      <p class="mt-2">
+        Ces données restent sur votre appareil et ne sont jamais transmises à des tiers.
+      </p>
+
+      <h3>4. Comment gérer vos cookies ?</h3>
+
+      <h4 class="text-sky-400 mt-4">Via notre application</h4>
+      <p>
+        Vous pouvez modifier vos préférences à tout moment dans
+        <strong>Profil → Mes données → Préférences cookies</strong>.
+      </p>
+
+      <h4 class="text-sky-400 mt-4">Via votre navigateur</h4>
+      <p>Vous pouvez également gérer les cookies via les paramètres de votre navigateur :</p>
+      <ul>
+        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" class="text-sky-400">Chrome</a></li>
+        <li><a href="https://support.mozilla.org/fr/kb/cookies-informations-sites-enregistrent" target="_blank" class="text-sky-400">Firefox</a></li>
+        <li><a href="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac" target="_blank" class="text-sky-400">Safari</a></li>
+        <li><a href="https://support.microsoft.com/fr-fr/windows/supprimer-et-g%C3%A9rer-les-cookies" target="_blank" class="text-sky-400">Edge</a></li>
+      </ul>
+
+      <h3>5. Que se passe-t-il si vous refusez les cookies ?</h3>
+      <p>
+        <strong>Cookies nécessaires</strong> : Ils ne peuvent pas être désactivés car l'application
+        ne fonctionnerait pas correctement sans eux.
+      </p>
+      <p>
+        <strong>Cookies optionnels</strong> : Si vous les refusez :
+      </p>
+      <ul>
+        <li>Analytiques : Nous ne pourrons pas améliorer l'application en fonction de l'usage réel</li>
+        <li>Marketing : Aucune publicité ne sera affichée (c'est peut-être mieux !)</li>
+        <li>Personnalisation : Vous devrez peut-être resélectionner vos préférences à chaque visite</li>
+      </ul>
+
+      <h3>6. Transfert de données</h3>
+      <p>
+        Certains cookies tiers (Google Analytics, si activé) peuvent transférer des données
+        vers les États-Unis. Google adhère au EU-US Data Privacy Framework.
+      </p>
+
+      <h3>7. Mise à jour de cette politique</h3>
+      <p>
+        Cette politique peut être mise à jour. La date de dernière modification est indiquée en haut.
+        En cas de changement significatif, vous serez informé via l'application.
+      </p>
+
+      <h3>8. Contact</h3>
+      <p>
+        Pour toute question sur les cookies : <a href="mailto:privacy@spothitch.app" class="text-sky-400">privacy@spothitch.app</a>
+      </p>
+
+      <!-- Bouton pour modifier les préférences -->
+      <div class="mt-6 p-4 bg-gray-800 rounded-lg text-center">
+        <p class="text-sm text-gray-400 mb-3">Gérer vos préférences de cookies</p>
+        <button onclick="showCookieCustomize()" class="btn bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg">
+          <i class="fas fa-cog mr-2"></i>
+          Modifier mes choix
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+/**
  * Render Legal Notice
  */
 export function renderLegalNotice() {
@@ -275,5 +491,6 @@ export default {
   renderLegalPage,
   renderCGU,
   renderPrivacyPolicy,
+  renderCookiePolicy,
   renderLegalNotice,
 };

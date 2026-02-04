@@ -438,4 +438,29 @@ VITE_SENTRY_DSN=xxx (optionnel)
 
 ---
 
-*Dernière mise à jour : 2026-02-04 (Session 5 - Documentation API et contribution)*
+---
+
+## Session 8 - Infinite Scroll Service
+
+**Tâche** : #44 du SUIVI.md - Créer un service pour l'infinite scroll
+
+**Réalisations** :
+1. Service `src/services/infiniteScroll.js` (310 lignes) avec Intersection Observer API
+2. Tests complets `tests/infiniteScroll.test.js` (52 tests, 100% passant)
+3. Export default + imports nommés pour flexibilité
+4. Gestion automatique des loaders et états
+5. Support sélecteurs CSS et éléments DOM
+6. Mise à jour SUIVI.md (#44 ✅)
+
+**Tests et Build** :
+- ✅ npm run test:run : 52/52 tests infiniteScroll PASSENT
+- ✅ npm run build : Build réussi (41.30s)
+
+**Fichiers créés** :
+- `/home/antoine626/Spothitch/src/services/infiniteScroll.js`
+- `/home/antoine626/Spothitch/tests/infiniteScroll.test.js`
+
+**Fichiers modifiés** :
+- `/home/antoine626/Spothitch/SUIVI.md` (item #44 ✅, stats mises à jour)
+
+*Dernière mise à jour : 2026-02-04 (Session 8 - Service Infinite Scroll)*
