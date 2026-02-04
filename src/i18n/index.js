@@ -1,6 +1,6 @@
 /**
  * Internationalization (i18n) Module
- * Handles translations and language detection
+ * Handles translations, language detection, and pluralization
  */
 
 import { getState, setState } from '../stores/state.js';
@@ -12,6 +12,157 @@ export const languageConfig = {
   es: { code: 'es', name: 'Espanol', flag: '\uD83C\uDDEA\uD83C\uDDF8', nativeName: 'Espanol' },
   de: { code: 'de', name: 'German', flag: '\uD83C\uDDE9\uD83C\uDDEA', nativeName: 'Deutsch' },
 };
+
+/**
+ * Pluralization rules per language
+ * Each language has specific rules for singular/plural forms
+ */
+const pluralRules = {
+  // French: 0-1 = singular, 2+ = plural
+  fr: (count) => (count <= 1 ? 'one' : 'other'),
+  // English: 1 = singular, others = plural
+  en: (count) => (count === 1 ? 'one' : 'other'),
+  // Spanish: 1 = singular, others = plural
+  es: (count) => (count === 1 ? 'one' : 'other'),
+  // German: 1 = singular, others = plural
+  de: (count) => (count === 1 ? 'one' : 'other'),
+};
+
+/**
+ * Plural forms for common words
+ * Format: { key: { one: singular, other: plural } }
+ */
+const pluralForms = {
+  fr: {
+    spot: { one: 'spot', other: 'spots' },
+    review: { one: 'avis', other: 'avis' },
+    checkin: { one: 'check-in', other: 'check-ins' },
+    point: { one: 'point', other: 'points' },
+    friend: { one: 'ami', other: 'amis' },
+    badge: { one: 'badge', other: 'badges' },
+    trip: { one: 'voyage', other: 'voyages' },
+    day: { one: 'jour', other: 'jours' },
+    hour: { one: 'heure', other: 'heures' },
+    minute: { one: 'minute', other: 'minutes' },
+    kilometer: { one: 'kilometre', other: 'kilometres' },
+    user: { one: 'utilisateur', other: 'utilisateurs' },
+    message: { one: 'message', other: 'messages' },
+    photo: { one: 'photo', other: 'photos' },
+    result: { one: 'resultat', other: 'resultats' },
+    entry: { one: 'entree', other: 'entrees' },
+    notification: { one: 'notification', other: 'notifications' },
+  },
+  en: {
+    spot: { one: 'spot', other: 'spots' },
+    review: { one: 'review', other: 'reviews' },
+    checkin: { one: 'check-in', other: 'check-ins' },
+    point: { one: 'point', other: 'points' },
+    friend: { one: 'friend', other: 'friends' },
+    badge: { one: 'badge', other: 'badges' },
+    trip: { one: 'trip', other: 'trips' },
+    day: { one: 'day', other: 'days' },
+    hour: { one: 'hour', other: 'hours' },
+    minute: { one: 'minute', other: 'minutes' },
+    kilometer: { one: 'kilometer', other: 'kilometers' },
+    user: { one: 'user', other: 'users' },
+    message: { one: 'message', other: 'messages' },
+    photo: { one: 'photo', other: 'photos' },
+    result: { one: 'result', other: 'results' },
+    entry: { one: 'entry', other: 'entries' },
+    notification: { one: 'notification', other: 'notifications' },
+  },
+  es: {
+    spot: { one: 'spot', other: 'spots' },
+    review: { one: 'opinion', other: 'opiniones' },
+    checkin: { one: 'check-in', other: 'check-ins' },
+    point: { one: 'punto', other: 'puntos' },
+    friend: { one: 'amigo', other: 'amigos' },
+    badge: { one: 'insignia', other: 'insignias' },
+    trip: { one: 'viaje', other: 'viajes' },
+    day: { one: 'dia', other: 'dias' },
+    hour: { one: 'hora', other: 'horas' },
+    minute: { one: 'minuto', other: 'minutos' },
+    kilometer: { one: 'kilometro', other: 'kilometros' },
+    user: { one: 'usuario', other: 'usuarios' },
+    message: { one: 'mensaje', other: 'mensajes' },
+    photo: { one: 'foto', other: 'fotos' },
+    result: { one: 'resultado', other: 'resultados' },
+    entry: { one: 'entrada', other: 'entradas' },
+    notification: { one: 'notificacion', other: 'notificaciones' },
+  },
+  de: {
+    spot: { one: 'Spot', other: 'Spots' },
+    review: { one: 'Bewertung', other: 'Bewertungen' },
+    checkin: { one: 'Check-in', other: 'Check-ins' },
+    point: { one: 'Punkt', other: 'Punkte' },
+    friend: { one: 'Freund', other: 'Freunde' },
+    badge: { one: 'Abzeichen', other: 'Abzeichen' },
+    trip: { one: 'Reise', other: 'Reisen' },
+    day: { one: 'Tag', other: 'Tage' },
+    hour: { one: 'Stunde', other: 'Stunden' },
+    minute: { one: 'Minute', other: 'Minuten' },
+    kilometer: { one: 'Kilometer', other: 'Kilometer' },
+    user: { one: 'Benutzer', other: 'Benutzer' },
+    message: { one: 'Nachricht', other: 'Nachrichten' },
+    photo: { one: 'Foto', other: 'Fotos' },
+    result: { one: 'Ergebnis', other: 'Ergebnisse' },
+    entry: { one: 'Eintrag', other: 'Eintrage' },
+    notification: { one: 'Benachrichtigung', other: 'Benachrichtigungen' },
+  },
+};
+
+/**
+ * Pluralize a word based on count and current language
+ * @param {string} key - The word key (e.g., 'spot', 'review', 'friend')
+ * @param {number} count - The count to determine plural form
+ * @param {boolean} includeCount - Whether to include the count in the result (default: true)
+ * @returns {string} The pluralized word with or without count
+ *
+ * @example
+ * pluralize('spot', 1) // "1 spot"
+ * pluralize('spot', 5) // "5 spots"
+ * pluralize('spot', 0) // "0 spots" (in English) or "0 spot" (in French)
+ * pluralize('spot', 2, false) // "spots" (without count)
+ */
+export function pluralize(key, count, includeCount = true) {
+  const { lang } = getState();
+  const langForms = pluralForms[lang] || pluralForms.en;
+  const langRule = pluralRules[lang] || pluralRules.en;
+
+  // Get the word forms for this key
+  const forms = langForms[key];
+  if (!forms) {
+    // Fallback: return key with count if no forms defined
+    return includeCount ? `${count} ${key}` : key;
+  }
+
+  // Determine which form to use based on count
+  const form = langRule(count);
+  const word = forms[form] || forms.other;
+
+  return includeCount ? `${count} ${word}` : word;
+}
+
+/**
+ * Format a count with the appropriate plural form
+ * Convenience function that always includes the count
+ * @param {number} count - The count
+ * @param {string} key - The word key
+ * @returns {string} Formatted string like "5 spots"
+ */
+export function formatCount(count, key) {
+  return pluralize(key, count, true);
+}
+
+/**
+ * Get just the plural word without the count
+ * @param {string} key - The word key
+ * @param {number} count - The count to determine form
+ * @returns {string} Just the word in correct form
+ */
+export function getPluralWord(key, count) {
+  return pluralize(key, count, false);
+}
 
 // Embedded translations for instant loading
 const translations = {
@@ -130,6 +281,22 @@ const translations = {
     createAccount: 'Créer un compte',
     continueWithGoogle: 'Continuer avec Google',
 
+    // Email Verification
+    emailVerificationTitle: 'Vérification de l\'email',
+    emailVerificationMessage: 'Un email de vérification a été envoyé à',
+    emailVerificationSubtitle: 'Clique sur le lien dans l\'email pour confirmer ton adresse',
+    resendEmail: 'Renvoyer l\'email',
+    verifyEmail: 'J\'ai vérifié',
+    emailVerified: 'Email confirmé !',
+    emailVerificationPending: 'En attente de vérification...',
+    resendCountdown: 'Renvoyer dans {seconds}s',
+    emailNotVerified: 'Email non vérifié',
+    verificationCheckingEmail: 'Vérification de l\'email...',
+    verificationEmailSent: 'Email de vérification envoyé !',
+    verificationEmailNotSent: 'Impossible de renvoyer l\'email',
+    emailAlreadyVerified: 'Cet email est déjà vérifié',
+    emailVerificationError: 'Erreur lors de la vérification',
+
     // Errors
     networkError: 'Erreur de connexion',
     authError: "Erreur d'authentification",
@@ -238,6 +405,25 @@ const translations = {
     locationError: 'Erreur de localisation',
     locationBrowserDenied: 'La localisation est bloquee dans ton navigateur',
     locationDeclined: 'Localisation desactivee',
+
+    // Age Verification (RGPD - Minimum age 16)
+    ageVerificationTitle: 'Verifions ton age',
+    ageVerificationDesc: 'Pour respecter la loi, on doit s\'assurer que tu as au moins 16 ans. Pas d\'inquietude, cette info n\'est pas stockee !',
+    ageVerificationNote: 'La verification d\'age est obligatoire en Europe pour les services en ligne (RGPD).',
+    birthDate: 'Date de naissance',
+    ageRequiredMessage: 'Entre ta date de naissance pour continuer',
+    ageInvalidFormat: 'Format de date invalide',
+    ageFutureDate: 'Tu ne peux pas etre ne(e) dans le futur !',
+    ageUnreasonable: 'La date de naissance semble incorrecte',
+    ageTooYoung: 'Tu dois avoir au moins 16 ans pour t\'inscrire',
+    ageVerify: 'Verifier mon age',
+    ageVerifying: 'Verification en cours...',
+    yourAge: 'Ton age',
+    ageVerificationSuccess: 'Age verifie ! Bienvenue !',
+    ageVerificationError: 'Erreur lors de la verification. Reedssaye plus tard.',
+    ageTooYoungTitle: 'Tu es trop jeune pour l\'instant',
+    ageTooYoungMessage: 'On comprend que tu sois enthousiaste pour rejoindre SpotHitch ! Reviens quand tu auras 16 ans. L\'aventure t\'attendra !',
+    ageGDPRNote: 'Conformement au RGPD, cette information n\'est pas conservee une fois la verification effectuee.',
   },
 
   en: {
@@ -355,6 +541,22 @@ const translations = {
     createAccount: 'Create account',
     continueWithGoogle: 'Continue with Google',
 
+    // Email Verification
+    emailVerificationTitle: 'Email verification',
+    emailVerificationMessage: 'A verification email has been sent to',
+    emailVerificationSubtitle: 'Click the link in your email to confirm your address',
+    resendEmail: 'Resend email',
+    verifyEmail: 'I verified it',
+    emailVerified: 'Email verified!',
+    emailVerificationPending: 'Verification pending...',
+    resendCountdown: 'Resend in {seconds}s',
+    emailNotVerified: 'Email not verified',
+    verificationCheckingEmail: 'Checking email...',
+    verificationEmailSent: 'Verification email sent!',
+    verificationEmailNotSent: 'Unable to resend email',
+    emailAlreadyVerified: 'This email is already verified',
+    emailVerificationError: 'Error verifying email',
+
     // Errors
     networkError: 'Connection error',
     authError: 'Authentication error',
@@ -441,6 +643,25 @@ const translations = {
     days: 'days',
     yes: 'Yes',
     no: 'No',
+
+    // Age Verification (GDPR - Minimum age 16)
+    ageVerificationTitle: 'Verify your age',
+    ageVerificationDesc: 'To comply with the law, we need to confirm you\'re at least 16 years old. Don\'t worry, this info won\'t be stored!',
+    ageVerificationNote: 'Age verification is mandatory in Europe for online services (GDPR).',
+    birthDate: 'Date of birth',
+    ageRequiredMessage: 'Enter your date of birth to continue',
+    ageInvalidFormat: 'Invalid date format',
+    ageFutureDate: 'You can\'t be born in the future!',
+    ageUnreasonable: 'The date of birth seems incorrect',
+    ageTooYoung: 'You must be at least 16 years old to register',
+    ageVerify: 'Verify my age',
+    ageVerifying: 'Verifying...',
+    yourAge: 'Your age',
+    ageVerificationSuccess: 'Age verified! Welcome!',
+    ageVerificationError: 'Error during verification. Please try again later.',
+    ageTooYoungTitle: 'You\'re too young for now',
+    ageTooYoungMessage: 'We understand your enthusiasm to join SpotHitch! Come back when you\'re 16. Adventure awaits!',
+    ageGDPRNote: 'In accordance with GDPR, this information is not retained after verification.',
   },
 
   es: {
@@ -480,6 +701,30 @@ const translations = {
     language: 'Idioma',
     level: 'Nivel',
     points: 'puntos',
+    email: 'Correo electronico',
+    password: 'Contraseña',
+    confirmPassword: 'Confirmar',
+    forgotPassword: '¿Olvidaste tu contraseña?',
+    noAccount: '¿Sin cuenta?',
+    alreadyAccount: '¿Ya tienes cuenta?',
+    createAccount: 'Crear cuenta',
+    continueWithGoogle: 'Continuar con Google',
+
+    // Email Verification
+    emailVerificationTitle: 'Verificacion de correo',
+    emailVerificationMessage: 'Se ha enviado un correo de verificacion a',
+    emailVerificationSubtitle: 'Haz clic en el enlace en tu correo para confirmar tu direccion',
+    resendEmail: 'Reenviar correo',
+    verifyEmail: 'Lo he verificado',
+    emailVerified: '¡Correo verificado!',
+    emailVerificationPending: 'Verificacion pendiente...',
+    resendCountdown: 'Reenviar en {seconds}s',
+    emailNotVerified: 'Correo no verificado',
+    verificationCheckingEmail: 'Verificando correo...',
+    verificationEmailSent: '¡Correo de verificacion enviado!',
+    verificationEmailNotSent: 'No se pudo reenviar el correo',
+    emailAlreadyVerified: 'Este correo ya esta verificado',
+    emailVerificationError: 'Error al verificar el correo',
 
     // Cookie Banner (RGPD)
     cookieTitle: 'Respeto a tu privacidad',
@@ -621,6 +866,22 @@ const translations = {
     createAccount: 'Konto erstellen',
     continueWithGoogle: 'Mit Google fortfahren',
 
+    // Email Verification
+    emailVerificationTitle: 'E-Mail-Verifizierung',
+    emailVerificationMessage: 'Eine Bestätigungsmail wurde gesendet an',
+    emailVerificationSubtitle: 'Klicken Sie auf den Link in Ihrer E-Mail um Ihre Adresse zu bestätigen',
+    resendEmail: 'E-Mail erneut senden',
+    verifyEmail: 'Ich habe verifiziert',
+    emailVerified: 'E-Mail bestätigt!',
+    emailVerificationPending: 'Verifizierung läuft...',
+    resendCountdown: 'Erneut senden in {seconds}s',
+    emailNotVerified: 'E-Mail nicht bestätigt',
+    verificationCheckingEmail: 'E-Mail wird überprüft...',
+    verificationEmailSent: 'Bestätigungsmail gesendet!',
+    verificationEmailNotSent: 'E-Mail konnte nicht gesendet werden',
+    emailAlreadyVerified: 'Diese E-Mail ist bereits bestätigt',
+    emailVerificationError: 'Fehler bei der E-Mail-Verifizierung',
+
     // Errors
     networkError: 'Verbindungsfehler',
     authError: 'Authentifizierungsfehler',
@@ -661,6 +922,25 @@ const translations = {
     termsOfService: 'Nutzungsbedingungen',
     and: 'und',
     close: 'Schliessen',
+
+    // Age Verification (DSGVO - Minimum age 16)
+    ageVerificationTitle: 'Bestatige dein Alter',
+    ageVerificationDesc: 'Um das Gesetz einzuhalten, mussen wir bestatigen, dass du mindestens 16 Jahre alt bist. Keine Sorge, diese Information wird nicht gespeichert!',
+    ageVerificationNote: 'Altersverifizierung ist in Europa fur Online-Dienste vorgeschrieben (DSGVO).',
+    birthDate: 'Geburtsdatum',
+    ageRequiredMessage: 'Geben Sie Ihr Geburtsdatum ein, um fortzufahren',
+    ageInvalidFormat: 'Ungultiges Datumsformat',
+    ageFutureDate: 'Du kannst nicht in der Zukunft geboren sein!',
+    ageUnreasonable: 'Das Geburtsdatum scheint falsch zu sein',
+    ageTooYoung: 'Du musst mindestens 16 Jahre alt sein, um dich zu registrieren',
+    ageVerify: 'Mein Alter prufen',
+    ageVerifying: 'Wird uberpruft...',
+    yourAge: 'Dein Alter',
+    ageVerificationSuccess: 'Alter bestatigt! Willkommen!',
+    ageVerificationError: 'Fehler bei der Verifizierung. Bitte versuchen Sie es spater erneut.',
+    ageTooYoungTitle: 'Du bist vorerst zu jung',
+    ageTooYoungMessage: 'Wir verstehen deine Begeisterung, SpotHitch beizutreten! Komm zuruck, wenn du 16 bist. Das Abenteuer wartet!',
+    ageGDPRNote: 'Gema DSGVO werden diese Informationen nach der Verifizierung nicht gespeichert.',
   },
 };
 
@@ -766,7 +1046,7 @@ export async function loadTranslations(lang) {
   return false;
 }
 
-export { translations };
+export { translations, pluralForms, pluralRules };
 export default {
   t,
   setLanguage,
@@ -776,4 +1056,7 @@ export default {
   isFirstLaunch,
   markLanguageSelected,
   languageConfig,
+  pluralize,
+  formatCount,
+  getPluralWord,
 };

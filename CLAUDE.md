@@ -130,6 +130,59 @@ npm run lint:fix     # Corriger automatiquement
 
 ## Historique des Sessions
 
+### 2026-02-04 - Composant Email Verification obligatoire (#19)
+**Resume** : Creation d'un composant modal pour la verification email obligatoire apres inscription.
+
+**Actions realisees** :
+
+1. **Composant EmailVerification** (`src/components/modals/EmailVerification.js`)
+   - Fonction `renderEmailVerification(email)` qui affiche la modal de verification
+   - Affichage de l'email avec message clair et emoji 📧
+   - Bouton "J'ai verifie" qui check Firebase `user.emailVerified`
+   - Bouton "Renvoyer l'email" avec cooldown de 60 secondes
+   - Compteur de temps avant prochain renvoi (affichage dynamique)
+   - Reload utilisateur Firebase pour verifier etat verification
+   - Fermeture auto apres verification reussie (2 secondes)
+   - Modal avec backdrop blur, close button, status messages
+   - State global `window.emailVerificationState` pour tracker l'etat
+   - Gestion d'erreurs avec messages personnalises
+
+2. **Handlers window globaux** :
+   - `initEmailVerification(email)` - initialise la modal et le cooldown
+   - `checkEmailVerified()` - verifie si email confirme dans Firebase
+   - `resendVerificationEmail()` - renvoie l'email avec cooldown
+   - `closeEmailVerification()` - ferme la modal et nettoie les timers
+   - `startResendCooldown()` - gere le timer de 60s
+
+3. **Traductions ajoutees** (`src/i18n/index.js`)
+   - FR : emailVerificationTitle, emailVerificationMessage, emailVerificationSubtitle, resendEmail, verifyEmail, emailVerified, emailVerificationPending, resendCountdown, etc.
+   - EN : Email verification, A verification email has been sent to, Click the link in your email, Resend email, I verified it, Email verified!, etc.
+   - ES : Verificacion de correo, Se ha enviado un correo de verificacion, etc.
+   - DE : E-Mail-Verifizierung, Eine Bestatigungsmail wurde gesendet, etc.
+
+4. **Tests unitaires** (`tests/emailVerification.test.js`)
+   - 35 tests pour la modal, handlers, etat, accessibilite, i18n
+   - Tests du rendu HTML avec email, boutons, aria labels
+   - Tests de l'initialisation et fermeture
+   - Tests de l'etat global (email, verification, cooldown)
+   - Tests de l'accessibilite (roles, aria-live, aria-labels)
+   - Tests des traductions multilingues
+
+**Fichiers crees** :
+- `src/components/modals/EmailVerification.js`
+- `tests/emailVerification.test.js`
+
+**Fichiers modifies** :
+- `src/i18n/index.js` - Ajout traductions pour 4 langues
+- `SUIVI.md` - Marquer #19 comme complete
+
+**Statistiques tests** :
+- 35/35 tests passent pour EmailVerification
+- Build reussi sans erreurs
+- Tests globaux : 380 tests passent (2 failures non-liees dans ageVerification.test.js)
+
+---
+
 ### 2026-02-04 - Composant EmptyState avec messages humoristiques
 **Resume** : Creation d'un composant reutilisable pour afficher des empty states avec humour et call-to-action.
 
