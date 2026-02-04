@@ -181,7 +181,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
 
       <!-- Thumbnails Bar -->
       ${photos.length > 1 ? `
-        <div class="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/50 rounded-lg">
+        <div class="photo-thumbnails-bar flex gap-2 p-2 bg-black/50 rounded-lg">
           ${photos.map((photo, index) => `
             <button
               onclick="goToPhotoFullscreen(${index}); event.stopPropagation();"
