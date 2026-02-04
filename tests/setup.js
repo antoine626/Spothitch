@@ -5,12 +5,30 @@
 
 import { vi } from 'vitest';
 
-// Mock localStorage
+// Create a working localStorage mock that actually stores data
+// This allows tests to either use real storage or mock storage
+const localStorageData = {};
+
+const getItem = vi.fn((key) => localStorageData[key] || null);
+const setItem = vi.fn((key, value) => {
+  localStorageData[key] = String(value);
+});
+const removeItem = vi.fn((key) => {
+  delete localStorageData[key];
+});
+const clear = vi.fn(() => {
+  Object.keys(localStorageData).forEach(key => delete localStorageData[key]);
+});
+
 const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
+  getItem,
+  setItem,
+  removeItem,
+  clear,
+  get length() {
+    return Object.keys(localStorageData).length;
+  },
+  key: (index) => Object.keys(localStorageData)[index] || null,
 };
 global.localStorage = localStorageMock;
 
@@ -57,8 +75,7 @@ global.indexedDB = {
   }),
 };
 
-// Reset mocks before each test
+// Reset mocks before each test (but not localStorage which should persist)
 beforeEach(() => {
   vi.clearAllMocks();
-  localStorageMock.getItem.mockReturnValue(null);
 });

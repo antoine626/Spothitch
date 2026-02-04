@@ -18,9 +18,10 @@ let cohortWeek = null
 
 /**
  * Initialize analytics
+ * @param {boolean} force - Force reinitialization (for testing)
  */
-export async function initAnalytics() {
-  if (isInitialized) return true
+export async function initAnalytics(force = false) {
+  if (isInitialized && !force) return true
 
   try {
     // Generate session ID
@@ -192,6 +193,12 @@ export function resetUser() {
     mixpanel.reset()
   }
   userId = `anon_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+  // Update localStorage with the new anonymous user ID
+  if (typeof window !== 'undefined' && window.localStorage) {
+    window.localStorage.setItem('spothitch_analytics_user_id', userId)
+  } else {
+    localStorage.setItem('spothitch_analytics_user_id', userId)
+  }
   trackEvent('user_logout')
 }
 
@@ -343,14 +350,11 @@ function storeEventLocally(eventName, properties) {
     }
 
     const jsonStr = JSON.stringify(events)
-    localStorage.setItem('spothitch_analytics_events', jsonStr)
 
-    // Verify it was stored
-    if (import.meta.env.DEV) {
-      const stored = localStorage.getItem('spothitch_analytics_events')
-      if (!stored) {
-        console.warn('Event storage verification failed - data not persisted')
-      }
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem('spothitch_analytics_events', jsonStr)
+    } else {
+      localStorage.setItem('spothitch_analytics_events', jsonStr)
     }
   } catch (error) {
     // Log in dev mode
@@ -365,7 +369,12 @@ function storeEventLocally(eventName, properties) {
  */
 export function getLocalEvents() {
   try {
-    const data = localStorage.getItem('spothitch_analytics_events')
+    let data
+    if (typeof window !== 'undefined' && window.localStorage) {
+      data = window.localStorage.getItem('spothitch_analytics_events')
+    } else {
+      data = localStorage.getItem('spothitch_analytics_events')
+    }
     return data ? JSON.parse(data) : []
   } catch {
     return []

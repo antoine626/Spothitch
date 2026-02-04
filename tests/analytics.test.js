@@ -42,9 +42,9 @@ import {
 
 describe('Analytics Service', () => {
   beforeEach(() => {
-    // Only clear analytics-specific keys before each test
+    // Only clear analytics-specific keys before each test suite
+    // Note: We don't clear events within a suite
     localStorage.removeItem('spothitch_analytics_user_id')
-    localStorage.removeItem('spothitch_analytics_events')
     localStorage.removeItem('spothitch_funnel_data')
     localStorage.removeItem('spothitch_cohort_week')
     localStorage.removeItem('spothitch_user_properties')
@@ -63,14 +63,22 @@ describe('Analytics Service', () => {
   })
 
   describe('initAnalytics()', () => {
+    beforeEach(() => {
+      // Clear all analytics data before each test
+      localStorage.removeItem('spothitch_analytics_user_id')
+      localStorage.removeItem('spothitch_cohort_week')
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_funnel_data')
+      localStorage.removeItem('spothitch_user_properties')
+    })
+
     it('should initialize analytics successfully', async () => {
-      const result = await initAnalytics()
+      const result = await initAnalytics(true)
       expect(result).toBe(true)
     })
 
     it('should create a user ID if not exists', async () => {
-      localStorage.clear()
-      await initAnalytics()
+      await initAnalytics(true)
       const userId = localStorage.getItem('spothitch_analytics_user_id')
       expect(userId).toBeTruthy()
       expect(userId).toMatch(/^user_/)
@@ -79,23 +87,22 @@ describe('Analytics Service', () => {
     it('should reuse existing user ID', async () => {
       const testUserId = 'test_user_123'
       localStorage.setItem('spothitch_analytics_user_id', testUserId)
-      await initAnalytics()
+      await initAnalytics(true)
       const userId = localStorage.getItem('spothitch_analytics_user_id')
       expect(userId).toBe(testUserId)
     })
 
     it('should create cohort week', async () => {
-      localStorage.clear()
-      await initAnalytics()
+      await initAnalytics(true)
       const cohort = localStorage.getItem('spothitch_cohort_week')
       expect(cohort).toBeTruthy()
       expect(cohort).toMatch(/^\d{4}-W\d{2}$/)
     })
 
     it('should be idempotent', async () => {
-      const result1 = await initAnalytics()
+      const result1 = await initAnalytics(true)
       const userId1 = localStorage.getItem('spothitch_analytics_user_id')
-      const result2 = await initAnalytics()
+      const result2 = await initAnalytics() // Second call should not reinit
       const userId2 = localStorage.getItem('spothitch_analytics_user_id')
       expect(result1).toBe(true)
       expect(result2).toBe(true)
@@ -111,8 +118,6 @@ describe('Analytics Service', () => {
     it('should track an event', () => {
       trackEvent('test_event', { foo: 'bar' })
       const events = getLocalEvents()
-      console.log('Stored events count:', events.length)
-      console.log('localStorage contents:', localStorage.getItem('spothitch_analytics_events'))
       expect(events.length).toBeGreaterThan(0)
       const lastEvent = events[events.length - 1]
       expect(lastEvent.event).toBe('test_event')
@@ -322,6 +327,11 @@ describe('Analytics Service', () => {
 
   describe('resetUser()', () => {
     beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_user_id')
+      localStorage.removeItem('spothitch_cohort_week')
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_funnel_data')
+      localStorage.removeItem('spothitch_user_properties')
       await initAnalytics()
     })
 
@@ -577,6 +587,11 @@ describe('Analytics Service', () => {
 
   describe('Integration tests', () => {
     beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_user_id')
+      localStorage.removeItem('spothitch_cohort_week')
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_funnel_data')
+      localStorage.removeItem('spothitch_user_properties')
       await initAnalytics()
     })
 
@@ -601,6 +616,7 @@ describe('Analytics Service', () => {
       trackFunnelStage(FUNNEL_STAGES.FIRST_SPOT_VIEWED)
       trackUserAction('click', 'checkin_button')
       trackFunnelStage(FUNNEL_STAGES.FIRST_CHECKIN)
+      trackFunnelStage(FUNNEL_STAGES.ACTIVATED)
 
       const summary = getAnalyticsSummary()
       expect(summary.totalEvents).toBeGreaterThan(10)

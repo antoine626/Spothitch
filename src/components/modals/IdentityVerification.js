@@ -1,0 +1,945 @@
+/**
+ * Identity Verification Modal Component
+ * Progressive verification system for building trust between hitchhikers
+ * Levels: Email -> Phone -> Photo -> ID Document (Passport/Card)
+ */
+
+import { t } from '../../i18n/index.js';
+import { getState, setState } from '../../stores/state.js';
+import {
+  verificationLevels,
+  verificationReasons,
+  getVerificationLevel,
+  getNextVerificationLevel,
+  getVerificationProgress,
+  isEmailVerified,
+  isPhoneVerified,
+  isPhotoVerified,
+  isIdentityVerified,
+  sendPhoneVerification,
+  confirmPhoneVerification,
+  uploadVerificationPhoto,
+  uploadIdentityDocument,
+  getVerificationErrorMessage,
+} from '../../services/identityVerification.js';
+
+// State for verification modal
+window.identityVerificationState = {
+  currentStep: 'overview', // 'overview', 'email', 'phone', 'phone-code', 'photo', 'document'
+  phoneNumber: '',
+  verificationCode: '',
+  photoPreview: null,
+  documentType: 'id_card', // 'id_card' or 'passport'
+  documentPreview: null,
+  isLoading: false,
+  error: null,
+};
+
+/**
+ * Render identity verification modal
+ * @returns {string} HTML for identity verification modal
+ */
+export function renderIdentityVerification() {
+  const state = getState();
+  const lang = state.lang || 'fr';
+  const progress = getVerificationProgress();
+  const currentLevel = getVerificationLevel();
+  const nextLevel = getNextVerificationLevel();
+  const reasons = verificationReasons[lang] || verificationReasons.fr;
+  const modalState = window.identityVerificationState;
+
+  return `
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      id="identity-verification-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="identity-verification-title"
+    >
+      <!-- Backdrop -->
+      <div
+        class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onclick="closeIdentityVerification()"
+        aria-hidden="true"
+      ></div>
+
+      <!-- Modal -->
+      <div
+        class="relative bg-dark-primary border border-white/10 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"
+        onclick="event.stopPropagation()"
+      >
+        <!-- Close Button -->
+        <button
+          onclick="closeIdentityVerification()"
+          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+          aria-label="${t('close')}"
+          type="button"
+        >
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+
+        <!-- Scrollable Content -->
+        <div class="overflow-y-auto max-h-[90vh]">
+          ${modalState.currentStep === 'overview' ? renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) : ''}
+          ${modalState.currentStep === 'phone' ? renderPhoneStep(lang) : ''}
+          ${modalState.currentStep === 'phone-code' ? renderPhoneCodeStep(lang) : ''}
+          ${modalState.currentStep === 'photo' ? renderPhotoStep(lang) : ''}
+          ${modalState.currentStep === 'document' ? renderDocumentStep(lang) : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Render overview step
+ */
+function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
+  return `
+    <!-- Header -->
+    <div class="p-6 text-center border-b border-white/10 bg-gradient-to-b from-purple-500/10 to-transparent">
+      <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+        <i class="fas fa-shield-alt text-3xl text-white" aria-hidden="true"></i>
+      </div>
+      <h2 id="identity-verification-title" class="text-2xl font-bold text-white mb-2">
+        ${t('identityVerificationTitle')}
+      </h2>
+      <p class="text-slate-400">
+        ${t('identityVerificationSubtitle')}
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 space-y-6">
+      <!-- Current Level Badge -->
+      <div class="flex items-center justify-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+        <div
+          class="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
+          style="background: ${currentLevel.color}20;"
+        >
+          ${currentLevel.icon || '<i class="fas fa-user"></i>'}
+        </div>
+        <div class="text-left">
+          <div class="text-sm text-slate-400">${t('currentVerificationLevel')}</div>
+          <div class="font-bold text-white">${lang === 'en' ? currentLevel.nameEn : currentLevel.name}</div>
+        </div>
+        <div class="ml-auto text-right">
+          <div class="text-sm text-slate-400">${t('trustScore')}</div>
+          <div class="text-xl font-bold" style="color: ${currentLevel.color};">${progress.trustScore}%</div>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="space-y-2">
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-400">${t('verificationProgress')}</span>
+          <span class="text-white font-medium">${progress.currentLevel}/4</span>
+        </div>
+        <div class="h-3 bg-white/10 rounded-full overflow-hidden">
+          <div
+            class="h-full rounded-full transition-all duration-500"
+            style="width: ${progress.progress}%; background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Verification Steps -->
+      <div class="space-y-3">
+        ${renderVerificationStep(1, progress.verifications.email, t('emailVerified'), t('emailVerifiedDesc'), 'envelope', '#3b82f6', lang)}
+        ${renderVerificationStep(2, progress.verifications.phone, t('phoneVerified'), t('phoneVerifiedDesc'), 'mobile-alt', '#10b981', lang)}
+        ${renderVerificationStep(3, progress.verifications.photo, t('photoVerified'), t('photoVerifiedDesc'), 'camera', '#f59e0b', lang)}
+        ${renderVerificationStep(4, progress.verifications.identity, t('identityDocVerified'), t('identityDocVerifiedDesc'), 'id-card', '#8b5cf6', lang)}
+      </div>
+
+      <!-- Why Verify Section -->
+      <div class="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
+        <h3 class="font-bold text-blue-300 mb-3 flex items-center gap-2">
+          <i class="fas fa-info-circle" aria-hidden="true"></i>
+          ${reasons.title}
+        </h3>
+        <ul class="space-y-2 text-sm text-slate-300">
+          ${reasons.reasons.map(reason => `
+            <li class="flex items-start gap-2">
+              <span class="text-lg">${reason.icon}</span>
+              <span><strong>${reason.title}</strong> - ${reason.description}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <!-- Privacy Note -->
+      <div class="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
+        <i class="fas fa-lock text-green-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+        <p class="text-green-300 text-sm">
+          ${reasons.privacyNote}
+        </p>
+      </div>
+
+      <!-- Next Step Button -->
+      ${nextLevel ? `
+        <button
+          onclick="startVerificationStep(${nextLevel.id})"
+          class="w-full btn btn-primary py-4 text-lg"
+          type="button"
+        >
+          <span class="mr-2">${nextLevel.icon || '<i class="fas fa-arrow-right"></i>'}</span>
+          ${t('startVerificationLevel')} ${nextLevel.id}: ${lang === 'en' ? nextLevel.nameEn : nextLevel.name}
+        </button>
+      ` : `
+        <div class="text-center p-4 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
+          <span class="text-3xl mr-2">🎉</span>
+          <span class="text-purple-300 font-bold">${t('verificationComplete')}</span>
+        </div>
+      `}
+    </div>
+  `;
+}
+
+/**
+ * Render a verification step item
+ */
+function renderVerificationStep(level, isComplete, title, description, icon, color, lang) {
+  const levelInfo = verificationLevels[level];
+  const currentLevel = getVerificationProgress().currentLevel;
+  const isActive = currentLevel === level - 1;
+  const isPending = level > currentLevel + 1;
+
+  return `
+    <div
+      class="flex items-center gap-4 p-4 rounded-xl border transition-all ${isComplete ? 'bg-white/5 border-white/10' : isActive ? 'bg-white/10 border-primary-500/50 ring-2 ring-primary-500/30' : 'bg-white/5 border-white/5 opacity-50'}"
+      role="listitem"
+    >
+      <div
+        class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+        style="background: ${isComplete ? color : 'rgba(255,255,255,0.1)'}20;"
+      >
+        ${isComplete
+          ? `<i class="fas fa-check text-xl" style="color: ${color};"></i>`
+          : `<i class="fas fa-${icon} text-xl ${isPending ? 'text-slate-500' : 'text-white'}"></i>`
+        }
+      </div>
+      <div class="flex-grow">
+        <div class="flex items-center gap-2">
+          <span class="font-medium text-white">${title}</span>
+          ${isComplete ? `<span class="px-2 py-0.5 rounded-full text-xs font-medium" style="background: ${color}20; color: ${color};">${t('verified')}</span>` : ''}
+        </div>
+        <div class="text-sm text-slate-400">${description}</div>
+      </div>
+      ${!isComplete && isActive ? `
+        <button
+          onclick="startVerificationStep(${level})"
+          class="px-4 py-2 rounded-lg bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-colors"
+          type="button"
+          aria-label="${t('startVerification')}"
+        >
+          ${t('start')}
+        </button>
+      ` : ''}
+    </div>
+  `;
+}
+
+/**
+ * Render phone verification step
+ */
+function renderPhoneStep(lang) {
+  const modalState = window.identityVerificationState;
+
+  return `
+    <!-- Header -->
+    <div class="p-6 text-center border-b border-white/10">
+      <button
+        onclick="setVerificationStep('overview')"
+        class="absolute top-4 left-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+        aria-label="${t('back')}"
+        type="button"
+      >
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+        <i class="fas fa-mobile-alt text-2xl text-green-400" aria-hidden="true"></i>
+      </div>
+      <h3 class="text-xl font-bold text-white">${t('phoneVerificationTitle')}</h3>
+      <p class="text-slate-400 text-sm mt-2">${t('phoneVerificationDesc')}</p>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 space-y-4">
+      ${modalState.error ? `
+        <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
+          <i class="fas fa-exclamation-circle text-red-400 mt-1" aria-hidden="true"></i>
+          <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
+        </div>
+      ` : ''}
+
+      <div>
+        <label for="phone-input" class="text-sm text-slate-400 block mb-2">
+          ${t('phoneNumber')}
+        </label>
+        <div class="flex gap-2">
+          <select
+            id="country-code"
+            class="input-modern w-24"
+            onchange="updatePhoneCountryCode(this.value)"
+          >
+            <option value="+33">+33</option>
+            <option value="+1">+1</option>
+            <option value="+44">+44</option>
+            <option value="+49">+49</option>
+            <option value="+34">+34</option>
+            <option value="+39">+39</option>
+            <option value="+32">+32</option>
+            <option value="+31">+31</option>
+            <option value="+41">+41</option>
+            <option value="+43">+43</option>
+          </select>
+          <input
+            type="tel"
+            id="phone-input"
+            class="input-modern flex-grow"
+            placeholder="612345678"
+            value="${modalState.phoneNumber || ''}"
+            oninput="updatePhoneNumber(this.value)"
+            aria-describedby="phone-hint"
+          />
+        </div>
+        <span id="phone-hint" class="text-xs text-slate-500 mt-1 block">
+          ${t('phoneHint')}
+        </span>
+      </div>
+
+      <button
+        onclick="sendPhoneVerificationCode()"
+        class="w-full btn btn-primary py-3 ${modalState.isLoading ? 'opacity-50 cursor-not-allowed' : ''}"
+        type="button"
+        ${modalState.isLoading ? 'disabled' : ''}
+      >
+        ${modalState.isLoading
+          ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
+          : '<i class="fas fa-paper-plane mr-2"></i>'
+        }
+        ${t('sendVerificationCode')}
+      </button>
+
+      <!-- Benefits -->
+      <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+        <h4 class="font-medium text-white mb-2">${t('phoneVerificationBenefits')}</h4>
+        <ul class="text-sm text-slate-400 space-y-1">
+          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('phoneBenefit1')}</li>
+          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('phoneBenefit2')}</li>
+          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('phoneBenefit3')}</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Render phone code verification step
+ */
+function renderPhoneCodeStep(lang) {
+  const modalState = window.identityVerificationState;
+
+  return `
+    <!-- Header -->
+    <div class="p-6 text-center border-b border-white/10">
+      <button
+        onclick="setVerificationStep('phone')"
+        class="absolute top-4 left-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+        aria-label="${t('back')}"
+        type="button"
+      >
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+        <i class="fas fa-sms text-2xl text-green-400" aria-hidden="true"></i>
+      </div>
+      <h3 class="text-xl font-bold text-white">${t('enterVerificationCode')}</h3>
+      <p class="text-slate-400 text-sm mt-2">${t('codeSentTo')} <strong class="text-white">${modalState.phoneNumber}</strong></p>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 space-y-4">
+      ${modalState.error ? `
+        <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
+          <i class="fas fa-exclamation-circle text-red-400 mt-1" aria-hidden="true"></i>
+          <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
+        </div>
+      ` : ''}
+
+      <div>
+        <label for="code-input" class="text-sm text-slate-400 block mb-2">
+          ${t('verificationCode')}
+        </label>
+        <input
+          type="text"
+          id="code-input"
+          class="input-modern w-full text-center text-2xl tracking-widest"
+          placeholder="000000"
+          maxlength="6"
+          value="${modalState.verificationCode || ''}"
+          oninput="updateVerificationCode(this.value)"
+          autocomplete="one-time-code"
+          aria-describedby="code-hint"
+        />
+        <span id="code-hint" class="text-xs text-slate-500 mt-1 block text-center">
+          ${t('codeHint')}
+        </span>
+      </div>
+
+      <button
+        onclick="confirmPhoneCode()"
+        class="w-full btn btn-primary py-3 ${modalState.isLoading ? 'opacity-50 cursor-not-allowed' : ''}"
+        type="button"
+        ${modalState.isLoading ? 'disabled' : ''}
+      >
+        ${modalState.isLoading
+          ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
+          : '<i class="fas fa-check mr-2"></i>'
+        }
+        ${t('verifyCode')}
+      </button>
+
+      <button
+        onclick="resendPhoneCode()"
+        class="w-full btn btn-ghost text-sm"
+        type="button"
+      >
+        ${t('resendCode')}
+      </button>
+
+      <div class="text-center text-xs text-slate-500">
+        <i class="fas fa-info-circle mr-1"></i>
+        ${t('demoCodeHint')}
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Render photo verification step
+ */
+function renderPhotoStep(lang) {
+  const modalState = window.identityVerificationState;
+
+  return `
+    <!-- Header -->
+    <div class="p-6 text-center border-b border-white/10">
+      <button
+        onclick="setVerificationStep('overview')"
+        class="absolute top-4 left-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+        aria-label="${t('back')}"
+        type="button"
+      >
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/20 flex items-center justify-center">
+        <i class="fas fa-camera text-2xl text-amber-400" aria-hidden="true"></i>
+      </div>
+      <h3 class="text-xl font-bold text-white">${t('photoVerificationTitle')}</h3>
+      <p class="text-slate-400 text-sm mt-2">${t('photoVerificationDesc')}</p>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 space-y-4">
+      ${modalState.error ? `
+        <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
+          <i class="fas fa-exclamation-circle text-red-400 mt-1" aria-hidden="true"></i>
+          <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
+        </div>
+      ` : ''}
+
+      <!-- Photo Preview/Upload -->
+      <div class="relative">
+        ${modalState.photoPreview ? `
+          <div class="relative rounded-xl overflow-hidden">
+            <img src="${modalState.photoPreview}" alt="Photo preview" class="w-full h-64 object-cover" />
+            <button
+              onclick="clearPhotoPreview()"
+              class="absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center"
+              type="button"
+              aria-label="${t('removePhoto')}"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        ` : `
+          <label
+            for="photo-input"
+            class="block w-full h-64 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-primary-500/50 transition-colors flex flex-col items-center justify-center gap-4"
+          >
+            <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
+              <i class="fas fa-camera text-2xl text-slate-400"></i>
+            </div>
+            <div class="text-center">
+              <p class="text-white font-medium">${t('takeOrUploadPhoto')}</p>
+              <p class="text-slate-400 text-sm">${t('photoRequirements')}</p>
+            </div>
+          </label>
+          <input
+            type="file"
+            id="photo-input"
+            class="hidden"
+            accept="image/*"
+            capture="user"
+            onchange="handlePhotoUpload(event)"
+          />
+        `}
+      </div>
+
+      <!-- Photo Guidelines -->
+      <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+        <h4 class="font-medium text-white mb-2">${t('photoGuidelines')}</h4>
+        <ul class="text-sm text-slate-400 space-y-1">
+          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('photoGuideline1')}</li>
+          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('photoGuideline2')}</li>
+          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('photoGuideline3')}</li>
+          <li><i class="fas fa-times text-red-400 mr-2"></i>${t('photoGuideline4')}</li>
+        </ul>
+      </div>
+
+      ${modalState.photoPreview ? `
+        <button
+          onclick="submitPhotoVerification()"
+          class="w-full btn btn-primary py-3 ${modalState.isLoading ? 'opacity-50 cursor-not-allowed' : ''}"
+          type="button"
+          ${modalState.isLoading ? 'disabled' : ''}
+        >
+          ${modalState.isLoading
+            ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
+            : '<i class="fas fa-upload mr-2"></i>'
+          }
+          ${t('submitPhoto')}
+        </button>
+      ` : ''}
+    </div>
+  `;
+}
+
+/**
+ * Render document verification step
+ */
+function renderDocumentStep(lang) {
+  const modalState = window.identityVerificationState;
+
+  return `
+    <!-- Header -->
+    <div class="p-6 text-center border-b border-white/10">
+      <button
+        onclick="setVerificationStep('overview')"
+        class="absolute top-4 left-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+        aria-label="${t('back')}"
+        type="button"
+      >
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-500/20 flex items-center justify-center">
+        <i class="fas fa-id-card text-2xl text-purple-400" aria-hidden="true"></i>
+      </div>
+      <h3 class="text-xl font-bold text-white">${t('documentVerificationTitle')}</h3>
+      <p class="text-slate-400 text-sm mt-2">${t('documentVerificationDesc')}</p>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6 space-y-4">
+      ${modalState.error ? `
+        <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
+          <i class="fas fa-exclamation-circle text-red-400 mt-1" aria-hidden="true"></i>
+          <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
+        </div>
+      ` : ''}
+
+      <!-- Document Type Selection -->
+      <div>
+        <label class="text-sm text-slate-400 block mb-2">${t('selectDocumentType')}</label>
+        <div class="grid grid-cols-2 gap-3">
+          <button
+            onclick="setDocumentType('id_card')"
+            class="p-4 rounded-xl border-2 transition-all ${modalState.documentType === 'id_card' ? 'border-primary-500 bg-primary-500/10' : 'border-white/10 bg-white/5 hover:bg-white/10'}"
+            type="button"
+          >
+            <i class="fas fa-id-card text-2xl ${modalState.documentType === 'id_card' ? 'text-primary-400' : 'text-slate-400'} mb-2"></i>
+            <div class="text-sm font-medium ${modalState.documentType === 'id_card' ? 'text-white' : 'text-slate-300'}">${t('idCard')}</div>
+          </button>
+          <button
+            onclick="setDocumentType('passport')"
+            class="p-4 rounded-xl border-2 transition-all ${modalState.documentType === 'passport' ? 'border-primary-500 bg-primary-500/10' : 'border-white/10 bg-white/5 hover:bg-white/10'}"
+            type="button"
+          >
+            <i class="fas fa-passport text-2xl ${modalState.documentType === 'passport' ? 'text-primary-400' : 'text-slate-400'} mb-2"></i>
+            <div class="text-sm font-medium ${modalState.documentType === 'passport' ? 'text-white' : 'text-slate-300'}">${t('passport')}</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Document Preview/Upload -->
+      <div class="relative">
+        ${modalState.documentPreview ? `
+          <div class="relative rounded-xl overflow-hidden">
+            <img src="${modalState.documentPreview}" alt="Document preview" class="w-full h-48 object-cover blur-sm" />
+            <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+              <div class="text-center">
+                <i class="fas fa-check-circle text-4xl text-green-400 mb-2"></i>
+                <p class="text-white font-medium">${t('documentUploaded')}</p>
+              </div>
+            </div>
+            <button
+              onclick="clearDocumentPreview()"
+              class="absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center"
+              type="button"
+              aria-label="${t('removeDocument')}"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        ` : `
+          <label
+            for="document-input"
+            class="block w-full h-48 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-primary-500/50 transition-colors flex flex-col items-center justify-center gap-4"
+          >
+            <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
+              <i class="fas fa-${modalState.documentType === 'passport' ? 'passport' : 'id-card'} text-2xl text-slate-400"></i>
+            </div>
+            <div class="text-center">
+              <p class="text-white font-medium">${t('uploadDocument')}</p>
+              <p class="text-slate-400 text-sm">${t('documentRequirements')}</p>
+            </div>
+          </label>
+          <input
+            type="file"
+            id="document-input"
+            class="hidden"
+            accept="image/*"
+            onchange="handleDocumentUpload(event)"
+          />
+        `}
+      </div>
+
+      <!-- Important Warning -->
+      <div class="flex items-start gap-3 p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+        <i class="fas fa-exclamation-triangle text-amber-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+        <div class="text-sm">
+          <p class="text-amber-300 font-medium mb-1">${t('documentWarningTitle')}</p>
+          <p class="text-amber-200/80">${t('documentWarningDesc')}</p>
+        </div>
+      </div>
+
+      <!-- Privacy Assurance -->
+      <div class="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
+        <i class="fas fa-shield-alt text-green-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+        <div class="text-sm">
+          <p class="text-green-300 font-medium mb-1">${t('documentPrivacyTitle')}</p>
+          <p class="text-green-200/80">${t('documentPrivacyDesc')}</p>
+        </div>
+      </div>
+
+      ${modalState.documentPreview ? `
+        <button
+          onclick="submitIdentityDocument()"
+          class="w-full btn btn-primary py-3 ${modalState.isLoading ? 'opacity-50 cursor-not-allowed' : ''}"
+          type="button"
+          ${modalState.isLoading ? 'disabled' : ''}
+        >
+          ${modalState.isLoading
+            ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
+            : '<i class="fas fa-paper-plane mr-2"></i>'
+          }
+          ${t('submitDocument')}
+        </button>
+      ` : ''}
+    </div>
+  `;
+}
+
+/**
+ * Render verification badge for profile display
+ * @param {number} level - Verification level
+ * @param {string} size - Badge size ('sm', 'md', 'lg')
+ * @returns {string} HTML for badge
+ */
+export function renderVerificationBadgeUI(level = null, size = 'md') {
+  const state = getState();
+  const currentLevel = level ?? (state.verificationLevel || 0);
+  const levelInfo = verificationLevels[currentLevel];
+
+  if (!levelInfo || currentLevel === 0) return '';
+
+  const sizes = {
+    sm: 'w-4 h-4 text-xs',
+    md: 'w-6 h-6 text-sm',
+    lg: 'w-8 h-8 text-base',
+  };
+
+  const sizeClass = sizes[size] || sizes.md;
+
+  return `
+    <span
+      class="inline-flex items-center justify-center rounded-full ${sizeClass}"
+      style="background: ${levelInfo.color}30; border: 2px solid ${levelInfo.color};"
+      title="${levelInfo.name}"
+      aria-label="${levelInfo.name}"
+    >
+      <i class="fas fa-shield-alt" style="color: ${levelInfo.color};"></i>
+    </span>
+  `;
+}
+
+// ==================== WINDOW HANDLERS ====================
+
+/**
+ * Open identity verification modal
+ */
+window.openIdentityVerification = () => {
+  window.identityVerificationState = {
+    currentStep: 'overview',
+    phoneNumber: '',
+    verificationCode: '',
+    photoPreview: null,
+    documentType: 'id_card',
+    documentPreview: null,
+    isLoading: false,
+    error: null,
+  };
+  setState({ showIdentityVerification: true });
+};
+
+/**
+ * Close identity verification modal
+ */
+window.closeIdentityVerification = () => {
+  setState({ showIdentityVerification: false });
+};
+
+/**
+ * Set verification step
+ */
+window.setVerificationStep = (step) => {
+  window.identityVerificationState.currentStep = step;
+  window.identityVerificationState.error = null;
+  rerenderModal();
+};
+
+/**
+ * Start verification for a specific level
+ */
+window.startVerificationStep = (level) => {
+  const stepMap = {
+    1: 'overview', // Email is handled separately
+    2: 'phone',
+    3: 'photo',
+    4: 'document',
+  };
+  window.identityVerificationState.currentStep = stepMap[level] || 'overview';
+  window.identityVerificationState.error = null;
+  rerenderModal();
+};
+
+/**
+ * Update phone number
+ */
+window.updatePhoneNumber = (value) => {
+  window.identityVerificationState.phoneNumber = value.replace(/[^\d]/g, '');
+};
+
+/**
+ * Update phone country code
+ */
+window.updatePhoneCountryCode = (code) => {
+  // Store country code separately if needed
+};
+
+/**
+ * Send phone verification code
+ */
+window.sendPhoneVerificationCode = async () => {
+  const state = window.identityVerificationState;
+  const countryCode = document.getElementById('country-code')?.value || '+33';
+  const fullPhone = `${countryCode}${state.phoneNumber}`;
+
+  state.isLoading = true;
+  state.error = null;
+  rerenderModal();
+
+  const result = await sendPhoneVerification(fullPhone);
+
+  state.isLoading = false;
+
+  if (result.success) {
+    state.phoneNumber = fullPhone;
+    state.currentStep = 'phone-code';
+  } else {
+    state.error = result.error;
+  }
+
+  rerenderModal();
+};
+
+/**
+ * Update verification code
+ */
+window.updateVerificationCode = (value) => {
+  window.identityVerificationState.verificationCode = value.replace(/[^\d]/g, '').substring(0, 6);
+};
+
+/**
+ * Confirm phone verification code
+ */
+window.confirmPhoneCode = async () => {
+  const state = window.identityVerificationState;
+
+  state.isLoading = true;
+  state.error = null;
+  rerenderModal();
+
+  const result = await confirmPhoneVerification(state.verificationCode);
+
+  state.isLoading = false;
+
+  if (result.success) {
+    state.currentStep = 'overview';
+    const { showToast } = await import('../../services/notifications.js');
+    showToast(t('phoneVerifiedSuccess'), 'success');
+  } else {
+    state.error = result.error;
+  }
+
+  rerenderModal();
+};
+
+/**
+ * Resend phone verification code
+ */
+window.resendPhoneCode = async () => {
+  const state = window.identityVerificationState;
+  await sendPhoneVerification(state.phoneNumber);
+  const { showToast } = await import('../../services/notifications.js');
+  showToast(t('codeSentAgain'), 'success');
+};
+
+/**
+ * Handle photo upload
+ */
+window.handlePhotoUpload = (event) => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    window.identityVerificationState.photoPreview = e.target.result;
+    rerenderModal();
+  };
+  reader.readAsDataURL(file);
+};
+
+/**
+ * Clear photo preview
+ */
+window.clearPhotoPreview = () => {
+  window.identityVerificationState.photoPreview = null;
+  rerenderModal();
+};
+
+/**
+ * Submit photo verification
+ */
+window.submitPhotoVerification = async () => {
+  const state = window.identityVerificationState;
+
+  if (!state.photoPreview) return;
+
+  state.isLoading = true;
+  state.error = null;
+  rerenderModal();
+
+  const result = await uploadVerificationPhoto(state.photoPreview);
+
+  state.isLoading = false;
+
+  if (result.success) {
+    state.currentStep = 'overview';
+    state.photoPreview = null;
+    const { showToast } = await import('../../services/notifications.js');
+    showToast(t('photoSubmitted'), 'success');
+  } else {
+    state.error = result.error;
+  }
+
+  rerenderModal();
+};
+
+/**
+ * Set document type
+ */
+window.setDocumentType = (type) => {
+  window.identityVerificationState.documentType = type;
+  rerenderModal();
+};
+
+/**
+ * Handle document upload
+ */
+window.handleDocumentUpload = (event) => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    window.identityVerificationState.documentPreview = e.target.result;
+    rerenderModal();
+  };
+  reader.readAsDataURL(file);
+};
+
+/**
+ * Clear document preview
+ */
+window.clearDocumentPreview = () => {
+  window.identityVerificationState.documentPreview = null;
+  rerenderModal();
+};
+
+/**
+ * Submit identity document
+ */
+window.submitIdentityDocument = async () => {
+  const state = window.identityVerificationState;
+
+  if (!state.documentPreview) return;
+
+  state.isLoading = true;
+  state.error = null;
+  rerenderModal();
+
+  const result = await uploadIdentityDocument(state.documentPreview, state.documentType);
+
+  state.isLoading = false;
+
+  if (result.success) {
+    state.currentStep = 'overview';
+    state.documentPreview = null;
+    const { showToast } = await import('../../services/notifications.js');
+    showToast(t('documentSubmitted'), 'success');
+  } else {
+    state.error = result.error;
+  }
+
+  rerenderModal();
+};
+
+/**
+ * Re-render the modal
+ */
+function rerenderModal() {
+  const container = document.getElementById('identity-verification-modal');
+  if (container) {
+    const parent = container.parentElement;
+    if (parent) {
+      parent.innerHTML = renderIdentityVerification();
+    }
+  }
+}
+
+export default {
+  renderIdentityVerification,
+  renderVerificationBadgeUI,
+};

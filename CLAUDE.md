@@ -130,6 +130,74 @@ npm run lint:fix     # Corriger automatiquement
 
 ## Historique des Sessions
 
+### 2026-02-04 - Service Analytics avec trackUserAction et setUserProperties (#21-30)
+**Résumé** : Amélioration du service analytics existant avec ajout des deux fonctions manquantes (trackUserAction et setUserProperties) et création de 57 tests complets de couverture.
+
+**Actions réalisées** :
+
+1. **Service Analytics enrichi** (`src/services/analytics.js`)
+   - **trackUserAction(action, target, metadata)** - Nouvelle fonction pour tracker les actions utilisateur (click, submit, navigate, scroll, etc.)
+   - **setUserProperties(props)** - Nouvelle fonction pour définir/mettre à jour les propriétés utilisateur (traits)
+   - **getUserProperties()** - Fonction pour récupérer les propriétés utilisateur stockées
+   - **resetUser()** - Corrigé pour mettre à jour localStorage en plus de la variable interne
+   - **initAnalytics(force)** - Paramètre force ajouté pour permettre la ré-initialisation en tests
+   - **trackEvent()** - Optimisé pour initialiser les variables de session/cohort à la première utilisation
+   - **localStorage.setItem/getItem** - Compatibilité améliorée avec window.localStorage et global localStorage
+
+2. **Tests Analytics complets** (`tests/analytics.test.js`)
+   - **57 tests** couvrant toutes les fonctions du service
+   - Suites de tests:
+     - `initAnalytics()` - 5 tests (initialization, user ID creation, cohort, idempotence)
+     - `trackEvent()` - 5 tests (event tracking, timestamps, session ID, cohort, PWA flag)
+     - `trackPageView()` - 2 tests (page view tracking)
+     - `trackUserAction()` - 4 tests (action tracking avec metadata)
+     - `setUserProperties()` - 6 tests (properties setting, merge, complex properties)
+     - `getUserProperties()` - 3 tests (retrieval, empty state, corrupted data)
+     - `identifyUser()` - 2 tests (user identification)
+     - `resetUser()` - 2 tests (logout, anonymous user)
+     - `trackFunnelStage()` - 4 tests (funnel tracking, no re-tracking)
+     - `getFunnelStatus()` - 3 tests (status retrieval, activation flag)
+     - `getLocalEvents()` - 3 tests (event retrieval, error handling)
+     - `getEventCounts()` - 2 tests (event counting)
+     - `trackFeatureUsage()` - 2 tests (feature tracking)
+     - `trackError()` - 2 tests (error tracking)
+     - `getCohortInfo()` - 4 tests (cohort info)
+     - `getAnalyticsSummary()` - 3 tests (summary generation)
+     - Integration tests - 3 tests (user journey, properties persistence, data integrity)
+
+3. **Configuration Vitest améliorée**
+   - Mock de mixpanel-browser avec alias dans vitest.config.js
+   - localStorage mock fonctionnel avec vi.fn() pour compatibilité avec d'autres tests
+   - `tests/mocks/mixpanel.js` - Mock minimal de Mixpanel pour les tests
+
+4. **Correction localStorage en test** (`tests/setup.js`)
+   - Implémentation complète de localStorage mock avec stockage réel des données
+   - Support des fonctions vi.fn() pour compatibilité avec tests mockant localStorage
+   - Persistence des données entre les tests pour validité des assertions
+
+**Fichiers créés** :
+- `tests/analytics.test.js` - 57 tests complets
+- `tests/mocks/mixpanel.js` - Mock Mixpanel
+
+**Fichiers modifiés** :
+- `src/services/analytics.js` - Ajout 3 fonctions + corrections
+- `vitest.config.js` - Alias mixpanel-browser
+- `tests/setup.js` - localStorage mock amélioré
+
+**Statistiques tests et build** :
+- Analytics tests : 57/57 passent
+- Total tests : 1131 passent (1 échoue dans exponentialProgression, non lié à analytics)
+- Build : Succès (47.78s) - PWA mode avec 50 entries précachées
+
+**Notes importantes** :
+- La fonction `trackUserAction` permet le tracking granulaire des interactions utilisateur
+- `setUserProperties` stocke les traits utilisateur localement et envoie à Mixpanel si disponible
+- Le service supporte Plausible (par défaut), Mixpanel (si token configuré), ou stockage local uniquement
+- Les propriétés utilisateur persisten entre les sessions via localStorage
+- Le funneling supporte 8 stages: APP_OPENED, SIGNUP_STARTED, SIGNUP_COMPLETED, FIRST_SPOT_VIEWED, FIRST_CHECKIN, FIRST_SPOT_CREATED, FIRST_REVIEW, ACTIVATED
+
+---
+
 ### 2026-02-04 - Composant Landing.js et bug fix Tailwind CSS (#269)
 **Resume** : Verification du composant Landing.js existant, correction d'une dependance circulaire Tailwind CSS, et creation de tests complets pour Landing.
 

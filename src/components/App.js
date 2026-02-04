@@ -39,6 +39,7 @@ import { renderQuiz } from './modals/Quiz.js';
 import { renderLeaderboardModal } from './modals/Leaderboard.js';
 import { renderCheckinModal } from './modals/CheckinModal.js';
 import { renderAgeVerification, initAgeVerification } from './modals/AgeVerification.js';
+import { renderIdentityVerification } from './modals/IdentityVerification.js';
 
 // UI Components
 import { renderNavigationOverlay } from './ui/NavigationOverlay.js';
@@ -83,6 +84,7 @@ export function renderApp(state) {
 
     <!-- Modals -->
     ${state.showAgeVerification ? renderAgeVerification(state) : ''}
+    ${state.showIdentityVerification ? renderIdentityVerification() : ''}
     ${state.selectedSpot ? renderSpotDetail(state) : ''}
     ${state.showAddSpot ? renderAddSpot(state) : ''}
     ${state.showSOS ? renderSOS(state) : ''}

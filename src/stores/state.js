@@ -51,6 +51,16 @@ const initialState = {
   showShop: false,
   showMyRewards: false,
   showSideMenu: false,
+  showIdentityVerification: false,
+
+  // Identity Verification
+  verificationLevel: 0,
+  pendingPhoneVerification: null,
+  pendingPhotoVerification: null,
+  pendingIdentityVerification: null,
+  verifiedPhone: null,
+  verifiedPhotoUrl: null,
+  identityVerifiedAt: null,
 
   // Checkin Modal
   checkinSpot: null,

@@ -770,6 +770,24 @@ window.openAgeVerification = () => {
 window.closeAgeVerification = () => setState({ showAgeVerification: false });
 window.showAgeVerification = () => window.openAgeVerification();
 
+// Identity Verification handlers (Security - ID/Passport)
+window.openIdentityVerification = () => {
+  // Reset modal state
+  window.identityVerificationState = {
+    currentStep: 'overview',
+    phoneNumber: '',
+    verificationCode: '',
+    photoPreview: null,
+    documentType: 'id_card',
+    documentPreview: null,
+    isLoading: false,
+    error: null,
+  };
+  setState({ showIdentityVerification: true });
+};
+window.closeIdentityVerification = () => setState({ showIdentityVerification: false });
+window.showIdentityVerification = () => window.openIdentityVerification();
+
 // Welcome handlers
 window.selectAvatar = (avatar) => setState({ selectedAvatar: avatar });
 window.completeWelcome = () => {
