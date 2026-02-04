@@ -10,54 +10,63 @@ const avatars = ['🤙', '😎', '🧳', '🎒', '🌍', '✌️', '🚗', '🛣
 export function renderWelcome(_state) {
   return `
     <div class="min-h-screen flex items-center justify-center p-4
-      bg-gradient-to-br from-dark-primary to-dark-secondary">
+      bg-gradient-to-br from-dark-primary to-dark-secondary"
+      role="main"
+      aria-labelledby="welcome-title">
       <div class="card p-8 max-w-md w-full text-center fade-in">
         <!-- Logo -->
-        <div class="text-6xl mb-4">🤙</div>
-        <h1 class="text-3xl font-display font-bold gradient-text mb-2">${t('appName')}</h1>
+        <div class="text-6xl mb-4" aria-hidden="true">🤙</div>
+        <h1 id="welcome-title" class="text-3xl font-display font-bold gradient-text mb-2">${t('appName')}</h1>
         <p class="text-slate-400 mb-8">${t('welcomeDesc')}</p>
-        
+
         <!-- Username -->
         <div class="mb-6 text-left">
-          <label class="text-sm text-slate-400 block mb-2">${t('yourUsername')}</label>
-          <input 
+          <label for="welcome-username" class="text-sm text-slate-400 block mb-2">${t('yourUsername')}</label>
+          <input
             type="text"
             id="welcome-username"
+            name="username"
             class="input-modern"
             placeholder="Ex: Marco_Polo"
             maxlength="20"
+            autocomplete="username"
           />
         </div>
-        
+
         <!-- Avatar Selection -->
-        <div class="mb-8 text-left">
-          <label class="text-sm text-slate-400 block mb-3">${t('chooseAvatar')}</label>
-          <div class="grid grid-cols-6 gap-2" id="avatar-grid">
+        <fieldset class="mb-8 text-left border-none p-0">
+          <legend class="text-sm text-slate-400 block mb-3">${t('chooseAvatar')}</legend>
+          <div class="grid grid-cols-6 gap-2" id="avatar-grid" role="radiogroup" aria-label="Selection d'avatar">
             ${avatars.map((avatar, i) => `
-              <button 
+              <button
                 type="button"
                 class="avatar-option ${i === 0 ? 'selected' : ''}"
                 data-avatar="${avatar}"
                 onclick="selectAvatar('${avatar}')"
+                role="radio"
+                aria-checked="${i === 0 ? 'true' : 'false'}"
+                aria-label="Avatar ${avatar}"
               >
                 ${avatar}
               </button>
             `).join('')}
           </div>
-        </div>
-        
+        </fieldset>
+
         <!-- Submit -->
-        <button 
+        <button
           onclick="completeWelcome()"
           class="btn btn-primary w-full text-lg"
+          type="button"
         >
-          ${t('letsGo')} 🚀
+          ${t('letsGo')} <span aria-hidden="true">🚀</span>
         </button>
-        
+
         <!-- Skip -->
-        <button 
+        <button
           onclick="skipWelcome()"
           class="text-slate-500 text-sm mt-4 hover:text-slate-300 transition-colors"
+          type="button"
         >
           Continuer sans compte
         </button>
@@ -74,7 +83,9 @@ window.selectAvatar = (avatar) => {
 
   // Update UI
   document.querySelectorAll('.avatar-option').forEach(el => {
-    el.classList.toggle('selected', el.dataset.avatar === avatar);
+    const isSelected = el.dataset.avatar === avatar;
+    el.classList.toggle('selected', isSelected);
+    el.setAttribute('aria-checked', isSelected ? 'true' : 'false');
   });
 };
 

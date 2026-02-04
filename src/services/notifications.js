@@ -4,6 +4,7 @@
  */
 
 import { requestNotificationPermission, onForegroundMessage } from './firebase.js';
+import { escapeHTML } from '../utils/sanitize.js';
 
 // Toast container reference
 let toastContainer = null;
@@ -75,7 +76,7 @@ export function showToast(message, type = 'info', duration = 4000) {
 
   toast.innerHTML = `
     <span style="font-size: 20px">${icons[type] || icons.info}</span>
-    <span>${message}</span>
+    <span>${escapeHTML(message)}</span>
   `;
 
   toastContainer.appendChild(toast);

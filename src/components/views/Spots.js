@@ -5,40 +5,47 @@
 
 import { t } from '../../i18n/index.js';
 import { renderSpotCard } from '../SpotCard.js';
+import { renderSkeletonSpotList, renderSkeletonMapLoading } from '../ui/Skeleton.js';
 
 export function renderSpots(state) {
   const filteredSpots = filterSpots(state);
 
   return `
-    <div class="p-4">
+    <div class="p-4" role="tabpanel" id="panel-spots" aria-labelledby="tab-spots">
       <!-- Search & View Toggle -->
       <div class="flex gap-2 mb-4">
         <div class="flex-1 relative">
-          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input 
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+          <label for="search-input" class="sr-only">${t('searchSpot')}</label>
+          <input
             id="search-input"
-            type="text"
+            type="search"
             class="input-modern pl-12"
             placeholder="${t('searchSpot')}"
-            value="${state.searchQuery}"
+            value="${state.searchQuery || ''}"
             oninput="handleSearch(this.value)"
+            aria-describedby="search-results-count"
           />
         </div>
-        
-        <div class="flex gap-1 bg-white/5 rounded-xl p-1">
-          <button 
+
+        <div class="flex gap-1 bg-white/5 rounded-xl p-1" role="group" aria-label="Mode d'affichage">
+          <button
             onclick="setViewMode('list')"
             class="p-3 rounded-lg ${state.viewMode === 'list' ? 'bg-primary-500 text-white' : 'text-slate-400'}"
             aria-label="Vue liste"
+            aria-pressed="${state.viewMode === 'list' ? 'true' : 'false'}"
+            type="button"
           >
-            <i class="fas fa-list"></i>
+            <i class="fas fa-list" aria-hidden="true"></i>
           </button>
-          <button 
+          <button
             onclick="setViewMode('map')"
             class="p-3 rounded-lg ${state.viewMode === 'map' ? 'bg-primary-500 text-white' : 'text-slate-400'}"
             aria-label="Vue carte"
+            aria-pressed="${state.viewMode === 'map' ? 'true' : 'false'}"
+            type="button"
           >
-            <i class="fas fa-map"></i>
+            <i class="fas fa-map" aria-hidden="true"></i>
           </button>
         </div>
       </div>
@@ -46,13 +53,20 @@ export function renderSpots(state) {
       <!-- Filters -->
       <div class="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
         ${renderFilterButtons(state)}
+        <button
+          onclick="openFilters()"
+          class="badge bg-white/5 text-slate-400 whitespace-nowrap hover:bg-white/10"
+        >
+          <i class="fas fa-sliders-h"></i>
+          Plus
+        </button>
       </div>
       
       <!-- Content -->
-      ${state.viewMode === 'list'
-    ? renderSpotsList(filteredSpots)
-    : renderSpotsMap()
-}
+      ${state.spotsLoading
+        ? (state.viewMode === 'list' ? renderSkeletonSpotList(5) : renderSpotsMapLoading())
+        : (state.viewMode === 'list' ? renderSpotsList(filteredSpots) : renderSpotsMap())
+      }
     </div>
   `;
 }
@@ -66,11 +80,13 @@ function renderFilterButtons(state) {
   ];
 
   return filters.map(filter => `
-    <button 
+    <button
       onclick="setFilter('${filter.id}')"
       class="badge ${state.activeFilter === filter.id ? 'badge-primary' : 'bg-white/5 text-slate-400'} whitespace-nowrap"
+      aria-pressed="${state.activeFilter === filter.id ? 'true' : 'false'}"
+      type="button"
     >
-      <i class="fas ${filter.icon}"></i>
+      <i class="fas ${filter.icon}" aria-hidden="true"></i>
       ${filter.label}
     </button>
   `).join('');
@@ -79,12 +95,12 @@ function renderFilterButtons(state) {
 function renderSpotsList(spots) {
   if (spots.length === 0) {
     return `
-      <div class="text-center py-12">
-        <i class="fas fa-map-marker-alt text-5xl text-slate-600 mb-4"></i>
+      <div class="text-center py-12" role="status">
+        <i class="fas fa-map-marker-alt text-5xl text-slate-600 mb-4" aria-hidden="true"></i>
         <h3 class="text-lg font-bold mb-2">${t('noSpots')}</h3>
         <p class="text-slate-400 mb-4">${t('beFirst')}</p>
-        <button onclick="openAddSpot()" class="btn btn-primary">
-          <i class="fas fa-plus mr-2"></i>
+        <button onclick="openAddSpot()" class="btn btn-primary" type="button">
+          <i class="fas fa-plus mr-2" aria-hidden="true"></i>
           ${t('addSpot')}
         </button>
       </div>
@@ -92,20 +108,20 @@ function renderSpotsList(spots) {
   }
 
   return `
-    <div class="space-y-3">
+    <div class="space-y-3" role="list" aria-label="Liste des spots d'autostop">
       ${spots.map(spot => renderSpotCard(spot)).join('')}
     </div>
-    
-    <div class="text-center text-slate-500 text-sm mt-6">
-      ${spots.length} spots affichés
+
+    <div class="text-center text-slate-500 text-sm mt-6" id="search-results-count" role="status" aria-live="polite">
+      ${spots.length} spot${spots.length > 1 ? 's' : ''} affiche${spots.length > 1 ? 's' : ''}
     </div>
   `;
 }
 
 function renderSpotsMap() {
   return `
-    <div 
-      id="map" 
+    <div
+      id="map"
       class="h-[calc(100vh-280px)] min-h-[400px] rounded-2xl overflow-hidden"
       role="application"
       aria-label="Carte des spots d'autostop"
@@ -115,6 +131,31 @@ function renderSpotsMap() {
           <i class="fas fa-spinner fa-spin text-3xl text-primary-400 mb-3"></i>
           <p class="text-slate-400">Chargement de la carte...</p>
         </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderSpotsMapLoading() {
+  return `
+    <div
+      class="h-[calc(100vh-280px)] min-h-[400px] rounded-2xl overflow-hidden relative"
+      role="status"
+      aria-label="Chargement de la carte"
+    >
+      <div class="absolute inset-0 bg-slate-800 animate-pulse">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="text-center space-y-4">
+            <div class="skeleton w-20 h-20 rounded-full mx-auto"></div>
+            <div class="skeleton h-4 w-40 rounded mx-auto"></div>
+            <div class="skeleton h-3 w-32 rounded mx-auto"></div>
+          </div>
+        </div>
+        <!-- Fake map markers -->
+        <div class="skeleton w-8 h-8 rounded-full absolute top-1/4 left-1/4"></div>
+        <div class="skeleton w-8 h-8 rounded-full absolute top-1/3 right-1/3"></div>
+        <div class="skeleton w-8 h-8 rounded-full absolute bottom-1/3 left-1/2"></div>
+        <div class="skeleton w-8 h-8 rounded-full absolute top-1/2 right-1/4"></div>
       </div>
     </div>
   `;

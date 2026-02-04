@@ -1,118 +1,142 @@
-# Conditions d'Utilisation - SpotHitch
+# Conditions Générales d'Utilisation - SpotHitch
 
-*Dernière mise à jour : 26 décembre 2025*
+**Dernière mise à jour :** 26 décembre 2025
 
 ## 1. Acceptation des Conditions
 
-En utilisant SpotHitch ("l'application", "le service"), vous acceptez ces conditions d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser l'application.
+En utilisant SpotHitch, vous acceptez ces conditions. Si vous n'acceptez pas, veuillez ne pas utiliser l'application.
 
 ## 2. Description du Service
 
-SpotHitch est une plateforme communautaire permettant aux autostoppeurs de :
-- Découvrir des spots d'auto-stop en Europe
-- Partager leurs propres spots
-- Échanger avec d'autres autostoppeurs
-- Planifier leurs voyages
+SpotHitch est une application communautaire permettant de :
+- Découvrir des spots d'auto-stop
+- Partager ses expériences
+- Planifier des itinéraires
+- Échanger avec la communauté
 
 ## 3. Inscription et Compte
 
-### 3.1 Création de compte
-- Vous devez avoir au moins 16 ans
+### 3.1 Éligibilité
+- Vous devez avoir au moins 13 ans
 - Vous devez fournir des informations exactes
-- Vous êtes responsable de la sécurité de votre compte
+- Un seul compte par personne
 
-### 3.2 Responsabilité du compte
+### 3.2 Sécurité du compte
+- Vous êtes responsable de votre mot de passe
+- Signalez immédiatement tout accès non autorisé
 - Ne partagez pas vos identifiants
-- Informez-nous immédiatement en cas d'accès non autorisé
-- Un compte par personne
 
-## 4. Règles d'Utilisation
+## 4. Contenu Utilisateur
 
-### 4.1 Comportement attendu
-Vous vous engagez à :
-- Respecter les autres utilisateurs
-- Partager des informations exactes et utiles
-- Utiliser l'application de manière légale
-- Ne pas harceler ou menacer d'autres utilisateurs
+### 4.1 Vous conservez vos droits
+Vous restez propriétaire du contenu que vous publiez.
 
-### 4.2 Contenu interdit
+### 4.2 Licence accordée
+En publiant, vous accordez à SpotHitch une licence mondiale, non exclusive et gratuite pour afficher votre contenu dans l'application.
+
+### 4.3 Contenu interdit
 Il est interdit de publier :
-- Contenu illégal, diffamatoire ou offensant
+- Contenu illégal, haineux ou discriminatoire
 - Spam ou publicité non autorisée
-- Informations personnelles d'autres personnes
-- Fausses informations sur les spots
-- Contenu à caractère sexuel ou violent
+- Informations fausses ou trompeuses
+- Données personnelles d'autrui
+- Contenu à caractère sexuel
+- Incitation à la violence
 
-### 4.3 Qualité des spots
-Lors du partage d'un spot :
-- Vérifiez que l'emplacement est sûr et légal
-- Fournissez une description précise
-- Mettez à jour les informations si nécessaire
-- Signalez les spots dangereux ou obsolètes
+### 4.4 Modération
+Nous pouvons supprimer tout contenu violant ces règles, sans préavis.
 
-## 5. Propriété Intellectuelle
+## 5. Utilisation Acceptable
 
-### 5.1 Contenu de SpotHitch
-L'application et son contenu (design, code, marques) sont protégés par le droit d'auteur.
+### Vous vous engagez à :
+- Utiliser l'application de manière légale
+- Respecter les autres utilisateurs
+- Fournir des informations exactes sur les spots
+- Ne pas tenter de pirater ou perturber le service
 
-### 5.2 Votre contenu
-- Vous conservez les droits sur votre contenu
-- Vous accordez à SpotHitch une licence pour afficher votre contenu
-- Votre contenu peut être modéré ou supprimé si nécessaire
+### Il est interdit de :
+- Créer de faux spots ou avis
+- Harceler d'autres utilisateurs
+- Usurper l'identité d'autrui
+- Utiliser des bots ou scripts automatisés
+- Contourner les mesures de sécurité
 
-## 6. Avertissement et Responsabilité
+## 6. Responsabilité
 
-### 6.1 Auto-stop
-L'auto-stop comporte des risques inhérents. SpotHitch :
-- Ne garantit pas la sécurité des spots
-- Ne vérifie pas tous les spots partagés
-- N'est pas responsable des incidents pendant l'auto-stop
+### 6.1 Informations sur les spots
+- Les informations sont fournies par la communauté
+- Nous ne garantissons pas leur exactitude
+- Vérifiez toujours la légalité de l'auto-stop localement
+- Utilisez votre jugement pour votre sécurité
 
-### 6.2 Recommandations de sécurité
-- Évaluez toujours la situation avant de monter dans un véhicule
-- Informez quelqu'un de votre itinéraire
-- Utilisez la fonction SOS en cas d'urgence
-- Faites confiance à votre instinct
+### 6.2 Sécurité personnelle
+L'auto-stop comporte des risques. SpotHitch :
+- Ne garantit pas votre sécurité
+- N'est pas responsable des incidents
+- Recommande la prudence
 
 ### 6.3 Limitation de responsabilité
-SpotHitch est fourni "tel quel". Nous ne sommes pas responsables des :
-- Dommages résultant de l'utilisation de l'application
-- Informations inexactes partagées par les utilisateurs
-- Interruptions de service
+SpotHitch est fourni "tel quel". Nous déclinons toute responsabilité pour :
+- Les dommages directs ou indirects
+- La perte de données
+- L'interruption du service
+- Les actions d'autres utilisateurs
 
-## 7. Modération
+## 7. Propriété Intellectuelle
 
-Nous nous réservons le droit de :
-- Supprimer tout contenu violant ces conditions
-- Suspendre ou supprimer les comptes problématiques
-- Modifier ou supprimer des spots inappropriés
+- L'application et son code sont protégés (licence MIT)
+- Les marques SpotHitch nous appartiennent
+- Le contenu utilisateur appartient à ses auteurs
+- Les données Hitchwiki sont sous licence CC-BY-SA
 
-## 8. Modifications du Service
+## 8. Résiliation
 
-Nous pouvons à tout moment :
-- Modifier les fonctionnalités
-- Mettre à jour ces conditions
-- Interrompre temporairement le service
+### 8.1 Par vous
+Vous pouvez supprimer votre compte à tout moment depuis les paramètres.
 
-Les modifications importantes seront notifiées dans l'application.
+### 8.2 Par nous
+Nous pouvons suspendre ou supprimer votre compte en cas de :
+- Violation des présentes conditions
+- Comportement nuisible à la communauté
+- Inactivité prolongée (> 2 ans)
 
-## 9. Résiliation
+## 9. Modifications
 
-Vous pouvez supprimer votre compte à tout moment depuis les paramètres de l'application.
-
-Nous pouvons résilier votre compte en cas de violation de ces conditions.
+Nous pouvons modifier ces conditions. Les changements importants seront notifiés 30 jours à l'avance via l'application.
 
 ## 10. Droit Applicable
 
-Ces conditions sont régies par le droit français. Tout litige sera soumis aux tribunaux compétents de Paris, France.
+Ces conditions sont régies par le droit français. Tout litige sera soumis aux tribunaux compétents.
 
-## 11. Contact
+## 11. Divisibilité
+
+Si une clause est invalide, les autres restent en vigueur.
+
+## 12. Contact
 
 Pour toute question :
-- Email : contact@spothitch.app
-- GitHub : https://github.com/antoine626/Spothitch/issues
+- GitHub : [github.com/antoine626/Spothitch](https://github.com/antoine626/Spothitch)
+- Issues : [Signaler un problème](https://github.com/antoine626/Spothitch/issues)
+
+## 13. Avertissement sur l'Auto-Stop
+
+### ⚠️ Important
+L'auto-stop peut être :
+- **Illégal** dans certains pays ou zones (autoroutes)
+- **Dangereux** - évaluez toujours les risques
+- **Variable** - les conditions changent
+
+### Conseils de sécurité :
+- Informez quelqu'un de votre trajet
+- Faites confiance à votre instinct
+- N'hésitez pas à refuser une voiture
+- Ayez toujours un téléphone chargé
+- Utilisez le mode SOS en cas d'urgence
+
+SpotHitch ne remplace pas votre jugement personnel.
 
 ---
 
+*En utilisant SpotHitch, vous confirmez avoir lu et accepté ces conditions.*
+
 *SpotHitch - La communauté des autostoppeurs*
-*Voyagez libre, voyagez responsable.*

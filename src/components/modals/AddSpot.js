@@ -7,117 +7,134 @@ import { t } from '../../i18n/index.js';
 
 export function renderAddSpot(_state) {
   return `
-    <div 
+    <div
       class="fixed inset-0 z-50 flex items-end sm:items-center justify-center"
       onclick="closeAddSpot()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="addspot-modal-title"
     >
       <!-- Backdrop -->
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-      
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true"></div>
+
       <!-- Modal -->
-      <div 
+      <div
         class="relative bg-dark-primary border border-white/10 rounded-t-3xl sm:rounded-3xl
           w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Header -->
         <div class="flex items-center justify-between p-4 border-b border-white/10">
-          <h2 class="text-xl font-bold">${t('addSpot')}</h2>
-          <button 
+          <h2 id="addspot-modal-title" class="text-xl font-bold">${t('addSpot')}</h2>
+          <button
             onclick="closeAddSpot()"
             class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-            aria-label="Fermer"
+            aria-label="Fermer la fenetre d'ajout de spot"
+            type="button"
           >
-            <i class="fas fa-times"></i>
+            <i class="fas fa-times" aria-hidden="true"></i>
           </button>
         </div>
         
         <!-- Form -->
         <div class="p-4 overflow-y-auto max-h-[calc(90vh-8rem)]">
-          <form id="add-spot-form" onsubmit="handleAddSpot(event)" class="space-y-4">
+          <form id="add-spot-form" onsubmit="handleAddSpot(event)" class="space-y-4" aria-label="Formulaire d'ajout de spot">
             <!-- Photo -->
             <div>
-              <label class="text-sm text-slate-400 block mb-2">${t('photoRequired')}</label>
-              <div 
+              <label for="spot-photo" class="text-sm text-slate-400 block mb-2">${t('photoRequired')}</label>
+              <div
                 id="photo-upload"
                 class="photo-upload"
                 onclick="triggerPhotoUpload()"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();triggerPhotoUpload();}"
+                role="button"
+                tabindex="0"
+                aria-label="Cliquez pour ajouter une photo du spot"
               >
-                <input 
-                  type="file" 
-                  id="spot-photo" 
-                  accept="image/*" 
+                <input
+                  type="file"
+                  id="spot-photo"
+                  name="photo"
+                  accept="image/*"
                   capture="environment"
                   class="hidden"
                   onchange="handlePhotoSelect(event)"
+                  aria-describedby="photo-help"
                 />
                 <div id="photo-preview">
-                  <i class="fas fa-camera text-4xl text-slate-500 mb-2"></i>
+                  <i class="fas fa-camera text-4xl text-slate-500 mb-2" aria-hidden="true"></i>
                   <p class="text-slate-400">${t('takePhoto')}</p>
-                  <p class="text-slate-500 text-sm">${t('chooseFromGallery')}</p>
+                  <p class="text-slate-500 text-sm" id="photo-help">${t('chooseFromGallery')}</p>
                 </div>
               </div>
             </div>
-            
+
             <!-- From -->
             <div>
-              <label class="text-sm text-slate-400 block mb-2">${t('from')} *</label>
-              <input 
+              <label for="spot-from" class="text-sm text-slate-400 block mb-2">${t('from')} <span aria-label="obligatoire">*</span></label>
+              <input
                 type="text"
                 id="spot-from"
+                name="from"
                 class="input-modern"
                 placeholder="Ex: Paris"
                 required
+                aria-required="true"
               />
             </div>
-            
+
             <!-- To -->
             <div>
-              <label class="text-sm text-slate-400 block mb-2">${t('to')} *</label>
-              <input 
+              <label for="spot-to" class="text-sm text-slate-400 block mb-2">${t('to')} <span aria-label="obligatoire">*</span></label>
+              <input
                 type="text"
                 id="spot-to"
+                name="to"
                 class="input-modern"
                 placeholder="Ex: Lyon (A6)"
                 required
+                aria-required="true"
               />
             </div>
-            
+
             <!-- Description -->
             <div>
-              <label class="text-sm text-slate-400 block mb-2">${t('description')}</label>
-              <textarea 
+              <label for="spot-description" class="text-sm text-slate-400 block mb-2">${t('description')}</label>
+              <textarea
                 id="spot-description"
+                name="description"
                 class="input-modern min-h-[100px] resize-none"
-                placeholder="Décris le spot, comment y accéder, conseils..."
+                placeholder="Decris le spot, comment y acceder, conseils..."
                 maxlength="500"
+                aria-describedby="desc-counter"
               ></textarea>
-              <div class="text-right text-xs text-slate-500 mt-1">
-                <span id="desc-count">0</span>/500
+              <div class="text-right text-xs text-slate-500 mt-1" id="desc-counter" aria-live="polite">
+                <span id="desc-count">0</span>/500 <span class="sr-only">caracteres</span>
               </div>
             </div>
             
             <!-- Location -->
             <div>
-              <label class="text-sm text-slate-400 block mb-2">📍 Position</label>
-              <button 
+              <span class="text-sm text-slate-400 block mb-2" id="location-label"><span aria-hidden="true">📍</span> Position</span>
+              <button
                 type="button"
                 onclick="getSpotLocation()"
                 class="btn btn-ghost w-full"
+                aria-describedby="location-display"
               >
-                <i class="fas fa-crosshairs"></i>
+                <i class="fas fa-crosshairs" aria-hidden="true"></i>
                 Utiliser ma position actuelle
               </button>
-              <div id="location-display" class="text-sm text-slate-400 mt-2 text-center"></div>
+              <div id="location-display" class="text-sm text-slate-400 mt-2 text-center" aria-live="polite" role="status"></div>
             </div>
-            
+
             <!-- Submit -->
-            <button 
+            <button
               type="submit"
               class="btn btn-primary w-full text-lg"
               id="submit-spot-btn"
             >
-              <i class="fas fa-share"></i>
+              <i class="fas fa-share" aria-hidden="true"></i>
               ${t('create')}
             </button>
           </form>

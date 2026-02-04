@@ -7,102 +7,126 @@ import { t } from '../../i18n/index.js';
 
 export function renderAuth(_state) {
   return `
-    <div 
+    <div
       class="fixed inset-0 z-50 flex items-center justify-center p-4"
       onclick="closeAuth()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="auth-modal-title"
     >
       <!-- Backdrop -->
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-      
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true"></div>
+
       <!-- Modal -->
-      <div 
+      <div
         class="relative bg-dark-primary border border-white/10 rounded-3xl w-full max-w-md overflow-hidden slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Close -->
-        <button 
+        <button
           onclick="closeAuth()"
           class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-          aria-label="Fermer"
+          aria-label="Fermer la fenetre de connexion"
+          type="button"
         >
-          <i class="fas fa-times"></i>
+          <i class="fas fa-times" aria-hidden="true"></i>
         </button>
         
         <!-- Header -->
         <div class="p-6 text-center border-b border-white/10">
-          <div class="text-4xl mb-2">🤙</div>
-          <h2 class="text-2xl font-bold gradient-text">${t('appName')}</h2>
+          <div class="text-4xl mb-2" aria-hidden="true">🤙</div>
+          <h2 id="auth-modal-title" class="text-2xl font-bold gradient-text">${t('appName')}</h2>
         </div>
         
         <!-- Tabs -->
-        <div class="flex border-b border-white/10">
-          <button 
+        <div class="flex border-b border-white/10" role="tablist" aria-label="Mode de connexion">
+          <button
             onclick="setAuthMode('login')"
             class="flex-1 py-3 text-center transition-colors auth-tab"
             data-mode="login"
             id="auth-tab-login"
+            role="tab"
+            aria-selected="true"
+            aria-controls="auth-form"
+            type="button"
           >
             ${t('login')}
           </button>
-          <button 
+          <button
             onclick="setAuthMode('register')"
             class="flex-1 py-3 text-center transition-colors auth-tab"
             data-mode="register"
             id="auth-tab-register"
+            role="tab"
+            aria-selected="false"
+            aria-controls="auth-form"
+            type="button"
           >
             ${t('register')}
           </button>
         </div>
         
         <!-- Form -->
-        <div class="p-6">
-          <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+        <div class="p-6" role="tabpanel" id="auth-form-panel">
+          <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4" aria-label="Formulaire de connexion">
             <!-- Email -->
             <div>
-              <label class="text-sm text-slate-400 block mb-2">${t('email')}</label>
-              <input 
+              <label for="auth-email" class="text-sm text-slate-400 block mb-2">${t('email')}</label>
+              <input
                 type="email"
                 id="auth-email"
+                name="email"
                 class="input-modern"
                 placeholder="email@exemple.com"
                 required
+                autocomplete="email"
+                aria-required="true"
               />
             </div>
-            
+
             <!-- Password -->
             <div>
-              <label class="text-sm text-slate-400 block mb-2">${t('password')}</label>
-              <input 
+              <label for="auth-password" class="text-sm text-slate-400 block mb-2">${t('password')}</label>
+              <input
                 type="password"
                 id="auth-password"
+                name="password"
                 class="input-modern"
                 placeholder="••••••••"
                 required
                 minlength="6"
+                autocomplete="current-password"
+                aria-required="true"
+                aria-describedby="password-hint"
               />
+              <span id="password-hint" class="sr-only">Minimum 6 caracteres</span>
             </div>
-            
+
             <!-- Confirm Password (Register only) -->
             <div id="confirm-password-field" class="hidden">
-              <label class="text-sm text-slate-400 block mb-2">${t('confirmPassword')}</label>
-              <input 
+              <label for="auth-password-confirm" class="text-sm text-slate-400 block mb-2">${t('confirmPassword')}</label>
+              <input
                 type="password"
                 id="auth-password-confirm"
+                name="password-confirm"
                 class="input-modern"
                 placeholder="••••••••"
                 minlength="6"
+                autocomplete="new-password"
               />
             </div>
-            
+
             <!-- Username (Register only) -->
             <div id="username-field" class="hidden">
-              <label class="text-sm text-slate-400 block mb-2">${t('yourUsername')}</label>
-              <input 
+              <label for="auth-username" class="text-sm text-slate-400 block mb-2">${t('yourUsername')}</label>
+              <input
                 type="text"
                 id="auth-username"
+                name="username"
                 class="input-modern"
                 placeholder="MonPseudo"
                 maxlength="20"
+                autocomplete="username"
               />
             </div>
             
@@ -135,12 +159,25 @@ export function renderAuth(_state) {
           </div>
           
           <!-- Google Sign In -->
-          <button 
+          <button
             onclick="handleGoogleSignIn()"
             class="btn btn-ghost w-full"
+            type="button"
+            aria-label="Se connecter avec Google"
           >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-5 h-5" />
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" class="w-5 h-5" aria-hidden="true" />
             ${t('continueWithGoogle')}
+          </button>
+
+          <!-- Demo Admin Login -->
+          <button
+            onclick="loginAsAdmin()"
+            class="btn w-full mt-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
+            type="button"
+            aria-label="Se connecter en mode administrateur demo"
+          >
+            <span class="mr-2" aria-hidden="true">👑</span>
+            Mode Admin (Demo)
           </button>
         </div>
       </div>
@@ -290,5 +327,56 @@ function getAuthErrorMessage(errorCode) {
   };
   return messages[errorCode] || t('authError');
 }
+
+/**
+ * Login as admin without Firebase (demo mode)
+ */
+window.loginAsAdmin = async () => {
+  try {
+    const { setState } = await import('../../stores/state.js');
+    const { showSuccess } = await import('../../services/notifications.js');
+
+    // Set admin user state
+    setState({
+      isLoggedIn: true,
+      user: {
+        uid: 'admin-demo-001',
+        email: 'admin@spothitch.com',
+        displayName: 'Admin SpotHitch',
+        photoURL: null,
+        isAdmin: true,
+      },
+      username: 'Admin',
+      avatar: '👑',
+      level: 99,
+      points: 50000,
+      seasonPoints: 10000,
+      vipLevel: 'legend',
+      checkins: 500,
+      spotsCreated: 150,
+      reviewsGiven: 300,
+      streak: 365,
+      maxStreak: 365,
+      totalDistance: 50000000,
+      totalRides: 1000,
+      visitedCountries: ['FR', 'DE', 'ES', 'IT', 'NL', 'BE', 'PL', 'CZ', 'AT', 'CH', 'PT', 'IE'],
+      badges: [
+        'first-checkin', 'explorer-10', 'expert-50', 'master-100',
+        'streak-7', 'streak-30', 'streak-100', 'streak-365',
+        'first-spot', 'cartographer-5', 'mapper-20',
+        'first-review', 'critic-10', 'influencer-50',
+        'night-owl', 'early-bird', 'globetrotter', 'legend'
+      ],
+      ownedRewards: ['avatar-legend', 'frame-gold', 'title-legend', 'feature-themes'],
+      showAuth: false,
+      showWelcome: false,
+    });
+
+    showSuccess('👑 Connecté en tant qu\'Admin !');
+
+  } catch (error) {
+    console.error('Admin login error:', error);
+  }
+};
 
 export default { renderAuth };

@@ -237,8 +237,108 @@ export function enableArrowNavigation(container, itemSelector = 'button, a') {
   });
 }
 
+/**
+ * Announce an action result to screen readers
+ * @param {string} action - The action performed
+ * @param {boolean} success - Whether the action was successful
+ * @param {string} customMessage - Optional custom message
+ */
+export function announceAction(action, success = true, customMessage = '') {
+  const messages = {
+    // Success messages
+    checkin_success: 'Check-in enregistré avec succès',
+    spot_created: 'Nouveau spot créé avec succès',
+    review_submitted: 'Avis publié avec succès',
+    login_success: 'Connexion réussie',
+    logout_success: 'Déconnexion réussie',
+    saved: 'Sauvegardé',
+    copied: 'Copié dans le presse-papier',
+    sent: 'Message envoyé',
+
+    // Error messages
+    checkin_error: 'Erreur lors du check-in',
+    spot_error: 'Erreur lors de la création du spot',
+    review_error: 'Erreur lors de la publication de l\'avis',
+    login_error: 'Erreur de connexion',
+    network_error: 'Erreur de connexion au réseau',
+    generic_error: 'Une erreur est survenue',
+  }
+
+  const key = success ? `${action}_success` : `${action}_error`
+  const message = customMessage || messages[key] || messages[action] || action
+
+  announce(message, success ? 'polite' : 'assertive')
+}
+
+/**
+ * Live region for dynamic content updates
+ * @param {string} regionId - ID for the live region
+ * @param {string} politeness - 'polite', 'assertive', or 'off'
+ */
+export function createLiveRegion(regionId, politeness = 'polite') {
+  let region = document.getElementById(regionId)
+
+  if (!region) {
+    region = document.createElement('div')
+    region.id = regionId
+    region.className = 'sr-only'
+    region.setAttribute('role', 'status')
+    region.setAttribute('aria-live', politeness)
+    region.setAttribute('aria-atomic', 'true')
+    document.body.appendChild(region)
+  }
+
+  return {
+    update: (message) => {
+      region.textContent = ''
+      setTimeout(() => {
+        region.textContent = message
+      }, 100)
+    },
+    clear: () => {
+      region.textContent = ''
+    },
+  }
+}
+
+/**
+ * Focus management for route changes
+ * @param {string} pageTitle - Title of the new page/view
+ */
+export function announcePageChange(pageTitle) {
+  announce(`Navigation vers ${pageTitle}`, 'polite')
+
+  // Focus the main content area
+  requestAnimationFrame(() => {
+    const main = document.querySelector('main, [role="main"], #main-content')
+    if (main) {
+      main.setAttribute('tabindex', '-1')
+      main.focus()
+    }
+  })
+}
+
+/**
+ * Mark loading state for screen readers
+ * @param {HTMLElement} element - Element being loaded
+ * @param {boolean} isLoading - Loading state
+ */
+export function setLoadingState(element, isLoading) {
+  if (!element) return
+
+  element.setAttribute('aria-busy', isLoading.toString())
+
+  if (isLoading) {
+    element.setAttribute('aria-describedby', 'loading-message')
+    announce('Chargement en cours...', 'polite')
+  } else {
+    element.removeAttribute('aria-describedby')
+  }
+}
+
 export default {
   announce,
+  announceAction,
   trapFocus,
   generateId,
   prefersReducedMotion,
@@ -249,4 +349,7 @@ export default {
   getContrastRatio,
   meetsContrastAA,
   enableArrowNavigation,
+  createLiveRegion,
+  announcePageChange,
+  setLoadingState,
 };

@@ -1,90 +1,102 @@
 # Politique de Confidentialité - SpotHitch
 
-*Dernière mise à jour : 26 décembre 2025*
+**Dernière mise à jour :** 26 décembre 2025
 
 ## 1. Introduction
 
-SpotHitch ("nous", "notre", "l'application") s'engage à protéger votre vie privée. Cette politique explique comment nous collectons, utilisons et protégeons vos données personnelles.
+SpotHitch ("nous", "notre", "l'application") s'engage à protéger la vie privée de ses utilisateurs. Cette politique explique comment nous collectons, utilisons et protégeons vos données.
 
 ## 2. Données Collectées
 
-### 2.1 Données que vous fournissez
-- **Compte utilisateur** : email, nom d'utilisateur, photo de profil (optionnel)
-- **Spots partagés** : localisation GPS, description, photos, notes
-- **Messages** : contenu des discussions dans le chat communautaire
-- **Avis** : évaluations et commentaires sur les spots
+### 2.1 Données fournies par l'utilisateur
+- **Compte** : Email, nom d'utilisateur, avatar choisi
+- **Contenu** : Spots partagés, avis, commentaires, photos
+- **Préférences** : Langue, thème, paramètres de l'application
 
 ### 2.2 Données collectées automatiquement
-- **Géolocalisation** : uniquement avec votre consentement, pour afficher les spots à proximité
-- **Données techniques** : type d'appareil, navigateur, adresse IP anonymisée
-- **Données d'usage** : pages visitées, fonctionnalités utilisées (anonymisées)
+- **Localisation** : Position GPS (uniquement avec votre permission)
+- **Appareil** : Type d'appareil, système d'exploitation, navigateur
+- **Usage** : Pages visitées, fonctionnalités utilisées, temps d'utilisation
+
+### 2.3 Données NON collectées
+- Nous ne collectons PAS vos contacts
+- Nous ne collectons PAS vos messages privés
+- Nous ne collectons PAS de données financières
 
 ## 3. Utilisation des Données
 
-Nous utilisons vos données pour :
-- Fournir et améliorer nos services
+Vos données sont utilisées pour :
+- Fournir et améliorer le service
 - Afficher les spots sur la carte
-- Permettre la communication entre utilisateurs
-- Envoyer des notifications (avec votre consentement)
+- Permettre la communauté (chat, avis)
+- Personnaliser votre expérience
 - Assurer la sécurité de la plateforme
-- Analyser l'utilisation de l'application (données anonymisées)
 
 ## 4. Partage des Données
 
-Nous ne vendons **jamais** vos données personnelles.
+### Nous partageons vos données avec :
+- **Firebase (Google)** : Hébergement et authentification
+- **OpenStreetMap** : Cartographie et géocodage
+- **OSRM** : Calcul d'itinéraires
 
-Vos données peuvent être partagées avec :
-- **Autres utilisateurs** : spots et profils publics uniquement
-- **Firebase (Google)** : hébergement et authentification
-- **Sentry** : monitoring des erreurs (données techniques uniquement)
+### Nous ne vendons JAMAIS vos données.
 
-## 5. Sécurité
+## 5. Stockage et Sécurité
 
-Nous protégeons vos données par :
-- Chiffrement HTTPS pour toutes les communications
-- Authentification sécurisée via Firebase
-- Accès limité aux données personnelles
-- Mises à jour régulières de sécurité
+- Les données sont stockées sur Firebase (serveurs Google)
+- Toutes les connexions sont chiffrées (HTTPS)
+- Les mots de passe sont gérés par Firebase Auth (hashés)
+- Accès aux données restreint au strict nécessaire
 
-## 6. Vos Droits (RGPD)
+## 6. Vos Droits
 
 Vous avez le droit de :
-- **Accéder** à vos données personnelles
-- **Rectifier** les informations inexactes
+- **Accéder** à vos données
+- **Modifier** vos informations
 - **Supprimer** votre compte et vos données
-- **Exporter** vos données (portabilité)
-- **Retirer** votre consentement à tout moment
-- **Vous opposer** au traitement de vos données
+- **Exporter** vos données
+- **Retirer** votre consentement
 
-Pour exercer ces droits, contactez-nous à : privacy@spothitch.app
+Pour exercer ces droits, contactez-nous via GitHub.
 
 ## 7. Cookies et Stockage Local
 
-Nous utilisons :
-- **LocalStorage** : préférences utilisateur, cache hors-ligne
-- **Cookies de session** : authentification Firebase
+L'application utilise :
+- **LocalStorage** : Préférences, cache hors-ligne
+- **IndexedDB** : Stockage des spots en cache
+- **Service Worker** : Fonctionnement hors-ligne
 
-Aucun cookie publicitaire n'est utilisé.
+Aucun cookie de tracking tiers n'est utilisé.
 
-## 8. Conservation des Données
+## 8. Localisation GPS
 
-- **Compte actif** : données conservées tant que le compte existe
-- **Compte supprimé** : suppression sous 30 jours
-- **Données anonymisées** : peuvent être conservées indéfiniment
+- La localisation est **optionnelle**
+- Utilisée uniquement pour :
+  - Afficher les spots proches
+  - Valider votre présence sur un spot (check-in)
+  - Le mode SOS (partage volontaire)
+- Vous pouvez la désactiver à tout moment
 
 ## 9. Mineurs
 
-SpotHitch n'est pas destiné aux personnes de moins de 16 ans. Nous ne collectons pas sciemment de données de mineurs.
+L'application n'est pas destinée aux enfants de moins de 13 ans. Nous ne collectons pas sciemment de données de mineurs.
 
 ## 10. Modifications
 
-Cette politique peut être mise à jour. Les modifications significatives seront notifiées dans l'application.
+Cette politique peut être mise à jour. Les changements significatifs seront notifiés dans l'application.
 
 ## 11. Contact
 
 Pour toute question concernant cette politique :
-- Email : privacy@spothitch.app
-- GitHub : https://github.com/antoine626/Spothitch/issues
+- GitHub : [github.com/antoine626/Spothitch](https://github.com/antoine626/Spothitch)
+- Issues : [Signaler un problème](https://github.com/antoine626/Spothitch/issues)
+
+## 12. Conformité RGPD
+
+En tant qu'application accessible en Europe, nous respectons le RGPD :
+- Base légale : Consentement et exécution du contrat
+- Transferts hors UE : Firebase (clauses contractuelles types)
+- DPO : Non applicable (petite structure)
 
 ---
 

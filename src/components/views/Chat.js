@@ -3,6 +3,8 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { escapeHTML } from '../../utils/sanitize.js';
+import { renderSkeletonChatList } from '../ui/Skeleton.js';
 
 export function renderChat(state) {
   const rooms = [
@@ -13,45 +15,53 @@ export function renderChat(state) {
   ];
 
   return `
-    <div class="flex flex-col h-[calc(100vh-140px)]">
+    <div class="flex flex-col h-[calc(100vh-140px)]" role="tabpanel" id="panel-chat" aria-labelledby="tab-chat">
       <!-- Room Tabs -->
-      <div class="flex gap-2 p-4 overflow-x-auto scrollbar-hide">
+      <div class="flex gap-2 p-4 overflow-x-auto scrollbar-hide" role="tablist" aria-label="Salons de discussion">
         ${rooms.map(room => `
-          <button 
+          <button
             class="badge ${room.id === state.chatRoom ? 'badge-primary' : 'bg-white/5 text-slate-400'} whitespace-nowrap"
             onclick="setChatRoom('${room.id}')"
+            role="tab"
+            aria-selected="${room.id === state.chatRoom ? 'true' : 'false'}"
+            aria-controls="chat-messages"
+            type="button"
           >
-            ${room.icon} ${room.name}
+            <span aria-hidden="true">${room.icon}</span> ${room.name}
           </button>
         `).join('')}
       </div>
-      
+
       <!-- Messages -->
-      <div class="flex-1 overflow-y-auto p-4 space-y-3">
-        ${state.messages.length > 0
-    ? state.messages.map(msg => renderMessage(msg, state)).join('')
-    : renderEmptyChat()
-}
+      <div class="flex-1 overflow-y-auto p-4 space-y-3" id="chat-messages" role="log" aria-live="polite" aria-label="Messages du chat">
+        ${state.chatLoading
+          ? renderSkeletonChatList(6)
+          : (state.messages.length > 0
+            ? state.messages.map(msg => renderMessage(msg, state)).join('')
+            : renderEmptyChat())
+        }
       </div>
-      
+
       <!-- Message Input -->
       <div class="p-4 glass-dark">
-        <div class="flex gap-2">
-          <input 
-            type="text" 
+        <form class="flex gap-2" onsubmit="event.preventDefault(); sendMessage();">
+          <label for="chat-input" class="sr-only">${t('typeMessage')}</label>
+          <input
+            type="text"
             class="input-modern flex-1"
             placeholder="${t('typeMessage')}"
             id="chat-input"
-            onkeypress="handleChatKeypress(event)"
+            name="message"
+            autocomplete="off"
           />
-          <button 
-            onclick="sendMessage()"
+          <button
+            type="submit"
             class="btn btn-primary px-4"
             aria-label="${t('send')}"
           >
-            <i class="fas fa-paper-plane"></i>
+            <i class="fas fa-paper-plane" aria-hidden="true"></i>
           </button>
-        </div>
+        </form>
       </div>
     </div>
   `;
@@ -59,29 +69,30 @@ export function renderChat(state) {
 
 function renderMessage(msg, state) {
   const isSent = msg.userId === state.user?.uid;
+  const senderName = isSent ? 'Vous' : escapeHTML(msg.userName || 'Utilisateur');
 
   return `
-    <div class="chat-bubble ${isSent ? 'sent' : 'received'}">
+    <article class="chat-bubble ${isSent ? 'sent' : 'received'}" aria-label="Message de ${senderName}">
       ${!isSent ? `
         <div class="flex items-center gap-2 mb-1">
-          <span class="text-lg">${msg.userAvatar || '🤙'}</span>
-          <span class="text-xs font-medium text-primary-400">${msg.userName}</span>
+          <span class="text-lg" aria-hidden="true">${escapeHTML(msg.userAvatar || '🤙')}</span>
+          <span class="text-xs font-medium text-primary-400">${escapeHTML(msg.userName)}</span>
         </div>
       ` : ''}
-      <p class="text-sm">${msg.text}</p>
-      <span class="text-xs opacity-50 mt-1 block text-right">
+      <p class="text-sm">${escapeHTML(msg.text)}</p>
+      <time class="text-xs opacity-50 mt-1 block text-right" datetime="${msg.createdAt}">
         ${formatTime(msg.createdAt)}
-      </span>
-    </div>
+      </time>
+    </article>
   `;
 }
 
 function renderEmptyChat() {
   return `
-    <div class="text-center py-12">
-      <i class="fas fa-comments text-5xl text-slate-600 mb-4"></i>
+    <div class="text-center py-12" role="status">
+      <i class="fas fa-comments text-5xl text-slate-600 mb-4" aria-hidden="true"></i>
       <h3 class="text-lg font-bold mb-2">Pas encore de messages</h3>
-      <p class="text-slate-400">Sois le premier à écrire !</p>
+      <p class="text-slate-400">Sois le premier a ecrire !</p>
     </div>
   `;
 }

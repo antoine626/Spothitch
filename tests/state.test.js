@@ -14,7 +14,7 @@ describe('State Store', () => {
     it('should return current state', () => {
       const state = getState();
       expect(state).toBeDefined();
-      expect(state.activeTab).toBe('home');
+      expect(state.activeTab).toBe('map');
       expect(state.lang).toBe('fr');
     });
     
@@ -54,7 +54,7 @@ describe('State Store', () => {
       subscribe(callback);
       expect(callback).toHaveBeenCalledTimes(1);
       expect(callback).toHaveBeenCalledWith(expect.objectContaining({
-        activeTab: 'home',
+        activeTab: 'map',
       }));
     });
     
@@ -94,7 +94,7 @@ describe('State Store', () => {
       resetState();
       
       const state = getState();
-      expect(state.activeTab).toBe('home');
+      expect(state.activeTab).toBe('map');
       expect(state.points).toBe(0);
       expect(state.username).toBe('');
     });

@@ -14,11 +14,13 @@ const initialState = {
   isLoggedIn: false,
 
   // UI
-  activeTab: 'home',
+  activeTab: 'map',
   viewMode: 'list',
   showWelcome: true,
   theme: 'dark',
   lang: 'fr',
+  activeSubTab: 'planner',
+  socialSubTab: 'general',
 
   // Spots
   spots: [],
@@ -37,12 +39,28 @@ const initialState = {
   showSettings: false,
   showQuiz: false,
   showAuth: false,
+  showFilters: false,
+  showStats: false,
+  showBadges: false,
+  showChallenges: false,
+  showShop: false,
+  showMyRewards: false,
+  showSideMenu: false,
+
+  // New badges/challenges
+  newBadge: null,
+  selectedCountryGuide: null,
+  selectedFriendChat: null,
 
   // Trip Planner
   tripSteps: [],
   activeTrip: null,
   savedTrips: [],
   tripRoute: null,
+  tripFrom: '',
+  tripTo: '',
+  tripResults: null,
+  searchCountry: null,
 
   // Gamification
   points: 0,
@@ -54,9 +72,17 @@ const initialState = {
   badges: [],
   rewards: [],
 
-  // Chat
+  // Chat & Social
   chatRoom: 'general',
   messages: [],
+  friends: [],
+  friendRequests: [],
+  privateMessages: {},
+  unreadFriendMessages: 0,
+
+  // Season/Leagues
+  seasonPoints: 0,
+  totalPoints: 0,
 
   // SOS
   sosActive: false,

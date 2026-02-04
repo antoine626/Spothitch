@@ -1,37 +1,43 @@
 /**
  * Bottom Navigation Component
+ * New structure: Carte, Voyage, Défis, Social, Profil
  */
 
 import { t } from '../i18n/index.js';
 
 export function renderNavigation(state) {
   const tabs = [
-    { id: 'home', icon: 'fa-home', label: t('home') },
-    { id: 'spots', icon: 'fa-map-marker-alt', label: t('spots') },
-    { id: 'planner', icon: 'fa-route', label: t('planner') },
-    { id: 'chat', icon: 'fa-comments', label: t('chat') },
-    { id: 'profile', icon: 'fa-user', label: t('profile') },
+    { id: 'map', icon: 'fa-map-marked-alt', label: 'Carte' },
+    { id: 'travel', icon: 'fa-route', label: 'Voyage' },
+    { id: 'challenges', icon: 'fa-gamepad', label: 'Défis' },
+    { id: 'social', icon: 'fa-users', label: 'Social' },
+    { id: 'profile', icon: 'fa-user', label: 'Profil' },
   ];
 
   return `
-    <nav class="glass-dark fixed bottom-0 left-0 right-0 z-40 px-2 py-2 safe-area-inset-bottom">
-      <div class="flex justify-around items-center max-w-lg mx-auto">
+    <nav class="glass-dark fixed bottom-0 left-0 right-0 z-40 px-2 py-2 safe-area-inset-bottom" role="navigation" aria-label="${t('mainNavigation') || 'Navigation principale'}">
+      <ul class="flex justify-around items-center max-w-lg mx-auto list-none m-0 p-0" role="tablist" aria-label="${t('mainNavigation') || 'Navigation principale'}">
         ${tabs.map(tab => `
-          <button 
-            onclick="changeTab('${tab.id}')"
-            class="nav-btn flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 ${
+          <li role="presentation">
+            <button
+              onclick="changeTab('${tab.id}')"
+              class="nav-btn flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all duration-300 ${
   state.activeTab === tab.id
-    ? 'bg-primary-500 text-white'
+    ? 'bg-primary-500 text-white scale-105'
     : 'text-slate-400 hover:text-white hover:bg-white/5'
 }"
-            aria-label="${tab.label}"
-            aria-current="${state.activeTab === tab.id ? 'page' : 'false'}"
-          >
-            <i class="fas ${tab.icon} text-lg"></i>
-            <span class="text-xs font-medium">${tab.label}</span>
-          </button>
+              role="tab"
+              id="tab-${tab.id}"
+              aria-selected="${state.activeTab === tab.id ? 'true' : 'false'}"
+              aria-controls="panel-${tab.id}"
+              tabindex="${state.activeTab === tab.id ? '0' : '-1'}"
+            >
+              <i class="fas ${tab.icon} text-lg" aria-hidden="true"></i>
+              <span class="text-xs font-medium">${tab.label}</span>
+            </button>
+          </li>
         `).join('')}
-      </div>
+      </ul>
     </nav>
   `;
 }

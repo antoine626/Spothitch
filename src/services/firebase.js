@@ -333,5 +333,273 @@ export function onForegroundMessage(callback) {
   return onMessage(messaging, callback);
 }
 
+// ==================== ENHANCED SPOT OPERATIONS ====================
+
+/**
+ * Load all spots from Firebase
+ */
+export async function loadSpotsFromFirebase() {
+  try {
+    const spotsRef = collection(db, 'spots')
+    const q = query(spotsRef, orderBy('createdAt', 'desc'), limit(200))
+    const snapshot = await getDocs(q)
+    return {
+      success: true,
+      spots: snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })),
+    }
+  } catch (error) {
+    console.error('Error loading spots from Firebase:', error)
+    return { success: false, error, spots: [] }
+  }
+}
+
+/**
+ * Save a spot to Firebase
+ * @param {Object} spot - Spot data
+ */
+export async function saveSpotToFirebase(spot) {
+  try {
+    const user = getCurrentUser()
+    const spotsRef = collection(db, 'spots')
+
+    const spotData = {
+      ...spot,
+      creatorId: user?.uid || 'anonymous',
+      creatorName: user?.displayName || 'Anonyme',
+      creatorAvatar: user?.photoURL || '🤙',
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      totalReviews: 0,
+      checkins: 0,
+      verified: false,
+      reports: 0,
+    }
+
+    const docRef = await addDoc(spotsRef, spotData)
+    return { success: true, id: docRef.id, spot: { ...spotData, id: docRef.id } }
+  } catch (error) {
+    console.error('Error saving spot:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Upload a photo to Firebase Storage
+ * @param {string} dataUrl - Base64 data URL of the image
+ * @param {string} spotId - Spot ID for the photo path
+ */
+export async function uploadPhotoToFirebase(dataUrl, spotId) {
+  try {
+    const user = getCurrentUser()
+    const timestamp = Date.now()
+    const path = `spots/${spotId}/${user?.uid || 'anon'}_${timestamp}.jpg`
+
+    const storageRef = ref(storage, path)
+    const snapshot = await uploadString(storageRef, dataUrl, 'data_url')
+    const downloadURL = await getDownloadURL(snapshot.ref)
+
+    return { success: true, url: downloadURL, path }
+  } catch (error) {
+    console.error('Error uploading photo:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Save a validation (check-in) to Firebase
+ * @param {string} spotId - Spot ID
+ * @param {string} userId - User ID
+ */
+export async function saveValidationToFirebase(spotId, userId) {
+  try {
+    const user = getCurrentUser()
+    const validationsRef = collection(db, 'spots', spotId, 'validations')
+
+    await addDoc(validationsRef, {
+      userId: user?.uid || userId || 'anonymous',
+      userName: user?.displayName || 'Anonyme',
+      validatedAt: serverTimestamp(),
+    })
+
+    // Increment spot checkins
+    const spotRef = doc(db, 'spots', spotId)
+    const { increment } = await import('firebase/firestore')
+    await updateDoc(spotRef, {
+      checkins: increment(1),
+      lastUsed: new Date().toISOString().split('T')[0],
+    })
+
+    return { success: true }
+  } catch (error) {
+    console.error('Error saving validation:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Save a comment to Firebase
+ * @param {Object} comment - Comment data {spotId, text, rating}
+ */
+export async function saveCommentToFirebase(comment) {
+  try {
+    const user = getCurrentUser()
+    const commentsRef = collection(db, 'spots', comment.spotId, 'comments')
+
+    const commentData = {
+      text: comment.text,
+      rating: comment.rating || null,
+      userId: user?.uid || 'anonymous',
+      userName: user?.displayName || 'Anonyme',
+      userAvatar: user?.photoURL || '🤙',
+      createdAt: serverTimestamp(),
+    }
+
+    const docRef = await addDoc(commentsRef, commentData)
+
+    // Update spot review count if rating provided
+    if (comment.rating) {
+      const spotRef = doc(db, 'spots', comment.spotId)
+      const { increment } = await import('firebase/firestore')
+      await updateDoc(spotRef, {
+        totalReviews: increment(1),
+      })
+    }
+
+    return { success: true, id: docRef.id }
+  } catch (error) {
+    console.error('Error saving comment:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Report a spot
+ * @param {string} spotId - Spot ID
+ * @param {string} reason - Report reason
+ * @param {string} details - Additional details
+ */
+export async function reportSpot(spotId, reason, details = '') {
+  try {
+    const user = getCurrentUser()
+    const reportsRef = collection(db, 'reports')
+
+    await addDoc(reportsRef, {
+      spotId,
+      reason,
+      details,
+      reporterId: user?.uid || 'anonymous',
+      reporterName: user?.displayName || 'Anonyme',
+      status: 'pending',
+      createdAt: serverTimestamp(),
+    })
+
+    // Increment spot report count
+    const spotRef = doc(db, 'spots', spotId)
+    const { increment } = await import('firebase/firestore')
+    await updateDoc(spotRef, {
+      reports: increment(1),
+    })
+
+    return { success: true }
+  } catch (error) {
+    console.error('Error reporting spot:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Handle successful authentication
+ * @param {Object} user - Firebase user object
+ * @param {boolean} isNew - Whether this is a new user
+ */
+export async function handleAuthSuccess(user, isNew = false) {
+  try {
+    const usersRef = collection(db, 'users')
+    const userDocRef = doc(db, 'users', user.uid)
+
+    if (isNew) {
+      // Create user profile
+      await updateDoc(userDocRef, {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || 'Utilisateur',
+        photoURL: user.photoURL || null,
+        createdAt: serverTimestamp(),
+        lastLoginAt: serverTimestamp(),
+        points: 0,
+        level: 1,
+        badges: [],
+        rewards: [],
+      }).catch(async () => {
+        // Document doesn't exist, create it
+        const { setDoc } = await import('firebase/firestore')
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName || 'Utilisateur',
+          photoURL: user.photoURL || null,
+          createdAt: serverTimestamp(),
+          lastLoginAt: serverTimestamp(),
+          points: 0,
+          level: 1,
+          badges: [],
+          rewards: [],
+        })
+      })
+    } else {
+      // Update last login
+      await updateDoc(userDocRef, {
+        lastLoginAt: serverTimestamp(),
+      }).catch(() => {
+        // Ignore if user doc doesn't exist yet
+      })
+    }
+
+    return { success: true, user }
+  } catch (error) {
+    console.error('Error handling auth success:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Get user profile from Firestore
+ * @param {string} userId - User ID
+ */
+export async function getUserProfile(userId) {
+  try {
+    const { getDoc } = await import('firebase/firestore')
+    const userDocRef = doc(db, 'users', userId)
+    const snapshot = await getDoc(userDocRef)
+
+    if (snapshot.exists()) {
+      return { success: true, profile: snapshot.data() }
+    }
+    return { success: false, profile: null }
+  } catch (error) {
+    console.error('Error getting user profile:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Update user profile
+ * @param {string} userId - User ID
+ * @param {Object} updates - Profile updates
+ */
+export async function updateUserProfile(userId, updates) {
+  try {
+    const userDocRef = doc(db, 'users', userId)
+    await updateDoc(userDocRef, {
+      ...updates,
+      updatedAt: serverTimestamp(),
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('Error updating user profile:', error)
+    return { success: false, error }
+  }
+}
+
 // Export instances for advanced usage
 export { app, auth, db, storage, messaging };
