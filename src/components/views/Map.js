@@ -5,7 +5,6 @@
 
 import { t } from '../../i18n/index.js';
 import { countryGuides, getGuideByCode } from '../../data/guides.js';
-import { renderSpotOfTheDayCompact } from '../SpotOfTheDay.js';
 
 export function renderMap(state) {
   // Get current country from search or map center
