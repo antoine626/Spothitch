@@ -777,6 +777,22 @@ export async function uploadSelfieIdVerification(photos) {
     // Update to level 3 (submitted, pending review)
     await updateVerificationLevel(3);
 
+    // Also save verification request to Firestore (without photos, just metadata)
+    try {
+      const { db } = await import('./firebase.js');
+      const { collection, addDoc } = await import('firebase/firestore');
+      await addDoc(collection(db, 'id_verifications'), {
+        userId: user.uid,
+        status: 'pending',
+        submittedAt: new Date().toISOString(),
+        trustLevel: 3,
+        hasPhotos: true,
+      });
+      console.log('ID verification request saved to Firestore');
+    } catch (error) {
+      console.warn('Could not save ID verification to Firestore:', error);
+    }
+
     // For demo purposes, auto-approve after 5 seconds
     setTimeout(async () => {
       await approveSelfieIdVerification();
@@ -808,6 +824,32 @@ export async function approveSelfieIdVerification() {
       pendingSelfieIdVerification: null,
       selfieIdVerifiedAt: Date.now(),
     });
+
+    // Update Firestore verification status to approved
+    try {
+      const user = getCurrentUser();
+      if (user) {
+        const { db } = await import('./firebase.js');
+        const { collection, query, where, getDocs, updateDoc, doc } = await import('firebase/firestore');
+        const q = query(
+          collection(db, 'id_verifications'),
+          where('userId', '==', user.uid),
+          where('status', '==', 'pending')
+        );
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          const docRef = doc(db, 'id_verifications', snapshot.docs[0].id);
+          await updateDoc(docRef, {
+            status: 'approved',
+            approvedAt: new Date().toISOString(),
+            trustLevel: 4,
+          });
+          console.log('ID verification status updated in Firestore');
+        }
+      }
+    } catch (error) {
+      console.warn('Could not update ID verification in Firestore:', error);
+    }
 
     showToast('✅ Identite verifiee ! Tu as maintenant le badge vert.', 'success');
 

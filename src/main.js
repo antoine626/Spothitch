@@ -1188,15 +1188,31 @@ window.shareTrip = (tripId) => {
 window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: null, showSafety: false });
 window.showCountryDetail = (code) => setState({ selectedCountryCode: code });
 window.showSafetyPage = () => setState({ showSafety: true });
-window.reportGuideError = (countryCode) => {
+window.reportGuideError = async (countryCode) => {
   const guide = getGuideByCode(countryCode);
   const name = guide?.name || countryCode;
   const errorType = prompt(`Quelle information est incorrecte dans le guide ${name} ?`);
   if (errorType) {
-    // Store reports in localStorage
+    // Store reports in localStorage as fallback
     const reports = JSON.parse(localStorage.getItem('spothitch_guide_reports') || '[]');
     reports.push({ countryCode, error: errorType, date: new Date().toISOString() });
     localStorage.setItem('spothitch_guide_reports', JSON.stringify(reports));
+
+    // Also save to Firestore
+    try {
+      const { db } = await import('./services/firebase.js');
+      const { collection, addDoc } = await import('firebase/firestore');
+      await addDoc(collection(db, 'guide_reports'), {
+        countryCode,
+        error: errorType,
+        date: new Date().toISOString(),
+        userId: getState().user?.uid || 'anonymous'
+      });
+      console.log('Guide report saved to Firestore');
+    } catch (error) {
+      console.warn('Could not save guide report to Firestore:', error);
+    }
+
     showToast('Merci pour le signalement ! Nous allons vérifier.', 'success');
   }
 };

@@ -71,9 +71,9 @@ function getHostelKey(city, hostelName) {
  * @param {string} cityName - City name
  * @param {string} hostelName - Hostel name
  * @param {string} category - Category: 'party' | 'cozy' | 'budget'
- * @returns {boolean} Success status
+ * @returns {Promise<boolean>} Success status
  */
-export function addRecommendation(cityName, hostelName, category) {
+export async function addRecommendation(cityName, hostelName, category) {
   if (!cityName || !hostelName || !category) {
     showToast(t('hostelErrorMissing') || 'Veuillez remplir tous les champs', 'error')
     return false
@@ -105,11 +105,23 @@ export function addRecommendation(cityName, hostelName, category) {
     category,
     userId: state.user?.uid || 'anonymous',
     timestamp: new Date().toISOString(),
-    upvotes: 0
+    upvotes: 0,
+    upvotedBy: []
   }
 
+  // Save to localStorage first
   recommendations.push(newRecommendation)
   saveRecommendations(recommendations)
+
+  // Also save to Firestore
+  try {
+    const { db } = await import('./firebase.js')
+    const { collection, addDoc } = await import('firebase/firestore')
+    await addDoc(collection(db, 'hostel_recs'), newRecommendation)
+    console.log('Hostel recommendation saved to Firestore')
+  } catch (error) {
+    console.warn('Could not save hostel recommendation to Firestore:', error)
+  }
 
   showToast(t('hostelAdded') || 'Auberge recommandée !', 'success')
   return true
@@ -118,13 +130,43 @@ export function addRecommendation(cityName, hostelName, category) {
 /**
  * Get recommendations for a city, grouped by category
  * @param {string} cityName - City name
- * @returns {Object} Recommendations grouped by category
+ * @returns {Promise<Object>} Recommendations grouped by category
  */
-export function getRecommendations(cityName) {
-  const recommendations = getAllRecommendations()
-  const cityRecs = recommendations.filter(rec =>
+export async function getRecommendations(cityName) {
+  // Try to get from Firestore first
+  let firestoreRecs = []
+  try {
+    const { db } = await import('./firebase.js')
+    const { collection, query, where, getDocs } = await import('firebase/firestore')
+    const q = query(
+      collection(db, 'hostel_recs'),
+      where('city', '==', cityName.trim())
+    )
+    const snapshot = await getDocs(q)
+    firestoreRecs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+    console.log(`Loaded ${firestoreRecs.length} hostel recs from Firestore`)
+  } catch (error) {
+    console.warn('Could not load hostel recommendations from Firestore:', error)
+  }
+
+  // Fallback to localStorage
+  const localRecs = getAllRecommendations()
+  const cityLocalRecs = localRecs.filter(rec =>
     rec.city.toLowerCase() === cityName.toLowerCase()
   )
+
+  // Merge Firestore and local, preferring Firestore
+  const allRecs = [...firestoreRecs, ...cityLocalRecs]
+  const uniqueRecs = []
+  const seen = new Set()
+
+  allRecs.forEach(rec => {
+    const key = getHostelKey(rec.city, rec.hostelName)
+    if (!seen.has(key)) {
+      seen.add(key)
+      uniqueRecs.push(rec)
+    }
+  })
 
   const grouped = {
     party: [],
@@ -132,7 +174,7 @@ export function getRecommendations(cityName) {
     budget: []
   }
 
-  cityRecs.forEach(rec => {
+  uniqueRecs.forEach(rec => {
     if (grouped[rec.category]) {
       grouped[rec.category].push(rec)
     }
@@ -152,12 +194,14 @@ export function getRecommendations(cityName) {
  * Upvote a hostel recommendation
  * @param {string} city - City name
  * @param {string} hostelName - Hostel name
- * @returns {boolean} Success status
+ * @returns {Promise<boolean>} Success status
  */
-export function upvoteRecommendation(city, hostelName) {
+export async function upvoteRecommendation(city, hostelName) {
   const recommendations = getAllRecommendations()
   const hostelKey = getHostelKey(city, hostelName)
   const userUpvotes = getUserUpvotes()
+  const state = getState()
+  const userId = state.user?.uid || 'anonymous'
 
   // Check if user already upvoted
   if (userUpvotes.includes(hostelKey)) {
@@ -165,7 +209,7 @@ export function upvoteRecommendation(city, hostelName) {
     return false
   }
 
-  // Find and update recommendation
+  // Find and update recommendation in localStorage
   const rec = recommendations.find(r =>
     getHostelKey(r.city, r.hostelName) === hostelKey
   )
@@ -181,6 +225,30 @@ export function upvoteRecommendation(city, hostelName) {
   // Save user upvote
   userUpvotes.push(hostelKey)
   saveUserUpvotes(userUpvotes)
+
+  // Also update in Firestore
+  try {
+    const { db } = await import('./firebase.js')
+    const { collection, query, where, getDocs, updateDoc, doc, increment, arrayUnion } = await import('firebase/firestore')
+
+    const q = query(
+      collection(db, 'hostel_recs'),
+      where('city', '==', city.trim()),
+      where('hostelName', '==', hostelName.trim())
+    )
+    const snapshot = await getDocs(q)
+
+    if (!snapshot.empty) {
+      const docRef = doc(db, 'hostel_recs', snapshot.docs[0].id)
+      await updateDoc(docRef, {
+        upvotes: increment(1),
+        upvotedBy: arrayUnion(userId)
+      })
+      console.log('Hostel upvote saved to Firestore')
+    }
+  } catch (error) {
+    console.warn('Could not save upvote to Firestore:', error)
+  }
 
   showToast(t('hostelUpvoted') || 'Vote ajouté !', 'success')
   return true
@@ -204,12 +272,12 @@ export function getBookingLinks(hostelName, cityName) {
 /**
  * Render hostel section HTML
  * @param {string} cityName - City name
- * @returns {string} HTML string
+ * @returns {Promise<string>} HTML string
  */
-export function renderHostelSection(cityName) {
+export async function renderHostelSection(cityName) {
   if (!cityName) return ''
 
-  const recommendations = getRecommendations(cityName)
+  const recommendations = await getRecommendations(cityName)
   const totalCount = recommendations.party.length + recommendations.cozy.length + recommendations.budget.length
 
   if (totalCount === 0) {
@@ -447,8 +515,8 @@ export function renderAddHostelForm(cityName) {
  * @param {string} category - Category to show
  * @param {string} cityName - City name
  */
-export function switchHostelCategory(category, cityName) {
-  const recommendations = getRecommendations(cityName)
+export async function switchHostelCategory(category, cityName) {
+  const recommendations = await getRecommendations(cityName)
 
   // Update tabs
   document.querySelectorAll('.hostel-tab').forEach(tab => {
