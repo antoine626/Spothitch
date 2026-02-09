@@ -107,7 +107,7 @@ import { getFilteredSpots, resetFilters as resetFiltersUtil } from './components
 import { redeemReward } from './components/modals/Shop.js';
 import './components/modals/Leaderboard.js'; // Register global handlers
 import { registerCheckinHandlers } from './components/modals/CheckinModal.js'; // Checkin modal handlers
-import { setupGlobalSwipe } from './utils/swipe.js'; // Swipe navigation
+// Swipe navigation disabled per user request
 import { startNavigation, stopNavigation, openExternalNavigation } from './services/navigation.js'; // GPS navigation
 import {
   initScreenReaderSupport,
@@ -632,6 +632,36 @@ window.openSpotDetail = window.selectSpot; // alias for services that use openSp
 window.closeSpotDetail = () => actions.selectSpot(null);
 window.openAddSpot = () => setState({ showAddSpot: true });
 window.closeAddSpot = () => setState({ showAddSpot: false });
+
+// Location Permission handlers
+window.acceptLocationPermission = async () => {
+  try {
+    const position = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      })
+    })
+    setState({
+      showLocationPermission: false,
+      locationPermissionGranted: true,
+      userLocation: {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+    })
+    showToast('Localisation activée !', 'success')
+  } catch (error) {
+    console.error('Geolocation error:', error)
+    showToast('Impossible d\'obtenir la localisation', 'error')
+    setState({ showLocationPermission: false })
+  }
+}
+window.declineLocationPermission = () => {
+  setState({ showLocationPermission: false, locationPermissionDenied: true })
+  showToast('Vous pouvez activer la localisation plus tard dans les paramètres', 'info')
+}
 window.openRating = (spotId) => setState({ showRating: true, ratingSpotId: spotId });
 window.closeRating = () => setState({ showRating: false, ratingSpotId: null });
 window.openNavigation = (lat, lng) => {

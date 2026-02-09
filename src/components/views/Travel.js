@@ -204,8 +204,11 @@ function renderTripResults(results) {
 
       <!-- Spots list preview -->
       <div class="space-y-2 max-h-60 overflow-y-auto">
-        ${(results.spots || []).slice(0, 5).map(spot => `
-          <div class="flex items-center gap-3 p-2 rounded-lg bg-white/5">
+        ${(results.spots || []).slice(0, 10).map(spot => `
+          <button
+            onclick="openSpotDetail('${spot.id}')"
+            class="w-full flex items-center gap-3 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left"
+          >
             <div class="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-sm">
               📍
             </div>
@@ -217,11 +220,12 @@ function renderTripResults(results) {
               <i class="fas fa-star" aria-hidden="true"></i>
               ${spot.globalRating?.toFixed(1) || '?'}
             </div>
-          </div>
+            <i class="fas fa-chevron-right text-slate-500 text-xs" aria-hidden="true"></i>
+          </button>
         `).join('')}
-        ${(results.spots?.length || 0) > 5 ? `
+        ${(results.spots?.length || 0) > 10 ? `
           <p class="text-center text-sm text-slate-400 py-2">
-            +${results.spots.length - 5} autres spots
+            +${results.spots.length - 10} autres spots
           </p>
         ` : ''}
       </div>
@@ -597,7 +601,7 @@ window.viewTripOnMap = async () => {
     }
   })
 
-  // Wait for map to init then draw route
+  // Wait for map to init then draw route + spot markers
   setTimeout(async () => {
     if (!window.mapInstance) return
     try {
@@ -610,22 +614,69 @@ window.viewTripOnMap = async () => {
       const { drawRoute } = await import('../../services/map.js')
       drawRoute(window.mapInstance, L.default, routeCoords)
 
-      // Add start/end markers
-      L.default.marker(from, {
+      // Remove old trip markers if any
+      if (window._tripMarkers) {
+        window._tripMarkers.forEach(m => window.mapInstance.removeLayer(m))
+      }
+      window._tripMarkers = []
+
+      // Add start marker (A)
+      const markerA = L.default.marker(from, {
         icon: L.default.divIcon({
           className: 'custom-marker',
           html: '<div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">A</div>',
           iconSize: [32, 32], iconAnchor: [16, 32]
         })
       }).addTo(window.mapInstance)
+      window._tripMarkers.push(markerA)
 
-      L.default.marker([state.tripResults.toCoords[0], state.tripResults.toCoords[1]], {
+      // Add end marker (B)
+      const markerB = L.default.marker(to, {
         icon: L.default.divIcon({
           className: 'custom-marker',
           html: '<div class="w-8 h-8 rounded-full bg-danger-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">B</div>',
           iconSize: [32, 32], iconAnchor: [16, 32]
         })
       }).addTo(window.mapInstance)
+      window._tripMarkers.push(markerB)
+
+      // Add spot markers along the route
+      const spots = state.tripResults.spots || []
+      spots.forEach(spot => {
+        const lat = spot.coordinates?.[0] || spot.lat
+        const lng = spot.coordinates?.[1] || spot.lng
+        if (!lat || !lng) return
+
+        const rating = spot.globalRating?.toFixed(1) || '?'
+        const marker = L.default.marker([lat, lng], {
+          icon: L.default.divIcon({
+            className: 'custom-marker',
+            html: `<div class="w-7 h-7 rounded-full bg-primary-500 flex items-center justify-center text-white text-xs font-bold shadow-lg border-2 border-white/30 cursor-pointer">${rating}</div>`,
+            iconSize: [28, 28], iconAnchor: [14, 28]
+          })
+        }).addTo(window.mapInstance)
+
+        marker.on('click', () => {
+          window.openSpotDetail?.(spot.id)
+        })
+
+        marker.bindTooltip(spot.name || 'Spot', {
+          direction: 'top',
+          offset: [0, -12],
+          className: 'spot-tooltip'
+        })
+
+        window._tripMarkers.push(marker)
+      })
+
+      // Fit map to show all markers
+      const allPoints = [from, to, ...spots.map(s => [
+        s.coordinates?.[0] || s.lat,
+        s.coordinates?.[1] || s.lng
+      ]).filter(p => p[0] && p[1])]
+      if (allPoints.length > 1) {
+        window.mapInstance.fitBounds(allPoints, { padding: [40, 40] })
+      }
 
     } catch (e) {
       console.error('Failed to draw trip route:', e)

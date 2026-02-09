@@ -110,6 +110,7 @@ export async function loadSpotsInBounds(bounds) {
   // Determine which countries might be visible
   // Use a simple center-point heuristic based on known country centers
   const countryCenters = {
+    // Europe
     FR: { lat: 46.6, lon: 2.2 }, DE: { lat: 51.2, lon: 10.4 },
     ES: { lat: 40.0, lon: -3.7 }, IT: { lat: 42.5, lon: 12.5 },
     NL: { lat: 52.1, lon: 5.3 }, BE: { lat: 50.5, lon: 4.5 },
@@ -129,6 +130,41 @@ export async function loadSpotsInBounds(bounds) {
     AL: { lat: 41.2, lon: 20.2 }, XK: { lat: 42.6, lon: 21.0 },
     MD: { lat: 47.0, lon: 28.4 }, UA: { lat: 48.4, lon: 31.2 },
     BY: { lat: 53.7, lon: 27.9 }, IS: { lat: 64.9, lon: -19.0 },
+    GE: { lat: 42.3, lon: 43.4 },
+    // Americas
+    US: { lat: 37.1, lon: -95.7 }, CA: { lat: 56.1, lon: -106.3 },
+    MX: { lat: 23.6, lon: -102.5 }, BR: { lat: -14.2, lon: -51.9 },
+    AR: { lat: -38.4, lon: -63.6 }, CL: { lat: -35.7, lon: -71.5 },
+    CO: { lat: 4.6, lon: -74.1 }, PE: { lat: -9.2, lon: -75.0 },
+    EC: { lat: -1.8, lon: -78.2 }, BO: { lat: -16.3, lon: -63.6 },
+    PY: { lat: -23.4, lon: -58.4 }, UY: { lat: -32.5, lon: -55.8 },
+    VE: { lat: 6.4, lon: -66.6 }, CR: { lat: 9.7, lon: -83.8 },
+    PA: { lat: 8.5, lon: -80.8 }, GT: { lat: 15.8, lon: -90.2 },
+    CU: { lat: 21.5, lon: -79.0 },
+    // Asia
+    JP: { lat: 36.2, lon: 138.3 }, CN: { lat: 35.9, lon: 104.2 },
+    IN: { lat: 20.6, lon: 78.9 }, TH: { lat: 15.9, lon: 100.9 },
+    ID: { lat: -0.8, lon: 113.9 }, PH: { lat: 12.9, lon: 121.8 },
+    VN: { lat: 14.1, lon: 108.3 }, KH: { lat: 12.6, lon: 104.9 },
+    MY: { lat: 4.2, lon: 101.9 }, MM: { lat: 21.9, lon: 95.9 },
+    LA: { lat: 19.9, lon: 102.5 }, LK: { lat: 7.9, lon: 80.8 },
+    NP: { lat: 28.4, lon: 84.1 }, KR: { lat: 35.9, lon: 128.0 },
+    MN: { lat: 46.9, lon: 103.8 }, KG: { lat: 41.2, lon: 74.8 },
+    KZ: { lat: 48.0, lon: 68.0 }, UZ: { lat: 41.4, lon: 64.6 },
+    TJ: { lat: 38.9, lon: 71.3 }, PK: { lat: 30.4, lon: 69.3 },
+    // Middle East
+    TR: { lat: 38.9, lon: 35.2 }, IR: { lat: 32.4, lon: 53.7 },
+    IL: { lat: 31.0, lon: 34.9 }, JO: { lat: 30.6, lon: 36.2 },
+    OM: { lat: 21.5, lon: 55.9 },
+    // Africa
+    MA: { lat: 31.8, lon: -7.1 }, ZA: { lat: -30.6, lon: 22.9 },
+    EG: { lat: 26.8, lon: 30.8 }, ET: { lat: 9.1, lon: 40.5 },
+    KE: { lat: -0.0, lon: 37.9 }, TZ: { lat: -6.4, lon: 34.9 },
+    GH: { lat: 7.9, lon: -1.0 }, NG: { lat: 9.1, lon: 8.7 },
+    SN: { lat: 14.5, lon: -14.5 }, NA: { lat: -22.9, lon: 18.5 },
+    BW: { lat: -22.3, lon: 24.7 }, TN: { lat: 33.9, lon: 9.5 },
+    // Oceania
+    AU: { lat: -25.3, lon: 133.8 }, NZ: { lat: -40.9, lon: 174.9 },
   }
 
   // Expand bounds by 3 degrees to preload nearby countries

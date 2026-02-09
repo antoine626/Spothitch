@@ -147,16 +147,14 @@ export function setupGlobalSwipe() {
   );
 }
 
-// Auto-setup after DOM ready
-if (typeof window !== 'undefined') {
-  // Setup after a delay to ensure app is ready
-  setTimeout(setupGlobalSwipe, 1000);
-
-  // Re-setup on navigation
-  window.addEventListener('popstate', () => {
-    setTimeout(setupGlobalSwipe, 100);
-  });
-}
+// Auto-setup disabled - swipe tab navigation removed per user request
+// To re-enable, uncomment the block below:
+// if (typeof window !== 'undefined') {
+//   setTimeout(setupGlobalSwipe, 1000);
+//   window.addEventListener('popstate', () => {
+//     setTimeout(setupGlobalSwipe, 100);
+//   });
+// }
 
 export default {
   initSwipeHandlers,

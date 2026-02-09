@@ -25,6 +25,8 @@ export const NotificationType = {
   BADGE_UNLOCKED: 'badge_unlocked',
   LEVEL_UP: 'level_up',
   FRIEND_NEARBY: 'friend_nearby',
+  SPOT_VALIDATED: 'spot_validated',
+  FRIEND_NEW_SPOT: 'friend_new_spot',
   CHALLENGE_INVITE: 'challenge_invite',
   CHALLENGE_COMPLETED: 'challenge_completed',
   SPOT_ACTIVITY: 'spot_activity',
@@ -1102,6 +1104,71 @@ function addAnimationStyles() {
   document.head.appendChild(style)
 }
 
+// ==================== SOCIAL SPOT NOTIFICATIONS ====================
+
+/**
+ * Notify when someone validates one of our spots
+ * @param {Object} data - { validatorName, validatorAvatar, spotName, spotId }
+ */
+export function notifySpotValidated(data) {
+  const { validatorName, validatorAvatar, spotName, spotId } = data
+
+  const notification = {
+    type: NotificationType.SPOT_VALIDATED,
+    title: '✅ Spot validé !',
+    body: `${validatorName || 'Un voyageur'} a validé ton spot "${spotName || 'Spot'}"`,
+    icon: validatorAvatar || '✅',
+    data: {
+      type: 'spot_validated',
+      spotId,
+      url: `/Spothitch/?tab=map&spot=${spotId}`,
+    },
+    actions: [
+      { label: 'Voir le spot', action: () => window.openSpotDetail?.(spotId) },
+    ],
+  }
+
+  addToHistory(notification)
+  incrementBadgeCount()
+  createEnhancedNotification(notification)
+  showEnhancedToast({ ...notification, type: 'success', duration: 5000 })
+
+  return notification
+}
+
+/**
+ * Notify when a friend creates a new spot
+ * @param {Object} data - { friendName, friendAvatar, friendId, spotName, spotId, spotCity }
+ */
+export function notifyFriendNewSpot(data) {
+  const { friendName, friendAvatar, friendId, spotName, spotId, spotCity } = data
+
+  const notification = {
+    type: NotificationType.FRIEND_NEW_SPOT,
+    title: `📍 ${friendName || 'Un ami'} a ajouté un spot`,
+    body: spotCity ? `"${spotName}" à ${spotCity}` : `"${spotName || 'Nouveau spot'}"`,
+    icon: friendAvatar || '📍',
+    data: {
+      type: 'friend_new_spot',
+      friendId,
+      spotId,
+      url: `/Spothitch/?tab=map&spot=${spotId}`,
+    },
+    actions: [
+      { label: 'Voir le spot', action: () => window.openSpotDetail?.(spotId) },
+      { label: 'Voir profil', action: () => window.showFriendProfile?.(friendId) },
+    ],
+  }
+
+  addToHistory(notification)
+  incrementBadgeCount()
+  playNotificationSound(NotificationSounds[NotificationType.NEW_FRIEND])
+  createEnhancedNotification(notification)
+  showEnhancedToast({ ...notification, type: 'info', duration: 6000 })
+
+  return notification
+}
+
 // ==================== EXPORTS ====================
 
 export default {
@@ -1143,6 +1210,8 @@ export default {
   notifyBadgeUnlockedEnhanced,
   notifyLevelUpEnhanced,
   notifyFriendNearbyEnhanced,
+  notifySpotValidated,
+  notifyFriendNewSpot,
 
   // Animations
   showBadgeUnlockAnimation,
