@@ -474,11 +474,32 @@ async function registerServiceWorker() {
       const registration = await navigator.serviceWorker.register('/Spothitch/sw.js');
       console.log('✅ Service Worker registered');
 
+      // Check for updates every 30 minutes
+      setInterval(() => registration.update(), 30 * 60 * 1000);
+
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            showToast('Mise à jour disponible ! Rechargez la page.', 'info', 10000);
+            // Show update banner
+            const banner = document.createElement('div');
+            banner.id = 'update-banner';
+            banner.innerHTML = `
+              <div style="position:fixed;bottom:70px;left:12px;right:12px;z-index:9999;padding:14px 18px;background:linear-gradient(135deg,#0ea5e9,#6366f1);border-radius:16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(0,0,0,0.4);cursor:pointer" onclick="document.getElementById('update-banner').remove();this.querySelector('.sw-ref').postMessage({type:'SKIP_WAITING'});">
+                <div style="color:white;font-weight:600;font-size:14px">
+                  ✨ Nouvelle version disponible !
+                </div>
+                <div style="background:white;color:#0f172a;padding:8px 16px;border-radius:10px;font-weight:700;font-size:13px">
+                  Mettre a jour
+                </div>
+              </div>
+            `;
+            document.body.appendChild(banner);
+            // On skip_waiting, reload when activated
+            newWorker.postMessage({ type: 'SKIP_WAITING' });
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+              window.location.reload();
+            });
           }
         });
       });
