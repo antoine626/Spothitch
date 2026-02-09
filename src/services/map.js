@@ -19,8 +19,8 @@ let dynamicMarkerGroup = null;
 let loadedSpotIds = new Set();
 
 // Default center (World)
-const DEFAULT_CENTER = [48.8566, 2.3522];
-const DEFAULT_ZOOM = 5;
+const DEFAULT_CENTER = [30, 10];
+const DEFAULT_ZOOM = 3;
 
 /**
  * Get map tile URL based on theme

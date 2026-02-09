@@ -136,7 +136,7 @@ export async function loadSpotsInBounds(bounds) {
     AL: { lat: 41.2, lon: 20.2 }, XK: { lat: 42.6, lon: 21.0 },
     MD: { lat: 47.0, lon: 28.4 }, UA: { lat: 48.4, lon: 31.2 },
     BY: { lat: 53.7, lon: 27.9 }, IS: { lat: 64.9, lon: -19.0 },
-    GE: { lat: 42.3, lon: 43.4 },
+    GE: { lat: 42.3, lon: 43.4 }, AM: { lat: 40.1, lon: 44.5 },
     // Americas
     US: { lat: 37.1, lon: -95.7 }, CA: { lat: 56.1, lon: -106.3 },
     MX: { lat: 23.6, lon: -102.5 }, BR: { lat: -14.2, lon: -51.9 },
@@ -173,12 +173,12 @@ export async function loadSpotsInBounds(bounds) {
     AU: { lat: -25.3, lon: 133.8 }, NZ: { lat: -40.9, lon: 174.9 },
   }
 
-  // Expand bounds by 3 degrees to preload nearby countries
+  // Expand bounds by 10 degrees to preload nearby countries
   const expandedBounds = {
-    north: bounds.north + 3,
-    south: bounds.south - 3,
-    east: bounds.east + 3,
-    west: bounds.west - 3,
+    north: bounds.north + 10,
+    south: bounds.south - 10,
+    east: bounds.east + 10,
+    west: bounds.west - 10,
   }
 
   const visibleCountries = Object.entries(countryCenters)
