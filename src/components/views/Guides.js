@@ -182,6 +182,14 @@ export function renderCountryDetail(countryCode) {
         </div>
       </div>
 
+      <!-- Disclaimer Banner -->
+      <div class="p-4">
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-xs text-amber-300 flex items-start gap-2">
+          <i class="fas fa-info-circle mt-0.5 flex-shrink-0"></i>
+          <span>Ces conseils sont basés sur des retours de voyageurs. Vérifiez toujours les lois locales avant de partir.</span>
+        </div>
+      </div>
+
       <!-- Quick Stats -->
       <div class="grid grid-cols-3 gap-3 p-4 -mt-6 relative z-10">
         <div class="bg-gray-800 rounded-xl p-3 text-center shadow-lg">
@@ -268,6 +276,14 @@ export function renderCountryDetail(countryCode) {
           </div>
         </div>
       ` : ''}
+
+      <!-- Report Error Button -->
+      <div class="p-4">
+        <button onclick="reportGuideError('${guide.code}')" class="w-full mt-4 p-3 rounded-xl border border-slate-600 text-slate-400 text-sm hover:border-red-500/50 hover:text-red-400 transition-all flex items-center justify-center gap-2">
+          <i class="fas fa-flag"></i>
+          Signaler une erreur dans ce guide
+        </button>
+      </div>
     </div>
   `;
 }

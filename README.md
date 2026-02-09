@@ -78,6 +78,7 @@ npm run test:watch
 | `npm run lint` | Vérifie le code avec ESLint |
 | `npm run lint:fix` | Corrige automatiquement |
 | `npm run format` | Formate avec Prettier |
+| `npm run sync:spots` | Synchronise les spots depuis Hitchmap |
 
 ## 🔧 Configuration
 
@@ -132,6 +133,19 @@ Les contributions sont les bienvenues ! Voir [CONTRIBUTING.md](CONTRIBUTING.md).
 ## 📄 License
 
 MIT License - voir [LICENSE](LICENSE) pour plus de détails.
+
+## 🔄 Synchronisation des données
+
+Les spots d'auto-stop sont automatiquement synchronisés depuis [Hitchmap](https://hitchmap.com) le 1er de chaque mois via GitHub Actions. La synchronisation peut également être déclenchée manuellement depuis l'onglet Actions du repository.
+
+Pour synchroniser manuellement en local :
+```bash
+# Télécharger le dump SQLite depuis hitchmap.com
+curl -o /tmp/hitchmap_dump.sqlite https://hitchmap.com/dump.sqlite
+
+# Exécuter le script d'extraction
+npm run sync:spots
+```
 
 ## 🙏 Crédits
 

@@ -1188,6 +1188,18 @@ window.shareTrip = (tripId) => {
 window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: null, showSafety: false });
 window.showCountryDetail = (code) => setState({ selectedCountryCode: code });
 window.showSafetyPage = () => setState({ showSafety: true });
+window.reportGuideError = (countryCode) => {
+  const guide = getGuideByCode(countryCode);
+  const name = guide?.name || countryCode;
+  const errorType = prompt(`Quelle information est incorrecte dans le guide ${name} ?`);
+  if (errorType) {
+    // Store reports in localStorage
+    const reports = JSON.parse(localStorage.getItem('spothitch_guide_reports') || '[]');
+    reports.push({ countryCode, error: errorType, date: new Date().toISOString() });
+    localStorage.setItem('spothitch_guide_reports', JSON.stringify(reports));
+    showToast('Merci pour le signalement ! Nous allons vérifier.', 'success');
+  }
+};
 
 // Friends handlers
 window.showFriends = () => setState({ activeTab: 'friends', selectedFriendId: null });

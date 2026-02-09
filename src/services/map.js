@@ -7,6 +7,7 @@ import { getState } from '../stores/state.js';
 import { sampleSpots } from '../data/spots.js';
 import { loadSpotsInBounds, getAllLoadedSpots } from './spotLoader.js';
 import { getFilteredSpots } from '../components/modals/Filters.js';
+import { getFreshnessColor } from './spotFreshness.js';
 
 // Map instances
 let mainMap = null;
@@ -339,8 +340,9 @@ function addSpotsToMap(map, L, spots) {
  * Create custom spot icon
  */
 function createSpotIcon(L, spot) {
+  // Use freshness color for marker tinting
+  const color = getFreshnessColor(spot);
   const rating = spot.globalRating || 0;
-  const color = rating >= 4.5 ? '#22c55e' : rating >= 4 ? '#0ea5e9' : rating >= 3 ? '#f59e0b' : '#ef4444';
 
   // User-created spots get larger markers, Hitchwiki spots get smaller dots
   if (spot.source === 'hitchwiki') {

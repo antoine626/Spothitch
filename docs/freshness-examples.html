@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpotHitch - Freshness Badge Examples</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #e2e8f0;
+    }
+  </style>
+</head>
+<body class="p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-2">SpotHitch - Freshness/Reliability Badges</h1>
+    <p class="text-slate-400 mb-8">Visual examples of the color-coded indicator system</p>
+
+    <!-- GREEN - Reliable -->
+    <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+        GREEN - Fiable / Reliable
+      </h2>
+      <div class="mb-4 text-sm text-slate-300">
+        <strong>Conditions:</strong> Recent review (< 6 months) OR rating ≥ 3.5
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <span class="text-xs text-slate-500 mb-1 block">Small</span>
+          <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <i class="fas fa-check-circle text-[10px]"></i>
+            <span>Fiable</span>
+          </span>
+        </div>
+        <div>
+          <span class="text-xs text-slate-500 mb-1 block">Medium (default)</span>
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <i class="fas fa-check-circle text-xs"></i>
+            <span>Fiable</span>
+          </span>
+        </div>
+        <div>
+          <span class="text-xs text-slate-500 mb-1 block">Large</span>
+          <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <i class="fas fa-check-circle text-sm"></i>
+            <span>Fiable</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="mt-4 flex gap-2 flex-wrap">
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+          <i class="fas fa-check-circle text-xs"></i>
+          <span>Fiable</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+          <i class="fas fa-check-circle text-xs"></i>
+          <span>Reliable</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+          <i class="fas fa-check-circle text-xs"></i>
+          <span>Confiable</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+          <i class="fas fa-check-circle text-xs"></i>
+          <span>Zuverlässig</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- YELLOW - Needs Verification -->
+    <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+        YELLOW - À vérifier / Needs verification
+      </h2>
+      <div class="mb-4 text-sm text-slate-300">
+        <strong>Conditions:</strong> No review in 6-18 months AND rating ≥ 2.5
+      </div>
+
+      <div class="mt-4 flex gap-2 flex-wrap">
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30">
+          <i class="fas fa-exclamation-circle text-xs"></i>
+          <span>À vérifier</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30">
+          <i class="fas fa-exclamation-circle text-xs"></i>
+          <span>Needs verification</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30">
+          <i class="fas fa-exclamation-circle text-xs"></i>
+          <span>Necesita verificación</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30">
+          <i class="fas fa-exclamation-circle text-xs"></i>
+          <span>Überprüfung erforderlich</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- ORANGE - Outdated -->
+    <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+        ORANGE - Ancien / Outdated
+      </h2>
+      <div class="mb-4 text-sm text-slate-300">
+        <strong>Conditions:</strong> No review in 18+ months AND no recent activity
+      </div>
+
+      <div class="mt-4 flex gap-2 flex-wrap">
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-orange-500/20 text-orange-400 border border-orange-500/30">
+          <i class="fas fa-clock text-xs"></i>
+          <span>Ancien</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-orange-500/20 text-orange-400 border border-orange-500/30">
+          <i class="fas fa-clock text-xs"></i>
+          <span>Outdated</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-orange-500/20 text-orange-400 border border-orange-500/30">
+          <i class="fas fa-clock text-xs"></i>
+          <span>Antiguo</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-orange-500/20 text-orange-400 border border-orange-500/30">
+          <i class="fas fa-clock text-xs"></i>
+          <span>Veraltet</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- RED - Not Recommended -->
+    <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-red-500"></span>
+        RED - Déconseillé / Not recommended
+      </h2>
+      <div class="mb-4 text-sm text-slate-300">
+        <strong>Conditions:</strong> Dangerous OR reported OR rating < 2.5
+      </div>
+
+      <div class="mt-4 flex gap-2 flex-wrap">
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400 border border-red-500/30">
+          <i class="fas fa-times-circle text-xs"></i>
+          <span>Déconseillé</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400 border border-red-500/30">
+          <i class="fas fa-times-circle text-xs"></i>
+          <span>Not recommended</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400 border border-red-500/30">
+          <i class="fas fa-times-circle text-xs"></i>
+          <span>No recomendado</span>
+        </span>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400 border border-red-500/30">
+          <i class="fas fa-times-circle text-xs"></i>
+          <span>Nicht empfohlen</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Usage in Spot Cards -->
+    <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+      <h2 class="text-xl font-bold mb-4">Usage in Spot Cards</h2>
+
+      <div class="bg-slate-900 rounded-xl p-4 border border-slate-700">
+        <div class="flex gap-3">
+          <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=80&h=80&fit=crop" class="w-16 h-16 rounded-xl object-cover" alt="Spot">
+          <div class="flex-1">
+            <h3 class="font-semibold text-sm mb-1">Paris → Lyon</h3>
+            <div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
+              <span class="text-warning-400">⭐ 4.2</span>
+              <span>•</span>
+              <span>~35 min</span>
+            </div>
+            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              <i class="fas fa-check-circle text-[10px]"></i>
+              <span>Fiable</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Marker Colors -->
+    <div class="bg-slate-800 rounded-xl p-6 mb-6 border border-slate-700">
+      <h2 class="text-xl font-bold mb-4">Map Marker Colors</h2>
+      <div class="flex gap-4">
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg mb-2" style="background-color: #10b981">
+            4.2
+          </div>
+          <span class="text-xs text-slate-400">Reliable</span>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg mb-2" style="background-color: #f59e0b">
+            3.0
+          </div>
+          <span class="text-xs text-slate-400">Needs verification</span>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg mb-2" style="background-color: #f97316">
+            2.8
+          </div>
+          <span class="text-xs text-slate-400">Outdated</span>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg mb-2" style="background-color: #ef4444">
+            2.1
+          </div>
+          <span class="text-xs text-slate-400">Not recommended</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Priority Rules -->
+    <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+      <h2 class="text-xl font-bold mb-4">Priority Rules</h2>
+      <div class="space-y-3 text-sm">
+        <div class="flex items-start gap-3">
+          <span class="text-red-400 text-xl">1</span>
+          <div>
+            <strong>RED overrides everything</strong>
+            <p class="text-slate-400 mt-1">Dangerous, reported, or very low rating (<2.5) always shows RED, even with recent reviews.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-emerald-400 text-xl">2</span>
+          <div>
+            <strong>Recent review = GREEN</strong>
+            <p class="text-slate-400 mt-1">Any review within 6 months makes spot GREEN, regardless of age or rating (unless RED).</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-emerald-400 text-xl">3</span>
+          <div>
+            <strong>Good rating = GREEN</strong>
+            <p class="text-slate-400 mt-1">Rating ≥ 3.5 makes spot GREEN, even if old (unless RED).</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="text-orange-400 text-xl">4</span>
+          <div>
+            <strong>Age-based degradation</strong>
+            <p class="text-slate-400 mt-1">18+ months without review = ORANGE. 6-18 months = YELLOW.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

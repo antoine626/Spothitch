@@ -7,6 +7,7 @@ import { t } from '../i18n/index.js';
 import { escapeHTML } from '../utils/sanitize.js';
 import { getStatusBadge, getSpotVerification } from '../services/verification.js';
 import { renderFreshnessIndicator, getFreshnessLevel, getFreshnessBadge, getTimeAgo, FRESHNESS_LEVELS } from '../utils/dateHelpers.js';
+import { renderFreshnessBadge as renderReliabilityBadge } from '../services/spotFreshness.js';
 
 export function renderSpotCard(spot, variant = 'default') {
   if (variant === 'compact') {
@@ -101,6 +102,11 @@ function renderDefaultCard(spot) {
           </div>
         </div>
 
+        <!-- Reliability Badge -->
+        <div class="mt-3 pt-3 border-t border-white/5">
+          ${renderReliabilityBadge(spot, 'sm')}
+        </div>
+
         <!-- Last Check-in Info -->
         ${lastCheckinTime ? `
           <div class="flex items-center gap-2 mt-2 pt-2 border-t border-white/5 text-xs text-slate-500">
@@ -158,8 +164,9 @@ function renderCompactCard(spot) {
           </span>
           <span aria-hidden="true">•</span>
           <span aria-label="Temps d'attente: ${spot.avgWaitTime || 'inconnu'} minutes">~${spot.avgWaitTime || '?'} min</span>
-          <span aria-hidden="true">•</span>
-          <span class="${freshnessBadge.textColor}" aria-label="Fraicheur: ${freshnessBadge.label}">${freshnessBadge.label}</span>
+        </div>
+        <div class="mt-1">
+          ${renderReliabilityBadge(spot, 'sm')}
         </div>
       </div>
 

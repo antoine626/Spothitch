@@ -1,0 +1,76 @@
+name: Sync Spots from Hitchmap
+
+on:
+  # Run on the 1st of every month at 3:00 AM UTC
+  schedule:
+    - cron: '0 3 1 * *'
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: Sync Hitchmap Spots
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download Hitchmap dump
+        id: download
+        run: |
+          echo "Downloading latest Hitchmap SQLite dump..."
+          if curl --fail --silent --show-error --location \
+            -o /tmp/hitchmap_dump.sqlite \
+            https://hitchmap.com/dump.sqlite; then
+            echo "✅ Download successful"
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Download failed - dump may not be available"
+            echo "success=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+      - name: Run extraction script
+        if: steps.download.outputs.success == 'true'
+        run: node scripts/extract-spots.mjs /tmp/hitchmap_dump.sqlite
+
+      - name: Check for changes
+        id: changes
+        if: steps.download.outputs.success == 'true'
+        run: |
+          if git diff --quiet public/data/spots/; then
+            echo "No changes detected"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected:"
+            git diff --stat public/data/spots/
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.download.outputs.success == 'true' && steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/data/spots/
+          git commit -m "chore: auto-sync spots from Hitchmap [skip ci]"
+          git push
+
+      - name: No changes found
+        if: steps.download.outputs.success == 'true' && steps.changes.outputs.has_changes == 'false'
+        run: echo "✅ No new spots found - data is up to date"
+
+      - name: Download failed
+        if: steps.download.outputs.success == 'false'
+        run: echo "⚠️ Skipping sync - Hitchmap dump not available"

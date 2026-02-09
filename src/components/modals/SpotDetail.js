@@ -8,6 +8,7 @@ import { escapeHTML } from '../../utils/sanitize.js';
 import { renderVerificationBadge, renderVoteButtons, getSpotVerification } from '../../services/verification.js';
 import { renderFreshnessSection, renderFreshnessBadge, getFreshnessLevel, FRESHNESS_LEVELS } from '../../utils/dateHelpers.js';
 import { getAvailableNavigationApps, detectPlatform } from '../../utils/navigation.js';
+import { renderFreshnessBadge as renderReliabilityBadge } from '../../services/spotFreshness.js';
 
 export function renderSpotDetail(state) {
   const spot = state.selectedSpot;
@@ -59,6 +60,7 @@ export function renderSpotDetail(state) {
             <div class="flex items-center gap-2 mt-1 flex-wrap">
               ${renderVerificationBadge(spot.id)}
               ${renderFreshnessBadge(spot.lastCheckin || spot.lastUsed, 'sm')}
+              ${renderReliabilityBadge(spot, 'sm')}
               <span class="text-sm text-slate-400">
                 <i class="fas fa-flag mr-1" aria-hidden="true"></i> <span aria-label="Pays: ${escapeHTML(spot.country || 'Monde')}">${escapeHTML(spot.country || 'World')}</span>
               </span>

@@ -3,17 +3,40 @@
  * Source: hitchmap.com/dump.sqlite (ODBL license)
  *
  * Groups reviews at same location, computes averages, keeps real comments
+ *
+ * Usage: node scripts/extract-spots.mjs [dump-path]
+ * Default dump path: /tmp/hitchmap_dump.sqlite
  */
 
 import { createRequire } from 'module'
-import { writeFileSync, mkdirSync } from 'fs'
+import { writeFileSync, mkdirSync, existsSync } from 'fs'
 import { join } from 'path'
 
 const require = createRequire(import.meta.url)
-const Database = require('/tmp/node_modules/better-sqlite3')
 
-const db = new Database('/tmp/hitchmap_dump.sqlite')
+// Accept dump path as CLI argument, fallback to /tmp
+const DUMP_PATH = process.argv[2] || '/tmp/hitchmap_dump.sqlite'
 const OUTPUT_DIR = join(import.meta.dirname, '..', 'public', 'data', 'spots')
+
+// Check if dump file exists
+if (!existsSync(DUMP_PATH)) {
+  console.error(`❌ Error: SQLite dump not found at ${DUMP_PATH}`)
+  console.error('Download it from https://hitchmap.com/dump.sqlite')
+  process.exit(1)
+}
+
+console.log(`📦 Reading Hitchmap dump from: ${DUMP_PATH}`)
+
+let Database
+try {
+  Database = require('better-sqlite3')
+} catch (err) {
+  console.error('❌ Error: better-sqlite3 not installed')
+  console.error('Run: npm install')
+  process.exit(1)
+}
+
+const db = new Database(DUMP_PATH)
 
 // Countries to extract (worldwide)
 const COUNTRIES = [
@@ -203,5 +226,7 @@ const index = {
 writeFileSync(join(OUTPUT_DIR, 'index.json'), JSON.stringify(index, null, 2))
 
 console.log(`\n🎉 DONE: ${totalLocations} unique locations, ${totalSpots} reviews across ${countrySummary.length} countries`)
+console.log(`📁 Output directory: ${OUTPUT_DIR}`)
+console.log(`📄 Generated ${countrySummary.length + 1} JSON files (${countrySummary.length} countries + index.json)`)
 
 db.close()
