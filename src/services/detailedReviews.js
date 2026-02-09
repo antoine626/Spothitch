@@ -9,6 +9,7 @@ import { getState, setState } from '../stores/state.js';
 import { Storage } from '../utils/storage.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { renderTranslateButton } from './autoTranslate.js';
 
 // Storage key for reviews
 const DETAILED_REVIEWS_KEY = 'spothitch_detailed_reviews';
@@ -722,7 +723,8 @@ export function renderReviewCard(review) {
 
       <!-- Comment -->
       ${review.comment ? `
-        <p class="text-white mb-3">${escapeHTML(review.comment)}</p>
+        <p id="review-comment-${review.id}" class="text-white mb-3">${escapeHTML(review.comment)}</p>
+        ${renderTranslateButton(review.comment, `review-comment-${review.id}`)}
       ` : ''}
 
       <!-- Photos -->

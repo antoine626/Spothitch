@@ -9,6 +9,7 @@ import { renderVerificationBadge, renderVoteButtons, getSpotVerification } from 
 import { renderFreshnessSection, renderFreshnessBadge, getFreshnessLevel, FRESHNESS_LEVELS } from '../../utils/dateHelpers.js';
 import { getAvailableNavigationApps, detectPlatform } from '../../utils/navigation.js';
 import { renderFreshnessBadge as renderReliabilityBadge } from '../../services/spotFreshness.js';
+import { renderTranslateButton } from '../../services/autoTranslate.js';
 
 export function renderSpotDetail(state) {
   const spot = state.selectedSpot;
@@ -95,9 +96,10 @@ export function renderSpotDetail(state) {
           <!-- Description -->
           <div class="mb-4">
             <h3 class="font-semibold mb-2"><span aria-hidden="true">📍</span> Description</h3>
-            <p class="text-slate-300 text-sm leading-relaxed">
+            <p id="spot-desc-${spot.id}" class="text-slate-300 text-sm leading-relaxed">
               ${escapeHTML(spot.description || 'Aucune description disponible.')}
             </p>
+            ${spot.description ? renderTranslateButton(spot.description, `spot-desc-${spot.id}`) : ''}
           </div>
 
           <!-- Freshness Section - VERY VISIBLE -->

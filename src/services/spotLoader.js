@@ -66,7 +66,13 @@ export async function loadCountrySpots(countryCode) {
  * Convert Hitchmap format to app spot format
  */
 function convertToAppFormat(rawSpots, countryCode) {
-  return rawSpots.map(s => {
+  const fiveYearsAgo = new Date()
+  fiveYearsAgo.setFullYear(fiveYearsAgo.getFullYear() - 5)
+
+  return rawSpots.filter(s => {
+    if (!s.lastUsed) return true
+    return new Date(s.lastUsed) >= fiveYearsAgo
+  }).map(s => {
     const id = nextId++
     const bestComment = s.comments?.[0]?.text || ''
 

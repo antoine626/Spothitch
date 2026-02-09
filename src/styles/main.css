@@ -10,6 +10,12 @@
   html {
     font-family: 'Outfit', system-ui, -apple-system, sans-serif;
     -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-x: none;
+  }
+
+  body {
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
   }
 
   h1, h2, h3, h4, h5, h6 {
