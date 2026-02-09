@@ -1,0 +1,148 @@
+/**
+ * Create Travel Group Modal
+ * Form to create a new travel group
+ */
+
+export function renderCreateTravelGroupModal(state) {
+  return `
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      onclick="closeCreateTravelGroup()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="create-group-title"
+    >
+      <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
+      <div
+        class="relative bg-dark-primary border border-white/10 rounded-3xl w-full max-w-md max-h-[85vh] overflow-y-auto slide-up"
+        onclick="event.stopPropagation()"
+      >
+        <div class="p-6 space-y-4">
+          <h2 id="create-group-title" class="text-xl font-bold flex items-center gap-2">
+            <i class="fas fa-users text-primary-400" aria-hidden="true"></i>
+            Creer un groupe de voyage
+          </h2>
+
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Nom du groupe</label>
+            <input
+              type="text"
+              id="group-name"
+              class="input-field w-full"
+              placeholder="Ex: Road trip Portugal"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm text-slate-400 mb-1">Description</label>
+            <textarea
+              id="group-desc"
+              class="input-field w-full h-20 resize-none"
+              placeholder="Decrivez votre voyage..."
+            ></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-sm text-slate-400 mb-1">Depart</label>
+              <input
+                type="text"
+                id="group-from"
+                class="input-field w-full"
+                placeholder="Paris"
+              />
+            </div>
+            <div>
+              <label class="block text-sm text-slate-400 mb-1">Destination</label>
+              <input
+                type="text"
+                id="group-to"
+                class="input-field w-full"
+                placeholder="Lisbonne"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-sm text-slate-400 mb-1">Date depart</label>
+              <input
+                type="date"
+                id="group-start"
+                class="input-field w-full"
+              />
+            </div>
+            <div>
+              <label class="block text-sm text-slate-400 mb-1">Max membres</label>
+              <select id="group-max" class="input-field w-full">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </div>
+          </div>
+
+          <button
+            onclick="submitCreateTravelGroup()"
+            class="btn-primary w-full py-3"
+          >
+            <i class="fas fa-plus mr-2" aria-hidden="true"></i>
+            Creer le groupe
+          </button>
+        </div>
+
+        <button
+          onclick="closeCreateTravelGroup()"
+          class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
+          aria-label="Fermer"
+        >
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  `
+}
+
+// Global handler
+window.submitCreateTravelGroup = async () => {
+  const name = document.getElementById('group-name')?.value?.trim()
+  const desc = document.getElementById('group-desc')?.value?.trim()
+  const from = document.getElementById('group-from')?.value?.trim()
+  const to = document.getElementById('group-to')?.value?.trim()
+  const startDate = document.getElementById('group-start')?.value
+  const maxMembers = parseInt(document.getElementById('group-max')?.value || '4')
+
+  if (!name) {
+    window.showToast?.('Donne un nom a ton groupe', 'warning')
+    return
+  }
+
+  const { getState, setState } = await import('../../stores/state.js')
+  const state = getState()
+  const groups = state.travelGroups || []
+
+  const newGroup = {
+    id: `group_${Date.now()}`,
+    name,
+    description: desc || '',
+    icon: '🚗',
+    departure: { city: from || '?' },
+    destination: { city: to || '?' },
+    startDate: startDate || null,
+    maxMembers,
+    members: [state.user?.uid || 'local-user'],
+    creator: state.user?.uid || 'local-user',
+    status: 'Planification',
+    createdAt: new Date().toISOString(),
+  }
+
+  setState({
+    travelGroups: [...groups, newGroup],
+    showCreateTravelGroup: false,
+  })
+  window.showToast?.(`Groupe "${name}" cree !`, 'success')
+}
+
+export default { renderCreateTravelGroupModal }

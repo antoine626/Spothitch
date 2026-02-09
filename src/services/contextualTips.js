@@ -182,14 +182,14 @@ function showTipUI(tip) {
 
   // Color mapping for tailwind classes
   const colorClasses = {
-    emerald: 'from-emerald-500/20 to-emerald-600/20 border-emerald-500/30',
-    primary: 'from-primary-500/20 to-primary-600/20 border-primary-500/30',
-    purple: 'from-purple-500/20 to-purple-600/20 border-purple-500/30',
-    cyan: 'from-cyan-500/20 to-cyan-600/20 border-cyan-500/30',
-    amber: 'from-amber-500/20 to-amber-600/20 border-amber-500/30',
-    rose: 'from-rose-500/20 to-rose-600/20 border-rose-500/30',
-    orange: 'from-orange-500/20 to-orange-600/20 border-orange-500/30',
-    danger: 'from-danger-500/20 to-danger-600/20 border-danger-500/30',
+    emerald: 'from-emerald-500/90 to-emerald-600/90 border-emerald-500/50',
+    primary: 'from-primary-500/90 to-primary-600/90 border-primary-500/50',
+    purple: 'from-purple-500/90 to-purple-600/90 border-purple-500/50',
+    cyan: 'from-cyan-500/90 to-cyan-600/90 border-cyan-500/50',
+    amber: 'from-amber-500/90 to-amber-600/90 border-amber-500/50',
+    rose: 'from-rose-500/90 to-rose-600/90 border-rose-500/50',
+    orange: 'from-orange-500/90 to-orange-600/90 border-orange-500/50',
+    danger: 'from-danger-500/90 to-danger-600/90 border-danger-500/50',
   };
 
   const iconColorClasses = {
@@ -217,7 +217,7 @@ function showTipUI(tip) {
         <!-- Content -->
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2 mb-1">
-            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Astuce</span>
+            <span class="text-xs font-bold text-white uppercase tracking-wide bg-white/20 px-2 py-0.5 rounded">Astuce</span>
           </div>
           <p class="text-white text-sm leading-relaxed">${tip.message}</p>
         </div>

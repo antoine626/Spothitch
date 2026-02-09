@@ -440,7 +440,7 @@ export function renderCustomizationModal(state) {
                     </div>
                     <div class="text-xs font-medium truncate">${frame.name}</div>
                     <div class="text-[10px] ${rarity.text}">${rarity.label}</div>
-                    ${!isUnlocked ? '<i class="fas fa-lock absolute top-2 right-2 text-slate-500"></i>' : ''}
+                    ${!isUnlocked ? `<i class="fas fa-lock absolute top-2 right-2 text-slate-500"></i><div class="text-[10px] text-slate-500 mt-1">${getFrameUnlockText(frame.unlockMethod)}</div>` : ''}
                   </button>
                 `;
     })
@@ -482,6 +482,27 @@ export function renderCustomizationModal(state) {
       </div>
     </div>
   `;
+}
+
+/**
+ * Get human-readable unlock condition for a frame
+ */
+function getFrameUnlockText(method) {
+  const texts = {
+    default: 'Disponible',
+    level_5: 'Niveau 5',
+    level_10: 'Niveau 10',
+    level_20: 'Niveau 20',
+    friends_10: '10 amis',
+    trust_score_80: 'Score confiance 80+',
+    countries_5: '5 pays visites',
+    account_age_365: '1 an de compte',
+    reviews_100: '100 avis',
+    leaderboard_top10: 'Top 10 classement',
+    level_50: 'Niveau 50',
+    all_badges: 'Tous les badges',
+  }
+  return texts[method] || method?.replace(/_/g, ' ') || '?'
 }
 
 // Global handlers

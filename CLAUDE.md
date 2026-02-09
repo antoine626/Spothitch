@@ -7,6 +7,12 @@
 > 2. `npm run build` pour vérifier la compilation
 > 3. Si échecs → corriger AVANT de continuer
 
+> **RÈGLE DE CÂBLAGE** : Chaque nouvelle feature/modal/composant DOIT inclure :
+> 1. Ajouter les handlers `window.*` dans `MAIN_JS_HANDLERS` de `tests/wiring/globalHandlers.test.js`
+> 2. Ajouter un `testModalFlag(...)` dans `tests/wiring/modalFlags.test.js`
+> 3. Ajouter un bloc `describe('Integration: NomModal')` dans `tests/integration/modals.test.js`
+> 4. `npx vitest run tests/wiring/ tests/integration/modals.test.js` → tout passe
+
 ---
 
 ## Vue du Projet

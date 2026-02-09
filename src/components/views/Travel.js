@@ -3,8 +3,9 @@
  * Combines Trip Planner and Country Guides
  */
 
-import { t } from '../../i18n/index.js';
-import { countryGuides, getGuideByCode } from '../../data/guides.js';
+import { t } from '../../i18n/index.js'
+import { countryGuides, getGuideByCode } from '../../data/guides.js'
+import { renderCommunityTips } from '../../services/communityTips.js'
 
 export function renderTravel(state) {
   const activeSubTab = state.activeSubTab || 'planner';
@@ -68,7 +69,8 @@ function renderPlanner(state) {
                 placeholder="Paris, France"
                 class="input-field w-full pl-10"
                 value="${state.tripFrom || ''}"
-                oninput="updateTripField('from', this.value)"
+                onblur="updateTripField('from', this.value)"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();updateTripField('from',this.value);document.getElementById('trip-to')?.focus()}"
               />
               <i class="fas fa-map-marker-alt absolute left-3 top-1/2 -translate-y-1/2 text-emerald-400" aria-hidden="true"></i>
             </div>
@@ -93,7 +95,8 @@ function renderPlanner(state) {
                 placeholder="Berlin, Allemagne"
                 class="input-field w-full pl-10"
                 value="${state.tripTo || ''}"
-                oninput="updateTripField('to', this.value)"
+                onblur="updateTripField('to', this.value)"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();updateTripField('to',this.value);calculateTrip()}"
               />
               <i class="fas fa-flag-checkered absolute left-3 top-1/2 -translate-y-1/2 text-danger-400" aria-hidden="true"></i>
             </div>
@@ -101,9 +104,8 @@ function renderPlanner(state) {
         </div>
 
         <button
-          onclick="calculateTrip()"
+          onclick="syncTripFieldsAndCalculate()"
           class="btn-primary w-full py-3"
-          ${!state.tripFrom || !state.tripTo ? 'disabled' : ''}
         >
           <i class="fas fa-search mr-2" aria-hidden="true"></i>
           Trouver les spots sur le trajet
@@ -415,6 +417,8 @@ function renderGuideDetail(guide) {
           </div>
         </div>
       </div>
+
+      ${renderCommunityTips(guide.code)}
     </div>
   `;
 }
@@ -443,6 +447,19 @@ window.updateTripField = (field, value) => {
   } else {
     window.setState?.({ tripTo: value });
   }
+};
+
+window.syncTripFieldsAndCalculate = () => {
+  const fromInput = document.getElementById('trip-from');
+  const toInput = document.getElementById('trip-to');
+  const from = fromInput?.value?.trim() || '';
+  const to = toInput?.value?.trim() || '';
+  if (!from || !to) {
+    window.showToast?.('Remplis le départ et la destination', 'warning');
+    return;
+  }
+  window.setState?.({ tripFrom: from, tripTo: to });
+  window.calculateTrip?.();
 };
 
 window.swapTripPoints = () => {
@@ -562,12 +579,54 @@ window.loadTrip = (index) => {
   }
 };
 
-window.viewTripOnMap = () => {
-  const state = window.getState?.() || {};
-  if (state.tripResults) {
-    window.changeTab?.('map');
-    // TODO: Show route on map
-  }
-};
+window.viewTripOnMap = async () => {
+  const state = window.getState?.() || {}
+  if (!state.tripResults?.fromCoords || !state.tripResults?.toCoords) return
+
+  // Store trip route for map to pick up
+  window.setState?.({
+    activeTab: 'map',
+    pendingTripRoute: {
+      from: state.tripResults.fromCoords,
+      to: state.tripResults.toCoords,
+      spots: state.tripResults.spots || []
+    }
+  })
+
+  // Wait for map to init then draw route
+  setTimeout(async () => {
+    if (!window.mapInstance) return
+    try {
+      const L = await import('leaflet')
+      const from = state.tripResults.fromCoords
+      const to = state.tripResults.toCoords
+
+      // Draw simple straight line between points
+      const routeCoords = [[from[1], from[0]], [to[1], to[0]]]
+      const { drawRoute } = await import('../../services/map.js')
+      drawRoute(window.mapInstance, L.default, routeCoords)
+
+      // Add start/end markers
+      L.default.marker(from, {
+        icon: L.default.divIcon({
+          className: 'custom-marker',
+          html: '<div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">A</div>',
+          iconSize: [32, 32], iconAnchor: [16, 32]
+        })
+      }).addTo(window.mapInstance)
+
+      L.default.marker([state.tripResults.toCoords[0], state.tripResults.toCoords[1]], {
+        icon: L.default.divIcon({
+          className: 'custom-marker',
+          html: '<div class="w-8 h-8 rounded-full bg-danger-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">B</div>',
+          iconSize: [32, 32], iconAnchor: [16, 32]
+        })
+      }).addTo(window.mapInstance)
+
+    } catch (e) {
+      console.error('Failed to draw trip route:', e)
+    }
+  }, 500)
+}
 
 export default { renderTravel };

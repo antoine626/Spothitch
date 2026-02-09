@@ -57,6 +57,9 @@ import { renderTeamDashboard } from '../services/teamChallenges.js';
 import { renderAdminPanel } from './modals/AdminPanel.js';
 import { renderCookieBanner } from './modals/CookieBanner.js';
 import { renderMyDataModal } from './modals/MyData.js';
+import { renderTitlesModal } from './modals/TitlesModal.js';
+import { renderCreateTravelGroupModal } from './modals/CreateTravelGroup.js';
+import { renderFriendProfileModal } from './modals/FriendProfile.js';
 
 /**
  * Render the complete application
@@ -114,8 +117,20 @@ export function renderApp(state) {
     ${state.showReport ? renderReportModal(state) : ''}
     ${state.showAccessibilityHelp ? renderAccessibilityHelp(state) : ''}
     ${state.showTravelGroupDetail ? renderTravelGroupDetail(state) : ''}
-    ${state.showTeamChallenges ? renderTeamDashboard(state) : ''}
-    ${state.showCreateTravelGroup ? renderTravelGroupsList(state) : ''}
+    ${state.showTeamChallenges ? `
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTeamChallenges()">
+        <div class="min-h-screen pb-20">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+            <h2 class="text-lg font-bold"><i class="fas fa-users mr-2 text-orange-400"></i>Defis d'equipe</h2>
+            <button onclick="closeTeamChallenges()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="Fermer">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          ${renderTeamDashboard(state)}
+        </div>
+      </div>
+    ` : ''}
+    ${state.showCreateTravelGroup ? renderCreateTravelGroupModal(state) : ''}
 
     <!-- Floating Widgets -->
     ${renderNearbyFriendsWidget(state)}
@@ -126,6 +141,12 @@ export function renderApp(state) {
 
     <!-- GDPR My Data Modal -->
     ${state.showMyData ? renderMyDataModal() : ''}
+
+    <!-- Titles Modal -->
+    ${state.showTitles ? renderTitlesModal(state) : ''}
+
+    <!-- Friend Profile Modal -->
+    ${state.showFriendProfile ? renderFriendProfileModal(state) : ''}
 
     <!-- Admin Button (floating) -->
     <button

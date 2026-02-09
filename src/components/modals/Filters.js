@@ -31,6 +31,16 @@ export function renderFiltersModal() {
     { code: 'CH', name: 'Suisse', flag: '🇨🇭' },
     { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
     { code: 'IE', name: 'Irlande', flag: '🇮🇪' },
+    { code: 'GB', name: 'Royaume-Uni', flag: '🇬🇧' },
+    { code: 'SE', name: 'Suede', flag: '🇸🇪' },
+    { code: 'NO', name: 'Norvege', flag: '🇳🇴' },
+    { code: 'MA', name: 'Maroc', flag: '🇲🇦' },
+    { code: 'TR', name: 'Turquie', flag: '🇹🇷' },
+    { code: 'US', name: 'Etats-Unis', flag: '🇺🇸' },
+    { code: 'NZ', name: 'Nlle-Zelande', flag: '🇳🇿' },
+    { code: 'AU', name: 'Australie', flag: '🇦🇺' },
+    { code: 'GE', name: 'Georgie', flag: '🇬🇪' },
+    { code: 'IL', name: 'Israel', flag: '🇮🇱' },
   ];
 
   const ratingOptions = [

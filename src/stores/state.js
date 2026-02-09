@@ -199,6 +199,10 @@ function persistState() {
     verificationLevel: state.verificationLevel,
     verifiedPhone: state.verifiedPhone,
     identityVerifiedAt: state.identityVerifiedAt,
+    messages: (state.messages || []).slice(-100),
+    privateMessages: state.privateMessages || {},
+    friends: state.friends || [],
+    travelGroups: state.travelGroups || [],
   };
   Storage.set('state', stateToPersist);
 }

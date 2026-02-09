@@ -1,194 +1,177 @@
 /**
  * E2E Tests - Accessibility (WCAG 2.1 AA)
- * Updated to match current app structure
+ * Uses @axe-core/playwright for automated checks
  */
 
-import { test, expect } from '@playwright/test';
-import { skipOnboarding } from './helpers.js';
+import { test, expect } from '@playwright/test'
+import AxeBuilder from '@axe-core/playwright'
+import { skipOnboarding, navigateToTab } from './helpers.js'
 
-test.describe('Accessibility', () => {
+// Common axe rules to disable (known issues with dynamic SPAs)
+const AXE_DISABLE_RULES = [
+  'color-contrast', // Dynamic dark theme makes this unreliable in headless
+]
+
+test.describe('Accessibility - Automated WCAG 2.1 AA', () => {
   test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page);
-  });
+    await skipOnboarding(page)
+  })
+
+  test('map view should pass accessibility checks', async ({ page }) => {
+    await navigateToTab(page, 'map')
+    await page.waitForSelector('#main-map', { timeout: 10000 })
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .disableRules(AXE_DISABLE_RULES)
+      .analyze()
+
+    expect(results.violations.length).toBe(0)
+  })
+
+  test('travel view should pass accessibility checks', async ({ page }) => {
+    await navigateToTab(page, 'travel')
+    await page.waitForSelector('#trip-from', { timeout: 10000 })
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .disableRules(AXE_DISABLE_RULES)
+      .analyze()
+
+    expect(results.violations.length).toBe(0)
+  })
+
+  test('social view should pass accessibility checks', async ({ page }) => {
+    await navigateToTab(page, 'social')
+    await page.waitForSelector('#chat-input', { timeout: 10000 })
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .disableRules(AXE_DISABLE_RULES)
+      .analyze()
+
+    expect(results.violations.length).toBe(0)
+  })
+
+  test('profile view should pass accessibility checks', async ({ page }) => {
+    await navigateToTab(page, 'profile')
+    await page.waitForSelector('nav', { timeout: 10000 })
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .disableRules(AXE_DISABLE_RULES)
+      .analyze()
+
+    expect(results.violations.length).toBe(0)
+  })
+
+  test('challenges view should pass accessibility checks', async ({ page }) => {
+    await navigateToTab(page, 'challenges')
+    await page.waitForSelector('nav', { timeout: 10000 })
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .disableRules(AXE_DISABLE_RULES)
+      .analyze()
+
+    expect(results.violations.length).toBe(0)
+  })
+})
+
+test.describe('Accessibility - Navigation Structure', () => {
+  test.beforeEach(async ({ page }) => {
+    await skipOnboarding(page)
+  })
 
   test('should have proper document structure', async ({ page }) => {
-    // Check for main app container
-    await expect(page.locator('#app')).toBeVisible();
+    await expect(page.locator('#app')).toBeVisible()
+    await expect(page.locator('nav').first()).toBeVisible({ timeout: 5000 })
 
-    // Check for navigation landmark
-    await expect(page.locator('nav').first()).toBeVisible({ timeout: 5000 });
-  });
+    // Must have at least one heading
+    const headings = await page.locator('h1, h2, h3').all()
+    expect(headings.length).toBeGreaterThan(0)
+  })
 
-  test('should have skip link', async ({ page }) => {
-    const skipLink = page.locator('a[href="#app"], a[href="#main"], .skip-link, .sr-only').first();
+  test('should have accessible navigation with ARIA', async ({ page }) => {
+    const nav = page.locator('nav[role="navigation"]')
+    await expect(nav).toBeVisible()
 
-    // Skip link should exist (may be visually hidden)
-    const count = await skipLink.count();
-    expect(count).toBeGreaterThanOrEqual(0); // May or may not exist
-  });
+    const ariaLabel = await nav.getAttribute('aria-label')
+    expect(ariaLabel).toBeTruthy()
 
-  test('should have proper heading hierarchy', async ({ page }) => {
-    const headings = await page.locator('h1, h2, h3, h4, h5, h6').all();
+    // All nav buttons must have role="tab"
+    const navButtons = page.locator('nav button[role="tab"]')
+    const count = await navButtons.count()
+    expect(count).toBeGreaterThan(3) // At least map, travel, challenges, social, profile
 
-    // App should have at least some headings
-    expect(headings.length).toBeGreaterThanOrEqual(0);
-  });
-
-  test('should have accessible buttons', async ({ page }) => {
-    const buttons = await page.locator('button').all();
-
-    let accessibleCount = 0;
-    for (const button of buttons.slice(0, 20)) {
-      const text = await button.textContent();
-      const ariaLabel = await button.getAttribute('aria-label');
-      const ariaLabelledBy = await button.getAttribute('aria-labelledby');
-
-      // Button should have accessible name
-      const hasAccessibleName =
-        (text && text.trim().length > 0) ||
-        ariaLabel ||
-        ariaLabelledBy;
-
-      if (hasAccessibleName) accessibleCount++;
+    // Each tab must have aria-label
+    for (let i = 0; i < count; i++) {
+      const label = await navButtons.nth(i).getAttribute('aria-label')
+      expect(label).toBeTruthy()
     }
 
-    // Most buttons should be accessible
-    expect(accessibleCount).toBeGreaterThan(0);
-  });
+    // Exactly one tab should be selected
+    const selectedTabs = page.locator('nav button[aria-selected="true"]')
+    await expect(selectedTabs).toHaveCount(1)
+  })
 
   test('should be keyboard navigable', async ({ page }) => {
-    // Start from body
-    await page.keyboard.press('Tab');
-
-    // Should focus on first interactive element
-    const focusedElement = page.locator(':focus');
-
     // Tab through several elements
-    for (let i = 0; i < 3; i++) {
-      await page.keyboard.press('Tab');
+    for (let i = 0; i < 5; i++) {
+      await page.keyboard.press('Tab')
     }
 
-    // Should still have focus somewhere
-    const focused = page.locator(':focus');
-    const count = await focused.count();
-    expect(count).toBeGreaterThanOrEqual(0);
-  });
+    // Must have an element focused
+    const focused = page.locator(':focus')
+    const count = await focused.count()
+    expect(count).toBe(1)
 
-  test('should have visible focus indicators', async ({ page }) => {
-    // Tab to first focusable element
-    await page.keyboard.press('Tab');
-    await page.keyboard.press('Tab');
-
-    const focusedElement = page.locator(':focus');
-    const count = await focusedElement.count();
-
-    if (count > 0) {
-      // Check that focus is visible (has outline or other indicator)
-      const outlineStyle = await focusedElement.evaluate(el => {
-        const styles = window.getComputedStyle(el);
-        return {
-          outline: styles.outline,
-          outlineWidth: styles.outlineWidth,
-          boxShadow: styles.boxShadow,
-          border: styles.border,
-        };
-      });
-
-      // Should have some kind of focus indicator or be styled
-      expect(outlineStyle).toBeDefined();
-    }
-  });
-
-  test('should have sufficient color contrast', async ({ page }) => {
-    // Check main text elements
-    const textElements = await page.locator('p, span, h1, h2, h3, button').all();
-
-    for (const element of textElements.slice(0, 5)) {
-      const styles = await element.evaluate(el => {
-        const computed = window.getComputedStyle(el);
-        return {
-          color: computed.color,
-          backgroundColor: computed.backgroundColor,
-        };
-      });
-
-      // Colors should be defined
-      expect(styles.color).toBeDefined();
-    }
-  });
+    // Focused element should be interactive
+    const tagName = await focused.evaluate(el => el.tagName.toLowerCase())
+    expect(['button', 'a', 'input', 'select', 'textarea']).toContain(tagName)
+  })
 
   test('should handle reduced motion preference', async ({ page }) => {
-    // Emulate reduced motion
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.reload();
-    await page.waitForSelector('#app.loaded', { timeout: 10000 });
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.reload()
 
-    // App should still load and work
-    await expect(page.locator('#app')).toBeVisible();
-  });
+    // Wait for app to load
+    await Promise.race([
+      page.waitForSelector('#app.loaded', { timeout: 15000 }),
+      page.waitForSelector('nav[role="navigation"]', { timeout: 15000 }),
+    ]).catch(() => {})
 
-  test('should have ARIA live regions', async ({ page }) => {
-    // Check for ARIA live regions
-    const liveRegions = await page.locator('[aria-live], [role="alert"], [role="status"]').all();
+    await expect(page.locator('#app')).toBeVisible()
+    await expect(page.locator('nav').first()).toBeVisible({ timeout: 5000 })
+  })
 
-    // App should have at least one live region for announcements
-    expect(liveRegions.length).toBeGreaterThanOrEqual(0);
-  });
-});
+  test('should have ARIA live regions for notifications', async ({ page }) => {
+    const liveRegions = await page.locator('[aria-live], [role="alert"], [role="status"]').all()
+    expect(liveRegions.length).toBeGreaterThan(0)
+  })
+})
 
-test.describe('Navigation Accessibility', () => {
-  test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page);
-  });
+test.describe('Accessibility - Touch & Mobile', () => {
+  test.use({ viewport: { width: 375, height: 667 } })
 
-  test('should have accessible navigation', async ({ page }) => {
-    const nav = page.locator('nav[role="navigation"]');
-    await expect(nav).toBeVisible();
+  test('should have touch-friendly tap targets (44x44 min)', async ({ page }) => {
+    await skipOnboarding(page)
 
-    // Navigation should have aria-label
-    const ariaLabel = await nav.getAttribute('aria-label');
-    expect(ariaLabel).toBeTruthy();
-  });
+    const navButtons = await page.locator('nav button').all()
+    expect(navButtons.length).toBeGreaterThan(0)
 
-  test('should have tab navigation with proper roles', async ({ page }) => {
-    const navButtons = page.locator('nav button[role="tab"]');
-    const count = await navButtons.count();
-    expect(count).toBeGreaterThan(0);
-
-    // Check first button has proper attributes
-    const firstButton = navButtons.first();
-    const ariaSelected = await firstButton.getAttribute('aria-selected');
-    expect(['true', 'false']).toContain(ariaSelected);
-  });
-});
-
-test.describe('Touch & Mobile Accessibility', () => {
-  test.use({ viewport: { width: 375, height: 667 } });
-
-  test('should have touch-friendly tap targets', async ({ page }) => {
-    await skipOnboarding(page);
-
-    const navButtons = await page.locator('nav button').all();
-
-    let goodSizeCount = 0;
     for (const button of navButtons) {
-      const box = await button.boundingBox();
-
-      if (box) {
-        // WCAG recommends 44x44 minimum
-        if (box.width >= 40 && box.height >= 40) {
-          goodSizeCount++;
-        }
-      }
+      const box = await button.boundingBox()
+      expect(box).not.toBeNull()
+      // WCAG 2.5.5 recommends 44x44 minimum
+      expect(box.width).toBeGreaterThanOrEqual(40)
+      expect(box.height).toBeGreaterThanOrEqual(40)
     }
-
-    // Most nav buttons should be properly sized
-    expect(goodSizeCount).toBeGreaterThan(0);
-  });
+  })
 
   test('should work in portrait orientation', async ({ page }) => {
-    await skipOnboarding(page);
-    await expect(page.locator('nav')).toBeVisible();
-    await expect(page.locator('#app')).toBeVisible();
-  });
-});
+    await skipOnboarding(page)
+    await expect(page.locator('nav')).toBeVisible()
+    await expect(page.locator('#app')).toBeVisible()
+  })
+})

@@ -79,3 +79,8 @@ global.indexedDB = {
 beforeEach(() => {
   vi.clearAllMocks();
 });
+
+// Ensure fake timers don't leak between test files
+afterEach(() => {
+  vi.useRealTimers();
+});

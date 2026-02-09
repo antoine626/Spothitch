@@ -92,6 +92,28 @@ export function renderProfile(state) {
         </button>
       </div>
 
+      <!-- Skills Section (moved up for visibility) -->
+      <button
+        onclick="openSkillTree()"
+        class="card p-4 w-full text-left hover:border-purple-500/50 transition-all"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/30 to-pink-500/30 flex items-center justify-center">
+              <i class="fas fa-tree text-purple-400 text-xl" aria-hidden="true"></i>
+            </div>
+            <div>
+              <div class="font-semibold">Arbre de compétences</div>
+              <div class="text-sm text-slate-400">${state.skillPoints || 0} points disponibles</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-purple-400">${(state.unlockedSkills || []).length} skills</span>
+            <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+          </div>
+        </div>
+      </button>
+
       <!-- Level Progress -->
       <div class="card p-4">
         <div class="flex justify-between text-sm mb-2">
@@ -173,28 +195,6 @@ export function renderProfile(state) {
       <!-- Trust Score -->
       ${renderTrustScoreCard()}
 
-      <!-- Skills Section -->
-      <button
-        onclick="openSkillTree()"
-        class="card p-4 w-full text-left hover:border-purple-500/50 transition-all"
-      >
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/30 to-pink-500/30 flex items-center justify-center">
-              <i class="fas fa-tree text-purple-400 text-xl" aria-hidden="true"></i>
-            </div>
-            <div>
-              <div class="font-semibold">Arbre de compétences</div>
-              <div class="text-sm text-slate-400">${state.skillPoints || 0} points disponibles</div>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-sm text-purple-400">${(state.unlockedSkills || []).length} skills</span>
-            <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
-          </div>
-        </div>
-      </button>
-
       <!-- Friends Link -->
       <button
         onclick="changeTab('social'); setSocialTab('friends');"
@@ -227,12 +227,12 @@ export function renderProfile(state) {
           </div>
           <button
             onclick="toggleTheme()"
-            class="w-12 h-6 rounded-full ${state.theme === 'dark' ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all"
+            class="w-14 h-8 rounded-full ${state.theme === 'dark' ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
             role="switch"
             aria-checked="${state.theme === 'dark'}"
             aria-label="Activer le thème sombre"
           >
-            <div class="w-5 h-5 rounded-full bg-white absolute top-0.5 transition-all ${state.theme === 'dark' ? 'left-6' : 'left-0.5'}"></div>
+            <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${state.theme === 'dark' ? 'left-7' : 'left-1'}"></div>
           </button>
         </div>
 
@@ -261,12 +261,12 @@ export function renderProfile(state) {
           </div>
           <button
             onclick="toggleNotifications()"
-            class="w-12 h-6 rounded-full ${state.notifications !== false ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all"
+            class="w-14 h-8 rounded-full ${state.notifications !== false ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
             role="switch"
             aria-checked="${state.notifications !== false}"
             aria-label="Activer les notifications"
           >
-            <div class="w-5 h-5 rounded-full bg-white absolute top-0.5 transition-all ${state.notifications !== false ? 'left-6' : 'left-0.5'}"></div>
+            <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${state.notifications !== false ? 'left-7' : 'left-1'}"></div>
           </button>
         </div>
 

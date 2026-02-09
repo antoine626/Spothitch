@@ -1,7 +1,7 @@
 {
-  "totalCountries": 38,
-  "totalLocations": 28583,
-  "totalReviews": 58682,
+  "totalCountries": 43,
+  "totalLocations": 28603,
+  "totalReviews": 58806,
   "source": "hitchwiki",
   "license": "ODBL",
   "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
@@ -271,6 +271,41 @@
       "locations": 153,
       "reviews": 272,
       "file": "is.json"
+    },
+    {
+      "code": "MA",
+      "name": "Maroc",
+      "locations": 5,
+      "reviews": 22,
+      "file": "ma.json"
+    },
+    {
+      "code": "TR",
+      "name": "Turquie",
+      "locations": 5,
+      "reviews": 28,
+      "file": "tr.json"
+    },
+    {
+      "code": "US",
+      "name": "États-Unis",
+      "locations": 5,
+      "reviews": 18,
+      "file": "us.json"
+    },
+    {
+      "code": "NZ",
+      "name": "Nouvelle-Zélande",
+      "locations": 5,
+      "reviews": 32,
+      "file": "nz.json"
+    },
+    {
+      "code": "AU",
+      "name": "Australie",
+      "locations": 5,
+      "reviews": 24,
+      "file": "au.json"
     }
   ]
 }

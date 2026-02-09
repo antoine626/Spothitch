@@ -6,6 +6,7 @@
 import { getState } from '../stores/state.js';
 import { sampleSpots } from '../data/spots.js';
 import { loadSpotsInBounds, getAllLoadedSpots } from './spotLoader.js';
+import { getFilteredSpots } from '../components/modals/Filters.js';
 
 // Map instances
 let mainMap = null;
@@ -116,7 +117,9 @@ export async function initMap(containerId = 'map') {
     }).addTo(mainMap);
 
     // Add sample spots first (instant), then load real data
-    addSpotsToMap(mainMap, L.default, state.spots || sampleSpots);
+    const allSpots = state.spots || sampleSpots;
+    const filteredSpots = getFilteredSpots(allSpots, state);
+    addSpotsToMap(mainMap, L.default, filteredSpots);
 
     // Add user location marker if available
     if (state.userLocation) {
@@ -370,7 +373,7 @@ function createSpotPopup(spot) {
         <span>⏱️ ${spot.avgWaitTime || '?'} min</span>
       </div>
       <p class="text-xs text-gray-500 mt-1 line-clamp-2">${spot.description || ''}</p>
-      <button onclick="selectSpot(${spot.id})"
+      <button onclick="selectSpot(${typeof spot.id === 'string' ? `'${spot.id}'` : spot.id})"
               class="mt-2 w-full px-3 py-1.5 bg-sky-500 text-white rounded-lg text-sm">
         Voir détails
       </button>

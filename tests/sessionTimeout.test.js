@@ -11,6 +11,7 @@ import * as firebase from '../src/services/firebase.js';
 const mockStorage = {};
 
 beforeEach(() => {
+  vi.useRealTimers();
   mockStorage.clear?.();
   global.localStorage = {
     getItem: (key) => mockStorage[key] || null,

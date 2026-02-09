@@ -332,12 +332,8 @@ async function init() {
     // Setup keyboard shortcuts
     setupKeyboardShortcuts();
 
-    // Setup swipe navigation
-    try {
-      setupGlobalSwipe();
-    } catch (e) {
-      console.warn('Swipe navigation skipped:', e.message);
-    }
+    // Swipe navigation disabled (B1 - users found it disruptive)
+    // setupGlobalSwipe();
 
     // Register checkin modal handlers
     try {
@@ -571,11 +567,23 @@ window.setState = setState;
 window.getState = getState;
 
 // Spot handlers
-window.selectSpot = (id) => {
+window.selectSpot = async (id) => {
   const { spots } = getState();
-  const spot = spots.find(s => s.id === id);
-  actions.selectSpot(spot);
-  if (spot) centerOnSpot(spot);
+  // eslint-disable-next-line eqeqeq
+  let spot = spots.find(s => s.id === id || s.id == id);
+  // Also check dynamically loaded spots
+  if (!spot) {
+    try {
+      const { getAllLoadedSpots: getAll } = await import('./services/spotLoader.js');
+      const allLoaded = getAll();
+      // eslint-disable-next-line eqeqeq
+      spot = allLoaded.find(s => s.id === id || s.id == id);
+    } catch (e) { /* spotLoader not available */ }
+  }
+  if (spot) {
+    actions.selectSpot(spot);
+    centerOnSpot(spot);
+  }
 };
 window.closeSpotDetail = () => actions.selectSpot(null);
 window.openAddSpot = () => setState({ showAddSpot: true });
@@ -914,7 +922,12 @@ window.toggleVerifiedFilter = () => {
   setState({ filterVerifiedOnly: !filterVerifiedOnly });
 };
 window.setSortBy = (sortBy) => setState({ sortBy });
-window.applyFilters = () => setState({ showFilters: false });
+window.applyFilters = () => {
+  setState({ showFilters: false });
+  // Force map re-init with new filters
+  destroyMaps();
+  setTimeout(() => initMapService(), 200);
+};
 window.resetFilters = () => resetFiltersUtil();
 
 // Quiz handlers
@@ -1222,6 +1235,10 @@ window.installPWA = installPWA;
 
 // Map handlers
 window.centerOnUser = centerOnUser;
+
+// Titles modal handler
+window.openTitles = () => setState({ showTitles: true });
+window.closeTitles = () => setState({ showTitles: false });
 
 // Skill tree handlers
 window.openSkillTree = () => setState({ showSkillTree: true });

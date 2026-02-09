@@ -132,11 +132,6 @@ export function renderMap(state) {
         <i class="fas fa-plus" aria-hidden="true"></i>
       </button>
 
-      <!-- Spot of the Day -->
-      <div class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 w-11/12 max-w-md">
-        ${renderSpotOfTheDayCompact(state)}
-      </div>
-
       <!-- Spots count -->
       <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
         <div class="px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm" aria-live="polite">

@@ -168,7 +168,7 @@ export function renderChallengesHub(state) {
                 <div class="flex items-center justify-between mb-2">
                   <div class="flex items-center gap-2">
                     <span class="text-lg">${challenge.icon}</span>
-                    <span class="font-medium">${challenge.name}</span>
+                    <span class="font-medium">${challenge.name || challenge.title || 'Défi'}</span>
                   </div>
                   <span class="text-xs px-2 py-0.5 rounded-full ${
   challenge.challengeType === 'daily' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'

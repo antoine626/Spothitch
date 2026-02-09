@@ -322,11 +322,14 @@ describe('Hostel Partnership Service', () => {
     })
 
     it('should set expiration date 30 days from now', () => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-02-09T12:00:00Z'))
       const result = generateDiscountCode('hostel-fr-001', 'user123')
       const expiresAt = new Date(result.expiresAt)
       const now = new Date()
-      const diffDays = Math.floor((expiresAt - now) / (1000 * 60 * 60 * 24))
+      const diffDays = Math.round((expiresAt - now) / (1000 * 60 * 60 * 24))
       expect(diffDays).toBe(30)
+      vi.useRealTimers()
     })
 
     it('should track event', () => {
@@ -901,7 +904,16 @@ describe('Hostel Partnership Service', () => {
   describe('Edge cases', () => {
     it('should handle corrupted localStorage', () => {
       localStorage.setItem(STORAGE_KEY, 'invalid-json')
-      expect(() => generateDiscountCode('hostel-fr-001', 'user123')).not.toThrow()
+      let result
+      let threw = false
+      try {
+        result = generateDiscountCode('hostel-fr-001', 'user123')
+      } catch {
+        threw = true
+      }
+      expect(threw).toBe(false)
+      // Function should still return a result (success or error object)
+      expect(result).toBeDefined()
     })
 
     it('should handle missing state', () => {

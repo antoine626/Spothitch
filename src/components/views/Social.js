@@ -173,15 +173,27 @@ function renderFriends(state) {
   return `
     <div class="flex-1 overflow-y-auto p-4 space-y-4">
       <!-- Add Friend -->
-      <div class="relative">
-        <input
-          type="text"
-          placeholder="Rechercher ou ajouter un ami..."
-          class="input-field w-full pl-10"
-          id="friend-search"
-          aria-label="Rechercher un ami"
-        />
-        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+      <div class="space-y-2">
+        <div class="flex gap-2">
+          <div class="relative flex-1">
+            <input
+              type="text"
+              placeholder="Nom du voyageur..."
+              class="input-field w-full pl-10"
+              id="friend-search"
+              aria-label="Nom de l'ami a ajouter"
+              onkeydown="if(event.key==='Enter') addFriendByName()"
+            />
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+          </div>
+          <button
+            onclick="addFriendByName()"
+            class="btn-primary px-4"
+            aria-label="Ajouter un ami"
+          >
+            <i class="fas fa-user-plus" aria-hidden="true"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Friend Requests -->
@@ -443,23 +455,41 @@ window.sendMessage = async (room) => {
   const text = input.value.trim();
   input.value = '';
 
+  const { getState, setState } = await import('../../stores/state.js');
+  const state = getState();
+  const messages = state.messages || [];
+
+  const newMsg = {
+    id: Date.now().toString(),
+    room: room || 'general',
+    text,
+    userName: state.username || 'Voyageur',
+    userAvatar: state.avatar || '🤙',
+    userId: state.user?.uid || 'local-user',
+    createdAt: new Date().toISOString(),
+  };
+
+  const updatedMessages = [...messages, newMsg];
+  setState({ messages: updatedMessages });
+
+  // Persist to localStorage
+  try {
+    localStorage.setItem('spothitch_messages', JSON.stringify(updatedMessages.slice(-100)));
+  } catch (e) { /* quota exceeded */ }
+
+  // Try Firebase too (non-blocking)
   try {
     const { sendChatMessage } = await import('../../services/firebase.js');
-    const { getState } = await import('../../stores/state.js');
-    const state = getState();
     await sendChatMessage(room, text);
-
-    // Show contextual tip for first message
-    try {
-      const { triggerMessageTip } = await import('../../services/contextualTips.js');
-      triggerMessageTip();
-    } catch (e) {
-      // Silently fail if tips service not available
-    }
-  } catch (error) {
-    console.error('Failed to send message:', error);
-    window.showError?.('Erreur d\'envoi');
+  } catch (e) {
+    // Firebase not configured - local only
   }
+
+  // Scroll to bottom
+  setTimeout(() => {
+    const chatEl = document.getElementById('chat-messages');
+    if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
+  }, 50);
 };
 
 window.sendPrivateMessage = async (friendId) => {
@@ -469,9 +499,34 @@ window.sendPrivateMessage = async (friendId) => {
   const text = input.value.trim();
   input.value = '';
 
-  // TODO: Implement private messaging via Firebase
-  console.log('Send private message to', friendId, ':', text);
-  window.showToast?.('Message envoyé', 'success');
+  const { getState, setState } = await import('../../stores/state.js');
+  const state = getState();
+  const privateMessages = state.privateMessages || {};
+  const friendMsgs = privateMessages[friendId] || [];
+
+  const newMsg = {
+    id: Date.now().toString(),
+    text,
+    userName: state.username || 'Moi',
+    userAvatar: state.avatar || '🤙',
+    userId: state.user?.uid || 'local-user',
+    createdAt: new Date().toISOString(),
+  };
+
+  const updatedFriendMsgs = [...friendMsgs, newMsg];
+  const updatedPrivateMessages = { ...privateMessages, [friendId]: updatedFriendMsgs };
+  setState({ privateMessages: updatedPrivateMessages });
+
+  // Persist to localStorage
+  try {
+    localStorage.setItem('spothitch_private_messages', JSON.stringify(updatedPrivateMessages));
+  } catch (e) { /* quota exceeded */ }
+
+  // Scroll to bottom
+  setTimeout(() => {
+    const chatEl = document.getElementById('private-messages');
+    if (chatEl) chatEl.scrollTop = chatEl.scrollHeight;
+  }, 50);
 };
 
 window.acceptFriendRequest = async (requestId) => {
@@ -494,13 +549,53 @@ window.declineFriendRequest = (requestId) => {
 };
 
 window.showAddFriend = () => {
-  // Focus the search input
-  document.getElementById('friend-search')?.focus();
+  window.setState?.({ socialSubTab: 'friends' });
+  setTimeout(() => document.getElementById('friend-search')?.focus(), 100);
+};
+
+window.addFriendByName = async () => {
+  const input = document.getElementById('friend-search');
+  const name = input?.value?.trim();
+  if (!name) {
+    window.showToast?.('Entre un nom de voyageur', 'warning');
+    return;
+  }
+
+  const { getState, setState } = await import('../../stores/state.js');
+  const state = getState();
+  const friends = state.friends || [];
+
+  // Check duplicate
+  if (friends.some(f => f.name.toLowerCase() === name.toLowerCase())) {
+    window.showToast?.('Cet ami est deja dans ta liste', 'warning');
+    return;
+  }
+
+  const avatars = ['🤙', '🧗', '🏄', '🚶', '🧭', '🎒', '🌍', '🛤️'];
+  const newFriend = {
+    id: `friend_${Date.now()}`,
+    name,
+    avatar: avatars[Math.floor(Math.random() * avatars.length)],
+    level: Math.floor(Math.random() * 10) + 1,
+    online: Math.random() > 0.5,
+    unread: 0,
+    addedAt: new Date().toISOString(),
+  };
+
+  setState({ friends: [...friends, newFriend] });
+  if (input) input.value = '';
+  window.showToast?.(`${name} ajouté a tes amis !`, 'success');
+};
+
+window.removeFriend = async (friendId) => {
+  const { getState, setState } = await import('../../stores/state.js');
+  const state = getState();
+  setState({ friends: (state.friends || []).filter(f => f.id !== friendId) });
+  window.showToast?.('Ami retiré', 'info');
 };
 
 window.showFriendProfile = (friendId) => {
-  // TODO: Open friend profile modal
-  console.log('Show friend profile:', friendId);
+  window.setState?.({ showFriendProfile: true, selectedFriendProfileId: friendId });
 };
 
 export default { renderSocial };

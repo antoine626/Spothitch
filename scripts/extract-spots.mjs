@@ -15,12 +15,17 @@ const Database = require('/tmp/node_modules/better-sqlite3')
 const db = new Database('/tmp/hitchmap_dump.sqlite')
 const OUTPUT_DIR = join(import.meta.dirname, '..', 'public', 'data', 'spots')
 
-// European countries to extract
-const EU_COUNTRIES = [
+// Countries to extract (worldwide)
+const COUNTRIES = [
   'FR', 'DE', 'ES', 'IT', 'NL', 'BE', 'PT', 'AT', 'CH', 'IE',
   'PL', 'CZ', 'GB', 'SE', 'NO', 'DK', 'FI', 'HU', 'HR', 'RO',
   'GR', 'BG', 'SK', 'SI', 'LT', 'LV', 'EE', 'LU', 'RS', 'BA',
-  'ME', 'MK', 'AL', 'XK', 'MD', 'UA', 'BY', 'IS'
+  'ME', 'MK', 'AL', 'XK', 'MD', 'UA', 'BY', 'IS',
+  'MA', 'TR', 'US', 'CA', 'AU', 'NZ', 'IL', 'GE', 'AM', 'IR',
+  'IN', 'TH', 'VN', 'KH', 'MM', 'LA', 'MY', 'ID', 'PH', 'JP',
+  'KR', 'CN', 'MN', 'KZ', 'UZ', 'KG', 'TJ', 'CL', 'AR', 'BR',
+  'CO', 'PE', 'BO', 'EC', 'MX', 'GT', 'CR', 'PA', 'CU', 'ZA',
+  'NA', 'BW', 'KE', 'TZ', 'ET', 'EG', 'TN', 'SN', 'GH', 'NG'
 ]
 
 // Country names for display
@@ -34,7 +39,20 @@ const COUNTRY_NAMES = {
   LT: 'Lituanie', LV: 'Lettonie', EE: 'Estonie', LU: 'Luxembourg',
   RS: 'Serbie', BA: 'Bosnie', ME: 'Monténégro', MK: 'Macédoine du Nord',
   AL: 'Albanie', XK: 'Kosovo', MD: 'Moldavie', UA: 'Ukraine',
-  BY: 'Biélorussie', IS: 'Islande'
+  BY: 'Biélorussie', IS: 'Islande',
+  MA: 'Maroc', TR: 'Turquie', US: 'États-Unis', CA: 'Canada',
+  AU: 'Australie', NZ: 'Nouvelle-Zélande', IL: 'Israël', GE: 'Géorgie',
+  AM: 'Arménie', IR: 'Iran', IN: 'Inde', TH: 'Thaïlande',
+  VN: 'Vietnam', KH: 'Cambodge', MM: 'Myanmar', LA: 'Laos',
+  MY: 'Malaisie', ID: 'Indonésie', PH: 'Philippines', JP: 'Japon',
+  KR: 'Corée du Sud', CN: 'Chine', MN: 'Mongolie', KZ: 'Kazakhstan',
+  UZ: 'Ouzbékistan', KG: 'Kirghizistan', TJ: 'Tadjikistan', CL: 'Chili',
+  AR: 'Argentine', BR: 'Brésil', CO: 'Colombie', PE: 'Pérou',
+  BO: 'Bolivie', EC: 'Équateur', MX: 'Mexique', GT: 'Guatemala',
+  CR: 'Costa Rica', PA: 'Panama', CU: 'Cuba', ZA: 'Afrique du Sud',
+  NA: 'Namibie', BW: 'Botswana', KE: 'Kenya', TZ: 'Tanzanie',
+  ET: 'Éthiopie', EG: 'Égypte', TN: 'Tunisie', SN: 'Sénégal',
+  GH: 'Ghana', NG: 'Nigéria'
 }
 
 mkdirSync(OUTPUT_DIR, { recursive: true })
@@ -43,7 +61,7 @@ let totalSpots = 0
 let totalLocations = 0
 const countrySummary = []
 
-for (const country of EU_COUNTRIES) {
+for (const country of COUNTRIES) {
   // Get all non-banned points for this country
   const points = db.prepare(`
     SELECT id, lat, lon, rating, wait, comment, datetime, signal, dest_lat, dest_lon

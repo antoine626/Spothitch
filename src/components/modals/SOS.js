@@ -63,16 +63,37 @@ export function renderSOS(state) {
           
           <!-- Emergency Contacts -->
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="font-semibold" id="contacts-heading">${t('emergencyContacts')}</h3>
-              <button
-                onclick="addEmergencyContact()"
-                class="text-primary-400 text-sm"
-                type="button"
-                aria-label="Ajouter un contact d'urgence"
-              >
-                <i class="fas fa-plus mr-1" aria-hidden="true"></i> ${t('addContact')}
-              </button>
+            <h3 class="font-semibold mb-3" id="contacts-heading">${t('emergencyContacts')}</h3>
+
+            <!-- Add Contact Form -->
+            <div class="card p-3 mb-3 space-y-2">
+              <div class="flex gap-2">
+                <input
+                  type="text"
+                  id="emergency-name"
+                  class="input-field flex-1"
+                  placeholder="Nom du contact"
+                  aria-label="Nom du contact d'urgence"
+                />
+              </div>
+              <div class="flex gap-2">
+                <input
+                  type="tel"
+                  id="emergency-phone"
+                  class="input-field flex-1"
+                  placeholder="+33 6 12 34 56 78"
+                  aria-label="Telephone du contact d'urgence"
+                  onkeydown="if(event.key==='Enter') addEmergencyContact()"
+                />
+                <button
+                  onclick="addEmergencyContact()"
+                  class="btn-primary px-4"
+                  type="button"
+                  aria-label="Ajouter le contact"
+                >
+                  <i class="fas fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
 
             <ul class="space-y-2" aria-labelledby="contacts-heading" role="list">
@@ -117,6 +138,56 @@ export function renderSOS(state) {
             <i class="fas fa-phone-alt" aria-hidden="true"></i>
             Appeler le 112 (Urgences EU)
           </a>
+
+          <!-- Country Emergency Numbers -->
+          <div class="card p-4 space-y-3">
+            <h3 class="font-semibold flex items-center gap-2">
+              <i class="fas fa-globe text-primary-400"></i>
+              Numeros d'urgence par pays
+            </h3>
+            <div id="country-emergency-numbers">
+              <div class="grid grid-cols-2 gap-2 text-sm">
+                <a href="tel:112" class="p-2 rounded-lg bg-danger-500/10 text-center">
+                  <div class="text-xs text-slate-400">Europe</div>
+                  <div class="font-bold text-danger-400">112</div>
+                </a>
+                <a href="tel:911" class="p-2 rounded-lg bg-danger-500/10 text-center">
+                  <div class="text-xs text-slate-400">USA/Canada</div>
+                  <div class="font-bold text-danger-400">911</div>
+                </a>
+                <a href="tel:000" class="p-2 rounded-lg bg-danger-500/10 text-center">
+                  <div class="text-xs text-slate-400">Australie</div>
+                  <div class="font-bold text-danger-400">000</div>
+                </a>
+                <a href="tel:111" class="p-2 rounded-lg bg-danger-500/10 text-center">
+                  <div class="text-xs text-slate-400">Nv-Zelande</div>
+                  <div class="font-bold text-danger-400">111</div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pre-programmed Messages -->
+          <div class="card p-4 space-y-3">
+            <h3 class="font-semibold flex items-center gap-2">
+              <i class="fas fa-comment-dots text-emerald-400"></i>
+              Messages d'urgence
+            </h3>
+            <div class="space-y-2">
+              <button onclick="sendSOSTemplate('danger')" class="w-full p-3 rounded-lg bg-danger-500/10 text-left text-sm hover:bg-danger-500/20 transition-all">
+                <div class="font-medium text-danger-400">🚨 Je suis en danger</div>
+                <div class="text-xs text-slate-400">Envoie ta position + message d'alerte</div>
+              </button>
+              <button onclick="sendSOSTemplate('stuck')" class="w-full p-3 rounded-lg bg-amber-500/10 text-left text-sm hover:bg-amber-500/20 transition-all">
+                <div class="font-medium text-amber-400">📍 Je suis bloque(e)</div>
+                <div class="text-xs text-slate-400">Envoie ta position + demande d'aide</div>
+              </button>
+              <button onclick="sendSOSTemplate('help')" class="w-full p-3 rounded-lg bg-primary-500/10 text-left text-sm hover:bg-primary-500/20 transition-all">
+                <div class="font-medium text-primary-400">🆘 J'ai besoin d'aide</div>
+                <div class="text-xs text-slate-400">Envoie ta position + description</div>
+              </button>
+            </div>
+          </div>
 
           <!-- I'm Safe Button -->
           ${state.sosActive ? `
@@ -201,17 +272,25 @@ window.shareSOSLocation = async () => {
 };
 
 window.addEmergencyContact = async () => {
-  const name = prompt('Nom du contact:');
-  if (!name) return;
+  const nameInput = document.getElementById('emergency-name');
+  const phoneInput = document.getElementById('emergency-phone');
+  const name = nameInput?.value?.trim();
+  const phone = phoneInput?.value?.trim();
 
-  const phone = prompt('Numéro de téléphone:');
-  if (!phone) return;
+  if (!name || !phone) {
+    const { showToast } = await import('../../services/notifications.js');
+    showToast('Remplis le nom et le numero', 'warning');
+    return;
+  }
 
   const { actions } = await import('../../stores/state.js');
   actions.addEmergencyContact({ name, phone });
 
+  if (nameInput) nameInput.value = '';
+  if (phoneInput) phoneInput.value = '';
+
   const { showSuccess } = await import('../../services/notifications.js');
-  showSuccess('Contact ajouté');
+  showSuccess('Contact ajouté !');
 };
 
 window.removeEmergencyContact = async (index) => {
@@ -229,5 +308,37 @@ window.markSafe = async () => {
   actions.toggleSOS();
   showSuccess('Super ! Content que tu sois en sécurité 🙌');
 };
+
+window.sendSOSTemplate = async (type) => {
+  const templates = {
+    danger: "🚨 URGENCE - Je suis en danger et j'ai besoin d'aide immediatement !",
+    stuck: "📍 Je suis bloque(e) en auto-stop et j'ai besoin qu'on vienne me chercher.",
+    help: "🆘 J'ai besoin d'aide. Voici ma position actuelle.",
+  }
+  const text = templates[type] || templates.help
+
+  if (!navigator.geolocation) {
+    window.showToast?.('Geolocalisation non disponible', 'error')
+    return
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const { latitude, longitude } = pos.coords
+      const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`
+      const fullMsg = `${text}\n\nMa position: ${mapUrl}`
+      const encoded = encodeURIComponent(fullMsg)
+
+      // Try WhatsApp first, fallback to SMS
+      if (navigator.share) {
+        navigator.share({ title: 'SOS SpotHitch', text: fullMsg }).catch(() => {})
+      } else {
+        window.open(`https://wa.me/?text=${encoded}`, '_blank')
+      }
+    },
+    () => window.showToast?.('Position non disponible', 'error'),
+    { enableHighAccuracy: true, timeout: 10000 }
+  )
+}
 
 export default { renderSOS };

@@ -3,7 +3,7 @@
  * Feature #159
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 // Mock modules BEFORE importing service
 vi.mock('../src/stores/state.js', () => ({
@@ -63,7 +63,7 @@ describe('Quest System Service', () => {
       questProgress: {},
       questsCompleted: 0,
       questsCompletedToday: 0,
-      lastQuestReset: new Date().toISOString(),
+      lastQuestReset: new Date('2026-02-09T12:00:00Z').toISOString(),
       level: 1,
       badges: [],
     }
@@ -72,6 +72,10 @@ describe('Quest System Service', () => {
     setState.mockImplementation((updates) => {
       Object.assign(mockState, updates)
     })
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
   })
 
   describe('QuestType enum', () => {
@@ -233,19 +237,21 @@ describe('Quest System Service', () => {
 
   describe('refreshQuests', () => {
     it('should not refresh if same day', () => {
-      const today = new Date()
-      mockState.lastQuestReset = today.toISOString()
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-02-09T14:00:00'))
+      mockState.lastQuestReset = new Date('2026-02-09T10:00:00').toISOString()
       mockState.quests = []
 
       refreshQuests()
 
       expect(setState).not.toHaveBeenCalled()
+      vi.useRealTimers()
     })
 
     it('should generate daily quests on new day', () => {
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
-      mockState.lastQuestReset = yesterday.toISOString()
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-02-09T14:00:00'))
+      mockState.lastQuestReset = new Date('2026-02-08T14:00:00').toISOString()
       mockState.quests = []
       mockState.level = 10
 
@@ -254,11 +260,16 @@ describe('Quest System Service', () => {
       expect(setState).toHaveBeenCalled()
       expect(mockState.quests.length).toBeGreaterThan(0)
       expect(mockState.quests.some(q => q.type === QuestType.DAILY)).toBe(true)
+      vi.useRealTimers()
     })
 
     it('should remove expired daily quests', () => {
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
+      // Use a fixed "now" at noon to avoid midnight edge cases
+      const fakeNow = new Date('2026-02-09T12:00:00Z')
+      vi.useFakeTimers()
+      vi.setSystemTime(fakeNow)
+
+      const yesterday = new Date('2026-02-08T12:00:00Z')
       mockState.lastQuestReset = yesterday.toISOString()
       mockState.quests = [
         {
@@ -272,12 +283,14 @@ describe('Quest System Service', () => {
       refreshQuests()
 
       expect(mockState.quests.find(q => q.id === 'quest_old')).toBeUndefined()
+
+      vi.useRealTimers()
     })
 
     it('should keep claimed daily quests', () => {
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
-      mockState.lastQuestReset = yesterday.toISOString()
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-02-09T12:00:00Z'))
+      mockState.lastQuestReset = new Date('2026-02-08T12:00:00Z').toISOString()
       mockState.quests = [
         {
           id: 'quest_claimed',
@@ -290,12 +303,13 @@ describe('Quest System Service', () => {
       refreshQuests()
 
       expect(mockState.quests.find(q => q.id === 'quest_claimed')).toBeDefined()
+      vi.useRealTimers()
     })
 
     it('should respect minLevel requirement', () => {
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
-      mockState.lastQuestReset = yesterday.toISOString()
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-02-09T12:00:00Z'))
+      mockState.lastQuestReset = new Date('2026-02-08T12:00:00Z').toISOString()
       mockState.quests = []
       mockState.level = 1
 
@@ -308,21 +322,19 @@ describe('Quest System Service', () => {
           expect(def.minLevel).toBeLessThanOrEqual(1)
         }
       })
+      vi.useRealTimers()
     })
 
     it('should generate weekly quests on Monday', () => {
-      const lastWeek = new Date()
-      lastWeek.setDate(lastWeek.getDate() - 8)
+      vi.useFakeTimers()
+      // Set to a known Monday at noon
+      const monday = new Date('2026-02-09T12:00:00Z') // 2026-02-09 is a Monday
+      vi.setSystemTime(monday)
+
+      const lastWeek = new Date('2026-02-01T12:00:00Z')
       mockState.lastQuestReset = lastWeek.toISOString()
       mockState.quests = []
       mockState.level = 10
-
-      // Mock Monday
-      const monday = new Date()
-      while (monday.getDay() !== 1) {
-        monday.setDate(monday.getDate() + 1)
-      }
-      vi.setSystemTime(monday)
 
       refreshQuests()
 
@@ -648,9 +660,7 @@ describe('Quest System Service', () => {
     })
 
     it('should mark expired quests', () => {
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
-      mockState.quests[0].expiresAt = yesterday.toISOString()
+      mockState.quests[0].expiresAt = new Date('2026-02-07T12:00:00Z').toISOString()
 
       syncQuestProgress()
 
@@ -1024,9 +1034,9 @@ describe('Quest System Service', () => {
 
   describe('Quest expiration', () => {
     it('should set daily quest expiration to next midnight', () => {
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
-      mockState.lastQuestReset = yesterday.toISOString()
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-02-09T14:00:00'))
+      mockState.lastQuestReset = new Date('2026-02-08T14:00:00').toISOString()
       mockState.quests = []
       mockState.level = 10
 
@@ -1037,12 +1047,13 @@ describe('Quest System Service', () => {
       expect(expiryDate.getHours()).toBe(0)
       expect(expiryDate.getMinutes()).toBe(0)
       expect(expiryDate.getSeconds()).toBe(0)
+      vi.useRealTimers()
     })
 
     it('should set weekly quest expiration to next Monday', () => {
-      const lastWeek = new Date()
-      lastWeek.setDate(lastWeek.getDate() - 8)
-      mockState.lastQuestReset = lastWeek.toISOString()
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-02-09T12:00:00Z'))
+      mockState.lastQuestReset = new Date('2026-02-01T12:00:00Z').toISOString()
       mockState.quests = []
       mockState.level = 10
 
@@ -1067,14 +1078,15 @@ describe('Quest System Service', () => {
 
   describe('Integration scenarios', () => {
     it('should complete full quest workflow', () => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date('2026-02-09T14:00:00'))
+
       // Initialize
       mockState.quests = undefined
       initQuestSystem()
 
       // Refresh and generate quests
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
-      mockState.lastQuestReset = yesterday.toISOString()
+      mockState.lastQuestReset = new Date('2026-02-08T12:00:00Z').toISOString()
       mockState.level = 10
       refreshQuests()
 
@@ -1092,11 +1104,14 @@ describe('Quest System Service', () => {
       expect(reward).toBeDefined()
       expect(mockState.quests[0].status).toBe(QuestStatus.CLAIMED)
       expect(addPoints).toHaveBeenCalled()
+      vi.useRealTimers()
     })
 
     it('should handle multiple quest types simultaneously', () => {
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
+      vi.useFakeTimers()
+      const now = new Date(2026, 1, 9, 14, 0, 0) // Feb 9 2026, 14:00 local
+      vi.setSystemTime(now)
+      const yesterday = new Date(2026, 1, 8, 14, 0, 0) // Feb 8 2026, 14:00 local
       mockState.lastQuestReset = yesterday.toISOString()
       mockState.quests = []
       mockState.level = 20
@@ -1110,6 +1125,7 @@ describe('Quest System Service', () => {
       unlockSpecialQuest('special_country')
       const specialQuests = getQuestsByType(QuestType.SPECIAL)
       expect(specialQuests.length).toBe(1)
+      vi.useRealTimers()
     })
 
     it('should track quest statistics correctly', () => {

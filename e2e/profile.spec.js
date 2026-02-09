@@ -47,7 +47,8 @@ test.describe('Profile - Skill Tree', () => {
     const skillTreeBtn = page.locator('button:has-text("compétences"), [onclick*="openSkillTree"]')
     if ((await skillTreeBtn.count()) > 0) {
       await skillTreeBtn.first().click()
-      await page.waitForTimeout(500)
+      // Wait for skill tree modal/content to appear
+      await page.waitForSelector('[role="dialog"], .skill-tree', { timeout: 3000 }).catch(() => {})
     }
   })
 })
@@ -67,7 +68,8 @@ test.describe('Profile - Customization', () => {
     const customizeBtn = page.locator('button:has-text("Personnaliser"), [onclick*="openProfileCustomization"]')
     if (await customizeBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
       await customizeBtn.first().click()
-      await page.waitForTimeout(500)
+      // Wait for customization panel to appear
+      await page.waitForSelector('[role="dialog"], .customization', { timeout: 3000 }).catch(() => {})
     }
   })
 })
@@ -94,9 +96,13 @@ test.describe('Profile - Settings', () => {
     if (await themeToggle.isVisible()) {
       const initialState = await themeToggle.getAttribute('aria-checked')
       await themeToggle.click()
-      await page.waitForTimeout(300)
+      // Wait for theme change to take effect
+      await page.waitForSelector('nav', { timeout: 3000 })
       const newState = await themeToggle.getAttribute('aria-checked')
-      expect(newState !== initialState || true).toBeTruthy()
+      // Theme should have toggled (aria-checked changed)
+      if (initialState !== null) {
+        expect(newState).not.toBe(initialState)
+      }
     }
   })
 
@@ -129,7 +135,8 @@ test.describe('Profile - Friends Link', () => {
     const friendsBtn = page.locator('button:has-text("Mes amis"), [onclick*="openFriends"]')
     if (await friendsBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
       await friendsBtn.first().click()
-      await page.waitForTimeout(500)
+      // Should switch to social tab with friends section visible
+      await page.waitForSelector('nav', { timeout: 3000 })
     }
   })
 })
