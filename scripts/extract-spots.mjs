@@ -38,26 +38,12 @@ try {
 
 const db = new Database(DUMP_PATH)
 
-// Countries to extract (worldwide)
-const COUNTRIES = [
-  // Europe
-  'FR', 'DE', 'ES', 'IT', 'NL', 'BE', 'PT', 'AT', 'CH', 'IE',
-  'PL', 'CZ', 'GB', 'SE', 'NO', 'DK', 'FI', 'HU', 'HR', 'RO',
-  'GR', 'BG', 'SK', 'SI', 'LT', 'LV', 'EE', 'LU', 'RS', 'BA',
-  'ME', 'MK', 'AL', 'XK', 'MD', 'UA', 'BY', 'IS',
-  // Middle East & Central Asia
-  'TR', 'IL', 'JO', 'OM', 'IR', 'GE', 'AM', 'KZ', 'UZ', 'KG', 'TJ',
-  // Asia
-  'IN', 'PK', 'NP', 'LK', 'TH', 'VN', 'KH', 'MM', 'LA', 'MY',
-  'ID', 'PH', 'JP', 'KR', 'CN', 'MN',
-  // Americas
-  'US', 'CA', 'MX', 'GT', 'CR', 'PA', 'CU', 'CO', 'VE', 'EC',
-  'PE', 'BO', 'BR', 'CL', 'AR', 'PY', 'UY',
-  // Africa
-  'MA', 'TN', 'EG', 'ET', 'KE', 'TZ', 'ZA', 'NA', 'BW', 'SN', 'GH', 'NG',
-  // Oceania
-  'AU', 'NZ'
-]
+// Extract ALL countries from the database (no exceptions)
+const COUNTRIES = db.prepare(`
+  SELECT DISTINCT country FROM points
+  WHERE country IS NOT NULL AND country != '' AND (banned = 0 OR banned IS NULL)
+  ORDER BY country
+`).all().map(r => r.country).filter(c => c && c.length === 2)
 
 // Country names for display
 const COUNTRY_NAMES = {
