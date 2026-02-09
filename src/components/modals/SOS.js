@@ -21,7 +21,7 @@ export function renderSOS(state) {
       <!-- Modal -->
       <div
         class="relative bg-dark-primary border-2 border-danger-500/50 rounded-3xl
-          w-full max-w-md overflow-hidden slide-up"
+          w-full max-w-md max-h-[90vh] overflow-y-auto slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Header -->
