@@ -107,7 +107,6 @@ import { getFilteredSpots, resetFilters as resetFiltersUtil } from './components
 import { redeemReward } from './components/modals/Shop.js';
 import './components/modals/Leaderboard.js'; // Register global handlers
 import { registerCheckinHandlers } from './components/modals/CheckinModal.js'; // Checkin modal handlers
-// Swipe navigation disabled per user request
 import { startNavigation, stopNavigation, openExternalNavigation } from './services/navigation.js'; // GPS navigation
 import {
   initScreenReaderSupport,
@@ -355,8 +354,6 @@ async function init() {
     // Setup keyboard shortcuts
     setupKeyboardShortcuts();
 
-    // Swipe navigation disabled (B1 - users found it disruptive)
-    // setupGlobalSwipe();
 
     // Register checkin modal handlers
     try {
