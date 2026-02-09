@@ -1369,6 +1369,77 @@ window.setLoadingProgress = setLoadingProgress;
 window.isLoading = isLoading;
 window.withLoading = withLoading;
 
+// Hostel recommendations handlers
+window.openAddHostel = async (city) => {
+  const { renderAddHostelForm } = await import('./services/hostelRecommendations.js');
+  const formHTML = renderAddHostelForm(city);
+  const existingModal = document.getElementById('hostel-modal');
+  if (existingModal) existingModal.remove();
+
+  const modalDiv = document.createElement('div');
+  modalDiv.id = 'hostel-modal';
+  modalDiv.innerHTML = formHTML;
+  document.body.appendChild(modalDiv);
+};
+
+window.closeAddHostel = () => {
+  const modal = document.getElementById('hostel-modal');
+  if (modal) modal.remove();
+};
+
+window.setHostelCategory = (category) => {
+  // Update selected category
+  document.getElementById('selected-category').value = category;
+
+  // Update button styles
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    if (btn.dataset.category === category) {
+      btn.className = 'category-btn py-3 px-2 rounded-lg text-center transition-all border-2 border-primary-500 bg-primary-500/20';
+    } else {
+      btn.className = 'category-btn py-3 px-2 rounded-lg text-center transition-all border border-white/10 hover:border-primary-500';
+    }
+  });
+};
+
+window.submitHostelRec = async (city) => {
+  const hostelName = document.getElementById('hostel-name')?.value?.trim();
+  const category = document.getElementById('selected-category')?.value;
+
+  if (!hostelName) {
+    showToast('Veuillez entrer le nom de l\'auberge', 'warning');
+    return;
+  }
+
+  if (!category) {
+    showToast('Veuillez sélectionner une catégorie', 'warning');
+    return;
+  }
+
+  const { addRecommendation } = await import('./services/hostelRecommendations.js');
+  const success = addRecommendation(city, hostelName, category);
+
+  if (success) {
+    window.closeAddHostel();
+    // Re-render to show new recommendation
+    scheduleRender(() => render(getState()));
+  }
+};
+
+window.upvoteHostel = async (city, hostelName) => {
+  const { upvoteRecommendation } = await import('./services/hostelRecommendations.js');
+  const success = upvoteRecommendation(city, hostelName);
+
+  if (success) {
+    // Re-render to update upvote count
+    scheduleRender(() => render(getState()));
+  }
+};
+
+window.switchHostelCategory = async (category, cityName) => {
+  const { switchHostelCategory } = await import('./services/hostelRecommendations.js');
+  switchHostelCategory(category, cityName);
+};
+
 // ==================== START APP ====================
 
 // Initialize when DOM is ready

@@ -6,6 +6,7 @@
 import { t } from '../../i18n/index.js'
 import { countryGuides, getGuideByCode } from '../../data/guides.js'
 import { renderCommunityTips } from '../../services/communityTips.js'
+import { renderHostelSection } from '../../services/hostelRecommendations.js'
 
 export function renderTravel(state) {
   const activeSubTab = state.activeSubTab || 'planner';
@@ -233,6 +234,9 @@ function renderTripResults(results) {
         Voir sur la carte
       </button>
     </div>
+
+    <!-- Hostel Recommendations -->
+    ${results.to ? renderHostelSection(results.to) : ''}
   `;
 }
 

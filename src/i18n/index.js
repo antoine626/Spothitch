@@ -1214,6 +1214,19 @@ const translations = {
     newTitle: 'Nouveau titre',
     levelUp: 'Niveau superieur',
     anonymousUser: 'Utilisateur anonyme',
+
+    // Hostel Recommendations
+    hostelRecommendations: 'Auberges recommandées',
+    hostelParty: 'Festif',
+    hostelCozy: 'Cozy',
+    hostelBudget: 'Pas cher',
+    hostelRecommend: 'Recommander une auberge',
+    hostelBookOn: 'Réserver sur',
+    hostelAdded: 'Auberge recommandée !',
+    hostelUpvoted: 'Vote ajouté !',
+    hostelAlreadyExists: 'Cette auberge a déjà été recommandée',
+    hostelAlreadyUpvoted: 'Vous avez déjà voté pour cette auberge',
+    hostelErrorMissing: 'Veuillez remplir tous les champs',
   },
 
   en: {
@@ -2090,6 +2103,19 @@ const translations = {
     partnerHostels: 'Partner hostels',
     noPartnerHostels: 'No partner hostels nearby',
     hostelBenefits: 'SpotHitch member benefits',
+
+    // Hostel Recommendations
+    hostelRecommendations: 'Recommended Hostels',
+    hostelParty: 'Party',
+    hostelCozy: 'Cozy',
+    hostelBudget: 'Budget',
+    hostelRecommend: 'Recommend a hostel',
+    hostelBookOn: 'Book on',
+    hostelAdded: 'Hostel recommended!',
+    hostelUpvoted: 'Vote added!',
+    hostelAlreadyExists: 'This hostel has already been recommended',
+    hostelAlreadyUpvoted: 'You have already voted for this hostel',
+    hostelErrorMissing: 'Please fill in all fields',
   },
 
   es: {
@@ -2672,6 +2698,19 @@ const translations = {
     spotRating: 'Puntuacion',
     spotCity: 'Ciudad',
     openInMap: 'Abrir en mapa',
+
+    // Hostel Recommendations
+    hostelRecommendations: 'Albergues recomendados',
+    hostelParty: 'Fiesta',
+    hostelCozy: 'Acogedor',
+    hostelBudget: 'Economico',
+    hostelRecommend: 'Recomendar un albergue',
+    hostelBookOn: 'Reservar en',
+    hostelAdded: 'Albergue recomendado!',
+    hostelUpvoted: 'Voto añadido!',
+    hostelAlreadyExists: 'Este albergue ya ha sido recomendado',
+    hostelAlreadyUpvoted: 'Ya has votado por este albergue',
+    hostelErrorMissing: 'Por favor completa todos los campos',
   },
 
   de: {
@@ -3359,6 +3398,19 @@ const translations = {
     spotRating: 'Bewertung',
     spotCity: 'Stadt',
     openInMap: 'Auf Karte offnen',
+
+    // Hostel Recommendations
+    hostelRecommendations: 'Empfohlene Hostels',
+    hostelParty: 'Party',
+    hostelCozy: 'Gemutlich',
+    hostelBudget: 'Gunstig',
+    hostelRecommend: 'Hostel empfehlen',
+    hostelBookOn: 'Buchen auf',
+    hostelAdded: 'Hostel empfohlen!',
+    hostelUpvoted: 'Stimme hinzugefugt!',
+    hostelAlreadyExists: 'Dieses Hostel wurde bereits empfohlen',
+    hostelAlreadyUpvoted: 'Sie haben bereits fur dieses Hostel gestimmt',
+    hostelErrorMissing: 'Bitte fullen Sie alle Felder aus',
   },
 };
 
