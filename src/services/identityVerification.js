@@ -9,7 +9,7 @@ import { showToast } from './notifications.js';
 import { addPoints } from './gamification.js';
 
 /**
- * Verification Levels
+ * Verification Levels (Progressive Trust System)
  * Each level provides increased trust and unlocks features
  */
 export const verificationLevels = {
@@ -29,11 +29,11 @@ export const verificationLevels = {
     id: 1,
     name: 'Email verifie',
     nameEn: 'Email verified',
-    icon: '',
-    color: '#3b82f6',
+    icon: '📧',
+    color: '#9ca3af',
     description: 'Adresse email confirmee',
     descriptionEn: 'Email address confirmed',
-    trustScore: 15,
+    trustScore: 10,
     benefits: [
       'Messagerie privee activee',
       'Notifications par email',
@@ -49,64 +49,86 @@ export const verificationLevels = {
     id: 2,
     name: 'Telephone verifie',
     nameEn: 'Phone verified',
-    icon: '',
-    color: '#10b981',
+    icon: '🛡️',
+    color: '#3b82f6',
     description: 'Numero de telephone confirme par SMS',
     descriptionEn: 'Phone number confirmed by SMS',
-    trustScore: 30,
+    trustScore: 25,
     benefits: [
-      'Badge "Telephone verifie" visible',
+      'Badge bleu "Telephone verifie"',
       'Priorite dans les resultats de recherche',
       'Acces au chat vocal (futur)',
     ],
     benefitsEn: [
-      'Visible "Phone verified" badge',
+      'Blue "Phone verified" badge',
       'Priority in search results',
       'Voice chat access (future)',
     ],
   },
   3: {
     id: 3,
-    name: 'Photo verifiee',
-    nameEn: 'Photo verified',
-    icon: '',
+    name: 'Selfie + ID soumis',
+    nameEn: 'Selfie + ID submitted',
+    icon: '⏳',
     color: '#f59e0b',
-    description: 'Photo de profil reelle validee',
-    descriptionEn: 'Real profile photo validated',
-    trustScore: 50,
+    description: 'Photos en attente de verification moderateur',
+    descriptionEn: 'Photos pending moderator review',
+    trustScore: 40,
     benefits: [
-      'Badge "Visage verifie" sur le profil',
-      'Plus de confiance des autres utilisateurs',
-      'Acces aux groupes prives',
+      'Badge jaune "En attente de verification"',
+      'Verification en cours',
+      'Acces aux groupes de voyage',
     ],
     benefitsEn: [
-      '"Face verified" badge on profile',
-      'More trust from other users',
-      'Access to private groups',
+      'Yellow "Pending verification" badge',
+      'Verification in progress',
+      'Access to travel groups',
     ],
   },
   4: {
     id: 4,
     name: 'Identite verifiee',
     nameEn: 'Identity verified',
-    icon: '',
-    color: '#8b5cf6',
-    description: 'Piece d\'identite officielle validee',
-    descriptionEn: 'Official ID document validated',
-    trustScore: 100,
+    icon: '✅',
+    color: '#10b981',
+    description: 'Piece d\'identite validee par moderateur',
+    descriptionEn: 'ID document validated by moderator',
+    trustScore: 70,
     benefits: [
-      'Badge "Identite verifiee" premium',
+      'Badge vert "Identite verifiee"',
       'Priorite maximale dans les recherches',
       'Acces a toutes les fonctionnalites',
-      'Badge dore sur le profil',
       'Organisateur de meetups officiel',
     ],
     benefitsEn: [
-      '"Identity verified" premium badge',
+      'Green "Identity verified" badge',
       'Maximum priority in searches',
       'Access to all features',
-      'Golden badge on profile',
       'Official meetup organizer',
+    ],
+  },
+  5: {
+    id: 5,
+    name: 'Membre actif de confiance',
+    nameEn: 'Trusted active member',
+    icon: '⭐',
+    color: '#fbbf24',
+    description: 'Membre verifie avec anciennete et activite elevee',
+    descriptionEn: 'Verified member with high seniority and activity',
+    trustScore: 100,
+    benefits: [
+      'Badge dore "Membre de confiance"',
+      'Statut premium dans la communaute',
+      'Peut parrainer de nouveaux membres',
+      'Influence sur les decisions communautaires',
+      'Acces anticipe aux nouvelles fonctionnalites',
+    ],
+    benefitsEn: [
+      'Golden "Trusted member" badge',
+      'Premium status in the community',
+      'Can sponsor new members',
+      'Influence on community decisions',
+      'Early access to new features',
     ],
   },
 };
@@ -192,7 +214,7 @@ export function getNextVerificationLevel() {
   const currentLevel = state.verificationLevel || 0;
   const nextLevel = currentLevel + 1;
 
-  if (nextLevel > 4) return null;
+  if (nextLevel > 5) return null;
   return verificationLevels[nextLevel];
 }
 
@@ -206,17 +228,18 @@ export function getVerificationProgress() {
 
   return {
     currentLevel,
-    maxLevel: 4,
-    progress: (currentLevel / 4) * 100,
+    maxLevel: 5,
+    progress: (currentLevel / 5) * 100,
     trustScore: verificationLevels[currentLevel]?.trustScore || 0,
     maxTrustScore: 100,
     completedSteps: currentLevel,
-    totalSteps: 4,
+    totalSteps: 5,
     verifications: {
       email: currentLevel >= 1,
       phone: currentLevel >= 2,
-      photo: currentLevel >= 3,
-      identity: currentLevel >= 4,
+      selfieIdSubmitted: currentLevel >= 3,
+      identityVerified: currentLevel >= 4,
+      trustedMember: currentLevel >= 5,
     },
   };
 }
@@ -696,6 +719,7 @@ export function getVerificationErrorMessage(errorCode, lang = 'fr') {
       'invalid-image': 'Image invalide. Utilise une photo claire.',
       'upload-failed': 'Echec de l\'envoi. Reessaie.',
       'invalid-document-type': 'Type de document non accepte',
+      'missing-photos': 'Les 3 photos sont requises (selfie, ID, selfie + ID)',
       'unknown': 'Une erreur est survenue. Reessaie plus tard.',
     },
     en: {
@@ -707,11 +731,127 @@ export function getVerificationErrorMessage(errorCode, lang = 'fr') {
       'invalid-image': 'Invalid image. Use a clear photo.',
       'upload-failed': 'Upload failed. Try again.',
       'invalid-document-type': 'Document type not accepted',
+      'missing-photos': 'All 3 photos required (selfie, ID, selfie + ID)',
       'unknown': 'An error occurred. Try again later.',
     },
   };
 
   return messages[lang]?.[errorCode] || messages.fr[errorCode] || messages.fr.unknown;
+}
+
+/**
+ * Upload selfie + ID verification photos (3-step flow)
+ * @param {Object} photos - Object with selfie, idCard, and selfieWithId base64 data
+ * @returns {Promise<Object>} Result
+ */
+export async function uploadSelfieIdVerification(photos) {
+  try {
+    const user = getCurrentUser();
+    if (!user) {
+      return { success: false, error: 'not-logged-in' };
+    }
+
+    // Validate all 3 photos are present
+    if (!photos.selfie || !photos.idCard || !photos.selfieWithId) {
+      return { success: false, error: 'missing-photos' };
+    }
+
+    // Validate image data format
+    const isValidImage = (data) => data && data.startsWith('data:image');
+    if (!isValidImage(photos.selfie) || !isValidImage(photos.idCard) || !isValidImage(photos.selfieWithId)) {
+      return { success: false, error: 'invalid-image' };
+    }
+
+    // Store pending selfie + ID verification (in production, this goes to manual review)
+    const timestamp = Date.now();
+    setState({
+      pendingSelfieIdVerification: {
+        selfie: photos.selfie,
+        idCard: photos.idCard,
+        selfieWithId: photos.selfieWithId,
+        uploadedAt: timestamp,
+        status: 'pending_review',
+      },
+    });
+
+    // Update to level 3 (submitted, pending review)
+    await updateVerificationLevel(3);
+
+    // For demo purposes, auto-approve after 5 seconds
+    setTimeout(async () => {
+      await approveSelfieIdVerification();
+    }, 5000);
+
+    return { success: true, message: 'Photos envoyees pour verification. En attente de validation...' };
+  } catch (error) {
+    console.error('Selfie+ID upload error:', error);
+    return { success: false, error: error.code || 'unknown' };
+  }
+}
+
+/**
+ * Approve selfie + ID verification (admin function / auto in demo)
+ * @returns {Promise<Object>} Result
+ */
+export async function approveSelfieIdVerification() {
+  try {
+    const state = getState();
+    const pending = state.pendingSelfieIdVerification;
+
+    if (!pending) {
+      return { success: false, error: 'no-pending-verification' };
+    }
+
+    await updateVerificationLevel(4);
+
+    setState({
+      pendingSelfieIdVerification: null,
+      selfieIdVerifiedAt: Date.now(),
+    });
+
+    showToast('✅ Identite verifiee ! Tu as maintenant le badge vert.', 'success');
+
+    return { success: true };
+  } catch (error) {
+    console.error('Selfie+ID approval error:', error);
+    return { success: false, error: error.code || 'unknown' };
+  }
+}
+
+/**
+ * Get trust badge HTML for display on profile
+ * @param {number} level - Trust level (0-5)
+ * @returns {string} HTML string for badge
+ */
+export function getTrustBadge(level = null) {
+  const state = getState();
+  const currentLevel = level ?? (state.verificationLevel || 0);
+  const levelInfo = verificationLevels[currentLevel];
+
+  if (!levelInfo || currentLevel === 0) {
+    return ''; // No badge for unverified
+  }
+
+  const badgeStyles = {
+    1: 'bg-gray-500/20 border-gray-500 text-gray-300',
+    2: 'bg-blue-500/20 border-blue-500 text-blue-300',
+    3: 'bg-yellow-500/20 border-yellow-500 text-yellow-300',
+    4: 'bg-green-500/20 border-green-500 text-green-300',
+    5: 'bg-gradient-to-br from-yellow-400 to-amber-500 border-amber-400 text-white shadow-lg shadow-amber-500/50',
+  };
+
+  const badgeClass = badgeStyles[currentLevel] || badgeStyles[1];
+
+  return `
+    <span
+      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border-2 text-xs font-semibold ${badgeClass}"
+      title="${levelInfo.name} - Score de confiance: ${levelInfo.trustScore}%"
+      aria-label="${levelInfo.name}"
+    >
+      <span class="text-sm">${levelInfo.icon}</span>
+      <span>${levelInfo.name}</span>
+    </span>
+  `;
 }
 
 export default {
@@ -729,7 +869,10 @@ export default {
   confirmPhoneVerification,
   uploadVerificationPhoto,
   uploadIdentityDocument,
+  uploadSelfieIdVerification,
+  approveSelfieIdVerification,
   renderVerificationBadge,
   renderVerificationStatus,
   getVerificationErrorMessage,
+  getTrustBadge,
 };

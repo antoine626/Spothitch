@@ -210,10 +210,10 @@ const adsDatabase = {
       format: AdFormat.NATIVE_CARD,
       advertiser: 'BlaBlaCar',
       title: {
-        fr: 'Covoiturage en Europe',
-        en: 'Carpooling across Europe',
-        es: 'Coche compartido en Europa',
-        de: 'Mitfahrgelegenheiten in Europa',
+        fr: 'Covoiturage dans le monde',
+        en: 'Carpooling worldwide',
+        es: 'Coche compartido mundial',
+        de: 'Mitfahrgelegenheiten weltweit',
       },
       description: {
         fr: 'Quand le pouce ne suffit pas, partage un trajet a petit prix.',
@@ -315,10 +315,10 @@ const adsDatabase = {
         de: 'Lonely Planet Reisefuhrer',
       },
       description: {
-        fr: 'Les meilleurs conseils pour tes aventures en Europe.',
-        en: 'The best tips for your European adventures.',
-        es: 'Los mejores consejos para tus aventuras en Europa.',
-        de: 'Die besten Tipps fur deine Europa-Abenteuer.',
+        fr: 'Les meilleurs conseils pour tes aventures dans le monde.',
+        en: 'The best tips for your worldwide adventures.',
+        es: 'Los mejores consejos para tus aventuras mundiales.',
+        de: 'Die besten Tipps fur deine weltweiten Abenteuer.',
       },
       image: '/ads/lonelyplanet.jpg',
       cta: {
@@ -327,7 +327,7 @@ const adsDatabase = {
         es: 'Descubrir',
         de: 'Entdecken',
       },
-      url: 'https://www.lonelyplanet.com/europe?source=spothitch',
+      url: 'https://www.lonelyplanet.com?source=spothitch',
       targetCountries: ['FR', 'DE', 'ES', 'IT', 'BE', 'NL', 'PT', 'GB'],
       targetLevel: { min: 1, max: 100 },
       priority: 3,

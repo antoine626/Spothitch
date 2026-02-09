@@ -1,7 +1,7 @@
 {
   "name": "spothitch",
   "version": "2.0.0",
-  "description": "SpotHitch - La communauté des autostoppeurs",
+  "description": "SpotHitch - La communauté mondiale des autostoppeurs",
   "type": "module",
   "scripts": {
     "dev": "vite",

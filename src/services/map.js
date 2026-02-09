@@ -17,7 +17,7 @@ let mapInitializing = false;
 let dynamicMarkerGroup = null;
 let loadedSpotIds = new Set();
 
-// Default center (Europe)
+// Default center (World)
 const DEFAULT_CENTER = [48.8566, 2.3522];
 const DEFAULT_ZOOM = 5;
 
@@ -292,6 +292,17 @@ export async function initSavedTripMap(tripId) {
  */
 function addSpotsToMap(map, L, spots) {
   if (!map || !L || !spots) return;
+
+  // Apply active filters from state
+  const state = window.getState?.() || {};
+  const { filterCountry, filterMinRating = 0, filterMaxWait = 999, filterVerifiedOnly = false } = state;
+  spots = spots.filter(spot => {
+    if (filterCountry && filterCountry !== 'all' && spot.country !== filterCountry) return false;
+    if ((spot.globalRating || 0) < filterMinRating) return false;
+    if ((spot.avgWaitTime || 0) > filterMaxWait && filterMaxWait < 999) return false;
+    if (filterVerifiedOnly && !spot.verified) return false;
+    return true;
+  });
 
   // Try to use MarkerCluster if available
   let markerGroup;

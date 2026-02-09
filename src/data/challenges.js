@@ -122,9 +122,9 @@ export const allChallenges = {
     {
       id: 'lt_europe',
       name: 'Tour d\'Europe',
-      nameEn: 'European Tour',
-      description: 'Visite des spots dans 10 pays européens',
-      descriptionEn: 'Visit spots in 10 European countries',
+      nameEn: 'World Tour',
+      description: 'Visite des spots dans 10 pays differents',
+      descriptionEn: 'Visit spots in 10 different countries',
       icon: '🇪🇺',
       target: 10,
       type: 'countriesVisited',

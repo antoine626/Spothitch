@@ -71,7 +71,7 @@ const FAQ_DATA = [
     id: 'general-1',
     category: 'general',
     question: "Qu'est-ce que SpotHitch ?",
-    answer: "SpotHitch est une application communautaire qui permet aux autostoppeurs de trouver et partager les meilleurs spots d'auto-stop en Europe. Nous avons plus de 94 spots verifies dans 12 pays, avec une communaute active de plus de 1500 autostoppeurs.",
+    answer: "SpotHitch est une application communautaire qui permet aux autostoppeurs de trouver et partager les meilleurs spots d'auto-stop dans le monde. Nous avons plus de 500 spots verifies dans 40+ pays, avec une communaute active de plus de 1500 autostoppeurs.",
     tags: ['debutant', 'presentation']
   },
   {
@@ -85,8 +85,8 @@ const FAQ_DATA = [
     id: 'general-3',
     category: 'general',
     question: "Dans quels pays SpotHitch est-il disponible ?",
-    answer: "Actuellement, nous couvrons 12 pays europeens : France, Allemagne, Espagne, Italie, Portugal, Belgique, Pays-Bas, Suisse, Autriche, Pologne, Republique Tcheque et Slovaquie. Nous ajoutons regulierement de nouveaux spots !",
-    tags: ['pays', 'europe', 'couverture']
+    answer: "Actuellement, nous couvrons plus de 40 pays sur tous les continents : Europe, Amerique du Nord, Oceanie, Afrique et Asie. Nous ajoutons regulierement de nouveaux spots ! Les principaux pays incluent France, Allemagne, Espagne, Italie, USA, Canada, Australie, Nouvelle-Zelande, Maroc, Turquie et bien d'autres.",
+    tags: ['pays', 'mondial', 'couverture']
   },
   {
     id: 'general-4',
@@ -238,7 +238,7 @@ const FAQ_DATA = [
     id: 'gamification-6',
     category: 'gamification',
     question: "Comment defier un ami ?",
-    answer: "Allez dans Social > Amis et selectionnez un ami. Cliquez sur 'Defier' et choisissez un type de defi : course aux check-ins, decouverte de spots, tour d'Europe, etc. Le gagnant remporte des points bonus !",
+    answer: "Allez dans Social > Amis et selectionnez un ami. Cliquez sur 'Defier' et choisissez un type de defi : course aux check-ins, decouverte de spots, tour du monde, etc. Le gagnant remporte des points bonus !",
     tags: ['defi', 'ami', 'competition']
   },
 

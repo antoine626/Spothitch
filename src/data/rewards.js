@@ -172,7 +172,7 @@ export const shopRewards = [
     cost: 600,
     code: 'HITCHTRAIN15',
     url: 'https://www.trainline.fr',
-    conditions: 'Europe uniquement',
+    conditions: 'Monde entier',
   },
 
   // EXPÉRIENCES

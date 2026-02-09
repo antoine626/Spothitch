@@ -36,7 +36,7 @@ const defaultAffiliatePartners = [
     category: 'transport',
     url: 'https://www.blablacar.com',
     commission: 10,
-    description: 'Covoiturage en Europe, trajets confortables',
+    description: 'Covoiturage dans le monde, trajets confortables',
     logo: 'https://www.blablacar.com/favicon.ico',
     featured: true,
     clicks: 0,

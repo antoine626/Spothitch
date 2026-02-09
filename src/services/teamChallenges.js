@@ -27,7 +27,7 @@ export const TEAM_CHALLENGE_TYPES = {
     id: 'country_exploration',
     name: 'Exploration de pays',
     description: 'Explorez de nouveaux pays',
-    icon: 'fa-globe-europe',
+    icon: 'fa-globe',
     color: 'from-purple-500 to-pink-400',
   },
   PHOTO_CHALLENGE: {

@@ -41,7 +41,7 @@ export const challengeTypes = [
   {
     id: 'countries_explored',
     name: 'Tour d\'Europe',
-    nameEn: 'European Tour',
+    nameEn: 'World Tour',
     description: 'Le premier a visiter X pays gagne',
     descriptionEn: 'First to visit X countries wins',
     icon: '🌍',

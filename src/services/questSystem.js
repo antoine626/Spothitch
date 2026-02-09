@@ -142,7 +142,7 @@ export const questDefinitions = [
     type: QuestType.SPECIAL,
     difficulty: QuestDifficulty.HARD,
     name: 'Tour d\'Europe',
-    nameEn: 'European Tour',
+    nameEn: 'World Tour',
     description: 'Visiter 5 pays différents',
     descriptionEn: 'Visit 5 different countries',
     icon: '🌍',

@@ -283,7 +283,7 @@ describe('Custom Titles Service', () => {
     })
 
     it('should unlock title based on countries', () => {
-      const europeen = getTitleById('europeen')
+      const europeen = getTitleById('world_traveler')
       // User has visited 5 countries, title requires 5
       expect(isTitleUnlocked(europeen)).toBe(true)
     })
@@ -773,8 +773,8 @@ describe('Custom Titles Service', () => {
     })
 
     it('should have English descriptions', () => {
-      const title = getTitleById('europeen')
-      expect(title.descriptionEn).toContain('European')
+      const title = getTitleById('world_traveler')
+      expect(title.descriptionEn).toContain('different countries')
     })
 
     it('should render in English when lang is en', () => {

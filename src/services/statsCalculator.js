@@ -20,7 +20,7 @@ const DISTANCE_COMPARISONS = [
   { km: 800, emoji: '🏔️', text: 'Paris-Marseille' },
   { km: 1500, emoji: '🌍', text: 'Paris-Barcelone' },
   { km: 2500, emoji: '✈️', text: 'Paris-Moscou' },
-  { km: 4000, emoji: '🗺️', text: 'Traversee de l\'Europe' },
+  { km: 4000, emoji: '🗺️', text: 'Tour du monde' },
   { km: 6000, emoji: '🌐', text: 'Paris-New York (a vol d\'oiseau)' },
   { km: 10000, emoji: '🚀', text: 'Un quart du tour du monde !' },
   { km: 20000, emoji: '🌎', text: 'La moitie du tour du monde !' },

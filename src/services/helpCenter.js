@@ -76,11 +76,11 @@ export const HELP_ARTICLES = [
     titleEn: 'Welcome to SpotHitch',
     content: `# Bienvenue sur SpotHitch
 
-SpotHitch est la communaute des autostoppeurs. Notre application vous aide a trouver les meilleurs spots d'auto-stop en Europe.
+SpotHitch est la communaute des autostoppeurs. Notre application vous aide a trouver les meilleurs spots d'auto-stop dans le monde.
 
 ## Qu'est-ce que SpotHitch ?
 
-- **+94 spots** verifies dans 12 pays europeens
+- **+500 spots** verifies dans 40+ pays
 - **+1500 autostoppeurs** actifs dans la communaute
 - **Gratuit** et sans publicite intrusive
 

@@ -133,7 +133,7 @@ export function renderLanding(state) {
           </p>
 
           <p class="text-lg text-slate-400 mb-8 max-w-2xl mx-auto">
-            Trouvez les meilleurs spots d'auto-stop en Europe, partagez vos experiences
+            Trouvez les meilleurs spots d'auto-stop dans le monde, partagez vos experiences
             et planifiez vos voyages avec la plus grande communaute de routards.
           </p>
 
@@ -396,7 +396,7 @@ export function renderLanding(state) {
                 <span class="font-bold text-lg">SpotHitch</span>
               </div>
               <p class="text-slate-400 text-sm">
-                La communaute des autostoppeurs. Trouvez, partagez et explorez les meilleurs spots d'Europe.
+                La communaute des autostoppeurs. Trouvez, partagez et explorez les meilleurs spots du monde.
               </p>
             </div>
 

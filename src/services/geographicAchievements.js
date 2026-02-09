@@ -127,7 +127,7 @@ export const GEOGRAPHIC_ACHIEVEMENTS = {
   twenty_countries: {
     id: 'twenty_countries',
     name: 'Maitre de l\'Europe',
-    nameEn: 'Master of Europe',
+    nameEn: 'Master of the World',
     description: 'Visite 20 pays differents',
     descriptionEn: 'Visit 20 different countries',
     icon: '👑',

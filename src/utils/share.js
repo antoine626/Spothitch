@@ -75,7 +75,7 @@ Rejoins-moi sur SpotHitch !`;
  */
 export function shareApp() {
   const title = 'SpotHitch - La communauté des autostoppeurs';
-  const text = '🚗👍 Découvre SpotHitch, l\'app pour trouver les meilleurs spots d\'autostop en Europe ! Plus de 100 spots vérifiés, guides par pays, et une communauté active.';
+  const text = '🚗👍 Découvre SpotHitch, l\'app pour trouver les meilleurs spots d\'autostop dans le monde ! Plus de 100 spots vérifiés, guides par pays, et une communauté active.';
   const url = APP_URL;
 
   return share({ title, text, url });

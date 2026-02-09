@@ -429,7 +429,7 @@ export function generateFaqPage(locale = 'fr') {
 export function generateAboutPage(locale = 'fr') {
   const content = {
     fr: {
-      mission: 'SpotHitch est une application communautaire pour les autostoppeurs. Notre mission est de rendre le voyage plus accessible en partageant les meilleurs spots d\'auto-stop en Europe.',
+      mission: 'SpotHitch est une application communautaire pour les autostoppeurs. Notre mission est de rendre le voyage plus accessible en partageant les meilleurs spots d\'auto-stop dans le monde.',
       vision: 'Créer une communauté mondiale de voyageurs qui s\'entraident et partagent leurs connaissances pour voyager de manière plus durable et économique.',
       features: [
         'Plus de 100 spots vérifiés',
@@ -440,7 +440,7 @@ export function generateAboutPage(locale = 'fr') {
       ]
     },
     en: {
-      mission: 'SpotHitch is a community app for hitchhikers. Our mission is to make travel more accessible by sharing the best hitchhiking spots in Europe.',
+      mission: 'SpotHitch is a community app for hitchhikers. Our mission is to make travel more accessible by sharing the best hitchhiking spots around the world.',
       vision: 'Create a global community of travelers who help each other and share their knowledge to travel more sustainably and economically.',
       features: [
         'Over 100 verified spots',

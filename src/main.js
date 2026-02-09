@@ -598,6 +598,7 @@ window.selectSpot = async (id) => {
     centerOnSpot(spot);
   }
 };
+window.openSpotDetail = window.selectSpot; // alias for services that use openSpotDetail
 window.closeSpotDetail = () => actions.selectSpot(null);
 window.openAddSpot = () => setState({ showAddSpot: true });
 window.closeAddSpot = () => setState({ showAddSpot: false });
@@ -804,7 +805,7 @@ window.openAgeVerification = () => {
 window.closeAgeVerification = () => setState({ showAgeVerification: false });
 window.showAgeVerification = () => window.openAgeVerification();
 
-// Identity Verification handlers (Security - ID/Passport)
+// Identity Verification handlers (Security - Progressive Trust System 0-5)
 window.openIdentityVerification = () => {
   // Reset modal state
   window.identityVerificationState = {
@@ -814,6 +815,10 @@ window.openIdentityVerification = () => {
     photoPreview: null,
     documentType: 'id_card',
     documentPreview: null,
+    selfieIdStep: 1,
+    selfiePhoto: null,
+    idCardPhoto: null,
+    selfieWithIdPhoto: null,
     isLoading: false,
     error: null,
   };
@@ -821,6 +826,43 @@ window.openIdentityVerification = () => {
 };
 window.closeIdentityVerification = () => setState({ showIdentityVerification: false });
 window.showIdentityVerification = () => window.openIdentityVerification();
+
+// Identity Verification - New handlers for Selfie + ID flow
+window.startIdentityVerification = () => {
+  window.openIdentityVerification();
+};
+
+window.submitVerificationPhotos = async () => {
+  const state = window.identityVerificationState;
+  if (!state || !state.selfiePhoto || !state.idCardPhoto || !state.selfieWithIdPhoto) {
+    showToast('Toutes les photos sont requises', 'error');
+    return;
+  }
+
+  const { uploadSelfieIdVerification } = await import('./services/identityVerification.js');
+  const result = await uploadSelfieIdVerification({
+    selfie: state.selfiePhoto,
+    idCard: state.idCardPhoto,
+    selfieWithId: state.selfieWithIdPhoto,
+  });
+
+  if (result.success) {
+    showToast('Photos soumises avec succes !', 'success');
+    window.closeIdentityVerification();
+  } else {
+    showToast('Erreur lors de la soumission', 'error');
+  }
+};
+
+window.getTrustLevel = () => {
+  const state = getState();
+  return state.trustLevel || state.verificationLevel || 0;
+};
+
+window.getTrustBadge = async (level = null) => {
+  const { getTrustBadge } = await import('./services/identityVerification.js');
+  return getTrustBadge(level);
+};
 
 // Welcome handlers
 window.selectAvatar = (avatar) => setState({ selectedAvatar: avatar });

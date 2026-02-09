@@ -83,7 +83,7 @@ export const SKILLS = {
     name: 'Globe-trotter',
     description: 'Voyage sans frontières',
     category: 'explorer',
-    icon: 'fa-globe-europe',
+    icon: 'fa-globe',
     tier: 4,
     cost: 500,
     requires: ['pathfinder'],

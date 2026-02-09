@@ -141,10 +141,10 @@ export const profileFrames = [
   // Rare frames (significant effort)
   {
     id: 'europe_explorer',
-    name: 'Explorateur Europeen',
-    nameKey: 'frameEuropeExplorer',
+    name: 'Explorateur du Monde',
+    nameKey: 'frameWorldExplorer',
     description: '5 pays visites en autostop',
-    descKey: 'frameEuropeExplorerDesc',
+    descKey: 'frameWorldExplorerDesc',
     rarity: FrameRarity.RARE,
     unlockCondition: UnlockCondition.COUNTRIES,
     unlockValue: 5,

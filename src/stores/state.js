@@ -53,14 +53,17 @@ const initialState = {
   showSideMenu: false,
   showIdentityVerification: false,
 
-  // Identity Verification
+  // Identity Verification (Trust Levels 0-5)
   verificationLevel: 0,
+  trustLevel: 0, // Alias for verificationLevel
   pendingPhoneVerification: null,
   pendingPhotoVerification: null,
   pendingIdentityVerification: null,
+  pendingSelfieIdVerification: null, // New: 3-step selfie + ID
   verifiedPhone: null,
   verifiedPhotoUrl: null,
   identityVerifiedAt: null,
+  selfieIdVerifiedAt: null,
 
   // Checkin Modal
   checkinSpot: null,
@@ -134,14 +137,17 @@ const initialState = {
   checkinHistoryFilter: 'all',
   checkinDisplayLimit: 20,
 
-  // Identity Verification (#190)
-  verificationLevel: 0, // 0: unverified, 1: email, 2: phone, 3: photo, 4: identity
+  // Identity Verification (#190) - Progressive Trust System (0-5)
+  verificationLevel: 0, // 0: unverified, 1: email, 2: phone, 3: selfie+ID submitted, 4: ID verified, 5: trusted member
+  trustLevel: 0, // Alias for verificationLevel
   pendingPhoneVerification: null,
   pendingPhotoVerification: null,
   pendingIdentityVerification: null,
+  pendingSelfieIdVerification: null,
   verifiedPhone: null,
   verifiedPhotoUrl: null,
   identityVerifiedAt: null,
+  selfieIdVerifiedAt: null,
 
   // Loading states
   isLoading: false,
@@ -197,8 +203,10 @@ function persistState() {
     favoritesSort: state.favoritesSort,
     checkinHistory: state.checkinHistory,
     verificationLevel: state.verificationLevel,
+    trustLevel: state.trustLevel || state.verificationLevel,
     verifiedPhone: state.verifiedPhone,
     identityVerifiedAt: state.identityVerifiedAt,
+    selfieIdVerifiedAt: state.selfieIdVerifiedAt,
     messages: (state.messages || []).slice(-100),
     privateMessages: state.privateMessages || {},
     friends: state.friends || [],

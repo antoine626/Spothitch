@@ -60,7 +60,7 @@ export function renderSpotDetail(state) {
               ${renderVerificationBadge(spot.id)}
               ${renderFreshnessBadge(spot.lastCheckin || spot.lastUsed, 'sm')}
               <span class="text-sm text-slate-400">
-                <i class="fas fa-flag mr-1" aria-hidden="true"></i> <span aria-label="Pays: ${escapeHTML(spot.country || 'Europe')}">${escapeHTML(spot.country || 'EU')}</span>
+                <i class="fas fa-flag mr-1" aria-hidden="true"></i> <span aria-label="Pays: ${escapeHTML(spot.country || 'Monde')}">${escapeHTML(spot.country || 'World')}</span>
               </span>
             </div>
           </div>

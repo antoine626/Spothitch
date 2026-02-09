@@ -20,17 +20,23 @@ import {
   confirmPhoneVerification,
   uploadVerificationPhoto,
   uploadIdentityDocument,
+  uploadSelfieIdVerification,
   getVerificationErrorMessage,
 } from '../../services/identityVerification.js';
 
 // State for verification modal
 window.identityVerificationState = {
-  currentStep: 'overview', // 'overview', 'email', 'phone', 'phone-code', 'photo', 'document'
+  currentStep: 'overview', // 'overview', 'email', 'phone', 'phone-code', 'photo', 'selfie-id'
   phoneNumber: '',
   verificationCode: '',
   photoPreview: null,
   documentType: 'id_card', // 'id_card' or 'passport'
   documentPreview: null,
+  // Selfie + ID verification
+  selfieIdStep: 1, // 1: selfie, 2: ID card, 3: selfie with ID
+  selfiePhoto: null,
+  idCardPhoto: null,
+  selfieWithIdPhoto: null,
   isLoading: false,
   error: null,
 };
@@ -84,7 +90,7 @@ export function renderIdentityVerification() {
           ${modalState.currentStep === 'phone' ? renderPhoneStep(lang) : ''}
           ${modalState.currentStep === 'phone-code' ? renderPhoneCodeStep(lang) : ''}
           ${modalState.currentStep === 'photo' ? renderPhotoStep(lang) : ''}
-          ${modalState.currentStep === 'document' ? renderDocumentStep(lang) : ''}
+          ${modalState.currentStep === 'selfie-id' ? renderSelfieIdStep(lang) : ''}
         </div>
       </div>
     </div>
@@ -133,22 +139,23 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
       <div class="space-y-2">
         <div class="flex justify-between text-sm">
           <span class="text-slate-400">${t('verificationProgress')}</span>
-          <span class="text-white font-medium">${progress.currentLevel}/4</span>
+          <span class="text-white font-medium">${progress.currentLevel}/5</span>
         </div>
         <div class="h-3 bg-white/10 rounded-full overflow-hidden">
           <div
             class="h-full rounded-full transition-all duration-500"
-            style="width: ${progress.progress}%; background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);"
+            style="width: ${progress.progress}%; background: linear-gradient(90deg, #9ca3af, #3b82f6, #f59e0b, #10b981, #fbbf24);"
           ></div>
         </div>
       </div>
 
       <!-- Verification Steps -->
       <div class="space-y-3">
-        ${renderVerificationStep(1, progress.verifications.email, t('emailVerified'), t('emailVerifiedDesc'), 'envelope', '#3b82f6', lang)}
-        ${renderVerificationStep(2, progress.verifications.phone, t('phoneVerified'), t('phoneVerifiedDesc'), 'mobile-alt', '#10b981', lang)}
-        ${renderVerificationStep(3, progress.verifications.photo, t('photoVerified'), t('photoVerifiedDesc'), 'camera', '#f59e0b', lang)}
-        ${renderVerificationStep(4, progress.verifications.identity, t('identityDocVerified'), t('identityDocVerifiedDesc'), 'id-card', '#8b5cf6', lang)}
+        ${renderVerificationStep(1, progress.verifications.email, t('emailVerified'), t('emailVerifiedDesc'), 'envelope', '#9ca3af', lang)}
+        ${renderVerificationStep(2, progress.verifications.phone, t('phoneVerified'), t('phoneVerifiedDesc'), 'mobile-alt', '#3b82f6', lang)}
+        ${renderVerificationStep(3, progress.verifications.selfieIdSubmitted, 'Selfie + ID soumis', 'Photos en attente de verification', 'hourglass-half', '#f59e0b', lang)}
+        ${renderVerificationStep(4, progress.verifications.identityVerified, 'Identite verifiee', 'ID valide par moderateur', 'check-circle', '#10b981', lang)}
+        ${renderVerificationStep(5, progress.verifications.trustedMember, 'Membre de confiance', 'Anciennete + activite elevee', 'star', '#fbbf24', lang)}
       </div>
 
       <!-- Why Verify Section -->
@@ -517,27 +524,67 @@ function renderPhotoStep(lang) {
 }
 
 /**
- * Render document verification step
+ * Render selfie + ID verification step (3 photos)
  */
-function renderDocumentStep(lang) {
+function renderSelfieIdStep(lang) {
   const modalState = window.identityVerificationState;
+  const step = modalState.selfieIdStep;
+
+  const stepInfo = {
+    1: {
+      title: 'Etape 1: Prends un selfie',
+      titleEn: 'Step 1: Take a selfie',
+      desc: 'Photo claire de ton visage, de face',
+      descEn: 'Clear photo of your face, front view',
+      icon: 'smile',
+      color: 'blue',
+      photo: modalState.selfiePhoto,
+      inputId: 'selfie-input',
+      captureMode: 'user',
+    },
+    2: {
+      title: 'Etape 2: Photo de ta carte d\'identite',
+      titleEn: 'Step 2: Photo of your ID card',
+      desc: 'Recto de ta carte d\'identite (lisible)',
+      descEn: 'Front of your ID card (readable)',
+      icon: 'id-card',
+      color: 'amber',
+      photo: modalState.idCardPhoto,
+      inputId: 'id-card-input',
+      captureMode: 'environment',
+    },
+    3: {
+      title: 'Etape 3: Selfie avec ta carte',
+      titleEn: 'Step 3: Selfie with your card',
+      desc: 'Tiens ta carte a cote de ton visage',
+      descEn: 'Hold your card next to your face',
+      icon: 'camera',
+      color: 'green',
+      photo: modalState.selfieWithIdPhoto,
+      inputId: 'selfie-with-id-input',
+      captureMode: 'user',
+    },
+  };
+
+  const current = stepInfo[step];
+  const allPhotosReady = modalState.selfiePhoto && modalState.idCardPhoto && modalState.selfieWithIdPhoto;
 
   return `
     <!-- Header -->
     <div class="p-6 text-center border-b border-white/10">
       <button
-        onclick="setVerificationStep('overview')"
+        onclick="${step === 1 ? 'setVerificationStep(\'overview\')' : 'goToPreviousSelfieIdStep()'}"
         class="absolute top-4 left-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
         aria-label="${t('back')}"
         type="button"
       >
         <i class="fas fa-arrow-left" aria-hidden="true"></i>
       </button>
-      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-500/20 flex items-center justify-center">
-        <i class="fas fa-id-card text-2xl text-purple-400" aria-hidden="true"></i>
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-${current.color}-500/20 flex items-center justify-center">
+        <i class="fas fa-${current.icon} text-2xl text-${current.color}-400" aria-hidden="true"></i>
       </div>
-      <h3 class="text-xl font-bold text-white">${t('documentVerificationTitle')}</h3>
-      <p class="text-slate-400 text-sm mt-2">${t('documentVerificationDesc')}</p>
+      <h3 class="text-xl font-bold text-white">${lang === 'en' ? current.titleEn : current.title}</h3>
+      <p class="text-slate-400 text-sm mt-2">${lang === 'en' ? current.descEn : current.desc}</p>
     </div>
 
     <!-- Content -->
@@ -549,104 +596,115 @@ function renderDocumentStep(lang) {
         </div>
       ` : ''}
 
-      <!-- Document Type Selection -->
-      <div>
-        <label class="text-sm text-slate-400 block mb-2">${t('selectDocumentType')}</label>
-        <div class="grid grid-cols-2 gap-3">
-          <button
-            onclick="setDocumentType('id_card')"
-            class="p-4 rounded-xl border-2 transition-all ${modalState.documentType === 'id_card' ? 'border-primary-500 bg-primary-500/10' : 'border-white/10 bg-white/5 hover:bg-white/10'}"
-            type="button"
-          >
-            <i class="fas fa-id-card text-2xl ${modalState.documentType === 'id_card' ? 'text-primary-400' : 'text-slate-400'} mb-2"></i>
-            <div class="text-sm font-medium ${modalState.documentType === 'id_card' ? 'text-white' : 'text-slate-300'}">${t('idCard')}</div>
-          </button>
-          <button
-            onclick="setDocumentType('passport')"
-            class="p-4 rounded-xl border-2 transition-all ${modalState.documentType === 'passport' ? 'border-primary-500 bg-primary-500/10' : 'border-white/10 bg-white/5 hover:bg-white/10'}"
-            type="button"
-          >
-            <i class="fas fa-passport text-2xl ${modalState.documentType === 'passport' ? 'text-primary-400' : 'text-slate-400'} mb-2"></i>
-            <div class="text-sm font-medium ${modalState.documentType === 'passport' ? 'text-white' : 'text-slate-300'}">${t('passport')}</div>
-          </button>
-        </div>
+      <!-- Progress Steps -->
+      <div class="flex items-center justify-center gap-3 mb-6">
+        ${[1, 2, 3].map(s => `
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${s === step ? 'bg-primary-500 text-white' : s < step || stepInfo[s].photo ? 'bg-green-500 text-white' : 'bg-white/10 text-slate-500'}">
+              ${stepInfo[s].photo ? '<i class="fas fa-check"></i>' : s}
+            </div>
+            ${s < 3 ? '<div class="w-8 h-0.5 bg-white/20"></div>' : ''}
+          </div>
+        `).join('')}
       </div>
 
-      <!-- Document Preview/Upload -->
+      <!-- Photo Preview/Upload -->
       <div class="relative">
-        ${modalState.documentPreview ? `
+        ${current.photo ? `
           <div class="relative rounded-xl overflow-hidden">
-            <img src="${modalState.documentPreview}" alt="Document preview" class="w-full h-48 object-cover blur-sm" />
-            <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-              <div class="text-center">
-                <i class="fas fa-check-circle text-4xl text-green-400 mb-2"></i>
-                <p class="text-white font-medium">${t('documentUploaded')}</p>
-              </div>
-            </div>
+            <img src="${current.photo}" alt="${current.title}" class="w-full h-64 object-cover" />
             <button
-              onclick="clearDocumentPreview()"
+              onclick="clearSelfieIdPhoto(${step})"
               class="absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center"
               type="button"
-              aria-label="${t('removeDocument')}"
+              aria-label="${t('removePhoto')}"
             >
               <i class="fas fa-times"></i>
             </button>
           </div>
         ` : `
           <label
-            for="document-input"
-            class="block w-full h-48 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-primary-500/50 transition-colors flex flex-col items-center justify-center gap-4"
+            for="${current.inputId}"
+            class="block w-full h-64 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-primary-500/50 transition-colors flex flex-col items-center justify-center gap-4"
           >
             <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
-              <i class="fas fa-${modalState.documentType === 'passport' ? 'passport' : 'id-card'} text-2xl text-slate-400"></i>
+              <i class="fas fa-${current.icon} text-2xl text-slate-400"></i>
             </div>
-            <div class="text-center">
-              <p class="text-white font-medium">${t('uploadDocument')}</p>
-              <p class="text-slate-400 text-sm">${t('documentRequirements')}</p>
+            <div class="text-center px-4">
+              <p class="text-white font-medium">${lang === 'en' ? 'Take or upload photo' : 'Prendre ou telecharger une photo'}</p>
+              <p class="text-slate-400 text-sm">${lang === 'en' ? current.descEn : current.desc}</p>
             </div>
           </label>
           <input
             type="file"
-            id="document-input"
+            id="${current.inputId}"
             class="hidden"
             accept="image/*"
-            onchange="handleDocumentUpload(event)"
+            capture="${current.captureMode}"
+            onchange="handleSelfieIdPhotoUpload(event, ${step})"
           />
         `}
       </div>
 
-      <!-- Important Warning -->
-      <div class="flex items-start gap-3 p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-        <i class="fas fa-exclamation-triangle text-amber-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
-        <div class="text-sm">
-          <p class="text-amber-300 font-medium mb-1">${t('documentWarningTitle')}</p>
-          <p class="text-amber-200/80">${t('documentWarningDesc')}</p>
-        </div>
+      <!-- Guidelines -->
+      <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+        <h4 class="font-medium text-white mb-2 flex items-center gap-2">
+          <i class="fas fa-lightbulb text-amber-400"></i>
+          ${lang === 'en' ? 'Tips' : 'Conseils'}
+        </h4>
+        <ul class="text-sm text-slate-400 space-y-1">
+          ${step === 1 ? `
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Good lighting' : 'Bon eclairage'}</li>
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Face clearly visible' : 'Visage bien visible'}</li>
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'No glasses or hat' : 'Sans lunettes ni chapeau'}</li>
+          ` : step === 2 ? `
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'All text readable' : 'Texte lisible'}</li>
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'No glare or blur' : 'Sans reflet ni flou'}</li>
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Front side only' : 'Recto uniquement'}</li>
+          ` : `
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Hold card next to face' : 'Carte a cote du visage'}</li>
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Both face and card visible' : 'Visage et carte visibles'}</li>
+            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Good focus' : 'Bonne mise au point'}</li>
+          `}
+        </ul>
       </div>
 
-      <!-- Privacy Assurance -->
+      <!-- Privacy Notice -->
       <div class="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
-        <i class="fas fa-shield-alt text-green-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
-        <div class="text-sm">
-          <p class="text-green-300 font-medium mb-1">${t('documentPrivacyTitle')}</p>
-          <p class="text-green-200/80">${t('documentPrivacyDesc')}</p>
-        </div>
+        <i class="fas fa-lock text-green-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+        <p class="text-green-300 text-sm">
+          ${lang === 'en' ? 'Your photos are encrypted and only seen by moderators. They are deleted after verification.' : 'Tes photos sont chiffrees et vues uniquement par les moderateurs. Elles sont supprimees apres verification.'}
+        </p>
       </div>
 
-      ${modalState.documentPreview ? `
-        <button
-          onclick="submitIdentityDocument()"
-          class="w-full btn btn-primary py-3 ${modalState.isLoading ? 'opacity-50 cursor-not-allowed' : ''}"
-          type="button"
-          ${modalState.isLoading ? 'disabled' : ''}
-        >
-          ${modalState.isLoading
-            ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
-            : '<i class="fas fa-paper-plane mr-2"></i>'
-          }
-          ${t('submitDocument')}
-        </button>
-      ` : ''}
+      <!-- Action Buttons -->
+      <div class="space-y-2">
+        ${current.photo ? `
+          ${step < 3 ? `
+            <button
+              onclick="goToNextSelfieIdStep()"
+              class="w-full btn btn-primary py-3"
+              type="button"
+            >
+              <i class="fas fa-arrow-right mr-2"></i>
+              ${lang === 'en' ? 'Next step' : 'Etape suivante'}
+            </button>
+          ` : allPhotosReady ? `
+            <button
+              onclick="submitSelfieIdVerification()"
+              class="w-full btn btn-primary py-3 ${modalState.isLoading ? 'opacity-50 cursor-not-allowed' : ''}"
+              type="button"
+              ${modalState.isLoading ? 'disabled' : ''}
+            >
+              ${modalState.isLoading
+                ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
+                : '<i class="fas fa-paper-plane mr-2"></i>'
+              }
+              ${lang === 'en' ? 'Submit for verification' : 'Envoyer pour verification'}
+            </button>
+          ` : ''}
+        ` : ''}
+      </div>
     </div>
   `;
 }
@@ -697,6 +755,10 @@ window.openIdentityVerification = () => {
     photoPreview: null,
     documentType: 'id_card',
     documentPreview: null,
+    selfieIdStep: 1,
+    selfiePhoto: null,
+    idCardPhoto: null,
+    selfieWithIdPhoto: null,
     isLoading: false,
     error: null,
   };
@@ -727,10 +789,18 @@ window.startVerificationStep = (level) => {
     1: 'overview', // Email is handled separately
     2: 'phone',
     3: 'photo',
-    4: 'document',
+    4: 'selfie-id', // New: Selfie + ID 3-step flow
+    5: 'overview', // Level 5 is automatic (trusted member)
   };
   window.identityVerificationState.currentStep = stepMap[level] || 'overview';
   window.identityVerificationState.error = null;
+  // Reset selfie-id state when starting fresh
+  if (level === 4) {
+    window.identityVerificationState.selfieIdStep = 1;
+    window.identityVerificationState.selfiePhoto = null;
+    window.identityVerificationState.idCardPhoto = null;
+    window.identityVerificationState.selfieWithIdPhoto = null;
+  }
   rerenderModal();
 };
 
@@ -919,6 +989,106 @@ window.submitIdentityDocument = async () => {
     state.documentPreview = null;
     const { showToast } = await import('../../services/notifications.js');
     showToast(t('documentSubmitted'), 'success');
+  } else {
+    state.error = result.error;
+  }
+
+  rerenderModal();
+};
+
+/**
+ * Handle selfie + ID photo upload
+ */
+window.handleSelfieIdPhotoUpload = (event, step) => {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const state = window.identityVerificationState;
+    if (step === 1) {
+      state.selfiePhoto = e.target.result;
+    } else if (step === 2) {
+      state.idCardPhoto = e.target.result;
+    } else if (step === 3) {
+      state.selfieWithIdPhoto = e.target.result;
+    }
+    rerenderModal();
+  };
+  reader.readAsDataURL(file);
+};
+
+/**
+ * Clear selfie + ID photo
+ */
+window.clearSelfieIdPhoto = (step) => {
+  const state = window.identityVerificationState;
+  if (step === 1) {
+    state.selfiePhoto = null;
+  } else if (step === 2) {
+    state.idCardPhoto = null;
+  } else if (step === 3) {
+    state.selfieWithIdPhoto = null;
+  }
+  rerenderModal();
+};
+
+/**
+ * Go to next selfie + ID step
+ */
+window.goToNextSelfieIdStep = () => {
+  const state = window.identityVerificationState;
+  if (state.selfieIdStep < 3) {
+    state.selfieIdStep++;
+    state.error = null;
+    rerenderModal();
+  }
+};
+
+/**
+ * Go to previous selfie + ID step
+ */
+window.goToPreviousSelfieIdStep = () => {
+  const state = window.identityVerificationState;
+  if (state.selfieIdStep > 1) {
+    state.selfieIdStep--;
+    state.error = null;
+    rerenderModal();
+  }
+};
+
+/**
+ * Submit selfie + ID verification
+ */
+window.submitSelfieIdVerification = async () => {
+  const state = window.identityVerificationState;
+
+  if (!state.selfiePhoto || !state.idCardPhoto || !state.selfieWithIdPhoto) {
+    state.error = 'missing-photos';
+    rerenderModal();
+    return;
+  }
+
+  state.isLoading = true;
+  state.error = null;
+  rerenderModal();
+
+  const result = await uploadSelfieIdVerification({
+    selfie: state.selfiePhoto,
+    idCard: state.idCardPhoto,
+    selfieWithId: state.selfieWithIdPhoto,
+  });
+
+  state.isLoading = false;
+
+  if (result.success) {
+    state.currentStep = 'overview';
+    state.selfieIdStep = 1;
+    state.selfiePhoto = null;
+    state.idCardPhoto = null;
+    state.selfieWithIdPhoto = null;
+    const { showToast } = await import('../../services/notifications.js');
+    showToast(t('selfieIdSubmitted'), 'success');
   } else {
     state.error = result.error;
   }

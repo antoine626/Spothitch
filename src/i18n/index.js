@@ -479,6 +479,9 @@ const translations = {
     submitPhoto: 'Soumettre la photo',
     photoSubmitted: 'Photo envoyee pour verification !',
 
+    // Selfie + ID Verification
+    selfieIdSubmitted: 'Photos soumises pour verification !',
+
     // Document Verification
     documentVerificationTitle: 'Verification d\'identite',
     documentVerificationDesc: 'Telecharge une photo de ta carte d\'identite ou passeport',
@@ -771,8 +774,8 @@ const translations = {
     frameSpotCreatorDesc: '5 spots partages avec la communaute',
     frameStreakMaster: 'Maitre de Serie',
     frameStreakMasterDesc: 'Serie de 7 jours consecutifs',
-    frameEuropeExplorer: 'Explorateur Europeen',
-    frameEuropeExplorerDesc: '5 pays visites en autostop',
+    frameWorldExplorer: 'Explorateur du Monde',
+    frameWorldExplorerDesc: '5 pays visites en autostop',
     frameCommunityHero: 'Heros de la Communaute',
     frameCommunityHeroDesc: '10 badges obtenus',
     frameVeteranHitchhiker: 'Veteran du Stop',
@@ -1504,6 +1507,9 @@ const translations = {
     submitPhoto: 'Submit photo',
     photoSubmitted: 'Photo sent for verification!',
 
+    // Selfie + ID Verification
+    selfieIdSubmitted: 'Photos submitted for verification!',
+
     // Document Verification
     documentVerificationTitle: 'Identity Verification',
     documentVerificationDesc: 'Upload a photo of your ID card or passport',
@@ -1730,8 +1736,8 @@ const translations = {
     frameSpotCreatorDesc: '5 spots shared with the community',
     frameStreakMaster: 'Streak Master',
     frameStreakMasterDesc: '7 consecutive days streak',
-    frameEuropeExplorer: 'European Explorer',
-    frameEuropeExplorerDesc: '5 countries visited hitchhiking',
+    frameWorldExplorer: 'World Explorer',
+    frameWorldExplorerDesc: '5 countries visited hitchhiking',
     frameCommunityHero: 'Community Hero',
     frameCommunityHeroDesc: '10 badges earned',
     frameVeteranHitchhiker: 'Veteran Hitchhiker',
@@ -2226,6 +2232,9 @@ const translations = {
     submitPhoto: 'Enviar foto',
     photoSubmitted: 'Foto enviada para verificacion!',
 
+    // Selfie + ID Verification
+    selfieIdSubmitted: 'Fotos enviadas para verificacion!',
+
     // Document Verification
     documentVerificationTitle: 'Verificacion de identidad',
     documentVerificationDesc: 'Sube una foto de tu DNI o pasaporte',
@@ -2452,8 +2461,8 @@ const translations = {
     frameSpotCreatorDesc: '5 spots compartidos con la comunidad',
     frameStreakMaster: 'Maestro de Serie',
     frameStreakMasterDesc: 'Serie de 7 dias consecutivos',
-    frameEuropeExplorer: 'Explorador Europeo',
-    frameEuropeExplorerDesc: '5 paises visitados haciendo autoestop',
+    frameWorldExplorer: 'Explorador Mundial',
+    frameWorldExplorerDesc: '5 paises visitados haciendo autoestop',
     frameCommunityHero: 'Heroe de la Comunidad',
     frameCommunityHeroDesc: '10 insignias obtenidas',
     frameVeteranHitchhiker: 'Veterano del Autoestop',
@@ -2910,6 +2919,9 @@ const translations = {
     submitPhoto: 'Foto einreichen',
     photoSubmitted: 'Foto zur Verifizierung gesendet!',
 
+    // Selfie + ID Verification
+    selfieIdSubmitted: 'Fotos zur Verifizierung eingereicht!',
+
     // Document Verification
     documentVerificationTitle: 'Identitatsverifizierung',
     documentVerificationDesc: 'Lade ein Foto deines Personalausweises oder Reisepasses hoch',
@@ -3136,8 +3148,8 @@ const translations = {
     frameSpotCreatorDesc: '5 Spots mit der Community geteilt',
     frameStreakMaster: 'Serien-Meister',
     frameStreakMasterDesc: '7 aufeinanderfolgende Tage Serie',
-    frameEuropeExplorer: 'Europaischer Entdecker',
-    frameEuropeExplorerDesc: '5 Lander beim Trampen besucht',
+    frameWorldExplorer: 'Welt-Entdecker',
+    frameWorldExplorerDesc: '5 Lander beim Trampen besucht',
     frameCommunityHero: 'Community-Held',
     frameCommunityHeroDesc: '10 Abzeichen verdient',
     frameVeteranHitchhiker: 'Veteran-Tramper',

@@ -53,8 +53,8 @@ export const quizQuestions = [
   },
   {
     id: 3,
-    question: 'Quel pays est le plus facile pour le stop en Europe ?',
-    questionEn: 'Which country is easiest for hitchhiking in Europe?',
+    question: 'Quel pays est le plus facile pour le stop dans le monde ?',
+    questionEn: 'Which country is easiest for hitchhiking in the world?',
     options: [
       'France',
       'Allemagne',

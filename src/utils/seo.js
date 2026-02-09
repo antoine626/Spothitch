@@ -36,16 +36,16 @@ const PAGE_META_CONFIG = {
       de: 'SpotHitch - Die Tramper-Community'
     },
     description: {
-      fr: 'Trouvez les meilleurs spots d\'auto-stop en Europe. Plus de 100 spots verifies, guides par pays, planificateur de voyage et communaute active.',
-      en: 'Find the best hitchhiking spots in Europe. Over 100 verified spots, country guides, trip planner and active community.',
+      fr: 'Trouvez les meilleurs spots d\'auto-stop dans le monde. Plus de 100 spots verifies, guides par pays, planificateur de voyage et communaute active.',
+      en: 'Find the best hitchhiking spots around the world. Over 100 verified spots, country guides, trip planner and active community.',
       es: 'Encuentra los mejores spots de autoestop en Europa. Mas de 100 spots verificados, guias por pais, planificador de viajes y comunidad activa.',
       de: 'Finden Sie die besten Tramper-Spots in Europa. Uber 100 verifizierte Spots, Landerfuhrer, Reiseplaner und aktive Community.'
     },
     keywords: {
-      fr: 'autostop, hitchhiking, spots, voyage, backpacking, europe, auto-stop, pouce, routard, aventure',
-      en: 'hitchhiking, hitching, spots, travel, backpacking, europe, thumb, traveler, adventure',
-      es: 'autoestop, dedo, spots, viaje, mochilero, europa, aventura, viajero',
-      de: 'trampen, anhalter, spots, reise, backpacking, europa, abenteuer, reisender'
+      fr: 'autostop, hitchhiking, spots, voyage, backpacking, worldwide, monde, auto-stop, pouce, routard, aventure',
+      en: 'hitchhiking, hitching, spots, travel, backpacking, worldwide, thumb, traveler, adventure',
+      es: 'autoestop, dedo, spots, viaje, mochilero, mundial, aventura, viajero',
+      de: 'trampen, anhalter, spots, reise, backpacking, weltweit, abenteuer, reisender'
     }
   },
   spots: {
@@ -135,7 +135,7 @@ export function getWebAppSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: APP_NAME,
-    description: 'Application communautaire pour autostoppeurs. Trouvez et partagez les meilleurs spots d\'auto-stop en Europe.',
+    description: 'Application communautaire pour autostoppeurs. Trouvez et partagez les meilleurs spots d\'auto-stop dans le monde.',
     url: BASE_URL,
     applicationCategory: 'TravelApplication',
     operatingSystem: 'All',
@@ -873,7 +873,7 @@ export function initSEO() {
   // Set default meta tags
   updateMetaTags({
     title: 'Trouvez les meilleurs spots d\'autostop',
-    description: 'Application communautaire pour autostoppeurs. Trouvez, partagez et evaluez les meilleurs spots d\'auto-stop en Europe.',
+    description: 'Application communautaire pour autostoppeurs. Trouvez, partagez et evaluez les meilleurs spots d\'auto-stop dans le monde.',
     image: `${BASE_URL}/og-image.png`
   });
 

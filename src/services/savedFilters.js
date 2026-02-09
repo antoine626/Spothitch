@@ -690,8 +690,8 @@ export function getDefaultFilters() {
     },
     {
       id: 'preset_europe_top',
-      name: 'Europe - Top spots',
-      description: 'Meilleurs spots d\'Europe',
+      name: 'Monde - Top spots',
+      description: 'Meilleurs spots du monde',
       filters: {
         rating: 4.5,
         verified: true,

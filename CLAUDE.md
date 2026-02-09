@@ -17,7 +17,7 @@
 
 ## Vue du Projet
 
-**SpotHitch v2.0** - La communauté des autostoppeurs. PWA pour trouver et partager les meilleurs spots d'auto-stop en Europe (94+ spots, 12 pays).
+**SpotHitch v2.0** - La communauté des autostoppeurs. PWA pour trouver et partager les meilleurs spots d'auto-stop dans le monde entier (28000+ spots, 96 pays).
 
 ### Stack Technique
 Vite 5.x | JavaScript ES Modules | Tailwind CSS 3.4 | Leaflet + MarkerCluster | Firebase (Auth, Firestore) | Vitest | Playwright | Sentry | vite-plugin-pwa | GitHub Actions | ESLint + Prettier

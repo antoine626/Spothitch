@@ -17,15 +17,23 @@ const OUTPUT_DIR = join(import.meta.dirname, '..', 'public', 'data', 'spots')
 
 // Countries to extract (worldwide)
 const COUNTRIES = [
+  // Europe
   'FR', 'DE', 'ES', 'IT', 'NL', 'BE', 'PT', 'AT', 'CH', 'IE',
   'PL', 'CZ', 'GB', 'SE', 'NO', 'DK', 'FI', 'HU', 'HR', 'RO',
   'GR', 'BG', 'SK', 'SI', 'LT', 'LV', 'EE', 'LU', 'RS', 'BA',
   'ME', 'MK', 'AL', 'XK', 'MD', 'UA', 'BY', 'IS',
-  'MA', 'TR', 'US', 'CA', 'AU', 'NZ', 'IL', 'GE', 'AM', 'IR',
-  'IN', 'TH', 'VN', 'KH', 'MM', 'LA', 'MY', 'ID', 'PH', 'JP',
-  'KR', 'CN', 'MN', 'KZ', 'UZ', 'KG', 'TJ', 'CL', 'AR', 'BR',
-  'CO', 'PE', 'BO', 'EC', 'MX', 'GT', 'CR', 'PA', 'CU', 'ZA',
-  'NA', 'BW', 'KE', 'TZ', 'ET', 'EG', 'TN', 'SN', 'GH', 'NG'
+  // Middle East & Central Asia
+  'TR', 'IL', 'JO', 'OM', 'IR', 'GE', 'AM', 'KZ', 'UZ', 'KG', 'TJ',
+  // Asia
+  'IN', 'PK', 'NP', 'LK', 'TH', 'VN', 'KH', 'MM', 'LA', 'MY',
+  'ID', 'PH', 'JP', 'KR', 'CN', 'MN',
+  // Americas
+  'US', 'CA', 'MX', 'GT', 'CR', 'PA', 'CU', 'CO', 'VE', 'EC',
+  'PE', 'BO', 'BR', 'CL', 'AR', 'PY', 'UY',
+  // Africa
+  'MA', 'TN', 'EG', 'ET', 'KE', 'TZ', 'ZA', 'NA', 'BW', 'SN', 'GH', 'NG',
+  // Oceania
+  'AU', 'NZ'
 ]
 
 // Country names for display
@@ -52,7 +60,9 @@ const COUNTRY_NAMES = {
   CR: 'Costa Rica', PA: 'Panama', CU: 'Cuba', ZA: 'Afrique du Sud',
   NA: 'Namibie', BW: 'Botswana', KE: 'Kenya', TZ: 'Tanzanie',
   ET: 'Éthiopie', EG: 'Égypte', TN: 'Tunisie', SN: 'Sénégal',
-  GH: 'Ghana', NG: 'Nigéria'
+  GH: 'Ghana', NG: 'Nigéria',
+  JO: 'Jordanie', OM: 'Oman', NP: 'Népal', LK: 'Sri Lanka',
+  PK: 'Pakistan', PY: 'Paraguay', UY: 'Uruguay', VE: 'Venezuela'
 }
 
 mkdirSync(OUTPUT_DIR, { recursive: true })

@@ -5,7 +5,6 @@
 
 import { t } from '../../i18n/index.js';
 import { renderSpotCard } from '../SpotCard.js';
-import { renderSpotOfTheDay } from '../SpotOfTheDay.js';
 
 export function renderHome(state) {
   const topSpots = state.spots
@@ -47,11 +46,6 @@ export function renderHome(state) {
           Voir la carte complète
         </button>
       </div>
-
-      <!-- Spot of the Day -->
-      <section>
-        ${renderSpotOfTheDay(state)}
-      </section>
 
       <!-- Quick Stats (clickable) -->
       <div class="grid grid-cols-3 gap-3">

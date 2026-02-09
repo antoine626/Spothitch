@@ -166,7 +166,7 @@ let trendingSearches = [
   { query: 'Munich vers Vienne', count: 650, trend: 'down' },
   { query: 'aire de repos A1', count: 540, trend: 'up' },
   { query: 'station service autoroute', count: 480, trend: 'stable' },
-  { query: 'meilleur spot Europe', count: 420, trend: 'up' },
+  { query: 'meilleur spot monde', count: 420, trend: 'up' },
 ]
 
 /**

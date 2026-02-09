@@ -412,7 +412,7 @@ function renderGuideDetail(guide) {
             <div class="font-bold text-lg">${guide.emergencyNumbers.fire}</div>
           </div>
           <div class="text-center p-3 rounded-lg bg-emerald-500/10">
-            <div class="text-xs text-slate-400 mb-1">Europe</div>
+            <div class="text-xs text-slate-400 mb-1">Monde</div>
             <div class="font-bold text-lg text-emerald-400">${guide.emergencyNumbers.european}</div>
           </div>
         </div>

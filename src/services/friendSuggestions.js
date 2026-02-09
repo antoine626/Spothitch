@@ -142,7 +142,7 @@ function getReasonLabel(reason) {
 function getReasonIcon(reason) {
   const icons = {
     [SuggestionReason.COMMON_SPOTS]: 'fa-map-marker-alt',
-    [SuggestionReason.COMMON_COUNTRIES]: 'fa-globe-europe',
+    [SuggestionReason.COMMON_COUNTRIES]: 'fa-globe',
     [SuggestionReason.NEARBY]: 'fa-location-arrow',
     [SuggestionReason.MUTUAL_FRIENDS]: 'fa-user-friends',
     [SuggestionReason.SIMILAR_LEVEL]: 'fa-chart-line',

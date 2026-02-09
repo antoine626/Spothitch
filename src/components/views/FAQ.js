@@ -19,7 +19,7 @@ const faqData = {
       {
         id: 'general-1',
         q: t('faqQ1', "Qu'est-ce que SpotHitch ?"),
-        a: t('faqA1', "SpotHitch est une application communautaire qui permet aux autostoppeurs de trouver et partager les meilleurs spots d'auto-stop en Europe. Nous avons plus de 90 spots vérifiés dans 12 pays.")
+        a: t('faqA1', "SpotHitch est une application communautaire qui permet aux autostoppeurs de trouver et partager les meilleurs spots d'auto-stop dans le monde. Nous avons plus de 500 spots vérifiés dans 40+ pays.")
       },
       {
         id: 'general-2',
@@ -29,7 +29,7 @@ const faqData = {
       {
         id: 'general-3',
         q: t('faqQ3', "Dans quels pays SpotHitch est-il disponible ?"),
-        a: t('faqA3', "Actuellement, nous couvrons 12 pays européens : France, Allemagne, Espagne, Italie, Portugal, Belgique, Pays-Bas, Suisse, Autriche, Pologne, République Tchèque et Slovaquie. Nous ajoutons régulièrement de nouveaux spots !")
+        a: t('faqA3', "Actuellement, nous couvrons plus de 40 pays sur tous les continents. Nous ajoutons régulièrement de nouveaux spots ! Les principaux pays incluent France, Allemagne, Espagne, USA, Canada, Australie, Nouvelle-Zélande, Maroc, Turquie et bien d'autres.")
       },
       {
         id: 'general-4',

@@ -151,8 +151,8 @@ export const hitchhikingTips = {
       {
         title: 'Nourriture et budget',
         titleEn: 'Food and budget',
-        text: 'Faites vos courses avant les autoroutes (prix gonflés aux aires). En Belgique : frietkoten pour moins de 5€. En France, les conducteurs offrent souvent de l\'argent (5-60€) ou des repas. Chaînes budget : Lidl, Aldi en Europe.',
-        textEn: 'Shop before highways (inflated prices at service areas). In Belgium: frietkoten for under €5. In France, drivers often offer money (€5-60) or meals. Budget chains: Lidl, Aldi across Europe.',
+        text: 'Faites vos courses avant les autoroutes (prix gonflés aux aires). En Belgique : frietkoten pour moins de 5€. En France, les conducteurs offrent souvent de l\'argent (5-60€) ou des repas. Chaînes budget : Lidl, Aldi (Europe), Walmart (Amerique).',
+        textEn: 'Shop before highways (inflated prices at service areas). In Belgium: frietkoten for under €5. In France, drivers often offer money (€5-60) or meals. Budget chains: Lidl, Aldi (Europe), Walmart (Americas).',
       },
       {
         title: 'Toilettes et douches',
