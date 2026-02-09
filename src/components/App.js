@@ -60,6 +60,7 @@ import { renderMyDataModal } from './modals/MyData.js';
 import { renderTitlesModal } from './modals/TitlesModal.js';
 import { renderCreateTravelGroupModal } from './modals/CreateTravelGroup.js';
 import { renderFriendProfileModal } from './modals/FriendProfile.js';
+import { renderTripHistory } from '../services/tripHistory.js';
 
 /**
  * Render the complete application
@@ -147,6 +148,28 @@ export function renderApp(state) {
 
     <!-- Friend Profile Modal -->
     ${state.showFriendProfile ? renderFriendProfileModal(state) : ''}
+
+    <!-- Trip History Modal -->
+    ${state.showTripHistory ? `
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripHistory()">
+        <div class="min-h-screen pb-20">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+            <h2 class="text-lg font-bold"><i class="fas fa-clipboard-list mr-2 text-emerald-400"></i>Historique de voyage</h2>
+            <div class="flex items-center gap-2">
+              <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all" aria-label="Effacer l'historique">
+                <i class="fas fa-trash mr-1"></i>Effacer
+              </button>
+              <button onclick="closeTripHistory()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="p-4">
+            ${renderTripHistory()}
+          </div>
+        </div>
+      </div>
+    ` : ''}
 
     <!-- Admin Button (floating) -->
     <button

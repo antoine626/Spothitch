@@ -101,6 +101,8 @@ import { showSuccessAnimation, showErrorAnimation, showBadgeUnlockAnimation, sho
 import { shareSpot, shareBadge, shareStats, shareApp } from './utils/share.js';
 import { launchConfetti, launchConfettiBurst } from './utils/confetti.js';
 import { getErrorMessage, getFormattedError, isRecoverableError } from './utils/errorMessages.js';
+import { showShareModal } from './services/shareCard.js';
+import { initAutoOfflineSync } from './services/autoOfflineSync.js';
 import { getFilteredSpots, resetFilters as resetFiltersUtil } from './components/modals/Filters.js';
 import { redeemReward } from './components/modals/Shop.js';
 import './components/modals/Leaderboard.js'; // Register global handlers
@@ -116,6 +118,20 @@ import {
   announceError,
   renderAccessibilityHelp,
 } from './services/screenReader.js'; // Accessibility
+import {
+  initProximityAlerts,
+  stopProximityAlerts,
+  setProximityRadius,
+  toggleProximityAlerts,
+  isProximityAlertsEnabled,
+} from './services/proximityAlerts.js'; // Proximity alerts
+import {
+  logTripEvent,
+  getTripHistory,
+  clearTripHistory,
+  renderTripHistory,
+  getTripStats,
+} from './services/tripHistory.js'; // Trip history
 import {
   isWebShareSupported,
   canShareFiles,
@@ -288,6 +304,13 @@ async function init() {
       console.warn('Nearby friends tracking skipped:', e.message);
     }
 
+    // Initialize proximity alerts
+    try {
+      initProximityAlerts();
+    } catch (e) {
+      console.warn('Proximity alerts skipped:', e.message);
+    }
+
     // Preload common modals on idle
     try {
       preloadOnIdle();
@@ -340,6 +363,13 @@ async function init() {
       registerCheckinHandlers();
     } catch (e) {
       console.warn('Checkin handlers skipped:', e.message);
+    }
+
+    // Initialize auto offline sync
+    try {
+      initAutoOfflineSync();
+    } catch (e) {
+      console.warn('Auto offline sync skipped:', e.message);
     }
 
     // Register cleanup on page unload
@@ -635,6 +665,21 @@ window.doCheckin = (spotId) => {
   saveValidationToFirebase(spotId, getState().user?.uid);
   showToast(t('checkinSuccess'), 'success');
   announceAction('checkin', true);
+
+  // Show share card after checkin
+  const { spots } = getState();
+  const spot = spots.find(s => s.id == spotId);
+  if (spot) {
+    setTimeout(() => {
+      try {
+        showShareModal(spot);
+      } catch (err) {
+        console.warn('Failed to show share modal:', err);
+      }
+    }, 500);
+  }
+  // Log to trip history
+  logTripEvent('checkin', { spotId });
 };
 window.submitReview = async (spotId) => {
   const comment = document.getElementById('review-comment')?.value;
@@ -1359,6 +1404,20 @@ window.openProfileCustomization = () => setState({ showProfileCustomization: tru
 window.closeProfileCustomization = () => setState({ showProfileCustomization: false });
 window.equipFrameAction = equipFrame;
 window.equipTitleAction = equipTitle;
+
+// Proximity alerts handlers
+window.toggleProximityAlerts = toggleProximityAlerts;
+window.setProximityRadius = setProximityRadius;
+
+// Trip history handlers
+window.openTripHistory = () => setState({ showTripHistory: true });
+window.closeTripHistory = () => setState({ showTripHistory: false });
+window.clearTripHistory = () => {
+  if (confirm('Effacer tout l\'historique de voyage ?')) {
+    clearTripHistory();
+    setState({ showTripHistory: false });
+  }
+};
 
 // Image handlers
 window.compressImage = compressImage;

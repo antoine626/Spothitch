@@ -212,6 +212,23 @@ export function renderProfile(state) {
         <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
       </button>
 
+      <!-- Trip History -->
+      <button
+        onclick="openTripHistory()"
+        class="card p-4 w-full text-left hover:border-emerald-500/50 transition-all flex items-center justify-between"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <i class="fas fa-clipboard-list text-emerald-400" aria-hidden="true"></i>
+          </div>
+          <div>
+            <div class="font-medium">📋 Historique</div>
+            <div class="text-sm text-slate-400">Journal de voyage privé</div>
+          </div>
+        </div>
+        <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+      </button>
+
       <!-- Settings -->
       <div class="card p-4 space-y-3">
         <h3 class="font-bold flex items-center gap-2">
