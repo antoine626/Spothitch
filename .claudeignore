@@ -1,0 +1,11 @@
+dist/
+node_modules/
+*.png
+*.jpg
+*.ico
+*.svg
+*.woff
+*.woff2
+*.ttf
+*.eot
+public/icon-*.png

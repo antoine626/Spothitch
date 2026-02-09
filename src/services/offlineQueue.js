@@ -8,6 +8,8 @@
  * - Auto-sync when back online (Background Sync API)
  * - Retry with exponential backoff
  * - Priority-based execution
+ *
+ * Supported actions: create_spot, checkin, review, message, favorite
  */
 
 import { Storage, SpotHitchDB } from '../utils/storage.js'
@@ -17,9 +19,13 @@ import { showToast, showInfo } from './notifications.js'
 let queue = []
 let isProcessing = false
 let retryTimeouts = new Map()
+let isInitialized = false
+let onlineListenerAdded = false
 
 // Action types with priorities (lower = higher priority)
+// Supports both legacy (uppercase) and new (lowercase) action names
 const ACTION_PRIORITIES = {
+  // Legacy uppercase action types
   SOS_ALERT: 0,        // Emergency - highest priority
   CHECKIN: 1,          // User validation
   ADD_SPOT: 2,         // New spot creation
@@ -29,7 +35,32 @@ const ACTION_PRIORITIES = {
   UPDATE_PROFILE: 6,   // Profile update
   FAVORITE: 7,         // Add/remove favorite
   REPORT: 8,           // Report spot
+  // New lowercase action types (task requirements)
+  create_spot: 2,      // New spot creation
+  checkin: 1,          // User validation / check-in
+  review: 3,           // Review submission
+  message: 5,          // Chat message
+  favorite: 7,         // Add/remove favorite
 }
+
+// Valid action types
+export const VALID_ACTIONS = [
+  'create_spot',
+  'checkin',
+  'review',
+  'message',
+  'favorite',
+  // Legacy types
+  'SOS_ALERT',
+  'CHECKIN',
+  'ADD_SPOT',
+  'ADD_RATING',
+  'ADD_COMMENT',
+  'SEND_MESSAGE',
+  'UPDATE_PROFILE',
+  'FAVORITE',
+  'REPORT',
+]
 
 // Maximum retry attempts per action
 const MAX_RETRIES = 5
@@ -39,19 +70,41 @@ const BACKOFF_BASE = 1000
 
 /**
  * Initialize offline queue
+ * @param {Object} options - Options for initialization
+ * @param {boolean} options.force - Force re-initialization
+ * @returns {Promise<void>}
  */
-export async function initOfflineQueue() {
+export async function initOfflineQueue(options = {}) {
+  if (isInitialized && !options.force) {
+    return
+  }
+
   // Load queue from storage
   await loadQueue()
 
-  // Listen for online/offline events
-  window.addEventListener('online', handleOnline)
-  window.addEventListener('offline', handleOffline)
+  // Listen for online/offline events (only add once)
+  if (!onlineListenerAdded && typeof window !== 'undefined') {
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+    onlineListenerAdded = true
+  }
 
   // Register for Background Sync if supported
   registerBackgroundSync()
 
+  isInitialized = true
   console.log('📋 Offline queue initialized with', queue.length, 'pending actions')
+}
+
+/**
+ * Reset offline queue (for testing)
+ */
+export function resetOfflineQueue() {
+  queue = []
+  isProcessing = false
+  retryTimeouts.forEach(timeout => clearTimeout(timeout))
+  retryTimeouts.clear()
+  isInitialized = false
 }
 
 /**
@@ -94,19 +147,26 @@ async function saveQueue() {
 
 /**
  * Add action to queue
- * @param {string} type - Action type (ADD_SPOT, CHECKIN, etc.)
+ * @param {string} type - Action type (ADD_SPOT, CHECKIN, create_spot, checkin, review, message, favorite, etc.)
  * @param {object} data - Action data
  * @param {object} options - Additional options
  * @returns {string} Action ID
  */
 export function queueAction(type, data, options = {}) {
+  // Validate action type
+  if (!type || typeof type !== 'string') {
+    console.error('Invalid action type:', type)
+    return null
+  }
+
   const action = {
     id: `action_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
     type,
-    data,
+    data: data || {},
     priority: ACTION_PRIORITIES[type] ?? 10,
     retries: 0,
     createdAt: Date.now(),
+    status: 'pending',
     ...options,
   }
 
@@ -119,13 +179,59 @@ export function queueAction(type, data, options = {}) {
   updateQueueIndicator()
 
   // Show feedback to user
-  if (!navigator.onLine) {
-    showInfo(`Action en attente (${getQueueCount()} dans la file)`)
+  if (typeof navigator !== 'undefined' && !navigator.onLine) {
+    try {
+      showInfo(`Action en attente (${getQueueCount()} dans la file)`)
+    } catch (e) {
+      // Ignore notification errors in tests
+    }
   }
 
   console.log('📋 Queued action:', type, action.id)
 
   return action.id
+}
+
+/**
+ * Add action to queue (alias for queueAction)
+ * @param {string} action - Action type (create_spot, checkin, review, message, favorite)
+ * @param {object} data - Action data
+ * @returns {string} Action ID
+ */
+export function addToQueue(action, data) {
+  return queueAction(action, data)
+}
+
+/**
+ * Check if an action type is valid
+ * @param {string} type - Action type to check
+ * @returns {boolean}
+ */
+export function isValidAction(type) {
+  return VALID_ACTIONS.includes(type)
+}
+
+/**
+ * Get action by ID
+ * @param {string} actionId - Action ID
+ * @returns {object|null}
+ */
+export function getActionById(actionId) {
+  return queue.find(a => a.id === actionId) || null
+}
+
+/**
+ * Update action status
+ * @param {string} actionId - Action ID
+ * @param {string} status - New status (pending, processing, completed, failed)
+ */
+export function updateActionStatus(actionId, status) {
+  const action = queue.find(a => a.id === actionId)
+  if (action) {
+    action.status = status
+    action.updatedAt = Date.now()
+    saveQueue()
+  }
 }
 
 /**
@@ -144,6 +250,64 @@ export function removeFromQueue(actionId) {
  */
 export function getQueueCount() {
   return queue.length
+}
+
+/**
+ * Get queue size (alias for getQueueCount)
+ * @returns {number}
+ */
+export function getQueueSize() {
+  return queue.length
+}
+
+/**
+ * Check if queue is empty
+ * @returns {boolean}
+ */
+export function isQueueEmpty() {
+  return queue.length === 0
+}
+
+/**
+ * Get queue statistics
+ * @returns {object} Queue stats
+ */
+export function getQueueStats() {
+  const stats = {
+    total: queue.length,
+    byType: {},
+    byStatus: {},
+    oldestAction: null,
+    newestAction: null,
+  }
+
+  queue.forEach(action => {
+    // Count by type
+    stats.byType[action.type] = (stats.byType[action.type] || 0) + 1
+    // Count by status
+    const status = action.status || 'pending'
+    stats.byStatus[status] = (stats.byStatus[status] || 0) + 1
+  })
+
+  if (queue.length > 0) {
+    const sorted = [...queue].sort((a, b) => a.createdAt - b.createdAt)
+    stats.oldestAction = sorted[0]
+    stats.newestAction = sorted[sorted.length - 1]
+  }
+
+  return stats
+}
+
+/**
+ * Clear entire queue
+ * @returns {number} Number of actions removed
+ */
+export function clearQueue() {
+  const count = queue.length
+  queue = []
+  saveQueue()
+  updateQueueIndicator()
+  return count
 }
 
 /**
@@ -263,6 +427,39 @@ async function processAction(action) {
   const firebase = await import('./firebase.js')
 
   switch (type) {
+    // New lowercase action types (task requirements)
+    case 'create_spot':
+      await firebase.saveSpotToFirebase(data)
+      break
+
+    case 'checkin':
+      await firebase.saveValidationToFirebase(data.spotId, data.userId, data.details)
+      break
+
+    case 'review':
+      await firebase.saveRatingToFirebase(data.spotId, data.rating, data.userId)
+      if (data.comment) {
+        await firebase.saveCommentToFirebase({
+          spotId: data.spotId,
+          userId: data.userId,
+          text: data.comment,
+        })
+      }
+      break
+
+    case 'message':
+      await firebase.sendChatMessage(data.room || data.channel, data.text || data.content)
+      break
+
+    case 'favorite':
+      if (data.action === 'add' || data.add) {
+        await firebase.addFavorite(data.spotId)
+      } else {
+        await firebase.removeFavorite(data.spotId)
+      }
+      break
+
+    // Legacy uppercase action types
     case 'ADD_SPOT':
       await firebase.saveSpotToFirebase(data)
       break
@@ -426,8 +623,9 @@ export function renderQueueStatus() {
  * @param {string} type - Action type
  * @returns {string}
  */
-function getActionLabel(type) {
+export function getActionLabel(type) {
   const labels = {
+    // Legacy uppercase types
     SOS_ALERT: 'alerte SOS',
     CHECKIN: 'check-in',
     ADD_SPOT: 'spot',
@@ -437,8 +635,103 @@ function getActionLabel(type) {
     UPDATE_PROFILE: 'profil',
     FAVORITE: 'favori',
     REPORT: 'signalement',
+    // New lowercase types
+    create_spot: 'creation de spot',
+    checkin: 'check-in',
+    review: 'avis',
+    message: 'message',
+    favorite: 'favori',
   }
-  return labels[type] || type.toLowerCase()
+  return labels[type] || type.toLowerCase().replace(/_/g, ' ')
+}
+
+/**
+ * Get action icon
+ * @param {string} type - Action type
+ * @returns {string}
+ */
+export function getActionIcon(type) {
+  const icons = {
+    create_spot: '📍',
+    checkin: '✅',
+    review: '⭐',
+    message: '💬',
+    favorite: '❤️',
+    ADD_SPOT: '📍',
+    CHECKIN: '✅',
+    ADD_RATING: '⭐',
+    ADD_COMMENT: '💬',
+    SEND_MESSAGE: '💬',
+    UPDATE_PROFILE: '👤',
+    FAVORITE: '❤️',
+    REPORT: '🚨',
+    SOS_ALERT: '🆘',
+  }
+  return icons[type] || '📋'
+}
+
+/**
+ * Get pending actions count by type
+ * @returns {object} Count by type
+ */
+export function getQueueCountByType() {
+  const counts = {}
+  queue.forEach(action => {
+    counts[action.type] = (counts[action.type] || 0) + 1
+  })
+  return counts
+}
+
+/**
+ * Get oldest pending action
+ * @returns {object|null}
+ */
+export function getOldestAction() {
+  if (queue.length === 0) return null
+  return [...queue].sort((a, b) => a.createdAt - b.createdAt)[0]
+}
+
+/**
+ * Get actions older than a certain time
+ * @param {number} maxAgeMs - Maximum age in milliseconds
+ * @returns {Array}
+ */
+export function getStaleActions(maxAgeMs = 24 * 60 * 60 * 1000) {
+  const cutoff = Date.now() - maxAgeMs
+  return queue.filter(action => action.createdAt < cutoff)
+}
+
+/**
+ * Remove stale actions from queue
+ * @param {number} maxAgeMs - Maximum age in milliseconds
+ * @returns {number} Number of actions removed
+ */
+export function removeStaleActions(maxAgeMs = 24 * 60 * 60 * 1000) {
+  const cutoff = Date.now() - maxAgeMs
+  const initialCount = queue.length
+  queue = queue.filter(action => action.createdAt >= cutoff)
+  const removed = initialCount - queue.length
+  if (removed > 0) {
+    saveQueue()
+    updateQueueIndicator()
+  }
+  return removed
+}
+
+/**
+ * Check if currently processing
+ * @returns {boolean}
+ */
+export function isProcessingQueue() {
+  return isProcessing
+}
+
+/**
+ * Check if online
+ * @returns {boolean}
+ */
+export function isOnline() {
+  return typeof navigator !== 'undefined' ? navigator.onLine : true
 }
 
 /**
@@ -453,16 +746,46 @@ export function forceProcessQueue() {
 }
 
 // Expose for global access
-window.forceProcessQueue = forceProcessQueue
+if (typeof window !== 'undefined') {
+  window.forceProcessQueue = forceProcessQueue
+}
 
 export default {
+  // Initialization
   initOfflineQueue,
+  resetOfflineQueue,
+  // Adding to queue
   queueAction,
+  addToQueue,
+  // Removing from queue
   removeFromQueue,
+  clearQueue,
+  removeStaleActions,
+  // Queue getters
   getQueueCount,
+  getQueueSize,
   getQueuedActions,
   getQueuedActionsByType,
+  getQueueCountByType,
+  getQueueStats,
+  isQueueEmpty,
+  // Action getters
+  getActionById,
+  getOldestAction,
+  getStaleActions,
+  // Action helpers
+  isValidAction,
+  getActionLabel,
+  getActionIcon,
+  updateActionStatus,
+  // Processing
   processQueue,
   forceProcessQueue,
+  isProcessingQueue,
+  // Status
+  isOnline,
+  // Rendering
   renderQueueStatus,
+  // Constants
+  VALID_ACTIONS,
 }

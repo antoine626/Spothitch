@@ -126,9 +126,12 @@ export function getLevelFromXP(totalXP) {
   }
 
   // If XP exceeds level 100, calculate beyond
-  let level = MAX_LEVEL
+  // At this point, cumulativeXP contains total XP to complete level 100
+  // So we're now at level 100, checking if we can reach level 101+
+  let level = MAX_LEVEL + 1
   while (true) {
-    const nextLevelXP = Math.floor(BASE_XP * Math.pow(MULTIPLIER, level))
+    // XP needed to complete this level (level - 1 because formula is 0-indexed)
+    const nextLevelXP = Math.floor(BASE_XP * Math.pow(MULTIPLIER, level - 1))
     if (totalXP < cumulativeXP + nextLevelXP) {
       return level
     }

@@ -16,17 +16,21 @@ export function renderMap(state) {
   return `
     <div class="h-full flex flex-col relative" style="height: calc(100vh - 130px);">
       <!-- Search Bar -->
-      <div class="absolute top-2 left-2 right-2 z-20 flex gap-2">
+      <div class="absolute top-2 left-2 right-2 z-30 flex gap-2">
         <div class="flex-1 relative">
           <input
             type="text"
             id="map-search"
             placeholder="Rechercher un lieu..."
             class="w-full pl-10 pr-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
-            onkeydown="if(event.key==='Enter') searchLocation(this.value)"
+            oninput="searchMapSuggestions(this.value)"
+            onkeydown="if(event.key==='Enter') { searchLocation(this.value); hideSearchSuggestions(); }"
+            onfocus="if(this.value.length>=2) searchMapSuggestions(this.value)"
             aria-label="Rechercher un lieu sur la carte"
+            autocomplete="off"
           />
           <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+          <div id="map-search-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
         </div>
         <button
           onclick="openFilters()"
@@ -165,6 +169,68 @@ export function initMainMap(state) {
     `;
   });
 }
+
+// Search suggestions handler with debounce
+let searchDebounce = null
+window.searchMapSuggestions = (query) => {
+  clearTimeout(searchDebounce)
+  const container = document.getElementById('map-search-suggestions')
+  if (!container) return
+  if (!query || query.trim().length < 2) {
+    container.classList.add('hidden')
+    return
+  }
+  searchDebounce = setTimeout(async () => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`,
+        { headers: { 'User-Agent': 'SpotHitch/2.0' } }
+      )
+      const results = await response.json()
+      if (results && results.length > 0) {
+        container.classList.remove('hidden')
+        container.innerHTML = `
+          <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
+            ${results.map(r => `
+              <button
+                onclick="selectSearchSuggestion(${r.lat}, ${r.lon}, '${r.display_name.replace(/'/g, "\\'")}')"
+                class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
+              >
+                <div class="font-medium text-sm truncate">${r.display_name.split(',').slice(0, 2).join(',')}</div>
+                <div class="text-xs text-slate-400 truncate">${r.display_name}</div>
+              </button>
+            `).join('')}
+          </div>
+        `
+      } else {
+        container.classList.add('hidden')
+      }
+    } catch (e) {
+      container.classList.add('hidden')
+    }
+  }, 300)
+}
+
+window.selectSearchSuggestion = (lat, lon, name) => {
+  const input = document.getElementById('map-search')
+  if (input) input.value = name.split(',')[0]
+  hideSearchSuggestions()
+  if (window.mapInstance) {
+    window.mapInstance.setView([parseFloat(lat), parseFloat(lon)], 10)
+  }
+}
+
+window.hideSearchSuggestions = () => {
+  const c = document.getElementById('map-search-suggestions')
+  if (c) c.classList.add('hidden')
+}
+
+// Hide suggestions when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#map-search') && !e.target.closest('#map-search-suggestions')) {
+    window.hideSearchSuggestions?.()
+  }
+})
 
 // Search location handler
 window.searchLocation = async (query) => {

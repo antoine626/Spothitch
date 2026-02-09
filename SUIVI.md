@@ -2,7 +2,136 @@
 
 > **INSTRUCTION** : Si la session Claude est interrompue, dire "lis SUIVI.md et continue"
 >
-> Dernière mise à jour : 2026-02-04 16:50
+> Dernière mise à jour : 2026-02-08 19:00
+
+## ⚠️ AGENTS EN COURS (session interrompue)
+
+**✅ Tous les agents interrompus sont maintenant TERMINÉS :**
+1. ✅ #102 - Points d'intérêt (pointsOfInterest.js) - TERMINÉ (95 tests)
+2. ✅ #118 - Sync auto online (autoSync.js) - TERMINÉ (75 tests)
+3. ✅ #103 - Frontières pays (countryBorders.js) - TERMINÉ (116 tests)
+4. ✅ #107 - File d'attente offline (offlineQueue.js) - TERMINÉ
+5. ✅ #20 - Anti-scraping (antiScraping.js) - TERMINÉ (80 tests)
+
+**Session 2026-02-05 - 39 tâches TERMINÉES (~3500 tests):**
+| # | Tâche | Tests |
+|---|-------|-------|
+| 12 | 2FA (twoFactorAuth.js) | 99 |
+| 13 | Chiffrement (dataEncryption.js) | 90 |
+| 14 | Détection suspects (suspiciousAccountDetection.js) | 91 |
+| 53 | Confirmation destructive (destructiveConfirmation.js) | 120 |
+| 56 | Photo check-in (photoCheckin.js) | 72 |
+| 61 | Mode voyage notifs (travelModeNotifications.js) | 88 |
+| 73 | Horaires recommandés (recommendedHours.js) | 80 |
+| 76 | Types véhicules (vehicleTypes.js) | 69 |
+| 82 | Spot vérifié (spotVerification.js) | 85 |
+| 83 | Spots dangereux (dangerousSpots.js) | 98 |
+| 84 | Spots fermés (closedSpots.js) | 97 |
+| 85 | Corrections spots (spotCorrections.js) | 117 |
+| 86 | Fusion spots (spotMerge.js) | 80 |
+| 87 | Code partage (spotShareCode.js) | 90 |
+| 96 | Carte hors-ligne (offlineMap.js) | 85 |
+| 97 | Recherche route (routeSearch.js) | 90 |
+| 100 | Distance totale (distanceCalculator.js) | 74 |
+| 101 | Temps trajet (travelTimeEstimation.js) | 67 |
+| 111 | Badge notification (notificationBadge.js) | 82 |
+| 145 | Singulier/pluriel (pluralization.js) | 90 |
+| 146 | Traduction auto (autoTranslate.js) | 77 |
+| 157 | Défis amis (friendChallenges.js) | 49 |
+| 160 | Saisons (seasons.js) | 113 |
+| 177 | Titres personnalisés (customTitles.js) | 90 |
+| 185 | Partager spot chat (chatSpotShare.js) | 83 |
+| 186 | Partager position chat (chatPositionShare.js) | 75 |
+| 189 | Profils détaillés (detailedProfiles.js) | 107 |
+| 197 | Suivre quelqu'un (userFollow.js) | 112 |
+| 199 | Partage réseaux sociaux (socialSharing.js) | 90 |
+| 208-217 | Admin modération (adminModeration.js) | 113 |
+| 216 | Rôles modérateurs (moderatorRoles.js) | 110 |
+| 218-222 | Notifications améliorées (enhancedNotifications.js) | 95 |
+| 236 | Sponsors locaux (localSponsors.js) | 108 |
+| 237 | Pubs ciblées (targetedAds.js) | 94 |
+| 272 | FAQ (faqService.js) | 116 |
+| 273 | Centre d'aide (helpCenter.js) | 112 |
+| 274 | Formulaire contact (contactForm.js) | 90 |
+| 276 | Changelog public (publicChangelog.js) | 90 |
+| 277 | Roadmap publique (publicRoadmap.js) | 107 |
+
+**Items 💬 DISCUTÉS et VALIDÉS - MAINTENANT FAITS :**
+- ✅ #12 2FA : seulement inscription + actions sensibles
+- ✅ #13 Chiffrer : localisation, tel, ID (pas pseudo/avatar/spots)
+- ✅ #14 Détection suspects : signaux sans ban auto, badge "Nouveau", modération humaine
+- ✅ #56 Photo : obligatoire création, optionnelle checkin +15pts, garder 10 photos récentes
+- ✅ #61 Notifs spots : désactivé par défaut, toggle "Mode voyage"
+- ✅ #82 Spot vérifié : niveau 15+, 1 vérif/semaine
+- ✅ #97 Recherche direction : multi-destinations + enregistrer voyage
+
+**Items 💬 restants à implémenter :**
+- #22 Events Mixpanel : signup, first_checkin, spot_created, friend_added, level_up, app_opened, sos_activated
+- #27 Session recordings : nouveaux users 7j, 10% sampling, opt-out possible
+- #69-70 Temps attente/file : ⏸️ plus tard
+- #71-72 Directions/distance : ✅ déjà couvert par #89
+- #92-94 Clusters/Filtres/Légende : ✅ déjà fait
+- #165 Double XP : par pays/fêtes nationales (déjà dans temporaryEvents.js)
+- #191 Réputation : score étoiles basé sur spots/signalements/ancienneté/vérif
+
+---
+
+**Session 2026-02-06 - 23 tâches TERMINÉES:**
+| # | Tâche | Tests |
+|---|-------|-------|
+| 46 | Historique recherche (searchHistory.js) | 75 ✅ |
+| 275 | Feedback in-app (inAppFeedback.js) | 148 ✅ |
+| 108 | Background sync (backgroundSync.js) | 96 ✅ |
+| 113 | Mode économie données (dataSaver.js) | 83 ✅ |
+| 116 | Préchargement intelligent (smartPreload.js) | 74 ✅ |
+| 102 | Points d'intérêt (pointsOfInterest.js) | 95 ✅ |
+| 118 | Sync auto retour en ligne (autoSync.js) | 75 ✅ |
+| 36 | Mode gros texte (bigTextMode.js) | 130 ✅ |
+| 39 | Animations réduites (reducedAnimations.js) | 113 ✅ |
+| 58 | Filtres commodités (amenityFilters.js) | 130 ✅ |
+| 48 | Filtres sauvegardés (savedFilters.js) | 150 ✅ |
+| 119 | Share target PWA (shareTarget.js) | 143 ✅ |
+| 126 | Correction contrastes (contrastCorrection.js) | 122 ✅ |
+| 136 | Alternatives texte icônes (iconAccessibility.js) | 112 ✅ |
+| 139 | Formulaires accessibles (accessibleForms.js) | 132 ✅ |
+| 151 | Détection langue spot (languageDetection.js) | 117 ✅ |
+| 159 | Quêtes/Missions (questSystem.js) | 96 ✅ |
+| 224 | Notification ami proche (friendNearby.js) | 110 ✅ |
+| 225 | Rappel streak (streakReminder.js) | 122 ✅ |
+| 238 | Partenariats auberges (hostelPartnership.js) | 123 ✅ |
+| 155 | Interface gamification simplifiée (gamificationUI.js) | 109 ✅ |
+| 283 | Pages statiques SEO (staticSeoPages.js) | 108 ✅ |
+| 284 | URLs propres (cleanUrls.js) | 128 ✅ |
+
+**Total session** : 2495 tests passent, 23 services complets, build réussi.
+
+---
+
+**Session 2026-02-08 - Intégration données Hitchwiki/Hitchmap (ODBL)**
+
+Extraction massive de données réelles depuis Hitchmap (hitchmap.com/dump.sqlite, licence ODBL) :
+
+| Tâche | Détails | Fichiers |
+|-------|---------|----------|
+| Extraction 28,583 spots | SQLite → JSON par pays, 38 pays européens, 12 MB total | `public/data/spots/*.json`, `scripts/extract-spots.mjs` |
+| Chargement dynamique spots | Lazy-load par pays selon les bounds de la carte, MarkerCluster | `src/services/spotLoader.js`, `src/services/map.js` modifié |
+| Guides enrichis 24 pays | FR/DE/ES/IT/NL/BE/PL/CZ/AT/CH/PT/IE/GB + SE/NO/DK/FI/HU/HR/RO/GR/BG/SK/SI/IS | `src/data/guides.js` (1145 lignes) |
+| Tips & sécurité autostop | 4 catégories, 24 conseils FR/EN basés sur Hitchwiki | `src/data/tips.js` |
+| 1,512 aires de service | Stations-service/aires de repos extraites, layer carte toggle | `public/data/service-areas.json`, `src/services/serviceAreas.js` |
+
+**Corrections bugs console :**
+| Bug | Fix |
+|-----|-----|
+| bronze.webp 404 spam | `ChallengesHub.js:204` - ajout `${import.meta.env.BASE_URL}` |
+| firebase-messaging-sw.js 404 | Créé `public/firebase-messaging-sw.js` avec config FCM |
+| Map double initialization | `map.js` - ajout flag `mapInitializing` contre race condition |
+
+**Nouvelles fonctionnalités guides.js :**
+- 24 pays (avant: 12) avec données enrichies Hitchwiki
+- Champs ajoutés : `laws/lawsEn`, `phrases`, `strategies/strategiesEn`, `culturalNotes/culturalNotesEn`, `borderCrossings/borderCrossingsEn`
+- Contenu 100% basé sur Hitchwiki, reformulé, jamais inventé
+
+**Stats : 135 fichiers tests, 10,927 tests passent, build réussi.**
 
 ---
 
@@ -29,17 +158,17 @@
 | 7 | Politique cookies détaillée | ✅ | `Legal.js` onglet Cookies |
 | 8 | Âge minimum (13/16 ans) | ✅ | `AgeVerification.js` - Min 16 ans (RGPD) |
 | 9 | Audit règles Firebase | ❌ | À faire |
-| 10 | Rate limiting (anti-spam) | 💬 | Discuter des limites exactes |
-| 11 | Logs des actions | ❌ | À faire |
-| 12 | Double authentification (2FA) | 💬 | SEULEMENT à l'inscription, pas à chaque connexion |
-| 13 | Chiffrer données sensibles | 💬 | Qui peut décoder ? (Réponse: serveur Firebase + admin) |
-| 14 | Détection comptes suspects | 💬 | TRÈS IMPORTANT - app d'entraide, trouver le bon équilibre |
+| 10 | Rate limiting (anti-spam) | ✅ | `rateLimiting.js` - 80 tests, limites: 20 msg/min, 5 spots/h, 10 checkins/h |
+| 11 | Logs des actions | ✅ | `actionLogs.js` + tests (127) |
+| 12 | Double authentification (2FA) | ✅ | `twoFactorAuth.js` - 99 tests |
+| 13 | Chiffrer données sensibles | ✅ | `dataEncryption.js` - 90 tests |
+| 14 | Détection comptes suspects | ✅ | `suspiciousAccountDetection.js` - 91 tests |
 | 15 | Blocage après X tentatives login | ✅ | `loginProtection.js` - 5 tentatives = 15 min de blocage |
 | 16 | Session timeout | ✅ | `sessionTimeout.js` - 7 jours d'inactivité |
-| 17 | Notification si connexion ailleurs | ❌ | À faire |
-| 18 | Liste des appareils connectés | ❌ | À faire |
+| 17 | Notification si connexion ailleurs | ✅ | `newDeviceNotification.js` - 67 tests |
+| 18 | Liste des appareils connectés | ✅ | `DeviceManager.js` - 48 tests |
 | 19 | Validation email obligatoire | ✅ | `EmailVerification.js` |
-| 20 | Protection contre le scraping | ❌ | Empêcher le vol de spots |
+| 20 | Protection contre le scraping | ✅ | `antiScraping.js` - 80 tests |
 | 21 | Installer Mixpanel | ❌ | À faire |
 | 22 | Définir événements à tracker | 💬 | À discuter ensemble |
 | 23 | Dashboards | ❌ | À faire |
@@ -60,26 +189,26 @@
 | 31 | Tutoriel contextuel | ✅ | `ContextualTip.js` - "très bonne idée le contextuel" |
 | 32 | Empty states humoristiques | ✅ | `EmptyState.js` - "mettre de l'humour" |
 | 33 | Splash screen | ✅ | `SplashScreen.js` - "chargement drôle lié à l'autostop" |
-| 34 | Cacher fonctions avancées au début | ❌ | À faire |
+| 34 | Cacher fonctions avancées au début | ✅ | `featureUnlocking.js` - 59 tests, 6 tiers progressifs |
 | 35 | Réduire à 4 onglets | ❌ | Mettre les défis dans le PROFIL |
-| 36 | Mode gros texte | ❌ | À faire |
+| 36 | Mode gros texte | ✅ | `bigTextMode.js` - 130 tests, échelles 1.0-2.0, détection système |
 | 37 | Mode sombre/clair toggle | 🚫 | Non sélectionné |
-| 38 | Background Sync | ❌ | À faire |
-| 39 | Animations réduites (option) | ❌ | À faire |
+| 38 | Background Sync | ✅ | Couvert par #108 `backgroundSync.js` - 96 tests |
+| 39 | Animations réduites (option) | ✅ | `reducedAnimations.js` - 113 tests, WCAG 2.1 AA, système+user override |
 | 40 | Ordre onglets personnalisable | 🚫 | Non sélectionné |
 | 41 | Raccourcis clavier | 🚫 | Non sélectionné |
 | 42 | Gestes tactiles (swipe) | ✅ | `swipeNavigation.js` - Service modulaire |
 | 43 | Pull to refresh | ✅ | `PullToRefresh.js` |
 | 44 | Infinite scroll | ✅ | `infiniteScroll.js` - Service avec Intersection Observer |
 | 45 | Recherche globale | 🚫 | Non sélectionné |
-| 46 | Historique de recherche | ❌ | À faire |
-| 47 | Suggestions de recherche | ❌ | À faire |
-| 48 | Filtres sauvegardés | ❌ | À faire |
+| 46 | Historique de recherche | ✅ | `searchHistory.js` + tests (75) - Alignement complet |
+| 47 | Suggestions de recherche | ✅ | `searchSuggestions.js` + tests (99) - fuzzyMatch corrigé |
+| 48 | Filtres sauvegardés | ✅ | `savedFilters.js` + tests (150) - Test timing fix |
 | 49 | Vue compacte/étendue | 🚫 | Non sélectionné |
 | 50 | Breadcrumbs | 🚫 | Non sélectionné |
 | 51 | Indicateur chargement global | ✅ | `LoadingIndicator.js` - avec humour |
 | 52 | Messages d'erreur clairs | ✅ | `errorMessages.js` - clairs + humour |
-| 53 | Confirmation avant actions destructives | ❌ | SEULEMENT pour supprimer le compte |
+| 53 | Confirmation avant actions destructives | ✅ | `destructiveConfirmation.js` - 120 tests, timer 5s |
 | 54 | Undo | 🚫 | Non sélectionné |
 | 55 | Feedback sonore | 🚫 | Non sélectionné |
 
@@ -89,13 +218,13 @@
 
 | # | Description | Statut | Notes utilisateur |
 |---|-------------|--------|-------------------|
-| 56 | Photo obligatoire check-in | 💬 | Obligatoire pour CRÉER spot. Pour revalider: optionnel mais +points. Système tournante: supprimer vieilles photos |
+| 56 | Photo obligatoire check-in | ✅ | `photoCheckin.js` - 72 tests, obligatoire création, +15pts checkin, 10 photos max |
 | 57 | Fraîcheur des avis | ✅ | TRÈS IMPORTANT et visible |
-| 58 | Filtres commodités | ❌ | Optionnel mais +POINTS BONUS si rempli |
+| 58 | Filtres commodités | ✅ | `amenityFilters.js` - 130 tests, 8 commodités, +5pts/amenity |
 | 59 | Météo sur spots | 🚫 | Non sélectionné |
 | 60 | Spot du jour | ✅ | `SpotOfTheDay.js` |
-| 61 | Notifications spots proches | 💬 | PAS ENCORE - à discuter (spam si pas en voyage) |
-| 62 | Galerie photos par spot | ❌ | À faire |
+| 61 | Notifications spots proches | ✅ | `travelModeNotifications.js` - 88 tests, désactivé défaut, toggle Mode voyage |
+| 62 | Galerie photos par spot | ✅ | `photoGallery.js` - 69 tests |
 | 63 | Vidéos des spots | 🚫 | Non sélectionné |
 | 64 | Street View intégré | ✅ | `streetView.js` - "très bonne idée" |
 | 65 | Spots favoris | ✅ | `favorites.js` |
@@ -106,21 +235,21 @@
 | 70 | File d'attente (qui attend où) | 💬 | PAS MAINTENANT - à discuter |
 | 71 | Directions vers le spot | 💬 | "Si on clique on peut ouvrir avec Maps, je comprends pas ?" → Déjà fait via #89 |
 | 72 | Distance à pied | 💬 | Même chose, redondant avec #89 |
-| 73 | Horaires recommandés | ❌ | Intégrer dans les STATS DU SPOT |
+| 73 | Horaires recommandés | ✅ | `recommendedHours.js` - 80 tests, intégré STATS DU SPOT |
 | 74 | Jours recommandés | 🚫 | Non sélectionné |
 | 75 | Saisons recommandées | 🚫 | Non sélectionné |
-| 76 | Type de véhicules | ❌ | Intégrer dans les STATS DU SPOT |
+| 76 | Type de véhicules | ✅ | `vehicleTypes.js` - 69 tests, intégré STATS DU SPOT |
 | 77 | Destinations depuis ce spot | ✅ | "TRÈS IMPORTANT" |
 | 78 | Spots alternatifs | ✅ | `alternativeSpots.js` |
-| 79 | Avis détaillés (plusieurs critères) | ❌ | À faire |
-| 80 | Répondre aux avis | ❌ | À faire |
-| 81 | Signaler un avis | ❌ | À faire |
-| 82 | Spot vérifié (badge officiel) | 💬 | Utilisateurs de confiance quand atteint certain NIVEAU |
-| 83 | Spot dangereux (alerte) | ❌ | PROPOSER DE SUPPRIMER ce spot |
-| 84 | Spot fermé/inaccessible | ❌ | À faire |
-| 85 | Proposer une correction | ❌ | À faire |
-| 86 | Fusion de spots en double | ❌ | À faire |
-| 87 | QR code partage spot | ❌ | CODE au lieu de QR code (savoir directement quel spot) |
+| 79 | Avis détaillés (plusieurs critères) | ✅ | `detailedReviews.js` - 4 critères pondérés, 100 tests |
+| 80 | Répondre aux avis | ✅ | `reviewReplies.js` - Fil discussion, badges créateur/auteur, 86 tests |
+| 81 | Signaler un avis | ✅ | `reviewReporting.js` - 7 raisons, file modération, 91 tests |
+| 82 | Spot vérifié (badge officiel) | ✅ | `spotVerification.js` - 85 tests, niveau 15+, 1 vérif/semaine |
+| 83 | Spot dangereux (alerte) | ✅ | `dangerousSpots.js` - 98 tests, 5 raisons, proposition suppression |
+| 84 | Spot fermé/inaccessible | ✅ | `closedSpots.js` - 97 tests, fermetures temp/perm |
+| 85 | Proposer une correction | ✅ | `spotCorrections.js` - 117 tests, vote communautaire |
+| 86 | Fusion de spots en double | ✅ | `spotMerge.js` - 80 tests, détection auto <50m |
+| 87 | QR code partage spot | ✅ | `spotShareCode.js` - 90 tests, format FR-PARIS-A7K2 |
 | 88 | Export GPX | 🚫 | Non sélectionné |
 | 89 | Intégration Google Maps/Waze | ✅ | `navigation.js` - TRÈS IMPORTANT |
 | 90 | Mode nuit carte | 🚫 | Non sélectionné |
@@ -129,14 +258,14 @@
 | 93 | Filtrer sur la carte | 💬 | "C'est ce qu'on a déjà je crois ?" → À vérifier |
 | 94 | Légende de la carte | 💬 | "C'est ce qu'on a déjà je crois ?" → À vérifier |
 | 95 | Couches de carte | 🚫 | Non sélectionné |
-| 96 | Télécharger carte hors-ligne | ❌ | Proposer de télécharger des ZONES avec les spots |
-| 97 | Zoom auto sur résultats | 💬 | + Recherche par DIRECTION (Paris→Lyon = tous spots sur le chemin) + MULTI-DESTINATIONS + enregistrer dans voyages |
+| 96 | Télécharger carte hors-ligne | ✅ | `offlineMap.js` - 85 tests, zones + spots en IndexedDB |
+| 97 | Recherche par direction | ✅ | `routeSearch.js` - 90 tests, multi-destinations, sauvegarde voyages |
 | 98 | Marqueur ma position | 🚫 | Non sélectionné |
 | 99 | Tracer un itinéraire | 🚫 | Non sélectionné |
-| 100 | Calcul distance total | ❌ | À faire |
-| 101 | Estimation temps trajet | ❌ | À faire |
-| 102 | Points d'intérêt | ❌ | À faire |
-| 103 | Frontières pays visibles | ❌ | À faire |
+| 100 | Calcul distance total | ✅ | `distanceCalculator.js` - 74 tests, km/miles, stats |
+| 101 | Estimation temps trajet | ✅ | `travelTimeEstimation.js` - 67 tests, fourchette optimiste/pessimiste |
+| 102 | Points d'intérêt | ✅ | `pointsOfInterest.js` - 95 tests |
+| 103 | Frontières pays visibles | ✅ | `countryBorders.js` - 116 tests |
 | 104 | Mini-carte | 🚫 | Non sélectionné |
 | 105 | Plein écran carte | 🚫 | Non sélectionné |
 
@@ -147,20 +276,20 @@
 | # | Description | Statut | Notes utilisateur |
 |---|-------------|--------|-------------------|
 | 106 | GPS à la demande | 🚫 | Non sélectionné |
-| 107 | File d'attente offline | ❌ | À faire |
-| 108 | Background sync | ❌ | À faire |
+| 107 | File d'attente offline | ✅ | `offlineQueue.js` |
+| 108 | Background sync | ✅ | `backgroundSync.js` - 96 tests, Intersection Observer API, retry exponential, handlers |
 | 109 | Widget écran accueil | 🚫 | Non sélectionné |
 | 110 | Raccourcis app (3D touch) | 🚫 | Non sélectionné |
-| 111 | Badge notification (nombre) | ❌ | À faire |
+| 111 | Badge notification (nombre) | ✅ | `notificationBadge.js` - 82 tests, PWA + favicon fallback |
 | 112 | Vibration feedback | 🚫 | Non sélectionné |
-| 113 | Mode économie données | ❌ | À faire |
+| 113 | Mode économie données | ✅ | `dataSaver.js` - 83 tests |
 | 114 | Mode économie batterie | 🚫 | Non sélectionné |
-| 115 | Compression images upload | ❌ | À faire |
-| 116 | Préchargement intelligent | ❌ | À faire |
-| 117 | Indicateur hors-ligne | ❌ | À faire |
-| 118 | Sync auto retour en ligne | ❌ | À faire |
-| 119 | Share target | ❌ | À faire |
-| 120 | Partage natif (Web Share) | ❌ | À faire |
+| 115 | Compression images upload | ✅ | `imageCompression.js` - 100 tests |
+| 116 | Préchargement intelligent | ✅ | `smartPreload.js` - 74 tests |
+| 117 | Indicateur hors-ligne | ✅ | `offlineIndicator.js` - 71 tests |
+| 118 | Sync auto retour en ligne | ✅ | `autoSync.js` - 75 tests |
+| 119 | Share target | ✅ | `shareTarget.js` - 143 tests, PWA Share Target API, texte/URL/images, coordonnées |
+| 120 | Partage natif (Web Share) | ✅ | `webShare.js` - 65 tests |
 | 121 | Copier presse-papier | 🚫 | Non sélectionné |
 | 122 | Capture d'écran facile | 🚫 | Non sélectionné |
 | 123 | Mode picture-in-picture | 🚫 | Non sélectionné |
@@ -173,7 +302,7 @@
 
 | # | Description | Statut | Notes utilisateur |
 |---|-------------|--------|-------------------|
-| 126 | Corriger contrastes | ❌ | À faire |
+| 126 | Corriger contrastes | ✅ | 122 tests ✅ |
 | 127 | Boutons 48x48 | 🚫 | Non sélectionné |
 | 128 | Mode gros texte | 🚫 | Non sélectionné |
 | 129 | Vue liste alternative | 🚫 | Non sélectionné |
@@ -183,10 +312,10 @@
 | 133 | Mode daltonien | 🚫 | Non sélectionné |
 | 134 | Réduire animations | 🚫 | Non sélectionné |
 | 135 | Lecteur d'écran | 🚫 | Non sélectionné |
-| 136 | Alternatives texte icônes | ❌ | À faire |
+| 136 | Alternatives texte icônes | ✅ | iconAccessibility.js - 112 tests |
 | 137 | Focus visible amélioré | 🚫 | Non sélectionné |
 | 138 | Skip links | 🚫 | Non sélectionné |
-| 139 | Formulaires accessibles | ❌ | "Je comprends pas" → C'est pour lecteurs d'écran (aveugles), code invisible mais utile |
+| 139 | Formulaires accessibles | ✅ 132 | WCAG 2.1 AA compliant - labels, ARIA, live regions, error handling (FR/EN/ES/DE) |
 | 140 | Tests utilisateurs handicapés | 🚫 | Non sélectionné |
 
 ---
@@ -199,13 +328,13 @@
 | 142 | Italien | 🚫 | Non sélectionné |
 | 143 | Portugais | 🚫 | Non sélectionné |
 | 144 | Dates locales | 🚫 | Non sélectionné |
-| 145 | Singulier/pluriel | ❌ | À faire |
-| 146 | Bouton traduire | ❌ | Traduction AUTOMATIQUE + possibilité voir ORIGINAL |
+| 145 | Singulier/pluriel | ✅ | `pluralization.js` - 90 tests, FR/EN/ES/DE |
+| 146 | Bouton traduire | ✅ | `autoTranslate.js` - 77 tests, traduction + voir original |
 | 147 | Polonais | 🚫 | Non sélectionné |
 | 148 | Néerlandais | 🚫 | Non sélectionné |
 | 149 | Tchèque | 🚫 | Non sélectionné |
 | 150 | Suédois | 🚫 | Non sélectionné |
-| 151 | Détection auto langue spot | ❌ | À faire |
+| 151 | Détection auto langue spot | ✅ | `languageDetection.js` - 117 tests, FR/EN/ES/DE |
 | 152 | Devises locales | 🚫 | Non sélectionné |
 
 ---
@@ -216,29 +345,29 @@
 |---|-------------|--------|-------------------|
 | 153 | Classement hebdomadaire | ✅ | `WeeklyLeaderboard.js` |
 | 154 | Titres narratifs | ✅ | `titles.js` |
-| 155 | Simplifier interface | ❌ | À faire |
+| 155 | Simplifier interface | ✅ | `gamificationUI.js` - 109 tests, 4 niveaux (BEGINNER/INTERMEDIATE/ADVANCED/EXPERT), déverrouillage progressif, custom visibility |
 | 156 | Récompense quotidienne | ✅ | `DailyReward.js` |
-| 157 | Défis entre amis | ❌ | À faire |
-| 158 | Progression exponentielle | ❌ | TRÈS IMPORTANT |
-| 159 | Quêtes/Missions | ⏳ | "J'adore l'idée" - partiellement fait |
-| 160 | Saisons (reset périodique) | ❌ | MAIS garder les récompenses/skins |
+| 157 | Défis entre amis | ✅ | `friendChallenges.js` - 49 tests, 7 types de défis |
+| 158 | Progression exponentielle | ✅ | `exponentialProgression.js` - 83 tests |
+| 159 | Quêtes/Missions | ✅ | `questSystem.js` - 96 tests, 4 types (daily/weekly/special/achievement), 10 définitions |
+| 160 | Saisons (reset périodique) | ✅ | `seasons.js` - 113 tests, garde les cosmétiques |
 | 161 | Battle pass | 🚫 | Non sélectionné |
-| 162 | Guildes/Clans | ❌ | À faire |
+| 162 | Guildes/Clans | ✅ | `guilds.js` - 136 tests, rôles Leader/Officer/Member |
 | 163 | Guerres de guildes | 🚫 | Non sélectionné |
-| 164 | Événements temporaires | ❌ | À faire |
+| 164 | Événements temporaires | ✅ | `temporaryEvents.js` - 61 tests, 4 types d'événements |
 | 165 | Double XP weekend | 💬 | PAS les weekends, mais événements par PAYS (fêtes nationales, festivals) |
 | 166 | Streak protection | 🚫 | Non sélectionné |
-| 167 | Récompenses anniversaire | ❌ | À faire |
+| 167 | Récompenses anniversaire | ✅ | `anniversaryRewards.js` - 72 tests, 6 paliers |
 | 168 | Badges secrets | ✅ | `secretBadges.js` - "J'adore" |
-| 169 | Achievements géographiques | ❌ | À faire |
+| 169 | Achievements géographiques | ✅ | `geographicAchievements.js` - 69 tests, 30+ achievements |
 | 170 | Collection de pays | ✅ | `europeanCountries.js` |
 | 171 | Carte personnelle à remplir | 🚫 | Non sélectionné |
 | 172 | Statistiques de voyage | ✅ | `statsCalculator.js` |
-| 173 | Comparaison avec amis | ❌ | À faire |
+| 173 | Comparaison avec amis | ✅ | `friendComparison.js` - 64 tests, classement et stats |
 | 174 | Profil public personnalisable | 🚫 | Non sélectionné |
-| 175 | Cadres de profil | ❌ | À faire |
+| 175 | Cadres de profil | ✅ | `profileFrames.js` - 60 tests, 15 cadres, 5 raretés |
 | 176 | Emojis/stickers exclusifs | 🚫 | Non sélectionné |
-| 177 | Titres personnalisés | ❌ | À faire |
+| 177 | Titres personnalisés | ✅ | `customTitles.js` - 90 tests, 35+ titres, 5 raretés |
 
 ---
 
@@ -246,31 +375,31 @@
 
 | # | Description | Statut | Notes utilisateur |
 |---|-------------|--------|-------------------|
-| 178 | Chat temps réel | ❌ | À faire |
-| 179 | Messages privés | ❌ | À faire |
-| 180 | Notifications temps réel | ❌ | + possibilité SOURDINE chaque conversation indépendamment |
-| 181 | Statut en ligne/hors ligne | ❌ | À faire |
+| 178 | Chat temps réel | ✅ | `realtimeChat.js` - 116 tests, rooms, typing, online |
+| 179 | Messages privés | ✅ | `privateMessages.js` - 113 tests, conversations, unread |
+| 180 | Notifications temps réel | ✅ | Sourdine dans `privateMessages.js` (muteConversation) |
+| 181 | Statut en ligne/hors ligne | ✅ | Dans `realtimeChat.js` (setUserOnline, getOnlineUsers) |
 | 182 | "Vu" sur messages | 🚫 | Non sélectionné |
-| 183 | Réactions messages (emoji) | ❌ | À faire |
-| 184 | Répondre à un message | ❌ | À faire |
-| 185 | Partager spot dans chat | ❌ | À faire |
-| 186 | Partager position dans chat | ❌ | À faire |
-| 187 | Groupes de voyage | ❌ | À faire |
-| 188 | Recherche de compagnons | ❌ | À faire |
-| 189 | Profils détaillés | ❌ | À faire |
-| 190 | Vérification d'identité | ❌ | TRÈS IMPORTANT - jusqu'à CARTE D'IDENTITÉ/PASSEPORT + expliquer l'utilité |
-| 191 | Système de réputation | 💬 | À discuter |
+| 183 | Réactions messages (emoji) | ✅ | `messageReactions.js` - 6 emojis (👍❤️😂😮😢🔥), 68 tests |
+| 184 | Répondre à un message | ✅ | `messageReplies.js` - Quote/reply, fil discussion, 80 tests |
+| 185 | Partager spot dans chat | ✅ | `chatSpotShare.js` - 83 tests, cartes riches |
+| 186 | Partager position dans chat | ✅ | `chatPositionShare.js` - 75 tests, expiration 1h |
+| 187 | Groupes de voyage | ✅ | `travelGroups.js` - 71 tests, creation, invitation, itineraire |
+| 188 | Recherche de compagnons | ✅ | `companionSearch.js` - 77 tests, filtres, matching |
+| 189 | Profils détaillés | ✅ | `detailedProfiles.js` - 107 tests, bio, langues, pays |
+| 190 | Vérification d'identité | ✅ | `IdentityVerification.js` - 70 tests, 4 niveaux |
+| 191 | Système de réputation | ✅ | `reputationSystem.js` - 76 tests, score étoiles basé sur spots/ratings/ancienneté |
 | 192 | Avis sur utilisateurs | 🚫 | Non sélectionné |
-| 193 | Bloquer un utilisateur | ❌ | À faire |
-| 194 | Signaler un utilisateur | ❌ | À faire |
-| 195 | Liste d'amis | ❌ | À faire |
-| 196 | Suggestions d'amis | ❌ | À faire |
-| 197 | Suivre quelqu'un | ❌ | SEULEMENT si la personne choisit profil PUBLIC |
+| 193 | Bloquer un utilisateur | ✅ | `userBlocking.js` - 79 tests |
+| 194 | Signaler un utilisateur | ✅ | `userReporting.js` - 85 tests, 7 raisons |
+| 195 | Liste d'amis | ✅ | `friendsList.js` - 100 tests |
+| 196 | Suggestions d'amis | ✅ | `friendSuggestions.js` - 65 tests, scoring algorithm |
+| 197 | Suivre quelqu'un | ✅ | `userFollow.js` - 112 tests, profils PUBLIC uniquement |
 | 198 | Feed activité amis | 🚫 | Non sélectionné |
-| 199 | Partager sur réseaux sociaux | ❌ | À faire |
-| 200 | Inviter des amis | ❌ | À faire |
-| 201 | Parrainage avec récompense | ❌ | À faire |
-| 202 | Forum/Discussions | ❌ | À faire |
+| 199 | Partager sur réseaux sociaux | ✅ | `socialSharing.js` - 90 tests, FB/Twitter/WhatsApp/Telegram |
+| 200 | Inviter des amis | ✅ | `inviteFriends.js` - 70 tests, codes et rewards |
+| 201 | Parrainage avec récompense | ✅ | `referralProgram.js` - 96 tests, 5 levels, milestones, rewards |
+| 202 | Forum/Discussions | ✅ | 70 tests |
 
 ---
 
@@ -278,21 +407,21 @@
 
 | # | Description | Statut | Notes utilisateur |
 |---|-------------|--------|-------------------|
-| 203 | Dashboard admin | ❌ | À faire |
-| 204 | File de modération | ❌ | À faire |
-| 205 | Bannir utilisateur | ❌ | À faire |
-| 206 | Bannir temporairement | ❌ | À faire |
-| 207 | Avertissements | ❌ | À faire |
-| 208 | Historique sanctions | ❌ | À faire |
-| 209 | Modération spots | ❌ | À faire |
-| 210 | Modération photos | ❌ | À faire |
-| 211 | Modération chat | ❌ | À faire |
-| 212 | Filtre anti-spam auto | ❌ | À faire |
-| 213 | Filtre mots interdits | ❌ | À faire |
-| 214 | Détection contenu inapproprié (IA) | ❌ | TRÈS TRÈS IMPORTANT |
-| 215 | Statistiques modération | ❌ | À faire |
-| 216 | Rôles de modérateurs | ❌ | À faire |
-| 217 | Logs de modération | ❌ | À faire |
+| 203 | Dashboard admin | ✅ | `adminModeration.js` - getAdminDashboardStats |
+| 204 | File de modération | ✅ | `adminModeration.js` - getModerationQueue |
+| 205 | Bannir utilisateur | ✅ | `adminModeration.js` - banUserPermanent |
+| 206 | Bannir temporairement | ✅ | `adminModeration.js` - banUserTemporary |
+| 207 | Avertissements | ✅ | `adminModeration.js` - warnUser |
+| 208 | Historique sanctions | ✅ | `adminModeration.js` - 113 tests (ensemble 208-217) |
+| 209 | Modération spots | ✅ | `adminModeration.js` - moderateSpot() |
+| 210 | Modération photos | ✅ | `adminModeration.js` - moderatePhoto() |
+| 211 | Modération chat | ✅ | `adminModeration.js` - moderateChatMessage() |
+| 212 | Filtre anti-spam auto | ✅ | `adminModeration.js` - checkForSpam() |
+| 213 | Filtre mots interdits | ✅ | `adminModeration.js` - getForbiddenWords() |
+| 214 | Détection contenu inapproprié (IA) | ✅ 68 | `aiContentDetection.js` - FR/EN/ES/DE, 8 categories, toxicity scoring |
+| 215 | Statistiques modération | ✅ | `adminModeration.js` - getSpamStats() |
+| 216 | Rôles de modérateurs | ✅ | `moderatorRoles.js` - 110 tests, 5 rôles, 15 permissions |
+| 217 | Logs de modération | ✅ | `adminModeration.js` - getModerationLogs() |
 
 ---
 
@@ -300,16 +429,16 @@
 
 | # | Description | Statut | Notes utilisateur |
 |---|-------------|--------|-------------------|
-| 218 | Push notifications améliorées | ❌ | À faire |
-| 219 | Notification nouvel ami | ❌ | À faire |
-| 220 | Notification nouveau message | ❌ | À faire |
-| 221 | Notification badge débloqué | ❌ | À faire |
-| 222 | Notification level up | ❌ | À faire |
+| 218 | Push notifications améliorées | ✅ | `enhancedNotifications.js` - 95 tests (ensemble 218-222) |
+| 219 | Notification nouvel ami | ✅ | `enhancedNotifications.js` - notifyNewFriendEnhanced() |
+| 220 | Notification nouveau message | ✅ | `enhancedNotifications.js` - notifyNewMessageEnhanced() |
+| 221 | Notification badge débloqué | ✅ | `enhancedNotifications.js` - notifyBadgeUnlockedEnhanced() |
+| 222 | Notification level up | ✅ | `enhancedNotifications.js` - notifyLevelUpEnhanced() |
 | 223 | Notification spot proche | 🚫 | Non sélectionné |
-| 224 | Notification ami proche | ❌ | À faire |
-| 225 | Rappel streak | ❌ | À faire |
+| 224 | Notification ami proche | ✅ | `friendNearby.js` - 110 tests |
+| 225 | Rappel streak | ✅ | `streakReminder.js` - 122 tests |
 | 226 | Digest quotidien | 🚫 | Non sélectionné |
-| 227 | Préférences notifications | ❌ | À faire |
+| 227 | Préférences notifications | ✅ | `notificationPreferences.js` - 123 tests, 10 types, i18n FR/EN/ES/DE |
 | 228 | Heures de silence | 🚫 | Non sélectionné |
 | 229 | Notifications email | 🚫 | Non sélectionné |
 
@@ -325,10 +454,10 @@
 | 233 | Achat unique | 🚫 | Non sélectionné |
 | 234 | Monnaie virtuelle | 🚫 | Non sélectionné |
 | 235 | Boutique cosmétiques | 🚫 | Non sélectionné |
-| 236 | Sponsors locaux | ❌ | Partenariats = pub DANS LA DESCRIPTION du spot (ex: "Il y a un McDo") |
-| 237 | Publicités non intrusives | ❌ | Ciblées sur le VOYAGE |
-| 238 | Partenariats (auberges) | ❌ | À faire |
-| 239 | Affiliation | ❌ | À faire |
+| 236 | Sponsors locaux | ✅ | `localSponsors.js` - 108 tests, 6 catégories, codes promo |
+| 237 | Publicités non intrusives | ✅ | `targetedAds.js` - 94 tests, ciblées voyage, GDPR |
+| 238 | Partenariats (auberges) | ✅ | `hostelPartnership.js` - 123 tests, 8 auberges, codes promo uniques 30j |
+| 239 | Affiliation | ✅ | `affiliationProgram.js` - 74 tests, 15 partenaires, 6 catégories |
 | 240 | Données anonymisées | ❌ | SI C'EST LÉGAL |
 | 241 | Merchandising | ⏸️ | PAS ENCORE MAINTENANT |
 
@@ -338,7 +467,7 @@
 
 | # | Description | Statut | Notes utilisateur |
 |---|-------------|--------|-------------------|
-| 242 | Tests d'intégration | ❌ | ABSOLUMENT |
+| 242 | Tests d'intégration | ✅ | `integration.test.js` - 51 tests, 7 workflows, 22 services |
 | 243 | Lighthouse CI | ❌ | À faire |
 | 244 | Tests visuels | ❌ | À faire |
 | 245 | Tests de charge | ❌ | À faire |
@@ -349,9 +478,9 @@
 | 250 | Monitoring production | ❌ | À faire |
 | 251 | Alertes si erreurs | ❌ | À faire |
 | 252 | Rollback automatique | ❌ | À faire |
-| 253 | Feature flags | ❌ | À faire |
+| 253 | Feature flags | ✅ | `featureFlags.js` - 70 tests, rollout %, allowed users, expiration |
 | 254 | TypeScript | ❌ | À faire |
-| 255 | Système d'événements | ❌ | À faire |
+| 255 | Système d'événements | ✅ | `eventBus.js` - 69 tests, 52 event types, wildcard, namespaces |
 | 256 | Découper state.js | ❌ | À faire |
 | 257 | Documentation du code | ❌ | À faire |
 | 258 | API documentée | ❌ | À faire |
@@ -375,21 +504,21 @@
 | 269 | Page d'accueil (landing) | ✅ | Handlers globaux ajoutés pour FAQ, Help, Changelog, Roadmap, Contact |
 | 270 | Blog | 🚫 | Non sélectionné |
 | 271 | Guides de voyage | 🚫 | Non sélectionné |
-| 272 | FAQ | ❌ | À faire dans le GUIDE |
-| 273 | Centre d'aide | ❌ | À faire |
-| 274 | Formulaire de contact | ❌ | À faire |
-| 275 | Feedback in-app | ❌ | À faire |
-| 276 | Changelog public | ❌ | À faire |
-| 277 | Roadmap publique | ❌ | À faire |
+| 272 | FAQ | ✅ | `faqService.js` - 116 tests, 6 catégories, 36 Q/R |
+| 273 | Centre d'aide | ✅ | `helpCenter.js` - 112 tests, 26 articles |
+| 274 | Formulaire de contact | ✅ | `contactForm.js` - 90 tests, anti-spam |
+| 275 | Feedback in-app | ✅ | `inAppFeedback.js` - 148 tests, 8 types feedback, rate limiting |
+| 276 | Changelog public | ✅ | `publicChangelog.js` - 90 tests, badge Nouveau |
+| 277 | Roadmap publique | ✅ | `publicRoadmap.js` - 107 tests, votes communautaires |
 | 278 | Newsletter | 🚫 | Non sélectionné |
-| 279 | Meta tags optimisés | ❌ | À faire |
-| 280 | Open Graph | ❌ | À faire |
-| 281 | Sitemap | ❌ | À faire |
-| 282 | Schema.org | ❌ | À faire |
-| 283 | Pages statiques SEO | ❌ | À faire |
-| 284 | URLs propres | ❌ | À faire |
-| 285 | Performance Core Web Vitals | ❌ | À faire |
-| 286 | Images optimisées | ❌ | À faire |
+| 279 | Meta tags optimisés | ✅ | `seo.js` - updateMetaTags, setHreflangTags, 111 tests |
+| 280 | Open Graph | ✅ | `seo.js` + index.html - OG + Twitter Cards complets |
+| 281 | Sitemap | ✅ | `seo.js` - generateSitemapXML dynamique |
+| 282 | Schema.org | ✅ | `seo.js` + index.html - Organization, WebApp, Place, FAQ schemas |
+| 283 | Pages statiques SEO | ✅ | `staticSeoPages.js` - 108 tests, pages about/faq/country/city/spot, breadcrumbs, alternates |
+| 284 | URLs propres | ✅ | Fait - 128 tests |
+| 285 | Performance Core Web Vitals | ✅ | `coreWebVitals.js` - 97 tests, LCP/FID/CLS/FCP/TTFB/INP |
+| 286 | Images optimisées | ✅ | `imageOptimizer.js` + `imageCompression.js` - 100 tests, WebP, thumbnails |
 
 ---
 
@@ -397,26 +526,68 @@
 
 | Catégorie | ✅ Fait | ❌ À faire | 💬 À discuter | 🚫 Non sélectionné |
 |-----------|---------|-----------|---------------|-------------------|
-| RGPD/Sécurité (1-30) | 6 | 19 | 5 | 0 |
-| UX (31-55) | 7 | 8 | 0 | 10 |
+| RGPD/Sécurité (1-30) | 8 | 17 | 5 | 0 |
+| UX (31-55) | 8 | 7 | 0 | 10 |
 | Spots (56-105) | 12 | 18 | 10 | 10 |
-| PWA (106-125) | 0 | 13 | 0 | 7 |
-| Accessibilité (126-140) | 0 | 3 | 0 | 12 |
+| PWA (106-125) | 2 | 11 | 0 | 7 |
+| Accessibilité (126-140) | 1 | 3 | 0 | 11 |
 | Langues (141-152) | 1 | 3 | 0 | 8 |
-| Gamification (153-177) | 7 | 10 | 1 | 7 |
-| Social (178-202) | 0 | 18 | 1 | 6 |
+| Gamification (153-177) | 14 | 3 | 1 | 7 |
+| Social (178-202) | 9 | 9 | 1 | 6 |
 | Admin (203-217) | 0 | 15 | 0 | 0 |
 | Notifications (218-229) | 0 | 8 | 0 | 4 |
 | Monétisation (230-241) | 1 | 5 | 0 | 5 |
 | Tests/Dev (242-268) | 0 | 27 | 0 | 0 |
-| Marketing (269-286) | 0 | 13 | 0 | 5 |
-| **TOTAL** | **34** | **160** | **17** | **74** |
+| Marketing (269-286) | 7 | 6 | 0 | 5 |
+| **TOTAL** | **63** | **131** | **17** | **74** |
 
 ---
 
 ## PROCHAINES ÉTAPES
 
 À continuer lors de la prochaine session...
+
+---
+
+## Session 11 - 2026-02-05 (Session massive multi-agents)
+
+**Résumé** : Session intensive avec 7 agents en parallèle pour accélérer le développement. 19 tâches complétées avec 1400+ tests ajoutés.
+
+**Tâches complétées** :
+
+| # | Tâche | Service/Composant | Tests |
+|---|-------|-------------------|-------|
+| 17 | Notification connexion ailleurs | `newDeviceNotification.js` | 67 |
+| 18 | Liste appareils connectés | `DeviceManager.js` | 48 |
+| 34 | Cacher fonctions avancées | `featureUnlocking.js` | 59 |
+| 115 | Compression images upload | `imageCompression.js` | 100 |
+| 120 | Partage natif (Web Share) | `webShare.js` | 65 |
+| 158 | Progression exponentielle | `exponentialProgression.js` | 83 |
+| 162 | Guildes/Clans | `guilds.js` | 136 |
+| 164 | Événements temporaires | `temporaryEvents.js` | 61 |
+| 167 | Récompenses anniversaire | `anniversaryRewards.js` | 72 |
+| 169 | Achievements géographiques | `geographicAchievements.js` | 69 |
+| 173 | Comparaison avec amis | `friendComparison.js` | 64 |
+| 175 | Cadres de profil | `profileFrames.js` | 60 |
+| 190 | Vérification d'identité | `IdentityVerification.js` | 70 |
+| 193 | Bloquer utilisateur | `userBlocking.js` | 79 |
+| 194 | Signaler utilisateur | `userReporting.js` | 85 |
+| 195 | Liste d'amis | `friendsList.js` | 100 |
+| 196 | Suggestions d'amis | `friendSuggestions.js` | 65 |
+| 200 | Inviter des amis | `inviteFriends.js` | 70 |
+| 153 | Classement hebdomadaire (tests) | `weeklyLeaderboard.test.js` | 56 |
+
+**Statistiques session** :
+- Tâches complétées : 19
+- Tests ajoutés : ~1400
+- Total tests projet : 2219 (tous passent)
+- Build : SUCCESS
+
+**Progression globale** :
+- Avant session : 34/212 (16%)
+- Après session : 53/212 (25%)
+- Gain : +19 tâches (+9%)
+- Note : 74 tâches 🚫 non sélectionnées exclues du calcul
 
 ---
 
@@ -799,5 +970,107 @@ import { initInfiniteScroll, setHasMore } from 'src/services/infiniteScroll.js'
 - Les handlers manquants pour les liens footer ont été implémentés
 - Tous les handlers utilisent `showToast()` pour le feedback utilisateur
 - Compatible avec navigation PWA existante
+
+---
+
+## Session 15 - 2026-02-06 (Service Forum #202)
+
+**Résumé** : Validation et tests complets du service Forum/Discussions avec 5 catégories, gestion des sujets/réponses, modération, likes, reports, et recherche.
+
+**Actions réalisées** :
+
+1. **Service forumService.js validé** (2044 lignes)
+   - **5 catégories** : general, tips, routes, meetups, help
+   - **3 status topics** : open, locked, pinned, deleted
+   - **4 status posts** : active, edited, deleted, reported
+   - **5 raisons report** : spam, inappropriate, harassment, misinformation, other
+   - Fonctions principales :
+     - `getForumCategories()` - Liste des catégories avec stats
+     - `getCategory(id)` - Récupère une catégorie
+     - `getCategoryTopics(categoryId, page, perPage)` - Topics paginés avec tri pinned first
+     - `getTopic(topicId)` - Sujet avec replies, likes, subscription status
+     - `createTopic(categoryId, title, content)` - Création sujet (titre min 3, content min 10)
+     - `replyToTopic(topicId, content)` - Réponse à sujet (content min 3)
+     - `editPost(postId, content)` - Édition post (author/moderator only)
+     - `deletePost(postId)` / `deleteTopic(topicId)` - Soft delete
+     - `pinTopic()` / `unpinTopic()` - Épingler (moderator only)
+     - `lockTopic()` / `unlockTopic()` - Verrouiller (no replies)
+     - `likeTopic()` / `likePost()` - Système like/unlike
+     - `reportPost(postId, reason, details)` - Signalement avec raison
+     - `searchForum(query, options)` - Recherche topics + posts
+     - `getPopularTopics(limit)` - Tri par score (likes * 2 + replies + views * 0.1)
+     - `getRecentTopics(limit)` - Tri par date création
+     - `getUserPosts(userId)` / `getUserTopics(userId)` - Posts/topics d'un user
+     - `subscribeToTopic()` / `unsubscribeFromTopic()` - Notifications
+     - `getSubscribedTopics()` - Liste topics suivis
+     - `getForumStats()` - Statistiques forum (topics, posts, authors, likes, reports)
+   - Fonctions rendering :
+     - `renderForumCategory(category)` - Card catégorie avec emoji, stats, last activity
+     - `renderTopicList(topics)` - Liste sujets avec badges pinned/locked
+     - `renderTopicDetail(topic)` - Sujet complet avec replies, boutons actions
+     - `renderPostEditor(options)` - Formulaire création/édition topic
+   - Helpers :
+     - `escapeHTML()` - Protection XSS
+     - `formatDate()` / `formatRelativeTime()` - Formatage dates
+     - `getCurrentUser()` - Info utilisateur courant
+     - `getLocalizedText()` - Traductions i18n FR/EN/ES/DE
+     - `incrementTopicViewCount()` - Compteur vues
+     - `clearForumData()` - Reset complet (testing)
+   - Storage : localStorage avec clé `spothitch_forum`
+   - Structure data : topics, posts, subscriptions, reports, likes (topics + posts)
+   - Autorisation : author, moderator, admin checks pour edit/delete/moderation
+   - Validation : length checks, status checks, duplicate report check
+   - 15 handlers globaux window pour UI interactions
+
+2. **Tests forumService.test.js créés** (1710 lignes)
+   - **70 tests passent (100%)**
+   - Suites de tests :
+     - Constants (4 tests) - ForumCategories, TopicStatus, PostStatus, ReportReasons
+     - Category Functions (5 tests) - getForumCategories, getCategory, stats
+     - Topic Functions (15 tests) - getCategoryTopics, getTopic, createTopic, deleteTopic, pagination, sorting
+     - Post Functions (8 tests) - replyToTopic, editPost, deletePost, validation
+     - Moderation Functions (5 tests) - pinTopic, unpinTopic, lockTopic, unlockTopic, authorization
+     - Like Functions (5 tests) - likeTopic, likePost, unlike, deleted items
+     - Report Function (3 tests) - reportPost, invalid reason, already reported
+     - Search Function (4 tests) - searchForum, filter by category, limit results
+     - Popular & Recent Functions (3 tests) - getPopularTopics, getRecentTopics, limit
+     - User Functions (3 tests) - getUserPosts, getUserTopics, invalid user
+     - Subscription Functions (5 tests) - subscribe, unsubscribe, getSubscribedTopics, already subscribed
+     - Statistics Functions (1 test) - getForumStats
+     - Render Functions (5 tests) - renderForumCategory, renderTopicList, renderTopicDetail, renderPostEditor, empty state
+     - Utility Functions (3 tests) - clearForumData, incrementTopicViewCount
+     - Global Handlers (1 test) - window handlers
+     - Integration Tests (3 tests) - complete workflows
+
+3. **Corrections apportées**
+   - Ajustement des mocks Storage pour deep copy (JSON.parse/JSON.stringify)
+   - Fix tests pour simuler workflow complet (like puis unlike, subscribe puis unsubscribe)
+   - Fix test report pour tester double report
+   - Fix test subscriptions pour tester getSubscribedTopics après ajout
+
+**Statistiques** :
+- Service : 2044 lignes (existait déjà)
+- Tests : 1710 lignes (créés)
+- 70 tests passent (100%)
+- Build : SUCCESS (48s)
+- Total tests projet : 2289 tests
+
+**Fichiers créés** :
+- `tests/forumService.test.js`
+
+**Fichiers modifiés** :
+- `SUIVI.md` - Item #202 marqué ✅ avec 70 tests
+
+**Notes importantes** :
+- Service complet production-ready avec modération intégrée
+- Support i18n complet FR/EN/ES/DE
+- Système like/unlike avec toggle
+- Soft delete pour topics et posts
+- Pagination et tri intelligent (pinned first)
+- Protection XSS avec escapeHTML
+- Validation stricte des permissions (author/moderator/admin)
+- Search avec filtre par catégorie et limite résultats
+- Popular topics calculé par score (likes * 2 + replies + views * 0.1)
+- UI rendering complète avec HTML helpers
 
 ---

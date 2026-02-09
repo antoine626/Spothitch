@@ -299,7 +299,7 @@ function showAgeError(message) {
  * Initialize age verification modal
  * Set max date to today
  */
-window.initAgeVerification = () => {
+export function initAgeVerification() {
   const birthDateInput = document.getElementById('birth-date');
   if (birthDateInput) {
     // Set max date to today
@@ -333,5 +333,6 @@ export default {
   renderAgeVerification,
   validateBirthDate,
   calculateAge,
+  initAgeVerification,
   MINIMUM_AGE,
 };

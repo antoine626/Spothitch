@@ -201,7 +201,7 @@ export function renderChallengesHub(state) {
 
         <div class="flex items-center gap-4 mb-4">
           <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500/30 to-amber-600/30 flex items-center justify-center">
-            <img src="/images/leagues/${['bronze', 'silver', 'gold', 'platinum', 'diamond'][currentLeagueIndex]}.webp"
+            <img src="${import.meta.env.BASE_URL}images/leagues/${['bronze', 'silver', 'gold', 'platinum', 'diamond'][currentLeagueIndex]}.webp"
                  alt="${currentLeague}"
                  class="w-12 h-12 object-contain"
                  onerror="this.style.display='none';this.nextElementSibling.style.display='block';"

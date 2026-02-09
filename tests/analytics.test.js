@@ -1,6 +1,7 @@
 /**
  * Analytics Service Tests
  * Tests for event tracking, user properties, and analytics functions
+ * Includes Mixpanel events (#21-22 SUIVI.md)
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
@@ -38,6 +39,18 @@ import {
   getAnalyticsSummary,
   startEngagementTracking,
   FUNNEL_STAGES,
+  // Mixpanel events (#21-22)
+  MIXPANEL_EVENTS,
+  trackSignupCompleted,
+  trackFirstCheckin,
+  trackSpotCreated,
+  trackFriendAdded,
+  trackLevelUp,
+  trackAppOpened,
+  trackSOSActivated,
+  hasEventBeenTracked,
+  markEventTracked,
+  trackOnce,
 } from '../src/services/analytics.js'
 
 describe('Analytics Service', () => {
@@ -659,6 +672,575 @@ describe('Analytics Service', () => {
       expect(summary.totalEvents).toBeGreaterThanOrEqual(8)
       expect(props.level).toBe(1)
       expect(props.points).toBe(100)
+    })
+  })
+
+  // ==================== MIXPANEL EVENTS (#21-22) ====================
+
+  describe('MIXPANEL_EVENTS constants', () => {
+    it('should have all required event names', () => {
+      expect(MIXPANEL_EVENTS.SIGNUP_COMPLETED).toBe('signup_completed')
+      expect(MIXPANEL_EVENTS.FIRST_CHECKIN).toBe('first_checkin')
+      expect(MIXPANEL_EVENTS.SPOT_CREATED).toBe('spot_created')
+      expect(MIXPANEL_EVENTS.FRIEND_ADDED).toBe('friend_added')
+      expect(MIXPANEL_EVENTS.LEVEL_UP).toBe('level_up')
+      expect(MIXPANEL_EVENTS.APP_OPENED).toBe('app_opened')
+      expect(MIXPANEL_EVENTS.SOS_ACTIVATED).toBe('sos_activated')
+    })
+
+    it('should have exactly 7 events as per SUIVI.md #22', () => {
+      expect(Object.keys(MIXPANEL_EVENTS).length).toBe(7)
+    })
+  })
+
+  describe('trackSignupCompleted()', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_funnel_data')
+      await initAnalytics(true)
+    })
+
+    it('should track signup_completed event', () => {
+      trackSignupCompleted({ email: 'test@example.com', name: 'Test User' })
+      const events = getLocalEvents()
+      const signupEvent = events.find(e => e.event === 'signup_completed')
+      expect(signupEvent).toBeTruthy()
+    })
+
+    it('should include signup method', () => {
+      trackSignupCompleted({ method: 'google' })
+      const events = getLocalEvents()
+      const signupEvent = events.find(e => e.event === 'signup_completed')
+      expect(signupEvent.props.signup_method).toBe('google')
+    })
+
+    it('should default to email method', () => {
+      trackSignupCompleted({})
+      const events = getLocalEvents()
+      const signupEvent = events.find(e => e.event === 'signup_completed')
+      expect(signupEvent.props.signup_method).toBe('email')
+    })
+
+    it('should track has_email and has_name flags', () => {
+      trackSignupCompleted({ email: 'test@example.com', name: 'Test' })
+      const events = getLocalEvents()
+      const signupEvent = events.find(e => e.event === 'signup_completed')
+      expect(signupEvent.props.has_email).toBe(true)
+      expect(signupEvent.props.has_name).toBe(true)
+    })
+
+    it('should include signup_timestamp', () => {
+      trackSignupCompleted({})
+      const events = getLocalEvents()
+      const signupEvent = events.find(e => e.event === 'signup_completed')
+      expect(signupEvent.props.signup_timestamp).toBeTruthy()
+      expect(new Date(signupEvent.props.signup_timestamp)).toBeInstanceOf(Date)
+    })
+
+    it('should also track funnel stage', () => {
+      trackSignupCompleted({ method: 'email' })
+      const funnel = getFunnelStatus()
+      expect(funnel.stages[FUNNEL_STAGES.SIGNUP_COMPLETED]).toBeTruthy()
+    })
+  })
+
+  describe('trackFirstCheckin()', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_funnel_data')
+      await initAnalytics(true)
+    })
+
+    it('should track first_checkin event', () => {
+      trackFirstCheckin({ spotId: 42, spotName: 'Paris Nord' })
+      const events = getLocalEvents()
+      const checkinEvent = events.find(e => e.event === 'first_checkin')
+      expect(checkinEvent).toBeTruthy()
+    })
+
+    it('should include spot details', () => {
+      trackFirstCheckin({
+        spotId: 42,
+        spotName: 'Paris Nord',
+        country: 'FR',
+        waitTime: 15,
+      })
+      const events = getLocalEvents()
+      const checkinEvent = events.find(e => e.event === 'first_checkin')
+      expect(checkinEvent.props.spot_id).toBe(42)
+      expect(checkinEvent.props.spot_name).toBe('Paris Nord')
+      expect(checkinEvent.props.country).toBe('FR')
+      expect(checkinEvent.props.wait_time_minutes).toBe(15)
+    })
+
+    it('should mark as first checkin', () => {
+      trackFirstCheckin({ spotId: 1 })
+      const events = getLocalEvents()
+      const checkinEvent = events.find(e => e.event === 'first_checkin')
+      expect(checkinEvent.props.is_first_checkin).toBe(true)
+    })
+
+    it('should include checkin_timestamp', () => {
+      trackFirstCheckin({})
+      const events = getLocalEvents()
+      const checkinEvent = events.find(e => e.event === 'first_checkin')
+      expect(checkinEvent.props.checkin_timestamp).toBeTruthy()
+    })
+
+    it('should track has_coordinates', () => {
+      trackFirstCheckin({ coordinates: { lat: 48.8566, lng: 2.3522 } })
+      const events = getLocalEvents()
+      const checkinEvent = events.find(e => e.event === 'first_checkin')
+      expect(checkinEvent.props.has_coordinates).toBe(true)
+    })
+
+    it('should also track funnel stage', () => {
+      trackFirstCheckin({ spotId: 42 })
+      const funnel = getFunnelStatus()
+      expect(funnel.stages[FUNNEL_STAGES.FIRST_CHECKIN]).toBeTruthy()
+    })
+  })
+
+  describe('trackSpotCreated()', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_funnel_data')
+      await initAnalytics(true)
+    })
+
+    it('should track spot_created event', () => {
+      trackSpotCreated({ spotId: 123, name: 'New Spot' })
+      const events = getLocalEvents()
+      const spotEvent = events.find(e => e.event === 'spot_created')
+      expect(spotEvent).toBeTruthy()
+    })
+
+    it('should include spot details', () => {
+      trackSpotCreated({
+        spotId: 123,
+        name: 'Berlin Hauptbahnhof',
+        country: 'DE',
+        hasPhoto: true,
+      })
+      const events = getLocalEvents()
+      const spotEvent = events.find(e => e.event === 'spot_created')
+      expect(spotEvent.props.spot_id).toBe(123)
+      expect(spotEvent.props.spot_name).toBe('Berlin Hauptbahnhof')
+      expect(spotEvent.props.country).toBe('DE')
+      expect(spotEvent.props.has_photo).toBe(true)
+    })
+
+    it('should default has_photo to false', () => {
+      trackSpotCreated({ spotId: 1 })
+      const events = getLocalEvents()
+      const spotEvent = events.find(e => e.event === 'spot_created')
+      expect(spotEvent.props.has_photo).toBe(false)
+    })
+
+    it('should track description metadata', () => {
+      trackSpotCreated({
+        spotId: 1,
+        description: 'Great spot near the highway',
+      })
+      const events = getLocalEvents()
+      const spotEvent = events.find(e => e.event === 'spot_created')
+      expect(spotEvent.props.has_description).toBe(true)
+      expect(spotEvent.props.description_length).toBe(27) // 'Great spot near the highway'.length
+    })
+
+    it('should include creation_timestamp', () => {
+      trackSpotCreated({ spotId: 1 })
+      const events = getLocalEvents()
+      const spotEvent = events.find(e => e.event === 'spot_created')
+      expect(spotEvent.props.creation_timestamp).toBeTruthy()
+    })
+
+    it('should also track funnel stage', () => {
+      trackSpotCreated({ spotId: 1 })
+      const funnel = getFunnelStatus()
+      expect(funnel.stages[FUNNEL_STAGES.FIRST_SPOT_CREATED]).toBeTruthy()
+    })
+  })
+
+  describe('trackFriendAdded()', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      await initAnalytics(true)
+    })
+
+    it('should track friend_added event', () => {
+      trackFriendAdded({ friendId: 'user_456', friendName: 'Jean' })
+      const events = getLocalEvents()
+      const friendEvent = events.find(e => e.event === 'friend_added')
+      expect(friendEvent).toBeTruthy()
+    })
+
+    it('should include friend details', () => {
+      trackFriendAdded({
+        friendId: 'user_456',
+        friendName: 'Jean',
+        method: 'link',
+        totalFriends: 5,
+      })
+      const events = getLocalEvents()
+      const friendEvent = events.find(e => e.event === 'friend_added')
+      expect(friendEvent.props.friend_id).toBe('user_456')
+      expect(friendEvent.props.friend_name).toBe('Jean')
+      expect(friendEvent.props.add_method).toBe('link')
+      expect(friendEvent.props.total_friends_count).toBe(5)
+    })
+
+    it('should default to search method', () => {
+      trackFriendAdded({ friendId: 'user_1' })
+      const events = getLocalEvents()
+      const friendEvent = events.find(e => e.event === 'friend_added')
+      expect(friendEvent.props.add_method).toBe('search')
+    })
+
+    it('should support different add methods', () => {
+      trackFriendAdded({ friendId: 'u1', method: 'nearby' })
+      trackFriendAdded({ friendId: 'u2', method: 'suggestion' })
+      const events = getLocalEvents()
+      const nearbyEvent = events.find(e => e.props.add_method === 'nearby')
+      const suggestionEvent = events.find(e => e.props.add_method === 'suggestion')
+      expect(nearbyEvent).toBeTruthy()
+      expect(suggestionEvent).toBeTruthy()
+    })
+
+    it('should include friend_added_timestamp', () => {
+      trackFriendAdded({ friendId: 'user_1' })
+      const events = getLocalEvents()
+      const friendEvent = events.find(e => e.event === 'friend_added')
+      expect(friendEvent.props.friend_added_timestamp).toBeTruthy()
+    })
+  })
+
+  describe('trackLevelUp()', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_user_properties')
+      await initAnalytics(true)
+    })
+
+    it('should track level_up event', () => {
+      trackLevelUp({ newLevel: 5, previousLevel: 4 })
+      const events = getLocalEvents()
+      const levelEvent = events.find(e => e.event === 'level_up')
+      expect(levelEvent).toBeTruthy()
+    })
+
+    it('should include level details', () => {
+      trackLevelUp({
+        newLevel: 10,
+        previousLevel: 9,
+        pointsTotal: 5000,
+        triggerAction: 'checkin',
+      })
+      const events = getLocalEvents()
+      const levelEvent = events.find(e => e.event === 'level_up')
+      expect(levelEvent.props.new_level).toBe(10)
+      expect(levelEvent.props.previous_level).toBe(9)
+      expect(levelEvent.props.levels_gained).toBe(1)
+      expect(levelEvent.props.points_total).toBe(5000)
+      expect(levelEvent.props.trigger_action).toBe('checkin')
+    })
+
+    it('should calculate levels_gained', () => {
+      trackLevelUp({ newLevel: 15, previousLevel: 10 })
+      const events = getLocalEvents()
+      const levelEvent = events.find(e => e.event === 'level_up')
+      expect(levelEvent.props.levels_gained).toBe(5)
+    })
+
+    it('should include level_up_timestamp', () => {
+      trackLevelUp({ newLevel: 2 })
+      const events = getLocalEvents()
+      const levelEvent = events.find(e => e.event === 'level_up')
+      expect(levelEvent.props.level_up_timestamp).toBeTruthy()
+    })
+
+    it('should update user properties with new level', () => {
+      trackLevelUp({ newLevel: 7, pointsTotal: 3500 })
+      const props = getUserProperties()
+      expect(props.level).toBe(7)
+      expect(props.points).toBe(3500)
+    })
+
+    it('should default triggerAction to unknown', () => {
+      trackLevelUp({ newLevel: 3 })
+      const events = getLocalEvents()
+      const levelEvent = events.find(e => e.event === 'level_up')
+      expect(levelEvent.props.trigger_action).toBe('unknown')
+    })
+  })
+
+  describe('trackAppOpened()', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_funnel_data')
+      localStorage.removeItem('spothitch_last_app_open')
+      await initAnalytics(true)
+    })
+
+    it('should track app_opened event', () => {
+      trackAppOpened()
+      const events = getLocalEvents()
+      const openEvent = events.find(e => e.event === 'app_opened')
+      expect(openEvent).toBeTruthy()
+    })
+
+    it('should include source', () => {
+      trackAppOpened({ source: 'notification' })
+      const events = getLocalEvents()
+      const openEvent = events.find(e => e.event === 'app_opened')
+      expect(openEvent.props.open_source).toBe('notification')
+    })
+
+    it('should default source to direct', () => {
+      trackAppOpened({})
+      const events = getLocalEvents()
+      const openEvent = events.find(e => e.event === 'app_opened')
+      expect(openEvent.props.open_source).toBe('direct')
+    })
+
+    it('should track returning user flag', () => {
+      // First open
+      trackAppOpened()
+      localStorage.removeItem('spothitch_analytics_events')
+      // Second open
+      trackAppOpened()
+      const events = getLocalEvents()
+      const openEvent = events.find(e => e.event === 'app_opened')
+      expect(openEvent.props.is_returning_user).toBe(true)
+    })
+
+    it('should include device_type', () => {
+      trackAppOpened()
+      const events = getLocalEvents()
+      const openEvent = events.find(e => e.event === 'app_opened')
+      expect(['mobile', 'tablet', 'desktop']).toContain(openEvent.props.device_type)
+    })
+
+    it('should include time metadata', () => {
+      trackAppOpened()
+      const events = getLocalEvents()
+      const openEvent = events.find(e => e.event === 'app_opened')
+      expect(openEvent.props.open_timestamp).toBeTruthy()
+      expect(typeof openEvent.props.hour_of_day).toBe('number')
+      expect(typeof openEvent.props.day_of_week).toBe('number')
+    })
+
+    it('should store last open time', () => {
+      trackAppOpened()
+      const lastOpen = localStorage.getItem('spothitch_last_app_open')
+      expect(lastOpen).toBeTruthy()
+    })
+
+    it('should calculate days since last open', () => {
+      // Set last open to 3 days ago
+      const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+      localStorage.setItem('spothitch_last_app_open', threeDaysAgo.toISOString())
+      trackAppOpened()
+      const events = getLocalEvents()
+      const openEvent = events.find(e => e.event === 'app_opened')
+      expect(openEvent.props.days_since_last_open).toBeGreaterThanOrEqual(2)
+      expect(openEvent.props.days_since_last_open).toBeLessThanOrEqual(4)
+    })
+
+    it('should also track funnel stage', () => {
+      trackAppOpened()
+      const funnel = getFunnelStatus()
+      expect(funnel.stages[FUNNEL_STAGES.APP_OPENED]).toBeTruthy()
+    })
+  })
+
+  describe('trackSOSActivated()', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      await initAnalytics(true)
+    })
+
+    it('should track sos_activated event', () => {
+      trackSOSActivated()
+      const events = getLocalEvents()
+      const sosEvent = events.find(e => e.event === 'sos_activated')
+      expect(sosEvent).toBeTruthy()
+    })
+
+    it('should include SOS details', () => {
+      trackSOSActivated({
+        reason: 'danger',
+        hasEmergencyContacts: true,
+        contactsCount: 3,
+        hasLocation: true,
+      })
+      const events = getLocalEvents()
+      const sosEvent = events.find(e => e.event === 'sos_activated')
+      expect(sosEvent.props.sos_reason).toBe('danger')
+      expect(sosEvent.props.has_emergency_contacts).toBe(true)
+      expect(sosEvent.props.emergency_contacts_count).toBe(3)
+      expect(sosEvent.props.has_location).toBe(true)
+    })
+
+    it('should default reason to unknown', () => {
+      trackSOSActivated({})
+      const events = getLocalEvents()
+      const sosEvent = events.find(e => e.event === 'sos_activated')
+      expect(sosEvent.props.sos_reason).toBe('unknown')
+    })
+
+    it('should support different SOS reasons', () => {
+      const reasons = ['danger', 'lost', 'medical', 'other']
+      reasons.forEach(reason => {
+        trackSOSActivated({ reason })
+      })
+      const events = getLocalEvents()
+      reasons.forEach(reason => {
+        const sosEvent = events.find(e => e.props.sos_reason === reason)
+        expect(sosEvent).toBeTruthy()
+      })
+    })
+
+    it('should include sos_activation_timestamp', () => {
+      trackSOSActivated({})
+      const events = getLocalEvents()
+      const sosEvent = events.find(e => e.event === 'sos_activated')
+      expect(sosEvent.props.sos_activation_timestamp).toBeTruthy()
+    })
+  })
+
+  describe('hasEventBeenTracked() and markEventTracked()', () => {
+    beforeEach(() => {
+      localStorage.removeItem('spothitch_tracked_test_event')
+    })
+
+    it('should return false for untracked event', () => {
+      expect(hasEventBeenTracked('test_event')).toBe(false)
+    })
+
+    it('should mark event as tracked', () => {
+      markEventTracked('test_event')
+      expect(hasEventBeenTracked('test_event')).toBe(true)
+    })
+
+    it('should persist across calls', () => {
+      markEventTracked('my_event')
+      expect(hasEventBeenTracked('my_event')).toBe(true)
+      expect(hasEventBeenTracked('my_event')).toBe(true)
+    })
+
+    it('should handle different event keys independently', () => {
+      markEventTracked('event_a')
+      expect(hasEventBeenTracked('event_a')).toBe(true)
+      expect(hasEventBeenTracked('event_b')).toBe(false)
+    })
+  })
+
+  describe('trackOnce()', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_tracked_first_signup')
+      await initAnalytics(true)
+    })
+
+    it('should track event first time', () => {
+      const result = trackOnce('first_signup', trackSignupCompleted, { email: 'test@test.com' })
+      expect(result).toBe(true)
+      const events = getLocalEvents()
+      expect(events.some(e => e.event === 'signup_completed')).toBe(true)
+    })
+
+    it('should not track event second time', () => {
+      trackOnce('first_signup', trackSignupCompleted, { email: 'test@test.com' })
+      localStorage.removeItem('spothitch_analytics_events')
+      const result = trackOnce('first_signup', trackSignupCompleted, { email: 'other@test.com' })
+      expect(result).toBe(false)
+      const events = getLocalEvents()
+      expect(events.some(e => e.event === 'signup_completed')).toBe(false)
+    })
+
+    it('should work with different event keys', () => {
+      trackOnce('key_a', trackSpotCreated, { spotId: 1 })
+      trackOnce('key_b', trackSpotCreated, { spotId: 2 })
+      const events = getLocalEvents()
+      const spotEvents = events.filter(e => e.event === 'spot_created')
+      expect(spotEvents.length).toBe(2)
+    })
+  })
+
+  describe('Mixpanel Integration Tests', () => {
+    beforeEach(async () => {
+      localStorage.removeItem('spothitch_analytics_events')
+      localStorage.removeItem('spothitch_funnel_data')
+      localStorage.removeItem('spothitch_user_properties')
+      localStorage.removeItem('spothitch_last_app_open')
+      await initAnalytics(true)
+    })
+
+    it('should track complete user signup journey', () => {
+      // App opened
+      trackAppOpened({ source: 'direct' })
+
+      // User signs up
+      trackSignupCompleted({ email: 'user@example.com', name: 'New User', method: 'email' })
+
+      // First spot viewed & first checkin
+      trackFirstCheckin({ spotId: 1, spotName: 'Test Spot', country: 'FR' })
+
+      const events = getLocalEvents()
+      expect(events.some(e => e.event === 'app_opened')).toBe(true)
+      expect(events.some(e => e.event === 'signup_completed')).toBe(true)
+      expect(events.some(e => e.event === 'first_checkin')).toBe(true)
+    })
+
+    it('should track social interactions', () => {
+      trackFriendAdded({ friendId: 'user_1', friendName: 'Alice', method: 'search' })
+      trackFriendAdded({ friendId: 'user_2', friendName: 'Bob', method: 'nearby', totalFriends: 1 })
+
+      const events = getLocalEvents()
+      const friendEvents = events.filter(e => e.event === 'friend_added')
+      expect(friendEvents.length).toBe(2)
+    })
+
+    it('should track gamification progression', () => {
+      trackLevelUp({ newLevel: 2, previousLevel: 1, pointsTotal: 500, triggerAction: 'checkin' })
+      trackSpotCreated({ spotId: 100, name: 'My Spot', country: 'FR' })
+      trackLevelUp({ newLevel: 3, previousLevel: 2, pointsTotal: 1000, triggerAction: 'spot_creation' })
+
+      const events = getLocalEvents()
+      const levelEvents = events.filter(e => e.event === 'level_up')
+      expect(levelEvents.length).toBe(2)
+    })
+
+    it('should track safety features', () => {
+      trackSOSActivated({ reason: 'danger', hasEmergencyContacts: true, contactsCount: 2 })
+
+      const events = getLocalEvents()
+      const sosEvent = events.find(e => e.event === 'sos_activated')
+      expect(sosEvent).toBeTruthy()
+      expect(sosEvent.props.sos_reason).toBe('danger')
+    })
+
+    it('should track all 7 Mixpanel events', () => {
+      // Track all events
+      trackSignupCompleted({ email: 'test@test.com' })
+      trackFirstCheckin({ spotId: 1 })
+      trackSpotCreated({ spotId: 2, name: 'Test' })
+      trackFriendAdded({ friendId: 'friend1' })
+      trackLevelUp({ newLevel: 2, previousLevel: 1 })
+      trackAppOpened()
+      trackSOSActivated({ reason: 'test' })
+
+      const events = getLocalEvents()
+
+      // Verify all 7 events are tracked
+      expect(events.some(e => e.event === 'signup_completed')).toBe(true)
+      expect(events.some(e => e.event === 'first_checkin')).toBe(true)
+      expect(events.some(e => e.event === 'spot_created')).toBe(true)
+      expect(events.some(e => e.event === 'friend_added')).toBe(true)
+      expect(events.some(e => e.event === 'level_up')).toBe(true)
+      expect(events.some(e => e.event === 'app_opened')).toBe(true)
+      expect(events.some(e => e.event === 'sos_activated')).toBe(true)
     })
   })
 })

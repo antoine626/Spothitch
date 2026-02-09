@@ -5,12 +5,16 @@
 
 import { getState } from '../stores/state.js';
 import { sampleSpots } from '../data/spots.js';
+import { loadSpotsInBounds, getAllLoadedSpots } from './spotLoader.js';
 
 // Map instances
 let mainMap = null;
 let plannerMap = null;
 let tripDetailMap = null;
 let routeLayer = null;
+let mapInitializing = false;
+let dynamicMarkerGroup = null;
+let loadedSpotIds = new Set();
 
 // Default center (Europe)
 const DEFAULT_CENTER = [48.8566, 2.3522];
@@ -47,28 +51,36 @@ export async function initMap(containerId = 'map') {
     console.warn('🗺️ Map container not found:', containerId);
     return null;
   }
-  console.log('🗺️ Map container found:', mapContainer);
 
-  // Always clean up existing map first to prevent memory leaks
+  // Prevent concurrent initialization (race condition)
+  if (mapInitializing) {
+    console.log('🗺️ Map already initializing, skipping')
+    return null;
+  }
+
+  // If map already exists and its container is still in the DOM, just resize
   if (mainMap) {
     try {
-      // Check if the map container is the same
-      if (mainMap.getContainer() === mapContainer) {
-        mainMap.invalidateSize();
-        return mainMap;
+      const existingContainer = mainMap.getContainer()
+      if (existingContainer && document.body.contains(existingContainer)) {
+        mainMap.invalidateSize()
+        return mainMap
       }
-      // Different container or container was replaced, destroy old map
-      console.log('🗺️ Destroying old map instance');
-      mainMap.remove();
+      // Container was removed from DOM, clean up
+      console.log('🗺️ Destroying orphaned map instance')
+      mainMap.remove()
     } catch (e) {
-      console.warn('🗺️ Error cleaning up old map:', e);
+      console.warn('🗺️ Error cleaning up old map:', e)
     }
-    mainMap = null;
-    window.spotHitchMap = null;
+    mainMap = null
+    dynamicMarkerGroup = null
+    loadedSpotIds = new Set()
+    window.spotHitchMap = null
   }
 
   // Clear container content (loading spinner)
   mapContainer.innerHTML = '';
+  mapInitializing = true;
 
   try {
     const L = await import('leaflet');
@@ -103,7 +115,7 @@ export async function initMap(containerId = 'map') {
       maxZoom: 18,
     }).addTo(mainMap);
 
-    // Add spots markers
+    // Add sample spots first (instant), then load real data
     addSpotsToMap(mainMap, L.default, state.spots || sampleSpots);
 
     // Add user location marker if available
@@ -114,6 +126,16 @@ export async function initMap(containerId = 'map') {
     // Store reference globally (for searchLocation and other features)
     window.spotHitchMap = mainMap;
     window.mapInstance = mainMap;
+
+    // Load dynamic spots based on current map view
+    loadDynamicSpots(mainMap, L.default);
+
+    // Reload spots when map moves
+    let moveTimeout = null;
+    mainMap.on('moveend', () => {
+      clearTimeout(moveTimeout);
+      moveTimeout = setTimeout(() => loadDynamicSpots(mainMap, L.default), 500);
+    });
 
     // Force resize after render to fix sizing issues (multiple attempts)
     const forceResize = () => {
@@ -142,9 +164,11 @@ export async function initMap(containerId = 'map') {
     }
 
     console.log('✅ Map initialized with', (state.spots || sampleSpots).length, 'spots');
+    mapInitializing = false;
     return mainMap;
   } catch (error) {
     console.error('Map initialization failed:', error);
+    mapInitializing = false;
     displayFallbackSpots(mapContainer);
     return null;
   }
@@ -304,6 +328,17 @@ function createSpotIcon(L, spot) {
   const rating = spot.globalRating || 0;
   const color = rating >= 4.5 ? '#22c55e' : rating >= 4 ? '#0ea5e9' : rating >= 3 ? '#f59e0b' : '#ef4444';
 
+  // User-created spots get larger markers, Hitchwiki spots get smaller dots
+  if (spot.source === 'hitchwiki') {
+    return L.divIcon({
+      className: 'spot-marker-small',
+      html: `<div class="w-3 h-3 rounded-full border border-white/50 shadow-sm" style="background-color: ${color}"></div>`,
+      iconSize: [12, 12],
+      iconAnchor: [6, 6],
+      popupAnchor: [0, -6],
+    });
+  }
+
   return L.divIcon({
     className: 'spot-marker',
     html: `
@@ -390,6 +425,74 @@ export function drawRoute(map, L, routeCoords) {
   map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
 
   return routeLayer;
+}
+
+/**
+ * Load dynamic spots from Hitchmap data based on current map bounds
+ */
+async function loadDynamicSpots(map, L) {
+  if (!map || !L) return;
+
+  try {
+    const mapBounds = map.getBounds();
+    const bounds = {
+      north: mapBounds.getNorth(),
+      south: mapBounds.getSouth(),
+      east: mapBounds.getEast(),
+      west: mapBounds.getWest(),
+    };
+
+    const spots = await loadSpotsInBounds(bounds);
+    if (!spots || spots.length === 0) return;
+
+    // Filter out already-loaded spots
+    const newSpots = spots.filter(s => !loadedSpotIds.has(s.id));
+    if (newSpots.length === 0) return;
+
+    newSpots.forEach(s => loadedSpotIds.add(s.id));
+
+    // Create or reuse dynamic marker group
+    if (!dynamicMarkerGroup) {
+      try {
+        dynamicMarkerGroup = L.markerClusterGroup({
+          maxClusterRadius: 50,
+          spiderfyOnMaxZoom: true,
+          showCoverageOnHover: false,
+          disableClusteringAtZoom: 12,
+        });
+      } catch (e) {
+        dynamicMarkerGroup = L.layerGroup();
+      }
+      map.addLayer(dynamicMarkerGroup);
+    }
+
+    // Add new spots to the cluster
+    newSpots.forEach(spot => {
+      if (!spot.coordinates) return;
+
+      const marker = L.marker([spot.coordinates.lat, spot.coordinates.lng], {
+        icon: createSpotIcon(L, spot),
+      });
+
+      marker.bindPopup(createSpotPopup(spot));
+      marker.on('click', () => {
+        window.selectSpot?.(spot.id);
+      });
+
+      dynamicMarkerGroup.addLayer(marker);
+    });
+
+    // Update spot count in UI
+    const countEl = document.querySelector('[aria-live="polite"] .text-primary-400');
+    if (countEl) {
+      const total = (getState().spots?.length || sampleSpots.length) + loadedSpotIds.size;
+      countEl.textContent = total;
+    }
+
+    console.log(`📍 Added ${newSpots.length} dynamic spots (total: ${loadedSpotIds.size})`);
+  } catch (error) {
+    console.warn('Failed to load dynamic spots:', error);
+  }
 }
 
 /**
@@ -497,6 +600,9 @@ export function destroyMaps() {
   }
   window.spotHitchMap = null;
   window.mapInstance = null;
+  mapInitializing = false;
+  dynamicMarkerGroup = null;
+  loadedSpotIds = new Set();
 }
 
 /**

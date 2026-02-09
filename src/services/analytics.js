@@ -2,6 +2,15 @@
  * Analytics Service
  * Privacy-friendly analytics with Plausible (default) or Mixpanel
  * Tracks user behavior, funnel, cohorts, and engagement
+ *
+ * Mixpanel Events (#21-22 SUIVI.md):
+ * - signup_completed: Inscription terminee
+ * - first_checkin: Premier check-in
+ * - spot_created: Creation de spot
+ * - friend_added: Ajout d'ami
+ * - level_up: Passage de niveau
+ * - app_opened: Ouverture app (retention)
+ * - sos_activated: Mode SOS utilise
  */
 
 // Configuration
@@ -545,6 +554,225 @@ export function getAnalyticsSummary() {
   }
 }
 
+// ==================== MIXPANEL EVENTS (#21-22) ====================
+// Ces evenements sont specifiquement configures pour Mixpanel
+// Ref: SUIVI.md #21-22 - Events valides a tracker
+
+/**
+ * Mixpanel event names (constants for consistency)
+ */
+export const MIXPANEL_EVENTS = {
+  SIGNUP_COMPLETED: 'signup_completed',
+  FIRST_CHECKIN: 'first_checkin',
+  SPOT_CREATED: 'spot_created',
+  FRIEND_ADDED: 'friend_added',
+  LEVEL_UP: 'level_up',
+  APP_OPENED: 'app_opened',
+  SOS_ACTIVATED: 'sos_activated',
+}
+
+/**
+ * Track signup completion
+ * @param {Object} userData - User data (email, name, method)
+ */
+export function trackSignupCompleted(userData = {}) {
+  const { email, name, method = 'email' } = userData
+  trackEvent(MIXPANEL_EVENTS.SIGNUP_COMPLETED, {
+    signup_method: method,
+    has_email: !!email,
+    has_name: !!name,
+    signup_timestamp: new Date().toISOString(),
+  })
+  // Also track in funnel
+  trackFunnelStage(FUNNEL_STAGES.SIGNUP_COMPLETED, { method })
+}
+
+/**
+ * Track first check-in (milestone event)
+ * @param {Object} checkinData - Check-in data (spotId, spotName, country, waitTime)
+ */
+export function trackFirstCheckin(checkinData = {}) {
+  const { spotId, spotName, country, waitTime, coordinates } = checkinData
+  trackEvent(MIXPANEL_EVENTS.FIRST_CHECKIN, {
+    spot_id: spotId,
+    spot_name: spotName,
+    country: country,
+    wait_time_minutes: waitTime,
+    has_coordinates: !!coordinates,
+    is_first_checkin: true,
+    checkin_timestamp: new Date().toISOString(),
+  })
+  // Also track in funnel
+  trackFunnelStage(FUNNEL_STAGES.FIRST_CHECKIN, { spotId, country })
+}
+
+/**
+ * Track spot creation
+ * @param {Object} spotData - Spot data (spotId, name, country, hasPhoto)
+ */
+export function trackSpotCreated(spotData = {}) {
+  const { spotId, name, country, hasPhoto = false, coordinates, description } = spotData
+  trackEvent(MIXPANEL_EVENTS.SPOT_CREATED, {
+    spot_id: spotId,
+    spot_name: name,
+    country: country,
+    has_photo: hasPhoto,
+    has_coordinates: !!coordinates,
+    has_description: !!description && description.length > 0,
+    description_length: description?.length || 0,
+    creation_timestamp: new Date().toISOString(),
+  })
+  // Also track in funnel if first spot
+  trackFunnelStage(FUNNEL_STAGES.FIRST_SPOT_CREATED, { spotId, country })
+}
+
+/**
+ * Track friend added
+ * @param {Object} friendData - Friend data (friendId, friendName, method)
+ */
+export function trackFriendAdded(friendData = {}) {
+  const { friendId, friendName, method = 'search', totalFriends = 0 } = friendData
+  trackEvent(MIXPANEL_EVENTS.FRIEND_ADDED, {
+    friend_id: friendId,
+    friend_name: friendName,
+    add_method: method, // 'search', 'link', 'nearby', 'suggestion'
+    total_friends_count: totalFriends,
+    friend_added_timestamp: new Date().toISOString(),
+  })
+}
+
+/**
+ * Track level up
+ * @param {Object} levelData - Level data (newLevel, previousLevel, pointsTotal)
+ */
+export function trackLevelUp(levelData = {}) {
+  const { newLevel, previousLevel, pointsTotal = 0, triggerAction = 'unknown' } = levelData
+  trackEvent(MIXPANEL_EVENTS.LEVEL_UP, {
+    new_level: newLevel,
+    previous_level: previousLevel,
+    levels_gained: newLevel - (previousLevel || 0),
+    points_total: pointsTotal,
+    trigger_action: triggerAction, // what action caused the level up
+    level_up_timestamp: new Date().toISOString(),
+  })
+
+  // Update user properties with new level
+  setUserProperties({
+    level: newLevel,
+    points: pointsTotal,
+  })
+}
+
+/**
+ * Track app opened (for retention metrics)
+ * @param {Object} openData - Open data (source, returningUser, daysSinceLastOpen)
+ */
+export function trackAppOpened(openData = {}) {
+  const { source = 'direct', returningUser = false, daysSinceLastOpen = null } = openData
+
+  // Get last open timestamp from localStorage
+  const lastOpenKey = 'spothitch_last_app_open'
+  const lastOpen = localStorage.getItem(lastOpenKey)
+  const lastOpenDate = lastOpen ? new Date(lastOpen) : null
+  const now = new Date()
+
+  // Calculate days since last open
+  let calculatedDaysSinceLastOpen = daysSinceLastOpen
+  if (lastOpenDate && calculatedDaysSinceLastOpen === null) {
+    calculatedDaysSinceLastOpen = Math.floor((now - lastOpenDate) / (1000 * 60 * 60 * 24))
+  }
+
+  // Determine if returning user
+  const isReturning = returningUser || !!lastOpen
+
+  trackEvent(MIXPANEL_EVENTS.APP_OPENED, {
+    open_source: source, // 'direct', 'notification', 'deeplink', 'pwa'
+    is_returning_user: isReturning,
+    days_since_last_open: calculatedDaysSinceLastOpen,
+    is_pwa: window.matchMedia('(display-mode: standalone)').matches,
+    device_type: getDeviceType(),
+    open_timestamp: now.toISOString(),
+    hour_of_day: now.getHours(),
+    day_of_week: now.getDay(),
+  })
+
+  // Store current open time
+  localStorage.setItem(lastOpenKey, now.toISOString())
+
+  // Track in funnel
+  trackFunnelStage(FUNNEL_STAGES.APP_OPENED)
+}
+
+/**
+ * Track SOS mode activation (safety feature)
+ * @param {Object} sosData - SOS data (reason, hasEmergencyContacts, location)
+ */
+export function trackSOSActivated(sosData = {}) {
+  const { reason = 'unknown', hasEmergencyContacts = false, contactsCount = 0, hasLocation = false } = sosData
+  trackEvent(MIXPANEL_EVENTS.SOS_ACTIVATED, {
+    sos_reason: reason, // 'danger', 'lost', 'medical', 'other'
+    has_emergency_contacts: hasEmergencyContacts,
+    emergency_contacts_count: contactsCount,
+    has_location: hasLocation,
+    sos_activation_timestamp: new Date().toISOString(),
+  })
+}
+
+/**
+ * Helper: Get device type
+ */
+function getDeviceType() {
+  const ua = navigator.userAgent || ''
+  if (/tablet|ipad|playbook|silk/i.test(ua)) {
+    return 'tablet'
+  }
+  if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(ua)) {
+    return 'mobile'
+  }
+  return 'desktop'
+}
+
+/**
+ * Check if event has been tracked before (for "first" events)
+ * @param {string} eventKey - Event key to check
+ * @returns {boolean}
+ */
+export function hasEventBeenTracked(eventKey) {
+  try {
+    const tracked = localStorage.getItem(`spothitch_tracked_${eventKey}`)
+    return tracked === 'true'
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Mark event as tracked (for "first" events)
+ * @param {string} eventKey - Event key to mark
+ */
+export function markEventTracked(eventKey) {
+  try {
+    localStorage.setItem(`spothitch_tracked_${eventKey}`, 'true')
+  } catch {
+    // Silently fail
+  }
+}
+
+/**
+ * Track first-time event only once
+ * @param {string} eventKey - Event key
+ * @param {Function} trackFn - Track function to call
+ * @param {Object} data - Event data
+ */
+export function trackOnce(eventKey, trackFn, data = {}) {
+  if (!hasEventBeenTracked(eventKey)) {
+    trackFn(data)
+    markEventTracked(eventKey)
+    return true
+  }
+  return false
+}
+
 export default {
   initAnalytics,
   trackEvent,
@@ -565,4 +793,16 @@ export default {
   trackError,
   getAnalyticsSummary,
   FUNNEL_STAGES,
+  // Mixpanel events (#21-22)
+  MIXPANEL_EVENTS,
+  trackSignupCompleted,
+  trackFirstCheckin,
+  trackSpotCreated,
+  trackFriendAdded,
+  trackLevelUp,
+  trackAppOpened,
+  trackSOSActivated,
+  hasEventBeenTracked,
+  markEventTracked,
+  trackOnce,
 }

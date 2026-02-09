@@ -1,10 +1,19 @@
 /**
  * Travel Groups Service
- * Find and create travel companions
+ * Feature #187 - Groupes de voyage
+ *
+ * Find and create travel companions with chat integration
+ * and shared itinerary features.
  */
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
+import { Storage } from '../utils/storage.js';
+
+// Storage key
+const TRAVEL_GROUPS_KEY = 'spothitch_travel_groups';
+const ITINERARIES_KEY = 'spothitch_group_itineraries';
 
 // Group status
 export const GROUP_STATUS = {
@@ -12,6 +21,21 @@ export const GROUP_STATUS = {
   ACTIVE: { id: 'active', label: 'En cours', color: 'text-emerald-400', bg: 'bg-emerald-500/20' },
   COMPLETED: { id: 'completed', label: 'Terminé', color: 'text-slate-400', bg: 'bg-slate-500/20' },
   CANCELLED: { id: 'cancelled', label: 'Annulé', color: 'text-red-400', bg: 'bg-red-500/20' },
+};
+
+// Member roles
+export const MEMBER_ROLE = {
+  CREATOR: 'creator',
+  ADMIN: 'admin',
+  MEMBER: 'member',
+};
+
+// Invitation status
+export const INVITATION_STATUS = {
+  PENDING: 'pending',
+  ACCEPTED: 'accepted',
+  DECLINED: 'declined',
+  EXPIRED: 'expired',
 };
 
 // Sample travel groups
@@ -25,137 +49,280 @@ const SAMPLE_GROUPS = [
     startDate: '2025-02-15',
     endDate: '2025-02-20',
     maxMembers: 4,
-    members: ['user1', 'user2'],
+    members: [
+      { id: 'user1', role: MEMBER_ROLE.CREATOR, joinedAt: '2025-01-20T10:00:00Z' },
+      { id: 'user2', role: MEMBER_ROLE.MEMBER, joinedAt: '2025-01-21T14:30:00Z' },
+    ],
     creator: 'user1',
     status: 'planning',
     tags: ['nature', 'cities', 'relaxed'],
     requirements: ['Niveau intermédiaire minimum', 'Parle anglais'],
     chat: [],
+    itinerary: [],
+    invitations: [],
     createdAt: '2025-01-20T10:00:00Z',
   },
 ];
 
 /**
- * Create a new travel group
+ * Get groups from storage
+ * @returns {Array}
+ */
+function getGroupsFromStorage() {
+  try {
+    const data = Storage.get(TRAVEL_GROUPS_KEY);
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('[TravelGroups] Error reading groups:', error);
+    return [];
+  }
+}
+
+/**
+ * Save groups to storage
+ * @param {Array} groups
+ */
+function saveGroupsToStorage(groups) {
+  try {
+    Storage.set(TRAVEL_GROUPS_KEY, groups);
+    setState({ travelGroups: groups });
+  } catch (error) {
+    console.error('[TravelGroups] Error saving groups:', error);
+  }
+}
+
+/**
+ * Escape HTML to prevent XSS
+ * @param {string} str
+ * @returns {string}
+ */
+function escapeHTML(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/**
+ * Create a new travel group (alias for createGroup)
  * @param {Object} groupData
  * @returns {Object} Created group
  */
 export function createTravelGroup(groupData) {
-  const state = getState();
-  const userId = state.user?.uid;
-
-  if (!userId) {
-    showToast('Connecte-toi pour créer un groupe', 'error');
-    return null;
-  }
-
-  const group = {
-    id: `group_${Date.now()}`,
-    name: groupData.name,
-    description: groupData.description || '',
-    departure: groupData.departure,
-    destination: groupData.destination,
+  return createGroup(groupData.name, groupData.destination, {
     startDate: groupData.startDate,
     endDate: groupData.endDate,
-    maxMembers: groupData.maxMembers || 4,
-    members: [userId],
+  }, groupData);
+}
+
+/**
+ * Create a new travel group
+ * @param {string} name - Group name
+ * @param {Object|string} destination - Destination object or city name
+ * @param {Object} dates - { startDate, endDate }
+ * @param {Object} options - Additional options
+ * @returns {Object} Created group or error
+ */
+export function createGroup(name, destination, dates = {}, options = {}) {
+  const state = getState();
+  const userId = state.user?.uid || 'anonymous';
+
+  // Validation
+  if (!name || typeof name !== 'string' || name.trim().length < 2) {
+    showToast(t('groupNameRequired') || 'Le nom du groupe est obligatoire', 'error');
+    return { success: false, error: 'invalid_name' };
+  }
+
+  if (name.length > 50) {
+    showToast(t('groupNameTooLong') || 'Le nom est trop long (max 50 caractères)', 'error');
+    return { success: false, error: 'name_too_long' };
+  }
+
+  // Format destination
+  const formattedDestination = typeof destination === 'string'
+    ? { city: destination, country: '' }
+    : destination;
+
+  if (!formattedDestination?.city) {
+    showToast(t('destinationRequired') || 'La destination est obligatoire', 'error');
+    return { success: false, error: 'invalid_destination' };
+  }
+
+  const now = new Date().toISOString();
+  const group = {
+    id: `group_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    name: name.trim(),
+    description: options.description || '',
+    departure: options.departure || null,
+    destination: formattedDestination,
+    startDate: dates.startDate || null,
+    endDate: dates.endDate || null,
+    maxMembers: options.maxMembers || 4,
+    members: [
+      {
+        id: userId,
+        username: state.username || 'Anonyme',
+        avatar: state.avatar || '🤙',
+        role: MEMBER_ROLE.CREATOR,
+        joinedAt: now,
+      },
+    ],
     creator: userId,
     status: 'planning',
-    tags: groupData.tags || [],
-    requirements: groupData.requirements || [],
+    tags: options.tags || [],
+    requirements: options.requirements || [],
+    languages: options.languages || [],
     chat: [],
-    createdAt: new Date().toISOString(),
+    itinerary: [],
+    invitations: [],
+    createdAt: now,
+    updatedAt: now,
   };
 
-  const travelGroups = state.travelGroups || [];
+  const travelGroups = getGroupsFromStorage();
   travelGroups.push(group);
+  saveGroupsToStorage(travelGroups);
 
-  setState({ travelGroups, currentTravelGroup: group });
+  setState({ currentTravelGroup: group });
 
-  showToast(`Groupe "${group.name}" créé !`, 'success');
-  return group;
+  showToast(t('groupCreated') || `Groupe "${group.name}" créé !`, 'success');
+  return { success: true, group };
+}
+
+/**
+ * Join a travel group (alias)
+ * @param {string} groupId
+ * @returns {Object}
+ */
+export function joinGroup(groupId) {
+  return joinTravelGroup(groupId);
+}
+
+/**
+ * Leave a travel group (alias)
+ * @param {string} groupId
+ * @returns {Object}
+ */
+export function leaveGroup(groupId) {
+  return leaveTravelGroup(groupId);
 }
 
 /**
  * Join a travel group
  * @param {string} groupId
- * @returns {boolean}
+ * @returns {Object}
  */
 export function joinTravelGroup(groupId) {
   const state = getState();
-  const userId = state.user?.uid;
+  const userId = state.user?.uid || 'anonymous';
 
-  if (!userId) {
-    showToast('Connecte-toi pour rejoindre un groupe', 'error');
-    return false;
+  if (!groupId) {
+    return { success: false, error: 'invalid_group_id' };
   }
 
-  const travelGroups = state.travelGroups || [];
+  const travelGroups = getGroupsFromStorage();
   const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
 
   if (groupIndex === -1) {
-    showToast('Groupe introuvable', 'error');
-    return false;
+    showToast(t('groupNotFound') || 'Groupe introuvable', 'error');
+    return { success: false, error: 'group_not_found' };
   }
 
-  const group = travelGroups[groupIndex];
+  const group = { ...travelGroups[groupIndex] };
 
-  if (group.members.includes(userId)) {
-    showToast('Tu es déjà dans ce groupe', 'warning');
-    return false;
+  // Check if already a member (handle both old and new member structure)
+  const isMember = group.members.some((m) =>
+    typeof m === 'string' ? m === userId : m.id === userId
+  );
+
+  if (isMember) {
+    showToast(t('alreadyInGroup') || 'Tu es déjà dans ce groupe', 'warning');
+    return { success: false, error: 'already_member' };
   }
 
-  if (group.members.length >= group.maxMembers) {
-    showToast('Ce groupe est complet', 'error');
-    return false;
+  // Check capacity
+  const memberCount = group.members.length;
+  if (memberCount >= group.maxMembers) {
+    showToast(t('groupFull') || 'Ce groupe est complet', 'error');
+    return { success: false, error: 'group_full' };
   }
 
+  // Check status
   if (group.status !== 'planning') {
-    showToast('Ce groupe n\'accepte plus de membres', 'error');
-    return false;
+    showToast(t('groupNotAcceptingMembers') || 'Ce groupe n\'accepte plus de membres', 'error');
+    return { success: false, error: 'not_accepting_members' };
   }
 
-  group.members.push(userId);
+  // Add new member
+  const newMember = {
+    id: userId,
+    username: state.username || 'Anonyme',
+    avatar: state.avatar || '🤙',
+    role: MEMBER_ROLE.MEMBER,
+    joinedAt: new Date().toISOString(),
+  };
+
+  group.members.push(newMember);
+  group.updatedAt = new Date().toISOString();
+
   travelGroups[groupIndex] = group;
+  saveGroupsToStorage(travelGroups);
 
-  setState({ travelGroups, currentTravelGroup: group });
+  setState({ currentTravelGroup: group });
 
-  showToast(`Tu as rejoint "${group.name}" !`, 'success');
-  return true;
+  showToast(t('joinedGroup') || `Tu as rejoint "${group.name}" !`, 'success');
+  return { success: true, group, member: newMember };
 }
 
 /**
  * Leave a travel group
  * @param {string} groupId
- * @returns {boolean}
+ * @returns {Object}
  */
 export function leaveTravelGroup(groupId) {
   const state = getState();
-  const userId = state.user?.uid;
+  const userId = state.user?.uid || 'anonymous';
 
-  if (!userId) return false;
-
-  const travelGroups = state.travelGroups || [];
-  const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
-
-  if (groupIndex === -1) return false;
-
-  const group = travelGroups[groupIndex];
-
-  if (!group.members.includes(userId)) {
-    return false;
+  if (!groupId) {
+    return { success: false, error: 'invalid_group_id' };
   }
 
-  // If creator leaves, transfer or delete
+  const travelGroups = getGroupsFromStorage();
+  const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
+
+  if (groupIndex === -1) {
+    return { success: false, error: 'group_not_found' };
+  }
+
+  const group = { ...travelGroups[groupIndex] };
+
+  // Check if member (handle both old and new member structure)
+  const memberIndex = group.members.findIndex((m) =>
+    typeof m === 'string' ? m === userId : m.id === userId
+  );
+
+  if (memberIndex === -1) {
+    return { success: false, error: 'not_a_member' };
+  }
+
+  // If creator leaves, transfer ownership or cancel
   if (group.creator === userId) {
-    if (group.members.length > 1) {
-      group.creator = group.members.find((m) => m !== userId);
+    const otherMembers = group.members.filter((m, i) => i !== memberIndex);
+    if (otherMembers.length > 0) {
+      // Transfer to first admin or first member
+      const newCreator = otherMembers.find((m) => m.role === MEMBER_ROLE.ADMIN) || otherMembers[0];
+      group.creator = typeof newCreator === 'string' ? newCreator : newCreator.id;
+      if (typeof newCreator !== 'string') {
+        newCreator.role = MEMBER_ROLE.CREATOR;
+      }
     } else {
       group.status = 'cancelled';
     }
   }
 
-  group.members = group.members.filter((m) => m !== userId);
+  // Remove member
+  group.members.splice(memberIndex, 1);
+  group.updatedAt = new Date().toISOString();
 
   if (group.members.length === 0) {
     travelGroups.splice(groupIndex, 1);
@@ -163,13 +330,12 @@ export function leaveTravelGroup(groupId) {
     travelGroups[groupIndex] = group;
   }
 
-  setState({
-    travelGroups,
-    currentTravelGroup: null,
-  });
+  saveGroupsToStorage(travelGroups);
 
-  showToast('Tu as quitté le groupe', 'info');
-  return true;
+  setState({ currentTravelGroup: null });
+
+  showToast(t('leftGroup') || 'Tu as quitté le groupe', 'info');
+  return { success: true };
 }
 
 /**
@@ -183,12 +349,12 @@ export function sendGroupMessage(groupId, message) {
 
   if (!userId || !message.trim()) return;
 
-  const travelGroups = state.travelGroups || [];
+  const travelGroups = getGroupsFromStorage();
   const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
 
   if (groupIndex === -1) return;
 
-  const group = travelGroups[groupIndex];
+  const group = { ...travelGroups[groupIndex] };
 
   group.chat.push({
     id: `msg_${Date.now()}`,
@@ -200,7 +366,8 @@ export function sendGroupMessage(groupId, message) {
   });
 
   travelGroups[groupIndex] = group;
-  setState({ travelGroups, currentTravelGroup: group });
+  saveGroupsToStorage(travelGroups);
+  setState({ currentTravelGroup: group });
 }
 
 /**
@@ -212,12 +379,12 @@ export function updateGroupStatus(groupId, status) {
   const state = getState();
   const userId = state.user?.uid;
 
-  const travelGroups = state.travelGroups || [];
+  const travelGroups = getGroupsFromStorage();
   const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
 
   if (groupIndex === -1) return false;
 
-  const group = travelGroups[groupIndex];
+  const group = { ...travelGroups[groupIndex] };
 
   // Only creator can change status
   if (group.creator !== userId) {
@@ -226,9 +393,11 @@ export function updateGroupStatus(groupId, status) {
   }
 
   group.status = status;
+  group.updatedAt = new Date().toISOString();
   travelGroups[groupIndex] = group;
 
-  setState({ travelGroups, currentTravelGroup: group });
+  saveGroupsToStorage(travelGroups);
+  setState({ currentTravelGroup: group });
 
   const statusInfo = GROUP_STATUS[status.toUpperCase()];
   showToast(`Statut mis à jour: ${statusInfo?.label || status}`, 'success');
@@ -237,13 +406,441 @@ export function updateGroupStatus(groupId, status) {
 }
 
 /**
+ * Get group members
+ * @param {string} groupId
+ * @returns {Array}
+ */
+export function getGroupMembers(groupId) {
+  if (!groupId) return [];
+
+  const travelGroups = getGroupsFromStorage();
+  const group = travelGroups.find((g) => g.id === groupId);
+
+  if (!group) return [];
+
+  // Normalize member structure
+  return group.members.map((m) => {
+    if (typeof m === 'string') {
+      return {
+        id: m,
+        username: 'Membre',
+        avatar: '👤',
+        role: m === group.creator ? MEMBER_ROLE.CREATOR : MEMBER_ROLE.MEMBER,
+        joinedAt: group.createdAt,
+      };
+    }
+    return m;
+  });
+}
+
+/**
+ * Get a specific group by ID
+ * @param {string} groupId
+ * @returns {Object|null}
+ */
+export function getGroupById(groupId) {
+  if (!groupId) return null;
+
+  const travelGroups = getGroupsFromStorage();
+  return travelGroups.find((g) => g.id === groupId) || null;
+}
+
+/**
+ * Invite a user to a group
+ * @param {string} groupId
+ * @param {string} userId - User to invite
+ * @param {string} username - Display name (optional)
+ * @returns {Object}
+ */
+export function inviteToGroup(groupId, userId, username = '') {
+  if (!groupId || !userId) {
+    return { success: false, error: 'invalid_parameters' };
+  }
+
+  const state = getState();
+  const currentUserId = state.user?.uid || 'anonymous';
+
+  const travelGroups = getGroupsFromStorage();
+  const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
+
+  if (groupIndex === -1) {
+    showToast(t('groupNotFound') || 'Groupe introuvable', 'error');
+    return { success: false, error: 'group_not_found' };
+  }
+
+  const group = { ...travelGroups[groupIndex] };
+
+  // Check if current user is a member
+  const currentMember = group.members.find((m) =>
+    typeof m === 'string' ? m === currentUserId : m.id === currentUserId
+  );
+
+  if (!currentMember) {
+    showToast(t('mustBeMember') || 'Tu dois être membre pour inviter', 'error');
+    return { success: false, error: 'not_a_member' };
+  }
+
+  // Check if user is already a member
+  const isAlreadyMember = group.members.some((m) =>
+    typeof m === 'string' ? m === userId : m.id === userId
+  );
+
+  if (isAlreadyMember) {
+    showToast(t('userAlreadyInGroup') || 'Cet utilisateur est déjà dans le groupe', 'warning');
+    return { success: false, error: 'already_member' };
+  }
+
+  // Check if invitation already exists
+  const existingInvitation = (group.invitations || []).find(
+    (inv) => inv.userId === userId && inv.status === INVITATION_STATUS.PENDING
+  );
+
+  if (existingInvitation) {
+    showToast(t('invitationAlreadySent') || 'Invitation déjà envoyée', 'warning');
+    return { success: false, error: 'invitation_exists' };
+  }
+
+  // Check if group is full
+  if (group.members.length >= group.maxMembers) {
+    showToast(t('groupFull') || 'Le groupe est complet', 'error');
+    return { success: false, error: 'group_full' };
+  }
+
+  // Create invitation
+  const invitation = {
+    id: `inv_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    userId: userId,
+    username: username || userId,
+    invitedBy: currentUserId,
+    invitedByName: state.username || 'Membre',
+    status: INVITATION_STATUS.PENDING,
+    createdAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+  };
+
+  group.invitations = group.invitations || [];
+  group.invitations.push(invitation);
+  group.updatedAt = new Date().toISOString();
+
+  travelGroups[groupIndex] = group;
+  saveGroupsToStorage(travelGroups);
+
+  showToast(t('invitationSent') || `Invitation envoyée à ${username || userId} !`, 'success');
+  return { success: true, invitation };
+}
+
+/**
+ * Accept a group invitation
+ * @param {string} groupId
+ * @param {string} invitationId
+ * @returns {Object}
+ */
+export function acceptGroupInvitation(groupId, invitationId) {
+  const state = getState();
+  const userId = state.user?.uid || 'anonymous';
+
+  const travelGroups = getGroupsFromStorage();
+  const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
+
+  if (groupIndex === -1) {
+    return { success: false, error: 'group_not_found' };
+  }
+
+  const group = { ...travelGroups[groupIndex] };
+  const invitationIndex = (group.invitations || []).findIndex(
+    (inv) => inv.id === invitationId && inv.userId === userId
+  );
+
+  if (invitationIndex === -1) {
+    return { success: false, error: 'invitation_not_found' };
+  }
+
+  const invitation = group.invitations[invitationIndex];
+
+  if (invitation.status !== INVITATION_STATUS.PENDING) {
+    return { success: false, error: 'invitation_not_pending' };
+  }
+
+  // Check expiration
+  if (new Date(invitation.expiresAt) < new Date()) {
+    invitation.status = INVITATION_STATUS.EXPIRED;
+    travelGroups[groupIndex] = group;
+    saveGroupsToStorage(travelGroups);
+    return { success: false, error: 'invitation_expired' };
+  }
+
+  // Check if group is full
+  if (group.members.length >= group.maxMembers) {
+    return { success: false, error: 'group_full' };
+  }
+
+  // Accept invitation and add as member
+  invitation.status = INVITATION_STATUS.ACCEPTED;
+  invitation.acceptedAt = new Date().toISOString();
+
+  const newMember = {
+    id: userId,
+    username: state.username || 'Anonyme',
+    avatar: state.avatar || '🤙',
+    role: MEMBER_ROLE.MEMBER,
+    joinedAt: new Date().toISOString(),
+  };
+
+  group.members.push(newMember);
+  group.updatedAt = new Date().toISOString();
+
+  travelGroups[groupIndex] = group;
+  saveGroupsToStorage(travelGroups);
+
+  showToast(t('joinedGroup') || `Tu as rejoint "${group.name}" !`, 'success');
+  return { success: true, group, member: newMember };
+}
+
+/**
+ * Decline a group invitation
+ * @param {string} groupId
+ * @param {string} invitationId
+ * @returns {Object}
+ */
+export function declineGroupInvitation(groupId, invitationId) {
+  const state = getState();
+  const userId = state.user?.uid || 'anonymous';
+
+  const travelGroups = getGroupsFromStorage();
+  const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
+
+  if (groupIndex === -1) {
+    return { success: false, error: 'group_not_found' };
+  }
+
+  const group = { ...travelGroups[groupIndex] };
+  const invitationIndex = (group.invitations || []).findIndex(
+    (inv) => inv.id === invitationId && inv.userId === userId
+  );
+
+  if (invitationIndex === -1) {
+    return { success: false, error: 'invitation_not_found' };
+  }
+
+  group.invitations[invitationIndex].status = INVITATION_STATUS.DECLINED;
+  group.invitations[invitationIndex].declinedAt = new Date().toISOString();
+  group.updatedAt = new Date().toISOString();
+
+  travelGroups[groupIndex] = group;
+  saveGroupsToStorage(travelGroups);
+
+  showToast(t('invitationDeclined') || 'Invitation refusée', 'info');
+  return { success: true };
+}
+
+/**
+ * Get pending invitations for current user
+ * @returns {Array}
+ */
+export function getPendingInvitations() {
+  const state = getState();
+  const userId = state.user?.uid || 'anonymous';
+
+  const travelGroups = getGroupsFromStorage();
+  const pendingInvitations = [];
+
+  travelGroups.forEach((group) => {
+    const invitations = group.invitations || [];
+    invitations.forEach((inv) => {
+      if (inv.userId === userId && inv.status === INVITATION_STATUS.PENDING) {
+        const now = new Date();
+        if (new Date(inv.expiresAt) > now) {
+          pendingInvitations.push({
+            ...inv,
+            groupId: group.id,
+            groupName: group.name,
+            destination: group.destination,
+          });
+        }
+      }
+    });
+  });
+
+  return pendingInvitations;
+}
+
+// ========================================
+// ITINERARY FUNCTIONS
+// ========================================
+
+/**
+ * Add a stop to the group itinerary
+ * @param {string} groupId
+ * @param {Object} stop - { name, location, spotId, date, notes }
+ * @returns {Object}
+ */
+export function addItineraryStop(groupId, stop) {
+  if (!groupId || !stop?.name) {
+    return { success: false, error: 'invalid_parameters' };
+  }
+
+  const state = getState();
+  const userId = state.user?.uid || 'anonymous';
+
+  const travelGroups = getGroupsFromStorage();
+  const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
+
+  if (groupIndex === -1) {
+    return { success: false, error: 'group_not_found' };
+  }
+
+  const group = { ...travelGroups[groupIndex] };
+
+  // Check if user is a member
+  const isMember = group.members.some((m) =>
+    typeof m === 'string' ? m === userId : m.id === userId
+  );
+
+  if (!isMember) {
+    return { success: false, error: 'not_a_member' };
+  }
+
+  const newStop = {
+    id: `stop_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    name: stop.name,
+    location: stop.location || null,
+    spotId: stop.spotId || null,
+    date: stop.date || null,
+    notes: stop.notes || '',
+    addedBy: userId,
+    addedByName: state.username || 'Membre',
+    order: (group.itinerary || []).length,
+    createdAt: new Date().toISOString(),
+  };
+
+  group.itinerary = group.itinerary || [];
+  group.itinerary.push(newStop);
+  group.updatedAt = new Date().toISOString();
+
+  travelGroups[groupIndex] = group;
+  saveGroupsToStorage(travelGroups);
+
+  showToast(t('stopAdded') || `Étape "${stop.name}" ajoutée !`, 'success');
+  return { success: true, stop: newStop };
+}
+
+/**
+ * Remove a stop from the itinerary
+ * @param {string} groupId
+ * @param {string} stopId
+ * @returns {Object}
+ */
+export function removeItineraryStop(groupId, stopId) {
+  if (!groupId || !stopId) {
+    return { success: false, error: 'invalid_parameters' };
+  }
+
+  const state = getState();
+  const userId = state.user?.uid || 'anonymous';
+
+  const travelGroups = getGroupsFromStorage();
+  const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
+
+  if (groupIndex === -1) {
+    return { success: false, error: 'group_not_found' };
+  }
+
+  const group = { ...travelGroups[groupIndex] };
+  const stopIndex = (group.itinerary || []).findIndex((s) => s.id === stopId);
+
+  if (stopIndex === -1) {
+    return { success: false, error: 'stop_not_found' };
+  }
+
+  // Check if user is creator or admin or the one who added
+  const member = group.members.find((m) =>
+    typeof m === 'string' ? m === userId : m.id === userId
+  );
+  const stop = group.itinerary[stopIndex];
+
+  if (!member || (member.role !== MEMBER_ROLE.CREATOR && member.role !== MEMBER_ROLE.ADMIN && stop.addedBy !== userId)) {
+    return { success: false, error: 'not_authorized' };
+  }
+
+  group.itinerary.splice(stopIndex, 1);
+
+  // Reorder remaining stops
+  group.itinerary.forEach((s, i) => {
+    s.order = i;
+  });
+
+  group.updatedAt = new Date().toISOString();
+
+  travelGroups[groupIndex] = group;
+  saveGroupsToStorage(travelGroups);
+
+  showToast(t('stopRemoved') || 'Étape supprimée', 'info');
+  return { success: true };
+}
+
+/**
+ * Reorder itinerary stops
+ * @param {string} groupId
+ * @param {Array} stopIds - Array of stop IDs in new order
+ * @returns {Object}
+ */
+export function reorderItinerary(groupId, stopIds) {
+  if (!groupId || !Array.isArray(stopIds)) {
+    return { success: false, error: 'invalid_parameters' };
+  }
+
+  const travelGroups = getGroupsFromStorage();
+  const groupIndex = travelGroups.findIndex((g) => g.id === groupId);
+
+  if (groupIndex === -1) {
+    return { success: false, error: 'group_not_found' };
+  }
+
+  const group = { ...travelGroups[groupIndex] };
+
+  // Create new ordered itinerary
+  const newItinerary = [];
+  stopIds.forEach((stopId, index) => {
+    const stop = (group.itinerary || []).find((s) => s.id === stopId);
+    if (stop) {
+      newItinerary.push({ ...stop, order: index });
+    }
+  });
+
+  group.itinerary = newItinerary;
+  group.updatedAt = new Date().toISOString();
+
+  travelGroups[groupIndex] = group;
+  saveGroupsToStorage(travelGroups);
+
+  return { success: true, itinerary: newItinerary };
+}
+
+/**
+ * Get group itinerary
+ * @param {string} groupId
+ * @returns {Array}
+ */
+export function getGroupItinerary(groupId) {
+  if (!groupId) return [];
+
+  const group = getGroupById(groupId);
+  if (!group) return [];
+
+  return (group.itinerary || []).sort((a, b) => a.order - b.order);
+}
+
+/**
  * Search for travel groups
  * @param {Object} filters
  * @returns {Array}
  */
 export function searchTravelGroups(filters = {}) {
-  const state = getState();
-  let groups = state.travelGroups || SAMPLE_GROUPS;
+  let groups = getGroupsFromStorage();
+  // Use SAMPLE_GROUPS if storage is empty
+  if (groups.length === 0) {
+    groups = [...SAMPLE_GROUPS];
+  }
 
   // Filter by status
   if (filters.status) {
@@ -289,8 +886,12 @@ export function getMyTravelGroups() {
 
   if (!userId) return [];
 
-  const groups = state.travelGroups || [];
-  return groups.filter((g) => g.members.includes(userId));
+  const groups = getGroupsFromStorage();
+  return groups.filter((g) =>
+    g.members.some((m) =>
+      typeof m === 'string' ? m === userId : m.id === userId
+    )
+  );
 }
 
 /**
@@ -615,15 +1216,49 @@ window.sendGroupChatMessage = (groupId) => {
   }
 };
 
+// Additional global handlers
+window.createTravelGroup = createTravelGroup;
+window.createGroup = createGroup;
+window.acceptGroupInvitation = acceptGroupInvitation;
+window.declineGroupInvitation = declineGroupInvitation;
+window.addItineraryStop = addItineraryStop;
+window.removeItineraryStop = removeItineraryStop;
+
 export default {
+  // Constants
   GROUP_STATUS,
+  MEMBER_ROLE,
+  INVITATION_STATUS,
+
+  // Core CRUD
+  createGroup,
   createTravelGroup,
+  joinGroup,
   joinTravelGroup,
+  leaveGroup,
   leaveTravelGroup,
-  sendGroupMessage,
-  updateGroupStatus,
+  getGroupById,
+  getGroupMembers,
   searchTravelGroups,
   getMyTravelGroups,
+  updateGroupStatus,
+
+  // Invitations
+  inviteToGroup,
+  acceptGroupInvitation,
+  declineGroupInvitation,
+  getPendingInvitations,
+
+  // Itinerary
+  addItineraryStop,
+  removeItineraryStop,
+  reorderItinerary,
+  getGroupItinerary,
+
+  // Chat
+  sendGroupMessage,
+
+  // Render functions
   renderTravelGroupCard,
   renderTravelGroupsList,
   renderTravelGroupDetail,

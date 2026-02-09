@@ -106,6 +106,10 @@ const initialState = {
   activeChallenges: [],
   pendingChallenges: [],
 
+  // Guilds (#162)
+  guilds: [],
+  myGuildId: null,
+
   // Season/Leagues
   seasonPoints: 0,
   totalPoints: 0,

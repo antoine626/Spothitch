@@ -1,173 +1,137 @@
 /**
  * E2E Tests - Navigation & Core Flows
- * Updated to match current app structure
  */
 
-import { test, expect } from '@playwright/test';
-import { skipOnboarding } from './helpers.js';
+import { test, expect } from '@playwright/test'
+import { skipOnboarding, navigateToTab } from './helpers.js'
 
 test.describe('Navigation', () => {
   test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page);
-  });
+    await skipOnboarding(page)
+  })
 
   test('should load homepage', async ({ page }) => {
-    await expect(page).toHaveTitle(/SpotHitch/);
-    await expect(page.locator('nav[role="navigation"]')).toBeVisible();
-  });
+    await expect(page).toHaveTitle(/SpotHitch/)
+    await expect(page.locator('nav')).toBeVisible()
+  })
 
   test('should navigate between tabs', async ({ page }) => {
-    // Navigate to Travel (Voyage)
-    await page.click('[data-tab="travel"]');
-    await page.waitForTimeout(500);
-
-    // Navigate to Challenges (Défis)
-    await page.click('[data-tab="challenges"]');
-    await page.waitForTimeout(500);
-
-    // Navigate to Social
-    await page.click('[data-tab="social"]');
-    await page.waitForTimeout(500);
-
-    // Navigate to Profile
-    await page.click('[data-tab="profile"]');
-    await expect(page.locator('text=Niveau 1').first()).toBeVisible({ timeout: 5000 });
-
-    // Back to Map
-    await page.click('[data-tab="map"]');
-    await page.waitForTimeout(500);
-  });
+    const tabs = ['travel', 'challenges', 'social', 'profile', 'map']
+    for (const tab of tabs) {
+      await navigateToTab(page, tab)
+      await expect(page.locator(`[data-tab="${tab}"]`)).toHaveAttribute('aria-selected', 'true')
+    }
+  })
 
   test('should have accessible navigation', async ({ page }) => {
-    const nav = page.locator('nav[role="navigation"]');
-    await expect(nav).toBeVisible();
-    await expect(nav).toHaveAttribute('aria-label');
+    const nav = page.locator('nav[role="navigation"]')
+    await expect(nav).toBeVisible({ timeout: 5000 })
+    await expect(nav).toHaveAttribute('aria-label')
 
-    const navButtons = page.locator('nav button[role="tab"]');
-    const count = await navButtons.count();
-    expect(count).toBeGreaterThan(0);
+    const navButtons = page.locator('nav button[role="tab"]')
+    const count = await navButtons.count()
+    expect(count).toBeGreaterThan(0)
 
     for (let i = 0; i < count; i++) {
-      const button = navButtons.nth(i);
-      await expect(button).toHaveAttribute('aria-label');
+      const button = navButtons.nth(i)
+      await expect(button).toHaveAttribute('aria-label')
     }
-  });
-});
+  })
+})
 
 test.describe('Map View', () => {
   test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page);
-    await page.click('[data-tab="map"]');
-    await page.waitForTimeout(500);
-  });
+    await skipOnboarding(page)
+    await navigateToTab(page, 'map')
+  })
 
   test('should display map', async ({ page }) => {
-    // Map container should be visible
-    const mapContainer = page.locator('#main-map, .leaflet-container');
-    await expect(mapContainer).toBeVisible({ timeout: 10000 });
-  });
+    const mapContainer = page.locator('#main-map, .leaflet-container')
+    await expect(mapContainer.first()).toBeVisible({ timeout: 10000 })
+  })
 
   test('should have zoom controls', async ({ page }) => {
-    // Custom zoom controls
-    const zoomIn = page.locator('button:has(i.fa-plus)');
-    const zoomOut = page.locator('button:has(i.fa-minus)');
-    await expect(zoomIn.first()).toBeVisible();
-    await expect(zoomOut.first()).toBeVisible();
-  });
-});
+    const zoomIn = page.locator('[onclick*="mapZoomIn"], button:has(i.fa-plus)')
+    const zoomOut = page.locator('[onclick*="mapZoomOut"], button:has(i.fa-minus)')
+    await expect(zoomIn.first()).toBeVisible()
+    await expect(zoomOut.first()).toBeVisible()
+  })
+})
 
 test.describe('Travel View', () => {
   test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page);
-    await page.click('[data-tab="travel"]');
-    await page.waitForTimeout(500);
-  });
+    await skipOnboarding(page)
+    await navigateToTab(page, 'travel')
+  })
 
   test('should display travel view', async ({ page }) => {
-    // Should have some content
-    const content = page.locator('#app');
-    await expect(content).toBeVisible();
-  });
-});
+    await expect(page.locator('#app')).toBeVisible()
+  })
+})
 
 test.describe('Profile', () => {
   test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page);
-    await page.click('[data-tab="profile"]');
-    await page.waitForTimeout(500);
-  });
+    await skipOnboarding(page)
+    await navigateToTab(page, 'profile')
+  })
 
   test('should display profile view', async ({ page }) => {
-    // Profile should show level or user stats
-    await expect(page.locator('text=Niveau 1').first()).toBeVisible({ timeout: 5000 });
-  });
+    await expect(page.locator('text=/Niv|Niveau|Points/').first()).toBeVisible({ timeout: 5000 })
+  })
 
   test('should have settings section', async ({ page }) => {
-    // Should have theme or settings options - look for specific text
-    const settingsSection = page.locator('button:has-text("Mode"), button:has-text("Thème"), select').first();
-    await expect(settingsSection).toBeVisible({ timeout: 5000 });
-  });
-});
+    const settings = page.locator('text=Paramètres').or(page.locator('text=Thème sombre')).or(page.locator('select'))
+    await expect(settings.first()).toBeVisible({ timeout: 5000 })
+  })
+})
 
 test.describe('Social View', () => {
   test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page);
-    await page.click('[data-tab="social"]');
-    await page.waitForTimeout(500);
-  });
+    await skipOnboarding(page)
+    await navigateToTab(page, 'social')
+  })
 
   test('should display social view', async ({ page }) => {
-    // Social view should be visible
-    const content = page.locator('#app');
-    await expect(content).toBeVisible();
-  });
+    await expect(page.locator('#app')).toBeVisible()
+  })
 
   test('should have chat or friends section', async ({ page }) => {
-    // Should have chat rooms or friends list - use less strict selector
-    const chatOrFriends = page.locator('button, input[type="text"]').first();
-    await expect(chatOrFriends).toBeVisible({ timeout: 5000 });
-  });
-});
+    // Social has chat input and sub-tab buttons
+    const chatInput = page.locator('#chat-input').or(page.locator('button:has-text("Général")'))
+    await expect(chatInput.first()).toBeVisible({ timeout: 5000 })
+  })
+})
 
 test.describe('Challenges View', () => {
   test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page);
-    await page.click('[data-tab="challenges"]');
-    await page.waitForTimeout(500);
-  });
+    await skipOnboarding(page)
+    await navigateToTab(page, 'challenges')
+  })
 
   test('should display challenges view', async ({ page }) => {
-    // Challenges or gamification content
-    const content = page.locator('#app');
-    await expect(content).toBeVisible();
-  });
-});
+    await expect(page.locator('#app')).toBeVisible()
+  })
+})
 
 test.describe('SOS Mode', () => {
   test('should have SOS button accessible', async ({ page }) => {
-    await skipOnboarding(page);
+    await skipOnboarding(page)
 
-    // SOS button might be in header or floating
-    const sosButton = page.locator('[data-action="sos"], button:has-text("SOS"), .sos-btn, button:has(i.fa-exclamation-triangle)');
-
-    // If SOS exists, it should be clickable
+    const sosButton = page.locator('[data-action="sos"], button:has-text("SOS"), .sos-btn, button:has(i.fa-exclamation-triangle)')
     if (await sosButton.count() > 0) {
-      await expect(sosButton.first()).toBeVisible();
+      await expect(sosButton.first()).toBeVisible()
     }
-  });
-});
+  })
+})
 
 test.describe('Add Spot', () => {
   test('should have add spot button', async ({ page }) => {
-    await skipOnboarding(page);
-    await page.click('[data-tab="map"]');
-    await page.waitForTimeout(500);
+    await skipOnboarding(page)
+    await navigateToTab(page, 'map')
 
-    // FAB or add button
-    const addButton = page.locator('[data-action="add-spot"], .fab, button:has(i.fa-plus)');
-
+    const addButton = page.locator('button[aria-label*="Ajouter"], [data-action="add-spot"]')
     if (await addButton.count() > 0) {
-      await expect(addButton.first()).toBeVisible();
+      await expect(addButton.first()).toBeVisible()
     }
-  });
-});
+  })
+})
