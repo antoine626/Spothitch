@@ -348,10 +348,10 @@ function createSpotIcon(L, spot) {
   if (spot.source === 'hitchwiki') {
     return L.divIcon({
       className: 'spot-marker-small',
-      html: `<div class="w-3 h-3 rounded-full border border-white/50 shadow-sm" style="background-color: ${color}"></div>`,
-      iconSize: [12, 12],
-      iconAnchor: [6, 6],
-      popupAnchor: [0, -6],
+      html: `<div class="w-4 h-4 rounded-full border-2 border-white/70 shadow-md" style="background-color: ${color}"></div>`,
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+      popupAnchor: [0, -8],
     });
   }
 
