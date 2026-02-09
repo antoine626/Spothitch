@@ -181,8 +181,8 @@ export function renderApp(state) {
       <i class="fas fa-shield-alt text-lg" aria-hidden="true"></i>
     </button>
 
-    <!-- Cookie Banner (RGPD) -->
-    ${renderCookieBanner()}
+    <!-- Cookie Banner (RGPD) - hidden during tutorial/welcome -->
+    ${!state.showTutorial && !state.showWelcome ? renderCookieBanner() : ''}
   `;
 }
 
