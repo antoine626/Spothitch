@@ -27,7 +27,20 @@ function countryFlag(code) {
   return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65))
 }
 
+const FAVORITES_KEY = 'spothitch_favorites'
+
+function getFavorites() {
+  try {
+    return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]')
+  } catch (e) { return [] }
+}
+
 export function renderTravel(state) {
+  // Trip map view takes over the ENTIRE tab (no sub-tabs visible)
+  if (state.showTripMap && state.tripResults) {
+    return renderTripMapView(state.tripResults)
+  }
+
   const activeSubTab = state.activeSubTab || 'planner'
   const selectedGuide = state.selectedCountryGuide ? getGuideByCode(state.selectedCountryGuide) : null
 
@@ -57,7 +70,7 @@ export function renderTravel(state) {
           aria-selected="${activeSubTab === 'guides'}"
         >
           <i class="fas fa-book mr-2" aria-hidden="true"></i>
-          Guides
+          ${t('guides') || 'Guides'}
         </button>
       </div>
 
@@ -161,6 +174,10 @@ function getSavedTrips(state) {
 
 function renderTripResults(results) {
   const spots = results.spots || []
+  const state = window.getState?.() || {}
+  const showAmenities = state.showRouteAmenities || false
+  const amenities = state.routeAmenities || []
+  const loadingAmenities = state.loadingRouteAmenities || false
 
   return `
     <div class="card p-4 space-y-4 border-primary-500/30">
@@ -201,6 +218,43 @@ function renderTripResults(results) {
         </button>
       </div>
 
+      <!-- Amenities toggle -->
+      <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+        <span class="text-sm font-medium">${t('travel_show_stations') || '\u26FD Stations & aires de repos'}</span>
+        <button
+          onclick="toggleRouteAmenities()"
+          class="relative w-11 h-6 rounded-full transition-colors ${showAmenities ? 'bg-emerald-500' : 'bg-slate-600'}"
+          role="switch"
+          aria-checked="${showAmenities}"
+          aria-label="${t('travel_show_stations') || 'Stations & aires de repos'}"
+        >
+          <span class="absolute top-0.5 ${showAmenities ? 'left-5.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-all ${showAmenities ? 'translate-x-0' : ''}"></span>
+        </button>
+      </div>
+
+      <!-- Loading amenities indicator -->
+      ${loadingAmenities ? `
+        <div class="flex items-center gap-2 text-sm text-slate-400 px-1">
+          <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+          <span>${t('travel_loading_stations') || 'Chargement des stations...'}</span>
+        </div>
+      ` : ''}
+
+      <!-- Amenities list -->
+      ${showAmenities && !loadingAmenities && amenities.length > 0 ? `
+        <div class="space-y-1">
+          <div class="text-xs text-slate-400 px-1 mb-1">${amenities.length} ${t('travel_stations_count') || 'stations trouvees'}</div>
+          <div class="space-y-2 max-h-48 overflow-y-auto">
+            ${amenities.map(poi => renderAmenityItem(poi)).join('')}
+          </div>
+        </div>
+      ` : ''}
+      ${showAmenities && !loadingAmenities && amenities.length === 0 && !loadingAmenities ? `
+        <div class="text-center py-2">
+          <p class="text-slate-500 text-xs">${t('travel_no_stations') || 'Aucune station trouvee le long du trajet'}</p>
+        </div>
+      ` : ''}
+
       <!-- Spots list -->
       ${spots.length > 0 ? `
         <div class="space-y-2 max-h-80 overflow-y-auto">
@@ -209,7 +263,7 @@ function renderTripResults(results) {
       ` : `
         <div class="text-center py-4">
           <i class="fas fa-search text-3xl text-slate-600 mb-2" aria-hidden="true"></i>
-          <p class="text-slate-400 text-sm">${t('noSpotsFound') || 'Aucun spot trouvé sur ce trajet'}</p>
+          <p class="text-slate-400 text-sm">${t('noSpotsFound') || 'Aucun spot trouve sur ce trajet'}</p>
         </div>
       `}
     </div>
@@ -219,17 +273,40 @@ function renderTripResults(results) {
   `
 }
 
+function renderAmenityItem(poi) {
+  const icon = poi.type === 'fuel' ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
+  const typeLabel = poi.type === 'fuel'
+    ? (t('travel_fuel_station') || 'Station-service')
+    : (t('travel_rest_area') || 'Aire de repos')
+  const name = poi.name || typeLabel
+  const colorClass = poi.type === 'fuel' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-sky-500/20 text-sky-400'
+
+  return `
+    <div class="card p-3 flex items-center gap-3">
+      <div class="flex-shrink-0 w-8 h-8 rounded-full ${colorClass} flex items-center justify-center text-sm">
+        ${icon}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-medium truncate">${name}</div>
+        <div class="text-xs text-slate-500">${typeLabel}${poi.brand ? ` \u2022 ${poi.brand}` : ''}</div>
+      </div>
+    </div>
+  `
+}
+
 function renderTripSpot(spot, index) {
   const rating = spot.globalRating?.toFixed?.(1) || spot.rating?.toFixed?.(1) || '?'
   const wait = spot.avgWaitTime ? `~${spot.avgWaitTime}min` : ''
   const desc = (spot.description || '').slice(0, 60) + ((spot.description?.length > 60) ? '...' : '')
   const country = spot.country || ''
   const flag = countryFlag(country)
+  const favs = getFavorites()
+  const isFav = favs.includes(spot.id)
 
   return `
-    <div class="card p-3 flex items-center gap-3">
-      <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-sm font-bold text-primary-400">
-        ${index + 1}
+    <div class="card p-3 flex items-center gap-3 ${isFav ? 'border-amber-500/30' : ''}">
+      <div class="flex-shrink-0 w-8 h-8 rounded-full ${isFav ? 'bg-amber-500/20' : 'bg-primary-500/20'} flex items-center justify-center text-sm font-bold ${isFav ? 'text-amber-400' : 'text-primary-400'}">
+        ${isFav ? '<i class="fas fa-star text-xs"></i>' : (index + 1)}
       </div>
       <button onclick="openSpotDetail('${spot.id}')" class="flex-1 min-w-0 text-left">
         <div class="flex items-center gap-2">
@@ -237,7 +314,15 @@ function renderTripSpot(spot, index) {
           ${rating !== '?' ? `<span class="flex items-center gap-1 text-xs text-amber-400"><i class="fas fa-star" aria-hidden="true"></i>${rating}</span>` : ''}
           ${wait ? `<span class="text-xs text-slate-500">${wait}</span>` : ''}
         </div>
-        <div class="text-sm text-slate-300 truncate mt-0.5">${desc || 'Spot d\'autostop'}</div>
+        <div class="text-sm text-slate-300 truncate mt-0.5">${desc || t('hitchhikingSpot') || 'Spot d\'autostop'}</div>
+      </button>
+      <button
+        onclick="toggleFavorite('${spot.id}')"
+        class="flex-shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center ${isFav ? 'text-amber-400' : 'text-slate-500 hover:text-amber-400'} hover:bg-amber-500/10 transition-all"
+        aria-label="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
+        title="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
+      >
+        <i class="fas fa-heart text-xs" aria-hidden="true"></i>
       </button>
       <button
         onclick="removeSpotFromTrip(${index})"
@@ -254,31 +339,29 @@ function renderTripMapView(results) {
   const spots = results.spots || []
 
   return `
-    <div class="-mx-4 -mt-4">
-      <div class="relative" style="height:calc(100dvh - 13rem)">
-        <div id="trip-map" class="w-full h-full"></div>
+    <div class="relative" style="height:calc(100dvh - 8rem)">
+      <div id="trip-map" class="w-full h-full rounded-xl overflow-hidden"></div>
 
-        <!-- Back button -->
-        <button
-          onclick="closeTripMap()"
-          class="absolute top-3 left-3 z-20 px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center gap-2 hover:bg-dark-secondary transition-all"
-        >
-          <i class="fas fa-arrow-left" aria-hidden="true"></i>
-          <span>${t('back') || 'Retour'}</span>
-        </button>
+      <!-- Back button -->
+      <button
+        onclick="closeTripMap()"
+        class="absolute top-3 left-3 z-[1000] px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center gap-2 hover:bg-dark-secondary transition-all"
+      >
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        <span>${t('back') || 'Retour'}</span>
+      </button>
 
-        <!-- Spot count badge -->
-        <div class="absolute top-3 right-3 z-20 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm">
-          <span class="text-primary-400 font-semibold">${spots.length}</span>
-          <span class="text-slate-400 ml-1">spots</span>
-        </div>
+      <!-- Spot count badge -->
+      <div class="absolute top-3 right-3 z-[1000] px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm">
+        <span class="text-primary-400 font-semibold">${spots.length}</span>
+        <span class="text-slate-400 ml-1">${t('spotsOnRoute') || 'spots'}</span>
+      </div>
 
-        <!-- Route info bar -->
-        <div class="absolute bottom-3 left-3 right-3 z-20 px-4 py-3 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10">
-          <div class="flex items-center justify-between text-sm">
-            <span class="font-medium truncate">${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}</span>
-            <span class="text-slate-400 flex-shrink-0 ml-2">${results.distance} km • ~${results.estimatedTime}</span>
-          </div>
+      <!-- Route info bar -->
+      <div class="absolute bottom-3 left-3 right-3 z-[1000] px-4 py-3 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10">
+        <div class="flex items-center justify-between text-sm">
+          <span class="font-medium truncate">${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}</span>
+          <span class="text-slate-400 flex-shrink-0 ml-2">${results.distance} km • ~${results.estimatedTime}</span>
         </div>
       </div>
     </div>
@@ -739,10 +822,10 @@ window.calculateTrip = async () => {
       showTripMap: false,
     })
 
-    window.showToast?.(`${routeSpots.length} spots trouvés !`, 'success')
+    window.showToast?.(`${routeSpots.length} ${t('spotsFound') || 'spots trouvés !'}`, 'success')
   } catch (error) {
     console.error('Trip calculation failed:', error)
-    window.showToast?.('Erreur de calcul du trajet', 'error')
+    window.showToast?.(t('tripCalculationError') || 'Erreur de calcul du trajet', 'error')
   }
 }
 
@@ -803,25 +886,28 @@ window.saveTripWithSpots = () => {
     saved.push(trip)
     localStorage.setItem(SAVED_TRIPS_KEY, JSON.stringify(saved))
     window.setState?.({ savedTrips: saved })
-    window.showToast?.('Voyage sauvegardé !', 'success')
+    window.showToast?.(t('tripSaved') || 'Voyage sauvegardé !', 'success')
   } catch (e) {
     console.error('Failed to save trip:', e)
-    window.showToast?.('Erreur de sauvegarde', 'error')
+    window.showToast?.(t('saveError') || 'Erreur de sauvegarde', 'error')
   }
 }
 
 // Load a saved trip
 window.loadSavedTrip = (index) => {
-  const state = window.getState?.() || {}
-  const saved = state.savedTrips || []
-  const trip = saved[index]
-  if (!trip) return
-  window.setState?.({
-    tripFrom: trip.from,
-    tripTo: trip.to,
-    tripResults: trip,
-    showTripMap: false,
-  })
+  try {
+    const saved = JSON.parse(localStorage.getItem(SAVED_TRIPS_KEY) || '[]')
+    const trip = saved[index]
+    if (!trip) return
+    window.setState?.({
+      tripFrom: trip.from,
+      tripTo: trip.to,
+      tripResults: trip,
+      showTripMap: false,
+    })
+  } catch (e) {
+    console.error('Failed to load saved trip:', e)
+  }
 }
 
 // Delete a saved trip
@@ -831,8 +917,71 @@ window.deleteSavedTrip = (index) => {
     saved.splice(index, 1)
     localStorage.setItem(SAVED_TRIPS_KEY, JSON.stringify(saved))
     window.setState?.({ savedTrips: saved })
-    window.showToast?.('Voyage supprimé', 'success')
+    window.showToast?.(t('tripDeleted') || 'Voyage supprimé', 'success')
   } catch (e) {}
+}
+
+// Toggle favorite spot
+window.toggleFavorite = (spotId) => {
+  if (!spotId) return
+  try {
+    const favs = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]')
+    const idx = favs.indexOf(spotId)
+    if (idx >= 0) {
+      favs.splice(idx, 1)
+      window.showToast?.(t('removeFromFavorites') || 'Retiré des favoris', 'success')
+    } else {
+      favs.push(spotId)
+      window.showToast?.(t('addToFavorites') || 'Ajouté aux favoris', 'success')
+    }
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs))
+    // Force re-render to update UI
+    window.setState?.({ _favToggle: Date.now() })
+  } catch (e) {
+    console.error('toggleFavorite failed:', e)
+  }
+}
+
+// Check if spot is favorite
+window.isFavorite = (spotId) => {
+  try {
+    const favs = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]')
+    return favs.includes(spotId)
+  } catch (e) { return false }
+}
+
+// Toggle route amenities (gas stations / rest areas)
+window.toggleRouteAmenities = async () => {
+  const state = window.getState?.() || {}
+  const newValue = !state.showRouteAmenities
+
+  if (!newValue) {
+    // Turning off - clear amenities
+    window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
+    return
+  }
+
+  // Turning on - fetch amenities if we have a route
+  if (!state.tripResults?.routeGeometry) {
+    window.setState?.({ showRouteAmenities: true, routeAmenities: [] })
+    return
+  }
+
+  window.setState?.({ showRouteAmenities: true, loadingRouteAmenities: true, routeAmenities: [] })
+
+  try {
+    const { getAmenitiesAlongRoute } = await import('../../services/overpass.js')
+    const amenities = await getAmenitiesAlongRoute(
+      state.tripResults.routeGeometry,
+      2,
+      { showFuel: true, showRestAreas: true }
+    )
+    window.setState?.({ routeAmenities: amenities, loadingRouteAmenities: false })
+  } catch (error) {
+    console.error('Failed to fetch route amenities:', error)
+    window.setState?.({ routeAmenities: [], loadingRouteAmenities: false })
+    window.showToast?.(t('travel_loading_error') || 'Erreur de chargement des stations', 'error')
+  }
 }
 
 export default { renderTravel }

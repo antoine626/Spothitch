@@ -64,6 +64,7 @@ const MAIN_JS_HANDLERS = [
   'updateTripField', 'swapTripPoints', 'calculateTrip',
   'viewTripOnMap', 'closeTripMap', 'clearTripResults',
   'removeSpotFromTrip', 'saveTripWithSpots', 'loadSavedTrip', 'deleteSavedTrip',
+  'toggleFavorite', 'isFavorite',
   // Trip (old planner step-based, kept for compat)
   'searchTripCity', 'addTripStepFromSearch', 'addFirstSuggestion',
   'removeTripStep', 'moveTripStep', 'clearTripSteps',
@@ -138,7 +139,7 @@ const MAIN_JS_HANDLERS = [
   // Map view (defined in Map.js / views)
   'openCountryGuide', 'mapZoomIn', 'mapZoomOut',
   // Travel view (defined in Travel.js)
-  'syncTripFieldsAndCalculate',
+  'syncTripFieldsAndCalculate', 'toggleRouteAmenities',
   // Social view (defined in Social.js)
   'setSocialTab',
   // Profile view (defined in Profile.js)

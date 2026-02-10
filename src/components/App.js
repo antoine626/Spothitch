@@ -312,19 +312,23 @@ function initHomeMap(state) {
       window.homeSpotMarkers.forEach(m => map.removeLayer(m))
       window.homeSpotMarkers = []
 
-      // Add spots in visible bounds
+      // Add spots in visible bounds (favorites shown differently)
+      let favIds = []
+      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) {}
+      const favSet = new Set(favIds)
       let count = 0
       allSpots.forEach(spot => {
         const lat = spot.coordinates?.lat || spot.lat
         const lng = spot.coordinates?.lng || spot.lng
         if (!lat || !lng) return
         if (!bounds.contains([lat, lng])) return
+        const isFav = favSet.has(spot.id)
 
         const marker = L.circleMarker([lat, lng], {
-          radius: 6,
-          fillColor: '#22c55e',
-          color: '#fff',
-          weight: 1.5,
+          radius: isFav ? 8 : 6,
+          fillColor: isFav ? '#f59e0b' : '#22c55e',
+          color: isFav ? '#fbbf24' : '#fff',
+          weight: isFav ? 2.5 : 1.5,
           fillOpacity: 0.9,
         }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
 
@@ -404,8 +408,8 @@ function initTripMap(state) {
     const map = L.map(container, {
       zoomControl: false,
       attributionControl: false,
-    })
-    L.tileLayer(tileConfig.url, tileConfig.options).addTo(map)
+    }).setView(from, 7)
+    L.tileLayer(tileConfig.url, { ...tileConfig.options, attribution: '' }).addTo(map)
 
     // Route line from OSRM geometry
     if (results.routeGeometry && results.routeGeometry.length > 0) {
@@ -434,15 +438,65 @@ function initTripMap(state) {
     })
 
     // Trip spot markers (ONLY trip spots, not all)
+    // Check favorites from localStorage
+    let favIds = []
+    try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) {}
+    const favSet = new Set(favIds)
+
     const spots = results.spots || []
     spots.forEach(spot => {
       const lat = spot.coordinates?.lat || spot.lat
       const lng = spot.coordinates?.lng || spot.lng
       if (!lat || !lng) return
+      const isFav = favSet.has(spot.id)
       L.circleMarker([lat, lng], {
-        radius: 7, fillColor: '#22c55e', color: '#fff', weight: 2, fillOpacity: 0.9
+        radius: isFav ? 9 : 7,
+        fillColor: isFav ? '#f59e0b' : '#22c55e',
+        color: isFav ? '#fbbf24' : '#fff',
+        weight: isFav ? 3 : 2,
+        fillOpacity: 0.9
       }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
     })
+
+    // Amenity markers (gas stations / rest areas)
+    if (state.showRouteAmenities && state.routeAmenities?.length > 0) {
+      state.routeAmenities.forEach(poi => {
+        if (!poi.lat || !poi.lng) return
+        const isFuel = poi.type === 'fuel'
+        const fillColor = isFuel ? '#10b981' : '#0ea5e9'
+        const label = isFuel ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
+        const tooltipText = poi.name || (isFuel ? 'Station-service' : 'Aire de repos')
+
+        // Use a div icon for emoji markers
+        const icon = L.divIcon({
+          html: `<div style="font-size:18px;text-align:center;line-height:1">${label}</div>`,
+          className: 'amenity-marker',
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
+        })
+
+        L.marker([poi.lat, poi.lng], { icon })
+          .addTo(map)
+          .bindTooltip(tooltipText, { direction: 'top', offset: [0, -12] })
+      })
+
+      // Map legend
+      const legendHtml = `
+        <div style="background:rgba(15,23,42,0.9);padding:8px 12px;border-radius:8px;font-size:11px;color:#cbd5e1;border:1px solid rgba(255,255,255,0.1)">
+          <div style="margin-bottom:4px"><span style="color:#22c55e">\u25CF</span> Spots</div>
+          <div style="margin-bottom:4px">\u26FD Station-service</div>
+          <div>\uD83C\uDD7F\uFE0F Aire de repos</div>
+        </div>
+      `
+      const LegendControl = L.Control.extend({
+        onAdd() {
+          const div = L.DomUtil.create('div')
+          div.innerHTML = legendHtml
+          return div
+        },
+      })
+      new LegendControl({ position: 'bottomleft' }).addTo(map)
+    }
 
     // Fit bounds to show everything
     const allPoints = [from, to]
@@ -451,11 +505,18 @@ function initTripMap(state) {
       const lng = s.coordinates?.lng || s.lng
       if (lat && lng) allPoints.push([lat, lng])
     })
+    if (state.routeAmenities?.length > 0) {
+      state.routeAmenities.forEach(poi => {
+        if (poi.lat && poi.lng) allPoints.push([poi.lat, poi.lng])
+      })
+    }
 
     if (allPoints.length >= 2) {
       map.fitBounds(allPoints, { padding: [40, 40] })
     }
-    setTimeout(() => map.invalidateSize(), 200)
+    // Multiple invalidateSize calls to handle timing issues
+    setTimeout(() => { map.invalidateSize(); map.fitBounds(allPoints, { padding: [40, 40] }) }, 100)
+    setTimeout(() => map.invalidateSize(), 500)
   }).catch(err => {
     console.warn('Trip map init failed:', err)
   })
