@@ -2063,13 +2063,11 @@ async function updateHomeMapWithRoute(origin, dest, geometry, spots) {
 
   const L = window.homeLeaflet || await import('leaflet')
 
-  // Remove old route
-  if (window.homeRouteLayer) {
-    map.removeLayer(window.homeRouteLayer)
-  }
-  if (window.homeSpotMarkers) {
-    window.homeSpotMarkers.forEach(m => map.removeLayer(m))
-  }
+  // Remove old layers
+  if (window.homeRouteLayer) map.removeLayer(window.homeRouteLayer)
+  if (window.homeSpotMarkers) window.homeSpotMarkers.forEach(m => map.removeLayer(m))
+  if (window.homeOriginMarker) map.removeLayer(window.homeOriginMarker)
+  if (window.homeDestMarker) map.removeLayer(window.homeDestMarker)
 
   // Draw route polyline (OSRM geometry is [lng, lat])
   const latLngs = geometry.map(coord => [coord[1], coord[0]])
@@ -2079,8 +2077,26 @@ async function updateHomeMapWithRoute(origin, dest, geometry, spots) {
     opacity: 0.8,
   }).addTo(map)
 
-  // Add spot markers along route
-  window.homeSpotMarkers = spots.slice(0, 200).map(spot => {
+  // Origin marker (blue)
+  window.homeOriginMarker = L.circleMarker([origin.lat, origin.lng], {
+    radius: 10,
+    fillColor: '#0ea5e9',
+    color: '#fff',
+    weight: 3,
+    fillOpacity: 1,
+  }).addTo(map).bindTooltip('Départ', { permanent: false })
+
+  // Destination marker (red)
+  window.homeDestMarker = L.circleMarker([dest.lat, dest.lng], {
+    radius: 10,
+    fillColor: '#ef4444',
+    color: '#fff',
+    weight: 3,
+    fillOpacity: 1,
+  }).addTo(map).bindTooltip('Arrivée', { permanent: false })
+
+  // Add ALL spot markers along route (no 200 limit)
+  window.homeSpotMarkers = spots.map(spot => {
     const lat = spot.coordinates?.lat || spot.lat
     const lng = spot.coordinates?.lng || spot.lng
     if (!lat || !lng) return null
@@ -2094,7 +2110,7 @@ async function updateHomeMapWithRoute(origin, dest, geometry, spots) {
   }).filter(Boolean)
 
   // Fit map to route bounds
-  map.fitBounds(window.homeRouteLayer.getBounds(), { padding: [20, 20] })
+  map.fitBounds(window.homeRouteLayer.getBounds(), { padding: [30, 30] })
 }
 
 // ==================== START APP ====================

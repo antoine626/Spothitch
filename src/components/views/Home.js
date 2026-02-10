@@ -25,8 +25,8 @@ export function renderHome(state) {
 
   return `
     <div class="flex flex-col h-full">
-      <!-- Search Section -->
-      <div class="p-3 space-y-2 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+      <!-- Search Section (z-index above map so suggestions are visible) -->
+      <div class="p-3 space-y-2 bg-dark-primary/95 backdrop-blur border-b border-white/10 relative z-30">
         <!-- Destination Search -->
         <div class="relative">
           <input
@@ -50,7 +50,7 @@ export function renderHome(state) {
               <i class="fas fa-times" aria-hidden="true"></i>
             </button>
           ` : ''}
-          <div id="home-dest-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
+          <div id="home-dest-suggestions" class="absolute top-full left-0 right-0 mt-1 z-[60] hidden"></div>
         </div>
 
         <!-- Origin -->
@@ -98,23 +98,25 @@ export function renderHome(state) {
           >
             <i class="fas fa-crosshairs" aria-hidden="true"></i>
           </button>
-          <div id="home-origin-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
+          <div id="home-origin-suggestions" class="absolute top-full left-0 right-0 mt-1 z-[60] hidden"></div>
         </div>
 
         <!-- Filters panel -->
         ${showFilters ? `
           <div class="p-3 rounded-xl bg-dark-secondary/50 border border-white/5 space-y-3 animate-fade-in">
             <div class="flex items-center justify-between text-sm">
-              <span class="text-slate-400">${t('corridorDistance') || 'Distance corridor'}</span>
+              <span class="text-slate-400">${t('searchRadius') || 'Rayon de recherche'}</span>
               <div class="flex items-center gap-2">
                 <input
                   type="range"
-                  min="1" max="10" step="1"
+                  min="1" max="50" step="1"
                   value="${corridorDistance}"
-                  oninput="homeSetCorridorDistance(this.value)"
-                  class="w-24 accent-primary-500"
+                  id="home-corridor-slider"
+                  oninput="document.getElementById('home-corridor-value').textContent=this.value+' km'"
+                  onchange="homeSetCorridorDistance(this.value)"
+                  class="w-28 accent-primary-500"
                 />
-                <span class="text-white font-medium w-12 text-right">${corridorDistance} km</span>
+                <span id="home-corridor-value" class="text-white font-medium w-14 text-right">${corridorDistance} km</span>
               </div>
             </div>
             <div class="flex flex-wrap gap-2">
@@ -128,7 +130,7 @@ export function renderHome(state) {
                 onclick="homeToggleFilter('wait')"
                 class="px-3 py-1.5 rounded-full text-xs font-medium transition-all ${filterWait ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50' : 'bg-white/5 text-slate-400 border border-white/10'}"
               >
-                <i class="fas fa-clock mr-1" aria-hidden="true"></i>${t('waitTime') || 'Temps d\'attente'}
+                <i class="fas fa-clock mr-1" aria-hidden="true"></i>${t('waitTime') || 'Attente'}
               </button>
               <button
                 onclick="homeToggleFilter('safety')"
@@ -141,8 +143,8 @@ export function renderHome(state) {
         ` : ''}
       </div>
 
-      <!-- Map -->
-      <div id="home-map-container" class="h-64 relative flex-shrink-0 bg-dark-secondary">
+      <!-- Map (bigger, takes available space) -->
+      <div id="home-map-container" class="relative flex-shrink-0 bg-dark-secondary" style="height:40vh;min-height:250px">
         <div id="home-map" class="w-full h-full"></div>
         ${isSearching ? `
           <div class="absolute inset-0 bg-black/30 flex items-center justify-center z-10">
@@ -185,7 +187,7 @@ export function renderHome(state) {
           </div>
           ${spots.map(spot => renderSpotCard(spot, 'compact')).join('')}
         ` : `
-          <div class="flex flex-col items-center justify-center py-12 text-center">
+          <div class="flex flex-col items-center justify-center py-8 text-center">
             <i class="fas fa-map-marker-alt text-4xl text-slate-600 mb-4" aria-hidden="true"></i>
             <p class="text-slate-400 text-sm mb-2">
               ${!originLabel
