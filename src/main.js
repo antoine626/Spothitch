@@ -842,6 +842,11 @@ window.openSOS = async () => {
   }
 };
 window.closeSOS = () => setState({ showSOS: false });
+
+// Missing handlers (prevent ReferenceError on click)
+window.openAccessibilityHelp = () => showToast('Accessibilité : utilise les raccourcis clavier et le zoom du navigateur', 'info')
+window.showFriendOptions = () => showToast('Options ami bientôt disponibles', 'info')
+window.showFullNavigation = () => changeTab('map')
 window.shareSOSLocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
