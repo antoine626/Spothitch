@@ -61,46 +61,50 @@ function renderPlanner(state) {
         </h3>
 
         <div class="space-y-3">
-          <div>
-            <label for="trip-from" class="block text-sm text-slate-400 mb-1">Point de départ</label>
+          <div class="relative">
+            <label for="trip-from" class="block text-xs text-slate-500 mb-1 uppercase tracking-wider">Départ</label>
             <div class="relative">
               <input
                 type="text"
                 id="trip-from"
-                placeholder="Paris, France"
+                placeholder="Ex: Paris, Lyon..."
                 class="input-field w-full pl-10"
                 value="${state.tripFrom || ''}"
-                onblur="updateTripField('from', this.value)"
-                onkeydown="if(event.key==='Enter'){event.preventDefault();updateTripField('from',this.value);document.getElementById('trip-to')?.focus()}"
+                oninput="tripSearchSuggestions('from', this.value)"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();tripSelectFirst('from')}"
+                autocomplete="off"
               />
               <i class="fas fa-map-marker-alt absolute left-3 top-1/2 -translate-y-1/2 text-emerald-400" aria-hidden="true"></i>
             </div>
+            <div id="trip-from-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
           </div>
 
-          <div class="flex justify-center">
+          <div class="flex justify-center -my-1">
             <button
               onclick="swapTripPoints()"
-              class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+              class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
               aria-label="Inverser départ et arrivée"
             >
               <i class="fas fa-exchange-alt rotate-90" aria-hidden="true"></i>
             </button>
           </div>
 
-          <div>
-            <label for="trip-to" class="block text-sm text-slate-400 mb-1">Destination</label>
+          <div class="relative">
+            <label for="trip-to" class="block text-xs text-slate-500 mb-1 uppercase tracking-wider">Destination</label>
             <div class="relative">
               <input
                 type="text"
                 id="trip-to"
-                placeholder="Berlin, Allemagne"
+                placeholder="Ex: Berlin, Barcelone..."
                 class="input-field w-full pl-10"
                 value="${state.tripTo || ''}"
-                onblur="updateTripField('to', this.value)"
-                onkeydown="if(event.key==='Enter'){event.preventDefault();updateTripField('to',this.value);calculateTrip()}"
+                oninput="tripSearchSuggestions('to', this.value)"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();tripSelectFirst('to')}"
+                autocomplete="off"
               />
               <i class="fas fa-flag-checkered absolute left-3 top-1/2 -translate-y-1/2 text-danger-400" aria-hidden="true"></i>
             </div>
+            <div id="trip-to-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
           </div>
         </div>
 
@@ -457,6 +461,64 @@ window.updateTripField = (field, value) => {
   }
 };
 
+// Trip autocomplete suggestions
+let tripDebounce = null
+window.tripSearchSuggestions = (field, query) => {
+  clearTimeout(tripDebounce)
+  const container = document.getElementById(`trip-${field}-suggestions`)
+  if (!container) return
+  if (!query || query.trim().length < 2) {
+    container.classList.add('hidden')
+    return
+  }
+  tripDebounce = setTimeout(async () => {
+    try {
+      const { searchLocation } = await import('../../services/osrm.js')
+      const results = await searchLocation(query)
+      if (results && results.length > 0) {
+        container.classList.remove('hidden')
+        container.innerHTML = `
+          <div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
+            ${results.map((r, i) => `
+              <button
+                onclick="tripSelectSuggestion('${field}', '${(r.name || '').split(',').slice(0, 2).join(',').replace(/'/g, "\\'")}')"
+                class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
+                data-trip-${field}-suggestion="${i}"
+              >
+                <div class="font-medium text-sm truncate">${(r.name || '').split(',').slice(0, 2).join(',')}</div>
+                <div class="text-xs text-slate-400 truncate">${r.name}</div>
+              </button>
+            `).join('')}
+          </div>
+        `
+      } else {
+        container.classList.add('hidden')
+      }
+    } catch (e) {
+      container.classList.add('hidden')
+    }
+  }, 300)
+}
+
+window.tripSelectSuggestion = (field, name) => {
+  const input = document.getElementById(`trip-${field}`)
+  if (input) input.value = name
+  document.getElementById(`trip-${field}-suggestions`)?.classList.add('hidden')
+  window.setState?.({ [field === 'from' ? 'tripFrom' : 'tripTo']: name })
+}
+
+window.tripSelectFirst = (field) => {
+  const btn = document.querySelector(`[data-trip-${field}-suggestion="0"]`)
+  if (btn) btn.click()
+  else {
+    // No suggestions, just commit the value
+    const input = document.getElementById(`trip-${field}`)
+    if (input) window.setState?.({ [field === 'from' ? 'tripFrom' : 'tripTo']: input.value })
+    if (field === 'from') document.getElementById('trip-to')?.focus()
+    else window.calculateTrip?.()
+  }
+}
+
 window.syncTripFieldsAndCalculate = () => {
   const fromInput = document.getElementById('trip-from');
   const toInput = document.getElementById('trip-to');
@@ -591,97 +653,60 @@ window.viewTripOnMap = async () => {
   const state = window.getState?.() || {}
   if (!state.tripResults?.fromCoords || !state.tripResults?.toCoords) return
 
-  // Store trip route for map to pick up
-  window.setState?.({
-    activeTab: 'map',
-    pendingTripRoute: {
-      from: state.tripResults.fromCoords,
-      to: state.tripResults.toCoords,
-      spots: state.tripResults.spots || []
-    }
-  })
+  // Switch to home tab (has the map)
+  window.setState?.({ activeTab: 'home' })
 
-  // Wait for map to init then draw route + spot markers
+  // Wait for home map to init then draw route
   setTimeout(async () => {
-    if (!window.mapInstance) return
+    const map = window.homeMapInstance
+    if (!map) return
     try {
-      const L = await import('leaflet')
+      const L = window.homeLeaflet || await import('leaflet')
       const from = state.tripResults.fromCoords
       const to = state.tripResults.toCoords
 
-      // Draw simple straight line between points
-      const routeCoords = [[from[1], from[0]], [to[1], to[0]]]
-      const { drawRoute } = await import('../../services/map.js')
-      drawRoute(window.mapInstance, L.default, routeCoords)
-
-      // Remove old trip markers if any
+      // Remove old trip markers
       if (window._tripMarkers) {
-        window._tripMarkers.forEach(m => window.mapInstance.removeLayer(m))
+        window._tripMarkers.forEach(m => map.removeLayer(m))
       }
       window._tripMarkers = []
 
-      // Add start marker (A)
-      const markerA = L.default.marker(from, {
-        icon: L.default.divIcon({
-          className: 'custom-marker',
-          html: '<div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">A</div>',
-          iconSize: [32, 32], iconAnchor: [16, 32]
-        })
-      }).addTo(window.mapInstance)
+      // Draw route line
+      const routeLine = L.polyline([from, to], {
+        color: '#0ea5e9', weight: 4, opacity: 0.8, dashArray: '8, 8'
+      }).addTo(map)
+      window._tripMarkers.push(routeLine)
+
+      // Start marker (A - green)
+      const markerA = L.circleMarker(from, {
+        radius: 12, fillColor: '#22c55e', color: '#fff', weight: 3, fillOpacity: 1
+      }).addTo(map).bindTooltip('A - Départ', { permanent: true, direction: 'top', offset: [0, -12] })
       window._tripMarkers.push(markerA)
 
-      // Add end marker (B)
-      const markerB = L.default.marker(to, {
-        icon: L.default.divIcon({
-          className: 'custom-marker',
-          html: '<div class="w-8 h-8 rounded-full bg-danger-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">B</div>',
-          iconSize: [32, 32], iconAnchor: [16, 32]
-        })
-      }).addTo(window.mapInstance)
+      // End marker (B - red)
+      const markerB = L.circleMarker(to, {
+        radius: 12, fillColor: '#ef4444', color: '#fff', weight: 3, fillOpacity: 1
+      }).addTo(map).bindTooltip('B - Arrivée', { permanent: true, direction: 'top', offset: [0, -12] })
       window._tripMarkers.push(markerB)
 
-      // Add spot markers along the route
+      // Spot markers
       const spots = state.tripResults.spots || []
       spots.forEach(spot => {
-        const lat = spot.coordinates?.[0] || spot.lat
-        const lng = spot.coordinates?.[1] || spot.lng
+        const lat = spot.coordinates?.lat || spot.lat
+        const lng = spot.coordinates?.lng || spot.lng
         if (!lat || !lng) return
-
-        const rating = spot.globalRating?.toFixed(1) || '?'
-        const marker = L.default.marker([lat, lng], {
-          icon: L.default.divIcon({
-            className: 'custom-marker',
-            html: `<div class="w-7 h-7 rounded-full bg-primary-500 flex items-center justify-center text-white text-xs font-bold shadow-lg border-2 border-white/30 cursor-pointer">${rating}</div>`,
-            iconSize: [28, 28], iconAnchor: [14, 28]
-          })
-        }).addTo(window.mapInstance)
-
-        marker.on('click', () => {
-          window.openSpotDetail?.(spot.id)
-        })
-
-        marker.bindTooltip(spot.name || 'Spot', {
-          direction: 'top',
-          offset: [0, -12],
-          className: 'spot-tooltip'
-        })
-
-        window._tripMarkers.push(marker)
+        const m = L.circleMarker([lat, lng], {
+          radius: 6, fillColor: '#22c55e', color: '#fff', weight: 1.5, fillOpacity: 0.9
+        }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
+        window._tripMarkers.push(m)
       })
 
-      // Fit map to show all markers
-      const allPoints = [from, to, ...spots.map(s => [
-        s.coordinates?.[0] || s.lat,
-        s.coordinates?.[1] || s.lng
-      ]).filter(p => p[0] && p[1])]
-      if (allPoints.length > 1) {
-        window.mapInstance.fitBounds(allPoints, { padding: [40, 40] })
-      }
-
+      // Fit map to show all
+      map.fitBounds([from, to], { padding: [40, 40] })
     } catch (e) {
       console.error('Failed to draw trip route:', e)
     }
-  }, 500)
+  }, 600)
 }
 
 export default { renderTravel };

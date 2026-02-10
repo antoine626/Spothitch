@@ -172,11 +172,11 @@ const MAIN_JS_HANDLERS = [
   // TeamChallenges (defined in teamChallenges.js)
   'openJoinTeam',
   // Home view handlers
-  'homeSearchDestination', 'homeSelectFirstSuggestion', 'homeSelectDestination',
-  'homeClearDestination', 'homeEditOrigin', 'homeSearchOrigin',
-  'homeSelectFirstOriginSuggestion', 'homeSelectOrigin', 'homeUseGPS',
-  'homeToggleFilters', 'homeSetCorridorDistance', 'homeToggleFilter',
+  'homeSearchDestination', 'homeSelectFirstSuggestion', 'homeSelectPlace',
+  'homeSelectDestination', 'homeClearSearch', 'homeClearDestination',
   'homeCenterOnUser',
+  // Trip autocomplete
+  'tripSearchSuggestions', 'tripSelectSuggestion', 'tripSelectFirst',
   // Map search (defined in Map.js)
   'selectSearchSuggestion', 'hideSearchSuggestions',
   // Offline download

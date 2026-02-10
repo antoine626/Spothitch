@@ -1194,6 +1194,17 @@ textarea[aria-invalid="true"] {
   @apply bg-slate-200;
 }
 
+/* Dark theme - Inputs (base) */
+.input-field {
+  @apply bg-slate-800/80 border border-white/10 text-white rounded-xl px-4 py-3 placeholder-slate-400 transition-all;
+}
+.input-field:focus {
+  @apply border-sky-500 ring-2 ring-sky-500/20 outline-none;
+}
+textarea.input-field {
+  @apply min-h-[80px] resize-y;
+}
+
 /* Light theme - Inputs */
 .light-theme .input-modern,
 .light-theme .input-field {

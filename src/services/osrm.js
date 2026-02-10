@@ -141,12 +141,17 @@ export async function searchLocation(query) {
     return [];
   }
 
-  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`;
+  // Get app language for localized results
+  let lang = 'fr'
+  try { lang = (await import('../stores/state.js')).getState().lang || 'fr' } catch (e) {}
+
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&accept-language=${lang}`;
 
   try {
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'SpotHitch/2.0 (https://antoine626.github.io/Spothitch)',
+        'Accept-Language': lang,
       },
     });
 

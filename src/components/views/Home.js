@@ -67,7 +67,7 @@ export function renderHome(state) {
       <!-- Add Spot FAB -->
       <button
         onclick="openAddSpot()"
-        class="fixed bottom-24 right-4 z-30 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-xl hover:bg-primary-600 hover:scale-110 transition-all"
+        class="fixed bottom-28 right-4 z-30 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-xl hover:bg-primary-600 hover:scale-110 transition-all"
         aria-label="${t('addSpot') || 'Ajouter un spot'}"
         title="${t('addSpot') || 'Ajouter un spot'}"
       >
