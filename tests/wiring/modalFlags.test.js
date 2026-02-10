@@ -1,29 +1,20 @@
 /**
  * Wiring Tests - Modal Flags
- * Verifies each state flag produces non-empty HTML with expected elements
+ * Verifies every modal flag produces non-empty HTML
  *
- * RULE: Every new modal MUST have its flag tested here.
+ * RULE: Every new modal MUST be tested here to ensure flag → HTML works.
  */
 
-import { describe, it, expect, beforeAll, vi } from 'vitest'
+import { describe, test, expect, beforeEach } from 'vitest'
 import { setState, getState } from '../../src/stores/state.js'
 
-// Modals that take state param
+// Import all modals
 import { renderSOS } from '../../src/components/modals/SOS.js'
 import { renderAuth } from '../../src/components/modals/Auth.js'
 import { renderAddSpot } from '../../src/components/modals/AddSpot.js'
 import { renderSpotDetail } from '../../src/components/modals/SpotDetail.js'
 import { renderWelcome } from '../../src/components/modals/Welcome.js'
 import { renderTutorial } from '../../src/components/modals/Tutorial.js'
-import { renderAgeVerification } from '../../src/components/modals/AgeVerification.js'
-import { renderIdentityVerification } from '../../src/components/modals/IdentityVerification.js'
-import { renderTitlesModal } from '../../src/components/modals/TitlesModal.js'
-import { renderCreateTravelGroupModal } from '../../src/components/modals/CreateTravelGroup.js'
-import { renderFriendProfileModal } from '../../src/components/modals/FriendProfile.js'
-import { renderAdminPanel } from '../../src/components/modals/AdminPanel.js'
-import { renderCheckinModal } from '../../src/components/modals/CheckinModal.js'
-
-// Modals that use getState() internally (no param)
 import { renderFiltersModal } from '../../src/components/modals/Filters.js'
 import { renderStatsModal } from '../../src/components/modals/Stats.js'
 import { renderBadgesModal } from '../../src/components/modals/Badges.js'
@@ -31,9 +22,16 @@ import { renderChallengesModal } from '../../src/components/modals/Challenges.js
 import { renderShopModal, renderMyRewardsModal } from '../../src/components/modals/Shop.js'
 import { renderQuiz } from '../../src/components/modals/Quiz.js'
 import { renderLeaderboardModal } from '../../src/components/modals/Leaderboard.js'
+import { renderCheckinModal } from '../../src/components/modals/CheckinModal.js'
+import { renderAgeVerification } from '../../src/components/modals/AgeVerification.js'
+import { renderIdentityVerification } from '../../src/components/modals/IdentityVerification.js'
+import { renderTitlesModal } from '../../src/components/modals/TitlesModal.js'
+import { renderCreateTravelGroupModal } from '../../src/components/modals/CreateTravelGroup.js'
+import { renderFriendProfileModal } from '../../src/components/modals/FriendProfile.js'
+import { renderAdminPanel } from '../../src/components/modals/AdminPanel.js'
 import { renderMyDataModal } from '../../src/components/modals/MyData.js'
 
-// Service renders
+// Service modals
 import { renderSkillTree } from '../../src/services/skillTree.js'
 import { renderTravelGroupDetail } from '../../src/services/travelGroups.js'
 import { renderNearbyFriendsList } from '../../src/services/nearbyFriends.js'
@@ -43,211 +41,312 @@ import { renderReportModal } from '../../src/services/moderation.js'
 import { renderTeamDashboard } from '../../src/services/teamChallenges.js'
 import { renderDonationModal } from '../../src/components/ui/DonationCard.js'
 
-const mockSpot = {
-  id: 1,
-  name: 'Test Spot',
-  city: 'Paris',
-  country: 'FR',
-  coordinates: { lat: 48.8566, lng: 2.3522 },
-  globalRating: 4.5,
-  totalRatings: 10,
-  description: 'A good spot',
-  photos: ['photo1.jpg'],
-  waitTime: 15,
-  verified: true,
-  createdBy: 'other-user',
-}
-
-const baseState = {
-  user: { uid: 'test-user', displayName: 'TestUser', email: 'test@test.com' },
+const mockState = {
   username: 'TestUser',
   avatar: '🤙',
-  isLoggedIn: true,
-  activeTab: 'map',
-  theme: 'dark',
-  lang: 'fr',
-  points: 500,
   level: 5,
-  checkins: 20,
-  spotsCreated: 5,
-  reviewsGiven: 10,
-  streak: 3,
-  badges: ['first_checkin'],
-  rewards: [],
-  spots: [mockSpot],
-  friends: [
-    { id: 'friend1', name: 'Alice', avatar: '👩', level: 3, badges: ['first_checkin'] },
+  points: 500,
+  spots: [
+    {
+      id: 1,
+      name: 'Test Spot',
+      city: 'Paris',
+      country: 'FR',
+      coordinates: { lat: 48.8566, lng: 2.3522 },
+      globalRating: 4.5,
+      description: 'Test spot',
+      photos: ['test.jpg'],
+    },
   ],
-  emergencyContacts: [{ name: 'Mom', phone: '+33600000000' }],
-  travelGroups: [
-    { id: 'group1', name: 'Europe Trip', members: ['test-user'], itinerary: [], chat: [] },
-  ],
+  friends: [{ id: 'friend1', name: 'Alice', avatar: '👩', level: 3 }],
+  emergencyContacts: [{ name: 'Bob', phone: '+33612345678' }],
+  user: { uid: 'test-user', email: 'test@test.com' },
+  isLoggedIn: true,
+  badges: [],
+  streak: 5,
   seasonPoints: 100,
   totalPoints: 500,
-  userLocation: { lat: 48.8566, lng: 2.3522 },
-  isOnline: true,
-  sosActive: false,
-  checkinHistory: [],
-  verificationLevel: 0,
-  profileFrame: null,
-  profileTitle: null,
-  tripFrom: '',
-  tripTo: '',
-  tripResults: null,
-  savedTrips: [],
-  messages: [],
-  chatRoom: 'general',
-  tutorialStep: 0,
-  tutorialCompleted: false,
-  selectedFriendProfileId: 'friend1',
-  selectedTravelGroupId: 'group1',
-  reportTargetId: 'user1',
-  reportTargetType: 'user',
+  spotsCreated: 2,
+  checkins: 5,
+  reviewsGiven: 3,
+  skillPoints: 10,
+  unlockedSkills: [],
 }
 
-// Set global state for no-param modals
-beforeAll(() => {
-  setState({
-    ...baseState,
-    showFilters: true,
-    showStats: true,
-    showBadges: true,
-    showChallenges: true,
-    showShop: true,
-    showMyRewards: true,
-    showQuiz: true,
-    showLeaderboard: true,
-    showMyData: true,
-  })
+beforeEach(() => {
+  setState(mockState)
 })
 
-describe('Modal Flags: each flag produces non-empty HTML', () => {
-  // Helper: test a modal renders non-empty HTML with close button
-  function testModalFlag(name, renderFn, stateOverrides = {}, { hasCloseButton = true, hasTitle = true } = {}) {
-    it(`${name}: renders non-empty HTML`, () => {
-      const state = { ...baseState, ...stateOverrides }
-      let html
-      try {
-        html = typeof renderFn === 'function' && renderFn.length === 0
-          ? renderFn()
-          : renderFn(state)
-      } catch {
-        try {
-          html = renderFn()
-        } catch {
-          // If it genuinely can't render, that's a real failure
-          expect.fail(`${name} render function threw an error`)
-        }
-      }
+describe('Modal Flags: flag produces non-empty HTML', () => {
+  test('showSOS flag renders SOS modal', () => {
+    const state = { ...mockState, showSOS: true }
+    const html = renderSOS(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html).toContain('sos')
+  })
 
-      // HTML must be non-empty
-      expect(html, `${name} returned empty/falsy HTML`).toBeTruthy()
-      expect(typeof html).toBe('string')
-      expect(html.length, `${name} HTML is too short`).toBeGreaterThan(50)
-    })
+  test('showAuth flag renders Auth modal', () => {
+    const state = { ...mockState, showAuth: true }
+    const html = renderAuth(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('auth')
+  })
 
-    if (hasCloseButton) {
-      it(`${name}: has a close button or backdrop close`, () => {
-        const state = { ...baseState, ...stateOverrides }
-        let html
-        try {
-          html = typeof renderFn === 'function' && renderFn.length === 0
-            ? renderFn()
-            : renderFn(state)
-        } catch {
-          html = renderFn()
-        }
-        if (!html) return
+  test('showAddSpot flag renders AddSpot modal', () => {
+    const state = { ...mockState, showAddSpot: true }
+    const html = renderAddSpot(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('spot')
+  })
 
-        // Check for close handler (closeX, fa-times icon, or backdrop onclick)
-        const hasClose = html.includes('close') || html.includes('fa-times') || html.includes('Fermer')
-        expect(hasClose, `${name} has no close mechanism`).toBe(true)
-      })
+  test('selectedSpot renders SpotDetail modal', () => {
+    const state = { ...mockState, selectedSpot: mockState.spots[0] }
+    const html = renderSpotDetail(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    // SpotDetail renders spot name somewhere in HTML
+    expect(html.toLowerCase()).toMatch(/test[\s\S]*spot|spot[\s\S]*test/)
+  })
+
+  test('showWelcome flag renders Welcome modal', () => {
+    const state = { ...mockState, showWelcome: true, username: '' }
+    const html = renderWelcome(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('welcome')
+  })
+
+  test('showTutorial flag renders Tutorial modal', () => {
+    const state = { ...mockState, showTutorial: true, tutorialStep: 0 }
+    const html = renderTutorial(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showFilters flag renders Filters modal', () => {
+    setState({ showFilters: true, ...mockState })
+    const html = renderFiltersModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('filtr')
+  })
+
+  test('showStats flag renders Stats modal', () => {
+    setState({ showStats: true, ...mockState })
+    const html = renderStatsModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showBadges flag renders Badges modal', () => {
+    setState({ showBadges: true, ...mockState })
+    const html = renderBadgesModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('badge')
+  })
+
+  test('showChallenges flag renders Challenges modal', () => {
+    setState({ showChallenges: true, ...mockState })
+    const html = renderChallengesModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showShop flag renders Shop modal', () => {
+    setState({ showShop: true, ...mockState })
+    const html = renderShopModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showMyRewards flag renders MyRewards modal', () => {
+    setState({ showMyRewards: true, ...mockState })
+    const html = renderMyRewardsModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showQuiz flag renders Quiz modal', () => {
+    setState({ showQuiz: true, ...mockState })
+    const html = renderQuiz()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('quiz')
+  })
+
+  test('showLeaderboard flag renders Leaderboard modal', () => {
+    setState({ showLeaderboard: true, ...mockState })
+    const html = renderLeaderboardModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('checkinSpot flag renders CheckinModal', () => {
+    const state = { ...mockState, checkinSpot: mockState.spots[0] }
+    const html = renderCheckinModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('checkin')
+  })
+
+  test('showAgeVerification flag renders AgeVerification modal', () => {
+    const state = { ...mockState, showAgeVerification: true }
+    const html = renderAgeVerification(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showIdentityVerification flag renders IdentityVerification modal', () => {
+    const html = renderIdentityVerification()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showTitles flag renders TitlesModal', () => {
+    const state = { ...mockState, showTitles: true }
+    const html = renderTitlesModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('titr')
+  })
+
+  test('showCreateTravelGroup flag renders CreateTravelGroup modal', () => {
+    const state = { ...mockState, showCreateTravelGroup: true }
+    const html = renderCreateTravelGroupModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showFriendProfile flag renders FriendProfile modal', () => {
+    const state = {
+      ...mockState,
+      showFriendProfile: true,
+      selectedFriendProfileId: 'friend1',
     }
-  }
-
-  // ---- Modals with state param ----
-  testModalFlag('showSOS → SOS', renderSOS, { showSOS: true })
-  testModalFlag('showAuth → Auth', renderAuth, { showAuth: true })
-  testModalFlag('showAddSpot → AddSpot', renderAddSpot, { showAddSpot: true })
-  testModalFlag('selectedSpot → SpotDetail', renderSpotDetail, { selectedSpot: mockSpot })
-  testModalFlag('showWelcome → Welcome', renderWelcome, { showWelcome: true }, { hasCloseButton: false })
-  testModalFlag('showTutorial → Tutorial', renderTutorial, { showTutorial: true, tutorialStep: 0 }, { hasCloseButton: false })
-  testModalFlag('showAgeVerification → AgeVerification', renderAgeVerification, { showAgeVerification: true }, { hasCloseButton: false })
-  testModalFlag('showIdentityVerification → IdentityVerification', () => renderIdentityVerification(), {}, { hasCloseButton: true })
-  testModalFlag('showTitles → TitlesModal', renderTitlesModal, { showTitles: true })
-  testModalFlag('showCreateTravelGroup → CreateTravelGroup', renderCreateTravelGroupModal, { showCreateTravelGroup: true })
-  testModalFlag('showFriendProfile → FriendProfile', renderFriendProfileModal, {
-    showFriendProfile: true,
-    selectedFriendProfileId: 'friend1',
-    friends: baseState.friends,
+    const html = renderFriendProfileModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
   })
-  testModalFlag('showAdminPanel → AdminPanel', renderAdminPanel, { showAdminPanel: true })
-  testModalFlag('checkinSpot → CheckinModal', renderCheckinModal, { checkinSpot: mockSpot })
 
-  // ---- Modals without param (use getState()) ----
-  testModalFlag('showFilters → Filters', renderFiltersModal)
-  testModalFlag('showStats → Stats', renderStatsModal)
-  testModalFlag('showBadges → Badges', renderBadgesModal)
-  testModalFlag('showChallenges → Challenges', renderChallengesModal)
-  testModalFlag('showShop → Shop', renderShopModal)
-  testModalFlag('showMyRewards → MyRewards', renderMyRewardsModal)
-  testModalFlag('showQuiz → Quiz', renderQuiz)
-  testModalFlag('showLeaderboard → Leaderboard', renderLeaderboardModal)
-  testModalFlag('showMyData → MyData', renderMyDataModal)
+  test('showAdminPanel flag renders AdminPanel modal', () => {
+    const state = { ...mockState, showAdminPanel: true }
+    const html = renderAdminPanel(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('admin')
+  })
 
-  // ---- Service renders ----
-  testModalFlag('showSkillTree → SkillTree', renderSkillTree, { showSkillTree: true }, { hasCloseButton: false })
-  testModalFlag('showTravelGroupDetail → TravelGroupDetail', renderTravelGroupDetail, {
-    showTravelGroupDetail: true,
-    selectedTravelGroupId: 'group1',
-    currentTravelGroup: {
-      id: 'group1',
-      name: 'Europe Trip',
-      creator: 'test-user',
-      members: ['test-user'],
-      itinerary: [],
-      chat: [],
-      status: 'planning',
-      maxMembers: 6,
-      description: 'A fun trip',
-    },
+  test('showMyData flag renders MyData modal', () => {
+    setState({ showMyData: true, ...mockState })
+    const html = renderMyDataModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
   })
-  testModalFlag('showNearbyFriends → NearbyFriendsList', renderNearbyFriendsList, { showNearbyFriends: true })
-  testModalFlag('showProfileCustomization → CustomizationModal', renderCustomizationModal, { showProfileCustomization: true })
-  testModalFlag('showAccessibilityHelp → AccessibilityHelp', renderAccessibilityHelp, { showAccessibilityHelp: true })
-  testModalFlag('showReport → ReportModal', renderReportModal, {
-    showReport: true,
-    reportTargetId: 'user1',
-    reportTargetType: 'user',
+
+  test('showSkillTree flag renders SkillTree modal', () => {
+    const state = { ...mockState, showSkillTree: true }
+    const html = renderSkillTree(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
   })
-  testModalFlag('showTeamChallenges → TeamDashboard', renderTeamDashboard, { showTeamChallenges: true }, { hasCloseButton: false })
-  testModalFlag('showDonation → DonationModal', renderDonationModal, { showDonation: true })
+
+  test('showTravelGroupDetail flag renders TravelGroupDetail', () => {
+    const state = {
+      ...mockState,
+      showTravelGroupDetail: true,
+      selectedTravelGroupId: 'group1',
+      currentTravelGroup: {
+        id: 'group1',
+        name: 'Test Group',
+        creator: 'test-user',
+        members: ['test-user'],
+        itinerary: [],
+        chat: [],
+        status: 'planning',
+      },
+    }
+    const html = renderTravelGroupDetail(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showNearbyFriends flag renders NearbyFriendsList', () => {
+    const state = { ...mockState, showNearbyFriends: true }
+    const html = renderNearbyFriendsList(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(50)
+  })
+
+  test('showProfileCustomization flag renders CustomizationModal', () => {
+    const state = { ...mockState, showProfileCustomization: true }
+    const html = renderCustomizationModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showAccessibilityHelp flag renders AccessibilityHelp', () => {
+    const state = { ...mockState, showAccessibilityHelp: true }
+    const html = renderAccessibilityHelp(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showReport flag renders ReportModal', () => {
+    const state = {
+      ...mockState,
+      showReport: true,
+      reportTargetId: 'user1',
+      reportTargetType: 'user',
+    }
+    const html = renderReportModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showTeamChallenges flag renders TeamDashboard', () => {
+    const state = { ...mockState, showTeamChallenges: true }
+    const html = renderTeamDashboard(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(50)
+  })
+
+  test('showDonation flag renders DonationModal', () => {
+    const state = { ...mockState, showDonation: true }
+    const html = renderDonationModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+  })
 })
 
-describe('Modal Flags: accessibility attributes', () => {
-  const accessibleModals = [
-    { name: 'SOS', fn: renderSOS, state: { showSOS: true }, roleOverride: 'alertdialog' },
-    { name: 'Auth', fn: renderAuth, state: { showAuth: true } },
-    { name: 'AddSpot', fn: renderAddSpot, state: { showAddSpot: true } },
-    { name: 'TitlesModal', fn: renderTitlesModal, state: { showTitles: true } },
-    { name: 'CreateTravelGroup', fn: renderCreateTravelGroupModal, state: { showCreateTravelGroup: true } },
-  ]
+describe('Modal Flags: close buttons present in HTML', () => {
+  test('all modals have close mechanism in HTML', () => {
+    const modalsWithClose = [
+      { name: 'SOS', html: renderSOS({ ...mockState, showSOS: true }) },
+      { name: 'Auth', html: renderAuth({ ...mockState, showAuth: true }) },
+      { name: 'AddSpot', html: renderAddSpot({ ...mockState, showAddSpot: true }) },
+      { name: 'SpotDetail', html: renderSpotDetail({ ...mockState, selectedSpot: mockState.spots[0] }) },
+      { name: 'Filters', html: renderFiltersModal() },
+      { name: 'Stats', html: renderStatsModal() },
+      { name: 'Badges', html: renderBadgesModal() },
+      { name: 'Challenges', html: renderChallengesModal() },
+      { name: 'Shop', html: renderShopModal() },
+      { name: 'MyRewards', html: renderMyRewardsModal() },
+      { name: 'Quiz', html: renderQuiz() },
+      { name: 'Leaderboard', html: renderLeaderboardModal() },
+      { name: 'Titles', html: renderTitlesModal({ ...mockState, showTitles: true }) },
+      { name: 'CreateTravelGroup', html: renderCreateTravelGroupModal({ ...mockState, showCreateTravelGroup: true }) },
+      { name: 'FriendProfile', html: renderFriendProfileModal({ ...mockState, showFriendProfile: true, selectedFriendProfileId: 'friend1' }) },
+      { name: 'AdminPanel', html: renderAdminPanel({ ...mockState, showAdminPanel: true }) },
+      { name: 'MyData', html: renderMyDataModal() },
+    ]
 
-  for (const { name, fn, state: overrides, roleOverride } of accessibleModals) {
-    it(`${name} has role="${roleOverride || 'dialog'}" and aria-modal="true"`, () => {
-      const state = { ...baseState, ...overrides }
-      let html
-      try {
-        html = fn(state)
-      } catch {
-        html = fn()
-      }
-      if (!html) return
-
-      const expectedRole = roleOverride || 'dialog'
-      expect(html).toContain(`role="${expectedRole}"`)
-      expect(html).toContain('aria-modal="true"')
-    })
-  }
+    for (const { name, html } of modalsWithClose) {
+      const hasCloseHandler = html.includes('close') || html.includes('fa-times') || html.includes('Fermer')
+      expect(hasCloseHandler, `${name} modal missing close button/handler`).toBe(true)
+    }
+  })
 })

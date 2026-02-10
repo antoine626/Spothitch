@@ -102,6 +102,10 @@ const MAIN_JS_HANDLERS = [
   // Profile customization
   'openProfileCustomization', 'closeProfileCustomization',
   'equipFrameAction', 'equipTitleAction',
+  // Proximity alerts
+  'toggleProximityAlerts', 'setProximityRadius',
+  // Trip history
+  'openTripHistory', 'closeTripHistory', 'clearTripHistory',
   // Image
   'compressImage', 'generateThumbnail', 'validateImage',
   // Landing / Help
