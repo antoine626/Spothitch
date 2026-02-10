@@ -472,6 +472,33 @@ function loadInitialData() {
 }
 
 /**
+ * Load spots near a location via spotLoader
+ */
+async function loadNearbySpots(loc) {
+  try {
+    const { loadSpotsInBounds } = await import('./services/spotLoader.js')
+    const bounds = {
+      north: loc.lat + 3,
+      south: loc.lat - 3,
+      east: loc.lng + 3,
+      west: loc.lng - 3,
+    }
+    const spots = await loadSpotsInBounds(bounds)
+    if (spots.length > 0) {
+      const current = getState().spots || []
+      const existingIds = new Set(current.map(s => s.id))
+      const newSpots = spots.filter(s => !existingIds.has(s.id))
+      if (newSpots.length > 0) {
+        actions.setSpots([...current, ...newSpots])
+        console.log(`📍 ${newSpots.length} spots chargés à proximité`)
+      }
+    }
+  } catch (e) {
+    console.warn('loadNearbySpots failed:', e)
+  }
+}
+
+/**
  * Hide the loading screen (splash screen)
  */
 function hideLoader() {

@@ -268,11 +268,23 @@ function initHomeMap(state) {
       }).addTo(map).bindTooltip('Ma position', { permanent: false })
     }
 
-    // Load visible spots on map move/zoom (read fresh state each time)
-    const updateVisibleSpots = () => {
+    // spotLoader module reference (loaded once, reused)
+    let spotLoader = null
+    import('../services/spotLoader.js').then(mod => { spotLoader = mod }).catch(() => {})
+
+    // Display spots currently available on the visible map area
+    const displayVisibleSpots = () => {
       const bounds = map.getBounds()
       const currentState = getState()
-      const allSpots = currentState.spots || []
+      const stateSpots = currentState.spots || []
+
+      // Merge state spots + spotLoader spots (deduplicate by id)
+      const spotsMap = new Map()
+      stateSpots.forEach(s => spotsMap.set(s.id, s))
+      if (spotLoader) {
+        spotLoader.getAllLoadedSpots().forEach(s => spotsMap.set(s.id, s))
+      }
+      const allSpots = Array.from(spotsMap.values())
 
       // Clear old markers
       window.homeSpotMarkers.forEach(m => map.removeLayer(m))
@@ -303,11 +315,44 @@ function initHomeMap(state) {
       if (badge) badge.textContent = count
     }
 
-    map.on('moveend', updateVisibleSpots)
-    map.on('zoomend', updateVisibleSpots)
+    // Load spots from spotLoader for visible bounds, then redisplay
+    let isLoadingSpots = false
+    const loadAndDisplaySpots = async () => {
+      // Show already-loaded spots immediately
+      displayVisibleSpots()
+
+      // Then trigger loading for visible countries
+      if (!spotLoader || isLoadingSpots) return
+      isLoadingSpots = true
+      try {
+        const bounds = map.getBounds()
+        await spotLoader.loadSpotsInBounds({
+          north: bounds.getNorth(),
+          south: bounds.getSouth(),
+          east: bounds.getEast(),
+          west: bounds.getWest(),
+        })
+        // Redisplay with newly loaded spots
+        displayVisibleSpots()
+      } catch (e) {
+        console.warn('Spot loading failed:', e)
+      } finally {
+        isLoadingSpots = false
+      }
+    }
+
+    // Debounce spot loading on map move (300ms)
+    let moveTimer = null
+    const onMapMove = () => {
+      displayVisibleSpots() // instant display of cached spots
+      clearTimeout(moveTimer)
+      moveTimer = setTimeout(loadAndDisplaySpots, 300)
+    }
+
+    map.on('moveend', onMapMove)
 
     // Initial load
-    setTimeout(updateVisibleSpots, 300)
+    setTimeout(loadAndDisplaySpots, 300)
 
     // Fix map size (container may have changed)
     setTimeout(() => map.invalidateSize(), 200)

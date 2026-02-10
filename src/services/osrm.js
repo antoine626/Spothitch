@@ -161,12 +161,23 @@ export async function searchLocation(query) {
 
     const data = await response.json();
 
-    return data.map(item => ({
+    const results = data.map(item => ({
       name: item.display_name,
       lat: parseFloat(item.lat),
       lng: parseFloat(item.lon),
       type: item.type,
     }));
+
+    // Deduplicate: remove entries with same short name and close coordinates
+    const seen = new Set()
+    return results.filter(r => {
+      const shortName = r.name.split(',').slice(0, 2).join(',').trim()
+      const coordKey = `${r.lat.toFixed(2)},${r.lng.toFixed(2)}`
+      const key = `${shortName}|${coordKey}`
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    });
   } catch (error) {
     console.error('Geocoding failed:', error);
     return [];
