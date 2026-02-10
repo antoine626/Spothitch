@@ -20,6 +20,7 @@
     "test:monkey": "playwright test e2e/monkeyTest.spec.js --project=chromium",
     "test:all": "vitest run && vitest run tests/wiring/ tests/integration/modals.test.js && npm run build",
     "lint:i18n": "node scripts/lint-i18n.mjs",
+    "audit:rgpd": "node scripts/audit-rgpd.mjs",
     "deploy": "npm run build && gh-pages -d dist",
     "sync:spots": "node scripts/extract-spots.mjs"
   },
