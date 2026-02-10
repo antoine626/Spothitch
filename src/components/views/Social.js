@@ -5,6 +5,7 @@
 
 import { t } from '../../i18n/index.js';
 import { renderSkeletonChatList, renderSkeletonFriendCard } from '../ui/Skeleton.js';
+import { getTrustBadge } from '../../services/identityVerification.js';
 
 export function renderSocial(state) {
   const activeSubTab = state.socialSubTab || 'general';
@@ -253,7 +254,10 @@ function renderFriends(state) {
 }"></span>
               </div>
               <div class="flex-1 min-w-0">
-                <div class="font-medium truncate">${friend.name}</div>
+                <div class="flex items-center gap-2">
+                  <div class="font-medium truncate">${friend.name}</div>
+                  ${getTrustBadge(friend.verificationLevel || 0)}
+                </div>
                 <div class="text-xs text-slate-400">
                   ${friend.lastMessage || (friend.online ? 'En ligne' : 'Hors ligne')}
                 </div>

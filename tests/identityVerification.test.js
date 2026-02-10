@@ -70,10 +70,10 @@ describe('Identity Verification Service', () => {
   })
 
   describe('verificationLevels', () => {
-    it('should have all 5 verification levels (0-4)', () => {
-      expect(Object.keys(verificationLevels).length).toBe(5)
+    it('should have all 6 verification levels (0-5)', () => {
+      expect(Object.keys(verificationLevels).length).toBe(6)
       expect(verificationLevels[0]).toBeDefined()
-      expect(verificationLevels[4]).toBeDefined()
+      expect(verificationLevels[5]).toBeDefined()
     })
 
     it('should have unverified level at index 0', () => {
@@ -87,7 +87,7 @@ describe('Identity Verification Service', () => {
       const level = verificationLevels[1]
       expect(level.id).toBe(1)
       expect(level.name).toBe('Email verifie')
-      expect(level.trustScore).toBe(15)
+      expect(level.trustScore).toBe(10)
       expect(level.benefits.length).toBeGreaterThan(0)
     })
 
@@ -95,21 +95,21 @@ describe('Identity Verification Service', () => {
       const level = verificationLevels[2]
       expect(level.id).toBe(2)
       expect(level.name).toBe('Telephone verifie')
-      expect(level.trustScore).toBe(30)
+      expect(level.trustScore).toBe(25)
     })
 
     it('should have photo verified level at index 3', () => {
       const level = verificationLevels[3]
       expect(level.id).toBe(3)
-      expect(level.name).toBe('Photo verifiee')
-      expect(level.trustScore).toBe(50)
+      expect(level.name).toBe('Selfie + ID soumis')
+      expect(level.trustScore).toBe(40)
     })
 
     it('should have identity verified level at index 4', () => {
       const level = verificationLevels[4]
       expect(level.id).toBe(4)
       expect(level.name).toBe('Identite verifiee')
-      expect(level.trustScore).toBe(100)
+      expect(level.trustScore).toBe(70)
     })
 
     it('should have color property for each level', () => {
@@ -179,7 +179,7 @@ describe('Identity Verification Service', () => {
 
     it('should return null when at maximum level', () => {
       getState.mockReturnValueOnce({
-        verificationLevel: 4,
+        verificationLevel: 5,
       })
       const next = getNextVerificationLevel()
       expect(next).toBeNull()
@@ -190,7 +190,7 @@ describe('Identity Verification Service', () => {
     it('should return progress object with correct structure', () => {
       const progress = getVerificationProgress()
       expect(progress.currentLevel).toBeDefined()
-      expect(progress.maxLevel).toBe(4)
+      expect(progress.maxLevel).toBe(5)
       expect(progress.progress).toBeDefined()
       expect(progress.trustScore).toBeDefined()
       expect(progress.maxTrustScore).toBe(100)
@@ -205,8 +205,8 @@ describe('Identity Verification Service', () => {
       const progress = getVerificationProgress()
       expect(progress.verifications.email).toBe(false)
       expect(progress.verifications.phone).toBe(false)
-      expect(progress.verifications.photo).toBe(false)
-      expect(progress.verifications.identity).toBe(false)
+      expect(progress.verifications.selfieIdSubmitted).toBe(false)
+      expect(progress.verifications.identityVerified).toBe(false)
     })
   })
 
@@ -482,7 +482,7 @@ describe('Identity Verification Service', () => {
 
     it('should show completion message at max level', () => {
       getState.mockReturnValue({
-        verificationLevel: 4,
+        verificationLevel: 5,
         pendingPhoneVerification: null,
         pendingPhotoVerification: null,
         pendingIdentityVerification: null,

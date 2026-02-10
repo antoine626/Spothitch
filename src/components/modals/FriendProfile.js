@@ -3,6 +3,8 @@
  * Shows another user's profile with avatar, level, badges, and remove button
  */
 
+import { getTrustBadge } from '../../services/identityVerification.js'
+
 export function renderFriendProfileModal(state) {
   const friendId = state.selectedFriendProfileId
   const friends = state.friends || []
@@ -28,9 +30,12 @@ export function renderFriendProfileModal(state) {
             ${friend.avatar || '🤙'}
           </div>
 
-          <!-- Name -->
+          <!-- Name + Trust Badge -->
           <div>
-            <h2 class="text-xl font-bold">${friend.name}</h2>
+            <div class="flex items-center justify-center gap-2">
+              <h2 class="text-xl font-bold">${friend.name}</h2>
+              ${getTrustBadge(friend.verificationLevel || 0)}
+            </div>
             <div class="flex items-center justify-center gap-2 mt-1">
               <span class="w-3 h-3 rounded-full ${friend.online ? 'bg-emerald-500' : 'bg-slate-500'}"></span>
               <span class="text-sm text-slate-400">${friend.online ? 'En ligne' : 'Hors ligne'}</span>
