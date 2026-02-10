@@ -94,6 +94,12 @@ import { initPWA, showInstallBanner, dismissInstallBanner, installPWA } from './
 import { initNetworkMonitor, updateNetworkStatus, cleanupOldData } from './utils/network.js';
 import { scheduleRender, debouncedRender } from './utils/render.js';
 import { debounce } from './utils/performance.js';
+import { observeAllLazyImages } from './utils/lazyImages.js';
+import { initWebVitals } from './utils/webVitals.js';
+import { initHoverPrefetch, prefetchNextTab } from './utils/prefetch.js';
+import { trackTabChange, trackModalOpen, trackAction } from './utils/analytics.js';
+import { getAdaptiveConfig } from './utils/adaptiveLoading.js';
+import { cleanupDrafts } from './utils/formPersistence.js';
 import { sanitize, sanitizeInput } from './utils/sanitize.js';
 import { runAllCleanup, registerCleanup } from './utils/cleanup.js';
 import { initDeepLinkListener, handleDeepLink, shareLink } from './utils/deeplink.js';
@@ -321,6 +327,27 @@ async function init() {
     // Cleanup old cached data
     cleanupOldData();
 
+    // Initialize Web Vitals monitoring
+    try {
+      initWebVitals();
+    } catch (e) {
+      console.warn('Web Vitals init skipped:', e.message);
+    }
+
+    // Initialize predictive prefetch on hover
+    try {
+      initHoverPrefetch();
+    } catch (e) {
+      console.warn('Hover prefetch skipped:', e.message);
+    }
+
+    // Cleanup expired form drafts
+    try {
+      cleanupDrafts();
+    } catch (e) {
+      console.warn('Draft cleanup skipped:', e.message);
+    }
+
     // Subscribe to state changes and render
     subscribe((state) => {
       scheduleRender(() => render(state));
@@ -480,6 +507,15 @@ function render(state) {
 
   // Call afterRender hook
   afterRender(state);
+
+  // Observe lazy images after DOM update
+  requestAnimationFrame(() => observeAllLazyImages());
+
+  // Track tab changes for analytics
+  if (previousTab !== state.activeTab) {
+    trackTabChange(state.activeTab);
+    prefetchNextTab(state.activeTab);
+  }
 
   // Restore scroll position after render
   if (previousTab !== state.activeTab) {
@@ -1556,6 +1592,39 @@ window.upvoteHostel = async (city, hostelName) => {
 window.switchHostelCategory = async (category, cityName) => {
   const { switchHostelCategory } = await import('./services/hostelRecommendations.js');
   switchHostelCategory(category, cityName);
+};
+
+// Webhook handlers
+window.openAddWebhook = async () => {
+  const { addWebhook, WEBHOOK_TYPES } = await import('./services/webhooks.js');
+  const url = prompt('URL du webhook (Discord/Telegram/Slack):');
+  if (!url) return;
+  const type = url.includes('discord') ? WEBHOOK_TYPES.DISCORD
+    : url.includes('telegram') ? WEBHOOK_TYPES.TELEGRAM
+    : url.includes('slack') ? WEBHOOK_TYPES.SLACK
+    : WEBHOOK_TYPES.CUSTOM;
+  addWebhook({ type, url, name: type.charAt(0).toUpperCase() + type.slice(1) + ' Webhook' });
+  showToast('Webhook ajoute !', 'success');
+  scheduleRender(() => render(getState()));
+};
+window.toggleWebhookAction = async (id) => {
+  const { toggleWebhook } = await import('./services/webhooks.js');
+  toggleWebhook(id);
+  scheduleRender(() => render(getState()));
+};
+window.removeWebhookAction = async (id) => {
+  const { removeWebhook } = await import('./services/webhooks.js');
+  removeWebhook(id);
+  showToast('Webhook supprime', 'success');
+  scheduleRender(() => render(getState()));
+};
+
+// Form persistence handler
+window.clearFormDraft = async (formId) => {
+  const { clearDraft } = await import('./utils/formPersistence.js');
+  clearDraft(formId);
+  showToast('Brouillon efface', 'info');
+  scheduleRender(() => render(getState()));
 };
 
 // ==================== START APP ====================
