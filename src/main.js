@@ -93,6 +93,7 @@ import { announce, announceAction, prefersReducedMotion } from './utils/a11y.js'
 import { initPWA, showInstallBanner, dismissInstallBanner, installPWA } from './utils/pwa.js';
 import { initNetworkMonitor, updateNetworkStatus, cleanupOldData } from './utils/network.js';
 import { scheduleRender, debouncedRender } from './utils/render.js';
+import { debounce } from './utils/performance.js';
 import { sanitize, sanitizeInput } from './utils/sanitize.js';
 import { runAllCleanup, registerCleanup } from './utils/cleanup.js';
 import { initDeepLinkListener, handleDeepLink, shareLink } from './utils/deeplink.js';
@@ -1038,7 +1039,7 @@ window.sendMessage = async () => {
 
 // Filter handlers
 window.setFilter = (filter) => actions.setFilter(filter);
-window.handleSearch = (query) => actions.setSearchQuery(query);
+window.handleSearch = (query) => debounce('search', () => actions.setSearchQuery(query), 250);
 window.openFilters = () => setState({ showFilters: true });
 window.closeFilters = () => setState({ showFilters: false });
 window.setFilterCountry = (country) => setState({ filterCountry: country });
@@ -1196,27 +1197,29 @@ window.calculateTrip = async () => {
 };
 
 // Planner handlers
-window.searchTripCity = async (query) => {
+window.searchTripCity = (query) => {
   if (query.length < 3) {
     document.getElementById('city-suggestions')?.classList.add('hidden');
     return;
   }
-  const results = await searchTripLocation(query);
-  const container = document.getElementById('city-suggestions');
-  if (container && results.length > 0) {
-    container.classList.remove('hidden');
-    container.innerHTML = `
-      <div class="bg-gray-800 rounded-xl shadow-xl border border-gray-700 overflow-hidden">
-        ${results.map(r => `
-          <button onclick="addTripStepFromSearch('${r.name}', ${r.lat}, ${r.lng}, '${r.fullName}')"
-                  class="w-full px-4 py-3 text-left text-white hover:bg-gray-700 border-b border-gray-700 last:border-0">
-            <div class="font-medium">${r.name}</div>
-            <div class="text-xs text-gray-500 truncate">${r.fullName}</div>
-          </button>
-        `).join('')}
-      </div>
-    `;
-  }
+  debounce('tripCity', async () => {
+    const results = await searchTripLocation(query);
+    const container = document.getElementById('city-suggestions');
+    if (container && results.length > 0) {
+      container.classList.remove('hidden');
+      container.innerHTML = `
+        <div class="bg-gray-800 rounded-xl shadow-xl border border-gray-700 overflow-hidden">
+          ${results.map(r => `
+            <button onclick="addTripStepFromSearch('${r.name}', ${r.lat}, ${r.lng}, '${r.fullName}')"
+                    class="w-full px-4 py-3 text-left text-white hover:bg-gray-700 border-b border-gray-700 last:border-0">
+              <div class="font-medium">${r.name}</div>
+              <div class="text-xs text-gray-500 truncate">${r.fullName}</div>
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+  }, 400);
 };
 window.addTripStepFromSearch = (name, lat, lng, fullName) => {
   addTripStep({ name, lat, lng, fullName });
