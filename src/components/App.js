@@ -223,6 +223,29 @@ export function afterRender(state) {
   if (state.activeTab === 'map' || state.activeTab === 'home') {
     setTimeout(() => initHomeMap(state), 100)
   }
+  if (state.activeTab === 'travel' && state.showTripMap) {
+    setTimeout(() => initTripMap(state), 100)
+  }
+}
+
+/**
+ * Get tile URL based on app language (FR/DE have localized labels)
+ */
+function getMapTileConfig(lang) {
+  switch (lang) {
+    case 'fr': return {
+      url: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+      options: { maxZoom: 19 }
+    }
+    case 'de': return {
+      url: 'https://tile.openstreetmap.de/{z}/{x}/{y}.png',
+      options: { maxZoom: 18 }
+    }
+    default: return {
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      options: { maxZoom: 19 }
+    }
+  }
 }
 
 /**
@@ -249,9 +272,8 @@ function initHomeMap(state) {
       attributionControl: false,
     })
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-    }).addTo(map)
+    const tileConfig = getMapTileConfig(getState().lang || 'fr')
+    L.tileLayer(tileConfig.url, tileConfig.options).addTo(map)
 
     window.homeMapInstance = map
     window.homeLeaflet = L
@@ -358,6 +380,84 @@ function initHomeMap(state) {
     setTimeout(() => map.invalidateSize(), 200)
   }).catch((err) => {
     console.warn('Home map init failed:', err)
+  })
+}
+
+/**
+ * Initialize trip map (shows only trip spots along route)
+ */
+function initTripMap(state) {
+  const container = document.getElementById('trip-map')
+  if (!container || container.dataset.initialized === 'true') return
+  if (!state.tripResults) return
+
+  import('leaflet').then((L) => {
+    if (container.dataset.initialized === 'true') return
+    container.dataset.initialized = 'true'
+
+    const results = state.tripResults
+    const from = results.fromCoords // [lat, lng]
+    const to = results.toCoords     // [lat, lng]
+    if (!from || !to) return
+
+    const tileConfig = getMapTileConfig(state.lang || 'fr')
+    const map = L.map(container, {
+      zoomControl: false,
+      attributionControl: false,
+    })
+    L.tileLayer(tileConfig.url, tileConfig.options).addTo(map)
+
+    // Route line from OSRM geometry
+    if (results.routeGeometry && results.routeGeometry.length > 0) {
+      const routeLatLngs = results.routeGeometry.map(([lng, lat]) => [lat, lng])
+      L.polyline(routeLatLngs, {
+        color: '#0ea5e9', weight: 4, opacity: 0.8
+      }).addTo(map)
+    } else {
+      L.polyline([from, to], {
+        color: '#0ea5e9', weight: 3, opacity: 0.6, dashArray: '8, 8'
+      }).addTo(map)
+    }
+
+    // Start marker (green)
+    L.circleMarker(from, {
+      radius: 12, fillColor: '#22c55e', color: '#fff', weight: 3, fillOpacity: 1
+    }).addTo(map).bindTooltip(results.from?.split(',')[0] || 'A', {
+      permanent: true, direction: 'top', offset: [0, -14]
+    })
+
+    // End marker (red)
+    L.circleMarker(to, {
+      radius: 12, fillColor: '#ef4444', color: '#fff', weight: 3, fillOpacity: 1
+    }).addTo(map).bindTooltip(results.to?.split(',')[0] || 'B', {
+      permanent: true, direction: 'top', offset: [0, -14]
+    })
+
+    // Trip spot markers (ONLY trip spots, not all)
+    const spots = results.spots || []
+    spots.forEach(spot => {
+      const lat = spot.coordinates?.lat || spot.lat
+      const lng = spot.coordinates?.lng || spot.lng
+      if (!lat || !lng) return
+      L.circleMarker([lat, lng], {
+        radius: 7, fillColor: '#22c55e', color: '#fff', weight: 2, fillOpacity: 0.9
+      }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
+    })
+
+    // Fit bounds to show everything
+    const allPoints = [from, to]
+    spots.forEach(s => {
+      const lat = s.coordinates?.lat || s.lat
+      const lng = s.coordinates?.lng || s.lng
+      if (lat && lng) allPoints.push([lat, lng])
+    })
+
+    if (allPoints.length >= 2) {
+      map.fitBounds(allPoints, { padding: [40, 40] })
+    }
+    setTimeout(() => map.invalidateSize(), 200)
+  }).catch(err => {
+    console.warn('Trip map init failed:', err)
   })
 }
 

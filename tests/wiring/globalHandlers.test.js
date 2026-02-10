@@ -60,11 +60,13 @@ const MAIN_JS_HANDLERS = [
   'openStats', 'closeStats',
   // Sub-tab
   'setSubTab',
-  // Trip
+  // Trip (defined in Travel.js)
   'updateTripField', 'swapTripPoints', 'calculateTrip',
+  'viewTripOnMap', 'closeTripMap', 'clearTripResults',
+  'removeSpotFromTrip', 'saveTripWithSpots', 'loadSavedTrip', 'deleteSavedTrip',
+  // Trip (old planner step-based, kept for compat)
   'searchTripCity', 'addTripStepFromSearch', 'addFirstSuggestion',
   'removeTripStep', 'moveTripStep', 'clearTripSteps',
-  'saveCurrentTrip', 'loadSavedTrip', 'deleteSavedTrip', 'shareTrip',
   // Guides
   'showGuides', 'showCountryDetail', 'showSafetyPage',
   // Friends

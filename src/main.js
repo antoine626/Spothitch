@@ -451,6 +451,12 @@ function loadInitialData() {
   // Load sample spots for demo
   actions.setSpots(sampleSpots);
 
+  // Load saved trips from localStorage
+  try {
+    const savedTrips = JSON.parse(localStorage.getItem('spothitch_saved_trips') || '[]')
+    if (savedTrips.length > 0) setState({ savedTrips })
+  } catch (e) {}
+
   // Try to get user location and load nearby spots
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -721,6 +727,7 @@ window.setViewMode = (mode) => {
 window.t = t;
 window.setState = setState;
 window.getState = getState;
+window.showToast = showToast;
 
 // Spot handlers
 window.selectSpot = async (id) => {
@@ -1232,91 +1239,8 @@ window.activateBooster = (boosterId) => {
 window.openStats = () => setState({ showStats: true });
 window.closeStats = () => setState({ showStats: false });
 
-// Sub-tab handler (Travel view: planner/guides)
-window.setSubTab = (tab) => setState({ activeSubTab: tab });
-
-// Trip from/to handlers (Travel view)
-window.updateTripField = (field, value) => {
-  if (field === 'from') setState({ tripFrom: value })
-  else if (field === 'to') setState({ tripTo: value })
-};
-window.swapTripPoints = () => {
-  const { tripFrom, tripTo } = getState()
-  setState({ tripFrom: tripTo, tripTo: tripFrom })
-};
-window.calculateTrip = async () => {
-  const { tripFrom, tripTo, tripSteps } = getState()
-
-  // Travel view: from/to mode
-  if (tripFrom && tripTo) {
-    try {
-      showToast('Recherche en cours...', 'info')
-
-      // Geocode from and to
-      const [fromResults, toResults] = await Promise.all([
-        searchTripLocation(tripFrom),
-        searchTripLocation(tripTo),
-      ])
-
-      if (fromResults.length === 0 || toResults.length === 0) {
-        showToast('Ville non trouvée', 'error')
-        return
-      }
-
-      const from = fromResults[0]
-      const to = toResults[0]
-
-      // Find spots along route using loaded spots
-      const { getAllLoadedSpots } = await import('./services/spotLoader.js')
-      const allSpots = getAllLoadedSpots()
-
-      // Filter spots within a corridor between from and to
-      const minLat = Math.min(from.lat, to.lat) - 0.5
-      const maxLat = Math.max(from.lat, to.lat) + 0.5
-      const minLng = Math.min(from.lng, to.lng) - 0.5
-      const maxLng = Math.max(from.lng, to.lng) + 0.5
-
-      const routeSpots = allSpots.filter(s =>
-        s.coordinates &&
-        s.coordinates.lat >= minLat && s.coordinates.lat <= maxLat &&
-        s.coordinates.lng >= minLng && s.coordinates.lng <= maxLng &&
-        s.globalRating >= 3
-      ).sort((a, b) => (b.globalRating || 0) - (a.globalRating || 0)).slice(0, 20)
-
-      const distance = Math.round(
-        Math.sqrt(Math.pow((to.lat - from.lat) * 111, 2) + Math.pow((to.lng - from.lng) * 85, 2))
-      )
-
-      setState({
-        tripResults: {
-          from: from.name,
-          to: to.name,
-          spots: routeSpots,
-          distance,
-          estimatedTime: `${Math.round(distance / 60)}h`,
-        },
-      })
-
-      showToast(`${routeSpots.length} spots trouvés sur le trajet !`, 'success')
-    } catch (error) {
-      console.error('Trip calculation failed:', error)
-      showToast('Erreur lors du calcul', 'error')
-    }
-    return
-  }
-
-  // Old planner mode: step-based
-  if (tripSteps && tripSteps.length >= 2) {
-    const trip = await createTrip(tripSteps)
-    if (trip) {
-      setState({ activeTrip: trip })
-      initPlannerMap()
-      showToast('Itinéraire calculé !', 'success')
-    }
-  }
-};
-
-// Planner handlers
+// Trip handlers are now defined in Travel.js (calculateTrip, saveTrip, etc.)
+// Only keep backward-compatible aliases for old planner step-based mode
 window.searchTripCity = (query) => {
   if (query.length < 3) {
     document.getElementById('city-suggestions')?.classList.add('hidden');
@@ -1353,31 +1277,6 @@ window.addFirstSuggestion = () => {
 window.removeTripStep = (index) => removeTripStep(index);
 window.moveTripStep = (from, to) => reorderTripSteps(from, to);
 window.clearTripSteps = () => clearTripSteps();
-window.saveCurrentTrip = () => {
-  const { activeTrip } = getState();
-  if (activeTrip) {
-    saveTrip(activeTrip);
-  }
-};
-window.loadSavedTrip = (tripId) => {
-  const trip = getTripById(tripId);
-  if (trip) {
-    setState({ activeTrip: trip, tripSteps: trip.steps, showTripDetail: true, selectedTripId: tripId });
-  }
-};
-window.deleteSavedTrip = (tripId) => {
-  deleteTrip(tripId);
-};
-window.shareTrip = (tripId) => {
-  const trip = getTripById(tripId);
-  if (trip && navigator.share) {
-    navigator.share({
-      title: 'Mon voyage SpotHitch',
-      text: `Voyage: ${trip.steps.map(s => s.name).join(' → ')}`,
-      url: window.location.href,
-    });
-  }
-};
 
 // Guides handlers
 window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: null, showSafety: false });
