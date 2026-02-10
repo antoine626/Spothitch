@@ -14,7 +14,7 @@ export default defineConfig({
       manifest: {
         name: 'SpotHitch - La communauté des autostoppeurs',
         short_name: 'SpotHitch',
-        description: 'Trouvez les meilleurs spots d\'auto-stop en Europe',
+        description: 'Trouvez les meilleurs spots d\'auto-stop dans le monde. 37 000+ spots dans 170 pays.',
         theme_color: '#0ea5e9',
         background_color: '#0f172a',
         display: 'standalone',
@@ -158,6 +158,9 @@ export default defineConfig({
             './src/services/adminModeration.js',
             './src/services/moderatorRoles.js',
             './src/services/moderation.js',
+          ],
+          'guides': [
+            './src/data/guides.js',
           ],
         }
       }

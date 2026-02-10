@@ -85,7 +85,7 @@ import { allBadges, getBadgeById } from './data/badges.js';
 import { getActiveChallenges } from './data/challenges.js';
 import { shopRewards, getRewardById, canAfford } from './data/rewards.js';
 import { getVipLevel, getLeague, vipLevels, leagues, applyVipDiscount } from './data/vip-levels.js';
-import { countryGuides, getGuideByCode } from './data/guides.js';
+// guides.js loaded dynamically to reduce main bundle size
 
 // Utils
 import { initSEO, trackPageView } from './utils/seo.js';
@@ -1264,6 +1264,7 @@ window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: n
 window.showCountryDetail = (code) => setState({ selectedCountryCode: code });
 window.showSafetyPage = () => setState({ showSafety: true });
 window.reportGuideError = async (countryCode) => {
+  const { getGuideByCode } = await import('./data/guides.js');
   const guide = getGuideByCode(countryCode);
   const name = guide?.name || countryCode;
   const errorType = prompt(`Quelle information est incorrecte dans le guide ${name} ?`);
