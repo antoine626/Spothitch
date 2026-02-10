@@ -1752,7 +1752,7 @@ window.deleteOfflineCountry = async (code) => {
 
 // ==================== HOME HANDLERS ====================
 
-// Home destination search with debounce
+// Home search with debounce — just search a place and center the map
 let homeDestDebounce = null
 window.homeSearchDestination = (query) => {
   clearTimeout(homeDestDebounce)
@@ -1771,7 +1771,7 @@ window.homeSearchDestination = (query) => {
           <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
             ${results.map((r, i) => `
               <button
-                onclick="homeSelectDestination(${r.lat}, ${r.lng}, '${(r.name || '').split(',').slice(0, 2).join(',').replace(/'/g, "\\'")}')"
+                onclick="homeSelectPlace(${r.lat}, ${r.lng}, '${(r.name || '').split(',').slice(0, 2).join(',').replace(/'/g, "\\'")}')"
                 class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
                 data-home-suggestion="${i}"
               >
@@ -1795,189 +1795,27 @@ window.homeSelectFirstSuggestion = () => {
   if (btn) btn.click()
 }
 
-window.homeSelectDestination = async (lat, lng, name) => {
+// Select a place → center map there, spots update via moveend listener
+window.homeSelectPlace = (lat, lng, name) => {
   const input = document.getElementById('home-destination')
   if (input) input.value = name
   document.getElementById('home-dest-suggestions')?.classList.add('hidden')
+  setState({ homeSearchLabel: name })
 
-  setState({
-    homeDestination: { lat, lng },
-    homeDestinationLabel: name,
-    homeSearching: true,
-  })
-
-  // Get origin
-  const state = getState()
-  const origin = state.homeOrigin || state.userLocation
-  if (!origin) {
-    setState({ homeSearching: false })
-    showToast('Définissez votre point de départ', 'warning')
-    return
-  }
-
-  try {
-    // Get OSRM route
-    const { getRoute, formatDistance: fmtDist, formatDuration: fmtDur } = await import('./services/osrm.js')
-    const route = await getRoute([
-      { lat: origin.lat, lng: origin.lng },
-      { lat, lng },
-    ])
-
-    // Get all spots
-    let allSpots = state.spots || []
-    try {
-      const { getAllLoadedSpots } = await import('./services/spotLoader.js')
-      allSpots = getAllLoadedSpots()
-    } catch (e) { /* use state spots */ }
-
-    // Use web worker for corridor filtering
-    const corridorKm = state.homeCorridorKm || 2
-    let filteredSpots
-
-    try {
-      const { filterRouteCorridor } = await import('./utils/spotWorkerClient.js')
-      filteredSpots = await filterRouteCorridor(allSpots, route.geometry, corridorKm)
-    } catch (e) {
-      // Fallback: simple corridor filtering without worker
-      filteredSpots = filterSpotsAlongPolylineFallback(allSpots, route.geometry, corridorKm)
-    }
-
-    // Update home map with route
-    updateHomeMapWithRoute(origin, { lat, lng }, route.geometry, filteredSpots)
-
-    setState({
-      homeFilteredSpots: filteredSpots,
-      homeRouteInfo: {
-        distance: fmtDist(route.distance),
-        duration: fmtDur(route.duration),
-      },
-      homeSearching: false,
-    })
-  } catch (error) {
-    console.error('Route search failed:', error)
-    setState({ homeSearching: false })
-    showToast('Erreur lors de la recherche de route', 'error')
+  if (window.homeMapInstance) {
+    window.homeMapInstance.setView([lat, lng], 12)
   }
 }
 
-window.homeClearDestination = () => {
-  setState({
-    homeDestination: null,
-    homeDestinationLabel: '',
-    homeRouteInfo: null,
-    homeFilteredSpots: [],
-  })
-  // Reset map
-  const state = getState()
-  if (state.userLocation) {
-    loadNearbySpots(state.userLocation)
-  }
-  // Remove route layer from map
-  if (window.homeMapInstance && window.homeRouteLayer) {
-    window.homeMapInstance.removeLayer(window.homeRouteLayer)
-    window.homeRouteLayer = null
-  }
+window.homeClearSearch = () => {
+  setState({ homeSearchLabel: '' })
+  const input = document.getElementById('home-destination')
+  if (input) input.value = ''
 }
 
-// Origin handlers
-window.homeEditOrigin = () => {
-  const originInput = document.getElementById('home-origin-input')
-  if (originInput) {
-    originInput.classList.toggle('hidden')
-    if (!originInput.classList.contains('hidden')) {
-      document.getElementById('home-origin-field')?.focus()
-    }
-  }
-}
-
-let homeOriginDebounce = null
-window.homeSearchOrigin = (query) => {
-  clearTimeout(homeOriginDebounce)
-  const container = document.getElementById('home-origin-suggestions')
-  if (!container) return
-  if (!query || query.trim().length < 2) {
-    container.classList.add('hidden')
-    return
-  }
-  homeOriginDebounce = setTimeout(async () => {
-    try {
-      const results = await searchLocation(query)
-      if (results && results.length > 0) {
-        container.classList.remove('hidden')
-        container.innerHTML = `
-          <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
-            ${results.map((r, i) => `
-              <button
-                onclick="homeSelectOrigin(${r.lat}, ${r.lng}, '${(r.name || '').split(',').slice(0, 2).join(',').replace(/'/g, "\\'")}')"
-                class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
-                data-home-origin-suggestion="${i}"
-              >
-                <div class="font-medium text-sm truncate">${(r.name || '').split(',').slice(0, 2).join(',')}</div>
-                <div class="text-xs text-slate-400 truncate">${r.name}</div>
-              </button>
-            `).join('')}
-          </div>
-        `
-      } else {
-        container.classList.add('hidden')
-      }
-    } catch (e) {
-      container.classList.add('hidden')
-    }
-  }, 300)
-}
-
-window.homeSelectFirstOriginSuggestion = () => {
-  const btn = document.querySelector('[data-home-origin-suggestion="0"]')
-  if (btn) btn.click()
-}
-
-window.homeSelectOrigin = (lat, lng, name) => {
-  document.getElementById('home-origin-suggestions')?.classList.add('hidden')
-  document.getElementById('home-origin-input')?.classList.add('hidden')
-  setState({
-    homeOrigin: { lat, lng },
-    homeOriginLabel: name,
-  })
-  loadNearbySpots({ lat, lng })
-}
-
-window.homeUseGPS = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const loc = { lat: position.coords.latitude, lng: position.coords.longitude }
-        actions.setUserLocation(loc)
-        document.getElementById('home-origin-input')?.classList.add('hidden')
-        setState({
-          homeOrigin: null, // null means use GPS
-          homeOriginLabel: '',
-        })
-        loadNearbySpots(loc)
-        showToast('Position GPS activée', 'success')
-      },
-      () => showToast('Impossible d\'obtenir la position', 'error'),
-      { enableHighAccuracy: true, timeout: 10000 }
-    )
-  }
-}
-
-// Filter handlers
-window.homeToggleFilters = () => {
-  const { homeShowFilters } = getState()
-  setState({ homeShowFilters: !homeShowFilters })
-}
-
-window.homeSetCorridorDistance = (value) => {
-  setState({ homeCorridorKm: parseInt(value, 10) })
-}
-
-window.homeToggleFilter = (filter) => {
-  const state = getState()
-  if (filter === 'rating') setState({ homeFilterRating: state.homeFilterRating === false ? true : false })
-  if (filter === 'wait') setState({ homeFilterWait: state.homeFilterWait === false ? true : false })
-  if (filter === 'safety') setState({ homeFilterSafety: state.homeFilterSafety === false ? true : false })
-}
+// Keep old handler names as aliases (for compatibility)
+window.homeSelectDestination = window.homeSelectPlace
+window.homeClearDestination = window.homeClearSearch
 
 window.homeCenterOnUser = () => {
   const { userLocation } = getState()
@@ -1986,38 +1824,7 @@ window.homeCenterOnUser = () => {
   }
 }
 
-// Load nearby spots (Around me mode)
-async function loadNearbySpots(location) {
-  if (!location) return
-
-  let allSpots = getState().spots || []
-  try {
-    const { getAllLoadedSpots } = await import('./services/spotLoader.js')
-    allSpots = getAllLoadedSpots()
-  } catch (e) { /* use state spots */ }
-
-  // Filter spots within 10km by default, sorted by distance
-  const nearby = allSpots
-    .map(spot => {
-      const sLat = spot.coordinates?.lat || spot.lat
-      const sLng = spot.coordinates?.lng || spot.lng
-      if (!sLat || !sLng) return null
-      const dist = haversineSimple(location.lat, location.lng, sLat, sLng)
-      return { ...spot, _distance: dist }
-    })
-    .filter(s => s && s._distance <= 10)
-    .sort((a, b) => a._distance - b._distance)
-    .slice(0, 50)
-
-  setState({ homeFilteredSpots: nearby })
-
-  // Update map
-  if (window.homeMapInstance) {
-    window.homeMapInstance.setView([location.lat, location.lng], 12)
-  }
-}
-
-// Simple haversine for main thread fallback
+// Simple haversine for distance calculations
 function haversineSimple(lat1, lng1, lat2, lng2) {
   const R = 6371
   const dLat = (lat2 - lat1) * Math.PI / 180
@@ -2026,91 +1833,6 @@ function haversineSimple(lat1, lng1, lat2, lng2) {
     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLng / 2) ** 2
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-}
-
-// Fallback polyline corridor filter (no worker)
-function filterSpotsAlongPolylineFallback(spots, geometry, corridorKm) {
-  if (!geometry || geometry.length < 2) return []
-  const step = Math.max(1, Math.floor(geometry.length / 300))
-  const sampled = []
-  for (let i = 0; i < geometry.length; i += step) sampled.push(geometry[i])
-  if (sampled[sampled.length - 1] !== geometry[geometry.length - 1]) {
-    sampled.push(geometry[geometry.length - 1])
-  }
-
-  return spots
-    .map(spot => {
-      const sLat = spot.coordinates?.lat || spot.lat
-      const sLng = spot.coordinates?.lng || spot.lng
-      if (!sLat || !sLng) return null
-      let minDist = Infinity
-      for (const pt of sampled) {
-        const d = haversineSimple(sLat, sLng, pt[1], pt[0])
-        if (d < minDist) minDist = d
-      }
-      if (minDist <= corridorKm) {
-        return { ...spot, _distToRoute: Math.round(minDist * 100) / 100 }
-      }
-      return null
-    })
-    .filter(Boolean)
-}
-
-// Update home map with route line and spot markers
-async function updateHomeMapWithRoute(origin, dest, geometry, spots) {
-  const map = window.homeMapInstance
-  if (!map) return
-
-  const L = window.homeLeaflet || await import('leaflet')
-
-  // Remove old layers
-  if (window.homeRouteLayer) map.removeLayer(window.homeRouteLayer)
-  if (window.homeSpotMarkers) window.homeSpotMarkers.forEach(m => map.removeLayer(m))
-  if (window.homeOriginMarker) map.removeLayer(window.homeOriginMarker)
-  if (window.homeDestMarker) map.removeLayer(window.homeDestMarker)
-
-  // Draw route polyline (OSRM geometry is [lng, lat])
-  const latLngs = geometry.map(coord => [coord[1], coord[0]])
-  window.homeRouteLayer = L.polyline(latLngs, {
-    color: '#0ea5e9',
-    weight: 4,
-    opacity: 0.8,
-  }).addTo(map)
-
-  // Origin marker (blue)
-  window.homeOriginMarker = L.circleMarker([origin.lat, origin.lng], {
-    radius: 10,
-    fillColor: '#0ea5e9',
-    color: '#fff',
-    weight: 3,
-    fillOpacity: 1,
-  }).addTo(map).bindTooltip('Départ', { permanent: false })
-
-  // Destination marker (red)
-  window.homeDestMarker = L.circleMarker([dest.lat, dest.lng], {
-    radius: 10,
-    fillColor: '#ef4444',
-    color: '#fff',
-    weight: 3,
-    fillOpacity: 1,
-  }).addTo(map).bindTooltip('Arrivée', { permanent: false })
-
-  // Add ALL spot markers along route (no 200 limit)
-  window.homeSpotMarkers = spots.map(spot => {
-    const lat = spot.coordinates?.lat || spot.lat
-    const lng = spot.coordinates?.lng || spot.lng
-    if (!lat || !lng) return null
-    return L.circleMarker([lat, lng], {
-      radius: 6,
-      fillColor: '#22c55e',
-      color: '#fff',
-      weight: 1.5,
-      fillOpacity: 0.9,
-    }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
-  }).filter(Boolean)
-
-  // Fit map to route bounds
-  map.fitBounds(window.homeRouteLayer.getBounds(), { padding: [30, 30] })
 }
 
 // ==================== START APP ====================

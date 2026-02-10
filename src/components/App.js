@@ -225,20 +225,19 @@ export function afterRender(state) {
 }
 
 /**
- * Initialize the small home map
+ * Initialize the home map (full-size, shows spots in visible area)
  */
 function initHomeMap(state) {
   const container = document.getElementById('home-map')
   if (!container || container.dataset.initialized === 'true') return
 
   import('leaflet').then((L) => {
-    // Don't re-init if already done
     if (container.dataset.initialized === 'true') return
     container.dataset.initialized = 'true'
 
     const center = state.userLocation
       ? [state.userLocation.lat, state.userLocation.lng]
-      : [48.8566, 2.3522] // Paris fallback
+      : [30, 0] // World center fallback
 
     const zoom = state.userLocation ? 11 : 3
 
@@ -253,37 +252,63 @@ function initHomeMap(state) {
       maxZoom: 18,
     }).addTo(map)
 
-    // Store reference for later use
     window.homeMapInstance = map
     window.homeLeaflet = L
+    window.homeSpotMarkers = []
 
-    // Add user marker if GPS available
+    // User position marker
     if (state.userLocation) {
       L.circleMarker([state.userLocation.lat, state.userLocation.lng], {
-        radius: 8,
+        radius: 10,
         fillColor: '#0ea5e9',
         color: '#fff',
-        weight: 2,
-        fillOpacity: 0.9,
-      }).addTo(map)
+        weight: 3,
+        fillOpacity: 1,
+      }).addTo(map).bindTooltip('Ma position', { permanent: false })
     }
 
-    // Add spot markers
-    const spots = state.homeFilteredSpots || state.spots || []
-    spots.slice(0, 200).forEach(spot => {
-      const lat = spot.coordinates?.lat || spot.lat
-      const lng = spot.coordinates?.lng || spot.lng
-      if (!lat || !lng) return
-      L.circleMarker([lat, lng], {
-        radius: 5,
-        fillColor: '#22c55e',
-        color: '#fff',
-        weight: 1,
-        fillOpacity: 0.8,
-      }).addTo(map).on('click', () => {
-        window.selectSpot?.(spot.id)
+    // Load visible spots on map move/zoom
+    const updateVisibleSpots = () => {
+      const bounds = map.getBounds()
+      const allSpots = state.homeFilteredSpots || state.spots || []
+
+      // Clear old markers
+      window.homeSpotMarkers.forEach(m => map.removeLayer(m))
+      window.homeSpotMarkers = []
+
+      // Add spots in visible bounds
+      let count = 0
+      allSpots.forEach(spot => {
+        const lat = spot.coordinates?.lat || spot.lat
+        const lng = spot.coordinates?.lng || spot.lng
+        if (!lat || !lng) return
+        if (!bounds.contains([lat, lng])) return
+
+        const marker = L.circleMarker([lat, lng], {
+          radius: 6,
+          fillColor: '#22c55e',
+          color: '#fff',
+          weight: 1.5,
+          fillOpacity: 0.9,
+        }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
+
+        window.homeSpotMarkers.push(marker)
+        count++
       })
-    })
+
+      // Update badge count
+      const badge = document.querySelector('#home-map-container .text-primary-400.font-semibold')
+      if (badge) badge.textContent = count
+    }
+
+    map.on('moveend', updateVisibleSpots)
+    map.on('zoomend', updateVisibleSpots)
+
+    // Initial load
+    setTimeout(updateVisibleSpots, 300)
+
+    // Fix map size (container may have changed)
+    setTimeout(() => map.invalidateSize(), 200)
   }).catch((err) => {
     console.warn('Home map init failed:', err)
   })
