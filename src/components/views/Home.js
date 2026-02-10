@@ -40,8 +40,8 @@ export function renderHome(state) {
         </div>
       </div>
 
-      <!-- Map (takes all remaining space) -->
-      <div id="home-map-container" class="flex-1 relative bg-dark-secondary min-h-0">
+      <!-- Map (fills remaining screen space: 100vh - header 4rem - nav 5rem - search ~4rem) -->
+      <div id="home-map-container" class="relative bg-dark-secondary" style="height:calc(100dvh - 13rem)">
         <div id="home-map" class="w-full h-full"></div>
 
         <!-- Spot count badge -->
