@@ -100,6 +100,7 @@ import { initHoverPrefetch, prefetchNextTab } from './utils/prefetch.js';
 import { trackTabChange, trackModalOpen, trackAction } from './utils/analytics.js';
 import { getAdaptiveConfig } from './utils/adaptiveLoading.js';
 import { cleanupDrafts } from './utils/formPersistence.js';
+import { initWasm } from './utils/wasmGeo.js';
 import { sanitize, sanitizeInput } from './utils/sanitize.js';
 import { runAllCleanup, registerCleanup } from './utils/cleanup.js';
 import { initDeepLinkListener, handleDeepLink, shareLink } from './utils/deeplink.js';
@@ -332,6 +333,21 @@ async function init() {
       initWebVitals();
     } catch (e) {
       console.warn('Web Vitals init skipped:', e.message);
+    }
+
+    // Initialize WASM geo module (non-blocking, JS fallback)
+    try {
+      initWasm();
+    } catch (e) {
+      console.warn('WASM geo init skipped:', e.message);
+    }
+
+    // Initialize PostHog analytics (only if consent given + key configured)
+    try {
+      const { initPostHog } = await import('./utils/posthog.js');
+      initPostHog();
+    } catch (e) {
+      console.warn('PostHog init skipped:', e.message);
     }
 
     // Initialize predictive prefetch on hover
