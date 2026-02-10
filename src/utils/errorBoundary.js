@@ -151,23 +151,15 @@ function escapeForHtml(str) {
  * Setup global error handlers
  */
 export function setupGlobalErrorHandlers() {
-  // Catch unhandled errors
+  // Catch unhandled errors — log silently, no toast spam
   window.addEventListener('error', (event) => {
-    logError('GlobalError', event.error || new Error(event.message));
+    logError('GlobalError', event.error || new Error(event.message))
+  })
 
-    // Show user-friendly message
-    showToast('Une erreur est survenue', 'error');
-  });
-
-  // Catch unhandled promise rejections
+  // Catch unhandled promise rejections — log silently
   window.addEventListener('unhandledrejection', (event) => {
-    logError('UnhandledRejection', event.reason || new Error('Promise rejected'));
-
-    // Show user-friendly message
-    showToast('Une erreur est survenue', 'error');
-  });
-
-  console.log('✅ Global error handlers setup');
+    logError('UnhandledRejection', event.reason || new Error('Promise rejected'))
+  })
 }
 
 export default {
