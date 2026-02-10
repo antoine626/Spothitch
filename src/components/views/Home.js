@@ -1,195 +1,215 @@
 /**
  * Home View Component
- * Activity feed and popular spots
+ * Smart hitchhiking home: find a spot in 10 seconds
+ * Two modes: "Around me" (no destination) and "To destination" (route corridor)
  */
 
-import { t } from '../../i18n/index.js';
-import { renderSpotCard } from '../SpotCard.js';
+import { t } from '../../i18n/index.js'
+import { renderSpotCard } from '../SpotCard.js'
 
 export function renderHome(state) {
-  const topSpots = state.spots
-    .filter(s => s.globalRating >= 4.5)
-    .slice(0, 5);
+  const hasGPS = !!state.userLocation
+  const hasDestination = !!state.homeDestination
+  const originLabel = state.homeOriginLabel || (hasGPS ? t('myPosition') || 'Ma position' : '')
+  const destLabel = state.homeDestinationLabel || ''
+  const spots = state.homeFilteredSpots || []
+  const routeInfo = state.homeRouteInfo || null
+  const isSearching = state.homeSearching || false
+  const showFilters = state.homeShowFilters || false
 
-  const recentSpots = state.spots
-    .sort((a, b) => new Date(b.lastUsed) - new Date(a.lastUsed))
-    .slice(0, 5);
+  // Filter config
+  const corridorDistance = state.homeCorridorKm || 2
+  const filterRating = state.homeFilterRating !== false
+  const filterWait = state.homeFilterWait !== false
+  const filterSafety = state.homeFilterSafety !== false
 
   return `
-    <div class="p-4 space-y-6">
-      <!-- Welcome Banner -->
-      <div class="card p-6 bg-gradient-to-r from-primary-500/20 to-emerald-500/20 border-primary-500/30">
-        <div class="flex items-center gap-4">
-          <div class="text-4xl">${state.avatar || '🤙'}</div>
-          <div>
-            <h2 class="text-xl font-bold">Salut ${state.username || 'voyageur'} !</h2>
-            <p class="text-slate-400 text-sm">${t('tagline')}</p>
+    <div class="flex flex-col h-full">
+      <!-- Search Section -->
+      <div class="p-3 space-y-2 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+        <!-- Destination Search -->
+        <div class="relative">
+          <input
+            type="text"
+            id="home-destination"
+            placeholder="${t('searchPlace') || 'Rechercher un lieu...'}"
+            value="${destLabel}"
+            class="w-full pl-10 pr-10 py-3 rounded-xl bg-dark-secondary border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
+            oninput="homeSearchDestination(this.value)"
+            onkeydown="if(event.key==='Enter'){homeSelectFirstSuggestion()}"
+            autocomplete="off"
+            aria-label="${t('searchDestination') || 'Rechercher une destination'}"
+          />
+          <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+          ${destLabel ? `
+            <button
+              onclick="homeClearDestination()"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+              aria-label="${t('clear') || 'Effacer'}"
+            >
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+          ` : ''}
+          <div id="home-dest-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
+        </div>
+
+        <!-- Origin -->
+        <div class="flex items-center gap-2">
+          <div class="flex-1 relative">
+            <button
+              onclick="homeEditOrigin()"
+              class="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-secondary/50 border border-white/5 text-sm text-left hover:border-primary-500/30 transition-all"
+              aria-label="${t('changeOrigin') || 'Modifier le point de départ'}"
+            >
+              <i class="fas fa-location-dot text-primary-400" aria-hidden="true"></i>
+              <span class="${originLabel ? 'text-white' : 'text-slate-400'}">
+                ${originLabel ? `${t('from') || 'Depuis'}: ${originLabel}` : (t('enterCityOrEnableGPS') || 'Entrez votre ville ou activez la localisation')}
+              </span>
+              <i class="fas fa-pen text-slate-500 text-xs ml-auto" aria-hidden="true"></i>
+            </button>
           </div>
+          <button
+            onclick="homeToggleFilters()"
+            class="px-3 py-2 rounded-lg ${showFilters ? 'bg-primary-500/20 border-primary-500/50 text-primary-400' : 'bg-dark-secondary/50 border-white/5 text-slate-400'} border hover:text-white transition-all"
+            aria-label="${t('filters') || 'Filtres'}"
+            title="${t('filters') || 'Filtres'}"
+          >
+            <i class="fas fa-sliders-h" aria-hidden="true"></i>
+          </button>
         </div>
-      </div>
-      
-      <!-- Map Preview -->
-      <div class="card overflow-hidden">
-        <div id="home-map" class="h-48 bg-gray-800 relative cursor-pointer" onclick="openFullMap()">
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="text-center">
-              <i class="fas fa-map-marked-alt text-5xl text-primary-400 mb-2"></i>
-              <p class="text-slate-400 text-sm">${state.spots?.length || 0} spots disponibles</p>
+
+        <!-- Origin input (hidden by default) -->
+        <div id="home-origin-input" class="hidden relative">
+          <input
+            type="text"
+            id="home-origin-field"
+            placeholder="${t('enterCity') || 'Entrez une ville...'}"
+            class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-dark-secondary border border-primary-500/30 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all text-sm"
+            oninput="homeSearchOrigin(this.value)"
+            onkeydown="if(event.key==='Enter'){homeSelectFirstOriginSuggestion()}"
+            autocomplete="off"
+          />
+          <i class="fas fa-map-pin absolute left-3 top-1/2 -translate-y-1/2 text-primary-400" aria-hidden="true"></i>
+          <button
+            onclick="homeUseGPS()"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-primary-400 hover:text-primary-300 transition-colors"
+            aria-label="Utiliser le GPS"
+            title="Utiliser le GPS"
+          >
+            <i class="fas fa-crosshairs" aria-hidden="true"></i>
+          </button>
+          <div id="home-origin-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
+        </div>
+
+        <!-- Filters panel -->
+        ${showFilters ? `
+          <div class="p-3 rounded-xl bg-dark-secondary/50 border border-white/5 space-y-3 animate-fade-in">
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-slate-400">${t('corridorDistance') || 'Distance corridor'}</span>
+              <div class="flex items-center gap-2">
+                <input
+                  type="range"
+                  min="1" max="10" step="1"
+                  value="${corridorDistance}"
+                  oninput="homeSetCorridorDistance(this.value)"
+                  class="w-24 accent-primary-500"
+                />
+                <span class="text-white font-medium w-12 text-right">${corridorDistance} km</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button
+                onclick="homeToggleFilter('rating')"
+                class="px-3 py-1.5 rounded-full text-xs font-medium transition-all ${filterRating ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50' : 'bg-white/5 text-slate-400 border border-white/10'}"
+              >
+                <i class="fas fa-star mr-1" aria-hidden="true"></i>${t('rating') || 'Note'}
+              </button>
+              <button
+                onclick="homeToggleFilter('wait')"
+                class="px-3 py-1.5 rounded-full text-xs font-medium transition-all ${filterWait ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50' : 'bg-white/5 text-slate-400 border border-white/10'}"
+              >
+                <i class="fas fa-clock mr-1" aria-hidden="true"></i>${t('waitTime') || 'Temps d\'attente'}
+              </button>
+              <button
+                onclick="homeToggleFilter('safety')"
+                class="px-3 py-1.5 rounded-full text-xs font-medium transition-all ${filterSafety ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50' : 'bg-white/5 text-slate-400 border border-white/10'}"
+              >
+                <i class="fas fa-shield-alt mr-1" aria-hidden="true"></i>${t('safety') || 'Sécurité'}
+              </button>
             </div>
           </div>
-        </div>
+        ` : ''}
+      </div>
+
+      <!-- Map -->
+      <div id="home-map-container" class="h-64 relative flex-shrink-0 bg-dark-secondary">
+        <div id="home-map" class="w-full h-full"></div>
+        ${isSearching ? `
+          <div class="absolute inset-0 bg-black/30 flex items-center justify-center z-10">
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10">
+              <i class="fas fa-spinner fa-spin text-primary-400" aria-hidden="true"></i>
+              <span class="text-sm text-white">${t('searching') || 'Recherche...'}</span>
+            </div>
+          </div>
+        ` : ''}
+        <!-- Center on user button -->
         <button
-          onclick="openFullMap()"
-          class="w-full p-3 text-center text-primary-400 hover:bg-white/5 transition-colors"
+          onclick="homeCenterOnUser()"
+          class="absolute bottom-3 right-3 z-20 w-10 h-10 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-secondary transition-all"
+          aria-label="${t('myPosition') || 'Ma position'}"
         >
-          <i class="fas fa-expand-arrows-alt mr-2"></i>
-          Voir la carte complète
+          <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
         </button>
       </div>
 
-      <!-- Quick Stats (clickable) -->
-      <div class="grid grid-cols-3 gap-3">
-        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-2xl font-bold gradient-text">${state.spots.length}</div>
-          <div class="text-xs text-slate-400">Spots</div>
-        </button>
-        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-2xl font-bold gradient-text">${state.points || 0}</div>
-          <div class="text-xs text-slate-400">Points</div>
-        </button>
-        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-2xl font-bold gradient-text">${state.level || 1}</div>
-          <div class="text-xs text-slate-400">Niveau</div>
-        </button>
+      <!-- Route info banner -->
+      ${routeInfo ? `
+        <div class="px-3 py-2 bg-primary-500/10 border-b border-primary-500/20 flex items-center justify-between text-sm">
+          <div class="flex items-center gap-2">
+            <i class="fas fa-route text-primary-400" aria-hidden="true"></i>
+            <span class="text-white">${routeInfo.distance} &middot; ${routeInfo.duration}</span>
+          </div>
+          <span class="text-primary-400 font-medium">${spots.length} spots</span>
+        </div>
+      ` : ''}
+
+      <!-- Spots List -->
+      <div class="flex-1 overflow-y-auto p-3 space-y-2">
+        ${spots.length > 0 ? `
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-sm font-medium text-slate-400">
+              ${hasDestination
+                ? (t('spotsAlongRoute') || 'Spots le long de la route')
+                : (t('nearbySpots') || 'Spots à proximité')}
+            </h3>
+          </div>
+          ${spots.map(spot => renderSpotCard(spot, 'compact')).join('')}
+        ` : `
+          <div class="flex flex-col items-center justify-center py-12 text-center">
+            <i class="fas fa-map-marker-alt text-4xl text-slate-600 mb-4" aria-hidden="true"></i>
+            <p class="text-slate-400 text-sm mb-2">
+              ${!originLabel
+                ? (t('enterCityOrEnableGPS') || 'Entrez votre ville ou activez la localisation')
+                : (t('noNearbySpots') || 'Pas de spots à proximité.')}
+            </p>
+            ${originLabel && !hasDestination ? `
+              <p class="text-slate-500 text-xs">${t('searchDestination') || 'Cherchez une destination pour voir les spots le long de la route'}</p>
+            ` : ''}
+          </div>
+        `}
       </div>
 
-      <!-- Gamification Section -->
-      <section>
-        <h3 class="text-lg font-bold mb-4">🎮 Progression</h3>
-        <div class="grid grid-cols-2 gap-3">
-          <button
-            onclick="openBadges()"
-            class="card p-4 flex items-center gap-3 hover:border-amber-500/50 transition-all"
-          >
-            <span class="text-3xl">🏅</span>
-            <div class="text-left">
-              <div class="font-bold text-white">${state.badges?.length || 0} Badges</div>
-              <div class="text-xs text-slate-400">Voir collection</div>
-            </div>
-          </button>
-          <button
-            onclick="openChallenges()"
-            class="card p-4 flex items-center gap-3 hover:border-purple-500/50 transition-all"
-          >
-            <span class="text-3xl">🎯</span>
-            <div class="text-left">
-              <div class="font-bold text-white">Défis</div>
-              <div class="text-xs text-slate-400">Quotidien & hebdo</div>
-            </div>
-          </button>
-          <button
-            onclick="openShop()"
-            class="card p-4 flex items-center gap-3 hover:border-emerald-500/50 transition-all"
-          >
-            <span class="text-3xl">🛒</span>
-            <div class="text-left">
-              <div class="font-bold text-white">Boutique</div>
-              <div class="text-xs text-slate-400">Récompenses</div>
-            </div>
-          </button>
-          <button
-            onclick="openQuiz()"
-            class="card p-4 flex items-center gap-3 hover:border-sky-500/50 transition-all"
-          >
-            <span class="text-3xl">🧠</span>
-            <div class="text-left">
-              <div class="font-bold text-white">Quiz</div>
-              <div class="text-xs text-slate-400">Teste tes savoirs</div>
-            </div>
-          </button>
-        </div>
-      </section>
-      
-      <!-- Top Spots -->
-      <section>
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-bold">🔥 Top Spots</h3>
-          <button 
-            onclick="changeTab('spots')"
-            class="text-primary-400 text-sm"
-          >
-            Voir tout →
-          </button>
-        </div>
-        
-        <div class="space-y-3">
-          ${topSpots.map(spot => renderSpotCard(spot, 'compact')).join('')}
-        </div>
-      </section>
-      
-      <!-- Recent Activity -->
-      <section>
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-bold">🕐 Récemment utilisés</h3>
-        </div>
-        
-        <div class="space-y-3">
-          ${recentSpots.map(spot => renderSpotCard(spot, 'compact')).join('')}
-        </div>
-      </section>
-      
-      <!-- Quick Actions -->
-      <section>
-        <h3 class="text-lg font-bold mb-4">⚡ Actions rapides</h3>
-
-        <div class="grid grid-cols-2 gap-3">
-          <button
-            onclick="openAddSpot()"
-            class="card p-4 flex flex-col items-center gap-2 hover:border-primary-500/50 transition-all"
-          >
-            <i class="fas fa-plus-circle text-2xl text-primary-400"></i>
-            <span class="text-sm">${t('addSpot')}</span>
-          </button>
-
-          <button
-            onclick="changeTab('planner')"
-            class="card p-4 flex flex-col items-center gap-2 hover:border-primary-500/50 transition-all"
-          >
-            <i class="fas fa-route text-2xl text-emerald-400"></i>
-            <span class="text-sm">${t('planTrip')}</span>
-          </button>
-
-          <button
-            onclick="changeTab('chat')"
-            class="card p-4 flex flex-col items-center gap-2 hover:border-primary-500/50 transition-all"
-          >
-            <i class="fas fa-comments text-2xl text-purple-400"></i>
-            <span class="text-sm">${t('chat')}</span>
-          </button>
-
-          <button
-            onclick="openSOS()"
-            class="card p-4 flex flex-col items-center gap-2 hover:border-danger-500/50 transition-all"
-          >
-            <i class="fas fa-exclamation-triangle text-2xl text-danger-400"></i>
-            <span class="text-sm">SOS</span>
-          </button>
-        </div>
-      </section>
-
-      <!-- Help Section -->
-      <section>
-        <button
-          onclick="startTutorial()"
-          class="w-full card p-4 flex items-center justify-center gap-3 hover:border-amber-500/50 transition-all"
-        >
-          <span class="text-2xl">📖</span>
-          <span class="font-medium">Revoir le tutoriel</span>
-          <i class="fas fa-chevron-right text-slate-500"></i>
-        </button>
-      </section>
+      <!-- Add Spot FAB -->
+      <button
+        onclick="openAddSpot()"
+        class="fixed bottom-24 right-4 z-30 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-xl hover:bg-primary-600 hover:scale-110 transition-all"
+        aria-label="${t('addSpot') || 'Ajouter un spot'}"
+        title="${t('addSpot') || 'Ajouter un spot'}"
+      >
+        <i class="fas fa-plus" aria-hidden="true"></i>
+      </button>
     </div>
-  `;
+  `
 }
 
-export default { renderHome };
+export default { renderHome }

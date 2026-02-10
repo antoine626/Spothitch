@@ -171,6 +171,18 @@ const MAIN_JS_HANDLERS = [
   'selectReportReason', 'submitCurrentReport',
   // TeamChallenges (defined in teamChallenges.js)
   'openJoinTeam',
+  // Home view handlers
+  'homeSearchDestination', 'homeSelectFirstSuggestion', 'homeSelectDestination',
+  'homeClearDestination', 'homeEditOrigin', 'homeSearchOrigin',
+  'homeSelectFirstOriginSuggestion', 'homeSelectOrigin', 'homeUseGPS',
+  'homeToggleFilters', 'homeSetCorridorDistance', 'homeToggleFilter',
+  'homeCenterOnUser',
+  // Map search (defined in Map.js)
+  'selectSearchSuggestion', 'hideSearchSuggestions',
+  // Offline download
+  'downloadCountryOffline', 'deleteOfflineCountry',
+  // Push notifications
+  'togglePushNotifications',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

@@ -277,9 +277,21 @@ export function renderCountryDetail(countryCode) {
         </div>
       ` : ''}
 
-      <!-- Report Error Button -->
+      <!-- Offline Download -->
       <div class="p-4">
-        <button onclick="reportGuideError('${guide.code}')" class="w-full mt-4 p-3 rounded-xl border border-slate-600 text-slate-400 text-sm hover:border-red-500/50 hover:text-red-400 transition-all flex items-center justify-center gap-2">
+        <button
+          id="offline-download-${guide.code}"
+          onclick="downloadCountryOffline('${guide.code}', '${name}')"
+          class="w-full p-3 rounded-xl bg-primary-500/10 border border-primary-500/30 text-primary-400 text-sm hover:bg-primary-500/20 transition-all flex items-center justify-center gap-2"
+        >
+          <i class="fas fa-download"></i>
+          Télécharger pour offline
+        </button>
+      </div>
+
+      <!-- Report Error Button -->
+      <div class="p-4 -mt-2">
+        <button onclick="reportGuideError('${guide.code}')" class="w-full p-3 rounded-xl border border-slate-600 text-slate-400 text-sm hover:border-red-500/50 hover:text-red-400 transition-all flex items-center justify-center gap-2">
           <i class="fas fa-flag"></i>
           Signaler une erreur dans ce guide
         </button>

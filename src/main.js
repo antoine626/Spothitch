@@ -413,6 +413,14 @@ async function init() {
       console.warn('Auto offline sync skipped:', e.message);
     }
 
+    // Initialize push notifications (if previously enabled)
+    try {
+      const { initPushNotifications } = await import('./services/pushNotifications.js')
+      initPushNotifications()
+    } catch (e) {
+      console.warn('Push notifications skipped:', e.message)
+    }
+
     // Register cleanup on page unload
     window.addEventListener('beforeunload', runAllCleanup);
 
@@ -443,14 +451,17 @@ function loadInitialData() {
   // Load sample spots for demo
   actions.setSpots(sampleSpots);
 
-  // Try to get user location
+  // Try to get user location and load nearby spots
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        actions.setUserLocation({
+        const loc = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
-        });
+        }
+        actions.setUserLocation(loc)
+        // Load nearby spots for the new home view
+        loadNearbySpots(loc)
       },
       (error) => {
         console.log('Location not available:', error.message);
@@ -505,20 +516,26 @@ function render(state) {
     saveScrollPosition(previousTab);
   }
 
-  // Preserve map container across re-renders to avoid destroying Leaflet
+  // Preserve map containers across re-renders to avoid destroying Leaflet
   const isMapTab = state.activeTab === 'map' || state.activeTab === 'home'
-  const mapContainer = document.getElementById('main-map')
-  const hasLiveMap = mapContainer && window.mapInstance
-  const savedMapEl = hasLiveMap ? mapContainer : null
+  const isFullMapTab = state.activeTab === 'fullmap'
+  const mainMapContainer = document.getElementById('main-map')
+  const homeMapContainer = document.getElementById('home-map')
+  const hasMainMap = mainMapContainer && window.mapInstance
+  const hasHomeMap = homeMapContainer && window.homeMapInstance
+  const savedMainMap = hasMainMap ? mainMapContainer : null
+  const savedHomeMap = hasHomeMap ? homeMapContainer : null
 
   app.innerHTML = renderApp(state);
 
-  // Re-insert preserved map container if we're still on the map tab
-  if (savedMapEl && isMapTab) {
-    const newMapSlot = document.getElementById('main-map')
-    if (newMapSlot) {
-      newMapSlot.replaceWith(savedMapEl)
-    }
+  // Re-insert preserved map containers
+  if (savedMainMap && isFullMapTab) {
+    const slot = document.getElementById('main-map')
+    if (slot) slot.replaceWith(savedMainMap)
+  }
+  if (savedHomeMap && isMapTab) {
+    const slot = document.getElementById('home-map')
+    if (slot) slot.replaceWith(savedHomeMap)
   }
 
   // Call afterRender hook
@@ -541,6 +558,9 @@ function render(state) {
 
   // Initialize maps based on view
   if (state.activeTab === 'spots' && state.viewMode === 'map') {
+    initMapService();
+  }
+  if (state.activeTab === 'fullmap') {
     initMapService();
   }
 }
@@ -1642,6 +1662,417 @@ window.clearFormDraft = async (formId) => {
   showToast('Brouillon efface', 'info');
   scheduleRender(() => render(getState()));
 };
+
+// ==================== PUSH NOTIFICATION HANDLERS ====================
+
+window.togglePushNotifications = async () => {
+  const { isPushEnabled, enablePushNotifications, disablePushNotifications } = await import('./services/pushNotifications.js')
+  if (isPushEnabled()) {
+    disablePushNotifications()
+    showToast('Notifications push désactivées', 'info')
+  } else {
+    const result = await enablePushNotifications()
+    if (result.success) {
+      showToast('Notifications push activées', 'success')
+    } else {
+      showToast('Notifications refusées par le navigateur', 'warning')
+    }
+  }
+  scheduleRender(() => render(getState()))
+}
+
+// ==================== OFFLINE DOWNLOAD HANDLERS ====================
+
+window.downloadCountryOffline = async (code, name) => {
+  const btn = document.getElementById(`offline-download-${code}`)
+  if (btn) {
+    btn.disabled = true
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Téléchargement...'
+  }
+  try {
+    const { downloadCountrySpots } = await import('./services/offlineDownload.js')
+    const result = await downloadCountrySpots(code, (progress) => {
+      if (btn) btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>${progress}%`
+    })
+    if (result.success) {
+      showToast(`${name}: ${result.count} spots téléchargés pour offline`, 'success')
+      if (btn) {
+        btn.innerHTML = '<i class="fas fa-check mr-2"></i>Téléchargé'
+        btn.classList.remove('border-primary-500/30', 'text-primary-400')
+        btn.classList.add('border-green-500/30', 'text-green-400')
+      }
+    } else {
+      showToast('Échec du téléchargement', 'error')
+      if (btn) {
+        btn.disabled = false
+        btn.innerHTML = '<i class="fas fa-download"></i> Télécharger pour offline'
+      }
+    }
+  } catch (e) {
+    console.error('Offline download error:', e)
+    showToast('Erreur lors du téléchargement', 'error')
+    if (btn) {
+      btn.disabled = false
+      btn.innerHTML = '<i class="fas fa-download"></i> Télécharger pour offline'
+    }
+  }
+}
+
+window.deleteOfflineCountry = async (code) => {
+  try {
+    const { deleteOfflineCountry } = await import('./services/offlineDownload.js')
+    await deleteOfflineCountry(code)
+    showToast('Données offline supprimées', 'success')
+    scheduleRender(() => render(getState()))
+  } catch (e) {
+    showToast('Erreur lors de la suppression', 'error')
+  }
+}
+
+// ==================== HOME HANDLERS ====================
+
+// Home destination search with debounce
+let homeDestDebounce = null
+window.homeSearchDestination = (query) => {
+  clearTimeout(homeDestDebounce)
+  const container = document.getElementById('home-dest-suggestions')
+  if (!container) return
+  if (!query || query.trim().length < 2) {
+    container.classList.add('hidden')
+    return
+  }
+  homeDestDebounce = setTimeout(async () => {
+    try {
+      const results = await searchLocation(query)
+      if (results && results.length > 0) {
+        container.classList.remove('hidden')
+        container.innerHTML = `
+          <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
+            ${results.map((r, i) => `
+              <button
+                onclick="homeSelectDestination(${r.lat}, ${r.lng}, '${(r.name || '').split(',').slice(0, 2).join(',').replace(/'/g, "\\'")}')"
+                class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
+                data-home-suggestion="${i}"
+              >
+                <div class="font-medium text-sm truncate">${(r.name || '').split(',').slice(0, 2).join(',')}</div>
+                <div class="text-xs text-slate-400 truncate">${r.name}</div>
+              </button>
+            `).join('')}
+          </div>
+        `
+      } else {
+        container.classList.add('hidden')
+      }
+    } catch (e) {
+      container.classList.add('hidden')
+    }
+  }, 300)
+}
+
+window.homeSelectFirstSuggestion = () => {
+  const btn = document.querySelector('[data-home-suggestion="0"]')
+  if (btn) btn.click()
+}
+
+window.homeSelectDestination = async (lat, lng, name) => {
+  const input = document.getElementById('home-destination')
+  if (input) input.value = name
+  document.getElementById('home-dest-suggestions')?.classList.add('hidden')
+
+  setState({
+    homeDestination: { lat, lng },
+    homeDestinationLabel: name,
+    homeSearching: true,
+  })
+
+  // Get origin
+  const state = getState()
+  const origin = state.homeOrigin || state.userLocation
+  if (!origin) {
+    setState({ homeSearching: false })
+    showToast('Définissez votre point de départ', 'warning')
+    return
+  }
+
+  try {
+    // Get OSRM route
+    const { getRoute, formatDistance: fmtDist, formatDuration: fmtDur } = await import('./services/osrm.js')
+    const route = await getRoute([
+      { lat: origin.lat, lng: origin.lng },
+      { lat, lng },
+    ])
+
+    // Get all spots
+    let allSpots = state.spots || []
+    try {
+      const { getAllLoadedSpots } = await import('./services/spotLoader.js')
+      allSpots = getAllLoadedSpots()
+    } catch (e) { /* use state spots */ }
+
+    // Use web worker for corridor filtering
+    const corridorKm = state.homeCorridorKm || 2
+    let filteredSpots
+
+    try {
+      const { filterRouteCorridor } = await import('./utils/spotWorkerClient.js')
+      filteredSpots = await filterRouteCorridor(allSpots, route.geometry, corridorKm)
+    } catch (e) {
+      // Fallback: simple corridor filtering without worker
+      filteredSpots = filterSpotsAlongPolylineFallback(allSpots, route.geometry, corridorKm)
+    }
+
+    // Update home map with route
+    updateHomeMapWithRoute(origin, { lat, lng }, route.geometry, filteredSpots)
+
+    setState({
+      homeFilteredSpots: filteredSpots,
+      homeRouteInfo: {
+        distance: fmtDist(route.distance),
+        duration: fmtDur(route.duration),
+      },
+      homeSearching: false,
+    })
+  } catch (error) {
+    console.error('Route search failed:', error)
+    setState({ homeSearching: false })
+    showToast('Erreur lors de la recherche de route', 'error')
+  }
+}
+
+window.homeClearDestination = () => {
+  setState({
+    homeDestination: null,
+    homeDestinationLabel: '',
+    homeRouteInfo: null,
+    homeFilteredSpots: [],
+  })
+  // Reset map
+  const state = getState()
+  if (state.userLocation) {
+    loadNearbySpots(state.userLocation)
+  }
+  // Remove route layer from map
+  if (window.homeMapInstance && window.homeRouteLayer) {
+    window.homeMapInstance.removeLayer(window.homeRouteLayer)
+    window.homeRouteLayer = null
+  }
+}
+
+// Origin handlers
+window.homeEditOrigin = () => {
+  const originInput = document.getElementById('home-origin-input')
+  if (originInput) {
+    originInput.classList.toggle('hidden')
+    if (!originInput.classList.contains('hidden')) {
+      document.getElementById('home-origin-field')?.focus()
+    }
+  }
+}
+
+let homeOriginDebounce = null
+window.homeSearchOrigin = (query) => {
+  clearTimeout(homeOriginDebounce)
+  const container = document.getElementById('home-origin-suggestions')
+  if (!container) return
+  if (!query || query.trim().length < 2) {
+    container.classList.add('hidden')
+    return
+  }
+  homeOriginDebounce = setTimeout(async () => {
+    try {
+      const results = await searchLocation(query)
+      if (results && results.length > 0) {
+        container.classList.remove('hidden')
+        container.innerHTML = `
+          <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
+            ${results.map((r, i) => `
+              <button
+                onclick="homeSelectOrigin(${r.lat}, ${r.lng}, '${(r.name || '').split(',').slice(0, 2).join(',').replace(/'/g, "\\'")}')"
+                class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
+                data-home-origin-suggestion="${i}"
+              >
+                <div class="font-medium text-sm truncate">${(r.name || '').split(',').slice(0, 2).join(',')}</div>
+                <div class="text-xs text-slate-400 truncate">${r.name}</div>
+              </button>
+            `).join('')}
+          </div>
+        `
+      } else {
+        container.classList.add('hidden')
+      }
+    } catch (e) {
+      container.classList.add('hidden')
+    }
+  }, 300)
+}
+
+window.homeSelectFirstOriginSuggestion = () => {
+  const btn = document.querySelector('[data-home-origin-suggestion="0"]')
+  if (btn) btn.click()
+}
+
+window.homeSelectOrigin = (lat, lng, name) => {
+  document.getElementById('home-origin-suggestions')?.classList.add('hidden')
+  document.getElementById('home-origin-input')?.classList.add('hidden')
+  setState({
+    homeOrigin: { lat, lng },
+    homeOriginLabel: name,
+  })
+  loadNearbySpots({ lat, lng })
+}
+
+window.homeUseGPS = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const loc = { lat: position.coords.latitude, lng: position.coords.longitude }
+        actions.setUserLocation(loc)
+        document.getElementById('home-origin-input')?.classList.add('hidden')
+        setState({
+          homeOrigin: null, // null means use GPS
+          homeOriginLabel: '',
+        })
+        loadNearbySpots(loc)
+        showToast('Position GPS activée', 'success')
+      },
+      () => showToast('Impossible d\'obtenir la position', 'error'),
+      { enableHighAccuracy: true, timeout: 10000 }
+    )
+  }
+}
+
+// Filter handlers
+window.homeToggleFilters = () => {
+  const { homeShowFilters } = getState()
+  setState({ homeShowFilters: !homeShowFilters })
+}
+
+window.homeSetCorridorDistance = (value) => {
+  setState({ homeCorridorKm: parseInt(value, 10) })
+}
+
+window.homeToggleFilter = (filter) => {
+  const state = getState()
+  if (filter === 'rating') setState({ homeFilterRating: state.homeFilterRating === false ? true : false })
+  if (filter === 'wait') setState({ homeFilterWait: state.homeFilterWait === false ? true : false })
+  if (filter === 'safety') setState({ homeFilterSafety: state.homeFilterSafety === false ? true : false })
+}
+
+window.homeCenterOnUser = () => {
+  const { userLocation } = getState()
+  if (userLocation && window.homeMapInstance) {
+    window.homeMapInstance.setView([userLocation.lat, userLocation.lng], 12)
+  }
+}
+
+// Load nearby spots (Around me mode)
+async function loadNearbySpots(location) {
+  if (!location) return
+
+  let allSpots = getState().spots || []
+  try {
+    const { getAllLoadedSpots } = await import('./services/spotLoader.js')
+    allSpots = getAllLoadedSpots()
+  } catch (e) { /* use state spots */ }
+
+  // Filter spots within 10km by default, sorted by distance
+  const nearby = allSpots
+    .map(spot => {
+      const sLat = spot.coordinates?.lat || spot.lat
+      const sLng = spot.coordinates?.lng || spot.lng
+      if (!sLat || !sLng) return null
+      const dist = haversineSimple(location.lat, location.lng, sLat, sLng)
+      return { ...spot, _distance: dist }
+    })
+    .filter(s => s && s._distance <= 10)
+    .sort((a, b) => a._distance - b._distance)
+    .slice(0, 50)
+
+  setState({ homeFilteredSpots: nearby })
+
+  // Update map
+  if (window.homeMapInstance) {
+    window.homeMapInstance.setView([location.lat, location.lng], 12)
+  }
+}
+
+// Simple haversine for main thread fallback
+function haversineSimple(lat1, lng1, lat2, lng2) {
+  const R = 6371
+  const dLat = (lat2 - lat1) * Math.PI / 180
+  const dLng = (lng2 - lng1) * Math.PI / 180
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+// Fallback polyline corridor filter (no worker)
+function filterSpotsAlongPolylineFallback(spots, geometry, corridorKm) {
+  if (!geometry || geometry.length < 2) return []
+  const step = Math.max(1, Math.floor(geometry.length / 300))
+  const sampled = []
+  for (let i = 0; i < geometry.length; i += step) sampled.push(geometry[i])
+  if (sampled[sampled.length - 1] !== geometry[geometry.length - 1]) {
+    sampled.push(geometry[geometry.length - 1])
+  }
+
+  return spots
+    .map(spot => {
+      const sLat = spot.coordinates?.lat || spot.lat
+      const sLng = spot.coordinates?.lng || spot.lng
+      if (!sLat || !sLng) return null
+      let minDist = Infinity
+      for (const pt of sampled) {
+        const d = haversineSimple(sLat, sLng, pt[1], pt[0])
+        if (d < minDist) minDist = d
+      }
+      if (minDist <= corridorKm) {
+        return { ...spot, _distToRoute: Math.round(minDist * 100) / 100 }
+      }
+      return null
+    })
+    .filter(Boolean)
+}
+
+// Update home map with route line and spot markers
+function updateHomeMapWithRoute(origin, dest, geometry, spots) {
+  const map = window.homeMapInstance
+  if (!map || typeof L === 'undefined') return
+
+  // Remove old route
+  if (window.homeRouteLayer) {
+    map.removeLayer(window.homeRouteLayer)
+  }
+  if (window.homeSpotMarkers) {
+    window.homeSpotMarkers.forEach(m => map.removeLayer(m))
+  }
+
+  // Draw route polyline (OSRM geometry is [lng, lat])
+  const latLngs = geometry.map(coord => [coord[1], coord[0]])
+  window.homeRouteLayer = L.polyline(latLngs, {
+    color: '#0ea5e9',
+    weight: 4,
+    opacity: 0.8,
+  }).addTo(map)
+
+  // Add spot markers along route
+  window.homeSpotMarkers = spots.slice(0, 200).map(spot => {
+    const lat = spot.coordinates?.lat || spot.lat
+    const lng = spot.coordinates?.lng || spot.lng
+    if (!lat || !lng) return null
+    return L.circleMarker([lat, lng], {
+      radius: 6,
+      fillColor: '#22c55e',
+      color: '#fff',
+      weight: 1.5,
+      fillOpacity: 0.9,
+    }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
+  }).filter(Boolean)
+
+  // Fit map to route bounds
+  map.fitBounds(window.homeRouteLayer.getBounds(), { padding: [20, 20] })
+}
 
 // ==================== START APP ====================
 

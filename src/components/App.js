@@ -14,6 +14,7 @@ import { renderHeader } from './Header.js';
 import { renderNavigation } from './Navigation.js';
 
 // Views
+import { renderHome } from './views/Home.js';
 import { renderMap, initMainMap } from './views/Map.js';
 import { renderTravel } from './views/Travel.js';
 import { renderChallengesHub } from './views/ChallengesHub.js';
@@ -193,6 +194,8 @@ function renderActiveView(state) {
   switch (state.activeTab) {
     // New structure
     case 'map':
+      return renderHome(state);
+    case 'fullmap':
       return renderMap(state);
     case 'travel':
       return renderTravel(state);
@@ -205,7 +208,7 @@ function renderActiveView(state) {
 
     // Old structure (backward compatibility)
     case 'home':
-      return renderMap(state); // Redirect to new map
+      return renderHome(state);
     case 'spots':
       return renderSpots(state);
     case 'planner':
@@ -214,7 +217,7 @@ function renderActiveView(state) {
       return renderSocial(state); // Redirect to new social
 
     default:
-      return renderMap(state);
+      return renderHome(state);
   }
 }
 
@@ -222,9 +225,79 @@ function renderActiveView(state) {
  * Post-render hook to initialize map
  */
 export function afterRender(state) {
-  if (state.activeTab === 'map' || state.activeTab === 'home') {
-    setTimeout(() => initMainMap(state), 100);
+  if (state.activeTab === 'fullmap') {
+    setTimeout(() => initMainMap(state), 100)
   }
+  if (state.activeTab === 'map' || state.activeTab === 'home') {
+    setTimeout(() => initHomeMap(state), 100)
+  }
+}
+
+/**
+ * Initialize the small home map
+ */
+function initHomeMap(state) {
+  const container = document.getElementById('home-map')
+  if (!container || container.dataset.initialized === 'true') return
+
+  import('../services/map.js').then(({ default: mapModule }) => {
+    // Don't re-init if already done
+    if (container.dataset.initialized === 'true') return
+    container.dataset.initialized = 'true'
+
+    // Use Leaflet directly for the small home map
+    if (typeof L === 'undefined') return
+
+    const center = state.userLocation
+      ? [state.userLocation.lat, state.userLocation.lng]
+      : [48.8566, 2.3522] // Paris fallback
+
+    const zoom = state.userLocation ? 11 : 3
+
+    const map = L.map(container, {
+      center,
+      zoom,
+      zoomControl: false,
+      attributionControl: false,
+    })
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+    }).addTo(map)
+
+    // Store reference for later use
+    window.homeMapInstance = map
+
+    // Add user marker if GPS available
+    if (state.userLocation) {
+      L.circleMarker([state.userLocation.lat, state.userLocation.lng], {
+        radius: 8,
+        fillColor: '#0ea5e9',
+        color: '#fff',
+        weight: 2,
+        fillOpacity: 0.9,
+      }).addTo(map)
+    }
+
+    // Add spot markers
+    const spots = state.homeFilteredSpots || state.spots || []
+    spots.slice(0, 200).forEach(spot => {
+      const lat = spot.coordinates?.lat || spot.lat
+      const lng = spot.coordinates?.lng || spot.lng
+      if (!lat || !lng) return
+      L.circleMarker([lat, lng], {
+        radius: 5,
+        fillColor: '#22c55e',
+        color: '#fff',
+        weight: 1,
+        fillOpacity: 0.8,
+      }).addTo(map).on('click', () => {
+        window.selectSpot?.(spot.id)
+      })
+    })
+  }).catch(() => {
+    // Map module not available
+  })
 }
 
 export default { renderApp, afterRender };

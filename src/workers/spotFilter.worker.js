@@ -202,6 +202,73 @@ function findSpotsAlongRoute(spots, from, to, corridorWidth = 50) {
 }
 
 /**
+ * Find spots within a corridor along an OSRM polyline
+ * @param {Array} spots - All spots
+ * @param {Array<[number,number]>} polyline - Array of [lng, lat] from OSRM GeoJSON
+ * @param {number} corridorKm - Max distance from route in km
+ * @returns {Array} Spots within corridor, sorted by position along route
+ */
+function findSpotsAlongPolyline(spots, polyline, corridorKm = 2) {
+  if (!polyline || polyline.length < 2) return []
+
+  // Sample polyline points (every Nth point for performance)
+  const step = Math.max(1, Math.floor(polyline.length / 500))
+  const sampledPoints = []
+  for (let i = 0; i < polyline.length; i += step) {
+    sampledPoints.push(polyline[i])
+  }
+  // Always include last point
+  if (sampledPoints[sampledPoints.length - 1] !== polyline[polyline.length - 1]) {
+    sampledPoints.push(polyline[polyline.length - 1])
+  }
+
+  // Calculate cumulative distance along route for each sampled point
+  const cumulativeDist = [0]
+  for (let i = 1; i < sampledPoints.length; i++) {
+    const prev = sampledPoints[i - 1]
+    const curr = sampledPoints[i]
+    cumulativeDist.push(
+      cumulativeDist[i - 1] + haversine(prev[1], prev[0], curr[1], curr[0])
+    )
+  }
+  const totalRouteLength = cumulativeDist[cumulativeDist.length - 1]
+
+  // For each spot, find min distance to any polyline point
+  const matched = []
+  for (const spot of spots) {
+    const sLat = spot.coordinates?.lat || spot.lat
+    const sLng = spot.coordinates?.lng || spot.lng
+    if (!sLat || !sLng) continue
+
+    let minDist = Infinity
+    let bestIdx = 0
+    for (let i = 0; i < sampledPoints.length; i++) {
+      const pt = sampledPoints[i]
+      const d = haversine(sLat, sLng, pt[1], pt[0])
+      if (d < minDist) {
+        minDist = d
+        bestIdx = i
+      }
+    }
+
+    if (minDist <= corridorKm) {
+      const routeProgress = totalRouteLength > 0
+        ? cumulativeDist[bestIdx] / totalRouteLength
+        : 0
+      matched.push({
+        ...spot,
+        _distToRoute: Math.round(minDist * 100) / 100,
+        _routeProgress: Math.round(routeProgress * 1000) / 1000,
+      })
+    }
+  }
+
+  // Sort by position along route
+  matched.sort((a, b) => a._routeProgress - b._routeProgress)
+  return matched
+}
+
+/**
  * Cluster spots by proximity (for map markers)
  */
 function clusterSpots(spots, zoom) {
@@ -246,7 +313,7 @@ function clusterSpots(spots, zoom) {
 // ==================== MESSAGE HANDLER ====================
 
 self.onmessage = function(e) {
-  const { type, id, spots, filters, sortBy, userLocation, from, to, zoom, corridorWidth } = e.data
+  const { type, id, spots, filters, sortBy, userLocation, from, to, zoom, corridorWidth, polyline, corridorKm } = e.data
   const start = performance.now()
 
   let result
@@ -271,6 +338,10 @@ self.onmessage = function(e) {
 
     case 'route':
       result = findSpotsAlongRoute(spots || [], from, to, corridorWidth)
+      break
+
+    case 'routeCorridor':
+      result = findSpotsAlongPolyline(spots || [], polyline || [], corridorKm || 2)
       break
 
     case 'cluster':

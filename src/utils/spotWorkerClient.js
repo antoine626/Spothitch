@@ -128,6 +128,18 @@ export async function findSpotsAlongRoute(spots, from, to, corridorWidth = 50) {
 }
 
 /**
+ * Filter spots along an OSRM route polyline corridor
+ * @param {Array} spots - All spots
+ * @param {Array<[number,number]>} polyline - OSRM GeoJSON coordinates [lng, lat]
+ * @param {number} [corridorKm=2] - Max distance from route in km
+ * @returns {Promise<Array>} Spots within corridor, sorted by route position
+ */
+export async function filterRouteCorridor(spots, polyline, corridorKm = 2) {
+  const { results } = await postMessage({ type: 'routeCorridor', spots, polyline, corridorKm })
+  return results || []
+}
+
+/**
  * Cluster spots for map display
  * @param {Array} spots
  * @param {number} zoom - Map zoom level
@@ -153,6 +165,7 @@ export default {
   filterAndSort,
   calculateDistances,
   findSpotsAlongRoute,
+  filterRouteCorridor,
   clusterSpots,
   destroyWorker,
 }
