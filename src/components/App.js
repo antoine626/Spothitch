@@ -12,6 +12,7 @@
 
 import { renderHeader } from './Header.js';
 import { renderNavigation } from './Navigation.js';
+import { getState } from '../stores/state.js';
 
 // Views
 import { renderHome } from './views/Home.js';
@@ -267,10 +268,11 @@ function initHomeMap(state) {
       }).addTo(map).bindTooltip('Ma position', { permanent: false })
     }
 
-    // Load visible spots on map move/zoom
+    // Load visible spots on map move/zoom (read fresh state each time)
     const updateVisibleSpots = () => {
       const bounds = map.getBounds()
-      const allSpots = state.homeFilteredSpots || state.spots || []
+      const currentState = getState()
+      const allSpots = currentState.spots || []
 
       // Clear old markers
       window.homeSpotMarkers.forEach(m => map.removeLayer(m))
