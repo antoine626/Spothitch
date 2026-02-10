@@ -114,11 +114,51 @@ export default defineConfig({
   build: {
     sourcemap: true,
     rollupOptions: {
+      external: ['mixpanel-browser'],
       output: {
         manualChunks: {
           'vendor-leaflet': ['leaflet', 'leaflet.markercluster'],
           'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage'],
-          'vendor-utils': ['dompurify']
+          'vendor-utils': ['dompurify'],
+          'gamification': [
+            './src/services/gamification.js',
+            './src/services/skillTree.js',
+            './src/services/quiz.js',
+            './src/services/teamChallenges.js',
+            './src/services/friendChallenges.js',
+            './src/services/seasons.js',
+            './src/services/guilds.js',
+            './src/services/temporaryEvents.js',
+            './src/services/dailyReward.js',
+            './src/services/weeklyLeaderboard.js',
+            './src/services/anniversaryRewards.js',
+            './src/services/secretBadgeChecker.js',
+            './src/services/geographicAchievements.js',
+            './src/services/friendComparison.js',
+          ],
+          'social': [
+            './src/services/realtimeChat.js',
+            './src/services/privateMessages.js',
+            './src/services/messageReactions.js',
+            './src/services/messageReplies.js',
+            './src/services/travelGroups.js',
+            './src/services/nearbyFriends.js',
+            './src/services/companionSearch.js',
+            './src/services/friendsList.js',
+            './src/services/friendSuggestions.js',
+            './src/services/detailedProfiles.js',
+            './src/services/userBlocking.js',
+            './src/services/userReporting.js',
+            './src/services/userFollow.js',
+            './src/services/socialSharing.js',
+            './src/services/inviteFriends.js',
+            './src/services/referralProgram.js',
+          ],
+          'admin': [
+            './src/services/adminModeration.js',
+            './src/services/moderatorRoles.js',
+            './src/services/moderation.js',
+          ],
         }
       }
     },
