@@ -178,10 +178,9 @@ window.confirmDeleteAccount = async (event) => {
     const result = await deleteUserAccount(password);
 
     if (result.success) {
-      // Clear local state
-      localStorage.removeItem('spothitch_state');
-      localStorage.removeItem('spothitch_user');
-      localStorage.removeItem('spothitch_welcomed');
+      // Clear ALL local data (RGPD compliant - uses centralized registry)
+      const { clearAllUserData } = await import('../../services/storageRegistry.js');
+      clearAllUserData();
 
       // Reset state
       actions.setUser(null);
@@ -243,10 +242,9 @@ window.confirmDeleteAccountGoogle = async () => {
     const result = await deleteUserAccountGoogle();
 
     if (result.success) {
-      // Clear local state
-      localStorage.removeItem('spothitch_state');
-      localStorage.removeItem('spothitch_user');
-      localStorage.removeItem('spothitch_welcomed');
+      // Clear ALL local data (RGPD compliant - uses centralized registry)
+      const { clearAllUserData } = await import('../../services/storageRegistry.js');
+      clearAllUserData();
 
       // Reset state
       actions.setUser(null);

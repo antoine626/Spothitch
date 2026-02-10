@@ -2,7 +2,7 @@
 
 > **INSTRUCTION** : Si la session Claude est interrompue, dire "lis SUIVI.md et continue"
 >
-> Dernière mise à jour : 2026-02-08 19:00
+> Dernière mise à jour : 2026-02-10
 
 ## ⚠️ AGENTS EN COURS (session interrompue)
 
@@ -524,22 +524,22 @@ Extraction massive de données réelles depuis Hitchmap (hitchmap.com/dump.sqlit
 
 ## STATISTIQUES
 
-| Catégorie | ✅ Fait | ❌ À faire | 💬 À discuter | 🚫 Non sélectionné |
-|-----------|---------|-----------|---------------|-------------------|
-| RGPD/Sécurité (1-30) | 8 | 17 | 5 | 0 |
-| UX (31-55) | 8 | 7 | 0 | 10 |
-| Spots (56-105) | 12 | 18 | 10 | 10 |
-| PWA (106-125) | 2 | 11 | 0 | 7 |
-| Accessibilité (126-140) | 1 | 3 | 0 | 11 |
-| Langues (141-152) | 1 | 3 | 0 | 8 |
-| Gamification (153-177) | 14 | 3 | 1 | 7 |
-| Social (178-202) | 9 | 9 | 1 | 6 |
-| Admin (203-217) | 0 | 15 | 0 | 0 |
-| Notifications (218-229) | 0 | 8 | 0 | 4 |
-| Monétisation (230-241) | 1 | 5 | 0 | 5 |
-| Tests/Dev (242-268) | 0 | 27 | 0 | 0 |
-| Marketing (269-286) | 7 | 6 | 0 | 5 |
-| **TOTAL** | **63** | **131** | **17** | **74** |
+| Catégorie | ✅ Fait | ❌ À faire | 💬 À discuter | 🚫 Non sélectionné | ⏸️ |
+|-----------|---------|-----------|---------------|-------------------|----|
+| RGPD/Sécurité (1-30) | 19 | 9 | 2 | 0 | 0 |
+| UX (31-55) | 16 | 1 | 0 | 8 | 0 |
+| Spots (56-105) | 31 | 0 | 7 | 12 | 0 |
+| PWA (106-125) | 10 | 1 | 0 | 9 | 0 |
+| Accessibilité (126-140) | 3 | 0 | 0 | 12 | 0 |
+| Langues (141-152) | 4 | 0 | 0 | 8 | 0 |
+| Gamification (153-177) | 18 | 0 | 1 | 6 | 0 |
+| Social (178-202) | 22 | 0 | 0 | 3 | 0 |
+| Admin (203-217) | 15 | 0 | 0 | 0 | 0 |
+| Notifications (218-229) | 8 | 0 | 0 | 4 | 0 |
+| Monétisation (230-241) | 5 | 1 | 0 | 5 | 1 |
+| Tests/Dev (242-268) | 3 | 24 | 0 | 0 | 0 |
+| Marketing (269-286) | 15 | 0 | 0 | 3 | 0 |
+| **TOTAL** | **169** | **36** | **10** | **70** | **1** |
 
 ---
 

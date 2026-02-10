@@ -380,16 +380,24 @@ export function renderMyDataModal() {
 /**
  * Download user data as JSON
  */
-export function downloadUserData() {
+export async function downloadUserData() {
   const data = getUserData();
   const state = getState();
 
-  // Add more detailed data for export
+  // RGPD: Complete data export using centralized storage registry
+  let localStorageData = {}
+  try {
+    const { exportAllUserData } = await import('../../services/storageRegistry.js')
+    localStorageData = exportAllUserData()
+  } catch {
+    // Fallback if registry not available
+  }
+
   const exportData = {
     exportDate: new Date().toISOString(),
-    exportVersion: '1.0',
+    exportVersion: '2.0',
     ...data,
-    // Additional detailed data
+    // Additional detailed data from state
     badges: state.badges || [],
     rewards: state.rewards || [],
     savedTrips: state.savedTrips || [],
@@ -401,6 +409,8 @@ export function downloadUserData() {
       language: state.lang,
       notifications: state.notifications,
     },
+    // Complete localStorage data (RGPD compliant)
+    localStorage: localStorageData,
   };
 
   const json = JSON.stringify(exportData, null, 2);
@@ -435,10 +445,9 @@ export function requestAccountDeletion() {
   if (confirmed) {
     const input = prompt('Tapez "SUPPRIMER" pour confirmer la suppression definitive :');
     if (input === 'SUPPRIMER') {
-      // In a real app, this would call the backend
-      // For now, clear local storage
-      import('../../utils/storage.js').then(({ Storage }) => {
-        Storage.clear();
+      // Clear ALL user data using centralized registry (RGPD compliant)
+      import('../../services/storageRegistry.js').then(({ clearAllUserData }) => {
+        clearAllUserData();
         window.showToast?.('Compte supprime. Vous allez etre redirige...', 'info');
         setTimeout(() => {
           location.reload();
