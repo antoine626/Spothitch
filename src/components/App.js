@@ -172,15 +172,6 @@ export function renderApp(state) {
       </div>
     ` : ''}
 
-    <!-- Admin Button (floating) -->
-    <button
-      onclick="openAdminPanel()"
-      class="fixed bottom-24 right-4 w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all z-40 flex items-center justify-center"
-      aria-label="Panneau Admin"
-      title="Panneau Admin"
-    >
-      <i class="fas fa-shield-alt text-lg" aria-hidden="true"></i>
-    </button>
 
     <!-- Cookie Banner (RGPD) - hidden during tutorial/welcome -->
     ${!state.showTutorial && !state.showWelcome ? renderCookieBanner() : ''}
@@ -240,13 +231,10 @@ function initHomeMap(state) {
   const container = document.getElementById('home-map')
   if (!container || container.dataset.initialized === 'true') return
 
-  import('../services/map.js').then(({ default: mapModule }) => {
+  import('leaflet').then((L) => {
     // Don't re-init if already done
     if (container.dataset.initialized === 'true') return
     container.dataset.initialized = 'true'
-
-    // Use Leaflet directly for the small home map
-    if (typeof L === 'undefined') return
 
     const center = state.userLocation
       ? [state.userLocation.lat, state.userLocation.lng]
@@ -267,6 +255,7 @@ function initHomeMap(state) {
 
     // Store reference for later use
     window.homeMapInstance = map
+    window.homeLeaflet = L
 
     // Add user marker if GPS available
     if (state.userLocation) {
@@ -295,8 +284,8 @@ function initHomeMap(state) {
         window.selectSpot?.(spot.id)
       })
     })
-  }).catch(() => {
-    // Map module not available
+  }).catch((err) => {
+    console.warn('Home map init failed:', err)
   })
 }
 

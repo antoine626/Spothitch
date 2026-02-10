@@ -15,7 +15,16 @@ export function renderHeader(state) {
         </div>
         
         <!-- Actions -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <!-- Admin Button -->
+          <button
+            onclick="openAdminPanel()"
+            class="w-9 h-9 rounded-full bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 hover:scale-105 transition-all flex items-center justify-center"
+            aria-label="Panneau Admin"
+            title="Panneau Admin"
+          >
+            <i class="fas fa-shield-alt text-sm" aria-hidden="true"></i>
+          </button>
           <!-- SOS Button - Always visible, prominent -->
           <button
             onclick="openSOS()"

@@ -2036,9 +2036,11 @@ function filterSpotsAlongPolylineFallback(spots, geometry, corridorKm) {
 }
 
 // Update home map with route line and spot markers
-function updateHomeMapWithRoute(origin, dest, geometry, spots) {
+async function updateHomeMapWithRoute(origin, dest, geometry, spots) {
   const map = window.homeMapInstance
-  if (!map || typeof L === 'undefined') return
+  if (!map) return
+
+  const L = window.homeLeaflet || await import('leaflet')
 
   // Remove old route
   if (window.homeRouteLayer) {
