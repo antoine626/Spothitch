@@ -566,38 +566,54 @@ function render(state) {
 }
 
 /**
- * Register service worker
+ * Register service worker with aggressive auto-update
  */
 async function registerServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    try {
-      const registration = await navigator.serviceWorker.register('/Spothitch/sw.js');
-      console.log('✅ Service Worker registered');
+  if (!('serviceWorker' in navigator)) return
 
-      // Check for updates every 5 minutes
-      setInterval(() => registration.update(), 5 * 60 * 1000);
+  try {
+    const registration = await navigator.serviceWorker.register('/Spothitch/sw.js')
+    console.log('✅ Service Worker registered')
 
-      // Auto-update: when new SW is installed, activate it and reload
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true;
-          window.location.reload();
+    // Check for updates every 2 minutes
+    setInterval(() => registration.update(), 2 * 60 * 1000)
+
+    // Check for updates when user returns to the app
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        registration.update()
+      }
+    })
+
+    // Check on online recovery
+    window.addEventListener('online', () => registration.update())
+
+    // Auto-reload when new SW takes control
+    let refreshing = false
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        refreshing = true
+        window.location.reload()
+      }
+    })
+
+    // Force activate new SW immediately when found
+    registration.addEventListener('updatefound', () => {
+      const newWorker = registration.installing
+      if (!newWorker) return
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          newWorker.postMessage({ type: 'SKIP_WAITING' })
         }
-      });
+      })
+    })
 
-      registration.addEventListener('updatefound', () => {
-        const newWorker = registration.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            // Force activate new SW immediately → triggers controllerchange → reload
-            newWorker.postMessage({ type: 'SKIP_WAITING' });
-          }
-        });
-      });
-    } catch (error) {
-      console.error('Service Worker registration failed:', error);
+    // If a waiting worker already exists (e.g. from previous visit), activate it now
+    if (registration.waiting) {
+      registration.waiting.postMessage({ type: 'SKIP_WAITING' })
     }
+  } catch (error) {
+    console.error('Service Worker registration failed:', error)
   }
 }
 
