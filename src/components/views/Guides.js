@@ -255,7 +255,7 @@ export function renderCountryDetail(countryCode) {
               </span>
               <div>
                 <div class="text-white font-bold">${number}</div>
-                <div class="text-gray-500 text-xs capitalize">${key === 'european' ? 'Européen' : key}</div>
+                <div class="text-gray-500 text-xs capitalize">${key === 'universal' ? 'Universel' : key}</div>
               </div>
             </a>
           `).join('')}

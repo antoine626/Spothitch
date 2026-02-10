@@ -11,8 +11,8 @@ import { t } from '../../i18n/index.js';
  */
 export function renderLanding(state) {
   const stats = {
-    spots: 94,
-    countries: 12,
+    spots: 37000,
+    countries: 170,
     users: 1500,
     checkins: 5000
   };

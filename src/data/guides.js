@@ -67,7 +67,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La France a une tradition d\'autostop ancienne. Les conducteurs sont souvent généreux avec les autostoppeurs, offrant parfois de l\'argent ou un repas. Le contact visuel et un sourire sont essentiels.',
     culturalNotesEn: 'France has a long hitchhiking tradition. Drivers are often generous, sometimes offering money or meals. Eye contact and a smile are essential.',
-    emergencyNumbers: { police: '17', ambulance: '15', fire: '18', european: '112' },
+    emergencyNumbers: { police: '17', ambulance: '15', fire: '18', universal: '112' },
     bestSpots: ['Paris Porte de la Chapelle', 'Lyon Confluences', 'Peage La Gravelle'],
     borderCrossings: [
       'Vers l\'Espagne : La Jonquera (Mediterranee) et Oyarzun/Irun (Atlantique) sont d\'excellents stops camions',
@@ -136,7 +136,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Allemagne est une bonne destination pour l\'autostop. Les conducteurs sont ponctuels et fiables. Le reseau autoroutier est dense avec de nombreuses aires de service.',
     culturalNotesEn: 'Germany is a good hitchhiking destination. Drivers are punctual and reliable. The motorway network is dense with many service areas.',
-    emergencyNumbers: { police: '110', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '110', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Berlin Tankstelle Sud', 'Munich Rasthof Ost'],
     borderCrossings: [
       'Depuis Passau vers l\'est (Linz/Vienne) ou depuis Salzbourg vers le sud (Italie)',
@@ -207,7 +207,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'autostop est peu commun en Espagne et pratique surtout par les etrangers. Les heures de sieste reduisent fortement le trafic. Un sourire et quelques mots d\'espagnol font la difference.',
     culturalNotesEn: 'Hitchhiking is uncommon in Spain, mostly practiced by foreigners. Siesta hours significantly reduce traffic. A smile and a few Spanish words make the difference.',
-    emergencyNumbers: { police: '091', ambulance: '061', fire: '080', european: '112' },
+    emergencyNumbers: { police: '091', ambulance: '061', fire: '080', universal: '112' },
     bestSpots: ['Barcelona AP-7 Sud'],
     borderCrossings: [
       'Depuis la France : La Jonquera (cote Mediterranee) et Irun (cote Atlantique)',
@@ -276,7 +276,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'autostop en Italie est moyen. Les Italiens sont chaleureux une fois que vous etes dans la voiture. Le terme local est "autostop" ou "passaggio".',
     culturalNotesEn: 'Hitchhiking in Italy is average. Italians are warm once you\'re in the car. The local term is "autostop" or "passaggio".',
-    emergencyNumbers: { police: '113', ambulance: '118', fire: '115', european: '112' },
+    emergencyNumbers: { police: '113', ambulance: '118', fire: '115', universal: '112' },
     bestSpots: ['Milan Autogrill Sud'],
     borderCrossings: [
       'Vers l\'Autriche : A22 via le Brenner ou A23',
@@ -335,7 +335,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Les Pays-Bas sont un des meilleurs pays d\'Europe pour l\'autostop. Tout le monde parle anglais. Les distances sont courtes et le pays est tres sur.',
     culturalNotesEn: 'The Netherlands is one of the best countries in Europe for hitchhiking. Everyone speaks English. Distances are short and the country is very safe.',
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Amsterdam A2 Utrecht'],
   },
   {
@@ -375,7 +375,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Belgique est facile grace a son reseau routier dense et au fort trafic international. Le pays est petit donc les trajets sont rapides.',
     culturalNotesEn: 'Belgium is easy thanks to its dense road network and strong international traffic. The country is small so journeys are quick.',
-    emergencyNumbers: { police: '101', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '101', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Brussels E19 Nord'],
   },
   {
@@ -416,7 +416,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Pologne a une tradition d\'autostop organisee par l\'Office National du Tourisme de 1958 aux annees 1990. Cet heritage culturel persiste et les conducteurs sont genereux envers les autostoppeurs.',
     culturalNotesEn: 'Poland has a hitchhiking tradition organized by the National Tourist Board from 1958 to 1990s. This cultural legacy persists and drivers are generous toward hitchhikers.',
-    emergencyNumbers: { police: '997', ambulance: '999', fire: '998', european: '112' },
+    emergencyNumbers: { police: '997', ambulance: '999', fire: '998', universal: '112' },
     bestSpots: ['Warsaw Orlen Sud'],
   },
   {
@@ -453,7 +453,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Republique Tcheque est un pays de transit avec un trafic dense. L\'autostop y est assez facile, surtout en dehors de Prague.',
     culturalNotesEn: 'Czech Republic is a transit country with dense traffic. Hitchhiking is fairly easy, especially outside Prague.',
-    emergencyNumbers: { police: '158', ambulance: '155', fire: '150', european: '112' },
+    emergencyNumbers: { police: '158', ambulance: '155', fire: '150', universal: '112' },
     bestSpots: ['Prague D8 Nord'],
   },
   {
@@ -491,7 +491,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Autriche est un bon pays pour l\'autostop avec de magnifiques vues alpines. Les Autrichiens sont polis et souvent bilingues allemand/anglais.',
     culturalNotesEn: 'Austria is a good hitchhiking country with magnificent Alpine views. Austrians are polite and often bilingual German/English.',
-    emergencyNumbers: { police: '133', ambulance: '144', fire: '122', european: '112' },
+    emergencyNumbers: { police: '133', ambulance: '144', fire: '122', universal: '112' },
     bestSpots: ['Vienna A1 Ouest'],
     borderCrossings: [
       'Depuis l\'Allemagne : passage de Passau (est vers Linz/Vienne) ou de Salzbourg (sud vers l\'Italie)',
@@ -535,7 +535,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Suisse est excellente pour l\'autostop en montagne. Le pays est multilingue, adaptez votre salutation a la region.',
     culturalNotesEn: 'Switzerland is excellent for mountain hitchhiking. The country is multilingual, adapt your greeting to the region.',
-    emergencyNumbers: { police: '117', ambulance: '144', fire: '118', european: '112' },
+    emergencyNumbers: { police: '117', ambulance: '144', fire: '118', universal: '112' },
     bestSpots: ['Geneva A1 Lausanne'],
   },
   {
@@ -574,7 +574,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Le Portugal est assez facile pour l\'autostop. Les Portugais sont tres accueillants. L\'approche directe aux stations est plus efficace que le bord de route.',
     culturalNotesEn: 'Portugal is fairly easy for hitchhiking. Portuguese people are very welcoming. Direct approach at stations is more effective than roadside.',
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Lisbon A1 Nord'],
     borderCrossings: [
       'Depuis l\'Espagne : AP-1/A-62 via Vilar Formoso est la route principale',
@@ -618,7 +618,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Irlande est l\'un des meilleurs pays au monde pour l\'autostop. Les conducteurs sont communicatifs et accueillants. Meme sans vous prendre, beaucoup saluent amicalement.',
     culturalNotesEn: 'Ireland is one of the best countries in the world for hitchhiking. Drivers are communicative and welcoming. Even without picking you up, many greet you warmly.',
-    emergencyNumbers: { police: '999', ambulance: '999', fire: '999', european: '112' },
+    emergencyNumbers: { police: '999', ambulance: '999', fire: '999', universal: '112' },
     bestSpots: ['Dublin M7 Sud'],
   },
   {
@@ -656,7 +656,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'autostop au Royaume-Uni est possible mais en declin de popularite. L\'Ecosse et le Pays de Galles restent plus accueillants que l\'Angleterre.',
     culturalNotesEn: 'Hitchhiking in the UK is possible but declining in popularity. Scotland and Wales remain more welcoming than England.',
-    emergencyNumbers: { police: '999', ambulance: '999', fire: '999', european: '112' },
+    emergencyNumbers: { police: '999', ambulance: '999', fire: '999', universal: '112' },
     bestSpots: ['Dover Ferry Terminal'],
     borderCrossings: [
       'Traversee vers la France depuis Dover : les camionneurs par ferry (pas Eurotunnel) peuvent prendre des passagers',
@@ -696,7 +696,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Suede est un bon pays mais les distances sont longues. Les gens sont reserves mais gentils.',
     culturalNotesEn: 'Sweden is a good country but distances are long. People are reserved but kind.',
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Stockholm E4 Nord'],
   },
   {
@@ -728,7 +728,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Norvege est magnifique mais eloignee. Peu de voitures en dehors des axes principaux. Les ferries sont un bon moyen de rencontrer des conducteurs.',
     culturalNotesEn: 'Norway is beautiful but remote. Few cars outside main routes. Ferries are a good way to meet drivers.',
-    emergencyNumbers: { police: '112', ambulance: '113', fire: '110', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '113', fire: '110', universal: '112' },
     bestSpots: ['Oslo E6 Nord'],
   },
   {
@@ -758,7 +758,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Le Danemark est facile et accueillant. Petit pays avec des distances courtes.',
     culturalNotesEn: 'Denmark is easy and welcoming. Small country with short distances.',
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Copenhagen E20 Ouest'],
   },
   {
@@ -790,7 +790,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Finlande est un defi a cause des longues distances et du trafic clairseme. Le nord est particulierement difficile.',
     culturalNotesEn: 'Finland is challenging due to long distances and sparse traffic. The north is particularly difficult.',
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Helsinki E75 Nord'],
   },
   {
@@ -826,7 +826,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Hongrie a une bonne tradition d\'autostop. Le trafic de transit est-ouest est un avantage.',
     culturalNotesEn: 'Hungary has a good hitchhiking tradition. East-west transit traffic is an advantage.',
-    emergencyNumbers: { police: '107', ambulance: '104', fire: '105', european: '112' },
+    emergencyNumbers: { police: '107', ambulance: '104', fire: '105', universal: '112' },
     bestSpots: ['Budapest M1 Ouest'],
   },
   {
@@ -858,7 +858,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Croatie est facile en ete grace au trafic touristique intense sur la cote. L\'interieur est plus calme.',
     culturalNotesEn: 'Croatia is easy in summer thanks to intense tourist traffic on the coast. Inland is quieter.',
-    emergencyNumbers: { police: '192', ambulance: '194', fire: '193', european: '112' },
+    emergencyNumbers: { police: '192', ambulance: '194', fire: '193', universal: '112' },
     bestSpots: ['Zagreb A1 Sud'],
   },
   {
@@ -894,7 +894,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Roumanie est tres accueillante pour les autostoppeurs. L\'autostop y est commun et les conducteurs genereux.',
     culturalNotesEn: 'Romania is very welcoming for hitchhikers. Hitchhiking is common and drivers are generous.',
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Bucharest E81 Nord'],
   },
   {
@@ -930,7 +930,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Grece n\'a pas de forte tradition d\'autostop mais les Grecs sont genereux et hospitaliers une fois aborde.',
     culturalNotesEn: 'Greece doesn\'t have a strong hitchhiking tradition but Greeks are generous and hospitable once approached.',
-    emergencyNumbers: { police: '100', ambulance: '166', fire: '199', european: '112' },
+    emergencyNumbers: { police: '100', ambulance: '166', fire: '199', universal: '112' },
     bestSpots: ['Athens E75 Nord'],
   },
   {
@@ -966,7 +966,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Bulgarie est facile pour l\'autostop. Attention au langage corporel inverse (hochement = non).',
     culturalNotesEn: 'Bulgaria is easy for hitchhiking. Watch out for reversed body language (nodding = no).',
-    emergencyNumbers: { police: '166', ambulance: '150', fire: '160', european: '112' },
+    emergencyNumbers: { police: '166', ambulance: '150', fire: '160', universal: '112' },
     bestSpots: ['Sofia E80 Ouest'],
   },
   {
@@ -1002,7 +1002,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Slovaquie est un pays de transit facile. Les distances sont courtes et les conducteurs accueillants.',
     culturalNotesEn: 'Slovakia is an easy transit country. Distances are short and drivers welcoming.',
-    emergencyNumbers: { police: '158', ambulance: '155', fire: '150', european: '112' },
+    emergencyNumbers: { police: '158', ambulance: '155', fire: '150', universal: '112' },
     bestSpots: ['Bratislava D1 Est'],
   },
   {
@@ -1034,7 +1034,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Slovenie est un petit pays facile a traverser. Le trafic de transit international est un avantage.',
     culturalNotesEn: 'Slovenia is a small country easy to cross. International transit traffic is an advantage.',
-    emergencyNumbers: { police: '113', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '113', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Ljubljana A1 Ouest'],
   },
   {
@@ -1066,7 +1066,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Islande est un defi en raison du faible trafic mais le soleil de minuit en ete permet de voyager a toute heure.',
     culturalNotesEn: 'Iceland is challenging due to low traffic but midnight sun in summer allows traveling at any hour.',
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Reykjavik Route 1 Est'],
   },
   {
@@ -1105,7 +1105,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Bosnie-Herzegovine est facile pour l\'autostop. Les Bosniens sont tres accueillants malgre un passe difficile. Le cafe et la conversation font partie de la culture.',
     culturalNotesEn: 'Bosnia and Herzegovina is easy for hitchhiking. Bosnians are very welcoming despite a difficult past. Coffee and conversation are part of the culture.',
-    emergencyNumbers: { police: '122', ambulance: '124', fire: '123', european: '112' },
+    emergencyNumbers: { police: '122', ambulance: '124', fire: '123', universal: '112' },
     bestSpots: ['Sarajevo M17 Nord', 'Mostar M17'],
   },
   {
@@ -1144,7 +1144,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Bielorussie est un pays de transit avec un bon trafic. Visa requis. Le russe est indispensable. Les Bielorusses sont reserves mais serviables.',
     culturalNotesEn: 'Belarus is a transit country with good traffic. Visa required. Russian is essential. Belarusians are reserved but helpful.',
-    emergencyNumbers: { police: '102', ambulance: '103', fire: '101', european: '112' },
+    emergencyNumbers: { police: '102', ambulance: '103', fire: '101', universal: '112' },
     bestSpots: ['Minsk M1 Ouest', 'Brest M1'],
   },
   {
@@ -1183,7 +1183,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Estonie est un petit pays facile pour l\'autostop. Les Estoniens sont reserves mais parlent tres bien anglais. Infrastructure moderne.',
     culturalNotesEn: 'Estonia is a small country easy for hitchhiking. Estonians are reserved but speak English very well. Modern infrastructure.',
-    emergencyNumbers: { police: '110', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '110', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Tallinn E67 Sud', 'Tartu E263'],
   },
   {
@@ -1222,7 +1222,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Lituanie est facile pour l\'autostop avec une bonne tradition. Les Lituaniens sont accueillants et le trafic de transit est un avantage.',
     culturalNotesEn: 'Lithuania is easy for hitchhiking with a good tradition. Lithuanians are welcoming and transit traffic is an advantage.',
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Vilnius A1 Sud', 'Kaunas A1'],
   },
   {
@@ -1260,7 +1260,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Le Luxembourg est tres facile grace a sa petite taille et son enorme trafic de transit. Tres sur et multilingue.',
     culturalNotesEn: 'Luxembourg is very easy thanks to its small size and huge transit traffic. Very safe and multilingual.',
-    emergencyNumbers: { police: '113', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '113', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Luxembourg Ville A6 Nord'],
   },
   {
@@ -1299,7 +1299,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Lettonie est facile pour l\'autostop. Les Lettons sont reserves mais le trafic de transit est bon. Infrastructure moderne.',
     culturalNotesEn: 'Latvia is easy for hitchhiking. Latvians are reserved but transit traffic is good. Modern infrastructure.',
-    emergencyNumbers: { police: '110', ambulance: '113', fire: '112', european: '112' },
+    emergencyNumbers: { police: '110', ambulance: '113', fire: '112', universal: '112' },
     bestSpots: ['Riga A1 Sud', 'Jurmala A10'],
   },
   {
@@ -1338,7 +1338,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Moldavie est facile et tres accueillante. Les Moldaves sont genereux. Le vin est une tradition. Routes en etat variable.',
     culturalNotesEn: 'Moldova is easy and very welcoming. Moldovans are generous. Wine is a tradition. Roads in variable condition.',
-    emergencyNumbers: { police: '902', ambulance: '903', fire: '901', european: '112' },
+    emergencyNumbers: { police: '902', ambulance: '903', fire: '901', universal: '112' },
     bestSpots: ['Chisinau M2 Sud', 'Balti M2'],
   },
   {
@@ -1377,7 +1377,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Le Montenegro est facile et accueillant. Petit pays montagneux avec des paysages spectaculaires. Le trafic touristique est un avantage en ete.',
     culturalNotesEn: 'Montenegro is easy and welcoming. Small mountainous country with spectacular landscapes. Tourist traffic is an advantage in summer.',
-    emergencyNumbers: { police: '122', ambulance: '124', fire: '123', european: '112' },
+    emergencyNumbers: { police: '122', ambulance: '124', fire: '123', universal: '112' },
     bestSpots: ['Podgorica E65 Sud', 'Budva cote'],
   },
   {
@@ -1416,7 +1416,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Macedoine du Nord est facile pour l\'autostop. Pays de transit important. Les Macedoniens sont accueillants.',
     culturalNotesEn: 'North Macedonia is easy for hitchhiking. Important transit country. Macedonians are welcoming.',
-    emergencyNumbers: { police: '192', ambulance: '194', fire: '193', european: '112' },
+    emergencyNumbers: { police: '192', ambulance: '194', fire: '193', universal: '112' },
     bestSpots: ['Skopje M1 Sud', 'Tetovo M4'],
   },
   {
@@ -1455,7 +1455,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Serbie est facile et tres accueillante. Les Serbes sont chaleureux et genereux. Le trafic de transit est un avantage.',
     culturalNotesEn: 'Serbia is easy and very welcoming. Serbians are warm and generous. Transit traffic is an advantage.',
-    emergencyNumbers: { police: '192', ambulance: '194', fire: '193', european: '112' },
+    emergencyNumbers: { police: '192', ambulance: '194', fire: '193', universal: '112' },
     bestSpots: ['Belgrade E75 Sud', 'Novi Sad E75'],
   },
   {
@@ -1494,7 +1494,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Ukraine a une forte tradition d\'autostop et les Ukrainiens sont tres accueillants. ATTENTION : guerre en cours, zones de conflit a eviter absolument.',
     culturalNotesEn: 'Ukraine has a strong hitchhiking tradition and Ukrainians are very welcoming. WARNING: ongoing war, conflict zones to absolutely avoid.',
-    emergencyNumbers: { police: '102', ambulance: '103', fire: '101', european: '112' },
+    emergencyNumbers: { police: '102', ambulance: '103', fire: '101', universal: '112' },
     bestSpots: ['Kiev M06 Ouest (si securitaire)', 'Lviv M06'],
   },
   {
@@ -1533,7 +1533,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Le Kosovo est tres facile pour l\'autostop. Population extremement accueillante. Le trafic de diaspora en ete est un grand avantage.',
     culturalNotesEn: 'Kosovo is very easy for hitchhiking. Extremely welcoming population. Diaspora traffic in summer is a big advantage.',
-    emergencyNumbers: { police: '192', ambulance: '194', fire: '193', european: '112' },
+    emergencyNumbers: { police: '192', ambulance: '194', fire: '193', universal: '112' },
     bestSpots: ['Pristina M9 Sud', 'Prizren M9'],
   },
   // ==================== WORLD (non-European) ====================
@@ -1561,7 +1561,7 @@ export const countryGuides = [
     laws: [
       'Aucune restriction legale, l\'autostop est une pratique courante et acceptee',
     ],
-    emergencyNumbers: { police: '19', ambulance: '15', fire: '15', european: '112' },
+    emergencyNumbers: { police: '19', ambulance: '15', fire: '15', universal: '112' },
     bestSpots: ['Tanger port', 'Marrakech sortie vers Agadir', 'Chefchaouen', 'Fes sortie autoroute'],
   },
   {
@@ -1588,7 +1588,7 @@ export const countryGuides = [
     laws: [
       'Pas de restriction. Les policiers aident parfois les autostoppeurs.',
     ],
-    emergencyNumbers: { police: '155', ambulance: '112', fire: '110', european: '112' },
+    emergencyNumbers: { police: '155', ambulance: '112', fire: '110', universal: '112' },
     bestSpots: ['Istanbul E80 sortie', 'Ankara', 'Antalya', 'Cappadoce Goreme'],
   },
   {
@@ -1617,7 +1617,7 @@ export const countryGuides = [
       'Legal sur les bretelles d\'acces dans de nombreux Etats',
       'Verifiez les lois locales : certains Etats l\'interdisent completement',
     ],
-    emergencyNumbers: { police: '911', ambulance: '911', fire: '911', european: '911' },
+    emergencyNumbers: { police: '911', ambulance: '911', fire: '911', universal: '911' },
     bestSpots: ['Portland OR', 'Denver CO truck stops', 'Austin TX I-35'],
   },
   {
@@ -1644,7 +1644,7 @@ export const countryGuides = [
       'Legal dans la plupart des provinces',
       'Interdit sur les autoroutes a acces limite en Ontario et Colombie-Britannique',
     ],
-    emergencyNumbers: { police: '911', ambulance: '911', fire: '911', european: '911' },
+    emergencyNumbers: { police: '911', ambulance: '911', fire: '911', universal: '911' },
     bestSpots: ['Vancouver BC', 'Montreal QC', 'Halifax NS'],
   },
   {
@@ -1671,7 +1671,7 @@ export const countryGuides = [
     laws: [
       'Aucune restriction. L\'autostop est une tradition nationale.',
     ],
-    emergencyNumbers: { police: '111', ambulance: '111', fire: '111', european: '111' },
+    emergencyNumbers: { police: '111', ambulance: '111', fire: '111', universal: '111' },
     bestSpots: ['Auckland SH1 Sud', 'Wellington ferry terminal', 'Queenstown', 'Christchurch'],
   },
   {
@@ -1696,11 +1696,11 @@ export const countryGuides = [
       'Les Australiens sont amicaux mais l\'autostop a decline depuis les annees 2000',
     ],
     laws: [
-      'Illegal dans le Queensland et Victoria',
+      'Restreint dans le Queensland (interdit sur certaines routes) et Victoria (deconseille)',
       'Legal dans les autres Etats mais evitez les autoroutes a peage',
       'Ayez toujours de l\'eau et de la protection solaire',
     ],
-    emergencyNumbers: { police: '000', ambulance: '000', fire: '000', european: '000' },
+    emergencyNumbers: { police: '000', ambulance: '000', fire: '000', universal: '000' },
     bestSpots: ['Sydney Princes Highway', 'Melbourne sortie Hume Highway', 'Cairns Bruce Highway'],
   },
   {
@@ -1726,7 +1726,7 @@ export const countryGuides = [
     laws: [
       'Aucune restriction. L\'autostop est naturel et tres pratique.',
     ],
-    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', european: '112' },
+    emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Tbilissi E60', 'Kutaisi', 'Route militaire de Georgie'],
   },
   {
@@ -1768,7 +1768,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Israel est excellent pour l\'autostop. Le "tremping" est une tradition nationale avec des arrets officiels. Les soldats hitchhikent tres frequemment.',
     culturalNotesEn: 'Israel is excellent for hitchhiking. "Tremping" is a national tradition with official stops. Soldiers hitch very frequently.',
-    emergencyNumbers: { police: '100', ambulance: '101', fire: '102', european: '112' },
+    emergencyNumbers: { police: '100', ambulance: '101', fire: '102', universal: '112' },
     bestSpots: ['Tel Aviv sortie sud', 'Beer Sheva', 'Haifa'],
   },
   {
@@ -1807,7 +1807,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Argentine est excellente pour l\'autostop. Les Argentins sont accueillants et le mate partage cree des liens. La Patagonie est legendaire.',
     culturalNotesEn: 'Argentina is excellent for hitchhiking. Argentines are welcoming and sharing mate creates bonds. Patagonia is legendary.',
-    emergencyNumbers: { police: '911', ambulance: '107', fire: '100', european: '911' },
+    emergencyNumbers: { police: '911', ambulance: '107', fire: '100', universal: '911' },
     bestSpots: ['Buenos Aires Ruta 3 Sud', 'Bariloche RN40', 'Mendoza RN7', 'Ushuaia'],
   },
   {
@@ -1845,7 +1845,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Le Chili est bon pour l\'autostop surtout dans le sud. Les Chiliens sont polis. La Patagonie et la Carretera Austral sont mythiques.',
     culturalNotesEn: 'Chile is good for hitchhiking especially in the south. Chileans are polite. Patagonia and Carretera Austral are legendary.',
-    emergencyNumbers: { police: '133', ambulance: '131', fire: '132', european: '911' },
+    emergencyNumbers: { police: '133', ambulance: '131', fire: '132', universal: '911' },
     bestSpots: ['Santiago Ruta 5 Sud', 'Puerto Montt Carretera Austral', 'Punta Arenas'],
   },
   {
@@ -1883,7 +1883,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Colombie est possible avec prudence. Les Colombiens sont tres accueillants. La situation securitaire s\'est beaucoup amelioree.',
     culturalNotesEn: 'Colombia is possible with caution. Colombians are very welcoming. Security situation has greatly improved.',
-    emergencyNumbers: { police: '123', ambulance: '125', fire: '119', european: '123' },
+    emergencyNumbers: { police: '123', ambulance: '125', fire: '119', universal: '123' },
     bestSpots: ['Bogota sortie nord', 'Medellin', 'Cartagena', 'Eje Cafetero'],
   },
   {
@@ -1922,7 +1922,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'La Thailande est moyennement facile pour l\'autostop. Les Thais sont serviables mais l\'autostop n\'est pas dans la culture. Le nord est plus facile.',
     culturalNotesEn: 'Thailand is moderately easy for hitchhiking. Thais are helpful but hitchhiking is not in the culture. The north is easier.',
-    emergencyNumbers: { police: '191', ambulance: '1669', fire: '199', european: '191' },
+    emergencyNumbers: { police: '191', ambulance: '1669', fire: '199', universal: '191' },
     bestSpots: ['Chiang Mai nord', 'Phuket', 'Bangkok sortie'],
   },
   {
@@ -1961,7 +1961,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Inde est difficile pour l\'autostop mais possible. Enormes differences regionales. L\'Himachal Pradesh et le Ladakh sont legendaires. Respect culturel essentiel.',
     culturalNotesEn: 'India is difficult for hitchhiking but possible. Huge regional differences. Himachal Pradesh and Ladakh are legendary. Cultural respect essential.',
-    emergencyNumbers: { police: '100', ambulance: '102', fire: '101', european: '112' },
+    emergencyNumbers: { police: '100', ambulance: '102', fire: '101', universal: '112' },
     bestSpots: ['Manali Leh Highway', 'Rishikesh', 'Goa', 'Dharamshala'],
   },
   {
@@ -2000,7 +2000,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'Le Japon est difficile pour l\'autostop car peu pratique. Un panneau en japonais et beaucoup de patience sont necessaires. Hokkaido est plus facile.',
     culturalNotesEn: 'Japan is difficult for hitchhiking as it\'s uncommon. A sign in Japanese and lots of patience are necessary. Hokkaido is easier.',
-    emergencyNumbers: { police: '110', ambulance: '119', fire: '119', european: '110' },
+    emergencyNumbers: { police: '110', ambulance: '119', fire: '119', universal: '110' },
     bestSpots: ['Hokkaido Route 5', 'Kyushu', 'Aires autoroute Tomei'],
   },
   {
@@ -2038,7 +2038,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Afrique du Sud necessite prudence. L\'autostop existe mais questions de securite importantes. Routes touristiques plus sures. Culture riche et diverse.',
     culturalNotesEn: 'South Africa requires caution. Hitchhiking exists but important security concerns. Tourist routes safer. Rich and diverse culture.',
-    emergencyNumbers: { police: '10111', ambulance: '10177', fire: '10111', european: '112' },
+    emergencyNumbers: { police: '10111', ambulance: '10177', fire: '10111', universal: '112' },
     bestSpots: ['Cape Town N2 Garden Route', 'Durban N3', 'Stellenbosch'],
   },
   {
@@ -2077,7 +2077,7 @@ export const countryGuides = [
     ],
     culturalNotes: 'L\'Iran est excellent pour l\'autostop. L\'hospitalite iranienne est legendaire. Les Iraniens sont extremement accueillants. Visa requis.',
     culturalNotesEn: 'Iran is excellent for hitchhiking. Iranian hospitality is legendary. Iranians are extremely welcoming. Visa required.',
-    emergencyNumbers: { police: '110', ambulance: '115', fire: '125', european: '112' },
+    emergencyNumbers: { police: '110', ambulance: '115', fire: '125', universal: '112' },
     bestSpots: ['Teheran sortie sud', 'Isfahan', 'Shiraz', 'Tabriz'],
   },
 ]
@@ -2140,7 +2140,7 @@ export function getCountryList() {
  */
 export function getEmergencyNumbers(countryCode) {
   const guide = getGuideByCode(countryCode)
-  return guide?.emergencyNumbers || { european: '112' }
+  return guide?.emergencyNumbers || { universal: '112' }
 }
 
 export default {
