@@ -4,6 +4,7 @@
  */
 
 import { getState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
 
 /**
  * Render legal page container
@@ -17,10 +18,10 @@ export function renderLegalPage(page = 'cgu') {
   };
 
   const titles = {
-    cgu: "Conditions d'utilisation",
-    privacy: 'Politique de confidentialité',
-    cookies: 'Politique des cookies',
-    legal: 'Mentions légales',
+    cgu: t('legalTerms') || "Conditions d'utilisation",
+    privacy: t('legalPrivacy') || 'Politique de confidentialité',
+    cookies: t('legalCookies') || 'Politique des cookies',
+    legal: t('legalNotice') || 'Mentions légales',
   };
 
   return `
@@ -41,19 +42,19 @@ export function renderLegalPage(page = 'cgu') {
       <div class="flex border-b border-gray-700 overflow-x-auto">
         <button onclick="showLegalPage('cgu')"
                 class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
-          CGU
+          ${t('legalTabTerms') || 'CGU'}
         </button>
         <button onclick="showLegalPage('privacy')"
                 class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'privacy' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
-          Confidentialité
+          ${t('legalTabPrivacy') || 'Confidentialité'}
         </button>
         <button onclick="showLegalPage('cookies')"
                 class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cookies' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
-          Cookies
+          ${t('legalTabCookies') || 'Cookies'}
         </button>
         <button onclick="showLegalPage('legal')"
                 class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
-          Mentions
+          ${t('legalTabNotice') || 'Mentions'}
         </button>
       </div>
 
@@ -420,10 +421,10 @@ export function renderCookiePolicy() {
 
       <!-- Bouton pour modifier les préférences -->
       <div class="mt-6 p-4 bg-gray-800 rounded-lg text-center">
-        <p class="text-sm text-gray-400 mb-3">Gérer vos préférences de cookies</p>
+        <p class="text-sm text-gray-400 mb-3">${t('manageCookiePrefs') || 'Gérer vos préférences de cookies'}</p>
         <button onclick="showCookieCustomize()" class="btn bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg">
           <i class="fas fa-cog mr-2"></i>
-          Modifier mes choix
+          ${t('modifyMyChoices') || 'Modifier mes choix'}
         </button>
       </div>
     </div>
