@@ -129,7 +129,7 @@ function renderSpotsMap() {
       <div class="flex items-center justify-center h-full bg-slate-800">
         <div class="text-center">
           <i class="fas fa-spinner fa-spin text-3xl text-primary-400 mb-3"></i>
-          <p class="text-slate-400">Chargement de la carte...</p>
+          <p class="text-slate-400">${t('mapLoading') || 'Chargement de la carte...'}</p>
         </div>
       </div>
     </div>

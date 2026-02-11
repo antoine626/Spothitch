@@ -3,24 +3,28 @@
  * Affiche des messages amusants liés à l'autostop pendant le chargement
  */
 
+import { t } from '../i18n/index.js'
+
 // Messages de chargement amusants (liés à l'autostop)
-const loadingMessages = [
-  { text: 'Pouce en l\'air...', emoji: '👍' },
-  { text: 'On cherche une voiture...', emoji: '🚗' },
-  { text: 'Négociation avec le conducteur...', emoji: '🤝' },
-  { text: 'Vérification du karma routier...', emoji: '✨' },
-  { text: 'Calcul de la distance jusqu\'à l\'aventure...', emoji: '🗺️' },
-  { text: 'Consultation de la carte au trésor...', emoji: '📜' },
-  { text: 'Démarrage du moteur...', emoji: '🔑' },
-  { text: 'Attente sur le bord de la route...', emoji: '🛤️' },
-  { text: 'Chargement des bonnes ondes...', emoji: '🌊' },
-  { text: 'Préparation du sac à dos...', emoji: '🎒' },
-  { text: 'Lecture des panneaux de signalisation...', emoji: '🪧' },
-  { text: 'Vérification de la météo...', emoji: '☀️' },
-  { text: 'Échauffement du pouce...', emoji: '💪' },
-  { text: 'Synchronisation avec l\'univers...', emoji: '🌌' },
-  { text: 'Alignement des étoiles...', emoji: '⭐' },
-]
+function getLoadingMessages() {
+  return [
+    { text: t('loadingThumbUp') || 'Pouce en l\'air...', emoji: '👍' },
+    { text: t('loadingSearchCar') || 'On cherche une voiture...', emoji: '🚗' },
+    { text: t('loadingNegotiation') || 'Négociation avec le conducteur...', emoji: '🤝' },
+    { text: t('loadingKarma') || 'Vérification du karma routier...', emoji: '✨' },
+    { text: t('loadingDistance') || 'Calcul de la distance jusqu\'à l\'aventure...', emoji: '🗺️' },
+    { text: t('loadingTreasureMap') || 'Consultation de la carte au trésor...', emoji: '📜' },
+    { text: t('loadingEngine') || 'Démarrage du moteur...', emoji: '🔑' },
+    { text: t('loadingRoadside') || 'Attente sur le bord de la route...', emoji: '🛤️' },
+    { text: t('loadingGoodVibes') || 'Chargement des bonnes ondes...', emoji: '🌊' },
+    { text: t('loadingBackpack') || 'Préparation du sac à dos...', emoji: '🎒' },
+    { text: t('loadingSigns') || 'Lecture des panneaux de signalisation...', emoji: '🪧' },
+    { text: t('loadingWeather') || 'Vérification de la météo...', emoji: '☀️' },
+    { text: t('loadingThumbWarmup') || 'Échauffement du pouce...', emoji: '💪' },
+    { text: t('loadingUniverse') || 'Synchronisation avec l\'univers...', emoji: '🌌' },
+    { text: t('loadingStars') || 'Alignement des étoiles...', emoji: '⭐' },
+  ]
+}
 
 // État du loader
 let loaderState = {
@@ -36,16 +40,18 @@ let loaderState = {
  * Obtenir un message aléatoire
  */
 function getRandomMessage() {
-  const index = Math.floor(Math.random() * loadingMessages.length)
-  return loadingMessages[index]
+  const messages = getLoadingMessages()
+  const index = Math.floor(Math.random() * messages.length)
+  return messages[index]
 }
 
 /**
  * Obtenir le prochain message (rotation)
  */
 function getNextMessage() {
-  loaderState.messageIndex = (loaderState.messageIndex + 1) % loadingMessages.length
-  return loadingMessages[loaderState.messageIndex]
+  const messages = getLoadingMessages()
+  loaderState.messageIndex = (loaderState.messageIndex + 1) % messages.length
+  return messages[loaderState.messageIndex]
 }
 
 /**

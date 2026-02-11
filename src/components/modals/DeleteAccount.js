@@ -37,8 +37,8 @@ export function renderDeleteAccountModal(state) {
           <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
             <i class="fas fa-exclamation-triangle text-red-500 text-3xl" aria-hidden="true"></i>
           </div>
-          <h2 id="delete-account-title" class="text-2xl font-bold text-red-400">Supprimer mon compte</h2>
-          <p class="text-slate-400 text-sm mt-2">Cette action est irreversible</p>
+          <h2 id="delete-account-title" class="text-2xl font-bold text-red-400">${t('deleteMyAccount') || 'Supprimer mon compte'}</h2>
+          <p class="text-slate-400 text-sm mt-2">${t('thisActionIrreversible') || 'Cette action est irréversible'}</p>
         </div>
 
         <!-- Warning content -->
@@ -47,24 +47,24 @@ export function renderDeleteAccountModal(state) {
           <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4">
             <h3 class="font-semibold text-red-400 mb-3 flex items-center gap-2">
               <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
-              Attention
+              ${t('warning') || 'Attention'}
             </h3>
             <ul class="text-sm text-slate-300 space-y-2">
               <li class="flex items-start gap-2">
                 <i class="fas fa-times-circle text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
-                <span>Tous vos spots partages seront supprimes</span>
+                <span>${t('allSpotsDeleted') || 'Tous vos spots partagés seront supprimés'}</span>
               </li>
               <li class="flex items-start gap-2">
                 <i class="fas fa-times-circle text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
-                <span>Vos ${state.points || 0} points et ${state.badges?.length || 0} badges seront perdus</span>
+                <span>${t('pointsBadgesLost') || `Vos ${state.points || 0} points et ${state.badges?.length || 0} badges seront perdus`}</span>
               </li>
               <li class="flex items-start gap-2">
                 <i class="fas fa-times-circle text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
-                <span>Votre historique de check-ins sera efface</span>
+                <span>${t('checkinHistoryErased') || 'Votre historique de check-ins sera effacé'}</span>
               </li>
               <li class="flex items-start gap-2">
                 <i class="fas fa-times-circle text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
-                <span>Vos amis ne pourront plus vous contacter</span>
+                <span>${t('friendsNoContact') || 'Vos amis ne pourront plus vous contacter'}</span>
               </li>
             </ul>
           </div>
@@ -73,14 +73,14 @@ export function renderDeleteAccountModal(state) {
           <form id="delete-account-form" onsubmit="confirmDeleteAccount(event)" class="space-y-4">
             <div>
               <label for="delete-password" class="text-sm text-slate-400 block mb-2">
-                Entrez votre mot de passe pour confirmer
+                ${t('enterPasswordConfirm') || 'Entrez votre mot de passe pour confirmer'}
               </label>
               <input
                 type="password"
                 id="delete-password"
                 name="password"
                 class="input-modern border-red-500/30 focus:border-red-500"
-                placeholder="Votre mot de passe"
+                placeholder="${t('yourPassword') || 'Votre mot de passe'}"
                 required
                 autocomplete="current-password"
                 aria-required="true"
@@ -98,7 +98,7 @@ export function renderDeleteAccountModal(state) {
                 onclick="closeDeleteAccount()"
                 class="flex-1 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 transition-all font-medium"
               >
-                Annuler
+                ${t('cancel') || 'Annuler'}
               </button>
               <button
                 type="submit"
@@ -106,7 +106,7 @@ export function renderDeleteAccountModal(state) {
                 class="flex-1 py-3 px-4 rounded-xl bg-red-500 hover:bg-red-600 text-white transition-all font-medium flex items-center justify-center gap-2"
               >
                 <i class="fas fa-trash-alt" aria-hidden="true"></i>
-                Supprimer
+                ${t('delete') || 'Supprimer'}
               </button>
             </div>
           </form>
@@ -114,13 +114,13 @@ export function renderDeleteAccountModal(state) {
           <!-- Alternative for Google users -->
           ${state.user?.providerData?.[0]?.providerId === 'google.com' ? `
             <div class="text-center text-sm text-slate-400 pt-2">
-              <p>Vous etes connecte via Google.</p>
+              <p>${t('connectedViaGoogle') || 'Vous êtes connecté via Google.'}</p>
               <button
                 type="button"
                 onclick="confirmDeleteAccountGoogle()"
                 class="text-red-400 hover:text-red-300 underline mt-1"
               >
-                Supprimer sans mot de passe
+                ${t('deleteWithoutPassword') || 'Supprimer sans mot de passe'}
               </button>
             </div>
           ` : ''}
@@ -134,7 +134,7 @@ export function renderDeleteAccountModal(state) {
 window.openDeleteAccount = () => {
   const state = window.getState?.() || {};
   if (!state.isLoggedIn) {
-    window.showToast?.('Vous devez etre connecte', 'error');
+    window.showToast?.(t('mustBeConnected') || 'Vous devez être connecté', 'error');
     return;
   }
   window.setState?.({ showDeleteAccount: true });
@@ -158,7 +158,7 @@ window.confirmDeleteAccount = async (event) => {
 
   if (!password) {
     if (errorDiv) {
-      errorDiv.textContent = 'Veuillez entrer votre mot de passe';
+      errorDiv.textContent = t('enterYourPassword') || 'Veuillez entrer votre mot de passe';
       errorDiv.classList.remove('hidden');
     }
     return;
@@ -167,7 +167,7 @@ window.confirmDeleteAccount = async (event) => {
   // Disable button and show loading
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Suppression...';
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('deleting') || 'Suppression...'}`;
   }
 
   try {
@@ -197,7 +197,7 @@ window.confirmDeleteAccount = async (event) => {
         activeTab: 'map',
       });
 
-      showToast('Compte supprime avec succes. Au revoir !', 'success');
+      showToast(t('accountDeletedGoodbye') || 'Compte supprimé avec succès. Au revoir !', 'success');
     } else {
       // Show error
       if (errorDiv) {
@@ -208,13 +208,13 @@ window.confirmDeleteAccount = async (event) => {
   } catch (error) {
     console.error('Delete account error:', error);
     if (errorDiv) {
-      errorDiv.textContent = 'Une erreur est survenue. Reessayez plus tard.';
+      errorDiv.textContent = t('errorOccurred') || 'Une erreur est survenue. Réessayez plus tard.';
       errorDiv.classList.remove('hidden');
     }
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer';
+      submitBtn.innerHTML = `<i class="fas fa-trash-alt" aria-hidden="true"></i> ${t('delete') || 'Supprimer'}`;
     }
   }
 };
@@ -224,14 +224,14 @@ window.confirmDeleteAccountGoogle = async () => {
   const errorDiv = document.getElementById('delete-error');
 
   // Confirm action
-  if (!confirm('Etes-vous sur de vouloir supprimer definitivement votre compte ?')) {
+  if (!confirm(t('confirmDeleteForever') || 'Êtes-vous sûr de vouloir supprimer définitivement votre compte ?')) {
     return;
   }
 
   // Disable button and show loading
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Suppression...';
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('deleting') || 'Suppression...'}`;
   }
 
   try {
@@ -261,7 +261,7 @@ window.confirmDeleteAccountGoogle = async () => {
         activeTab: 'map',
       });
 
-      showToast('Compte supprime avec succes. Au revoir !', 'success');
+      showToast(t('accountDeletedGoodbye') || 'Compte supprimé avec succès. Au revoir !', 'success');
     } else {
       if (errorDiv) {
         errorDiv.textContent = getDeleteErrorMessage(result.error);
@@ -271,25 +271,25 @@ window.confirmDeleteAccountGoogle = async () => {
   } catch (error) {
     console.error('Delete account error:', error);
     if (errorDiv) {
-      errorDiv.textContent = 'Une erreur est survenue. Reessayez plus tard.';
+      errorDiv.textContent = t('errorOccurred') || 'Une erreur est survenue. Réessayez plus tard.';
       errorDiv.classList.remove('hidden');
     }
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-trash-alt" aria-hidden="true"></i> Supprimer';
+      submitBtn.innerHTML = `<i class="fas fa-trash-alt" aria-hidden="true"></i> ${t('delete') || 'Supprimer'}`;
     }
   }
 };
 
 function getDeleteErrorMessage(errorCode) {
   const messages = {
-    'auth/wrong-password': 'Mot de passe incorrect',
-    'auth/too-many-requests': 'Trop de tentatives. Reessayez plus tard.',
-    'auth/requires-recent-login': 'Veuillez vous reconnecter avant de supprimer votre compte.',
-    'auth/user-not-found': 'Utilisateur non trouve',
+    'auth/wrong-password': t('wrongPassword') || 'Mot de passe incorrect',
+    'auth/too-many-requests': t('tooManyAttempts') || 'Trop de tentatives. Réessayez plus tard.',
+    'auth/requires-recent-login': t('pleaseReconnect') || 'Veuillez vous reconnecter avant de supprimer votre compte.',
+    'auth/user-not-found': t('userNotFound') || 'Utilisateur non trouvé',
   };
-  return messages[errorCode] || 'Une erreur est survenue';
+  return messages[errorCode] || (t('errorOccurred') || 'Une erreur est survenue');
 }
 
 export default { renderDeleteAccountModal };

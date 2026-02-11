@@ -19,19 +19,19 @@ export function renderPlanner(state) {
       <!-- Header -->
       <div class="p-4 border-b border-gray-700">
         <h1 class="text-xl font-bold text-white mb-1">${t('planTrip')}</h1>
-        <p class="text-gray-400 text-sm">Planifie ton prochain voyage en autostop</p>
+        <p class="text-gray-400 text-sm">${t('planNextTrip') || 'Planifie ton prochain voyage en autostop'}</p>
       </div>
 
       <!-- Trip Steps -->
       <div class="p-4 space-y-3">
-        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide">Étapes</h2>
+        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide">${t('steps') || 'Étapes'}</h2>
 
         <div id="trip-steps" class="space-y-2">
           ${tripSteps.length === 0
     ? `
               <div class="text-center py-8 text-gray-500">
                 <span class="text-4xl">🗺️</span>
-                <p class="mt-2">Ajoute une ville de départ</p>
+                <p class="mt-2">${t('addStartCity') || 'Ajoute une ville de départ'}</p>
               </div>
             `
     : tripSteps.map((step, index) => renderTripStep(step, index, tripSteps.length)).join('')
@@ -43,7 +43,7 @@ export function renderPlanner(state) {
           <input
             type="text"
             id="step-input"
-            placeholder="Ajouter une ville..."
+            placeholder="${t('addCity') || 'Ajouter une ville...'}"
             class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white
                    placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             oninput="searchTripCity(this.value)"
@@ -59,7 +59,7 @@ export function renderPlanner(state) {
             class="w-full py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-white
                    font-semibold rounded-xl hover:from-sky-600 hover:to-cyan-600 transition-all"
           >
-            Calculer l'itinéraire
+            ${t('calculateRoute') || 'Calculer l\'itinéraire'}
           </button>
         ` : ''}
 
@@ -68,7 +68,7 @@ export function renderPlanner(state) {
             onclick="clearTripSteps()"
             class="w-full py-2 text-gray-400 hover:text-white text-sm"
           >
-            Effacer tout
+            ${t('clearAll') || 'Effacer tout'}
           </button>
         ` : ''}
       </div>

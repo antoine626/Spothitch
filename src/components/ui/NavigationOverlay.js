@@ -4,6 +4,7 @@
  */
 
 import { formatDistance, formatDuration, getDirectionIcon } from '../../services/navigation.js';
+import { t } from '../../i18n/index.js';
 
 /**
  * Render navigation overlay
@@ -35,7 +36,7 @@ export function renderNavigationOverlay(state) {
             </div>
             <div class="flex-1 min-w-0">
               <div class="text-white font-bold text-lg leading-tight">
-                ${currentInstruction?.instruction || 'Calculer itinéraire...'}
+                ${currentInstruction?.instruction || t('calculatingRoute') || 'Calculer itinéraire...'}
               </div>
               <div class="text-white/70 text-sm mt-1">
                 ${currentInstruction?.distance ? formatDistance(currentInstruction.distance) : ''}
@@ -51,7 +52,7 @@ export function renderNavigationOverlay(state) {
                 <i class="fas ${getDirectionIcon(nextInstruction.maneuver?.type, nextInstruction.maneuver?.modifier)} text-white/70"></i>
               </div>
               <div class="flex-1 text-white/70 text-sm truncate">
-                Puis: ${nextInstruction.instruction}
+                ${t('then') || 'Puis'}: ${nextInstruction.instruction}
               </div>
               <div class="text-white/50 text-xs">
                 ${formatDistance(nextInstruction.distance)}
@@ -72,14 +73,14 @@ export function renderNavigationOverlay(state) {
                   <div class="text-2xl font-bold text-white">
                     ${navigationDuration ? formatDuration(navigationDuration) : '--'}
                   </div>
-                  <div class="text-xs text-slate-400">Temps restant</div>
+                  <div class="text-xs text-slate-400">${t('remainingTime') || 'Temps restant'}</div>
                 </div>
                 <div class="w-px h-10 bg-white/10"></div>
                 <div>
                   <div class="text-2xl font-bold text-primary-400">
                     ${navigationDistance ? formatDistance(navigationDistance) : '--'}
                   </div>
-                  <div class="text-xs text-slate-400">Distance</div>
+                  <div class="text-xs text-slate-400">${t('distance') || 'Distance'}</div>
                 </div>
               </div>
             </div>
@@ -110,14 +111,14 @@ export function renderNavigationOverlay(state) {
               class="flex-1 py-3 px-4 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all"
             >
               <i class="fas fa-times mr-2"></i>
-              Arrêter
+              ${t('stop') || 'Arrêter'}
             </button>
             <button
               onclick="openExternalNavigation(${navigationDestination?.lat}, ${navigationDestination?.lng}, '${navigationDestination?.name?.replace(/'/g, "\\'")}')"
               class="flex-1 py-3 px-4 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-all"
             >
               <i class="fas fa-external-link-alt mr-2"></i>
-              GPS externe
+              ${t('externalGPS') || 'GPS externe'}
             </button>
           </div>
         </div>
@@ -141,7 +142,7 @@ function getETA(durationSeconds) {
   if (!durationSeconds) return '';
 
   const eta = new Date(Date.now() + durationSeconds * 1000);
-  return `Arrivée ~${eta.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`;
+  return `${t('arrivalAt') || 'Arrivée ~'}${eta.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`;
 }
 
 /**
