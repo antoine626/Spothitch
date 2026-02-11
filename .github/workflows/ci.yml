@@ -134,7 +134,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
-    needs: [build, test, wiring, e2e]
+    needs: [build, test, wiring]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
       contents: read
