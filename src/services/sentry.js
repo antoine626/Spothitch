@@ -3,7 +3,7 @@
  * Tracks errors and performance in production
  */
 
-const SENTRY_DSN = ''; // Set your Sentry DSN here
+const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN || ''
 
 let Sentry = null;
 
