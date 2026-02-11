@@ -13,7 +13,7 @@
  * - Core Web Vitals optimization hints
  */
 
-const BASE_URL = 'https://antoine626.github.io/Spothitch';
+const BASE_URL = 'https://spothitch.com';
 const APP_NAME = 'SpotHitch';
 const SUPPORTED_LANGUAGES = ['fr', 'en', 'es', 'de'];
 const DEFAULT_LANGUAGE = 'fr';

@@ -1,11 +1,11 @@
 # SpotHitch - PWA d'autostop
-# https://antoine626.github.io/Spothitch/
+# https://spothitch.com/
 
 User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://antoine626.github.io/Spothitch/sitemap.xml
+Sitemap: https://spothitch.com/sitemap.xml
 
 # Crawl-delay pour être gentil avec les serveurs
 Crawl-delay: 1

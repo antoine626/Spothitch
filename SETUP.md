@@ -45,7 +45,7 @@ npm run deploy
 ## 3. Accéder à ton app
 
 Après déploiement, ton app sera disponible sur :
-**https://antoine626.github.io/Spothitch**
+**https://spothitch.com**
 
 ---
 

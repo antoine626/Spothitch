@@ -152,7 +152,7 @@ export async function searchLocation(query) {
   try {
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'SpotHitch/2.0 (https://antoine626.github.io/Spothitch)',
+        'User-Agent': 'SpotHitch/2.0 (https://spothitch.com)',
         'Accept-Language': lang,
       },
     });
@@ -210,7 +210,7 @@ export async function reverseGeocode(lat, lng) {
   try {
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'SpotHitch/2.0 (https://antoine626.github.io/Spothitch)',
+        'User-Agent': 'SpotHitch/2.0 (https://spothitch.com)',
       },
     });
 

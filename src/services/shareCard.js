@@ -8,7 +8,7 @@ import { copyToClipboard } from '../utils/share.js'
 import { showToast } from './notifications.js'
 import { t } from '../i18n/index.js'
 
-const APP_URL = 'https://antoine626.github.io/Spothitch'
+const APP_URL = 'https://spothitch.com'
 
 /**
  * Generate a visual share card for a spot

@@ -17,7 +17,7 @@ Ce guide explique comment publier SpotHitch sur Google Play Store et Apple App S
 
 2. **Entrer l'URL de l'app**
    ```
-   https://antoine626.github.io/Spothitch/
+   https://spothitch.com/
    ```
 
 3. **Générer le package Android**

@@ -5,7 +5,7 @@
 
 import { t } from '../i18n/index.js'
 
-const APP_URL = 'https://antoine626.github.io/Spothitch';
+const APP_URL = 'https://spothitch.com'
 
 /**
  * Share content using Web Share API or fallback

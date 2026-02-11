@@ -10,7 +10,7 @@ import { join } from 'path'
 
 const DIST_PATH = join(import.meta.dirname, '..', 'dist')
 const GUIDES_PATH = join(import.meta.dirname, '..', 'src', 'data', 'guides.js')
-const BASE_URL = 'https://antoine626.github.io/Spothitch'
+const BASE_URL = 'https://spothitch.com'
 
 // Extract guide data from source
 function extractGuides() {
