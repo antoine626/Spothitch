@@ -280,7 +280,12 @@ function initHomeMap(state) {
     })
 
     const tileConfig = getMapTileConfig(getState().lang || 'en')
-    L.tileLayer(tileConfig.url, tileConfig.options).addTo(map)
+    L.tileLayer(tileConfig.url, {
+      ...tileConfig.options,
+      updateWhenZooming: false,  // Don't load tiles during zoom animation (prevents pixelation)
+      updateWhenIdle: true,      // Load tiles only when map stops moving
+      keepBuffer: 4,             // Keep more tiles around viewport cached
+    }).addTo(map)
 
     window.homeMapInstance = map
     window.homeLeaflet = L
@@ -443,7 +448,13 @@ function initTripMap(state) {
       zoomControl: false,
       attributionControl: false,
     }).setView(from, 7)
-    L.tileLayer(tileConfig.url, { ...tileConfig.options, attribution: '' }).addTo(map)
+    L.tileLayer(tileConfig.url, {
+      ...tileConfig.options,
+      attribution: '',
+      updateWhenZooming: false,
+      updateWhenIdle: true,
+      keepBuffer: 4,
+    }).addTo(map)
 
     // Route line from OSRM geometry
     if (results.routeGeometry && results.routeGeometry.length > 0) {

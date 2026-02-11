@@ -150,9 +150,12 @@ function renderPlanner(state) {
         <button
           onclick="syncTripFieldsAndCalculate()"
           class="btn-primary w-full py-3"
+          ${state.tripLoading ? 'disabled' : ''}
         >
-          <i class="fas fa-search mr-2" aria-hidden="true"></i>
-          ${t('findSpotsOnRoute') || 'Trouver les spots sur le trajet'}
+          ${state.tripLoading
+            ? '<i class="fas fa-spinner fa-spin mr-2" aria-hidden="true"></i>' + (t('calculating') || 'Calcul en cours...')
+            : '<i class="fas fa-route mr-2" aria-hidden="true"></i>' + (t('findSpotsOnRoute') || 'Trouver les spots sur le trajet')
+          }
         </button>
       </div>
 
@@ -652,15 +655,14 @@ window.tripSelectSuggestion = (field, name) => {
   const input = document.getElementById(`trip-${field}`)
   if (input) input.value = name
   document.getElementById(`trip-${field}-suggestions`)?.classList.add('hidden')
-  window.setState?.({ [field === 'from' ? 'tripFrom' : 'tripTo']: name })
+  // Don't call setState here — avoids full re-render that kills focus/suggestions
+  // State is synced in syncTripFieldsAndCalculate before calculating
 }
 
 window.tripSelectFirst = (field) => {
   const btn = document.querySelector(`[data-trip-${field}-suggestion="0"]`)
   if (btn) btn.click()
   else {
-    const input = document.getElementById(`trip-${field}`)
-    if (input) window.setState?.({ [field === 'from' ? 'tripFrom' : 'tripTo']: input.value })
     if (field === 'from') document.getElementById('trip-to')?.focus()
     else window.syncTripFieldsAndCalculate?.()
   }
@@ -672,10 +674,11 @@ window.syncTripFieldsAndCalculate = () => {
   const from = fromInput?.value?.trim() || ''
   const to = toInput?.value?.trim() || ''
   if (!from || !to) {
-    window.showToast?.('Remplis le départ et la destination', 'warning')
+    window.showToast?.(t('fillDepartureAndDestination') || 'Remplis le départ et la destination', 'warning')
     return
   }
-  window.setState?.({ tripFrom: from, tripTo: to })
+  // Set state and trigger calculation in one go (single re-render)
+  window.setState?.({ tripFrom: from, tripTo: to, tripLoading: true })
   window.calculateTrip?.()
 }
 
@@ -698,7 +701,8 @@ window.calculateTrip = async () => {
   const state = window.getState?.() || {}
   if (!state.tripFrom || !state.tripTo) return
 
-  window.showToast?.('Calcul du trajet...', 'info')
+  // Show loading state immediately
+  window.setState?.({ tripLoading: true })
 
   try {
     const { searchLocation, getRoute } = await import('../../services/osrm.js')
@@ -819,12 +823,14 @@ window.calculateTrip = async () => {
         distance: distanceKm,
         estimatedTime,
       },
-      showTripMap: false,
+      showTripMap: true,  // Show map directly with route
+      tripLoading: false,
     })
 
     window.showToast?.(`${routeSpots.length} ${t('spotsFound') || 'spots trouvés !'}`, 'success')
   } catch (error) {
     console.error('Trip calculation failed:', error)
+    window.setState?.({ tripLoading: false })
     window.showToast?.(t('tripCalculationError') || 'Erreur de calcul du trajet', 'error')
   }
 }
