@@ -107,13 +107,13 @@ function renderPlanner(state) {
                 type="text"
                 id="trip-from"
                 placeholder="${t('searchCity') || 'Ex: Paris, Lyon...'}"
-                class="input-field w-full pl-10"
+                class="input-field w-full pl-9"
                 value="${state.tripFrom || ''}"
                 oninput="tripSearchSuggestions('from', this.value)"
                 onkeydown="if(event.key==='Enter'){event.preventDefault();tripSelectFirst('from')}"
                 autocomplete="off"
               />
-              <i class="fas fa-map-marker-alt absolute left-3 top-1/2 -translate-y-1/2 text-emerald-400" aria-hidden="true"></i>
+              <i class="fas fa-circle absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400 text-[8px]" aria-hidden="true"></i>
             </div>
             <div id="trip-from-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
           </div>
@@ -135,13 +135,13 @@ function renderPlanner(state) {
                 type="text"
                 id="trip-to"
                 placeholder="${t('searchCity') || 'Ex: Berlin, Barcelone...'}"
-                class="input-field w-full pl-10"
+                class="input-field w-full pl-9"
                 value="${state.tripTo || ''}"
                 oninput="tripSearchSuggestions('to', this.value)"
                 onkeydown="if(event.key==='Enter'){event.preventDefault();tripSelectFirst('to')}"
                 autocomplete="off"
               />
-              <i class="fas fa-flag-checkered absolute left-3 top-1/2 -translate-y-1/2 text-danger-400" aria-hidden="true"></i>
+              <i class="fas fa-circle absolute left-3.5 top-1/2 -translate-y-1/2 text-red-400 text-[8px]" aria-hidden="true"></i>
             </div>
             <div id="trip-to-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
           </div>
@@ -645,7 +645,7 @@ window.tripSearchSuggestions = (field, query) => {
     } catch (e) {
       container.classList.add('hidden')
     }
-  }, 300)
+  }, 150)
 }
 
 window.tripSelectSuggestion = (field, name) => {
@@ -956,7 +956,9 @@ window.toggleRouteAmenities = async () => {
   const newValue = !state.showRouteAmenities
 
   if (!newValue) {
-    // Turning off - clear amenities
+    // Turning off - clear amenities and reset trip map
+    const tripMapEl = document.getElementById('trip-map')
+    if (tripMapEl) tripMapEl.dataset.initialized = ''
     window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
     return
   }
@@ -976,6 +978,9 @@ window.toggleRouteAmenities = async () => {
       2,
       { showFuel: true, showRestAreas: true }
     )
+    // Reset trip map so it re-initializes with amenity markers
+    const tripMapEl = document.getElementById('trip-map')
+    if (tripMapEl) tripMapEl.dataset.initialized = ''
     window.setState?.({ routeAmenities: amenities, loadingRouteAmenities: false })
   } catch (error) {
     console.error('Failed to fetch route amenities:', error)

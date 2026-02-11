@@ -263,13 +263,14 @@ function initHomeMap(state) {
       ? [state.userLocation.lat, state.userLocation.lng]
       : [30, 0] // World center fallback
 
-    const zoom = state.userLocation ? 11 : 3
+    const zoom = state.userLocation ? 13 : 3
 
     const map = L.map(container, {
       center,
       zoom,
       zoomControl: false,
       attributionControl: false,
+      preferCanvas: true, // Canvas renderer = much faster with many markers
     })
 
     const tileConfig = getMapTileConfig(getState().lang || 'fr')
@@ -312,24 +313,34 @@ function initHomeMap(state) {
       window.homeSpotMarkers.forEach(m => map.removeLayer(m))
       window.homeSpotMarkers = []
 
-      // Add spots in visible bounds (favorites shown differently)
+      // Add spots in visible bounds (favorites shown differently, max 500)
       let favIds = []
       try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) {}
       const favSet = new Set(favIds)
       let count = 0
+      const MAX_MARKERS = 500
+      const visibleSpots = []
       allSpots.forEach(spot => {
         const lat = spot.coordinates?.lat || spot.lat
         const lng = spot.coordinates?.lng || spot.lng
         if (!lat || !lng) return
         if (!bounds.contains([lat, lng])) return
+        visibleSpots.push(spot)
+      })
+      // Prioritize favorites, then take first MAX_MARKERS
+      visibleSpots.sort((a, b) => (favSet.has(b.id) ? 1 : 0) - (favSet.has(a.id) ? 1 : 0))
+      const toShow = visibleSpots.slice(0, MAX_MARKERS)
+      toShow.forEach(spot => {
+        const lat = spot.coordinates?.lat || spot.lat
+        const lng = spot.coordinates?.lng || spot.lng
         const isFav = favSet.has(spot.id)
 
         const marker = L.circleMarker([lat, lng], {
-          radius: isFav ? 8 : 6,
+          radius: isFav ? 8 : 5,
           fillColor: isFav ? '#f59e0b' : '#22c55e',
           color: isFav ? '#fbbf24' : '#fff',
-          weight: isFav ? 2.5 : 1.5,
-          fillOpacity: 0.9,
+          weight: isFav ? 2 : 1,
+          fillOpacity: 0.85,
         }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
 
         window.homeSpotMarkers.push(marker)

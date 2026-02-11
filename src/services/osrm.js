@@ -168,12 +168,13 @@ export async function searchLocation(query) {
       type: item.type,
     }));
 
-    // Deduplicate: remove entries with same short name and close coordinates
+    // Deduplicate: aggressively remove entries with same city name nearby
     const seen = new Set()
     return results.filter(r => {
-      const shortName = r.name.split(',').slice(0, 2).join(',').trim()
-      const coordKey = `${r.lat.toFixed(2)},${r.lng.toFixed(2)}`
-      const key = `${shortName}|${coordKey}`
+      // Use just the first part (city name) + rounded coordinates
+      const cityName = r.name.split(',')[0].trim().toLowerCase()
+      const coordKey = `${r.lat.toFixed(1)},${r.lng.toFixed(1)}`
+      const key = `${cityName}|${coordKey}`
       if (seen.has(key)) return false
       seen.add(key)
       return true
