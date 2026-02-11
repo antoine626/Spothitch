@@ -44,6 +44,9 @@ import { renderCheckinModal } from './modals/CheckinModal.js';
 import { renderAgeVerification, initAgeVerification } from './modals/AgeVerification.js';
 import { renderIdentityVerification } from './modals/IdentityVerification.js';
 
+// Landing
+import { renderLanding } from './Landing.js';
+
 // UI Components
 import { renderNavigationOverlay } from './ui/NavigationOverlay.js';
 import { renderDonationModal } from './ui/DonationCard.js';
@@ -63,12 +66,18 @@ import { renderMyDataModal } from './modals/MyData.js';
 import { renderTitlesModal } from './modals/TitlesModal.js';
 import { renderCreateTravelGroupModal } from './modals/CreateTravelGroup.js';
 import { renderFriendProfileModal } from './modals/FriendProfile.js';
+import { renderContactFormModal } from './modals/ContactForm.js';
 import { renderTripHistory } from '../services/tripHistory.js';
 
 /**
  * Render the complete application
  */
 export function renderApp(state) {
+  // Show landing page for first-time visitors
+  if (state.showLanding) {
+    return renderLanding()
+  }
+
   // Show welcome screen for new users
   if (state.showWelcome && !state.username) {
     return renderWelcome(state);
@@ -151,6 +160,9 @@ export function renderApp(state) {
 
     <!-- Friend Profile Modal -->
     ${state.showFriendProfile ? renderFriendProfileModal(state) : ''}
+
+    <!-- Contact Form Modal -->
+    ${state.showContactForm ? renderContactFormModal() : ''}
 
     <!-- Trip History Modal -->
     ${state.showTripHistory ? `

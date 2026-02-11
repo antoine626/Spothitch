@@ -111,6 +111,8 @@ const MAIN_JS_HANDLERS = [
   'openTripHistory', 'closeTripHistory', 'clearTripHistory',
   // Image
   'compressImage', 'generateThumbnail', 'validateImage',
+  // Landing page
+  'dismissLanding', 'installPWAFromLanding',
   // Landing / Help
   'openFAQ', 'openHelpCenter', 'openChangelog', 'openRoadmap', 'openContactForm',
   // Lazy load

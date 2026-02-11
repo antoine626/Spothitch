@@ -364,6 +364,11 @@ async function init() {
       console.warn('Draft cleanup skipped:', e.message);
     }
 
+    // Show landing page for first-time visitors
+    if (!localStorage.getItem('spothitch_landing_seen')) {
+      setState({ showLanding: true })
+    }
+
     // Subscribe to state changes and render
     subscribe((state) => {
       scheduleRender(() => render(state));
@@ -1489,6 +1494,25 @@ window.compressImage = compressImage;
 window.generateThumbnail = generateThumbnail;
 window.validateImage = validateImage;
 
+// Landing page dismiss handler
+window.dismissLanding = () => {
+  localStorage.setItem('spothitch_landing_seen', '1')
+  setState({ showLanding: false })
+}
+
+window.installPWAFromLanding = () => {
+  localStorage.setItem('spothitch_landing_seen', '1')
+  setState({ showLanding: false })
+  // Trigger PWA install prompt
+  setTimeout(() => {
+    try {
+      installPWA()
+    } catch (e) {
+      showToast(t('addToHomeScreen') || 'Ajoutez SpotHitch depuis le menu de votre navigateur', 'info')
+    }
+  }, 300)
+}
+
 // Landing page & help handlers
 window.openFAQ = () => {
   setState({ activeTab: 'guides' });
@@ -1506,7 +1530,13 @@ window.openRoadmap = () => {
 };
 window.openContactForm = () => {
   setState({ showContactForm: true });
-  showToast(t('contactFormOpen') || 'Formulaire de contact ouvert', 'info');
+};
+window.closeContactForm = () => {
+  setState({ showContactForm: false });
+};
+window.submitContactForm = async (event) => {
+  const { handleContactFormSubmit } = await import('./components/modals/ContactForm.js');
+  handleContactFormSubmit(event);
 };
 
 // Lazy load handlers

@@ -322,7 +322,7 @@ export async function requestNotificationPermission() {
     }
 
     const token = await getToken(messaging, {
-      vapidKey: 'YOUR_VAPID_KEY' // Replace with actual VAPID key
+      vapidKey: 'BI4zCgg_GlFWZy93j7G7zv_ewoai_NIYZahiYsIjhL-LYGdxpN9wOBOtvvmakAYNBSqC12F9w_A-Ykhhp1SxWmc'
     });
 
     return token;

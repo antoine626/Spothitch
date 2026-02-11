@@ -31,6 +31,9 @@ import { renderFriendProfileModal } from '../../src/components/modals/FriendProf
 import { renderAdminPanel } from '../../src/components/modals/AdminPanel.js'
 import { renderMyDataModal } from '../../src/components/modals/MyData.js'
 
+// Landing
+import { renderLanding } from '../../src/components/Landing.js'
+
 // Service modals
 import { renderSkillTree } from '../../src/services/skillTree.js'
 import { renderTravelGroupDetail } from '../../src/services/travelGroups.js'
@@ -319,6 +322,15 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
     const html = renderDonationModal(state)
     expect(html).toBeTruthy()
     expect(html.length).toBeGreaterThan(100)
+  })
+
+  test('showLanding flag renders Landing page', () => {
+    const html = renderLanding()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html).toContain('landing-page')
+    expect(html).toContain('dismissLanding')
+    expect(html).toContain('installPWAFromLanding')
   })
 })
 
