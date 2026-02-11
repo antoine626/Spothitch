@@ -214,6 +214,34 @@ import {
   withLoading,
 } from './components/LoadingIndicator.js';
 
+// ==================== AUTO-UPDATE ====================
+
+let currentVersion = null
+
+function startVersionCheck() {
+  const CHECK_INTERVAL = 60_000 // 60 seconds
+  const BASE = import.meta.env.BASE_URL || '/'
+
+  async function check() {
+    try {
+      const res = await fetch(`${BASE}version.json?t=${Date.now()}`, { cache: 'no-store' })
+      if (!res.ok) return
+      const data = await res.json()
+      if (!currentVersion) {
+        currentVersion = data.version
+        return
+      }
+      if (data.version !== currentVersion) {
+        console.log('🔄 New version detected, reloading...')
+        window.location.reload()
+      }
+    } catch { /* offline or file missing — ignore */ }
+  }
+
+  check()
+  setInterval(check, CHECK_INTERVAL)
+}
+
 // ==================== INITIALIZATION ====================
 
 /**
@@ -428,6 +456,9 @@ async function init() {
 
     // Register cleanup on page unload
     window.addEventListener('beforeunload', runAllCleanup);
+
+    // Auto-update check: reload if a new version is deployed
+    startVersionCheck()
 
     console.log('✅ SpotHitch ready!');
   } catch (error) {

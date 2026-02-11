@@ -2,11 +2,26 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import legacy from '@vitejs/plugin-legacy';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
+import { writeFileSync } from 'fs';
+
+// Generate version.json on each build so the app can auto-reload
+function versionPlugin() {
+  return {
+    name: 'version-json',
+    writeBundle({ dir }) {
+      const version = Date.now().toString(36)
+      writeFileSync(`${dir}/version.json`, JSON.stringify({ version, built: new Date().toISOString() }))
+    }
+  }
+}
 
 export default defineConfig({
   base: '/',
-  
+
   plugins: [
+    // Version check for auto-reload
+    versionPlugin(),
+
     // PWA Plugin
     VitePWA({
       registerType: 'autoUpdate',
