@@ -64,17 +64,19 @@ export function renderHome(state) {
             class="w-10 h-10 rounded-lg bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary transition-all text-lg font-bold"
             aria-label="Zoom out"
           >−</button>
-          ${hasGPS ? `
-            <button
-              onclick="homeCenterOnUser()"
-              class="w-10 h-10 rounded-lg bg-dark-secondary/90 backdrop-blur border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-secondary transition-all"
-              aria-label="${t('myPosition') || 'Ma position'}"
-            >
-              <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
-            </button>
-          ` : ''}
         </div>
       </div>
+
+      <!-- Center on user button (bottom-left) -->
+      ${hasGPS ? `
+        <button
+          onclick="homeCenterOnUser()"
+          class="absolute bottom-3 left-3 z-20 w-10 h-10 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-secondary transition-all"
+          aria-label="${t('myPosition') || 'Ma position'}"
+        >
+          <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
+        </button>
+      ` : ''}
 
       <!-- Add Spot FAB -->
       <button

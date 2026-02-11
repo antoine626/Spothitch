@@ -270,13 +270,14 @@ function initHomeMap(state) {
       ? [state.userLocation.lat, state.userLocation.lng]
       : [30, 0] // World center fallback
 
-    const zoom = state.userLocation ? 5 : 3
+    const zoom = state.userLocation ? 13 : 3
 
     const map = L.map(container, {
       center,
       zoom,
       zoomControl: false,
       attributionControl: false,
+      preferCanvas: true,
     })
 
     const tileConfig = getMapTileConfig(getState().lang || 'en')
@@ -468,19 +469,7 @@ function initTripMap(state) {
       }).addTo(map)
     }
 
-    // Start marker (green)
-    L.circleMarker(from, {
-      radius: 12, fillColor: '#22c55e', color: '#fff', weight: 3, fillOpacity: 1
-    }).addTo(map).bindTooltip(results.from?.split(',')[0] || 'A', {
-      permanent: true, direction: 'top', offset: [0, -14]
-    })
-
-    // End marker (red)
-    L.circleMarker(to, {
-      radius: 12, fillColor: '#ef4444', color: '#fff', weight: 3, fillOpacity: 1
-    }).addTo(map).bindTooltip(results.to?.split(',')[0] || 'B', {
-      permanent: true, direction: 'top', offset: [0, -14]
-    })
+    // Route endpoints shown via the route line itself (no separate markers)
 
     // Trip spot markers (ONLY trip spots, not all)
     // Check favorites from localStorage
