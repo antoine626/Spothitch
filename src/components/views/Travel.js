@@ -7,6 +7,7 @@ import { t } from '../../i18n/index.js'
 import { countryGuides, getGuideByCode } from '../../data/guides.js'
 import { renderCommunityTips } from '../../services/communityTips.js'
 import { renderHostelSection } from '../../services/hostelRecommendations.js'
+import { escapeHTML } from '../../utils/sanitize.js'
 
 const SAVED_TRIPS_KEY = 'spothitch_saved_trips'
 
@@ -690,15 +691,18 @@ window.tripSearchSuggestions = (field, query) => {
 function renderSuggestions(field, names) {
   return `
     <div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
-      ${names.map((name, i) => `
+      ${names.map((name, i) => {
+        const safeName = escapeHTML(name)
+        const safeField = escapeHTML(field)
+        return `
         <button
-          onmousedown="event.preventDefault(); tripSelectSuggestion('${field}', '${name.replace(/'/g, "\\'")}')"
+          onmousedown="event.preventDefault(); tripSelectSuggestion('${safeField}', '${safeName.replace(/'/g, '&#39;')}')"
           class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
-          data-trip-${field}-suggestion="${i}"
+          data-trip-${safeField}-suggestion="${i}"
         >
-          <div class="font-medium text-sm truncate">${name}</div>
+          <div class="font-medium text-sm truncate">${safeName}</div>
         </button>
-      `).join('')}
+      `}).join('')}
     </div>
   `
 }

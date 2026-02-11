@@ -38,7 +38,7 @@ export function renderShopModal() {
             <button onclick="closeShop()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
-                    aria-label="Fermer">
+                    aria-label="${t('close') || 'Close'}">
               <i class="fas fa-times" aria-hidden="true"></i>
             </button>
           </div>
@@ -184,7 +184,7 @@ export function renderMyRewardsModal() {
             <button onclick="closeMyRewards()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
-                    aria-label="Fermer">
+                    aria-label="${t('close') || 'Close'}">
               <i class="fas fa-times" aria-hidden="true"></i>
             </button>
           </div>
@@ -224,7 +224,7 @@ export function renderMyRewardsModal() {
                         </div>
                         <button onclick="copyCode('${reward.code}')"
                                 class="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600"
-                                aria-label="Copier le code">
+                                aria-label="${t('copyCode') || 'Copy code'}">
                           <i class="fas fa-copy" aria-hidden="true"></i>
                         </button>
                       </div>

@@ -43,7 +43,7 @@ export function renderEmailVerification(email) {
         <button
           onclick="closeEmailVerification()"
           class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-          aria-label="Fermer la vérification d'email"
+          aria-label="${t('close') || 'Close'}"
           type="button"
         >
           <i class="fas fa-times" aria-hidden="true"></i>
@@ -88,7 +88,7 @@ export function renderEmailVerification(email) {
               onclick="checkEmailVerified()"
               class="btn btn-primary w-full"
               id="verify-btn"
-              aria-label="Vérifier si l'email a été confirmé"
+              aria-label="${t('verifyEmail') || 'Check email verification'}"
             >
               <span id="verify-btn-text">${t('verifyEmail')}</span>
             </button>
@@ -99,7 +99,7 @@ export function renderEmailVerification(email) {
               onclick="resendVerificationEmail()"
               class="btn btn-ghost w-full"
               id="resend-btn"
-              aria-label="Renvoyer l'email de vérification"
+              aria-label="${t('resendEmail') || 'Resend verification email'}"
             >
               <span id="resend-btn-text">${t('resendEmail')}</span>
             </button>

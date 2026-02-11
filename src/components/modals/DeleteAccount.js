@@ -26,7 +26,7 @@ export function renderDeleteAccountModal(state) {
         <button
           onclick="closeDeleteAccount()"
           class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
-          aria-label="Fermer"
+          aria-label="${t('close') || 'Close'}"
           type="button"
         >
           <i class="fas fa-times" aria-hidden="true"></i>

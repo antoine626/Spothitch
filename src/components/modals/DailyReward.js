@@ -64,7 +64,7 @@ export function renderDailyRewardModal() {
           <button onclick="closeDailyReward()"
                   class="absolute top-4 right-4 p-2 bg-white/20 rounded-full text-white hover:bg-white/30 z-20"
                   type="button"
-                  aria-label="Fermer">
+                  aria-label="${t('close') || 'Close'}">
             <i class="fas fa-times" aria-hidden="true"></i>
           </button>
         </div>

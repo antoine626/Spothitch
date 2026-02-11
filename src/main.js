@@ -101,7 +101,7 @@ import { trackTabChange, trackModalOpen, trackAction } from './utils/analytics.j
 import { getAdaptiveConfig } from './utils/adaptiveLoading.js';
 import { cleanupDrafts } from './utils/formPersistence.js';
 import { initWasm } from './utils/wasmGeo.js';
-import { sanitize, sanitizeInput } from './utils/sanitize.js';
+import { sanitize, sanitizeInput, escapeHTML } from './utils/sanitize.js';
 import { runAllCleanup, registerCleanup } from './utils/cleanup.js';
 import { initDeepLinkListener, handleDeepLink, shareLink } from './utils/deeplink.js';
 import { setupGlobalErrorHandlers as setupErrorHandlers, withErrorBoundary } from './utils/errorBoundary.js';
@@ -1306,10 +1306,10 @@ window.searchTripCity = (query) => {
       container.innerHTML = `
         <div class="bg-gray-800 rounded-xl shadow-xl border border-gray-700 overflow-hidden">
           ${results.map(r => `
-            <button onclick="addTripStepFromSearch('${r.name}', ${r.lat}, ${r.lng}, '${r.fullName}')"
+            <button onclick="addTripStepFromSearch('${escapeHTML(r.name).replace(/'/g, '&#39;')}', ${Number(r.lat)}, ${Number(r.lng)}, '${escapeHTML(r.fullName).replace(/'/g, '&#39;')}')"
                     class="w-full px-4 py-3 text-left text-white hover:bg-gray-700 border-b border-gray-700 last:border-0">
-              <div class="font-medium">${r.name}</div>
-              <div class="text-xs text-gray-500 truncate">${r.fullName}</div>
+              <div class="font-medium">${escapeHTML(r.name)}</div>
+              <div class="text-xs text-gray-500 truncate">${escapeHTML(r.fullName)}</div>
             </button>
           `).join('')}
         </div>
@@ -1772,16 +1772,19 @@ window.homeSearchDestination = (query) => {
         container.classList.remove('hidden')
         container.innerHTML = `
           <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
-            ${results.map((r, i) => `
+            ${results.map((r, i) => {
+              const shortName = escapeHTML((r.name || '').split(',').slice(0, 2).join(','))
+              const fullName = escapeHTML(r.name || '')
+              return `
               <button
-                onclick="homeSelectPlace(${r.lat}, ${r.lng}, '${(r.name || '').split(',').slice(0, 2).join(',').replace(/'/g, "\\'")}')"
+                onclick="homeSelectPlace(${Number(r.lat)}, ${Number(r.lng)}, '${shortName.replace(/'/g, '&#39;')}')"
                 class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
                 data-home-suggestion="${i}"
               >
-                <div class="font-medium text-sm truncate">${(r.name || '').split(',').slice(0, 2).join(',')}</div>
-                <div class="text-xs text-slate-400 truncate">${r.name}</div>
+                <div class="font-medium text-sm truncate">${shortName}</div>
+                <div class="text-xs text-slate-400 truncate">${fullName}</div>
               </button>
-            `).join('')}
+            `}).join('')}
           </div>
         `
       } else {

@@ -4,6 +4,7 @@
  */
 
 import { getAllTitles, getTitleForLevel, getUnlockedTitles, getLockedTitles } from '../../data/titles.js'
+import { t } from '../../i18n/index.js'
 
 export function renderTitlesModal(state) {
   const level = state.level || 1
@@ -31,8 +32,8 @@ export function renderTitlesModal(state) {
           <h2 id="titles-modal-title" class="text-xl font-bold" style="color: ${currentTitle.color}">
             ${currentTitle.name}
           </h2>
-          <p class="text-slate-400 text-sm mt-1">Niveau ${level} - ${currentTitle.description}</p>
-          <p class="text-xs text-slate-500 mt-2">${unlocked.length}/${all.length} titres debloqués</p>
+          <p class="text-slate-400 text-sm mt-1">${t('level')} ${level} - ${currentTitle.description}</p>
+          <p class="text-xs text-slate-500 mt-2">${unlocked.length}/${all.length} ${t('titlesUnlocked')}</p>
         </div>
 
         <!-- Titles List -->
@@ -51,14 +52,14 @@ export function renderTitlesModal(state) {
                       ${title.name}
                     </div>
                     <div class="text-xs text-slate-400">
-                      ${isUnlocked ? title.description : `Debloquer au niveau ${title.minLevel}`}
+                      ${isUnlocked ? title.description : `${t('unlockAtLevel')} ${title.minLevel}`}
                     </div>
                   </div>
                   <div class="text-right text-xs">
                     <div class="${isUnlocked ? 'text-emerald-400' : 'text-slate-500'}">
-                      Niv. ${title.minLevel}${title.maxLevel < Infinity ? `-${title.maxLevel}` : '+'}
+                      ${t('levelShort')} ${title.minLevel}${title.maxLevel < Infinity ? `-${title.maxLevel}` : '+'}
                     </div>
-                    ${isCurrent ? '<div class="text-primary-400 font-bold mt-1">Actuel</div>' : ''}
+                    ${isCurrent ? `<div class="text-primary-400 font-bold mt-1">${t('current')}</div>` : ''}
                   </div>
                 </div>
               </div>
@@ -70,7 +71,7 @@ export function renderTitlesModal(state) {
         <button
           onclick="closeTitles()"
           class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-          aria-label="Fermer"
+          aria-label="${t('close') || 'Close'}"
         >
           <i class="fas fa-times" aria-hidden="true"></i>
         </button>

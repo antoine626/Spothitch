@@ -3,30 +3,26 @@
  * A fun animated splash screen with hitchhiking theme
  */
 
-// Funny loading messages related to hitchhiking
-const loadingMessages = [
-  "On cherche une voiture...",
-  "Pouce en l'air !",
-  "Direction : l'aventure",
-  "Attachez vos ceintures... ou pas",
-  "Chargement du karma routier...",
-  "Negociation avec un camionneur...",
-  "Verification des panneaux...",
-  "Calcul de la bonne humeur...",
-  "Synchronisation des pouces...",
-  "Recherche de l'aire de repos parfaite...",
-  "Preparation du sourire gagnant...",
-  "Activation du mode aventurier...",
-  "Connexion a l'univers routier...",
-  "Telechargement de bonnes vibes...",
-  "Mise a jour du karma voyageur...",
+import { t } from '../i18n/index.js'
+
+// Loading message i18n keys
+const loadingMessageKeys = [
+  'loadingMsg1', 'loadingMsg2', 'loadingMsg3', 'loadingMsg4', 'loadingMsg5',
+  'loadingMsg6', 'loadingMsg7', 'loadingMsg8', 'loadingMsg9', 'loadingMsg10',
+  'loadingMsg11', 'loadingMsg12', 'loadingMsg13', 'loadingMsg14', 'loadingMsg15',
 ]
+
+function getLoadingMessages() {
+  return loadingMessageKeys.map(key => t(key)).filter(Boolean)
+}
 
 /**
  * Get a random loading message
  */
 export function getRandomMessage() {
-  return loadingMessages[Math.floor(Math.random() * loadingMessages.length)]
+  const messages = getLoadingMessages()
+  if (messages.length === 0) return 'Loading...'
+  return messages[Math.floor(Math.random() * messages.length)]
 }
 
 /**
@@ -36,7 +32,7 @@ export function renderSplashScreen() {
   const message = getRandomMessage()
 
   return `
-    <div id="splash-screen" class="splash-screen" aria-live="polite" aria-label="Chargement de SpotHitch">
+    <div id="splash-screen" class="splash-screen" aria-live="polite" aria-label="${t('appLoading') || 'Loading SpotHitch'}">
       <!-- Background with gradient -->
       <div class="splash-bg"></div>
 

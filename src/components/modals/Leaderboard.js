@@ -86,7 +86,7 @@ export function renderLeaderboardModal() {
             <button onclick="closeLeaderboard()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
-                    aria-label="Fermer le classement">
+                    aria-label="${t('close') || 'Close'}">
               <span aria-hidden="true">✕</span>
             </button>
           </div>

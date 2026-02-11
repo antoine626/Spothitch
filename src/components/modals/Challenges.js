@@ -52,7 +52,7 @@ export function renderChallengesModal() {
             <button onclick="closeChallenges()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
-                    aria-label="Fermer les defis">
+                    aria-label="${t('close') || 'Close'}">
               <span aria-hidden="true">✕</span>
             </button>
           </div>

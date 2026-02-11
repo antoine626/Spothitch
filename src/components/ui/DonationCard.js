@@ -428,7 +428,7 @@ window.handleDonationClick = (platform) => {
   });
 
   // Show toast
-  window.showToast?.('Merci infiniment pour ton soutien !', 'success');
+  window.showToast?.(t('donationThankYou') || 'Thank you for your support!', 'success');
 
   // Log for analytics (placeholder)
   console.log(`Donation click: ${platform}, amount: ${amount}EUR`);

@@ -119,7 +119,7 @@ export function renderAgeVerification(state) {
           </div>
 
           <!-- Form -->
-          <form id="age-verification-form" onsubmit="handleAgeVerification(event)" class="space-y-4" aria-label="Formulaire de verification d'age">
+          <form id="age-verification-form" onsubmit="handleAgeVerification(event)" class="space-y-4" aria-label="${t('ageVerificationForm') || 'Age verification form'}">
             <div>
               <label for="birth-date" class="text-sm text-slate-400 block mb-2">
                 ${t('birthDate')}

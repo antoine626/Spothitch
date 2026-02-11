@@ -26,7 +26,7 @@ export function renderAuth(_state) {
         <button
           onclick="closeAuth()"
           class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-          aria-label="Fermer la fenetre de connexion"
+          aria-label="${t('close') || 'Close'}"
           type="button"
         >
           <i class="fas fa-times" aria-hidden="true"></i>
@@ -39,7 +39,7 @@ export function renderAuth(_state) {
         </div>
         
         <!-- Tabs -->
-        <div class="flex border-b border-white/10" role="tablist" aria-label="Mode de connexion">
+        <div class="flex border-b border-white/10" role="tablist" aria-label="${t('authMode') || 'Authentication mode'}">
           <button
             onclick="setAuthMode('login')"
             class="flex-1 py-3 text-center transition-colors auth-tab"
@@ -68,7 +68,7 @@ export function renderAuth(_state) {
         
         <!-- Form -->
         <div class="p-6" role="tabpanel" id="auth-form-panel">
-          <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4" aria-label="Formulaire de connexion">
+          <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4" aria-label="${t('loginForm') || 'Login form'}">
             <!-- Email -->
             <div>
               <label for="auth-email" class="text-sm text-slate-400 block mb-2">${t('email')}</label>
@@ -163,7 +163,7 @@ export function renderAuth(_state) {
             onclick="handleGoogleSignIn()"
             class="btn btn-ghost w-full"
             type="button"
-            aria-label="Se connecter avec Google"
+            aria-label="${t('continueWithGoogle') || 'Sign in with Google'}"
           >
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" class="w-5 h-5" aria-hidden="true" />
             ${t('continueWithGoogle')}
@@ -174,10 +174,10 @@ export function renderAuth(_state) {
             onclick="loginAsAdmin()"
             class="btn w-full mt-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
             type="button"
-            aria-label="Se connecter en mode administrateur demo"
+            aria-label="${t('demoAdminLogin') || 'Demo admin login'}"
           >
             <span class="mr-2" aria-hidden="true">👑</span>
-            Mode Admin (Demo)
+            ${t('demoAdminLogin') || 'Admin Mode (Demo)'}
           </button>
         </div>
       </div>
