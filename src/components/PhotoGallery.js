@@ -161,7 +161,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
           onclick="prevPhotoFullscreen(); event.stopPropagation();"
           class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10
             flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-          aria-label="Photo precedente"
+          aria-label="${t('previousPhoto') || 'Previous photo'}"
         >
           <i class="fas fa-chevron-left text-xl"></i>
         </button>
@@ -169,7 +169,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
           onclick="nextPhotoFullscreen(); event.stopPropagation();"
           class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10
             flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-          aria-label="Photo suivante"
+          aria-label="${t('nextPhoto') || 'Next photo'}"
         >
           <i class="fas fa-chevron-right text-xl"></i>
         </button>

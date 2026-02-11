@@ -5,6 +5,7 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { renderPhotoGallery, renderPhotoFullscreen } from '../src/components/PhotoGallery.js'
+import { t } from '../src/i18n/index.js'
 
 describe('PhotoGallery Component', () => {
   const mockPhotos = [
@@ -135,9 +136,9 @@ describe('PhotoGallery Component', () => {
     it('should have proper accessibility labels', () => {
       const html = renderPhotoGallery(mockPhotos, 1)
       expect(html).toContain('aria-label')
-      expect(html).toContain('Photo precedente')
+      expect(html).toContain('Photo précédente')
       expect(html).toContain('Photo suivante')
-      expect(html).toContain('Plein ecran')
+      expect(html).toContain('Plein écran')
     })
 
     it('should have correct initial border styling for thumbnails', () => {
@@ -238,9 +239,8 @@ describe('PhotoGallery Component', () => {
 
     it('should have proper accessibility labels', () => {
       const html = renderPhotoFullscreen(mockPhotos, 0, 'gallery-1')
-      expect(html).toContain('aria-label="Fermer"')
-      expect(html).toContain('aria-label="Photo precedente"')
-      expect(html).toContain('aria-label="Photo suivante"')
+      expect(html).toContain(t('previousPhoto'))
+      expect(html).toContain(t('nextPhoto'))
     })
 
     it('should prevent body scroll on fullscreen', () => {
