@@ -107,13 +107,12 @@ function renderPlanner(state) {
                 type="text"
                 id="trip-from"
                 placeholder="${t('searchCity') || 'Ex: Paris, Lyon...'}"
-                class="input-field w-full pl-9"
+                class="input-field w-full"
                 value="${state.tripFrom || ''}"
                 oninput="tripSearchSuggestions('from', this.value)"
                 onkeydown="if(event.key==='Enter'){event.preventDefault();tripSelectFirst('from')}"
                 autocomplete="off"
               />
-              <i class="fas fa-circle absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400 text-[8px]" aria-hidden="true"></i>
             </div>
             <div id="trip-from-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
           </div>
@@ -135,13 +134,12 @@ function renderPlanner(state) {
                 type="text"
                 id="trip-to"
                 placeholder="${t('searchCity') || 'Ex: Berlin, Barcelone...'}"
-                class="input-field w-full pl-9"
+                class="input-field w-full"
                 value="${state.tripTo || ''}"
                 oninput="tripSearchSuggestions('to', this.value)"
                 onkeydown="if(event.key==='Enter'){event.preventDefault();tripSelectFirst('to')}"
                 autocomplete="off"
               />
-              <i class="fas fa-circle absolute left-3.5 top-1/2 -translate-y-1/2 text-red-400 text-[8px]" aria-hidden="true"></i>
             </div>
             <div id="trip-to-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
           </div>
@@ -688,12 +686,13 @@ window.updateTripField = (field, value) => {
 }
 
 window.swapTripPoints = () => {
-  const state = window.getState?.() || {}
   const fromInput = document.getElementById('trip-from')
   const toInput = document.getElementById('trip-to')
-  const newFrom = state.tripTo || toInput?.value || ''
-  const newTo = state.tripFrom || fromInput?.value || ''
-  window.setState?.({ tripFrom: newFrom, tripTo: newTo })
+  const newFrom = toInput?.value || ''
+  const newTo = fromInput?.value || ''
+  // Swap DOM values directly (no re-render)
+  if (fromInput) fromInput.value = newFrom
+  if (toInput) toInput.value = newTo
 }
 
 // Main trip calculation — uses OSRM route + spotLoader (37K spots)
@@ -941,8 +940,12 @@ window.toggleFavorite = (spotId) => {
       window.showToast?.(t('addToFavorites') || 'Ajouté aux favoris', 'success')
     }
     localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs))
-    // Force re-render to update UI
-    window.setState?.({ _favToggle: Date.now() })
+    // Update heart icon directly in DOM (no full re-render)
+    const btn = document.querySelector(`[onclick="toggleFavorite('${spotId}')"]`)
+    if (btn) {
+      const isFav = favs.includes(spotId)
+      btn.className = btn.className.replace(/text-(amber|slate)-\d+/g, isFav ? 'text-amber-400' : 'text-slate-500')
+    }
   } catch (e) {
     console.error('toggleFavorite failed:', e)
   }
