@@ -542,7 +542,6 @@ const translations = {
     currentVerificationLevel: 'Niveau actuel',
     trustScore: 'Score de confiance',
     verificationProgress: 'Progression',
-    emailVerified: 'Email verifie',
     emailVerifiedDesc: 'Confirme ton adresse email',
     phoneVerified: 'Telephone verifie',
     phoneVerifiedDesc: 'Verifie ton numero par SMS',
@@ -853,7 +852,6 @@ const translations = {
     stat_badges: 'Badges',
     stat_countriesVisited: 'Pays visites',
     stat_totalDistance: 'Distance',
-    shareError: 'Erreur lors du partage',
 
     // Profile Frames (#175)
     currentFrame: 'Cadre actuel',
@@ -2849,7 +2847,6 @@ const translations = {
     currentVerificationLevel: 'Current level',
     trustScore: 'Trust score',
     verificationProgress: 'Progress',
-    emailVerified: 'Email verified',
     emailVerifiedDesc: 'Confirm your email address',
     phoneVerified: 'Phone verified',
     phoneVerifiedDesc: 'Verify your number by SMS',
@@ -3160,7 +3157,6 @@ const translations = {
     stat_badges: 'Badges',
     stat_countriesVisited: 'Countries visited',
     stat_totalDistance: 'Distance',
-    shareError: 'Error sharing',
 
     // Profile Frames (#175)
     currentFrame: 'Current frame',
@@ -4869,7 +4865,6 @@ const translations = {
     currentVerificationLevel: 'Nivel actual',
     trustScore: 'Puntuacion de confianza',
     verificationProgress: 'Progreso',
-    emailVerified: 'Correo verificado',
     emailVerifiedDesc: 'Confirma tu direccion de correo',
     phoneVerified: 'Telefono verificado',
     phoneVerifiedDesc: 'Verifica tu numero por SMS',
@@ -5114,7 +5109,6 @@ const translations = {
     stat_badges: 'Insignias',
     stat_countriesVisited: 'Paises visitados',
     stat_totalDistance: 'Distancia',
-    shareError: 'Error al compartir',
 
     // Profile Frames (#175)
     currentFrame: 'Marco actual',
@@ -7839,7 +7833,6 @@ const translations = {
     currentVerificationLevel: 'Aktuelles Level',
     trustScore: 'Vertrauenspunktzahl',
     verificationProgress: 'Fortschritt',
-    emailVerified: 'E-Mail verifiziert',
     emailVerifiedDesc: 'Bestatige deine E-Mail-Adresse',
     phoneVerified: 'Telefon verifiziert',
     phoneVerifiedDesc: 'Verifiziere deine Nummer per SMS',
@@ -8084,7 +8077,6 @@ const translations = {
     stat_badges: 'Abzeichen',
     stat_countriesVisited: 'Lander besucht',
     stat_totalDistance: 'Distanz',
-    shareError: 'Fehler beim Teilen',
 
     // Profile Frames (#175)
     currentFrame: 'Aktueller Rahmen',
