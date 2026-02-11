@@ -142,6 +142,15 @@ const MAIN_JS_HANDLERS = [
   'syncTripFieldsAndCalculate', 'toggleRouteAmenities',
   // Social view (defined in Social.js)
   'setSocialTab',
+  // Direct Messages (defined in directMessages.js)
+  'openConversation', 'closeConversation', 'sendDM',
+  'shareDMSpot', 'shareDMPosition', 'deleteDMConversation',
+  // Events (defined in events.js)
+  'createEvent', 'closeCreateEvent', 'submitCreateEvent',
+  'joinEvent', 'leaveEvent', 'deleteEventAction',
+  'openEventDetail', 'closeEventDetail',
+  'postEventComment', 'replyEventComment', 'toggleReplyInput',
+  'reactToEventComment', 'shareEvent', 'deleteEventCommentAction',
   // Profile view (defined in Profile.js)
   'toggleNotifications',
   // SOS (defined in SOS.js)
