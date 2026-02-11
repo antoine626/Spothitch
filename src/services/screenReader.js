@@ -4,6 +4,7 @@
  */
 
 import { getState, setState } from '../stores/state.js';
+import { t } from '../i18n/index.js';
 
 // ARIA live region priorities
 const PRIORITY = {
@@ -84,10 +85,10 @@ function createSkipLinks() {
   skipLinksContainer.id = 'skip-links';
   skipLinksContainer.className = 'skip-links';
   skipLinksContainer.innerHTML = `
-    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
-    <a href="#main-navigation" class="skip-link">Aller à la navigation</a>
-    <a href="#map-container" class="skip-link">Aller à la carte</a>
-    <a href="#search-input" class="skip-link">Aller à la recherche</a>
+    <a href="#main-content" class="skip-link">${t('sr.skipToMainContent') || 'Aller au contenu principal'}</a>
+    <a href="#main-navigation" class="skip-link">${t('sr.skipToNavigation') || 'Aller à la navigation'}</a>
+    <a href="#map-container" class="skip-link">${t('sr.skipToMap') || 'Aller à la carte'}</a>
+    <a href="#search-input" class="skip-link">${t('sr.skipToSearch') || 'Aller à la recherche'}</a>
   `;
 
   document.body.insertBefore(skipLinksContainer, document.body.firstChild);
@@ -106,7 +107,7 @@ function setupLandmarks() {
   if (nav) {
     nav.id = nav.id || 'main-navigation';
     nav.setAttribute('role', 'navigation');
-    nav.setAttribute('aria-label', 'Navigation principale');
+    nav.setAttribute('aria-label', t('sr.mainNavigation') || 'Navigation principale');
   }
 
   // Header
@@ -164,31 +165,31 @@ function setupKeyboardShortcuts() {
         case 'h':
           // Alt+H: Go to home/map
           e.preventDefault();
-          announce('Navigation vers la carte');
+          announce(t('sr.navigatingToMap') || 'Navigation vers la carte');
           window.setView?.('map');
           break;
         case 's':
           // Alt+S: Go to spots list
           e.preventDefault();
-          announce('Navigation vers la liste des spots');
+          announce(t('sr.navigatingToSpots') || 'Navigation vers la liste des spots');
           window.setView?.('spots');
           break;
         case 'c':
           // Alt+C: Go to chat
           e.preventDefault();
-          announce('Navigation vers le chat');
+          announce(t('sr.navigatingToChat') || 'Navigation vers le chat');
           window.setView?.('chat');
           break;
         case 'p':
           // Alt+P: Go to profile
           e.preventDefault();
-          announce('Navigation vers le profil');
+          announce(t('sr.navigatingToProfile') || 'Navigation vers le profil');
           window.setView?.('profile');
           break;
         case 'a':
           // Alt+A: Add new spot
           e.preventDefault();
-          announce('Ouverture du formulaire d\'ajout de spot');
+          announce(t('sr.openingAddSpotForm') || 'Ouverture du formulaire d\'ajout de spot');
           window.openAddSpot?.();
           break;
         case '/':
@@ -197,7 +198,7 @@ function setupKeyboardShortcuts() {
           const searchInput = document.querySelector('#search-input, [type="search"]');
           if (searchInput) {
             searchInput.focus();
-            announce('Recherche activée');
+            announce(t('sr.searchActivated') || 'Recherche activée');
           }
           break;
         case 'x':
@@ -263,7 +264,7 @@ function processAnnouncementQueue() {
  * @param {string} details - Optional details
  */
 export function announceAction(action, success, details = '') {
-  const status = success ? 'réussi' : 'échoué';
+  const status = success ? (t('sr.succeeded') || 'réussi') : (t('sr.failed') || 'échoué');
   const message = details ? `${action} ${status}. ${details}` : `${action} ${status}`;
 
   announce(message, success ? PRIORITY.POLITE : PRIORITY.ASSERTIVE);
@@ -275,18 +276,18 @@ export function announceAction(action, success, details = '') {
  */
 export function announceViewChange(viewName) {
   const viewNames = {
-    map: 'Carte',
-    spots: 'Liste des spots',
-    social: 'Communauté',
-    chat: 'Chat',
-    profile: 'Profil',
-    challenges: 'Défis',
-    planner: 'Planificateur',
-    guides: 'Guides',
+    map: t('sr.viewMap') || 'Carte',
+    spots: t('sr.viewSpots') || 'Liste des spots',
+    social: t('sr.viewSocial') || 'Communauté',
+    chat: t('sr.viewChat') || 'Chat',
+    profile: t('sr.viewProfile') || 'Profil',
+    challenges: t('sr.viewChallenges') || 'Défis',
+    planner: t('sr.viewPlanner') || 'Planificateur',
+    guides: t('sr.viewGuides') || 'Guides',
   };
 
   const name = viewNames[viewName] || viewName;
-  announce(`Page ${name} chargée`, PRIORITY.POLITE, 100);
+  announce(`${t('sr.pageLoaded') || 'Page'} ${name} ${t('sr.loaded') || 'chargée'}`, PRIORITY.POLITE, 100);
 
   // Focus main content
   setTimeout(() => {
@@ -305,15 +306,15 @@ export function announceViewChange(viewName) {
  */
 export function announceListUpdate(listType, count) {
   const listNames = {
-    spots: 'spots',
-    messages: 'messages',
-    friends: 'amis',
-    badges: 'badges',
-    challenges: 'défis',
+    spots: t('sr.listSpots') || 'spots',
+    messages: t('sr.listMessages') || 'messages',
+    friends: t('sr.listFriends') || 'amis',
+    badges: t('sr.listBadges') || 'badges',
+    challenges: t('sr.listChallenges') || 'défis',
   };
 
-  const name = listNames[listType] || 'éléments';
-  announce(`${count} ${name} chargés`);
+  const name = listNames[listType] || (t('sr.listItems') || 'éléments');
+  announce(`${count} ${name} ${t('sr.listLoaded') || 'chargés'}`);
 }
 
 /**
@@ -323,9 +324,9 @@ export function announceListUpdate(listType, count) {
  */
 export function announceLoading(isLoading, context = '') {
   if (isLoading) {
-    announce(`Chargement${context ? ` de ${context}` : ''} en cours`);
+    announce(`${t('sr.loading') || 'Chargement'}${context ? ` ${t('sr.of') || 'de'} ${context}` : ''} ${t('sr.inProgress') || 'en cours'}`);
   } else {
-    announce(`Chargement${context ? ` de ${context}` : ''} terminé`);
+    announce(`${t('sr.loading') || 'Chargement'}${context ? ` ${t('sr.of') || 'de'} ${context}` : ''} ${t('sr.completed') || 'terminé'}`);
   }
 }
 
@@ -334,7 +335,7 @@ export function announceLoading(isLoading, context = '') {
  * @param {string} error - Error message
  */
 export function announceError(error) {
-  announce(`Erreur: ${error}`, PRIORITY.ASSERTIVE);
+  announce(`${t('sr.error') || 'Erreur'}: ${error}`, PRIORITY.ASSERTIVE);
 }
 
 /**
@@ -343,7 +344,7 @@ export function announceError(error) {
  * @param {string} body - Notification body
  */
 export function announceNotification(title, body) {
-  announce(`Notification: ${title}. ${body}`, PRIORITY.ASSERTIVE);
+  announce(`${t('sr.notification') || 'Notification'}: ${title}. ${body}`, PRIORITY.ASSERTIVE);
 }
 
 /**
@@ -425,7 +426,7 @@ function closeCurrentModal() {
     if (closeBtn) {
       closeBtn.click();
     }
-    announce('Modal fermée');
+    announce(t('sr.modalClosed') || 'Modal fermée');
   }
 }
 
@@ -445,7 +446,7 @@ function isInInput(element) {
 function showAccessibilityHelp() {
   const state = getState();
   setState({ showAccessibilityHelp: true });
-  announce('Aide accessibilité ouverte');
+  announce(t('sr.accessibilityHelpOpened') || 'Aide accessibilité ouverte');
 }
 
 /**
@@ -467,12 +468,12 @@ export function renderAccessibilityHelp(state) {
           <div class="flex justify-between items-center">
             <h2 id="a11y-help-title" class="text-xl font-bold">
               <i class="fas fa-universal-access mr-2 text-primary-400" aria-hidden="true"></i>
-              Raccourcis clavier
+              ${t('sr.keyboardShortcuts') || 'Raccourcis clavier'}
             </h2>
             <button
               onclick="closeAccessibilityHelp()"
               class="p-2 rounded-full hover:bg-white/10 transition-colors"
-              aria-label="Fermer l'aide"
+              aria-label="${t('sr.closeHelp') || 'Fermer l\'aide'}"
             >
               <i class="fas fa-times" aria-hidden="true"></i>
             </button>
@@ -481,63 +482,63 @@ export function renderAccessibilityHelp(state) {
 
         <div class="p-6 overflow-y-auto max-h-[60vh]">
           <section class="mb-6">
-            <h3 class="font-semibold text-primary-400 mb-3">Navigation</h3>
+            <h3 class="font-semibold text-primary-400 mb-3">${t('sr.navigation') || 'Navigation'}</h3>
             <ul class="space-y-2 text-sm" role="list">
               <li class="flex justify-between">
-                <span>Aller à la carte</span>
+                <span>${t('sr.goToMap') || 'Aller à la carte'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Alt + H</kbd>
               </li>
               <li class="flex justify-between">
-                <span>Aller aux spots</span>
+                <span>${t('sr.goToSpots') || 'Aller aux spots'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Alt + S</kbd>
               </li>
               <li class="flex justify-between">
-                <span>Aller au chat</span>
+                <span>${t('sr.goToChat') || 'Aller au chat'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Alt + C</kbd>
               </li>
               <li class="flex justify-between">
-                <span>Aller au profil</span>
+                <span>${t('sr.goToProfile') || 'Aller au profil'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Alt + P</kbd>
               </li>
             </ul>
           </section>
 
           <section class="mb-6">
-            <h3 class="font-semibold text-primary-400 mb-3">Actions</h3>
+            <h3 class="font-semibold text-primary-400 mb-3">${t('sr.actions') || 'Actions'}</h3>
             <ul class="space-y-2 text-sm" role="list">
               <li class="flex justify-between">
-                <span>Ajouter un spot</span>
+                <span>${t('sr.addSpot') || 'Ajouter un spot'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Alt + A</kbd>
               </li>
               <li class="flex justify-between">
-                <span>Rechercher</span>
+                <span>${t('sr.search') || 'Rechercher'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Alt + /</kbd>
               </li>
               <li class="flex justify-between">
-                <span>Fermer la modal</span>
+                <span>${t('sr.closeModal') || 'Fermer la modal'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Alt + X</kbd>
               </li>
               <li class="flex justify-between">
-                <span>Afficher cette aide</span>
+                <span>${t('sr.showThisHelp') || 'Afficher cette aide'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">?</kbd>
               </li>
             </ul>
           </section>
 
           <section class="mb-6">
-            <h3 class="font-semibold text-primary-400 mb-3">Liens rapides</h3>
+            <h3 class="font-semibold text-primary-400 mb-3">${t('sr.quickLinks') || 'Liens rapides'}</h3>
             <ul class="space-y-2 text-sm" role="list">
               <li class="flex justify-between">
-                <span>Navigation par liens</span>
+                <span>${t('sr.navigateByLinks') || 'Navigation par liens'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Tab</kbd>
               </li>
               <li class="flex justify-between">
-                <span>Navigation inverse</span>
+                <span>${t('sr.reverseNavigation') || 'Navigation inverse'}</span>
                 <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Shift + Tab</kbd>
               </li>
               <li class="flex justify-between">
-                <span>Activer un lien</span>
-                <kbd class="px-2 py-1 bg-white/10 rounded text-xs">Entrée</kbd>
+                <span>${t('sr.activateLink') || 'Activer un lien'}</span>
+                <kbd class="px-2 py-1 bg-white/10 rounded text-xs">${t('sr.enter') || 'Entrée'}</kbd>
               </li>
             </ul>
           </section>
@@ -545,13 +546,13 @@ export function renderAccessibilityHelp(state) {
           <section class="p-4 bg-primary-500/10 rounded-xl">
             <h3 class="font-semibold text-primary-400 mb-2">
               <i class="fas fa-info-circle mr-1" aria-hidden="true"></i>
-              Conseils
+              ${t('sr.tips') || 'Conseils'}
             </h3>
             <ul class="text-sm text-slate-300 space-y-1" role="list">
-              <li>• Les annonces importantes sont lues automatiquement</li>
-              <li>• Utilisez les liens d'évitement au début de la page</li>
-              <li>• Chaque section a un titre de niveau approprié</li>
-              <li>• Les images ont des descriptions alternatives</li>
+              <li>• ${t('sr.tip1') || 'Les annonces importantes sont lues automatiquement'}</li>
+              <li>• ${t('sr.tip2') || 'Utilisez les liens d\'évitement au début de la page'}</li>
+              <li>• ${t('sr.tip3') || 'Chaque section a un titre de niveau approprié'}</li>
+              <li>• ${t('sr.tip4') || 'Les images ont des descriptions alternatives'}</li>
             </ul>
           </section>
         </div>
@@ -561,7 +562,7 @@ export function renderAccessibilityHelp(state) {
             onclick="closeAccessibilityHelp()"
             class="btn btn-primary w-full"
           >
-            Fermer
+            ${t('sr.close') || 'Fermer'}
           </button>
         </div>
       </div>
@@ -577,33 +578,33 @@ export function renderAccessibilityHelp(state) {
 export function generateSpotDescription(spot) {
   const parts = [];
 
-  parts.push(`${spot.name || 'Spot sans nom'}`);
+  parts.push(`${spot.name || (t('sr.spotWithoutName') || 'Spot sans nom')}`);
 
   if (spot.country) {
-    parts.push(`situé en ${spot.country}`);
+    parts.push(`${t('sr.locatedIn') || 'situé en'} ${spot.country}`);
   }
 
   if (spot.globalRating) {
-    parts.push(`noté ${spot.globalRating.toFixed(1)} sur 5`);
+    parts.push(`${t('sr.rated') || 'noté'} ${spot.globalRating.toFixed(1)} ${t('sr.outOf5') || 'sur 5'}`);
   }
 
   if (spot.type) {
     const types = {
-      highway_entrance: 'entrée d\'autoroute',
-      gas_station: 'station-service',
-      rest_area: 'aire de repos',
-      city_exit: 'sortie de ville',
-      roundabout: 'rond-point',
-      other: 'autre',
+      highway_entrance: t('sr.typeHighwayEntrance') || 'entrée d\'autoroute',
+      gas_station: t('sr.typeGasStation') || 'station-service',
+      rest_area: t('sr.typeRestArea') || 'aire de repos',
+      city_exit: t('sr.typeCityExit') || 'sortie de ville',
+      roundabout: t('sr.typeRoundabout') || 'rond-point',
+      other: t('sr.typeOther') || 'autre',
     };
-    parts.push(`type: ${types[spot.type] || spot.type}`);
+    parts.push(`${t('sr.type') || 'type'}: ${types[spot.type] || spot.type}`);
   }
 
   if (spot.verificationStatus) {
     const statuses = {
-      verified: 'vérifié par la communauté',
-      disputed: 'en discussion',
-      dangerous: 'marqué comme dangereux',
+      verified: t('sr.statusVerified') || 'vérifié par la communauté',
+      disputed: t('sr.statusDisputed') || 'en discussion',
+      dangerous: t('sr.statusDangerous') || 'marqué comme dangereux',
     };
     parts.push(statuses[spot.verificationStatus] || '');
   }
@@ -617,12 +618,12 @@ export function generateSpotDescription(spot) {
  * @returns {string}
  */
 export function generateRatingLabel(rating) {
-  if (!rating) return 'Aucune note';
+  if (!rating) return t('sr.noRating') || 'Aucune note';
 
   const rounded = Math.round(rating * 10) / 10;
   const stars = Math.round(rating);
 
-  return `${rounded} sur 5 étoiles, ${stars} étoile${stars > 1 ? 's' : ''}`;
+  return `${rounded} ${t('sr.outOf5Stars') || 'sur 5 étoiles'}, ${stars} ${stars > 1 ? (t('sr.stars') || 'étoiles') : (t('sr.star') || 'étoile')}`;
 }
 
 /**
@@ -641,18 +642,20 @@ export function generateTimeLabel(date) {
   const hours = Math.floor(diff / 3600000);
   const days = Math.floor(diff / 86400000);
 
-  if (minutes < 1) return 'à l\'instant';
-  if (minutes < 60) return `il y a ${minutes} minute${minutes > 1 ? 's' : ''}`;
-  if (hours < 24) return `il y a ${hours} heure${hours > 1 ? 's' : ''}`;
-  if (days < 7) return `il y a ${days} jour${days > 1 ? 's' : ''}`;
+  if (minutes < 1) return t('sr.justNow') || 'à l\'instant';
+  if (minutes < 60) return `${t('sr.ago') || 'il y a'} ${minutes} ${minutes > 1 ? (t('sr.minutes') || 'minutes') : (t('sr.minute') || 'minute')}`;
+  if (hours < 24) return `${t('sr.ago') || 'il y a'} ${hours} ${hours > 1 ? (t('sr.hours') || 'heures') : (t('sr.hour') || 'heure')}`;
+  if (days < 7) return `${t('sr.ago') || 'il y a'} ${days} ${days > 1 ? (t('sr.days') || 'jours') : (t('sr.day') || 'jour')}`;
 
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const state = getState();
+  const locale = state.language || 'fr';
+  return d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 // Global handlers
 window.closeAccessibilityHelp = () => {
   setState({ showAccessibilityHelp: false });
-  announce('Aide fermée');
+  announce(t('sr.helpClosed') || 'Aide fermée');
 };
 
 window.showAccessibilityHelp = showAccessibilityHelp;

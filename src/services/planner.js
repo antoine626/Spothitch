@@ -7,6 +7,7 @@ import { getState, setState } from '../stores/state.js';
 import { getRoute, searchLocation, reverseGeocode } from './osrm.js';
 import { sampleSpots } from '../data/spots.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 
 /**
  * Calculate distance between two points (Haversine formula)
@@ -136,7 +137,7 @@ export function findSpotsNearRoute(routeCoords, maxKm = 10) {
  */
 export async function createTrip(steps) {
   if (steps.length < 2) {
-    showToast('Il faut au moins 2 étapes', 'error');
+    showToast(t('needAtLeast2Steps') || 'Il faut au moins 2 étapes', 'error');
     return null;
   }
 
@@ -190,7 +191,7 @@ export async function createTrip(steps) {
     return trip;
   } catch (error) {
     console.error('Error creating trip:', error);
-    showToast('Erreur lors de la création du voyage', 'error');
+    showToast(t('tripCreationError') || 'Erreur lors de la création du voyage', 'error');
     return null;
   }
 }
@@ -205,7 +206,7 @@ export function saveTrip(trip) {
 
   // Check if already saved
   if (savedTrips.find(t => t.id === trip.id)) {
-    showToast('Voyage déjà sauvegardé', 'info');
+    showToast(t('tripAlreadySaved') || 'Voyage déjà sauvegardé', 'info');
     return false;
   }
 
@@ -213,7 +214,7 @@ export function saveTrip(trip) {
     savedTrips: [...savedTrips, trip],
   });
 
-  showToast('Voyage sauvegardé !', 'success');
+  showToast(t('tripSaved') || 'Voyage sauvegardé !', 'success');
   return true;
 }
 
@@ -229,7 +230,7 @@ export function deleteTrip(tripId) {
     savedTrips: savedTrips.filter(t => t.id !== tripId),
   });
 
-  showToast('Voyage supprimé', 'info');
+  showToast(t('tripDeleted') || 'Voyage supprimé', 'info');
 }
 
 /**

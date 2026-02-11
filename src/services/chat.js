@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../stores/state.js';
 import { Storage } from '../utils/storage.js';
+import { t } from '../i18n/index.js';
 import {
   getCurrentUser,
   subscribeToChatRoom as firebaseSubscribeToChatRoom,
@@ -63,7 +64,7 @@ export async function sendChatMessage(room, text, options = {}) {
 
   // Check if user is logged in
   if (!user) {
-    showToast('Connecte-toi pour envoyer des messages', 'warning');
+    showToast(t('chatLoginRequired') || 'Connecte-toi pour envoyer des messages', 'warning');
     return { success: false, error: 'not_authenticated' };
   }
 
@@ -71,7 +72,7 @@ export async function sendChatMessage(room, text, options = {}) {
   const messageData = {
     text,
     userId: user.uid,
-    userName: user.displayName || 'Voyageur',
+    userName: user.displayName || t('chatDefaultUserName') || 'Voyageur',
     userAvatar: '🤙',
     room,
     createdAt: new Date().toISOString(),
@@ -104,7 +105,7 @@ export async function sendChatMessage(room, text, options = {}) {
     messageData.location = {
       lat: options.locationShare.lat,
       lng: options.locationShare.lng,
-      address: options.locationShare.address || 'Position partagee',
+      address: options.locationShare.address || t('chatSharedPosition') || 'Position partagee',
     };
   }
 
@@ -168,7 +169,7 @@ export function sendPrivateMessage(friendId, text, options = {}) {
   const currentUser = getCurrentUser();
 
   if (!currentUser) {
-    showToast('Connecte-toi pour envoyer des messages', 'warning');
+    showToast(t('chatLoginRequired') || 'Connecte-toi pour envoyer des messages', 'warning');
     return { success: false, error: 'not_authenticated' };
   }
 
@@ -187,7 +188,7 @@ export function sendPrivateMessage(friendId, text, options = {}) {
     id: `pm_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
     text,
     senderId: currentUser.uid,
-    senderName: currentUser.displayName || 'Moi',
+    senderName: currentUser.displayName || t('chatMe') || 'Moi',
     senderAvatar: '🤙',
     receiverId: friendId,
     createdAt: new Date().toISOString(),
@@ -342,7 +343,7 @@ export function addReaction(messageId, emoji) {
   // Add new reaction
   storage[messageId].push({
     userId: currentUser.uid,
-    userName: currentUser.displayName || 'Moi',
+    userName: currentUser.displayName || t('chatMe') || 'Moi',
     emoji,
     createdAt: new Date().toISOString(),
   });
@@ -429,9 +430,9 @@ export function shareSpotInChat(chatType, targetId, spot) {
   };
 
   if (chatType === 'room') {
-    return sendChatMessage(targetId, `Check ce spot !`, { spotShare });
+    return sendChatMessage(targetId, t('chatCheckThisSpot') || 'Check ce spot !', { spotShare });
   } else {
-    return sendPrivateMessage(targetId, `Je te partage ce spot !`, { spotShare });
+    return sendPrivateMessage(targetId, t('chatSharingSpot') || 'Je te partage ce spot !', { spotShare });
   }
 }
 
@@ -443,7 +444,7 @@ export function shareSpotInChat(chatType, targetId, spot) {
 export async function shareLocationInChat(chatType, targetId) {
   return new Promise((resolve) => {
     if (!navigator.geolocation) {
-      showToast('Geolocalisation non supportee', 'error');
+      showToast(t('chatGeolocationNotSupported') || 'Geolocalisation non supportee', 'error');
       resolve({ success: false, error: 'not_supported' });
       return;
     }
@@ -463,23 +464,23 @@ export async function shareLocationInChat(chatType, targetId) {
             `https://nominatim.openstreetmap.org/reverse?lat=${locationShare.lat}&lon=${locationShare.lng}&format=json`
           );
           const data = await response.json();
-          locationShare.address = data.display_name || 'Position partagee';
+          locationShare.address = data.display_name || t('chatSharedPosition') || 'Position partagee';
         } catch {
-          locationShare.address = 'Position partagee';
+          locationShare.address = t('chatSharedPosition') || 'Position partagee';
         }
 
         let result;
         if (chatType === 'room') {
-          result = await sendChatMessage(targetId, 'Ma position actuelle', { locationShare });
+          result = await sendChatMessage(targetId, t('chatMyCurrentPosition') || 'Ma position actuelle', { locationShare });
         } else {
-          result = sendPrivateMessage(targetId, 'Voici ma position', { locationShare });
+          result = sendPrivateMessage(targetId, t('chatHereIsMyPosition') || 'Voici ma position', { locationShare });
         }
 
-        showToast('Position partagee !', 'success');
+        showToast(t('chatPositionShared') || 'Position partagee !', 'success');
         resolve(result);
       },
       (error) => {
-        showToast('Impossible de recuperer la position', 'error');
+        showToast(t('chatCannotGetPosition') || 'Impossible de recuperer la position', 'error');
         resolve({ success: false, error: error.message });
       },
       { enableHighAccuracy: true, timeout: 10000 }

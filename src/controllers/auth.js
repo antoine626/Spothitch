@@ -91,7 +91,7 @@ export async function handleAuth(event) {
     }
 
     if (result.success) {
-      showToast(authMode === 'register' ? 'Compte créé !' : 'Connecté !', 'success');
+      showToast(authMode === 'register' ? (t('accountCreated') || 'Compte créé !') : (t('loggedIn') || 'Connecté !'), 'success');
       setState({ showAuth: false });
     } else {
       showToast(getAuthErrorMessage(result.error), 'error');
@@ -115,7 +115,7 @@ export async function handleGoogleSignIn() {
     const result = await signInWithGoogle();
 
     if (result.success) {
-      showToast('Connecté avec Google !', 'success');
+      showToast(t('loggedInWithGoogle') || 'Connecté avec Google !', 'success');
       setState({ showAuth: false });
     } else {
       showToast(t('authError'), 'error');
@@ -132,7 +132,7 @@ export async function handleForgotPassword() {
   const email = document.getElementById('auth-email')?.value.trim();
 
   if (!email) {
-    showToast('Entre ton email d\'abord', 'error');
+    showToast(t('enterEmailFirst') || 'Entre ton email d\'abord', 'error');
     return;
   }
 
@@ -155,7 +155,7 @@ export async function handleForgotPassword() {
 export async function handleLogout() {
   try {
     await logOut();
-    showToast('Déconnecté', 'success');
+    showToast(t('loggedOut') || 'Déconnecté', 'success');
     setState({ showSettings: false });
   } catch (error) {
     console.error('Logout error:', error);
@@ -167,12 +167,12 @@ export async function handleLogout() {
  */
 function getAuthErrorMessage(error) {
   const errorMessages = {
-    'auth/user-not-found': 'Utilisateur non trouvé',
-    'auth/wrong-password': 'Mot de passe incorrect',
-    'auth/email-already-in-use': 'Email déjà utilisé',
-    'auth/weak-password': 'Mot de passe trop faible',
-    'auth/invalid-email': 'Email invalide',
-    'auth/too-many-requests': 'Trop de tentatives, réessaie plus tard',
+    'auth/user-not-found': t('authUserNotFound') || 'Utilisateur non trouvé',
+    'auth/wrong-password': t('authWrongPassword') || 'Mot de passe incorrect',
+    'auth/email-already-in-use': t('authEmailInUse') || 'Email déjà utilisé',
+    'auth/weak-password': t('authWeakPassword') || 'Mot de passe trop faible',
+    'auth/invalid-email': t('authInvalidEmail') || 'Email invalide',
+    'auth/too-many-requests': t('authTooManyRequests') || 'Trop de tentatives, réessaie plus tard',
   };
   return errorMessages[error?.code] || t('authError');
 }

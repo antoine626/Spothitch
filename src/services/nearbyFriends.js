@@ -5,15 +5,16 @@
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 
 // Configuration
 const CONFIG = {
   defaultRadius: 50, // km
   updateInterval: 5 * 60 * 1000, // 5 minutes
   proximityThresholds: [
-    { distance: 5, label: 'très proche', priority: 'high', icon: 'fa-location-arrow' },
-    { distance: 20, label: 'proche', priority: 'medium', icon: 'fa-map-marker-alt' },
-    { distance: 50, label: 'dans les environs', priority: 'low', icon: 'fa-map-pin' },
+    { distance: 5, label: () => t('nearbyFriendsVeryClose') || 'très proche', priority: 'high', icon: 'fa-location-arrow' },
+    { distance: 20, label: () => t('nearbyFriendsClose') || 'proche', priority: 'medium', icon: 'fa-map-marker-alt' },
+    { distance: 50, label: () => t('nearbyFriendsNearby') || 'dans les environs', priority: 'low', icon: 'fa-map-pin' },
   ],
 };
 
@@ -199,15 +200,16 @@ function notifyNearbyFriends(nearbyFriends) {
  */
 function showNearbyFriendNotification(friend, proximity) {
   // Toast notification
+  const proximityLabel = typeof proximity.label === 'function' ? proximity.label() : proximity.label;
   showToast(
-    `📍 ${friend.username} est ${proximity.label} (${friend.distance}km)`,
+    `📍 ${friend.username} ${t('nearbyFriendsIs') || 'est'} ${proximityLabel} (${friend.distance}km)`,
     'info'
   );
 
   // Push notification if supported
   if ('Notification' in window && Notification.permission === 'granted') {
-    new Notification('Ami proche !', {
-      body: `${friend.username} est ${proximity.label} (${friend.distance}km)`,
+    new Notification(t('nearbyFriendsNotifTitle') || 'Ami proche !', {
+      body: `${friend.username} ${t('nearbyFriendsIs') || 'est'} ${proximityLabel} (${friend.distance}km)`,
       icon: '/icon-192.png',
       tag: `nearby_${friend.userId}`,
     });
@@ -268,10 +270,10 @@ export function toggleNearbyFriends(enabled) {
 
   if (enabled) {
     initNearbyFriendsTracking();
-    showToast('Notifications d\'amis proches activées', 'success');
+    showToast(t('nearbyFriendsEnabled') || 'Notifications d\'amis proches activées', 'success');
   } else {
     stopNearbyFriendsTracking();
-    showToast('Notifications d\'amis proches désactivées', 'info');
+    showToast(t('nearbyFriendsDisabled') || 'Notifications d\'amis proches désactivées', 'info');
   }
 }
 
@@ -281,7 +283,7 @@ export function toggleNearbyFriends(enabled) {
  */
 export function setNotificationRadius(radius) {
   setState({ nearbyFriendsRadius: radius });
-  showToast(`Rayon de notification: ${radius}km`, 'info');
+  showToast(`${t('nearbyFriendsRadius') || 'Rayon de notification'}: ${radius}km`, 'info');
 }
 
 /**
@@ -325,7 +327,7 @@ export function renderNearbyFriendsWidget(state) {
       <button
         onclick="toggleNearbyFriendsList()"
         class="relative p-3 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-all"
-        aria-label="Amis proches (${nearbyFriends.length})"
+        aria-label="${t('nearbyFriendsLabel') || 'Amis proches'} (${nearbyFriends.length})"
       >
         <i class="fas fa-user-friends" aria-hidden="true"></i>
         <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 text-xs flex items-center justify-center font-bold">
@@ -355,13 +357,13 @@ export function renderNearbyFriendsList(state) {
         <!-- Header -->
         <div class="p-4 border-b border-white/10 flex justify-between items-center">
           <div>
-            <h2 class="font-bold text-lg">Amis proches</h2>
-            <p class="text-sm text-slate-400">${nearbyFriends.length} ami${nearbyFriends.length > 1 ? 's' : ''} à proximité</p>
+            <h2 class="font-bold text-lg">${t('nearbyFriendsTitle') || 'Amis proches'}</h2>
+            <p class="text-sm text-slate-400">${nearbyFriends.length} ${nearbyFriends.length > 1 ? (t('nearbyFriendsFriends') || 'amis') : (t('nearbyFriendsFriend') || 'ami')} ${t('nearbyFriendsNearbyText') || 'à proximité'}</p>
           </div>
           <button
             onclick="closeNearbyFriendsList()"
             class="p-2 rounded-full hover:bg-white/10 transition-colors"
-            aria-label="Fermer"
+            aria-label="${t('close') || 'Fermer'}"
           >
             <i class="fas fa-times" aria-hidden="true"></i>
           </button>
@@ -392,14 +394,14 @@ export function renderNearbyFriendsList(state) {
                       <button
                         onclick="openFriendChat('${friend.userId}')"
                         class="p-2 rounded-lg bg-primary-500/20 text-primary-400 hover:bg-primary-500/30 transition-colors"
-                        aria-label="Envoyer un message"
+                        aria-label="${t('sendMessage') || 'Envoyer un message'}"
                       >
                         <i class="fas fa-comment" aria-hidden="true"></i>
                       </button>
                       <button
                         onclick="showFriendOnMap('${friend.userId}')"
                         class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
-                        aria-label="Voir sur la carte"
+                        aria-label="${t('showOnMap') || 'Voir sur la carte'}"
                       >
                         <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                       </button>
@@ -411,7 +413,7 @@ export function renderNearbyFriendsList(state) {
           ` : `
             <div class="p-8 text-center text-slate-400">
               <i class="fas fa-user-friends text-3xl mb-2" aria-hidden="true"></i>
-              <p>Aucun ami à proximité</p>
+              <p>${t('nearbyFriendsEmpty') || 'Aucun ami à proximité'}</p>
             </div>
           `}
         </div>
@@ -419,7 +421,7 @@ export function renderNearbyFriendsList(state) {
         <!-- Settings -->
         <div class="p-4 border-t border-white/10">
           <div class="flex items-center justify-between mb-3">
-            <span class="text-sm text-slate-400">Rayon de notification</span>
+            <span class="text-sm text-slate-400">${t('nearbyFriendsRadius') || 'Rayon de notification'}</span>
             <select
               onchange="setNotificationRadius(Number(this.value))"
               class="bg-white/10 rounded-lg px-3 py-1 text-sm"
@@ -431,7 +433,7 @@ export function renderNearbyFriendsList(state) {
             </select>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm text-slate-400">Partager ma position</span>
+            <span class="text-sm text-slate-400">${t('nearbyFriendsShareLocation') || 'Partager ma position'}</span>
             <button
               onclick="toggleLocationSharing()"
               class="w-12 h-6 rounded-full transition-colors ${state.shareLocationWithFriends ? 'bg-primary-500' : 'bg-white/20'}"
@@ -484,7 +486,7 @@ export function renderNearbyFriendsSettings(state) {
             </select>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-sm text-slate-400">Partager ma position</span>
+            <span class="text-sm text-slate-400">${t('nearbyFriendsShareLocation') || 'Partager ma position'}</span>
             <button
               onclick="toggleLocationSharing()"
               class="w-10 h-5 rounded-full transition-colors ${state.shareLocationWithFriends ? 'bg-primary-500' : 'bg-white/20'}"

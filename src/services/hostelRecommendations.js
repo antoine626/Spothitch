@@ -81,7 +81,7 @@ export async function addRecommendation(cityName, hostelName, category) {
 
   const validCategories = ['party', 'cozy', 'budget']
   if (!validCategories.includes(category)) {
-    showToast('Catégorie invalide', 'error')
+    showToast(t('hostelInvalidCategory') || 'Catégorie invalide', 'error')
     return false
   }
 
@@ -215,7 +215,7 @@ export async function upvoteRecommendation(city, hostelName) {
   )
 
   if (!rec) {
-    showToast('Auberge non trouvée', 'error')
+    showToast(t('hostelNotFound') || 'Auberge non trouvée', 'error')
     return false
   }
 
@@ -287,7 +287,7 @@ export async function renderHostelSection(cityName) {
           🏠 ${t('hostelRecommendations') || 'Auberges recommandées'} à ${cityName}
         </h3>
         <div class="text-center py-6 text-slate-400">
-          <p class="mb-3">Aucune auberge recommandée pour l'instant</p>
+          <p class="mb-3">${t('hostelNoneYet') || 'Aucune auberge recommandée pour l\'instant'}</p>
           <button onclick="openAddHostel('${cityName}')" class="btn-primary">
             <i class="fas fa-plus mr-2" aria-hidden="true"></i>
             ${t('hostelRecommend') || 'Recommander une auberge'}
@@ -305,7 +305,7 @@ export async function renderHostelSection(cityName) {
         </h3>
         <button onclick="openAddHostel('${cityName}')" class="text-sm text-primary-400 hover:text-primary-300">
           <i class="fas fa-plus mr-1" aria-hidden="true"></i>
-          Ajouter
+          ${t('hostelAdd') || 'Ajouter'}
         </button>
       </div>
 
@@ -355,7 +355,7 @@ function renderHostelList(hostels, cityName) {
   if (hostels.length === 0) {
     return `
       <div class="text-center py-6 text-slate-400">
-        <p>Aucune auberge dans cette catégorie</p>
+        <p>${t('hostelNoneInCategory') || 'Aucune auberge dans cette catégorie'}</p>
       </div>
     `
   }
@@ -444,19 +444,19 @@ export function renderAddHostelForm(cityName) {
         </div>
 
         <p class="text-sm text-slate-400 mb-4">
-          à ${cityName}
+          ${t('hostelInCity') || 'à'} ${cityName}
         </p>
 
         <div class="space-y-4">
           <!-- Hostel Name -->
           <div>
             <label for="hostel-name" class="block text-sm text-slate-400 mb-1">
-              Nom de l'auberge
+              ${t('hostelName') || 'Nom de l\'auberge'}
             </label>
             <input
               type="text"
               id="hostel-name"
-              placeholder="Ex: Generator Paris"
+              placeholder="${t('hostelNamePlaceholder') || 'Ex: Generator Paris'}"
               class="input-field w-full"
               required
             />
@@ -465,7 +465,7 @@ export function renderAddHostelForm(cityName) {
           <!-- Category Selection -->
           <div>
             <label class="block text-sm text-slate-400 mb-2">
-              Catégorie
+              ${t('hostelCategory') || 'Catégorie'}
             </label>
             <div class="grid grid-cols-3 gap-2" id="category-selector">
               <button
@@ -474,7 +474,7 @@ export function renderAddHostelForm(cityName) {
                 data-category="party"
               >
                 <div class="text-2xl mb-1">🎉</div>
-                <div class="text-xs">Festif</div>
+                <div class="text-xs">${t('hostelParty') || 'Festif'}</div>
               </button>
               <button
                 onclick="setHostelCategory('cozy')"
@@ -482,7 +482,7 @@ export function renderAddHostelForm(cityName) {
                 data-category="cozy"
               >
                 <div class="text-2xl mb-1">🛋️</div>
-                <div class="text-xs">Cozy</div>
+                <div class="text-xs">${t('hostelCozy') || 'Cozy'}</div>
               </button>
               <button
                 onclick="setHostelCategory('budget')"
@@ -490,7 +490,7 @@ export function renderAddHostelForm(cityName) {
                 data-category="budget"
               >
                 <div class="text-2xl mb-1">💰</div>
-                <div class="text-xs">Pas cher</div>
+                <div class="text-xs">${t('hostelBudget') || 'Pas cher'}</div>
               </button>
             </div>
             <input type="hidden" id="selected-category" value="" />
@@ -502,7 +502,7 @@ export function renderAddHostelForm(cityName) {
             class="btn-primary w-full"
           >
             <i class="fas fa-check mr-2" aria-hidden="true"></i>
-            Recommander
+            ${t('hostelRecommendAction') || 'Recommander'}
           </button>
         </div>
       </div>

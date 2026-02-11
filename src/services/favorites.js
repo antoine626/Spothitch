@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { addPoints } from './gamification.js';
+import { t } from '../i18n/index.js';
 
 /**
  * Add a spot to favorites
@@ -71,11 +72,11 @@ export function removeFavorite(spotId) {
 export function toggleFavorite(spotId) {
   if (isFavorite(spotId)) {
     removeFavorite(spotId);
-    showToast('Retiré des favoris', 'info');
+    showToast(t('favoritesRemoved') || 'Retiré des favoris', 'info');
     return false;
   } else {
     addFavorite(spotId);
-    showToast('Ajouté aux favoris !', 'success');
+    showToast(t('favoritesAdded') || 'Ajouté aux favoris !', 'success');
     return true;
   }
 }
@@ -263,7 +264,7 @@ export function renderFavoriteButton(spotId, size = 'md') {
       onclick="event.stopPropagation(); toggleFavorite(${spotId})"
       class="favorite-btn ${sizeClasses[size]} rounded-full flex items-center justify-center transition-all
         ${favorited ? 'bg-danger-500/20 text-danger-400' : 'bg-white/10 text-white/60 hover:text-danger-400 hover:bg-danger-500/10'}"
-      aria-label="${favorited ? 'Retirer des favoris' : 'Ajouter aux favoris'}"
+      aria-label="${favorited ? (t('favoritesRemoveLabel') || 'Retirer des favoris') : (t('favoritesAddLabel') || 'Ajouter aux favoris')}"
       aria-pressed="${favorited}"
       type="button"
     >
@@ -287,13 +288,13 @@ export function renderFavoritesSection(sortBy = 'date') {
         <div class="w-16 h-16 rounded-full bg-danger-500/20 flex items-center justify-center mx-auto mb-4">
           <i class="fas fa-heart text-danger-400 text-2xl" aria-hidden="true"></i>
         </div>
-        <h3 class="font-semibold mb-2">Pas encore de favoris</h3>
+        <h3 class="font-semibold mb-2">${t('favoritesNone') || 'Pas encore de favoris'}</h3>
         <p class="text-slate-400 text-sm mb-4">
-          Ajoutez vos spots preferes en cliquant sur le coeur
+          ${t('favoritesNoneDesc') || 'Ajoutez vos spots preferes en cliquant sur le coeur'}
         </p>
         <button onclick="changeTab('spots')" class="btn btn-primary">
           <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
-          Explorer les spots
+          ${t('favoritesExplore') || 'Explorer les spots'}
         </button>
       </div>
     `;
@@ -305,7 +306,7 @@ export function renderFavoritesSection(sortBy = 'date') {
       <div class="p-4 border-b border-white/10 flex items-center justify-between">
         <h3 class="font-semibold flex items-center gap-2">
           <i class="fas fa-heart text-danger-400" aria-hidden="true"></i>
-          Mes favoris
+          ${t('favoritesTitle') || 'Mes favoris'}
           <span class="text-sm text-slate-400">(${count})</span>
         </h3>
 
@@ -313,11 +314,11 @@ export function renderFavoritesSection(sortBy = 'date') {
         <select
           onchange="setFavoritesSort(this.value)"
           class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:border-primary-500 outline-none"
-          aria-label="Trier les favoris"
+          aria-label="${t('favoritesSortLabel') || 'Trier les favoris'}"
         >
-          <option value="date" ${sortBy === 'date' ? 'selected' : ''}>Plus recents</option>
-          <option value="rating" ${sortBy === 'rating' ? 'selected' : ''}>Mieux notes</option>
-          <option value="distance" ${sortBy === 'distance' ? 'selected' : ''}>Plus proches</option>
+          <option value="date" ${sortBy === 'date' ? 'selected' : ''}>${t('favoritesSortRecent') || 'Plus recents'}</option>
+          <option value="rating" ${sortBy === 'rating' ? 'selected' : ''}>${t('favoritesSortRating') || 'Mieux notes'}</option>
+          <option value="distance" ${sortBy === 'distance' ? 'selected' : ''}>${t('favoritesSortDistance') || 'Plus proches'}</option>
         </select>
       </div>
 
@@ -333,7 +334,7 @@ export function renderFavoritesSection(sortBy = 'date') {
           class="w-full btn btn-ghost text-sm"
         >
           <i class="fas fa-map mr-2" aria-hidden="true"></i>
-          Voir sur la carte
+          ${t('favoritesShowMap') || 'Voir sur la carte'}
         </button>
       </div>
     </div>
@@ -377,7 +378,7 @@ function renderFavoriteItem(spot) {
             ${spot.globalRating?.toFixed(1) || 'N/A'}
           </span>
           <span>•</span>
-          <span>Ajoute le ${addedDate}</span>
+          <span>${t('favoritesAddedOn') || 'Ajoute le'} ${addedDate}</span>
         </div>
       </div>
 
@@ -385,7 +386,7 @@ function renderFavoriteItem(spot) {
       <button
         onclick="event.stopPropagation(); toggleFavorite(${spot.id})"
         class="w-8 h-8 rounded-full flex items-center justify-center text-danger-400 hover:bg-danger-500/20 transition-all"
-        aria-label="Retirer des favoris"
+        aria-label="${t('favoritesRemoveLabel') || 'Retirer des favoris'}"
         type="button"
       >
         <i class="fas fa-heart" aria-hidden="true"></i>

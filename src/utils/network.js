@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from '../services/notifications.js';
+import { t } from '../i18n/index.js';
 import { Storage } from './storage.js';
 
 // Network state
@@ -49,7 +50,7 @@ function handleOnline() {
   setState({ isOnline: true });
 
   if (wasOffline) {
-    showToast('Connexion rétablie', 'success');
+    showToast(t('connectionRestored') || 'Connexion rétablie', 'success');
     syncOfflineQueue();
   }
 
@@ -62,7 +63,7 @@ function handleOnline() {
 function handleOffline() {
   setState({ isOnline: false });
   wasOffline = true;
-  showToast('Mode hors-ligne activé', 'warning');
+  showToast(t('offlineModeActivated') || 'Mode hors-ligne activé', 'warning');
 }
 
 /**
@@ -112,7 +113,7 @@ export async function syncOfflineQueue() {
 
   if (queue.length === 0) return;
 
-  showToast(`Synchronisation de ${queue.length} action(s)...`, 'info');
+  showToast(t('syncingActions') || `Synchronisation de ${queue.length} action(s)...`, 'info');
 
   const failedActions = [];
 
@@ -129,9 +130,9 @@ export async function syncOfflineQueue() {
   Storage.set(OFFLINE_QUEUE_KEY, failedActions);
 
   if (failedActions.length === 0) {
-    showToast('Synchronisation terminée !', 'success');
+    showToast(t('syncComplete') || 'Synchronisation terminée !', 'success');
   } else {
-    showToast(`${failedActions.length} action(s) non synchronisée(s)`, 'warning');
+    showToast(t('syncFailed') || `${failedActions.length} action(s) non synchronisée(s)`, 'warning');
   }
 }
 
@@ -266,7 +267,7 @@ export function renderOfflineIndicator() {
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3" />
         </svg>
-        Mode hors-ligne
+        ${t('offlineMode') || 'Mode hors-ligne'}
       </span>
     </div>
   `;

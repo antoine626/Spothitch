@@ -6,6 +6,7 @@
 import { getState } from '../stores/state.js'
 import { copyToClipboard } from '../utils/share.js'
 import { showToast } from './notifications.js'
+import { t } from '../i18n/index.js'
 
 const APP_URL = 'https://antoine626.github.io/Spothitch'
 
@@ -59,7 +60,7 @@ export function generateShareCard(spot) {
         color: #64748b;
         text-align: center;
       ">
-        🤙 SpotHitch — La communauté des autostoppeurs
+        🤙 SpotHitch — ${t('shareCardTagline') || 'La communauté des autostoppeurs'}
       </div>
     </div>
   `
@@ -82,7 +83,7 @@ export function showShareModal(spot) {
   const spotName = spot.name || `${spot.from} → ${spot.to}`
   const spotUrl = `${APP_URL}/?spot=${spot.id}`
   const whatsappText = encodeURIComponent(
-    `🚗 Je viens de checker un spot d'autostop : ${spotName} ! 🤙\n\n${spotUrl}`
+    `🚗 ${t('shareCardCheckedSpot') || 'Je viens de checker un spot d\'autostop'} : ${spotName} ! 🤙\n\n${spotUrl}`
   )
 
   const modal = document.createElement('div')
@@ -112,7 +113,7 @@ export function showShareModal(spot) {
       <!-- Header -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h3 style="color: white; font-size: 1.5rem; font-weight: 700; margin: 0;">
-          Partager ton check-in
+          ${t('shareCardTitle') || 'Partager ton check-in'}
         </h3>
         <button onclick="window.closeShareModal()" style="
           background: rgba(255, 255, 255, 0.1);
@@ -150,7 +151,7 @@ export function showShareModal(spot) {
         text-align: center;
       ">
         <span style="color: #60a5fa; font-size: 14px;">
-          📸 Fais une capture d'écran pour partager cette carte !
+          📸 ${t('shareCardScreenshotHint') || 'Fais une capture d\'écran pour partager cette carte !'}
         </span>
       </div>
 
@@ -171,7 +172,7 @@ export function showShareModal(spot) {
         " onmouseover="this.style.background='#20c05c'"
            onmouseout="this.style.background='#25d366'">
           <span style="font-size: 24px;">📱</span>
-          <span>Partager sur WhatsApp</span>
+          <span>${t('shareCardWhatsApp') || 'Partager sur WhatsApp'}</span>
         </a>
 
         <!-- Copy Link -->
@@ -191,7 +192,7 @@ export function showShareModal(spot) {
         " onmouseover="this.style.background='rgba(59, 130, 246, 0.3)'"
            onmouseout="this.style.background='rgba(59, 130, 246, 0.2)'">
           <span style="font-size: 24px;">🔗</span>
-          <span>Copier le lien du spot</span>
+          <span>${t('shareCardCopyLink') || 'Copier le lien du spot'}</span>
         </button>
       </div>
 
@@ -208,7 +209,7 @@ export function showShareModal(spot) {
         transition: all 0.2s;
       " onmouseover="this.style.background='rgba(255,255,255,0.1)'"
          onmouseout="this.style.background='rgba(255,255,255,0.05)'">
-        Fermer
+        ${t('close') || 'Fermer'}
       </button>
     </div>
   `
@@ -259,10 +260,10 @@ export async function copySpotLink(spotId) {
   const url = `${APP_URL}/?spot=${spotId}`
   try {
     await copyToClipboard(url)
-    showToast('Lien copié dans le presse-papier !', 'success')
+    showToast(t('shareCardLinkCopied') || 'Lien copié dans le presse-papier !', 'success')
   } catch (err) {
     console.error('[ShareCard] Failed to copy link:', err)
-    showToast('Erreur lors de la copie', 'error')
+    showToast(t('shareCardCopyError') || 'Erreur lors de la copie', 'error')
   }
 }
 
@@ -282,7 +283,7 @@ export function shareOnWhatsApp(spotId) {
   const spotName = spot.name || `${spot.from} → ${spot.to}`
   const spotUrl = `${APP_URL}/?spot=${spotId}`
   const text = encodeURIComponent(
-    `🚗 Je viens de checker un spot d'autostop : ${spotName} ! 🤙\n\n${spotUrl}`
+    `🚗 ${t('shareCardCheckedSpot') || 'Je viens de checker un spot d\'autostop'} : ${spotName} ! 🤙\n\n${spotUrl}`
   )
 
   window.open(`https://wa.me/?text=${text}`, '_blank', 'noopener,noreferrer')

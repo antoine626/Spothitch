@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 import { addPoints, addSeasonPoints } from './gamification.js';
 
 // Vote types
@@ -37,7 +38,7 @@ export async function submitVote(spotId, voteType, comment = '') {
   // Check if user already voted today
   const voteKey = `vote_${spotId}_${userId}_${new Date().toDateString()}`;
   if (state.recentVotes?.[voteKey]) {
-    showToast('Tu as déjà voté pour ce spot aujourd\'hui', 'warning');
+    showToast(t('alreadyVotedToday') || 'Tu as déjà voté pour ce spot aujourd\'hui', 'warning');
     return false;
   }
 
@@ -120,14 +121,14 @@ export async function submitVote(spotId, voteType, comment = '') {
 
   // Show success message
   const messages = {
-    [VOTE_TYPES.ACCURATE]: 'Merci ! Spot confirmé comme fiable',
-    [VOTE_TYPES.OUTDATED]: 'Signalement enregistré',
-    [VOTE_TYPES.WRONG_LOCATION]: 'Localisation signalée',
-    [VOTE_TYPES.DANGEROUS]: 'Signalement de danger enregistré',
-    [VOTE_TYPES.EXCELLENT]: 'Spot marqué comme excellent !',
+    [VOTE_TYPES.ACCURATE]: t('voteAccurate') || 'Merci ! Spot confirmé comme fiable',
+    [VOTE_TYPES.OUTDATED]: t('voteOutdated') || 'Signalement enregistré',
+    [VOTE_TYPES.WRONG_LOCATION]: t('voteWrongLocation') || 'Localisation signalée',
+    [VOTE_TYPES.DANGEROUS]: t('voteDangerous') || 'Signalement de danger enregistré',
+    [VOTE_TYPES.EXCELLENT]: t('voteExcellent') || 'Spot marqué comme excellent !',
   };
 
-  showToast(messages[voteType] || 'Vote enregistré', 'success');
+  showToast(messages[voteType] || (t('voteRecorded') || 'Vote enregistré'), 'success');
 
   // Fire confetti for excellent votes
   if (voteType === VOTE_TYPES.EXCELLENT && window.launchConfettiBurst) {
@@ -222,13 +223,13 @@ export function getSpotVerification(spotId) {
  */
 export function getStatusBadge(status) {
   const badges = {
-    unverified: { label: 'Non vérifié', color: 'text-slate-400', bg: 'bg-slate-500/20', icon: 'fa-question' },
-    verified: { label: 'Vérifié', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: 'fa-check-circle' },
-    excellent: { label: 'Excellent', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'fa-star' },
-    needs_update: { label: 'À vérifier', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'fa-exclamation-circle' },
-    disputed: { label: 'Contesté', color: 'text-orange-400', bg: 'bg-orange-500/20', icon: 'fa-exclamation-triangle' },
-    dangerous: { label: 'Dangereux', color: 'text-danger-400', bg: 'bg-danger-500/20', icon: 'fa-skull-crossbones' },
-    mixed: { label: 'Avis mitigés', color: 'text-purple-400', bg: 'bg-purple-500/20', icon: 'fa-balance-scale' },
+    unverified: { label: t('statusUnverified') || 'Non vérifié', color: 'text-slate-400', bg: 'bg-slate-500/20', icon: 'fa-question' },
+    verified: { label: t('statusVerified') || 'Vérifié', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: 'fa-check-circle' },
+    excellent: { label: t('statusExcellent') || 'Excellent', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'fa-star' },
+    needs_update: { label: t('statusNeedsUpdate') || 'À vérifier', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'fa-exclamation-circle' },
+    disputed: { label: t('statusDisputed') || 'Contesté', color: 'text-orange-400', bg: 'bg-orange-500/20', icon: 'fa-exclamation-triangle' },
+    dangerous: { label: t('statusDangerous') || 'Dangereux', color: 'text-danger-400', bg: 'bg-danger-500/20', icon: 'fa-skull-crossbones' },
+    mixed: { label: t('statusMixed') || 'Avis mitigés', color: 'text-purple-400', bg: 'bg-purple-500/20', icon: 'fa-balance-scale' },
   };
 
   return badges[status] || badges.unverified;
@@ -260,8 +261,8 @@ export function renderVoteButtons(spotId) {
     return `
       <div class="text-center p-4 bg-white/5 rounded-xl">
         <i class="fas fa-check-circle text-emerald-400 mb-2"></i>
-        <p class="text-sm text-slate-400">Tu as déjà voté aujourd'hui</p>
-        <p class="text-xs text-slate-500 mt-1">Reviens demain pour voter à nouveau</p>
+        <p class="text-sm text-slate-400">${t('alreadyVotedToday') || 'Tu as déjà voté aujourd\'hui'}</p>
+        <p class="text-xs text-slate-500 mt-1">${t('comeBackTomorrow') || 'Reviens demain pour voter à nouveau'}</p>
       </div>
     `;
   }
@@ -270,7 +271,7 @@ export function renderVoteButtons(spotId) {
     <div class="verification-votes space-y-3">
       <h4 class="font-medium text-sm flex items-center gap-2">
         <i class="fas fa-users text-primary-400" aria-hidden="true"></i>
-        Vérifie ce spot
+        ${t('verifyThisSpot') || 'Vérifie ce spot'}
       </h4>
 
       <div class="grid grid-cols-2 gap-2">
@@ -280,7 +281,7 @@ export function renderVoteButtons(spotId) {
         >
           <div class="flex items-center gap-2 mb-1">
             <i class="fas fa-check text-emerald-400"></i>
-            <span class="font-medium text-sm">Toujours bon</span>
+            <span class="font-medium text-sm">${t('stillGood') || 'Toujours bon'}</span>
           </div>
           <span class="text-xs text-slate-400">${verification.votes.accurate} votes</span>
         </button>
@@ -302,7 +303,7 @@ export function renderVoteButtons(spotId) {
         >
           <div class="flex items-center gap-2 mb-1">
             <i class="fas fa-clock text-orange-400"></i>
-            <span class="font-medium text-sm">Plus d'actualité</span>
+            <span class="font-medium text-sm">${t('outdated') || 'Plus d\'actualité'}</span>
           </div>
           <span class="text-xs text-slate-400">${verification.votes.outdated} votes</span>
         </button>
@@ -313,7 +314,7 @@ export function renderVoteButtons(spotId) {
         >
           <div class="flex items-center gap-2 mb-1">
             <i class="fas fa-exclamation-triangle text-danger-400"></i>
-            <span class="font-medium text-sm">Dangereux</span>
+            <span class="font-medium text-sm">${t('dangerous') || 'Dangereux'}</span>
           </div>
           <span class="text-xs text-slate-400">${verification.votes.dangerous} votes</span>
         </button>
@@ -321,7 +322,7 @@ export function renderVoteButtons(spotId) {
 
       <p class="text-xs text-slate-500 text-center">
         <i class="fas fa-info-circle mr-1"></i>
-        Gagne des points en vérifiant les spots !
+        ${t('earnPointsByVerifying') || 'Gagne des points en vérifiant les spots !'}
       </p>
     </div>
   `;

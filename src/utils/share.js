@@ -3,6 +3,8 @@
  * Share spots, achievements, and content on social media
  */
 
+import { t } from '../i18n/index.js'
+
 const APP_URL = 'https://antoine626.github.io/Spothitch';
 
 /**
@@ -35,7 +37,7 @@ export async function share(data) {
  */
 export function shareSpot(spot) {
   const title = `${spot.from} → ${spot.to} | SpotHitch`;
-  const text = `J'ai trouvé un super spot d'autostop ! ${spot.from} → ${spot.to} (${spot.globalRating?.toFixed(1) || '?'}/5) 🚗👍`;
+  const text = t('shareSpotText') || `J'ai trouvé un super spot d'autostop ! ${spot.from} → ${spot.to} (${spot.globalRating?.toFixed(1) || '?'}/5) 🚗👍`;
   const url = `${APP_URL}/?spot=${spot.id}`;
 
   return share({ title, text, url });
@@ -46,8 +48,8 @@ export function shareSpot(spot) {
  * @param {Object} badge - Badge object
  */
 export function shareBadge(badge) {
-  const title = `Badge débloqué : ${badge.name} | SpotHitch`;
-  const text = `${badge.icon} Je viens de débloquer le badge "${badge.name}" sur SpotHitch ! ${badge.description}`;
+  const title = (t('shareBadgeTitle') || 'Badge débloqué :') + ` ${badge.name} | SpotHitch`;
+  const text = `${badge.icon} ${t('shareBadgeText') || 'Je viens de débloquer le badge'} "${badge.name}" ${t('onSpotHitch') || 'sur SpotHitch'} ! ${badge.description}`;
   const url = APP_URL;
 
   return share({ title, text, url });
@@ -58,13 +60,13 @@ export function shareBadge(badge) {
  * @param {Object} stats - User stats
  */
 export function shareStats(stats) {
-  const title = 'Mes stats SpotHitch';
-  const text = `🎯 Mes stats d'autostop:
+  const title = t('shareStatsTitle') || 'Mes stats SpotHitch';
+  const text = `🎯 ${t('shareStatsIntro') || 'Mes stats d\'autostop'}:
 📍 ${stats.checkins || 0} check-ins
-🗺️ ${stats.spotsCreated || 0} spots partagés
-🔥 ${stats.streak || 0} jours de série
-🏆 Niveau ${stats.level || 1}
-Rejoins-moi sur SpotHitch !`;
+🗺️ ${stats.spotsCreated || 0} ${t('spotsShared') || 'spots partagés'}
+🔥 ${stats.streak || 0} ${t('dayStreak') || 'jours de série'}
+🏆 ${t('level') || 'Niveau'} ${stats.level || 1}
+${t('joinMeOnSpotHitch') || 'Rejoins-moi sur SpotHitch !'}`;
   const url = APP_URL;
 
   return share({ title, text, url });
@@ -74,8 +76,8 @@ Rejoins-moi sur SpotHitch !`;
  * Share app invite
  */
 export function shareApp() {
-  const title = 'SpotHitch - La communauté des autostoppeurs';
-  const text = '🚗👍 Découvre SpotHitch, l\'app pour trouver les meilleurs spots d\'autostop dans le monde ! Plus de 100 spots vérifiés, guides par pays, et une communauté active.';
+  const title = t('shareAppTitle') || 'SpotHitch - La communauté des autostoppeurs';
+  const text = t('shareAppText') || '🚗👍 Découvre SpotHitch, l\'app pour trouver les meilleurs spots d\'autostop dans le monde ! Plus de 100 spots vérifiés, guides par pays, et une communauté active.';
   const url = APP_URL;
 
   return share({ title, text, url });
@@ -175,7 +177,7 @@ function showShareModal(data) {
       animation: slideUp 0.3s ease-out;
     ">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h3 style="color: white; font-size: 1.25rem; font-weight: 600;">Partager</h3>
+        <h3 style="color: white; font-size: 1.25rem; font-weight: 600;">${t('share') || 'Partager'}</h3>
         <button onclick="this.closest('.share-modal').remove()" style="
           background: rgba(255,255,255,0.1);
           border: none;
@@ -235,9 +237,9 @@ function showShareModal(data) {
         " id="share-url-input">
         <button onclick="
           navigator.clipboard.writeText('${url}');
-          this.textContent = 'Copié !';
+          this.textContent = '${t('copied') || 'Copié !'}';
           this.style.background = '#10b981';
-          setTimeout(() => { this.textContent = 'Copier'; this.style.background = '#3b82f6'; }, 2000);
+          setTimeout(() => { this.textContent = '${t('copy') || 'Copier'}'; this.style.background = '#3b82f6'; }, 2000);
         " style="
           padding: 8px 16px;
           background: #3b82f6;
@@ -247,7 +249,7 @@ function showShareModal(data) {
           font-weight: 500;
           cursor: pointer;
           transition: background 0.2s;
-        ">Copier</button>
+        ">${t('copy') || 'Copier'}</button>
       </div>
     </div>
   `;

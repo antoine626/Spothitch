@@ -74,7 +74,7 @@ export async function submitReview(spotId) {
     const safeComment = sanitizeInput(comment);
     await saveCommentToFirebase({ spotId, text: safeComment, rating });
     recordReview();
-    showToast('Avis publié !', 'success');
+    showToast(t('reviewPublished') || 'Avis publié !', 'success');
     setState({ showRating: false });
   }
 }
@@ -90,11 +90,11 @@ export function setRating(rating) {
  * Report a spot
  */
 export async function reportSpotAction(spotId) {
-  const reason = prompt('Raison du signalement ?');
+  const reason = prompt(t('reportReasonPrompt') || 'Raison du signalement ?');
   if (reason) {
     const safeReason = sanitizeInput(reason);
     await reportSpot(spotId, safeReason);
-    showToast('Signalement envoyé', 'success');
+    showToast(t('reportSent') || 'Signalement envoyé', 'success');
   }
 }
 

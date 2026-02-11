@@ -3,6 +3,8 @@
  * Form to create a new travel group
  */
 
+import { t } from '../../i18n/index.js';
+
 export function renderCreateTravelGroupModal(state) {
   return `
     <div
@@ -20,52 +22,52 @@ export function renderCreateTravelGroupModal(state) {
         <div class="p-6 space-y-4">
           <h2 id="create-group-title" class="text-xl font-bold flex items-center gap-2">
             <i class="fas fa-users text-primary-400" aria-hidden="true"></i>
-            Creer un groupe de voyage
+            ${t('createTravelGroup') || 'Creer un groupe de voyage'}
           </h2>
 
           <div>
-            <label class="block text-sm text-slate-400 mb-1">Nom du groupe</label>
+            <label class="block text-sm text-slate-400 mb-1">${t('groupName') || 'Nom du groupe'}</label>
             <input
               type="text"
               id="group-name"
               class="input-field w-full"
-              placeholder="Ex: Road trip Portugal"
+              placeholder="${t('groupNamePlaceholder') || 'Ex: Road trip Portugal'}"
             />
           </div>
 
           <div>
-            <label class="block text-sm text-slate-400 mb-1">Description</label>
+            <label class="block text-sm text-slate-400 mb-1">${t('description') || 'Description'}</label>
             <textarea
               id="group-desc"
               class="input-field w-full h-20 resize-none"
-              placeholder="Decrivez votre voyage..."
+              placeholder="${t('describeTrip') || 'Decrivez votre voyage...'}"
             ></textarea>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-sm text-slate-400 mb-1">Depart</label>
+              <label class="block text-sm text-slate-400 mb-1">${t('departure') || 'Depart'}</label>
               <input
                 type="text"
                 id="group-from"
                 class="input-field w-full"
-                placeholder="Paris"
+                placeholder="${t('departurePlaceholder') || 'Paris'}"
               />
             </div>
             <div>
-              <label class="block text-sm text-slate-400 mb-1">Destination</label>
+              <label class="block text-sm text-slate-400 mb-1">${t('destination') || 'Destination'}</label>
               <input
                 type="text"
                 id="group-to"
                 class="input-field w-full"
-                placeholder="Lisbonne"
+                placeholder="${t('destinationPlaceholder') || 'Lisbonne'}"
               />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-sm text-slate-400 mb-1">Date depart</label>
+              <label class="block text-sm text-slate-400 mb-1">${t('departureDate') || 'Date depart'}</label>
               <input
                 type="date"
                 id="group-start"
@@ -73,7 +75,7 @@ export function renderCreateTravelGroupModal(state) {
               />
             </div>
             <div>
-              <label class="block text-sm text-slate-400 mb-1">Max membres</label>
+              <label class="block text-sm text-slate-400 mb-1">${t('maxMembers') || 'Max membres'}</label>
               <select id="group-max" class="input-field w-full">
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -89,14 +91,14 @@ export function renderCreateTravelGroupModal(state) {
             class="btn-primary w-full py-3"
           >
             <i class="fas fa-plus mr-2" aria-hidden="true"></i>
-            Creer le groupe
+            ${t('createGroup') || 'Creer le groupe'}
           </button>
         </div>
 
         <button
           onclick="closeCreateTravelGroup()"
           class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-          aria-label="Fermer"
+          aria-label="${t('close') || 'Fermer'}"
         >
           <i class="fas fa-times" aria-hidden="true"></i>
         </button>
@@ -107,6 +109,7 @@ export function renderCreateTravelGroupModal(state) {
 
 // Global handler
 window.submitCreateTravelGroup = async () => {
+  const { t } = await import('../../i18n/index.js');
   const name = document.getElementById('group-name')?.value?.trim()
   const desc = document.getElementById('group-desc')?.value?.trim()
   const from = document.getElementById('group-from')?.value?.trim()
@@ -115,7 +118,7 @@ window.submitCreateTravelGroup = async () => {
   const maxMembers = parseInt(document.getElementById('group-max')?.value || '4')
 
   if (!name) {
-    window.showToast?.('Donne un nom a ton groupe', 'warning')
+    window.showToast?.(t('giveGroupName') || 'Donne un nom a ton groupe', 'warning')
     return
   }
 
@@ -142,7 +145,7 @@ window.submitCreateTravelGroup = async () => {
     travelGroups: [...groups, newGroup],
     showCreateTravelGroup: false,
   })
-  window.showToast?.(`Groupe "${name}" cree !`, 'success')
+  window.showToast?.(t('groupCreated')?.replace('{name}', name) || `Groupe "${name}" cree !`, 'success')
 }
 
 export default { renderCreateTravelGroupModal }

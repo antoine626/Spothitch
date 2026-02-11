@@ -11,6 +11,7 @@
 
 import { getState, setState } from '../stores/state.js'
 import { showToast } from './notifications.js'
+import { t } from '../i18n/index.js'
 
 // ==================== CONFIGURATION ====================
 
@@ -130,8 +131,8 @@ export function checkNearbySpots(lat, lng) {
       // Send notification
       const distanceText = Math.round(distance) + 'm'
       const rating = spot.globalRating || spot.rating || 0
-      const ratingText = rating > 0 ? ` Note: ${rating.toFixed(1)} ⭐` : ''
-      const message = `📍 Spot d'autostop à ${distanceText} !${ratingText}`
+      const ratingText = rating > 0 ? ` ${t('proximityAlertsRating') || 'Note'}: ${rating.toFixed(1)} ⭐` : ''
+      const message = `📍 ${t('proximityAlertsSpotAt') || 'Spot d\'autostop à'} ${distanceText} !${ratingText}`
 
       showToast(message, 'info', 6000)
 
@@ -240,7 +241,7 @@ export function setProximityRadius(meters) {
   const settings = getSettings()
   settings.radius = proximityRadius
   saveSettings(settings)
-  showToast(`Rayon de proximité: ${proximityRadius}m`, 'info')
+  showToast(`${t('proximityAlertsRadius') || 'Rayon de proximité'}: ${proximityRadius}m`, 'info')
   console.log('[ProximityAlerts] Radius set to', proximityRadius + 'm')
 }
 
@@ -256,10 +257,10 @@ export function toggleProximityAlerts() {
 
   if (isEnabled) {
     startWatching()
-    showToast('Alertes de proximité activées', 'success')
+    showToast(t('proximityAlertsEnabled') || 'Alertes de proximité activées', 'success')
   } else {
     stopWatching()
-    showToast('Alertes de proximité désactivées', 'info')
+    showToast(t('proximityAlertsDisabled') || 'Alertes de proximité désactivées', 'info')
   }
 
   return isEnabled

@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from '../services/notifications.js';
+import { t } from '../i18n/index.js';
 
 // Store the deferred install prompt
 let deferredPrompt = null;
@@ -30,7 +31,7 @@ export function initPWA() {
   window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
     setState({ isPWAInstalled: true });
-    showToast('Application installée !', 'success');
+    showToast(t('appInstalled') || 'Application installée !', 'success');
     dismissInstallBanner();
   });
 
@@ -106,7 +107,7 @@ export async function installPWA() {
 
     if (outcome === 'accepted') {
       localStorage.setItem('pwa_installed', 'true');
-      showToast('Installation en cours...', 'info');
+      showToast(t('installingApp') || 'Installation en cours...', 'info');
     }
 
     deferredPrompt = null;
@@ -127,15 +128,15 @@ function showManualInstallInstructions() {
   let instructions = '';
 
   if (/iphone|ipad|ipod/.test(ua)) {
-    instructions = 'Appuyez sur le bouton Partager puis "Sur l\'écran d\'accueil"';
+    instructions = t('pwaInstallIOS') || 'Appuyez sur le bouton Partager puis "Sur l\'écran d\'accueil"';
   } else if (/android/.test(ua)) {
-    instructions = 'Appuyez sur le menu (⋮) puis "Ajouter à l\'écran d\'accueil"';
+    instructions = t('pwaInstallAndroid') || 'Appuyez sur le menu (⋮) puis "Ajouter à l\'écran d\'accueil"';
   } else if (/chrome/.test(ua)) {
-    instructions = 'Cliquez sur l\'icône d\'installation dans la barre d\'adresse';
+    instructions = t('pwaInstallChrome') || 'Cliquez sur l\'icône d\'installation dans la barre d\'adresse';
   } else if (/firefox/.test(ua)) {
-    instructions = 'Ce navigateur ne supporte pas l\'installation PWA';
+    instructions = t('pwaInstallFirefox') || 'Ce navigateur ne supporte pas l\'installation PWA';
   } else {
-    instructions = 'Utilisez Chrome ou Safari pour installer l\'application';
+    instructions = t('pwaInstallOther') || 'Utilisez Chrome ou Safari pour installer l\'application';
   }
 
   showToast(instructions, 'info', 8000);
@@ -157,22 +158,22 @@ export function renderInstallBanner() {
           <span class="text-2xl">📲</span>
         </div>
         <div class="flex-1">
-          <h3 class="text-white font-bold text-sm">Installer SpotHitch</h3>
-          <p class="text-white/80 text-xs">Accès rapide et mode hors-ligne</p>
+          <h3 class="text-white font-bold text-sm">${t('installSpotHitch') || 'Installer SpotHitch'}</h3>
+          <p class="text-white/80 text-xs">${t('installDescription') || 'Accès rapide et mode hors-ligne'}</p>
         </div>
         <div class="flex gap-2">
           <button
             onclick="dismissInstallBanner()"
             class="px-3 py-2 text-white/80 text-sm hover:text-white"
           >
-            Plus tard
+            ${t('later') || 'Plus tard'}
           </button>
           <button
             onclick="installPWA()"
             class="px-4 py-2 bg-white text-sky-600 rounded-lg text-sm font-semibold
                    hover:bg-sky-50 transition-colors"
           >
-            Installer
+            ${t('install') || 'Installer'}
           </button>
         </div>
       </div>

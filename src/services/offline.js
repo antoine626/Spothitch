@@ -4,6 +4,7 @@
  */
 
 import { Storage } from '../utils/storage.js';
+import { t } from '../i18n/index.js';
 
 // Offline state
 let isOffline = !navigator.onLine;
@@ -41,7 +42,7 @@ function createOfflineIndicator() {
   offlineIndicator.setAttribute('role', 'alert');
   offlineIndicator.setAttribute('aria-live', 'assertive');
   offlineIndicator.innerHTML = `
-    <span>📡 Mode hors-ligne - Certaines fonctionnalités sont limitées</span>
+    <span>📡 ${t('offlineMode') || 'Mode hors-ligne - Certaines fonctionnalités sont limitées'}</span>
   `;
   document.body.prepend(offlineIndicator);
 }
@@ -55,7 +56,7 @@ function handleOnline() {
   syncPendingActions();
 
   // Announce to screen readers
-  announceToSR('Connexion rétablie');
+  announceToSR(t('offlineConnectionRestored') || 'Connexion rétablie');
 }
 
 /**
@@ -66,7 +67,7 @@ function handleOffline() {
   showOfflineIndicator();
 
   // Announce to screen readers
-  announceToSR('Mode hors-ligne activé');
+  announceToSR(t('offlineModeActivated') || 'Mode hors-ligne activé');
 }
 
 /**

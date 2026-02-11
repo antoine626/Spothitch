@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js';
 import { addPoints, addSeasonPoints, checkBadges } from './gamification.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 
 // Quiz questions database
 export const quizQuestions = [
@@ -373,13 +374,13 @@ export function finishQuiz() {
   // Check for quiz master badge
   if (isPerfect) {
     checkBadges();
-    showToast('🧠 Score parfait ! Quiz Master débloqué !', 'success');
+    showToast(t('quizPerfectScore') || '🧠 Score parfait ! Quiz Master débloqué !', 'success');
   } else if (percentage >= 80) {
-    showToast(`🎉 Excellent ! ${percentage}% de bonnes réponses !`, 'success');
+    showToast(t('quizExcellent') || `🎉 Excellent ! ${percentage}% !`, 'success');
   } else if (percentage >= 60) {
-    showToast(`👍 Bien joué ! ${percentage}% de bonnes réponses`, 'info');
+    showToast(t('quizGood') || `👍 Bien joué ! ${percentage}%`, 'info');
   } else {
-    showToast(`📚 ${percentage}% - Continue de t'entraîner !`, 'info');
+    showToast(t('quizKeepPracticing') || `📚 ${percentage}% - Continue !`, 'info');
   }
 
   return result;

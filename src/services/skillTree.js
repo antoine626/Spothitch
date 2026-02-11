@@ -6,38 +6,49 @@
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { launchConfetti } from '../utils/confetti.js';
+import { t } from '../i18n/index.js';
 
-// Skill categories
+// Skill categories - names and descriptions now use translation keys
 export const SKILL_CATEGORIES = {
   EXPLORER: {
     id: 'explorer',
-    name: 'Explorateur',
-    description: 'Compétences de voyage et découverte',
+    nameKey: 'skillCatExplorer',
+    descKey: 'skillCatExplorerDesc',
     icon: 'fa-compass',
     color: 'from-blue-500 to-cyan-400',
   },
   SOCIAL: {
     id: 'social',
-    name: 'Social',
-    description: 'Compétences de communication',
+    nameKey: 'skillCatSocial',
+    descKey: 'skillCatSocialDesc',
     icon: 'fa-users',
     color: 'from-purple-500 to-pink-400',
   },
   SURVIVOR: {
     id: 'survivor',
-    name: 'Survivaliste',
-    description: 'Compétences de survie et sécurité',
+    nameKey: 'skillCatSurvivor',
+    descKey: 'skillCatSurvivorDesc',
     icon: 'fa-shield-alt',
     color: 'from-emerald-500 to-green-400',
   },
   VETERAN: {
     id: 'veteran',
-    name: 'Vétéran',
-    description: 'Compétences avancées',
+    nameKey: 'skillCatVeteran',
+    descKey: 'skillCatVeteranDesc',
     icon: 'fa-crown',
     color: 'from-amber-500 to-orange-400',
   },
 };
+
+// Helper to get translated category name
+function getCategoryName(category) {
+  return t(category.nameKey) || category.nameKey;
+}
+
+// Helper to get translated category description
+function getCategoryDesc(category) {
+  return t(category.descKey) || category.descKey;
+}
 
 // Skill tree definition
 export const SKILLS = {
@@ -259,14 +270,14 @@ export function getSkillPoints() {
  */
 export function canUnlockSkill(skillId) {
   const skill = SKILLS[skillId];
-  if (!skill) return { canUnlock: false, reason: 'Compétence introuvable' };
+  if (!skill) return { canUnlock: false, reason: t('skillNotFound') || 'Compétence introuvable' };
 
   const unlockedSkills = getUnlockedSkills();
   const skillPoints = getSkillPoints();
 
   // Already unlocked
   if (unlockedSkills.includes(skillId)) {
-    return { canUnlock: false, reason: 'Déjà débloquée' };
+    return { canUnlock: false, reason: t('skillAlreadyUnlocked') || 'Déjà débloquée' };
   }
 
   // Check requirements
@@ -279,7 +290,7 @@ export function canUnlockSkill(skillId) {
       .join(', ');
     return {
       canUnlock: false,
-      reason: `Requiert: ${missingNames}`,
+      reason: `${t('skillRequires') || 'Requiert'}: ${missingNames}`,
     };
   }
 
@@ -287,7 +298,7 @@ export function canUnlockSkill(skillId) {
   if (skillPoints < skill.cost) {
     return {
       canUnlock: false,
-      reason: `Pas assez de points (${skillPoints}/${skill.cost})`,
+      reason: (t('skillNotEnoughPoints') || 'Pas assez de points ({current}/{needed})').replace('{current}', skillPoints).replace('{needed}', skill.cost),
     };
   }
 
@@ -324,7 +335,7 @@ export function unlockSkill(skillId) {
 
   // Celebrate
   launchConfetti();
-  showToast(`🎯 Compétence "${skill.name}" débloquée !`, 'success');
+  showToast((t('skillUnlocked') || '🎯 Compétence "{name}" débloquée !').replace('{name}', skill.name), 'success');
 
   return true;
 }
@@ -377,7 +388,7 @@ export function awardSkillPoints(amount, reason = '') {
   setState({ skillPoints: newPoints });
 
   if (reason) {
-    showToast(`+${amount} points de compétence: ${reason}`, 'info');
+    showToast((t('skillPointsAwarded') || '+{n} points de compétence: {reason}').replace('{n}', amount).replace('{reason}', reason), 'info');
   }
 }
 
@@ -427,12 +438,12 @@ export function renderSkillTree(state) {
       <!-- Header -->
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-xl font-bold">Arbre de compétences</h2>
-          <p class="text-sm text-slate-400">${progress.unlocked}/${progress.total} débloquées</p>
+          <h2 class="text-xl font-bold">${t('skillTreeTitle') || 'Arbre de compétences'}</h2>
+          <p class="text-sm text-slate-400">${progress.unlocked}/${progress.total} ${t('skillTreeUnlocked') || 'débloquées'}</p>
         </div>
         <div class="text-right">
           <div class="text-2xl font-bold text-primary-400">${skillPoints}</div>
-          <div class="text-xs text-slate-400">Points disponibles</div>
+          <div class="text-xs text-slate-400">${t('skillTreePointsAvailable') || 'Points disponibles'}</div>
         </div>
       </div>
 
@@ -462,8 +473,8 @@ export function renderSkillTree(state) {
                     <i class="fas ${category.icon} text-white" aria-hidden="true"></i>
                   </div>
                   <div class="flex-1">
-                    <h3 class="font-bold text-white">${category.name}</h3>
-                    <p class="text-white/70 text-sm">${category.description}</p>
+                    <h3 class="font-bold text-white">${getCategoryName(category)}</h3>
+                    <p class="text-white/70 text-sm">${getCategoryDesc(category)}</p>
                   </div>
                   <div class="text-white/80 text-sm">
                     ${catProgress.unlocked}/${catProgress.total}
@@ -531,8 +542,8 @@ export function renderSkillSummary() {
   return `
     <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl p-4">
       <div class="flex items-center justify-between mb-3">
-        <h3 class="font-semibold">Compétences</h3>
-        <span class="text-sm text-purple-400">${skillPoints} pts</span>
+        <h3 class="font-semibold">${t('skillTreeCompetences') || 'Compétences'}</h3>
+        <span class="text-sm text-purple-400">${skillPoints} ${t('skillTreePts') || 'pts'}</span>
       </div>
       <div class="flex items-center gap-4">
         <div class="flex-1">
@@ -549,7 +560,7 @@ export function renderSkillSummary() {
         onclick="openSkillTree()"
         class="text-sm text-purple-400 hover:text-purple-300 mt-3 transition-colors"
       >
-        Voir l'arbre →
+        ${t('skillTreeViewTree') || 'Voir l\'arbre'} →
       </button>
     </div>
   `;

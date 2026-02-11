@@ -47,8 +47,8 @@ function renderQuizIntro() {
         <!-- Header -->
         <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-6 text-center">
           <div class="text-5xl mb-3" aria-hidden="true">🧠</div>
-          <h2 id="quiz-title" class="text-2xl font-bold text-white">Quiz Autostop</h2>
-          <p class="text-white/80 mt-1">Teste tes connaissances !</p>
+          <h2 id="quiz-title" class="text-2xl font-bold text-white">${t('quizTitle') || 'Quiz Autostop'}</h2>
+          <p class="text-white/80 mt-1">${t('quizSubtitle') || 'Teste tes connaissances !'}</p>
         </div>
 
         <!-- Content -->
@@ -56,15 +56,15 @@ function renderQuizIntro() {
           <div class="space-y-4 mb-6">
             <div class="flex items-center gap-3 text-gray-300">
               <span class="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400">5</span>
-              <span>Questions aléatoires</span>
+              <span>${t('quizRandomQuestions') || 'Questions aléatoires'}</span>
             </div>
             <div class="flex items-center gap-3 text-gray-300">
               <span class="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400">⏱️</span>
-              <span>60 secondes max</span>
+              <span>${t('quizTimeLimit') || '60 secondes max'}</span>
             </div>
             <div class="flex items-center gap-3 text-gray-300">
               <span class="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400">🏆</span>
-              <span>Gagne jusqu'à 100 points</span>
+              <span>${t('quizMaxPoints') || 'Gagne jusqu\'à 100 points'}</span>
             </div>
           </div>
 
@@ -72,13 +72,13 @@ function renderQuizIntro() {
                   class="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white
                          font-bold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all"
                   type="button">
-            Commencer le Quiz
+            ${t('startQuiz') || 'Commencer le Quiz'}
           </button>
 
           <button onclick="closeQuiz()"
                   class="w-full py-3 text-gray-400 hover:text-white mt-2"
                   type="button">
-            Annuler
+            ${t('cancel') || 'Annuler'}
           </button>
         </div>
       </div>
@@ -106,7 +106,7 @@ function renderQuizQuestion(question, quizState) {
         <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-4">
           <div class="flex justify-between items-center mb-3">
             <span class="text-white font-bold">
-              Question ${quizState.currentIndex + 1}/${quizState.questions.length}
+              ${t('questionNumber')?.replace('{current}', quizState.currentIndex + 1).replace('{total}', quizState.questions.length) || `Question ${quizState.currentIndex + 1}/${quizState.questions.length}`}
             </span>
             <span class="flex items-center gap-2 text-white font-bold">
               <span class="animate-pulse">⏱️</span>
@@ -131,7 +131,7 @@ function renderQuizQuestion(question, quizState) {
                              hover:bg-purple-500/30 hover:border-purple-500 border-2 border-transparent
                              transition-all"
                       type="button"
-                      aria-label="Reponse ${['A', 'B', 'C', 'D'][index]}: ${option}">
+                      aria-label="${t('answer') || 'Reponse'} ${['A', 'B', 'C', 'D'][index]}: ${option}">
                 <span class="inline-flex items-center justify-center w-8 h-8 rounded-full
                              bg-gray-700 text-gray-300 mr-3 font-bold" aria-hidden="true">
                   ${['A', 'B', 'C', 'D'][index]}
@@ -143,7 +143,7 @@ function renderQuizQuestion(question, quizState) {
 
           <!-- Score -->
           <div class="mt-6 text-center text-gray-400">
-            Score actuel : <span class="text-white font-bold">${quizState.score}</span> points
+            ${t('currentScore') || 'Score actuel'} : <span class="text-white font-bold">${quizState.score}</span> ${t('points') || 'points'}
           </div>
         </div>
       </div>
@@ -158,11 +158,11 @@ function renderQuizResult(result) {
   const { percentage, isPerfect, correctAnswers, totalQuestions, totalPoints, timeTaken } = result;
 
   const getMessage = () => {
-    if (isPerfect) return { emoji: '🏆', title: 'Parfait !', subtitle: 'Tu es un vrai pro du stop !' };
-    if (percentage >= 80) return { emoji: '🎉', title: 'Excellent !', subtitle: 'Tu connais bien le sujet !' };
-    if (percentage >= 60) return { emoji: '👍', title: 'Bien joué !', subtitle: 'Continue de progresser !' };
-    if (percentage >= 40) return { emoji: '🤔', title: 'Pas mal', subtitle: 'Il y a encore du travail' };
-    return { emoji: '📚', title: 'À réviser', subtitle: 'Consulte les guides pour t\'améliorer' };
+    if (isPerfect) return { emoji: '🏆', title: t('quizPerfect') || 'Parfait !', subtitle: t('quizPerfectSubtitle') || 'Tu es un vrai pro du stop !' };
+    if (percentage >= 80) return { emoji: '🎉', title: t('quizExcellent') || 'Excellent !', subtitle: t('quizExcellentSubtitle') || 'Tu connais bien le sujet !' };
+    if (percentage >= 60) return { emoji: '👍', title: t('quizWellDone') || 'Bien joué !', subtitle: t('quizWellDoneSubtitle') || 'Continue de progresser !' };
+    if (percentage >= 40) return { emoji: '🤔', title: t('quizNotBad') || 'Pas mal', subtitle: t('quizNotBadSubtitle') || 'Il y a encore du travail' };
+    return { emoji: '📚', title: t('quizNeedsReview') || 'À réviser', subtitle: t('quizNeedsReviewSubtitle') || 'Consulte les guides pour t\'améliorer' };
   };
 
   const message = getMessage();
@@ -183,30 +183,30 @@ function renderQuizResult(result) {
           <div class="grid grid-cols-3 gap-4 mb-6">
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${percentage}%</div>
-              <div class="text-xs text-gray-500">Score</div>
+              <div class="text-xs text-gray-500">${t('score') || 'Score'}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${correctAnswers}/${totalQuestions}</div>
-              <div class="text-xs text-gray-500">Correct</div>
+              <div class="text-xs text-gray-500">${t('correct') || 'Correct'}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${timeTaken}s</div>
-              <div class="text-xs text-gray-500">Temps</div>
+              <div class="text-xs text-gray-500">${t('time') || 'Temps'}</div>
             </div>
           </div>
 
           <!-- Points Earned -->
           <div class="bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30
                       rounded-xl p-4 text-center mb-6">
-            <div class="text-amber-400 text-sm">Points gagnés</div>
+            <div class="text-amber-400 text-sm">${t('pointsEarned') || 'Points gagnés'}</div>
             <div class="text-3xl font-bold text-white">+${totalPoints}</div>
           </div>
 
           ${isPerfect ? `
             <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30
                         rounded-xl p-4 text-center mb-6">
-              <div class="text-purple-400 text-sm">Badge débloqué !</div>
-              <div class="text-2xl mt-1">🧠 Quiz Master</div>
+              <div class="text-purple-400 text-sm">${t('badgeUnlocked') || 'Badge débloqué !'}</div>
+              <div class="text-2xl mt-1">🧠 ${t('quizMasterBadge') || 'Quiz Master'}</div>
             </div>
           ` : ''}
 
@@ -215,11 +215,11 @@ function renderQuizResult(result) {
             <button onclick="retryQuiz()"
                     class="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white
                            font-bold rounded-xl hover:from-purple-600 hover:to-pink-600">
-              Rejouer
+              ${t('playAgain') || 'Rejouer'}
             </button>
             <button onclick="closeQuiz()"
                     class="w-full py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-700">
-              Fermer
+              ${t('close') || 'Fermer'}
             </button>
           </div>
         </div>
@@ -240,7 +240,7 @@ export function renderAnswerFeedback(isCorrect, explanation) {
         <div class="flex items-center gap-3">
           <span class="text-2xl">${isCorrect ? '✅' : '❌'}</span>
           <div>
-            <div class="font-bold">${isCorrect ? 'Correct !' : 'Faux'}</div>
+            <div class="font-bold">${isCorrect ? (t('quizCorrect') || 'Correct !') : (t('quizWrong') || 'Faux')}</div>
             <div class="text-sm text-white/80">${explanation}</div>
           </div>
         </div>

@@ -147,7 +147,8 @@ window.completeWelcome = async () => {
 
   // Show success toast
   const { showSuccess } = await import('../../services/notifications.js');
-  showSuccess(`Bienvenue ${username} !`);
+  const { t } = await import('../../i18n/index.js');
+  showSuccess(t('welcomeUser')?.replace('{username}', username) || `Bienvenue ${username} !`);
 };
 
 window.skipWelcome = async () => {

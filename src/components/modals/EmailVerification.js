@@ -244,7 +244,7 @@ window.resendVerificationEmail = async () => {
     const { showError } = await import('../../services/notifications.js');
 
     const errorMessages = {
-      'auth/too-many-requests': 'Trop de tentatives. Réessaie plus tard.',
+      'auth/too-many-requests': t('authTooManyRequests') || 'Trop de tentatives. Réessaie plus tard.',
       'auth/user-not-found': t('emailVerificationError'),
       'auth/invalid-user': t('emailVerificationError'),
     };

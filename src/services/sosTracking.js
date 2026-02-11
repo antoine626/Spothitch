@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 
 // Tracking configuration
 const TRACKING_CONFIG = {
@@ -27,7 +28,7 @@ let trackingListeners = [];
  */
 export async function startSOSTracking(options = {}) {
   if (!navigator.geolocation) {
-    showToast('GPS non disponible', 'error');
+    showToast(t('gpsNotAvailable') || 'GPS non disponible', 'error');
     return null;
   }
 
@@ -39,10 +40,10 @@ export async function startSOSTracking(options = {}) {
     id: trackingSessionId,
     startTime: new Date().toISOString(),
     userId: getState().user?.uid || 'anonymous',
-    userName: getState().username || 'Utilisateur',
+    userName: getState().username || (t('user') || 'Utilisateur'),
     userAvatar: getState().avatar || '🤙',
     status: 'active',
-    reason: options.reason || 'SOS activé',
+    reason: options.reason || (t('sosActivated') || 'SOS activé'),
     positions: [],
     contacts: options.contacts || getState().emergencyContacts || [],
   };
@@ -68,7 +69,7 @@ export async function startSOSTracking(options = {}) {
   // Notify emergency contacts
   notifyContacts(session);
 
-  showToast('🆘 Partage de position activé', 'warning');
+  showToast(t('sosLocationSharingActive') || '🆘 Partage de position activé', 'warning');
 
   return trackingSessionId;
 }
@@ -103,7 +104,7 @@ export function stopSOSTracking() {
   trackingSessionId = null;
   lastPosition = null;
 
-  showToast('✅ Position partagée arrêtée - Vous êtes en sécurité', 'success');
+  showToast(t('sosSharingStopped') || '✅ Position partagée arrêtée - Vous êtes en sécurité', 'success');
 }
 
 /**
@@ -157,14 +158,14 @@ function handlePositionError(error) {
 
   switch (error.code) {
     case error.PERMISSION_DENIED:
-      showToast('Accès GPS refusé', 'error');
+      showToast(t('gpsAccessDenied') || 'Accès GPS refusé', 'error');
       stopSOSTracking();
       break;
     case error.POSITION_UNAVAILABLE:
-      showToast('Position indisponible', 'warning');
+      showToast(t('positionUnavailable') || 'Position indisponible', 'warning');
       break;
     case error.TIMEOUT:
-      showToast('Délai GPS dépassé', 'warning');
+      showToast(t('gpsTimeout') || 'Délai GPS dépassé', 'warning');
       break;
   }
 }
@@ -198,7 +199,7 @@ function notifyContacts(session) {
   const contacts = session.contacts || [];
 
   if (contacts.length === 0) {
-    showToast('Aucun contact d\'urgence configuré', 'warning');
+    showToast(t('noEmergencyContacts') || 'Aucun contact d\'urgence configuré', 'warning');
     return;
   }
 
@@ -213,8 +214,8 @@ function notifyContacts(session) {
   // Offer to share via native share API
   if (navigator.share) {
     navigator.share({
-      title: 'SOS SpotHitch - Position en temps réel',
-      text: `${session.userName} a activé le mode SOS. Suivez sa position en temps réel :`,
+      title: t('sosShareTitle') || 'SOS SpotHitch - Position en temps réel',
+      text: t('sosShareText') || `${session.userName} a activé le mode SOS. Suivez sa position en temps réel :`,
       url: shareUrl,
     }).catch(console.error);
   }
@@ -293,9 +294,9 @@ export function renderSOSTrackingWidget(state) {
           🆘
         </div>
         <div class="flex-1">
-          <div class="font-bold text-white">SOS Actif</div>
+          <div class="font-bold text-white">${t('sosActive') || 'SOS Actif'}</div>
           <div class="text-white/80 text-sm">
-            Position partagée • ${formatDuration(duration)}
+            ${t('positionShared') || 'Position partagée'} • ${formatDuration(duration)}
           </div>
           ${lastPos ? `
             <div class="text-white/60 text-xs mt-1">
@@ -309,7 +310,7 @@ export function renderSOSTrackingWidget(state) {
           onclick="stopSOSTracking()"
           class="px-4 py-2 rounded-lg bg-white text-danger-500 font-bold text-sm hover:bg-white/90 transition-all"
         >
-          Je suis en sécurité
+          ${t('iAmSafe') || 'Je suis en sécurité'}
         </button>
       </div>
 
@@ -320,14 +321,14 @@ export function renderSOSTrackingWidget(state) {
           class="flex-1 py-2 rounded-lg bg-white/20 text-white text-sm font-medium hover:bg-white/30 transition-all"
         >
           <i class="fas fa-share-alt mr-2"></i>
-          Partager le lien
+          ${t('shareLink') || 'Partager le lien'}
         </button>
         <button
           onclick="callEmergency()"
           class="flex-1 py-2 rounded-lg bg-white text-danger-500 text-sm font-bold hover:bg-white/90 transition-all"
         >
           <i class="fas fa-phone mr-2"></i>
-          Appeler 112
+          ${t('callEmergency') || 'Appeler 112'}
         </button>
       </div>
     </div>
@@ -352,13 +353,13 @@ window.shareSOSLink = () => {
     const url = generateShareUrl(session.id);
     if (navigator.share) {
       navigator.share({
-        title: 'Position SOS en temps réel',
-        text: 'Suivez ma position en temps réel :',
+        title: t('sosShareTitle') || 'Position SOS en temps réel',
+        text: t('sosShareFollowText') || 'Suivez ma position en temps réel :',
         url,
       });
     } else {
       navigator.clipboard.writeText(url);
-      showToast('Lien copié !', 'success');
+      showToast(t('linkCopied') || 'Lien copié !', 'success');
     }
   }
 };

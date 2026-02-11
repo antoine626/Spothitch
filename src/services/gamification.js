@@ -8,6 +8,7 @@ import { allBadges, getEarnedBadges, getBadgeById } from '../data/badges.js';
 import { vipLevels, leagues, getVipLevel, getNextVipLevel, getLeague, getNextLeague } from '../data/vip-levels.js';
 import { getTitleForLevel, checkTitleChange, getNextTitle, getTitleProgress, getUnlockedTitles, getLockedTitles, getAllTitles } from '../data/titles.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 
 /**
  * Add points to user's total
@@ -39,7 +40,7 @@ export function addPoints(pts, reason = '') {
     if (window.showLevelUp) {
       window.showLevelUp(newLevel);
     } else {
-      showToast(`Niveau ${newLevel} atteint !`, 'success');
+      showToast(t('levelReached') || `Niveau ${newLevel} atteint !`, 'success');
     }
 
     // Check for title change
@@ -53,12 +54,12 @@ export function addPoints(pts, reason = '') {
   const newVipLevel = getVipLevel(newPoints);
   if (newVipLevel.id !== vipLevel.id) {
     if (window.showSuccessAnimation) {
-      window.showSuccessAnimation(`Nouveau niveau VIP : ${newVipLevel.name} !`, {
+      window.showSuccessAnimation((t('newVipLevel') || 'Nouveau niveau VIP :') + ` ${newVipLevel.name} !`, {
         emoji: newVipLevel.icon,
         confetti: true,
       });
     } else {
-      showToast(`${newVipLevel.icon} Nouveau niveau VIP : ${newVipLevel.name} !`, 'success');
+      showToast(`${newVipLevel.icon} ${t('newVipLevel') || 'Nouveau niveau VIP :'} ${newVipLevel.name} !`, 'success');
     }
   }
 
@@ -84,7 +85,7 @@ export function addSeasonPoints(pts) {
   // Check for league promotion
   const newLeague = getLeague(newSeasonPoints);
   if (newLeague.id !== currentLeague.id) {
-    showToast(`${newLeague.icon} Promu en ligue ${newLeague.name} !`, 'success');
+    showToast(`${newLeague.icon} ${t('promotedToLeague') || 'Promu en ligue'} ${newLeague.name} !`, 'success');
   }
 
   return newSeasonPoints;
@@ -220,7 +221,7 @@ function showBadgePopup(badge) {
   if (window.showBadgeUnlock) {
     window.showBadgeUnlock(badge);
   } else {
-    showToast(`${badge.icon} Badge débloqué : ${badge.name}`, 'success', 5000);
+    showToast(`${badge.icon} ${t('badgeUnlocked') || 'Badge débloqué :'} ${badge.name}`, 'success', 5000);
   }
 
   // Store for modal display
@@ -245,12 +246,12 @@ function showTitleUnlock(title) {
   if (window.showTitleUnlock) {
     window.showTitleUnlock(title);
   } else if (window.showSuccessAnimation) {
-    window.showSuccessAnimation(`Nouveau titre : ${title.name} !`, {
+    window.showSuccessAnimation((t('newTitle') || 'Nouveau titre :') + ` ${title.name} !`, {
       emoji: title.emoji,
       confetti: true,
     });
   } else {
-    showToast(`${title.emoji} Nouveau titre : ${title.name} !`, 'success', 5000);
+    showToast(`${title.emoji} ${t('newTitle') || 'Nouveau titre :'} ${title.name} !`, 'success', 5000);
   }
 
   // Store for modal display
@@ -380,7 +381,7 @@ export function updateStreak() {
 
   // Streak milestones
   if (newStreak === 7 || newStreak === 30 || newStreak === 100) {
-    showToast(`🔥 Série de ${newStreak} jours !`, 'success');
+    showToast(`🔥 ${t('streakDays') || 'Série de'} ${newStreak} ${t('days') || 'jours'} !`, 'success');
     addPoints(newStreak, 'streak_milestone');
   }
 

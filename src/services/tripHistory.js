@@ -11,6 +11,7 @@
 
 import { getState } from '../stores/state.js'
 import { showToast } from './notifications.js'
+import { t } from '../i18n/index.js'
 
 // ==================== CONFIGURATION ====================
 
@@ -22,12 +23,19 @@ const CONFIG = {
 // ==================== EVENT TYPES ====================
 
 const EVENT_TYPES = {
-  start_trip: { icon: '🚀', label: 'Départ voyage' },
-  checkin: { icon: '📍', label: 'Check-in spot' },
-  ride_start: { icon: '🚗', label: 'Début trajet' },
-  ride_end: { icon: '🏁', label: 'Fin trajet' },
-  arrive: { icon: '🎉', label: 'Arrivée' },
-  spot_visited: { icon: '👁️', label: 'Spot visité' },
+  start_trip: { icon: '🚀', labelKey: 'tripEventStartTrip' },
+  checkin: { icon: '📍', labelKey: 'tripEventCheckin' },
+  ride_start: { icon: '🚗', labelKey: 'tripEventRideStart' },
+  ride_end: { icon: '🏁', labelKey: 'tripEventRideEnd' },
+  arrive: { icon: '🎉', labelKey: 'tripEventArrive' },
+  spot_visited: { icon: '👁️', labelKey: 'tripEventSpotVisited' },
+}
+
+// Get translated label for event type
+function getEventLabel(eventType) {
+  const type = EVENT_TYPES[eventType];
+  if (!type) return eventType;
+  return t(type.labelKey) || type.labelKey;
 }
 
 // ==================== STORAGE ====================
@@ -127,12 +135,12 @@ export function getTripHistory(limit = 50) {
 export function clearTripHistory() {
   try {
     localStorage.removeItem(CONFIG.storageKey)
-    showToast('Historique effacé', 'success')
+    showToast(t('tripHistoryCleared') || 'Historique effacé', 'success')
     console.log('[TripHistory] History cleared')
     return true
   } catch (e) {
     console.error('[TripHistory] Failed to clear history:', e)
-    showToast('Erreur lors de l\'effacement', 'error')
+    showToast(t('tripHistoryClearError') || 'Erreur lors de l\'effacement', 'error')
     return false
   }
 }
@@ -151,10 +159,10 @@ function formatTimestamp(timestamp) {
   const hours = Math.floor(diff / 3600000)
   const days = Math.floor(diff / 86400000)
 
-  if (minutes < 1) return 'À l\'instant'
-  if (minutes < 60) return `Il y a ${minutes}min`
-  if (hours < 24) return `Il y a ${hours}h`
-  if (days < 7) return `Il y a ${days}j`
+  if (minutes < 1) return t('tripTimeJustNow') || 'À l\'instant'
+  if (minutes < 60) return (t('tripTimeMinutesAgo') || 'Il y a {n}min').replace('{n}', minutes)
+  if (hours < 24) return (t('tripTimeHoursAgo') || 'Il y a {n}h').replace('{n}', hours)
+  if (days < 7) return (t('tripTimeDaysAgo') || 'Il y a {n}j').replace('{n}', days)
 
   const date = new Date(timestamp)
   return date.toLocaleDateString('fr-FR', {
@@ -195,7 +203,7 @@ function getLocationText(event) {
     return `${event.lat.toFixed(4)}, ${event.lng.toFixed(4)}`
   }
 
-  return 'Position inconnue'
+  return t('tripLocationUnknown') || 'Position inconnue'
 }
 
 /**
@@ -210,8 +218,8 @@ export function renderTripHistory(limit = 50) {
     return `
       <div class="text-center py-12 text-slate-400">
         <div class="text-4xl mb-3">📋</div>
-        <p>Aucun événement enregistré</p>
-        <p class="text-sm mt-2">Tes futurs voyages seront enregistrés ici</p>
+        <p>${t('tripHistoryEmpty') || 'Aucun événement enregistré'}</p>
+        <p class="text-sm mt-2">${t('tripHistoryEmptyDesc') || 'Tes futurs voyages seront enregistrés ici'}</p>
       </div>
     `
   }
@@ -244,7 +252,8 @@ export function renderTripHistory(limit = 50) {
     `
 
     events.forEach(event => {
-      const eventType = EVENT_TYPES[event.type] || { icon: '📌', label: event.type }
+      const eventType = EVENT_TYPES[event.type] || { icon: '📌', labelKey: event.type }
+      const eventLabel = getEventLabel(event.type)
       const locationText = getLocationText(event)
       const timeText = formatTime(event.timestamp)
 
@@ -258,7 +267,7 @@ export function renderTripHistory(limit = 50) {
           <!-- Event content -->
           <div class="flex-1 bg-white/5 rounded-lg p-3 border border-white/10">
             <div class="flex items-start justify-between mb-1">
-              <div class="font-medium text-white">${eventType.label}</div>
+              <div class="font-medium text-white">${eventLabel}</div>
               <div class="text-xs text-slate-400">${timeText}</div>
             </div>
             <div class="text-sm text-slate-400">${locationText}</div>

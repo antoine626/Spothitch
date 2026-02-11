@@ -5,21 +5,22 @@
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 
 // Profile frames collection
 export const PROFILE_FRAMES = {
   default: {
     id: 'default',
-    name: 'Standard',
-    description: 'Cadre par défaut',
+    name: () => t('profileFrameStandard') || 'Standard',
+    description: () => t('profileFrameDefaultDesc') || 'Cadre par défaut',
     rarity: 'common',
     css: '',
     unlockMethod: 'default',
   },
   explorer: {
     id: 'explorer',
-    name: 'Explorateur',
-    description: 'Pour les aventuriers dans l\'âme',
+    name: () => t('profileFrameExplorer') || 'Explorateur',
+    description: () => t('profileFrameExplorerDesc') || 'Pour les aventuriers dans l\'âme',
     rarity: 'common',
     css: 'ring-4 ring-blue-400 ring-opacity-50',
     gradient: 'from-blue-500 to-cyan-400',
@@ -27,8 +28,8 @@ export const PROFILE_FRAMES = {
   },
   social_butterfly: {
     id: 'social_butterfly',
-    name: 'Papillon social',
-    description: 'Tu aimes rencontrer du monde',
+    name: () => t('profileFrameSocialButterfly') || 'Papillon social',
+    description: () => t('profileFrameSocialButterflyDesc') || 'Tu aimes rencontrer du monde',
     rarity: 'uncommon',
     css: 'ring-4 ring-purple-400 ring-opacity-50',
     gradient: 'from-purple-500 to-pink-400',
@@ -36,8 +37,8 @@ export const PROFILE_FRAMES = {
   },
   verified: {
     id: 'verified',
-    name: 'Vérifié',
-    description: 'Membre de confiance',
+    name: () => t('profileFrameVerified') || 'Vérifié',
+    description: () => t('profileFrameVerifiedDesc') || 'Membre de confiance',
     rarity: 'uncommon',
     css: 'ring-4 ring-emerald-400 ring-opacity-50',
     gradient: 'from-emerald-500 to-green-400',
@@ -45,8 +46,8 @@ export const PROFILE_FRAMES = {
   },
   globe_trotter: {
     id: 'globe_trotter',
-    name: 'Globe-trotter',
-    description: 'Tu as voyagé dans 5+ pays',
+    name: () => t('profileFrameGlobeTrotter') || 'Globe-trotter',
+    description: () => t('profileFrameGlobeTrotterDesc') || 'Tu as voyagé dans 5+ pays',
     rarity: 'rare',
     css: 'ring-4 ring-amber-400 ring-opacity-50 animate-pulse-slow',
     gradient: 'from-amber-500 to-orange-400',
@@ -54,8 +55,8 @@ export const PROFILE_FRAMES = {
   },
   veteran: {
     id: 'veteran',
-    name: 'Vétéran',
-    description: '1 an sur SpotHitch',
+    name: () => t('profileFrameVeteran') || 'Vétéran',
+    description: () => t('profileFrameVeteranDesc') || '1 an sur SpotHitch',
     rarity: 'rare',
     css: 'ring-4 ring-slate-400 ring-opacity-50',
     gradient: 'from-slate-500 to-slate-400',
@@ -63,8 +64,8 @@ export const PROFILE_FRAMES = {
   },
   influencer: {
     id: 'influencer',
-    name: 'Influenceur',
-    description: '100+ avis publiés',
+    name: () => t('profileFrameInfluencer') || 'Influenceur',
+    description: () => t('profileFrameInfluencerDesc') || '100+ avis publiés',
     rarity: 'epic',
     css: 'ring-4 ring-pink-400 animate-pulse',
     gradient: 'from-pink-500 to-rose-400',
@@ -72,8 +73,8 @@ export const PROFILE_FRAMES = {
   },
   champion: {
     id: 'champion',
-    name: 'Champion',
-    description: 'Top 10 du classement',
+    name: () => t('profileFrameChampion') || 'Champion',
+    description: () => t('profileFrameChampionDesc') || 'Top 10 du classement',
     rarity: 'epic',
     css: 'ring-4 ring-yellow-400 animate-pulse',
     gradient: 'from-yellow-500 to-amber-400',
@@ -81,8 +82,8 @@ export const PROFILE_FRAMES = {
   },
   legend: {
     id: 'legend',
-    name: 'Légende',
-    description: 'Statut légendaire',
+    name: () => t('profileFrameLegend') || 'Légende',
+    description: () => t('profileFrameLegendDesc') || 'Statut légendaire',
     rarity: 'legendary',
     css: 'ring-4 ring-gradient animate-gradient-border',
     gradient: 'from-purple-500 via-pink-500 to-orange-400',
@@ -91,8 +92,8 @@ export const PROFILE_FRAMES = {
   },
   founder: {
     id: 'founder',
-    name: 'Fondateur',
-    description: 'Membre depuis le début',
+    name: () => t('profileFrameFounder') || 'Fondateur',
+    description: () => t('profileFrameFounderDesc') || 'Membre depuis le début',
     rarity: 'legendary',
     css: 'ring-4 ring-gradient-gold',
     gradient: 'from-yellow-400 via-amber-500 to-yellow-400',
@@ -105,62 +106,62 @@ export const PROFILE_FRAMES = {
 export const PROFILE_TITLES = {
   hitchhiker: {
     id: 'hitchhiker',
-    name: 'Autostoppeur',
+    name: () => t('profileTitleHitchhiker') || 'Autostoppeur',
     color: 'text-slate-400',
     unlockMethod: 'default',
   },
   adventurer: {
     id: 'adventurer',
-    name: 'Aventurier',
+    name: () => t('profileTitleAdventurer') || 'Aventurier',
     color: 'text-blue-400',
     unlockMethod: 'spots_10',
   },
   wanderer: {
     id: 'wanderer',
-    name: 'Vagabond',
+    name: () => t('profileTitleWanderer') || 'Vagabond',
     color: 'text-emerald-400',
     unlockMethod: 'distance_500',
   },
   nomad: {
     id: 'nomad',
-    name: 'Nomade',
+    name: () => t('profileTitleNomad') || 'Nomade',
     color: 'text-purple-400',
     unlockMethod: 'countries_3',
   },
   pathfinder: {
     id: 'pathfinder',
-    name: 'Éclaireur',
+    name: () => t('profileTitlePathfinder') || 'Éclaireur',
     color: 'text-cyan-400',
     unlockMethod: 'spots_created_5',
   },
   guide: {
     id: 'guide',
-    name: 'Guide',
+    name: () => t('profileTitleGuide') || 'Guide',
     color: 'text-amber-400',
     unlockMethod: 'reviews_50',
   },
   mentor: {
     id: 'mentor',
-    name: 'Mentor',
+    name: () => t('profileTitleMentor') || 'Mentor',
     color: 'text-pink-400',
     unlockMethod: 'skill_mentor',
   },
   road_master: {
     id: 'road_master',
-    name: 'Maître de la route',
+    name: () => t('profileTitleRoadMaster') || 'Maître de la route',
     color: 'text-orange-400',
     unlockMethod: 'skill_road_master',
   },
   legend: {
     id: 'legend',
-    name: 'Légende',
+    name: () => t('profileTitleLegend') || 'Légende',
     color: 'text-gradient-legend',
     animated: true,
     unlockMethod: 'skill_legend',
   },
   pioneer: {
     id: 'pioneer',
-    name: 'Pionnier',
+    name: () => t('profileTitlePioneer') || 'Pionnier',
     color: 'text-yellow-400',
     unlockMethod: 'special',
   },
@@ -168,19 +169,19 @@ export const PROFILE_TITLES = {
 
 // Avatar borders (separate from frames)
 export const AVATAR_BORDERS = {
-  none: { id: 'none', name: 'Aucun', css: '' },
-  thin: { id: 'thin', name: 'Fin', css: 'ring-2 ring-white/20' },
-  thick: { id: 'thick', name: 'Épais', css: 'ring-4 ring-white/30' },
-  glow: { id: 'glow', name: 'Brillant', css: 'ring-2 ring-primary-400 shadow-lg shadow-primary-500/50' },
+  none: { id: 'none', name: () => t('profileBorderNone') || 'Aucun', css: '' },
+  thin: { id: 'thin', name: () => t('profileBorderThin') || 'Fin', css: 'ring-2 ring-white/20' },
+  thick: { id: 'thick', name: () => t('profileBorderThick') || 'Épais', css: 'ring-4 ring-white/30' },
+  glow: { id: 'glow', name: () => t('profileBorderGlow') || 'Brillant', css: 'ring-2 ring-primary-400 shadow-lg shadow-primary-500/50' },
 };
 
 // Rarity colors
 export const RARITY_COLORS = {
-  common: { bg: 'bg-slate-500/20', text: 'text-slate-400', label: 'Commun' },
-  uncommon: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', label: 'Peu commun' },
-  rare: { bg: 'bg-blue-500/20', text: 'text-blue-400', label: 'Rare' },
-  epic: { bg: 'bg-purple-500/20', text: 'text-purple-400', label: 'Épique' },
-  legendary: { bg: 'bg-amber-500/20', text: 'text-amber-400', label: 'Légendaire' },
+  common: { bg: 'bg-slate-500/20', text: 'text-slate-400', label: () => t('profileRarityCommon') || 'Commun' },
+  uncommon: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', label: () => t('profileRarityUncommon') || 'Peu commun' },
+  rare: { bg: 'bg-blue-500/20', text: 'text-blue-400', label: () => t('profileRarityRare') || 'Rare' },
+  epic: { bg: 'bg-purple-500/20', text: 'text-purple-400', label: () => t('profileRarityEpic') || 'Épique' },
+  legendary: { bg: 'bg-amber-500/20', text: 'text-amber-400', label: () => t('profileRarityLegendary') || 'Légendaire' },
 };
 
 /**
@@ -228,12 +229,13 @@ export function equipFrame(frameId) {
   const unlockedFrames = getUnlockedFrames();
 
   if (!unlockedFrames.includes(frameId)) {
-    showToast('Ce cadre n\'est pas débloqué', 'warning');
+    showToast(t('profileFrameNotUnlocked') || 'Ce cadre n\'est pas débloqué', 'warning');
     return false;
   }
 
   setState({ equippedFrame: frameId });
-  showToast(`Cadre "${PROFILE_FRAMES[frameId]?.name}" équipé !`, 'success');
+  const frameName = typeof PROFILE_FRAMES[frameId]?.name === 'function' ? PROFILE_FRAMES[frameId].name() : PROFILE_FRAMES[frameId]?.name;
+  showToast(`${t('profileFrameEquipped') || 'Cadre'} "${frameName}" ${t('profileEquipped') || 'équipé'} !`, 'success');
   return true;
 }
 
@@ -246,12 +248,13 @@ export function equipTitle(titleId) {
   const unlockedTitles = getUnlockedTitles();
 
   if (!unlockedTitles.includes(titleId)) {
-    showToast('Ce titre n\'est pas débloqué', 'warning');
+    showToast(t('profileTitleNotUnlocked') || 'Ce titre n\'est pas débloqué', 'warning');
     return false;
   }
 
   setState({ equippedTitle: titleId });
-  showToast(`Titre "${PROFILE_TITLES[titleId]?.name}" équipé !`, 'success');
+  const titleName = typeof PROFILE_TITLES[titleId]?.name === 'function' ? PROFILE_TITLES[titleId].name() : PROFILE_TITLES[titleId]?.name;
+  showToast(`${t('profileTitle') || 'Titre'} "${titleName}" ${t('profileEquipped') || 'équipé'} !`, 'success');
   return true;
 }
 
@@ -268,7 +271,8 @@ export function unlockFrame(frameId) {
     setState({ unlockedFrames });
 
     const frame = PROFILE_FRAMES[frameId];
-    showToast(`🖼️ Nouveau cadre débloqué: ${frame?.name}`, 'success');
+    const frameName = typeof frame?.name === 'function' ? frame.name() : frame?.name;
+    showToast(`🖼️ ${t('profileFrameUnlocked') || 'Nouveau cadre débloqué'}: ${frameName}`, 'success');
   }
 }
 
@@ -285,7 +289,8 @@ export function unlockTitle(titleId) {
     setState({ unlockedTitles });
 
     const title = PROFILE_TITLES[titleId];
-    showToast(`🏆 Nouveau titre débloqué: ${title?.name}`, 'success');
+    const titleName = typeof title?.name === 'function' ? title.name() : title?.name;
+    showToast(`🏆 ${t('profileTitleUnlocked') || 'Nouveau titre débloqué'}: ${titleName}`, 'success');
   }
 }
 
@@ -394,11 +399,11 @@ export function renderCustomizationModal(state) {
         <!-- Header -->
         <div class="p-6 border-b border-white/10">
           <div class="flex justify-between items-center">
-            <h2 class="text-xl font-bold">Personnalisation</h2>
+            <h2 class="text-xl font-bold">${t('profileCustomization') || 'Personnalisation'}</h2>
             <button
               onclick="closeProfileCustomization()"
               class="p-2 rounded-full hover:bg-white/10 transition-colors"
-              aria-label="Fermer"
+              aria-label="${t('close') || 'Fermer'}"
             >
               <i class="fas fa-times" aria-hidden="true"></i>
             </button>
@@ -409,13 +414,13 @@ export function renderCustomizationModal(state) {
           <!-- Preview -->
           <div class="p-6 text-center border-b border-white/10">
             ${renderAvatarWithFrame({ avatar: state.avatar || '🤙', size: 'xl' })}
-            <div class="mt-3 font-bold text-lg">${state.username || 'Utilisateur'}</div>
+            <div class="mt-3 font-bold text-lg">${state.username || (t('profileUser') || 'Utilisateur')}</div>
             ${renderTitleBadge()}
           </div>
 
           <!-- Frames Section -->
           <div class="p-4">
-            <h3 class="font-semibold mb-3">Cadres</h3>
+            <h3 class="font-semibold mb-3">${t('profileFrames') || 'Cadres'}</h3>
             <div class="grid grid-cols-3 gap-3">
               ${Object.values(PROFILE_FRAMES)
     .map((frame) => {
@@ -438,8 +443,8 @@ export function renderCustomizationModal(state) {
                     <div class="w-12 h-12 mx-auto rounded-full ${frame.gradient ? `bg-gradient-to-br ${frame.gradient}` : 'bg-slate-600'} flex items-center justify-center mb-2">
                       ${isEquipped ? '<i class="fas fa-check text-white"></i>' : ''}
                     </div>
-                    <div class="text-xs font-medium truncate">${frame.name}</div>
-                    <div class="text-[10px] ${rarity.text}">${rarity.label}</div>
+                    <div class="text-xs font-medium truncate">${typeof frame.name === 'function' ? frame.name() : frame.name}</div>
+                    <div class="text-[10px] ${rarity.text}">${typeof rarity.label === 'function' ? rarity.label() : rarity.label}</div>
                     ${!isUnlocked ? `<i class="fas fa-lock absolute top-2 right-2 text-slate-500"></i><div class="text-[10px] text-slate-500 mt-1">${getFrameUnlockText(frame.unlockMethod)}</div>` : ''}
                   </button>
                 `;
@@ -450,7 +455,7 @@ export function renderCustomizationModal(state) {
 
           <!-- Titles Section -->
           <div class="p-4 border-t border-white/10">
-            <h3 class="font-semibold mb-3">Titres</h3>
+            <h3 class="font-semibold mb-3">${t('profileTitles') || 'Titres'}</h3>
             <div class="space-y-2">
               ${Object.values(PROFILE_TITLES)
     .map((title) => {
@@ -469,7 +474,7 @@ export function renderCustomizationModal(state) {
 }"
                     ${!isUnlocked ? 'disabled' : ''}
                   >
-                    <span class="${title.color} font-medium">${title.name}</span>
+                    <span class="${title.color} font-medium">${typeof title.name === 'function' ? title.name() : title.name}</span>
                     ${isEquipped ? '<i class="fas fa-check text-primary-400 ml-auto"></i>' : ''}
                     ${!isUnlocked ? '<i class="fas fa-lock text-slate-500 ml-auto"></i>' : ''}
                   </button>
@@ -489,20 +494,21 @@ export function renderCustomizationModal(state) {
  */
 function getFrameUnlockText(method) {
   const texts = {
-    default: 'Disponible',
-    level_5: 'Niveau 5',
-    level_10: 'Niveau 10',
-    level_20: 'Niveau 20',
-    friends_10: '10 amis',
-    trust_score_80: 'Score confiance 80+',
-    countries_5: '5 pays visites',
-    account_age_365: '1 an de compte',
-    reviews_100: '100 avis',
-    leaderboard_top10: 'Top 10 classement',
-    level_50: 'Niveau 50',
-    all_badges: 'Tous les badges',
+    default: () => t('profileUnlockDefault') || 'Disponible',
+    level_5: () => t('profileUnlockLevel5') || 'Niveau 5',
+    level_10: () => t('profileUnlockLevel10') || 'Niveau 10',
+    level_20: () => t('profileUnlockLevel20') || 'Niveau 20',
+    friends_10: () => t('profileUnlockFriends10') || '10 amis',
+    trust_score_80: () => t('profileUnlockTrust80') || 'Score confiance 80+',
+    countries_5: () => t('profileUnlockCountries5') || '5 pays visites',
+    account_age_365: () => t('profileUnlockAge365') || '1 an de compte',
+    reviews_100: () => t('profileUnlockReviews100') || '100 avis',
+    leaderboard_top10: () => t('profileUnlockTop10') || 'Top 10 classement',
+    level_50: () => t('profileUnlockLevel50') || 'Niveau 50',
+    all_badges: () => t('profileUnlockAllBadges') || 'Tous les badges',
   }
-  return texts[method] || method?.replace(/_/g, ' ') || '?'
+  const textFunc = texts[method];
+  return textFunc ? textFunc() : (method?.replace(/_/g, ' ') || '?')
 }
 
 // Global handlers

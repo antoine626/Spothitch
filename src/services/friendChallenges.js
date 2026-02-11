@@ -7,6 +7,7 @@
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { addPoints } from './gamification.js';
+import { t } from '../i18n/index.js';
 
 /**
  * Challenge types available
@@ -14,9 +15,9 @@ import { addPoints } from './gamification.js';
 export const challengeTypes = [
   {
     id: 'checkins_race',
-    name: 'Course aux Check-ins',
+    name: t('friendChallengeCheckinsRaceName') || 'Course aux Check-ins',
     nameEn: 'Check-in Race',
-    description: 'Le premier a faire X check-ins gagne',
+    description: t('friendChallengeCheckinsRaceDesc') || 'Le premier a faire X check-ins gagne',
     descriptionEn: 'First to complete X check-ins wins',
     icon: '🏁',
     metric: 'checkins',
@@ -27,9 +28,9 @@ export const challengeTypes = [
   },
   {
     id: 'spots_discovery',
-    name: 'Decouverte de Spots',
+    name: t('friendChallengeSpotsDiscoveryName') || 'Decouverte de Spots',
     nameEn: 'Spot Discovery',
-    description: 'Le premier a visiter X nouveaux spots gagne',
+    description: t('friendChallengeSpotsDiscoveryDesc') || 'Le premier a visiter X nouveaux spots gagne',
     descriptionEn: 'First to visit X new spots wins',
     icon: '🗺️',
     metric: 'spotsVisited',
@@ -40,9 +41,9 @@ export const challengeTypes = [
   },
   {
     id: 'countries_explored',
-    name: 'Tour d\'Europe',
+    name: t('friendChallengeCountriesExploredName') || 'Tour d\'Europe',
     nameEn: 'World Tour',
-    description: 'Le premier a visiter X pays gagne',
+    description: t('friendChallengeCountriesExploredDesc') || 'Le premier a visiter X pays gagne',
     descriptionEn: 'First to visit X countries wins',
     icon: '🌍',
     metric: 'countriesVisited',
@@ -53,9 +54,9 @@ export const challengeTypes = [
   },
   {
     id: 'reviews_battle',
-    name: 'Bataille d\'Avis',
+    name: t('friendChallengeReviewsBattleName') || 'Bataille d\'Avis',
     nameEn: 'Review Battle',
-    description: 'Le premier a donner X avis gagne',
+    description: t('friendChallengeReviewsBattleDesc') || 'Le premier a donner X avis gagne',
     descriptionEn: 'First to give X reviews wins',
     icon: '✍️',
     metric: 'reviewsGiven',
@@ -66,9 +67,9 @@ export const challengeTypes = [
   },
   {
     id: 'streak_challenge',
-    name: 'Defi Serie',
+    name: t('friendChallengeStreakChallengeName') || 'Defi Serie',
     nameEn: 'Streak Challenge',
-    description: 'Le premier a atteindre X jours de suite gagne',
+    description: t('friendChallengeStreakChallengeDesc') || 'Le premier a atteindre X jours de suite gagne',
     descriptionEn: 'First to reach X consecutive days wins',
     icon: '🔥',
     metric: 'streak',
@@ -79,9 +80,9 @@ export const challengeTypes = [
   },
   {
     id: 'distance_race',
-    name: 'Course aux Kilometres',
+    name: t('friendChallengeDistanceRaceName') || 'Course aux Kilometres',
     nameEn: 'Distance Race',
-    description: 'Le premier a parcourir X km en autostop gagne',
+    description: t('friendChallengeDistanceRaceDesc') || 'Le premier a parcourir X km en autostop gagne',
     descriptionEn: 'First to travel X km hitchhiking wins',
     icon: '🚗',
     metric: 'totalDistance',
@@ -92,9 +93,9 @@ export const challengeTypes = [
   },
   {
     id: 'night_hitchhiker',
-    name: 'Autostoppeur Nocturne',
+    name: t('friendChallengeNightHitchhikerName') || 'Autostoppeur Nocturne',
     nameEn: 'Night Hitchhiker',
-    description: 'Le premier a faire X check-ins de nuit gagne',
+    description: t('friendChallengeNightHitchhikerDesc') || 'Le premier a faire X check-ins de nuit gagne',
     descriptionEn: 'First to complete X night check-ins wins',
     icon: '🌙',
     metric: 'nightCheckins',
@@ -130,7 +131,7 @@ export function createChallenge(friendId, challengeTypeId, target, durationDays 
   const challengeType = challengeTypes.find(c => c.id === challengeTypeId);
 
   if (!challengeType) {
-    showToast('Type de defi invalide', 'error');
+    showToast(t('friendChallengeInvalidType') || 'Type de defi invalide', 'error');
     return null;
   }
 
@@ -144,7 +145,7 @@ export function createChallenge(friendId, challengeTypeId, target, durationDays 
     id: `challenge_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
     type: challengeTypeId,
     creatorId: state.user?.uid || 'local',
-    creatorName: state.username || 'Moi',
+    creatorName: state.username || t('me') || 'Moi',
     friendId,
     friendName: getFriendName(friendId),
     target: validTarget,
@@ -163,7 +164,7 @@ export function createChallenge(friendId, challengeTypeId, target, durationDays 
     friendChallenges: [...challenges, challenge],
   });
 
-  showToast(`Defi envoye a ${challenge.friendName} !`, 'success');
+  showToast((t('friendChallengeSent') || 'Defi envoye a {name} !').replace('{name}', challenge.friendName), 'success');
   return challenge;
 }
 
@@ -177,13 +178,13 @@ export function acceptChallenge(challengeId) {
   const index = challenges.findIndex(c => c.id === challengeId);
 
   if (index === -1) {
-    showToast('Defi introuvable', 'error');
+    showToast(t('challengeNotFound') || 'Defi introuvable', 'error');
     return false;
   }
 
   const challenge = challenges[index];
   if (challenge.status !== ChallengeStatus.PENDING) {
-    showToast('Ce defi n\'est plus en attente', 'error');
+    showToast(t('friendChallengeNotPending') || 'Ce defi n\'est plus en attente', 'error');
     return false;
   }
 
@@ -194,7 +195,7 @@ export function acceptChallenge(challengeId) {
   };
 
   setState({ friendChallenges: [...challenges] });
-  showToast('Defi accepte ! Que le meilleur gagne !', 'success');
+  showToast(t('friendChallengeAccepted') || 'Defi accepte ! Que le meilleur gagne !', 'success');
   return true;
 }
 
@@ -215,7 +216,7 @@ export function declineChallenge(challengeId) {
   };
 
   setState({ friendChallenges: [...challenges] });
-  showToast('Defi decline', 'info');
+  showToast(t('friendChallengeDeclined') || 'Defi decline', 'info');
   return true;
 }
 
@@ -232,7 +233,7 @@ export function cancelChallenge(challengeId) {
 
   const challenge = challenges[index];
   if (challenge.creatorId !== (state.user?.uid || 'local')) {
-    showToast('Seul le createur peut annuler ce defi', 'error');
+    showToast(t('friendChallengeCreatorOnly') || 'Seul le createur peut annuler ce defi', 'error');
     return false;
   }
 
@@ -242,7 +243,7 @@ export function cancelChallenge(challengeId) {
   };
 
   setState({ friendChallenges: [...challenges] });
-  showToast('Defi annule', 'info');
+  showToast(t('friendChallengeCancelled') || 'Defi annule', 'info');
   return true;
 }
 
@@ -283,9 +284,9 @@ export function updateChallengeProgress(challengeId, participantId, progress) {
 
     if (isWinner) {
       addPoints(challenge.rewardPoints, 'friend_challenge_won');
-      showToast(`Tu as gagne le defi ! +${challenge.rewardPoints} points`, 'success');
+      showToast((t('friendChallengeWon') || 'Tu as gagne le defi ! +{points} points').replace('{points}', challenge.rewardPoints), 'success');
     } else {
-      showToast(`Ton ami a gagne le defi !`, 'info');
+      showToast(t('friendChallengeLost') || 'Ton ami a gagne le defi !', 'info');
     }
   }
 
@@ -427,7 +428,7 @@ export function getChallengeTypes() {
 function getFriendName(friendId) {
   const state = getState();
   const friend = (state.friends || []).find(f => f.id === friendId);
-  return friend?.name || friend?.username || 'Ami';
+  return friend?.name || friend?.username || t('friend') || 'Ami';
 }
 
 /**
@@ -457,12 +458,12 @@ export function renderChallengeCard(challenge) {
   };
 
   const statusLabels = {
-    [ChallengeStatus.PENDING]: 'En attente',
-    [ChallengeStatus.ACTIVE]: 'En cours',
-    [ChallengeStatus.COMPLETED]: challenge.winnerId === userId ? 'Gagne !' : 'Perdu',
-    [ChallengeStatus.EXPIRED]: 'Expire',
-    [ChallengeStatus.DECLINED]: 'Decline',
-    [ChallengeStatus.CANCELLED]: 'Annule',
+    [ChallengeStatus.PENDING]: t('friendChallengeStatusPending') || 'En attente',
+    [ChallengeStatus.ACTIVE]: t('friendChallengeStatusActive') || 'En cours',
+    [ChallengeStatus.COMPLETED]: challenge.winnerId === userId ? (t('friendChallengeStatusWon') || 'Gagne !') : (t('friendChallengeStatusLost') || 'Perdu'),
+    [ChallengeStatus.EXPIRED]: t('friendChallengeStatusExpired') || 'Expire',
+    [ChallengeStatus.DECLINED]: t('friendChallengeStatusDeclined') || 'Decline',
+    [ChallengeStatus.CANCELLED]: t('friendChallengeStatusCancelled') || 'Annule',
   };
 
   return `
@@ -483,7 +484,7 @@ export function renderChallengeCard(challenge) {
       ${challenge.status === ChallengeStatus.ACTIVE ? `
         <div class="space-y-2 mb-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs text-gray-400 w-12">Toi</span>
+            <span class="text-xs text-gray-400 w-12">${t('you') || 'Toi'}</span>
             <div class="flex-1 bg-dark-600 rounded-full h-2 overflow-hidden">
               <div class="bg-primary h-full transition-all" style="width: ${progressPercent}%"></div>
             </div>
@@ -498,7 +499,7 @@ export function renderChallengeCard(challenge) {
           </div>
         </div>
         <p class="text-xs text-gray-400">
-          Expire le ${new Date(challenge.expiresAt).toLocaleDateString()}
+          ${(t('friendChallengeExpiresOn') || 'Expire le {date}').replace('{date}', new Date(challenge.expiresAt).toLocaleDateString())}
         </p>
       ` : ''}
 
@@ -506,11 +507,11 @@ export function renderChallengeCard(challenge) {
         <div class="flex gap-2 mt-3">
           <button onclick="window.acceptFriendChallenge('${challenge.id}')"
             class="flex-1 bg-primary text-white py-2 rounded-lg text-sm hover:bg-primary/80">
-            Accepter
+            ${t('accept') || 'Accepter'}
           </button>
           <button onclick="window.declineFriendChallenge('${challenge.id}')"
             class="flex-1 bg-dark-600 text-gray-300 py-2 rounded-lg text-sm hover:bg-dark-500">
-            Decliner
+            ${t('decline') || 'Decliner'}
           </button>
         </div>
       ` : ''}
@@ -519,14 +520,14 @@ export function renderChallengeCard(challenge) {
         <div class="mt-3">
           <button onclick="window.cancelFriendChallenge('${challenge.id}')"
             class="w-full bg-dark-600 text-gray-300 py-2 rounded-lg text-sm hover:bg-dark-500">
-            Annuler
+            ${t('cancel') || 'Annuler'}
           </button>
         </div>
       ` : ''}
 
       ${challenge.status === ChallengeStatus.COMPLETED && challenge.winnerId === userId ? `
         <p class="text-center text-green-400 font-medium mt-2">
-          +${challenge.rewardPoints} points gagnes !
+          +${challenge.rewardPoints} ${(t('pointsEarned') || 'points gagnes !')}
         </p>
       ` : ''}
     </div>

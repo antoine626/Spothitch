@@ -5,32 +5,38 @@
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 
-// Report types
+// Report types - labels are now translated dynamically
 export const REPORT_TYPES = {
   SPOT: {
-    INACCURATE: { id: 'inaccurate', label: 'Information incorrecte', icon: 'fa-exclamation-circle', severity: 'medium' },
-    DANGEROUS: { id: 'dangerous', label: 'Endroit dangereux', icon: 'fa-skull-crossbones', severity: 'high' },
-    INAPPROPRIATE: { id: 'inappropriate', label: 'Contenu inapproprié', icon: 'fa-ban', severity: 'high' },
-    DUPLICATE: { id: 'duplicate', label: 'Spot en double', icon: 'fa-clone', severity: 'low' },
-    CLOSED: { id: 'closed', label: 'Spot fermé/inaccessible', icon: 'fa-lock', severity: 'medium' },
-    OTHER: { id: 'other', label: 'Autre problème', icon: 'fa-question-circle', severity: 'low' },
+    INACCURATE: { id: 'inaccurate', labelKey: 'reportInaccurate', icon: 'fa-exclamation-circle', severity: 'medium' },
+    DANGEROUS: { id: 'dangerous', labelKey: 'reportDangerous', icon: 'fa-skull-crossbones', severity: 'high' },
+    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'fa-ban', severity: 'high' },
+    DUPLICATE: { id: 'duplicate', labelKey: 'reportDuplicate', icon: 'fa-clone', severity: 'low' },
+    CLOSED: { id: 'closed', labelKey: 'reportClosed', icon: 'fa-lock', severity: 'medium' },
+    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'fa-question-circle', severity: 'low' },
   },
   USER: {
-    SPAM: { id: 'spam', label: 'Spam / Publicité', icon: 'fa-ad', severity: 'medium' },
-    HARASSMENT: { id: 'harassment', label: 'Harcèlement', icon: 'fa-user-slash', severity: 'high' },
-    FAKE: { id: 'fake', label: 'Faux profil', icon: 'fa-user-secret', severity: 'medium' },
-    INAPPROPRIATE: { id: 'inappropriate', label: 'Comportement inapproprié', icon: 'fa-ban', severity: 'high' },
-    OTHER: { id: 'other', label: 'Autre', icon: 'fa-question-circle', severity: 'low' },
+    SPAM: { id: 'spam', labelKey: 'reportSpam', icon: 'fa-ad', severity: 'medium' },
+    HARASSMENT: { id: 'harassment', labelKey: 'reportHarassment', icon: 'fa-user-slash', severity: 'high' },
+    FAKE: { id: 'fake', labelKey: 'reportFakeProfile', icon: 'fa-user-secret', severity: 'medium' },
+    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'fa-ban', severity: 'high' },
+    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'fa-question-circle', severity: 'low' },
   },
   MESSAGE: {
-    SPAM: { id: 'spam', label: 'Spam', icon: 'fa-ad', severity: 'medium' },
-    HARASSMENT: { id: 'harassment', label: 'Harcèlement', icon: 'fa-angry', severity: 'high' },
-    HATE: { id: 'hate', label: 'Discours haineux', icon: 'fa-fire', severity: 'critical' },
-    INAPPROPRIATE: { id: 'inappropriate', label: 'Contenu inapproprié', icon: 'fa-ban', severity: 'high' },
-    OTHER: { id: 'other', label: 'Autre', icon: 'fa-question-circle', severity: 'low' },
+    SPAM: { id: 'spam', labelKey: 'reportSpam', icon: 'fa-ad', severity: 'medium' },
+    HARASSMENT: { id: 'harassment', labelKey: 'reportHarassment', icon: 'fa-angry', severity: 'high' },
+    HATE: { id: 'hate', labelKey: 'reportHate', icon: 'fa-fire', severity: 'critical' },
+    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'fa-ban', severity: 'high' },
+    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'fa-question-circle', severity: 'low' },
   },
 };
+
+// Get translated label for report reason
+function getReasonLabel(reason) {
+  return t(reason.labelKey) || reason.labelKey;
+}
 
 // Severity levels
 export const SEVERITY_LEVELS = {
@@ -59,7 +65,7 @@ export async function submitReport(type, targetId, reason, details = {}) {
   );
 
   if (duplicateReport) {
-    showToast('Tu as déjà signalé cet élément', 'warning');
+    showToast(t('reportAlreadyReported') || 'Tu as déjà signalé cet élément', 'warning');
     return false;
   }
 
@@ -116,7 +122,7 @@ export async function submitReport(type, targetId, reason, details = {}) {
     await handleHighSeverityReport(report);
   }
 
-  showToast('Signalement envoyé. Merci pour ta vigilance !', 'success');
+  showToast(t('reportSubmitted') || 'Signalement envoyé. Merci pour ta vigilance !', 'success');
 
   return report;
 }
@@ -165,7 +171,7 @@ export async function voteOnReport(reportId, agree) {
   const voters = report.voters || [];
 
   if (voters.includes(userId)) {
-    showToast('Tu as déjà voté sur ce signalement', 'warning');
+    showToast(t('reportAlreadyVoted') || 'Tu as déjà voté sur ce signalement', 'warning');
     return false;
   }
 
@@ -184,7 +190,7 @@ export async function voteOnReport(reportId, agree) {
   reports[reportIndex] = report;
   setState({ reports });
 
-  showToast(agree ? 'Vote enregistré' : 'Merci pour ton avis', 'success');
+  showToast(agree ? (t('reportVoteRecorded') || 'Vote enregistré') : (t('reportThanks') || 'Merci pour ton avis'), 'success');
 
   return true;
 }
@@ -215,7 +221,7 @@ async function handleConfirmedReport(report) {
     setState({ spots });
   }
 
-  showToast('Le signalement a été confirmé par la communauté', 'info');
+  showToast(t('reportConfirmed') || 'Le signalement a été confirmé par la communauté', 'info');
 }
 
 /**
@@ -264,8 +270,8 @@ export function renderReportModal(state) {
         <div class="bg-gradient-to-r from-orange-500 to-red-500 p-6">
           <div class="flex justify-between items-start">
             <div>
-              <h2 class="text-xl font-bold text-white">Signaler</h2>
-              <p class="text-white/80 text-sm">Aide-nous à garder la communauté sûre</p>
+              <h2 class="text-xl font-bold text-white">${t('reportTitle') || 'Signaler'}</h2>
+              <p class="text-white/80 text-sm">${t('reportSubtitle') || 'Aide-nous à garder la communauté sûre'}</p>
             </div>
             <button onclick="closeReport()" class="p-2 bg-white/20 rounded-full text-white">
               <i class="fas fa-times"></i>
@@ -275,7 +281,7 @@ export function renderReportModal(state) {
 
         <!-- Report reasons -->
         <div class="p-4 overflow-y-auto max-h-[60vh]">
-          <p class="text-sm text-slate-400 mb-4">Pourquoi signales-tu cet élément ?</p>
+          <p class="text-sm text-slate-400 mb-4">${t('reportWhy') || 'Pourquoi signales-tu cet élément ?'}</p>
 
           <div class="space-y-2">
             ${Object.entries(reportTypes).map(([key, reason]) => `
@@ -287,9 +293,9 @@ export function renderReportModal(state) {
                   <i class="fas ${reason.icon} ${SEVERITY_LEVELS[reason.severity].color}"></i>
                 </div>
                 <div class="flex-1">
-                  <div class="font-medium">${reason.label}</div>
+                  <div class="font-medium">${getReasonLabel(reason)}</div>
                   <div class="text-xs ${SEVERITY_LEVELS[reason.severity].color}">
-                    Priorité ${reason.severity === 'low' ? 'basse' : reason.severity === 'medium' ? 'moyenne' : 'haute'}
+                    ${t('reportPriority') || 'Priorité'} ${reason.severity === 'low' ? (t('reportPriorityLow') || 'basse') : reason.severity === 'medium' ? (t('reportPriorityMedium') || 'moyenne') : (t('reportPriorityHigh') || 'haute')}
                   </div>
                 </div>
                 ${state.selectedReportReason === reason.id ? '<i class="fas fa-check text-primary-400"></i>' : ''}
@@ -300,11 +306,11 @@ export function renderReportModal(state) {
           <!-- Additional details -->
           ${state.selectedReportReason ? `
             <div class="mt-4">
-              <label class="block text-sm text-slate-400 mb-2">Détails supplémentaires (optionnel)</label>
+              <label class="block text-sm text-slate-400 mb-2">${t('reportDetailsLabel') || 'Détails supplémentaires (optionnel)'}</label>
               <textarea
                 id="report-details"
                 class="input-modern h-24 resize-none"
-                placeholder="Décris le problème en détail..."
+                placeholder="${t('reportDetailsPlaceholder') || 'Décris le problème en détail...'}"
               ></textarea>
             </div>
           ` : ''}
@@ -318,10 +324,10 @@ export function renderReportModal(state) {
             ${!state.selectedReportReason ? 'disabled' : ''}
           >
             <i class="fas fa-flag mr-2"></i>
-            Envoyer le signalement
+            ${t('reportSubmitButton') || 'Envoyer le signalement'}
           </button>
           <p class="text-xs text-slate-500 text-center mt-2">
-            Les faux signalements peuvent entraîner des sanctions
+            ${t('reportWarning') || 'Les faux signalements peuvent entraîner des sanctions'}
           </p>
         </div>
       </div>

@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
+import { t } from '../i18n/index.js';
 
 // OSRM routing API
 const OSRM_API = 'https://router.project-osrm.org/route/v1/driving';
@@ -23,7 +24,7 @@ let currentStepIndex = 0;
 export async function startNavigation(destLat, destLng, destName = 'Destination') {
   // Check for geolocation support
   if (!navigator.geolocation) {
-    showToast('GPS non disponible sur cet appareil', 'error');
+    showToast(t('gpsNotAvailable') || 'GPS non disponible sur cet appareil', 'error');
     return false;
   }
 
@@ -36,7 +37,7 @@ export async function startNavigation(destLat, destLng, destName = 'Destination'
     const route = await calculateRoute(startLat, startLng, destLat, destLng);
 
     if (!route) {
-      showToast('Impossible de calculer l\'itinéraire', 'error');
+      showToast(t('routeCalculationFailed') || 'Impossible de calculer l\'itinéraire', 'error');
       return false;
     }
 
@@ -66,11 +67,11 @@ export async function startNavigation(destLat, destLng, destName = 'Destination'
       }
     );
 
-    showToast(`Navigation vers ${destName} démarrée`, 'success');
+    showToast(t('navigationStarted') || `Navigation vers ${destName} démarrée`, 'success');
     return true;
   } catch (error) {
     console.error('Navigation start error:', error);
-    showToast('Erreur de localisation', 'error');
+    showToast(t('locationError') || 'Erreur de localisation', 'error');
     return false;
   }
 }
@@ -97,7 +98,7 @@ export function stopNavigation() {
     navigationInstructions: null,
   });
 
-  showToast('Navigation arrêtée', 'info');
+  showToast(t('navigationStopped') || 'Navigation arrêtée', 'info');
 }
 
 /**
@@ -160,35 +161,35 @@ async function calculateRoute(startLat, startLng, endLat, endLng) {
  * Translate OSRM maneuver to French instruction
  */
 function translateInstruction(type, modifier, streetName) {
-  const street = streetName || 'la route';
+  const street = streetName || (t('navTheRoad') || 'la route');
 
   const instructions = {
-    'depart': `Partez sur ${street}`,
-    'arrive': 'Vous êtes arrivé',
-    'turn-left': `Tournez à gauche sur ${street}`,
-    'turn-right': `Tournez à droite sur ${street}`,
-    'turn-slight left': `Légèrement à gauche sur ${street}`,
-    'turn-slight right': `Légèrement à droite sur ${street}`,
-    'turn-sharp left': `Tournez fortement à gauche sur ${street}`,
-    'turn-sharp right': `Tournez fortement à droite sur ${street}`,
-    'turn-uturn': 'Faites demi-tour',
-    'continue-straight': `Continuez tout droit sur ${street}`,
-    'continue-': `Continuez sur ${street}`,
-    'merge-': `Rejoignez ${street}`,
-    'on ramp-': `Prenez la bretelle vers ${street}`,
-    'off ramp-': `Sortez vers ${street}`,
-    'fork-left': 'Prenez à gauche à la bifurcation',
-    'fork-right': 'Prenez à droite à la bifurcation',
-    'fork-': 'Prenez la bifurcation',
-    'end of road-left': 'En fin de route, tournez à gauche',
-    'end of road-right': 'En fin de route, tournez à droite',
-    'roundabout-': `Au rond-point, sortez sur ${street}`,
-    'rotary-': `Au rond-point, sortez sur ${street}`,
-    'new name-': `Continuez sur ${street}`,
+    'depart': (t('navDepart') || 'Partez sur') + ` ${street}`,
+    'arrive': t('navArrive') || 'Vous êtes arrivé',
+    'turn-left': (t('navTurnLeft') || 'Tournez à gauche sur') + ` ${street}`,
+    'turn-right': (t('navTurnRight') || 'Tournez à droite sur') + ` ${street}`,
+    'turn-slight left': (t('navSlightLeft') || 'Légèrement à gauche sur') + ` ${street}`,
+    'turn-slight right': (t('navSlightRight') || 'Légèrement à droite sur') + ` ${street}`,
+    'turn-sharp left': (t('navSharpLeft') || 'Tournez fortement à gauche sur') + ` ${street}`,
+    'turn-sharp right': (t('navSharpRight') || 'Tournez fortement à droite sur') + ` ${street}`,
+    'turn-uturn': t('navUturn') || 'Faites demi-tour',
+    'continue-straight': (t('navContinueStraight') || 'Continuez tout droit sur') + ` ${street}`,
+    'continue-': (t('navContinue') || 'Continuez sur') + ` ${street}`,
+    'merge-': (t('navMerge') || 'Rejoignez') + ` ${street}`,
+    'on ramp-': (t('navOnRamp') || 'Prenez la bretelle vers') + ` ${street}`,
+    'off ramp-': (t('navOffRamp') || 'Sortez vers') + ` ${street}`,
+    'fork-left': t('navForkLeft') || 'Prenez à gauche à la bifurcation',
+    'fork-right': t('navForkRight') || 'Prenez à droite à la bifurcation',
+    'fork-': t('navFork') || 'Prenez la bifurcation',
+    'end of road-left': t('navEndOfRoadLeft') || 'En fin de route, tournez à gauche',
+    'end of road-right': t('navEndOfRoadRight') || 'En fin de route, tournez à droite',
+    'roundabout-': (t('navRoundabout') || 'Au rond-point, sortez sur') + ` ${street}`,
+    'rotary-': (t('navRoundabout') || 'Au rond-point, sortez sur') + ` ${street}`,
+    'new name-': (t('navContinue') || 'Continuez sur') + ` ${street}`,
   };
 
   const key = modifier ? `${type}-${modifier}` : `${type}-`;
-  return instructions[key] || instructions[`${type}-`] || `Continuez sur ${street}`;
+  return instructions[key] || instructions[`${type}-`] || (t('navContinue') || 'Continuez sur') + ` ${street}`;
 }
 
 /**
@@ -262,7 +263,7 @@ function handlePositionError(error) {
   console.error('Position error:', error);
 
   if (error.code === error.PERMISSION_DENIED) {
-    showToast('Accès GPS refusé', 'error');
+    showToast(t('gpsAccessDenied') || 'Accès GPS refusé', 'error');
     stopNavigation();
   }
 }
@@ -279,7 +280,7 @@ function arrivedAtDestination() {
     window.playSound('success');
   }
 
-  showToast(`Vous êtes arrivé à ${destName}`, 'success');
+  showToast(t('arrivedAtDestination') || `Vous êtes arrivé à ${destName}`, 'success');
 
   // Show confetti celebration
   if (window.launchConfettiBurst) {
@@ -298,7 +299,8 @@ function announceInstruction(step) {
   // Try speech synthesis
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(step.instruction);
-    utterance.lang = 'fr-FR';
+    const langMap = { fr: 'fr-FR', en: 'en-US', es: 'es-ES', de: 'de-DE' }
+    utterance.lang = langMap[getState().lang] || 'fr-FR';
     utterance.rate = 1.1;
     speechSynthesis.speak(utterance);
   }
@@ -342,7 +344,7 @@ export function formatDistance(meters) {
  */
 export function formatDuration(seconds) {
   if (seconds < 60) {
-    return 'Moins d\'1 min';
+    return t('lessThanOneMin') || 'Moins d\'1 min';
   }
   const minutes = Math.round(seconds / 60);
   if (minutes < 60) {

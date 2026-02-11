@@ -8,6 +8,7 @@ import { requestNotificationPermission, onForegroundMessage } from './firebase.j
 import { escapeHTML } from '../utils/sanitize.js';
 import { getErrorMessage, getFormattedError } from '../utils/errorMessages.js';
 import { getState, setState, subscribe } from '../stores/state.js';
+import { t } from '../i18n/index.js';
 
 // Toast container reference
 let toastContainer = null;
@@ -287,7 +288,7 @@ export function subscribeToSpotNotifications(spotId, spotName) {
       subscribedAt: new Date().toISOString()
     });
     saveSpotNotificationSettings(settings);
-    showToast(`Notifications activées pour "${spotName}"`, 'success');
+    showToast((t('notifSpotSubscribed') || 'Notifications activées pour "{name}"').replace('{name}', spotName), 'success');
   }
 
   return true;
@@ -301,7 +302,7 @@ export function unsubscribeFromSpotNotifications(spotId) {
   const settings = getSpotNotificationSettings();
   settings.spots = settings.spots.filter(s => s.id !== spotId);
   saveSpotNotificationSettings(settings);
-  showToast('Notifications désactivées pour ce spot', 'info');
+  showToast(t('notifSpotUnsubscribed') || 'Notifications désactivées pour ce spot', 'info');
 }
 
 /**
@@ -399,7 +400,7 @@ export function setSpotNotificationsEnabled(enabled) {
   const settings = getSpotNotificationSettings();
   settings.enabled = enabled;
   saveSpotNotificationSettings(settings);
-  showToast(enabled ? 'Notifications de spots activées' : 'Notifications de spots désactivées', 'info');
+  showToast(enabled ? (t('notifSpotEnabled') || 'Notifications de spots activées') : (t('notifSpotDisabled') || 'Notifications de spots désactivées'), 'info');
 }
 
 // ==================== NOTIFICATION PREFERENCES ====================
@@ -480,8 +481,8 @@ export function toggleNotificationPreference(type) {
 export function notifyNewFriend(friend) {
   if (!isNotificationEnabled('newFriend')) return;
 
-  const title = 'Nouvel ami !';
-  const body = `${friend.name || 'Un voyageur'} a accepte ta demande d'ami`;
+  const title = t('notifNewFriendTitle') || 'Nouvel ami !';
+  const body = (t('notifNewFriendBody') || '{name} a accepte ta demande d\'ami').replace('{name}', friend.name || (t('notifATraveler') || 'Un voyageur'));
   const icon = friend.avatar || '';
 
   sendLocalNotification(title, body, {
@@ -494,7 +495,7 @@ export function notifyNewFriend(friend) {
   showToast(`${icon || ''} ${body}`, 'success', 5000);
 
   // Announce for screen readers
-  announce(`Nouvel ami: ${friend.name || 'Un voyageur'}`);
+  announce((t('notifNewFriendAnnounce') || 'Nouvel ami: {name}').replace('{name}', friend.name || (t('notifATraveler') || 'Un voyageur')));
 }
 
 /**
@@ -504,9 +505,9 @@ export function notifyNewFriend(friend) {
 export function notifyNewMessage(message) {
   if (!isNotificationEnabled('newMessage')) return;
 
-  const senderName = message.senderName || 'Un voyageur';
-  const title = `Message de ${senderName}`;
-  const body = message.preview || message.text?.substring(0, 50) + '...' || 'Nouveau message';
+  const senderName = message.senderName || (t('notifATraveler') || 'Un voyageur');
+  const title = (t('notifNewMessageTitle') || 'Message de {name}').replace('{name}', senderName);
+  const body = message.preview || message.text?.substring(0, 50) + '...' || (t('notifNewMessageBody') || 'Nouveau message');
 
   sendLocalNotification(title, body, {
     type: 'new_message',
@@ -545,11 +546,11 @@ export function notifyFriendNearby(friend, distance) {
   if (lastNotified && now - parseInt(lastNotified) < 3600000) return;
   sessionStorage.setItem(notifyKey, now.toString());
 
-  const title = 'Ami a proximite !';
+  const title = t('notifFriendNearbyTitle') || 'Ami a proximite !';
   const distanceText = distance < 1
-    ? `a ${Math.round(distance * 1000)}m`
-    : `a ${distance.toFixed(1)}km`;
-  const body = `${friend.name || 'Un ami'} est ${distanceText} de toi`;
+    ? (t('notifDistanceMeters') || 'a {n}m').replace('{n}', Math.round(distance * 1000))
+    : (t('notifDistanceKm') || 'a {n}km').replace('{n}', distance.toFixed(1));
+  const body = (t('notifFriendNearbyBody') || '{name} est {distance} de toi').replace('{name}', friend.name || (t('notifAFriend') || 'Un ami')).replace('{distance}', distanceText);
 
   sendLocalNotification(title, body, {
     type: 'friend_nearby',
@@ -576,8 +577,8 @@ export function notifyFriendNearby(friend, distance) {
 export function notifyBadgeUnlocked(badge) {
   if (!isNotificationEnabled('badgeUnlocked')) return;
 
-  const title = 'Badge debloque !';
-  const body = `Tu as obtenu le badge "${badge.name}"`;
+  const title = t('notifBadgeUnlockedTitle') || 'Badge debloque !';
+  const body = (t('notifBadgeUnlockedBody') || 'Tu as obtenu le badge "{name}"').replace('{name}', badge.name);
 
   sendLocalNotification(title, body, {
     type: 'badge_unlocked',
@@ -587,7 +588,7 @@ export function notifyBadgeUnlocked(badge) {
 
   // In-app notification is handled by gamification service
   // but we announce for accessibility
-  announce(`Badge debloque: ${badge.name}`);
+  announce((t('notifBadgeUnlockedAnnounce') || 'Badge debloque: {name}').replace('{name}', badge.name));
 }
 
 /**
@@ -598,14 +599,14 @@ export function notifyBadgeUnlocked(badge) {
 export function notifyLevelUp(newLevel, rewards = {}) {
   if (!isNotificationEnabled('levelUp')) return;
 
-  const title = `Niveau ${newLevel} atteint !`;
-  let body = 'Felicitations ! Continue comme ca !';
+  const title = (t('notifLevelUpTitle') || 'Niveau {level} atteint !').replace('{level}', newLevel);
+  let body = t('notifLevelUpBody') || 'Felicitations ! Continue comme ca !';
 
   if (rewards.points) {
-    body += ` +${rewards.points} points bonus !`;
+    body += ` ${(t('notifLevelUpBonus') || '+{n} points bonus !').replace('{n}', rewards.points)}`;
   }
   if (rewards.title) {
-    body = `Nouveau titre: ${rewards.title.name} !`;
+    body = (t('notifLevelUpTitle2') || 'Nouveau titre: {name} !').replace('{name}', rewards.title.name);
   }
 
   sendLocalNotification(title, body, {
@@ -616,7 +617,7 @@ export function notifyLevelUp(newLevel, rewards = {}) {
   });
 
   // Announce for accessibility
-  announce(`Niveau ${newLevel} atteint`);
+  announce((t('notifLevelUpAnnounce') || 'Niveau {level} atteint').replace('{level}', newLevel));
 }
 
 /**
@@ -639,8 +640,8 @@ export function checkStreakReminder() {
 
   // Remind in the evening (18:00-21:00) if not active today
   if (hours >= 18 && hours < 21) {
-    const title = 'Ta serie est en danger !';
-    const body = `${streak} jours de suite... Ne les perds pas ! Fais un check-in aujourd'hui.`;
+    const title = t('notifStreakDangerTitle') || 'Ta serie est en danger !';
+    const body = (t('notifStreakDangerBody') || '{n} jours de suite... Ne les perds pas ! Fais un check-in aujourd\'hui.').replace('{n}', streak);
 
     sendLocalNotification(title, body, {
       type: 'streak_reminder',
@@ -648,7 +649,7 @@ export function checkStreakReminder() {
       url: '/Spothitch/?tab=map',
     });
 
-    showToast(`Serie de ${streak} jours en danger ! Fais un check-in aujourd'hui.`, 'warning', 8000);
+    showToast((t('notifStreakDangerToast') || 'Serie de {n} jours en danger ! Fais un check-in aujourd\'hui.').replace('{n}', streak), 'warning', 8000);
   }
 }
 
@@ -689,15 +690,15 @@ export function notifyDailyRewardAvailable() {
 
   if (lastClaim === today) return; // Already claimed today
 
-  const title = 'Recompense quotidienne !';
-  const body = 'Ta recompense quotidienne t\'attend ! Connecte-toi pour la recuperer.';
+  const title = t('notifDailyRewardTitle') || 'Recompense quotidienne !';
+  const body = t('notifDailyRewardBody') || 'Ta recompense quotidienne t\'attend ! Connecte-toi pour la recuperer.';
 
   sendLocalNotification(title, body, {
     type: 'daily_reward',
     url: '/Spothitch/',
   });
 
-  showToast('Ta recompense quotidienne est disponible !', 'info', 5000);
+  showToast(t('notifDailyRewardToast') || 'Ta recompense quotidienne est disponible !', 'info', 5000);
 }
 
 // ==================== HELPER FUNCTIONS ====================

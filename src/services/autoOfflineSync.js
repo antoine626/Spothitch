@@ -6,6 +6,7 @@
 
 import { showToast } from './notifications.js'
 import { getState } from '../stores/state.js'
+import { t } from '../i18n/index.js'
 
 const STORAGE_PREFIX = 'spothitch_offline_'
 const SYNC_INTERVAL = 60 * 60 * 1000 // 1 hour
@@ -176,7 +177,7 @@ export async function performAutoSync() {
 
     // Show subtle notification
     if (syncedData.countries.length > 0) {
-      showToast(`📥 Données hors-ligne mises à jour (${syncedData.countries.length} pays)`, 'success')
+      showToast(`📥 ${t('autoOfflineSyncUpdated') || 'Données hors-ligne mises à jour'} (${syncedData.countries.length} ${t('autoOfflineSyncCountries') || 'pays'})`, 'success')
     }
 
     return { success: true, synced: syncedData, duration }
@@ -376,7 +377,7 @@ export function getOfflineStatus() {
     countries: [...new Set(countries)],
     guides: [...new Set(guides)],
     totalSize: `${totalSizeMB} MB`,
-    lastSync: lastSyncTime ? new Date(lastSyncTime).toLocaleString('fr-FR') : 'Jamais',
+    lastSync: lastSyncTime ? new Date(lastSyncTime).toLocaleString() : (t('autoOfflineSyncNever') || 'Jamais'),
     isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
   }
 }
@@ -387,17 +388,17 @@ export function getOfflineStatus() {
  */
 export async function forceOfflineSync() {
   if (typeof navigator !== 'undefined' && !navigator.onLine) {
-    showToast('Pas de connexion internet', 'error')
+    showToast(t('autoOfflineSyncNoInternet') || 'Pas de connexion internet', 'error')
     return { success: false, error: 'offline' }
   }
 
-  showToast('Synchronisation en cours...', 'info')
+  showToast(t('autoOfflineSyncInProgress') || 'Synchronisation en cours...', 'info')
   const result = await performAutoSync()
 
   if (result.success) {
-    showToast('✅ Synchronisation terminée !', 'success')
+    showToast(`✅ ${t('autoOfflineSyncComplete') || 'Synchronisation terminée !'}`, 'success')
   } else {
-    showToast('Erreur lors de la synchronisation', 'error')
+    showToast(t('autoOfflineSyncError') || 'Erreur lors de la synchronisation', 'error')
   }
 
   return result

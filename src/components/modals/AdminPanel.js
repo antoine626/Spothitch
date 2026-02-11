@@ -4,6 +4,7 @@
  */
 
 import { getState, setState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
 
 export function renderAdminPanel(state) {
   return `
@@ -12,7 +13,7 @@ export function renderAdminPanel(state) {
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-bold flex items-center gap-2">
             <i class="fas fa-shield-alt text-amber-400" aria-hidden="true"></i>
-            Panneau Admin
+            ${t('adminPanel') || 'Panneau Admin'}
           </h2>
           <button onclick="closeAdminPanel()" class="text-slate-400 hover:text-white">
             <i class="fas fa-times text-xl" aria-hidden="true"></i>
@@ -24,19 +25,19 @@ export function renderAdminPanel(state) {
           <div class="grid grid-cols-4 gap-2 text-center text-sm">
             <div>
               <div class="font-bold text-amber-400">${state.points || 0}</div>
-              <div class="text-xs text-slate-400">Points</div>
+              <div class="text-xs text-slate-400">${t('points') || 'Points'}</div>
             </div>
             <div>
               <div class="font-bold text-emerald-400">${state.level || 1}</div>
-              <div class="text-xs text-slate-400">Niveau</div>
+              <div class="text-xs text-slate-400">${t('level') || 'Niveau'}</div>
             </div>
             <div>
               <div class="font-bold text-purple-400">${state.skillPoints || 0}</div>
-              <div class="text-xs text-slate-400">Skill Pts</div>
+              <div class="text-xs text-slate-400">${t('skillPoints') || 'Skill Pts'}</div>
             </div>
             <div>
               <div class="font-bold text-sky-400">${state.thumbs || 0}</div>
-              <div class="text-xs text-slate-400">Pouces</div>
+              <div class="text-xs text-slate-400">${t('thumbs') || 'Pouces'}</div>
             </div>
           </div>
         </div>
@@ -45,7 +46,7 @@ export function renderAdminPanel(state) {
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-amber-400">
             <i class="fas fa-coins mr-2" aria-hidden="true"></i>
-            Ressources
+            ${t('resources') || 'Ressources'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="adminAddPoints(100)" class="btn-secondary text-sm py-2">
@@ -73,32 +74,32 @@ export function renderAdminPanel(state) {
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-purple-400">
             <i class="fas fa-gamepad mr-2" aria-hidden="true"></i>
-            Gamification
+            ${t('gamification') || 'Gamification'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openBadges(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-medal text-amber-400" aria-hidden="true"></i>
-              Badges
+              ${t('badges') || 'Badges'}
             </button>
             <button onclick="openChallenges(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-bullseye text-purple-400" aria-hidden="true"></i>
-              Défis
+              ${t('challenges') || 'Défis'}
             </button>
             <button onclick="openTeamChallenges(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-users-cog text-orange-400" aria-hidden="true"></i>
-              Défis Équipe
+              ${t('teamChallenges') || 'Défis Équipe'}
             </button>
             <button onclick="openSkillTree(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-tree text-emerald-400" aria-hidden="true"></i>
-              Skill Tree
+              ${t('skillTree') || 'Skill Tree'}
             </button>
             <button onclick="openQuiz(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-brain text-sky-400" aria-hidden="true"></i>
-              Quiz
+              ${t('quiz') || 'Quiz'}
             </button>
             <button onclick="openLeaderboard(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-trophy text-yellow-400" aria-hidden="true"></i>
-              Classement
+              ${t('leaderboard') || 'Classement'}
             </button>
           </div>
         </div>
@@ -107,24 +108,24 @@ export function renderAdminPanel(state) {
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-emerald-400">
             <i class="fas fa-store mr-2" aria-hidden="true"></i>
-            Boutique & Récompenses
+            ${t('shopRewards') || 'Boutique & Récompenses'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openShop(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-shopping-cart text-emerald-400" aria-hidden="true"></i>
-              Boutique
+              ${t('shop') || 'Boutique'}
             </button>
             <button onclick="openMyRewards(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-gift text-pink-400" aria-hidden="true"></i>
-              Mes Récompenses
+              ${t('myRewards') || 'Mes Récompenses'}
             </button>
             <button onclick="openProfileCustomization(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-palette text-purple-400" aria-hidden="true"></i>
-              Personnalisation
+              ${t('customization') || 'Personnalisation'}
             </button>
             <button onclick="openStats(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-chart-bar text-sky-400" aria-hidden="true"></i>
-              Statistiques
+              ${t('stats') || 'Statistiques'}
             </button>
           </div>
         </div>
@@ -133,24 +134,24 @@ export function renderAdminPanel(state) {
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-sky-400">
             <i class="fas fa-users mr-2" aria-hidden="true"></i>
-            Social
+            ${t('social') || 'Social'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openNearbyFriends(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-location-dot text-emerald-400" aria-hidden="true"></i>
-              Amis Proches
+              ${t('nearbyFriends') || 'Amis Proches'}
             </button>
             <button onclick="openCreateTravelGroup(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-car text-purple-400" aria-hidden="true"></i>
-              Groupes Voyage
+              ${t('travelGroups') || 'Groupes Voyage'}
             </button>
             <button onclick="changeTab('social'); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-comments text-sky-400" aria-hidden="true"></i>
-              Chat
+              ${t('chat') || 'Chat'}
             </button>
             <button onclick="openReport(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-flag text-red-400" aria-hidden="true"></i>
-              Signalement
+              ${t('report') || 'Signalement'}
             </button>
           </div>
         </div>
@@ -159,24 +160,24 @@ export function renderAdminPanel(state) {
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-primary-400">
             <i class="fas fa-map-marked-alt mr-2" aria-hidden="true"></i>
-            Carte & Spots
+            ${t('mapSpots') || 'Carte & Spots'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openAddSpot(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-plus-circle text-emerald-400" aria-hidden="true"></i>
-              Ajouter Spot
+              ${t('addSpot') || 'Ajouter Spot'}
             </button>
             <button onclick="openFilters(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-filter text-purple-400" aria-hidden="true"></i>
-              Filtres
+              ${t('filters') || 'Filtres'}
             </button>
             <button onclick="changeTab('travel'); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-route text-amber-400" aria-hidden="true"></i>
-              Planificateur
+              ${t('planner') || 'Planificateur'}
             </button>
             <button onclick="openSOS(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-exclamation-triangle text-red-400" aria-hidden="true"></i>
-              Mode SOS
+              ${t('sosMode') || 'Mode SOS'}
             </button>
           </div>
         </div>
@@ -185,32 +186,32 @@ export function renderAdminPanel(state) {
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-slate-400">
             <i class="fas fa-cog mr-2" aria-hidden="true"></i>
-            Système
+            ${t('system') || 'Système'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openAuth(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-sign-in-alt text-primary-400" aria-hidden="true"></i>
-              Connexion
+              ${t('login') || 'Connexion'}
             </button>
             <button onclick="startTutorial(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-graduation-cap text-amber-400" aria-hidden="true"></i>
-              Tutoriel
+              ${t('tutorial') || 'Tutoriel'}
             </button>
             <button onclick="openAccessibilityHelp(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-universal-access text-sky-400" aria-hidden="true"></i>
-              Accessibilité
+              ${t('accessibility') || 'Accessibilité'}
             </button>
             <button onclick="openDonation(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-heart text-pink-400" aria-hidden="true"></i>
-              Donation
+              ${t('donation') || 'Donation'}
             </button>
             <button onclick="adminResetState()" class="admin-btn text-red-400">
               <i class="fas fa-trash-alt" aria-hidden="true"></i>
-              Reset State
+              ${t('resetState') || 'Reset State'}
             </button>
             <button onclick="adminExportState()" class="admin-btn">
               <i class="fas fa-download text-emerald-400" aria-hidden="true"></i>
-              Export State
+              ${t('exportState') || 'Export State'}
             </button>
           </div>
         </div>
@@ -219,23 +220,23 @@ export function renderAdminPanel(state) {
         <div class="card p-4">
           <h3 class="font-bold text-sm mb-3 text-slate-400">
             <i class="fas fa-compass mr-2" aria-hidden="true"></i>
-            Navigation Rapide
+            ${t('quickNavigation') || 'Navigation Rapide'}
           </h3>
           <div class="flex flex-wrap gap-2">
             <button onclick="changeTab('map'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-primary-500/20 text-primary-400 text-sm hover:bg-primary-500/30">
-              Carte
+              ${t('map') || 'Carte'}
             </button>
             <button onclick="changeTab('travel'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-400 text-sm hover:bg-amber-500/30">
-              Voyage
+              ${t('travel') || 'Voyage'}
             </button>
             <button onclick="changeTab('challenges'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-purple-500/20 text-purple-400 text-sm hover:bg-purple-500/30">
-              Défis
+              ${t('challenges') || 'Défis'}
             </button>
             <button onclick="changeTab('social'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-sky-500/20 text-sky-400 text-sm hover:bg-sky-500/30">
-              Social
+              ${t('social') || 'Social'}
             </button>
             <button onclick="changeTab('profile'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-sm hover:bg-emerald-500/30">
-              Profil
+              ${t('profile') || 'Profil'}
             </button>
           </div>
         </div>
@@ -254,19 +255,19 @@ window.adminAddPoints = (amount) => {
     points: (state.points || 0) + amount,
     totalPoints: (state.totalPoints || 0) + amount
   });
-  window.showToast?.(`+${amount} points ajoutés`, 'success');
+  window.showToast?.(t('pointsAdded')?.replace('{amount}', amount) || `+${amount} points ajoutés`, 'success');
 };
 
 window.adminAddSkillPoints = (amount) => {
   const state = getState();
   setState({ skillPoints: (state.skillPoints || 0) + amount });
-  window.showToast?.(`+${amount} skill points ajoutés`, 'success');
+  window.showToast?.(t('skillPointsAdded')?.replace('{amount}', amount) || `+${amount} skill points ajoutés`, 'success');
 };
 
 window.adminAddThumbs = (amount) => {
   const state = getState();
   setState({ thumbs: (state.thumbs || 0) + amount });
-  window.showToast?.(`+${amount} pouces ajoutés`, 'success');
+  window.showToast?.(t('thumbsAdded')?.replace('{amount}', amount) || `+${amount} pouces ajoutés`, 'success');
 };
 
 window.adminLevelUp = () => {
@@ -275,7 +276,7 @@ window.adminLevelUp = () => {
     level: (state.level || 1) + 1,
     skillPoints: (state.skillPoints || 0) + 3
   });
-  window.showToast?.(`Niveau ${(state.level || 1) + 1} atteint !`, 'success');
+  window.showToast?.(t('levelReached')?.replace('{level}', (state.level || 1) + 1) || `Niveau ${(state.level || 1) + 1} atteint !`, 'success');
 };
 
 window.adminMaxStats = () => {
@@ -292,11 +293,11 @@ window.adminMaxStats = () => {
     reviewsGiven: 75,
     badges: ['first_spot', 'explorer', 'social', 'veteran', 'helper', 'night_owl', 'early_bird', 'marathon', 'streak_7', 'streak_30']
   });
-  window.showToast?.('Stats maximisées !', 'success');
+  window.showToast?.(t('statsMaxed') || 'Stats maximisées !', 'success');
 };
 
 window.adminResetState = () => {
-  if (confirm('Réinitialiser toutes les données ?')) {
+  if (confirm(t('confirmResetState') || 'Réinitialiser toutes les données ?')) {
     localStorage.clear();
     location.reload();
   }
@@ -312,7 +313,7 @@ window.adminExportState = () => {
   a.download = `spothitch-state-${Date.now()}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  window.showToast?.('State exporté', 'success');
+  window.showToast?.(t('stateExported') || 'State exporté', 'success');
 };
 
 window.openReport = () => setState({ showReport: true });
