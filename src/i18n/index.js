@@ -6054,15 +6054,23 @@ const translations = {
  * Returns the detected language code if supported, otherwise defaults to 'en'
  */
 export function detectLanguage() {
-  // Try navigator.language first (most reliable)
-  const browserLang = navigator.language?.substring(0, 2).toLowerCase();
   const supported = Object.keys(languageConfig);
 
+  // 1. User's saved choice takes priority (from state persistence)
+  try {
+    const saved = JSON.parse(localStorage.getItem('spothitch_v4_state') || '{}')
+    if (saved.lang && supported.includes(saved.lang)) {
+      return saved.lang
+    }
+  } catch (e) {}
+
+  // 2. Fallback to browser language
+  const browserLang = navigator.language?.substring(0, 2).toLowerCase();
   if (supported.includes(browserLang)) {
     return browserLang;
   }
 
-  // Try navigator.languages array for additional preferences
+  // 3. Try navigator.languages array
   if (navigator.languages && navigator.languages.length > 0) {
     for (const lang of navigator.languages) {
       const langCode = lang.substring(0, 2).toLowerCase();
@@ -6072,7 +6080,7 @@ export function detectLanguage() {
     }
   }
 
-  // Default to English (most universal)
+  // 4. Default to English
   return 'en';
 }
 
