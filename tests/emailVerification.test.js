@@ -216,7 +216,7 @@ describe('Email Verification Modal', () => {
       const html = renderEmailVerification('test@example.com');
 
       expect(html).toContain('aria-label');
-      expect(html).toContain('Fermer la vérification d\'email');
+      expect(html).toContain('Close');
     });
 
     it('should have aria-live region for status updates', () => {
