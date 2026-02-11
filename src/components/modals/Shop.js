@@ -264,12 +264,12 @@ export function redeemReward(rewardId) {
   const userThumbs = state.thumbs || state.points || 0;
 
   if (userThumbs < reward.cost) {
-    showToast('Pas assez de pouces ! 👍', 'error');
+    showToast(t('notEnoughThumbs') || 'Pas assez de pouces ! 👍', 'error');
     return;
   }
 
   if (state.redeemedCodes?.includes(rewardId)) {
-    showToast('Code déjà obtenu !', 'info');
+    showToast(t('codeAlreadyObtained') || 'Code déjà obtenu !', 'info');
     return;
   }
 
@@ -279,14 +279,14 @@ export function redeemReward(rewardId) {
     redeemedCodes: [...(state.redeemedCodes || []), rewardId],
   });
 
-  showToast(`🎉 Code ${reward.partner} obtenu ! Retrouve-le dans "Mes codes"`, 'success');
+  showToast(t('codeObtained') || `🎉 Code ${reward.partner} obtenu !`, 'success');
 }
 
 // Global handlers
 window.redeemReward = redeemReward;
 window.copyCode = (code) => {
   navigator.clipboard.writeText(code);
-  showToast('Code copié ! 📋', 'success');
+  showToast(t('codeCopied') || 'Code copié ! 📋', 'success');
 };
 
 export default {

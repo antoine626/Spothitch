@@ -777,7 +777,7 @@ window.calculateTrip = async () => {
     ])
 
     if (!fromResults[0] || !toResults[0]) {
-      window.showToast?.('Lieu non trouvé', 'error')
+      window.showToast?.(t('locationNotFound') || 'Lieu non trouvé', 'error')
       return
     }
 

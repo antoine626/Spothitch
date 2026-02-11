@@ -135,8 +135,8 @@ function renderMessage(msg, state) {
 
 function renderEmptyChat(room) {
   const messages = {
-    general: { icon: '💬', title: 'Chat général', desc: 'Discute avec la communauté mondiale' },
-    regional: { icon: '📍', title: 'Chat régional', desc: 'Trouve des voyageurs près de toi' },
+    general: { icon: '💬', title: t('generalChat') || 'Chat général', desc: t('generalChatDesc') || 'Discute avec la communauté mondiale' },
+    regional: { icon: '📍', title: t('regionalChat') || 'Chat régional', desc: t('regionalChatDesc') || 'Trouve des voyageurs près de toi' },
   };
   const info = messages[room] || messages.general;
 
@@ -145,7 +145,7 @@ function renderEmptyChat(room) {
       <span class="text-5xl mb-4 block">${info.icon}</span>
       <h3 class="text-lg font-bold mb-2">${info.title}</h3>
       <p class="text-slate-400 text-sm">${info.desc}</p>
-      <p class="text-slate-500 text-xs mt-2">Sois le premier à écrire !</p>
+      <p class="text-slate-500 text-xs mt-2">${t('beFirstToWrite') || 'Sois le premier à écrire !'}</p>
     </div>
   `;
 }
@@ -588,7 +588,7 @@ window.addFriendByName = async () => {
 
   setState({ friends: [...friends, newFriend] });
   if (input) input.value = '';
-  window.showToast?.(`${name} ajouté a tes amis !`, 'success');
+  window.showToast?.(t('friendAdded') || `${name} ajouté à tes amis !`, 'success');
 };
 
 window.removeFriend = async (friendId) => {

@@ -53,13 +53,13 @@ export function renderSOS(state) {
             <div class="card p-4 bg-danger-500/10 border-danger-500/30" role="alert" aria-live="assertive" id="sos-status">
               <div class="flex items-center gap-3">
                 <div class="live-dot" aria-hidden="true"></div>
-                <span class="text-danger-400 font-medium">Position partagee en direct</span>
+                <span class="text-danger-400 font-medium">${t('positionSharedLive') || 'Position partagée en direct'}</span>
               </div>
               <p class="text-sm text-slate-400 mt-2">
-                Tes contacts de confiance peuvent voir ta position en temps reel.
+                ${t('contactsCanSeePosition') || 'Tes contacts de confiance peuvent voir ta position en temps réel.'}
               </p>
             </div>
-          ` : '<div id="sos-status" class="sr-only">Partage de position non actif</div>'}
+          ` : `<div id="sos-status" class="sr-only">${t('positionShareInactive') || 'Partage de position non actif'}</div>`}
           
           <!-- Emergency Contacts -->
           <div>
@@ -72,8 +72,8 @@ export function renderSOS(state) {
                   type="text"
                   id="emergency-name"
                   class="input-field flex-1"
-                  placeholder="Nom du contact"
-                  aria-label="Nom du contact d'urgence"
+                  placeholder="${t('contactName') || 'Nom du contact'}"
+                  aria-label="${t('emergencyContactName') || 'Nom du contact d\'urgence'}"
                 />
               </div>
               <div class="flex gap-2">
@@ -82,14 +82,14 @@ export function renderSOS(state) {
                   id="emergency-phone"
                   class="input-field flex-1"
                   placeholder="+33 6 12 34 56 78"
-                  aria-label="Telephone du contact d'urgence"
+                  aria-label="${t('emergencyContactPhone') || 'Téléphone du contact d\'urgence'}"
                   onkeydown="if(event.key==='Enter') addEmergencyContact()"
                 />
                 <button
                   onclick="addEmergencyContact()"
                   class="btn-primary px-4"
                   type="button"
-                  aria-label="Ajouter le contact"
+                  aria-label="${t('addContact') || 'Ajouter le contact'}"
                 >
                   <i class="fas fa-plus" aria-hidden="true"></i>
                 </button>
@@ -113,7 +113,7 @@ export function renderSOS(state) {
                         onclick="removeEmergencyContact(${i})"
                         class="text-slate-500 hover:text-danger-400"
                         type="button"
-                        aria-label="Supprimer le contact ${contact.name}"
+                        aria-label="${t('deleteContact') || 'Supprimer le contact'} ${contact.name}"
                       >
                         <i class="fas fa-times" aria-hidden="true"></i>
                       </button>
@@ -122,7 +122,7 @@ export function renderSOS(state) {
     : `
                   <li class="text-center text-slate-400 py-4">
                     <i class="fas fa-user-plus text-2xl mb-2" aria-hidden="true"></i>
-                    <p class="text-sm">Ajoute des contacts de confiance</p>
+                    <p class="text-sm">${t('addTrustedContacts') || 'Ajoute des contacts de confiance'}</p>
                   </li>
                 `
 }
@@ -133,17 +133,17 @@ export function renderSOS(state) {
           <a
             href="tel:112"
             class="btn btn-ghost w-full border border-danger-500/30 text-danger-400"
-            aria-label="Appeler le 112, numero d'urgence europeen"
+            aria-label="${t('call112') || 'Appeler le 112, numéro d\'urgence européen'}"
           >
             <i class="fas fa-phone-alt" aria-hidden="true"></i>
-            Appeler le 112 (Urgences EU)
+            ${t('call112Label') || 'Appeler le 112 (Urgences EU)'}
           </a>
 
           <!-- Country Emergency Numbers -->
           <div class="card p-4 space-y-3">
             <h3 class="font-semibold flex items-center gap-2">
               <i class="fas fa-globe text-primary-400"></i>
-              Numeros d'urgence par pays
+              ${t('emergencyNumbersByCountry') || 'Numéros d\'urgence par pays'}
             </h3>
             <div id="country-emergency-numbers">
               <div class="grid grid-cols-2 gap-2 text-sm">
@@ -156,11 +156,11 @@ export function renderSOS(state) {
                   <div class="font-bold text-danger-400">911</div>
                 </a>
                 <a href="tel:000" class="p-2 rounded-lg bg-danger-500/10 text-center">
-                  <div class="text-xs text-slate-400">Australie</div>
+                  <div class="text-xs text-slate-400">${t('australia') || 'Australie'}</div>
                   <div class="font-bold text-danger-400">000</div>
                 </a>
                 <a href="tel:111" class="p-2 rounded-lg bg-danger-500/10 text-center">
-                  <div class="text-xs text-slate-400">Nv-Zelande</div>
+                  <div class="text-xs text-slate-400">${t('newZealand') || 'Nv-Zélande'}</div>
                   <div class="font-bold text-danger-400">111</div>
                 </a>
               </div>
@@ -171,20 +171,20 @@ export function renderSOS(state) {
           <div class="card p-4 space-y-3">
             <h3 class="font-semibold flex items-center gap-2">
               <i class="fas fa-comment-dots text-emerald-400"></i>
-              Messages d'urgence
+              ${t('emergencyMessages') || 'Messages d\'urgence'}
             </h3>
             <div class="space-y-2">
               <button onclick="sendSOSTemplate('danger')" class="w-full p-3 rounded-lg bg-danger-500/10 text-left text-sm hover:bg-danger-500/20 transition-all">
-                <div class="font-medium text-danger-400">🚨 Je suis en danger</div>
-                <div class="text-xs text-slate-400">Envoie ta position + message d'alerte</div>
+                <div class="font-medium text-danger-400">🚨 ${t('sosInDanger') || 'Je suis en danger'}</div>
+                <div class="text-xs text-slate-400">${t('sosInDangerDesc') || 'Envoie ta position + message d\'alerte'}</div>
               </button>
               <button onclick="sendSOSTemplate('stuck')" class="w-full p-3 rounded-lg bg-amber-500/10 text-left text-sm hover:bg-amber-500/20 transition-all">
-                <div class="font-medium text-amber-400">📍 Je suis bloque(e)</div>
-                <div class="text-xs text-slate-400">Envoie ta position + demande d'aide</div>
+                <div class="font-medium text-amber-400">📍 ${t('sosStuck') || 'Je suis bloqué(e)'}</div>
+                <div class="text-xs text-slate-400">${t('sosStuckDesc') || 'Envoie ta position + demande d\'aide'}</div>
               </button>
               <button onclick="sendSOSTemplate('help')" class="w-full p-3 rounded-lg bg-primary-500/10 text-left text-sm hover:bg-primary-500/20 transition-all">
-                <div class="font-medium text-primary-400">🆘 J'ai besoin d'aide</div>
-                <div class="text-xs text-slate-400">Envoie ta position + description</div>
+                <div class="font-medium text-primary-400">🆘 ${t('sosNeedHelp') || 'J\'ai besoin d\'aide'}</div>
+                <div class="text-xs text-slate-400">${t('sosNeedHelpDesc') || 'Envoie ta position + description'}</div>
               </button>
             </div>
           </div>
@@ -206,7 +206,7 @@ export function renderSOS(state) {
         <button
           onclick="closeSOS()"
           class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-          aria-label="Fermer la fenetre SOS"
+          aria-label="${t('closeSOSWindow') || 'Fermer la fenêtre SOS'}"
           type="button"
         >
           <i class="fas fa-times" aria-hidden="true"></i>
@@ -311,14 +311,14 @@ window.markSafe = async () => {
 
 window.sendSOSTemplate = async (type) => {
   const templates = {
-    danger: "🚨 URGENCE - Je suis en danger et j'ai besoin d'aide immediatement !",
-    stuck: "📍 Je suis bloque(e) en auto-stop et j'ai besoin qu'on vienne me chercher.",
-    help: "🆘 J'ai besoin d'aide. Voici ma position actuelle.",
+    danger: t('sosTemplateDanger') || "🚨 URGENCE - Je suis en danger et j'ai besoin d'aide immédiatement !",
+    stuck: t('sosTemplateStuck') || "📍 Je suis bloqué(e) en auto-stop et j'ai besoin qu'on vienne me chercher.",
+    help: t('sosTemplateHelp') || "🆘 J'ai besoin d'aide. Voici ma position actuelle.",
   }
   const text = templates[type] || templates.help
 
   if (!navigator.geolocation) {
-    window.showToast?.('Geolocalisation non disponible', 'error')
+    window.showToast?.(t('geoNotAvailable') || 'Géolocalisation non disponible', 'error')
     return
   }
 
@@ -326,7 +326,8 @@ window.sendSOSTemplate = async (type) => {
     (pos) => {
       const { latitude, longitude } = pos.coords
       const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`
-      const fullMsg = `${text}\n\nMa position: ${mapUrl}`
+      const myPosLabel = t('myPosition') || 'Ma position'
+      const fullMsg = `${text}\n\n${myPosLabel}: ${mapUrl}`
       const encoded = encodeURIComponent(fullMsg)
 
       // Try WhatsApp first, fallback to SMS
@@ -336,7 +337,7 @@ window.sendSOSTemplate = async (type) => {
         window.open(`https://wa.me/?text=${encoded}`, '_blank')
       }
     },
-    () => window.showToast?.('Position non disponible', 'error'),
+    () => window.showToast?.(t('positionNotAvailable') || 'Position non disponible', 'error'),
     { enableHighAccuracy: true, timeout: 10000 }
   )
 }

@@ -33,7 +33,7 @@ export function renderCheckinModal(state) {
             <div>
               <h2 id="checkin-title" class="text-xl font-bold flex items-center gap-2">
                 <i class="fas fa-map-pin text-emerald-400"></i>
-                Valider ce spot
+                ${t('validateSpot') || 'Valider ce spot'}
               </h2>
               <p class="text-sm text-slate-400 mt-1">
                 ${escapeHTML(spot.from)} → ${escapeHTML(spot.to)}
@@ -42,7 +42,7 @@ export function renderCheckinModal(state) {
             <button
               onclick="closeCheckinModal()"
               class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-              aria-label="Fermer"
+              aria-label="${t('close') || 'Fermer'}"
             >
               <i class="fas fa-times"></i>
             </button>
@@ -56,7 +56,7 @@ export function renderCheckinModal(state) {
           <div class="space-y-2">
             <label class="block text-sm font-medium">
               <i class="fas fa-camera mr-2 text-primary-400"></i>
-              Ajouter une photo (optionnel)
+              ${t('addPhotoOptional') || 'Ajouter une photo (optionnel)'}
             </label>
             <div
               id="checkin-photo-preview"
@@ -67,7 +67,7 @@ export function renderCheckinModal(state) {
             >
               <div id="checkin-photo-placeholder" class="text-center">
                 <i class="fas fa-cloud-upload-alt text-3xl text-slate-500 mb-2"></i>
-                <p class="text-sm text-slate-400">Cliquer pour ajouter une photo</p>
+                <p class="text-sm text-slate-400">${t('clickToAddPhoto') || 'Cliquer pour ajouter une photo'}</p>
               </div>
               <img id="checkin-photo-img" class="hidden w-full h-full object-cover rounded-xl" alt="Photo du spot"/>
             </div>
@@ -84,7 +84,7 @@ export function renderCheckinModal(state) {
           <div class="space-y-2">
             <label class="block text-sm font-medium">
               <i class="fas fa-clock mr-2 text-warning-400"></i>
-              Temps d'attente
+              ${t('waitTime') || 'Temps d\'attente'}
             </label>
             <div class="grid grid-cols-4 gap-2">
               ${['< 5 min', '5-15 min', '15-30 min', '> 30 min'].map((time, i) => `
@@ -107,14 +107,14 @@ export function renderCheckinModal(state) {
           <div class="space-y-2">
             <label class="block text-sm font-medium">
               <i class="fas fa-check-circle mr-2 text-emerald-400"></i>
-              Confirmer les caractéristiques
+              ${t('confirmCharacteristics') || 'Confirmer les caractéristiques'}
             </label>
             <div class="space-y-2">
               ${[
-                { id: 'safe', icon: 'shield-alt', label: 'Spot sécurisé', color: 'emerald' },
-                { id: 'visible', icon: 'eye', label: 'Bonne visibilité', color: 'primary' },
-                { id: 'traffic', icon: 'car', label: 'Trafic fréquent', color: 'warning' },
-                { id: 'shelter', icon: 'umbrella', label: 'Abri disponible', color: 'cyan' },
+                { id: 'safe', icon: 'shield-alt', label: t('safeSpot') || 'Spot sécurisé', color: 'emerald' },
+                { id: 'visible', icon: 'eye', label: t('goodVisibility') || 'Bonne visibilité', color: 'primary' },
+                { id: 'traffic', icon: 'car', label: t('frequentTraffic') || 'Trafic fréquent', color: 'warning' },
+                { id: 'shelter', icon: 'umbrella', label: t('shelterAvailable') || 'Abri disponible', color: 'cyan' },
               ].map(char => `
                 <label class="flex items-center gap-3 p-3 rounded-xl bg-white/5 cursor-pointer hover:bg-white/10 transition-all">
                   <input
@@ -135,13 +135,13 @@ export function renderCheckinModal(state) {
           <div class="space-y-2">
             <label class="block text-sm font-medium">
               <i class="fas fa-comment mr-2 text-primary-400"></i>
-              Commentaire (optionnel)
+              ${t('commentOptional') || 'Commentaire (optionnel)'}
             </label>
             <textarea
               id="checkin-comment"
               class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white
                 placeholder-slate-500 resize-none focus:border-primary-400 focus:outline-none"
-              placeholder="Ex: Super spot, voiture arrêtée en 5 min!"
+              placeholder="${t('checkinCommentPlaceholder') || 'Ex: Super spot, voiture arrêtée en 5 min!'}"
               rows="2"
             ></textarea>
           </div>
@@ -153,11 +153,11 @@ export function renderCheckinModal(state) {
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2 text-sm">
               <i class="fas fa-gift text-warning-400"></i>
-              <span>Récompense: <strong class="text-warning-400">+15 points</strong></span>
+              <span>${t('reward') || 'Récompense'}: <strong class="text-warning-400">+15 points</strong></span>
             </div>
             ${state.checkinPhotoData ? `
               <span class="text-xs text-emerald-400">
-                <i class="fas fa-check mr-1"></i> Photo ajoutée (+5 pts)
+                <i class="fas fa-check mr-1"></i> ${t('photoAdded') || 'Photo ajoutée'} (+5 pts)
               </span>
             ` : ''}
           </div>
@@ -166,7 +166,7 @@ export function renderCheckinModal(state) {
             class="w-full btn btn-primary py-3 font-semibold"
           >
             <i class="fas fa-check-circle mr-2"></i>
-            Valider mon passage
+            ${t('validateMyCheckin') || 'Valider mon passage'}
           </button>
         </div>
       </div>
@@ -284,7 +284,7 @@ export function registerCheckinHandlers() {
 
       // Close modal and show success
       window.closeCheckinModal();
-      showToast(`Check-in validé ! +${points} points`, 'success');
+      showToast(t('checkinValidated') || `Check-in validé ! +${points} points`, 'success');
 
       // Animation
       const { launchConfettiBurst } = await import('../../utils/confetti.js');
@@ -292,7 +292,7 @@ export function registerCheckinHandlers() {
 
     } catch (error) {
       console.error('Checkin error:', error);
-      showToast('Erreur lors du check-in', 'error');
+      showToast(t('checkinError') || 'Erreur lors du check-in', 'error');
     }
   };
 }

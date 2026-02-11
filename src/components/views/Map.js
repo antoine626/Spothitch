@@ -286,13 +286,13 @@ window.searchLocation = async (query) => {
       }
     } else {
       if (window.showError) {
-        window.showError('Lieu non trouvé');
+        window.showError(t('locationNotFound') || 'Lieu non trouvé');
       }
     }
   } catch (error) {
     console.error('Search failed:', error);
     if (window.showError) {
-      window.showError('Erreur de recherche');
+      window.showError(t('searchError') || 'Erreur de recherche');
     }
   }
 };
