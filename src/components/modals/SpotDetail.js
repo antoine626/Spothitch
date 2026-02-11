@@ -45,18 +45,24 @@ export function renderSpotDetail(state) {
 
         <!-- Photo -->
         <div class="relative h-56 overflow-hidden">
-          <img
+          ${spot.photoUrl ? `<img
             src="${escapeHTML(spot.photoUrl)}"
-            alt="${t('spotPhoto') || 'Photo du spot'}: ${escapeHTML(spot.from)} → ${escapeHTML(spot.to)}"
+            alt="${t('spotPhoto') || 'Photo du spot'}: ${escapeHTML(spot.from || '')} → ${escapeHTML(spot.to || '')}"
             class="w-full h-full object-cover"
             loading="lazy"
-          />
+          />` : `<div class="w-full h-full bg-gradient-to-br from-sky-900 to-slate-800 flex items-center justify-center">
+            <span class="text-6xl">📍</span>
+          </div>`}
           <div class="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
-          
+
           <!-- Title overlay -->
           <div class="absolute bottom-4 left-4 right-4">
             <h2 id="spotdetail-title" class="text-2xl font-bold">
-              ${escapeHTML(spot.from)} <i class="fas fa-arrow-right text-primary-400 mx-2" aria-hidden="true"></i><span class="sr-only">vers</span> ${escapeHTML(spot.to)}
+              ${spot.from && spot.to
+                ? `${escapeHTML(spot.from)} <i class="fas fa-arrow-right text-primary-400 mx-2" aria-hidden="true"></i><span class="sr-only">vers</span> ${escapeHTML(spot.to)}`
+                : spot.direction
+                  ? `📍 ${escapeHTML(spot.direction)}`
+                  : `📍 ${t('spotLocation') || 'Spot'} #${spot.id}`}
             </h2>
             <div class="flex items-center gap-2 mt-1 flex-wrap">
               ${renderVerificationBadge(spot.id)}
@@ -93,6 +99,32 @@ export function renderSpotDetail(state) {
             </div>
           </div>
           
+          <!-- Spot Info (type, direction) -->
+          ${spot.spotType || spot.direction ? `
+          <div class="mb-4">
+            <div class="flex flex-wrap gap-2">
+              ${spot.spotType && spot.spotType !== 'custom' ? `
+                <span class="badge bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                  ${spot.spotType === 'city_exit' ? '🏙️ ' + (t('spotTypeCityExit') || 'Sortie de ville')
+                    : spot.spotType === 'gas_station' ? '⛽ ' + (t('spotTypeGasStation') || 'Station-service')
+                    : spot.spotType === 'highway' ? '🛣️ ' + (t('spotTypeHighway') || 'Autoroute')
+                    : spot.spotType}
+                </span>` : ''}
+              ${spot.direction ? `
+                <span class="badge bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  🧭 ${escapeHTML(spot.direction)}
+                </span>` : ''}
+              ${spot.fromCity ? `
+                <span class="badge bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  🏙️ ${t('fromCityLabel') || 'Depuis'}: ${escapeHTML(spot.fromCity)}
+                </span>` : ''}
+              ${spot.roadNumber ? `
+                <span class="badge bg-slate-500/20 text-slate-300 border border-slate-500/30">
+                  🛤️ ${escapeHTML(spot.roadNumber)}
+                </span>` : ''}
+            </div>
+          </div>` : ''}
+
           <!-- Description -->
           <div class="mb-4">
             <h3 class="font-semibold mb-2"><span aria-hidden="true">📍</span> ${t('description') || 'Description'}</h3>

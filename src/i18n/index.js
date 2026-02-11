@@ -259,6 +259,7 @@ const translations = {
     spotTypeHighway: 'Bord de route',
     spotTypeCustom: 'Autre',
     spotTypeLabel: 'Type de spot',
+    spotLocation: 'Spot',
 
     // Spot form fields
     directionLabel: 'Direction / Vers',
@@ -2728,6 +2729,7 @@ const translations = {
     spotTypeHighway: 'Roadside',
     spotTypeCustom: 'Other',
     spotTypeLabel: 'Spot type',
+    spotLocation: 'Spot',
 
     // Spot form fields
     directionLabel: 'Direction / Towards',
@@ -5750,6 +5752,7 @@ const translations = {
     spotTypeHighway: 'Borde de carretera',
     spotTypeCustom: 'Otro',
     spotTypeLabel: 'Tipo de spot',
+    spotLocation: 'Spot',
 
     // Spot form fields
     directionLabel: 'Dirección / Hacia',
@@ -8130,6 +8133,7 @@ const translations = {
     spotTypeHighway: 'Strassenrand',
     spotTypeCustom: 'Andere',
     spotTypeLabel: 'Spot-Typ',
+    spotLocation: 'Spot',
 
     // Spot form fields
     directionLabel: 'Richtung / Nach',

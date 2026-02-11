@@ -42,12 +42,14 @@ function renderDefaultCard(spot) {
     >
       <!-- Photo -->
       <div class="relative h-40 overflow-hidden">
-        <img
+        ${safePhotoUrl ? `<img
           src="${safePhotoUrl}"
           alt="${t('spotPhoto') || 'Photo du spot'}: ${safeFrom} → ${safeTo}"
           class="w-full h-full object-cover"
           loading="lazy"
-        />
+        />` : `<div class="w-full h-full bg-gradient-to-br from-sky-900 to-slate-800 flex items-center justify-center">
+          <span class="text-4xl">📍</span>
+        </div>`}
         <div class="absolute top-3 right-3 flex flex-col gap-1 items-end">
           <span class="badge ${typeClass}" aria-label="${t('spotType') || 'Type'}: ${typeLabel}">${typeLabel}</span>
           <!-- Freshness Badge -->
@@ -77,7 +79,11 @@ function renderDefaultCard(spot) {
       <!-- Content -->
       <div class="p-4">
         <h3 class="font-bold text-lg mb-1">
-          ${safeFrom} <i class="fas fa-arrow-right text-primary-400 text-sm mx-1"></i> ${safeTo}
+          ${safeFrom && safeTo
+            ? `${safeFrom} <i class="fas fa-arrow-right text-primary-400 text-sm mx-1"></i> ${safeTo}`
+            : spot.direction
+              ? `📍 ${escapeHTML(spot.direction)}`
+              : `📍 ${t('spotLocation') || 'Spot'} #${spot.id}`}
         </h3>
 
         <p class="text-slate-400 text-sm line-clamp-2 mb-3">
@@ -140,12 +146,14 @@ function renderCompactCard(spot) {
     >
       <!-- Photo with freshness indicator -->
       <div class="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
-        <img
+        ${safePhotoUrl ? `<img
           src="${safePhotoUrl}"
           alt="${t('spotPhoto') || 'Photo du spot'}: ${safeFrom}"
           class="w-full h-full object-cover"
           loading="lazy"
-        />
+        />` : `<div class="w-full h-full bg-gradient-to-br from-sky-900 to-slate-800 flex items-center justify-center">
+          <span class="text-2xl">📍</span>
+        </div>`}
         <!-- Freshness indicator dot -->
         <div class="absolute bottom-1 right-1" title="${freshnessBadge.label}">
           ${renderFreshnessIndicator(spot.lastCheckin || spot.lastUsed)}
@@ -155,7 +163,11 @@ function renderCompactCard(spot) {
       <!-- Content -->
       <div class="flex-1 min-w-0">
         <h3 class="font-semibold text-sm truncate">
-          ${safeFrom} <span aria-hidden="true">→</span><span class="sr-only">${t('towards') || 'vers'}</span> ${safeTo}
+          ${safeFrom && safeTo
+            ? `${safeFrom} <span aria-hidden="true">→</span><span class="sr-only">${t('towards') || 'vers'}</span> ${safeTo}`
+            : spot.direction
+              ? `📍 ${escapeHTML(spot.direction)}`
+              : `📍 ${t('spotLocation') || 'Spot'} #${spot.id}`}
         </h3>
         <div class="flex items-center gap-2 mt-1 text-xs text-slate-400">
           <span class="flex items-center gap-1 text-warning-400" aria-label="${ratingText}">

@@ -5,7 +5,7 @@
 
 import { getState, setState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
-import { countries } from '../../data/spots.js';
+
 
 /**
  * Render filters modal

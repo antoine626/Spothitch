@@ -5,7 +5,7 @@
  */
 
 import { Storage, SpotHitchDB } from '../utils/storage.js';
-import { sampleSpots } from '../data/spots.js';
+import { getAllLoadedSpots } from './spotLoader.js';
 
 // Constants
 const DB_NAME = 'spothitch-offline-maps';
@@ -183,7 +183,7 @@ function isValidBounds(bounds) {
 export function getSpotsInBounds(bounds) {
   if (!bounds || !isValidBounds(bounds)) return [];
 
-  return sampleSpots.filter((spot) => {
+  return getAllLoadedSpots().filter((spot) => {
     if (!spot.coordinates) return false;
     const { lat, lng } = spot.coordinates;
     return (

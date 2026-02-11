@@ -186,7 +186,7 @@ export async function addSpot(spotData) {
     const docRef = await addDoc(spotsRef, {
       ...spotData,
       creatorId: user?.uid || 'anonymous',
-      creatorName: user?.displayName || 'Anonyme',
+      creator: user?.displayName || 'Anonyme',
       createdAt: serverTimestamp(),
       totalReviews: 0,
       checkins: 0,
@@ -372,7 +372,7 @@ export async function saveSpotToFirebase(spot) {
     const spotData = {
       ...spot,
       creatorId: user?.uid || 'anonymous',
-      creatorName: user?.displayName || 'Anonyme',
+      creator: user?.displayName || 'Anonyme',
       creatorAvatar: user?.photoURL || '🤙',
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),

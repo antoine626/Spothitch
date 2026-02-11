@@ -166,7 +166,7 @@ export async function loadSpotsInBounds(bounds) {
     KE: { lat: -0.0, lon: 37.9 }, TZ: { lat: -6.4, lon: 34.9 },
     GH: { lat: 7.9, lon: -1.0 }, NG: { lat: 9.1, lon: 8.7 },
     NA: { lat: -22.9, lon: 18.5 },
-    BW: { lat: -22.3, lon: 24.7 }, TN: { lat: 33.9, lon: 9.5 },
+    BW: { lat: -22.3, lon: 24.7 }, TN: { lat: 33.9, lon: 9.5 }, MZ: { lat: -18.7, lon: 35.5 },
     // Oceania
     AU: { lat: -25.3, lon: 133.8 }, NZ: { lat: -40.9, lon: 174.9 },
     TW: { lat: 23.7, lon: 120.9 },

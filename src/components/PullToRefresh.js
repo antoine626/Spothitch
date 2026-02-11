@@ -407,15 +407,17 @@ export function setupViewPTR(viewId, onRefresh) {
  */
 export const viewRefreshHandlers = {
   map: async () => {
-    // Reload spots and re-center map
-    const { sampleSpots } = await import('../data/spots.js');
+    // Reload spots from spotLoader based on current map view
+    const { getAllLoadedSpots } = await import('../services/spotLoader.js');
     const { setState, getState } = await import('../stores/state.js');
-    const state = getState();
 
-    // Simulate refresh with slight delay
     setState({ spotsLoading: true });
-    await new Promise(resolve => setTimeout(resolve, 500));
-    setState({ spots: sampleSpots, spotsLoading: false });
+    const spots = getAllLoadedSpots();
+    if (spots.length > 0) {
+      setState({ spots, spotsLoading: false });
+    } else {
+      setState({ spotsLoading: false });
+    }
 
     // Re-init map
     if (window.mapInstance) {
@@ -426,12 +428,16 @@ export const viewRefreshHandlers = {
   },
 
   spots: async () => {
-    const { sampleSpots } = await import('../data/spots.js');
+    const { getAllLoadedSpots } = await import('../services/spotLoader.js');
     const { setState } = await import('../stores/state.js');
 
     setState({ spotsLoading: true });
-    await new Promise(resolve => setTimeout(resolve, 500));
-    setState({ spots: sampleSpots, spotsLoading: false });
+    const spots = getAllLoadedSpots();
+    if (spots.length > 0) {
+      setState({ spots, spotsLoading: false });
+    } else {
+      setState({ spotsLoading: false });
+    }
 
     window.showToast?.('Liste mise a jour !', 'success');
   },
