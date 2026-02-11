@@ -1,16 +1,10 @@
 /**
  * Contact Form Modal Component
  * Sends messages via Formspree (free tier: 50 submissions/month)
- *
- * SETUP: Create a free account at https://formspree.io
- * Then replace 'xformid' in FORMSPREE_ENDPOINT with your actual form ID.
  */
 
 import { t } from '../../i18n/index.js'
 
-// TODO: Replace 'xformid' with your Formspree form ID.
-// Create a free account at https://formspree.io and create a new form.
-// Your form ID will look like 'xAbCdEfG' — paste it below.
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjgegaka'
 
 export function renderContactFormModal() {

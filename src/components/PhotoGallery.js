@@ -4,6 +4,7 @@
  */
 
 import { escapeHTML } from '../utils/sanitize.js';
+import { t } from '../i18n/index.js';
 
 /**
  * Render photo gallery with carousel
@@ -16,12 +17,12 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
     return `
       <div class="photo-gallery-empty bg-gray-800 rounded-xl p-8 text-center">
         <i class="fas fa-camera text-4xl text-slate-500 mb-3"></i>
-        <p class="text-slate-400 text-sm">Aucune photo pour ce spot</p>
+        <p class="text-slate-400 text-sm">${t('noPhotosForSpot') || 'No photos for this spot'}</p>
         <button
           onclick="openPhotoUpload(${spotId})"
           class="mt-3 text-primary-400 text-sm hover:underline"
         >
-          <i class="fas fa-plus mr-1"></i>Ajouter une photo
+          <i class="fas fa-plus mr-1"></i>${t('addPhoto') || 'Add a photo'}
         </button>
       </div>
     `;
@@ -36,7 +37,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
         <img
           id="${galleryId}-main"
           src="${escapeHTML(photos[0])}"
-          alt="Photo du spot"
+          alt="${t('spotPhoto') || 'Spot photo'}"
           class="w-full h-full object-cover transition-opacity duration-300"
           loading="lazy"
           onclick="openPhotoFullscreen('${galleryId}', 0)"
@@ -48,7 +49,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
             onclick="prevPhoto('${galleryId}')"
             class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50
               flex items-center justify-center text-white hover:bg-black/70 transition-colors"
-            aria-label="Photo precedente"
+            aria-label="${t('previousPhoto') || 'Previous photo'}"
           >
             <i class="fas fa-chevron-left"></i>
           </button>
@@ -56,7 +57,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
             onclick="nextPhoto('${galleryId}')"
             class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50
               flex items-center justify-center text-white hover:bg-black/70 transition-colors"
-            aria-label="Photo suivante"
+            aria-label="${t('nextPhoto') || 'Next photo'}"
           >
             <i class="fas fa-chevron-right"></i>
           </button>
@@ -74,7 +75,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
           onclick="openPhotoFullscreen('${galleryId}', getCurrentPhotoIndex('${galleryId}'))"
           class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50
             flex items-center justify-center text-white hover:bg-black/70 transition-colors"
-          aria-label="Plein ecran"
+          aria-label="${t('fullscreen') || 'Fullscreen'}"
         >
           <i class="fas fa-expand"></i>
         </button>
@@ -93,7 +94,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
             >
               <img
                 src="${escapeHTML(photo)}"
-                alt="Miniature ${index + 1}"
+                alt="${t('thumbnailN') || 'Thumbnail'} ${index + 1}"
                 class="w-full h-full object-cover"
                 loading="lazy"
               />
@@ -109,7 +110,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
           hover:border-primary-500 hover:text-primary-400 transition-colors flex items-center justify-center gap-2"
       >
         <i class="fas fa-plus"></i>
-        Ajouter une photo
+        ${t('addPhoto') || 'Add a photo'}
       </button>
 
       <!-- Hidden data for JS -->
@@ -139,7 +140,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
         onclick="closePhotoFullscreen()"
         class="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-white/10
           flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-        aria-label="Fermer"
+        aria-label="${t('close') || 'Close'}"
       >
         <i class="fas fa-times text-xl"></i>
       </button>
@@ -149,7 +150,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
         <img
           id="fullscreen-image"
           src="${escapeHTML(photos[currentIndex])}"
-          alt="Photo en plein ecran"
+          alt="${t('fullscreenPhoto') || 'Fullscreen photo'}"
           class="max-w-full max-h-full object-contain"
         />
       </div>
@@ -191,7 +192,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
             >
               <img
                 src="${escapeHTML(photo)}"
-                alt="Miniature ${index + 1}"
+                alt="${t('thumbnailN') || 'Thumbnail'} ${index + 1}"
                 class="w-full h-full object-cover"
               />
             </button>

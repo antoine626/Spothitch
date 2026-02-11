@@ -235,11 +235,11 @@ export function renderCheckinHistory(state) {
         <button
           onclick="changeTab('profile')"
           class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
-          aria-label="Retour au profil"
+          aria-label="${t('backToProfile') || 'Back to profile'}"
         >
           <i class="fas fa-arrow-left" aria-hidden="true"></i>
         </button>
-        <h1 class="text-xl font-bold">Mes check-ins</h1>
+        <h1 class="text-xl font-bold">${t('myCheckins') || 'My check-ins'}</h1>
       </div>
 
       <!-- Statistics -->

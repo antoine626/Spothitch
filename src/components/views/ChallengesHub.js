@@ -61,7 +61,7 @@ export function renderChallengesHub(state) {
               🏅
             </div>
             <div>
-              <div class="font-bold text-white">Badges</div>
+              <div class="font-bold text-white">${t('badges') || 'Badges'}</div>
               <div class="text-sm text-slate-400">${earnedBadgesCount}/${totalBadges}</div>
             </div>
           </div>
@@ -101,8 +101,8 @@ export function renderChallengesHub(state) {
               🧠
             </div>
             <div>
-              <div class="font-bold text-white">Quiz</div>
-              <div class="text-sm text-slate-400">+50 pts/jour</div>
+              <div class="font-bold text-white">${t('quiz') || 'Quiz'}</div>
+              <div class="text-sm text-slate-400">${t('quizDailyPoints') || '+50 pts/day'}</div>
             </div>
           </div>
         </button>
@@ -118,7 +118,7 @@ export function renderChallengesHub(state) {
             </div>
             <div>
               <div class="font-bold text-white">${t('shop') || 'Boutique'}</div>
-              <div class="text-sm text-slate-400">${shopRewards.length} items</div>
+              <div class="text-sm text-slate-400">${shopRewards.length} ${t('items') || 'items'}</div>
             </div>
           </div>
         </button>
@@ -168,7 +168,7 @@ export function renderChallengesHub(state) {
                 <div class="flex items-center justify-between mb-2">
                   <div class="flex items-center gap-2">
                     <span class="text-lg">${challenge.icon}</span>
-                    <span class="font-medium">${challenge.name || challenge.title || 'Défi'}</span>
+                    <span class="font-medium">${challenge.name || challenge.title || (t('challenge') || 'Challenge')}</span>
                   </div>
                   <span class="text-xs px-2 py-0.5 rounded-full ${
   challenge.challengeType === 'daily' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'
@@ -264,7 +264,7 @@ export function renderChallengesHub(state) {
             </div>
             <div class="text-right">
               <div class="text-2xl font-bold text-orange-400">+${state.streak * 5}</div>
-              <div class="text-xs text-slate-400">bonus pts</div>
+              <div class="text-xs text-slate-400">${t('bonusPts') || 'bonus pts'}</div>
             </div>
           </div>
         </div>

@@ -11,24 +11,24 @@ import { t } from '../i18n/index.js';
  */
 export function renderSideMenu() {
   const state = getState();
-  const { showSideMenu, user, isLoggedIn, lang = 'fr' } = state;
+  const { showSideMenu, user, isLoggedIn } = state;
 
   if (!showSideMenu) return '';
 
   const menuItems = [
-    { id: 'home', icon: '🏠', label: 'Accueil', labelEn: 'Home' },
-    { id: 'spots', icon: '📍', label: 'Spots', labelEn: 'Spots' },
-    { id: 'planner', icon: '🗺️', label: 'Voyage', labelEn: 'Planner' },
-    { id: 'guides', icon: '📚', label: 'Guides', labelEn: 'Guides' },
-    { id: 'chat', icon: '💬', label: 'Chat', labelEn: 'Chat' },
-    { id: 'friends', icon: '👥', label: 'Amis', labelEn: 'Friends' },
-    { id: 'profile', icon: '👤', label: 'Profil', labelEn: 'Profile' },
+    { id: 'home', icon: '🏠', label: t('home') || 'Home' },
+    { id: 'spots', icon: '📍', label: t('spots') || 'Spots' },
+    { id: 'planner', icon: '🗺️', label: t('planner') || 'Planner' },
+    { id: 'guides', icon: '📚', label: t('guides') || 'Guides' },
+    { id: 'chat', icon: '💬', label: t('chat') || 'Chat' },
+    { id: 'friends', icon: '👥', label: t('friends') || 'Friends' },
+    { id: 'profile', icon: '👤', label: t('profile') || 'Profile' },
   ];
 
   const bottomItems = [
-    { action: 'openSettings', icon: '⚙️', label: 'Paramètres', labelEn: 'Settings' },
-    { action: 'showLegalPage', icon: '📋', label: 'Mentions légales', labelEn: 'Legal' },
-    { action: 'openSOS', icon: '🆘', label: 'Mode SOS', labelEn: 'SOS Mode' },
+    { action: 'openSettings', icon: '⚙️', label: t('settings') || 'Settings' },
+    { action: 'showLegalPage', icon: '📋', label: t('legal') || 'Legal' },
+    { action: 'openSOS', icon: '🆘', label: t('sosMode') || 'SOS Mode' },
   ];
 
   return `
@@ -38,7 +38,7 @@ export function renderSideMenu() {
            onclick="event.stopPropagation()"
            role="dialog"
            aria-modal="true"
-           aria-label="Menu lateral">
+           aria-label="${t('sideMenu') || 'Side menu'}">
         <!-- Header -->
         <div class="p-6 border-b border-gray-700">
           ${isLoggedIn ? `
@@ -48,8 +48,8 @@ export function renderSideMenu() {
                 ${state.avatar || '🤙'}
               </div>
               <div>
-                <div class="text-white font-bold">${user?.displayName || state.username || 'Voyageur'}</div>
-                <div class="text-gray-500 text-sm">Niveau ${state.level || 1}</div>
+                <div class="text-white font-bold">${user?.displayName || state.username || (t('you') || 'Traveler')}</div>
+                <div class="text-gray-500 text-sm">${t('levelPrefix') || 'Lvl.'} ${state.level || 1}</div>
               </div>
             </div>
           ` : `
@@ -57,13 +57,13 @@ export function renderSideMenu() {
                     class="w-full py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-white
                            font-bold rounded-xl"
                     type="button">
-              Connexion
+              ${t('login') || 'Login'}
             </button>
           `}
         </div>
 
         <!-- Main Menu -->
-        <nav class="p-4 space-y-1" aria-label="Menu principal">
+        <nav class="p-4 space-y-1" aria-label="${t('mainMenu') || 'Main menu'}">
           ${menuItems.map(item => `
             <button onclick="closeSideMenu(); changeTab('${item.id}')"
                     class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left
@@ -73,7 +73,7 @@ export function renderSideMenu() {
                     type="button"
                     aria-current="${state.activeTab === item.id ? 'page' : 'false'}">
               <span class="text-xl" aria-hidden="true">${item.icon}</span>
-              <span>${lang === 'en' ? item.labelEn : item.label}</span>
+              <span>${item.label}</span>
             </button>
           `).join('')}
         </nav>
@@ -82,14 +82,14 @@ export function renderSideMenu() {
         <div class="mx-4 border-t border-gray-700" aria-hidden="true"></div>
 
         <!-- Bottom Menu -->
-        <nav class="p-4 space-y-1" aria-label="Menu secondaire">
+        <nav class="p-4 space-y-1" aria-label="${t('secondaryMenu') || 'Secondary menu'}">
           ${bottomItems.map(item => `
             <button onclick="closeSideMenu(); ${item.action}()"
                     class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left
                            text-gray-300 hover:bg-gray-800"
                     type="button">
               <span class="text-xl" aria-hidden="true">${item.icon}</span>
-              <span>${lang === 'en' ? item.labelEn : item.label}</span>
+              <span>${item.label}</span>
             </button>
           `).join('')}
         </nav>

@@ -76,9 +76,9 @@ export function renderFiltersModal() {
               ${t('resetFilters')}
             </button>
             <button onclick="closeFilters()"
-                    class="p-2 hover:bg-gray-800 rounded-full"
+                    class="w-10 h-10 flex items-center justify-center hover:bg-gray-800 rounded-full"
                     type="button"
-                    aria-label="${t('closeFilters') || 'Fermer les filtres'}">
+                    aria-label="${t('closeFilters') || 'Close filters'}">
               <span aria-hidden="true">✕</span>
             </button>
           </div>

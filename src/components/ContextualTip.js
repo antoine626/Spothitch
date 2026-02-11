@@ -5,6 +5,7 @@
  */
 
 import { getCurrentTip, dismissTip, TIPS } from '../services/contextualTips.js';
+import { t } from '../i18n/index.js';
 
 /**
  * Render a floating contextual tip (bottom of screen)
@@ -56,7 +57,7 @@ export function renderContextualTip() {
           <!-- Content -->
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-1">
-              <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">Astuce</span>
+              <span class="text-xs font-semibold text-slate-400 uppercase tracking-wide">${t('tip') || 'Tip'}</span>
             </div>
             <p class="text-white text-sm leading-relaxed">${tip.message}</p>
           </div>
@@ -65,7 +66,7 @@ export function renderContextualTip() {
           <button
             onclick="window.dismissContextualTip()"
             class="flex-shrink-0 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-400 hover:text-white transition-all"
-            aria-label="Fermer l'astuce"
+            aria-label="${t('closeTip') || 'Close tip'}"
             type="button"
           >
             <i class="fas fa-check text-sm" aria-hidden="true"></i>
@@ -79,7 +80,7 @@ export function renderContextualTip() {
           type="button"
         >
           <i class="fas fa-thumbs-up" aria-hidden="true"></i>
-          OK, compris !
+          ${t('gotIt') || 'Got it!'}
         </button>
       </div>
     </div>
@@ -173,7 +174,7 @@ export function renderTooltipTip(tip, position = 'bottom') {
           class="mt-2 w-full py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition-all"
           type="button"
         >
-          OK, compris !
+          ${t('gotIt') || 'Got it!'}
         </button>
       </div>
       <div class="absolute ${arrowClasses[position]} border-4 w-0 h-0"></div>

@@ -4,6 +4,7 @@
  */
 
 import { getState, setState } from '../stores/state.js';
+import { t } from '../i18n/index.js';
 import {
   getWeeklyLeaderboard,
   getUserWeeklyRank,
@@ -28,7 +29,7 @@ export function renderWeeklyLeaderboardModal() {
   const userRank = getUserWeeklyRank();
   const timeRemaining = getTimeUntilReset();
   const currentUser = {
-    username: state.username || 'Vous',
+    username: state.username || (t('you') || 'You'),
     avatar: state.avatar || '🤙',
     weeklyPoints: userRank.weeklyPoints,
     level: state.level || 1,
@@ -47,15 +48,15 @@ export function renderWeeklyLeaderboardModal() {
           <div class="flex justify-between items-start">
             <div>
               <h2 id="weekly-leaderboard-title" class="text-2xl font-bold text-white flex items-center gap-2">
-                <span>Classement Hebdo</span>
+                <span>${t('weeklyRanking') || 'Weekly Ranking'}</span>
                 <span class="animate-bounce">🏆</span>
               </h2>
-              <p class="text-white/80 text-sm">Semaine ${getWeekId().split('-W')[1]}</p>
+              <p class="text-white/80 text-sm">${t('weekNumber') || 'Week'} ${getWeekId().split('-W')[1]}</p>
             </div>
             <button onclick="closeWeeklyLeaderboard()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
                     type="button"
-                    aria-label="Fermer">
+                    aria-label="${t('close') || 'Close'}">
               <span aria-hidden="true">✕</span>
             </button>
           </div>
@@ -65,7 +66,7 @@ export function renderWeeklyLeaderboardModal() {
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="text-xl">⏱️</span>
-                <span class="text-white/80 text-sm">Reset dans</span>
+                <span class="text-white/80 text-sm">${t('resetIn') || 'Reset in'}</span>
               </div>
               <div class="flex gap-2">
                 ${renderCountdownUnit(timeRemaining.days, 'j')}
@@ -85,16 +86,16 @@ export function renderWeeklyLeaderboardModal() {
               <div class="flex-1">
                 <div class="font-bold text-white">${currentUser.username}</div>
                 <div class="text-white/70 text-sm">
-                  ${currentUser.weeklyPoints.toLocaleString()} pts cette semaine
+                  ${currentUser.weeklyPoints.toLocaleString()} ${t('ptsThisWeek') || 'pts this week'}
                 </div>
               </div>
               <div class="text-right">
                 ${currentUser.rank ? `
                   <div class="text-3xl font-bold text-white">#${currentUser.rank}</div>
-                  <div class="text-white/70 text-xs">Votre rang</div>
+                  <div class="text-white/70 text-xs">${t('yourRank') || 'Your rank'}</div>
                 ` : `
-                  <div class="text-white/70 text-sm">Non classe</div>
-                  <div class="text-white/50 text-xs">Gagnez des points !</div>
+                  <div class="text-white/70 text-sm">${t('notRanked') || 'Not ranked'}</div>
+                  <div class="text-white/50 text-xs">${t('earnPoints') || 'Earn points!'}</div>
                 `}
               </div>
             </div>
@@ -107,19 +108,19 @@ export function renderWeeklyLeaderboardModal() {
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
                          ${weeklyLeaderboardTab === 'ranking' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-gray-500 hover:text-gray-300'}">
             <i class="fas fa-trophy" aria-hidden="true"></i>
-            Classement
+            ${t('ranking') || 'Ranking'}
           </button>
           <button onclick="setWeeklyLeaderboardTab('rewards')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
                          ${weeklyLeaderboardTab === 'rewards' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-gray-500 hover:text-gray-300'}">
             <i class="fas fa-gift" aria-hidden="true"></i>
-            Recompenses
+            ${t('rewards') || 'Rewards'}
           </button>
           <button onclick="setWeeklyLeaderboardTab('history')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
                          ${weeklyLeaderboardTab === 'history' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-gray-500 hover:text-gray-300'}">
             <i class="fas fa-history" aria-hidden="true"></i>
-            Historique
+            ${t('history') || 'History'}
           </button>
         </div>
 
@@ -170,7 +171,7 @@ function renderRankingTab(leaderboard, currentUser) {
       <!-- Show more indicator -->
       ${leaderboard.length > 10 ? `
         <div class="text-center mt-4 text-gray-500 text-sm">
-          + ${leaderboard.length - 10} autres participants
+          + ${leaderboard.length - 10} ${t('otherParticipants') || 'other participants'}
         </div>
       ` : ''}
     </div>
@@ -185,7 +186,7 @@ function renderPodiumPlace(user, position) {
     return `
       <div class="flex flex-col items-center ${position === 1 ? 'order-2' : position === 2 ? 'order-1' : 'order-3'}">
         <div class="text-3xl mb-2 opacity-30">?</div>
-        <div class="text-gray-600 font-medium text-sm">Vide</div>
+        <div class="text-gray-600 font-medium text-sm">${t('empty') || 'Empty'}</div>
         <div class="mt-2 w-20 ${position === 1 ? 'h-28' : position === 2 ? 'h-24' : 'h-20'} rounded-t-lg bg-gray-800/50 border-2 border-gray-700/50 flex items-start justify-center pt-2">
           <span class="text-2xl opacity-30">${position === 1 ? '🥇' : position === 2 ? '🥈' : '🥉'}</span>
         </div>
@@ -234,13 +235,13 @@ function renderLeaderboardRow(user, rank, currentUserRank) {
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2">
           <span class="text-white font-medium truncate">${user.username}</span>
-          ${isCurrentUser ? '<span class="text-xs bg-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded-full">Vous</span>' : ''}
+          ${isCurrentUser ? `<span class="text-xs bg-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded-full">${t('you') || 'You'}</span>` : ''}
         </div>
-        <div class="text-gray-500 text-xs">Niv. ${user.level}</div>
+        <div class="text-gray-500 text-xs">${t('levelPrefix') || 'Lvl.'} ${user.level}</div>
       </div>
       <div class="text-right">
         <div class="text-emerald-400 font-bold">${user.weeklyPoints.toLocaleString()}</div>
-        <div class="text-gray-500 text-xs">points</div>
+        <div class="text-gray-500 text-xs">${t('points') || 'points'}</div>
       </div>
     </div>
   `;
@@ -259,7 +260,7 @@ function renderRewardsTab() {
       <div>
         <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
           <span>🎁</span>
-          Recompenses de fin de semaine
+          ${t('endOfWeekRewards') || 'End of week rewards'}
         </h3>
         <div class="space-y-3">
           ${rewards.map(reward => `
@@ -289,7 +290,7 @@ function renderRewardsTab() {
       <div>
         <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
           <span>📜</span>
-          Comment ca marche ?
+          ${t('howItWorks') || 'How it works?'}
         </h3>
         <div class="space-y-3">
           ${rules.map(rule => `
@@ -305,7 +306,7 @@ function renderRewardsTab() {
       <div>
         <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
           <span>⚡</span>
-          Comment gagner des points ?
+          ${t('howToEarnPoints') || 'How to earn points?'}
         </h3>
         <div class="grid grid-cols-2 gap-3">
           <div class="p-3 bg-gray-800 rounded-lg text-center">
@@ -316,17 +317,17 @@ function renderRewardsTab() {
           <div class="p-3 bg-gray-800 rounded-lg text-center">
             <div class="text-2xl mb-1">➕</div>
             <div class="text-emerald-400 font-bold">+20 pts</div>
-            <div class="text-gray-500 text-xs">Nouveau spot</div>
+            <div class="text-gray-500 text-xs">${t('addSpot') || 'New spot'}</div>
           </div>
           <div class="p-3 bg-gray-800 rounded-lg text-center">
             <div class="text-2xl mb-1">⭐</div>
             <div class="text-emerald-400 font-bold">+10 pts</div>
-            <div class="text-gray-500 text-xs">Avis</div>
+            <div class="text-gray-500 text-xs">${t('reviewLabel') || 'Review'}</div>
           </div>
           <div class="p-3 bg-gray-800 rounded-lg text-center">
             <div class="text-2xl mb-1">🧠</div>
             <div class="text-emerald-400 font-bold">+50 pts</div>
-            <div class="text-gray-500 text-xs">Quiz parfait</div>
+            <div class="text-gray-500 text-xs">${t('perfectQuiz') || 'Perfect quiz'}</div>
           </div>
         </div>
       </div>
@@ -344,8 +345,8 @@ function renderHistoryTab() {
     return `
       <div class="p-8 text-center">
         <div class="text-5xl mb-4 opacity-50">📅</div>
-        <div class="text-gray-400 text-lg mb-2">Pas encore d'historique</div>
-        <div class="text-gray-500 text-sm">L'historique apparaitra apres la premiere semaine complete</div>
+        <div class="text-gray-400 text-lg mb-2">${t('noHistoryYet') || 'No history yet'}</div>
+        <div class="text-gray-500 text-sm">${t('historyAfterFirstWeek') || 'History will appear after the first complete week'}</div>
       </div>
     `;
   }
@@ -355,7 +356,7 @@ function renderHistoryTab() {
       ${history.reverse().map(week => `
         <div class="card p-4">
           <div class="flex items-center justify-between mb-3">
-            <div class="font-bold text-white">Semaine ${week.weekId.split('-W')[1]}</div>
+            <div class="font-bold text-white">${t('weekNumber') || 'Week'} ${week.weekId.split('-W')[1]}</div>
             <div class="text-gray-500 text-sm">${formatWeekDate(week.weekStart)}</div>
           </div>
           <div class="space-y-2">
@@ -405,8 +406,8 @@ export function renderWeeklyLeaderboardWidget(state) {
             <span class="text-2xl">🏆</span>
           </div>
           <div>
-            <div class="font-bold text-white">Classement Hebdo</div>
-            <div class="text-sm text-emerald-400">Reset dans ${timeRemaining}</div>
+            <div class="font-bold text-white">${t('weeklyRanking') || 'Weekly Ranking'}</div>
+            <div class="text-sm text-emerald-400">${t('resetIn') || 'Reset in'} ${timeRemaining}</div>
           </div>
         </div>
         <div class="flex items-center gap-2">

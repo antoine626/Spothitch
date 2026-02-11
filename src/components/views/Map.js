@@ -20,12 +20,12 @@ export function renderMap(state) {
           <input
             type="text"
             id="map-search"
-            placeholder="Rechercher un lieu..."
+            placeholder="${t('searchPlace') || 'Search a location...'}"
             class="w-full pl-10 pr-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
             oninput="searchMapSuggestions(this.value)"
             onkeydown="if(event.key==='Enter') { searchLocation(this.value); hideSearchSuggestions(); }"
             onfocus="if(this.value.length>=2) searchMapSuggestions(this.value)"
-            aria-label="Rechercher un lieu sur la carte"
+            aria-label="${t('searchMapLocation') || 'Search a location on the map'}"
             autocomplete="off"
           />
           <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
@@ -34,8 +34,8 @@ export function renderMap(state) {
         <button
           onclick="openFilters()"
           class="px-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-slate-400 hover:text-white hover:border-primary-500/50 transition-all"
-          aria-label="Filtrer les spots"
-          title="Filtres"
+          aria-label="${t('filterSpots') || 'Filter spots'}"
+          title="${t('filters') || 'Filters'}"
         >
           <i class="fas fa-sliders-h" aria-hidden="true"></i>
         </button>
@@ -47,7 +47,7 @@ export function renderMap(state) {
           <button
             onclick="openStats()"
             class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm hover:border-primary-500/50 transition-all"
-            aria-label="Voir mes statistiques"
+            aria-label="${t('viewMyStats') || 'View my stats'}"
           >
             <span class="text-amber-400">🏆</span>
             <span class="font-bold text-white">${state.points || 0}</span>
@@ -56,16 +56,16 @@ export function renderMap(state) {
           <button
             onclick="openStats()"
             class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm hover:border-primary-500/50 transition-all"
-            aria-label="Voir mon niveau"
+            aria-label="${t('viewMyLevel') || 'View my level'}"
           >
             <span class="text-primary-400">⭐</span>
-            <span class="font-bold text-white">Niv. ${state.level || 1}</span>
+            <span class="font-bold text-white">${t('levelPrefix') || 'Lvl.'} ${state.level || 1}</span>
           </button>
           ${state.streak > 0 ? `
             <button
               onclick="openStats()"
               class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm hover:border-primary-500/50 transition-all"
-              aria-label="Série de ${state.streak} jours"
+              aria-label="${t('streakDays') || 'day streak'}: ${state.streak}"
             >
               <span class="text-orange-400">🔥</span>
               <span class="font-bold text-white">${state.streak}j</span>
@@ -82,12 +82,12 @@ export function renderMap(state) {
         <button
           onclick="openCountryGuide('${currentGuide?.code || ''}')"
           class="flex items-center gap-2 px-4 py-3 rounded-xl bg-emerald-500/90 backdrop-blur text-white font-medium shadow-lg hover:bg-emerald-600 transition-all animate-guide-blink"
-          aria-label="Voir le guide du pays"
+          aria-label="${t('viewCountryGuide') || 'View country guide'}"
         >
           <span class="text-xl">${currentGuide?.flag || '🌍'}</span>
           <div class="text-left">
-            <div class="text-xs opacity-80">Guide disponible</div>
-            <div class="font-bold">${currentGuide?.name || 'Pays'}</div>
+            <div class="text-xs opacity-80">${t('guideAvailable') || 'Guide available'}</div>
+            <div class="font-bold">${currentGuide?.name || (t('country') || 'Country')}</div>
           </div>
           <i class="fas fa-chevron-right ml-2" aria-hidden="true"></i>
         </button>
@@ -98,7 +98,7 @@ export function renderMap(state) {
         <button
           onclick="mapZoomIn()"
           class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
-          aria-label="Zoomer"
+          aria-label="${t('zoomIn') || 'Zoom in'}"
           title="Zoom +"
         >
           <i class="fas fa-plus" aria-hidden="true"></i>
@@ -106,7 +106,7 @@ export function renderMap(state) {
         <button
           onclick="mapZoomOut()"
           class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
-          aria-label="Dézoomer"
+          aria-label="${t('zoomOut') || 'Zoom out'}"
           title="Zoom -"
         >
           <i class="fas fa-minus" aria-hidden="true"></i>
@@ -114,8 +114,8 @@ export function renderMap(state) {
         <button
           onclick="centerOnUser()"
           class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
-          aria-label="Ma position"
-          title="Ma position"
+          aria-label="${t('myLocation') || 'My location'}"
+          title="${t('myLocation') || 'My location'}"
         >
           <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
         </button>
@@ -125,8 +125,8 @@ export function renderMap(state) {
       <button
         onclick="openAddSpot()"
         class="absolute bottom-32 right-4 z-20 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-xl hover:bg-primary-600 hover:scale-110 transition-all"
-        aria-label="Ajouter un nouveau spot"
-        title="Ajouter un spot"
+        aria-label="${t('addNewSpot') || 'Add a new spot'}"
+        title="${t('addSpot') || 'Add spot'}"
       >
         <i class="fas fa-plus" aria-hidden="true"></i>
       </button>
@@ -135,7 +135,7 @@ export function renderMap(state) {
       <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
         <div class="px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm" aria-live="polite">
           <span class="text-primary-400 font-bold">${state.spots?.length || 0}</span>
-          <span class="text-slate-400"> spots disponibles</span>
+          <span class="text-slate-400"> ${t('spotsAvailable') || 'spots available'}</span>
         </div>
       </div>
     </div>
