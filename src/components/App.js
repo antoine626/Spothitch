@@ -231,11 +231,23 @@ export function afterRender(state) {
 /**
  * Get tile URL based on app language (FR/DE have localized labels)
  */
-function getMapTileConfig() {
-  // Always use standard OSM tiles - FR/DE tiles don't support all alphabets
-  return {
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    options: { maxZoom: 19 }
+function getMapTileConfig(lang) {
+  // Use localized tile servers where available
+  // FR/DE tiles show city names in French/German for European cities
+  // Standard OSM for EN/ES (shows local language names which are mostly readable)
+  switch (lang) {
+    case 'fr': return {
+      url: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+      options: { maxZoom: 19 }
+    }
+    case 'de': return {
+      url: 'https://tile.openstreetmap.de/{z}/{x}/{y}.png',
+      options: { maxZoom: 18 }
+    }
+    default: return {
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      options: { maxZoom: 19 }
+    }
   }
 }
 
@@ -246,9 +258,13 @@ function initHomeMap(state) {
   const container = document.getElementById('home-map')
   if (!container || container.dataset.initialized === 'true') return
 
-  import('leaflet').then((L) => {
+  import('leaflet').then(async (leafletModule) => {
     if (container.dataset.initialized === 'true') return
     container.dataset.initialized = 'true'
+
+    const L = leafletModule.default || leafletModule
+    // Expose L globally so plugins (markercluster) can attach to it
+    window.L = L
 
     const center = state.userLocation
       ? [state.userLocation.lat, state.userLocation.lng]
@@ -263,7 +279,7 @@ function initHomeMap(state) {
       attributionControl: false,
     })
 
-    const tileConfig = getMapTileConfig()
+    const tileConfig = getMapTileConfig(getState().lang || 'en')
     L.tileLayer(tileConfig.url, tileConfig.options).addTo(map)
 
     window.homeMapInstance = map
@@ -285,9 +301,10 @@ function initHomeMap(state) {
     let spotLoader = null
     import('../services/spotLoader.js').then(mod => { spotLoader = mod }).catch(() => {})
 
-    // MarkerCluster group (loaded async)
+    // MarkerCluster group - await to ensure it's ready
     let clusterGroup = null
-    import('leaflet.markercluster').then(() => {
+    try {
+      await import('leaflet.markercluster')
       clusterGroup = L.markerClusterGroup({
         maxClusterRadius: 50,
         spiderfyOnMaxZoom: true,
@@ -296,10 +313,9 @@ function initHomeMap(state) {
         disableClusteringAtZoom: 15,
         iconCreateFunction: (cluster) => {
           const count = cluster.getChildCount()
-          let size = 'small'
           let px = 36
-          if (count > 100) { size = 'large'; px = 48 }
-          else if (count > 20) { size = 'medium'; px = 42 }
+          if (count > 100) px = 48
+          else if (count > 20) px = 42
           return L.divIcon({
             html: `<div style="background:rgba(14,165,233,0.85);color:#fff;border-radius:50%;width:${px}px;height:${px}px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${count > 100 ? 14 : 12}px;border:2px solid rgba(255,255,255,0.6);box-shadow:0 2px 8px rgba(0,0,0,0.3)">${count}</div>`,
             className: '',
@@ -308,11 +324,9 @@ function initHomeMap(state) {
         },
       })
       map.addLayer(clusterGroup)
-      displayVisibleSpots()
-    }).catch(() => {
-      // Fallback: no clustering, use direct markers
-      displayVisibleSpots()
-    })
+    } catch (e) {
+      console.warn('MarkerCluster failed to load:', e)
+    }
 
     // Display spots using clustering
     const displayVisibleSpots = () => {
@@ -429,7 +443,7 @@ function initTripMap(state) {
     const to = results.toCoords     // [lat, lng]
     if (!from || !to) return
 
-    const tileConfig = getMapTileConfig()
+    const tileConfig = getMapTileConfig(getState().lang || 'en')
     const map = L.map(container, {
       zoomControl: false,
       attributionControl: false,
