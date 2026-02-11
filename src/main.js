@@ -761,8 +761,9 @@ window.selectSpot = async (id) => {
 };
 window.openSpotDetail = window.selectSpot; // alias for services that use openSpotDetail
 window.closeSpotDetail = () => actions.selectSpot(null);
-window.openAddSpot = () => setState({ showAddSpot: true });
-window.closeAddSpot = () => setState({ showAddSpot: false });
+window.openAddSpot = () => setState({ showAddSpot: true, addSpotPreview: false });
+window.openAddSpotPreview = () => setState({ showAddSpot: true, addSpotPreview: true });
+window.closeAddSpot = () => setState({ showAddSpot: false, addSpotPreview: false });
 
 // Location Permission handlers
 window.acceptLocationPermission = async () => {

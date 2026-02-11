@@ -19,7 +19,7 @@ const MAIN_JS_HANDLERS = [
   'resetApp', 'changeTab', 'openFullMap', 'toggleTheme', 'setViewMode',
   't', 'setState', 'getState',
   // Spots
-  'selectSpot', 'closeSpotDetail', 'openAddSpot', 'closeAddSpot',
+  'selectSpot', 'closeSpotDetail', 'openAddSpot', 'openAddSpotPreview', 'closeAddSpot',
   'openRating', 'closeRating', 'openNavigation', 'getSpotLocation',
   'triggerPhotoUpload', 'doCheckin', 'submitReview', 'setRating', 'reportSpotAction',
   // Navigation GPS

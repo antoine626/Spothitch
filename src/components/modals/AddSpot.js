@@ -41,6 +41,7 @@ function renderStarInput(criterion, label) {
 }
 
 export function renderAddSpot(_state) {
+  const isPreview = _state.addSpotPreview === true
   return `
     <div
       class="fixed inset-0 z-50 flex items-end sm:items-center justify-center"
@@ -60,7 +61,7 @@ export function renderAddSpot(_state) {
       >
         <!-- Header -->
         <div class="flex items-center justify-between p-4 border-b border-white/10">
-          <h2 id="addspot-modal-title" class="text-xl font-bold">${t('addSpot')}</h2>
+          <h2 id="addspot-modal-title" class="text-xl font-bold">${t('addSpot')}${isPreview ? ` <span class="text-sm font-normal text-amber-400 ml-2">${t('previewMode')}</span>` : ''}</h2>
           <button
             onclick="closeAddSpot()"
             class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
@@ -208,6 +209,17 @@ export function renderAddSpot(_state) {
             </div>
 
             <!-- Submit -->
+            ${isPreview ? `
+            <button
+              type="button"
+              onclick="closeAddSpot()"
+              class="btn w-full text-lg bg-amber-500/20 text-amber-400 border border-amber-500/30"
+              id="submit-spot-btn"
+            >
+              <i class="fas fa-eye" aria-hidden="true"></i>
+              ${t('previewModeClose')}
+            </button>
+            ` : `
             <button
               type="submit"
               class="btn btn-primary w-full text-lg"
@@ -216,6 +228,7 @@ export function renderAddSpot(_state) {
               <i class="fas fa-share" aria-hidden="true"></i>
               ${t('create')}
             </button>
+            `}
           </form>
         </div>
       </div>
