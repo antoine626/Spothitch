@@ -190,6 +190,9 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_hostel_upvotes', category: DataCategory.MONETIZATION, description: 'Hostel recommendation upvotes' },
   { key: 'spothitch_roadmap_items', category: DataCategory.MONETIZATION, description: 'Roadmap items' },
 
+  // === UX ===
+  { key: 'spothitch_landing_seen', category: DataCategory.SETTINGS, description: 'Landing page dismissed flag' },
+
   // === STATE (via Storage.js with spothitch_v4_ prefix) ===
   { key: 'spothitch_v4_state', category: DataCategory.PERSONAL, description: 'Main app state (via Storage.js)', sensitive: true },
   { key: 'spothitch_state', category: DataCategory.PERSONAL, description: 'Legacy app state', sensitive: true },

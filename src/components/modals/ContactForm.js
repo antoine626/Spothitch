@@ -11,7 +11,7 @@ import { t } from '../../i18n/index.js'
 // TODO: Replace 'xformid' with your Formspree form ID.
 // Create a free account at https://formspree.io and create a new form.
 // Your form ID will look like 'xAbCdEfG' — paste it below.
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xformid'
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjgegaka'
 
 export function renderContactFormModal() {
   return `

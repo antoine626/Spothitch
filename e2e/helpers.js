@@ -54,6 +54,7 @@ export async function skipOnboarding(page, opts = {}) {
       essential: true, analytics: true, marketing: false, timestamp: Date.now()
     }))
     localStorage.setItem('spothitch_age_verified', 'true')
+    localStorage.setItem('spothitch_landing_seen', '1')
   }, stateData)
 
   await page.goto('/', { waitUntil: 'domcontentloaded' })
