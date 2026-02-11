@@ -328,30 +328,22 @@ function initHomeMap(state) {
       console.warn('MarkerCluster failed to load:', e)
     }
 
-    // Display spots using clustering
-    const displayVisibleSpots = () => {
-      const currentState = getState()
-      const stateSpots = currentState.spots || []
+    // Track which spot IDs are already in the cluster to avoid duplicates
+    const addedSpotIds = new Set()
 
-      // Merge state spots + spotLoader spots (deduplicate by id)
-      const spotsMap = new Map()
-      stateSpots.forEach(s => spotsMap.set(s.id, s))
-      if (spotLoader) {
-        spotLoader.getAllLoadedSpots().forEach(s => spotsMap.set(s.id, s))
-      }
-      const allSpots = Array.from(spotsMap.values())
-
-      // Favorites
+    // Add NEW spots to cluster (never clear, only append)
+    const addSpotsToCluster = (spots) => {
       let favIds = []
       try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) {}
       const favSet = new Set(favIds)
 
-      // Build markers
-      const markers = []
-      allSpots.forEach(spot => {
+      const newMarkers = []
+      spots.forEach(spot => {
+        if (addedSpotIds.has(spot.id)) return
         const lat = spot.coordinates?.lat || spot.lat
         const lng = spot.coordinates?.lng || spot.lng
         if (!lat || !lng) return
+        addedSpotIds.add(spot.id)
         const isFav = favSet.has(spot.id)
 
         const marker = L.circleMarker([lat, lng], {
@@ -362,31 +354,36 @@ function initHomeMap(state) {
           fillOpacity: 0.85,
         }).on('click', () => window.selectSpot?.(spot.id))
 
-        markers.push(marker)
+        newMarkers.push(marker)
       })
 
+      if (newMarkers.length === 0) return
+
       if (clusterGroup) {
-        clusterGroup.clearLayers()
-        clusterGroup.addLayers(markers)
+        clusterGroup.addLayers(newMarkers)
       } else {
-        // Fallback without clustering
-        window.homeSpotMarkers.forEach(m => map.removeLayer(m))
-        window.homeSpotMarkers = markers
-        markers.forEach(m => m.addTo(map))
+        newMarkers.forEach(m => m.addTo(map))
+        window.homeSpotMarkers.push(...newMarkers)
       }
 
       // Update badge count
       const badge = document.querySelector('#home-map-container .text-primary-400.font-semibold')
-      if (badge) badge.textContent = allSpots.length
+      if (badge) badge.textContent = addedSpotIds.size
     }
 
-    // Load spots from spotLoader for visible bounds, then redisplay
+    // Load spots for visible area and add new ones
     let isLoadingSpots = false
-    const loadAndDisplaySpots = async () => {
-      // Show already-loaded spots immediately
-      displayVisibleSpots()
+    const loadSpotsForView = async () => {
+      // Add already-loaded spots first
+      const currentState = getState()
+      const stateSpots = currentState.spots || []
+      const existing = spotLoader ? spotLoader.getAllLoadedSpots() : []
+      const spotsMap = new Map()
+      stateSpots.forEach(s => spotsMap.set(s.id, s))
+      existing.forEach(s => spotsMap.set(s.id, s))
+      addSpotsToCluster(Array.from(spotsMap.values()))
 
-      // Then trigger loading for visible countries
+      // Then load new spots for visible bounds
       if (!spotLoader || isLoadingSpots) return
       isLoadingSpots = true
       try {
@@ -397,8 +394,9 @@ function initHomeMap(state) {
           east: bounds.getEast(),
           west: bounds.getWest(),
         })
-        // Redisplay with newly loaded spots
-        displayVisibleSpots()
+        // Add only the newly loaded spots
+        const allLoaded = spotLoader.getAllLoadedSpots()
+        addSpotsToCluster(allLoaded)
       } catch (e) {
         console.warn('Spot loading failed:', e)
       } finally {
@@ -406,18 +404,15 @@ function initHomeMap(state) {
       }
     }
 
-    // Debounce spot loading on map move (300ms)
+    // Debounce spot loading on map move (500ms) — no instant rebuild
     let moveTimer = null
-    const onMapMove = () => {
-      displayVisibleSpots() // instant display of cached spots
+    map.on('moveend', () => {
       clearTimeout(moveTimer)
-      moveTimer = setTimeout(loadAndDisplaySpots, 300)
-    }
-
-    map.on('moveend', onMapMove)
+      moveTimer = setTimeout(loadSpotsForView, 500)
+    })
 
     // Initial load
-    setTimeout(loadAndDisplaySpots, 300)
+    setTimeout(loadSpotsForView, 300)
 
     // Fix map size (container may have changed)
     setTimeout(() => map.invalidateSize(), 200)
