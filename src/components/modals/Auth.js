@@ -256,7 +256,7 @@ window.handleAuth = async (event) => {
     }
 
     if (result.success) {
-      showSuccess(window.authMode === 'register' ? 'Compte créé !' : 'Connecté !');
+      showSuccess(window.authMode === 'register' ? (t('accountCreated') || 'Compte créé !') : (t('loginSuccess') || 'Connecté !'));
       setState({ showAuth: false });
     } else {
       showError(getAuthErrorMessage(result.error));
@@ -282,7 +282,7 @@ window.handleGoogleSignIn = async () => {
     const result = await signInWithGoogle();
 
     if (result.success) {
-      showSuccess('Connecté avec Google !');
+      showSuccess(t('googleLoginSuccess') || 'Connecté avec Google !');
       setState({ showAuth: false });
     } else {
       showError(t('authError'));
@@ -297,7 +297,7 @@ window.handleForgotPassword = async () => {
 
   if (!email) {
     const { showError } = await import('../../services/notifications.js');
-    showError('Entre ton email d\'abord');
+    showError(t('enterEmailFirst') || "Entre ton email d'abord");
     return;
   }
 
@@ -372,7 +372,7 @@ window.loginAsAdmin = async () => {
       showWelcome: false,
     });
 
-    showSuccess('👑 Connecté en tant qu\'Admin !');
+    showSuccess(t('adminLoginSuccess') || "Connecté en tant qu'Admin !");
 
   } catch (error) {
     console.error('Admin login error:', error);

@@ -225,13 +225,13 @@ window.shareSOSLocation = async () => {
   if (state.sosActive) {
     // Stop sharing
     actions.toggleSOS();
-    showSuccess('Partage de position arrêté');
+    showSuccess(t('positionShareStopped') || 'Partage de position arrêté');
     return;
   }
 
   // Start sharing
   if (!navigator.geolocation) {
-    showError('Géolocalisation non disponible');
+    showError(t('geoNotSupported') || 'Géolocalisation non disponible');
     return;
   }
 
@@ -255,7 +255,7 @@ window.shareSOSLocation = async () => {
         try {
           await navigator.share({
             title: '🆘 Position SOS - SpotHitch',
-            text: 'Je partage ma position d\'urgence',
+            text: t('sosShareText') || "Je partage ma position d'urgence",
             url: `https://www.google.com/maps?q=${lat},${lng}`,
           });
         } catch (e) {
@@ -264,7 +264,7 @@ window.shareSOSLocation = async () => {
       }
     },
     (error) => {
-      showError('Impossible de partager la position');
+      showError(t('positionError') || 'Impossible de partager la position');
       console.error('Geolocation error:', error);
     },
     { enableHighAccuracy: true, timeout: 10000 }
@@ -279,7 +279,7 @@ window.addEmergencyContact = async () => {
 
   if (!name || !phone) {
     const { showToast } = await import('../../services/notifications.js');
-    showToast('Remplis le nom et le numero', 'warning');
+    showToast(t('fillNameAndNumber') || 'Remplis le nom et le numéro', 'warning');
     return;
   }
 
@@ -290,7 +290,7 @@ window.addEmergencyContact = async () => {
   if (phoneInput) phoneInput.value = '';
 
   const { showSuccess } = await import('../../services/notifications.js');
-  showSuccess('Contact ajouté !');
+  showSuccess(t('contactAdded') || 'Contact ajouté !');
 };
 
 window.removeEmergencyContact = async (index) => {
@@ -306,7 +306,7 @@ window.markSafe = async () => {
   const { showSuccess } = await import('../../services/notifications.js');
 
   actions.toggleSOS();
-  showSuccess('Super ! Content que tu sois en sécurité 🙌');
+  showSuccess(t('markedSafe') || 'Super ! Content que tu sois en sécurité');
 };
 
 window.sendSOSTemplate = async (type) => {
