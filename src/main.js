@@ -433,9 +433,9 @@ async function init() {
       loader.innerHTML = `
         <div style="text-align:center;padding:20px">
           <div style="color:#ef4444;font-size:48px;margin-bottom:16px">⚠️</div>
-          <div style="color:#fff;font-size:18px;margin-bottom:8px">Erreur de chargement</div>
+          <div style="color:#fff;font-size:18px;margin-bottom:8px">${t('loadingError') || 'Erreur de chargement'}</div>
           <div style="color:#94a3b8;font-size:14px">${error.message}</div>
-          <button onclick="location.reload()" class="reload-btn">Réessayer</button>
+          <button onclick="location.reload()" class="reload-btn">${t('retry') || 'Réessayer'}</button>
           <style>.reload-btn{margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;
             border:none;border-radius:8px;cursor:pointer}</style>
         </div>
@@ -544,9 +544,9 @@ function render(state) {
   const app = document.getElementById('app');
   if (!app) return;
 
-  // Skip re-render if user is typing in a trip input (prevents losing input)
+  // Skip re-render if user is typing in any input (prevents losing input focus/value)
   const focused = document.activeElement
-  if (focused && (focused.id === 'trip-from' || focused.id === 'trip-to' || focused.id === 'home-search')) {
+  if (focused && (focused.tagName === 'INPUT' || focused.tagName === 'TEXTAREA' || focused.tagName === 'SELECT')) {
     return
   }
 
@@ -698,7 +698,7 @@ function setupKeyboardShortcuts() {
 
 // Reset App
 window.resetApp = () => {
-  if (confirm('Réinitialiser l\'application ? Toutes les données locales seront effacées.')) {
+  if (confirm(t('resetAppConfirm') || 'Réinitialiser l\'application ? Toutes les données locales seront effacées.')) {
     localStorage.clear();
     location.reload();
   }
@@ -777,16 +777,16 @@ window.acceptLocationPermission = async () => {
         lng: position.coords.longitude
       }
     })
-    showToast('Localisation activée !', 'success')
+    showToast(t('locationEnabled') || 'Localisation activée !', 'success')
   } catch (error) {
     console.error('Geolocation error:', error)
-    showToast('Impossible d\'obtenir la localisation', 'error')
+    showToast(t('locationFailed') || 'Impossible d\'obtenir la localisation', 'error')
     setState({ showLocationPermission: false })
   }
 }
 window.declineLocationPermission = () => {
   setState({ showLocationPermission: false, locationPermissionDenied: true })
-  showToast('Vous pouvez activer la localisation plus tard dans les paramètres', 'info')
+  showToast(t('locationLater') || 'Vous pouvez activer la localisation plus tard dans les paramètres', 'info')
 }
 window.openRating = (spotId) => setState({ showRating: true, ratingSpotId: spotId });
 window.closeRating = () => setState({ showRating: false, ratingSpotId: null });
@@ -805,9 +805,9 @@ window.getSpotLocation = () => {
         const lngInput = document.getElementById('spot-lng');
         if (latInput) latInput.value = lat;
         if (lngInput) lngInput.value = lng;
-        showToast('Position récupérée !', 'success');
+        showToast(t('positionRetrieved') || 'Position récupérée !', 'success');
       },
-      () => showToast('Impossible de récupérer la position', 'error'),
+      () => showToast(t('positionFailed') || 'Impossible de récupérer la position', 'error'),
       { enableHighAccuracy: true }
     );
   }
@@ -843,29 +843,29 @@ window.submitReview = async (spotId) => {
   if (comment) {
     await saveCommentToFirebase({ spotId, text: comment, rating });
     recordReview();
-    showToast('Avis publié !', 'success');
+    showToast(t('reviewPublished') || 'Avis publié !', 'success');
     setState({ showRating: false });
   }
 };
 window.setRating = (rating) => setState({ currentRating: rating });
 window.reportSpotAction = async (spotId) => {
-  const reason = prompt('Raison du signalement ?');
+  const reason = prompt(t('reportReason') || 'Raison du signalement ?');
   if (reason) {
     await reportSpot(spotId, reason);
-    showToast('Signalement envoyé', 'success');
+    showToast(t('reportSent') || 'Signalement envoyé', 'success');
   }
 };
 
 // Navigation GPS handlers
 window.startSpotNavigation = async (lat, lng, name) => {
   if (!lat || !lng) {
-    showToast('Coordonnées manquantes', 'error');
+    showToast(t('missingCoordinates') || 'Coordonnées manquantes', 'error');
     return;
   }
   // Close spot detail modal
   setState({ selectedSpot: null });
   // Start navigation
-  await startNavigation(lat, lng, name || 'Spot d\'autostop');
+  await startNavigation(lat, lng, name || t('hitchhikingSpot') || 'Spot d\'autostop');
 };
 window.stopNavigation = stopNavigation;
 window.openExternalNavigation = openExternalNavigation;
@@ -884,8 +884,8 @@ window.openSOS = async () => {
 window.closeSOS = () => setState({ showSOS: false });
 
 // Missing handlers (prevent ReferenceError on click)
-window.openAccessibilityHelp = () => showToast('Accessibilité : utilise les raccourcis clavier et le zoom du navigateur', 'info')
-window.showFriendOptions = () => showToast('Options ami bientôt disponibles', 'info')
+window.openAccessibilityHelp = () => showToast(t('accessibilityHelp') || 'Accessibilité : utilise les raccourcis clavier et le zoom du navigateur', 'info')
+window.showFriendOptions = () => showToast(t('friendOptionsSoon') || 'Options ami bientôt disponibles', 'info')
 window.showFullNavigation = () => changeTab('map')
 window.shareSOSLocation = () => {
   if (navigator.geolocation) {
@@ -895,35 +895,35 @@ window.shareSOSLocation = () => {
         const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
         if (navigator.share) {
           navigator.share({
-            title: 'Ma position SOS - SpotHitch',
-            text: 'Je suis en situation d\'urgence. Voici ma position :',
+            title: t('sosShareTitle') || 'Ma position SOS - SpotHitch',
+            text: t('sosShareText') || 'Je suis en situation d\'urgence. Voici ma position :',
             url: url
           });
         } else {
           navigator.clipboard.writeText(url);
-          showToast('Lien copié !', 'success');
+          showToast(t('linkCopied') || 'Lien copié !', 'success');
         }
       },
-      () => showToast('Impossible de récupérer la position', 'error')
+      () => showToast(t('positionFailed') || 'Impossible de récupérer la position', 'error')
     );
   }
 };
 window.markSafe = () => {
   setState({ sosActive: false });
-  showToast('Vous êtes marqué en sécurité', 'success');
+  showToast(t('markedSafe') || 'Vous êtes marqué en sécurité', 'success');
 };
 window.addEmergencyContact = () => {
   const name = document.getElementById('emergency-name')?.value;
   const phone = document.getElementById('emergency-phone')?.value;
   if (!name || !phone) {
-    showToast('Remplissez le nom et le numéro', 'warning');
+    showToast(t('fillNameAndNumber') || 'Remplissez le nom et le numéro', 'warning');
     return;
   }
   const { emergencyContacts = [] } = getState();
   setState({ emergencyContacts: [...emergencyContacts, { name, phone }] });
   document.getElementById('emergency-name').value = '';
   document.getElementById('emergency-phone').value = '';
-  showToast('Contact ajouté !', 'success');
+  showToast(t('contactAdded') || 'Contact ajouté !', 'success');
 };
 window.removeEmergencyContact = (index) => {
   const { emergencyContacts = [] } = getState();
@@ -941,15 +941,15 @@ window.handleLogin = async (e) => {
   const email = form.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value;
   const password = form.querySelector('[name="password"]')?.value || document.getElementById('auth-password')?.value;
   if (!email || !password) {
-    showToast('Veuillez remplir tous les champs', 'error');
+    showToast(t('fillAllFields') || 'Veuillez remplir tous les champs', 'error');
     return;
   }
   const result = await signIn(email, password);
   if (result.success) {
     setState({ showAuth: false });
-    showToast('Connexion réussie !', 'success');
+    showToast(t('loginSuccess') || 'Connexion réussie !', 'success');
   } else {
-    showToast('Erreur de connexion', 'error');
+    showToast(t('loginError') || 'Erreur de connexion', 'error');
   }
 };
 window.handleSignup = async (e) => {
@@ -960,43 +960,43 @@ window.handleSignup = async (e) => {
   const email = form.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value;
   const password = form.querySelector('[name="password"]')?.value || document.getElementById('auth-password')?.value;
   if (!email || !password) {
-    showToast('Veuillez remplir tous les champs', 'error');
+    showToast(t('fillAllFields') || 'Veuillez remplir tous les champs', 'error');
     return;
   }
-  const result = await signUp(email, password, name || 'Utilisateur');
+  const result = await signUp(email, password, name || t('defaultUser') || 'Utilisateur');
   if (result.success) {
     setState({ showAuth: false });
-    showToast('Compte créé !', 'success');
+    showToast(t('accountCreated') || 'Compte créé !', 'success');
   } else {
-    showToast('Erreur lors de l\'inscription', 'error');
+    showToast(t('signupError') || 'Erreur lors de l\'inscription', 'error');
   }
 };
 window.handleGoogleSignIn = async () => {
   const result = await signInWithGoogle();
   if (result.success) {
     setState({ showAuth: false });
-    showToast('Connexion Google réussie !', 'success');
+    showToast(t('googleLoginSuccess') || 'Connexion Google réussie !', 'success');
   } else {
-    showToast('Erreur de connexion Google', 'error');
+    showToast(t('googleLoginError') || 'Erreur de connexion Google', 'error');
   }
 };
 window.handleForgotPassword = async () => {
   const email = document.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value;
   if (!email) {
-    showToast('Entrez votre email d\'abord', 'warning');
+    showToast(t('enterEmailFirst') || 'Entrez votre email d\'abord', 'warning');
     return;
   }
   const result = await resetPassword(email);
   if (result.success) {
-    showToast('Email de réinitialisation envoyé !', 'success');
+    showToast(t('resetEmailSent') || 'Email de réinitialisation envoyé !', 'success');
   } else {
-    showToast('Erreur lors de l\'envoi', 'error');
+    showToast(t('sendError') || 'Erreur lors de l\'envoi', 'error');
   }
 };
 window.handleLogout = async () => {
   await logOut();
   actions.setUser(null);
-  showToast('Déconnexion réussie', 'success');
+  showToast(t('logoutSuccess') || 'Déconnexion réussie', 'success');
 };
 
 // Age Verification handlers (RGPD/GDPR)
@@ -1041,7 +1041,7 @@ window.startIdentityVerification = () => {
 window.submitVerificationPhotos = async () => {
   const state = window.identityVerificationState;
   if (!state || !state.selfiePhoto || !state.idCardPhoto || !state.selfieWithIdPhoto) {
-    showToast('Toutes les photos sont requises', 'error');
+    showToast(t('photosRequired') || 'Toutes les photos sont requises', 'error');
     return;
   }
 
@@ -1053,10 +1053,10 @@ window.submitVerificationPhotos = async () => {
   });
 
   if (result.success) {
-    showToast('Photos soumises avec succes !', 'success');
+    showToast(t('photosSubmitted') || 'Photos soumises avec succes !', 'success');
     window.closeIdentityVerification();
   } else {
-    showToast('Erreur lors de la soumission', 'error');
+    showToast(t('submissionError') || 'Erreur lors de la soumission', 'error');
   }
 };
 
@@ -1074,10 +1074,10 @@ window.getTrustBadge = async (level = null) => {
 window.selectAvatar = (avatar) => setState({ selectedAvatar: avatar });
 window.completeWelcome = () => {
   const { selectedAvatar } = getState();
-  const name = document.getElementById('welcome-name')?.value || 'Voyageur';
+  const name = document.getElementById('welcome-name')?.value || t('traveler') || 'Voyageur';
   localStorage.setItem('spothitch_user', JSON.stringify({ name, avatar: selectedAvatar }));
   setState({ showWelcome: false, userName: name, userAvatar: selectedAvatar });
-  showToast(`Bienvenue ${name} !`, 'success');
+  showToast(`${t('welcome') || 'Bienvenue'} ${name} !`, 'success');
 };
 window.skipWelcome = () => {
   localStorage.setItem('spothitch_welcomed', 'true');
@@ -1140,7 +1140,7 @@ window.skipTutorial = () => {
   });
   setState({ showTutorial: false, tutorialStep: 0 });
   actions.changeTab('map');
-  showToast('Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
+  showToast(t('tutorialSkipped') || 'Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
 };
 window.finishTutorial = () => {
   const state = getState();
@@ -1158,13 +1158,13 @@ window.finishTutorial = () => {
   if (!tutorialCompleted) {
     addPoints(100, 'tutorial_complete');
     addSeasonPoints(20);
-    showToast('Tutoriel termine ! +100 points bonus !', 'success');
+    showToast(t('tutorialCompleted') || 'Tutoriel termine ! +100 points bonus !', 'success');
     // Trigger confetti
     if (window.launchConfetti) {
       window.launchConfetti();
     }
   } else {
-    showToast('Tutoriel revu ! Bonne route !', 'success');
+    showToast(t('tutorialReviewed') || 'Tutoriel revu ! Bonne route !', 'success');
   }
 };
 
@@ -1235,19 +1235,19 @@ window.openMyRewards = () => setState({ showShop: false, showMyRewards: true });
 window.closeMyRewards = () => setState({ showMyRewards: false });
 window.equipAvatar = (avatar) => {
   setState({ avatar });
-  showToast('Avatar équipé !', 'success');
+  showToast(t('avatarEquipped') || 'Avatar équipé !', 'success');
 };
 window.equipFrame = (frame) => {
   setState({ profileFrame: frame });
-  showToast('Cadre équipé !', 'success');
+  showToast(t('frameEquipped') || 'Cadre équipé !', 'success');
 };
 window.equipTitle = (title) => {
   setState({ profileTitle: title });
-  showToast('Titre équipé !', 'success');
+  showToast(t('titleEquipped') || 'Titre équipé !', 'success');
 };
 window.activateBooster = (boosterId) => {
   // Activate booster logic
-  showToast('Booster activé !', 'success');
+  showToast(t('boosterActivated') || 'Booster activé !', 'success');
 };
 
 // Stats handlers
@@ -1301,7 +1301,7 @@ window.reportGuideError = async (countryCode) => {
   const { getGuideByCode } = await import('./data/guides.js');
   const guide = getGuideByCode(countryCode);
   const name = guide?.name || countryCode;
-  const errorType = prompt(`Quelle information est incorrecte dans le guide ${name} ?`);
+  const errorType = prompt(t('guideErrorReport') || `Quelle information est incorrecte dans le guide ${name} ?`);
   if (errorType) {
     // Store reports in localStorage as fallback
     const reports = JSON.parse(localStorage.getItem('spothitch_guide_reports') || '[]');
@@ -1323,7 +1323,7 @@ window.reportGuideError = async (countryCode) => {
       console.warn('Could not save guide report to Firestore:', error);
     }
 
-    showToast('Merci pour le signalement ! Nous allons vérifier.', 'success');
+    showToast(t('thankYouReport') || 'Merci pour le signalement ! Nous allons vérifier.', 'success');
   }
 };
 
@@ -1350,7 +1350,7 @@ window.showAddFriend = () => setState({ showAddFriend: true });
 window.closeAddFriend = () => setState({ showAddFriend: false });
 window.acceptFriendRequest = (requestId) => {
   // Accept friend logic
-  showToast('Ami accepté !', 'success');
+  showToast(t('friendAccepted') || 'Ami accepté !', 'success');
 };
 window.rejectFriendRequest = (requestId) => {
   // Reject friend logic
@@ -1364,7 +1364,7 @@ window.sendPrivateMessage = (friendId) => {
 };
 window.copyFriendLink = () => {
   navigator.clipboard.writeText('spothitch.app/add/user123');
-  showToast('Lien copié !', 'success');
+  showToast(t('linkCopied') || 'Lien copié !', 'success');
 };
 
 // Friend Challenges handlers (#157)
@@ -1478,7 +1478,7 @@ window.setProximityRadius = setProximityRadius;
 window.openTripHistory = () => setState({ showTripHistory: true });
 window.closeTripHistory = () => setState({ showTripHistory: false });
 window.clearTripHistory = () => {
-  if (confirm('Effacer tout l\'historique de voyage ?')) {
+  if (confirm(t('clearTripHistory') || 'Effacer tout l\'historique de voyage ?')) {
     clearTripHistory();
     setState({ showTripHistory: false });
   }
@@ -1492,21 +1492,21 @@ window.validateImage = validateImage;
 // Landing page & help handlers
 window.openFAQ = () => {
   setState({ activeTab: 'guides' });
-  showToast('Ouverture de la FAQ...', 'info');
+  showToast(t('openingFAQ') || 'Ouverture de la FAQ...', 'info');
 };
 window.openHelpCenter = () => {
   setState({ activeTab: 'guides' });
-  showToast('Centre d\'aide ouvert', 'info');
+  showToast(t('helpCenterOpen') || 'Centre d\'aide ouvert', 'info');
 };
 window.openChangelog = () => {
-  showToast('Changelog - Version 2.0\n\n✨ Nouvelle interface avec Vite\n🎮 Gamification améliorée\n🗺️ Carte interactive Leaflet\n📱 PWA complète\n🌍 Support multilingue', 'info');
+  showToast(t('changelog') || 'Changelog - Version 2.0\n\n✨ Nouvelle interface avec Vite\n🎮 Gamification améliorée\n🗺️ Carte interactive Leaflet\n📱 PWA complète\n🌍 Support multilingue', 'info');
 };
 window.openRoadmap = () => {
-  showToast('Roadmap SpotHitch 2026\n\n✅ Chat temps réel\n✅ Messages privés\n✅ Vérification identité\n🔄 Guerres de guildes\n🔄 Événements saisonniers\n🔄 Intégration natives (iOS/Android)', 'info');
+  showToast(t('roadmap') || 'Roadmap SpotHitch 2026\n\n✅ Chat temps réel\n✅ Messages privés\n✅ Vérification identité\n🔄 Guerres de guildes\n🔄 Événements saisonniers\n🔄 Intégration natives (iOS/Android)', 'info');
 };
 window.openContactForm = () => {
   setState({ showContactForm: true });
-  showToast('Formulaire de contact ouvert', 'info');
+  showToast(t('contactFormOpen') || 'Formulaire de contact ouvert', 'info');
 };
 
 // Lazy load handlers
@@ -1558,12 +1558,12 @@ window.submitHostelRec = async (city) => {
   const category = document.getElementById('selected-category')?.value;
 
   if (!hostelName) {
-    showToast('Veuillez entrer le nom de l\'auberge', 'warning');
+    showToast(t('enterHostelName') || 'Veuillez entrer le nom de l\'auberge', 'warning');
     return;
   }
 
   if (!category) {
-    showToast('Veuillez sélectionner une catégorie', 'warning');
+    showToast(t('selectCategory') || 'Veuillez sélectionner une catégorie', 'warning');
     return;
   }
 
@@ -1595,14 +1595,14 @@ window.switchHostelCategory = async (category, cityName) => {
 // Webhook handlers
 window.openAddWebhook = async () => {
   const { addWebhook, WEBHOOK_TYPES } = await import('./services/webhooks.js');
-  const url = prompt('URL du webhook (Discord/Telegram/Slack):');
+  const url = prompt(t('webhookURL') || 'URL du webhook (Discord/Telegram/Slack):');
   if (!url) return;
   const type = url.includes('discord') ? WEBHOOK_TYPES.DISCORD
     : url.includes('telegram') ? WEBHOOK_TYPES.TELEGRAM
     : url.includes('slack') ? WEBHOOK_TYPES.SLACK
     : WEBHOOK_TYPES.CUSTOM;
   addWebhook({ type, url, name: type.charAt(0).toUpperCase() + type.slice(1) + ' Webhook' });
-  showToast('Webhook ajoute !', 'success');
+  showToast(t('webhookAdded') || 'Webhook ajoute !', 'success');
   scheduleRender(() => render(getState()));
 };
 window.toggleWebhookAction = async (id) => {
@@ -1613,7 +1613,7 @@ window.toggleWebhookAction = async (id) => {
 window.removeWebhookAction = async (id) => {
   const { removeWebhook } = await import('./services/webhooks.js');
   removeWebhook(id);
-  showToast('Webhook supprime', 'success');
+  showToast(t('webhookRemoved') || 'Webhook supprime', 'success');
   scheduleRender(() => render(getState()));
 };
 
@@ -1621,7 +1621,7 @@ window.removeWebhookAction = async (id) => {
 window.clearFormDraft = async (formId) => {
   const { clearDraft } = await import('./utils/formPersistence.js');
   clearDraft(formId);
-  showToast('Brouillon efface', 'info');
+  showToast(t('draftCleared') || 'Brouillon efface', 'info');
   scheduleRender(() => render(getState()));
 };
 
@@ -1631,13 +1631,13 @@ window.togglePushNotifications = async () => {
   const { isPushEnabled, enablePushNotifications, disablePushNotifications } = await import('./services/pushNotifications.js')
   if (isPushEnabled()) {
     disablePushNotifications()
-    showToast('Notifications push désactivées', 'info')
+    showToast(t('pushDisabled') || 'Notifications push désactivées', 'info')
   } else {
     const result = await enablePushNotifications()
     if (result.success) {
-      showToast('Notifications push activées', 'success')
+      showToast(t('pushEnabled') || 'Notifications push activées', 'success')
     } else {
-      showToast('Notifications refusées par le navigateur', 'warning')
+      showToast(t('pushDenied') || 'Notifications refusées par le navigateur', 'warning')
     }
   }
   scheduleRender(() => render(getState()))
@@ -1649,7 +1649,7 @@ window.downloadCountryOffline = async (code, name) => {
   const btn = document.getElementById(`offline-download-${code}`)
   if (btn) {
     btn.disabled = true
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Téléchargement...'
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>${t('downloading') || 'Téléchargement...'}`
   }
   try {
     const { downloadCountrySpots } = await import('./services/offlineDownload.js')
@@ -1657,25 +1657,25 @@ window.downloadCountryOffline = async (code, name) => {
       if (btn) btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>${progress}%`
     })
     if (result.success) {
-      showToast(`${name}: ${result.count} spots téléchargés pour offline`, 'success')
+      showToast(`${name}: ${result.count} ${t('spotsDownloaded') || 'spots téléchargés pour offline'}`, 'success')
       if (btn) {
-        btn.innerHTML = '<i class="fas fa-check mr-2"></i>Téléchargé'
+        btn.innerHTML = `<i class="fas fa-check mr-2"></i>${t('downloaded') || 'Téléchargé'}`
         btn.classList.remove('border-primary-500/30', 'text-primary-400')
         btn.classList.add('border-green-500/30', 'text-green-400')
       }
     } else {
-      showToast('Échec du téléchargement', 'error')
+      showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
       if (btn) {
         btn.disabled = false
-        btn.innerHTML = '<i class="fas fa-download"></i> Télécharger pour offline'
+        btn.innerHTML = `<i class="fas fa-download"></i> ${t('downloadForOffline') || 'Télécharger pour offline'}`
       }
     }
   } catch (e) {
     console.error('Offline download error:', e)
-    showToast('Erreur lors du téléchargement', 'error')
+    showToast(t('downloadError') || 'Erreur lors du téléchargement', 'error')
     if (btn) {
       btn.disabled = false
-      btn.innerHTML = '<i class="fas fa-download"></i> Télécharger pour offline'
+      btn.innerHTML = `<i class="fas fa-download"></i> ${t('downloadForOffline') || 'Télécharger pour offline'}`
     }
   }
 }
@@ -1684,10 +1684,10 @@ window.deleteOfflineCountry = async (code) => {
   try {
     const { deleteOfflineCountry } = await import('./services/offlineDownload.js')
     await deleteOfflineCountry(code)
-    showToast('Données offline supprimées', 'success')
+    showToast(t('offlineDataDeleted') || 'Données offline supprimées', 'success')
     scheduleRender(() => render(getState()))
   } catch (e) {
-    showToast('Erreur lors de la suppression', 'error')
+    showToast(t('deletionError') || 'Erreur lors de la suppression', 'error')
   }
 }
 

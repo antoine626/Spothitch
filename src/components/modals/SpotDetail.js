@@ -37,7 +37,7 @@ export function renderSpotDetail(state) {
           onclick="closeSpotDetail()"
           class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50
             flex items-center justify-center text-white"
-          aria-label="Fermer les details du spot"
+          aria-label="${t('closeSpotDetails') || 'Fermer les détails du spot'}"
           type="button"
         >
           <i class="fas fa-times" aria-hidden="true"></i>
@@ -47,7 +47,7 @@ export function renderSpotDetail(state) {
         <div class="relative h-56 overflow-hidden">
           <img
             src="${escapeHTML(spot.photoUrl)}"
-            alt="Photo du spot d'autostop de ${escapeHTML(spot.from)} vers ${escapeHTML(spot.to)}"
+            alt="${t('spotPhoto') || 'Photo du spot'}: ${escapeHTML(spot.from)} → ${escapeHTML(spot.to)}"
             class="w-full h-full object-cover"
             loading="lazy"
           />
@@ -72,15 +72,15 @@ export function renderSpotDetail(state) {
         <!-- Content -->
         <div class="p-4 overflow-y-auto max-h-[calc(90vh-14rem)]">
           <!-- Stats -->
-          <div class="grid grid-cols-3 gap-3 mb-4" role="group" aria-label="Statistiques du spot">
+          <div class="grid grid-cols-3 gap-3 mb-4" role="group" aria-label="${t('spotStats') || 'Statistiques du spot'}">
             <div class="card p-3 text-center">
-              <div class="text-xl font-bold text-warning-400" aria-label="Note: ${spot.globalRating?.toFixed(1) || 'non note'} sur 5">
+              <div class="text-xl font-bold text-warning-400" aria-label="${t('rating') || 'Note'}: ${spot.globalRating?.toFixed(1) || 'N/A'}/5">
                 <i class="fas fa-star mr-1" aria-hidden="true"></i>${spot.globalRating?.toFixed(1) || 'N/A'}
               </div>
               <div class="text-xs text-slate-400">${spot.totalReviews || 0} ${t('reviews')}</div>
             </div>
             <div class="card p-3 text-center">
-              <div class="text-xl font-bold text-primary-400" aria-label="Temps d'attente moyen: ${spot.avgWaitTime || 'inconnu'} minutes">
+              <div class="text-xl font-bold text-primary-400" aria-label="${t('avgWait') || 'Attente moyenne'}: ${spot.avgWaitTime || '?'} min">
                 ~${spot.avgWaitTime || '?'}
               </div>
               <div class="text-xs text-slate-400">min ${t('estimatedWait')}</div>
@@ -95,9 +95,9 @@ export function renderSpotDetail(state) {
           
           <!-- Description -->
           <div class="mb-4">
-            <h3 class="font-semibold mb-2"><span aria-hidden="true">📍</span> Description</h3>
+            <h3 class="font-semibold mb-2"><span aria-hidden="true">📍</span> ${t('description') || 'Description'}</h3>
             <p id="spot-desc-${spot.id}" class="text-slate-300 text-sm leading-relaxed">
-              ${escapeHTML(spot.description || 'Aucune description disponible.')}
+              ${escapeHTML(spot.description || (t('noDescription') || 'Aucune description disponible.'))}
             </p>
             ${spot.description ? renderTranslateButton(spot.description, `spot-desc-${spot.id}`) : ''}
           </div>
@@ -107,8 +107,8 @@ export function renderSpotDetail(state) {
 
           <!-- Ratings Breakdown -->
           <div class="mb-4">
-            <h3 class="font-semibold mb-3"><span aria-hidden="true">⭐</span> Evaluations detaillees</h3>
-            <div class="space-y-2" role="list" aria-label="Notes detaillees">
+            <h3 class="font-semibold mb-3"><span aria-hidden="true">⭐</span> ${t('detailedRatings') || 'Évaluations détaillées'}</h3>
+            <div class="space-y-2" role="list" aria-label="${t('detailedRatings') || 'Notes détaillées'}">
               ${renderRatingBar(t('accessibility'), spot.ratings?.accessibility)}
               ${renderRatingBar(t('safetyRating'), spot.ratings?.safety)}
               ${renderRatingBar(t('visibility'), spot.ratings?.visibility)}
@@ -124,7 +124,7 @@ export function renderSpotDetail(state) {
               type="button"
             >
               <i class="fas fa-map-pin" aria-hidden="true"></i>
-              Valider
+              ${t('validate') || 'Valider'}
             </button>
             <button
               onclick="openRating(${spot.id})"
@@ -142,16 +142,16 @@ export function renderSpotDetail(state) {
             class="w-full btn text-white font-bold text-lg py-4 mb-4 shadow-lg shadow-emerald-500/30"
             style="background: linear-gradient(135deg, #10b981, #059669);"
             type="button"
-            aria-label="Y aller - choisir une application de navigation"
+            aria-label="${t('goThere') || 'Y aller'}"
           >
             <i class="fas fa-route mr-2" aria-hidden="true"></i>
-            Y aller
+            ${t('goThere') || 'Y aller'}
             <i class="fas fa-chevron-right ml-2" aria-hidden="true"></i>
           </button>
 
           <!-- Navigation Apps Quick Access -->
           <div class="mb-4">
-            <p class="text-xs text-slate-400 mb-2 text-center">Ouvrir directement dans :</p>
+            <p class="text-xs text-slate-400 mb-2 text-center">${t('openDirectlyIn') || 'Ouvrir directement dans :'}</p>
             <div class="flex gap-2 justify-center">
               ${renderNavigationAppButtons(spot.coordinates?.lat, spot.coordinates?.lng, spot.from + ' - ' + spot.to)}
             </div>
@@ -163,19 +163,19 @@ export function renderSpotDetail(state) {
               onclick="startSpotNavigation(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeHTML((spot.from + ' - ' + spot.to).replace(/'/g, "\\'"))}')"
               class="btn btn-ghost text-sm py-2"
               type="button"
-              aria-label="Navigation guidee dans l'app"
+              aria-label="${t('guidedNav') || 'Navigation guidée'}"
             >
               <i class="fas fa-compass" aria-hidden="true"></i>
-              Navigation guidee
+              ${t('guidedNav') || 'Navigation guidée'}
             </button>
             <button
               onclick="shareSpot(window.getState().selectedSpot)"
               class="btn btn-ghost text-sm py-2"
               type="button"
-              aria-label="Partager ce spot"
+              aria-label="${t('shareSpot') || 'Partager ce spot'}"
             >
               <i class="fas fa-share-alt" aria-hidden="true"></i>
-              Partager
+              ${t('share') || 'Partager'}
             </button>
           </div>
           
@@ -187,7 +187,7 @@ export function renderSpotDetail(state) {
           <!-- Source -->
           ${spot.source ? `
             <div class="text-center text-xs text-slate-500 mt-4">
-              Source: ${escapeHTML(spot.source)} • Créé par ${escapeHTML(spot.creator || 'Anonyme')}
+              Source: ${escapeHTML(spot.source)} • ${t('createdBy') || 'Créé par'} ${escapeHTML(spot.creator || (t('anonymous') || 'Anonyme'))}
             </div>
           ` : ''}
         </div>
@@ -198,7 +198,7 @@ export function renderSpotDetail(state) {
 
 function renderRatingBar(label, value) {
   const percentage = ((value || 0) / 5) * 100;
-  const valueText = value ? `${value.toFixed(1)} sur 5` : 'Non note';
+  const valueText = value ? `${value.toFixed(1)}/5` : (t('unrated') || 'Non noté');
   return `
     <div class="flex items-center gap-3" role="listitem" aria-label="${label}: ${valueText}">
       <span class="text-sm text-slate-400 w-24">${label}</span>
@@ -232,7 +232,7 @@ function renderNavigationAppButtons(lat, lng, name) {
         class="nav-app-btn flex flex-col items-center gap-1 p-3 rounded-xl transition-all hover:-translate-y-1"
         style="background: ${app.color}20; border: 1px solid ${app.color}40;"
         type="button"
-        aria-label="Ouvrir dans ${app.name}"
+        aria-label="${t('openIn') || 'Ouvrir dans'} ${app.name}"
         title="${app.name}"
       >
         <i class="${iconClass} text-xl" style="color: ${app.color};" aria-hidden="true"></i>

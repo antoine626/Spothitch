@@ -23,7 +23,7 @@ export function renderSocial(state) {
 }"
         >
           <i class="fas fa-globe mr-1" aria-hidden="true"></i>
-          Général
+          ${t('generalChat') || 'Général'}
         </button>
         <button
           onclick="setSocialTab('regional')"
@@ -34,7 +34,7 @@ export function renderSocial(state) {
 }"
         >
           <i class="fas fa-map-marker-alt mr-1" aria-hidden="true"></i>
-          Régional
+          ${t('regionalChat') || 'Régional'}
         </button>
         <button
           onclick="setSocialTab('friends')"
@@ -45,7 +45,7 @@ export function renderSocial(state) {
 }"
         >
           <i class="fas fa-user-friends mr-1" aria-hidden="true"></i>
-          Amis
+          ${t('friendsTab') || 'Amis'}
           ${(state.unreadFriendMessages || 0) > 0 ? `
             <span class="absolute -top-1 -right-1 w-5 h-5 bg-danger-500 rounded-full text-xs flex items-center justify-center">
               ${state.unreadFriendMessages}
@@ -61,7 +61,7 @@ export function renderSocial(state) {
 }"
         >
           <i class="fas fa-users mr-1" aria-hidden="true"></i>
-          Groupes
+          ${t('groupsTab') || 'Groupes'}
         </button>
       </div>
 
@@ -95,15 +95,15 @@ function renderChatRoom(state, room) {
         <input
           type="text"
           class="input-field flex-1"
-          placeholder="Écrire un message..."
+          placeholder="${t('writeMessage') || 'Écrire un message...'}"
           id="chat-input"
           autocomplete="off"
-          aria-label="Écrire un message"
+          aria-label="${t('writeMessage') || 'Écrire un message'}"
         />
         <button
           type="submit"
           class="btn-primary px-4"
-          aria-label="Envoyer"
+          aria-label="${t('send') || 'Envoyer'}"
         >
           <i class="fas fa-paper-plane" aria-hidden="true"></i>
         </button>
@@ -179,10 +179,10 @@ function renderFriends(state) {
           <div class="relative flex-1">
             <input
               type="text"
-              placeholder="Nom du voyageur..."
+              placeholder="${t('enterTravelerName') || 'Nom du voyageur...'}"
               class="input-field w-full pl-10"
               id="friend-search"
-              aria-label="Nom de l'ami a ajouter"
+              aria-label="${t('addFriend') || 'Nom de l\'ami a ajouter'}"
               onkeydown="if(event.key==='Enter') addFriendByName()"
             />
             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
@@ -190,7 +190,7 @@ function renderFriends(state) {
           <button
             onclick="addFriendByName()"
             class="btn-primary px-4"
-            aria-label="Ajouter un ami"
+            aria-label="${t('addFriend') || 'Ajouter un ami'}"
           >
             <i class="fas fa-user-plus" aria-hidden="true"></i>
           </button>
@@ -202,7 +202,7 @@ function renderFriends(state) {
         <div class="card p-4 border-primary-500/30">
           <h4 class="font-bold text-sm mb-3 flex items-center gap-2">
             <i class="fas fa-user-plus text-primary-400" aria-hidden="true"></i>
-            Demandes d'amis (${friendRequests.length})
+            ${t('friendRequests') || 'Demandes d\'amis'} (${friendRequests.length})
           </h4>
           <div class="space-y-2">
             ${friendRequests.map(req => `
@@ -211,21 +211,21 @@ function renderFriends(state) {
                   <span class="text-2xl">${req.avatar || '🤙'}</span>
                   <div>
                     <div class="font-medium">${req.name}</div>
-                    <div class="text-xs text-slate-400">Niveau ${req.level || 1}</div>
+                    <div class="text-xs text-slate-400">${t('level') || 'Niveau'} ${req.level || 1}</div>
                   </div>
                 </div>
                 <div class="flex gap-2">
                   <button
                     onclick="acceptFriendRequest('${req.id}')"
                     class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30"
-                    aria-label="Accepter"
+                    aria-label="${t('accept') || 'Accepter'}"
                   >
                     <i class="fas fa-check" aria-hidden="true"></i>
                   </button>
                   <button
                     onclick="declineFriendRequest('${req.id}')"
                     class="w-8 h-8 rounded-full bg-danger-500/20 text-danger-400 hover:bg-danger-500/30"
-                    aria-label="Refuser"
+                    aria-label="${t('decline') || 'Refuser'}"
                   >
                     <i class="fas fa-times" aria-hidden="true"></i>
                   </button>
@@ -240,7 +240,7 @@ function renderFriends(state) {
       ${friends.length > 0 ? `
         <div class="space-y-2">
           <h4 class="font-bold text-sm text-slate-400 px-1">
-            Mes amis (${friends.length})
+            ${t('myFriends') || 'Mes amis'} (${friends.length})
           </h4>
           ${friends.map(friend => `
             <button
@@ -259,7 +259,7 @@ function renderFriends(state) {
                   ${getTrustBadge(friend.verificationLevel || 0)}
                 </div>
                 <div class="text-xs text-slate-400">
-                  ${friend.lastMessage || (friend.online ? 'En ligne' : 'Hors ligne')}
+                  ${friend.lastMessage || (friend.online ? t('online') || 'En ligne' : t('offline') || 'Hors ligne')}
                 </div>
               </div>
               ${friend.unread > 0 ? `
@@ -274,14 +274,14 @@ function renderFriends(state) {
       ` : `
         <div class="text-center py-12">
           <span class="text-5xl mb-4 block">👥</span>
-          <h3 class="text-lg font-bold mb-2">Pas encore d'amis</h3>
-          <p class="text-slate-400 text-sm">Ajoute des compagnons de voyage !</p>
+          <h3 class="text-lg font-bold mb-2">${t('noFriendsYet') || 'Pas encore d\'amis'}</h3>
+          <p class="text-slate-400 text-sm">${t('addFriendsToTravel') || 'Ajoute des compagnons de voyage !'}</p>
           <button
             onclick="showAddFriend()"
             class="btn-primary mt-4"
           >
             <i class="fas fa-user-plus mr-2" aria-hidden="true"></i>
-            Ajouter un ami
+            ${t('addFriend') || 'Ajouter un ami'}
           </button>
         </div>
       `}
@@ -298,7 +298,7 @@ function renderPrivateChat(state, friend) {
       <button
         onclick="closeFriendChat()"
         class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
-        aria-label="Retour"
+        aria-label="${t('back') || 'Retour'}"
       >
         <i class="fas fa-arrow-left" aria-hidden="true"></i>
       </button>
@@ -310,12 +310,12 @@ function renderPrivateChat(state, friend) {
       </div>
       <div class="flex-1">
         <div class="font-medium">${friend.name}</div>
-        <div class="text-xs text-slate-400">${friend.online ? 'En ligne' : 'Hors ligne'}</div>
+        <div class="text-xs text-slate-400">${friend.online ? t('online') || 'En ligne' : t('offline') || 'Hors ligne'}</div>
       </div>
       <button
         onclick="showFriendProfile('${friend.id}')"
         class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
-        aria-label="Voir le profil"
+        aria-label="${t('viewProfile') || 'Voir le profil'}"
       >
         <i class="fas fa-user" aria-hidden="true"></i>
       </button>
@@ -328,7 +328,7 @@ function renderPrivateChat(state, friend) {
     : `
           <div class="text-center py-12">
             <span class="text-4xl mb-4 block">💬</span>
-            <p class="text-slate-400 text-sm">Commence la conversation !</p>
+            <p class="text-slate-400 text-sm">${t('startConversation') || 'Commence la conversation !'}</p>
           </div>
         `
 }
@@ -340,14 +340,14 @@ function renderPrivateChat(state, friend) {
         <input
           type="text"
           class="input-field flex-1"
-          placeholder="Message à ${friend.name}..."
+          placeholder="${t('messageTo') || 'Message à'} ${friend.name}..."
           id="private-chat-input"
           autocomplete="off"
         />
         <button
           type="submit"
           class="btn-primary px-4"
-          aria-label="Envoyer"
+          aria-label="${t('send') || 'Envoyer'}"
         >
           <i class="fas fa-paper-plane" aria-hidden="true"></i>
         </button>
@@ -372,8 +372,8 @@ function renderTravelGroups(state) {
             <i class="fas fa-plus text-primary-400 text-xl" aria-hidden="true"></i>
           </div>
           <div>
-            <div class="font-bold">Créer un groupe de voyage</div>
-            <div class="text-sm text-slate-400">Planifiez ensemble avec vos compagnons</div>
+            <div class="font-bold">${t('createTravelGroup') || 'Créer un groupe de voyage'}</div>
+            <div class="text-sm text-slate-400">${t('planTogether') || 'Planifiez ensemble avec vos compagnons'}</div>
           </div>
         </div>
       </button>
@@ -389,8 +389,8 @@ function renderTravelGroups(state) {
               <i class="fas fa-location-dot text-emerald-400 text-xl" aria-hidden="true"></i>
             </div>
             <div>
-              <div class="font-bold">Amis à proximité</div>
-              <div class="text-sm text-slate-400">Voir qui est près de vous</div>
+              <div class="font-bold">${t('nearbyFriends') || 'Amis à proximité'}</div>
+              <div class="text-sm text-slate-400">${t('seeWhoIsNear') || 'Voir qui est près de vous'}</div>
             </div>
           </div>
           <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
@@ -400,7 +400,7 @@ function renderTravelGroups(state) {
       <!-- My Groups -->
       ${myGroups.length > 0 ? `
         <div class="space-y-3">
-          <h4 class="font-bold text-sm text-slate-400 px-1">Mes groupes (${myGroups.length})</h4>
+          <h4 class="font-bold text-sm text-slate-400 px-1">${t('myGroups') || 'Mes groupes'} (${myGroups.length})</h4>
           ${myGroups.map(group => `
             <button
               onclick="openTravelGroupDetail('${group.id}')"
@@ -412,10 +412,10 @@ function renderTravelGroups(state) {
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="font-bold truncate">${group.name}</div>
-                  <div class="text-sm text-slate-400">${group.members?.length || 0} membres</div>
+                  <div class="text-sm text-slate-400">${group.members?.length || 0} ${t('members') || 'membres'}</div>
                 </div>
                 <div class="text-right">
-                  <div class="text-xs text-primary-400">${group.status || 'Planification'}</div>
+                  <div class="text-xs text-primary-400">${group.status || t('planning') || 'Planification'}</div>
                   <i class="fas fa-chevron-right text-slate-500 mt-1" aria-hidden="true"></i>
                 </div>
               </div>
@@ -425,8 +425,8 @@ function renderTravelGroups(state) {
       ` : `
         <div class="text-center py-8">
           <span class="text-5xl mb-4 block">🚐</span>
-          <h3 class="text-lg font-bold mb-2">Pas encore de groupe</h3>
-          <p class="text-slate-400 text-sm mb-4">Créez un groupe pour voyager ensemble !</p>
+          <h3 class="text-lg font-bold mb-2">${t('noGroupYet') || 'Pas encore de groupe'}</h3>
+          <p class="text-slate-400 text-sm mb-4">${t('createGroupToTravel') || 'Créez un groupe pour voyager ensemble !'}</p>
         </div>
       `}
     </div>
@@ -467,7 +467,7 @@ window.sendMessage = async (room) => {
     id: Date.now().toString(),
     room: room || 'general',
     text,
-    userName: state.username || 'Voyageur',
+    userName: state.username || t('traveler') || 'Voyageur',
     userAvatar: state.avatar || '🤙',
     userId: state.user?.uid || 'local-user',
     createdAt: new Date().toISOString(),
@@ -536,7 +536,7 @@ window.sendPrivateMessage = async (friendId) => {
 window.acceptFriendRequest = async (requestId) => {
   // TODO: Implement
   console.log('Accept friend request:', requestId);
-  window.showSuccess?.('Ami ajouté !');
+  window.showSuccess?.(t('friendAdded') || 'Ami ajouté !');
 
   // Show contextual tip for first friend added
   try {
@@ -561,7 +561,7 @@ window.addFriendByName = async () => {
   const input = document.getElementById('friend-search');
   const name = input?.value?.trim();
   if (!name) {
-    window.showToast?.('Entre un nom de voyageur', 'warning');
+    window.showToast?.(t('enterTravelerName') || 'Entre un nom de voyageur', 'warning');
     return;
   }
 
@@ -571,7 +571,7 @@ window.addFriendByName = async () => {
 
   // Check duplicate
   if (friends.some(f => f.name.toLowerCase() === name.toLowerCase())) {
-    window.showToast?.('Cet ami est deja dans ta liste', 'warning');
+    window.showToast?.(t('alreadyFriend') || 'Cet ami est deja dans ta liste', 'warning');
     return;
   }
 

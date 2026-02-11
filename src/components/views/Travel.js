@@ -610,50 +610,115 @@ window.filterGuides = (query) => {
   })
 }
 
+// Popular cities for instant local suggestions (no API call needed)
+const POPULAR_CITIES = [
+  'Paris, France', 'London, United Kingdom', 'Berlin, Germany', 'Barcelona, Spain',
+  'Amsterdam, Netherlands', 'Rome, Italy', 'Prague, Czech Republic', 'Vienna, Austria',
+  'Lisbon, Portugal', 'Brussels, Belgium', 'Budapest, Hungary', 'Warsaw, Poland',
+  'Copenhagen, Denmark', 'Stockholm, Sweden', 'Oslo, Norway', 'Helsinki, Finland',
+  'Dublin, Ireland', 'Zurich, Switzerland', 'Munich, Germany', 'Hamburg, Germany',
+  'Lyon, France', 'Marseille, France', 'Bordeaux, France', 'Nice, France',
+  'Toulouse, France', 'Nantes, France', 'Strasbourg, France', 'Lille, France',
+  'Milan, Italy', 'Florence, Italy', 'Naples, Italy', 'Venice, Italy',
+  'Madrid, Spain', 'Valencia, Spain', 'Seville, Spain', 'Malaga, Spain',
+  'Porto, Portugal', 'Krakow, Poland', 'Gdansk, Poland', 'Zagreb, Croatia',
+  'Ljubljana, Slovenia', 'Bratislava, Slovakia', 'Bucharest, Romania',
+  'Sofia, Bulgaria', 'Athens, Greece', 'Istanbul, Turkey', 'Marrakech, Morocco',
+  'Casablanca, Morocco', 'Tbilisi, Georgia', 'Tallinn, Estonia', 'Riga, Latvia',
+  'Vilnius, Lithuania', 'Edinburgh, United Kingdom', 'Manchester, United Kingdom',
+  'Cologne, Germany', 'Frankfurt, Germany', 'Dresden, Germany',
+  'Montpellier, France', 'Grenoble, France', 'Rennes, France',
+]
+
 // Trip autocomplete suggestions
 let tripDebounce = null
+let tripSearchSuppressed = false  // Suppress search after selection
+
 window.tripSearchSuggestions = (field, query) => {
   clearTimeout(tripDebounce)
   const container = document.getElementById(`trip-${field}-suggestions`)
   if (!container) return
+
+  // If search was suppressed (just selected a suggestion), skip
+  if (tripSearchSuppressed) {
+    tripSearchSuppressed = false
+    return
+  }
+
   if (!query || query.trim().length < 2) {
     container.classList.add('hidden')
     return
   }
+
+  const q = query.trim().toLowerCase()
+
+  // Instant local matches from popular cities
+  const localMatches = POPULAR_CITIES
+    .filter(c => c.toLowerCase().includes(q))
+    .slice(0, 5)
+
+  if (localMatches.length > 0) {
+    container.classList.remove('hidden')
+    container.innerHTML = renderSuggestions(field, localMatches)
+  }
+
+  // Also fetch from Nominatim (but don't block on it)
   tripDebounce = setTimeout(async () => {
     try {
       const { searchLocation } = await import('../../services/osrm.js')
       const results = await searchLocation(query)
+      // Only update if input still has same value (user hasn't changed it)
+      const currentInput = document.getElementById(`trip-${field}`)
+      if (!currentInput || currentInput.value.trim() !== query.trim()) return
+
       if (results && results.length > 0) {
+        // Merge: local matches first, then API results (deduplicated)
+        const apiNames = results.map(r => r.name)
+        const merged = [...new Set([...localMatches, ...apiNames])].slice(0, 5)
         container.classList.remove('hidden')
-        container.innerHTML = `
-          <div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
-            ${results.map((r, i) => `
-              <button
-                onclick="tripSelectSuggestion('${field}', '${(r.name || '').replace(/'/g, "\\'")}')"
-                class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
-                data-trip-${field}-suggestion="${i}"
-              >
-                <div class="font-medium text-sm truncate">${r.name || ''}</div>
-              </button>
-            `).join('')}
-          </div>
-        `
-      } else {
+        container.innerHTML = renderSuggestions(field, merged)
+      } else if (localMatches.length === 0) {
         container.classList.add('hidden')
       }
     } catch (e) {
-      container.classList.add('hidden')
+      // Keep local results if they exist
+      if (localMatches.length === 0) container.classList.add('hidden')
     }
-  }, 80)
+  }, 200)
+}
+
+function renderSuggestions(field, names) {
+  return `
+    <div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
+      ${names.map((name, i) => `
+        <button
+          onmousedown="event.preventDefault(); tripSelectSuggestion('${field}', '${name.replace(/'/g, "\\'")}')"
+          class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
+          data-trip-${field}-suggestion="${i}"
+        >
+          <div class="font-medium text-sm truncate">${name}</div>
+        </button>
+      `).join('')}
+    </div>
+  `
 }
 
 window.tripSelectSuggestion = (field, name) => {
+  // Cancel any pending search
+  clearTimeout(tripDebounce)
+  tripSearchSuppressed = true  // Suppress next oninput search
+
   const input = document.getElementById(`trip-${field}`)
   if (input) input.value = name
-  document.getElementById(`trip-${field}-suggestions`)?.classList.add('hidden')
-  // Don't call setState here — avoids full re-render that kills focus/suggestions
-  // State is synced in syncTripFieldsAndCalculate before calculating
+
+  // Hide BOTH suggestion containers
+  document.getElementById('trip-from-suggestions')?.classList.add('hidden')
+  document.getElementById('trip-to-suggestions')?.classList.add('hidden')
+
+  // Auto-focus next field or calculate
+  if (field === 'from') {
+    document.getElementById('trip-to')?.focus()
+  }
 }
 
 window.tripSelectFirst = (field) => {

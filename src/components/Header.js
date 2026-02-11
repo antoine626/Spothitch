@@ -20,8 +20,8 @@ export function renderHeader(state) {
           <button
             onclick="openAdminPanel()"
             class="w-9 h-9 rounded-full bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 hover:scale-105 transition-all flex items-center justify-center"
-            aria-label="Panneau Admin"
-            title="Panneau Admin"
+            aria-label="${t('adminPanel') || 'Panneau Admin'}"
+            title="${t('adminPanel') || 'Panneau Admin'}"
           >
             <i class="fas fa-shield-alt text-sm" aria-hidden="true"></i>
           </button>
@@ -42,7 +42,7 @@ export function renderHeader(state) {
       ${!state.isOnline ? `
         <div class="absolute bottom-0 left-0 right-0 bg-warning-500/20 text-warning-400 text-xs text-center py-1" role="status" aria-live="polite">
           <i class="fas fa-wifi-slash mr-1" aria-hidden="true"></i>
-          <span>Mode hors-ligne</span>
+          <span>${t('offlineMode') || 'Mode hors-ligne'}</span>
         </div>
       ` : ''}
     </header>

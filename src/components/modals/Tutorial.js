@@ -4,6 +4,7 @@
  */
 
 import { getState, setState } from '../../stores/state.js';
+import { t } from '../../i18n/index.js';
 
 // Tutorial rewards
 const TUTORIAL_REWARDS = {
@@ -17,8 +18,8 @@ const tutorialSteps = [
   {
     id: 'welcome',
     icon: '🤙',
-    title: 'Bienvenue sur SpotHitch !',
-    desc: 'Découvre l\'app en quelques clics. Je vais te guider vers chaque fonctionnalité.',
+    title: t('tutWelcomeTitle') || 'Bienvenue sur SpotHitch !',
+    desc: t('tutWelcomeDesc') || 'Découvre l\'app en quelques clics. Je vais te guider vers chaque fonctionnalité.',
     type: 'modal', // Just show modal, no interaction
     position: 'center',
   },
@@ -26,8 +27,8 @@ const tutorialSteps = [
   {
     id: 'nav-map',
     icon: '🗺️',
-    title: 'La Carte',
-    desc: 'Clique sur l\'onglet Carte pour voir tous les spots d\'auto-stop.',
+    title: t('tutMapTitle') || 'La Carte',
+    desc: t('tutMapDesc') || 'Clique sur l\'onglet Carte pour voir tous les spots d\'auto-stop.',
     type: 'click',
     target: 'nav-map', // ID of the nav button
     targetSelector: '[data-tab="map"], [aria-label*="Carte"]',
@@ -38,8 +39,8 @@ const tutorialSteps = [
   {
     id: 'map-explore',
     icon: '📍',
-    title: 'Explore les spots',
-    desc: 'Les marqueurs colorés sont des spots. Vert = excellent, Rouge = à éviter. Utilise les boutons à gauche pour zoomer.',
+    title: t('tutMapExploreTitle') || 'Explore les spots',
+    desc: t('tutMapExploreDesc') || 'Les marqueurs colorés sont des spots. Vert = excellent, Rouge = à éviter. Utilise les boutons à gauche pour zoomer.',
     type: 'modal',
     position: 'center',
     prerequisiteTab: 'map',
@@ -48,8 +49,8 @@ const tutorialSteps = [
   {
     id: 'add-spot-btn',
     icon: '➕',
-    title: 'Ajouter un spot',
-    desc: 'Tu connais un bon spot ? Clique sur le bouton + bleu pour le partager !',
+    title: t('tutAddSpotTitle') || 'Ajouter un spot',
+    desc: t('tutAddSpotDesc') || 'Tu connais un bon spot ? Clique sur le bouton + bleu pour le partager !',
     type: 'highlight',
     targetSelector: '[aria-label*="Ajouter"]',
     position: 'left',
@@ -59,8 +60,8 @@ const tutorialSteps = [
   {
     id: 'nav-challenges',
     icon: '🎯',
-    title: 'Les Défis',
-    desc: 'Clique sur Défis pour découvrir la gamification : badges, quiz, boutique...',
+    title: t('tutChallengesTitle') || 'Les Défis',
+    desc: t('tutChallengesDesc') || 'Clique sur Défis pour découvrir la gamification : badges, quiz, boutique...',
     type: 'click',
     targetSelector: '[data-tab="challenges"], [aria-label*="Défis"]',
     position: 'top',
@@ -70,8 +71,8 @@ const tutorialSteps = [
   {
     id: 'challenges-explore',
     icon: '🏆',
-    title: 'Gagne des récompenses',
-    desc: 'Complète des défis quotidiens, gagne des points, monte de niveau et débloque des badges !',
+    title: t('tutChallengesExploreTitle') || 'Gagne des récompenses',
+    desc: t('tutChallengesExploreDesc') || 'Complète des défis quotidiens, gagne des points, monte de niveau et débloque des badges !',
     type: 'modal',
     position: 'center',
     prerequisiteTab: 'challenges',
@@ -80,8 +81,8 @@ const tutorialSteps = [
   {
     id: 'nav-social',
     icon: '💬',
-    title: 'La Communauté',
-    desc: 'Clique sur Social pour discuter avec d\'autres autostoppeurs.',
+    title: t('tutSocialTitle') || 'La Communauté',
+    desc: t('tutSocialDesc') || 'Clique sur Social pour discuter avec d\'autres autostoppeurs.',
     type: 'click',
     targetSelector: '[data-tab="social"], [aria-label*="Social"]',
     position: 'top',
@@ -91,8 +92,8 @@ const tutorialSteps = [
   {
     id: 'social-explore',
     icon: '👥',
-    title: 'Chat & Groupes',
-    desc: 'Discute dans le chat général, ajoute des amis, et crée des groupes de voyage !',
+    title: t('tutSocialExploreTitle') || 'Chat & Groupes',
+    desc: t('tutSocialExploreDesc') || 'Discute dans le chat général, ajoute des amis, et crée des groupes de voyage !',
     type: 'modal',
     position: 'center',
     prerequisiteTab: 'social',
@@ -101,8 +102,8 @@ const tutorialSteps = [
   {
     id: 'nav-profile',
     icon: '👤',
-    title: 'Ton Profil',
-    desc: 'Clique sur Profil pour personnaliser ton compte et accéder aux paramètres.',
+    title: t('tutProfileTitle') || 'Ton Profil',
+    desc: t('tutProfileDesc') || 'Clique sur Profil pour personnaliser ton compte et accéder aux paramètres.',
     type: 'click',
     targetSelector: '[data-tab="profile"], [aria-label*="Profil"]',
     position: 'top',
@@ -112,8 +113,8 @@ const tutorialSteps = [
   {
     id: 'profile-features',
     icon: '⚙️',
-    title: 'Personnalisation',
-    desc: 'Change ton avatar, accède à l\'arbre de compétences, gère tes paramètres et bien plus !',
+    title: t('tutProfileFeaturesTitle') || 'Personnalisation',
+    desc: t('tutProfileFeaturesDesc') || 'Change ton avatar, accède à l\'arbre de compétences, gère tes paramètres et bien plus !',
     type: 'modal',
     position: 'center',
     prerequisiteTab: 'profile',
@@ -122,8 +123,8 @@ const tutorialSteps = [
   {
     id: 'sos-btn',
     icon: '🆘',
-    title: 'Mode SOS',
-    desc: 'En cas d\'urgence, le bouton SOS (en haut) partage ta position et affiche les numéros utiles.',
+    title: t('tutSOSTitle') || 'Mode SOS',
+    desc: t('tutSOSDesc') || 'En cas d\'urgence, le bouton SOS (en haut) partage ta position et affiche les numéros utiles.',
     type: 'highlight',
     targetSelector: '[aria-label*="SOS"], .sos-btn',
     position: 'bottom',
@@ -132,8 +133,8 @@ const tutorialSteps = [
   {
     id: 'admin-panel',
     icon: '🛡️',
-    title: 'Panneau Admin',
-    desc: 'Le bouton orange en bas à droite ouvre le panneau admin pour accéder rapidement à TOUTES les fonctionnalités.',
+    title: t('tutAdminTitle') || 'Panneau Admin',
+    desc: t('tutAdminDesc') || 'Le bouton orange en bas à droite ouvre le panneau admin pour accéder rapidement à TOUTES les fonctionnalités.',
     type: 'highlight',
     targetSelector: '[aria-label*="Admin"]',
     position: 'left',
@@ -142,8 +143,8 @@ const tutorialSteps = [
   {
     id: 'ready',
     icon: '🚀',
-    title: 'Tu es prêt !',
-    desc: 'Tu connais maintenant SpotHitch. Bonne route et n\'oublie pas de partager tes spots !',
+    title: t('tutReadyTitle') || 'Tu es prêt !',
+    desc: t('tutReadyDesc') || 'Tu connais maintenant SpotHitch. Bonne route et n\'oublie pas de partager tes spots !',
     type: 'modal',
     position: 'center',
     isLast: true,
@@ -179,7 +180,7 @@ export function renderTutorial(state) {
         onclick="skipTutorial()"
         class="fixed top-4 right-4 z-[103] px-4 py-2 rounded-full bg-slate-800/90 text-slate-400 text-sm hover:text-white hover:bg-slate-700 transition-all"
       >
-        Passer <i class="fas fa-forward ml-1" aria-hidden="true"></i>
+        ${t('skip') || 'Passer'} <i class="fas fa-forward ml-1" aria-hidden="true"></i>
       </button>
 
       <!-- Dark overlay -->
@@ -202,12 +203,12 @@ export function renderTutorial(state) {
         ${step.type === 'click' ? `
           <div class="mt-4 flex items-center gap-2 text-primary-400 text-sm animate-pulse">
             <i class="fas fa-hand-pointer" aria-hidden="true"></i>
-            <span>Clique sur l'élément mis en surbrillance</span>
+            <span>${t('tutClickHighlighted') || 'Clique sur l\'élément mis en surbrillance'}</span>
           </div>
         ` : step.type === 'highlight' ? `
           <div class="mt-4 flex gap-2">
             <button onclick="nextTutorial()" class="flex-1 py-2 px-4 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
-              Compris ! <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+              ${t('understood') || 'Compris !'} <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
             </button>
           </div>
         ` : `
@@ -218,14 +219,14 @@ export function renderTutorial(state) {
               </button>
             ` : ''}
             <button onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}" class="flex-1 py-2 px-4 rounded-lg ${isLast ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-primary-500 hover:bg-primary-600'} text-white font-medium transition-colors">
-              ${isLast ? 'Commencer !' : 'Suivant'} <i class="fas fa-${isLast ? 'rocket' : 'arrow-right'} ml-2" aria-hidden="true"></i>
+              ${isLast ? t('letsStart') || 'Commencer !' : t('next') || 'Suivant'} <i class="fas fa-${isLast ? 'rocket' : 'arrow-right'} ml-2" aria-hidden="true"></i>
             </button>
           </div>
         `}
 
         <!-- Step indicator -->
         <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
-          <span>Étape ${stepIndex + 1}/${tutorialSteps.length}</span>
+          <span>${t('step') || 'Étape'} ${stepIndex + 1}/${tutorialSteps.length}</span>
           <span class="text-amber-400"><i class="fas fa-star mr-1"></i>+${TUTORIAL_REWARDS.perStep} pts</span>
         </div>
       </div>
@@ -488,7 +489,7 @@ if (typeof window.skipTutorial === 'undefined') {
   window.skipTutorial = () => {
     cleanupTutorialTargets();
     setState({ showTutorial: false, tutorialStep: 0 });
-    window.showToast?.('Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
+    window.showToast?.(t('skipTutorial') || 'Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
   };
 }
 
@@ -507,7 +508,7 @@ if (typeof window.finishTutorial === 'undefined') {
       totalPoints: (state.totalPoints || 0) + totalPoints,
     });
 
-    window.showToast?.(`Tutoriel terminé ! +${totalPoints} points gagnés`, 'success');
+    window.showToast?.(t('finishTutorial', { points: totalPoints }) || `Tutoriel terminé ! +${totalPoints} points gagnés`, 'success');
   };
 }
 

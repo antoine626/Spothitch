@@ -358,7 +358,7 @@ window.handleLogout = async () => {
   try {
     const { logOut } = await import('../../services/firebase.js');
     await logOut();
-    window.showToast?.('Déconnexion réussie', 'success');
+    window.showToast?.(t('logoutSuccess') || 'Déconnexion réussie', 'success');
   } catch (error) {
     console.error('Logout failed:', error);
   }

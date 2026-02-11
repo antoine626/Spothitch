@@ -44,13 +44,13 @@ export function renderStatsModal() {
         <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-6">
           <div class="flex justify-between items-start">
             <div>
-              <h2 id="stats-title" class="text-2xl font-bold text-white">Mes Statistiques</h2>
-              <p class="text-white/80">Ton activite sur SpotHitch</p>
+              <h2 id="stats-title" class="text-2xl font-bold text-white">${t('myStats') || 'Mes Statistiques'}</h2>
+              <p class="text-white/80">${t('yourActivity') || 'Ton activité sur SpotHitch'}</p>
             </div>
             <button onclick="closeStats()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
-                    aria-label="Fermer les statistiques">
+                    aria-label="${t('closeStats') || 'Fermer les statistiques'}">
               <span aria-hidden="true">x</span>
             </button>
           </div>
@@ -63,7 +63,7 @@ export function renderStatsModal() {
           <section class="bg-gradient-to-br from-emerald-900/50 to-primary-900/50 rounded-2xl p-5 border border-emerald-500/20">
             <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
               <span class="text-2xl">🚗</span>
-              Statistiques de voyage
+              ${t('travelStats') || 'Statistiques de voyage'}
             </h3>
 
             <!-- Main Stats Grid -->
@@ -74,7 +74,7 @@ export function renderStatsModal() {
                 <div class="text-3xl font-bold text-emerald-400">
                   ${formatDistanceKm(travelStats.totalDistanceKm)}
                 </div>
-                <div class="text-sm text-slate-400">Distance totale</div>
+                <div class="text-sm text-slate-400">${t('totalDistance') || 'Distance totale'}</div>
               </div>
 
               <!-- Total Wait Time -->
@@ -83,7 +83,7 @@ export function renderStatsModal() {
                 <div class="text-3xl font-bold text-amber-400">
                   ${formatWaitDuration(travelStats.totalWaitTimeMinutes)}
                 </div>
-                <div class="text-sm text-slate-400">Temps d'attente total</div>
+                <div class="text-sm text-slate-400">${t('totalWaitTime') || "Temps d'attente total"}</div>
               </div>
 
               <!-- Avg Wait Time -->
@@ -92,7 +92,7 @@ export function renderStatsModal() {
                 <div class="text-3xl font-bold text-sky-400">
                   ${travelStats.avgWaitTimeMinutes} min
                 </div>
-                <div class="text-sm text-slate-400">Attente moyenne</div>
+                <div class="text-sm text-slate-400">${t('avgWait') || 'Attente moyenne'}</div>
               </div>
 
               <!-- Countries Visited -->
@@ -101,7 +101,7 @@ export function renderStatsModal() {
                 <div class="text-3xl font-bold text-purple-400">
                   ${travelStats.countriesCount}
                 </div>
-                <div class="text-sm text-slate-400">Pays visites</div>
+                <div class="text-sm text-slate-400">${t('countriesVisited') || 'Pays visités'}</div>
                 ${travelStats.countries?.length > 0 ? `
                   <div class="text-lg mt-1">
                     ${travelStats.countries.slice(0, 5).map(c => getCountryFlag(c)).join(' ')}
@@ -117,14 +117,14 @@ export function renderStatsModal() {
               <div class="bg-white/5 rounded-lg p-3 text-center">
                 <div class="text-xl">📍</div>
                 <div class="text-xl font-bold text-white">${travelStats.spotsUsedCount}</div>
-                <div class="text-xs text-slate-400">Spots utilises</div>
+                <div class="text-xs text-slate-400">${t('spotsUsed') || 'Spots utilisés'}</div>
               </div>
 
               <!-- Total Rides -->
               <div class="bg-white/5 rounded-lg p-3 text-center">
                 <div class="text-xl">🚙</div>
                 <div class="text-xl font-bold text-white">${travelStats.totalRides}</div>
-                <div class="text-xs text-slate-400">Lifts obtenus</div>
+                <div class="text-xs text-slate-400">${t('ridesObtained') || 'Lifts obtenus'}</div>
               </div>
 
               <!-- Best Month -->
@@ -134,7 +134,7 @@ export function renderStatsModal() {
                   ${travelStats.bestMonth ? travelStats.bestMonth.month : '-'}
                 </div>
                 <div class="text-xs text-slate-400">
-                  ${travelStats.bestMonth ? `${travelStats.bestMonth.count} check-ins` : 'Meilleur mois'}
+                  ${travelStats.bestMonth ? `${travelStats.bestMonth.count} check-ins` : (t('bestMonth') || 'Meilleur mois')}
                 </div>
               </div>
             </div>
@@ -145,7 +145,7 @@ export function renderStatsModal() {
                 <div class="flex items-center gap-3">
                   <span class="text-4xl">${travelStats.distanceComparison.emoji}</span>
                   <div>
-                    <div class="text-white font-medium">Tu as parcouru l'equivalent de :</div>
+                    <div class="text-white font-medium">${t('distanceEquivalent') || "Tu as parcouru l'équivalent de :"}</div>
                     <div class="text-primary-300 text-lg font-bold">${travelStats.distanceComparison.text}</div>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export function renderStatsModal() {
               <div class="mt-4 flex items-center gap-3 p-3 bg-white/5 rounded-lg">
                 <span class="text-2xl">${travelStats.favoriteDay.emoji}</span>
                 <div>
-                  <div class="text-white font-medium">Ton jour prefere pour voyager</div>
+                  <div class="text-white font-medium">${t('favoriteTravelDay') || 'Ton jour préféré pour voyager'}</div>
                   <div class="text-slate-400 text-sm">
                     ${travelStats.favoriteDay.name} (${travelStats.favoriteDay.count} check-ins)
                   </div>
@@ -170,7 +170,7 @@ export function renderStatsModal() {
               <div class="mt-3 flex items-center gap-3 p-3 bg-white/5 rounded-lg">
                 <span class="text-2xl">⭐</span>
                 <div class="flex-1 min-w-0">
-                  <div class="text-white font-medium truncate">Ton spot favori</div>
+                  <div class="text-white font-medium truncate">${t('favoriteSpot') || 'Ton spot favori'}</div>
                   <div class="text-slate-400 text-sm truncate">
                     ${travelStats.mostUsedSpot.name}
                     ${travelStats.mostUsedSpot.country ? getCountryFlag(travelStats.mostUsedSpot.country) : ''}
@@ -185,7 +185,7 @@ export function renderStatsModal() {
           ${progressionData.some(d => d.checkins > 0) ? `
             <section>
               <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
-                Progression (6 mois)
+                ${t('progression6months') || 'Progression (6 mois)'}
               </h3>
               <div class="bg-gray-800 rounded-xl p-4">
                 <div class="flex items-end justify-between h-24 gap-2">
@@ -200,7 +200,7 @@ export function renderStatsModal() {
 
           <!-- Level & VIP -->
           <section>
-            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">Progression</h3>
+            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">${t('progression') || 'Progression'}</h3>
             <div class="grid grid-cols-2 gap-3">
               <!-- Level -->
               <div class="bg-gray-800 rounded-xl p-4">
@@ -210,7 +210,7 @@ export function renderStatsModal() {
                     ${summary.level}
                   </div>
                   <div>
-                    <div class="text-white font-bold">Niveau ${summary.level}</div>
+                    <div class="text-white font-bold">${t('level') || 'Niveau'} ${summary.level}</div>
                     <div class="text-gray-500 text-xs">${summary.points} pts</div>
                   </div>
                 </div>
@@ -233,7 +233,7 @@ export function renderStatsModal() {
                   <div>
                     <div class="text-white font-bold">${summary.vipLevel.name}</div>
                     <div class="text-gray-500 text-xs">
-                      ${summary.nextVip ? `${summary.pointsToNextVip} pts au suivant` : 'Max atteint'}
+                      ${summary.nextVip ? `${summary.pointsToNextVip} pts ${t('toNext') || 'au suivant'}` : (t('maxReached') || 'Max atteint')}
                     </div>
                   </div>
                 </div>
@@ -248,7 +248,7 @@ export function renderStatsModal() {
           <!-- League -->
           <section>
             <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
-              Ligue Saison
+              ${t('seasonLeague') || 'Ligue Saison'}
             </h3>
             <div class="bg-gray-800 rounded-xl p-4">
               <div class="flex items-center justify-between mb-3">
@@ -259,12 +259,12 @@ export function renderStatsModal() {
 }
                   <div>
                     <div class="text-white font-bold">${summary.league.name}</div>
-                    <div class="text-gray-500 text-xs">${state.seasonPoints || 0} pts saison</div>
+                    <div class="text-gray-500 text-xs">${state.seasonPoints || 0} pts ${t('season') || 'saison'}</div>
                   </div>
                 </div>
                 ${leagueProgress.next ? `
                   <div class="text-right">
-                    <div class="text-gray-500 text-xs">Prochain</div>
+                    <div class="text-gray-500 text-xs">${t('next') || 'Prochain'}</div>
                     <div class="text-white flex items-center gap-1 justify-end">
                       ${leagueProgress.next.image
     ? `<img src="${leagueProgress.next.image}" alt="${leagueProgress.next.name}" class="w-5 h-5 object-contain" loading="lazy" />`
@@ -284,14 +284,14 @@ export function renderStatsModal() {
 
           <!-- Activity Stats -->
           <section>
-            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">Activite</h3>
+            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">${t('activity') || 'Activité'}</h3>
             <div class="grid grid-cols-3 gap-3">
               ${[
     { label: 'Check-ins', value: summary.checkins, icon: '📍' },
-    { label: 'Spots crees', value: summary.spotsCreated, icon: '🗺️' },
-    { label: 'Avis donnes', value: summary.reviewsGiven, icon: '⭐' },
-    { label: 'Serie actuelle', value: `${summary.streak}j`, icon: '🔥' },
-    { label: 'Record serie', value: `${summary.maxStreak}j`, icon: '🏆' },
+    { label: t('spotsCreated') || 'Spots créés', value: summary.spotsCreated, icon: '🗺️' },
+    { label: t('reviewsGivenLabel') || 'Avis donnés', value: summary.reviewsGiven, icon: '⭐' },
+    { label: t('currentStreak') || 'Série actuelle', value: `${summary.streak}j`, icon: '🔥' },
+    { label: t('streakRecord') || 'Record série', value: `${summary.maxStreak}j`, icon: '🏆' },
     { label: 'Badges', value: `${summary.badgesCount}/${summary.totalBadges}`, icon: '🎖️' },
   ].map(stat => `
                 <div class="bg-gray-800 rounded-xl p-3 text-center">
@@ -306,7 +306,7 @@ export function renderStatsModal() {
           <!-- Achievements Timeline -->
           <section>
             <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
-              Dernieres reussites
+              ${t('recentAchievements') || 'Dernières réussites'}
             </h3>
             <div class="space-y-2">
               ${(state.recentAchievements || []).slice(0, 5).map(achievement => `
@@ -320,7 +320,7 @@ export function renderStatsModal() {
                 </div>
               `).join('') || `
                 <div class="text-center py-4 text-gray-500 text-sm">
-                  Aucune reussite recente
+                  ${t('noRecentAchievements') || 'Aucune réussite récente'}
                 </div>
               `}
             </div>
@@ -332,7 +332,7 @@ export function renderStatsModal() {
             class="w-full py-3 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-xl font-semibold text-white hover:opacity-90 transition-all flex items-center justify-center gap-2"
           >
             <span>📤</span>
-            Partager mes stats
+            ${t('shareStats') || 'Partager mes stats'}
           </button>
 
         </div>
@@ -368,7 +368,9 @@ function renderMiniChart(data) {
 function formatDate(date) {
   if (!date) return '';
   const d = new Date(date);
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+  const state = getState();
+  const locale = state.lang === 'fr' ? 'fr-FR' : state.lang === 'de' ? 'de-DE' : state.lang === 'es' ? 'es-ES' : 'en-US';
+  return d.toLocaleDateString(locale, { day: 'numeric', month: 'short' });
 }
 
 export default {

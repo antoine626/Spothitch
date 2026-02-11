@@ -7,11 +7,11 @@ import { t } from '../i18n/index.js';
 
 export function renderNavigation(state) {
   const tabs = [
-    { id: 'map', icon: 'fa-map-marked-alt', label: 'Carte' },
-    { id: 'travel', icon: 'fa-route', label: 'Voyage' },
-    { id: 'challenges', icon: 'fa-gamepad', label: 'Défis' },
-    { id: 'social', icon: 'fa-users', label: 'Social' },
-    { id: 'profile', icon: 'fa-user', label: 'Profil' },
+    { id: 'map', icon: 'fa-map-marked-alt', label: t('navMap') || 'Carte' },
+    { id: 'travel', icon: 'fa-route', label: t('navTravel') || 'Voyage' },
+    { id: 'challenges', icon: 'fa-gamepad', label: t('navChallenges') || 'Défis' },
+    { id: 'social', icon: 'fa-users', label: t('navSocial') || 'Social' },
+    { id: 'profile', icon: 'fa-user', label: t('navProfile') || 'Profil' },
   ];
 
   return `

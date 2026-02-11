@@ -29,7 +29,7 @@ export function renderAddSpot(_state) {
           <button
             onclick="closeAddSpot()"
             class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-            aria-label="Fermer la fenetre d'ajout de spot"
+            aria-label="${t('close') || 'Fermer'}"
             type="button"
           >
             <i class="fas fa-times" aria-hidden="true"></i>
@@ -38,7 +38,7 @@ export function renderAddSpot(_state) {
         
         <!-- Form -->
         <div class="p-4 overflow-y-auto max-h-[calc(90vh-8rem)]">
-          <form id="add-spot-form" onsubmit="handleAddSpot(event)" class="space-y-4" aria-label="Formulaire d'ajout de spot">
+          <form id="add-spot-form" onsubmit="handleAddSpot(event)" class="space-y-4" aria-label="${t('addSpotForm') || 'Formulaire d\'ajout de spot'}">
             <!-- Photo -->
             <div>
               <label for="spot-photo" class="text-sm text-slate-400 block mb-2">${t('photoRequired')}</label>
@@ -49,7 +49,7 @@ export function renderAddSpot(_state) {
                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();triggerPhotoUpload();}"
                 role="button"
                 tabindex="0"
-                aria-label="Cliquez pour ajouter une photo du spot"
+                aria-label="${t('clickToAddPhoto') || 'Cliquez pour ajouter une photo'}"
               >
                 <input
                   type="file"
@@ -104,7 +104,7 @@ export function renderAddSpot(_state) {
                 id="spot-description"
                 name="description"
                 class="input-modern min-h-[100px] resize-none"
-                placeholder="Decris le spot, comment y acceder, conseils..."
+                placeholder="${t('spotDescPlaceholder') || 'Décris le spot, comment y accéder, conseils...'}"
                 maxlength="500"
                 aria-describedby="desc-counter"
               ></textarea>
@@ -115,7 +115,7 @@ export function renderAddSpot(_state) {
             
             <!-- Location -->
             <div>
-              <span class="text-sm text-slate-400 block mb-2" id="location-label"><span aria-hidden="true">📍</span> Position</span>
+              <span class="text-sm text-slate-400 block mb-2" id="location-label"><span aria-hidden="true">📍</span> ${t('position') || 'Position'}</span>
               <button
                 type="button"
                 onclick="getSpotLocation()"
@@ -123,7 +123,7 @@ export function renderAddSpot(_state) {
                 aria-describedby="location-display"
               >
                 <i class="fas fa-crosshairs" aria-hidden="true"></i>
-                Utiliser ma position actuelle
+                ${t('useMyPosition') || 'Utiliser ma position actuelle'}
               </button>
               <div id="location-display" class="text-sm text-slate-400 mt-2 text-center" aria-live="polite" role="status"></div>
             </div>
@@ -177,7 +177,7 @@ window.handlePhotoSelect = async (event) => {
   } catch (error) {
     console.error('Photo processing failed:', error);
     const { showError } = await import('../../services/notifications.js');
-    showError('Erreur lors du traitement de la photo');
+    showError(t('photoError') || 'Erreur lors du traitement de la photo');
   }
 };
 
@@ -185,11 +185,11 @@ window.getSpotLocation = () => {
   const display = document.getElementById('location-display');
 
   if (!navigator.geolocation) {
-    if (display) display.textContent = 'Géolocalisation non supportée';
+    if (display) display.textContent = t('geoNotSupported') || 'Géolocalisation non supportée';
     return;
   }
 
-  if (display) display.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Localisation...';
+  if (display) display.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('locating') || 'Localisation...'}`;
 
   navigator.geolocation.getCurrentPosition(
     async (position) => {
@@ -217,7 +217,7 @@ window.getSpotLocation = () => {
       }
     },
     (error) => {
-      if (display) display.textContent = 'Impossible d\'obtenir la position';
+      if (display) display.textContent = t('positionError') || "Impossible d'obtenir la position";
       console.error('Geolocation error:', error);
     },
     { enableHighAccuracy: true, timeout: 10000 }
@@ -235,20 +235,20 @@ window.handleAddSpot = async (event) => {
   // Validation
   if (!from || !to) {
     const { showError } = await import('../../services/notifications.js');
-    showError('Remplis les champs obligatoires');
+    showError(t('fillRequired') || 'Remplis les champs obligatoires');
     return;
   }
 
   if (!window.spotFormData.photo) {
     const { showError } = await import('../../services/notifications.js');
-    showError('Une photo est requise');
+    showError(t('photoRequired') || 'Une photo est requise');
     return;
   }
 
   // Disable button
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('sending') || 'Envoi...'}`;
   }
 
   try {
@@ -287,7 +287,7 @@ window.handleAddSpot = async (event) => {
       const { showSuccess } = await import('../../services/notifications.js');
       const { actions, setState } = await import('../../stores/state.js');
 
-      showSuccess('Spot ajouté avec succès !');
+      showSuccess(t('spotAdded') || 'Spot ajouté avec succès !');
       actions.incrementSpotsCreated();
       setState({ showAddSpot: false });
 
@@ -307,7 +307,7 @@ window.handleAddSpot = async (event) => {
   } catch (error) {
     console.error('Add spot failed:', error);
     const { showError } = await import('../../services/notifications.js');
-    showError('Erreur lors de l\'ajout du spot');
+    showError(t('addSpotError') || "Erreur lors de l'ajout du spot");
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;

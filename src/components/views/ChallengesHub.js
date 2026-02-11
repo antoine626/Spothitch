@@ -21,7 +21,7 @@ export function renderChallengesHub(state) {
   ];
 
   // Get current league info
-  const leagues = ['Bronze', 'Argent', 'Or', 'Platine', 'Diamant'];
+  const leagues = [t('leagueBronze') || 'Bronze', t('leagueSilver') || 'Argent', t('leagueGold') || 'Or', t('leaguePlatinum') || 'Platine', t('leagueDiamond') || 'Diamant'];
   const currentLeagueIndex = Math.min(Math.floor((state.seasonPoints || 0) / 500), leagues.length - 1);
   const currentLeague = leagues[currentLeagueIndex];
 
@@ -34,11 +34,11 @@ export function renderChallengesHub(state) {
       <div class="grid grid-cols-3 gap-3">
         <div class="card p-3 text-center">
           <div class="text-2xl font-bold text-amber-400">${state.thumbs || state.points || 0}</div>
-          <div class="text-xs text-slate-400">👍 Pouces</div>
+          <div class="text-xs text-slate-400">👍 ${t('thumbs') || 'Pouces'}</div>
         </div>
         <div class="card p-3 text-center">
           <div class="text-2xl font-bold text-purple-400">${currentLeague}</div>
-          <div class="text-xs text-slate-400">Ligue</div>
+          <div class="text-xs text-slate-400">${t('league') || 'Ligue'}</div>
         </div>
         <div class="card p-3 text-center">
           ${currentVipLevel.image
@@ -80,8 +80,8 @@ export function renderChallengesHub(state) {
               🎯
             </div>
             <div>
-              <div class="font-bold text-white">Défis</div>
-              <div class="text-sm text-slate-400">${activeChallenges.length} actifs</div>
+              <div class="font-bold text-white">${t('challenges') || 'Défis'}</div>
+              <div class="text-sm text-slate-400">${activeChallenges.length} ${t('active') || 'actifs'}</div>
             </div>
           </div>
           <div class="flex gap-1">
@@ -117,7 +117,7 @@ export function renderChallengesHub(state) {
               🛒
             </div>
             <div>
-              <div class="font-bold text-white">Boutique</div>
+              <div class="font-bold text-white">${t('shop') || 'Boutique'}</div>
               <div class="text-sm text-slate-400">${shopRewards.length} items</div>
             </div>
           </div>
@@ -135,13 +135,13 @@ export function renderChallengesHub(state) {
               <span class="text-3xl">⚔️</span>
             </div>
             <div>
-              <div class="font-bold text-lg">Défis d'équipe</div>
-              <div class="text-sm text-slate-400">Relevez des défis collectifs avec vos amis</div>
+              <div class="font-bold text-lg">${t('teamChallenges') || "Défis d'équipe"}</div>
+              <div class="text-sm text-slate-400">${t('teamChallengesDesc') || 'Relevez des défis collectifs avec vos amis'}</div>
             </div>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-sm font-medium">
-              Nouveau
+              ${t('new') || 'Nouveau'}
             </span>
             <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
           </div>
@@ -153,10 +153,10 @@ export function renderChallengesHub(state) {
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-bold flex items-center gap-2">
             <i class="fas fa-fire text-orange-400" aria-hidden="true"></i>
-            Défis en cours
+            ${t('activeChallenges') || 'Défis en cours'}
           </h3>
           <button onclick="openChallenges()" class="text-sm text-primary-400">
-            Voir tout →
+            ${t('seeAll') || 'Voir tout'} →
           </button>
         </div>
 
@@ -172,7 +172,7 @@ export function renderChallengesHub(state) {
                   </div>
                   <span class="text-xs px-2 py-0.5 rounded-full ${
   challenge.challengeType === 'daily' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'
-}">${challenge.challengeType === 'daily' ? 'Quotidien' : 'Hebdo'}</span>
+}">${challenge.challengeType === 'daily' ? (t('daily') || 'Quotidien') : (t('weekly') || 'Hebdo')}</span>
                 </div>
                 <div class="flex items-center gap-3">
                   <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
@@ -191,11 +191,11 @@ export function renderChallengesHub(state) {
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-bold flex items-center gap-2">
             <i class="fas fa-trophy text-amber-400" aria-hidden="true"></i>
-            Classement
+            ${t('ranking') || 'Classement'}
           </h3>
           <button onclick="openLeaderboard()" class="text-sm text-amber-400 hover:text-amber-300 transition-colors">
             <i class="fas fa-crown mr-1" aria-hidden="true"></i>
-            Voir le classement →
+            ${t('seeRanking') || 'Voir le classement'} →
           </button>
         </div>
 
@@ -209,10 +209,10 @@ export function renderChallengesHub(state) {
             <span class="text-3xl hidden">${currentLeagueIndex === 0 ? '🥉' : currentLeagueIndex === 1 ? '🥈' : currentLeagueIndex === 2 ? '🥇' : currentLeagueIndex === 3 ? '💎' : '👑'}</span>
           </div>
           <div class="flex-1">
-            <div class="font-bold text-lg">Ligue ${currentLeague}</div>
-            <div class="text-sm text-slate-400">${state.seasonPoints || 0} points saisonniers</div>
+            <div class="font-bold text-lg">${t('league') || 'Ligue'} ${currentLeague}</div>
+            <div class="text-sm text-slate-400">${state.seasonPoints || 0} ${t('seasonPoints') || 'points saisonniers'}</div>
             <div class="text-xs text-primary-400 mt-1">
-              ${currentLeagueIndex < leagues.length - 1 ? `${500 - ((state.seasonPoints || 0) % 500)} pts pour ${leagues[currentLeagueIndex + 1]}` : 'Niveau maximum !'}
+              ${currentLeagueIndex < leagues.length - 1 ? `${500 - ((state.seasonPoints || 0) % 500)} pts ${t('forNext') || 'pour'} ${leagues[currentLeagueIndex + 1]}` : (t('maxLevel') || 'Niveau maximum !')}
             </div>
           </div>
         </div>
@@ -240,7 +240,7 @@ export function renderChallengesHub(state) {
 }
           </div>
           <div class="flex-1">
-            <div class="text-xs text-purple-400 mb-1">Statut VIP</div>
+            <div class="text-xs text-purple-400 mb-1">${t('vipStatus') || 'Statut VIP'}</div>
             <div class="font-bold text-lg">${currentVipLevel.name}</div>
             <div class="text-sm text-slate-400">${currentVipLevel.benefits?.[0] || ''}</div>
           </div>
@@ -248,7 +248,7 @@ export function renderChallengesHub(state) {
             onclick="openMyRewards()"
             class="px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 text-sm hover:bg-purple-500/30 transition-all"
           >
-            Avantages
+            ${t('benefits') || 'Avantages'}
           </button>
         </div>
       </div>
@@ -259,8 +259,8 @@ export function renderChallengesHub(state) {
           <div class="flex items-center gap-4">
             <div class="text-4xl">🔥</div>
             <div class="flex-1">
-              <div class="font-bold text-lg">${state.streak} jours consécutifs !</div>
-              <div class="text-sm text-slate-400">Continue pour débloquer des badges</div>
+              <div class="font-bold text-lg">${state.streak} ${t('consecutiveDays') || 'jours consécutifs'} !</div>
+              <div class="text-sm text-slate-400">${t('keepGoingBadges') || 'Continue pour débloquer des badges'}</div>
             </div>
             <div class="text-right">
               <div class="text-2xl font-bold text-orange-400">+${state.streak * 5}</div>

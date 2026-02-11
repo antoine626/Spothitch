@@ -19,8 +19,8 @@ export function renderSpotCard(spot, variant = 'default') {
 function renderDefaultCard(spot) {
   const typeClass = getSpotTypeClass(spot);
   const typeLabel = getSpotTypeLabel(spot);
-  const ratingText = spot.globalRating ? `Note: ${spot.globalRating.toFixed(1)} sur 5` : 'Non note';
-  const waitText = spot.avgWaitTime ? `Attente moyenne: ${spot.avgWaitTime} minutes` : '';
+  const ratingText = spot.globalRating ? `${t('rating') || 'Note'}: ${spot.globalRating.toFixed(1)}/5` : (t('unrated') || 'Non noté');
+  const waitText = spot.avgWaitTime ? `${t('avgWait') || 'Attente moyenne'}: ${spot.avgWaitTime} min` : '';
   const freshnessLevel = getFreshnessLevel(spot.lastCheckin || spot.lastUsed);
   const freshnessBadge = getFreshnessBadge(freshnessLevel);
   const lastCheckinTime = getTimeAgo(spot.lastCheckin || spot.lastUsed);
@@ -38,22 +38,22 @@ function renderDefaultCard(spot) {
       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectSpot(${spot.id});}"
       role="button"
       tabindex="0"
-      aria-label="Spot d'autostop de ${safeFrom} vers ${safeTo}. ${ratingText}. ${waitText}"
+      aria-label="${t('hitchSpot') || 'Spot'}: ${safeFrom} → ${safeTo}. ${ratingText}. ${waitText}"
     >
       <!-- Photo -->
       <div class="relative h-40 overflow-hidden">
         <img
           src="${safePhotoUrl}"
-          alt="Photo du spot d'autostop a ${safeFrom} direction ${safeTo}"
+          alt="${t('spotPhoto') || 'Photo du spot'}: ${safeFrom} → ${safeTo}"
           class="w-full h-full object-cover"
           loading="lazy"
         />
         <div class="absolute top-3 right-3 flex flex-col gap-1 items-end">
-          <span class="badge ${typeClass}" aria-label="Type de spot: ${typeLabel}">${typeLabel}</span>
+          <span class="badge ${typeClass}" aria-label="${t('spotType') || 'Type'}: ${typeLabel}">${typeLabel}</span>
           <!-- Freshness Badge -->
           <span
             class="badge ${freshnessBadge.bgColor} ${freshnessBadge.textColor} border ${freshnessBadge.borderColor}"
-            aria-label="Fraicheur: ${freshnessBadge.label}"
+            aria-label="${t('freshness') || 'Fraîcheur'}: ${freshnessBadge.label}"
             title="${freshnessBadge.description}"
           >
             <i class="fas fa-circle ${freshnessBadge.iconColor} text-[8px] mr-1" aria-hidden="true"></i>
@@ -87,7 +87,7 @@ function renderDefaultCard(spot) {
         <!-- Stats -->
         <div class="flex items-center justify-between text-sm">
           <div class="flex items-center gap-3">
-            <span class="flex items-center gap-1 text-warning-400" aria-label="Note: ${spot.globalRating?.toFixed(1) || 'Non note'} sur 5">
+            <span class="flex items-center gap-1 text-warning-400" aria-label="${t('rating') || 'Note'}: ${spot.globalRating?.toFixed(1) || 'N/A'}/5">
               <i class="fas fa-star" aria-hidden="true"></i>
               <span>${spot.globalRating?.toFixed(1) || 'N/A'}</span>
             </span>
@@ -96,7 +96,7 @@ function renderDefaultCard(spot) {
             </span>
           </div>
 
-          <div class="flex items-center gap-1 text-slate-400" aria-label="Temps d'attente moyen: ${spot.avgWaitTime || 'inconnu'} minutes">
+          <div class="flex items-center gap-1 text-slate-400" aria-label="${t('avgWait') || 'Attente moyenne'}: ${spot.avgWaitTime || '?'} min">
             <i class="fas fa-clock" aria-hidden="true"></i>
             <span>~${spot.avgWaitTime || '?'} min</span>
           </div>
@@ -120,7 +120,7 @@ function renderDefaultCard(spot) {
 }
 
 function renderCompactCard(spot) {
-  const ratingText = spot.globalRating ? `Note: ${spot.globalRating.toFixed(1)} sur 5` : 'Non note';
+  const ratingText = spot.globalRating ? `${t('rating') || 'Note'}: ${spot.globalRating.toFixed(1)}/5` : (t('unrated') || 'Non noté');
   const freshnessLevel = getFreshnessLevel(spot.lastCheckin || spot.lastUsed);
   const freshnessBadge = getFreshnessBadge(freshnessLevel);
 
@@ -136,13 +136,13 @@ function renderCompactCard(spot) {
       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectSpot(${spot.id});}"
       role="button"
       tabindex="0"
-      aria-label="Spot d'autostop de ${safeFrom} vers ${safeTo}. ${ratingText}."
+      aria-label="${t('hitchSpot') || 'Spot'}: ${safeFrom} → ${safeTo}. ${ratingText}."
     >
       <!-- Photo with freshness indicator -->
       <div class="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
         <img
           src="${safePhotoUrl}"
-          alt="Photo du spot a ${safeFrom}"
+          alt="${t('spotPhoto') || 'Photo du spot'}: ${safeFrom}"
           class="w-full h-full object-cover"
           loading="lazy"
         />
@@ -155,7 +155,7 @@ function renderCompactCard(spot) {
       <!-- Content -->
       <div class="flex-1 min-w-0">
         <h3 class="font-semibold text-sm truncate">
-          ${safeFrom} <span aria-hidden="true">→</span><span class="sr-only">vers</span> ${safeTo}
+          ${safeFrom} <span aria-hidden="true">→</span><span class="sr-only">${t('towards') || 'vers'}</span> ${safeTo}
         </h3>
         <div class="flex items-center gap-2 mt-1 text-xs text-slate-400">
           <span class="flex items-center gap-1 text-warning-400" aria-label="${ratingText}">
@@ -163,7 +163,7 @@ function renderCompactCard(spot) {
             <span>${spot.globalRating?.toFixed(1) || 'N/A'}</span>
           </span>
           <span aria-hidden="true">•</span>
-          <span aria-label="Temps d'attente: ${spot.avgWaitTime || 'inconnu'} minutes">~${spot.avgWaitTime || '?'} min</span>
+          <span aria-label="${t('waitTime') || 'Attente'}: ${spot.avgWaitTime || '?'} min">~${spot.avgWaitTime || '?'} min</span>
         </div>
         <div class="mt-1">
           ${renderReliabilityBadge(spot, 'sm')}

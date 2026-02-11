@@ -15,8 +15,8 @@ function getUserData() {
 
   // Personal Information
   const personalInfo = {
-    email: state.user?.email || 'Non connecte',
-    username: state.username || 'Voyageur',
+    email: state.user?.email || (t('notConnected') || 'Non connecté'),
+    username: state.username || (t('traveler') || 'Voyageur'),
     avatar: state.avatar || '',
     registrationDate: state.user?.metadata?.creationTime || state.registrationDate || null,
     lastLogin: state.user?.metadata?.lastSignInTime || state.lastLogin || null,
@@ -72,10 +72,12 @@ function getUserData() {
  * Format date for display
  */
 function formatDate(dateStr) {
-  if (!dateStr) return 'Non disponible';
+  if (!dateStr) return t('notAvailable') || 'Non disponible';
   try {
+    const state = getState();
+    const locale = state.lang === 'en' ? 'en-US' : state.lang === 'es' ? 'es-ES' : state.lang === 'de' ? 'de-DE' : 'fr-FR';
     const date = new Date(dateStr);
-    return date.toLocaleDateString('fr-FR', {
+    return date.toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -83,7 +85,7 @@ function formatDate(dateStr) {
       minute: '2-digit',
     });
   } catch {
-    return 'Non disponible';
+    return t('notAvailable') || 'Non disponible';
   }
 }
 
@@ -91,9 +93,9 @@ function formatDate(dateStr) {
  * Format consent status
  */
 function formatConsent(consent) {
-  if (!consent) return { status: 'Non defini', date: null, class: 'text-slate-400' };
+  if (!consent) return { status: t('undefined') || 'Non défini', date: null, class: 'text-slate-400' };
   return {
-    status: consent.accepted ? 'Accepte' : 'Refuse',
+    status: consent.accepted ? (t('accepted') || 'Accepté') : (t('refused') || 'Refusé'),
     date: consent.date ? formatDate(consent.date) : null,
     class: consent.accepted ? 'text-emerald-400' : 'text-red-400',
   };
@@ -103,7 +105,7 @@ function formatConsent(consent) {
  * Format location for display
  */
 function formatLocation(location) {
-  if (!location) return 'Non autorisee';
+  if (!location) return t('notAuthorized') || 'Non autorisée';
   return `${location.lat?.toFixed(4)}, ${location.lng?.toFixed(4)}`;
 }
 
@@ -129,14 +131,14 @@ export function renderMyDataModal() {
               <i class="fas fa-database text-blue-400 text-xl" aria-hidden="true"></i>
             </div>
             <div>
-              <h2 id="mydata-title" class="text-xl font-bold">Mes donnees</h2>
-              <p class="text-sm text-slate-400">Conformite RGPD</p>
+              <h2 id="mydata-title" class="text-xl font-bold">${t('myData') || 'Mes données'}</h2>
+              <p class="text-sm text-slate-400">${t('gdprCompliance') || 'Conformité RGPD'}</p>
             </div>
           </div>
           <button
             onclick="closeMyData()"
             class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all"
-            aria-label="Fermer"
+            aria-label="${t('close') || 'Fermer'}"
           >
             <i class="fas fa-times" aria-hidden="true"></i>
           </button>
@@ -146,7 +148,7 @@ export function renderMyDataModal() {
         <section class="mb-6" aria-labelledby="section-personal">
           <h3 id="section-personal" class="text-lg font-semibold mb-3 flex items-center gap-2">
             <i class="fas fa-user text-primary-400" aria-hidden="true"></i>
-            Informations personnelles
+            ${t('personalInfo') || 'Informations personnelles'}
           </h3>
           <div class="card p-4 space-y-3">
             <div class="flex justify-between items-center">
@@ -154,15 +156,15 @@ export function renderMyDataModal() {
               <span class="font-medium">${personalInfo.email}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-slate-400">Nom d'utilisateur</span>
+              <span class="text-slate-400">${t('username') || "Nom d'utilisateur"}</span>
               <span class="font-medium">${personalInfo.username}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-slate-400">Date d'inscription</span>
+              <span class="text-slate-400">${t('registrationDate') || "Date d'inscription"}</span>
               <span class="font-medium text-sm">${formatDate(personalInfo.registrationDate)}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-slate-400">Derniere connexion</span>
+              <span class="text-slate-400">${t('lastLogin') || 'Dernière connexion'}</span>
               <span class="font-medium text-sm">${formatDate(personalInfo.lastLogin)}</span>
             </div>
           </div>
@@ -172,7 +174,7 @@ export function renderMyDataModal() {
         <section class="mb-6" aria-labelledby="section-activity">
           <h3 id="section-activity" class="text-lg font-semibold mb-3 flex items-center gap-2">
             <i class="fas fa-chart-line text-emerald-400" aria-hidden="true"></i>
-            Activite
+            ${t('activity') || 'Activité'}
           </h3>
           <div class="card p-4">
             <div class="grid grid-cols-2 gap-3">
@@ -182,28 +184,28 @@ export function renderMyDataModal() {
               </div>
               <div class="p-3 rounded-lg bg-white/5 text-center">
                 <div class="text-2xl font-bold text-emerald-400">${activityData.spotsCreated}</div>
-                <div class="text-xs text-slate-400">Spots crees</div>
+                <div class="text-xs text-slate-400">${t('spotsCreated') || 'Spots créés'}</div>
               </div>
               <div class="p-3 rounded-lg bg-white/5 text-center">
                 <div class="text-2xl font-bold text-amber-400">${activityData.reviewsGiven}</div>
-                <div class="text-xs text-slate-400">Avis donnes</div>
+                <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis donnés'}</div>
               </div>
               <div class="p-3 rounded-lg bg-white/5 text-center">
                 <div class="text-2xl font-bold text-sky-400">${activityData.friendsCount}</div>
-                <div class="text-xs text-slate-400">Amis</div>
+                <div class="text-xs text-slate-400">${t('friends') || 'Amis'}</div>
               </div>
             </div>
             <div class="mt-3 pt-3 border-t border-white/10 space-y-2 text-sm">
               <div class="flex justify-between">
-                <span class="text-slate-400">Voyages sauvegardes</span>
+                <span class="text-slate-400">${t('savedTrips') || 'Voyages sauvegardés'}</span>
                 <span>${activityData.savedTripsCount}</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-slate-400">Badges obtenus</span>
+                <span class="text-slate-400">${t('badgesEarned') || 'Badges obtenus'}</span>
                 <span>${activityData.badgesCount}</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-slate-400">Recompenses</span>
+                <span class="text-slate-400">${t('rewards') || 'Récompenses'}</span>
                 <span>${activityData.rewardsCount}</span>
               </div>
             </div>
@@ -214,31 +216,31 @@ export function renderMyDataModal() {
         <section class="mb-6" aria-labelledby="section-gamification">
           <h3 id="section-gamification" class="text-lg font-semibold mb-3 flex items-center gap-2">
             <i class="fas fa-trophy text-amber-400" aria-hidden="true"></i>
-            Progression
+            ${t('progression') || 'Progression'}
           </h3>
           <div class="card p-4 space-y-2 text-sm">
             <div class="flex justify-between">
-              <span class="text-slate-400">Points totaux</span>
+              <span class="text-slate-400">${t('totalPoints') || 'Points totaux'}</span>
               <span class="font-medium text-primary-400">${gamificationData.totalPoints || gamificationData.points}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-400">Niveau actuel</span>
+              <span class="text-slate-400">${t('currentLevel') || 'Niveau actuel'}</span>
               <span class="font-medium">${gamificationData.level}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-400">Points de saison</span>
+              <span class="text-slate-400">${t('seasonPoints') || 'Points de saison'}</span>
               <span class="font-medium">${gamificationData.seasonPoints}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-400">Serie actuelle</span>
-              <span class="font-medium">${gamificationData.streak} jours</span>
+              <span class="text-slate-400">${t('currentStreak') || 'Série actuelle'}</span>
+              <span class="font-medium">${gamificationData.streak} ${t('days') || 'jours'}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-400">Points de competence</span>
+              <span class="text-slate-400">${t('skillPoints') || 'Points de compétence'}</span>
               <span class="font-medium">${gamificationData.skillPoints}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-400">Competences debloquees</span>
+              <span class="text-slate-400">${t('unlockedSkills') || 'Compétences débloquées'}</span>
               <span class="font-medium">${gamificationData.unlockedSkills}</span>
             </div>
           </div>
@@ -248,26 +250,26 @@ export function renderMyDataModal() {
         <section class="mb-6" aria-labelledby="section-location">
           <h3 id="section-location" class="text-lg font-semibold mb-3 flex items-center gap-2">
             <i class="fas fa-map-marker-alt text-red-400" aria-hidden="true"></i>
-            Donnees de localisation
+            ${t('locationData') || 'Données de localisation'}
           </h3>
           <div class="card p-4 space-y-3">
             <div class="flex justify-between items-center">
-              <span class="text-slate-400">Derniere position connue</span>
+              <span class="text-slate-400">${t('lastKnownPosition') || 'Dernière position connue'}</span>
               <span class="font-medium text-sm">${formatLocation(locationData.lastKnownPosition)}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-slate-400">GPS active</span>
+              <span class="text-slate-400">${t('gpsEnabled') || 'GPS activé'}</span>
               <span class="font-medium ${locationData.gpsEnabled ? 'text-emerald-400' : 'text-slate-400'}">
-                ${locationData.gpsEnabled ? 'Oui' : 'Non'}
+                ${locationData.gpsEnabled ? (t('yes') || 'Oui') : (t('no') || 'Non')}
               </span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-slate-400">Historique des positions</span>
-              <span class="font-medium">${locationData.locationHistoryCount} entrees</span>
+              <span class="text-slate-400">${t('positionHistory') || 'Historique des positions'}</span>
+              <span class="font-medium">${locationData.locationHistoryCount} ${t('entries') || 'entrées'}</span>
             </div>
             <p class="text-xs text-slate-500 mt-2">
               <i class="fas fa-info-circle mr-1" aria-hidden="true"></i>
-              La position n'est collectee que lorsque vous utilisez activement l'application avec GPS active.
+              ${t('gpsDisclaimer') || "La position n'est collectée que lorsque vous utilisez activement l'application avec GPS activé."}
             </p>
           </div>
         </section>
@@ -276,7 +278,7 @@ export function renderMyDataModal() {
         <section class="mb-6" aria-labelledby="section-consents">
           <h3 id="section-consents" class="text-lg font-semibold mb-3 flex items-center gap-2">
             <i class="fas fa-shield-alt text-purple-400" aria-hidden="true"></i>
-            Consentements
+            ${t('consents') || 'Consentements'}
           </h3>
           <div class="card p-4 space-y-4">
             <!-- Cookies -->
@@ -291,7 +293,7 @@ export function renderMyDataModal() {
             <!-- Geolocation -->
             <div class="flex justify-between items-start">
               <div>
-                <div class="font-medium">Geolocalisation</div>
+                <div class="font-medium">${t('geolocation') || 'Géolocalisation'}</div>
                 ${geoConsent.date ? `<div class="text-xs text-slate-500">${geoConsent.date}</div>` : ''}
               </div>
               <span class="font-medium ${geoConsent.class}">${geoConsent.status}</span>
@@ -311,7 +313,7 @@ export function renderMyDataModal() {
               class="w-full mt-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm"
             >
               <i class="fas fa-cog mr-2" aria-hidden="true"></i>
-              Gerer mes consentements
+              ${t('manageConsents') || 'Gérer mes consentements'}
             </button>
           </div>
         </section>
@@ -333,8 +335,8 @@ export function renderMyDataModal() {
                   <i class="fas fa-download text-blue-400" aria-hidden="true"></i>
                 </div>
                 <div class="text-left">
-                  <div class="font-medium">Telecharger mes donnees</div>
-                  <div class="text-xs text-slate-400">Export JSON complet</div>
+                  <div class="font-medium">${t('downloadMyData') || 'Télécharger mes données'}</div>
+                  <div class="text-xs text-slate-400">${t('completeJsonExport') || 'Export JSON complet'}</div>
                 </div>
               </div>
               <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
@@ -350,8 +352,8 @@ export function renderMyDataModal() {
                   <i class="fas fa-trash-alt text-red-400" aria-hidden="true"></i>
                 </div>
                 <div class="text-left">
-                  <div class="font-medium text-red-400">Supprimer mon compte</div>
-                  <div class="text-xs text-slate-400">Action irreversible</div>
+                  <div class="font-medium text-red-400">${t('deleteAccount') || 'Supprimer mon compte'}</div>
+                  <div class="text-xs text-slate-400">${t('irreversibleAction') || 'Action irréversible'}</div>
                 </div>
               </div>
               <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
@@ -362,14 +364,14 @@ export function renderMyDataModal() {
         <!-- Footer Info -->
         <div class="mt-6 pt-4 border-t border-white/10 text-center">
           <p class="text-xs text-slate-500">
-            Conformement au RGPD (Reglement General sur la Protection des Donnees), vous avez le droit d'acceder, de rectifier et de supprimer vos donnees personnelles.
+            ${t('gdprFooter') || 'Conformément au RGPD (Règlement Général sur la Protection des Données), vous avez le droit d\'accéder, de rectifier et de supprimer vos données personnelles.'}
           </p>
           <a
             href="#"
             onclick="showLegalPage('privacy'); closeMyData();"
             class="text-xs text-primary-400 hover:underline mt-2 inline-block"
           >
-            Consulter notre politique de confidentialite
+            ${t('privacyPolicy') || 'Consulter notre politique de confidentialité'}
           </a>
         </div>
       </div>
@@ -425,36 +427,31 @@ export async function downloadUserData() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  window.showToast?.('Donnees telecharges !', 'success');
+  window.showToast?.(t('dataDownloaded') || 'Données téléchargées !', 'success');
 }
 
 /**
  * Request account deletion
  */
 export function requestAccountDeletion() {
+  const confirmWord = t('confirmDeleteWord') || 'SUPPRIMER';
   const confirmed = confirm(
-    'Etes-vous sur de vouloir supprimer votre compte ?\n\n' +
-    'Cette action est IRREVERSIBLE et supprimera :\n' +
-    '- Votre profil et vos parametres\n' +
-    '- Vos spots et avis\n' +
-    '- Votre historique et progression\n' +
-    '- Toutes vos donnees associees\n\n' +
-    'Tapez "SUPPRIMER" pour confirmer.'
+    (t('deleteAccountConfirm') || 'Êtes-vous sûr de vouloir supprimer votre compte ?\n\nCette action est IRREVERSIBLE et supprimera :\n- Votre profil et vos paramètres\n- Vos spots et avis\n- Votre historique et progression\n- Toutes vos données associées\n\nTapez "SUPPRIMER" pour confirmer.')
   );
 
   if (confirmed) {
-    const input = prompt('Tapez "SUPPRIMER" pour confirmer la suppression definitive :');
-    if (input === 'SUPPRIMER') {
+    const input = prompt((t('deleteAccountPrompt') || 'Tapez "SUPPRIMER" pour confirmer la suppression définitive :'));
+    if (input === confirmWord) {
       // Clear ALL user data using centralized registry (RGPD compliant)
       import('../../services/storageRegistry.js').then(({ clearAllUserData }) => {
         clearAllUserData();
-        window.showToast?.('Compte supprime. Vous allez etre redirige...', 'info');
+        window.showToast?.((t('accountDeleted') || 'Compte supprimé. Vous allez être redirigé...'), 'info');
         setTimeout(() => {
           location.reload();
         }, 2000);
       });
     } else if (input !== null) {
-      window.showToast?.('Suppression annulee - texte incorrect', 'warning');
+      window.showToast?.((t('deleteCancelled') || 'Suppression annulée - texte incorrect'), 'warning');
     }
   }
 }
@@ -469,7 +466,7 @@ export function openConsentSettings() {
   const notifConsent = Storage.get('consent_notifications');
 
   setState({ showConsentSettings: true });
-  window.showToast?.('Parametres de consentement - fonctionnalite a venir', 'info');
+  window.showToast?.((t('consentSettingsComingSoon') || 'Paramètres de consentement - fonctionnalité à venir'), 'info');
 }
 
 // Global handlers

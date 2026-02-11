@@ -18,33 +18,33 @@ export function renderFiltersModal() {
 
   // Available filter options
   const countryOptions = [
-    { code: 'all', name: 'Tous les pays', flag: '🌍' },
+    { code: 'all', name: t('allCountries') || 'All countries', flag: '🌍' },
     { code: 'FR', name: 'France', flag: '🇫🇷' },
-    { code: 'DE', name: 'Allemagne', flag: '🇩🇪' },
-    { code: 'ES', name: 'Espagne', flag: '🇪🇸' },
-    { code: 'IT', name: 'Italie', flag: '🇮🇹' },
-    { code: 'NL', name: 'Pays-Bas', flag: '🇳🇱' },
+    { code: 'DE', name: 'Deutschland', flag: '🇩🇪' },
+    { code: 'ES', name: 'España', flag: '🇪🇸' },
+    { code: 'IT', name: 'Italia', flag: '🇮🇹' },
+    { code: 'NL', name: 'Nederland', flag: '🇳🇱' },
     { code: 'BE', name: 'Belgique', flag: '🇧🇪' },
-    { code: 'PL', name: 'Pologne', flag: '🇵🇱' },
-    { code: 'CZ', name: 'Tchéquie', flag: '🇨🇿' },
-    { code: 'AT', name: 'Autriche', flag: '🇦🇹' },
-    { code: 'CH', name: 'Suisse', flag: '🇨🇭' },
+    { code: 'PL', name: 'Polska', flag: '🇵🇱' },
+    { code: 'CZ', name: 'Česko', flag: '🇨🇿' },
+    { code: 'AT', name: 'Österreich', flag: '🇦🇹' },
+    { code: 'CH', name: 'Schweiz', flag: '🇨🇭' },
     { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
-    { code: 'IE', name: 'Irlande', flag: '🇮🇪' },
-    { code: 'GB', name: 'Royaume-Uni', flag: '🇬🇧' },
-    { code: 'SE', name: 'Suede', flag: '🇸🇪' },
-    { code: 'NO', name: 'Norvege', flag: '🇳🇴' },
-    { code: 'MA', name: 'Maroc', flag: '🇲🇦' },
-    { code: 'TR', name: 'Turquie', flag: '🇹🇷' },
-    { code: 'US', name: 'Etats-Unis', flag: '🇺🇸' },
-    { code: 'NZ', name: 'Nlle-Zelande', flag: '🇳🇿' },
-    { code: 'AU', name: 'Australie', flag: '🇦🇺' },
-    { code: 'GE', name: 'Georgie', flag: '🇬🇪' },
+    { code: 'IE', name: 'Ireland', flag: '🇮🇪' },
+    { code: 'GB', name: 'UK', flag: '🇬🇧' },
+    { code: 'SE', name: 'Sverige', flag: '🇸🇪' },
+    { code: 'NO', name: 'Norge', flag: '🇳🇴' },
+    { code: 'MA', name: 'Morocco', flag: '🇲🇦' },
+    { code: 'TR', name: 'Türkiye', flag: '🇹🇷' },
+    { code: 'US', name: 'USA', flag: '🇺🇸' },
+    { code: 'NZ', name: 'NZ', flag: '🇳🇿' },
+    { code: 'AU', name: 'Australia', flag: '🇦🇺' },
+    { code: 'GE', name: 'Georgia', flag: '🇬🇪' },
     { code: 'IL', name: 'Israel', flag: '🇮🇱' },
   ];
 
   const ratingOptions = [
-    { value: 0, label: 'Tous' },
+    { value: 0, label: t('all') || 'Tous' },
     { value: 3, label: '⭐ 3+' },
     { value: 3.5, label: '⭐ 3.5+' },
     { value: 4, label: '⭐ 4+' },
@@ -52,7 +52,7 @@ export function renderFiltersModal() {
   ];
 
   const waitOptions = [
-    { value: 999, label: 'Peu importe' },
+    { value: 999, label: t('noPreference') || 'Peu importe' },
     { value: 60, label: '< 1h' },
     { value: 30, label: '< 30 min' },
     { value: 20, label: '< 20 min' },
@@ -78,7 +78,7 @@ export function renderFiltersModal() {
             <button onclick="closeFilters()"
                     class="p-2 hover:bg-gray-800 rounded-full"
                     type="button"
-                    aria-label="Fermer les filtres">
+                    aria-label="${t('closeFilters') || 'Fermer les filtres'}">
               <span aria-hidden="true">✕</span>
             </button>
           </div>
@@ -89,7 +89,7 @@ export function renderFiltersModal() {
           <!-- Country Filter -->
           <section>
             <label class="block text-sm font-medium text-gray-400 mb-3">
-              Pays
+              ${t('country') || 'Pays'}
             </label>
             <div class="grid grid-cols-3 gap-2">
               ${countryOptions.map(opt => `
@@ -99,7 +99,7 @@ export function renderFiltersModal() {
     ? 'bg-sky-500 text-white'
     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
                   <span class="text-lg">${opt.flag}</span>
-                  <span class="block text-xs mt-1 truncate">${opt.code === 'all' ? 'Tous' : opt.code}</span>
+                  <span class="block text-xs mt-1 truncate">${opt.code === 'all' ? (t('all') || 'All') : opt.code}</span>
                 </button>
               `).join('')}
             </div>
@@ -145,8 +145,8 @@ export function renderFiltersModal() {
           <section>
             <label class="flex items-center justify-between p-4 bg-gray-800 rounded-xl cursor-pointer">
               <div>
-                <span class="text-white font-medium">Spots vérifiés uniquement</span>
-                <p class="text-gray-500 text-sm">N'afficher que les spots avec ✓</p>
+                <span class="text-white font-medium">${t('verifiedOnly') || 'Spots vérifiés uniquement'}</span>
+                <p class="text-gray-500 text-sm">${t('verifiedOnlyDesc') || "N'afficher que les spots avec ✓"}</p>
               </div>
               <button onclick="toggleVerifiedFilter()"
                       class="w-12 h-7 rounded-full transition-colors relative
@@ -160,13 +160,13 @@ export function renderFiltersModal() {
           <!-- Sort Options -->
           <section>
             <label class="block text-sm font-medium text-gray-400 mb-3">
-              Trier par
+              ${t('sortBy') || 'Trier par'}
             </label>
             <div class="grid grid-cols-2 gap-2">
               ${[
-    { value: 'rating', label: 'Note', icon: '⭐' },
-    { value: 'recent', label: 'Récent', icon: '🕐' },
-    { value: 'popular', label: 'Populaire', icon: '🔥' },
+    { value: 'rating', label: t('rating') || 'Note', icon: '⭐' },
+    { value: 'recent', label: t('recent') || 'Récent', icon: '🕐' },
+    { value: 'popular', label: t('popular') || 'Populaire', icon: '🔥' },
     { value: 'distance', label: 'Distance', icon: '📍' },
   ].map(opt => `
                 <button onclick="setSortBy('${opt.value}')"

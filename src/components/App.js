@@ -13,6 +13,7 @@
 import { renderHeader } from './Header.js';
 import { renderNavigation } from './Navigation.js';
 import { getState } from '../stores/state.js';
+import { t } from '../i18n/index.js';
 
 // Views
 import { renderHome } from './views/Home.js';
@@ -77,7 +78,7 @@ export function renderApp(state) {
   return `
     <!-- Skip Link for Accessibility -->
     <a href="#main-content" class="skip-link">
-      Aller au contenu principal
+      ${t('skipToContent') || 'Aller au contenu principal'}
     </a>
 
     ${renderHeader(state)}
@@ -124,8 +125,8 @@ export function renderApp(state) {
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTeamChallenges()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
-            <h2 class="text-lg font-bold"><i class="fas fa-users mr-2 text-orange-400"></i>Defis d'equipe</h2>
-            <button onclick="closeTeamChallenges()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="Fermer">
+            <h2 class="text-lg font-bold"><i class="fas fa-users mr-2 text-orange-400"></i>${t('teamChallenges') || "Défis d'équipe"}</h2>
+            <button onclick="closeTeamChallenges()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
               <i class="fas fa-times"></i>
             </button>
           </div>
@@ -156,12 +157,12 @@ export function renderApp(state) {
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripHistory()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
-            <h2 class="text-lg font-bold"><i class="fas fa-clipboard-list mr-2 text-emerald-400"></i>Historique de voyage</h2>
+            <h2 class="text-lg font-bold"><i class="fas fa-clipboard-list mr-2 text-emerald-400"></i>${t('tripHistory') || 'Historique de voyage'}</h2>
             <div class="flex items-center gap-2">
-              <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all" aria-label="Effacer l'historique">
-                <i class="fas fa-trash mr-1"></i>Effacer
+              <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all" aria-label="${t('clearHistory') || "Effacer l'historique"}">
+                <i class="fas fa-trash mr-1"></i>${t('clear') || 'Effacer'}
               </button>
-              <button onclick="closeTripHistory()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="Fermer">
+              <button onclick="closeTripHistory()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
                 <i class="fas fa-times"></i>
               </button>
             </div>
@@ -300,7 +301,7 @@ function initHomeMap(state) {
         color: '#fff',
         weight: 3,
         fillOpacity: 1,
-      }).addTo(map).bindTooltip('Ma position', { permanent: false })
+      }).addTo(map).bindTooltip(t('myPosition') || 'Ma position', { permanent: false })
     }
 
     // spotLoader module reference (loaded once, reused)
@@ -499,7 +500,7 @@ function initTripMap(state) {
         const isFuel = poi.type === 'fuel'
         const fillColor = isFuel ? '#10b981' : '#0ea5e9'
         const label = isFuel ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
-        const tooltipText = poi.name || (isFuel ? 'Station-service' : 'Aire de repos')
+        const tooltipText = poi.name || (isFuel ? (t('gasStation') || 'Station-service') : (t('restArea') || 'Aire de repos'))
 
         // Use a div icon for emoji markers
         const icon = L.divIcon({
@@ -518,8 +519,8 @@ function initTripMap(state) {
       const legendHtml = `
         <div style="background:rgba(15,23,42,0.9);padding:8px 12px;border-radius:8px;font-size:11px;color:#cbd5e1;border:1px solid rgba(255,255,255,0.1)">
           <div style="margin-bottom:4px"><span style="color:#22c55e">\u25CF</span> Spots</div>
-          <div style="margin-bottom:4px">\u26FD Station-service</div>
-          <div>\uD83C\uDD7F\uFE0F Aire de repos</div>
+          <div style="margin-bottom:4px">\u26FD ${t('gasStation') || 'Station-service'}</div>
+          <div>\uD83C\uDD7F\uFE0F ${t('restArea') || 'Aire de repos'}</div>
         </div>
       `
       const LegendControl = L.Control.extend({

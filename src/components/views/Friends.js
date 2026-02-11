@@ -28,13 +28,13 @@ export function renderFriends(state) {
       <div class="sticky top-0 bg-gray-900/95 backdrop-blur z-10 border-b border-gray-700">
         <div class="flex items-center justify-between p-4">
           <div>
-            <h1 class="text-xl font-bold text-white">Amis</h1>
+            <h1 class="text-xl font-bold text-white">${t('friendsTab') || 'Amis'}</h1>
             <p class="text-gray-500 text-sm">${friends.length} ami(s)</p>
           </div>
           <button onclick="showAddFriend()"
                   class="p-2 bg-sky-500 text-white rounded-full"
                   type="button"
-                  aria-label="Ajouter un ami">
+                  aria-label="${t('addFriend') || 'Ajouter un ami'}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 4v16m8-8H4" />
@@ -44,11 +44,11 @@ export function renderFriends(state) {
 
         <!-- Search -->
         <div class="px-4 pb-4">
-          <label for="friend-search-input" class="sr-only">Rechercher un ami</label>
+          <label for="friend-search-input" class="sr-only">${t('searchFriend') || 'Rechercher un ami'}</label>
           <input
             type="search"
             id="friend-search-input"
-            placeholder="Rechercher un ami..."
+            placeholder="${t('searchFriend') || 'Rechercher un ami...'}"
             value="${searchFriendQuery}"
             oninput="setState({searchFriendQuery: this.value})"
             class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2 text-white
@@ -61,7 +61,7 @@ export function renderFriends(state) {
       ${friendRequests.length > 0 ? `
         <div class="p-4 border-b border-gray-700">
           <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
-            Demandes (${friendRequests.length})
+            ${t('friendRequests') || 'Demandes'} (${friendRequests.length})
           </h2>
           <div class="space-y-2">
             ${friendRequests.map(request => `
@@ -72,11 +72,11 @@ export function renderFriends(state) {
                 </div>
                 <div class="flex-1">
                   <div class="text-white font-medium">${request.name}</div>
-                  <div class="text-gray-500 text-xs">Veut devenir ton ami</div>
+                  <div class="text-gray-500 text-xs">${t('wantsToBeFriend') || 'Veut devenir ton ami'}</div>
                 </div>
                 <button onclick="acceptFriendRequest('${request.id}')"
                         class="px-3 py-1.5 bg-sky-500 text-white text-sm rounded-lg">
-                  Accepter
+                  ${t('accept') || 'Accepter'}
                 </button>
                 <button onclick="rejectFriendRequest('${request.id}')"
                         class="p-1.5 text-gray-400 hover:text-red-400">
@@ -92,7 +92,7 @@ export function renderFriends(state) {
       ${onlineFriends.length > 0 ? `
         <div class="p-4">
           <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
-            En ligne (${onlineFriends.length})
+            ${t('online') || 'En ligne'} (${onlineFriends.length})
           </h2>
           <div class="space-y-2">
             ${onlineFriends.map(friend => renderFriendCard(friend, true)).join('')}
@@ -104,7 +104,7 @@ export function renderFriends(state) {
       ${offlineFriends.length > 0 ? `
         <div class="p-4 ${onlineFriends.length > 0 ? 'border-t border-gray-700' : ''}">
           <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
-            Hors ligne (${offlineFriends.length})
+            ${t('offline') || 'Hors ligne'} (${offlineFriends.length})
           </h2>
           <div class="space-y-2">
             ${offlineFriends.map(friend => renderFriendCard(friend, false)).join('')}
@@ -116,13 +116,13 @@ export function renderFriends(state) {
       ${friends.length === 0 ? `
         <div class="text-center py-20 px-8">
           <div class="text-6xl mb-4">👋</div>
-          <h2 class="text-xl font-bold text-white mb-2">Aucun ami pour l'instant</h2>
+          <h2 class="text-xl font-bold text-white mb-2">${t('noFriendsYet') || 'Aucun ami pour l\'instant'}</h2>
           <p class="text-gray-500 mb-6">
-            Ajoute des amis pour discuter et voyager ensemble !
+            ${t('addFriendsToTravel') || 'Ajoute des amis pour discuter et voyager ensemble !'}
           </p>
           <button onclick="showAddFriend()"
                   class="px-6 py-3 bg-sky-500 text-white font-semibold rounded-xl">
-            Ajouter un ami
+            ${t('addFriend') || 'Ajouter un ami'}
           </button>
         </div>
       ` : ''}
@@ -148,7 +148,7 @@ function renderFriendCard(friend, isOnline) {
       <div class="flex-1 min-w-0">
         <div class="text-white font-medium">${friend.name}</div>
         <div class="text-gray-500 text-xs truncate">
-          ${isOnline ? 'En ligne' : friend.lastSeen ? `Vu ${formatRelativeTime(friend.lastSeen)}` : 'Hors ligne'}
+          ${isOnline ? t('online') || 'En ligne' : friend.lastSeen ? `Vu ${formatRelativeTime(friend.lastSeen)}` : t('offline') || 'Hors ligne'}
         </div>
       </div>
       ${friend.unreadCount > 0 ? `
@@ -171,10 +171,10 @@ function formatRelativeTime(timestamp) {
   const hours = Math.floor(diff / 3600000);
   const days = Math.floor(diff / 86400000);
 
-  if (minutes < 1) return 'à l\'instant';
-  if (minutes < 60) return `il y a ${minutes} min`;
-  if (hours < 24) return `il y a ${hours}h`;
-  if (days < 7) return `il y a ${days}j`;
+  if (minutes < 1) return t('justNow') || 'à l\'instant';
+  if (minutes < 60) return `${t('timeAgoMin') || 'il y a'} ${minutes} min`;
+  if (hours < 24) return `${t('timeAgoHour') || 'il y a'} ${hours}h`;
+  if (days < 7) return `${t('timeAgoDay') || 'il y a'} ${days}j`;
   return new Date(timestamp).toLocaleDateString();
 }
 
@@ -189,9 +189,9 @@ export function renderFriendsChat(friendId) {
     return `
       <div class="text-center py-20 text-gray-500">
         <span class="text-4xl">❌</span>
-        <p class="mt-4">Ami non trouvé</p>
+        <p class="mt-4">${t('friendNotFound') || 'Ami non trouvé'}</p>
         <button onclick="showFriends()" class="mt-4 text-sky-400 hover:text-sky-300">
-          Retour aux amis
+          ${t('backToFriends') || 'Retour aux amis'}
         </button>
       </div>
     `;
@@ -217,7 +217,7 @@ export function renderFriendsChat(friendId) {
           <div class="flex-1">
             <div class="text-white font-medium">${friend.name}</div>
             <div class="text-gray-500 text-xs">
-              ${friend.online ? 'En ligne' : 'Hors ligne'}
+              ${friend.online ? t('online') || 'En ligne' : t('offline') || 'Hors ligne'}
             </div>
           </div>
           <button onclick="showFriendOptions('${friend.id}')"
@@ -232,8 +232,8 @@ export function renderFriendsChat(friendId) {
         ${messages.length === 0 ? `
           <div class="text-center py-10 text-gray-500">
             <span class="text-3xl">💬</span>
-            <p class="mt-2 text-sm">Aucun message encore</p>
-            <p class="text-xs">Dis bonjour !</p>
+            <p class="mt-2 text-sm">${t('noMessagesYet') || 'Aucun message encore'}</p>
+            <p class="text-xs">${t('sayHello') || 'Dis bonjour !'}</p>
           </div>
         ` : messages.map(msg => renderPrivateMessage(msg, friend)).join('')}
       </div>
@@ -298,7 +298,7 @@ export function renderAddFriendModal() {
          onclick="if(event.target===this)closeAddFriend()">
       <div class="bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl p-6">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-xl font-bold text-white">Ajouter un ami</h2>
+          <h2 class="text-xl font-bold text-white">${t('addFriend') || 'Ajouter un ami'}</h2>
           <button onclick="closeAddFriend()" class="p-2 hover:bg-gray-800 rounded-full">
             ✕
           </button>
@@ -306,12 +306,12 @@ export function renderAddFriendModal() {
 
         <!-- Search by username -->
         <div class="mb-4">
-          <label class="block text-gray-400 text-sm mb-2">Par pseudo</label>
+          <label class="block text-gray-400 text-sm mb-2">${t('byUsername') || 'Par pseudo'}</label>
           <div class="relative">
             <input
               type="text"
               id="friend-search"
-              placeholder="Rechercher un pseudo..."
+              placeholder="${t('searchUsername') || 'Rechercher un pseudo...'}"
               class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white
                      placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
               oninput="searchUsers(this.value)"
@@ -322,7 +322,7 @@ export function renderAddFriendModal() {
 
         <!-- Share link -->
         <div class="mb-4">
-          <label class="block text-gray-400 text-sm mb-2">Ou partage ton lien</label>
+          <label class="block text-gray-400 text-sm mb-2">${t('orShareLink') || 'Ou partage ton lien'}</label>
           <div class="flex gap-2">
             <input
               type="text"
@@ -339,7 +339,7 @@ export function renderAddFriendModal() {
 
         <!-- QR Code -->
         <div class="text-center py-6 border-t border-gray-700 mt-4">
-          <p class="text-gray-500 text-sm mb-3">Ou scanne le QR code</p>
+          <p class="text-gray-500 text-sm mb-3">${t('orScanQR') || 'Ou scanne le QR code'}</p>
           <div class="w-32 h-32 bg-white mx-auto rounded-lg flex items-center justify-center">
             <span class="text-4xl">📱</span>
           </div>
