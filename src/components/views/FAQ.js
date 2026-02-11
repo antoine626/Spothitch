@@ -381,8 +381,6 @@ export function toggleFAQItem(button) {
   if (icon) {
     icon.style.transform = isExpanded ? '' : 'rotate(180deg)';
   }
-
-  console.log('[FAQ] Toggled item:', !isExpanded ? 'opened' : 'closed');
 }
 
 /**
@@ -392,7 +390,6 @@ export function scrollToFAQCategory(categoryId) {
   const element = document.getElementById(`faq-${categoryId}`);
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    console.log('[FAQ] Scrolled to category:', categoryId);
   }
 }
 
@@ -405,7 +402,6 @@ export function filterFAQ(query) {
   }
 
   const searchQuery = query.trim().toLowerCase();
-  console.log('[FAQ] Filtering with query:', searchQuery);
 
   // Update state with search query
   window.setState?.({ faqSearchQuery: query });
@@ -415,7 +411,6 @@ export function filterFAQ(query) {
  * Clear FAQ search
  */
 export function clearFAQSearch() {
-  console.log('[FAQ] Clearing search');
   const searchInput = document.getElementById('faq-search');
   if (searchInput) {
     searchInput.value = '';
@@ -427,7 +422,6 @@ export function clearFAQSearch() {
  * Open FAQ view
  */
 export function openFAQ() {
-  console.log('[FAQ] Opening FAQ');
   window.setState?.({ activeView: 'faq', faqSearchQuery: '' });
 }
 
@@ -435,7 +429,6 @@ export function openFAQ() {
  * Close FAQ view
  */
 export function closeFAQ() {
-  console.log('[FAQ] Closing FAQ');
   window.setState?.({ activeView: null, faqSearchQuery: '' });
   window.history?.back?.();
 }

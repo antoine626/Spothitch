@@ -801,7 +801,7 @@ window.calculateTrip = async () => {
       routeDistance = route.distance  // meters
       routeDuration = route.duration  // seconds
     } catch (e) {
-      console.warn('OSRM route failed, using straight line:', e)
+      // OSRM route failed, using straight line fallback
     }
 
     // 3. Load spots along the route via spotLoader

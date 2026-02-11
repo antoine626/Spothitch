@@ -232,7 +232,6 @@ function startVersionCheck() {
         return
       }
       if (data.version !== currentVersion) {
-        console.log('🔄 New version detected, reloading...')
         window.location.reload()
       }
     } catch { /* offline or file missing — ignore */ }
@@ -248,8 +247,6 @@ function startVersionCheck() {
  * Initialize the application
  */
 async function init() {
-  console.log('🚀 SpotHitch initializing...');
-
   // Initialize fun splash screen immediately
   initSplashScreen();
 
@@ -257,7 +254,6 @@ async function init() {
   if (window.location.search.includes('reset')) {
     localStorage.clear();
     window.history.replaceState({}, '', window.location.pathname);
-    console.log('🔄 État réinitialisé');
   }
 
   try {
@@ -289,7 +285,6 @@ async function init() {
         actions.setUser(user);
         setSentryUser(user);
         if (user) {
-          console.log('✅ User logged in:', user.displayName);
           updateStreak(); // Update daily streak on login
         }
       });
@@ -459,8 +454,6 @@ async function init() {
 
     // Auto-update check: reload if a new version is deployed
     startVersionCheck()
-
-    console.log('✅ SpotHitch ready!');
   } catch (error) {
     console.error('❌ Init error:', error);
     // Show error to user but still try to render
@@ -505,8 +498,8 @@ function loadInitialData() {
         // Load nearby spots for the new home view
         loadNearbySpots(loc)
       },
-      (error) => {
-        console.log('Location not available:', error.message);
+      () => {
+        // Location not available - continue without
       },
       { enableHighAccuracy: true, timeout: 10000 }
     );
@@ -532,7 +525,6 @@ async function loadNearbySpots(loc) {
       const newSpots = spots.filter(s => !existingIds.has(s.id))
       if (newSpots.length > 0) {
         actions.setSpots([...current, ...newSpots])
-        console.log(`📍 ${newSpots.length} spots chargés à proximité`)
       }
     }
   } catch (e) {
@@ -648,7 +640,6 @@ async function registerServiceWorker() {
 
   try {
     const registration = await navigator.serviceWorker.register('/sw.js')
-    console.log('✅ Service Worker registered')
 
     // Check for updates every 2 minutes
     setInterval(() => registration.update(), 2 * 60 * 1000)
@@ -749,12 +740,10 @@ window.changeTab = (tab) => {
 
 // Open full map (from home)
 window.openFullMap = () => {
-  console.log('🗺️ openFullMap called');
   setState({ activeTab: 'spots', viewMode: 'map' });
   trackPageView('spots-map');
   // Initialize map after DOM update
   setTimeout(() => {
-    console.log('🗺️ Calling initMapService...');
     initMapService();
   }, 200);
 };
@@ -1355,9 +1344,8 @@ window.reportGuideError = async (countryCode) => {
         date: new Date().toISOString(),
         userId: getState().user?.uid || 'anonymous'
       });
-      console.log('Guide report saved to Firestore');
     } catch (error) {
-      console.warn('Could not save guide report to Firestore:', error);
+      // Firestore save failed - report stored locally
     }
 
     showToast(t('thankYouReport') || 'Merci pour le signalement ! Nous allons vérifier.', 'success');
