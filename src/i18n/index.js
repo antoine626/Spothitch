@@ -229,9 +229,48 @@ const translations = {
     waitTime: "Temps d'attente",
     accessibility: 'Accessibilité',
     safetyRating: 'Sécurité',
-    visibility: 'Visibilité',
     traffic: 'Trafic',
     comment: 'Commentaire',
+
+    // Star scale descriptions - Safety
+    safetyDesc1: 'Dangereux : pas d\'espace hors de la route, les voitures ne peuvent pas s\'arrêter',
+    safetyDesc2: 'Limite : petit espace, bande d\'arrêt étroite',
+    safetyDesc3: 'Correct : espace pour se tenir, arrêt possible mais pas idéal',
+    safetyDesc4: 'Bien : bon espace piéton, zone dégagée pour s\'arrêter',
+    safetyDesc5: 'Parfait : large espace sécurisé, zéro danger',
+
+    // Star scale descriptions - Traffic
+    trafficDesc1: 'Quasi aucune voiture, route déserte',
+    trafficDesc2: 'Quelques voitures par heure',
+    trafficDesc3: 'Trafic modéré, une voiture toutes les 2-3 min',
+    trafficDesc4: 'Bon trafic, flux régulier',
+    trafficDesc5: 'Très fréquenté : station, péage, aire d\'autoroute',
+
+    // Star scale descriptions - Accessibility
+    accessibilityDesc1: 'Galère : 30+ min à pied, route dangereuse pour piéton',
+    accessibilityDesc2: 'Difficile : loin de tout, pas de trottoir',
+    accessibilityDesc3: 'Moyen : accessible à pied mais 15-20 min de marche',
+    accessibilityDesc4: 'Facile : bus/tram pas loin, 5-10 min à pied',
+    accessibilityDesc5: 'Direct : arrêt de transport en commun juste à côté',
+
+    // Spot types
+    spotTypeCityExit: 'Sortir d\'une ville',
+    spotTypeGasStation: 'Station-service',
+    spotTypeHighway: 'Bord de route',
+    spotTypeCustom: 'Autre',
+    spotTypeLabel: 'Type de spot',
+
+    // Spot form fields
+    directionLabel: 'Direction / Vers',
+    directionPlaceholder: 'Ex: Lyon, direction Sud, A6 vers Paris',
+    directionRequired: 'La direction est obligatoire',
+    fromCityLabel: 'Ville de départ',
+    fromCityPlaceholder: 'Ex: Paris',
+    stationNameLabel: 'Nom de la station',
+    stationNamePlaceholder: 'Ex: Total, Shell...',
+    roadNumberLabel: 'Route / Numéro de route',
+    roadNumberPlaceholder: 'Ex: A6, N7, E15',
+    selectSpotType: 'Sélectionne le type de spot',
     submit: 'Publier',
 
     // Trip Planner
@@ -2655,10 +2694,49 @@ const translations = {
     waitTime: 'Wait time',
     accessibility: 'Accessibility',
     safetyRating: 'Safety',
-    visibility: 'Visibility',
     traffic: 'Traffic',
     comment: 'Comment',
     submit: 'Submit',
+
+    // Star scale descriptions - Safety
+    safetyDesc1: 'Dangerous - no space off the road, cars can\'t stop safely',
+    safetyDesc2: 'Tight - small space, narrow shoulder, fast cars nearby',
+    safetyDesc3: 'OK - space to stand, car can stop but not ideal',
+    safetyDesc4: 'Good - safe pedestrian space, clear area for cars to park',
+    safetyDesc5: 'Perfect - large secured area (parking, rest area, station)',
+
+    // Star scale descriptions - Traffic
+    trafficDesc1: 'Almost no cars, deserted road',
+    trafficDesc2: 'A few cars per hour',
+    trafficDesc3: 'Moderate, one car every 2-3 min',
+    trafficDesc4: 'Good flow, regular traffic',
+    trafficDesc5: 'Very busy - gas station, toll, highway rest area',
+
+    // Star scale descriptions - Accessibility
+    accessibilityDesc1: 'Hard - 30+ min walk from transport, dangerous road for pedestrians',
+    accessibilityDesc2: 'Difficult - far from everything, no sidewalk',
+    accessibilityDesc3: 'Medium - walkable but 15-20 min from transport',
+    accessibilityDesc4: 'Easy - bus/tram nearby, 5-10 min walk',
+    accessibilityDesc5: 'Direct - public transport stop right there',
+
+    // Spot types
+    spotTypeCityExit: 'Leaving a city',
+    spotTypeGasStation: 'Gas station',
+    spotTypeHighway: 'Roadside',
+    spotTypeCustom: 'Other',
+    spotTypeLabel: 'Spot type',
+
+    // Spot form fields
+    directionLabel: 'Direction / Towards',
+    directionPlaceholder: 'E.g.: Lyon, heading South, A6 towards Paris',
+    directionRequired: 'Direction is required',
+    fromCityLabel: 'From city',
+    fromCityPlaceholder: 'E.g.: Paris',
+    stationNameLabel: 'Station name',
+    stationNamePlaceholder: 'E.g.: Total, Shell...',
+    roadNumberLabel: 'Road / Road number',
+    roadNumberPlaceholder: 'E.g.: A6, N7, E15',
+    selectSpotType: 'Select the spot type',
 
     // Trip Planner
     planTrip: 'Plan a trip',
@@ -5635,10 +5713,50 @@ const translations = {
     waitTime: 'Tiempo de espera',
     accessibility: 'Accesibilidad',
     safetyRating: 'Seguridad',
-    visibility: 'Visibilidad',
     traffic: 'Trafico',
     comment: 'Comentario',
     submit: 'Publicar',
+
+    // Star scale descriptions - Safety
+    safetyDesc1: 'Peligroso: sin espacio fuera de la carretera, los coches no pueden parar',
+    safetyDesc2: 'Justo: poco espacio, arcén estrecho',
+    safetyDesc3: 'Correcto: espacio para estar de pie, parada posible pero no ideal',
+    safetyDesc4: 'Bien: buen espacio peatonal, zona despejada para parar',
+    safetyDesc5: 'Perfecto: amplia zona segura, sin peligro',
+
+    // Star scale descriptions - Traffic
+    trafficDesc1: 'Casi ningún coche, carretera desierta',
+    trafficDesc2: 'Algunos coches por hora',
+    trafficDesc3: 'Tráfico moderado, un coche cada 2-3 min',
+    trafficDesc4: 'Buen tráfico, flujo regular',
+    trafficDesc5: 'Muy transitado: gasolinera, peaje, área de descanso',
+
+    // Star scale descriptions - Accessibility
+    accessibilityDesc1: 'Difícil: 30+ min a pie, carretera peligrosa para peatones',
+    accessibilityDesc2: 'Complicado: lejos de todo, sin acera',
+    accessibilityDesc3: 'Medio: accesible a pie pero 15-20 min caminando',
+    accessibilityDesc4: 'Fácil: bus/tranvía cerca, 5-10 min a pie',
+    accessibilityDesc5: 'Directo: parada de transporte público justo al lado',
+
+    // Spot types
+    spotTypeCityExit: 'Salir de una ciudad',
+    spotTypeGasStation: 'Gasolinera',
+    spotTypeHighway: 'Borde de carretera',
+    spotTypeCustom: 'Otro',
+    spotTypeLabel: 'Tipo de spot',
+
+    // Spot form fields
+    directionLabel: 'Dirección / Hacia',
+    directionPlaceholder: 'Ej: Lyon, dirección Sur, A6 hacia París',
+    directionRequired: 'La dirección es obligatoria',
+    fromCityLabel: 'Ciudad de salida',
+    fromCityPlaceholder: 'Ej: París',
+    stationNameLabel: 'Nombre de la estación',
+    stationNamePlaceholder: 'Ej: Total, Shell...',
+    roadNumberLabel: 'Carretera / Número de ruta',
+    roadNumberPlaceholder: 'Ej: A6, N7, E15',
+    selectSpotType: 'Selecciona el tipo de spot',
+
     planTrip: 'Planificar un viaje',
     addStep: 'Anadir parada',
     startCity: 'Ciudad de salida',
@@ -6156,7 +6274,6 @@ const translations = {
     waitTime: 'Tiempo de espera',
     accessibility: 'Accesibilidad',
     safetyRating: 'Seguridad',
-    visibility: 'Visibilidad',
     traffic: 'Trafico',
     comment: 'Comentario',
     submit: 'Publicar',
@@ -7974,9 +8091,48 @@ const translations = {
     waitTime: 'Wartezeit',
     accessibility: 'Erreichbarkeit',
     safetyRating: 'Sicherheit',
-    visibility: 'Sichtbarkeit',
     traffic: 'Verkehr',
     comment: 'Kommentar',
+
+    // Star scale descriptions - Safety
+    safetyDesc1: 'Gefaehrlich: kein Platz neben der Strasse, Autos koennen nicht sicher halten',
+    safetyDesc2: 'Eng: wenig Platz, schmaler Seitenstreifen',
+    safetyDesc3: 'OK: Platz zum Stehen, Anhalten moeglich aber nicht ideal',
+    safetyDesc4: 'Gut: sicherer Fussgaengerbereich, freie Flaeche zum Anhalten',
+    safetyDesc5: 'Perfekt: grosser gesicherter Bereich, kein Risiko',
+
+    // Star scale descriptions - Traffic
+    trafficDesc1: 'Fast keine Autos, verlassene Strasse',
+    trafficDesc2: 'Ein paar Autos pro Stunde',
+    trafficDesc3: 'Maessig, ein Auto alle 2-3 Min',
+    trafficDesc4: 'Guter Verkehr, regelmaessiger Fluss',
+    trafficDesc5: 'Sehr belebt: Tankstelle, Mautstation, Autobahnraststaette',
+
+    // Star scale descriptions - Accessibility
+    accessibilityDesc1: 'Schwierig: 30+ Min zu Fuss, gefaehrliche Strasse fuer Fussgaenger',
+    accessibilityDesc2: 'Umstaendlich: weit von allem, kein Gehweg',
+    accessibilityDesc3: 'Mittel: zu Fuss erreichbar aber 15-20 Min Fussweg',
+    accessibilityDesc4: 'Einfach: Bus/Tram in der Naehe, 5-10 Min zu Fuss',
+    accessibilityDesc5: 'Direkt: Haltestelle direkt nebenan',
+
+    // Spot types
+    spotTypeCityExit: 'Stadt verlassen',
+    spotTypeGasStation: 'Tankstelle',
+    spotTypeHighway: 'Strassenrand',
+    spotTypeCustom: 'Andere',
+    spotTypeLabel: 'Spot-Typ',
+
+    // Spot form fields
+    directionLabel: 'Richtung / Nach',
+    directionPlaceholder: 'Z.B.: Lyon, Richtung Sueden, A6 nach Paris',
+    directionRequired: 'Richtung ist erforderlich',
+    fromCityLabel: 'Abfahrtsstadt',
+    fromCityPlaceholder: 'Z.B.: Paris',
+    stationNameLabel: 'Tankstellenname',
+    stationNamePlaceholder: 'Z.B.: Total, Shell...',
+    roadNumberLabel: 'Strasse / Strassennummer',
+    roadNumberPlaceholder: 'Z.B.: A6, N7, E15',
+    selectSpotType: 'Spot-Typ waehlen',
     submit: 'Absenden',
 
     // Trip Planner

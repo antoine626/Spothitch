@@ -109,10 +109,9 @@ export function renderSpotDetail(state) {
           <div class="mb-4">
             <h3 class="font-semibold mb-3"><span aria-hidden="true">⭐</span> ${t('detailedRatings') || 'Évaluations détaillées'}</h3>
             <div class="space-y-2" role="list" aria-label="${t('detailedRatings') || 'Notes détaillées'}">
-              ${renderRatingBar(t('accessibility'), spot.ratings?.accessibility)}
               ${renderRatingBar(t('safetyRating'), spot.ratings?.safety)}
-              ${renderRatingBar(t('visibility'), spot.ratings?.visibility)}
               ${renderRatingBar(t('traffic'), spot.ratings?.traffic)}
+              ${renderRatingBar(t('accessibility'), spot.ratings?.accessibility)}
             </div>
           </div>
 
