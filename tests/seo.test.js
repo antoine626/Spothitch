@@ -61,7 +61,7 @@ describe('SEO Utilities', () => {
       expect(schema['@context']).toBe('https://schema.org')
       expect(schema['@type']).toBe('Organization')
       expect(schema.name).toBe('SpotHitch')
-      expect(schema.url).toContain('Spothitch')
+      expect(schema.url).toContain('spothitch')
       expect(schema.logo).toContain('icon-512.png')
       expect(schema.sameAs).toBeInstanceOf(Array)
       expect(schema.contactPoint).toBeDefined()
