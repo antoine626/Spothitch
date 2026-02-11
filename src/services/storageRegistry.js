@@ -47,6 +47,7 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_checkin_history', category: DataCategory.ACTIVITY, description: 'Check-in history' },
   { key: 'spothitch_trip_history', category: DataCategory.ACTIVITY, description: 'Trip history log' },
   { key: 'spothitch_saved_trips', category: DataCategory.ACTIVITY, description: 'Saved trip plans' },
+  { key: 'spothitch_favorites', category: DataCategory.ACTIVITY, description: 'Favorite spots' },
   { key: 'spothitch_saved_routes', category: DataCategory.ACTIVITY, description: 'Saved routes' },
   { key: 'spothitch_search_history', category: DataCategory.ACTIVITY, description: 'Search history' },
   { key: 'spothitch_saved_filters', category: DataCategory.ACTIVITY, description: 'Saved search filters' },
