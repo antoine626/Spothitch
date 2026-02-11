@@ -39,6 +39,14 @@ export function prefetchUrl(url) {
 }
 
 /**
+ * Safely get closest element - handles text nodes and SVG
+ */
+function safeClosest(target, selector) {
+  if (!target || typeof target.closest !== 'function') return null
+  return target.closest(selector)
+}
+
+/**
  * Setup hover-based prefetching on interactive elements
  * Elements should have data-prefetch="modulePath" attribute
  */
@@ -46,7 +54,7 @@ export function initHoverPrefetch() {
   let hoverTimer = null
 
   document.addEventListener('pointerenter', (e) => {
-    const target = e.target.closest('[data-prefetch]')
+    const target = safeClosest(e.target, '[data-prefetch]')
     if (!target) return
 
     hoverTimer = setTimeout(() => {
@@ -58,7 +66,7 @@ export function initHoverPrefetch() {
   }, true)
 
   document.addEventListener('pointerleave', (e) => {
-    const target = e.target.closest('[data-prefetch]')
+    const target = safeClosest(e.target, '[data-prefetch]')
     if (target && hoverTimer) {
       clearTimeout(hoverTimer)
       hoverTimer = null
@@ -67,7 +75,7 @@ export function initHoverPrefetch() {
 
   // Also prefetch on focus (keyboard navigation)
   document.addEventListener('focusin', (e) => {
-    const target = e.target.closest('[data-prefetch]')
+    const target = safeClosest(e.target, '[data-prefetch]')
     if (target) {
       const modulePath = target.dataset.prefetch
       if (modulePath) {
@@ -79,30 +87,13 @@ export function initHoverPrefetch() {
 
 /**
  * Prefetch tab-related resources based on likely next tab
- * @param {string} currentTab - Current active tab
+ * Uses dynamic import paths that Vite can resolve in production
+ * @param {string} _currentTab - Current active tab (unused, kept for API compat)
  */
-export function prefetchNextTab(currentTab) {
-  const tabModules = {
-    home: ['./services/spotLoader.js', './data/guides.js'],
-    spots: ['./services/navigation.js'],
-    travel: ['./data/guides.js', './services/planner.js'],
-    social: ['./services/realtimeChat.js', './services/friendsList.js'],
-    profile: ['./services/gamification.js', './services/skillTree.js'],
-  }
-
-  // Prefetch modules for adjacent tabs
-  const tabs = Object.keys(tabModules)
-  const currentIdx = tabs.indexOf(currentTab)
-
-  // Prefetch next and previous tab modules
-  const adjacent = [currentIdx - 1, currentIdx + 1]
-    .filter(i => i >= 0 && i < tabs.length)
-    .map(i => tabs[i])
-
-  adjacent.forEach(tab => {
-    const modules = tabModules[tab] || []
-    modules.forEach(m => prefetchModule(m))
-  })
+export function prefetchNextTab(_currentTab) {
+  // In production, Vite bundles modules into chunks — relative paths don't work.
+  // The browser already prefetches chunks via <link rel="modulepreload"> in index.html.
+  // This function is intentionally a no-op to avoid 404 errors.
 }
 
 /**
