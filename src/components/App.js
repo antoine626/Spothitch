@@ -41,7 +41,7 @@ import { renderShopModal, renderMyRewardsModal } from './modals/Shop.js';
 import { renderQuiz } from './modals/Quiz.js';
 import { renderLeaderboardModal } from './modals/Leaderboard.js';
 import { renderCheckinModal } from './modals/CheckinModal.js';
-import { renderAgeVerification, initAgeVerification } from './modals/AgeVerification.js';
+import { renderAgeVerification } from './modals/AgeVerification.js';
 import { renderIdentityVerification } from './modals/IdentityVerification.js';
 
 // Landing
@@ -53,7 +53,7 @@ import { renderDonationModal } from './ui/DonationCard.js';
 
 // New Feature Modals
 import { renderSkillTree } from '../services/skillTree.js';
-import { renderTravelGroupDetail, renderTravelGroupsList } from '../services/travelGroups.js';
+import { renderTravelGroupDetail } from '../services/travelGroups.js';
 import { renderNearbyFriendsWidget, renderNearbyFriendsList } from '../services/nearbyFriends.js';
 import { renderCustomizationModal } from '../services/profileCustomization.js';
 import { renderAccessibilityHelp } from '../services/screenReader.js';

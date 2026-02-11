@@ -3,7 +3,6 @@
  * Trip planning interface
  */
 
-import { getState, setState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
 import { formatDistance, formatDuration } from '../../services/osrm.js';
 import { getSavedTrips, getTripById } from '../../services/planner.js';

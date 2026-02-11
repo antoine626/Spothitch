@@ -6,14 +6,6 @@
 import { t } from '../../i18n/index.js'
 
 /**
- * Get star description for a given criterion and value
- */
-function getStarDescription(criterion, value) {
-  if (!value || value < 1 || value > 5) return ''
-  return t(`${criterion}Desc${value}`) || ''
-}
-
-/**
  * Render interactive star rating for a criterion
  */
 function renderStarInput(criterion, label) {
