@@ -1,1 +1,106 @@
-{"country":"BJ","name":"BJ","totalSpots":5,"totalReviews":5,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":5,"lat":9.6737,"lon":1.3684,"rating":5,"reviews":1,"wait":30,"signal":null,"lastUsed":"2023-07-08","comments":[{"text":"I asked drivers if they could take me with them. But most of them didn't know when they leave because they was waiting for their papers. They go either to Cotonou or Niger. \r\nFinally I got one making a sign to a truck driver who was leaving and shouting \"Djougou\" (the ne of the next city) and he stoped.","date":"2023-07-08","rating":5}],"destLat":8.41,"destLon":1.8901},{"id":1,"lat":7.1663,"lon":2.0868,"rating":4,"reviews":1,"wait":60,"signal":null,"lastUsed":"2023-07-22","comments":[{"text":"Parking with many trucks. Some are going to Niger and others to Cotonou. Better to be there before 8:00 am to get the early drivers. If you don't find trucks on the parking you can try to stop trucks on this road (as I did). The trucka can not cross the city by the center and have to use this road.","date":"2023-07-22","rating":4}],"destLat":6.5385,"destLon":2.3445},{"id":2,"lat":7.9255,"lon":1.9767,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2023-07-19","comments":[{"text":"Some trucks take their stuff here and go to Cotonou. Maybe one left every 2-3 days","date":"2023-07-19","rating":3}],"destLat":7.9255,"destLon":1.9767},{"id":3,"lat":7.9295,"lon":1.9924,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2023-07-19","comments":[{"text":"Trucks parking. Not so much trucks. Some trucks stops there to buy food. Few are staying there for days waiting for the order to go.","date":"2023-07-19","rating":3}],"destLat":7.9295,"destLon":1.9924},{"id":4,"lat":7.9438,"lon":1.9822,"rating":3,"reviews":1,"wait":120,"signal":null,"lastUsed":"2023-07-19","comments":[{"text":"Not so much cars or truck but good place to wait for them.","date":"2023-07-19","rating":3}],"destLat":7.6744,"destLon":2.2264}]}
+{
+  "country": "BJ",
+  "name": "BJ",
+  "totalSpots": 5,
+  "totalReviews": 5,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 5,
+      "lat": 9.6737,
+      "lon": 1.3684,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2023-07-08",
+      "comments": [
+        {
+          "text": "I asked drivers if they could take me with them. But most of them didn't know when they leave because they was waiting for their papers. They go either to Cotonou or Niger. \r\nFinally I got one making a sign to a truck driver who was leaving and shouting \"Djougou\" (the ne of the next city) and he stoped.",
+          "date": "2023-07-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 8.41,
+      "destLon": 1.8901
+    },
+    {
+      "id": 1,
+      "lat": 7.1663,
+      "lon": 2.0868,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 60,
+      "signal": null,
+      "lastUsed": "2023-07-22",
+      "comments": [
+        {
+          "text": "Parking with many trucks. Some are going to Niger and others to Cotonou. Better to be there before 8:00 am to get the early drivers. If you don't find trucks on the parking you can try to stop trucks on this road (as I did). The trucka can not cross the city by the center and have to use this road.",
+          "date": "2023-07-22",
+          "rating": 4
+        }
+      ],
+      "destLat": 6.5385,
+      "destLon": 2.3445
+    },
+    {
+      "id": 2,
+      "lat": 7.9255,
+      "lon": 1.9767,
+      "rating": 3,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2023-07-19",
+      "comments": [
+        {
+          "text": "Some trucks take their stuff here and go to Cotonou. Maybe one left every 2-3 days",
+          "date": "2023-07-19",
+          "rating": 3
+        }
+      ],
+      "destLat": 7.9255,
+      "destLon": 1.9767
+    },
+    {
+      "id": 3,
+      "lat": 7.9295,
+      "lon": 1.9924,
+      "rating": 3,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2023-07-19",
+      "comments": [
+        {
+          "text": "Trucks parking. Not so much trucks. Some trucks stops there to buy food. Few are staying there for days waiting for the order to go.",
+          "date": "2023-07-19",
+          "rating": 3
+        }
+      ],
+      "destLat": 7.9295,
+      "destLon": 1.9924
+    },
+    {
+      "id": 4,
+      "lat": 7.9438,
+      "lon": 1.9822,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 120,
+      "signal": null,
+      "lastUsed": "2023-07-19",
+      "comments": [
+        {
+          "text": "Not so much cars or truck but good place to wait for them.",
+          "date": "2023-07-19",
+          "rating": 3
+        }
+      ],
+      "destLat": 7.6744,
+      "destLon": 2.2264
+    }
+  ]
+}

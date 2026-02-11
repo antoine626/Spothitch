@@ -1,41 +1,33 @@
 {
-  "totalCountries": 170,
-  "totalLocations": 37060,
-  "totalReviews": 71743,
+  "totalCountries": 137,
+  "totalLocations": 14669,
+  "totalReviews": 30958,
   "source": "hitchwiki",
   "license": "ODBL",
   "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
   "countries": [
     {
       "code": "AD",
-      "locations": 25,
-      "reviews": 39,
+      "locations": 9,
+      "reviews": 12,
       "file": "ad.json"
     },
     {
-      "code": "AE",
-      "locations": 2,
-      "reviews": 3,
-      "file": "ae.json"
-    },
-    {
       "code": "AF",
-      "locations": 2,
-      "reviews": 3,
+      "locations": 1,
+      "reviews": 1,
       "file": "af.json"
     },
     {
       "code": "AL",
-      "name": "Albanie",
-      "locations": 309,
-      "reviews": 496,
+      "locations": 236,
+      "reviews": 367,
       "file": "al.json"
     },
     {
       "code": "AM",
-      "name": "Arménie",
-      "locations": 85,
-      "reviews": 127,
+      "locations": 48,
+      "reviews": 59,
       "file": "am.json"
     },
     {
@@ -46,36 +38,32 @@
     },
     {
       "code": "AR",
-      "name": "Argentine",
-      "locations": 236,
-      "reviews": 433,
+      "locations": 52,
+      "reviews": 95,
       "file": "ar.json"
     },
     {
       "code": "AT",
-      "name": "Autriche",
-      "locations": 704,
-      "reviews": 1736,
+      "locations": 385,
+      "reviews": 1132,
       "file": "at.json"
     },
     {
       "code": "AU",
-      "name": "Australie",
-      "locations": 319,
-      "reviews": 349,
+      "locations": 108,
+      "reviews": 135,
       "file": "au.json"
     },
     {
       "code": "AZ",
-      "locations": 26,
-      "reviews": 50,
+      "locations": 1,
+      "reviews": 1,
       "file": "az.json"
     },
     {
       "code": "BA",
-      "name": "Bosnie",
-      "locations": 296,
-      "reviews": 509,
+      "locations": 195,
+      "reviews": 334,
       "file": "ba.json"
     },
     {
@@ -86,16 +74,14 @@
     },
     {
       "code": "BE",
-      "name": "Belgique",
-      "locations": 639,
-      "reviews": 1501,
+      "locations": 165,
+      "reviews": 564,
       "file": "be.json"
     },
     {
       "code": "BG",
-      "name": "Bulgarie",
-      "locations": 391,
-      "reviews": 762,
+      "locations": 142,
+      "reviews": 305,
       "file": "bg.json"
     },
     {
@@ -112,56 +98,38 @@
     },
     {
       "code": "BO",
-      "name": "Bolivie",
-      "locations": 27,
-      "reviews": 39,
+      "locations": 14,
+      "reviews": 15,
       "file": "bo.json"
     },
     {
       "code": "BR",
-      "name": "Brésil",
-      "locations": 445,
-      "reviews": 751,
+      "locations": 59,
+      "reviews": 74,
       "file": "br.json"
     },
     {
-      "code": "BT",
-      "locations": 2,
-      "reviews": 2,
-      "file": "bt.json"
-    },
-    {
       "code": "BW",
-      "name": "Botswana",
-      "locations": 14,
-      "reviews": 22,
+      "locations": 8,
+      "reviews": 10,
       "file": "bw.json"
     },
     {
-      "code": "BY",
-      "name": "Biélorussie",
-      "locations": 132,
-      "reviews": 203,
-      "file": "by.json"
-    },
-    {
       "code": "BZ",
-      "locations": 11,
-      "reviews": 13,
+      "locations": 8,
+      "reviews": 8,
       "file": "bz.json"
     },
     {
       "code": "CA",
-      "name": "Canada",
-      "locations": 762,
-      "reviews": 1305,
+      "locations": 194,
+      "reviews": 288,
       "file": "ca.json"
     },
     {
       "code": "CH",
-      "name": "Suisse",
-      "locations": 546,
-      "reviews": 1223,
+      "locations": 259,
+      "reviews": 654,
       "file": "ch.json"
     },
     {
@@ -172,9 +140,8 @@
     },
     {
       "code": "CL",
-      "name": "Chili",
-      "locations": 142,
-      "reviews": 240,
+      "locations": 54,
+      "reviews": 79,
       "file": "cl.json"
     },
     {
@@ -185,69 +152,44 @@
     },
     {
       "code": "CN",
-      "name": "Chine",
-      "locations": 117,
-      "reviews": 196,
+      "locations": 26,
+      "reviews": 29,
       "file": "cn.json"
     },
     {
       "code": "CO",
-      "name": "Colombie",
-      "locations": 66,
-      "reviews": 108,
+      "locations": 23,
+      "reviews": 31,
       "file": "co.json"
     },
     {
       "code": "CR",
-      "name": "Costa Rica",
-      "locations": 22,
-      "reviews": 33,
+      "locations": 8,
+      "reviews": 8,
       "file": "cr.json"
     },
     {
-      "code": "CU",
-      "name": "Cuba",
-      "locations": 3,
-      "reviews": 5,
-      "file": "cu.json"
-    },
-    {
-      "code": "CV",
-      "locations": 3,
-      "reviews": 6,
-      "file": "cv.json"
-    },
-    {
       "code": "CY",
-      "locations": 54,
-      "reviews": 78,
+      "locations": 13,
+      "reviews": 17,
       "file": "cy.json"
     },
     {
       "code": "CZ",
-      "name": "Tchéquie",
-      "locations": 1117,
-      "reviews": 2424,
+      "locations": 507,
+      "reviews": 1257,
       "file": "cz.json"
     },
     {
       "code": "DE",
-      "name": "Allemagne",
-      "locations": 3355,
-      "reviews": 8381,
+      "locations": 1130,
+      "reviews": 3920,
       "file": "de.json"
     },
     {
-      "code": "DJ",
-      "locations": 2,
-      "reviews": 4,
-      "file": "dj.json"
-    },
-    {
       "code": "DK",
-      "name": "Danemark",
-      "locations": 548,
-      "reviews": 1197,
+      "locations": 249,
+      "reviews": 637,
       "file": "dk.json"
     },
     {
@@ -258,94 +200,68 @@
     },
     {
       "code": "DO",
-      "locations": 20,
-      "reviews": 22,
+      "locations": 17,
+      "reviews": 17,
       "file": "do.json"
     },
     {
       "code": "DZ",
-      "locations": 14,
-      "reviews": 21,
+      "locations": 2,
+      "reviews": 2,
       "file": "dz.json"
     },
     {
       "code": "EC",
-      "name": "Équateur",
-      "locations": 81,
-      "reviews": 121,
+      "locations": 10,
+      "reviews": 12,
       "file": "ec.json"
     },
     {
       "code": "EE",
-      "name": "Estonie",
-      "locations": 515,
-      "reviews": 691,
+      "locations": 390,
+      "reviews": 513,
       "file": "ee.json"
     },
     {
       "code": "EG",
-      "name": "Égypte",
-      "locations": 9,
-      "reviews": 15,
+      "locations": 2,
+      "reviews": 2,
       "file": "eg.json"
     },
     {
       "code": "EH",
-      "locations": 4,
-      "reviews": 5,
+      "locations": 1,
+      "reviews": 1,
       "file": "eh.json"
     },
     {
-      "code": "ER",
-      "locations": 1,
-      "reviews": 2,
-      "file": "er.json"
-    },
-    {
       "code": "ES",
-      "name": "Espagne",
-      "locations": 1407,
-      "reviews": 2672,
+      "locations": 602,
+      "reviews": 1243,
       "file": "es.json"
     },
     {
-      "code": "ET",
-      "name": "Éthiopie",
-      "locations": 1,
-      "reviews": 2,
-      "file": "et.json"
-    },
-    {
       "code": "FI",
-      "name": "Finlande",
-      "locations": 590,
-      "reviews": 1057,
+      "locations": 264,
+      "reviews": 479,
       "file": "fi.json"
     },
     {
-      "code": "FK",
-      "locations": 1,
-      "reviews": 2,
-      "file": "fk.json"
-    },
-    {
       "code": "FO",
-      "locations": 10,
-      "reviews": 14,
+      "locations": 4,
+      "reviews": 5,
       "file": "fo.json"
     },
     {
       "code": "FR",
-      "name": "France",
-      "locations": 4098,
-      "reviews": 8667,
+      "locations": 1895,
+      "reviews": 4550,
       "file": "fr.json"
     },
     {
       "code": "GB",
-      "name": "Royaume-Uni",
-      "locations": 1336,
-      "reviews": 2473,
+      "locations": 445,
+      "reviews": 807,
       "file": "gb.json"
     },
     {
@@ -356,28 +272,21 @@
     },
     {
       "code": "GE",
-      "name": "Géorgie",
-      "locations": 180,
-      "reviews": 313,
+      "locations": 90,
+      "reviews": 148,
       "file": "ge.json"
     },
     {
-      "code": "GF",
-      "locations": 3,
-      "reviews": 4,
-      "file": "gf.json"
-    },
-    {
       "code": "GG",
-      "locations": 5,
-      "reviews": 6,
+      "locations": 4,
+      "reviews": 4,
       "file": "gg.json"
     },
     {
-      "code": "GI",
+      "code": "GH",
       "locations": 3,
-      "reviews": 5,
-      "file": "gi.json"
+      "reviews": 11,
+      "file": "gh.json"
     },
     {
       "code": "GL",
@@ -386,122 +295,93 @@
       "file": "gl.json"
     },
     {
-      "code": "GP",
-      "locations": 2,
-      "reviews": 4,
-      "file": "gp.json"
-    },
-    {
       "code": "GR",
-      "name": "Grèce",
-      "locations": 453,
-      "reviews": 764,
+      "locations": 184,
+      "reviews": 311,
       "file": "gr.json"
     },
     {
-      "code": "GS",
-      "locations": 1,
-      "reviews": 1,
-      "file": "gs.json"
-    },
-    {
       "code": "GT",
-      "name": "Guatemala",
-      "locations": 9,
-      "reviews": 11,
+      "locations": 4,
+      "reviews": 4,
       "file": "gt.json"
     },
     {
       "code": "GY",
-      "locations": 3,
-      "reviews": 3,
+      "locations": 2,
+      "reviews": 2,
       "file": "gy.json"
     },
     {
       "code": "HN",
-      "locations": 3,
-      "reviews": 4,
+      "locations": 2,
+      "reviews": 2,
       "file": "hn.json"
     },
     {
       "code": "HR",
-      "name": "Croatie",
-      "locations": 622,
-      "reviews": 1305,
+      "locations": 329,
+      "reviews": 740,
       "file": "hr.json"
     },
     {
-      "code": "HT",
-      "locations": 2,
-      "reviews": 4,
-      "file": "ht.json"
-    },
-    {
       "code": "HU",
-      "name": "Hongrie",
-      "locations": 696,
-      "reviews": 1490,
+      "locations": 236,
+      "reviews": 618,
       "file": "hu.json"
     },
     {
       "code": "ID",
-      "name": "Indonésie",
-      "locations": 78,
-      "reviews": 95,
+      "locations": 59,
+      "reviews": 61,
       "file": "id.json"
     },
     {
       "code": "IE",
-      "name": "Irlande",
-      "locations": 389,
-      "reviews": 700,
+      "locations": 93,
+      "reviews": 150,
       "file": "ie.json"
     },
     {
       "code": "IL",
-      "name": "Israël",
-      "locations": 111,
-      "reviews": 185,
+      "locations": 34,
+      "reviews": 46,
       "file": "il.json"
     },
     {
       "code": "IM",
-      "locations": 4,
-      "reviews": 5,
+      "locations": 3,
+      "reviews": 3,
       "file": "im.json"
     },
     {
       "code": "IN",
-      "name": "Inde",
-      "locations": 36,
-      "reviews": 45,
+      "locations": 25,
+      "reviews": 25,
       "file": "in.json"
     },
     {
       "code": "IQ",
-      "locations": 19,
-      "reviews": 23,
+      "locations": 12,
+      "reviews": 15,
       "file": "iq.json"
     },
     {
       "code": "IR",
-      "name": "Iran",
-      "locations": 70,
-      "reviews": 122,
+      "locations": 6,
+      "reviews": 8,
       "file": "ir.json"
     },
     {
       "code": "IS",
-      "name": "Islande",
-      "locations": 153,
-      "reviews": 272,
+      "locations": 45,
+      "reviews": 87,
       "file": "is.json"
     },
     {
       "code": "IT",
-      "name": "Italie",
-      "locations": 927,
-      "reviews": 1736,
+      "locations": 361,
+      "reviews": 722,
       "file": "it.json"
     },
     {
@@ -512,50 +392,38 @@
     },
     {
       "code": "JO",
-      "name": "Jordanie",
-      "locations": 29,
-      "reviews": 42,
+      "locations": 21,
+      "reviews": 26,
       "file": "jo.json"
     },
     {
       "code": "JP",
-      "name": "Japon",
-      "locations": 158,
-      "reviews": 224,
+      "locations": 101,
+      "reviews": 127,
       "file": "jp.json"
     },
     {
       "code": "KE",
-      "name": "Kenya",
-      "locations": 7,
-      "reviews": 9,
+      "locations": 3,
+      "reviews": 3,
       "file": "ke.json"
     },
     {
       "code": "KG",
-      "name": "Kirghizistan",
-      "locations": 75,
-      "reviews": 108,
+      "locations": 51,
+      "reviews": 62,
       "file": "kg.json"
     },
     {
       "code": "KH",
-      "name": "Cambodge",
-      "locations": 45,
-      "reviews": 55,
+      "locations": 21,
+      "reviews": 22,
       "file": "kh.json"
     },
     {
-      "code": "KP",
-      "locations": 2,
-      "reviews": 2,
-      "file": "kp.json"
-    },
-    {
       "code": "KR",
-      "name": "Corée du Sud",
-      "locations": 80,
-      "reviews": 134,
+      "locations": 7,
+      "reviews": 9,
       "file": "kr.json"
     },
     {
@@ -566,83 +434,74 @@
     },
     {
       "code": "KZ",
-      "name": "Kazakhstan",
-      "locations": 91,
-      "reviews": 142,
+      "locations": 48,
+      "reviews": 58,
       "file": "kz.json"
     },
     {
       "code": "LA",
-      "name": "Laos",
-      "locations": 34,
-      "reviews": 40,
+      "locations": 17,
+      "reviews": 19,
       "file": "la.json"
     },
     {
       "code": "LI",
-      "locations": 10,
-      "reviews": 15,
+      "locations": 8,
+      "reviews": 11,
       "file": "li.json"
     },
     {
-      "code": "LS",
-      "locations": 1,
-      "reviews": 2,
-      "file": "ls.json"
+      "code": "LK",
+      "locations": 3,
+      "reviews": 13,
+      "file": "lk.json"
     },
     {
       "code": "LT",
-      "name": "Lituanie",
-      "locations": 443,
-      "reviews": 889,
+      "locations": 186,
+      "reviews": 388,
       "file": "lt.json"
     },
     {
       "code": "LU",
-      "name": "Luxembourg",
-      "locations": 34,
-      "reviews": 122,
+      "locations": 12,
+      "reviews": 86,
       "file": "lu.json"
     },
     {
       "code": "LV",
-      "name": "Lettonie",
-      "locations": 413,
-      "reviews": 728,
+      "locations": 176,
+      "reviews": 292,
       "file": "lv.json"
     },
     {
       "code": "MA",
-      "name": "Maroc",
-      "locations": 230,
-      "reviews": 372,
+      "locations": 123,
+      "reviews": 184,
       "file": "ma.json"
     },
     {
       "code": "MC",
-      "locations": 5,
-      "reviews": 8,
+      "locations": 2,
+      "reviews": 2,
       "file": "mc.json"
     },
     {
       "code": "MD",
-      "name": "Moldavie",
-      "locations": 58,
-      "reviews": 95,
+      "locations": 16,
+      "reviews": 20,
       "file": "md.json"
     },
     {
       "code": "ME",
-      "name": "Monténégro",
-      "locations": 240,
-      "reviews": 446,
+      "locations": 155,
+      "reviews": 281,
       "file": "me.json"
     },
     {
       "code": "MK",
-      "name": "Macédoine du Nord",
-      "locations": 170,
-      "reviews": 354,
+      "locations": 85,
+      "reviews": 189,
       "file": "mk.json"
     },
     {
@@ -652,41 +511,21 @@
       "file": "ml.json"
     },
     {
-      "code": "MM",
-      "name": "Myanmar",
-      "locations": 4,
-      "reviews": 6,
-      "file": "mm.json"
-    },
-    {
       "code": "MN",
-      "name": "Mongolie",
-      "locations": 20,
-      "reviews": 41,
+      "locations": 2,
+      "reviews": 4,
       "file": "mn.json"
     },
     {
-      "code": "MQ",
-      "locations": 3,
-      "reviews": 6,
-      "file": "mq.json"
-    },
-    {
       "code": "MR",
-      "locations": 20,
-      "reviews": 27,
+      "locations": 11,
+      "reviews": 11,
       "file": "mr.json"
     },
     {
-      "code": "MS",
-      "locations": 1,
-      "reviews": 2,
-      "file": "ms.json"
-    },
-    {
       "code": "MT",
-      "locations": 9,
-      "reviews": 11,
+      "locations": 6,
+      "reviews": 7,
       "file": "mt.json"
     },
     {
@@ -696,253 +535,166 @@
       "file": "mu.json"
     },
     {
-      "code": "MW",
-      "locations": 3,
-      "reviews": 7,
-      "file": "mw.json"
-    },
-    {
       "code": "MX",
-      "name": "Mexique",
-      "locations": 157,
-      "reviews": 260,
+      "locations": 39,
+      "reviews": 54,
       "file": "mx.json"
     },
     {
       "code": "MY",
-      "name": "Malaisie",
-      "locations": 49,
-      "reviews": 75,
+      "locations": 23,
+      "reviews": 25,
       "file": "my.json"
     },
     {
       "code": "MZ",
-      "locations": 5,
-      "reviews": 6,
+      "locations": 3,
+      "reviews": 3,
       "file": "mz.json"
     },
     {
       "code": "NA",
-      "name": "Namibie",
-      "locations": 32,
-      "reviews": 36,
+      "locations": 27,
+      "reviews": 30,
       "file": "na.json"
     },
     {
-      "code": "NC",
-      "locations": 1,
-      "reviews": 1,
-      "file": "nc.json"
+      "code": "NG",
+      "locations": 3,
+      "reviews": 11,
+      "file": "ng.json"
     },
     {
       "code": "NI",
-      "locations": 13,
-      "reviews": 21,
+      "locations": 3,
+      "reviews": 5,
       "file": "ni.json"
     },
     {
       "code": "NL",
-      "name": "Pays-Bas",
-      "locations": 1191,
-      "reviews": 2816,
+      "locations": 312,
+      "reviews": 1004,
       "file": "nl.json"
     },
     {
       "code": "NO",
-      "name": "Norvège",
-      "locations": 1020,
-      "reviews": 1805,
+      "locations": 536,
+      "reviews": 947,
       "file": "no.json"
     },
     {
       "code": "NP",
-      "name": "Népal",
-      "locations": 6,
-      "reviews": 7,
+      "locations": 2,
+      "reviews": 2,
       "file": "np.json"
     },
     {
       "code": "NZ",
-      "name": "Nouvelle-Zélande",
-      "locations": 348,
-      "reviews": 396,
+      "locations": 170,
+      "reviews": 217,
       "file": "nz.json"
     },
     {
       "code": "OM",
-      "name": "Oman",
-      "locations": 5,
-      "reviews": 6,
+      "locations": 3,
+      "reviews": 3,
       "file": "om.json"
     },
     {
       "code": "PA",
-      "name": "Panama",
-      "locations": 21,
-      "reviews": 25,
+      "locations": 15,
+      "reviews": 16,
       "file": "pa.json"
     },
     {
       "code": "PE",
-      "name": "Pérou",
-      "locations": 42,
-      "reviews": 68,
+      "locations": 12,
+      "reviews": 13,
       "file": "pe.json"
     },
     {
-      "code": "PG",
-      "locations": 1,
-      "reviews": 1,
-      "file": "pg.json"
-    },
-    {
       "code": "PH",
-      "name": "Philippines",
-      "locations": 36,
-      "reviews": 38,
+      "locations": 33,
+      "reviews": 34,
       "file": "ph.json"
     },
     {
       "code": "PK",
-      "name": "Pakistan",
-      "locations": 5,
-      "reviews": 6,
+      "locations": 1,
+      "reviews": 1,
       "file": "pk.json"
     },
     {
       "code": "PL",
-      "name": "Pologne",
-      "locations": 2047,
-      "reviews": 3933,
+      "locations": 670,
+      "reviews": 1499,
       "file": "pl.json"
     },
     {
       "code": "PS",
-      "locations": 11,
-      "reviews": 19,
+      "locations": 2,
+      "reviews": 2,
       "file": "ps.json"
     },
     {
       "code": "PT",
-      "name": "Portugal",
-      "locations": 365,
-      "reviews": 688,
+      "locations": 134,
+      "reviews": 284,
       "file": "pt.json"
     },
     {
-      "code": "PY",
-      "name": "Paraguay",
-      "locations": 4,
-      "reviews": 8,
-      "file": "py.json"
-    },
-    {
-      "code": "QA",
-      "locations": 1,
-      "reviews": 2,
-      "file": "qa.json"
-    },
-    {
       "code": "RO",
-      "name": "Roumanie",
-      "locations": 749,
-      "reviews": 1285,
+      "locations": 220,
+      "reviews": 401,
       "file": "ro.json"
     },
     {
       "code": "RS",
-      "name": "Serbie",
-      "locations": 430,
-      "reviews": 823,
+      "locations": 190,
+      "reviews": 354,
       "file": "rs.json"
     },
     {
       "code": "RU",
-      "locations": 758,
-      "reviews": 1145,
+      "locations": 89,
+      "reviews": 103,
       "file": "ru.json"
     },
     {
       "code": "SA",
-      "locations": 19,
-      "reviews": 19,
+      "locations": 16,
+      "reviews": 16,
       "file": "sa.json"
     },
     {
-      "code": "SB",
-      "locations": 1,
-      "reviews": 1,
-      "file": "sb.json"
-    },
-    {
-      "code": "SC",
-      "locations": 1,
-      "reviews": 2,
-      "file": "sc.json"
-    },
-    {
-      "code": "SD",
-      "locations": 2,
-      "reviews": 4,
-      "file": "sd.json"
-    },
-    {
       "code": "SE",
-      "name": "Suède",
-      "locations": 880,
-      "reviews": 1794,
+      "locations": 415,
+      "reviews": 938,
       "file": "se.json"
     },
     {
-      "code": "SG",
-      "locations": 2,
-      "reviews": 4,
-      "file": "sg.json"
-    },
-    {
       "code": "SI",
-      "name": "Slovénie",
-      "locations": 344,
-      "reviews": 912,
+      "locations": 155,
+      "reviews": 465,
       "file": "si.json"
     },
     {
-      "code": "SJ",
-      "locations": 1,
-      "reviews": 3,
-      "file": "sj.json"
-    },
-    {
       "code": "SK",
-      "name": "Slovaquie",
-      "locations": 467,
-      "reviews": 943,
+      "locations": 192,
+      "reviews": 447,
       "file": "sk.json"
     },
     {
       "code": "SM",
-      "locations": 2,
-      "reviews": 3,
+      "locations": 1,
+      "reviews": 1,
       "file": "sm.json"
     },
     {
       "code": "SN",
-      "name": "Sénégal",
-      "locations": 7,
-      "reviews": 10,
+      "locations": 5,
+      "reviews": 5,
       "file": "sn.json"
-    },
-    {
-      "code": "SO",
-      "locations": 1,
-      "reviews": 2,
-      "file": "so.json"
-    },
-    {
-      "code": "SR",
-      "locations": 2,
-      "reviews": 3,
-      "file": "sr.json"
     },
     {
       "code": "SV",
@@ -951,15 +703,9 @@
       "file": "sv.json"
     },
     {
-      "code": "SY",
-      "locations": 8,
-      "reviews": 16,
-      "file": "sy.json"
-    },
-    {
       "code": "SZ",
-      "locations": 3,
-      "reviews": 3,
+      "locations": 2,
+      "reviews": 2,
       "file": "sz.json"
     },
     {
@@ -970,16 +716,14 @@
     },
     {
       "code": "TH",
-      "name": "Thaïlande",
-      "locations": 72,
-      "reviews": 97,
+      "locations": 49,
+      "reviews": 58,
       "file": "th.json"
     },
     {
       "code": "TJ",
-      "name": "Tadjikistan",
-      "locations": 49,
-      "reviews": 63,
+      "locations": 36,
+      "reviews": 38,
       "file": "tj.json"
     },
     {
@@ -989,16 +733,9 @@
       "file": "tl.json"
     },
     {
-      "code": "TM",
-      "locations": 4,
-      "reviews": 8,
-      "file": "tm.json"
-    },
-    {
       "code": "TN",
-      "name": "Tunisie",
-      "locations": 8,
-      "reviews": 10,
+      "locations": 6,
+      "reviews": 6,
       "file": "tn.json"
     },
     {
@@ -1009,62 +746,50 @@
     },
     {
       "code": "TR",
-      "name": "Turquie",
-      "locations": 761,
-      "reviews": 1286,
+      "locations": 290,
+      "reviews": 425,
       "file": "tr.json"
     },
     {
-      "code": "TT",
-      "locations": 1,
-      "reviews": 2,
-      "file": "tt.json"
-    },
-    {
       "code": "TW",
-      "locations": 97,
-      "reviews": 121,
+      "locations": 72,
+      "reviews": 79,
       "file": "tw.json"
     },
     {
       "code": "TZ",
-      "name": "Tanzanie",
-      "locations": 6,
-      "reviews": 8,
+      "locations": 4,
+      "reviews": 4,
       "file": "tz.json"
     },
     {
       "code": "UA",
-      "name": "Ukraine",
-      "locations": 471,
-      "reviews": 752,
+      "locations": 26,
+      "reviews": 39,
       "file": "ua.json"
     },
     {
       "code": "UG",
-      "locations": 10,
-      "reviews": 21,
+      "locations": 2,
+      "reviews": 4,
       "file": "ug.json"
     },
     {
       "code": "US",
-      "name": "États-Unis",
-      "locations": 1766,
-      "reviews": 2726,
+      "locations": 632,
+      "reviews": 753,
       "file": "us.json"
     },
     {
       "code": "UY",
-      "name": "Uruguay",
-      "locations": 68,
-      "reviews": 129,
+      "locations": 15,
+      "reviews": 23,
       "file": "uy.json"
     },
     {
       "code": "UZ",
-      "name": "Ouzbékistan",
-      "locations": 40,
-      "reviews": 60,
+      "locations": 22,
+      "reviews": 26,
       "file": "uz.json"
     },
     {
@@ -1074,50 +799,34 @@
       "file": "vc.json"
     },
     {
-      "code": "VE",
-      "name": "Venezuela",
-      "locations": 9,
-      "reviews": 17,
-      "file": "ve.json"
-    },
-    {
       "code": "VN",
-      "name": "Vietnam",
-      "locations": 42,
-      "reviews": 58,
+      "locations": 28,
+      "reviews": 32,
       "file": "vn.json"
     },
     {
       "code": "XK",
-      "name": "Kosovo",
-      "locations": 43,
-      "reviews": 50,
+      "locations": 42,
+      "reviews": 49,
       "file": "xk.json"
     },
     {
       "code": "XZ",
-      "locations": 12,
-      "reviews": 18,
+      "locations": 11,
+      "reviews": 17,
       "file": "xz.json"
     },
     {
       "code": "ZA",
-      "name": "Afrique du Sud",
-      "locations": 48,
-      "reviews": 61,
+      "locations": 24,
+      "reviews": 24,
       "file": "za.json"
     },
     {
       "code": "ZM",
-      "locations": 14,
-      "reviews": 17,
+      "locations": 11,
+      "reviews": 11,
       "file": "zm.json"
-    },
-    {
-      "code": "ZW",
-      "locations": 5,
-      "reviews": 10,
-      "file": "zw.json"
     }
   ]
 }

@@ -1,1 +1,68 @@
-{"country":"IM","name":"IM","totalSpots":4,"totalReviews":5,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":1,"lat":54.2276,"lon":-4.6969,"rating":5,"reviews":1,"wait":null,"signal":"ask","lastUsed":"2025-05-28","comments":[{"text":"Was very lucky, walked here and a Swedish sailboat was just leaving for Dublin, so I got a passage across straight away.","date":"2025-05-28","rating":5}],"destLat":53.3439,"destLon":-6.2165},{"id":3,"lat":54.1614,"lon":-4.5065,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-05-28","comments":[{"text":"Lots of space and people will stop quite quickly.","date":"2025-05-28","rating":5}],"destLat":54.2022,"destLon":-4.6279},{"id":2,"lat":54.2031,"lon":-4.6316,"rating":4,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-05-28","comments":[{"text":"It’s a bus stop.","date":"2025-05-28","rating":4}],"destLat":54.2258,"destLon":-4.6985},{"id":4,"lat":54.156,"lon":-4.492,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2011-02-14","comments":[{"text":"There's a reasonable chance of getting a lift from Alexander Drive to the south and west of the island. Although there is a service station here, I think it's better just to stand on the road. Even if your ride only takes you one or two km, it's out of Douglas centre which is always going to be a good start, so get in.\nhttp://hitchwiki.org/en/Douglas","date":"2011-02-14","rating":3}],"destLat":null,"destLon":null}]}
+{
+  "country": "IM",
+  "name": "IM",
+  "totalSpots": 4,
+  "totalReviews": 5,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 54.2276,
+      "lon": -4.6969,
+      "rating": 5,
+      "reviews": 1,
+      "wait": null,
+      "signal": "ask",
+      "lastUsed": "2025-05-28",
+      "comments": [
+        {
+          "text": "Was very lucky, walked here and a Swedish sailboat was just leaving for Dublin, so I got a passage across straight away.",
+          "date": "2025-05-28",
+          "rating": 5
+        }
+      ],
+      "destLat": 53.3439,
+      "destLon": -6.2165
+    },
+    {
+      "id": 3,
+      "lat": 54.1614,
+      "lon": -4.5065,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-05-28",
+      "comments": [
+        {
+          "text": "Lots of space and people will stop quite quickly.",
+          "date": "2025-05-28",
+          "rating": 5
+        }
+      ],
+      "destLat": 54.2022,
+      "destLon": -4.6279
+    },
+    {
+      "id": 2,
+      "lat": 54.2031,
+      "lon": -4.6316,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-05-28",
+      "comments": [
+        {
+          "text": "It’s a bus stop.",
+          "date": "2025-05-28",
+          "rating": 4
+        }
+      ],
+      "destLat": 54.2258,
+      "destLon": -4.6985
+    }
+  ]
+}

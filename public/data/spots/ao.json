@@ -1,1 +1,182 @@
-{"country":"AO","name":"AO","totalSpots":9,"totalReviews":9,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":5,"lat":-17.0074,"lon":15.6456,"rating":5,"reviews":1,"wait":10,"signal":"ask","lastUsed":"2025-04-19","comments":[{"text":"Um carro do ministério da Agricultura parou pra mim, o que foi bom já que perto da fronteira ainda tem muitas paragens policiais que evitam encher o saco de carros oficiais. Falamos muito sobre as plantas e me explicaram que aqui o Baobah se chama Embondeiro. Também observei muitas frutas de cactos.","date":"2025-04-19","rating":5}],"destLat":-16.7388,"destLon":14.972},{"id":7,"lat":-16.3809,"lon":14.8914,"rating":5,"reviews":1,"wait":5,"signal":"ask","lastUsed":"2025-04-19","comments":[{"text":"A partir do Bar do Tonin já dá pra pegar carona pra vários lugares. Lá perto também tem uma lagoa muito boa pra tomar banho, só perguntar.","date":"2025-04-19","rating":5}],"destLat":-16.3887,"destLon":14.8859},{"id":8,"lat":-16.539,"lon":14.8497,"rating":5,"reviews":1,"wait":15,"signal":"ask-sign","lastUsed":"2025-04-19","comments":[{"text":"Na verdade eu estava indo a Casa de Angelina em Mucope (ioverlander) e pensei que a entrada fosse aqui, onde o caminhão me deixou, mas na verdade era a seguinte, um motoqueiro me corrigiu e me levou até a entrada correta. É possível pegar carona lá, mas a mota vale apenas 1000 kwanzas e são 30 km difíceis até Mucupe (onde se dança o N'golo, Avô da Capoeira). Então para quem puder pagar, é justo","date":"2025-04-19","rating":5}],"destLat":-16.5283,"destLon":14.8402},{"id":9,"lat":-16.5273,"lon":14.8392,"rating":5,"reviews":1,"wait":15,"signal":"ask-sign","lastUsed":"2025-04-19","comments":[{"text":"Muitas pessoas param aqui para consumir algo nos mercados, antes mesmo de pegar carona ganhei um suco e água fresca. Tem trabalhadores de lotação aqui, então para não estragar o trabalho deles capaz seja melhor depois, mais pra frente, depois do comércio, mas no caso pararam caminhões e fui perguntar. Por isto deu certo. Muitos caminhões não podem entrar em Lubango, portanto há de se levar isto em consideração caso este seja o destino.","date":"2025-04-19","rating":5}],"destLat":-15.0015,"destLon":13.5847},{"id":2,"lat":-14.9569,"lon":13.4723,"rating":4,"reviews":1,"wait":20,"signal":"sign","lastUsed":"2025-04-29","comments":[{"text":"Com os transportes lotados para ir até o Mercado Municipal, a carona também funciona.","date":"2025-04-29","rating":4}],"destLat":-14.9962,"destLon":13.4181},{"id":3,"lat":-15.0308,"lon":13.3687,"rating":4,"reviews":1,"wait":20,"signal":"sign","lastUsed":"2025-04-29","comments":[{"text":"Muito bom, peguei um transporte de Lubango até o mercado municipal, que vale a pena conhecer, excelentes congumelos bem baratos,\r\nForam 300 kwanzas nesta data. Daí depois da saidinha do Posto é muito bom.","date":"2025-04-29","rating":4}],"destLat":-15.2005,"destLon":12.1437},{"id":4,"lat":-17.0483,"lon":15.6883,"rating":4,"reviews":1,"wait":20,"signal":"sign","lastUsed":"2025-04-19","comments":[{"text":"O ponto é excelente, só quase não passa ninguém. Mas uma moto (mota) me levou até a saída de onde vem os caminhões pelo Bypass... pra chegar no aeroporto dá pra pegar um motinha ou kombi na cidade por 200 kwanzas ou vindo de Santa Clara dá pra pegar a lotação, pq o ônibus só vai até o centro de Ondjiva, onde dormi na empresa de ônibus Macon. no centro. Lá fecha as 18h mas dá pra pedir pra dormir lá caso diga que vai pegar o ônibus pela manhã, dá pra por uma rede perto de gerador, caso não o ligu","date":"2025-04-19","rating":4}],"destLat":-17.0075,"destLon":15.6458},{"id":6,"lat":-16.7379,"lon":14.9706,"rating":4,"reviews":1,"wait":10,"signal":"ask","lastUsed":"2025-04-19","comments":[{"text":"Me deixaram já neste ponto na saída da cidade, os Angonlanos são muito gentis. Mas lá tem uma parada Policial e como era de se esperar pediram meu passaporte e tentaram fazer ligações e etc provavelmente para poder justificar alguma coisa para pedir dinheiro, mas depois de observarem que eu era um andarilho pé-rapado me deixaram ir  em arranjaram uma carona com dois caminhoneiros (caminhonistas) de origem portuguesa.","date":"2025-04-19","rating":4}],"destLat":-16.5391,"destLon":14.8497},{"id":1,"lat":-14.9963,"lon":13.4179,"rating":3,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2025-04-29","comments":[{"text":"Mais um carona que nos aproximou do mercado, éramos 2 homens.","date":"2025-04-29","rating":3}],"destLat":-15.016,"destLon":13.3796}]}
+{
+  "country": "AO",
+  "name": "AO",
+  "totalSpots": 9,
+  "totalReviews": 9,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 5,
+      "lat": -17.0074,
+      "lon": 15.6456,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "ask",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Um carro do ministério da Agricultura parou pra mim, o que foi bom já que perto da fronteira ainda tem muitas paragens policiais que evitam encher o saco de carros oficiais. Falamos muito sobre as plantas e me explicaram que aqui o Baobah se chama Embondeiro. Também observei muitas frutas de cactos.",
+          "date": "2025-04-19",
+          "rating": 5
+        }
+      ],
+      "destLat": -16.7388,
+      "destLon": 14.972
+    },
+    {
+      "id": 7,
+      "lat": -16.3809,
+      "lon": 14.8914,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "ask",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "A partir do Bar do Tonin já dá pra pegar carona pra vários lugares. Lá perto também tem uma lagoa muito boa pra tomar banho, só perguntar.",
+          "date": "2025-04-19",
+          "rating": 5
+        }
+      ],
+      "destLat": -16.3887,
+      "destLon": 14.8859
+    },
+    {
+      "id": 8,
+      "lat": -16.539,
+      "lon": 14.8497,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "ask-sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Na verdade eu estava indo a Casa de Angelina em Mucope (ioverlander) e pensei que a entrada fosse aqui, onde o caminhão me deixou, mas na verdade era a seguinte, um motoqueiro me corrigiu e me levou até a entrada correta. É possível pegar carona lá, mas a mota vale apenas 1000 kwanzas e são 30 km difíceis até Mucupe (onde se dança o N'golo, Avô da Capoeira). Então para quem puder pagar, é justo",
+          "date": "2025-04-19",
+          "rating": 5
+        }
+      ],
+      "destLat": -16.5283,
+      "destLon": 14.8402
+    },
+    {
+      "id": 9,
+      "lat": -16.5273,
+      "lon": 14.8392,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "ask-sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Muitas pessoas param aqui para consumir algo nos mercados, antes mesmo de pegar carona ganhei um suco e água fresca. Tem trabalhadores de lotação aqui, então para não estragar o trabalho deles capaz seja melhor depois, mais pra frente, depois do comércio, mas no caso pararam caminhões e fui perguntar. Por isto deu certo. Muitos caminhões não podem entrar em Lubango, portanto há de se levar isto em consideração caso este seja o destino.",
+          "date": "2025-04-19",
+          "rating": 5
+        }
+      ],
+      "destLat": -15.0015,
+      "destLon": 13.5847
+    },
+    {
+      "id": 2,
+      "lat": -14.9569,
+      "lon": 13.4723,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "sign",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "Com os transportes lotados para ir até o Mercado Municipal, a carona também funciona.",
+          "date": "2025-04-29",
+          "rating": 4
+        }
+      ],
+      "destLat": -14.9962,
+      "destLon": 13.4181
+    },
+    {
+      "id": 3,
+      "lat": -15.0308,
+      "lon": 13.3687,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "sign",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "Muito bom, peguei um transporte de Lubango até o mercado municipal, que vale a pena conhecer, excelentes congumelos bem baratos,\r\nForam 300 kwanzas nesta data. Daí depois da saidinha do Posto é muito bom.",
+          "date": "2025-04-29",
+          "rating": 4
+        }
+      ],
+      "destLat": -15.2005,
+      "destLon": 12.1437
+    },
+    {
+      "id": 4,
+      "lat": -17.0483,
+      "lon": 15.6883,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "O ponto é excelente, só quase não passa ninguém. Mas uma moto (mota) me levou até a saída de onde vem os caminhões pelo Bypass... pra chegar no aeroporto dá pra pegar um motinha ou kombi na cidade por 200 kwanzas ou vindo de Santa Clara dá pra pegar a lotação, pq o ônibus só vai até o centro de Ondjiva, onde dormi na empresa de ônibus Macon. no centro. Lá fecha as 18h mas dá pra pedir pra dormir lá caso diga que vai pegar o ônibus pela manhã, dá pra por uma rede perto de gerador, caso não o ligu",
+          "date": "2025-04-19",
+          "rating": 4
+        }
+      ],
+      "destLat": -17.0075,
+      "destLon": 15.6458
+    },
+    {
+      "id": 6,
+      "lat": -16.7379,
+      "lon": 14.9706,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "ask",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Me deixaram já neste ponto na saída da cidade, os Angonlanos são muito gentis. Mas lá tem uma parada Policial e como era de se esperar pediram meu passaporte e tentaram fazer ligações e etc provavelmente para poder justificar alguma coisa para pedir dinheiro, mas depois de observarem que eu era um andarilho pé-rapado me deixaram ir  em arranjaram uma carona com dois caminhoneiros (caminhonistas) de origem portuguesa.",
+          "date": "2025-04-19",
+          "rating": 4
+        }
+      ],
+      "destLat": -16.5391,
+      "destLon": 14.8497
+    },
+    {
+      "id": 1,
+      "lat": -14.9963,
+      "lon": 13.4179,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "Mais um carona que nos aproximou do mercado, éramos 2 homens.",
+          "date": "2025-04-29",
+          "rating": 3
+        }
+      ],
+      "destLat": -15.016,
+      "destLon": 13.3796
+    }
+  ]
+}

@@ -1,1 +1,145 @@
-{"country":"BZ","name":"BZ","totalSpots":11,"totalReviews":13,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":1,"lat":16.8627,"lon":-88.2868,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-12-04","comments":[],"destLat":16.9683,"destLon":-88.2194},{"id":2,"lat":16.7066,"lon":-88.424,"rating":5,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2025-12-04","comments":[],"destLat":16.8626,"destLon":-88.287},{"id":3,"lat":16.5665,"lon":-88.5151,"rating":5,"reviews":1,"wait":2,"signal":"thumb","lastUsed":"2025-12-04","comments":[],"destLat":16.7066,"destLon":-88.4239},{"id":5,"lat":16.5064,"lon":-88.5334,"rating":5,"reviews":1,"wait":null,"signal":"sign","lastUsed":"2025-12-04","comments":[{"text":"Big gas station. We left the car and other asked us if we want a small ride","date":"2025-12-04","rating":5}],"destLat":16.5328,"destLon":-88.4756},{"id":6,"lat":16.2284,"lon":-88.9386,"rating":5,"reviews":1,"wait":20,"signal":"sign","lastUsed":"2025-12-04","comments":[{"text":"Started raining but you have a cover on the bus station. Not a lot of cars but best place after the junction to the highway north","date":"2025-12-04","rating":5}],"destLat":16.5064,"destLon":-88.5334},{"id":7,"lat":16.103,"lon":-88.8006,"rating":5,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2025-12-04","comments":[{"text":"Best place to start hitchhiking north. Start early if you are going for a long ride. Just small towns on the way.","date":"2025-12-04","rating":5}],"destLat":16.2284,"destLon":-88.9389},{"id":8,"lat":17.1521,"lon":-88.7401,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"Towards St. Herman's Blue Hole NP","date":"2025-02-23","rating":5}],"destLat":17.1584,"destLon":-88.6842},{"id":9,"lat":17.5464,"lon":-88.2881,"rating":4,"reviews":2,"wait":10,"signal":null,"lastUsed":"2015-10-10","comments":[{"text":"Road toward Belize city after you leave the aiport area.","date":"2015-10-10","rating":4}],"destLat":null,"destLon":null},{"id":10,"lat":17.5358,"lon":-88.3065,"rating":4,"reviews":2,"wait":5,"signal":null,"lastUsed":"2015-10-10","comments":[{"text":"Airport exit. Belize is doable. As the driver said, \"Belizeans are welcoming.\"","date":"2015-10-10","rating":4}],"destLat":null,"destLon":null},{"id":4,"lat":16.5327,"lon":-88.4752,"rating":4,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-12-04","comments":[{"text":"Middle off knower. Bus station for emergency. We got a small ride","date":"2025-12-04","rating":4}],"destLat":16.5665,"destLon":-88.5151},{"id":11,"lat":18.3782,"lon":-88.4147,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-10-03","comments":[],"destLat":null,"destLon":null}]}
+{
+  "country": "BZ",
+  "name": "BZ",
+  "totalSpots": 11,
+  "totalReviews": 13,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 16.8627,
+      "lon": -88.2868,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-12-04",
+      "comments": [],
+      "destLat": 16.9683,
+      "destLon": -88.2194
+    },
+    {
+      "id": 2,
+      "lat": 16.7066,
+      "lon": -88.424,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2025-12-04",
+      "comments": [],
+      "destLat": 16.8626,
+      "destLon": -88.287
+    },
+    {
+      "id": 3,
+      "lat": 16.5665,
+      "lon": -88.5151,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": "thumb",
+      "lastUsed": "2025-12-04",
+      "comments": [],
+      "destLat": 16.7066,
+      "destLon": -88.4239
+    },
+    {
+      "id": 5,
+      "lat": 16.5064,
+      "lon": -88.5334,
+      "rating": 5,
+      "reviews": 1,
+      "wait": null,
+      "signal": "sign",
+      "lastUsed": "2025-12-04",
+      "comments": [
+        {
+          "text": "Big gas station. We left the car and other asked us if we want a small ride",
+          "date": "2025-12-04",
+          "rating": 5
+        }
+      ],
+      "destLat": 16.5328,
+      "destLon": -88.4756
+    },
+    {
+      "id": 6,
+      "lat": 16.2284,
+      "lon": -88.9386,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "sign",
+      "lastUsed": "2025-12-04",
+      "comments": [
+        {
+          "text": "Started raining but you have a cover on the bus station. Not a lot of cars but best place after the junction to the highway north",
+          "date": "2025-12-04",
+          "rating": 5
+        }
+      ],
+      "destLat": 16.5064,
+      "destLon": -88.5334
+    },
+    {
+      "id": 7,
+      "lat": 16.103,
+      "lon": -88.8006,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2025-12-04",
+      "comments": [
+        {
+          "text": "Best place to start hitchhiking north. Start early if you are going for a long ride. Just small towns on the way.",
+          "date": "2025-12-04",
+          "rating": 5
+        }
+      ],
+      "destLat": 16.2284,
+      "destLon": -88.9389
+    },
+    {
+      "id": 8,
+      "lat": 17.1521,
+      "lon": -88.7401,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [
+        {
+          "text": "Towards St. Herman's Blue Hole NP",
+          "date": "2025-02-23",
+          "rating": 5
+        }
+      ],
+      "destLat": 17.1584,
+      "destLon": -88.6842
+    },
+    {
+      "id": 4,
+      "lat": 16.5327,
+      "lon": -88.4752,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-12-04",
+      "comments": [
+        {
+          "text": "Middle off knower. Bus station for emergency. We got a small ride",
+          "date": "2025-12-04",
+          "rating": 4
+        }
+      ],
+      "destLat": 16.5665,
+      "destLon": -88.5151
+    }
+  ]
+}

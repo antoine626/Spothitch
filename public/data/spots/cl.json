@@ -1,1 +1,1087 @@
-{"country":"CL","name":"Chili","totalSpots":142,"totalReviews":240,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":71,"lat":-33.4563,"lon":-70.7232,"rating":5,"reviews":4,"wait":13,"signal":null,"lastUsed":"2016-04-07","comments":[{"text":"Lots of traffic! Within not to long a car stopped.","date":"2016-04-07","rating":5},{"text":"Done this route a dozen times, tons of traffic and never fails. Waited between 3-20 minutes, average ~10.","date":"2015-11-25","rating":5},{"text":"ладно?","date":"2013-09-16","rating":5},{"text":"Выезд","date":"2012-08-24","rating":5}],"destLat":null,"destLon":null},{"id":26,"lat":-32.8436,"lon":-70.9894,"rating":5,"reviews":3,"wait":10,"signal":"sign","lastUsed":"2024-11-11","comments":[{"text":"easy to find cars going west","date":"2024-11-11","rating":5},{"text":"A toll station","date":"2014-01-31","rating":5}],"destLat":-32.7872,"destLon":-71.1693},{"id":30,"lat":-23.6274,"lon":-70.3712,"rating":5,"reviews":3,"wait":15,"signal":"thumb","lastUsed":"2024-09-04","comments":[{"text":"Good spot, most of the cars go to bypass. I suggest take it and try there.","date":"2024-09-04","rating":5},{"text":"didn't even have to put my thumb up..someone stopped for me because it was obvious i was a traveler","date":null,"rating":5}],"destLat":-23.6025,"destLon":-70.2621},{"id":38,"lat":-39.2811,"lon":-71.9779,"rating":5,"reviews":3,"wait":20,"signal":"thumb","lastUsed":"2024-08-27","comments":[{"text":"4 cars stopped, but only the last one went to Villarica. Good spot for hitching!","date":"2024-08-27","rating":5},{"text":"At the exit of the roundabout, a bus stop allows the car to stop. There is just one road who go to Villarrica and the road 5.","date":"2016-05-07","rating":5}],"destLat":-39.2764,"destLon":-72.2297},{"id":78,"lat":-22.4925,"lon":-68.9256,"rating":5,"reviews":3,"wait":23,"signal":null,"lastUsed":"2015-08-17","comments":[{"text":"A driver from the center of Calama drop me here for the direction of Antofagasta. I waited less than 5 min before I got a lift directly for there.","date":"2015-08-17","rating":5},{"text":"if you go there early in the morning, just after sunset, there will be trucks who stayed there for the night. You can talk to them when they wake up and get a long ride.","date":"2013-01-16","rating":5},{"text":"Giratory crossing, lots of place to pull out and only exit for antofogasta.","date":"2011-04-24","rating":5}],"destLat":null,"destLon":null},{"id":9,"lat":-42.9209,"lon":-72.7025,"rating":5,"reviews":2,"wait":6,"signal":"sign","lastUsed":"2026-01-12","comments":[{"text":"Lots of cars passing by that need to decelerate due to a speed bump. Overall a very good spot (recommended by a local saleswoman","date":"2024-01-12","rating":5}],"destLat":-43.4087,"destLon":-72.3672},{"id":65,"lat":-39.2721,"lon":-72.2306,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-07-27","comments":[{"text":"A hh spot to Temuco or wherever north.  TThere is a bus stop.","date":"2016-07-27","rating":5}],"destLat":null,"destLon":null},{"id":69,"lat":-39.2756,"lon":-72.2295,"rating":5,"reviews":2,"wait":20,"signal":null,"lastUsed":"2016-05-07","comments":[{"text":"At the exit of the town of Villarrica and before the bridge, cars are not going fat and it's easy for them to stop at the bus stop.","date":"2016-05-07","rating":5}],"destLat":null,"destLon":null},{"id":82,"lat":-41.7394,"lon":-72.6475,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-05-23","comments":[{"text":"On april I hitchhiked here and was so easy!","date":"2015-05-23","rating":5},{"text":"Bem na saída do ferry pedi carona e o primeiro carro que passou me levou até Chaitén. Foi um dia inteiro de viagem e foi muito legal!\n\nEn la salida del ferry hice dedo y el primer auto que pasó me llevó hasta Chaitén! Fue genial!\n\nInto the ferry's exit, I hitchhiked for the cars coming down the boat and the first one that was coming stopped. It was extremely easy!","date":"2015-05-23","rating":5}],"destLat":null,"destLon":null},{"id":84,"lat":-42.4622,"lon":-73.7685,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-05-21","comments":[{"text":"En las afueras de la ciudad hay lugares con banquinas para los autos estacionar","date":"2015-05-21","rating":5}],"destLat":null,"destLon":null},{"id":85,"lat":-41.208,"lon":-72.5382,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-05-21","comments":[{"text":"Cruce de caminos , para un lado Saltos del Petrohue , para el otro Volcan de Osorno , se puede ir en ambas direcciones y para volver a Puerto Varas","date":"2015-05-21","rating":5}],"destLat":null,"destLon":null},{"id":87,"lat":-36.6274,"lon":-72.1698,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-05-21","comments":[{"text":"Cerca de este lugar hay un control de Carabineros , los autos van mas despacio y tienen lugar para frenar","date":"2015-05-21","rating":5}],"destLat":null,"destLon":null},{"id":92,"lat":-34.4045,"lon":-71.6162,"rating":5,"reviews":2,"wait":20,"signal":null,"lastUsed":"2015-03-01","comments":[{"text":"Easy going to Pichilemu or Santa Cruz.","date":"2015-03-01","rating":5}],"destLat":null,"destLon":null},{"id":94,"lat":-38.9159,"lon":-72.6244,"rating":5,"reviews":2,"wait":20,"signal":null,"lastUsed":"2015-03-01","comments":[{"text":"Peaje station, easily reached from the city center by a bus going to Freire.","date":"2015-03-01","rating":5}],"destLat":null,"destLon":null},{"id":95,"lat":-36.6315,"lon":-72.0832,"rating":5,"reviews":2,"wait":15,"signal":null,"lastUsed":"2015-03-01","comments":[{"text":"A place at the beginning of the road going to Termas de Chillan. All cars that way pass by here. There is a bridge 100 m down the road so cars have to slow down here. There is also a bus station, and a supermarket, empanaderia across the street.","date":"2015-03-01","rating":5}],"destLat":null,"destLon":null},{"id":96,"lat":-40.5833,"lon":-73.0942,"rating":5,"reviews":2,"wait":15,"signal":null,"lastUsed":"2015-03-01","comments":[{"text":"Major point of traffic confluence going east to the border. Waited here because on the bridge there was a speed limit.","date":"2015-03-01","rating":5}],"destLat":null,"destLon":null},{"id":98,"lat":-40.7349,"lon":-72.3086,"rating":5,"reviews":2,"wait":5,"signal":null,"lastUsed":"2015-03-01","comments":[{"text":"Waited 5 minutes to get a ride to the main road again, and then on to the border.","date":"2015-03-01","rating":5}],"destLat":null,"destLon":null},{"id":106,"lat":-23.5412,"lon":-70.3923,"rating":5,"reviews":2,"wait":5,"signal":null,"lastUsed":"2014-06-30","comments":[{"text":"Spot for hitching north towards Tocopilla, Iquique. Take bus 102, 103, 112, 114, 129 that go to La Chimba. If someone offers you a lift to Mejillones go for it and get off at peaje a few miles before the exit.","date":"2014-06-30","rating":5}],"destLat":null,"destLon":null},{"id":110,"lat":-33.3639,"lon":-70.7011,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-01-30","comments":[{"text":"I think here is another option to get out of Santiago. Go to central bus station and take really cheap bus to Llaillay there is another peage post with less cars. There is more quiet and easier to catch a ride.","date":"2014-01-30","rating":5},{"text":"If you are traveling South outside of Santiago on Rout 5 (Pan American Highway) this is a perfect place as this is the entrance of the city. And it is very easy to get there - you just have to take mentro to Vespucio Norte, cross the big road and take the bus 305 (or better ask also at the bus driver if he is going there), take off before the huge intersection (aprox 7 minutes of the ride) and walk some 5 minutes to the spot. There is also a troll station, so the cars go slowly. It is really eas","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":116,"lat":-33.4423,"lon":-70.7918,"rating":5,"reviews":2,"wait":30,"signal":null,"lastUsed":"2013-10-21","comments":[{"text":"West towards Valparaiso, Viña del Mar. Petrobras service station. You can get here by bus J12 from Pajaritos metro station. Get off at Pasarela Pedro Jorquera. Walk a few hundred metres west along the motorway.","date":"2013-10-21","rating":5}],"destLat":null,"destLon":null},{"id":117,"lat":-51.2589,"lon":-72.3472,"rating":5,"reviews":2,"wait":30,"signal":null,"lastUsed":"2013-03-12","comments":[{"text":"good place, a few steps away from chilean border control (eat all your veggies, fruit, honey, meat, cheese, beans etc beforehand, they are very strict and confiscate everything they find). There is a really overpriced shop and restaurant with good toilets. Not so much traffic towards Torres del Paine, mostly buses.","date":"2013-03-12","rating":5}],"destLat":null,"destLon":null},{"id":118,"lat":-26.3639,"lon":-70.507,"rating":5,"reviews":2,"wait":60,"signal":null,"lastUsed":"2013-01-16","comments":[{"text":"A good spot for going south. there is a posada, truck rest stop, good camping spots if you have to stay the night. In about 90 minutes I refused two rides to Chanaral and Caldera and finally got a ride all the way to Santiago in a truck.","date":"2013-01-16","rating":5}],"destLat":null,"destLon":null},{"id":122,"lat":-32.9218,"lon":-71.5056,"rating":5,"reviews":2,"wait":10,"signal":null,"lastUsed":"2012-08-24","comments":[{"text":"С табличкой \"Qillota\" меня подобрали через 10 минут.","date":"2012-08-24","rating":5},{"text":"Выезд на трассу 5 (на север).\nВозле кольца есть остановка. Возле неё можно отлично стопить.","date":"2012-08-24","rating":5}],"destLat":null,"destLon":null},{"id":124,"lat":-41.4658,"lon":-72.9837,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-05-26","comments":[{"text":"If you're going to chiloe, here is a tool station. lots of trucks going suth is the only way.","date":"2012-05-26","rating":5}],"destLat":null,"destLon":null},{"id":126,"lat":-33.4715,"lon":-70.6564,"rating":5,"reviews":2,"wait":60,"signal":null,"lastUsed":"2011-04-24","comments":[{"text":"There is a Copec gas station here. We stayed here with a sign saying \"El sur\" and after one hour someone driving to Rancagua (70km south of Santiago) dropped us on another copec station on the highway number 5.","date":"2011-04-24","rating":5}],"destLat":null,"destLon":null},{"id":129,"lat":-19.9615,"lon":-70.0801,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Panamericana road across Atacama desert is the best hitch hiking place for me. Not too many cars, but truck drivers pick you easily and drive veeery long distances :)","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":130,"lat":-41.3357,"lon":-72.9914,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"The micros to Puerto Montt can take you here for 300 CLP. Just tell the driver to drop you at the entrance to Ruta 5.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":132,"lat":-23.6974,"lon":-70.4204,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"not exactly that spot but around here is great cuz everyone is driving to the mines so lots of people pass","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":133,"lat":-23.7755,"lon":-70.3168,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"going towards antofagasta ..lots of people who work in the mines. lots of hitchhikers around here too..i was in a queue of like 4..","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":134,"lat":-23.1812,"lon":-69.6336,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"should be a gas station here altho it doesn't show on the map. lotsa people passing","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":135,"lat":-27.064,"lon":-70.8081,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"took no more than 5 min to get a lift :)","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":136,"lat":-36.5831,"lon":-72.1023,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"to get into chillan i hitched at the toll place at night and didn`t take more than 5 min","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":137,"lat":-36.6256,"lon":-72.1599,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"used this to get out from chillan. this place was really bad..no one can stop here and also lots of construction around. but there is a gas station not too far south from here..if u can get a lift to there or walk there it's the best. or try another exit from chillan..this one isn`t the best","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":139,"lat":-36.7555,"lon":-73.0005,"rating":5,"reviews":2,"wait":10,"signal":null,"lastUsed":null,"comments":[{"text":"walk a bit up the ramp since the cars are fast at the beginning.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":140,"lat":-51.6047,"lon":-72.3331,"rating":5,"reviews":2,"wait":30,"signal":null,"lastUsed":null,"comments":[{"text":"Border station Dorotea between Argentina and Chile - straightforward treatment and a good occasion to hitch a ride into Argentina, at least to Rio Turbio where you can hitch on.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":1,"lat":-34.3962,"lon":-72.0193,"rating":5,"reviews":1,"wait":1,"signal":null,"lastUsed":"2026-01-30","comments":[{"text":"Hitched from the busstation. Second car got us and gave us also a rideby to the famouse surfspot nearby.","date":"2026-01-30","rating":5}],"destLat":-34.4652,"destLon":-72.0232},{"id":10,"lat":-41.8032,"lon":-72.7195,"rating":5,"reviews":1,"wait":5,"signal":"sign","lastUsed":"2026-01-12","comments":[],"destLat":-41.9641,"destLon":-72.4679},{"id":11,"lat":-41.475,"lon":-72.9212,"rating":5,"reviews":1,"wait":3,"signal":"sign","lastUsed":"2026-01-12","comments":[{"text":"Cars can pull over in the bus stop. There is a lot of cars, and we were picked up in just 3 minutes","date":"2026-01-12","rating":5}],"destLat":-41.8038,"destLon":-72.7195},{"id":17,"lat":-18.5038,"lon":-70.2815,"rating":5,"reviews":1,"wait":60,"signal":"ask","lastUsed":"2025-04-25","comments":[{"text":"This is a truck depot for agricultural goods, all heading to Iquique. Great spot to ask around.","date":"2025-04-25","rating":5}],"destLat":-20.2277,"destLon":-70.1307},{"id":18,"lat":-22.4678,"lon":-68.9011,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-04-04","comments":[{"text":"Many cars going to S P de Atacama. Bus stop to protect from sun","date":"2025-04-04","rating":5}],"destLat":-22.9163,"destLon":-68.2024},{"id":27,"lat":-32.8778,"lon":-70.678,"rating":5,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2024-11-11","comments":[{"text":"much local traffic, easy to get to the next highway","date":"2024-11-11","rating":5}],"destLat":-32.8445,"destLon":-70.9868},{"id":28,"lat":-37.3528,"lon":-72.3702,"rating":5,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2024-09-08","comments":[{"text":"Good long distance spot to go north, enough space even for trucks to stop.","date":"2024-09-08","rating":5}],"destLat":-35.8546,"destLon":-71.6287},{"id":32,"lat":-39.7729,"lon":-73.2194,"rating":5,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2024-09-01","comments":[{"text":"Good spot. Only got short distance though.","date":"2024-09-01","rating":5}],"destLat":-39.7347,"destLon":-73.1296},{"id":33,"lat":-29.8865,"lon":-71.2544,"rating":5,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2024-08-29","comments":[{"text":"It's a spot described on hitchwiki. There is a place for cars to stop. Cars don't go super fast yet. Lot of cars turn left couple of km further to the beach. Though all traffic North goes through here. Road works still here. \r\nVery good spot.","date":"2024-08-29","rating":5}],"destLat":-29.6977,"destLon":-71.3073},{"id":34,"lat":-39.5422,"lon":-72.9629,"rating":5,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2024-08-28","comments":[{"text":"Perfect for going to Valdivia.","date":"2024-08-28","rating":5}],"destLat":-39.8113,"destLon":-73.2472},{"id":35,"lat":-39.5183,"lon":-72.8262,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2024-08-28","comments":[{"text":"Perfect. Lots of slow cars.","date":"2024-08-28","rating":5}],"destLat":-39.5398,"destLon":-72.9621},{"id":37,"lat":-39.2735,"lon":-72.2401,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2024-08-27","comments":[{"text":"Perfect for going south on 5 towards Valdivia.","date":"2024-08-27","rating":5}],"destLat":-39.3617,"destLon":-72.616},{"id":41,"lat":-37.5474,"lon":-72.3086,"rating":5,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2024-08-25","comments":[],"destLat":-38.2324,"destLon":-72.3517},{"id":44,"lat":-30.7107,"lon":-71.4908,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2024-08-21","comments":[{"text":"Cars from route 5 are very fast, but slow from the other direction. Good spot for us!","date":"2024-08-21","rating":5}],"destLat":-33.4475,"destLon":-70.6549},{"id":50,"lat":-25.4157,"lon":-70.4739,"rating":5,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2024-08-18","comments":[],"destLat":-25.738,"destLon":-70.3654},{"id":52,"lat":-27.1308,"lon":-70.8019,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2024-08-18","comments":[],"destLat":-27.3769,"destLon":-70.3365},{"id":53,"lat":-27.3403,"lon":-70.6066,"rating":5,"reviews":1,"wait":10,"signal":"ask","lastUsed":"2024-07-21","comments":[{"text":"Big gas station. Almost trucks stop here. Open 24 hours.","date":"2024-07-21","rating":5}],"destLat":-27.3403,"destLon":-70.6066},{"id":57,"lat":-44.469,"lon":-72.5437,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2024-01-12","comments":[{"text":"If you want to get back to Puyuhuapi without having to wait, ask some tourists in the parking lot to take you with them. We’ve experienced that nearly no tourists in the area stop for you on the road but are happy to take you with when asked nicely (easiest to make some friends along the trial)","date":"2024-01-12","rating":5}],"destLat":-44.3324,"destLon":-72.5539},{"id":60,"lat":-42.9137,"lon":-72.7124,"rating":5,"reviews":1,"wait":7,"signal":null,"lastUsed":"2024-01-12","comments":[{"text":"good spot for passing cars to stop, moderate amout of traffic","date":"2024-01-12","rating":5}],"destLat":-42.8515,"destLon":-72.7948},{"id":61,"lat":-36.8173,"lon":-72.9878,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2023-05-03","comments":[{"text":"Good for good for go to South","date":"2023-05-03","rating":5}],"destLat":-36.8173,"destLon":-72.9878},{"id":62,"lat":-33.1304,"lon":-71.5624,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2023-05-03","comments":[{"text":"Hitchhiked here few times. Always got a ride for 10 minutes maximum. From Viña and Achupayllas take a bus 406.","date":"2023-05-03","rating":5}],"destLat":-33.1304,"destLon":-71.5624},{"id":91,"lat":-53.3518,"lon":-69.2574,"rating":5,"reviews":1,"wait":165,"signal":null,"lastUsed":"2015-03-05","comments":[{"text":"Good place, most traffic to argentina passes by here. End of season time is longer as traffic is reduced. The day you see the pinguins you can sleep at the camp, and go in the morning hitchhike.","date":"2015-03-05","rating":5}],"destLat":null,"destLon":null},{"id":23,"lat":-33.0531,"lon":-71.6012,"rating":4.75,"reviews":4,"wait":40,"signal":"thumb","lastUsed":"2024-11-11","comments":[{"text":"Many cars going by. Maybe was just unlucky but took a bit for me to find a ride. Still good spot","date":"2024-11-11","rating":4},{"text":"its true!!! Best hitching spot in the damn world. In the dark, in the rain, still always <5 min. Cars all go straight to Santiago, highway curves here at the Copec station so everyone sees you.","date":"2015-11-25","rating":5},{"text":"Doesn't get any better than this.  The highway starts here so every car is taking it.  But it's still walking distance from the city center.  I got a ride in less than five minutes- best hitchhiking spot I've ever seen in the world.","date":"2014-06-30","rating":5},{"text":"South or southeast towards Santiago or Rancagua. Copec petrol station at the entrance to the motorway. The spot is in a walking distance from the bus terminal and you can get there by many micros (mini buses) from the historic part of Valparaiso.","date":"2013-10-25","rating":5}],"destLat":-33.4542,"destLon":-70.6924},{"id":21,"lat":-51.7191,"lon":-72.5063,"rating":4.33,"reviews":3,"wait":47,"signal":"thumb","lastUsed":"2025-01-16","comments":[{"text":"Es lugar para ir al parque \"Torres del Paine\".\nIt is place to go to park \"Torres del Paine\".\nМесто для отправления в парк \"Torres del Paine\".","date":"2012-02-11","rating":4}],"destLat":null,"destLon":null},{"id":31,"lat":-22.9043,"lon":-68.2127,"rating":4.33,"reviews":3,"wait":43,"signal":"thumb","lastUsed":"2024-09-04","comments":[{"text":"Good spot. But I think you can stay just outside the city also.","date":"2024-09-04","rating":5},{"text":"Going to Calama, Spot at the crossroad a bit outside of town. Short wait regarding the few amont of car passing by. We had a ride for Calama and were heading to antofogasta","date":"2011-04-24","rating":4}],"destLat":-22.4712,"destLon":-68.8987},{"id":19,"lat":-45.5621,"lon":-72.0668,"rating":4,"reviews":3,"wait":45,"signal":"thumb","lastUsed":"2025-04-02","comments":[{"text":"Lots of local traffic, got a lift just put of town","date":"2025-04-02","rating":2},{"text":"Hardly had time to set my pack down before a car pulled over.","date":"2012-08-20","rating":5}],"destLat":-45.5085,"destLon":-72.1087},{"id":67,"lat":-27.3516,"lon":-70.3527,"rating":4,"reviews":3,"wait":30,"signal":null,"lastUsed":"2016-06-08","comments":[{"text":"I hitched on the roadside, after 30 minutes a car stopped taking me to Chanaral.","date":"2016-06-08","rating":4},{"text":"Yep, I think the best way to get out of here is to take a bus  to Caldera","date":"2014-01-30","rating":4},{"text":"hitched a bus going to caldera here..driver didn`t want any money..was great :)","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":63,"lat":-22.9138,"lon":-68.1919,"rating":4,"reviews":2,"wait":105,"signal":null,"lastUsed":"2017-03-23","comments":[{"text":"waited there 3 hours, but the spot is good, it is just there is no traffic.  I 3 hours 2 full cars passed by and the I got picked up by an argentinian truck going to Jujuj.","date":"2017-03-23","rating":4},{"text":"I didn't tried HH here, but I saw many trucks from Paraguay here stoping to check everything before starting to climb over pass. I'm sure You can catch realy long ride here.","date":"2014-01-06","rating":4}],"destLat":null,"destLon":null},{"id":64,"lat":-53.1139,"lon":-70.8799,"rating":4,"reviews":2,"wait":70,"signal":null,"lastUsed":"2017-03-23","comments":[{"text":"Hitched many times from this spot. If you go to Puerto Natales, wait for a direct ride._ because if not, it is not fun to stay in the middile of the pampa where the wind is very strong and cars go fast.","date":"2017-03-23","rating":4},{"text":"Take a Collectivo 15 to Tres Puentes (any cab with Tres Puentes or Zona Franca), the port (it costs 450 Pesos, less than a USD or Euro).\n\nThen walk on the Ruta 9. It's by far not the best spot, but after a while you will manage to get a car to the police post or even to the bigger West/East road split. \n\nYou might pay the Collectivo Taxi driver a bit more (like 1000 Pesos) to get you further. Tres Puentes is the last stop of the taxi, so it shouldn't be a big deal.\n\nThere's plenty of place to st","date":"2016-03-24","rating":4}],"destLat":null,"destLon":null},{"id":70,"lat":-32.8355,"lon":-70.5462,"rating":4,"reviews":2,"wait":29,"signal":null,"lastUsed":"2016-04-07","comments":[{"text":"All manner of Argentine vehicles moving through the road. Got a lift all the way to Cordoba by one very friendly truck driver. Thumb out ahead of the clearing at the traffic lights - if they're eager, they'll park up whilst slowing down anyway.","date":"2016-04-07","rating":4},{"text":"The red light at the railroad forces all cars and trucks to stop, which makes it easy to talk to them. Unfortunately, we waited for 1h and we only got a ride to Rio Blanco instead of Mendoza.\nEl semáforo de la vía ferrea para a todos los autos, y es facil hablar con los conductores. Lamentablemente, esperamos 1h antes de que un van nos tomó hasta Rio Blanco.","date":"2014-10-29","rating":4}],"destLat":null,"destLon":null},{"id":74,"lat":-40.5865,"lon":-73.0873,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-03-03","comments":[{"text":"Por esta ruta van mucho hacia la frontera con Argentina, recomendable!","date":"2016-03-03","rating":4},{"text":"close to the university..but get past it and then all traffic will go east :)","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":77,"lat":-33.3109,"lon":-70.7023,"rating":4,"reviews":2,"wait":33,"signal":null,"lastUsed":"2015-09-17","comments":[{"text":"se pueden acercar  tomando un metro hacia vespucio norte , despues tomar de ahi un bus b05 que se va por el mall buenaventura y pedir de bajar a la parada mas cercana al peaje, despues tienen que caminar como unos 2 km hacia el peaje. con tarjeta bit metro mas bus salen como 700 pesos. ;)\nsi quieren ir por argentina es mas facil bajar a los andes y ponerse cerca la aduana de camionero  y seguir por argentina..","date":"2015-09-17","rating":4},{"text":"Al peaje, es muy fácil tomar un auto hasta Colina o Los Andes, Esperamos 5 minutos.","date":"2014-10-29","rating":4}],"destLat":null,"destLon":null},{"id":79,"lat":-32.769,"lon":-71.1912,"rating":4,"reviews":2,"wait":12,"signal":null,"lastUsed":"2015-08-08","comments":[{"text":"Increíble, menos de 5 minutos en el peaje y paró un camión que nos llevó hasta Iquique.","date":"2015-08-08","rating":4},{"text":"HH-place to the north.","date":"2012-08-24","rating":4}],"destLat":null,"destLon":null},{"id":83,"lat":-41.8351,"lon":-73.5305,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-05-23","comments":[{"text":"Esperé no más que 10 minutos acá haciendo dedo","date":"2015-05-23","rating":4},{"text":"Un lugar dificil para hacer dedo pero todos los autos pasan por aca","date":"2015-05-21","rating":4}],"destLat":null,"destLon":null},{"id":86,"lat":-41.3278,"lon":-72.9623,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-05-21","comments":[{"text":"Camino hacia los saltos del petrohue y el volcan osorno , una ruta sin banquina pero el trafico es poco , permitiendo parar autos","date":"2015-05-21","rating":4}],"destLat":null,"destLon":null},{"id":88,"lat":-34.6088,"lon":-70.986,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-05-21","comments":[{"text":"Un poco lejos del terminal de trenes , pero al llegar ahi caminando ( 20 minutos ) hay naquina para que frenen los autos","date":"2015-05-21","rating":4}],"destLat":null,"destLon":null},{"id":102,"lat":-51.7193,"lon":-72.5048,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-11-25","comments":[{"text":"Otimo lugar para ir para El Calafate","date":"2014-11-25","rating":4}],"destLat":null,"destLon":null},{"id":109,"lat":-22.4397,"lon":-68.8833,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-01-30","comments":[{"text":"For those who will decide to take this road heading to Bolivia. Amazing landscapes !! But be ready for a long waiting hours. Almost no cars, but it's worth it, believe me :)","date":"2014-01-30","rating":4}],"destLat":null,"destLon":null},{"id":112,"lat":-41.4537,"lon":-72.9545,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-01-30","comments":[{"text":"After rotonda, you need to find the best place to hh. Here is a lot of space. Direction North.","date":"2014-01-30","rating":4}],"destLat":null,"destLon":null},{"id":113,"lat":-41.4648,"lon":-72.9806,"rating":4,"reviews":2,"wait":5,"signal":null,"lastUsed":"2013-12-31","comments":[{"text":"good spot on the way to chiloe","date":"2013-12-31","rating":4}],"destLat":null,"destLon":null},{"id":114,"lat":-33.0359,"lon":-71.5267,"rating":4,"reviews":2,"wait":33,"signal":null,"lastUsed":"2013-10-25","comments":[{"text":"All directions, either south to Santiago, north to La Serena or east towards Mendoza in Argentina. Emergency lane at the entrance to the motorway. You can get nearby by micros (mini buses) from Valparaiso or Viña del Mar. Ask for the ones going to Quilpue as they all pass near Jumbo Hipermarket in Viña. Get off near Puente Lusitania, cross the bridge and turn east. Another option is metro to the station Chorillos (electronic card needed, no single tickets).","date":"2013-10-25","rating":4}],"destLat":null,"destLon":null},{"id":115,"lat":-29.9101,"lon":-71.2591,"rating":4,"reviews":2,"wait":100,"signal":null,"lastUsed":"2013-10-25","comments":[{"text":"South towards Santiago, Valparaiso. Emergency lane after a junction with traffic lights. The spot is in a walking distance from the centre of the city just near the bus station. There is also a Copec petrol station a few hundred metres from the spot.","date":"2013-10-25","rating":4}],"destLat":null,"destLon":null},{"id":119,"lat":-18.5058,"lon":-70.2824,"rating":4,"reviews":2,"wait":120,"signal":null,"lastUsed":"2013-01-16","comments":[{"text":"good spot, just out of town, take any micro to AGRO. I waited for about two hours to get a ride to Calama.","date":"2013-01-16","rating":4}],"destLat":null,"destLon":null},{"id":121,"lat":-30.0424,"lon":-70.7233,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-11","comments":[{"text":"Easy way to go La Serena.","date":"2012-09-11","rating":4}],"destLat":null,"destLon":null},{"id":131,"lat":-22.4332,"lon":-68.9159,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"A Petrolstation where you can hitch hike out of Calama in the direction on the A 24 to A 5","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":141,"lat":-51.5444,"lon":-72.2356,"rating":4,"reviews":2,"wait":60,"signal":null,"lastUsed":null,"comments":[{"text":"A good spot to get to the coast. If you're looking for adventure, go south. If you're looking to get to the coast within reasonable time, go north. Got a ride north after waiting around half an hour.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":2,"lat":-46.899,"lon":-72.7821,"rating":4,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2026-01-12","comments":[],"destLat":-46.5408,"destLon":-71.7243},{"id":3,"lat":-47.2503,"lon":-72.5822,"rating":4,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2026-01-12","comments":[{"text":"Not a lot of cars. But we were picked up pretty quickly","date":"2026-01-12","rating":4}],"destLat":-46.9006,"destLon":-72.7824},{"id":6,"lat":-44.9761,"lon":-72.1638,"rating":4,"reviews":1,"wait":30,"signal":"sign","lastUsed":"2026-01-12","comments":[{"text":"The cars are driving fast, but they are able to see you from far away. Our sign was probably a big help here. \r\nCars can pull over in the bus lane","date":"2026-01-12","rating":4}],"destLat":-45.5753,"destLon":-72.0764},{"id":20,"lat":-46.1194,"lon":-72.1606,"rating":4,"reviews":1,"wait":45,"signal":"thumb","lastUsed":"2025-04-02","comments":[{"text":"Got a lift back after the cerro castillo day hike. Not much traffic but enough people/tourists going back to coyhaique to easily get a lift","date":"2025-04-02","rating":4}],"destLat":-45.5845,"destLon":-72.0748},{"id":24,"lat":-32.9026,"lon":-71.2524,"rating":4,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2024-11-11","comments":[{"text":"not super good for stopping","date":"2024-11-11","rating":4}],"destLat":-33.0342,"destLon":-71.5313},{"id":29,"lat":-23.5934,"lon":-70.2589,"rating":4,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2024-09-04","comments":[{"text":"When I was there the were some road works, so there was only one line and slow traffic.\r\nBut it's not bad spot - there is a place to stop for cars and you are visible.","date":"2024-09-04","rating":4}],"destLat":-22.5468,"destLon":-68.9145},{"id":43,"lat":-33.737,"lon":-70.7358,"rating":4,"reviews":1,"wait":40,"signal":"thumb","lastUsed":"2024-08-24","comments":[{"text":"Going south: Wait directly next to the motorway. There is a lot of space to stop, busses pick up people here although its not an official stop. Trucks will stop as well. Good for long distance. \r\nWell reachable from santiago main station for ~3$.","date":"2024-08-24","rating":4}],"destLat":-37.1731,"destLon":-72.393},{"id":48,"lat":-23.6108,"lon":-70.262,"rating":4,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2024-08-18","comments":[{"text":"Mostly working drivers, few private cars.","date":"2024-08-18","rating":4}],"destLat":-24.058,"destLon":-70.2668},{"id":54,"lat":-46.4411,"lon":-72.7104,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2024-01-27","comments":[{"text":"Quite some cars passing by","date":"2024-01-27","rating":4}],"destLat":-46.6261,"destLon":-72.6738},{"id":72,"lat":-33.3145,"lon":-70.7041,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2016-04-06","comments":[],"destLat":null,"destLon":null},{"id":80,"lat":-36.7579,"lon":-73.0113,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-07-01","comments":[{"text":"Pueden hacer darse a este peaje tomando varios buses urbano que van \nPor penco, tienen muchas frecuencia y salen como 440 pesos chilenos 30-6-15 se bajan en la ultima garita antes de la rotonda y luego camina. Como 1,5 km hacia el peaje ;)\nSuerte!\nRoberto","date":"2015-07-01","rating":4}],"destLat":null,"destLon":null},{"id":81,"lat":-18.385,"lon":-70.3003,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-06-12","comments":[],"destLat":null,"destLon":null},{"id":89,"lat":-18.3969,"lon":-70.2978,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-04-28","comments":[],"destLat":null,"destLon":null},{"id":90,"lat":-20.2213,"lon":-70.1318,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-04-28","comments":[],"destLat":null,"destLon":null},{"id":107,"lat":-53.2992,"lon":-70.3651,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2014-02-24","comments":[],"destLat":null,"destLon":null},{"id":13,"lat":-41.8801,"lon":-73.7961,"rating":3.75,"reviews":4,"wait":18,"signal":"sign","lastUsed":"2025-12-13","comments":[{"text":"buen sitio pero lamentablemente cogi un viaje que no me llevo lejos","date":"2025-12-13","rating":4},{"text":"Good spot on the way south. Enough space on the side of the road and all cars pass here","date":"2024-10-07","rating":5},{"text":"No es buen lugar , pero todos los autos deben pasar por aca","date":"2015-05-21","rating":3}],"destLat":-42.0636,"destLon":-73.8073},{"id":7,"lat":-44.3295,"lon":-72.5557,"rating":3.67,"reviews":3,"wait":96,"signal":"thumb","lastUsed":"2026-01-12","comments":[{"text":"There was a police check when we were here. The police was nice and asked the cars they stopped if they could take us to Coyhaique. \r\nEveryone said no, and the cars they didn't stop did not want to stop next to the police.\r\nWe walked 300 down the road and was picked up in 10 minutes","date":"2026-01-12","rating":4},{"text":"A lot of cars going to the hanging glacier.","date":"2026-01-12","rating":5},{"text":"Lots of tourists passing by but no one stops :( (although we’re two girls)\r\nIn the end, we got the park but it took a long time","date":"2024-01-12","rating":2}],"destLat":-44.6557,"destLon":-72.4267},{"id":15,"lat":-52.3986,"lon":-69.7572,"rating":3,"reviews":4,"wait":35,"signal":null,"lastUsed":"2025-07-09","comments":[{"text":"Luckily I just passed through with a ride I already had, but it could be a bad place to get stuck overnight in the winter, with sub-freezing temperatures and no public facilities (there are a few houses nearby, in an emergency). Remember that if you're headed south, both the ferry and the later border crossings close later at night (9 or 10).","date":"2025-07-09","rating":3},{"text":"Good spot south... got lucky because the very was closed earlier so there was a long line of cars waiting to cross. I just started walking and got picked up half an our later","date":"2017-10-10","rating":3},{"text":"Worked for me great to get South. I waited a bit longer, spotting only Argentinian cars since I had to go to Ushuaia. Be selective if you want to go on long rides. I do not recommend getting on a truck here...some km after the ferry port you will hit 100 km gravel road on the Chilean side of Tierra del Fuego, basically until the border in San Sebastian. So you would go with something like 20/30 km/h. Cars drive something like 60, sometimes 80, if you get a crazy driver.","date":"2016-03-24","rating":3},{"text":"supposedly good place to hitchhike toward Rio Gallego or El Turbio/Punta Arenas/ Tierra del Fuego. At the time, ferries were not running due to bad sea conditions, so there was few slow speed cars.","date":"2016-02-10","rating":3}],"destLat":null,"destLon":null},{"id":5,"lat":-46.6267,"lon":-72.6719,"rating":3,"reviews":2,"wait":25,"signal":"thumb","lastUsed":"2026-01-12","comments":[{"text":"We were 7 people trying to get out of time. The girl that had waited the long had waited for more than 3 hours.\r\nWe spread out a couple hundred meters from eachother. Luckily we were picked up first by a car that passed some of the others.","date":"2026-01-12","rating":3},{"text":"We got lucky. Another couple we’ve met waited for over three hours and then gave up.","date":"2024-01-27","rating":3}],"destLat":-46.9008,"destLon":-72.7826},{"id":73,"lat":-51.7136,"lon":-72.4813,"rating":3,"reviews":2,"wait":60,"signal":null,"lastUsed":"2016-03-24","comments":[{"text":"Not so bad - but probably better than the big crossing into the city. 1 hour.","date":"2016-03-24","rating":3}],"destLat":null,"destLon":null},{"id":93,"lat":-35.4343,"lon":-71.6381,"rating":3,"reviews":2,"wait":45,"signal":null,"lastUsed":"2015-03-01","comments":[{"text":"Easy to get to from the city center as opposed to the south exit. The northern exit is also easy to get to, just ask around for busses.\nThere is a steep roadside where you can put your backpack and it is in the shade during the afternoon. A panaderia is on this side of the road.\nThe acceleration lane could be a place where cars can stop to pick you up, trucks probably not.\nWorth to try in order to get outside of the city.","date":"2015-03-01","rating":3}],"destLat":null,"destLon":null},{"id":97,"lat":-40.7074,"lon":-72.3274,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-03-01","comments":[{"text":"1 hour to get a ride to the next camping site, about 15 km further on. \nGenerally a road, where compared to the rest of Chile, it was more difficult to get a ride.\nChileans were most of the times on vacation here and full, argentinians didn't stop once...","date":"2015-03-01","rating":3}],"destLat":null,"destLon":null},{"id":99,"lat":-45.7859,"lon":-71.9328,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-02-02","comments":[{"text":"lived outside of town. hit and miss with hitching.","date":"2015-02-02","rating":3}],"destLat":null,"destLon":null},{"id":101,"lat":-33.3658,"lon":-70.6888,"rating":3,"reviews":2,"wait":76,"signal":null,"lastUsed":"2014-12-18","comments":[{"text":"el b18 no te deja  justo en el peaje... , tienes que caminar bastante y no estan lugares buenos hacia el peaje mismo ... el peaje esta mas o meno en  la altura de cerro pan de azucar...","date":"2014-12-18","rating":3},{"text":"Toma el metro linea 2 hasta Vespucio Norte, luego bus B18 que te deja justo en la entrada a la autopista. Desde alla ya sigues hacia Los Andes y Argentina. Suerte!","date":"2013-05-23","rating":3}],"destLat":null,"destLon":null},{"id":104,"lat":-33.2386,"lon":-70.6968,"rating":3,"reviews":2,"wait":60,"signal":null,"lastUsed":"2014-10-29","comments":[{"text":"At the entrance of the highway, towards Los Andes and Argentina, we waited for about an hour before we got picked up. \nA la entrada de la autopista, dirección Los Andes y Argentina, esperamos una hora.","date":"2014-10-29","rating":3}],"destLat":null,"destLon":null},{"id":105,"lat":-33.4301,"lon":-70.6921,"rating":3,"reviews":2,"wait":30,"signal":null,"lastUsed":"2014-06-30","comments":[{"text":"I hitched from here simply because it was close to my host.  There is not a lot of space to pull over safely so this spot would not be good during heavy traffic.","date":"2014-06-30","rating":3}],"destLat":null,"destLon":null},{"id":108,"lat":-21.2119,"lon":-68.2285,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-01-30","comments":[{"text":"Hard to find a ride. Here is one bus per day going both directions.","date":"2014-01-30","rating":3}],"destLat":null,"destLon":null},{"id":111,"lat":-41.3167,"lon":-73.0096,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-01-30","comments":[{"text":"Northern exit of Puerto Varas is better than Southern.","date":"2014-01-30","rating":3}],"destLat":null,"destLon":null},{"id":120,"lat":-45.3979,"lon":-72.4917,"rating":3,"reviews":2,"wait":105,"signal":null,"lastUsed":"2012-11-20","comments":[{"text":"HH-place to go to the north with bus-stop with the roof.\n\nUn lugar con refugio para ir al norte.","date":"2012-11-20","rating":3}],"destLat":null,"destLon":null},{"id":128,"lat":-18.5265,"lon":-70.2435,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2010-12-05","comments":[{"text":"tentei a noite inteira e eu tive que dormir num posto de gasolina. mas na manha seguinte, rapidamente peguei carona em um caminhão. estava acompanhado de um amigo.","date":"2010-12-05","rating":3}],"destLat":null,"destLon":null},{"id":142,"lat":-51.7203,"lon":-72.5059,"rating":3,"reviews":2,"wait":75,"signal":null,"lastUsed":null,"comments":[{"text":"not a whole lot of traffic, but I got a lift to the Argentine border from there after about half an hour","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":4,"lat":-46.9002,"lon":-72.7828,"rating":3,"reviews":1,"wait":40,"signal":"thumb","lastUsed":"2026-01-12","comments":[{"text":"Not a lot of south going traffic.\r\nWe were picked up by a big truck that had already picked up 5 other hitchhikers","date":"2026-01-12","rating":3}],"destLat":-47.2496,"destLon":-72.5786},{"id":14,"lat":-39.8477,"lon":-73.1982,"rating":3,"reviews":1,"wait":40,"signal":"sign","lastUsed":"2025-12-12","comments":[{"text":"pasan muchos autos pero la mayoria no mira","date":"2025-12-12","rating":3}],"destLat":-40.0731,"destLon":-72.8742},{"id":16,"lat":-18.3212,"lon":-70.3129,"rating":3,"reviews":1,"wait":50,"signal":"thumb","lastUsed":"2025-07-06","comments":[{"text":"December 2024, 10:30 a.m., Some people are very nice in Chile, but maybe the stupid military is stressful. I would recommend walking 700m south so that you are out of sight of the stupid soldiers and can continue hitchhiking south without any problems.","date":"2025-07-06","rating":3}],"destLat":-18.453,"destLon":-70.2949},{"id":25,"lat":-32.7882,"lon":-71.1686,"rating":3,"reviews":1,"wait":60,"signal":"sign","lastUsed":"2024-11-11","comments":[{"text":"bit hard for cars to stop but many goong in the direction of Viña","date":"2024-11-11","rating":3}],"destLat":-32.9025,"destLon":-71.252},{"id":36,"lat":-39.3612,"lon":-72.641,"rating":3,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2024-08-28","comments":[{"text":"Not a very good spot. Only few slow cars on the route entrance and very fast cars on the highway.","date":"2024-08-28","rating":3}],"destLat":-39.5183,"destLon":-72.8268},{"id":40,"lat":-38.2391,"lon":-72.356,"rating":3,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2024-08-25","comments":[{"text":"Fast cars, not optimal, but theres a spot to stop at least.","date":"2024-08-25","rating":3}],"destLat":-38.7668,"destLon":-72.6092},{"id":42,"lat":-37.2395,"lon":-72.3673,"rating":3,"reviews":1,"wait":45,"signal":"thumb","lastUsed":"2024-08-24","comments":[{"text":"Fast cars, bit enough space to stop. Only got to Los Angeles from here.","date":"2024-08-24","rating":3}],"destLat":-37.4753,"destLon":-72.3518},{"id":45,"lat":-30.6498,"lon":-71.2412,"rating":3,"reviews":1,"wait":45,"signal":"thumb","lastUsed":"2024-08-21","comments":[{"text":"Fast cars but good spot to stop. Talk to the people in the small restaurant for better chances!","date":"2024-08-21","rating":3}],"destLat":-30.7083,"destLon":-71.4908},{"id":47,"lat":-30.1329,"lon":-71.23,"rating":3,"reviews":1,"wait":45,"signal":"thumb","lastUsed":"2024-08-21","comments":[{"text":"Good view, much space to stop, but mist cars and trucks are very fast.","date":"2024-08-21","rating":3}],"destLat":-30.6091,"destLon":-71.2158},{"id":49,"lat":-25.7233,"lon":-70.3654,"rating":3,"reviews":1,"wait":60,"signal":"thumb","lastUsed":"2024-08-18","comments":[{"text":"Took a while but then a long distance truck stopped for us. Cars are fast here...","date":"2024-08-18","rating":3}],"destLat":-27.1379,"destLon":-70.8026},{"id":56,"lat":-45.5848,"lon":-72.0788,"rating":3,"reviews":1,"wait":20,"signal":null,"lastUsed":"2024-01-27","comments":[{"text":"We were lucky since this street is only leading to the Carr. Austral. Probably better to place yourself there directly.","date":"2024-01-27","rating":3}],"destLat":-46.5931,"destLon":-72.5786},{"id":58,"lat":-43.4176,"lon":-72.3679,"rating":3,"reviews":1,"wait":50,"signal":null,"lastUsed":"2024-01-12","comments":[{"text":"good location (cars from ruta 7 aswell as from Santa Lucia), but many cars detour in direction of Futaleufu since there is a T-section right before\r\nBut if someone does stop there’s a good chance you’ll get far","date":"2024-01-12","rating":3}],"destLat":-44.3274,"destLon":-72.558},{"id":76,"lat":-30.0127,"lon":-71.3784,"rating":3,"reviews":1,"wait":360,"signal":null,"lastUsed":"2016-02-05","comments":[],"destLat":null,"destLon":null},{"id":66,"lat":-33.7335,"lon":-70.7348,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-06-12","comments":[{"text":"Buin is reached by the micro from La Cisterna Metro station for 1500CLP with blue micro, ask around for right direction, metro station has few exits. \n\nHowever Shell in Buin is inside the town so you get mostly local cars.  Yellow line you see is a shoulder road separated from autopista by fence and is a bit senseless. Driver point that they entering the town and very few leaves it to further south.","date":"2016-06-12","rating":2}],"destLat":null,"destLon":null},{"id":75,"lat":-43.9691,"lon":-72.3975,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-02-22","comments":[{"text":"wrong position. It was after the roundabout","date":"2016-02-22","rating":2},{"text":"from 7am to 4pm, we were the first ones, then tens of HHers joint, no one was lifted. Nobody stopped.","date":"2016-02-22","rating":2}],"destLat":null,"destLon":null},{"id":103,"lat":-32.9073,"lon":-70.2939,"rating":2,"reviews":2,"wait":180,"signal":null,"lastUsed":"2014-10-29","comments":[{"text":"Gas station: many people stop here on their way to Mendoza, although as it is the only gas station in the area, some jeeps will only filll there gas up before heading back to Rio Blanco. Unfortunately, we waited 3h before being picked up.\n\nGasolinera: muchas personas que van a Mendoza se paran aquí, y se puede hablar con ellos. Lamentablemente, esperamos 3h.","date":"2014-10-29","rating":2}],"destLat":null,"destLon":null},{"id":123,"lat":-41.3127,"lon":-73.0106,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-08-20","comments":[{"text":"3 hours with nothing but cars passing at 120kph. Go back to the entrance for Puerto Varas a few km south.","date":"2012-08-20","rating":2}],"destLat":null,"destLon":null},{"id":125,"lat":-48.462,"lon":-72.5606,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-05-04","comments":[{"text":"It took me 3 days hitching to get out of this villag!. Further up the carreterra austral there is a ferry connection; check the timing of the last ferry because no-one will leave that way after 30 mins or so before the last ferry departs (which was 3pm several years ago).Traffic is incredibly thin, but that one car that does appear may very well take you.","date":"2012-05-04","rating":2}],"destLat":null,"destLon":null},{"id":127,"lat":-22.4747,"lon":-68.9016,"rating":2,"reviews":2,"wait":150,"signal":null,"lastUsed":"2011-04-24","comments":[{"text":"Going to Antofogasta from San pedro de atacama, we were droped at the crossroad (23 with 25) here by our driver. Bad spot on the highway. Car are driving too fast. We walked out a little further up to this place where there is an access ramp. Someone heading for the airport picked us up and drop us to a great spot out of town","date":"2011-04-24","rating":2}],"destLat":null,"destLon":null},{"id":39,"lat":-38.7683,"lon":-72.6089,"rating":2,"reviews":1,"wait":45,"signal":"thumb","lastUsed":"2024-08-27","comments":[{"text":"No luck for us here, but should be a good spot. Plenty cars, plenty of room to stop. We took a bus south after almost 1h.","date":"2024-08-27","rating":2}],"destLat":null,"destLon":null},{"id":55,"lat":-46.5917,"lon":-72.5797,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2024-01-27","comments":[{"text":"The tourists are usually leaving after their marmol tour in the morning, so around 1 p.m. No other traffic.","date":"2024-01-27","rating":2}],"destLat":-46.4414,"destLon":-72.7095},{"id":59,"lat":-42.7147,"lon":-72.5839,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2024-01-12","comments":[{"text":"Surprisingly difficult to get back to Chaiten from the Senderos. We walked in direction Chaiten for about 1,5 h and only 3 cars passed us by. Luckily, we ended up finding this camping site where a nice family in a van took us back. But they were the only car on site aswell.","date":"2024-01-12","rating":2}],"destLat":-42.9179,"destLon":-72.7122},{"id":100,"lat":-32.8376,"lon":-70.5487,"rating":2,"reviews":1,"wait":240,"signal":null,"lastUsed":"2015-01-19","comments":[],"destLat":null,"destLon":null},{"id":138,"lat":-36.6147,"lon":-72.144,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[],"destLat":null,"destLon":null},{"id":8,"lat":-43.4529,"lon":-72.3547,"rating":1,"reviews":1,"wait":120,"signal":"sign","lastUsed":"2026-01-12","comments":[{"text":"Cars were speeding past us. If someone is going here, ask them to drop you off in Villa Santa Lucia where the cars are driving slower","date":"2026-01-12","rating":1}],"destLat":-44.325,"destLon":-72.5583},{"id":12,"lat":-46.5376,"lon":-71.7315,"rating":1,"reviews":1,"wait":360,"signal":null,"lastUsed":"2025-12-15","comments":[{"text":"waited 6 hours here and did not get picked up, ended up getting the bus to the next town over","date":"2025-12-15","rating":1}],"destLat":null,"destLon":null},{"id":22,"lat":-34.9959,"lon":-71.2334,"rating":1,"reviews":1,"wait":180,"signal":null,"lastUsed":"2024-12-10","comments":[{"text":"It was difficult to get a ride here, I was trying in every place in the area and finally gave up. Then I moved to other place.","date":"2024-12-10","rating":1}],"destLat":null,"destLon":null},{"id":46,"lat":-30.6106,"lon":-71.2178,"rating":1,"reviews":1,"wait":45,"signal":"thumb","lastUsed":"2024-08-21","comments":[{"text":"Slow cars, but wrong street for long distance. Go to next crossing south!","date":"2024-08-21","rating":1}],"destLat":null,"destLon":null},{"id":51,"lat":-27.3844,"lon":-70.3374,"rating":1,"reviews":1,"wait":180,"signal":"thumb","lastUsed":"2024-08-18","comments":[{"text":"Seems like a good spot, but no luck after 3h on a sunday. Dont know why. Taking a bus now.","date":"2024-08-18","rating":1}],"destLat":null,"destLon":null},{"id":68,"lat":-38.6723,"lon":-72.5069,"rating":1,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-05-07","comments":[],"destLat":null,"destLon":null}]}
+{
+  "country": "CL",
+  "name": "Chili",
+  "totalSpots": 142,
+  "totalReviews": 240,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 26,
+      "lat": -32.8436,
+      "lon": -70.9894,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2024-11-11",
+      "comments": [
+        {
+          "text": "easy to find cars going west",
+          "date": "2024-11-11",
+          "rating": 5
+        },
+        {
+          "text": "A toll station",
+          "date": "2014-01-31",
+          "rating": 5
+        }
+      ],
+      "destLat": -32.7872,
+      "destLon": -71.1693
+    },
+    {
+      "id": 30,
+      "lat": -23.6274,
+      "lon": -70.3712,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2024-09-04",
+      "comments": [
+        {
+          "text": "Good spot, most of the cars go to bypass. I suggest take it and try there.",
+          "date": "2024-09-04",
+          "rating": 5
+        },
+        {
+          "text": "didn't even have to put my thumb up..someone stopped for me because it was obvious i was a traveler",
+          "date": null,
+          "rating": 5
+        }
+      ],
+      "destLat": -23.6025,
+      "destLon": -70.2621
+    },
+    {
+      "id": 38,
+      "lat": -39.2811,
+      "lon": -71.9779,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2024-08-27",
+      "comments": [
+        {
+          "text": "4 cars stopped, but only the last one went to Villarica. Good spot for hitching!",
+          "date": "2024-08-27",
+          "rating": 5
+        },
+        {
+          "text": "At the exit of the roundabout, a bus stop allows the car to stop. There is just one road who go to Villarrica and the road 5.",
+          "date": "2016-05-07",
+          "rating": 5
+        }
+      ],
+      "destLat": -39.2764,
+      "destLon": -72.2297
+    },
+    {
+      "id": 9,
+      "lat": -42.9209,
+      "lon": -72.7025,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 6,
+      "signal": "sign",
+      "lastUsed": "2026-01-12",
+      "comments": [
+        {
+          "text": "Lots of cars passing by that need to decelerate due to a speed bump. Overall a very good spot (recommended by a local saleswoman",
+          "date": "2024-01-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -43.4087,
+      "destLon": -72.3672
+    },
+    {
+      "id": 1,
+      "lat": -34.3962,
+      "lon": -72.0193,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2026-01-30",
+      "comments": [
+        {
+          "text": "Hitched from the busstation. Second car got us and gave us also a rideby to the famouse surfspot nearby.",
+          "date": "2026-01-30",
+          "rating": 5
+        }
+      ],
+      "destLat": -34.4652,
+      "destLon": -72.0232
+    },
+    {
+      "id": 10,
+      "lat": -41.8032,
+      "lon": -72.7195,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "sign",
+      "lastUsed": "2026-01-12",
+      "comments": [],
+      "destLat": -41.9641,
+      "destLon": -72.4679
+    },
+    {
+      "id": 11,
+      "lat": -41.475,
+      "lon": -72.9212,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 3,
+      "signal": "sign",
+      "lastUsed": "2026-01-12",
+      "comments": [
+        {
+          "text": "Cars can pull over in the bus stop. There is a lot of cars, and we were picked up in just 3 minutes",
+          "date": "2026-01-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -41.8038,
+      "destLon": -72.7195
+    },
+    {
+      "id": 17,
+      "lat": -18.5038,
+      "lon": -70.2815,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 60,
+      "signal": "ask",
+      "lastUsed": "2025-04-25",
+      "comments": [
+        {
+          "text": "This is a truck depot for agricultural goods, all heading to Iquique. Great spot to ask around.",
+          "date": "2025-04-25",
+          "rating": 5
+        }
+      ],
+      "destLat": -20.2277,
+      "destLon": -70.1307
+    },
+    {
+      "id": 18,
+      "lat": -22.4678,
+      "lon": -68.9011,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-04-04",
+      "comments": [
+        {
+          "text": "Many cars going to S P de Atacama. Bus stop to protect from sun",
+          "date": "2025-04-04",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.9163,
+      "destLon": -68.2024
+    },
+    {
+      "id": 27,
+      "lat": -32.8778,
+      "lon": -70.678,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2024-11-11",
+      "comments": [
+        {
+          "text": "much local traffic, easy to get to the next highway",
+          "date": "2024-11-11",
+          "rating": 5
+        }
+      ],
+      "destLat": -32.8445,
+      "destLon": -70.9868
+    },
+    {
+      "id": 28,
+      "lat": -37.3528,
+      "lon": -72.3702,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2024-09-08",
+      "comments": [
+        {
+          "text": "Good long distance spot to go north, enough space even for trucks to stop.",
+          "date": "2024-09-08",
+          "rating": 5
+        }
+      ],
+      "destLat": -35.8546,
+      "destLon": -71.6287
+    },
+    {
+      "id": 32,
+      "lat": -39.7729,
+      "lon": -73.2194,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2024-09-01",
+      "comments": [
+        {
+          "text": "Good spot. Only got short distance though.",
+          "date": "2024-09-01",
+          "rating": 5
+        }
+      ],
+      "destLat": -39.7347,
+      "destLon": -73.1296
+    },
+    {
+      "id": 33,
+      "lat": -29.8865,
+      "lon": -71.2544,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2024-08-29",
+      "comments": [
+        {
+          "text": "It's a spot described on hitchwiki. There is a place for cars to stop. Cars don't go super fast yet. Lot of cars turn left couple of km further to the beach. Though all traffic North goes through here. Road works still here. \r\nVery good spot.",
+          "date": "2024-08-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -29.6977,
+      "destLon": -71.3073
+    },
+    {
+      "id": 34,
+      "lat": -39.5422,
+      "lon": -72.9629,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2024-08-28",
+      "comments": [
+        {
+          "text": "Perfect for going to Valdivia.",
+          "date": "2024-08-28",
+          "rating": 5
+        }
+      ],
+      "destLat": -39.8113,
+      "destLon": -73.2472
+    },
+    {
+      "id": 35,
+      "lat": -39.5183,
+      "lon": -72.8262,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2024-08-28",
+      "comments": [
+        {
+          "text": "Perfect. Lots of slow cars.",
+          "date": "2024-08-28",
+          "rating": 5
+        }
+      ],
+      "destLat": -39.5398,
+      "destLon": -72.9621
+    },
+    {
+      "id": 37,
+      "lat": -39.2735,
+      "lon": -72.2401,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2024-08-27",
+      "comments": [
+        {
+          "text": "Perfect for going south on 5 towards Valdivia.",
+          "date": "2024-08-27",
+          "rating": 5
+        }
+      ],
+      "destLat": -39.3617,
+      "destLon": -72.616
+    },
+    {
+      "id": 41,
+      "lat": -37.5474,
+      "lon": -72.3086,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2024-08-25",
+      "comments": [],
+      "destLat": -38.2324,
+      "destLon": -72.3517
+    },
+    {
+      "id": 44,
+      "lat": -30.7107,
+      "lon": -71.4908,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2024-08-21",
+      "comments": [
+        {
+          "text": "Cars from route 5 are very fast, but slow from the other direction. Good spot for us!",
+          "date": "2024-08-21",
+          "rating": 5
+        }
+      ],
+      "destLat": -33.4475,
+      "destLon": -70.6549
+    },
+    {
+      "id": 50,
+      "lat": -25.4157,
+      "lon": -70.4739,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2024-08-18",
+      "comments": [],
+      "destLat": -25.738,
+      "destLon": -70.3654
+    },
+    {
+      "id": 52,
+      "lat": -27.1308,
+      "lon": -70.8019,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2024-08-18",
+      "comments": [],
+      "destLat": -27.3769,
+      "destLon": -70.3365
+    },
+    {
+      "id": 53,
+      "lat": -27.3403,
+      "lon": -70.6066,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "ask",
+      "lastUsed": "2024-07-21",
+      "comments": [
+        {
+          "text": "Big gas station. Almost trucks stop here. Open 24 hours.",
+          "date": "2024-07-21",
+          "rating": 5
+        }
+      ],
+      "destLat": -27.3403,
+      "destLon": -70.6066
+    },
+    {
+      "id": 57,
+      "lat": -44.469,
+      "lon": -72.5437,
+      "rating": 5,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2024-01-12",
+      "comments": [
+        {
+          "text": "If you want to get back to Puyuhuapi without having to wait, ask some tourists in the parking lot to take you with them. We’ve experienced that nearly no tourists in the area stop for you on the road but are happy to take you with when asked nicely (easiest to make some friends along the trial)",
+          "date": "2024-01-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -44.3324,
+      "destLon": -72.5539
+    },
+    {
+      "id": 60,
+      "lat": -42.9137,
+      "lon": -72.7124,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 7,
+      "signal": null,
+      "lastUsed": "2024-01-12",
+      "comments": [
+        {
+          "text": "good spot for passing cars to stop, moderate amout of traffic",
+          "date": "2024-01-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -42.8515,
+      "destLon": -72.7948
+    },
+    {
+      "id": 61,
+      "lat": -36.8173,
+      "lon": -72.9878,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-05-03",
+      "comments": [
+        {
+          "text": "Good for good for go to South",
+          "date": "2023-05-03",
+          "rating": 5
+        }
+      ],
+      "destLat": -36.8173,
+      "destLon": -72.9878
+    },
+    {
+      "id": 62,
+      "lat": -33.1304,
+      "lon": -71.5624,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-05-03",
+      "comments": [
+        {
+          "text": "Hitchhiked here few times. Always got a ride for 10 minutes maximum. From Viña and Achupayllas take a bus 406.",
+          "date": "2023-05-03",
+          "rating": 5
+        }
+      ],
+      "destLat": -33.1304,
+      "destLon": -71.5624
+    },
+    {
+      "id": 23,
+      "lat": -33.0531,
+      "lon": -71.6012,
+      "rating": 4.75,
+      "reviews": 4,
+      "wait": 40,
+      "signal": "thumb",
+      "lastUsed": "2024-11-11",
+      "comments": [
+        {
+          "text": "Many cars going by. Maybe was just unlucky but took a bit for me to find a ride. Still good spot",
+          "date": "2024-11-11",
+          "rating": 4
+        },
+        {
+          "text": "its true!!! Best hitching spot in the damn world. In the dark, in the rain, still always <5 min. Cars all go straight to Santiago, highway curves here at the Copec station so everyone sees you.",
+          "date": "2015-11-25",
+          "rating": 5
+        },
+        {
+          "text": "Doesn't get any better than this.  The highway starts here so every car is taking it.  But it's still walking distance from the city center.  I got a ride in less than five minutes- best hitchhiking spot I've ever seen in the world.",
+          "date": "2014-06-30",
+          "rating": 5
+        },
+        {
+          "text": "South or southeast towards Santiago or Rancagua. Copec petrol station at the entrance to the motorway. The spot is in a walking distance from the bus terminal and you can get there by many micros (mini buses) from the historic part of Valparaiso.",
+          "date": "2013-10-25",
+          "rating": 5
+        }
+      ],
+      "destLat": -33.4542,
+      "destLon": -70.6924
+    },
+    {
+      "id": 21,
+      "lat": -51.7191,
+      "lon": -72.5063,
+      "rating": 4.33,
+      "reviews": 3,
+      "wait": 47,
+      "signal": "thumb",
+      "lastUsed": "2025-01-16",
+      "comments": [
+        {
+          "text": "Es lugar para ir al parque \"Torres del Paine\".\nIt is place to go to park \"Torres del Paine\".\nМесто для отправления в парк \"Torres del Paine\".",
+          "date": "2012-02-11",
+          "rating": 4
+        }
+      ],
+      "destLat": null,
+      "destLon": null
+    },
+    {
+      "id": 31,
+      "lat": -22.9043,
+      "lon": -68.2127,
+      "rating": 4.33,
+      "reviews": 3,
+      "wait": 43,
+      "signal": "thumb",
+      "lastUsed": "2024-09-04",
+      "comments": [
+        {
+          "text": "Good spot. But I think you can stay just outside the city also.",
+          "date": "2024-09-04",
+          "rating": 5
+        },
+        {
+          "text": "Going to Calama, Spot at the crossroad a bit outside of town. Short wait regarding the few amont of car passing by. We had a ride for Calama and were heading to antofogasta",
+          "date": "2011-04-24",
+          "rating": 4
+        }
+      ],
+      "destLat": -22.4712,
+      "destLon": -68.8987
+    },
+    {
+      "id": 19,
+      "lat": -45.5621,
+      "lon": -72.0668,
+      "rating": 4,
+      "reviews": 3,
+      "wait": 45,
+      "signal": "thumb",
+      "lastUsed": "2025-04-02",
+      "comments": [
+        {
+          "text": "Lots of local traffic, got a lift just put of town",
+          "date": "2025-04-02",
+          "rating": 2
+        },
+        {
+          "text": "Hardly had time to set my pack down before a car pulled over.",
+          "date": "2012-08-20",
+          "rating": 5
+        }
+      ],
+      "destLat": -45.5085,
+      "destLon": -72.1087
+    },
+    {
+      "id": 2,
+      "lat": -46.899,
+      "lon": -72.7821,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2026-01-12",
+      "comments": [],
+      "destLat": -46.5408,
+      "destLon": -71.7243
+    },
+    {
+      "id": 3,
+      "lat": -47.2503,
+      "lon": -72.5822,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2026-01-12",
+      "comments": [
+        {
+          "text": "Not a lot of cars. But we were picked up pretty quickly",
+          "date": "2026-01-12",
+          "rating": 4
+        }
+      ],
+      "destLat": -46.9006,
+      "destLon": -72.7824
+    },
+    {
+      "id": 6,
+      "lat": -44.9761,
+      "lon": -72.1638,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2026-01-12",
+      "comments": [
+        {
+          "text": "The cars are driving fast, but they are able to see you from far away. Our sign was probably a big help here. \r\nCars can pull over in the bus lane",
+          "date": "2026-01-12",
+          "rating": 4
+        }
+      ],
+      "destLat": -45.5753,
+      "destLon": -72.0764
+    },
+    {
+      "id": 20,
+      "lat": -46.1194,
+      "lon": -72.1606,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 45,
+      "signal": "thumb",
+      "lastUsed": "2025-04-02",
+      "comments": [
+        {
+          "text": "Got a lift back after the cerro castillo day hike. Not much traffic but enough people/tourists going back to coyhaique to easily get a lift",
+          "date": "2025-04-02",
+          "rating": 4
+        }
+      ],
+      "destLat": -45.5845,
+      "destLon": -72.0748
+    },
+    {
+      "id": 24,
+      "lat": -32.9026,
+      "lon": -71.2524,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2024-11-11",
+      "comments": [
+        {
+          "text": "not super good for stopping",
+          "date": "2024-11-11",
+          "rating": 4
+        }
+      ],
+      "destLat": -33.0342,
+      "destLon": -71.5313
+    },
+    {
+      "id": 29,
+      "lat": -23.5934,
+      "lon": -70.2589,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2024-09-04",
+      "comments": [
+        {
+          "text": "When I was there the were some road works, so there was only one line and slow traffic.\r\nBut it's not bad spot - there is a place to stop for cars and you are visible.",
+          "date": "2024-09-04",
+          "rating": 4
+        }
+      ],
+      "destLat": -22.5468,
+      "destLon": -68.9145
+    },
+    {
+      "id": 43,
+      "lat": -33.737,
+      "lon": -70.7358,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 40,
+      "signal": "thumb",
+      "lastUsed": "2024-08-24",
+      "comments": [
+        {
+          "text": "Going south: Wait directly next to the motorway. There is a lot of space to stop, busses pick up people here although its not an official stop. Trucks will stop as well. Good for long distance. \r\nWell reachable from santiago main station for ~3$.",
+          "date": "2024-08-24",
+          "rating": 4
+        }
+      ],
+      "destLat": -37.1731,
+      "destLon": -72.393
+    },
+    {
+      "id": 48,
+      "lat": -23.6108,
+      "lon": -70.262,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2024-08-18",
+      "comments": [
+        {
+          "text": "Mostly working drivers, few private cars.",
+          "date": "2024-08-18",
+          "rating": 4
+        }
+      ],
+      "destLat": -24.058,
+      "destLon": -70.2668
+    },
+    {
+      "id": 54,
+      "lat": -46.4411,
+      "lon": -72.7104,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2024-01-27",
+      "comments": [
+        {
+          "text": "Quite some cars passing by",
+          "date": "2024-01-27",
+          "rating": 4
+        }
+      ],
+      "destLat": -46.6261,
+      "destLon": -72.6738
+    },
+    {
+      "id": 13,
+      "lat": -41.8801,
+      "lon": -73.7961,
+      "rating": 3.75,
+      "reviews": 4,
+      "wait": 18,
+      "signal": "sign",
+      "lastUsed": "2025-12-13",
+      "comments": [
+        {
+          "text": "buen sitio pero lamentablemente cogi un viaje que no me llevo lejos",
+          "date": "2025-12-13",
+          "rating": 4
+        },
+        {
+          "text": "Good spot on the way south. Enough space on the side of the road and all cars pass here",
+          "date": "2024-10-07",
+          "rating": 5
+        },
+        {
+          "text": "No es buen lugar , pero todos los autos deben pasar por aca",
+          "date": "2015-05-21",
+          "rating": 3
+        }
+      ],
+      "destLat": -42.0636,
+      "destLon": -73.8073
+    },
+    {
+      "id": 7,
+      "lat": -44.3295,
+      "lon": -72.5557,
+      "rating": 3.67,
+      "reviews": 3,
+      "wait": 96,
+      "signal": "thumb",
+      "lastUsed": "2026-01-12",
+      "comments": [
+        {
+          "text": "There was a police check when we were here. The police was nice and asked the cars they stopped if they could take us to Coyhaique. \r\nEveryone said no, and the cars they didn't stop did not want to stop next to the police.\r\nWe walked 300 down the road and was picked up in 10 minutes",
+          "date": "2026-01-12",
+          "rating": 4
+        },
+        {
+          "text": "A lot of cars going to the hanging glacier.",
+          "date": "2026-01-12",
+          "rating": 5
+        },
+        {
+          "text": "Lots of tourists passing by but no one stops :( (although we’re two girls)\r\nIn the end, we got the park but it took a long time",
+          "date": "2024-01-12",
+          "rating": 2
+        }
+      ],
+      "destLat": -44.6557,
+      "destLon": -72.4267
+    },
+    {
+      "id": 15,
+      "lat": -52.3986,
+      "lon": -69.7572,
+      "rating": 3,
+      "reviews": 4,
+      "wait": 35,
+      "signal": null,
+      "lastUsed": "2025-07-09",
+      "comments": [
+        {
+          "text": "Luckily I just passed through with a ride I already had, but it could be a bad place to get stuck overnight in the winter, with sub-freezing temperatures and no public facilities (there are a few houses nearby, in an emergency). Remember that if you're headed south, both the ferry and the later border crossings close later at night (9 or 10).",
+          "date": "2025-07-09",
+          "rating": 3
+        },
+        {
+          "text": "Good spot south... got lucky because the very was closed earlier so there was a long line of cars waiting to cross. I just started walking and got picked up half an our later",
+          "date": "2017-10-10",
+          "rating": 3
+        },
+        {
+          "text": "Worked for me great to get South. I waited a bit longer, spotting only Argentinian cars since I had to go to Ushuaia. Be selective if you want to go on long rides. I do not recommend getting on a truck here...some km after the ferry port you will hit 100 km gravel road on the Chilean side of Tierra del Fuego, basically until the border in San Sebastian. So you would go with something like 20/30 km/h. Cars drive something like 60, sometimes 80, if you get a crazy driver.",
+          "date": "2016-03-24",
+          "rating": 3
+        },
+        {
+          "text": "supposedly good place to hitchhike toward Rio Gallego or El Turbio/Punta Arenas/ Tierra del Fuego. At the time, ferries were not running due to bad sea conditions, so there was few slow speed cars.",
+          "date": "2016-02-10",
+          "rating": 3
+        }
+      ],
+      "destLat": null,
+      "destLon": null
+    },
+    {
+      "id": 5,
+      "lat": -46.6267,
+      "lon": -72.6719,
+      "rating": 3,
+      "reviews": 2,
+      "wait": 25,
+      "signal": "thumb",
+      "lastUsed": "2026-01-12",
+      "comments": [
+        {
+          "text": "We were 7 people trying to get out of time. The girl that had waited the long had waited for more than 3 hours.\r\nWe spread out a couple hundred meters from eachother. Luckily we were picked up first by a car that passed some of the others.",
+          "date": "2026-01-12",
+          "rating": 3
+        },
+        {
+          "text": "We got lucky. Another couple we’ve met waited for over three hours and then gave up.",
+          "date": "2024-01-27",
+          "rating": 3
+        }
+      ],
+      "destLat": -46.9008,
+      "destLon": -72.7826
+    },
+    {
+      "id": 4,
+      "lat": -46.9002,
+      "lon": -72.7828,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 40,
+      "signal": "thumb",
+      "lastUsed": "2026-01-12",
+      "comments": [
+        {
+          "text": "Not a lot of south going traffic.\r\nWe were picked up by a big truck that had already picked up 5 other hitchhikers",
+          "date": "2026-01-12",
+          "rating": 3
+        }
+      ],
+      "destLat": -47.2496,
+      "destLon": -72.5786
+    },
+    {
+      "id": 14,
+      "lat": -39.8477,
+      "lon": -73.1982,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 40,
+      "signal": "sign",
+      "lastUsed": "2025-12-12",
+      "comments": [
+        {
+          "text": "pasan muchos autos pero la mayoria no mira",
+          "date": "2025-12-12",
+          "rating": 3
+        }
+      ],
+      "destLat": -40.0731,
+      "destLon": -72.8742
+    },
+    {
+      "id": 16,
+      "lat": -18.3212,
+      "lon": -70.3129,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 50,
+      "signal": "thumb",
+      "lastUsed": "2025-07-06",
+      "comments": [
+        {
+          "text": "December 2024, 10:30 a.m., Some people are very nice in Chile, but maybe the stupid military is stressful. I would recommend walking 700m south so that you are out of sight of the stupid soldiers and can continue hitchhiking south without any problems.",
+          "date": "2025-07-06",
+          "rating": 3
+        }
+      ],
+      "destLat": -18.453,
+      "destLon": -70.2949
+    },
+    {
+      "id": 25,
+      "lat": -32.7882,
+      "lon": -71.1686,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 60,
+      "signal": "sign",
+      "lastUsed": "2024-11-11",
+      "comments": [
+        {
+          "text": "bit hard for cars to stop but many goong in the direction of Viña",
+          "date": "2024-11-11",
+          "rating": 3
+        }
+      ],
+      "destLat": -32.9025,
+      "destLon": -71.252
+    },
+    {
+      "id": 36,
+      "lat": -39.3612,
+      "lon": -72.641,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2024-08-28",
+      "comments": [
+        {
+          "text": "Not a very good spot. Only few slow cars on the route entrance and very fast cars on the highway.",
+          "date": "2024-08-28",
+          "rating": 3
+        }
+      ],
+      "destLat": -39.5183,
+      "destLon": -72.8268
+    },
+    {
+      "id": 40,
+      "lat": -38.2391,
+      "lon": -72.356,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2024-08-25",
+      "comments": [
+        {
+          "text": "Fast cars, not optimal, but theres a spot to stop at least.",
+          "date": "2024-08-25",
+          "rating": 3
+        }
+      ],
+      "destLat": -38.7668,
+      "destLon": -72.6092
+    },
+    {
+      "id": 42,
+      "lat": -37.2395,
+      "lon": -72.3673,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 45,
+      "signal": "thumb",
+      "lastUsed": "2024-08-24",
+      "comments": [
+        {
+          "text": "Fast cars, bit enough space to stop. Only got to Los Angeles from here.",
+          "date": "2024-08-24",
+          "rating": 3
+        }
+      ],
+      "destLat": -37.4753,
+      "destLon": -72.3518
+    },
+    {
+      "id": 45,
+      "lat": -30.6498,
+      "lon": -71.2412,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 45,
+      "signal": "thumb",
+      "lastUsed": "2024-08-21",
+      "comments": [
+        {
+          "text": "Fast cars but good spot to stop. Talk to the people in the small restaurant for better chances!",
+          "date": "2024-08-21",
+          "rating": 3
+        }
+      ],
+      "destLat": -30.7083,
+      "destLon": -71.4908
+    },
+    {
+      "id": 47,
+      "lat": -30.1329,
+      "lon": -71.23,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 45,
+      "signal": "thumb",
+      "lastUsed": "2024-08-21",
+      "comments": [
+        {
+          "text": "Good view, much space to stop, but mist cars and trucks are very fast.",
+          "date": "2024-08-21",
+          "rating": 3
+        }
+      ],
+      "destLat": -30.6091,
+      "destLon": -71.2158
+    },
+    {
+      "id": 49,
+      "lat": -25.7233,
+      "lon": -70.3654,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 60,
+      "signal": "thumb",
+      "lastUsed": "2024-08-18",
+      "comments": [
+        {
+          "text": "Took a while but then a long distance truck stopped for us. Cars are fast here...",
+          "date": "2024-08-18",
+          "rating": 3
+        }
+      ],
+      "destLat": -27.1379,
+      "destLon": -70.8026
+    },
+    {
+      "id": 56,
+      "lat": -45.5848,
+      "lon": -72.0788,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2024-01-27",
+      "comments": [
+        {
+          "text": "We were lucky since this street is only leading to the Carr. Austral. Probably better to place yourself there directly.",
+          "date": "2024-01-27",
+          "rating": 3
+        }
+      ],
+      "destLat": -46.5931,
+      "destLon": -72.5786
+    },
+    {
+      "id": 58,
+      "lat": -43.4176,
+      "lon": -72.3679,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 50,
+      "signal": null,
+      "lastUsed": "2024-01-12",
+      "comments": [
+        {
+          "text": "good location (cars from ruta 7 aswell as from Santa Lucia), but many cars detour in direction of Futaleufu since there is a T-section right before\r\nBut if someone does stop there’s a good chance you’ll get far",
+          "date": "2024-01-12",
+          "rating": 3
+        }
+      ],
+      "destLat": -44.3274,
+      "destLon": -72.558
+    }
+  ]
+}

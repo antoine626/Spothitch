@@ -1,1 +1,551 @@
-{"country":"VN","name":"Vietnam","totalSpots":42,"totalReviews":58,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":34,"lat":20.9586,"lon":105.8495,"rating":5,"reviews":3,"wait":null,"signal":null,"lastUsed":"2016-07-27","comments":[{"text":"we just waited less than 15 minutes to catch a ride direction south","date":"2016-07-27","rating":5},{"text":"Wait 20-30 minutes to get ride to Ninh Binh. Stop cars after both bunches of road! :)","date":"2015-07-31","rating":5},{"text":"It's quite easy, someone will pull over and invite you, but make sure you don't have money, maybe they will give you a free lift. I had a long lift even I didn't thumb up with 15mins","date":"2014-02-24","rating":5}],"destLat":null,"destLon":null},{"id":31,"lat":12.8289,"lon":109.3574,"rating":5,"reviews":2,"wait":5,"signal":null,"lastUsed":"2016-07-27","comments":[{"text":"Walk some 1,5 km along NH1 south of town. After the beach resort there is a seafood restaurant an plenty enough of space on both sides for cars and trucks to break.","date":"2016-07-27","rating":5}],"destLat":null,"destLon":null},{"id":32,"lat":15.8964,"lon":108.2567,"rating":5,"reviews":2,"wait":15,"signal":null,"lastUsed":"2016-07-27","comments":[{"text":"Some cars stopped. And even trucks have enough space to break for you.","date":"2016-07-27","rating":5},{"text":"Take a mototaxi from Hoi An to this spot. Even if a lot of people stopping busses here, it's a good spot to catch a ride to the south.","date":"2016-07-27","rating":5}],"destLat":null,"destLon":null},{"id":40,"lat":22.7964,"lon":105.4601,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-11-12","comments":[{"text":"There's a sign gate to give good definition to the end of town here. Wait just before it if heading toward Cao Bang. If going to ha Giang, there's another gate.","date":"2012-11-12","rating":5}],"destLat":null,"destLon":null},{"id":1,"lat":10.9135,"lon":107.3995,"rating":5,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2025-12-25","comments":[{"text":"Got the ride to Mui Ne by a motorbike, the road is wide here","date":"2025-12-25","rating":5}],"destLat":10.9551,"destLon":108.2346},{"id":3,"lat":20.2245,"lon":105.9981,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-10-08","comments":[],"destLat":21.042,"destLon":105.878},{"id":4,"lat":22.4738,"lon":103.9663,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-10-08","comments":[],"destLat":null,"destLon":null},{"id":7,"lat":11.0154,"lon":106.4086,"rating":5,"reviews":1,"wait":8,"signal":"sign","lastUsed":"2025-03-29","comments":[{"text":"Doesn’t show it on the maps but there’s a big wide spot on the road (under where that big arch thing is) which gives heaps of space for people to pull over. Had a Phnom Penh sign (in Khmer) which didn’t help. As soon as I wrote one for Mộc Bài I got picked up in about a minute. Most people will drive you to the border if they’re going that way","date":"2025-03-29","rating":5}],"destLat":11.0766,"destLon":106.1752},{"id":8,"lat":10.9424,"lon":107.1458,"rating":5,"reviews":1,"wait":30,"signal":"sign","lastUsed":"2025-03-29","comments":[{"text":"Super good spot for going both directions, few good cheap street food places to grab a bite too. \r\nGot a lift mid morning into saigon","date":"2025-03-29","rating":5}],"destLat":10.763,"destLon":106.6909},{"id":11,"lat":20.5467,"lon":105.9145,"rating":5,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2025-03-26","comments":[{"text":"There’s a good spot for hitching after the lights but busses do regularly stop there. I had a few nice locals offer me lunch and then (after I explained to them) they explained to a bus driver and got me a free lift to ninh binh. Just got lucky but it is a good spot.","date":"2025-03-26","rating":5}],"destLat":20.2495,"destLon":105.9781},{"id":12,"lat":20.969,"lon":105.849,"rating":5,"reviews":1,"wait":15,"signal":"sign","lastUsed":"2025-03-26","comments":[{"text":"Super good spot. I think it’s technically more legal as it’s not on the highway yet. The cars have to go round a sharp corner to get onto the road so you can catch them when they’re slow. Have a sign for ninh binh and a good smile","date":"2025-03-26","rating":5}],"destLat":20.541,"destLon":105.9129},{"id":14,"lat":10.2596,"lon":106.3613,"rating":5,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2025-03-06","comments":[{"text":"Petrolimex station, direct ride to HCMC in less than 10minutes","date":"2025-03-06","rating":5}],"destLat":10.7448,"destLon":106.7088},{"id":17,"lat":11.0575,"lon":108.4227,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2024-02-09","comments":[{"text":"Hitchhiked a motorbike here to Mui Ne","date":"2024-02-09","rating":5}],"destLat":10.9315,"destLon":108.2847},{"id":18,"lat":11.377,"lon":107.3618,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2024-02-09","comments":[{"text":"Very easy to hitchhike a motorbike in Vietnam to the any nearby town. I got the ride to Cat Tien","date":"2024-02-09","rating":5}],"destLat":11.4212,"destLon":107.4373},{"id":19,"lat":11.081,"lon":106.1883,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2024-02-09","comments":[{"text":"Very wide road, good spot if you are hitchhiking to Saigon","date":"2024-02-09","rating":5}],"destLat":10.7608,"destLon":106.6954},{"id":20,"lat":13.539,"lon":108.1035,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2023-12-05","comments":[{"text":"We took the public bus from Pleiku to here. The price was 60k, probably should be 2 times less, ask beforehand. Not many motorbikes here, easy to break a driver. The traffic is quite low. We got a direct ride to Buon Ma Thuot in 10 min.","date":"2023-12-05","rating":5}],"destLat":12.6917,"destLon":108.0622},{"id":21,"lat":15.6915,"lon":107.7687,"rating":5,"reviews":1,"wait":20,"signal":null,"lastUsed":"2023-12-01","comments":[{"text":"Low traffic, but easy to get a long ride. We got a ride almost all the way to Kon Tum.","date":"2023-12-01","rating":5}],"destLat":14.6634,"destLon":107.8383},{"id":23,"lat":15.9282,"lon":108.1239,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2023-12-01","comments":[{"text":"Good spot towards Kon Tum. To get there from Danang you need to take bus number 17 (you can find it on Google maps) to the last stop and after walk around 1km to the fork.","date":"2023-12-01","rating":5}],"destLat":15.8428,"destLon":107.9709},{"id":24,"lat":18.636,"lon":105.7146,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2023-11-26","comments":[{"text":"Perfect spot. You will find a huge mostly empty gas station with a lot of space for cars to stop and you will be visible to drivers. In the morning hours the traffic was low, almost no motorbikes at all, so it's easier for cars to stop here. As most cars pass slowly here, you can even hitch a truck. We got a direct truck ride to Huế in about 5 minutes.\r\n\r\nTo get to this spot from the city, you must get bus number 06 (Vinh – Hà Tĩnh). It starts from Chợ ga Vinh (near the train station, google it)","date":"2023-11-26","rating":5}],"destLat":16.4413,"destLon":107.5169},{"id":25,"lat":20.1876,"lon":105.9532,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2023-11-24","comments":[{"text":"Easy spot. Not many cars, but we got a direct ride to Vinh pretty fast.","date":"2023-11-24","rating":5}],"destLat":18.7091,"destLon":105.645},{"id":26,"lat":20.4383,"lon":106.3184,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2023-11-22","comments":[{"text":"Good spot with a shadow towards Nam Dinh and Ninh Binh","date":"2023-11-22","rating":5}],"destLat":20.4378,"destLon":106.1535},{"id":27,"lat":20.7908,"lon":106.518,"rating":5,"reviews":1,"wait":20,"signal":null,"lastUsed":"2023-11-20","comments":[{"text":"A bit crowded with motorbikes, but still a good spot to get a ride toward Thái Bình","date":"2023-11-20","rating":5}],"destLat":20.646,"destLon":106.4204},{"id":28,"lat":20.8052,"lon":106.777,"rating":5,"reviews":1,"wait":2,"signal":null,"lastUsed":"2023-11-20","comments":[{"text":"It's a good and calm spot, with no motorbikes, and few cars. We got our short ride towards Thái Bình immediately with the first car. Google Translate works pretty well now compared to 8 years ago. I found that showing a digital map to drivers is always confusing for them, so I prepared a simple hand-drawn map with a few nearest towns on the way. Showing this map to the driver works perfectly in combination with the phrase \"Bạn đi đâu (Where are you going)?\". Also \"miễn phí (free)\" is pretty help","date":"2023-11-20","rating":5}],"destLat":20.7902,"destLon":106.5178},{"id":39,"lat":21.0343,"lon":105.8058,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-04-17","comments":[],"destLat":null,"destLon":null},{"id":6,"lat":10.7927,"lon":106.7929,"rating":4.67,"reviews":3,"wait":14,"signal":"sign","lastUsed":"2025-05-29","comments":[{"text":"Lot of traffic, a bit on the highway so some drivers get mad","date":"2025-05-29","rating":4},{"text":"Police was there and stopped a limousine bus so we could get in, for free. Really good spot anyway to go east, lots of traffic and space to stop.","date":"2025-03-06","rating":5},{"text":"Best way to start trip from Ho Chi Minh to east. To reach this place you can use local bus 88 from city center.","date":"2025-02-27","rating":5}],"destLat":10.765,"destLon":106.9595},{"id":10,"lat":20.208,"lon":105.9608,"rating":4.67,"reviews":3,"wait":30,"signal":"sign","lastUsed":"2025-03-26","comments":[{"text":"Too many accounts. Great spot. Took an hour and a bit to walk there from the town. Have a hat","date":"2025-03-26","rating":5},{"text":"Good spot to grab someone as they come down the hill and slow for the roundabout. These trucks/cars are aiming for the main highway (CT01) down to Vinh. I had a Vinh sign and got lucky with a truck heading right down to Saigon.","date":"2025-03-26","rating":5},{"text":"It is a good place with plenty of room to stop to get a ride towards the CT01 highway entrance a few kilometers down. We waited quite a while, but finally got a ride. If you're lucky enough, getting a long ride in both the South and North directions is possible.","date":"2023-11-24","rating":4}],"destLat":10.8296,"destLon":106.7155},{"id":30,"lat":17.6114,"lon":106.3191,"rating":4,"reviews":2,"wait":20,"signal":null,"lastUsed":"2016-07-27","comments":[{"text":"We put Dong Hoi on our sign and have been taken by a touroperator (high season).","date":"2016-07-27","rating":4},{"text":"To go back to the NH1. Not so many cars and no shadow at all. So be prepared to wait some while.","date":"2016-07-27","rating":4}],"destLat":null,"destLon":null},{"id":33,"lat":17.7001,"lon":106.4391,"rating":4,"reviews":2,"wait":20,"signal":null,"lastUsed":"2016-07-27","comments":[{"text":"We catched a pick up here and just needed 40 min für the dumpy road to Phong Nha.","date":"2016-07-27","rating":4},{"text":"Just follow the small dirty road from the NH1 till the last house to catch a ride to Phong Nha.","date":"2016-07-27","rating":4}],"destLat":null,"destLon":null},{"id":36,"lat":21.224,"lon":105.7738,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-09-09","comments":[{"text":"That spot is perfect to go to Lao Cai but most people going not so far so you can be ready move \"step by step\" by that way. Even you not lucky at all you can always hike a bus and pay 10$ right to Chinese border ! \n\nAugust 2015\nCheers! //Yriy","date":"2015-09-09","rating":4}],"destLat":null,"destLon":null},{"id":38,"lat":16.4498,"lon":107.6064,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-02-24","comments":[{"text":"Pass the station and stand next to the rail way, sometime it's quite hard because there are many buses, but it was possible to hitch there after 20mins standing.","date":"2014-02-24","rating":4}],"destLat":null,"destLon":null},{"id":41,"lat":11.0794,"lon":106.1767,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"after the border","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":2,"lat":18.7027,"lon":105.6165,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-10-25","comments":[{"text":"There is some space under the bridge where people sell some food and beverages. Not a perfect spot but good towards north like Hanoi","date":"2025-10-25","rating":4}],"destLat":21.0241,"destLon":105.8508},{"id":5,"lat":10.7653,"lon":106.9597,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-05-29","comments":[{"text":"Good amount of truck drivers going north.","date":"2025-05-29","rating":4}],"destLat":12.2592,"destLon":109.0204},{"id":9,"lat":16.2986,"lon":107.7137,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2025-03-26","comments":[{"text":"I wasn’t picked up here but we stopped for lunch (with a truck that had already got me) and I scoped it out and it’s a solid spot for both directions. Not sure why anyone would be around here as there is a better one closer to Hue but if you walk around with a sign or just signal you’ll get something","date":"2025-03-26","rating":4}],"destLat":null,"destLon":null},{"id":13,"lat":10.273,"lon":106.0069,"rating":4,"reviews":1,"wait":5,"signal":"sign","lastUsed":"2025-03-06","comments":[{"text":"If staying on An Binh island, good spot to go to HCMC or other Mekong delta city. Found a direct ride in 5min, lots of scooters but enough cars. Bus station near by with super cheap buses if it fails ! Reached it by moto-taxi.","date":"2025-03-06","rating":4}],"destLat":10.2352,"destLon":106.3625},{"id":16,"lat":20.9463,"lon":105.7436,"rating":4,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-01-06","comments":[{"text":"Good spot to get to hanoi or west, many buses and taxis though","date":"2025-01-06","rating":4}],"destLat":20.9245,"destLon":105.7005},{"id":29,"lat":20.2692,"lon":104.7777,"rating":4,"reviews":1,"wait":30,"signal":null,"lastUsed":"2023-07-30","comments":[{"text":"Nice spot to catch trucks to Na Meo border crossing","date":"2023-07-30","rating":4}],"destLat":20.2982,"destLon":104.6262},{"id":35,"lat":20.2265,"lon":105.9678,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-09-13","comments":[{"text":"Hitchhiked to Vinh, but it was hard over Vietnam because many Bikes, Buses, Taxi going in first line and people on cars have a small chances to stop. I'm pretty lucky!\n\nJuly 2015\nCheers! //Yriy","date":"2015-09-13","rating":3}],"destLat":null,"destLon":null},{"id":37,"lat":20.7241,"lon":107.0507,"rating":3,"reviews":2,"wait":20,"signal":null,"lastUsed":"2015-02-02","comments":[{"text":"you can hitch the whole island, but depending on what side you are on it might take a while. 99 percent of the time it would be motorbikes and mopeds giving you a lift a couple ks.","date":"2015-02-02","rating":3}],"destLat":null,"destLon":null},{"id":15,"lat":20.0844,"lon":105.808,"rating":3,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2025-01-19","comments":[{"text":"Not too many cars passing (sunday)\r\nWas hoping for a lift to vinh, got to thanh hóa. Good spot in general","date":"2025-01-19","rating":3}],"destLat":19.8127,"destLon":105.7684},{"id":42,"lat":10.8468,"lon":106.6141,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[],"destLat":null,"destLon":null},{"id":22,"lat":15.8392,"lon":107.9548,"rating":2,"reviews":1,"wait":40,"signal":null,"lastUsed":"2023-12-01","comments":[{"text":"The road is tight, trucks and cars are passing fast, many turns and the village around makes it hard to stop for a driver. Anyway, got a ride to Bến Giằng.","date":"2023-12-01","rating":2}],"destLat":15.6923,"destLon":107.7688}]}
+{
+  "country": "VN",
+  "name": "Vietnam",
+  "totalSpots": 42,
+  "totalReviews": 58,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 10.9135,
+      "lon": 107.3995,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2025-12-25",
+      "comments": [
+        {
+          "text": "Got the ride to Mui Ne by a motorbike, the road is wide here",
+          "date": "2025-12-25",
+          "rating": 5
+        }
+      ],
+      "destLat": 10.9551,
+      "destLon": 108.2346
+    },
+    {
+      "id": 3,
+      "lat": 20.2245,
+      "lon": 105.9981,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-10-08",
+      "comments": [],
+      "destLat": 21.042,
+      "destLon": 105.878
+    },
+    {
+      "id": 4,
+      "lat": 22.4738,
+      "lon": 103.9663,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-10-08",
+      "comments": [],
+      "destLat": null,
+      "destLon": null
+    },
+    {
+      "id": 7,
+      "lat": 11.0154,
+      "lon": 106.4086,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 8,
+      "signal": "sign",
+      "lastUsed": "2025-03-29",
+      "comments": [
+        {
+          "text": "Doesn’t show it on the maps but there’s a big wide spot on the road (under where that big arch thing is) which gives heaps of space for people to pull over. Had a Phnom Penh sign (in Khmer) which didn’t help. As soon as I wrote one for Mộc Bài I got picked up in about a minute. Most people will drive you to the border if they’re going that way",
+          "date": "2025-03-29",
+          "rating": 5
+        }
+      ],
+      "destLat": 11.0766,
+      "destLon": 106.1752
+    },
+    {
+      "id": 8,
+      "lat": 10.9424,
+      "lon": 107.1458,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2025-03-29",
+      "comments": [
+        {
+          "text": "Super good spot for going both directions, few good cheap street food places to grab a bite too. \r\nGot a lift mid morning into saigon",
+          "date": "2025-03-29",
+          "rating": 5
+        }
+      ],
+      "destLat": 10.763,
+      "destLon": 106.6909
+    },
+    {
+      "id": 11,
+      "lat": 20.5467,
+      "lon": 105.9145,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2025-03-26",
+      "comments": [
+        {
+          "text": "There’s a good spot for hitching after the lights but busses do regularly stop there. I had a few nice locals offer me lunch and then (after I explained to them) they explained to a bus driver and got me a free lift to ninh binh. Just got lucky but it is a good spot.",
+          "date": "2025-03-26",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.2495,
+      "destLon": 105.9781
+    },
+    {
+      "id": 12,
+      "lat": 20.969,
+      "lon": 105.849,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "sign",
+      "lastUsed": "2025-03-26",
+      "comments": [
+        {
+          "text": "Super good spot. I think it’s technically more legal as it’s not on the highway yet. The cars have to go round a sharp corner to get onto the road so you can catch them when they’re slow. Have a sign for ninh binh and a good smile",
+          "date": "2025-03-26",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.541,
+      "destLon": 105.9129
+    },
+    {
+      "id": 14,
+      "lat": 10.2596,
+      "lon": 106.3613,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2025-03-06",
+      "comments": [
+        {
+          "text": "Petrolimex station, direct ride to HCMC in less than 10minutes",
+          "date": "2025-03-06",
+          "rating": 5
+        }
+      ],
+      "destLat": 10.7448,
+      "destLon": 106.7088
+    },
+    {
+      "id": 17,
+      "lat": 11.0575,
+      "lon": 108.4227,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2024-02-09",
+      "comments": [
+        {
+          "text": "Hitchhiked a motorbike here to Mui Ne",
+          "date": "2024-02-09",
+          "rating": 5
+        }
+      ],
+      "destLat": 10.9315,
+      "destLon": 108.2847
+    },
+    {
+      "id": 18,
+      "lat": 11.377,
+      "lon": 107.3618,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2024-02-09",
+      "comments": [
+        {
+          "text": "Very easy to hitchhike a motorbike in Vietnam to the any nearby town. I got the ride to Cat Tien",
+          "date": "2024-02-09",
+          "rating": 5
+        }
+      ],
+      "destLat": 11.4212,
+      "destLon": 107.4373
+    },
+    {
+      "id": 19,
+      "lat": 11.081,
+      "lon": 106.1883,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2024-02-09",
+      "comments": [
+        {
+          "text": "Very wide road, good spot if you are hitchhiking to Saigon",
+          "date": "2024-02-09",
+          "rating": 5
+        }
+      ],
+      "destLat": 10.7608,
+      "destLon": 106.6954
+    },
+    {
+      "id": 20,
+      "lat": 13.539,
+      "lon": 108.1035,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-12-05",
+      "comments": [
+        {
+          "text": "We took the public bus from Pleiku to here. The price was 60k, probably should be 2 times less, ask beforehand. Not many motorbikes here, easy to break a driver. The traffic is quite low. We got a direct ride to Buon Ma Thuot in 10 min.",
+          "date": "2023-12-05",
+          "rating": 5
+        }
+      ],
+      "destLat": 12.6917,
+      "destLon": 108.0622
+    },
+    {
+      "id": 21,
+      "lat": 15.6915,
+      "lon": 107.7687,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2023-12-01",
+      "comments": [
+        {
+          "text": "Low traffic, but easy to get a long ride. We got a ride almost all the way to Kon Tum.",
+          "date": "2023-12-01",
+          "rating": 5
+        }
+      ],
+      "destLat": 14.6634,
+      "destLon": 107.8383
+    },
+    {
+      "id": 23,
+      "lat": 15.9282,
+      "lon": 108.1239,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2023-12-01",
+      "comments": [
+        {
+          "text": "Good spot towards Kon Tum. To get there from Danang you need to take bus number 17 (you can find it on Google maps) to the last stop and after walk around 1km to the fork.",
+          "date": "2023-12-01",
+          "rating": 5
+        }
+      ],
+      "destLat": 15.8428,
+      "destLon": 107.9709
+    },
+    {
+      "id": 24,
+      "lat": 18.636,
+      "lon": 105.7146,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2023-11-26",
+      "comments": [
+        {
+          "text": "Perfect spot. You will find a huge mostly empty gas station with a lot of space for cars to stop and you will be visible to drivers. In the morning hours the traffic was low, almost no motorbikes at all, so it's easier for cars to stop here. As most cars pass slowly here, you can even hitch a truck. We got a direct truck ride to Huế in about 5 minutes.\r\n\r\nTo get to this spot from the city, you must get bus number 06 (Vinh – Hà Tĩnh). It starts from Chợ ga Vinh (near the train station, google it)",
+          "date": "2023-11-26",
+          "rating": 5
+        }
+      ],
+      "destLat": 16.4413,
+      "destLon": 107.5169
+    },
+    {
+      "id": 25,
+      "lat": 20.1876,
+      "lon": 105.9532,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-11-24",
+      "comments": [
+        {
+          "text": "Easy spot. Not many cars, but we got a direct ride to Vinh pretty fast.",
+          "date": "2023-11-24",
+          "rating": 5
+        }
+      ],
+      "destLat": 18.7091,
+      "destLon": 105.645
+    },
+    {
+      "id": 26,
+      "lat": 20.4383,
+      "lon": 106.3184,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2023-11-22",
+      "comments": [
+        {
+          "text": "Good spot with a shadow towards Nam Dinh and Ninh Binh",
+          "date": "2023-11-22",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.4378,
+      "destLon": 106.1535
+    },
+    {
+      "id": 27,
+      "lat": 20.7908,
+      "lon": 106.518,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2023-11-20",
+      "comments": [
+        {
+          "text": "A bit crowded with motorbikes, but still a good spot to get a ride toward Thái Bình",
+          "date": "2023-11-20",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.646,
+      "destLon": 106.4204
+    },
+    {
+      "id": 28,
+      "lat": 20.8052,
+      "lon": 106.777,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": null,
+      "lastUsed": "2023-11-20",
+      "comments": [
+        {
+          "text": "It's a good and calm spot, with no motorbikes, and few cars. We got our short ride towards Thái Bình immediately with the first car. Google Translate works pretty well now compared to 8 years ago. I found that showing a digital map to drivers is always confusing for them, so I prepared a simple hand-drawn map with a few nearest towns on the way. Showing this map to the driver works perfectly in combination with the phrase \"Bạn đi đâu (Where are you going)?\". Also \"miễn phí (free)\" is pretty help",
+          "date": "2023-11-20",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.7902,
+      "destLon": 106.5178
+    },
+    {
+      "id": 6,
+      "lat": 10.7927,
+      "lon": 106.7929,
+      "rating": 4.67,
+      "reviews": 3,
+      "wait": 14,
+      "signal": "sign",
+      "lastUsed": "2025-05-29",
+      "comments": [
+        {
+          "text": "Lot of traffic, a bit on the highway so some drivers get mad",
+          "date": "2025-05-29",
+          "rating": 4
+        },
+        {
+          "text": "Police was there and stopped a limousine bus so we could get in, for free. Really good spot anyway to go east, lots of traffic and space to stop.",
+          "date": "2025-03-06",
+          "rating": 5
+        },
+        {
+          "text": "Best way to start trip from Ho Chi Minh to east. To reach this place you can use local bus 88 from city center.",
+          "date": "2025-02-27",
+          "rating": 5
+        }
+      ],
+      "destLat": 10.765,
+      "destLon": 106.9595
+    },
+    {
+      "id": 10,
+      "lat": 20.208,
+      "lon": 105.9608,
+      "rating": 4.67,
+      "reviews": 3,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2025-03-26",
+      "comments": [
+        {
+          "text": "Too many accounts. Great spot. Took an hour and a bit to walk there from the town. Have a hat",
+          "date": "2025-03-26",
+          "rating": 5
+        },
+        {
+          "text": "Good spot to grab someone as they come down the hill and slow for the roundabout. These trucks/cars are aiming for the main highway (CT01) down to Vinh. I had a Vinh sign and got lucky with a truck heading right down to Saigon.",
+          "date": "2025-03-26",
+          "rating": 5
+        },
+        {
+          "text": "It is a good place with plenty of room to stop to get a ride towards the CT01 highway entrance a few kilometers down. We waited quite a while, but finally got a ride. If you're lucky enough, getting a long ride in both the South and North directions is possible.",
+          "date": "2023-11-24",
+          "rating": 4
+        }
+      ],
+      "destLat": 10.8296,
+      "destLon": 106.7155
+    },
+    {
+      "id": 2,
+      "lat": 18.7027,
+      "lon": 105.6165,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-10-25",
+      "comments": [
+        {
+          "text": "There is some space under the bridge where people sell some food and beverages. Not a perfect spot but good towards north like Hanoi",
+          "date": "2025-10-25",
+          "rating": 4
+        }
+      ],
+      "destLat": 21.0241,
+      "destLon": 105.8508
+    },
+    {
+      "id": 5,
+      "lat": 10.7653,
+      "lon": 106.9597,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-05-29",
+      "comments": [
+        {
+          "text": "Good amount of truck drivers going north.",
+          "date": "2025-05-29",
+          "rating": 4
+        }
+      ],
+      "destLat": 12.2592,
+      "destLon": 109.0204
+    },
+    {
+      "id": 9,
+      "lat": 16.2986,
+      "lon": 107.7137,
+      "rating": 4,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2025-03-26",
+      "comments": [
+        {
+          "text": "I wasn’t picked up here but we stopped for lunch (with a truck that had already got me) and I scoped it out and it’s a solid spot for both directions. Not sure why anyone would be around here as there is a better one closer to Hue but if you walk around with a sign or just signal you’ll get something",
+          "date": "2025-03-26",
+          "rating": 4
+        }
+      ],
+      "destLat": null,
+      "destLon": null
+    },
+    {
+      "id": 13,
+      "lat": 10.273,
+      "lon": 106.0069,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "sign",
+      "lastUsed": "2025-03-06",
+      "comments": [
+        {
+          "text": "If staying on An Binh island, good spot to go to HCMC or other Mekong delta city. Found a direct ride in 5min, lots of scooters but enough cars. Bus station near by with super cheap buses if it fails ! Reached it by moto-taxi.",
+          "date": "2025-03-06",
+          "rating": 4
+        }
+      ],
+      "destLat": 10.2352,
+      "destLon": 106.3625
+    },
+    {
+      "id": 16,
+      "lat": 20.9463,
+      "lon": 105.7436,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-01-06",
+      "comments": [
+        {
+          "text": "Good spot to get to hanoi or west, many buses and taxis though",
+          "date": "2025-01-06",
+          "rating": 4
+        }
+      ],
+      "destLat": 20.9245,
+      "destLon": 105.7005
+    },
+    {
+      "id": 29,
+      "lat": 20.2692,
+      "lon": 104.7777,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2023-07-30",
+      "comments": [
+        {
+          "text": "Nice spot to catch trucks to Na Meo border crossing",
+          "date": "2023-07-30",
+          "rating": 4
+        }
+      ],
+      "destLat": 20.2982,
+      "destLon": 104.6262
+    },
+    {
+      "id": 15,
+      "lat": 20.0844,
+      "lon": 105.808,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2025-01-19",
+      "comments": [
+        {
+          "text": "Not too many cars passing (sunday)\r\nWas hoping for a lift to vinh, got to thanh hóa. Good spot in general",
+          "date": "2025-01-19",
+          "rating": 3
+        }
+      ],
+      "destLat": 19.8127,
+      "destLon": 105.7684
+    }
+  ]
+}

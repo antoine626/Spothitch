@@ -1,1 +1,146 @@
-{"country":"SV","name":"SV","totalSpots":9,"totalReviews":9,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":1,"lat":13.9953,"lon":-89.522,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-05-12","comments":[],"destLat":13.9608,"destLon":-89.1838},{"id":2,"lat":13.8556,"lon":-89.6767,"rating":5,"reviews":1,"wait":2,"signal":null,"lastUsed":"2025-05-11","comments":[],"destLat":13.9954,"destLon":-89.5568},{"id":3,"lat":13.8456,"lon":-89.7432,"rating":5,"reviews":1,"wait":1,"signal":null,"lastUsed":"2025-05-11","comments":[],"destLat":13.8558,"destLon":-89.6772},{"id":4,"lat":13.7254,"lon":-89.7291,"rating":5,"reviews":1,"wait":1,"signal":null,"lastUsed":"2025-05-11","comments":[],"destLat":13.8428,"destLon":-89.7478},{"id":5,"lat":13.629,"lon":-89.7846,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-05-11","comments":[],"destLat":13.7173,"destLon":-89.7229},{"id":6,"lat":13.4988,"lon":-89.3842,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-05-11","comments":[],"destLat":13.6285,"destLon":-89.7839},{"id":7,"lat":13.8951,"lon":-89.5331,"rating":5,"reviews":1,"wait":3,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"Good place to hitchhike back to Santa Ana","date":"2025-02-23","rating":5}],"destLat":13.9923,"destLon":-89.5567},{"id":8,"lat":13.3278,"lon":-87.8396,"rating":5,"reviews":1,"wait":2,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"Nice spot to hitchhike to the Conchagua volcano","date":"2025-02-23","rating":5}],"destLat":13.277,"destLon":-87.8331},{"id":9,"lat":13.8577,"lon":-89.8078,"rating":5,"reviews":1,"wait":2,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"Good spot to pull over, short waiting time to get to Ataco, Don Juan waterfall or to Ahuachapan","date":"2025-02-23","rating":5}],"destLat":13.825,"destLon":-89.856}]}
+{
+  "country": "SV",
+  "name": "SV",
+  "totalSpots": 9,
+  "totalReviews": 9,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 13.9953,
+      "lon": -89.522,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-05-12",
+      "comments": [],
+      "destLat": 13.9608,
+      "destLon": -89.1838
+    },
+    {
+      "id": 2,
+      "lat": 13.8556,
+      "lon": -89.6767,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": null,
+      "lastUsed": "2025-05-11",
+      "comments": [],
+      "destLat": 13.9954,
+      "destLon": -89.5568
+    },
+    {
+      "id": 3,
+      "lat": 13.8456,
+      "lon": -89.7432,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2025-05-11",
+      "comments": [],
+      "destLat": 13.8558,
+      "destLon": -89.6772
+    },
+    {
+      "id": 4,
+      "lat": 13.7254,
+      "lon": -89.7291,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2025-05-11",
+      "comments": [],
+      "destLat": 13.8428,
+      "destLon": -89.7478
+    },
+    {
+      "id": 5,
+      "lat": 13.629,
+      "lon": -89.7846,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-05-11",
+      "comments": [],
+      "destLat": 13.7173,
+      "destLon": -89.7229
+    },
+    {
+      "id": 6,
+      "lat": 13.4988,
+      "lon": -89.3842,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-05-11",
+      "comments": [],
+      "destLat": 13.6285,
+      "destLon": -89.7839
+    },
+    {
+      "id": 7,
+      "lat": 13.8951,
+      "lon": -89.5331,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 3,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [
+        {
+          "text": "Good place to hitchhike back to Santa Ana",
+          "date": "2025-02-23",
+          "rating": 5
+        }
+      ],
+      "destLat": 13.9923,
+      "destLon": -89.5567
+    },
+    {
+      "id": 8,
+      "lat": 13.3278,
+      "lon": -87.8396,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [
+        {
+          "text": "Nice spot to hitchhike to the Conchagua volcano",
+          "date": "2025-02-23",
+          "rating": 5
+        }
+      ],
+      "destLat": 13.277,
+      "destLon": -87.8331
+    },
+    {
+      "id": 9,
+      "lat": 13.8577,
+      "lon": -89.8078,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [
+        {
+          "text": "Good spot to pull over, short waiting time to get to Ataco, Don Juan waterfall or to Ahuachapan",
+          "date": "2025-02-23",
+          "rating": 5
+        }
+      ],
+      "destLat": 13.825,
+      "destLon": -89.856
+    }
+  ]
+}

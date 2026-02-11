@@ -1,1 +1,151 @@
-{"country":"CR","name":"Costa Rica","totalSpots":22,"totalReviews":33,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":10,"lat":10.4706,"lon":-84.6364,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-03-09","comments":[{"text":"Perfect place to east of the country","date":"2016-03-09","rating":5}],"destLat":null,"destLon":null},{"id":12,"lat":10.624,"lon":-85.4421,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-03-09","comments":[{"text":"A new road constructions are here, but still perfect place to San Jose","date":"2016-03-09","rating":5}],"destLat":null,"destLon":null},{"id":13,"lat":9.888,"lon":-84.5725,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-03-09","comments":[{"text":"Pay toll, always good place for HH. (both ways)","date":"2016-03-09","rating":5}],"destLat":null,"destLon":null},{"id":1,"lat":10.452,"lon":-84.0143,"rating":5,"reviews":1,"wait":3,"signal":null,"lastUsed":"2025-04-05","comments":[],"destLat":10.3824,"destLon":-84.1444},{"id":3,"lat":9.3104,"lon":-83.7754,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2025-04-02","comments":[{"text":"At the fruit market, in the morning, anyone will take you to San Isidro/Pérez Zeledón.","date":"2025-04-02","rating":5}],"destLat":9.3735,"destLon":-83.7018},{"id":6,"lat":8.6784,"lon":-83.068,"rating":5,"reviews":1,"wait":3,"signal":null,"lastUsed":"2025-03-28","comments":[{"text":"Very easy to get a ride to somewhere along the coast. Have a big pannel indicating direction, most cars go fast after the redlight.","date":"2025-03-28","rating":5}],"destLat":9.162,"destLon":-83.735},{"id":7,"lat":8.6443,"lon":-83.4612,"rating":5,"reviews":1,"wait":2,"signal":null,"lastUsed":"2025-03-27","comments":[{"text":"Anyone going to Puerto Jinénez or somewhere in between will take you.","date":"2025-03-27","rating":5}],"destLat":8.5352,"destLon":-83.3057},{"id":8,"lat":8.6442,"lon":-82.9445,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-03-27","comments":[{"text":"Very easy to find a ride to go somewhere along the coast. A lot of space after the traffic light for cars to stop. No shadow.","date":"2025-03-27","rating":5}],"destLat":8.6442,"destLon":-83.4625},{"id":11,"lat":10.4428,"lon":-85.0863,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-03-09","comments":[{"text":"A hospital. Direction to Tilaran","date":"2016-03-09","rating":4}],"destLat":null,"destLon":null},{"id":15,"lat":8.6427,"lon":-82.9473,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-03-09","comments":[{"text":"A first small village after the border. Easy to find a lift further for example to Jaco.","date":"2016-03-09","rating":4}],"destLat":null,"destLon":null},{"id":17,"lat":10.2424,"lon":-84.9943,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-01-28","comments":[{"text":"Good spot to hitchhike in direction to Las Juntas and Monteverde. There is a lot of space for cars to stop end even during the night there is enough light for beeing well seen.\nAt the petrol station ot the Panameric highway you can directly ask people!","date":"2016-01-28","rating":4}],"destLat":null,"destLon":null},{"id":22,"lat":9.9882,"lon":-83.0337,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Heading downtown until a redlight. To your right is a TEXACO gas station. There cars running to the south of the carribean coast.\n\nRed Light District - watch out!","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":2,"lat":9.3857,"lon":-83.7068,"rating":4,"reviews":1,"wait":90,"signal":null,"lastUsed":"2025-04-03","comments":[{"text":"Shady bus stop. \r\nA lot of cars go to San José/Cartago. Just have to be pacient. When there are no trucks rolling, cars tend to pass super fast and won't stop. Recommended to have a panel.","date":"2025-04-03","rating":4}],"destLat":9.8694,"destLon":-83.9444},{"id":9,"lat":10.3262,"lon":-84.8284,"rating":4,"reviews":1,"wait":40,"signal":null,"lastUsed":"2025-02-23","comments":[],"destLat":10.1484,"destLon":-85.4563},{"id":16,"lat":8.5353,"lon":-82.8413,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-03-07","comments":[],"destLat":null,"destLon":null},{"id":18,"lat":11.2091,"lon":-85.6119,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2014-05-24","comments":[],"destLat":null,"destLon":null},{"id":14,"lat":9.8026,"lon":-84.6071,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-03-09","comments":[{"text":"After the bridge of crocodiles there is a place to stop a cars to San Juan. (A lot of vendors around)","date":"2016-03-09","rating":3}],"destLat":null,"destLon":null},{"id":19,"lat":9.9008,"lon":-83.9947,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"You can get there with the bus to Cartago. Ask the Bus triver to drop you off at the Peage.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":20,"lat":10.001,"lon":-84.1858,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Buses to Alajuella passing this Peage station. Ask the bus driver if he could drop you off on the peage. If not go off at the Airport try your luck there.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":21,"lat":9.9425,"lon":-84.0767,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Direction:  Guapiles, Puerto Limon, Caribean Coast.\n\nFrom the Terminal Caribe go up, the next right and after 120 meter you getto the spot.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":5,"lat":9.1721,"lon":-83.7395,"rating":3,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-04-02","comments":[{"text":"Many cars go really fast. Not ideal","date":"2025-04-02","rating":3}],"destLat":9.2592,"destLon":-83.8642},{"id":4,"lat":9.2596,"lon":-83.864,"rating":1,"reviews":1,"wait":90,"signal":null,"lastUsed":"2025-04-02","comments":[{"text":"Horrible spot. Cars go super fast. Not tourist, nor expats will stop. We finally got a ride, but were willing to give up an take the bus.","date":"2025-04-02","rating":1}],"destLat":9.3044,"destLon":-83.7763}]}
+{
+  "country": "CR",
+  "name": "Costa Rica",
+  "totalSpots": 22,
+  "totalReviews": 33,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 10.452,
+      "lon": -84.0143,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 3,
+      "signal": null,
+      "lastUsed": "2025-04-05",
+      "comments": [],
+      "destLat": 10.3824,
+      "destLon": -84.1444
+    },
+    {
+      "id": 3,
+      "lat": 9.3104,
+      "lon": -83.7754,
+      "rating": 5,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2025-04-02",
+      "comments": [
+        {
+          "text": "At the fruit market, in the morning, anyone will take you to San Isidro/Pérez Zeledón.",
+          "date": "2025-04-02",
+          "rating": 5
+        }
+      ],
+      "destLat": 9.3735,
+      "destLon": -83.7018
+    },
+    {
+      "id": 6,
+      "lat": 8.6784,
+      "lon": -83.068,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 3,
+      "signal": null,
+      "lastUsed": "2025-03-28",
+      "comments": [
+        {
+          "text": "Very easy to get a ride to somewhere along the coast. Have a big pannel indicating direction, most cars go fast after the redlight.",
+          "date": "2025-03-28",
+          "rating": 5
+        }
+      ],
+      "destLat": 9.162,
+      "destLon": -83.735
+    },
+    {
+      "id": 7,
+      "lat": 8.6443,
+      "lon": -83.4612,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": null,
+      "lastUsed": "2025-03-27",
+      "comments": [
+        {
+          "text": "Anyone going to Puerto Jinénez or somewhere in between will take you.",
+          "date": "2025-03-27",
+          "rating": 5
+        }
+      ],
+      "destLat": 8.5352,
+      "destLon": -83.3057
+    },
+    {
+      "id": 8,
+      "lat": 8.6442,
+      "lon": -82.9445,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-03-27",
+      "comments": [
+        {
+          "text": "Very easy to find a ride to go somewhere along the coast. A lot of space after the traffic light for cars to stop. No shadow.",
+          "date": "2025-03-27",
+          "rating": 5
+        }
+      ],
+      "destLat": 8.6442,
+      "destLon": -83.4625
+    },
+    {
+      "id": 2,
+      "lat": 9.3857,
+      "lon": -83.7068,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 90,
+      "signal": null,
+      "lastUsed": "2025-04-03",
+      "comments": [
+        {
+          "text": "Shady bus stop. \r\nA lot of cars go to San José/Cartago. Just have to be pacient. When there are no trucks rolling, cars tend to pass super fast and won't stop. Recommended to have a panel.",
+          "date": "2025-04-03",
+          "rating": 4
+        }
+      ],
+      "destLat": 9.8694,
+      "destLon": -83.9444
+    },
+    {
+      "id": 9,
+      "lat": 10.3262,
+      "lon": -84.8284,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 40,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [],
+      "destLat": 10.1484,
+      "destLon": -85.4563
+    },
+    {
+      "id": 5,
+      "lat": 9.1721,
+      "lon": -83.7395,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-04-02",
+      "comments": [
+        {
+          "text": "Many cars go really fast. Not ideal",
+          "date": "2025-04-02",
+          "rating": 3
+        }
+      ],
+      "destLat": 9.2592,
+      "destLon": -83.8642
+    }
+  ]
+}

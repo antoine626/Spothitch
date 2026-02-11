@@ -1,1 +1,30 @@
-{"country":"BD","name":"BD","totalSpots":1,"totalReviews":1,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":1,"lat":23.693,"lon":90.5389,"rating":4,"reviews":1,"wait":29,"signal":null,"lastUsed":"2024-02-11","comments":[{"text":"This isba good point If you want to go towards Chittagong, most People don’t understand Hitchhike though. But Truck are good for giving live here. When they come for refueling, this time you have to talk with them.\r\nThough it is highly chance the no Running Vehicles not going to Stop For you!","date":"2024-02-11","rating":4}],"destLat":22.4605,"destLon":91.8079}]}
+{
+  "country": "BD",
+  "name": "BD",
+  "totalSpots": 1,
+  "totalReviews": 1,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 23.693,
+      "lon": 90.5389,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 29,
+      "signal": null,
+      "lastUsed": "2024-02-11",
+      "comments": [
+        {
+          "text": "This isba good point If you want to go towards Chittagong, most People don’t understand Hitchhike though. But Truck are good for giving live here. When they come for refueling, this time you have to talk with them.\r\nThough it is highly chance the no Running Vehicles not going to Stop For you!",
+          "date": "2024-02-11",
+          "rating": 4
+        }
+      ],
+      "destLat": 22.4605,
+      "destLon": 91.8079
+    }
+  ]
+}

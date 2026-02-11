@@ -1,1 +1,770 @@
-{"country":"MX","name":"Mexique","totalSpots":157,"totalReviews":260,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":5,"lat":15.8608,"lon":-97.0588,"rating":5,"reviews":3,"wait":10,"signal":"sign","lastUsed":"2025-08-17","comments":[{"text":"Bump still there, easy to hitchhike. Got direct ride to Mazunte with a sign.","date":"2025-08-17","rating":5},{"text":"Small bump makes all cars slow down, so they can see you easily. Don't forget to stop by the beach! just a block away.","date":"2013-08-10","rating":5}],"destLat":15.6661,"destLon":-96.5461},{"id":14,"lat":16.2632,"lon":-92.1526,"rating":5,"reviews":3,"wait":23,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"The panamerican road in general is a very good road to hitchike including Comitán, where I've hitched rides since I was a teenager. But if you are going to El Chiflon waterfalls, be aware that while getting there is quite easy, coming back to Comitán is difficult though.","date":"2015-12-21","rating":5},{"text":"Got my ride within 3 minutes!","date":"2015-03-19","rating":5}],"destLat":16.7563,"destLon":-92.6358},{"id":34,"lat":20.7441,"lon":-88.2304,"rating":5,"reviews":3,"wait":7,"signal":null,"lastUsed":"2024-12-02","comments":[{"text":"Hardly had time to put my pack down (wbd)","date":"2024-12-02","rating":5},{"text":"Get a Colectivo from Valladolid to Popola for 15$. From thee you can walk for about 20min through the town and along the highway to the big gas station. you can find rides to Cncun and Merida easily. Was waiting ten minutes till i had a ride to Merida","date":"2015-02-05","rating":5}],"destLat":20.964,"destLon":-89.5743},{"id":82,"lat":20.6278,"lon":-103.2911,"rating":5,"reviews":3,"wait":11,"signal":null,"lastUsed":"2015-02-05","comments":[{"text":"easy to get to close to this place with a bus. check rutasgdl.com for the best bus. got a ride to morelia after 10min","date":"2015-02-05","rating":5},{"text":"Ask someone to take you to the toll (caseta) (20 min by car).\nPedile alguien que te lleve a la caseta (20 min en auto).","date":"2014-02-23","rating":5},{"text":"Take a bus to the new bus station.\nThere is a Soriana market out there.\nOn that big road (the hwy to the East), go left, crossing Av.Patria, still walking and you will see a Pemex gas station, where there are many cars, pick ups and trucks going East (Mexico DF, Morelia, Guanajuato, etc)\n\nTomas un bus hacia la nueva central camionera, a fuera hay un soriana, pues en esa carretera principal vas hacia la izquierda (como volviendo a Gdl), cruzarás Av.Patria, y en seguida llegarás a una gasolinera P","date":"2013-11-03","rating":5}],"destLat":null,"destLon":null},{"id":57,"lat":15.73,"lon":-96.4744,"rating":5,"reviews":2,"wait":5,"signal":null,"lastUsed":"2016-06-02","comments":[{"text":"Easy to hitch a ride from here to the beaches at Zipolite and Mazunte.","date":"2016-06-02","rating":5}],"destLat":null,"destLon":null},{"id":58,"lat":15.7815,"lon":-96.1605,"rating":5,"reviews":2,"wait":15,"signal":null,"lastUsed":"2016-06-02","comments":[{"text":"Good place to hitch west from Hualtulco (La Crucecita). There is a tope (speedbump) here so traffic is going slow, and also a big parking place. Opposite is the entrance to \"Universidad del Mar\"","date":"2016-06-02","rating":5}],"destLat":null,"destLon":null},{"id":59,"lat":22.2132,"lon":-100.9145,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-05-25","comments":[{"text":"Good place to go North. Gaz Station and a lot of place to stop for car. I was picked up from here in 10 minutes.","date":"2016-05-25","rating":5}],"destLat":null,"destLon":null},{"id":64,"lat":19.5519,"lon":-98.495,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-01-25","comments":[{"text":"Petrol station Pemex. Direction Puebla, Veracruz.","date":"2016-01-25","rating":5}],"destLat":null,"destLon":null},{"id":65,"lat":19.5522,"lon":-98.494,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-01-25","comments":[{"text":"Petrol station Pemex. Direction Quéretaro, Guadalajara, León.","date":"2016-01-25","rating":5}],"destLat":null,"destLon":null},{"id":72,"lat":27.4994,"lon":-99.5865,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-06-24","comments":[{"text":"Hopped out one truck and into another to cross the border. First truck I thumbed about 20 seconds after hopping out.","date":"2015-06-24","rating":5}],"destLat":null,"destLon":null},{"id":73,"lat":19.5079,"lon":-97.496,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-04-03","comments":[{"text":"\"Cantona\" tollbooth (caseta) on the Mexico City/Puebla to Xalapa highway. There's an archaeological site called Cantona 4km away. There's a gas station and restrooms, so you can talk to stopped drivers.","date":"2015-04-03","rating":5}],"destLat":null,"destLon":null},{"id":74,"lat":19.6307,"lon":-97.1259,"rating":5,"reviews":2,"wait":5,"signal":null,"lastUsed":"2015-04-03","comments":[{"text":"Tollbooth (caseta) on the paid road towards Puebla/Mexico City. You can easily walk here from the small town of Las Vigas. Cars are coming out slow out of the tollbooth, and can stop with no problem. There's no restrooms or gas station here.","date":"2015-04-03","rating":5}],"destLat":null,"destLon":null},{"id":79,"lat":17.9895,"lon":-92.9811,"rating":5,"reviews":2,"wait":30,"signal":null,"lastUsed":"2015-02-05","comments":[{"text":"Big Pemex-gas station right on the exit of teh city. Found a ride to Puebla after 30min early in the morning at about 6. ou can get a far distance hitch quite easily","date":"2015-02-05","rating":5}],"destLat":null,"destLon":null},{"id":85,"lat":22.751,"lon":-102.464,"rating":5,"reviews":2,"wait":10,"signal":null,"lastUsed":"2014-10-26","comments":[{"text":"There's a gas station with a Subway and an Oxxo, many cars stop here before heading to Aguascalientes.","date":"2014-10-26","rating":5}],"destLat":null,"destLon":null},{"id":101,"lat":15.668,"lon":-96.5558,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"National Turtle Center. From here up to Puerto Angel, you'll find lot's of rides, and many places to sleep close to the beach.","date":"2013-08-10","rating":5}],"destLat":null,"destLon":null},{"id":102,"lat":15.6629,"lon":-96.5142,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"All along this road you'll easily get a ride, but this place in particular is great to sleep near to the beach. Cheap and confortable, you can find many familiar hostels.","date":"2013-08-10","rating":5}],"destLat":null,"destLon":null},{"id":111,"lat":27.9519,"lon":-111.0527,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-03-27","comments":[{"text":"Easypeasy.  Hop in the pickup trucks and knock on the window when you want out!","date":"2013-03-27","rating":5}],"destLat":null,"destLon":null},{"id":126,"lat":18.9864,"lon":-99.1121,"rating":5,"reviews":2,"wait":45,"signal":null,"lastUsed":"2012-12-03","comments":[{"text":"Direction Mexico city.","date":"2012-12-03","rating":5}],"destLat":null,"destLon":null},{"id":128,"lat":27.2999,"lon":-112.9082,"rating":5,"reviews":2,"wait":10,"signal":null,"lastUsed":"2012-09-18","comments":[{"text":"I started my journey to San Francisco (Baja California Sur) here. There is no public transport to that place, so hitchhiking is your only option. It worked!","date":"2012-09-18","rating":5},{"text":"There was and still might be a military checkpoint here. They will stop cars for you and ask drivers to take you with them. When coming from San Ignacio, it's quite a bit to walk, but if you didn't get a lift before, here you will.","date":"2012-09-18","rating":5}],"destLat":null,"destLon":null},{"id":141,"lat":20.9958,"lon":-101.2902,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"A bump where cars stop, here they might take you either to León, or Guanajuato. It is also very common to find students hitchhiking here, therfore it's very safe.","date":"2012-09-08","rating":5}],"destLat":null,"destLon":null},{"id":144,"lat":20.5187,"lon":-100.8496,"rating":5,"reviews":2,"wait":5,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Under the brige, cars that travel from Celaya to Salamanca or Irapuato stop inmediatelly once they see you're asking for a ride.","date":"2012-09-08","rating":5}],"destLat":null,"destLon":null},{"id":145,"lat":20.5326,"lon":-104.7981,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Only exit from the town, in front of a gas station, and next to a Tourist information site you will find a bump where cars do a full stop and can see you.","date":"2012-09-08","rating":5}],"destLat":null,"destLon":null},{"id":151,"lat":20.5407,"lon":-101.2061,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Cars coming from Morelia, going to Irapuato, and León, incorporate in a roundabout. It's a great place for stoping, and locals know stundents usually ask for rides there. It's therfore also quite safe. On normal school days you can find students from the nearby University (FIMEE) that go everyday to Irapuato.","date":"2012-09-08","rating":5}],"destLat":null,"destLon":null},{"id":7,"lat":18.6846,"lon":-88.3956,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2025-06-13","comments":[{"text":"If you are lucky you can get long rides all along the coast.","date":"2025-06-13","rating":5}],"destLat":18.9549,"destLon":-88.1654},{"id":9,"lat":20.1883,"lon":-87.4439,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-04-26","comments":[{"text":"Wait at a speed bump for a ride along this road, plenty of tourists coming from La Zona Hotelera will drive you at least to the intersection of highway 307, might even get a ride to a popular tourist destination if you're lucky","date":"2025-04-26","rating":5}],"destLat":20.2141,"destLon":-87.4532},{"id":10,"lat":20.5071,"lon":-87.7176,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-04-26","comments":[{"text":"Cars are slower here coming through the roundabout so more likely to stop. Pretty low traffic but shouldn't be too tough finding a ride. Amazing guys gave me a ride all the way back to DT Tulum","date":"2025-04-26","rating":5}],"destLat":20.2132,"destLon":-87.4575},{"id":18,"lat":16.7411,"lon":-93.0371,"rating":5,"reviews":1,"wait":1,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"Caseta de cobro somewhere on this stretch.","date":"2025-02-20","rating":5}],"destLat":16.7178,"destLon":-92.623},{"id":31,"lat":19.3201,"lon":-90.729,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2024-12-02","comments":[{"text":"Ideal spot. Slow traffic, space to stop.","date":"2024-12-02","rating":5}],"destLat":18.6072,"destLon":-90.7388},{"id":55,"lat":22.1127,"lon":-97.803,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-07-21","comments":[],"destLat":null,"destLon":null},{"id":70,"lat":21.1662,"lon":-100.9016,"rating":5,"reviews":1,"wait":30,"signal":null,"lastUsed":"2015-11-20","comments":[],"destLat":null,"destLon":null},{"id":106,"lat":19.7153,"lon":-99.2075,"rating":5,"reviews":1,"wait":20,"signal":null,"lastUsed":"2013-03-31","comments":[],"destLat":null,"destLon":null},{"id":118,"lat":19.7351,"lon":-101.1043,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2013-01-01","comments":[],"destLat":null,"destLon":null},{"id":46,"lat":20.9825,"lon":-101.2903,"rating":4.5,"reviews":2,"wait":8,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Great place to catch a ride to Silao. Stood there 5min","date":"2023-11-11","rating":5}],"destLat":20.9829,"destLon":-101.2907},{"id":19,"lat":16.7221,"lon":-92.6517,"rating":4.33,"reviews":3,"wait":20,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"With a Tuxtla sign.","date":"2025-02-20","rating":5},{"text":"There's a traffic light which can be used quite effectively too. Straight non-stop rides to Tuxtla, if going further probably good place to shop around for better ride (highway in Tuxtla can be trickier)","date":"2013-08-12","rating":4}],"destLat":16.5961,"destLon":-93.0267},{"id":27,"lat":20.2078,"lon":-87.4736,"rating":4.33,"reviews":3,"wait":10,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"No police checkpoint here as of 2025, walked on to the end of town.","date":"2025-02-20","rating":3},{"text":"After the police filter you can get car to Bacalar, Chetumal and, even, Palenque.\nI wait 2 minutes.","date":"2014-06-30","rating":5}],"destLat":null,"destLon":null},{"id":22,"lat":17.7112,"lon":-92.0124,"rating":4,"reviews":2,"wait":25,"signal":null,"lastUsed":"2025-02-20","comments":[],"destLat":18.6905,"destLon":-88.3823},{"id":25,"lat":18.6934,"lon":-88.3883,"rating":4,"reviews":2,"wait":20,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"Ride to almost Playa del Carmen","date":"2025-02-20","rating":5}],"destLat":20.5608,"destLon":-87.1683},{"id":53,"lat":20.1277,"lon":-87.4658,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-08-02","comments":[{"text":"Entrance of Sian Ka'an reserve","date":"2016-08-02","rating":4}],"destLat":null,"destLon":null},{"id":60,"lat":20.5764,"lon":-100.4365,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-05-16","comments":[{"text":"You can stay almost on the any place of  this road just this place looks a little bit better","date":"2016-05-16","rating":4},{"text":"Spot to going Leon or Guanajato. It is close for city and there enough place to stop a truck.","date":"2016-05-16","rating":4}],"destLat":null,"destLon":null},{"id":61,"lat":19.7298,"lon":-99.2062,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-05-16","comments":[{"text":"Spot on the Mex 57D","date":"2016-05-16","rating":4},{"text":"This is good sport if you go to north. On this spot you can find Cafeteria so if it be rain you will have shelter. I wait here 1 and half hour before got a ride.","date":"2016-05-16","rating":4}],"destLat":null,"destLon":null},{"id":62,"lat":16.9286,"lon":-99.8011,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-02-24","comments":[{"text":"Toll gates. Direction Chilpancingo/Ciudad de México.","date":"2016-02-24","rating":4}],"destLat":null,"destLon":null},{"id":63,"lat":19.5304,"lon":-103.4211,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-02-18","comments":[{"text":"Petrol station Pemex. You can easily get a ride to Guadalajara or Colima.","date":"2016-02-18","rating":4}],"destLat":null,"destLon":null},{"id":75,"lat":19.5907,"lon":-96.9533,"rating":4,"reviews":2,"wait":45,"signal":null,"lastUsed":"2015-04-03","comments":[{"text":"Buses from Xalapa center to Banderilla can let you off right here. It's the road to Puebla and Mexico City, but the free one, so you're not likely to get a long distance ride. The spot is a good one, cars have tons of room to stop and can see you long before they get to you. Try to get one at least to Las Vigas, where you can easily get on the paid (cuota) road and hitch from a tollbooth (caseta). \nIf you get stuck, an intercity bus from TRV company going further towards Las Vigas, Perote, and T","date":"2015-04-03","rating":4}],"destLat":null,"destLon":null},{"id":83,"lat":19.4196,"lon":-102.0011,"rating":4,"reviews":2,"wait":30,"signal":null,"lastUsed":"2014-11-14","comments":[{"text":"There's a big gas station here (be careful, there's a smaller one 400m west of this one on the same road, be sure to go to this bigger one).\n\nFrom here ask for a ride to the tollbooth (\"la caseta\"), and from there it's very easy to catch a ride to Patzcuaro or Morelia.","date":"2014-11-14","rating":4}],"destLat":null,"destLon":null},{"id":86,"lat":20.9564,"lon":-101.2691,"rating":4,"reviews":2,"wait":10,"signal":null,"lastUsed":"2014-10-16","comments":[{"text":"There's a bump (tope) right here, and cars have space to stop right after. Perfect if you are heading towards San Miguel de Allende.","date":"2014-10-16","rating":4}],"destLat":null,"destLon":null},{"id":87,"lat":16.743,"lon":-93.0731,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-09-10","comments":[{"text":"I was waiting 2 minutes","date":"2014-09-10","rating":4},{"text":"After the roundabout you will see \"Central de Abastos\". There is a good place for go to San Cristobal de Las Casas.","date":"2014-09-10","rating":4}],"destLat":null,"destLon":null},{"id":89,"lat":18.6833,"lon":-88.3979,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-06-30","comments":[{"text":"After Pemex you can see two \"topes\". Between both you can take cars to Chetumal or in direction to Tabasco or Chiapas.","date":"2014-06-30","rating":4}],"destLat":null,"destLon":null},{"id":90,"lat":21.1252,"lon":-86.8334,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-06-11","comments":[{"text":"In the side right, after roundabout you need to walk 100 mts. You will see a gas station PEMEX. Is the only route to Tulum/Chetumal. \nI wait like 15 min.","date":"2014-06-11","rating":4}],"destLat":null,"destLon":null},{"id":92,"lat":20.6172,"lon":-103.2536,"rating":4,"reviews":2,"wait":45,"signal":null,"lastUsed":"2013-12-15","comments":[{"text":"I wrote this point. But It was a mistake (and I can´t delete it), the real one is the point that I wrote a little on the left, closer to the bus station.\n\nYo escribí este punto pero está erroneo (pero no se como borrarlo). El verdadero está escrito un poco más a la izquierda en el mapa, más cerca de la estación de autobuses.","date":"2013-12-15","rating":4},{"text":"Take a bus to the new bus station.\nThere is a Soriana market out there.\nOn that big road (the hwy to the East), go left, crossing Av.Patria, still walking and you will see a Pemex gas station, where there are many cars, pick ups and trucks going East (Mexico DF, Morelia, Guanajuato, etc)\n\nTomas un bus hacia la nueva central camionera, a fuera hay un soriana, pues en esa carretera principal vas hacia la izquierda (como volviendo a Gdl), cruzarás Av.Patria, y en seguida llegarás a una gasolinera P","date":"2013-05-18","rating":4}],"destLat":null,"destLon":null},{"id":95,"lat":14.914,"lon":-92.3383,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-12","comments":[{"text":"Police checkpoint. Take colectivo going to Mazatan to get here.","date":"2013-08-12","rating":4}],"destLat":null,"destLon":null},{"id":100,"lat":15.7298,"lon":-96.4733,"rating":4,"reviews":2,"wait":5,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"You can get a safe ride right after the military zone, where a bump slows down all cars.","date":"2013-08-10","rating":4}],"destLat":null,"destLon":null},{"id":108,"lat":29.1848,"lon":-110.921,"rating":4,"reviews":2,"wait":15,"signal":null,"lastUsed":"2013-03-27","comments":[{"text":"Great place for north or south!  There is a bus line that takes you here (I forgot the number, just ask Hermosillo locals for the bus that goes to Durango University).","date":"2013-03-27","rating":4}],"destLat":null,"destLon":null},{"id":110,"lat":27.9856,"lon":-110.9405,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-03-27","comments":[{"text":"Good for any direction.  Gringos are too scared to pick you up, but the locals will!","date":"2013-03-27","rating":4}],"destLat":null,"destLon":null},{"id":113,"lat":18.0366,"lon":-94.3447,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-02-27","comments":[{"text":"possible to put the tent next to the gas station/oxxo shop. Ask the guard, he will keep an eye on your safety too","date":"2013-02-27","rating":4},{"text":"There's agas station right after the toll stop direction Villahermosa.\n\nHigh frequency of cars, many opportunities (but not for two people) In the evening we didn't get a lift but next morning very fast to Villahermosa","date":"2013-02-27","rating":4}],"destLat":null,"destLon":null},{"id":114,"lat":20.5089,"lon":-87.7189,"rating":4,"reviews":2,"wait":15,"signal":null,"lastUsed":"2013-02-27","comments":[{"text":"There's a bus stop next to the gas station. ery good, the cars stopped to Valladolid without us doing anything, we just sat around.\n\nOn the other side of the roundabout we got lift to tulum in less than 1/2 hour","date":"2013-02-27","rating":4}],"destLat":null,"destLon":null},{"id":115,"lat":20.2146,"lon":-87.4537,"rating":4,"reviews":2,"wait":30,"signal":null,"lastUsed":"2013-02-27","comments":[{"text":"Direction Coba, we got a lift very fast and the next time we've seen some people to Valladolid, 2 cars stopped to Coba within 15 minutes.","date":"2013-02-27","rating":4}],"destLat":null,"destLon":null},{"id":116,"lat":16.5504,"lon":-96.9203,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-01-14","comments":[{"text":"Took a half dozen hitches to make it from Oaxaca to Puerto Escondido, but no troubles otherwise.  Extremely curvy roads in the mountains, drivers may dump you out before checkpoints.","date":"2013-01-14","rating":4}],"destLat":null,"destLon":null},{"id":123,"lat":18.837,"lon":-97.1145,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-12-06","comments":[{"text":"Freight train towards Puebla. There's a little hut here next to the tracks where people wait for the trains heading towards Puebla. They or the rail employees will be able to tell you which train is heading that way and when.","date":"2012-12-06","rating":4}],"destLat":null,"destLon":null},{"id":124,"lat":18.8396,"lon":-97.1053,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-12-06","comments":[{"text":"Freight train from Orizaba to Vera Cruz / Cordoba. More info soon!","date":"2012-12-06","rating":4}],"destLat":null,"destLon":null},{"id":127,"lat":27.4405,"lon":-113.2705,"rating":4,"reviews":2,"wait":30,"signal":null,"lastUsed":"2012-09-18","comments":[{"text":"I waited here for a long time, after a while with another local who waited for a relative to pick him up. I finally went with him in the same car.","date":"2012-09-18","rating":4},{"text":"Wait here to get to San Francisco and the prehistoric cave paintings nearby. Very few cars pass by, but they will most likely pick you up.","date":"2012-09-18","rating":4}],"destLat":null,"destLon":null},{"id":131,"lat":21.0838,"lon":-101.7471,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"A reasonable option when going from León to Guadalajara, or Aguascalientes.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":136,"lat":20.8065,"lon":-104.9413,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"In the town La Estancia de Landeros cars slow down due to bumps.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":137,"lat":20.684,"lon":-104.8795,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"A bump in the town of La Vigencia helps slow down trafic.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":138,"lat":20.0856,"lon":-101.1559,"rating":4,"reviews":2,"wait":10,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Militar check point right before entering Michoacan from Guanajuato, where people feel safe to stop, and usually have to slow down.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":139,"lat":20.9455,"lon":-101.4134,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Cars that go under the bridge slow down and you can easily take a ride to either Guanajuato or Leon.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":142,"lat":20.9347,"lon":-100.751,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"When going to Guanajuato or Dolores Hidalgo, this is the place.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":143,"lat":20.5529,"lon":-100.823,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"In the way to San Miguel de Ayende, from Celaya this is the best place to ask for a ride.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":148,"lat":20.7305,"lon":-103.5729,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Militar check point makes people feel safe about stoping, there is usually people asking ride to Puerto Vallarta, and Tepic. There is a Guadalajara Bus Route that can take you here, is signs \"Bosque\" It also leaves you in the entrance to the Bosque Primavera, great place for camping.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":149,"lat":21.0534,"lon":-101.5744,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"People going in the industrial corridor from Irapuato to Guadalajara slow down to take this exit, there is also good place to stop.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":150,"lat":21.0555,"lon":-101.5782,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"People going from León to Guadalajara Slow down to take this curve, that's a great moment to ask for a ride.","date":"2012-09-08","rating":4}],"destLat":null,"destLon":null},{"id":152,"lat":19.9131,"lon":-90.4187,"rating":4,"reviews":2,"wait":5,"signal":null,"lastUsed":"2012-01-29","comments":[{"text":"We got a ride to Merida in 5 minutes. A good place to hitch, although no shade, very easy to arrive from the center of Campeche and good stream of cars","date":"2012-01-29","rating":4}],"destLat":null,"destLon":null},{"id":154,"lat":19.2409,"lon":-99.148,"rating":4,"reviews":2,"wait":10,"signal":null,"lastUsed":"2011-10-16","comments":[{"text":"That’s a good spot if you want to hitch from Mexico to the south of the republic (directions: Cuernavaca, Tepoztlan, Oaxtepec, Chilpancingo, Acapulco). There’s a toll where you can ask for a raid but if it’s not possible, you go walking 200 meters from the toll to a bar next to the road, in your right hand. In that place you’re going to find a  painted white shadow (my own shadow with the thumb up) on the asphalt, this is an art project I’ve been working in Mexico City, painting different  shado","date":"2011-10-16","rating":4}],"destLat":null,"destLon":null},{"id":155,"lat":16.6756,"lon":-92.5812,"rating":4,"reviews":2,"wait":5,"signal":null,"lastUsed":"2011-01-16","comments":[{"text":"This was my first hitch spot in Mexico.  I think I walked for maybe five minutes before I was picked up to get back to San Cristóbal.  Little buses (colectivos) came by constantly too, but putting my thumb down when they went by saved me 10 pesos in the end.","date":"2011-01-16","rating":4}],"destLat":null,"destLon":null},{"id":1,"lat":28.4312,"lon":-108.3852,"rating":4,"reviews":1,"wait":55,"signal":"thumb","lastUsed":"2026-01-26","comments":[{"text":"A nice man in a big Pick-Up. N8ce conversion. Ride to Hermosillo.","date":"2026-01-26","rating":4}],"destLat":29.0352,"destLon":-110.9453},{"id":2,"lat":28.389,"lon":-107.4406,"rating":4,"reviews":1,"wait":40,"signal":"thumb","lastUsed":"2026-01-26","comments":[{"text":"A nice woman picked me up. A free ride to Creel","date":"2026-01-26","rating":4}],"destLat":27.7561,"destLon":-107.6366},{"id":4,"lat":22.4901,"lon":-105.3837,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2025-09-04","comments":[{"text":"Great spor for going either north or south, gas station and covenience stores nearby","date":"2025-09-04","rating":4}],"destLat":21.4975,"destLon":-104.9088},{"id":8,"lat":20.6175,"lon":-87.095,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-04-26","comments":[{"text":"High traffic area next to the exit of a large shopping centre, easy to get a ride down south.\r\n-Apr 2025","date":"2025-04-26","rating":4}],"destLat":20.2145,"destLon":-87.4528},{"id":11,"lat":20.2179,"lon":-87.4546,"rating":4,"reviews":1,"wait":60,"signal":null,"lastUsed":"2025-04-26","comments":[{"text":"High traffic area with plenty of space to pull over","date":"2025-04-26","rating":4}],"destLat":20.5083,"destLon":-87.7183},{"id":20,"lat":16.667,"lon":-92.5651,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"Speed bump with bus stop. The drive to Ocosingo takes another three hours or so!","date":"2025-02-20","rating":4}],"destLat":16.9123,"destLon":-92.0984},{"id":23,"lat":20.2146,"lon":-87.4518,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"There´s a speed bump here. Got a ride quite quickly with a sign saying Cancun","date":"2025-02-20","rating":4}],"destLat":21.0461,"destLon":-86.8778},{"id":24,"lat":18.9804,"lon":-88.1125,"rating":4,"reviews":1,"wait":1,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"Kind of a deserted crossroad, might not always be so lucky","date":"2025-02-20","rating":4}],"destLat":20.2235,"destLon":-87.4731},{"id":26,"lat":20.2059,"lon":-87.4796,"rating":4,"reviews":1,"wait":120,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"Probably the best spot leaving Tulum towards the South, after a speed bump. Quite a lot of traffic, got a few short ride offers before ending up taking the ride all the way where we were going.","date":"2025-02-20","rating":4}],"destLat":18.7191,"destLon":-87.7066},{"id":28,"lat":17.5011,"lon":-91.9907,"rating":4,"reviews":1,"wait":60,"signal":null,"lastUsed":"2024-12-02","comments":[{"text":"Tope. Few private vehicles. Sign helps. If you're going to San Cristóbal, look for a straight ride (or at least to Ocosingo)","date":"2024-12-02","rating":4}],"destLat":16.7178,"destLon":-92.645},{"id":29,"lat":17.7062,"lon":-92.0157,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2024-12-02","comments":[{"text":"Cars come around a sharp corner, but ample stopping space makes up for that.","date":"2024-12-02","rating":4}],"destLat":17.5026,"destLon":-91.9803},{"id":35,"lat":21.0989,"lon":-86.9777,"rating":4,"reviews":1,"wait":50,"signal":null,"lastUsed":"2024-12-02","comments":[{"text":"Take a colectivo to El Porvenir and get off at \"la caseta\". Checkpoint with Tope","date":"2024-12-02","rating":4}],"destLat":20.7458,"destLon":-88.2312},{"id":36,"lat":21.0417,"lon":-86.8674,"rating":4,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2024-12-02","comments":[{"text":"Lots of commercial traffic, got picked up by a pilot. There's a little bay to pull over into","date":"2024-12-02","rating":4}],"destLat":21.169,"destLon":-86.8387},{"id":43,"lat":20.5741,"lon":-100.3964,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Good place for hiking in direction of Mexico. Cars are going pretty fast but they have time to see you.","date":"2023-11-11","rating":4}],"destLat":20.5741,"destLon":-100.3964},{"id":49,"lat":20.8989,"lon":-89.6829,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2023-03-27","comments":[{"text":"There's some buses/colectivos that go to the area around the puente, walk about 200m down the round and there's a hard shoulder where cars can pull over.  Waited about 10 mins for a ride to campeche, but plenty of traffic going further afield too","date":"2023-03-27","rating":4}],"destLat":20.8989,"destLon":-89.683},{"id":56,"lat":19.2734,"lon":-99.1649,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-06-30","comments":[],"destLat":null,"destLon":null},{"id":66,"lat":16.8003,"lon":-91.1053,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-01-06","comments":[],"destLat":null,"destLon":null},{"id":67,"lat":15.6725,"lon":-92.0015,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-01-06","comments":[],"destLat":null,"destLon":null},{"id":71,"lat":21.0313,"lon":-101.2576,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2015-11-20","comments":[],"destLat":null,"destLon":null},{"id":77,"lat":20.6199,"lon":-87.0922,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-03-20","comments":[],"destLat":null,"destLon":null},{"id":93,"lat":21.8449,"lon":-102.2908,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2013-11-02","comments":[],"destLat":null,"destLon":null},{"id":107,"lat":19.6114,"lon":-99.1897,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-03-31","comments":[],"destLat":null,"destLon":null},{"id":120,"lat":25.7026,"lon":-100.5918,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2013-01-01","comments":[],"destLat":null,"destLon":null},{"id":121,"lat":22.1312,"lon":-101.0359,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2013-01-01","comments":[],"destLat":null,"destLon":null},{"id":45,"lat":20.9455,"lon":-101.4141,"rating":3.67,"reviews":3,"wait":10,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Pretty good spot for going to Irapuato. Lot's of traffic but cars don't go too fast","date":"2023-11-11","rating":5},{"text":"Cars coming from Guanajuato slow down to take the exit towards Irapuato.","date":"2012-09-08","rating":3}],"destLat":20.9453,"destLon":-101.4139},{"id":50,"lat":20.102,"lon":-101.1612,"rating":3,"reviews":2,"wait":60,"signal":null,"lastUsed":"2018-07-11","comments":[{"text":"Colocate unos 5m adelante del semáforo, donde los que vienen de Yuriria se incorporan al dar la curva.","date":"2018-07-11","rating":3},{"text":"If you're heading north, the cars and trucks turn here to continue their road, so they slow down a little.\n\nBoth cars and trucks can easily stop on the side of the road.","date":"2014-11-14","rating":3}],"destLat":null,"destLon":null},{"id":51,"lat":19.8981,"lon":-101.1457,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2018-07-11","comments":[{"text":"Si vas a CDMX Colocate justo al terminar la curva, es más probable que los que vienen de Morelia se detengan. Pero también me ha tocado que se detengan los que ha vienen por la autopista","date":"2018-07-11","rating":3},{"text":"Cars go by really fast, but it's the most important route in between Mexico city and Guadalajara, the two biggest cities in México, so, although you might have to wait a little bit, the next ride might take you all the way.","date":"2012-09-08","rating":3}],"destLat":null,"destLon":null},{"id":76,"lat":19.5941,"lon":-96.9441,"rating":3,"reviews":2,"wait":60,"signal":null,"lastUsed":"2015-04-03","comments":[{"text":"Buses from Xalapa center to Banderilla stop about a 5-minute walk away. There's a traffic light right before the division between the free (libre) and paid (cuota) highways towards Puebla and Mexico City. If you're going long distance, the paid one would be better, but those going there would be in the inner, further lanes, so it can be hard to get a ride from here.","date":"2015-04-03","rating":3}],"destLat":null,"destLon":null},{"id":80,"lat":17.999,"lon":-92.9161,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-02-05","comments":[{"text":"A good gasstation about 10min walking from the Busterminal. Lot of traffic coming by, but most of the traffic is staying in town. found some people that were going to Chiapas. I got a short ride to a gas station right on the exit of the city were there was more far distance traffic","date":"2015-02-05","rating":3}],"destLat":null,"destLon":null},{"id":81,"lat":20.8951,"lon":-89.6681,"rating":3,"reviews":2,"wait":30,"signal":null,"lastUsed":"2015-02-05","comments":[{"text":"Pemex gas station right infront of the driveway to campeche. i needed 30min to find a ride. unfortunately there is not so much traffic going in direction Campeche in general","date":"2015-02-05","rating":3}],"destLat":null,"destLon":null},{"id":84,"lat":19.74,"lon":-101.1768,"rating":3,"reviews":2,"wait":30,"signal":null,"lastUsed":"2014-11-14","comments":[{"text":"This is a Pemex gas station, it's a relatively small one, so not many cars stop here.\nThere are two or three bigger ones up north on this same road, so from here your best bet is to ask for rides to further gasolineras, or to Moroleón.","date":"2014-11-14","rating":3}],"destLat":null,"destLon":null},{"id":88,"lat":18.5267,"lon":-88.4675,"rating":3,"reviews":2,"wait":60,"signal":null,"lastUsed":"2014-06-30","comments":[{"text":"Point ro go in direction to Escarcega or Palenque. \nSometimes the cars go very fast, but ypu can get pick up that stop in little towns.","date":"2014-06-30","rating":3}],"destLat":null,"destLon":null},{"id":96,"lat":21.277,"lon":-89.6626,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"Better get a ride inside town; Roads are really spacey, and cars don't slow down.","date":"2013-08-10","rating":3}],"destLat":null,"destLon":null},{"id":97,"lat":16.7897,"lon":-93.1784,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"New highway to Villahermosa. It's the fastest way, but it might be hard to get a ride if you're not on the toll stop.","date":"2013-08-10","rating":3}],"destLat":null,"destLon":null},{"id":98,"lat":16.3704,"lon":-94.1938,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"Friendly people and bumps all along town. Good place to get a ride to San Cristobal. It gets cold.","date":"2013-08-10","rating":3}],"destLat":null,"destLon":null},{"id":103,"lat":15.7159,"lon":-96.583,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"Always go through the beach road! A small junction where cars slow down.","date":"2013-08-10","rating":3}],"destLat":null,"destLon":null},{"id":104,"lat":16.3506,"lon":-98.0512,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"Right outside of the Coke and Corona distributors. There you can find some trees and shade until you get a ride. Usually people going to Huatulco and Puerto Escondido. You're also just 2 blocks away from the bus station","date":"2013-08-10","rating":3}],"destLat":null,"destLon":null},{"id":105,"lat":16.3646,"lon":-98.2491,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"Small town with really nice people, where you can find a place to sleep and eat. Ask in the church.","date":"2013-08-10","rating":3}],"destLat":null,"destLon":null},{"id":109,"lat":29.0254,"lon":-110.9607,"rating":3,"reviews":2,"wait":45,"signal":null,"lastUsed":"2013-03-27","comments":[{"text":"This spot is mas o menos.  There are a lot of guys across the street waiting for jobs (for semi trucks), and something there re other local hitchhikers waiting here at the same time.  It's slightly sketchy.  A sign that says \"Guaymas\" or something funny in Spanish should do you well.  Around the corner is a little place that sells rotisserie chicken for 40 pesos (make sure you get all the fixins too! tortillas, beans, salsita, etc.)","date":"2013-03-27","rating":3}],"destLat":null,"destLon":null},{"id":112,"lat":17.3288,"lon":-96.4895,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-02-27","comments":[{"text":"Gas station. We got many opportunities to Oaxaca City but we had to wait a long time to Tuxtepec. Most people just go around next corner.","date":"2013-02-27","rating":3}],"destLat":null,"destLon":null},{"id":125,"lat":19.0758,"lon":-98.1818,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-12-06","comments":[{"text":"Freight train towards Orizaba / Vera Cruz. If you have the time it's definitely worth the wait! Stand just to the east of this point next to the tracks and look for the \"Ferrosur\" locomotive heading away (east) from the yard - there are normally 2 a day, early and late. Chances are there will be other people there waiting for the train, feel free to talk to them. The ride takes about 8 hours and get's a bit cold at night (December).. no problems with police or rail employees - quite the opposite","date":"2012-12-06","rating":3}],"destLat":null,"destLon":null},{"id":130,"lat":20.5712,"lon":-100.4816,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"You can ask for a ride in the direcction of Celaya under the bridge, or just take the bus that comes every half hour.","date":"2012-09-08","rating":3}],"destLat":null,"destLon":null},{"id":134,"lat":20.7376,"lon":-101.3412,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Exit from the University's Agronomy Faculty, It takes a while, but you find ride there.","date":"2012-09-08","rating":3}],"destLat":null,"destLon":null},{"id":140,"lat":20.9764,"lon":-101.281,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"This whole area has several bumps where cars slow down. It's also common to find students hitchhiking","date":"2012-09-08","rating":3}],"destLat":null,"destLon":null},{"id":146,"lat":20.537,"lon":-104.046,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Bump where local pickups stop enough to see you.","date":"2012-09-08","rating":3}],"destLat":null,"destLon":null},{"id":147,"lat":20.8945,"lon":-105.4075,"rating":3,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Cars pass by fast, but they have a lot of space to stop, once they see you.","date":"2012-09-08","rating":3}],"destLat":null,"destLon":null},{"id":12,"lat":18.4872,"lon":-97.4562,"rating":3,"reviews":1,"wait":50,"signal":null,"lastUsed":"2025-02-23","comments":[],"destLat":18.8505,"destLon":-97.1053},{"id":13,"lat":20.6994,"lon":-88.6,"rating":3,"reviews":1,"wait":50,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"Some cars going to Merida, lot of space to pull over","date":"2025-02-23","rating":3}],"destLat":20.9869,"destLon":-89.6122},{"id":15,"lat":16.1296,"lon":-95.3093,"rating":3,"reviews":1,"wait":70,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"Quite hard to find a ride. We were passed by some illegal immigrants heading towards US (going from their \"pit stop\" in Salina Cruz)","date":"2025-02-23","rating":3}],"destLat":15.7474,"destLon":-96.467},{"id":32,"lat":19.801,"lon":-90.5263,"rating":3,"reviews":1,"wait":45,"signal":null,"lastUsed":"2024-12-02","comments":[{"text":"Just before the split cars are relatively slow. Visibility is not ideal and there's little space.","date":"2024-12-02","rating":3}],"destLat":19.3448,"destLon":-90.7333},{"id":33,"lat":20.8957,"lon":-89.6898,"rating":3,"reviews":1,"wait":15,"signal":null,"lastUsed":"2024-12-02","comments":[{"text":"There's a gas station here you can get close-ish to by bus. Hitching highway traffic too is recommended.","date":"2024-12-02","rating":3}],"destLat":19.7719,"destLon":-90.5383},{"id":38,"lat":19.032,"lon":-97.9836,"rating":3,"reviews":1,"wait":40,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Not great spot after the highway gates but it's possible to catch long ride trucks in direction of Orizaba and even further! But it's very hard","date":"2023-11-11","rating":3}],"destLat":19.032,"destLon":-97.9836},{"id":41,"lat":19.3497,"lon":-98.1918,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Ok spot to go to the Puebla. Not many people go there but it's possible to catch someone","date":"2023-11-11","rating":3}],"destLat":19.3497,"destLon":-98.1918},{"id":42,"lat":20.5633,"lon":-100.2429,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Not so great spot on the way to Mexico but it's ok if needed. Cars going pretty fast but it's possible to catch something","date":"2023-11-11","rating":3}],"destLat":20.5633,"destLon":-100.2429},{"id":44,"lat":20.4825,"lon":-100.8077,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Not so great spot. Stood there 30min and finally caught a guy going to Queretaro. Not much traffic","date":"2023-11-11","rating":3}],"destLat":20.4825,"destLon":-100.8077},{"id":48,"lat":19.7963,"lon":-90.5295,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2023-03-27","comments":[{"text":"Small hard shoulder just before the slip road comes in.  Probably better options available in campeche, traffic moving fairly quickly and not much space to pull over.  Nonetheless waited about half an hour before getting a ride to Villahermosa","date":"2023-03-27","rating":3}],"destLat":19.7963,"destLon":-90.5295},{"id":52,"lat":16.2448,"lon":-93.8804,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2017-05-11","comments":[{"text":"Got a ride on a pickup all the way to Tuxla, not much waiting.","date":"2017-05-11","rating":3}],"destLat":null,"destLon":null},{"id":69,"lat":20.6025,"lon":-105.2334,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-12-12","comments":[],"destLat":null,"destLon":null},{"id":78,"lat":16.7823,"lon":-93.2296,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-03-19","comments":[],"destLat":null,"destLon":null},{"id":119,"lat":25.5939,"lon":-100.882,"rating":3,"reviews":1,"wait":15,"signal":null,"lastUsed":"2013-01-01","comments":[],"destLat":null,"destLon":null},{"id":122,"lat":21.0918,"lon":-101.623,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-01-01","comments":[],"destLat":null,"destLon":null},{"id":156,"lat":28.9506,"lon":-114.2336,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2010-12-11","comments":[],"destLat":null,"destLon":null},{"id":91,"lat":18.9804,"lon":-97.8238,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-02-25","comments":[{"text":"Place where cars and trucks stops to eat.\nDonde paran autos y camions para comer.\n\nTo Oaxaca or Tehuacan, forget about!\nTo Veracruz you may have a chance.","date":"2014-02-25","rating":2}],"destLat":null,"destLon":null},{"id":94,"lat":16.5639,"lon":-93.8574,"rating":2,"reviews":2,"wait":90,"signal":null,"lastUsed":"2013-08-12","comments":[{"text":"got seriously stuck melting here, considered turning toward Arriaga but then an incredible thing happened - an army truck showed up and setup a control post, 2minutes later we got a 60km ride.","date":"2013-08-12","rating":2},{"text":"high speed, high temperature. dirrection Arriaga is somewhat better and with a shade.","date":"2013-08-12","rating":2}],"destLat":null,"destLon":null},{"id":117,"lat":19.3537,"lon":-98.9897,"rating":2,"reviews":2,"wait":15,"signal":null,"lastUsed":"2013-01-01","comments":[{"text":"this rating is for the Central de Abastos near Iztapalapa, SE of downtown.  It can be a good place to catch long rides with truckers if you speak good Spanish or maybe are a good looking gringa!  Check out the Pension (tractor trailer parking lot) to chat up drivers.  However, many of them stay here for days or weeks at a time.  So, while you might get lucky, it is much easier to catch rides out on the freeway.  take a bus to the Cuota if you're headed on 57 towards Queretaro.","date":"2013-01-01","rating":2}],"destLat":null,"destLon":null},{"id":129,"lat":20.5717,"lon":-100.4797,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"You can ask for a ride towards San Luis Potosí.","date":"2012-09-08","rating":2}],"destLat":null,"destLon":null},{"id":132,"lat":21.0712,"lon":-101.6834,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"When Going to Jalisco from León, and if you cannot take the other entrance to the Highway, this is an option.","date":"2012-09-08","rating":2}],"destLat":null,"destLon":null},{"id":133,"lat":21.0594,"lon":-101.5825,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"When going from León south, there is not much option, but under the \"Milenium\" Bridge, a tall metal structure made for pedestrians to cross the highway. Here, many buslines going to Guanajuato and Silao stop, and you might get a ride even though the trafic is so fast. There is also a place where small trucks stop to eat, so you can also ask for a ride in person.","date":"2012-09-08","rating":2}],"destLat":null,"destLon":null},{"id":135,"lat":20.7505,"lon":-101.3383,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2012-09-08","comments":[{"text":"Cars go by fast, but the trafic is much, so eventually you get a lift.","date":"2012-09-08","rating":2}],"destLat":null,"destLon":null},{"id":157,"lat":31.9116,"lon":-116.693,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Waited ages here - north Mexico is just not good hitching territory :","date":null,"rating":2}],"destLat":null,"destLon":null},{"id":3,"lat":17.7116,"lon":-92.0117,"rating":2,"reviews":1,"wait":120,"signal":null,"lastUsed":"2025-10-18","comments":[{"text":"Seems like a good spot, but just locals or drivers not willing to stop","date":"2025-10-18","rating":2}],"destLat":null,"destLon":null},{"id":6,"lat":18.9547,"lon":-88.1652,"rating":2,"reviews":1,"wait":35,"signal":null,"lastUsed":"2025-06-13","comments":[{"text":"Many many cars, but not very shady. Days can be very hot and the wait seems longer.","date":"2025-06-13","rating":2}],"destLat":19.5807,"destLon":-88.0438},{"id":21,"lat":16.9144,"lon":-92.0998,"rating":2,"reviews":1,"wait":120,"signal":null,"lastUsed":"2025-02-20","comments":[{"text":"Tough spot. What we didn´t know: Just around the corner, there´s a gas station with a speed bump!","date":"2025-02-20","rating":2}],"destLat":17.4424,"destLon":-91.9611},{"id":30,"lat":18.6079,"lon":-90.7499,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2024-12-02","comments":[{"text":"Too much local traffic. You'll get a ride... eventually... or you can just walk 500m to the tope","date":"2024-12-02","rating":2}],"destLat":17.7094,"destLon":-92.0187},{"id":54,"lat":20.1847,"lon":-87.4442,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-08-02","comments":[],"destLat":null,"destLon":null},{"id":68,"lat":20.014,"lon":-105.3071,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-12-12","comments":[],"destLat":null,"destLon":null},{"id":99,"lat":15.7823,"lon":-96.156,"rating":1,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-08-10","comments":[{"text":"Way too fast. Cars don't see you. If you're not a girl, you won't get ride.","date":"2013-08-10","rating":1}],"destLat":null,"destLon":null},{"id":153,"lat":19.253,"lon":-99.1208,"rating":1,"reviews":2,"wait":null,"signal":null,"lastUsed":"2011-10-16","comments":[{"text":"Here is the place where I started a nomadic art project related with hitchhiking in Mexico. I painted in white on the asphalt my own shadow projected on the road with my thumb up.  I did this action in all the right places in Mexico City to get out from the city.\nI painted the first shadow in that place, near the art college of Mexico City, ENAP. It's an abandoned petrol station. I think it's not a really good spot for hitchhiking, but I just wanted to explain the project here.\nIf you want to kn","date":"2011-10-16","rating":1}],"destLat":null,"destLon":null},{"id":16,"lat":18.0794,"lon":-92.9173,"rating":1,"reviews":1,"wait":180,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"The spot looks super good for long-distance hitchhiking - many truck and cars, toll gates so everyone is going super slowly, lot of place to pull over... But it was the longest time we have ever waited for any vihicule to just stop... supposedly the \"red zone\" with a lot of drugtraffiking, hijacking, robberies and so on. No one is willing to pull over, even though there is a police station just on the corner. Impossible to get to the city of Villahermosa from there because there is no public tra","date":"2025-02-23","rating":1}],"destLat":18.6074,"destLon":-90.7434},{"id":17,"lat":18.8865,"lon":-96.9655,"rating":1,"reviews":1,"wait":120,"signal":null,"lastUsed":"2025-02-23","comments":[{"text":"Super hard to find a ride. It is the \"red zone\", reportedly many hijackings and robberies on the highway towards Villahermosa","date":"2025-02-23","rating":1}],"destLat":18.0774,"destLon":-92.9193},{"id":37,"lat":16.2311,"lon":-92.1337,"rating":1,"reviews":1,"wait":100,"signal":null,"lastUsed":"2023-11-14","comments":[{"text":"Very bad place to cross the border. Stood there almost 2 hours. No one stopped and no buses were going there","date":"2023-11-14","rating":1}],"destLat":16.2311,"destLon":-92.1337},{"id":39,"lat":19.0832,"lon":-98.1863,"rating":1,"reviews":1,"wait":50,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Very shitty place to hitchhike in direction of Orizaba. Car's going very fast and no one wants to stop (maybe they're afraid of hitchhikers)","date":"2023-11-11","rating":1}],"destLat":19.0832,"destLon":-98.1863},{"id":40,"lat":19.335,"lon":-98.1983,"rating":1,"reviews":1,"wait":40,"signal":null,"lastUsed":"2023-11-11","comments":[{"text":"Looks like a good place to hitchhike but it's shitty. Cars are going too fast and they don't have time to stop","date":"2023-11-11","rating":1}],"destLat":19.335,"destLon":-98.1983},{"id":47,"lat":19.3422,"lon":-98.9788,"rating":1,"reviews":1,"wait":120,"signal":null,"lastUsed":"2023-10-22","comments":[{"text":"Auta jadą dość szybko, te które jadą w kierunku Puebli poruszają się na dalszych pasach","date":"2023-10-22","rating":1}],"destLat":19.3336,"destLon":-98.9787}]}
+{
+  "country": "MX",
+  "name": "Mexique",
+  "totalSpots": 157,
+  "totalReviews": 260,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 5,
+      "lat": 15.8608,
+      "lon": -97.0588,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2025-08-17",
+      "comments": [
+        {
+          "text": "Bump still there, easy to hitchhike. Got direct ride to Mazunte with a sign.",
+          "date": "2025-08-17",
+          "rating": 5
+        },
+        {
+          "text": "Small bump makes all cars slow down, so they can see you easily. Don't forget to stop by the beach! just a block away.",
+          "date": "2013-08-10",
+          "rating": 5
+        }
+      ],
+      "destLat": 15.6661,
+      "destLon": -96.5461
+    },
+    {
+      "id": 14,
+      "lat": 16.2632,
+      "lon": -92.1526,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 23,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [
+        {
+          "text": "The panamerican road in general is a very good road to hitchike including Comitán, where I've hitched rides since I was a teenager. But if you are going to El Chiflon waterfalls, be aware that while getting there is quite easy, coming back to Comitán is difficult though.",
+          "date": "2015-12-21",
+          "rating": 5
+        },
+        {
+          "text": "Got my ride within 3 minutes!",
+          "date": "2015-03-19",
+          "rating": 5
+        }
+      ],
+      "destLat": 16.7563,
+      "destLon": -92.6358
+    },
+    {
+      "id": 34,
+      "lat": 20.7441,
+      "lon": -88.2304,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 7,
+      "signal": null,
+      "lastUsed": "2024-12-02",
+      "comments": [
+        {
+          "text": "Hardly had time to put my pack down (wbd)",
+          "date": "2024-12-02",
+          "rating": 5
+        },
+        {
+          "text": "Get a Colectivo from Valladolid to Popola for 15$. From thee you can walk for about 20min through the town and along the highway to the big gas station. you can find rides to Cncun and Merida easily. Was waiting ten minutes till i had a ride to Merida",
+          "date": "2015-02-05",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.964,
+      "destLon": -89.5743
+    },
+    {
+      "id": 7,
+      "lat": 18.6846,
+      "lon": -88.3956,
+      "rating": 5,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2025-06-13",
+      "comments": [
+        {
+          "text": "If you are lucky you can get long rides all along the coast.",
+          "date": "2025-06-13",
+          "rating": 5
+        }
+      ],
+      "destLat": 18.9549,
+      "destLon": -88.1654
+    },
+    {
+      "id": 9,
+      "lat": 20.1883,
+      "lon": -87.4439,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-04-26",
+      "comments": [
+        {
+          "text": "Wait at a speed bump for a ride along this road, plenty of tourists coming from La Zona Hotelera will drive you at least to the intersection of highway 307, might even get a ride to a popular tourist destination if you're lucky",
+          "date": "2025-04-26",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.2141,
+      "destLon": -87.4532
+    },
+    {
+      "id": 10,
+      "lat": 20.5071,
+      "lon": -87.7176,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-04-26",
+      "comments": [
+        {
+          "text": "Cars are slower here coming through the roundabout so more likely to stop. Pretty low traffic but shouldn't be too tough finding a ride. Amazing guys gave me a ride all the way back to DT Tulum",
+          "date": "2025-04-26",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.2132,
+      "destLon": -87.4575
+    },
+    {
+      "id": 18,
+      "lat": 16.7411,
+      "lon": -93.0371,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [
+        {
+          "text": "Caseta de cobro somewhere on this stretch.",
+          "date": "2025-02-20",
+          "rating": 5
+        }
+      ],
+      "destLat": 16.7178,
+      "destLon": -92.623
+    },
+    {
+      "id": 31,
+      "lat": 19.3201,
+      "lon": -90.729,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2024-12-02",
+      "comments": [
+        {
+          "text": "Ideal spot. Slow traffic, space to stop.",
+          "date": "2024-12-02",
+          "rating": 5
+        }
+      ],
+      "destLat": 18.6072,
+      "destLon": -90.7388
+    },
+    {
+      "id": 46,
+      "lat": 20.9825,
+      "lon": -101.2903,
+      "rating": 4.5,
+      "reviews": 2,
+      "wait": 8,
+      "signal": null,
+      "lastUsed": "2023-11-11",
+      "comments": [
+        {
+          "text": "Great place to catch a ride to Silao. Stood there 5min",
+          "date": "2023-11-11",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.9829,
+      "destLon": -101.2907
+    },
+    {
+      "id": 19,
+      "lat": 16.7221,
+      "lon": -92.6517,
+      "rating": 4.33,
+      "reviews": 3,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [
+        {
+          "text": "With a Tuxtla sign.",
+          "date": "2025-02-20",
+          "rating": 5
+        },
+        {
+          "text": "There's a traffic light which can be used quite effectively too. Straight non-stop rides to Tuxtla, if going further probably good place to shop around for better ride (highway in Tuxtla can be trickier)",
+          "date": "2013-08-12",
+          "rating": 4
+        }
+      ],
+      "destLat": 16.5961,
+      "destLon": -93.0267
+    },
+    {
+      "id": 27,
+      "lat": 20.2078,
+      "lon": -87.4736,
+      "rating": 4.33,
+      "reviews": 3,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [
+        {
+          "text": "No police checkpoint here as of 2025, walked on to the end of town.",
+          "date": "2025-02-20",
+          "rating": 3
+        },
+        {
+          "text": "After the police filter you can get car to Bacalar, Chetumal and, even, Palenque.\nI wait 2 minutes.",
+          "date": "2014-06-30",
+          "rating": 5
+        }
+      ],
+      "destLat": null,
+      "destLon": null
+    },
+    {
+      "id": 22,
+      "lat": 17.7112,
+      "lon": -92.0124,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 25,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [],
+      "destLat": 18.6905,
+      "destLon": -88.3823
+    },
+    {
+      "id": 25,
+      "lat": 18.6934,
+      "lon": -88.3883,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [
+        {
+          "text": "Ride to almost Playa del Carmen",
+          "date": "2025-02-20",
+          "rating": 5
+        }
+      ],
+      "destLat": 20.5608,
+      "destLon": -87.1683
+    },
+    {
+      "id": 1,
+      "lat": 28.4312,
+      "lon": -108.3852,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 55,
+      "signal": "thumb",
+      "lastUsed": "2026-01-26",
+      "comments": [
+        {
+          "text": "A nice man in a big Pick-Up. N8ce conversion. Ride to Hermosillo.",
+          "date": "2026-01-26",
+          "rating": 4
+        }
+      ],
+      "destLat": 29.0352,
+      "destLon": -110.9453
+    },
+    {
+      "id": 2,
+      "lat": 28.389,
+      "lon": -107.4406,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 40,
+      "signal": "thumb",
+      "lastUsed": "2026-01-26",
+      "comments": [
+        {
+          "text": "A nice woman picked me up. A free ride to Creel",
+          "date": "2026-01-26",
+          "rating": 4
+        }
+      ],
+      "destLat": 27.7561,
+      "destLon": -107.6366
+    },
+    {
+      "id": 4,
+      "lat": 22.4901,
+      "lon": -105.3837,
+      "rating": 4,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2025-09-04",
+      "comments": [
+        {
+          "text": "Great spor for going either north or south, gas station and covenience stores nearby",
+          "date": "2025-09-04",
+          "rating": 4
+        }
+      ],
+      "destLat": 21.4975,
+      "destLon": -104.9088
+    },
+    {
+      "id": 8,
+      "lat": 20.6175,
+      "lon": -87.095,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-04-26",
+      "comments": [
+        {
+          "text": "High traffic area next to the exit of a large shopping centre, easy to get a ride down south.\r\n-Apr 2025",
+          "date": "2025-04-26",
+          "rating": 4
+        }
+      ],
+      "destLat": 20.2145,
+      "destLon": -87.4528
+    },
+    {
+      "id": 11,
+      "lat": 20.2179,
+      "lon": -87.4546,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 60,
+      "signal": null,
+      "lastUsed": "2025-04-26",
+      "comments": [
+        {
+          "text": "High traffic area with plenty of space to pull over",
+          "date": "2025-04-26",
+          "rating": 4
+        }
+      ],
+      "destLat": 20.5083,
+      "destLon": -87.7183
+    },
+    {
+      "id": 20,
+      "lat": 16.667,
+      "lon": -92.5651,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 45,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [
+        {
+          "text": "Speed bump with bus stop. The drive to Ocosingo takes another three hours or so!",
+          "date": "2025-02-20",
+          "rating": 4
+        }
+      ],
+      "destLat": 16.9123,
+      "destLon": -92.0984
+    },
+    {
+      "id": 23,
+      "lat": 20.2146,
+      "lon": -87.4518,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [
+        {
+          "text": "There´s a speed bump here. Got a ride quite quickly with a sign saying Cancun",
+          "date": "2025-02-20",
+          "rating": 4
+        }
+      ],
+      "destLat": 21.0461,
+      "destLon": -86.8778
+    },
+    {
+      "id": 24,
+      "lat": 18.9804,
+      "lon": -88.1125,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [
+        {
+          "text": "Kind of a deserted crossroad, might not always be so lucky",
+          "date": "2025-02-20",
+          "rating": 4
+        }
+      ],
+      "destLat": 20.2235,
+      "destLon": -87.4731
+    },
+    {
+      "id": 26,
+      "lat": 20.2059,
+      "lon": -87.4796,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 120,
+      "signal": null,
+      "lastUsed": "2025-02-20",
+      "comments": [
+        {
+          "text": "Probably the best spot leaving Tulum towards the South, after a speed bump. Quite a lot of traffic, got a few short ride offers before ending up taking the ride all the way where we were going.",
+          "date": "2025-02-20",
+          "rating": 4
+        }
+      ],
+      "destLat": 18.7191,
+      "destLon": -87.7066
+    },
+    {
+      "id": 28,
+      "lat": 17.5011,
+      "lon": -91.9907,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 60,
+      "signal": null,
+      "lastUsed": "2024-12-02",
+      "comments": [
+        {
+          "text": "Tope. Few private vehicles. Sign helps. If you're going to San Cristóbal, look for a straight ride (or at least to Ocosingo)",
+          "date": "2024-12-02",
+          "rating": 4
+        }
+      ],
+      "destLat": 16.7178,
+      "destLon": -92.645
+    },
+    {
+      "id": 29,
+      "lat": 17.7062,
+      "lon": -92.0157,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2024-12-02",
+      "comments": [
+        {
+          "text": "Cars come around a sharp corner, but ample stopping space makes up for that.",
+          "date": "2024-12-02",
+          "rating": 4
+        }
+      ],
+      "destLat": 17.5026,
+      "destLon": -91.9803
+    },
+    {
+      "id": 35,
+      "lat": 21.0989,
+      "lon": -86.9777,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 50,
+      "signal": null,
+      "lastUsed": "2024-12-02",
+      "comments": [
+        {
+          "text": "Take a colectivo to El Porvenir and get off at \"la caseta\". Checkpoint with Tope",
+          "date": "2024-12-02",
+          "rating": 4
+        }
+      ],
+      "destLat": 20.7458,
+      "destLon": -88.2312
+    },
+    {
+      "id": 36,
+      "lat": 21.0417,
+      "lon": -86.8674,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2024-12-02",
+      "comments": [
+        {
+          "text": "Lots of commercial traffic, got picked up by a pilot. There's a little bay to pull over into",
+          "date": "2024-12-02",
+          "rating": 4
+        }
+      ],
+      "destLat": 21.169,
+      "destLon": -86.8387
+    },
+    {
+      "id": 43,
+      "lat": 20.5741,
+      "lon": -100.3964,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2023-11-11",
+      "comments": [
+        {
+          "text": "Good place for hiking in direction of Mexico. Cars are going pretty fast but they have time to see you.",
+          "date": "2023-11-11",
+          "rating": 4
+        }
+      ],
+      "destLat": 20.5741,
+      "destLon": -100.3964
+    },
+    {
+      "id": 49,
+      "lat": 20.8989,
+      "lon": -89.6829,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-03-27",
+      "comments": [
+        {
+          "text": "There's some buses/colectivos that go to the area around the puente, walk about 200m down the round and there's a hard shoulder where cars can pull over.  Waited about 10 mins for a ride to campeche, but plenty of traffic going further afield too",
+          "date": "2023-03-27",
+          "rating": 4
+        }
+      ],
+      "destLat": 20.8989,
+      "destLon": -89.683
+    },
+    {
+      "id": 45,
+      "lat": 20.9455,
+      "lon": -101.4141,
+      "rating": 3.67,
+      "reviews": 3,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-11-11",
+      "comments": [
+        {
+          "text": "Pretty good spot for going to Irapuato. Lot's of traffic but cars don't go too fast",
+          "date": "2023-11-11",
+          "rating": 5
+        },
+        {
+          "text": "Cars coming from Guanajuato slow down to take the exit towards Irapuato.",
+          "date": "2012-09-08",
+          "rating": 3
+        }
+      ],
+      "destLat": 20.9453,
+      "destLon": -101.4139
+    },
+    {
+      "id": 12,
+      "lat": 18.4872,
+      "lon": -97.4562,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 50,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [],
+      "destLat": 18.8505,
+      "destLon": -97.1053
+    },
+    {
+      "id": 13,
+      "lat": 20.6994,
+      "lon": -88.6,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 50,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [
+        {
+          "text": "Some cars going to Merida, lot of space to pull over",
+          "date": "2025-02-23",
+          "rating": 3
+        }
+      ],
+      "destLat": 20.9869,
+      "destLon": -89.6122
+    },
+    {
+      "id": 15,
+      "lat": 16.1296,
+      "lon": -95.3093,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 70,
+      "signal": null,
+      "lastUsed": "2025-02-23",
+      "comments": [
+        {
+          "text": "Quite hard to find a ride. We were passed by some illegal immigrants heading towards US (going from their \"pit stop\" in Salina Cruz)",
+          "date": "2025-02-23",
+          "rating": 3
+        }
+      ],
+      "destLat": 15.7474,
+      "destLon": -96.467
+    },
+    {
+      "id": 32,
+      "lat": 19.801,
+      "lon": -90.5263,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 45,
+      "signal": null,
+      "lastUsed": "2024-12-02",
+      "comments": [
+        {
+          "text": "Just before the split cars are relatively slow. Visibility is not ideal and there's little space.",
+          "date": "2024-12-02",
+          "rating": 3
+        }
+      ],
+      "destLat": 19.3448,
+      "destLon": -90.7333
+    },
+    {
+      "id": 33,
+      "lat": 20.8957,
+      "lon": -89.6898,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2024-12-02",
+      "comments": [
+        {
+          "text": "There's a gas station here you can get close-ish to by bus. Hitching highway traffic too is recommended.",
+          "date": "2024-12-02",
+          "rating": 3
+        }
+      ],
+      "destLat": 19.7719,
+      "destLon": -90.5383
+    },
+    {
+      "id": 38,
+      "lat": 19.032,
+      "lon": -97.9836,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 40,
+      "signal": null,
+      "lastUsed": "2023-11-11",
+      "comments": [
+        {
+          "text": "Not great spot after the highway gates but it's possible to catch long ride trucks in direction of Orizaba and even further! But it's very hard",
+          "date": "2023-11-11",
+          "rating": 3
+        }
+      ],
+      "destLat": 19.032,
+      "destLon": -97.9836
+    },
+    {
+      "id": 41,
+      "lat": 19.3497,
+      "lon": -98.1918,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2023-11-11",
+      "comments": [
+        {
+          "text": "Ok spot to go to the Puebla. Not many people go there but it's possible to catch someone",
+          "date": "2023-11-11",
+          "rating": 3
+        }
+      ],
+      "destLat": 19.3497,
+      "destLon": -98.1918
+    },
+    {
+      "id": 42,
+      "lat": 20.5633,
+      "lon": -100.2429,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2023-11-11",
+      "comments": [
+        {
+          "text": "Not so great spot on the way to Mexico but it's ok if needed. Cars going pretty fast but it's possible to catch something",
+          "date": "2023-11-11",
+          "rating": 3
+        }
+      ],
+      "destLat": 20.5633,
+      "destLon": -100.2429
+    },
+    {
+      "id": 44,
+      "lat": 20.4825,
+      "lon": -100.8077,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2023-11-11",
+      "comments": [
+        {
+          "text": "Not so great spot. Stood there 30min and finally caught a guy going to Queretaro. Not much traffic",
+          "date": "2023-11-11",
+          "rating": 3
+        }
+      ],
+      "destLat": 20.4825,
+      "destLon": -100.8077
+    },
+    {
+      "id": 48,
+      "lat": 19.7963,
+      "lon": -90.5295,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2023-03-27",
+      "comments": [
+        {
+          "text": "Small hard shoulder just before the slip road comes in.  Probably better options available in campeche, traffic moving fairly quickly and not much space to pull over.  Nonetheless waited about half an hour before getting a ride to Villahermosa",
+          "date": "2023-03-27",
+          "rating": 3
+        }
+      ],
+      "destLat": 19.7963,
+      "destLon": -90.5295
+    }
+  ]
+}

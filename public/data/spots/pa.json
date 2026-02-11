@@ -1,1 +1,283 @@
-{"country":"PA","name":"Panama","totalSpots":21,"totalReviews":25,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":1,"lat":7.6328,"lon":-81.2567,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2025-07-17","comments":[{"text":"Literally everyone hitchhiked around here. Hitched with the cops, with locals, with tourists.","date":"2025-07-17","rating":5}],"destLat":7.6279,"destLon":-81.2468},{"id":4,"lat":8.5386,"lon":-82.2979,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-02-28","comments":[{"text":"Lots of cars going all the way to Almirante, especially on weekend. Can also ask to stop somewhere on this beautiful panoramic mountain road.","date":"2025-02-28","rating":5}],"destLat":9.2979,"destLon":-82.4093},{"id":6,"lat":8.4489,"lon":-82.4244,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-02-28","comments":[{"text":"Very easy to get a ride all the way to Boquete, lots of transports coming from the city centre and the Panamerican.","date":"2025-02-28","rating":5}],"destLat":8.7763,"destLon":-82.4323},{"id":11,"lat":8.4589,"lon":-79.9942,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-02-18","comments":[],"destLat":8.5997,"destLon":-80.1177},{"id":12,"lat":8.8515,"lon":-79.8161,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-02-18","comments":[],"destLat":8.458,"destLon":-79.9939},{"id":13,"lat":8.8417,"lon":-82.4814,"rating":5,"reviews":1,"wait":10,"signal":"ask","lastUsed":"2025-02-08","comments":[{"text":"A lot of people come to the trail by car. It is possible to wait by the vehicles and ask the people getting into the cars. Alternatively, there are many pickup cars on the near road that are willing to help. The number of vehicles is lower.","date":"2025-02-08","rating":5}],"destLat":8.7777,"destLon":-82.4325},{"id":15,"lat":7.7579,"lon":-80.2577,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-02-08","comments":[{"text":"Very high traffic. Many taxis and buses. Straight and clear road.","date":"2025-02-08","rating":5}],"destLat":7.5359,"destLon":-80.0265},{"id":16,"lat":8.5968,"lon":-80.1471,"rating":5,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2025-02-08","comments":[{"text":"Less traffic, steep hill, but the first car stopped.","date":"2025-02-08","rating":5}],"destLat":8.6043,"destLon":-80.1307},{"id":17,"lat":8.4638,"lon":-79.9977,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-02-08","comments":[{"text":"The main road for all visitors to El Valle, great movement of vehicles and tourists. Very easy to get a ride, drivers are very nice.","date":"2025-02-08","rating":5}],"destLat":8.6043,"destLon":-80.1308},{"id":3,"lat":7.995,"lon":-81.309,"rating":4,"reviews":2,"wait":11,"signal":null,"lastUsed":"2025-02-28","comments":[{"text":"People stopping by the gaz station will offer you a ride to Santiago if you ask them.","date":"2025-02-28","rating":5},{"text":"A lot of people come to the spot just to gill their tank at the gaz station. If you are lucky, someone from Santa Catalina can lift you the whole way.","date":"2025-02-24","rating":3}],"destLat":8.1462,"destLon":-81.0319},{"id":19,"lat":8.4708,"lon":-79.9622,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-03-09","comments":[{"text":"I took a bus to San Carlos to escape of Panama City. And I found here a good spot to David","date":"2016-03-09","rating":4}],"destLat":null,"destLon":null},{"id":21,"lat":9.2886,"lon":-82.4044,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-02-02","comments":[{"text":"got an easy and quick ride with some people who had rented a long distance taxi. was really nice all the way to  puerto viejo i think.","date":"2015-02-02","rating":4}],"destLat":null,"destLon":null},{"id":2,"lat":9.2915,"lon":-82.4054,"rating":4,"reviews":1,"wait":30,"signal":null,"lastUsed":"2025-03-03","comments":[{"text":"Best spot if you want a ride from Almirante to David, or somewhere in the way (like Lost&Found hostel).","date":"2025-03-03","rating":4}],"destLat":8.621,"destLon":-82.223},{"id":8,"lat":8.1281,"lon":-80.6887,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-02-24","comments":[{"text":"Big space at the bus stop. Prepare a big pannel with your direction, because cars go pretty fast.","date":"2025-02-24","rating":4}],"destLat":8.1002,"destLon":-80.9662},{"id":9,"lat":8.5152,"lon":-80.3546,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-02-24","comments":[{"text":"You can get an easy high on the Panamericana, wait until the cars stop at the redlight to get a ride.","date":"2025-02-24","rating":4}],"destLat":8.131,"destLon":-80.687},{"id":14,"lat":7.5243,"lon":-80.0274,"rating":4,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2025-02-08","comments":[],"destLat":7.4339,"destLon":-80.189},{"id":18,"lat":8.4236,"lon":-82.3403,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-06-29","comments":[],"destLat":null,"destLon":null},{"id":20,"lat":8.9443,"lon":-79.5632,"rating":3,"reviews":2,"wait":20,"signal":null,"lastUsed":"2015-06-24","comments":[{"text":"25 mintues to catch a ride. Was with a Syrian lady/ (my first ride in Central America too).","date":"2015-06-24","rating":3}],"destLat":null,"destLon":null},{"id":10,"lat":8.598,"lon":-80.1474,"rating":3,"reviews":1,"wait":20,"signal":null,"lastUsed":"2025-02-24","comments":[{"text":"Not many cars passing. The ones who pass mostly don't go until the panamerican highway","date":"2025-02-24","rating":3}],"destLat":8.514,"destLon":-80.3502},{"id":7,"lat":7.637,"lon":-81.2488,"rating":2,"reviews":1,"wait":50,"signal":null,"lastUsed":"2025-02-28","comments":[{"text":"Not many cars going out of Santa Catalina. Many tourists don't take you.","date":"2025-02-28","rating":2}],"destLat":7.9955,"destLon":-81.3091},{"id":5,"lat":8.6685,"lon":-82.4453,"rating":1,"reviews":1,"wait":60,"signal":null,"lastUsed":"2025-02-28","comments":[{"text":"This road is not good for hitchiking. Had 3 cars passing through in 1 hour. Most of the locals just go around the corner. Better option: going down to David and from David get the road to Almirante.","date":"2025-02-28","rating":1}],"destLat":8.537,"destLon":-82.2977}]}
+{
+  "country": "PA",
+  "name": "Panama",
+  "totalSpots": 21,
+  "totalReviews": 25,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 7.6328,
+      "lon": -81.2567,
+      "rating": 5,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2025-07-17",
+      "comments": [
+        {
+          "text": "Literally everyone hitchhiked around here. Hitched with the cops, with locals, with tourists.",
+          "date": "2025-07-17",
+          "rating": 5
+        }
+      ],
+      "destLat": 7.6279,
+      "destLon": -81.2468
+    },
+    {
+      "id": 4,
+      "lat": 8.5386,
+      "lon": -82.2979,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-02-28",
+      "comments": [
+        {
+          "text": "Lots of cars going all the way to Almirante, especially on weekend. Can also ask to stop somewhere on this beautiful panoramic mountain road.",
+          "date": "2025-02-28",
+          "rating": 5
+        }
+      ],
+      "destLat": 9.2979,
+      "destLon": -82.4093
+    },
+    {
+      "id": 6,
+      "lat": 8.4489,
+      "lon": -82.4244,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-02-28",
+      "comments": [
+        {
+          "text": "Very easy to get a ride all the way to Boquete, lots of transports coming from the city centre and the Panamerican.",
+          "date": "2025-02-28",
+          "rating": 5
+        }
+      ],
+      "destLat": 8.7763,
+      "destLon": -82.4323
+    },
+    {
+      "id": 11,
+      "lat": 8.4589,
+      "lon": -79.9942,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-02-18",
+      "comments": [],
+      "destLat": 8.5997,
+      "destLon": -80.1177
+    },
+    {
+      "id": 12,
+      "lat": 8.8515,
+      "lon": -79.8161,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-02-18",
+      "comments": [],
+      "destLat": 8.458,
+      "destLon": -79.9939
+    },
+    {
+      "id": 13,
+      "lat": 8.8417,
+      "lon": -82.4814,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "ask",
+      "lastUsed": "2025-02-08",
+      "comments": [
+        {
+          "text": "A lot of people come to the trail by car. It is possible to wait by the vehicles and ask the people getting into the cars. Alternatively, there are many pickup cars on the near road that are willing to help. The number of vehicles is lower.",
+          "date": "2025-02-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 8.7777,
+      "destLon": -82.4325
+    },
+    {
+      "id": 15,
+      "lat": 7.7579,
+      "lon": -80.2577,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-02-08",
+      "comments": [
+        {
+          "text": "Very high traffic. Many taxis and buses. Straight and clear road.",
+          "date": "2025-02-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 7.5359,
+      "destLon": -80.0265
+    },
+    {
+      "id": 16,
+      "lat": 8.5968,
+      "lon": -80.1471,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2025-02-08",
+      "comments": [
+        {
+          "text": "Less traffic, steep hill, but the first car stopped.",
+          "date": "2025-02-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 8.6043,
+      "destLon": -80.1307
+    },
+    {
+      "id": 17,
+      "lat": 8.4638,
+      "lon": -79.9977,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-02-08",
+      "comments": [
+        {
+          "text": "The main road for all visitors to El Valle, great movement of vehicles and tourists. Very easy to get a ride, drivers are very nice.",
+          "date": "2025-02-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 8.6043,
+      "destLon": -80.1308
+    },
+    {
+      "id": 3,
+      "lat": 7.995,
+      "lon": -81.309,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 11,
+      "signal": null,
+      "lastUsed": "2025-02-28",
+      "comments": [
+        {
+          "text": "People stopping by the gaz station will offer you a ride to Santiago if you ask them.",
+          "date": "2025-02-28",
+          "rating": 5
+        },
+        {
+          "text": "A lot of people come to the spot just to gill their tank at the gaz station. If you are lucky, someone from Santa Catalina can lift you the whole way.",
+          "date": "2025-02-24",
+          "rating": 3
+        }
+      ],
+      "destLat": 8.1462,
+      "destLon": -81.0319
+    },
+    {
+      "id": 2,
+      "lat": 9.2915,
+      "lon": -82.4054,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2025-03-03",
+      "comments": [
+        {
+          "text": "Best spot if you want a ride from Almirante to David, or somewhere in the way (like Lost&Found hostel).",
+          "date": "2025-03-03",
+          "rating": 4
+        }
+      ],
+      "destLat": 8.621,
+      "destLon": -82.223
+    },
+    {
+      "id": 8,
+      "lat": 8.1281,
+      "lon": -80.6887,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-02-24",
+      "comments": [
+        {
+          "text": "Big space at the bus stop. Prepare a big pannel with your direction, because cars go pretty fast.",
+          "date": "2025-02-24",
+          "rating": 4
+        }
+      ],
+      "destLat": 8.1002,
+      "destLon": -80.9662
+    },
+    {
+      "id": 9,
+      "lat": 8.5152,
+      "lon": -80.3546,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-02-24",
+      "comments": [
+        {
+          "text": "You can get an easy high on the Panamericana, wait until the cars stop at the redlight to get a ride.",
+          "date": "2025-02-24",
+          "rating": 4
+        }
+      ],
+      "destLat": 8.131,
+      "destLon": -80.687
+    },
+    {
+      "id": 14,
+      "lat": 7.5243,
+      "lon": -80.0274,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2025-02-08",
+      "comments": [],
+      "destLat": 7.4339,
+      "destLon": -80.189
+    },
+    {
+      "id": 10,
+      "lat": 8.598,
+      "lon": -80.1474,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2025-02-24",
+      "comments": [
+        {
+          "text": "Not many cars passing. The ones who pass mostly don't go until the panamerican highway",
+          "date": "2025-02-24",
+          "rating": 3
+        }
+      ],
+      "destLat": 8.514,
+      "destLon": -80.3502
+    }
+  ]
+}

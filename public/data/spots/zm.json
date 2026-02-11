@@ -1,1 +1,220 @@
-{"country":"ZM","name":"ZM","totalSpots":14,"totalReviews":17,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":12,"lat":-8.7652,"lon":31.1114,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-04-20","comments":[{"text":"How much foes it cost?","date":"2016-04-20","rating":5},{"text":"Hitch the ferry that goes north to Tanzania and Burundi and beyond, or catch a ride headed south. See the country description for more information.","date":"2011-11-22","rating":5}],"destLat":null,"destLon":null},{"id":13,"lat":-15.363,"lon":28.2764,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2011-11-22","comments":[{"text":"Head north on the Great North Road to the copperbelt region, and DRC beyond, or head up to Lake Tanganyika, or also on to Tanzania.","date":"2011-11-22","rating":5}],"destLat":null,"destLon":null},{"id":14,"lat":-17.8584,"lon":25.8723,"rating":5,"reviews":2,"wait":10,"signal":null,"lastUsed":"2011-11-22","comments":[{"text":"Very good spot to catch trucks or cars headed north to the DRC or Tanzania and beyond. Please see country description for details.","date":"2011-11-22","rating":5}],"destLat":null,"destLon":null},{"id":1,"lat":-13.9791,"lon":28.6822,"rating":4,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2025-04-29","comments":[{"text":"La viro laboris ĉe transportado. Sed tiu, kiu dungis lin, diris al li, ke li veturigu min. Dankon multege.","date":"2025-04-29","rating":4}],"destLat":-15.4604,"destLon":28.264},{"id":3,"lat":-9.3387,"lon":32.7559,"rating":4,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2025-04-29","comments":[{"text":"Post malfacila tempo ĉe la landlimo (vizo nur per kontanta mono) kaj homoj provantaj trompi min, mi komencis marŝi laŭ la vojo signalanta ĝis kamiono haltis kaj forprenis min. Ni ankaŭ alfrontis multajn defiojn dum la vojaĝo. Sed tio estis agrabla, dankon, sinjoro Jams.","date":"2025-04-29","rating":4}],"destLat":-13.9254,"destLon":28.6674},{"id":6,"lat":-15.8502,"lon":28.2484,"rating":4,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2025-04-29","comments":[{"text":"Estas kelkaj ŝildoj dirantaj, ke estas malpermesite petveturi. Sed mi havis neniun alian elekton.","date":"2025-04-29","rating":4}],"destLat":-15.8579,"destLon":27.7634},{"id":7,"lat":-15.8586,"lon":27.7598,"rating":4,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2025-04-29","comments":[{"text":"Iu min lasis meze de la urbo. Mi komencis marŝi kaj demandi ĝis rubveturilo prenis iom da antaŭen de kie mi marŝis ĝis la punkto.","date":"2025-04-29","rating":4}],"destLat":-15.8532,"destLon":27.746},{"id":2,"lat":-13.9274,"lon":28.6663,"rating":3,"reviews":1,"wait":25,"signal":"thumb","lastUsed":"2025-04-29","comments":[{"text":"Mi opinias, ke estas pli bone iom antaŭeniri. Sed ĉi tie ĝi funkcias. Tro da konfuzo.","date":"2025-04-29","rating":3}],"destLat":-13.9791,"destLon":28.6822},{"id":4,"lat":-15.4611,"lon":28.2637,"rating":3,"reviews":1,"wait":60,"signal":"thumb","lastUsed":"2025-04-29","comments":[{"text":"iom malfacile. Sed iuj homoj provas. Atentu ne filmi la armean lokon.","date":"2025-04-29","rating":3}],"destLat":-15.4867,"destLon":28.2549},{"id":5,"lat":-15.4878,"lon":28.2543,"rating":3,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2025-04-29","comments":[{"text":"Ĉi tiu stacio estas iom konfuza. Sed eble, iom pli antaŭe haltas multaj kamionoj.","date":"2025-04-29","rating":3}],"destLat":-15.8497,"destLon":28.2486},{"id":8,"lat":-15.857,"lon":27.732,"rating":3,"reviews":1,"wait":24,"signal":"thumb","lastUsed":"2025-04-19","comments":[{"text":"La lasta loko ekster la urbo sed ankoraŭ sub la influo de la urbo de mini takis kaj komerco.","date":"2025-04-19","rating":3}],"destLat":-17.8543,"destLon":25.8539},{"id":9,"lat":-17.8542,"lon":25.8491,"rating":3,"reviews":1,"wait":4,"signal":"thumb","lastUsed":"2025-04-19","comments":[{"text":"Tre mallonga veturo iom ekster la urbo","date":"2025-04-19","rating":3}],"destLat":-17.8545,"destLon":25.8403},{"id":10,"lat":-17.8545,"lon":25.8354,"rating":3,"reviews":1,"wait":50,"signal":"thumb","lastUsed":"2025-04-19","comments":[{"text":"Estis kelkaj grandaj kamionoj preterpasantaj kun grandega maŝinaro. Do Multaj homoj estis en la stratoj por vidi ĝin, do mi devis eliri la urbon, sed mi kredas, ke ĝi eblus for pli proksime al la urbocentro.","date":"2025-04-19","rating":3}],"destLat":-17.8093,"destLon":25.7163},{"id":11,"lat":-17.8092,"lon":25.7163,"rating":3,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2025-04-19","comments":[{"text":"Post kiam estis forlasita ĉi tie de iu iranta al bieno, mi ricevis kamionon. iuj kamionoj haltas ĉi tie.","date":"2025-04-19","rating":3}],"destLat":-17.769,"destLon":25.2819}]}
+{
+  "country": "ZM",
+  "name": "ZM",
+  "totalSpots": 14,
+  "totalReviews": 17,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": -13.9791,
+      "lon": 28.6822,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "La viro laboris ĉe transportado. Sed tiu, kiu dungis lin, diris al li, ke li veturigu min. Dankon multege.",
+          "date": "2025-04-29",
+          "rating": 4
+        }
+      ],
+      "destLat": -15.4604,
+      "destLon": 28.264
+    },
+    {
+      "id": 3,
+      "lat": -9.3387,
+      "lon": 32.7559,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "Post malfacila tempo ĉe la landlimo (vizo nur per kontanta mono) kaj homoj provantaj trompi min, mi komencis marŝi laŭ la vojo signalanta ĝis kamiono haltis kaj forprenis min. Ni ankaŭ alfrontis multajn defiojn dum la vojaĝo. Sed tio estis agrabla, dankon, sinjoro Jams.",
+          "date": "2025-04-29",
+          "rating": 4
+        }
+      ],
+      "destLat": -13.9254,
+      "destLon": 28.6674
+    },
+    {
+      "id": 6,
+      "lat": -15.8502,
+      "lon": 28.2484,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "Estas kelkaj ŝildoj dirantaj, ke estas malpermesite petveturi. Sed mi havis neniun alian elekton.",
+          "date": "2025-04-29",
+          "rating": 4
+        }
+      ],
+      "destLat": -15.8579,
+      "destLon": 27.7634
+    },
+    {
+      "id": 7,
+      "lat": -15.8586,
+      "lon": 27.7598,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "Iu min lasis meze de la urbo. Mi komencis marŝi kaj demandi ĝis rubveturilo prenis iom da antaŭen de kie mi marŝis ĝis la punkto.",
+          "date": "2025-04-29",
+          "rating": 4
+        }
+      ],
+      "destLat": -15.8532,
+      "destLon": 27.746
+    },
+    {
+      "id": 2,
+      "lat": -13.9274,
+      "lon": 28.6663,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 25,
+      "signal": "thumb",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "Mi opinias, ke estas pli bone iom antaŭeniri. Sed ĉi tie ĝi funkcias. Tro da konfuzo.",
+          "date": "2025-04-29",
+          "rating": 3
+        }
+      ],
+      "destLat": -13.9791,
+      "destLon": 28.6822
+    },
+    {
+      "id": 4,
+      "lat": -15.4611,
+      "lon": 28.2637,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 60,
+      "signal": "thumb",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "iom malfacile. Sed iuj homoj provas. Atentu ne filmi la armean lokon.",
+          "date": "2025-04-29",
+          "rating": 3
+        }
+      ],
+      "destLat": -15.4867,
+      "destLon": 28.2549
+    },
+    {
+      "id": 5,
+      "lat": -15.4878,
+      "lon": 28.2543,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2025-04-29",
+      "comments": [
+        {
+          "text": "Ĉi tiu stacio estas iom konfuza. Sed eble, iom pli antaŭe haltas multaj kamionoj.",
+          "date": "2025-04-29",
+          "rating": 3
+        }
+      ],
+      "destLat": -15.8497,
+      "destLon": 28.2486
+    },
+    {
+      "id": 8,
+      "lat": -15.857,
+      "lon": 27.732,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 24,
+      "signal": "thumb",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "La lasta loko ekster la urbo sed ankoraŭ sub la influo de la urbo de mini takis kaj komerco.",
+          "date": "2025-04-19",
+          "rating": 3
+        }
+      ],
+      "destLat": -17.8543,
+      "destLon": 25.8539
+    },
+    {
+      "id": 9,
+      "lat": -17.8542,
+      "lon": 25.8491,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 4,
+      "signal": "thumb",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Tre mallonga veturo iom ekster la urbo",
+          "date": "2025-04-19",
+          "rating": 3
+        }
+      ],
+      "destLat": -17.8545,
+      "destLon": 25.8403
+    },
+    {
+      "id": 10,
+      "lat": -17.8545,
+      "lon": 25.8354,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 50,
+      "signal": "thumb",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Estis kelkaj grandaj kamionoj preterpasantaj kun grandega maŝinaro. Do Multaj homoj estis en la stratoj por vidi ĝin, do mi devis eliri la urbon, sed mi kredas, ke ĝi eblus for pli proksime al la urbocentro.",
+          "date": "2025-04-19",
+          "rating": 3
+        }
+      ],
+      "destLat": -17.8093,
+      "destLon": 25.7163
+    },
+    {
+      "id": 11,
+      "lat": -17.8092,
+      "lon": 25.7163,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Post kiam estis forlasita ĉi tie de iu iranta al bieno, mi ricevis kamionon. iuj kamionoj haltas ĉi tie.",
+          "date": "2025-04-19",
+          "rating": 3
+        }
+      ],
+      "destLat": -17.769,
+      "destLon": 25.2819
+    }
+  ]
+}

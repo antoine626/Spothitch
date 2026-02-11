@@ -1,1 +1,187 @@
-{"country":"AD","name":"AD","totalSpots":25,"totalReviews":39,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":12,"lat":42.5038,"lon":1.5195,"rating":5,"reviews":3,"wait":5,"signal":null,"lastUsed":"2017-06-30","comments":[{"text":"Hitchhiking alone (male) and in 20 min someone drove me to the last city in Andorra","date":"2017-06-30","rating":5},{"text":"five minutes in the afternoon to sant julia","date":"2015-10-01","rating":5},{"text":"this is a new spot i decided to try on my way from andorra towards la seu d'urgel and it worked out just perfectly :)","date":"2015-10-01","rating":5}],"destLat":null,"destLon":null},{"id":7,"lat":42.5819,"lon":1.6617,"rating":5,"reviews":2,"wait":2,"signal":"thumb","lastUsed":"2025-04-17","comments":[{"text":"Not a lot of traffic direction Spain, someone stopped right away and took me just to the next village, but good place to start","date":"2024-04-16","rating":5}],"destLat":42.5127,"destLon":1.5355},{"id":16,"lat":42.5581,"lon":1.6876,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-11-25","comments":[{"text":"A perfect spot for hitchhiking with a beautiful view and a mountain hut uphill  when you decide to stay in Andorra a little longer","date":"2015-11-25","rating":5}],"destLat":null,"destLon":null},{"id":17,"lat":42.4597,"lon":1.4889,"rating":5,"reviews":2,"wait":3,"signal":null,"lastUsed":"2015-10-01","comments":[{"text":"i waited only 3 minutes to get a ride down to la seu","date":"2015-10-01","rating":5},{"text":"mc donald's and a gas station together with a bus stop. you can either try to use a sign for la seu d'urgel or ask people. all the traffic from here goes down to spain. a great spot.","date":"2015-10-01","rating":5}],"destLat":null,"destLon":null},{"id":18,"lat":42.4614,"lon":1.4904,"rating":5,"reviews":2,"wait":15,"signal":null,"lastUsed":"2015-09-15","comments":[{"text":"15minutes for la vella =)","date":"2015-09-15","rating":5},{"text":"a bus stop where cars can stop easily :)","date":"2015-09-15","rating":5}],"destLat":null,"destLon":null},{"id":22,"lat":42.4711,"lon":1.4934,"rating":5,"reviews":2,"wait":5,"signal":null,"lastUsed":"2013-07-25","comments":[{"text":"Fast place, direct to Barcelona","date":"2013-07-25","rating":5},{"text":"Good place, there is a little parking next to the road this allows the drivers stop easily","date":"2013-07-08","rating":5}],"destLat":null,"destLon":null},{"id":1,"lat":42.5366,"lon":1.589,"rating":5,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2025-12-29","comments":[{"text":"Amazing spot, got incredibly lucky to hitchhike with this Russian family, who were originally going just to the next town, but then dropped me off at the end of the country! Amazing! Thank you Nic!","date":"2025-12-29","rating":5}],"destLat":42.5462,"destLon":1.7309},{"id":2,"lat":42.5293,"lon":1.5713,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-12-29","comments":[{"text":"Good spot for getting into city centre, isnt super common here so you get a few looks aha","date":"2025-12-29","rating":5}],"destLat":42.5046,"destLon":1.5211},{"id":3,"lat":42.4644,"lon":1.4896,"rating":5,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2025-05-08","comments":[{"text":"Great spot for heading south. Pleeenty of room to stop.","date":"2025-05-08","rating":5}],"destLat":42.3629,"destLon":1.4558},{"id":11,"lat":42.5795,"lon":1.6406,"rating":5,"reviews":1,"wait":5,"signal":"sign","lastUsed":"2024-04-16","comments":[{"text":"Got another short ride to encamp on my way to Spain, good place, just don't expect to go far","date":"2024-04-16","rating":5}],"destLat":42.5316,"destLon":1.5712},{"id":19,"lat":42.4392,"lon":1.4773,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-11-15","comments":[{"text":"fqz","date":"2014-11-15","rating":4}],"destLat":null,"destLon":null},{"id":20,"lat":42.4971,"lon":1.5083,"rating":4,"reviews":2,"wait":15,"signal":null,"lastUsed":"2014-07-21","comments":[{"text":"Cars are going fast but there's a really long pullout to a gas station. It's a short walk from Andorra la Vella, and basically all traffic south funnels through here.","date":"2014-07-21","rating":4}],"destLat":null,"destLon":null},{"id":21,"lat":42.5475,"lon":1.7338,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2014-05-07","comments":[{"text":"its a great place with amazing view! but be careful to take warm clothes with you between october and may!!","date":"2014-05-07","rating":4},{"text":"Quite short waiting time. Hitched there in 2002. /sigurdas","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":24,"lat":42.579,"lon":1.4766,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2013-01-15","comments":[{"text":"I ended here a four-day hiking route throught the Pyrynees and I had no dificulty finding a trip to Andorra la Vella. My guess is that I was excepcionally lucky, because in summer the number of tourists decreases dramatically, but you can always find day hikers.","date":"2013-01-15","rating":4}],"destLat":null,"destLon":null},{"id":8,"lat":42.5802,"lon":1.6641,"rating":4,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2024-07-21","comments":[{"text":"Hitched to la messana with the first car - a guy that went to Arinsal. Cars don’t go so fast and can stop at the bus station.\r\nGood visibility if there are not a lot of cars parking before the bus stop. In my case there was one.\r\nThere’s only the issue that they don’t have much room to stop. There’s a a marked bus stop but that’s it.","date":"2024-07-21","rating":4}],"destLat":42.5441,"destLon":1.5154},{"id":13,"lat":42.5795,"lon":1.6409,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-07-27","comments":[],"destLat":null,"destLon":null},{"id":15,"lat":42.4398,"lon":1.5073,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-06-18","comments":[],"destLat":null,"destLon":null},{"id":25,"lat":42.5127,"lon":1.5356,"rating":4,"reviews":1,"wait":30,"signal":null,"lastUsed":"2012-08-31","comments":[],"destLat":null,"destLon":null},{"id":5,"lat":42.5462,"lon":1.7307,"rating":3,"reviews":3,"wait":13,"signal":"thumb","lastUsed":"2025-05-08","comments":[{"text":"Not too many cars at 6pm but I got lucky. Not sure if it's better here or at the big roundabout on the border before the tunnel. Trying in the city was a waste of time as 90% of the cars were just heading up to this gas station and then turning back to France.","date":"2025-05-08","rating":3},{"text":"We were waiting here around one hour and then decided to walk further along the road. Good visibility and place to stop but it was not working.","date":"2015-11-25","rating":2}],"destLat":42.5353,"destLon":1.5882},{"id":23,"lat":42.5151,"lon":1.5538,"rating":3,"reviews":2,"wait":30,"signal":null,"lastUsed":"2013-07-08","comments":[{"text":"Is not the best place to do hitch but you can't walk nex to the road in the direction of France.","date":"2013-07-08","rating":3}],"destLat":null,"destLon":null},{"id":4,"lat":42.5009,"lon":1.5126,"rating":3,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2025-05-08","comments":[{"text":"Decent spot but only got a ride to the next village. Plenty of room to stop, cars going ~60km/h","date":"2025-05-08","rating":3}],"destLat":42.4685,"destLon":1.4926},{"id":10,"lat":42.5317,"lon":1.577,"rating":3,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2024-04-16","comments":[{"text":"Long waiting time for a short ride, most people go to masala","date":"2024-04-16","rating":3}],"destLat":42.5054,"destLon":1.5275},{"id":6,"lat":42.5168,"lon":1.5284,"rating":2,"reviews":1,"wait":7,"signal":"thumb","lastUsed":"2025-04-17","comments":[],"destLat":42.5702,"destLon":1.4879},{"id":9,"lat":42.505,"lon":1.5244,"rating":2,"reviews":1,"wait":2,"signal":"thumb","lastUsed":"2024-04-16","comments":[{"text":"Got a quick ride but not a lot of place to stop, all a bit further down the road, lots of people leaving towards Spain","date":"2024-04-16","rating":2}],"destLat":42.3553,"destLon":1.4413},{"id":14,"lat":42.5467,"lon":1.7308,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-07-27","comments":[],"destLat":null,"destLon":null}]}
+{
+  "country": "AD",
+  "name": "AD",
+  "totalSpots": 25,
+  "totalReviews": 39,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 7,
+      "lat": 42.5819,
+      "lon": 1.6617,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 2,
+      "signal": "thumb",
+      "lastUsed": "2025-04-17",
+      "comments": [
+        {
+          "text": "Not a lot of traffic direction Spain, someone stopped right away and took me just to the next village, but good place to start",
+          "date": "2024-04-16",
+          "rating": 5
+        }
+      ],
+      "destLat": 42.5127,
+      "destLon": 1.5355
+    },
+    {
+      "id": 1,
+      "lat": 42.5366,
+      "lon": 1.589,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2025-12-29",
+      "comments": [
+        {
+          "text": "Amazing spot, got incredibly lucky to hitchhike with this Russian family, who were originally going just to the next town, but then dropped me off at the end of the country! Amazing! Thank you Nic!",
+          "date": "2025-12-29",
+          "rating": 5
+        }
+      ],
+      "destLat": 42.5462,
+      "destLon": 1.7309
+    },
+    {
+      "id": 2,
+      "lat": 42.5293,
+      "lon": 1.5713,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-12-29",
+      "comments": [
+        {
+          "text": "Good spot for getting into city centre, isnt super common here so you get a few looks aha",
+          "date": "2025-12-29",
+          "rating": 5
+        }
+      ],
+      "destLat": 42.5046,
+      "destLon": 1.5211
+    },
+    {
+      "id": 3,
+      "lat": 42.4644,
+      "lon": 1.4896,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2025-05-08",
+      "comments": [
+        {
+          "text": "Great spot for heading south. Pleeenty of room to stop.",
+          "date": "2025-05-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 42.3629,
+      "destLon": 1.4558
+    },
+    {
+      "id": 11,
+      "lat": 42.5795,
+      "lon": 1.6406,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "sign",
+      "lastUsed": "2024-04-16",
+      "comments": [
+        {
+          "text": "Got another short ride to encamp on my way to Spain, good place, just don't expect to go far",
+          "date": "2024-04-16",
+          "rating": 5
+        }
+      ],
+      "destLat": 42.5316,
+      "destLon": 1.5712
+    },
+    {
+      "id": 8,
+      "lat": 42.5802,
+      "lon": 1.6641,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2024-07-21",
+      "comments": [
+        {
+          "text": "Hitched to la messana with the first car - a guy that went to Arinsal. Cars don’t go so fast and can stop at the bus station.\r\nGood visibility if there are not a lot of cars parking before the bus stop. In my case there was one.\r\nThere’s only the issue that they don’t have much room to stop. There’s a a marked bus stop but that’s it.",
+          "date": "2024-07-21",
+          "rating": 4
+        }
+      ],
+      "destLat": 42.5441,
+      "destLon": 1.5154
+    },
+    {
+      "id": 5,
+      "lat": 42.5462,
+      "lon": 1.7307,
+      "rating": 3,
+      "reviews": 3,
+      "wait": 13,
+      "signal": "thumb",
+      "lastUsed": "2025-05-08",
+      "comments": [
+        {
+          "text": "Not too many cars at 6pm but I got lucky. Not sure if it's better here or at the big roundabout on the border before the tunnel. Trying in the city was a waste of time as 90% of the cars were just heading up to this gas station and then turning back to France.",
+          "date": "2025-05-08",
+          "rating": 3
+        },
+        {
+          "text": "We were waiting here around one hour and then decided to walk further along the road. Good visibility and place to stop but it was not working.",
+          "date": "2015-11-25",
+          "rating": 2
+        }
+      ],
+      "destLat": 42.5353,
+      "destLon": 1.5882
+    },
+    {
+      "id": 4,
+      "lat": 42.5009,
+      "lon": 1.5126,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2025-05-08",
+      "comments": [
+        {
+          "text": "Decent spot but only got a ride to the next village. Plenty of room to stop, cars going ~60km/h",
+          "date": "2025-05-08",
+          "rating": 3
+        }
+      ],
+      "destLat": 42.4685,
+      "destLon": 1.4926
+    },
+    {
+      "id": 10,
+      "lat": 42.5317,
+      "lon": 1.577,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2024-04-16",
+      "comments": [
+        {
+          "text": "Long waiting time for a short ride, most people go to masala",
+          "date": "2024-04-16",
+          "rating": 3
+        }
+      ],
+      "destLat": 42.5054,
+      "destLon": 1.5275
+    }
+  ]
+}

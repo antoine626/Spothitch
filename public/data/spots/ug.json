@@ -1,1 +1,54 @@
-{"country":"UG","name":"UG","totalSpots":10,"totalReviews":21,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":2,"lat":0.441,"lon":33.2125,"rating":5,"reviews":3,"wait":13,"signal":"ask","lastUsed":"2024-07-31","comments":[{"text":"Perfect spot to get in every direction","date":"2024-07-31","rating":5},{"text":"next to roundabout,bus stop and a petrol station....best spot to Kampala/west uganda/DRC. I got a ride  to kla in 15min","date":"2013-03-18","rating":5}],"destLat":0.6285,"destLon":33.5157},{"id":3,"lat":1.1669,"lon":33.7147,"rating":5,"reviews":2,"wait":2,"signal":null,"lastUsed":"2013-09-20","comments":[{"text":"only 2 min to got a ride to mbale","date":"2013-09-20","rating":5}],"destLat":null,"destLon":null},{"id":8,"lat":-0.5401,"lon":30.2222,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2011-09-07","comments":[{"text":"Here in Bushenyi you can get a lift to Ishaka very easiely.","date":"2011-09-07","rating":5}],"destLat":null,"destLon":null},{"id":4,"lat":0.3525,"lon":32.6611,"rating":4,"reviews":2,"wait":30,"signal":null,"lastUsed":"2013-03-18","comments":[{"text":"avoid taxi, a lot of traffic to Jinja/ east Uganda.","date":"2013-03-18","rating":4}],"destLat":null,"destLon":null},{"id":7,"lat":-0.5465,"lon":30.2215,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2011-09-07","comments":[{"text":"Here in Bushenyi you can get a lift to Mbara very easiely.","date":"2011-09-07","rating":4}],"destLat":null,"destLon":null},{"id":10,"lat":0.4711,"lon":33.1486,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2011-09-07","comments":[{"text":"Most the vehicle are going to the Jinja Town or even Kampala. A lift to nile(stage) will be found in a minute.","date":"2011-09-07","rating":4}],"destLat":null,"destLon":null},{"id":1,"lat":0.6288,"lon":33.526,"rating":4,"reviews":1,"wait":10,"signal":"thumb","lastUsed":"2024-07-31","comments":[{"text":"Not the best spot because of all the taxis.\r\nA truck took us, had so pay money to the policeman in the next city so we could move on.So hitchhiking trucks in uganda is not the best option.","date":"2024-07-31","rating":4}],"destLat":0.5685,"destLon":33.7503},{"id":6,"lat":0.5815,"lon":33.1353,"rating":3,"reviews":3,"wait":null,"signal":null,"lastUsed":"2011-09-07","comments":[{"text":"Here you can get a lift to jinja town.","date":"2011-09-07","rating":3}],"destLat":null,"destLon":null},{"id":5,"lat":0.3186,"lon":32.5956,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2011-09-09","comments":[{"text":"Here the vehicles are goint to jinja","date":"2011-09-09","rating":2}],"destLat":null,"destLon":null},{"id":9,"lat":0.4396,"lon":33.1782,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":"2011-09-07","comments":[{"text":"Here you can ask the Nile truck driver for a lift.","date":"2011-09-07","rating":2}],"destLat":null,"destLon":null}]}
+{
+  "country": "UG",
+  "name": "UG",
+  "totalSpots": 10,
+  "totalReviews": 21,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 2,
+      "lat": 0.441,
+      "lon": 33.2125,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 13,
+      "signal": "ask",
+      "lastUsed": "2024-07-31",
+      "comments": [
+        {
+          "text": "Perfect spot to get in every direction",
+          "date": "2024-07-31",
+          "rating": 5
+        },
+        {
+          "text": "next to roundabout,bus stop and a petrol station....best spot to Kampala/west uganda/DRC. I got a ride  to kla in 15min",
+          "date": "2013-03-18",
+          "rating": 5
+        }
+      ],
+      "destLat": 0.6285,
+      "destLon": 33.5157
+    },
+    {
+      "id": 1,
+      "lat": 0.6288,
+      "lon": 33.526,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2024-07-31",
+      "comments": [
+        {
+          "text": "Not the best spot because of all the taxis.\r\nA truck took us, had so pay money to the policeman in the next city so we could move on.So hitchhiking trucks in uganda is not the best option.",
+          "date": "2024-07-31",
+          "rating": 4
+        }
+      ],
+      "destLat": 0.5685,
+      "destLon": 33.7503
+    }
+  ]
+}

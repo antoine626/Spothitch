@@ -1,1 +1,49 @@
-{"country":"NP","name":"Népal","totalSpots":6,"totalReviews":7,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":3,"lat":27.6933,"lon":85.2815,"rating":5,"reviews":2,"wait":8,"signal":null,"lastUsed":"2012-07-15","comments":[{"text":"The hitchhiking spot for going west out of the Kathmandu Valley.","date":"2012-07-15","rating":5}],"destLat":null,"destLon":null},{"id":1,"lat":27.6128,"lon":85.5538,"rating":5,"reviews":1,"wait":1,"signal":"sign","lastUsed":"2025-02-27","comments":[{"text":"Got a motorbike taxi here from kathmandu to escape the urban hell. Paid 500 npr (€3) via the in drive app. Pretty grim getting sprayed with dirt. While I was walking along the road writing a sign a kind dude on a motorbike stopped and offered me a ride (free of charge) further down the road. He spoke great english, what a legend!","date":"2025-02-27","rating":5}],"destLat":27.5903,"destLon":85.6075},{"id":4,"lat":27.9659,"lon":85.9563,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[],"destLat":null,"destLon":null},{"id":2,"lat":27.3331,"lon":86.5137,"rating":4,"reviews":1,"wait":40,"signal":"sign","lastUsed":"2025-02-27","comments":[{"text":"Quite a few cars passed but they're crammed bush taxis and wouldn't stop. Eventually got picked up by a very very slow truck. Limited english but good fun.","date":"2025-02-27","rating":4}],"destLat":27.4076,"destLon":86.5482},{"id":5,"lat":28.6327,"lon":87.1786,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[],"destLat":null,"destLon":null},{"id":6,"lat":29.0838,"lon":87.6613,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[],"destLat":null,"destLon":null}]}
+{
+  "country": "NP",
+  "name": "Népal",
+  "totalSpots": 6,
+  "totalReviews": 7,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 27.6128,
+      "lon": 85.5538,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": "sign",
+      "lastUsed": "2025-02-27",
+      "comments": [
+        {
+          "text": "Got a motorbike taxi here from kathmandu to escape the urban hell. Paid 500 npr (€3) via the in drive app. Pretty grim getting sprayed with dirt. While I was walking along the road writing a sign a kind dude on a motorbike stopped and offered me a ride (free of charge) further down the road. He spoke great english, what a legend!",
+          "date": "2025-02-27",
+          "rating": 5
+        }
+      ],
+      "destLat": 27.5903,
+      "destLon": 85.6075
+    },
+    {
+      "id": 2,
+      "lat": 27.3331,
+      "lon": 86.5137,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 40,
+      "signal": "sign",
+      "lastUsed": "2025-02-27",
+      "comments": [
+        {
+          "text": "Quite a few cars passed but they're crammed bush taxis and wouldn't stop. Eventually got picked up by a very very slow truck. Limited english but good fun.",
+          "date": "2025-02-27",
+          "rating": 4
+        }
+      ],
+      "destLat": 27.4076,
+      "destLon": 86.5482
+    }
+  ]
+}

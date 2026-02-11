@@ -1,1 +1,81 @@
-{"country":"TZ","name":"Tanzanie","totalSpots":6,"totalReviews":8,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":6,"lat":-8.7971,"lon":39.3459,"rating":4,"reviews":2,"wait":45,"signal":null,"lastUsed":"2013-01-26","comments":[{"text":"thats a good spot to Hike to the North, or Dar Es Salaam, behind the Roundabout is normally a police controle, so the cars have to stop for Police Check and after this you can easy ask them if they give you a lift. Truck drivers normally want some Schillings but its more comfotable then the bus.","date":"2013-01-26","rating":4}],"destLat":null,"destLon":null},{"id":1,"lat":-5.0959,"lon":30.3799,"rating":4,"reviews":1,"wait":35,"signal":"thumb","lastUsed":"2025-05-07","comments":[{"text":"Mi alvenis nokte kaj volis daŭrigi la vojaĝon, ne estis lumo, la vojo estas tera, sed multaj kamionoj tamen eniras. Estas polica haltejo antaŭe, do ĉiuj eniras malrapide. Mi estis bonŝanca, ke ili iris tre malproksimen. Mi povus esti elirinta pli frue kaj daŭriginta pli rapide, ĉar ili haltis multfoje por ŝarĝi kaj ankaŭ kiam cementkamiono renversiĝis sur la vojo, ili petis min helpon por porti la restaĵojn de cemento, kiuj restis sur la vojo, kiujn ni forigis el la kamiono kaj transportis per b","date":"2025-05-07","rating":4}],"destLat":-7.9049,"destLon":31.5639},{"id":2,"lat":-7.9059,"lon":31.5601,"rating":4,"reviews":1,"wait":25,"signal":"thumb","lastUsed":"2025-05-07","comments":[{"text":"De ĉi tiu kamiona pespunkto estas tre facile kapti, ĉi tio estis la plej amuza en Tanzanio, mi lernis multe da svahila, ili haltis multe. Kaj ili min nutris. Ili lasis min ĉe la cela enirejo por eniri Zambion.","date":"2025-05-07","rating":4}],"destLat":-9.3148,"destLon":32.7649},{"id":3,"lat":-4.8395,"lon":29.6593,"rating":4,"reviews":1,"wait":30,"signal":"thumb","lastUsed":"2025-05-07","comments":[],"destLat":-5.1013,"destLon":30.3878},{"id":4,"lat":-4.4407,"lon":29.7673,"rating":4,"reviews":1,"wait":40,"signal":"thumb","lastUsed":"2025-05-07","comments":[{"text":"Translokiĝi de Burundo al Tanzanio ĉiam estas emocio. Amiko pagis por ke mi prenu buson de la ĉefurbo al la limo. Ĝi fakte iris al Kigoma, sed mi devis fari la doganan burokration kaj la homoj foriris.","date":"2025-05-07","rating":4}],"destLat":-4.8802,"destLon":29.6373},{"id":5,"lat":-7.724,"lon":35.9058,"rating":2,"reviews":2,"wait":30,"signal":null,"lastUsed":"2013-01-26","comments":[{"text":"This Spot is good to Hike to the southwest off Tansania. The Road is good and on the Day there are a \"lot\" off Cars, also in the night (7pm) when there is no busservice its easy to get i ride to the Town Iringa. \ni waited in the night 30 minutes thats okay for tansania","date":"2013-01-26","rating":2}],"destLat":null,"destLon":null}]}
+{
+  "country": "TZ",
+  "name": "Tanzanie",
+  "totalSpots": 6,
+  "totalReviews": 8,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": -5.0959,
+      "lon": 30.3799,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 35,
+      "signal": "thumb",
+      "lastUsed": "2025-05-07",
+      "comments": [
+        {
+          "text": "Mi alvenis nokte kaj volis daŭrigi la vojaĝon, ne estis lumo, la vojo estas tera, sed multaj kamionoj tamen eniras. Estas polica haltejo antaŭe, do ĉiuj eniras malrapide. Mi estis bonŝanca, ke ili iris tre malproksimen. Mi povus esti elirinta pli frue kaj daŭriginta pli rapide, ĉar ili haltis multfoje por ŝarĝi kaj ankaŭ kiam cementkamiono renversiĝis sur la vojo, ili petis min helpon por porti la restaĵojn de cemento, kiuj restis sur la vojo, kiujn ni forigis el la kamiono kaj transportis per b",
+          "date": "2025-05-07",
+          "rating": 4
+        }
+      ],
+      "destLat": -7.9049,
+      "destLon": 31.5639
+    },
+    {
+      "id": 2,
+      "lat": -7.9059,
+      "lon": 31.5601,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 25,
+      "signal": "thumb",
+      "lastUsed": "2025-05-07",
+      "comments": [
+        {
+          "text": "De ĉi tiu kamiona pespunkto estas tre facile kapti, ĉi tio estis la plej amuza en Tanzanio, mi lernis multe da svahila, ili haltis multe. Kaj ili min nutris. Ili lasis min ĉe la cela enirejo por eniri Zambion.",
+          "date": "2025-05-07",
+          "rating": 4
+        }
+      ],
+      "destLat": -9.3148,
+      "destLon": 32.7649
+    },
+    {
+      "id": 3,
+      "lat": -4.8395,
+      "lon": 29.6593,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "thumb",
+      "lastUsed": "2025-05-07",
+      "comments": [],
+      "destLat": -5.1013,
+      "destLon": 30.3878
+    },
+    {
+      "id": 4,
+      "lat": -4.4407,
+      "lon": 29.7673,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 40,
+      "signal": "thumb",
+      "lastUsed": "2025-05-07",
+      "comments": [
+        {
+          "text": "Translokiĝi de Burundo al Tanzanio ĉiam estas emocio. Amiko pagis por ke mi prenu buson de la ĉefurbo al la limo. Ĝi fakte iris al Kigoma, sed mi devis fari la doganan burokration kaj la homoj foriris.",
+          "date": "2025-05-07",
+          "rating": 4
+        }
+      ],
+      "destLat": -4.8802,
+      "destLon": 29.6373
+    }
+  ]
+}

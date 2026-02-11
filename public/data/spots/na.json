@@ -1,1 +1,534 @@
-{"country":"NA","name":"Namibie","totalSpots":32,"totalReviews":36,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":31,"lat":-18.7683,"lon":17.2613,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":"2015-07-09","comments":[{"text":"Easy lift to Oshakati or Ondangwa.","date":"2015-07-09","rating":5}],"destLat":null,"destLon":null},{"id":2,"lat":-18.1017,"lon":21.551,"rating":5,"reviews":1,"wait":3,"signal":"thumb","lastUsed":"2025-04-19","comments":[{"text":"Iri al popa faloj aŭ antaŭen estas facile, simple demandu. Eĉ al Botswana tra la parko rigardante kelkajn grasajn belajn zebrojn kaj eble eĉ leonojn.","date":"2025-04-19","rating":5}],"destLat":-18.1249,"destLon":21.5778},{"id":10,"lat":-22.9698,"lon":14.4896,"rating":5,"reviews":1,"wait":15,"signal":"sign","lastUsed":"2025-04-12","comments":[{"text":"Post esti dorminta malantaŭ la Dunes-butikcentro en la Dunoj. Kaj vidu la fenikopton lagon sed ne la fenikopton, ni revenis al Swakop","date":"2025-04-12","rating":5}],"destLat":-22.6776,"destLon":14.5318},{"id":11,"lat":-22.9562,"lon":14.5196,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-04-12","comments":[{"text":"Bela loko por provi eniri la urbon por vidi la flamengojn ĉe la lago, sed ili ne estas tie dum la posttagmezo.","date":"2025-04-12","rating":5}],"destLat":-22.9599,"destLon":14.4967},{"id":13,"lat":-19.6449,"lon":17.3492,"rating":5,"reviews":1,"wait":5,"signal":"sign","lastUsed":"2025-04-12","comments":[{"text":"Plenaj de kamionoj, ni eĉ ne bezonis iri al la vojo, kio mi kredas ankaŭ estus bonega, la tria kamiono iris jam al Grootfontein, ne petis monon","date":"2025-04-12","rating":5}],"destLat":-19.5598,"destLon":18.1104},{"id":15,"lat":-21.9735,"lon":16.9113,"rating":5,"reviews":1,"wait":3,"signal":"sign","lastUsed":"2025-04-12","comments":[{"text":"Post kiam ni dormis en la Engen ni komencis petveturi post la puma stacidomo, facile atingis la unuan al la ĉefa vojo kaj ankaŭ ricevis 50 N$ de tiu ĉi afabla persono nomata Paul. La bona parto estas, ke vi povas elekti homojn, kiuj venas aŭ de la ĉefa vojo kaj de la urbo.","date":"2025-04-12","rating":5}],"destLat":-21.9588,"destLon":16.8959},{"id":19,"lat":-22.673,"lon":14.5482,"rating":5,"reviews":1,"wait":6,"signal":"sign","lastUsed":"2025-03-29","comments":[{"text":"Ĵus antaŭ la ponto estas perfekta.","date":"2025-03-29","rating":5}],"destLat":-22.6779,"destLon":14.5311},{"id":20,"lat":-22.6661,"lon":14.5761,"rating":5,"reviews":1,"wait":3,"signal":"sign","lastUsed":"2025-03-29","comments":[{"text":"Tre facila. Multaj taksiistoj, sed ili ankaŭ estas aŭtovetureblaj","date":"2025-03-29","rating":5}],"destLat":-22.6719,"destLon":14.5477},{"id":21,"lat":-21.936,"lon":15.8544,"rating":5,"reviews":1,"wait":1,"signal":"sign","lastUsed":"2025-03-29","comments":[{"text":"Tre facile, sed se vi iros al Swakopmund kaj haltos kamionon, verŝajne ili lasos vin per la lasta granda vojkruco ĉar ili ne povas eniri la urbon.","date":"2025-03-29","rating":5}],"destLat":-22.6622,"destLon":14.5846},{"id":22,"lat":-21.974,"lon":16.9058,"rating":5,"reviews":1,"wait":1,"signal":"sign","lastUsed":"2025-03-29","comments":[{"text":"Mi pensas, ke post la kruco povas esti eĉ pli bona, ĉar estas multaj homoj, kiuj petveturas ĉi tie, ankaŭ estas falsaj trafikaj/minitaksaj fiskisitoj petante vin monon ĉar vi ne prenas mini-takson aŭ io ajn. Mi donis al ili manĝaĵon de super la kamiono kaj poste ili lasis min iri. Post la kruco ankaŭ homoj malrapide pasas.","date":"2025-03-29","rating":5}],"destLat":-21.9346,"destLon":15.8569},{"id":24,"lat":-22.4973,"lon":17.4659,"rating":5,"reviews":1,"wait":5,"signal":"sign","lastUsed":"2025-03-22","comments":[{"text":"Rekta veturo al la domo de nia amiko, kaj ankaŭ invito de eble viziti bienon la venontan semajnon ĉe la landlimo kun botsvano.","date":"2025-03-22","rating":5}],"destLat":-22.4512,"destLon":18.9959},{"id":25,"lat":-22.4875,"lon":17.466,"rating":5,"reviews":1,"wait":2,"signal":"sign","lastUsed":"2025-03-22","comments":[{"text":"Ni ĵus provis veturi el la flughaveno, viro helpis nin atingi la stacidomon ĉe la ĉefvojo.","date":"2025-03-22","rating":5}],"destLat":-22.4973,"destLon":17.4659},{"id":26,"lat":-22.5719,"lon":17.1039,"rating":5,"reviews":1,"wait":6,"signal":"sign","lastUsed":"2025-03-22","comments":[{"text":"Ni provis alporti unu al la flughaveno por ŝanĝi iun monon (ne funkciis), tamen iun ili donis al ni monon. Kaj tio estis en nia vojo al Gobabis.","date":"2025-03-22","rating":5}],"destLat":-22.487,"destLon":17.4636},{"id":29,"lat":-28.7557,"lon":17.6207,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-03-22","comments":[{"text":"Post esti deklarita nedezirinda persono en Sud-Afriko, ĉar ili ne metis mian lastan eniron en la sistemon igante ĝin aspekti kvazaŭ mi neniam foriris la duan fojon, Ni estis tro lacaj dum la nokto, sed ankoraŭ promenante kaj provante, iu hatis kaj kondukis nin al la lasta benzinstacio antaŭ la vojo al Windohok. Mirinda loko por dormi. Kaj fari yogan matene.","date":"2025-03-22","rating":5}],"destLat":-28.7368,"destLon":17.616},{"id":1,"lat":-18.125,"lon":21.5774,"rating":4.5,"reviews":2,"wait":10,"signal":"thumb","lastUsed":"2025-04-19","comments":[{"text":"Estas kelkaj kamionoj kaj homoj irantaj al Bocvano, tre malmultaj, sed ĉiam iu.","date":"2025-04-19","rating":4},{"text":"Se vi restas aŭ kampadas ĉirkaŭe en la vilaĝoj kiel ekzemple kun la familio de Emily (kontakto en ioverlander) ajna loko en ĉi tiu vojo ŝajnas esti bona loko ĉiuokaze.","date":"2025-04-19","rating":5}],"destLat":-18.2577,"destLon":21.7609},{"id":9,"lat":-17.4973,"lon":16.2949,"rating":4.33,"reviews":3,"wait":30,"signal":"ask","lastUsed":"2025-04-19","comments":[{"text":"La tuta vojo de Divundu ĝis la landlimo estas pavimita nun kaj sufiĉe bona por diri la veron.","date":"2025-04-19","rating":5},{"text":"East To Okongo\nFrom Eenhana you can pick up a ride at the hike point across from the open market, near the Regional Education. Office Eenhana to Okongo is N$50. Eenhana to Oshikunde N$25. \n\nSouth to Ondangwa: \nThis hike point is on the south end of town past the grocerery stores and the Shell station. There is a single tree in an open area. Many people will be standing around and there will be some vehicles parked on the side of the road. NOTE: This hike point travels the gravel road--though it ","date":"2014-01-26","rating":4}],"destLat":-17.3922,"destLon":15.891},{"id":3,"lat":-18.1014,"lon":21.5425,"rating":4,"reviews":1,"wait":25,"signal":"sign","lastUsed":"2025-04-19","comments":[{"text":"Tre bona loko, en ĉi tiu benzinstacio preskaŭ neniu haltas, sed en la pli granda multe da homoj, Sed mi preferas resti sur la vojo. La kamionisto ne petis monon sed demandis ĉu mi povas doni al li trinkajo. Mi diris ke jes.","date":"2025-04-19","rating":4}],"destLat":-17.943,"destLon":19.748},{"id":4,"lat":-17.9408,"lon":19.7491,"rating":4,"reviews":1,"wait":20,"signal":"sign","lastUsed":"2025-04-19","comments":[{"text":"Bona loko, la plej multaj homoj preterpasantaj estas lokaj taksioj.","date":"2025-04-19","rating":4}],"destLat":-17.8787,"destLon":19.6303},{"id":7,"lat":-17.635,"lon":18.5944,"rating":4,"reviews":1,"wait":30,"signal":"sign","lastUsed":"2025-04-19","comments":[{"text":"Mi petis veturi al Mbambi.","date":"2025-04-19","rating":4}],"destLat":-17.4833,"destLon":18.4462},{"id":8,"lat":-17.4835,"lon":18.4469,"rating":4,"reviews":1,"wait":30,"signal":"sign","lastUsed":"2025-04-19","comments":[{"text":"Tute neatendite sed mi estis bonŝanca. Iuj homoj iras eĉ al la landlimo, eĉ kamionoj. vi povas koncentriĝi kaj trovi homojn irantajn malproksimen. Almenaŭ ĝis Okongo.","date":"2025-04-19","rating":4}],"destLat":-17.475,"destLon":16.3326},{"id":12,"lat":-19.5558,"lon":18.1129,"rating":4,"reviews":1,"wait":30,"signal":"sign","lastUsed":"2025-04-12","comments":[{"text":"En la lasta ombro de la lasta arbo ni haltis kun plakedo al Rundu, bakkie haltis, petis monon, kiun ni diris, ke ni ne havus, ili akceptis. La bona surprizo ili estis divundu kaj prenis nin tre rapide. Tio estis mirinda iri ekster la kamiono en la krepuskon kun fulmoj ĉie. Adrenalino plene. Ni estis irantaj al la loko de Emily, proksime de popas-falo. Vi povas trovi ĝin en ioverlander. Senpaga restado por kultura interŝanĝo. Bela familio.","date":"2025-04-12","rating":4}],"destLat":-18.1013,"destLon":21.5457},{"id":28,"lat":-28.736,"lon":17.6171,"rating":4,"reviews":1,"wait":30,"signal":"sign","lastUsed":"2025-03-22","comments":[{"text":"Tre bona punkto. En Namibio ĉio ŝanĝiĝas jam. Sub la ombro de la pesto; Plej multaj homoj iras al la ĉefurbo, mi dirus. Ni alvenis tien antaŭ la mateno de la alia tago en kamiono. Simpatia viro, sed preskaŭ dormis kelkajn fojojn.","date":"2025-03-22","rating":4}],"destLat":-22.5468,"destLon":17.077},{"id":30,"lat":-22.2838,"lon":19.9878,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2024-01-27","comments":[{"text":"The border police will not let a truck driver bring you across the border, so it is better to cross yourself","date":"2024-01-27","rating":4}],"destLat":-22.5836,"destLon":17.0755},{"id":32,"lat":-26.6637,"lon":16.2787,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2014-03-28","comments":[],"destLat":null,"destLon":null},{"id":5,"lat":-17.8787,"lon":19.6303,"rating":3,"reviews":1,"wait":30,"signal":"sign","lastUsed":"2025-04-19","comments":[{"text":"Plej multaj homoj forlasantaj Rundu eble iom timas aŭ iras vere proksime, do peti proksiman lokon almenaŭ por eliri el la urbo povas helpi.","date":"2025-04-19","rating":3}],"destLat":-17.8663,"destLon":19.3619},{"id":6,"lat":-17.8677,"lon":19.3572,"rating":3,"reviews":1,"wait":20,"signal":"sign","lastUsed":"2025-04-19","comments":[{"text":"Tre rapida vojo, sed kelkaj homoj pasas malrapide, plako multe helpas, ankaŭ por apartigi la homojn, kiuj laboras kun transportado, de la ĵus irantaj.","date":"2025-04-19","rating":3}],"destLat":-17.635,"destLon":18.5944},{"id":14,"lat":-21.9588,"lon":16.8959,"rating":3,"reviews":1,"wait":60,"signal":"sign","lastUsed":"2025-04-12","comments":[{"text":"Ni provis en 2 kun plakedo diranta otjiwarongo. Alia viro alvenis kaj kamiono haltis al ni. La kamionisto petis 50 N$ por manĝaĵo. Ni konsentis. Ni iris al Otavi, ni al Divundu.","date":"2025-04-12","rating":3}],"destLat":-19.6447,"destLon":17.3491},{"id":16,"lat":-22.6406,"lon":14.6286,"rating":3,"reviews":1,"wait":40,"signal":"sign","lastUsed":"2025-04-12","comments":[{"text":"Ni povus esti falinta de la granda intersekciĝo, sed ĉar ĝi estis bela eniro kun iom da movado ni decidis provi tie. Tre rapide, sed kun granda signo eblas kaj ankaŭ estas homoj elirantaj el Sophias dale. Rekta veturo al la ŝelo benzinstacio kie haltas multaj kamionoj. Irante ĉefe al la marbordo sed ankaŭ aliloke. Tio jam estis nokto, ni ne sciis. Ili diris al ni, ke ni iru al puma stacio en la urbo, kie multaj homoj iros norden, sed fakte ĉiuj estas taksioj kaj busoj. Ne la plej bona decido. Se","date":"2025-04-12","rating":3}],"destLat":-21.9725,"destLon":16.8933},{"id":17,"lat":-22.6723,"lon":14.5491,"rating":3,"reviews":1,"wait":120,"signal":"sign","lastUsed":"2025-04-12","comments":[{"text":"Estas vere malfacile eliri el Swakopmund dimanĉe posttagmeze. Mi ne konas aliajn tagojn. Sed ĉi tiu estas la loko.","date":"2025-04-12","rating":3}],"destLat":-22.6406,"destLon":14.6286},{"id":18,"lat":-22.6806,"lon":14.5232,"rating":2,"reviews":1,"wait":60,"signal":"ask","lastUsed":"2025-03-29","comments":[{"text":"Ni ĵus trovis ĉi tiun viron observanta la serpentojn antaŭ ol la loko malfermiĝos, kaj li proponis al ni la veturon. Sed estas 100% Malortodokse preni veturon de ene de sociaj eventoj en la urbo. Eĉ malfacile ĝi funkcias.","date":"2025-03-29","rating":2}],"destLat":-22.9577,"destLon":14.5226},{"id":23,"lat":-22.4432,"lon":18.9616,"rating":2,"reviews":1,"wait":220,"signal":"thumb","lastUsed":"2025-03-26","comments":[{"text":"Tre malfacile pro la manko de movado. Krom se vi volas pagi de 40 ĝis 200 N$.","date":"2025-03-26","rating":2}],"destLat":-22.572,"destLon":17.0805},{"id":27,"lat":-22.5853,"lon":17.1402,"rating":2,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-03-22","comments":[{"text":"Efektive ni venis ĉi tien serĉante lokon por kampadi. Kio estas terura. Tamen proksime de la enirejo al tiu ĉi loĝejo haltis aŭto kaj ni ekparolis, ili proponis al ni manĝejon tie kaj poste dormloko tiun nokton. Tamen mi ne rekomendas provi ripeti ĝin. ahehaeh\r\n\r\nLa sekvan tagon ili faligis nin ĉe la lasta stacidomo en urbo.","date":"2025-03-22","rating":2}],"destLat":-22.589,"destLon":17.1421}]}
+{
+  "country": "NA",
+  "name": "Namibie",
+  "totalSpots": 32,
+  "totalReviews": 36,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 2,
+      "lat": -18.1017,
+      "lon": 21.551,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 3,
+      "signal": "thumb",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Iri al popa faloj aŭ antaŭen estas facile, simple demandu. Eĉ al Botswana tra la parko rigardante kelkajn grasajn belajn zebrojn kaj eble eĉ leonojn.",
+          "date": "2025-04-19",
+          "rating": 5
+        }
+      ],
+      "destLat": -18.1249,
+      "destLon": 21.5778
+    },
+    {
+      "id": 10,
+      "lat": -22.9698,
+      "lon": 14.4896,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "sign",
+      "lastUsed": "2025-04-12",
+      "comments": [
+        {
+          "text": "Post esti dorminta malantaŭ la Dunes-butikcentro en la Dunoj. Kaj vidu la fenikopton lagon sed ne la fenikopton, ni revenis al Swakop",
+          "date": "2025-04-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.6776,
+      "destLon": 14.5318
+    },
+    {
+      "id": 11,
+      "lat": -22.9562,
+      "lon": 14.5196,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-04-12",
+      "comments": [
+        {
+          "text": "Bela loko por provi eniri la urbon por vidi la flamengojn ĉe la lago, sed ili ne estas tie dum la posttagmezo.",
+          "date": "2025-04-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.9599,
+      "destLon": 14.4967
+    },
+    {
+      "id": 13,
+      "lat": -19.6449,
+      "lon": 17.3492,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "sign",
+      "lastUsed": "2025-04-12",
+      "comments": [
+        {
+          "text": "Plenaj de kamionoj, ni eĉ ne bezonis iri al la vojo, kio mi kredas ankaŭ estus bonega, la tria kamiono iris jam al Grootfontein, ne petis monon",
+          "date": "2025-04-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -19.5598,
+      "destLon": 18.1104
+    },
+    {
+      "id": 15,
+      "lat": -21.9735,
+      "lon": 16.9113,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 3,
+      "signal": "sign",
+      "lastUsed": "2025-04-12",
+      "comments": [
+        {
+          "text": "Post kiam ni dormis en la Engen ni komencis petveturi post la puma stacidomo, facile atingis la unuan al la ĉefa vojo kaj ankaŭ ricevis 50 N$ de tiu ĉi afabla persono nomata Paul. La bona parto estas, ke vi povas elekti homojn, kiuj venas aŭ de la ĉefa vojo kaj de la urbo.",
+          "date": "2025-04-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -21.9588,
+      "destLon": 16.8959
+    },
+    {
+      "id": 19,
+      "lat": -22.673,
+      "lon": 14.5482,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 6,
+      "signal": "sign",
+      "lastUsed": "2025-03-29",
+      "comments": [
+        {
+          "text": "Ĵus antaŭ la ponto estas perfekta.",
+          "date": "2025-03-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.6779,
+      "destLon": 14.5311
+    },
+    {
+      "id": 20,
+      "lat": -22.6661,
+      "lon": 14.5761,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 3,
+      "signal": "sign",
+      "lastUsed": "2025-03-29",
+      "comments": [
+        {
+          "text": "Tre facila. Multaj taksiistoj, sed ili ankaŭ estas aŭtovetureblaj",
+          "date": "2025-03-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.6719,
+      "destLon": 14.5477
+    },
+    {
+      "id": 21,
+      "lat": -21.936,
+      "lon": 15.8544,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": "sign",
+      "lastUsed": "2025-03-29",
+      "comments": [
+        {
+          "text": "Tre facile, sed se vi iros al Swakopmund kaj haltos kamionon, verŝajne ili lasos vin per la lasta granda vojkruco ĉar ili ne povas eniri la urbon.",
+          "date": "2025-03-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.6622,
+      "destLon": 14.5846
+    },
+    {
+      "id": 22,
+      "lat": -21.974,
+      "lon": 16.9058,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": "sign",
+      "lastUsed": "2025-03-29",
+      "comments": [
+        {
+          "text": "Mi pensas, ke post la kruco povas esti eĉ pli bona, ĉar estas multaj homoj, kiuj petveturas ĉi tie, ankaŭ estas falsaj trafikaj/minitaksaj fiskisitoj petante vin monon ĉar vi ne prenas mini-takson aŭ io ajn. Mi donis al ili manĝaĵon de super la kamiono kaj poste ili lasis min iri. Post la kruco ankaŭ homoj malrapide pasas.",
+          "date": "2025-03-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -21.9346,
+      "destLon": 15.8569
+    },
+    {
+      "id": 24,
+      "lat": -22.4973,
+      "lon": 17.4659,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "sign",
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Rekta veturo al la domo de nia amiko, kaj ankaŭ invito de eble viziti bienon la venontan semajnon ĉe la landlimo kun botsvano.",
+          "date": "2025-03-22",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.4512,
+      "destLon": 18.9959
+    },
+    {
+      "id": 25,
+      "lat": -22.4875,
+      "lon": 17.466,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": "sign",
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Ni ĵus provis veturi el la flughaveno, viro helpis nin atingi la stacidomon ĉe la ĉefvojo.",
+          "date": "2025-03-22",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.4973,
+      "destLon": 17.4659
+    },
+    {
+      "id": 26,
+      "lat": -22.5719,
+      "lon": 17.1039,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 6,
+      "signal": "sign",
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Ni provis alporti unu al la flughaveno por ŝanĝi iun monon (ne funkciis), tamen iun ili donis al ni monon. Kaj tio estis en nia vojo al Gobabis.",
+          "date": "2025-03-22",
+          "rating": 5
+        }
+      ],
+      "destLat": -22.487,
+      "destLon": 17.4636
+    },
+    {
+      "id": 29,
+      "lat": -28.7557,
+      "lon": 17.6207,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Post esti deklarita nedezirinda persono en Sud-Afriko, ĉar ili ne metis mian lastan eniron en la sistemon igante ĝin aspekti kvazaŭ mi neniam foriris la duan fojon, Ni estis tro lacaj dum la nokto, sed ankoraŭ promenante kaj provante, iu hatis kaj kondukis nin al la lasta benzinstacio antaŭ la vojo al Windohok. Mirinda loko por dormi. Kaj fari yogan matene.",
+          "date": "2025-03-22",
+          "rating": 5
+        }
+      ],
+      "destLat": -28.7368,
+      "destLon": 17.616
+    },
+    {
+      "id": 1,
+      "lat": -18.125,
+      "lon": 21.5774,
+      "rating": 4.5,
+      "reviews": 2,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Estas kelkaj kamionoj kaj homoj irantaj al Bocvano, tre malmultaj, sed ĉiam iu.",
+          "date": "2025-04-19",
+          "rating": 4
+        },
+        {
+          "text": "Se vi restas aŭ kampadas ĉirkaŭe en la vilaĝoj kiel ekzemple kun la familio de Emily (kontakto en ioverlander) ajna loko en ĉi tiu vojo ŝajnas esti bona loko ĉiuokaze.",
+          "date": "2025-04-19",
+          "rating": 5
+        }
+      ],
+      "destLat": -18.2577,
+      "destLon": 21.7609
+    },
+    {
+      "id": 9,
+      "lat": -17.4973,
+      "lon": 16.2949,
+      "rating": 4.33,
+      "reviews": 3,
+      "wait": 30,
+      "signal": "ask",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "La tuta vojo de Divundu ĝis la landlimo estas pavimita nun kaj sufiĉe bona por diri la veron.",
+          "date": "2025-04-19",
+          "rating": 5
+        },
+        {
+          "text": "East To Okongo\nFrom Eenhana you can pick up a ride at the hike point across from the open market, near the Regional Education. Office Eenhana to Okongo is N$50. Eenhana to Oshikunde N$25. \n\nSouth to Ondangwa: \nThis hike point is on the south end of town past the grocerery stores and the Shell station. There is a single tree in an open area. Many people will be standing around and there will be some vehicles parked on the side of the road. NOTE: This hike point travels the gravel road--though it ",
+          "date": "2014-01-26",
+          "rating": 4
+        }
+      ],
+      "destLat": -17.3922,
+      "destLon": 15.891
+    },
+    {
+      "id": 3,
+      "lat": -18.1014,
+      "lon": 21.5425,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 25,
+      "signal": "sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Tre bona loko, en ĉi tiu benzinstacio preskaŭ neniu haltas, sed en la pli granda multe da homoj, Sed mi preferas resti sur la vojo. La kamionisto ne petis monon sed demandis ĉu mi povas doni al li trinkajo. Mi diris ke jes.",
+          "date": "2025-04-19",
+          "rating": 4
+        }
+      ],
+      "destLat": -17.943,
+      "destLon": 19.748
+    },
+    {
+      "id": 4,
+      "lat": -17.9408,
+      "lon": 19.7491,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Bona loko, la plej multaj homoj preterpasantaj estas lokaj taksioj.",
+          "date": "2025-04-19",
+          "rating": 4
+        }
+      ],
+      "destLat": -17.8787,
+      "destLon": 19.6303
+    },
+    {
+      "id": 7,
+      "lat": -17.635,
+      "lon": 18.5944,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Mi petis veturi al Mbambi.",
+          "date": "2025-04-19",
+          "rating": 4
+        }
+      ],
+      "destLat": -17.4833,
+      "destLon": 18.4462
+    },
+    {
+      "id": 8,
+      "lat": -17.4835,
+      "lon": 18.4469,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Tute neatendite sed mi estis bonŝanca. Iuj homoj iras eĉ al la landlimo, eĉ kamionoj. vi povas koncentriĝi kaj trovi homojn irantajn malproksimen. Almenaŭ ĝis Okongo.",
+          "date": "2025-04-19",
+          "rating": 4
+        }
+      ],
+      "destLat": -17.475,
+      "destLon": 16.3326
+    },
+    {
+      "id": 12,
+      "lat": -19.5558,
+      "lon": 18.1129,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2025-04-12",
+      "comments": [
+        {
+          "text": "En la lasta ombro de la lasta arbo ni haltis kun plakedo al Rundu, bakkie haltis, petis monon, kiun ni diris, ke ni ne havus, ili akceptis. La bona surprizo ili estis divundu kaj prenis nin tre rapide. Tio estis mirinda iri ekster la kamiono en la krepuskon kun fulmoj ĉie. Adrenalino plene. Ni estis irantaj al la loko de Emily, proksime de popas-falo. Vi povas trovi ĝin en ioverlander. Senpaga restado por kultura interŝanĝo. Bela familio.",
+          "date": "2025-04-12",
+          "rating": 4
+        }
+      ],
+      "destLat": -18.1013,
+      "destLon": 21.5457
+    },
+    {
+      "id": 28,
+      "lat": -28.736,
+      "lon": 17.6171,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Tre bona punkto. En Namibio ĉio ŝanĝiĝas jam. Sub la ombro de la pesto; Plej multaj homoj iras al la ĉefurbo, mi dirus. Ni alvenis tien antaŭ la mateno de la alia tago en kamiono. Simpatia viro, sed preskaŭ dormis kelkajn fojojn.",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -22.5468,
+      "destLon": 17.077
+    },
+    {
+      "id": 30,
+      "lat": -22.2838,
+      "lon": 19.9878,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 45,
+      "signal": null,
+      "lastUsed": "2024-01-27",
+      "comments": [
+        {
+          "text": "The border police will not let a truck driver bring you across the border, so it is better to cross yourself",
+          "date": "2024-01-27",
+          "rating": 4
+        }
+      ],
+      "destLat": -22.5836,
+      "destLon": 17.0755
+    },
+    {
+      "id": 5,
+      "lat": -17.8787,
+      "lon": 19.6303,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Plej multaj homoj forlasantaj Rundu eble iom timas aŭ iras vere proksime, do peti proksiman lokon almenaŭ por eliri el la urbo povas helpi.",
+          "date": "2025-04-19",
+          "rating": 3
+        }
+      ],
+      "destLat": -17.8663,
+      "destLon": 19.3619
+    },
+    {
+      "id": 6,
+      "lat": -17.8677,
+      "lon": 19.3572,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "sign",
+      "lastUsed": "2025-04-19",
+      "comments": [
+        {
+          "text": "Tre rapida vojo, sed kelkaj homoj pasas malrapide, plako multe helpas, ankaŭ por apartigi la homojn, kiuj laboras kun transportado, de la ĵus irantaj.",
+          "date": "2025-04-19",
+          "rating": 3
+        }
+      ],
+      "destLat": -17.635,
+      "destLon": 18.5944
+    },
+    {
+      "id": 14,
+      "lat": -21.9588,
+      "lon": 16.8959,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 60,
+      "signal": "sign",
+      "lastUsed": "2025-04-12",
+      "comments": [
+        {
+          "text": "Ni provis en 2 kun plakedo diranta otjiwarongo. Alia viro alvenis kaj kamiono haltis al ni. La kamionisto petis 50 N$ por manĝaĵo. Ni konsentis. Ni iris al Otavi, ni al Divundu.",
+          "date": "2025-04-12",
+          "rating": 3
+        }
+      ],
+      "destLat": -19.6447,
+      "destLon": 17.3491
+    },
+    {
+      "id": 16,
+      "lat": -22.6406,
+      "lon": 14.6286,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 40,
+      "signal": "sign",
+      "lastUsed": "2025-04-12",
+      "comments": [
+        {
+          "text": "Ni povus esti falinta de la granda intersekciĝo, sed ĉar ĝi estis bela eniro kun iom da movado ni decidis provi tie. Tre rapide, sed kun granda signo eblas kaj ankaŭ estas homoj elirantaj el Sophias dale. Rekta veturo al la ŝelo benzinstacio kie haltas multaj kamionoj. Irante ĉefe al la marbordo sed ankaŭ aliloke. Tio jam estis nokto, ni ne sciis. Ili diris al ni, ke ni iru al puma stacio en la urbo, kie multaj homoj iros norden, sed fakte ĉiuj estas taksioj kaj busoj. Ne la plej bona decido. Se",
+          "date": "2025-04-12",
+          "rating": 3
+        }
+      ],
+      "destLat": -21.9725,
+      "destLon": 16.8933
+    },
+    {
+      "id": 17,
+      "lat": -22.6723,
+      "lon": 14.5491,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 120,
+      "signal": "sign",
+      "lastUsed": "2025-04-12",
+      "comments": [
+        {
+          "text": "Estas vere malfacile eliri el Swakopmund dimanĉe posttagmeze. Mi ne konas aliajn tagojn. Sed ĉi tiu estas la loko.",
+          "date": "2025-04-12",
+          "rating": 3
+        }
+      ],
+      "destLat": -22.6406,
+      "destLon": 14.6286
+    }
+  ]
+}

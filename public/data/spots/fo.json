@@ -1,1 +1,92 @@
-{"country":"FO","name":"FO","totalSpots":10,"totalReviews":14,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":6,"lat":61.8419,"lon":-7.1785,"rating":5,"reviews":3,"wait":1,"signal":null,"lastUsed":"2019-08-23","comments":[{"text":"The best place for hitchhiking in the world! Faroese people are ultra super mega friendly and speak very good English, mostly. The land is mesmerizing! :) [AdrianB]","date":"2019-08-23","rating":5},{"text":"Hitchhiked March 2015 with 3 friends. Sometimes all of us got a ride in the same car, and even when splitting in couples we arrived at the same time since the road network is limited (but excellent) and distances are short. Safe, fast, easy and friendly people that speak English well. Biggest issue is the weather, but as long as you're prepared no worries!","date":"2015-05-29","rating":5},{"text":"I hitched most of the Faroe Islands in 2005. Contender for the easiest hitching in the world! Often the first car would pull over, often just one ride would get you there as distances are short. Almost everyone speaks English.","date":"2011-04-15","rating":5}],"destLat":null,"destLon":null},{"id":10,"lat":61.5589,"lon":-6.8433,"rating":5,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"This island is great for hitching. Not much traffic, but very friendly people. Somehow everybody will ask you if you're Russian, as apparently only Russians hitch here (?). It's not unlikely that you'll find young people who have nothing to do and will just bring you to your destination, even if they're not going there.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":1,"lat":62.1045,"lon":-6.9578,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-08-17","comments":[{"text":"This Roundabout can be reached from Torshavn with free public busses (the red one are free currently, might change). Just stand at the exit where you want to go. I hitchhiked to Vágar, Torshavn and Eysturoy from here. Really easy.","date":"2025-08-17","rating":5}],"destLat":62.0736,"destLon":-7.3116},{"id":2,"lat":62.2415,"lon":-7.1606,"rating":5,"reviews":1,"wait":20,"signal":null,"lastUsed":"2023-01-08","comments":[{"text":"If you visited beautiful Saksun, this will be the best place to hitchhike back to civilisation. But take care, as there will be not so much traffic. Enjoy the stunning landscape!","date":"2023-01-08","rating":5}],"destLat":62.2415,"destLon":-7.1606},{"id":4,"lat":62.0117,"lon":-6.759,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2023-01-08","comments":[{"text":"This is the easiest spot if you want to hitchhike out of the city, for all directions it is awesome! From 2022 you can even thumb into and cross the new 11 km long tunnel to Eysturoy! :] Faroe Islands are the best of the bests!","date":"2023-01-08","rating":5}],"destLat":62.0138,"destLon":-6.7564},{"id":3,"lat":62.1101,"lon":-7.4365,"rating":4,"reviews":2,"wait":13,"signal":null,"lastUsed":"2023-01-08","comments":[{"text":"This is one of the MOST AWESOME hitchhiking spots ever, not only because it is right next to a tunnel entrance, but because while you are waiting for your ride, you can see the magical Faroese landscape! :]","date":"2023-01-08","rating":5},{"text":"RIght before the tunnel is perfect to stand, as you can see your upcoming ride from a relaxed distance! :]  [ AdrianB ]","date":"2019-08-24","rating":3}],"destLat":62.1063,"destLon":-7.4278},{"id":7,"lat":62.0491,"lon":-7.1625,"rating":4,"reviews":1,"wait":300,"signal":null,"lastUsed":"2016-06-28","comments":[],"destLat":null,"destLon":null},{"id":9,"lat":62.052,"lon":-7.1608,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2016-06-11","comments":[],"destLat":null,"destLon":null},{"id":5,"lat":62.0006,"lon":-6.7942,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2019-08-24","comments":[{"text":"I don't understand these yellow circles, because literally EVERYWHERE is soo easy to thumb around the Faroes! Done that hundreds of times, average waiting time is 1 minute or less. :) AdrianB [PS.: HUNGAROHITCH for president!!]","date":"2019-08-24","rating":3}],"destLat":null,"destLon":null},{"id":8,"lat":62.3033,"lon":-7.0681,"rating":3,"reviews":1,"wait":180,"signal":null,"lastUsed":"2016-06-11","comments":[],"destLat":null,"destLon":null}]}
+{
+  "country": "FO",
+  "name": "FO",
+  "totalSpots": 10,
+  "totalReviews": 14,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 62.1045,
+      "lon": -6.9578,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-08-17",
+      "comments": [
+        {
+          "text": "This Roundabout can be reached from Torshavn with free public busses (the red one are free currently, might change). Just stand at the exit where you want to go. I hitchhiked to Vágar, Torshavn and Eysturoy from here. Really easy.",
+          "date": "2025-08-17",
+          "rating": 5
+        }
+      ],
+      "destLat": 62.0736,
+      "destLon": -7.3116
+    },
+    {
+      "id": 2,
+      "lat": 62.2415,
+      "lon": -7.1606,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2023-01-08",
+      "comments": [
+        {
+          "text": "If you visited beautiful Saksun, this will be the best place to hitchhike back to civilisation. But take care, as there will be not so much traffic. Enjoy the stunning landscape!",
+          "date": "2023-01-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 62.2415,
+      "destLon": -7.1606
+    },
+    {
+      "id": 4,
+      "lat": 62.0117,
+      "lon": -6.759,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-01-08",
+      "comments": [
+        {
+          "text": "This is the easiest spot if you want to hitchhike out of the city, for all directions it is awesome! From 2022 you can even thumb into and cross the new 11 km long tunnel to Eysturoy! :] Faroe Islands are the best of the bests!",
+          "date": "2023-01-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 62.0138,
+      "destLon": -6.7564
+    },
+    {
+      "id": 3,
+      "lat": 62.1101,
+      "lon": -7.4365,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 13,
+      "signal": null,
+      "lastUsed": "2023-01-08",
+      "comments": [
+        {
+          "text": "This is one of the MOST AWESOME hitchhiking spots ever, not only because it is right next to a tunnel entrance, but because while you are waiting for your ride, you can see the magical Faroese landscape! :]",
+          "date": "2023-01-08",
+          "rating": 5
+        },
+        {
+          "text": "RIght before the tunnel is perfect to stand, as you can see your upcoming ride from a relaxed distance! :]  [ AdrianB ]",
+          "date": "2019-08-24",
+          "rating": 3
+        }
+      ],
+      "destLat": 62.1063,
+      "destLon": -7.4278
+    }
+  ]
+}

@@ -1,1 +1,37 @@
-{"country":"PS","name":"PS","totalSpots":11,"totalReviews":19,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":9,"lat":32.1016,"lon":35.1954,"rating":5,"reviews":2,"wait":15,"signal":null,"lastUsed":"2013-05-09","comments":[{"text":"nice spot to Haifa","date":"2013-05-09","rating":5}],"destLat":null,"destLon":null},{"id":10,"lat":31.8771,"lon":35.4392,"rating":5,"reviews":2,"wait":10,"signal":null,"lastUsed":"2013-05-09","comments":[{"text":"Hitchhike back to Ramallah","date":"2013-05-09","rating":5}],"destLat":null,"destLon":null},{"id":1,"lat":31.6481,"lon":35.1335,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-10-13","comments":[],"destLat":31.7857,"destLon":35.2212},{"id":2,"lat":32.1162,"lon":35.257,"rating":5,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-10-13","comments":[],"destLat":31.7725,"destLon":35.2297},{"id":4,"lat":31.835,"lon":34.9782,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-03-02","comments":[],"destLat":null,"destLon":null},{"id":6,"lat":31.731,"lon":35.2017,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2014-03-10","comments":[],"destLat":null,"destLon":null},{"id":11,"lat":31.4684,"lon":35.3965,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2012-09-13","comments":[],"destLat":null,"destLon":null},{"id":3,"lat":31.799,"lon":35.4908,"rating":4,"reviews":3,"wait":5,"signal":null,"lastUsed":"2017-10-06","comments":[{"text":"Better hitchhike from Almog junction, not here (a few km west). This is a desert region - and in Almog junction there is a refreshment stop with kiosks and toilets.","date":"2017-10-06","rating":4},{"text":"Found a ride in 5min even though it was already dark","date":"2015-11-23","rating":4},{"text":"Bus stop. Direction Dead Sea.","date":"2015-11-23","rating":4}],"destLat":null,"destLon":null},{"id":5,"lat":31.8064,"lon":35.2337,"rating":4,"reviews":3,"wait":25,"signal":null,"lastUsed":"2015-10-17","comments":[{"text":"Two locals hitch a ride from here to Haifa in less then an hour. For hot days bring a cap. Sometimes theres a man selling pretzels nearby.","date":"2015-10-17","rating":4},{"text":"Two Hitchhikers from Italy picked up a car from here to TLV in 15 minutes.","date":"2014-04-28","rating":4},{"text":"Possible to hitch from here to Tel Aviv. Cars could be going inside Jerusalem, to road 443 or to road 1 (both go to Tel Aviv), so a sign can help.","date":"2013-09-07","rating":4}],"destLat":null,"destLon":null},{"id":8,"lat":31.8144,"lon":35.3507,"rating":4,"reviews":2,"wait":20,"signal":null,"lastUsed":"2014-02-22","comments":[{"text":"טרמפיאדה בשני הכיוונים.","date":"2014-02-22","rating":4},{"text":"There is a bus stop here that functions as a \"hitchhiking spot\" (trempi-yada). Locals go from here aswell.","date":"2014-02-22","rating":4}],"destLat":null,"destLon":null},{"id":7,"lat":31.7411,"lon":35.4633,"rating":3,"reviews":2,"wait":30,"signal":null,"lastUsed":"2014-02-22","comments":[{"text":"טרמפיאדה בשני הכיוונים\nNot the best place for a ride but all cars going on route 90 (Eilat-Golan) pass it. For us we waited 30m before asking two girls for a ride. They went until Eilat.","date":"2014-02-22","rating":3},{"text":"A bus stop-hitchhiking spot (Trempiyada) going to south on route 90","date":"2014-02-22","rating":3}],"destLat":null,"destLon":null}]}
+{
+  "country": "PS",
+  "name": "PS",
+  "totalSpots": 11,
+  "totalReviews": 19,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 31.6481,
+      "lon": 35.1335,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-10-13",
+      "comments": [],
+      "destLat": 31.7857,
+      "destLon": 35.2212
+    },
+    {
+      "id": 2,
+      "lat": 32.1162,
+      "lon": 35.257,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-10-13",
+      "comments": [],
+      "destLat": 31.7725,
+      "destLon": 35.2297
+    }
+  ]
+}

@@ -1,1 +1,30 @@
-{"country":"BN","name":"BN","totalSpots":1,"totalReviews":1,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":1,"lat":4.5843,"lon":114.0826,"rating":5,"reviews":1,"wait":2,"signal":"thumb","lastUsed":"2025-05-03","comments":[{"text":"We catch a car from border. We were heading to campground so the driver took us directly to the place","date":"2025-05-03","rating":5}],"destLat":4.6809,"destLon":114.477}]}
+{
+  "country": "BN",
+  "name": "BN",
+  "totalSpots": 1,
+  "totalReviews": 1,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 4.5843,
+      "lon": 114.0826,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": "thumb",
+      "lastUsed": "2025-05-03",
+      "comments": [
+        {
+          "text": "We catch a car from border. We were heading to campground so the driver took us directly to the place",
+          "date": "2025-05-03",
+          "rating": 5
+        }
+      ],
+      "destLat": 4.6809,
+      "destLon": 114.477
+    }
+  ]
+}

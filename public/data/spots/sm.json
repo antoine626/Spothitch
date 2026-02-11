@@ -1,1 +1,30 @@
-{"country":"SM","name":"SM","totalSpots":2,"totalReviews":3,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":1,"lat":43.9525,"lon":12.469,"rating":5,"reviews":1,"wait":1,"signal":null,"lastUsed":"2023-03-08","comments":[{"text":"The first driver that i asked at the petrol station took me to the border.","date":"2023-03-08","rating":5}],"destLat":43.9827,"destLon":12.4913},{"id":2,"lat":43.9251,"lon":12.4213,"rating":3,"reviews":2,"wait":10,"signal":null,"lastUsed":"2011-04-24","comments":[{"text":"I was waiting here for 30 mins than i started climb up to the hill and the first car stopped.","date":"2011-04-24","rating":3}],"destLat":null,"destLon":null}]}
+{
+  "country": "SM",
+  "name": "SM",
+  "totalSpots": 2,
+  "totalReviews": 3,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 43.9525,
+      "lon": 12.469,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2023-03-08",
+      "comments": [
+        {
+          "text": "The first driver that i asked at the petrol station took me to the border.",
+          "date": "2023-03-08",
+          "rating": 5
+        }
+      ],
+      "destLat": 43.9827,
+      "destLon": 12.4913
+    }
+  ]
+}

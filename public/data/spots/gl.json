@@ -1,1 +1,43 @@
-{"country":"GL","name":"GL","totalSpots":2,"totalReviews":2,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":1,"lat":64.1833,"lon":-51.6769,"rating":5,"reviews":1,"wait":4,"signal":"thumb","lastUsed":"2025-09-22","comments":[{"text":"It’s really easy to hitchhike in Nuuk, I haven’t seen anyone else do it but it works and people are always friendly. It seems like some people might not understand because they just smile or do thumbs up from their car but it’s worth trying because some people definitely get it.","date":"2025-09-22","rating":5}],"destLat":64.1714,"destLon":-51.7279},{"id":2,"lat":73.535,"lon":-32.959,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2025-08-25","comments":[],"destLat":null,"destLon":null}]}
+{
+  "country": "GL",
+  "name": "GL",
+  "totalSpots": 2,
+  "totalReviews": 2,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 1,
+      "lat": 64.1833,
+      "lon": -51.6769,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 4,
+      "signal": "thumb",
+      "lastUsed": "2025-09-22",
+      "comments": [
+        {
+          "text": "It’s really easy to hitchhike in Nuuk, I haven’t seen anyone else do it but it works and people are always friendly. It seems like some people might not understand because they just smile or do thumbs up from their car but it’s worth trying because some people definitely get it.",
+          "date": "2025-09-22",
+          "rating": 5
+        }
+      ],
+      "destLat": 64.1714,
+      "destLon": -51.7279
+    },
+    {
+      "id": 2,
+      "lat": 73.535,
+      "lon": -32.959,
+      "rating": 5,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2025-08-25",
+      "comments": [],
+      "destLat": null,
+      "destLon": null
+    }
+  ]
+}

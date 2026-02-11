@@ -1,1 +1,2159 @@
-{"country":"AU","name":"Australie","totalSpots":319,"totalReviews":349,"source":"hitchwiki","license":"ODBL","attribution":"Data from Hitchwiki/Hitchmap (ODBL)","spots":[{"id":2,"lat":-30.3184,"lon":153.0907,"rating":5,"reviews":3,"wait":10,"signal":"thumb","lastUsed":"2026-01-15","comments":[{"text":"Great Spot, a truck driver took me directly to Sydney","date":"2026-01-15","rating":5},{"text":"Perfect spot for heading south (Pre Bypass). The cars are going slow for the last roundabout out of Coffs and there’s heaps of space near the Cunningham banana place for them to pull over. \r\n\r\nTook maybe 5-10 minutes TOPS\r\n\r\nHad a big cardbord sign for Newcastle. Probably best spot current out of Coffs.","date":"2025-01-07","rating":5}],"destLat":-33.7734,"destLon":150.9034},{"id":44,"lat":-33.2551,"lon":151.403,"rating":5,"reviews":3,"wait":12,"signal":"sign","lastUsed":"2025-01-16","comments":[{"text":"Great spot for hitching north. Just stand on the exit ramp. Heaps of cars.","date":"2025-01-16","rating":5},{"text":"Going from Sydney to the North I was dropped here. Huge gasstation with Mcdonalds. Everyone stops here. It's huge and they drive really slow. Stand at the exit and you'll get a lift easy.","date":"2015-04-14","rating":5}],"destLat":-32.7983,"destLon":151.7178},{"id":33,"lat":-33.9635,"lon":150.8807,"rating":5,"reviews":2,"wait":5,"signal":"sign","lastUsed":"2025-03-22","comments":[{"text":"Good spot, waited a few meters before the roadhouse that cars could pull in","date":"2025-03-22","rating":5},{"text":"Uncle Leo´s Roadhouse is great place to find a lift heading down the Hume Hwy towards Melbourne.\n\nEach time Ive walked from Glenfield train station someone has picked me up and driven me up Glenfield Rd to the roadhouse.","date":"2016-04-21","rating":5}],"destLat":-34.8074,"destLon":148.8818},{"id":64,"lat":-34.9002,"lon":150.6019,"rating":5,"reviews":2,"wait":30,"signal":"sign","lastUsed":"2024-12-15","comments":[{"text":"Heaps of space for cars to pull up on the truck stop. Heard from a local that East Nowra can be kinda dodgy so try not to camp for a night in that area.","date":"2024-12-15","rating":5},{"text":"a truck stop type area, good line of site for cars to see you, easy for them to pull over, and all of the traffic is heading south. Louisa and Liam got a ride in 10 mins using speed hitching.","date":null,"rating":5}],"destLat":-35.8487,"destLon":150.1762},{"id":92,"lat":-17.9289,"lon":122.241,"rating":5,"reviews":2,"wait":60,"signal":"thumb","lastUsed":"2024-06-02","comments":[{"text":"Good spot. I got a ride after 1 hour, while I was walking to next roundabout with thumb out.","date":"2024-06-02","rating":5},{"text":"Easiest way to get out of town.\nLot of traffic. I was there around noon in summer season. It was really easy.","date":"2014-03-23","rating":5}],"destLat":-17.6337,"destLon":123.7388},{"id":97,"lat":-37.7335,"lon":144.668,"rating":5,"reviews":2,"wait":10,"signal":"thumb","lastUsed":"2024-04-06","comments":[{"text":"Fantastic spot. Just along the highway. There is a small barrier with cables and you can stand safely behind it.","date":"2024-04-06","rating":5},{"text":"There is a bus station that makes an excellent hitchhiking spot in direction Adelaide. To get here, take a V/Line train in direction Ballarat and get off at Rockbank.","date":"2013-01-02","rating":5}],"destLat":-37.5348,"destLon":143.8486},{"id":99,"lat":-37.5968,"lon":144.9428,"rating":5,"reviews":2,"wait":17,"signal":null,"lastUsed":"2023-11-18","comments":[{"text":"Me and my girlfriend were waiting for about 5 minutes. Perfect spot, I would choose the same one in the future. We moved ~30 kilometers and then on the highway it was super easy.","date":"2023-11-18","rating":5},{"text":"I actually left a comment for the spot just north of here, but this is the location that I left from. I stood behind the road fences on the grass to avoid any encounters with the police. I stood with a sign that read 'Syd' and I was picked up within 10 minutes by a kayaker on his way to Wangaratta, which is where I was dropped.\n\nI left here on a wet Saturday morning at 09:00 after catching a train out to Cragieburn. If I hitch north again, I'll leave from here, and if I ever leave Melbourne by c","date":"2013-07-31","rating":5}],"destLat":-37.5981,"destLon":144.9433},{"id":106,"lat":-23.3331,"lon":150.518,"rating":5,"reviews":2,"wait":38,"signal":null,"lastUsed":"2023-09-30","comments":[{"text":"Really good spot to hitch north, a lot of traffic and a lot of place for cars to stop. Still took me.l over 45 minutes to get a ride. It was straight to Mackay","date":"2023-09-30","rating":5},{"text":"A really good spot to hitch north from Rockhampton. Walking distance (about 5 km) from city centre. Good space for cars/trucks to stop! I got a ride to Mackay!","date":"2012-10-09","rating":5}],"destLat":-23.333,"destLon":150.5181},{"id":113,"lat":-27.4332,"lon":153.0824,"rating":5,"reviews":2,"wait":8,"signal":null,"lastUsed":"2023-09-28","comments":[{"text":"Got a fast ride to the first truck stop in M1.\r\nNice place with shadow","date":"2023-09-28","rating":5},{"text":"Best spot to hitch out of if you're going north towards Sunshine Coast. A bit of the traffic might be going to the airport, but most will be going at least an hour.","date":null,"rating":5}],"destLat":-27.4332,"destLon":153.0824},{"id":1,"lat":-37.7257,"lon":144.6506,"rating":5,"reviews":1,"wait":1,"signal":null,"lastUsed":"2026-02-05","comments":[{"text":"Perfect spot, highway entrance, lot of room for pulling over","date":"2026-02-05","rating":5}],"destLat":-37.5096,"destLon":143.8036},{"id":4,"lat":-41.5358,"lon":147.1951,"rating":5,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2025-12-12","comments":[{"text":"Good spot. Good visibility, slow traffic, lots of local work vehicles as well as tourist cars. Easy pull-off area.","date":"2025-12-12","rating":5}],"destLat":-41.4438,"destLon":147.1454},{"id":6,"lat":-41.4517,"lon":147.1405,"rating":5,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2025-12-02","comments":[{"text":"Easy to walk to, easy for cars to stop, close to Maccers","date":"2025-12-02","rating":5}],"destLat":-42.8426,"destLon":147.3102},{"id":10,"lat":-16.8789,"lon":145.7576,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2025-10-05","comments":[{"text":"A quick ride to the center, fantastic way to save money compared to a taxi","date":"2025-10-05","rating":5}],"destLat":-16.9211,"destLon":145.7732},{"id":16,"lat":-34.1809,"lon":138.1539,"rating":5,"reviews":1,"wait":1,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Cars go slow, enough space to pull over. Good spot to get to Port Augusta","date":"2025-03-22","rating":5}],"destLat":-32.5118,"destLon":137.8039},{"id":36,"lat":-42.076,"lon":145.5569,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-03-01","comments":[{"text":"Nice spot to sit and wait, with a big wide layby. Lots of people going to Straun.","date":"2025-03-01","rating":5}],"destLat":-41.8792,"destLon":145.3876},{"id":37,"lat":-42.4845,"lon":146.7097,"rating":5,"reviews":1,"wait":20,"signal":null,"lastUsed":"2025-03-01","comments":[{"text":"Next to a servo and toilets. For food, drink and a clean up. You could probably ask folks at the gas station for a ride if you want","date":"2025-03-01","rating":5}],"destLat":-42.0782,"destLon":145.5568},{"id":39,"lat":-42.7776,"lon":147.0552,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-03-01","comments":[{"text":"Picked up by a tradie pretty quick. On my way to queenstown. Although I was dropped at a bus stop before the next town","date":"2025-03-01","rating":5}],"destLat":-42.5344,"destLon":146.7521},{"id":40,"lat":-28.8599,"lon":153.5212,"rating":5,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2025-01-25","comments":[{"text":"Great spot, on the ramp to the highway from servo. Heaps of people stopping there m, got a ride to Gold Coast in 10 mins","date":"2025-01-25","rating":5}],"destLat":-27.9975,"destLon":153.4276},{"id":61,"lat":-36.237,"lon":150.1292,"rating":5,"reviews":1,"wait":15,"signal":"sign","lastUsed":"2024-12-16","comments":[{"text":"Great spot for hitching south. In front of the school slightly to the south. Space to pull-up plenty of shadow from the trees and nice spot.","date":"2024-12-16","rating":5}],"destLat":-36.6999,"destLon":149.8404},{"id":62,"lat":-36.023,"lon":150.1023,"rating":5,"reviews":1,"wait":10,"signal":"sign","lastUsed":"2024-12-16","comments":[{"text":"Very good spot for cars to pull up. Just we warned there’s no shade.","date":"2024-12-16","rating":5}],"destLat":-36.2296,"destLon":150.1246},{"id":82,"lat":-29.9191,"lon":153.0689,"rating":5,"reviews":1,"wait":5,"signal":"ask","lastUsed":"2024-08-13","comments":[],"destLat":-28.5399,"destLon":153.5497},{"id":86,"lat":-34.7197,"lon":149.9953,"rating":5,"reviews":1,"wait":10,"signal":"ask","lastUsed":"2024-08-13","comments":[{"text":"9pm got a lift to Sydney really here","date":"2024-08-13","rating":5}],"destLat":-33.7517,"destLon":150.6963},{"id":102,"lat":-20.2913,"lon":148.6761,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2023-10-03","comments":[{"text":"A lot of traffic, cars go slow, and a big bay for cars to stop! Easy to get a ride to Proserpine","date":"2023-10-03","rating":5}],"destLat":-20.2913,"destLon":148.6761},{"id":103,"lat":-20.3921,"lon":148.5856,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2023-10-02","comments":[{"text":"Super good place to hitch to Airlie Beach. All the cars passing are going there... big bay for the cars to stop and all the traffic going slow!","date":"2023-10-02","rating":5}],"destLat":-20.3922,"destLon":148.5855},{"id":108,"lat":-25.2338,"lon":152.2685,"rating":5,"reviews":1,"wait":30,"signal":null,"lastUsed":"2023-09-29","comments":[{"text":"Right before the bridge there's a gigantic spot for cars to stop! All the traffic goes either to Bundaberg or to Gin Gin. I tried during sunset and there was not that much traffic but still got a ride in less than half an hour","date":"2023-09-29","rating":5}],"destLat":-25.2337,"destLon":152.2685},{"id":109,"lat":-25.5772,"lon":152.6551,"rating":5,"reviews":1,"wait":20,"signal":null,"lastUsed":"2023-09-29","comments":[{"text":"All traffic heading north, but not as much traffic as the previous stations... anyway, got a ride in 20 mins to Childers","date":"2023-09-29","rating":5}],"destLat":-25.5772,"destLon":152.6551},{"id":110,"lat":-26.238,"lon":152.6992,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2023-09-29","comments":[{"text":"Gas station with Roadhouse and Caravan Park.\r\nSome traffic, most of it going North.. After 15mins got a ride to Maryborough","date":"2023-09-29","rating":5}],"destLat":-26.238,"destLon":152.6992},{"id":111,"lat":-26.6899,"lon":153.004,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2023-09-29","comments":[{"text":"Big petrol station and truck stop. Most of the traffic going North. Stood in the exit of the gas station with a Sign and got picked up in 10 minutes","date":"2023-09-29","rating":5}],"destLat":-26.6898,"destLon":153.004},{"id":112,"lat":-27.3769,"lon":153.0943,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2023-09-29","comments":[{"text":"Nice place for going North to Sunshine Coast/Cairns. A lot of traffic and Trucks.\r\nWas walking down with a Sign saying Sunny Coast and a truck offered to pick me up.","date":"2023-09-29","rating":5}],"destLat":-27.3769,"destLon":153.0943},{"id":115,"lat":-28.6411,"lon":153.6084,"rating":5,"reviews":1,"wait":2,"signal":null,"lastUsed":"2023-09-27","comments":[{"text":"Was writing a sign and a car immediately stopped and picked me up. Left me on rest stop near Tyagarah","date":"2023-09-27","rating":5}],"destLat":-28.641,"destLon":153.6084},{"id":116,"lat":-28.6362,"lon":153.5516,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2023-09-27","comments":[{"text":"Hitchhiked from here to Byron.. the car just stopped on the emergency lane","date":"2023-09-27","rating":5}],"destLat":-28.6362,"destLon":153.5516},{"id":125,"lat":-33.3467,"lon":151.371,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2016-07-28","comments":[{"text":"Coles Express Servo off the M1 (Pacific Motorway).  Ask drivers filling up with petrol.  Probably good spot for finding a ride either north or south on the M1","date":"2016-07-28","rating":5}],"destLat":null,"destLon":null},{"id":126,"lat":-30.7135,"lon":152.9219,"rating":5,"reviews":1,"wait":18,"signal":null,"lastUsed":"2016-07-28","comments":[{"text":"South-bound hitch spot on the highway.  THis spot is just south of the traffic lights with Boundary street, and has lots of room for cars to pull over.  Traffic is slow here on its way out of Macksville, so its easy for cars to stop.\n\nIts a good spot to stop and dumpster dive the nearby Woolies supermarket on your way south.\n\nOnly downside to this spot is that it is popular with truckies to stop and rest here.  If the trucks wont take you you might have to wait for them to leave so that there is","date":"2016-07-28","rating":5}],"destLat":null,"destLon":null},{"id":131,"lat":-33.1083,"lon":151.4928,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2016-04-27","comments":[{"text":"If you want to go to Morisset park to see Kangaroos, this is the great spot to hitchhike. Local people will stop by and give you a lift.","date":"2016-04-27","rating":5}],"destLat":null,"destLon":null},{"id":132,"lat":-28.2438,"lon":153.5575,"rating":5,"reviews":1,"wait":20,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"BP Connect Chinderah.  This is an easy spot to find a lift south.  Ask drivers while they are filling up with petrol.","date":"2016-04-21","rating":5}],"destLat":null,"destLon":null},{"id":135,"lat":-38.0854,"lon":145.7746,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"Caltex Service Station.  Easy to find a lift east here, just ask drivers filling up petrol.","date":"2016-04-21","rating":5}],"destLat":null,"destLon":null},{"id":140,"lat":-38.0701,"lon":145.3865,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"BP Service Station (Officer).  Take the train to Officer station, then walk about 30 mins down Officer South Rd, west on Rix Rd, then down Stephens Rd Nth to the end, go around to the freeway side of the large wall and walk west to the BP.","date":"2016-04-21","rating":5}],"destLat":null,"destLon":null},{"id":146,"lat":-23.5345,"lon":133.8623,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2016-02-29","comments":[{"text":"Good spot to catch a ride west on the Tanami road but you'll have to get a lift to get here. There is not much traffic but vehicles will pull in slowly and are generally very likely to stop. Most cars will take you to Yuendumu. Best days are Sunday and early Monday as people drive back into communities from town. There is not much shade and a slight chance to get stranded for a night in the desert if you arrive too late. Take plenty of water.","date":"2016-02-29","rating":5}],"destLat":null,"destLon":null},{"id":151,"lat":-34.867,"lon":150.6025,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-11-21","comments":[{"text":"Nice traffic, extra line to pull over, just after traffic lights. I've got a ride in 15 mins","date":"2015-11-21","rating":5}],"destLat":null,"destLon":null},{"id":153,"lat":-33.9725,"lon":115.0839,"rating":5,"reviews":1,"wait":20,"signal":null,"lastUsed":"2015-10-20","comments":[{"text":"Good spot to get to Nannup and then the route to the South. Not a huge amount of traffic but locals are friendly and helpful.","date":"2015-10-20","rating":5}],"destLat":null,"destLon":null},{"id":155,"lat":-34.2704,"lon":115.0989,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"Visiting the cave and then getting a ride from here is pretty easy.","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":156,"lat":-33.9477,"lon":115.0742,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"In town spot across from Inne Towne Backpackers.  Enough space for cars to pull over, just barely.  Easy to get a lift at least to next town from here.","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":157,"lat":-33.6988,"lon":115.1894,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"Rural spot but easy to get a lift.","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":158,"lat":-33.8478,"lon":115.104,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"Friendly locals in these parts.","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":159,"lat":-33.6156,"lon":115.1015,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"Easy spot to get up to the cape.  Local surfer drove out of his way to get us up there. Just go earlier in the day to make sure there are still cars at the cape to get back in.","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":160,"lat":-33.6655,"lon":115.3552,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"Nice place to go south or westward.  Got a ride to Dunsborough from here.","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":161,"lat":-33.3355,"lon":115.6715,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"Bit of a walk from town, but worth it. Fast speed limit but ample time for people to see you and pull over or turn around to pick you up.","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":162,"lat":-33.0346,"lon":115.7339,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"Settlers Raodhouse. Easy spot","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":163,"lat":-32.5853,"lon":115.659,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"As per the Hitchwiki southwest instructions, this spot worked great.","date":"2015-05-06","rating":5}],"destLat":null,"destLon":null},{"id":165,"lat":-38.4684,"lon":144.0869,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Easy place for car to pull over here, if the parking is not already full.  Started sprinkling a bit which migth have worked in our favor and cars stopped quickly.","date":"2015-04-19","rating":5}],"destLat":null,"destLon":null},{"id":170,"lat":-42.7085,"lon":146.8965,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Decent spot after the servo, didn't take much time","date":"2015-04-19","rating":5}],"destLat":null,"destLon":null},{"id":173,"lat":-42.5545,"lon":147.8735,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"We were told after the bridge is better, but thumbed as we walked and got a ride from a nice old Kiwi into Hobart city","date":"2015-04-19","rating":5}],"destLat":null,"destLon":null},{"id":179,"lat":-41.5414,"lon":147.2025,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Got a lift from the second car that passed into Launceston as we walked with our thumbs out.","date":"2015-04-19","rating":5}],"destLat":null,"destLon":null},{"id":180,"lat":-30.938,"lon":152.9423,"rating":5,"reviews":1,"wait":120,"signal":null,"lastUsed":"2015-04-14","comments":[{"text":"This tiny gas station is the last \"big one\" before Coffs. Trucks stop often, and there's a lot of traffic that pops in just from the Pacific HW. It took me two hours, but got a lift straight away to Brisbane. It's a petrol station. Never know what to expect.","date":"2015-04-14","rating":5}],"destLat":null,"destLon":null},{"id":181,"lat":-33.816,"lon":150.0126,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2015-03-30","comments":[{"text":"From the ticket office keep on walking as if you were to get in the caves, but follow the direction of cars going to Katoomba. If you walk like 300m, you'll find that the road gets wider and there's a place to pull out. Easy. 15mins I got a lift to Katoomba","date":"2015-03-30","rating":5}],"destLat":null,"destLon":null},{"id":182,"lat":-33.9436,"lon":151.0768,"rating":5,"reviews":1,"wait":45,"signal":null,"lastUsed":"2015-03-30","comments":[{"text":"I was going to Camberra on a sunday. Easy to find spot from Beverly Hills Train Station. 5 mins walk north from the Station through King Georges Rd. Great spot, just was there to early, but waited 45mins. Not to much. Plenty o space for cars to stop before pulling in the motorway","date":"2015-03-30","rating":5}],"destLat":null,"destLon":null},{"id":189,"lat":-41.9283,"lon":147.4939,"rating":5,"reviews":1,"wait":13,"signal":null,"lastUsed":"2014-10-26","comments":[{"text":"Campbell Town is where all drivers take a break between Launie and Hobart. You'll get a lift, especially at that petrol station, but keep a thumb on the road: that's how it worked for me.","date":"2014-10-26","rating":5}],"destLat":null,"destLon":null},{"id":190,"lat":-41.5316,"lon":147.1869,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2014-10-26","comments":[{"text":"Easy easy! All drivers go to Perth which is a very good spot for Hobart (or Launie). Though a bit desolated, this bit of road has all you need: space for drivers to pull over, traffic and not too much speed.","date":"2014-10-26","rating":5}],"destLat":null,"destLon":null},{"id":191,"lat":-41.5789,"lon":147.1774,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2014-10-26","comments":[{"text":"Pretty sure every hitch-hiker travelling between Launie and Hobart ended up there at some point. Space for cars to pull over, petrol stations with a lot of clients: it's been a really good spot for me, both ways.","date":"2014-10-26","rating":5}],"destLat":null,"destLon":null},{"id":202,"lat":-30.2992,"lon":115.0502,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2014-03-23","comments":[{"text":"Lots of cars going through, there are some trees where you can get some shade.","date":"2014-03-23","rating":5}],"destLat":null,"destLon":null},{"id":204,"lat":-33.581,"lon":115.8432,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2014-02-17","comments":[{"text":"To go South, two kilometers from Donnybrook, just after the left road to Collie.","date":"2014-02-17","rating":5}],"destLat":null,"destLon":null},{"id":205,"lat":-20.3073,"lon":148.5396,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-10-13","comments":[{"text":"If going North this is the best place to be. Maximum traffic out of Airlie Beach and all those on the A1. \nJust stand near the Railway tracks. 80kmh zone.","date":"2013-10-13","rating":5}],"destLat":null,"destLon":null},{"id":207,"lat":-28.8027,"lon":153.2847,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"This was quite possibly the quickest ride I ever procured. As soon as a I set my bags down and reached for my sign after leaving my last driver, another car tooted their horn at me and once I showed him my sign he agreed to take me to Byron Bay. \n\nHe said that it's real common for people to hitchhike around here. This was a good spot to get to Byron, but the road can be a little tricky, so do it in daytime or with a super chilled driver not in a rush!","date":"2013-07-31","rating":5}],"destLat":null,"destLon":null},{"id":208,"lat":-28.8018,"lon":153.2621,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"Found a ride to Nimbin here within 10 minutes.","date":"2013-07-31","rating":5}],"destLat":null,"destLon":null},{"id":212,"lat":-34.2822,"lon":150.6378,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"This looks like the place I was dropped at just before my driver turned off for Wollongong. I recommend anyone attempting to bypass Sydney from Melbourne to get dropped here and look for a lift. The third driver I asked was going to Newcastle, and eradicated the Sydney headache. \n\nIt's a great place to rest/camp and approach drivers.","date":"2013-07-31","rating":5}],"destLat":null,"destLon":null},{"id":217,"lat":-20.2884,"lon":148.6776,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-07-17","comments":[{"text":"one road out of town picked up before i stuck my thumb out","date":"2013-07-17","rating":5}],"destLat":null,"destLon":null},{"id":218,"lat":-38.1407,"lon":144.2945,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-04-23","comments":[{"text":"great for catching a ride up into melbourne","date":"2013-04-23","rating":5}],"destLat":null,"destLon":null},{"id":226,"lat":-42.8263,"lon":147.281,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2013-03-06","comments":[{"text":"Perfect spot, people can pull over easily","date":"2013-03-06","rating":5}],"destLat":null,"destLon":null},{"id":230,"lat":-35.3658,"lon":150.472,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-02-01","comments":[{"text":"Great spot for heading down the coast. There is a bus shelter with plenty of room to pull over and slow traffic speed. Also a McDonalds across the road which is a bonus","date":"2013-02-01","rating":5}],"destLat":null,"destLon":null},{"id":231,"lat":-20.0147,"lon":148.2207,"rating":5,"reviews":1,"wait":30,"signal":null,"lastUsed":"2012-11-13","comments":[{"text":"This is a really good spot to hike from Bowen. The Highway takes a 90 degrees turn and the cars have to slow down. Not too much space to stop, but still very good spot! I got a ride to Townsville after 30 mins!","date":"2012-11-13","rating":5}],"destLat":null,"destLon":null},{"id":239,"lat":-36.0387,"lon":146.9731,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2012-06-06","comments":[{"text":"Last on ramp out of Albury, so less local traffic. Plenty of place on the side of the ramp to pull over, easy ride out","date":"2012-06-06","rating":5}],"destLat":null,"destLon":null},{"id":240,"lat":-35.0053,"lon":148.1108,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2012-06-06","comments":[{"text":"Large rest station with food outlets and coffee shops. Good place to get dropped off and find another ride, especially heading north to Sydney.","date":"2012-06-06","rating":5}],"destLat":null,"destLon":null},{"id":253,"lat":-19.2397,"lon":146.6636,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":"2011-06-09","comments":[{"text":"Great Place for going North. I live 1km away, at least 5 times CS Guest were picked up here in under 15minutes. 2had direct rides to Cairns. There is a bus fm TSV City (http://www.hpbs.com.au/route-33) Ask the bus driver for \"Woodlands Caravan Park at the Mt Low turn off\"\nThere are traffic lights. Cars stop here, and then they pull up for you.","date":"2011-06-09","rating":5}],"destLat":null,"destLon":null},{"id":254,"lat":-33.9618,"lon":115.0776,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":"2011-04-13","comments":[{"text":"Direction : South to Augusta\nFrom Margaret River, walk to the last roundabout. If you want to go to Augusta, wait for someone getting there. It could be more difficult if they drop you on the way in Witchcliffe or Karridale. I sometimes refuse 1 or 2 before one pick me up for the whole way.","date":"2011-04-13","rating":5}],"destLat":null,"destLon":null},{"id":257,"lat":-28.6708,"lon":114.6218,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":"2010-12-11","comments":[{"text":"gas station north of geraldton, access with public transport,  check: http://hitchwiki.org/en/Geraldton","date":"2010-12-11","rating":5}],"destLat":null,"destLon":null},{"id":259,"lat":-24.8986,"lon":113.7091,"rating":5,"reviews":1,"wait":15,"signal":null,"lastUsed":"2010-12-07","comments":[{"text":"Hitching South towards Geraldton, Perth.  At the intersection there is extra space for cars going south to pull over.  \nThere may be rogue cattle around, there was an unexpected bull standing under the palm trees across the street staring at [[User:Dear_sarah|Dear Sarah]], but nothing bad happened.","date":"2010-12-07","rating":5}],"destLat":null,"destLon":null},{"id":261,"lat":-42.8918,"lon":147.3204,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"very good point to travel to south Tamania like Huonvalley","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":263,"lat":-27.463,"lon":153.0111,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Not a bad spot (for going north) if you cant get out further towards the airport. Most ppl wont be going far, but should get you out of town a bit. Inner City Bypass just turns into a main road, which will then take you to the onramp onto the Bruce Highway (north) and the airport.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":264,"lat":-28.6379,"lon":153.5815,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Seriously couldn't find a better hitching spot that this in australia. Anyone would get a lift in less than 5 mins. Anywhere on this road is good, but especially on the bit near the BP petrol station. Traffic will be going either North (towards brisbane) or West (to Lismore)","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":265,"lat":-28.6693,"lon":153.6124,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":null,"comments":[{"text":"Get a ride really easy here, heading south towards Sydney. Pretty quiet little mainroad, (not major highway) but plenty of traffic.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":269,"lat":-29.7058,"lon":152.9483,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Very good spot for hitching northbounds near McDonalds.\nTraffic has to slow down, heaps of cars,...what else do u want?","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":271,"lat":-42.8962,"lon":147.3176,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"The best spot for hitching south by a long way.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":273,"lat":-42.7372,"lon":147.2291,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"The best place to hitch north from by a long way. Typically need a ride to get here mind you ...","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":274,"lat":-42.7496,"lon":147.224,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":null,"comments":[{"text":"The best place to hitch west from by a long way. Usually need a ride to get here mind you.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":281,"lat":-36.7141,"lon":145.6347,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Awesome! Food van permanently parked here, lots of people stopping in for a rest; easy lifts just by asking the drivers when they get out of thier cars.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":283,"lat":-32.1495,"lon":116.0248,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Great spot with wide pull-out. Hitched to Albany from here many times. Only about a k's walk from Armadale train station.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":288,"lat":-28.6422,"lon":153.6121,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitching anywhere in this area is easy. I always pick people up hitching in this spot in the middle of town in Byron Bay. You can seriously get anywhere you want around here. Even tiny obscure places.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":289,"lat":-41.4511,"lon":147.1398,"rating":5,"reviews":1,"wait":10,"signal":null,"lastUsed":null,"comments":[{"text":"Good spot to get to Hobart. The road widens enough for someone to pull over. Also hitched to the airport from here. Didn't take very long at all.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":291,"lat":-33.9386,"lon":115.0777,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"There's a good wide bit of gravel here for people to pull off into heading north. Didn't have a problem hitching out of Margs.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":294,"lat":-34.9586,"lon":117.3573,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Down near the river is the best spot to get to Albany. Easy peasy!","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":296,"lat":-34.9851,"lon":117.8523,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Little service station here, where it's great to get a ride to Perth. Standing on the corner across the road seems very effective.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":298,"lat":-17.9297,"lon":122.2402,"rating":5,"reviews":1,"wait":5,"signal":null,"lastUsed":null,"comments":[{"text":"best spot to get out of town - although, you could probably get a ride from closer to town if you tried. Make sure to start early (like 5 or 6am!) if you want to get long distances! You will most likely get a ride out to the roadhouse 30km from here- take it, and then ask the truckies out there!","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":299,"lat":-15.8687,"lon":128.3717,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"even though it looks like the middle of nowhere, this is actually a pretty good spot to get north, as trucks slow right down at the intersection and can stop easily. We got a ride offer to Darwin with a truckie from here at night with only a torch to shine on our thumbs to show we were hitching!! If you get a ride offer that takes you past Kununurra - TAKE IT!!!!","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":302,"lat":-33.357,"lon":115.6702,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"South Western Hwy Turnoff - Great spot for getting down south (Bridgetown, Pemberton, Denmark, Albany).","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":303,"lat":-33.663,"lon":115.36,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Busselton to Bunbury- Easy from this roundabout! There's a spot with room for people to pull over and they're all going pretty slow, so there's time to make smiley faces and wave!","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":304,"lat":-27.578,"lon":153.1063,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"DIRECTION SOUTH SYDNEY GOLD COST\n\nWaiting : 5/10 minutes\nTraffic : low\nCar Place : large\nSpeed : 40 km/h","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":310,"lat":-41.872,"lon":148.2963,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitching along the eastcoast was really easy. Never waited longer than 15min. Even with two big backpacks. Met funny people and had a lot of fun.","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":311,"lat":-28.553,"lon":153.5034,"rating":5,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"This will get you to the highway or the coast (Brunswick Heads, Byron Bay).","date":null,"rating":5}],"destLat":null,"destLon":null},{"id":47,"lat":-33.718,"lon":151.1099,"rating":4.5,"reviews":4,"wait":14,"signal":"sign","lastUsed":"2025-01-16","comments":[{"text":"Good spot to get out of Sydney heading North.","date":"2025-01-16","rating":4},{"text":"11am Got ride to Wyon servo on the freeway. Don't take a ride unless they go at least to Wyon servo. \r\nNote: Directly across the road from this spot is a good patch of bush to urban camp where no one will find you!","date":"2024-08-13","rating":4},{"text":"DIRECTION NORTH - QLD / BYRON BAY / GOLD COST / NEWCASTLE - Catch a ride really easily from that place\n\nPlace for car : gigantic\nSpeed : 20 km/h\nTraffic : average/high\nWaiting : 5/10 minutes\n\nI dont saw if there was some lights thee for the night, i think so...","date":null,"rating":5}],"destLat":-33.4206,"destLon":151.2901},{"id":28,"lat":-38.3391,"lon":144.3069,"rating":4.5,"reviews":2,"wait":5,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Decent traffic towards the Great Ocean Road","date":"2025-03-22","rating":4},{"text":"Lots of Great Ocean Road goers by here, esy to get a lift.","date":"2015-04-19","rating":5}],"destLat":-38.419,"destLon":144.1744},{"id":32,"lat":-34.8074,"lon":148.8818,"rating":4.5,"reviews":2,"wait":15,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Busy station, got a long ride. Many flies (Nov)!","date":"2025-03-22","rating":5},{"text":"Busy service station, lots of traffic. Got a lift from the first truck driver we approached, all the way to the coast","date":null,"rating":4}],"destLat":-36.4403,"destLon":146.2491},{"id":188,"lat":-33.6455,"lon":150.048,"rating":4.5,"reviews":2,"wait":15,"signal":null,"lastUsed":"2015-01-05","comments":[{"text":"Dircection Oberon/jenolan caves. Used this onbe to get to work. Little less room to pull people over. Oberon should be easy and Jenolan caves a little harded depending on the day. Best chance for the caves is in the morning when the staff are heading down.","date":"2015-01-05","rating":4},{"text":"Direction: Blue mountains/lithgow live close by and use this to get in to town sometimes. I also dropped backpacks off here. Short waiting times when the traffic is good so morning and from 3 onwards. Its a 50 zone aswell so people have plenty of time to see you.","date":"2015-01-05","rating":5}],"destLat":null,"destLon":null},{"id":71,"lat":-23.8153,"lon":114.0095,"rating":4,"reviews":3,"wait":13,"signal":"ask","lastUsed":"2024-09-17","comments":[{"text":"Got a ride here in 5 mins heading south with a guy going to Perth. Friendly Roadhouse staff","date":"2024-09-17","rating":5},{"text":"I probably should have made that 4 stars","date":"2024-09-15","rating":4},{"text":"Got a ride to Exmouth quite easily by asking around here. The Roadhouse staff were friendly and even offered to hotspot their phone so I could use the internet. There's a free rest stop with shady trees just across the river if you wanna camp here","date":"2024-09-15","rating":3}],"destLat":-27.8279,"destLon":114.6884},{"id":43,"lat":-32.7985,"lon":151.7178,"rating":4,"reviews":2,"wait":25,"signal":"sign","lastUsed":"2025-01-17","comments":[{"text":"Quite okay spot. When I was hitching in January 2025 the servo was closed and the traffic was going slower (60) due to ongoing construction works. I camped behind the station no need to go onto the horse place.","date":"2025-01-17","rating":4},{"text":"Traffic is going pretty quick, but I awkwardly camped here overnight. There is a horse training facility nearby. You can jump the fence and camp there for flatter ground, but you'll probably be spotted in the morning, as the riders are up at dawn. They called out hello to me!\n\nIn terms of leaving, someone pulled out of the service station to pick me up. I waited around 10-15 minutes. I didn't bother asking people at the service station, but that would have worked had it been later in the day wit","date":"2013-07-31","rating":4}],"destLat":-32.2181,"destLon":152.3219},{"id":54,"lat":-36.0752,"lon":146.9274,"rating":4,"reviews":2,"wait":85,"signal":"sign","lastUsed":"2024-12-27","comments":[{"text":"Got spot with plenty of space to pull up. Not much shade. A cop spotted me and other local hitchhiker and camped down the ramp for a 30 min or so, fettering rides. Although it’s not illegal in NSW and we were standing before the actual freeway. The cops went away and didn’t come back or cause any more problems","date":"2024-12-27","rating":4},{"text":"4pm Got a ride in a truck going to Wollongong","date":"2024-08-13","rating":4}],"destLat":-34.8374,"destLon":148.9064},{"id":58,"lat":-37.4762,"lon":149.5931,"rating":4,"reviews":2,"wait":20,"signal":"sign","lastUsed":"2024-12-19","comments":[{"text":"Good spot for hitching south. There’s a patch of grass on the southern side of the intersection. Got a ride to Lakes Entrance in 20min","date":"2024-12-19","rating":4},{"text":"Nice wide grassy verge at this intersection, with a roadhouse across the way. Friendly locals, got a lift from the first car passing by!","date":null,"rating":4}],"destLat":-37.8794,"destLon":147.9931},{"id":67,"lat":-31.9021,"lon":116.1024,"rating":4,"reviews":2,"wait":13,"signal":"ask","lastUsed":"2024-09-29","comments":[{"text":"I might have got lucky, but a guy pulled up to check his load and asked me where I was going. Got a ride to Meckering","date":"2024-09-29","rating":4},{"text":"For hitching east toward Kalgoorlie, Adelaide, Sydney.  There is a paved rest stop by the bus stop where cars can pull off easily, quite a good spot.  Take bus 320 from Midland station, to the stop Great Eastern Hwy Before Park Rd A.","date":null,"rating":4}],"destLat":-31.6271,"destLon":117.0086},{"id":73,"lat":-21.9274,"lon":114.1258,"rating":4,"reviews":2,"wait":13,"signal":"thumb","lastUsed":"2024-09-15","comments":[{"text":"Good spot to hitch to the park","date":"2024-09-15","rating":4},{"text":"good spot to hitch into the nationalpark. there is a \"share a ride\" station. everyone who wants to go in the nationalpark has to use this road.","date":"2011-07-14","rating":4}],"destLat":-21.8043,"destLon":114.1076},{"id":79,"lat":-19.4368,"lon":134.2076,"rating":4,"reviews":2,"wait":80,"signal":"ask","lastUsed":"2024-08-29","comments":[{"text":"Got a lift in a Mobile Crane here!! Ticked that one off the list, even though it only went 75km/hr","date":"2024-08-29","rating":5},{"text":"Threeways roadhouse. This place gets traffic from Darwin, Alice and the Queensland coast. I found the staff friendly and it is a good place to ask stopping cars for a lift. In my eyes way better than trying to stop one down the road. But you still might need a bit of patience.","date":"2016-02-29","rating":3}],"destLat":-14.9235,"destLon":133.0659},{"id":150,"lat":-23.7292,"lon":133.8642,"rating":4,"reviews":2,"wait":null,"signal":null,"lastUsed":"2016-01-10","comments":[{"text":"Good visibility. Layby for driver's to pull over. Beside a picnic bench and table and under a tree for some shade from the heat. It took us 40 minutes to get a ride south from this spot. The one downside is drivers that are stopping may also be going to the airport.","date":"2016-01-10","rating":4},{"text":"Quite good spot to hitch-hike to Alice Springs Airport or to the better spot south.","date":"2010-12-11","rating":4}],"destLat":null,"destLon":null},{"id":5,"lat":-41.2005,"lon":147.6691,"rating":4,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2025-12-02","comments":[{"text":"Easy hitch. Good visibility","date":"2025-12-02","rating":4}],"destLat":-41.187,"destLon":147.5776},{"id":7,"lat":-41.1874,"lon":146.3713,"rating":4,"reviews":1,"wait":15,"signal":"sign","lastUsed":"2025-12-02","comments":[{"text":"Easy for cars to see you in advance, plus food, and room for them to pull off and stop","date":"2025-12-02","rating":4}],"destLat":-41.4532,"destLon":147.1399},{"id":9,"lat":-17.0992,"lon":145.78,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-10-07","comments":[],"destLat":-17.7481,"destLon":146.0278},{"id":12,"lat":-27.3081,"lon":133.6254,"rating":4,"reviews":1,"wait":200,"signal":null,"lastUsed":"2025-07-03","comments":[{"text":"Enough room to stop direct route south just not many people on the road","date":"2025-07-03","rating":4}],"destLat":-27.3081,"destLon":133.6254},{"id":20,"lat":-38.662,"lon":143.1045,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Many tourists, most of them went east","date":"2025-03-22","rating":4}],"destLat":-37.8067,"destLon":140.7915},{"id":22,"lat":-38.7628,"lon":143.6699,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Decent amout of traffic (off season)","date":"2025-03-22","rating":4}],"destLat":-38.7826,"destLon":143.5367},{"id":23,"lat":-38.6665,"lon":143.8617,"rating":4,"reviews":1,"wait":1,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Most traffic goes direction of Apollo Bay. Not a lot traffic out of main season","date":"2025-03-22","rating":4}],"destLat":-38.7525,"destLon":143.6692},{"id":24,"lat":-38.635,"lon":143.8909,"rating":4,"reviews":1,"wait":5,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Local picked me up to bring me to Kenneth River. Told me good spots to see Koalas. But not much traffic out of the main season","date":"2025-03-22","rating":4}],"destLat":-38.6666,"destLon":143.8618},{"id":25,"lat":-38.5427,"lon":143.976,"rating":4,"reviews":1,"wait":120,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"It rained cats and dogs, so there was first no traffic. After the rain i catched a ride in 20 min","date":"2025-03-22","rating":4}],"destLat":-38.6349,"destLon":143.8909},{"id":26,"lat":-38.4654,"lon":144.0991,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Not much traffic in the morning (out of main season)","date":"2025-03-22","rating":4}],"destLat":-38.5353,"destLon":143.9739},{"id":27,"lat":-38.419,"lon":144.1745,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Out of main season decent amout of traffic, not so many tourists","date":"2025-03-22","rating":4}],"destLat":-38.4591,"destLon":144.107},{"id":29,"lat":-38.196,"lon":144.3424,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Driver turned around and drove me to Torquay, even it wasn't on his way","date":"2025-03-22","rating":4}],"destLat":-38.3324,"destLon":144.3262},{"id":31,"lat":-36.4403,"lon":146.2491,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"In the morning not very busy, but luckily a truck driver picked me up","date":"2025-03-22","rating":4}],"destLat":-37.4043,"destLon":145.0157},{"id":35,"lat":-41.8785,"lon":145.3871,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-03-01","comments":[{"text":"Trees for shade, and a decent frequency of cars","date":"2025-03-01","rating":4}],"destLat":-41.5642,"destLon":145.6828},{"id":41,"lat":-30.2904,"lon":153.1202,"rating":4,"reviews":1,"wait":120,"signal":"sign","lastUsed":"2025-01-25","comments":[{"text":"2 hours wait in the rain. There are many good spots to hitch from in Coffs. There is a sideline to pull up. I stayed between the BP station and turn to Marcia Street.","date":"2025-01-25","rating":4}],"destLat":-28.8611,"destLon":153.517},{"id":45,"lat":-33.4203,"lon":151.2903,"rating":4,"reviews":1,"wait":3,"signal":"sign","lastUsed":"2025-01-16","comments":[{"text":"Got dropped here while hitching from Sydney. A car pulled up just after that and took me 1km to the Wyong Servo which is the best hitching spot in the area for going north","date":"2025-01-16","rating":4}],"destLat":-33.2708,"destLon":151.4052},{"id":46,"lat":-33.4207,"lon":151.2898,"rating":4,"reviews":1,"wait":3,"signal":"sign","lastUsed":"2025-01-16","comments":[{"text":"Got dropped here from Hornsby. Right after getting dropped a car pulled up and got me near the Wyongs Servo which is much better hitching spot.","date":"2025-01-16","rating":4}],"destLat":-33.2707,"destLon":151.4051},{"id":50,"lat":-36.4496,"lon":148.4514,"rating":4,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-01-08","comments":[],"destLat":-36.416,"destLon":148.6199},{"id":51,"lat":-36.497,"lon":148.3149,"rating":4,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2025-01-07","comments":[{"text":"sunday noon, about 1 car per minute volume. got the 4th car.","date":"2025-01-07","rating":4}],"destLat":-36.4495,"destLon":148.4509},{"id":52,"lat":-38.1119,"lon":147.0685,"rating":4,"reviews":1,"wait":40,"signal":"thumb","lastUsed":"2024-12-27","comments":[{"text":"Nice spot for hitching down to Wilsons Prom although this route is less travelled I got a ride to the Thompson bridge campsite and from there to Foster with a couple backpackers staying at the campsite. (50km to Wilsons). Most of the locals recommended hitching to Wilsons Prom through Morwell or Traralgan, this route should easier when approaching from the east","date":"2024-12-27","rating":4}],"destLat":-38.1466,"destLon":147.0881},{"id":53,"lat":-37.9201,"lon":147.7269,"rating":4,"reviews":1,"wait":2,"signal":"ask","lastUsed":"2024-12-27","comments":[{"text":"If you need transport from the Koala island to Bairnsdale just ask the cars queued to the ferry. Very friendly locals!","date":"2024-12-27","rating":4}],"destLat":-37.8273,"destLon":147.6212},{"id":55,"lat":-39.0281,"lon":146.3319,"rating":4,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2024-12-26","comments":[{"text":"If you walk a bit from the hikers parking there is a nice wide grassy area about ~50m or so before the turn to Mount Oberon, easy to get a lift to Melbourne or a town nearby from where you can get a bus for 10 bucks. Checkout time from the main campground is 11am, keep that in mind","date":"2024-12-26","rating":4}],"destLat":-38.694,"destLon":146.0848},{"id":56,"lat":-38.6505,"lon":146.1986,"rating":4,"reviews":1,"wait":5,"signal":null,"lastUsed":"2024-12-24","comments":[{"text":"Good spot for hitching to Wilsons Promontory, parking bay right after the roundabout","date":"2024-12-24","rating":4}],"destLat":-39.0309,"destLon":146.3259},{"id":59,"lat":-37.063,"lon":149.9043,"rating":4,"reviews":1,"wait":120,"signal":"sign","lastUsed":"2024-12-19","comments":[{"text":"A bus bay with toilets and supermarket nearby. Good for hitching south (although had to wait 2 hours)","date":"2024-12-19","rating":4}],"destLat":-37.5584,"destLon":149.7557},{"id":63,"lat":-35.9228,"lon":150.0867,"rating":4,"reviews":1,"wait":30,"signal":"sign","lastUsed":"2024-12-16","comments":[{"text":"Got dropped there, in front of TEFA there’s a lot of space to pull up, some shade from trees and cars go slower after the turn. Good for going south. There are plenty other good spots though between this one and Moruya.","date":"2024-12-16","rating":4}],"destLat":-36.0228,"destLon":150.1026},{"id":65,"lat":-34.4998,"lon":150.7905,"rating":4,"reviews":1,"wait":15,"signal":"sign","lastUsed":"2024-12-15","comments":[{"text":"There’s a bus bay with a bus shelter to protect from sun. Got a ride to Nowra in 15 min","date":"2024-12-15","rating":4}],"destLat":-34.9005,"destLon":150.602},{"id":66,"lat":-18.1946,"lon":139.8065,"rating":4,"reviews":1,"wait":90,"signal":"thumb","lastUsed":"2024-11-05","comments":[{"text":"Darwin - Cairns, through Doomadgee and Burketown 800km of dirt road, 50km underwater (flooded)\r\nWeek long adventure, from town to town. Great fun, no long waits","date":"2024-11-05","rating":4}],"destLat":-18.1946,"destLon":139.8065},{"id":68,"lat":-27.77,"lon":114.1379,"rating":4,"reviews":1,"wait":50,"signal":"thumb","lastUsed":"2024-09-20","comments":[{"text":"Not a lot of traffic going south, but got a lift easily enough. No shade","date":"2024-09-20","rating":4}],"destLat":-28.787,"destLon":114.6061},{"id":78,"lat":-14.9239,"lon":133.0674,"rating":4,"reviews":1,"wait":10,"signal":"ask","lastUsed":"2024-08-29","comments":[],"destLat":-15.6166,"destLon":131.1276},{"id":81,"lat":-28.4924,"lon":153.523,"rating":4,"reviews":1,"wait":15,"signal":"ask","lastUsed":"2024-08-13","comments":[{"text":"It seems that a lot of people camp here in their cars, vans and campervans, so if you're there in the morning you can ask around. Otherwise it's a normal rest stop area","date":"2024-08-13","rating":4}],"destLat":-28.0994,"destLon":153.4003},{"id":84,"lat":-31.1197,"lon":152.8293,"rating":4,"reviews":1,"wait":3,"signal":"thumb","lastUsed":"2024-08-13","comments":[{"text":"10am I tried asking at the servo for about 45mins but everyone was going south. But I got a lift in a couple of mins at the on ramp","date":"2024-08-13","rating":4}],"destLat":-30.3187,"destLon":153.0896},{"id":87,"lat":-20.707,"lon":140.5262,"rating":4,"reviews":1,"wait":700,"signal":"thumb","lastUsed":"2024-06-03","comments":[{"text":"Shade whole day and a cable pole to lean on. Almost no traffic, so take whatever going to Rockhampton or Townsville. I spent here almost 2 days. Cars have a place to stop and are driving slowly. Closer to town center there is a truck stop.","date":"2024-06-03","rating":4}],"destLat":-23.3573,"destLon":150.5189},{"id":90,"lat":-18.2131,"lon":125.5826,"rating":4,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2024-06-02","comments":[{"text":"Got lucky. Though very small traffic. There is place to stop. There were some road works, so maybe in future spot will not work.\r\nLocal guy told me it's the place where locals HH.","date":"2024-06-02","rating":4}],"destLat":-15.7713,"destLon":128.7459},{"id":98,"lat":-21.1167,"lon":149.1275,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2023-12-05","comments":[{"text":"Dont usually wait on side of highways but cars only just leaving town/ring road and plenty of road to pull over in. Lotta traffic heading north so not too bad","date":"2023-12-05","rating":4}],"destLat":-20.3794,"destLon":148.7027},{"id":100,"lat":-19.3827,"lon":146.9288,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2023-10-03","comments":[{"text":"Gas Station without much traffic... but was easy to find a ride to Townsville","date":"2023-10-03","rating":4}],"destLat":-19.3827,"destLon":146.9289},{"id":104,"lat":-21.0404,"lon":148.9099,"rating":4,"reviews":1,"wait":180,"signal":null,"lastUsed":"2023-10-02","comments":[{"text":"Small gas station with traffic going both directions. I got here at 5h30pm and there was almost no traffic passing, so be sure to arrive early.\r\nThe girls working in the gas station offered to take me to the caravan park when the gas station closes (at 9pm). But managed to get a ride at 8pm to the truck stop before Proserpine","date":"2023-10-02","rating":4}],"destLat":-21.0404,"destLon":148.9099},{"id":107,"lat":-24.9826,"lon":151.9506,"rating":4,"reviews":1,"wait":90,"signal":null,"lastUsed":"2023-09-29","comments":[{"text":"Puma Gas Station where a lot of trucks stop before their night drive. \r\nArrived here already at night, tried to hitchhike the trucks but most of them were going south. Still there were some going North, but I was not lucky.\r\nAfter more than one hour, a family going to Rockhampton picked me up and drove me all the way to there.\r\n\r\nMust be a really good spot if you're trying to pick up a Truck to Brisbane","date":"2023-09-29","rating":4}],"destLat":-24.9826,"destLon":151.9507},{"id":114,"lat":-28.2574,"lon":153.5277,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2023-09-28","comments":[{"text":"Big Gas Station with restaurants and resting area with most of the traffic going North. It was raining so I couldn't ask much around, but stayed near where people pay for the gas, and got a ride after 45mins.","date":"2023-09-28","rating":4}],"destLat":-28.2574,"destLon":153.5277},{"id":117,"lat":-26.4038,"lon":153.0831,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2022-11-15","comments":[{"text":"Got a ride to Byron Bay in 20 minutes","date":"2022-11-15","rating":4}],"destLat":-26.6559,"destLon":153.0945},{"id":122,"lat":-12.5249,"lon":131.0433,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2016-09-14","comments":[{"text":"This is a good spot for going south if you are not shy to ask drivers for a lift. Many long distance travellers stop here before leaving Darwin and a lot of them are easily dinstinguishable from local traffic. Also check the service station nearby. Try to go for a long ride (Katherine or further) if you want to cover some distance. Try to not get stuck in Katherine though - it is hard to get out. Noonamah service station is 20 km down the road but a lot worse then this spot so refuse lifts to th","date":"2016-09-14","rating":4}],"destLat":null,"destLon":null},{"id":124,"lat":-38.2006,"lon":146.5297,"rating":4,"reviews":1,"wait":23,"signal":null,"lastUsed":"2016-07-28","comments":[{"text":"There is a bus stop directly on the Princes Highway where you can thumb it for Melbourne bound traffic.  Plenty of visibility for drivers to see you, and traffic goes about 60 km/hr.","date":"2016-07-28","rating":4}],"destLat":null,"destLon":null},{"id":127,"lat":-32.812,"lon":151.6396,"rating":4,"reviews":1,"wait":30,"signal":null,"lastUsed":"2016-07-23","comments":[{"text":"BP Beresfield servo.  Ask drivers filling up with fuel or infront of the restaurant, or if there servo is quite it is possible to thumb it on John Renshaw Drive where there is space for cars to pull over.  Its an 80km/h zone so the traffic is not too fast.","date":"2016-07-23","rating":4}],"destLat":null,"destLon":null},{"id":128,"lat":-32.6153,"lon":152.0802,"rating":4,"reviews":1,"wait":40,"signal":null,"lastUsed":"2016-07-23","comments":[{"text":"The Rock Roadhouse (locally known as the \"The Rock\").\nThis servo is a good place to ask drivers for a ride south towards Sydney.","date":"2016-07-23","rating":4}],"destLat":null,"destLon":null},{"id":129,"lat":-31.4635,"lon":152.8214,"rating":4,"reviews":1,"wait":30,"signal":null,"lastUsed":"2016-07-23","comments":[{"text":"\"The Doughnut\"\nIf you are going north or south you can ask drivers at the BP service station. Sometimes there seems to only be local port macquarie traffic here so it can be quicker to thumb it on the on ramp to the Pacific Hwy.","date":"2016-07-23","rating":4}],"destLat":null,"destLon":null},{"id":130,"lat":-36.3702,"lon":146.3791,"rating":4,"reviews":1,"wait":53,"signal":null,"lastUsed":"2016-07-23","comments":[{"text":"Hitch spot 100m before the onramp to the Hume Fwy heading south towards Melbourne.  There is plenty of room for cars to stop, but traffic can move fast here so there is less time for people to stop.  A lot of traffic continues towards Wangaratta, but it is possible to get a lift from here direct to Melbourne.","date":"2016-07-23","rating":4}],"destLat":null,"destLon":null},{"id":133,"lat":-28.1672,"lon":153.5199,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"Good spot to get a ride south.  Its a short walk from the Gold Coast Airport if you just landed in the country.  There is heaps of room for cars to stop, and you should be able to get a lift to the BP Service Station ´Chinderah´ about 10km down the Pacific Motorway.","date":"2016-04-21","rating":4}],"destLat":null,"destLon":null},{"id":134,"lat":-38.2076,"lon":146.1558,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"You could ask drivers filling up with petrol at this Caltex servo but its not very busy here, so its quicker to hitch directly on the highway, traffic goes under 80kph here so its pretty safe and easy to get a lift going further east.  And there´s heaps of space for cars to pull over.","date":"2016-04-21","rating":4}],"destLat":null,"destLon":null},{"id":137,"lat":-37.8829,"lon":145.0913,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"Warrigal Rd on-ramp.  There is a little space for cars to pull over just at the start of the on ramp.\nThere is a lot of local traffic here, but if you wait long enough it should be a good spot to go further east.","date":"2016-04-21","rating":4}],"destLat":null,"destLon":null},{"id":138,"lat":-32.4783,"lon":137.7502,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"Good spot to be picked up. From here you will want to be going all the way to Coober Pedy. I waited 20mins here before getting a lift. Ended up camping with the lady half way then made it to Coober Pedy next morning","date":"2016-04-21","rating":4}],"destLat":null,"destLon":null},{"id":139,"lat":-37.9585,"lon":145.2264,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"Stud Rd On Ramp heading east.  Heaps of space for cars to pull over.","date":"2016-04-21","rating":4}],"destLat":null,"destLon":null},{"id":141,"lat":-34.0878,"lon":151.1391,"rating":4,"reviews":1,"wait":5,"signal":null,"lastUsed":"2016-03-20","comments":[{"text":"Just ouside Bundeena. This is actually a fair bit up the road but everything else closer to town is not suitable. The cars come up the hill slowly and the drivers will see you from a distance, which is good since place to stop is not abundant once they are past you. Lots of traffic on weekends.","date":"2016-03-20","rating":4}],"destLat":null,"destLon":null},{"id":142,"lat":-22.2774,"lon":131.8266,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-02-29","comments":[{"text":"There is not a lot of trees that provide shade here. But there is one that makes this a good spot when you want to go east to Alice. You are really out alone in the desert here so cars are very likely to pick you up. Provided there are some. Traffic east can get scarse after 5pm. So go early and take plenty of water- just in case. Fridays are best.","date":"2016-02-29","rating":4}],"destLat":null,"destLon":null},{"id":148,"lat":-23.6654,"lon":133.8629,"rating":4,"reviews":1,"wait":60,"signal":null,"lastUsed":"2016-02-29","comments":[{"text":"Good spot on the edge of town. Every car going north from Alice will pass here. Vehicles tend to be a bit fast but there is plenty of space for them to stop and visibilty is good. Downside of the spot is that it is hard to reach (abot 60 min by foot from city) and it provides little shade. So go early.","date":"2016-02-29","rating":4}],"destLat":null,"destLon":null},{"id":149,"lat":-28.8642,"lon":153.5338,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-02-08","comments":[{"text":"I was walking along the road and got a lift before i made it to the highway! Lift all the way to coff!","date":"2016-02-08","rating":4}],"destLat":null,"destLon":null},{"id":154,"lat":-34.1794,"lon":115.0802,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2015-05-06","comments":[{"text":"Folks coming out from a dayhike here or locals are likely to give you a lift","date":"2015-05-06","rating":4}],"destLat":null,"destLon":null},{"id":164,"lat":-38.7584,"lon":143.6705,"rating":4,"reviews":1,"wait":30,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Angled parking so not the most ideal spot if it is middday, but morning the parking is empty and we were able to get a lift all the way to 12 apostles and back to Geelong with just one driver.","date":"2015-04-19","rating":4}],"destLat":null,"destLon":null},{"id":168,"lat":-42.6858,"lon":146.5931,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Weren't sure if we'd be able to make it off the mountain easily, but the second car gave us a lift all the way into Hobart. Beautiful mountains and well worth a visit!","date":"2015-04-19","rating":4}],"destLat":null,"destLon":null},{"id":169,"lat":-42.682,"lon":146.7037,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Hitched up the mountain from here.  Not heaps of traffic but easy slow dirt road so people are likely to stop.","date":"2015-04-19","rating":4}],"destLat":null,"destLon":null},{"id":172,"lat":-42.8712,"lon":147.3226,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Just enough room on the shoulder for cars to pull over after the servo.  Lots of traffic, seems the best closest option from Hobart CBD with room for people to stop.","date":"2015-04-19","rating":4}],"destLat":null,"destLon":null},{"id":174,"lat":-41.8783,"lon":148.3037,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Early morning so traffic was minimal, but got a great ride.","date":"2015-04-19","rating":4}],"destLat":null,"destLon":null},{"id":177,"lat":-41.3888,"lon":147.3018,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"20 mins, good visibility, locals with interesting stories","date":"2015-04-19","rating":4}],"destLat":null,"destLon":null},{"id":178,"lat":-41.4414,"lon":147.1628,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"20 mins, nice visible spot","date":"2015-04-19","rating":4}],"destLat":null,"destLon":null},{"id":183,"lat":-36.3685,"lon":146.6791,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2015-02-11","comments":[{"text":"Got a lift in 10min toward to everton north on the wangaratta rd.","date":"2015-02-11","rating":4}],"destLat":null,"destLon":null},{"id":184,"lat":-41.5988,"lon":147.215,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-01-06","comments":[{"text":"Got a left to Cambell Town after about 15mins.","date":"2015-01-06","rating":4}],"destLat":null,"destLon":null},{"id":186,"lat":-37.8205,"lon":147.6487,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2015-01-05","comments":[{"text":"A friend and I both male hitch from here in the dark at around 8 at night. We got a lift to lakes enterance with the mayor of gippsland.","date":"2015-01-05","rating":4}],"destLat":null,"destLon":null},{"id":187,"lat":-33.6156,"lon":150.2727,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-01-05","comments":[{"text":"Got a lift here once when i was in a rush to get to the train station also good for heading to Katomba or futher.","date":"2015-01-05","rating":4}],"destLat":null,"destLon":null},{"id":195,"lat":-42.1284,"lon":148.0741,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2014-10-26","comments":[{"text":"Good spot but: space for pulling over and good visibility for drivers. You will see all the cars going south pass by. On the other hand, that doesn't represent so many cars...","date":"2014-10-26","rating":4}],"destLat":null,"destLon":null},{"id":196,"lat":-20.4035,"lon":148.5898,"rating":4,"reviews":1,"wait":33,"signal":null,"lastUsed":"2014-08-20","comments":[{"text":"Great place heading either north or south; big bays and parking to pull over in. The bus from Airlie beach stops a couple minutes walk away.\n\nTres facile soi nord ou sud. Beaucoup d'espace pour les voitures. Il y a un arret de l'autobus de Airlie Beach a 2 minutes a pied. Moi j'ai attendu moins que 5 minutes ici.","date":"2014-08-20","rating":4}],"destLat":null,"destLon":null},{"id":197,"lat":-25.2875,"lon":152.8166,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2014-05-10","comments":[{"text":"Here is a busstop, most cars heading south from Hervey bay are passing this point. A convenient place to get to Bruce highway.","date":"2014-05-10","rating":4}],"destLat":null,"destLon":null},{"id":198,"lat":-17.0993,"lon":145.7812,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2014-05-10","comments":[{"text":"As described in Cairns hitchwiki page. Take a bus to Cordonvale (about 5.50$) and get off near here. Enough space for cars to stop.","date":"2014-05-10","rating":4}],"destLat":null,"destLon":null},{"id":199,"lat":-37.7947,"lon":144.9942,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2014-05-06","comments":[{"text":"Not the greatest place for hitchhiking, but doable... \nYou won't be getting a long-distance ride, a short ride to a better HH-spot is more likely - the traffic is all 'local' here!\n\nIt's the freeway onramp, but there's enough space for standing without passing the 'freeway entrance' sign and therefore breaking the law.\nThe cars are coming around the bend with low speed so drivers have time to spot you despite the bend.\nThe road is wide enough for cars to pull over without obstructing the traffic","date":"2014-05-06","rating":4}],"destLat":null,"destLon":null},{"id":203,"lat":-30.4966,"lon":115.0826,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2014-03-23","comments":[{"text":"Walk out of Cervantes and start hitchhiking, hopefully someone will pick you out. If not, no worries 'cause once you get in the Indian Ocean Road will be easier.","date":"2014-03-23","rating":4}],"destLat":null,"destLon":null},{"id":206,"lat":-28.5982,"lon":153.2224,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"I left around midday, and it took longer than expected. Just not enough cars leaving I guess. I recommend leaving early in the morning or late afternoon after everybody has come to collect whatever they wanted from Nimbin.\n\nIt's a leafy place worth spending a few hours in.","date":"2013-07-31","rating":4}],"destLat":null,"destLon":null},{"id":209,"lat":-28.8645,"lon":153.4974,"rating":4,"reviews":1,"wait":10,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"I was heading north to Byron Bay on the Pacific Highway when I decided that i'd make a detour for Nimbin. I decided to get out and walk here to wait for a ride to Lismore. \n\nWalk past the merging lanes so the drivers to freak out about colliding with other cars. Once I did that and had my sign with 'Lis' on it, I found a ride within 5 minutes.\n\nI'd only stop here if you're coming up from the south and don't want to go into Ballina / Byron.","date":"2013-07-31","rating":4}],"destLat":null,"destLon":null},{"id":210,"lat":-31.9414,"lon":152.4715,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"You could probably walk to the on-ramp, but there wasn't a clear pathway there, so I opted for the service station.\n\nWhen I arrived I was behind another hitchhiker. He left within 15min of me arriving. It took me another 45min to get a lift, but I said no to two lifts, as I wanted a longer distance ride. I ended up finding a ride all the way to Coffs Harbour for the night. Camped with my drivers and was dropped off at Ballina the following day. \n\nThis service station services traffic in both dir","date":"2013-07-31","rating":4}],"destLat":null,"destLon":null},{"id":214,"lat":-35.7134,"lon":147.3213,"rating":4,"reviews":1,"wait":5,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"This is the last town that the Hume passes through on its way to Sydney. Sadly that won't be for much longer (August 2013). People may break here, and it's not a huge detour. Ii found a lift to Canberra in around 5 minutes. It will be more difficult once the freeway skips past here.","date":"2013-07-31","rating":4}],"destLat":null,"destLon":null},{"id":216,"lat":-36.439,"lon":146.2482,"rating":4,"reviews":1,"wait":5,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"This is a service station just past Glenrowan and before Wangaratta. I was dropped here on my way to Sydney.\n\nIt was really wet, so it was difficult to get around to people and ask for a lift, so I waited for people to walk through and pay for their fuel. The third person I asked gave me a lift to Albury. In hindsight I would wait for a lift to a farther destination, as I had trouble finding a lift from Albury. All in all, a good spot when you're already on the road.","date":"2013-07-31","rating":4}],"destLat":null,"destLon":null},{"id":219,"lat":-37.7556,"lon":145.361,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-04-23","comments":[{"text":"blackride the metro to the last stop and walk out here. good for getting towards yea, eildon, etc.","date":"2013-04-23","rating":4}],"destLat":null,"destLon":null},{"id":223,"lat":-41.3849,"lon":146.3446,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2013-04-19","comments":[{"text":"Not bad!\n\nSmall town but still some traffic.","date":"2013-04-19","rating":4}],"destLat":null,"destLon":null},{"id":228,"lat":-42.778,"lon":147.0707,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2013-03-06","comments":[{"text":"Good spot for getting to Hobart","date":"2013-03-06","rating":4}],"destLat":null,"destLon":null},{"id":229,"lat":-41.18,"lon":146.3691,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2013-03-06","comments":[{"text":"Good spot for hitching after getting off the ferry, as every car leaving the ferry leaves through this gate plus there's plenty of space for cars to stop","date":"2013-03-06","rating":4}],"destLat":null,"destLon":null},{"id":232,"lat":-34.9637,"lon":138.6447,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2012-10-09","comments":[{"text":"This is a good spot, not far away from city centre. Only a couple of hours of walking or you can take a bus. There is a bit too much local traffic, but anyway maybe they can bring you to Bridge Murray or something!","date":"2012-10-09","rating":4}],"destLat":null,"destLon":null},{"id":233,"lat":-25.2,"lon":133.2024,"rating":4,"reviews":1,"wait":60,"signal":null,"lastUsed":"2012-10-09","comments":[{"text":"A pretty good spot to be in the desert. There is enough space for cars to stop. You get traffic both from west (Uluru) and north (Alice Springs) There are also a fuel station here, but I recommend you to stay be the road.","date":"2012-10-09","rating":4}],"destLat":null,"destLon":null},{"id":234,"lat":-25.3485,"lon":152.592,"rating":4,"reviews":1,"wait":30,"signal":null,"lastUsed":"2012-10-09","comments":[{"text":"Nearest hitching spot at the Hwy from Hervey Bay. The cars/trucks have OK space to stop, I got a ride to Rockhampton after 40 mins by road train!","date":"2012-10-09","rating":4}],"destLat":null,"destLon":null},{"id":236,"lat":-21.167,"lon":149.1538,"rating":4,"reviews":1,"wait":30,"signal":null,"lastUsed":"2012-10-05","comments":[{"text":"probably the best spot to go south from mackay took me 30mins and I got a lift till rockhampton","date":"2012-10-05","rating":4}],"destLat":null,"destLon":null},{"id":241,"lat":-35.437,"lon":149.1261,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2012-04-12","comments":[{"text":"Going south, this is your best spot. Public transpot will get you within a kilometer of here, though with Canberra's odd layout, it can be a bit confusing. (Having a map will help.)","date":"2012-04-12","rating":4}],"destLat":null,"destLon":null},{"id":243,"lat":-34.732,"lon":138.5822,"rating":4,"reviews":1,"wait":45,"signal":null,"lastUsed":"2012-03-30","comments":[{"text":"Northward, we had an easy time hitching here. The 401 bus gets you to about a kilometer of here, ask the driver for directions.","date":"2012-03-30","rating":4}],"destLat":null,"destLon":null},{"id":245,"lat":-37.6712,"lon":144.854,"rating":4,"reviews":1,"wait":15,"signal":null,"lastUsed":"2012-02-19","comments":[{"text":"Don't bother with the bus, as hitching to the CBD is pretty easy.Stand at the exit to McDonalds.","date":"2012-02-19","rating":4}],"destLat":null,"destLon":null},{"id":246,"lat":-32.512,"lon":137.8039,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":"2011-10-17","comments":[{"text":"This is the port Augusta \"Train station\". Catch road trains to Darwin and Perth, or the other way to Sydney, Adelaide, etc. If going North or West, don't settle for anything less than a ride all the way to where you are going. Good luck. This spot is excellent, compared with elsewhere in Australia.","date":"2011-10-17","rating":4}],"destLat":null,"destLon":null},{"id":252,"lat":-19.3179,"lon":146.8282,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2011-06-09","comments":[{"text":"Best spot for going South. Took me 30minutes but ride went for 3hours. I was droped off here, possibly a better spot but here it goes from 60 to 80km/h and safe pullover area.","date":"2011-06-09","rating":4}],"destLat":null,"destLon":null},{"id":256,"lat":-34.2828,"lon":150.6389,"rating":4,"reviews":1,"wait":18,"signal":null,"lastUsed":"2011-03-05","comments":[{"text":"Pheasants Nest Service Station","date":"2011-03-05","rating":4}],"destLat":null,"destLon":null},{"id":258,"lat":-23.7898,"lon":133.8789,"rating":4,"reviews":1,"wait":50,"signal":null,"lastUsed":"2010-12-11","comments":[{"text":"for hitch-hiking south to uluru and adelaide\n\nnearly no local traffic, every car going south have to pass this spot, plenty of place to stop for the cars, cars are slow","date":"2010-12-11","rating":4}],"destLat":null,"destLon":null},{"id":260,"lat":-24.8745,"lon":113.6512,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":"2010-12-07","comments":[{"text":"For hitching out of town towards the beach/jetty at Pelican Point.  Corner of David Brand Dr and Babbage Island Rd.","date":"2010-12-07","rating":4}],"destLat":null,"destLon":null},{"id":262,"lat":-27.4885,"lon":153.0329,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"This is where the Pacific Highway starts going South, it's inner city, but just past the on ramp, cars are going pretty slow and its a good spot.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":267,"lat":-36.929,"lon":149.8748,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":null,"comments":[{"text":"On ramp here onto the Princes Hwy. Anywhere along this HWY is fine, plenty of space to pull over. I went from Syd to Melb this way once and its absolutely beautiful scenery but slightly longer waits, less traffic, and cars are only going 30-60k down the road, sometimes less. Beautiful though!","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":276,"lat":-28.1247,"lon":153.4652,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Heading south towards Byron/Sydney. We were picked up within 15 minutes one weekday afternoon.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":277,"lat":-34.4992,"lon":150.7909,"rating":4,"reviews":1,"wait":18,"signal":null,"lastUsed":null,"comments":[{"text":"lots of traffic with a long line of site, nice spot for cars to pull over, mostly local traffic though so its easiest to get a ride to a town like Nowra.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":278,"lat":-35.3121,"lon":150.4324,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Petrol station just outside Milton, Good line of site for drivers and an area for them to pull over, not much traffic in the afternoon, though.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":280,"lat":-37.5916,"lon":144.942,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Wide shoulder, but poor traffic: took us over an hour to get a lift North on a cold and windy day","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":282,"lat":-32.5387,"lon":115.7446,"rating":4,"reviews":1,"wait":23,"signal":null,"lastUsed":null,"comments":[{"text":"This is a good spot for getting south. Good wide pull-off. Lots of traffic. Catch the train from Perth to Mandurah to make life easier. There are some better spots further down as well.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":285,"lat":-20.3753,"lon":118.6341,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Big truck stop where you can ask people for a ride. In the late afternoon, we managed to get 3 of us a ride with some truckies for the 10-hour slog to Broome.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":286,"lat":-34.2319,"lon":116.1499,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":null,"comments":[{"text":"Just past the monkey-bars is a decent spot to head north. Just before the speed limit changes.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":290,"lat":-33.08,"lon":115.9069,"rating":4,"reviews":1,"wait":20,"signal":null,"lastUsed":null,"comments":[{"text":"Got a ride from Harvey to Perth within about 15 minutes from here.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":292,"lat":-34.3578,"lon":116.161,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Easy spot for getting to Pemberton. OK spot for hitching north (to Perth). A bit slower for getting south toward Albany depending on the day.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":295,"lat":-34.9758,"lon":116.7326,"rating":4,"reviews":1,"wait":132,"signal":null,"lastUsed":null,"comments":[{"text":"Sometimes it can be a bit slow getting out of Walpole. (Heaps of grey nomads who won't pick you up) You can walk around and ask people parked at this tourist info centre, though. Sometimes helps.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":297,"lat":-31.7707,"lon":116.0302,"rating":4,"reviews":1,"wait":28,"signal":null,"lastUsed":null,"comments":[{"text":"Truck stop- ideal for getting north. We caught the 310 bus from Midland which dropped us off right here, then got a lift 20 min later all the way to Broome!","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":301,"lat":-20.3758,"lon":118.6342,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"*Update* - The service station here burned down recently, but still plenty of traffic- including trucks- stops here. Free showers in the caravan park add an extra perk for the hot and sweaty traveler! :)","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":305,"lat":-33.8317,"lon":121.896,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"it's ok place to hh towards norseman or anywhere north, but not so much traffic as anywhere in WA.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":306,"lat":-35.0009,"lon":117.8681,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"good enough place to hh towards esperance if u lazy to walk a bit out of town.took me 20mins. to hitch a ride to esperance","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":307,"lat":-32.1829,"lon":121.7842,"rating":4,"reviews":1,"wait":23,"signal":null,"lastUsed":null,"comments":[{"text":"ideal place to hh towards adelaide. but..there's not traffic coz it's bloody long way.takes about 2-3days to drive to adelaide. it took me about 5hrs to hitch a ride there. don't get off earlier than border village.\nand yeah..there's wonderfull petrol station nearby. free coffe,tea, internet. easy to camp over night..good luck here","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":308,"lat":-33.9364,"lon":120.1328,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Got out of here super easy. Was in the holiday season though, lots of people around.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":309,"lat":-33.578,"lon":120.0256,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitched from Ravensthorpe to Albany in one go this summer. Got a ride in under 15 minutes. Seems like a pretty quiet town, but I'd say there would be OK traffic between Albany and Esperance most of the time.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":312,"lat":-28.5467,"lon":153.4892,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"This should get you some way up Main Arm (towards the hills and Uki, Murwillumbah or Nimbin)","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":313,"lat":-28.5607,"lon":153.4936,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"This could get you up the hills if not directly to Byron Bay the back way.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":314,"lat":-30.7431,"lon":121.477,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitching North to Menzies, or South/East to Norseman, Esperance, Adelaide, Sydney.  Stand at the parking for the shops and wait for cars turning onto the Bypass road behind you.  You can walk here from town, easy.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":316,"lat":-30.7731,"lon":121.4431,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitching west towards Perth: A little further past the lights at Gatacre St, there are driveways and parking lots of businesses where cars can pull in, and you can stand safely by the road, very visible from the lights.  All cars out of town will pass this point.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":317,"lat":-30.7835,"lon":121.4293,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitching west towards Perth or into Kalgoorlie: The very edge of town, before the last traffic lights there is a wide shoulder to the road where cars can stop easily.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":318,"lat":-30.789,"lon":121.4957,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitching south/east: The streets are wide and the traffic along the Bypass a little slower here, you can just stand on the side of the road.  Most cars heading south from town will pass this point.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":319,"lat":-30.8037,"lon":121.4907,"rating":4,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitching south/east: There is a big BP Truck Stop here, on the Kambalda turnoff from the roundabout.  You can ask drivers, or try your luck by the road, where cars can pull into the stop if they want to.","date":null,"rating":4}],"destLat":null,"destLon":null},{"id":14,"lat":-32.1144,"lon":133.6727,"rating":3,"reviews":2,"wait":30,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"The best spot to catch a ride across the Nullabor. Key is to be there very early (5 am or so) because this is when the trucks leave. Got a ride by a guy with a caravan. Haven't had problems with the roadhouse owner","date":"2025-03-22","rating":3},{"text":"Heading out to cross the Nullarbor, this BP station is strategically the best spot to look for a lift. Unfortunately, the roadhouse owner is one of the biggest pricks one can meet in Australia and will promptly kick you off the property (and then yell at you for an additional 5 minutes). It's best to avoid the property itself and stand adjacent to it, or you may get the cops called on you. Should the owner decide to bother you anyhow, there's no use reasoning with him, so just tell him to lick a","date":"2012-04-12","rating":3}],"destLat":-32.1855,"destLon":121.7797},{"id":105,"lat":-21.1287,"lon":149.1626,"rating":3,"reviews":2,"wait":70,"signal":null,"lastUsed":"2023-10-02","comments":[{"text":"Didn't really like this spot.. cars can only stop in the emergency lane of the bridge, and 3 lanes with a lot of traffic to different directions going quite fast. After more than one hour didn't get a ride, but luckily I saw someone who stopped the car in the emergency lane of other bridge, and managed to get a ride out of the town...\r\nNext time will probably try the truckstop in the entrance of the town","date":"2023-10-02","rating":2},{"text":"A pretty good spot by the traffic lights, maybe too much cars, but I got a ride after 30mins..","date":"2012-10-09","rating":4}],"destLat":-21.1288,"destLon":149.1622},{"id":3,"lat":-28.8618,"lon":153.5169,"rating":3,"reviews":1,"wait":20,"signal":null,"lastUsed":"2026-01-15","comments":[{"text":"Great Spot to go north \r\nBut extremely bad for going south","date":"2026-01-15","rating":3}],"destLat":-27.4683,"destLon":153.0208},{"id":11,"lat":-19.659,"lon":134.1869,"rating":3,"reviews":1,"wait":360,"signal":"thumb","lastUsed":"2025-07-06","comments":[{"text":"September 2022, 11:00 a.m. \r\nIt took extreme long - 6 hours, but then a long ride to Alice Springs in a giant truck","date":"2025-07-06","rating":3}],"destLat":-23.7005,"destLon":133.8772},{"id":17,"lat":-34.7599,"lon":138.5911,"rating":3,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Service station, but not much traffic in the morning. Luckily the second driver picked me up","date":"2025-03-22","rating":3}],"destLat":-34.1809,"destLon":138.1541},{"id":19,"lat":-37.8068,"lon":140.7916,"rating":3,"reviews":1,"wait":15,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Traffic light, but not too much space to stop. DON'T ACCEPT RIDES TO PENOLA! I asked if there is a service sation AT the highway but there isn't!!","date":"2025-03-22","rating":3}],"destLat":-37.3757,"destLon":140.8363},{"id":21,"lat":-38.7826,"lon":143.5367,"rating":3,"reviews":1,"wait":45,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Bad spot. Cars doesn't see u well and go by fast. Got picked up by someone who came from the lighthouse","date":"2025-03-22","rating":3}],"destLat":-38.6622,"destLon":143.1042},{"id":30,"lat":-37.4042,"lon":145.0158,"rating":3,"reviews":1,"wait":2,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Not mutch shade, decend traffic. Was lucky to be picked up by the first car","date":"2025-03-22","rating":3}],"destLat":-37.6022,"destLon":144.9428},{"id":34,"lat":-41.5561,"lon":145.6753,"rating":3,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-03-01","comments":[{"text":"Under tree cover. But not many good spots for waiting that are more than 1m away from the road. Cars can go pretty fast","date":"2025-03-01","rating":3}],"destLat":-41.068,"destLon":145.9353},{"id":38,"lat":-42.534,"lon":146.7523,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2025-03-01","comments":[{"text":"Waited a while, lots of cars coming from a turnoff in the other direction. The bustop gives shade and shelter, plus there is an apple tree","date":"2025-03-01","rating":3}],"destLat":-42.4844,"destLon":146.7099},{"id":42,"lat":-32.218,"lon":152.322,"rating":3,"reviews":1,"wait":210,"signal":"sign","lastUsed":"2025-01-25","comments":[{"text":"It’s a good spot, right after servo, has a bus shelter heaps of traffic etc. But it was raining and when you have combo rain + heaps of traffic nobody gonna stop. After waiting 2,5 hours I got a ride to Taree and decided to go with train from there.","date":"2025-01-25","rating":3}],"destLat":-31.9058,"destLon":152.4573},{"id":49,"lat":-35.2356,"lon":149.1438,"rating":3,"reviews":1,"wait":90,"signal":"sign","lastUsed":"2025-01-12","comments":[{"text":"Canberra is quite tricky to hitch from since right beside the road you have cyclist path (on which cars cannot stop) and wooden poles that block the potential pull up spots. I hitched from this bus bay next to the tram stop to Sydney.","date":"2025-01-12","rating":3}],"destLat":-34.0464,"destLon":150.8258},{"id":57,"lat":-37.5585,"lon":149.756,"rating":3,"reviews":1,"wait":120,"signal":null,"lastUsed":"2024-12-19","comments":[{"text":"Spot on front of the servo. Be sure to hitch early, the check out time from the campground is 10AM after that you’ll be getting roasted in the sun waiting for car. After two hours of nothing coming I went onto small bus that connects to the Melbourne-Batemans route going to Genoa. Got a ride for free, bus goes at 14:25.","date":"2024-12-19","rating":3}],"destLat":null,"destLon":null},{"id":69,"lat":-27.9412,"lon":114.6865,"rating":3,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2024-09-17","comments":[{"text":"Plenty of space for cars to stop towards Kalbarri, no shade though","date":"2024-09-17","rating":3}],"destLat":-27.7057,"destLon":114.168},{"id":70,"lat":-27.832,"lon":114.6883,"rating":3,"reviews":1,"wait":15,"signal":"thumb","lastUsed":"2024-09-17","comments":[{"text":"Hitched on the highway, morning shade under the tree. Traffic goes fast here","date":"2024-09-17","rating":3}],"destLat":-27.941,"destLon":114.6868},{"id":72,"lat":-21.9556,"lon":114.132,"rating":3,"reviews":1,"wait":140,"signal":"thumb","lastUsed":"2024-09-17","comments":[{"text":"It took longer than expected to leave Exmouth on a Sunday arvo. I waited 1 hour in town and someone took me to the edge of town where I waited another 80 mins until I got a ride. No shade here","date":"2024-09-17","rating":3}],"destLat":-23.8154,"destLon":114.009},{"id":76,"lat":-17.9266,"lon":122.2421,"rating":3,"reviews":1,"wait":5,"signal":"thumb","lastUsed":"2024-09-10","comments":[{"text":"No shade until late arvo, good amount of room for cars to stop","date":"2024-09-10","rating":3}],"destLat":-17.8479,"destLon":122.5011},{"id":77,"lat":-15.6159,"lon":131.1267,"rating":3,"reviews":1,"wait":80,"signal":"ask","lastUsed":"2024-08-29","comments":[{"text":"Combination of asking people filling up with fuel and standing on the road thumbing it. No shade standing on the road though","date":"2024-08-29","rating":3}],"destLat":-15.7786,"destLon":128.7438},{"id":80,"lat":-20.6672,"lon":139.4944,"rating":3,"reviews":1,"wait":3,"signal":"thumb","lastUsed":"2024-08-29","comments":[{"text":"No shade! But everyone is going out of town from here","date":"2024-08-29","rating":3}],"destLat":-19.437,"destLon":134.2078},{"id":83,"lat":-30.3186,"lon":153.09,"rating":3,"reviews":1,"wait":60,"signal":"ask","lastUsed":"2024-08-13","comments":[{"text":"You can ask people at the servo but the staff sometimes tell you to leave. I got a ride by asking people in the car park","date":"2024-08-13","rating":3}],"destLat":-29.9192,"destLon":153.0688},{"id":85,"lat":-31.4621,"lon":152.82,"rating":3,"reviews":1,"wait":50,"signal":"thumb","lastUsed":"2024-08-13","comments":[{"text":"4pm got a lift but it took a while","date":"2024-08-13","rating":3}],"destLat":-31.1316,"destLon":152.8256},{"id":88,"lat":-14.4752,"lon":132.2973,"rating":3,"reviews":1,"wait":20,"signal":"thumb","lastUsed":"2024-06-03","comments":[{"text":"There is space for cars to stop. Also shade in the morning from the tree. \r\nOnly traffic leaving the town, not much of them. \r\nGot lucky.","date":"2024-06-03","rating":3}],"destLat":-20.7086,"destLon":140.5195},{"id":89,"lat":-15.7847,"lon":128.7536,"rating":3,"reviews":1,"wait":600,"signal":"thumb","lastUsed":"2024-06-02","comments":[{"text":"Took me almost two days. \r\nShade till ~ 2 pm. Cars have decent speed and place to stop. Not much traffic. Most people go to Lake Argyle. (After 20 km they turn to dust road to the right)\r\nHawk was attacking me every 15 mins, though only when I turned back to him. (pointing finger at him made him go back to his nest)\r\nSlept a bit further from street.","date":"2024-06-02","rating":3}],"destLat":-14.4726,"destLon":132.291},{"id":91,"lat":-17.6338,"lon":123.7389,"rating":3,"reviews":1,"wait":180,"signal":"thumb","lastUsed":"2024-06-02","comments":[{"text":"Cars go slow, a lot of space for them to stop. No shade. Trash bin. Small traffic.","date":"2024-06-02","rating":3}],"destLat":-18.213,"destLon":125.5825},{"id":93,"lat":-20.7811,"lon":117.1445,"rating":3,"reviews":1,"wait":60,"signal":"thumb","lastUsed":"2024-06-02","comments":[{"text":"No shade, but slow traffic. Got quickly a ride to Port Hedland.","date":"2024-06-02","rating":3}],"destLat":-20.3565,"destLon":118.6234},{"id":94,"lat":-20.3895,"lon":118.6608,"rating":3,"reviews":1,"wait":120,"signal":"thumb","lastUsed":"2024-06-02","comments":[{"text":"Not much shade, but there's place for cars to stop before railway. You get whole traffic from Port Hedland leaving the town. Got lucky with couple from NZ all the way to Broome. Took me almost 2 days to get lift (before I stood close to airport).\r\nStart early.\r\nYou can probably find a spot to camp around, or walk 1 hour to touristic shelter close to airport.","date":"2024-06-02","rating":3}],"destLat":-17.9552,"destLon":122.2252},{"id":96,"lat":-24.8621,"lon":113.7152,"rating":3,"reviews":1,"wait":150,"signal":"thumb","lastUsed":"2024-05-16","comments":[{"text":"Crossing with petrol station. Till 11 am I had shade from sign, then moved 1,5 km further for shade and got a ride. \r\n\r\n2023","date":"2024-05-16","rating":3}],"destLat":-23.8155,"destLon":114.0096},{"id":118,"lat":-12.6747,"lon":132.4788,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2016-09-14","comments":[{"text":"Cars are speeding along from both directions. But you should be well visible and chances are that cars would stop. On top of that there are cars pulling out of the road house. Had a great time watching a flock of cockatoos playing on the sprinklers here.","date":"2016-09-14","rating":3}],"destLat":null,"destLon":null},{"id":119,"lat":-12.6518,"lon":132.816,"rating":3,"reviews":1,"wait":10,"signal":null,"lastUsed":"2016-09-14","comments":[{"text":"There is a bit of traffic here which slows down at the turn off.","date":"2016-09-14","rating":3}],"destLat":null,"destLon":null},{"id":123,"lat":-36.0905,"lon":146.9238,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-08-10","comments":[{"text":"Nice place to wait with heaps of people, but most of them locals. So try to get a lift in North Albury, better. I got a lift and someone dropped me ON the actual freeway, under a bridge, and people felt pity and got me in 15 minutes ;)","date":"2016-08-10","rating":3}],"destLat":null,"destLon":null},{"id":136,"lat":-37.8229,"lon":144.9782,"rating":3,"reviews":1,"wait":60,"signal":null,"lastUsed":"2016-04-21","comments":[{"text":"Ask Drivers stopped at the red light if they are going east on the monash freeway.  It may take a while to get a ride leaving melbourne from here, but you should at least be able to get a ride to another on ramp further down the Monash Freeway.","date":"2016-04-21","rating":3}],"destLat":null,"destLon":null},{"id":143,"lat":-12.4557,"lon":130.967,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-02-29","comments":[{"text":"Lots of traffic in front of the service station (hope I got the spot right on the map). But it is mixed traffic. There should be bus stop where cars can stop. Yep, it is hard to get out of Darwin.","date":"2016-02-29","rating":3}],"destLat":null,"destLon":null},{"id":152,"lat":-33.9999,"lon":115.761,"rating":3,"reviews":1,"wait":20,"signal":null,"lastUsed":"2015-10-20","comments":[{"text":"Average spot to get to Manjimup or Pemberton. Lots of space to pull over but not much traffic at all.","date":"2015-10-20","rating":3}],"destLat":null,"destLon":null},{"id":166,"lat":-38.4653,"lon":144.0966,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Didn't have much luck here so we walked west further","date":"2015-04-19","rating":3}],"destLat":null,"destLon":null},{"id":167,"lat":-38.1979,"lon":144.3423,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Lots of traffic, bus stop for cars to pull over, but people seemed more interested in mocking us.  Enough surfers pass, however, that eventually you can get a ride into Torquay","date":"2015-04-19","rating":3}],"destLat":null,"destLon":null},{"id":175,"lat":-41.3305,"lon":148.2479,"rating":3,"reviews":1,"wait":45,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"40 mins, not the most visible spot.","date":"2015-04-19","rating":3}],"destLat":null,"destLon":null},{"id":185,"lat":-41.5455,"lon":147.2058,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2015-01-06","comments":[{"text":"Got a lift to the main road south NH1 from here. Took around 20-30mins","date":"2015-01-06","rating":3}],"destLat":null,"destLon":null},{"id":193,"lat":-42.5101,"lon":147.9078,"rating":3,"reviews":1,"wait":40,"signal":null,"lastUsed":"2014-10-26","comments":[{"text":"\"Just after the bridge is the best spot!\"\n- Unknown driver.\n\nWell, the sight is beautiful, cars see you from distance, they can pull over easily, but definitely a mediocre experience. Drivers make encouraging signs and smiles but did not stop, however, I think it was just our exceptional bad luck of the day.","date":"2014-10-26","rating":3}],"destLat":null,"destLon":null},{"id":194,"lat":-42.5019,"lon":147.9134,"rating":3,"reviews":1,"wait":45,"signal":null,"lastUsed":"2014-10-26","comments":[{"text":"Oh, random A3...\nThis is a good spot at first sight: lot of space to park, good visibility, petrol station on the other side of the road, BUT : the petrol station is almost not used at all, and though friendly, drivers don't stop. We got picked up for Hobart while walking in the turn in the worst possible spot.","date":"2014-10-26","rating":3}],"destLat":null,"destLon":null},{"id":201,"lat":-24.7885,"lon":113.7635,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2014-03-23","comments":[{"text":"Nice place to feel the freedom of the traveler. There is a big tree where you can get the shade in the afternoon. In the morning you will get really hot.","date":"2014-03-23","rating":3}],"destLat":null,"destLon":null},{"id":213,"lat":-35.2291,"lon":149.1532,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"I left here on a Sunday morning with the intention to bypass Sydney. I stood with a sign that said 'Syd' on it just to get going. There is a turning lane just after this spot that cars can pull in to, but the traffic starts to speed up after the lights.\n\nI waited here for over 30min until someone stopped. I'd suggest waiting before the lights, or asking people at the Caltex Service Station.","date":"2013-07-31","rating":3}],"destLat":null,"destLon":null},{"id":220,"lat":-14.9379,"lon":133.0726,"rating":3,"reviews":1,"wait":1140,"signal":null,"lastUsed":"2013-04-23","comments":[{"text":"welcome to the outback...","date":"2013-04-23","rating":3}],"destLat":null,"destLon":null},{"id":221,"lat":-29.0239,"lon":134.7644,"rating":3,"reviews":1,"wait":1320,"signal":null,"lastUsed":"2013-04-23","comments":[{"text":"not a bad spot. but it's the outback. if stuck as I got, crash on the friendly graveyard around the corner.","date":"2013-04-23","rating":3}],"destLat":null,"destLon":null},{"id":222,"lat":-41.3902,"lon":146.3256,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2013-04-19","comments":[{"text":"Don't try to get to Mole Creek by this road. Probably easy to get to craddle mountain otherwise.","date":"2013-04-19","rating":3}],"destLat":null,"destLon":null},{"id":225,"lat":-41.1856,"lon":146.3201,"rating":3,"reviews":1,"wait":30,"signal":null,"lastUsed":"2013-04-19","comments":[{"text":"Not the best place to hitchhike but probably your best bet if you want to get out of town. It is directly on the highway. There is some place for car to pull out but nothing awesome. Don't try to walk further to find a better place, nothing better ahead.","date":"2013-04-19","rating":3}],"destLat":null,"destLon":null},{"id":227,"lat":-42.7506,"lon":147.2264,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2013-03-06","comments":[{"text":"No the best place, but there's some space to pull over and car's aren't driving too fast yet","date":"2013-03-06","rating":3}],"destLat":null,"destLon":null},{"id":235,"lat":-23.4066,"lon":150.502,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":"2012-10-05","comments":[{"text":"this road is pretty wide and all the traffic  goes south or west, I can't really say how good the spot is cause I got lucky and got picked up by a truckie without even having my thumb out.....","date":"2012-10-05","rating":3}],"destLat":null,"destLon":null},{"id":238,"lat":-17.0189,"lon":145.7457,"rating":3,"reviews":1,"wait":60,"signal":null,"lastUsed":"2012-10-05","comments":[{"text":"you can take the bus from cairns till mt sheridan, I only waited about an hour until I got a lift and made it down to mission beach that day","date":"2012-10-05","rating":3}],"destLat":null,"destLon":null},{"id":250,"lat":-20.3233,"lon":148.65,"rating":3,"reviews":1,"wait":60,"signal":null,"lastUsed":"2011-06-09","comments":[{"text":"Not best spot but cars go slow. good for getting to Highway going North. \nTook 20minutes","date":"2011-06-09","rating":3}],"destLat":null,"destLon":null},{"id":251,"lat":-19.3179,"lon":146.8197,"rating":3,"reviews":1,"wait":5,"signal":null,"lastUsed":"2011-06-09","comments":[{"text":"Big Petrol station, Can get cars filling up prior to long trip. \nOne lane of cars going south and north about 60km/h","date":"2011-06-09","rating":3}],"destLat":null,"destLon":null},{"id":266,"lat":-32.9547,"lon":151.7089,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitched out from here heading South (Syd/Melb) and just stood right on the hwy. Plenty of space to pull over, pretty safe spot. Got a ride in 10mins.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":270,"lat":-38.0719,"lon":145.4885,"rating":3,"reviews":1,"wait":33,"signal":null,"lastUsed":null,"comments":[{"text":"To head East to Gippsland and the Princes Highway into NSW.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":272,"lat":-42.8775,"lon":147.3295,"rating":3,"reviews":1,"wait":25,"signal":null,"lastUsed":null,"comments":[{"text":"I've hitched north from here many times. Not a bad spot, not great. Better to start from Bridgewater if you can get there conveniently.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":275,"lat":-42.8548,"lon":147.3918,"rating":3,"reviews":1,"wait":15,"signal":null,"lastUsed":null,"comments":[{"text":"I've hitched east from here or nearby several times over the years.A local bus to Cambridge Road near Warrane and a short walk to get here. It's not great but has shoulder and all the Hobart-East traffic on it.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":284,"lat":-20.7952,"lon":116.7783,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Truck stop here to plead for rides if you get stuck in Karratha. I hope you don't. Still, we managed to get 6 of us and a band's-worth of music gear to Broome over the course of an afternoon!","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":287,"lat":-34.2407,"lon":116.149,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Try this burger joint/caravan park for people heading south. Worked for me, but you might want to head a bit further out of town.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":315,"lat":-30.7545,"lon":121.4652,"rating":3,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hitching West towards Perth: this spot is walkable from town, and this street becomes the highway you follow to Perth.  Between Lionel St and Throssel St there is parking by the side of the road where cars can pull over, you can get a lift at least to the edge of town.","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":75,"lat":-17.8441,"lon":122.5031,"rating":2.5,"reviews":2,"wait":null,"signal":"ask","lastUsed":"2024-09-10","comments":[{"text":"Beware!! Got kicked off the property by one of the staff at Roebuck Roadhouse! He was very rude and wouldn't have a conversation with me. He threatened to physically drag me off the property when I told him I wasn't bothering his customers, I was just talking to them. Such an asshole. Maybe you get lucky and he isn't working, but it might be better to stay at the exit of the servo, or on the road","date":"2024-09-10","rating":2},{"text":"Don't listen to Wolfe Creek!! :) There's a truckstop/roadhouse here which is your next best bet to get north (Kununurra-Darwin) or south (Port Hedland - Perth) Truckies rule! We got a ride 1000km in one go!","date":null,"rating":3}],"destLat":null,"destLon":null},{"id":279,"lat":-35.7203,"lon":150.1757,"rating":2,"reviews":2,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"horrible spot, the cars can see you but there's nowhere they can really pull over. Locals advise hitching at the lights so people can pull into the road at the cemetery, but its inconvenient. there's a petrol station just up the road, but it has traffic from both directions. Dont bother walking south, the speed limit goes up and theres nowhere at all for cars to stop. Try walking a bit furth back into town and there may be somewhere better.","date":null,"rating":2},{"text":"nowhere for cars to pull over on the length of highway heading out of batemans bay, so try to avoid this area completely. locals recommend hitching at the traffic lights near the cemetery, as cars can pull over there, but its inconvenient for drivers. Theres also a petrol station you can try asking at, but it has traffic from both directions and a lot of people claim to be heading north.","date":null,"rating":2}],"destLat":null,"destLon":null},{"id":13,"lat":-32.4688,"lon":152.196,"rating":2,"reviews":1,"wait":60,"signal":"sign","lastUsed":"2025-05-24","comments":[{"text":"I was lost in the middle of nowhere with my bike... Very few cars but hopefully one of them stopped!","date":"2025-05-24","rating":2}],"destLat":-32.9193,"destLon":151.7826},{"id":15,"lat":-32.5116,"lon":137.8023,"rating":2,"reviews":1,"wait":150,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Service station with good traffic. But nobody went west or couldn't take me. After 2,5 h a truckie picked me up.","date":"2025-03-22","rating":2}],"destLat":-32.1142,"destLon":133.673},{"id":48,"lat":-32.3089,"lon":151.5126,"rating":2,"reviews":1,"wait":10,"signal":null,"lastUsed":"2025-01-14","comments":[{"text":"My car broke down on my way to work, was walking and stuck out my thumb - I think the local was just as surprised as me that they stopped! \r\nNot much traffic, and people probably won't stop. But hey, they did for me.\r\n2020","date":"2025-01-14","rating":2}],"destLat":-32.2916,"destLon":151.5103},{"id":74,"lat":-20.3892,"lon":118.5778,"rating":2,"reviews":1,"wait":360,"signal":"thumb","lastUsed":"2024-09-15","comments":[{"text":"I got stuck in Port Hedland for 4.5 hours without a lift, camped next to the road, and waited another 1.5 hours in the morning, and finally got a lift with a girl driving to Monkey Mia!\r\nPort Hedland is an industrial town and there are a lot of mine vehicles driving only a short distance here, also a lot of road trains going to and from the port. None of these vehicles stopped in the 6 hours I was there... don't even bother signalling to the road trains.\r\nMy advice would be to avoid Port Hedland","date":"2024-09-15","rating":2}],"destLat":-23.8152,"destLon":114.0095},{"id":95,"lat":-20.378,"lon":118.6347,"rating":2,"reviews":1,"wait":560,"signal":"thumb","lastUsed":"2024-06-02","comments":[{"text":"Stood whole day and next morning. Nobody stopped. Shade from a lamp pole. In front touristic shelter with potable water, where you can rest and sleep. Close by truck parking, if you prefer to ask drivers.\r\nI walked for 1 hour further and got a ride there.","date":"2024-06-02","rating":2}],"destLat":null,"destLon":null},{"id":101,"lat":-19.318,"lon":146.8178,"rating":2,"reviews":1,"wait":60,"signal":null,"lastUsed":"2023-10-03","comments":[{"text":"A lot of traffic going North, stopping in the traffic lights and then going a bit too fast... huge bike lane where cars can stop, but it's not a good place. A lot of the traffic is going North, but most likely will go to some suburb of Townsville... after more than one hour, one crazy trucking stopped and took me straight to Cairns","date":"2023-10-03","rating":2}],"destLat":-19.318,"destLon":146.8178},{"id":120,"lat":-13.8129,"lon":131.8321,"rating":2,"reviews":1,"wait":240,"signal":null,"lastUsed":"2016-09-14","comments":[{"text":"Good luck if you are hitchhiking into Kakadu national Park from here! You will need it. And other then entering Kakdu via Arnhem highwayfrom the west this is probably your best bet. So be patient and wait. There is a traffic sign up the road that provides shade well into the late morning hours and some trees that provide shade in the late afternoon. During midday it can get very hot so take plenty of water (I ended up taking ten litres during my hitching trp in Kakadu). Traffic can be as scarse ","date":"2016-09-14","rating":2}],"destLat":null,"destLon":null},{"id":121,"lat":-12.6338,"lon":131.0742,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-09-14","comments":[{"text":"Noonamah service station features mostly local traffic and few long distance travellers stop here. If you are going north that should not be a problem but if you are heading down the Stuart highway you might want to consider catchiing a lift north to Coololinga and look for a lift from there as it is more likely to get a long lift there if you ask in front of Woolworths.","date":"2016-09-14","rating":2}],"destLat":null,"destLon":null},{"id":144,"lat":-19.6369,"lon":134.1926,"rating":2,"reviews":1,"wait":300,"signal":null,"lastUsed":"2016-02-29","comments":[{"text":"BP service station. You might find it hard to get a lift here but in my eyes asking people here is your best bet to get a lift north or south - especially on a hot day when it is hard to stand next to the road. Because there is a lot of local traffic that goes nowhere, it might be worthwhile to sit in front of the station and look out for cars coming down the highway from the north. There is a good chance that they continue south.","date":"2016-02-29","rating":2}],"destLat":null,"destLon":null},{"id":145,"lat":-19.6578,"lon":134.1874,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2016-02-29","comments":[{"text":"There is not an awfull lot of options if you want to catch a lift south on the highway. This place is good since there is lots of space for cars to stop and they come in not to fast and you'll be well visible. There is hardly any shade here but there is a tree about 150 m to the north that provides protection from the sun.","date":"2016-02-29","rating":2}],"destLat":null,"destLon":null},{"id":147,"lat":-23.5303,"lon":133.8613,"rating":2,"reviews":1,"wait":210,"signal":null,"lastUsed":"2016-02-29","comments":[{"text":"There is space for cars to stop but they are very fast here. There is little shade so you might get fried on a hot day. If you run out of water your only option is to catch a lift back into Alice Springs.","date":"2016-02-29","rating":2}],"destLat":null,"destLon":null},{"id":171,"lat":-42.6939,"lon":146.9377,"rating":2,"reviews":1,"wait":60,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"Dropped here by our driver to cut over towards Mt. Field NP.  Almost no traffic on this little side road.  We ended up walking toward bushy park and luckily a car picked us up along the way.  It was the second car to pass, but it had been almost an hour.","date":"2015-04-19","rating":2}],"destLat":null,"destLon":null},{"id":176,"lat":-41.2805,"lon":148.0099,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2015-04-19","comments":[{"text":"1 hour wait, not much traffic and mostly local traffic. But eventually someone stopped going to the coast.","date":"2015-04-19","rating":2}],"destLat":null,"destLon":null},{"id":192,"lat":-41.4455,"lon":147.1391,"rating":2,"reviews":1,"wait":60,"signal":null,"lastUsed":"2014-10-26","comments":[{"text":"To go to Hobart?\nBAD spot. In my experience, leaving Launceston is not really an easy task. There is to much traffic and/or no space for drivers to pull over until... the highway. Well, this is not a very good option, try something else and don't lose hope: made it to Hobart in very decent time every time I tried.","date":"2014-10-26","rating":2}],"destLat":null,"destLon":null},{"id":200,"lat":-19.2624,"lon":146.7049,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2014-04-20","comments":[{"text":"this is where a truck would probably drop you off, to get into town, you have to get lucky with a local who tend to be less receptive to hitchers than the truckers","date":"2014-04-20","rating":2}],"destLat":null,"destLon":null},{"id":211,"lat":-32.0978,"lon":152.3763,"rating":2,"reviews":1,"wait":45,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"In theory this is a good spot since there is a service station, but for some reason it does not receive much of the traffic. I stood here for around an hour on the on-ramp, as I didn't think it was wise to hitch on the motorway. There looked to be a camping area around 500m up the road, but you can only get to it by walking on the motorway.\n\nIf you can avoid this spot I would. If you are coming from the south and your driver gets off here, then get dropped off at the earlier town: Coolongolook.","date":"2013-07-31","rating":2}],"destLat":null,"destLon":null},{"id":237,"lat":-17.9086,"lon":146.0912,"rating":2,"reviews":1,"wait":60,"signal":null,"lastUsed":"2012-10-05","comments":[{"text":"getting out of mission beach is a bitch but you'll make it if you're at the roundabout walk quite a bit until the turn, there is a police station pretty close, I didn't got fined but they told me to get off the road,so make sure you are not standing on the road....","date":"2012-10-05","rating":2}],"destLat":null,"destLon":null},{"id":242,"lat":-31.9278,"lon":133.0077,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2012-04-12","comments":[{"text":"If heading westward, do yourself a favor and turn down the ride offer to Penong. The same traffic will be passing through Ceduna, where there is a grocery, relatively inexpensive (for rural Australia, anyway) bottle shop, and a nice beach. Penong has none of these things, and both the petrol station and general store are very expensive. (The flies are horrible and there's hardly any shade, either.) If you are stuck here, camping spots aren't hard to find, and the pub is a friendly place to relax","date":"2012-04-12","rating":2}],"destLat":null,"destLon":null},{"id":244,"lat":-37.87,"lon":144.7595,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2012-03-30","comments":[{"text":"Not such a great spot to get out of Melbourne. I picked this place because it had a decent onramp and was close to the metro. Don't accept ride offers to Werribee (as I did), as most exits don't have a corresponding onramp and you will either be walking a ways or hitching on the motorway.","date":"2012-03-30","rating":2}],"destLat":null,"destLon":null},{"id":247,"lat":-19.4409,"lon":134.2084,"rating":2,"reviews":1,"wait":105,"signal":null,"lastUsed":"2011-10-17","comments":[{"text":"Don't stand by the Three Ways' service station. Stand on the road. Good luck.","date":"2011-10-17","rating":2}],"destLat":null,"destLon":null},{"id":248,"lat":-14.4886,"lon":132.2575,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":"2011-10-17","comments":[{"text":"If you have nowhere to be for a few weeks, you'll be fine standing here. Good luck.","date":"2011-10-17","rating":2}],"destLat":null,"destLon":null},{"id":255,"lat":-33.2953,"lon":115.8224,"rating":2,"reviews":1,"wait":120,"signal":null,"lastUsed":"2011-04-13","comments":[{"text":"If you are heading to Perth, not the best spot. South Western Highway is not the best one to take. I would advice to go 10km west on the freeway.\n\nI was droped there not knowing the place. I waited 2h!","date":"2011-04-13","rating":2}],"destLat":null,"destLon":null},{"id":268,"lat":-28.0098,"lon":153.3447,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Bad hitching around here...very big road, very fast cars - very hot ;)\nI recommend taking the costal road...","date":null,"rating":2}],"destLat":null,"destLon":null},{"id":293,"lat":-34.4526,"lon":116.2373,"rating":2,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"Hard to get a ride south here. Took us 3 hours. Getting north might be slightly easier.","date":null,"rating":2}],"destLat":null,"destLon":null},{"id":8,"lat":-17.7479,"lon":146.0278,"rating":1,"reviews":1,"wait":45,"signal":null,"lastUsed":"2025-10-07","comments":[{"text":"Very bad spot, cars move to fast , fortunately I got out","date":"2025-10-07","rating":1}],"destLat":-17.9305,"destLon":145.934},{"id":18,"lat":-37.3545,"lon":140.8414,"rating":1,"reviews":1,"wait":180,"signal":null,"lastUsed":"2025-03-22","comments":[{"text":"Very bad spot. Cars pass you with 100 km/h. But there is space to stop. Only got picked up because the guy forgot something to drop off in Penola and then came back and saw me again.","date":"2025-03-22","rating":1}],"destLat":-34.926,"destLon":138.5946},{"id":60,"lat":-36.6998,"lon":149.8406,"rating":1,"reviews":1,"wait":5,"signal":null,"lastUsed":"2024-12-16","comments":[{"text":"Got dropped here, it’s a bad spot, no really other options on the highway close to Bega. Don’t accept rides to this town. Regarding the spot, only traffic going out of Bega can stop, no shadow from trees there, and it’s right before the start of 100km limit so cars go fast.","date":"2024-12-16","rating":1}],"destLat":-37.063,"destLon":149.904},{"id":215,"lat":-36.0371,"lon":146.9635,"rating":1,"reviews":1,"wait":60,"signal":null,"lastUsed":"2013-07-31","comments":[{"text":"I was dropped here by my driver, and waited over an hour asking people for a lift, but only local traffic was passing. I ended up leaving this place once the rain stopped and found a lift closer to the on-ramp.\n\nI would go to the spot on the on-ramp in the future. Avoid here unless you want to get into Albury.","date":"2013-07-31","rating":1}],"destLat":null,"destLon":null},{"id":224,"lat":-41.0561,"lon":144.6732,"rating":1,"reviews":1,"wait":60,"signal":null,"lastUsed":"2013-04-19","comments":[{"text":"NOT A GOOD SPOT. This road may be scenic. But almost nobody get you to the next city. People go there to do track. It's a gravel road, with one car every 10 minutes. Don't adventure yourself unless you have enough food and material for may days walk. You could be stock there for a while. And not a really secure location...","date":"2013-04-19","rating":1}],"destLat":null,"destLon":null},{"id":249,"lat":-14.4682,"lon":132.2679,"rating":1,"reviews":1,"wait":310,"signal":null,"lastUsed":"2011-10-17","comments":[{"text":"If you're going South on the Stuart Highway from Darwin, you might find yourself here. There is a tree which will provide some shade. Prepare to laugh (or more likely cry) when you see the hitch hiking graffiti that awaits you at the telephone cable mast.","date":"2011-10-17","rating":1}],"destLat":null,"destLon":null},{"id":300,"lat":-15.7814,"lon":128.7393,"rating":1,"reviews":1,"wait":null,"signal":null,"lastUsed":null,"comments":[{"text":"If you want to potentially be stuck on the side of the road in 45 degree heat, try hitching from Kununurra. There are no truck stops here, so you can rule trucks out as an option. (and that's usually the best option) After two and a half days of nothing vaguely resembling a ride, we gave up and bought a flight to Darwin. (cheaper then the Greyhound by the way). If you get stuck here, good luck!","date":null,"rating":1}],"destLat":null,"destLon":null}]}
+{
+  "country": "AU",
+  "name": "Australie",
+  "totalSpots": 319,
+  "totalReviews": 349,
+  "source": "hitchwiki",
+  "license": "ODBL",
+  "attribution": "Data from Hitchwiki/Hitchmap (ODBL)",
+  "spots": [
+    {
+      "id": 2,
+      "lat": -30.3184,
+      "lon": 153.0907,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2026-01-15",
+      "comments": [
+        {
+          "text": "Great Spot, a truck driver took me directly to Sydney",
+          "date": "2026-01-15",
+          "rating": 5
+        },
+        {
+          "text": "Perfect spot for heading south (Pre Bypass). The cars are going slow for the last roundabout out of Coffs and there’s heaps of space near the Cunningham banana place for them to pull over. \r\n\r\nTook maybe 5-10 minutes TOPS\r\n\r\nHad a big cardbord sign for Newcastle. Probably best spot current out of Coffs.",
+          "date": "2025-01-07",
+          "rating": 5
+        }
+      ],
+      "destLat": -33.7734,
+      "destLon": 150.9034
+    },
+    {
+      "id": 44,
+      "lat": -33.2551,
+      "lon": 151.403,
+      "rating": 5,
+      "reviews": 3,
+      "wait": 12,
+      "signal": "sign",
+      "lastUsed": "2025-01-16",
+      "comments": [
+        {
+          "text": "Great spot for hitching north. Just stand on the exit ramp. Heaps of cars.",
+          "date": "2025-01-16",
+          "rating": 5
+        },
+        {
+          "text": "Going from Sydney to the North I was dropped here. Huge gasstation with Mcdonalds. Everyone stops here. It's huge and they drive really slow. Stand at the exit and you'll get a lift easy.",
+          "date": "2015-04-14",
+          "rating": 5
+        }
+      ],
+      "destLat": -32.7983,
+      "destLon": 151.7178
+    },
+    {
+      "id": 33,
+      "lat": -33.9635,
+      "lon": 150.8807,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 5,
+      "signal": "sign",
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Good spot, waited a few meters before the roadhouse that cars could pull in",
+          "date": "2025-03-22",
+          "rating": 5
+        },
+        {
+          "text": "Uncle Leo´s Roadhouse is great place to find a lift heading down the Hume Hwy towards Melbourne.\n\nEach time Ive walked from Glenfield train station someone has picked me up and driven me up Glenfield Rd to the roadhouse.",
+          "date": "2016-04-21",
+          "rating": 5
+        }
+      ],
+      "destLat": -34.8074,
+      "destLon": 148.8818
+    },
+    {
+      "id": 64,
+      "lat": -34.9002,
+      "lon": 150.6019,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2024-12-15",
+      "comments": [
+        {
+          "text": "Heaps of space for cars to pull up on the truck stop. Heard from a local that East Nowra can be kinda dodgy so try not to camp for a night in that area.",
+          "date": "2024-12-15",
+          "rating": 5
+        },
+        {
+          "text": "a truck stop type area, good line of site for cars to see you, easy for them to pull over, and all of the traffic is heading south. Louisa and Liam got a ride in 10 mins using speed hitching.",
+          "date": null,
+          "rating": 5
+        }
+      ],
+      "destLat": -35.8487,
+      "destLon": 150.1762
+    },
+    {
+      "id": 92,
+      "lat": -17.9289,
+      "lon": 122.241,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 60,
+      "signal": "thumb",
+      "lastUsed": "2024-06-02",
+      "comments": [
+        {
+          "text": "Good spot. I got a ride after 1 hour, while I was walking to next roundabout with thumb out.",
+          "date": "2024-06-02",
+          "rating": 5
+        },
+        {
+          "text": "Easiest way to get out of town.\nLot of traffic. I was there around noon in summer season. It was really easy.",
+          "date": "2014-03-23",
+          "rating": 5
+        }
+      ],
+      "destLat": -17.6337,
+      "destLon": 123.7388
+    },
+    {
+      "id": 97,
+      "lat": -37.7335,
+      "lon": 144.668,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 10,
+      "signal": "thumb",
+      "lastUsed": "2024-04-06",
+      "comments": [
+        {
+          "text": "Fantastic spot. Just along the highway. There is a small barrier with cables and you can stand safely behind it.",
+          "date": "2024-04-06",
+          "rating": 5
+        },
+        {
+          "text": "There is a bus station that makes an excellent hitchhiking spot in direction Adelaide. To get here, take a V/Line train in direction Ballarat and get off at Rockbank.",
+          "date": "2013-01-02",
+          "rating": 5
+        }
+      ],
+      "destLat": -37.5348,
+      "destLon": 143.8486
+    },
+    {
+      "id": 99,
+      "lat": -37.5968,
+      "lon": 144.9428,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 17,
+      "signal": null,
+      "lastUsed": "2023-11-18",
+      "comments": [
+        {
+          "text": "Me and my girlfriend were waiting for about 5 minutes. Perfect spot, I would choose the same one in the future. We moved ~30 kilometers and then on the highway it was super easy.",
+          "date": "2023-11-18",
+          "rating": 5
+        },
+        {
+          "text": "I actually left a comment for the spot just north of here, but this is the location that I left from. I stood behind the road fences on the grass to avoid any encounters with the police. I stood with a sign that read 'Syd' and I was picked up within 10 minutes by a kayaker on his way to Wangaratta, which is where I was dropped.\n\nI left here on a wet Saturday morning at 09:00 after catching a train out to Cragieburn. If I hitch north again, I'll leave from here, and if I ever leave Melbourne by c",
+          "date": "2013-07-31",
+          "rating": 5
+        }
+      ],
+      "destLat": -37.5981,
+      "destLon": 144.9433
+    },
+    {
+      "id": 106,
+      "lat": -23.3331,
+      "lon": 150.518,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 38,
+      "signal": null,
+      "lastUsed": "2023-09-30",
+      "comments": [
+        {
+          "text": "Really good spot to hitch north, a lot of traffic and a lot of place for cars to stop. Still took me.l over 45 minutes to get a ride. It was straight to Mackay",
+          "date": "2023-09-30",
+          "rating": 5
+        },
+        {
+          "text": "A really good spot to hitch north from Rockhampton. Walking distance (about 5 km) from city centre. Good space for cars/trucks to stop! I got a ride to Mackay!",
+          "date": "2012-10-09",
+          "rating": 5
+        }
+      ],
+      "destLat": -23.333,
+      "destLon": 150.5181
+    },
+    {
+      "id": 113,
+      "lat": -27.4332,
+      "lon": 153.0824,
+      "rating": 5,
+      "reviews": 2,
+      "wait": 8,
+      "signal": null,
+      "lastUsed": "2023-09-28",
+      "comments": [
+        {
+          "text": "Got a fast ride to the first truck stop in M1.\r\nNice place with shadow",
+          "date": "2023-09-28",
+          "rating": 5
+        },
+        {
+          "text": "Best spot to hitch out of if you're going north towards Sunshine Coast. A bit of the traffic might be going to the airport, but most will be going at least an hour.",
+          "date": null,
+          "rating": 5
+        }
+      ],
+      "destLat": -27.4332,
+      "destLon": 153.0824
+    },
+    {
+      "id": 1,
+      "lat": -37.7257,
+      "lon": 144.6506,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2026-02-05",
+      "comments": [
+        {
+          "text": "Perfect spot, highway entrance, lot of room for pulling over",
+          "date": "2026-02-05",
+          "rating": 5
+        }
+      ],
+      "destLat": -37.5096,
+      "destLon": 143.8036
+    },
+    {
+      "id": 4,
+      "lat": -41.5358,
+      "lon": 147.1951,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2025-12-12",
+      "comments": [
+        {
+          "text": "Good spot. Good visibility, slow traffic, lots of local work vehicles as well as tourist cars. Easy pull-off area.",
+          "date": "2025-12-12",
+          "rating": 5
+        }
+      ],
+      "destLat": -41.4438,
+      "destLon": 147.1454
+    },
+    {
+      "id": 6,
+      "lat": -41.4517,
+      "lon": 147.1405,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2025-12-02",
+      "comments": [
+        {
+          "text": "Easy to walk to, easy for cars to stop, close to Maccers",
+          "date": "2025-12-02",
+          "rating": 5
+        }
+      ],
+      "destLat": -42.8426,
+      "destLon": 147.3102
+    },
+    {
+      "id": 10,
+      "lat": -16.8789,
+      "lon": 145.7576,
+      "rating": 5,
+      "reviews": 1,
+      "wait": null,
+      "signal": null,
+      "lastUsed": "2025-10-05",
+      "comments": [
+        {
+          "text": "A quick ride to the center, fantastic way to save money compared to a taxi",
+          "date": "2025-10-05",
+          "rating": 5
+        }
+      ],
+      "destLat": -16.9211,
+      "destLon": 145.7732
+    },
+    {
+      "id": 16,
+      "lat": -34.1809,
+      "lon": 138.1539,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Cars go slow, enough space to pull over. Good spot to get to Port Augusta",
+          "date": "2025-03-22",
+          "rating": 5
+        }
+      ],
+      "destLat": -32.5118,
+      "destLon": 137.8039
+    },
+    {
+      "id": 36,
+      "lat": -42.076,
+      "lon": 145.5569,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-03-01",
+      "comments": [
+        {
+          "text": "Nice spot to sit and wait, with a big wide layby. Lots of people going to Straun.",
+          "date": "2025-03-01",
+          "rating": 5
+        }
+      ],
+      "destLat": -41.8792,
+      "destLon": 145.3876
+    },
+    {
+      "id": 37,
+      "lat": -42.4845,
+      "lon": 146.7097,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2025-03-01",
+      "comments": [
+        {
+          "text": "Next to a servo and toilets. For food, drink and a clean up. You could probably ask folks at the gas station for a ride if you want",
+          "date": "2025-03-01",
+          "rating": 5
+        }
+      ],
+      "destLat": -42.0782,
+      "destLon": 145.5568
+    },
+    {
+      "id": 39,
+      "lat": -42.7776,
+      "lon": 147.0552,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-03-01",
+      "comments": [
+        {
+          "text": "Picked up by a tradie pretty quick. On my way to queenstown. Although I was dropped at a bus stop before the next town",
+          "date": "2025-03-01",
+          "rating": 5
+        }
+      ],
+      "destLat": -42.5344,
+      "destLon": 146.7521
+    },
+    {
+      "id": 40,
+      "lat": -28.8599,
+      "lon": 153.5212,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2025-01-25",
+      "comments": [
+        {
+          "text": "Great spot, on the ramp to the highway from servo. Heaps of people stopping there m, got a ride to Gold Coast in 10 mins",
+          "date": "2025-01-25",
+          "rating": 5
+        }
+      ],
+      "destLat": -27.9975,
+      "destLon": 153.4276
+    },
+    {
+      "id": 61,
+      "lat": -36.237,
+      "lon": 150.1292,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "sign",
+      "lastUsed": "2024-12-16",
+      "comments": [
+        {
+          "text": "Great spot for hitching south. In front of the school slightly to the south. Space to pull-up plenty of shadow from the trees and nice spot.",
+          "date": "2024-12-16",
+          "rating": 5
+        }
+      ],
+      "destLat": -36.6999,
+      "destLon": 149.8404
+    },
+    {
+      "id": 62,
+      "lat": -36.023,
+      "lon": 150.1023,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "sign",
+      "lastUsed": "2024-12-16",
+      "comments": [
+        {
+          "text": "Very good spot for cars to pull up. Just we warned there’s no shade.",
+          "date": "2024-12-16",
+          "rating": 5
+        }
+      ],
+      "destLat": -36.2296,
+      "destLon": 150.1246
+    },
+    {
+      "id": 82,
+      "lat": -29.9191,
+      "lon": 153.0689,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "ask",
+      "lastUsed": "2024-08-13",
+      "comments": [],
+      "destLat": -28.5399,
+      "destLon": 153.5497
+    },
+    {
+      "id": 86,
+      "lat": -34.7197,
+      "lon": 149.9953,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "ask",
+      "lastUsed": "2024-08-13",
+      "comments": [
+        {
+          "text": "9pm got a lift to Sydney really here",
+          "date": "2024-08-13",
+          "rating": 5
+        }
+      ],
+      "destLat": -33.7517,
+      "destLon": 150.6963
+    },
+    {
+      "id": 102,
+      "lat": -20.2913,
+      "lon": 148.6761,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2023-10-03",
+      "comments": [
+        {
+          "text": "A lot of traffic, cars go slow, and a big bay for cars to stop! Easy to get a ride to Proserpine",
+          "date": "2023-10-03",
+          "rating": 5
+        }
+      ],
+      "destLat": -20.2913,
+      "destLon": 148.6761
+    },
+    {
+      "id": 103,
+      "lat": -20.3921,
+      "lon": 148.5856,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-10-02",
+      "comments": [
+        {
+          "text": "Super good place to hitch to Airlie Beach. All the cars passing are going there... big bay for the cars to stop and all the traffic going slow!",
+          "date": "2023-10-02",
+          "rating": 5
+        }
+      ],
+      "destLat": -20.3922,
+      "destLon": 148.5855
+    },
+    {
+      "id": 108,
+      "lat": -25.2338,
+      "lon": 152.2685,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2023-09-29",
+      "comments": [
+        {
+          "text": "Right before the bridge there's a gigantic spot for cars to stop! All the traffic goes either to Bundaberg or to Gin Gin. I tried during sunset and there was not that much traffic but still got a ride in less than half an hour",
+          "date": "2023-09-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -25.2337,
+      "destLon": 152.2685
+    },
+    {
+      "id": 109,
+      "lat": -25.5772,
+      "lon": 152.6551,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2023-09-29",
+      "comments": [
+        {
+          "text": "All traffic heading north, but not as much traffic as the previous stations... anyway, got a ride in 20 mins to Childers",
+          "date": "2023-09-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -25.5772,
+      "destLon": 152.6551
+    },
+    {
+      "id": 110,
+      "lat": -26.238,
+      "lon": 152.6992,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2023-09-29",
+      "comments": [
+        {
+          "text": "Gas station with Roadhouse and Caravan Park.\r\nSome traffic, most of it going North.. After 15mins got a ride to Maryborough",
+          "date": "2023-09-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -26.238,
+      "destLon": 152.6992
+    },
+    {
+      "id": 111,
+      "lat": -26.6899,
+      "lon": 153.004,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2023-09-29",
+      "comments": [
+        {
+          "text": "Big petrol station and truck stop. Most of the traffic going North. Stood in the exit of the gas station with a Sign and got picked up in 10 minutes",
+          "date": "2023-09-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -26.6898,
+      "destLon": 153.004
+    },
+    {
+      "id": 112,
+      "lat": -27.3769,
+      "lon": 153.0943,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2023-09-29",
+      "comments": [
+        {
+          "text": "Nice place for going North to Sunshine Coast/Cairns. A lot of traffic and Trucks.\r\nWas walking down with a Sign saying Sunny Coast and a truck offered to pick me up.",
+          "date": "2023-09-29",
+          "rating": 5
+        }
+      ],
+      "destLat": -27.3769,
+      "destLon": 153.0943
+    },
+    {
+      "id": 115,
+      "lat": -28.6411,
+      "lon": 153.6084,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 2,
+      "signal": null,
+      "lastUsed": "2023-09-27",
+      "comments": [
+        {
+          "text": "Was writing a sign and a car immediately stopped and picked me up. Left me on rest stop near Tyagarah",
+          "date": "2023-09-27",
+          "rating": 5
+        }
+      ],
+      "destLat": -28.641,
+      "destLon": 153.6084
+    },
+    {
+      "id": 116,
+      "lat": -28.6362,
+      "lon": 153.5516,
+      "rating": 5,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2023-09-27",
+      "comments": [
+        {
+          "text": "Hitchhiked from here to Byron.. the car just stopped on the emergency lane",
+          "date": "2023-09-27",
+          "rating": 5
+        }
+      ],
+      "destLat": -28.6362,
+      "destLon": 153.5516
+    },
+    {
+      "id": 47,
+      "lat": -33.718,
+      "lon": 151.1099,
+      "rating": 4.5,
+      "reviews": 4,
+      "wait": 14,
+      "signal": "sign",
+      "lastUsed": "2025-01-16",
+      "comments": [
+        {
+          "text": "Good spot to get out of Sydney heading North.",
+          "date": "2025-01-16",
+          "rating": 4
+        },
+        {
+          "text": "11am Got ride to Wyon servo on the freeway. Don't take a ride unless they go at least to Wyon servo. \r\nNote: Directly across the road from this spot is a good patch of bush to urban camp where no one will find you!",
+          "date": "2024-08-13",
+          "rating": 4
+        },
+        {
+          "text": "DIRECTION NORTH - QLD / BYRON BAY / GOLD COST / NEWCASTLE - Catch a ride really easily from that place\n\nPlace for car : gigantic\nSpeed : 20 km/h\nTraffic : average/high\nWaiting : 5/10 minutes\n\nI dont saw if there was some lights thee for the night, i think so...",
+          "date": null,
+          "rating": 5
+        }
+      ],
+      "destLat": -33.4206,
+      "destLon": 151.2901
+    },
+    {
+      "id": 28,
+      "lat": -38.3391,
+      "lon": 144.3069,
+      "rating": 4.5,
+      "reviews": 2,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Decent traffic towards the Great Ocean Road",
+          "date": "2025-03-22",
+          "rating": 4
+        },
+        {
+          "text": "Lots of Great Ocean Road goers by here, esy to get a lift.",
+          "date": "2015-04-19",
+          "rating": 5
+        }
+      ],
+      "destLat": -38.419,
+      "destLon": 144.1744
+    },
+    {
+      "id": 32,
+      "lat": -34.8074,
+      "lon": 148.8818,
+      "rating": 4.5,
+      "reviews": 2,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Busy station, got a long ride. Many flies (Nov)!",
+          "date": "2025-03-22",
+          "rating": 5
+        },
+        {
+          "text": "Busy service station, lots of traffic. Got a lift from the first truck driver we approached, all the way to the coast",
+          "date": null,
+          "rating": 4
+        }
+      ],
+      "destLat": -36.4403,
+      "destLon": 146.2491
+    },
+    {
+      "id": 71,
+      "lat": -23.8153,
+      "lon": 114.0095,
+      "rating": 4,
+      "reviews": 3,
+      "wait": 13,
+      "signal": "ask",
+      "lastUsed": "2024-09-17",
+      "comments": [
+        {
+          "text": "Got a ride here in 5 mins heading south with a guy going to Perth. Friendly Roadhouse staff",
+          "date": "2024-09-17",
+          "rating": 5
+        },
+        {
+          "text": "I probably should have made that 4 stars",
+          "date": "2024-09-15",
+          "rating": 4
+        },
+        {
+          "text": "Got a ride to Exmouth quite easily by asking around here. The Roadhouse staff were friendly and even offered to hotspot their phone so I could use the internet. There's a free rest stop with shady trees just across the river if you wanna camp here",
+          "date": "2024-09-15",
+          "rating": 3
+        }
+      ],
+      "destLat": -27.8279,
+      "destLon": 114.6884
+    },
+    {
+      "id": 43,
+      "lat": -32.7985,
+      "lon": 151.7178,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 25,
+      "signal": "sign",
+      "lastUsed": "2025-01-17",
+      "comments": [
+        {
+          "text": "Quite okay spot. When I was hitching in January 2025 the servo was closed and the traffic was going slower (60) due to ongoing construction works. I camped behind the station no need to go onto the horse place.",
+          "date": "2025-01-17",
+          "rating": 4
+        },
+        {
+          "text": "Traffic is going pretty quick, but I awkwardly camped here overnight. There is a horse training facility nearby. You can jump the fence and camp there for flatter ground, but you'll probably be spotted in the morning, as the riders are up at dawn. They called out hello to me!\n\nIn terms of leaving, someone pulled out of the service station to pick me up. I waited around 10-15 minutes. I didn't bother asking people at the service station, but that would have worked had it been later in the day wit",
+          "date": "2013-07-31",
+          "rating": 4
+        }
+      ],
+      "destLat": -32.2181,
+      "destLon": 152.3219
+    },
+    {
+      "id": 54,
+      "lat": -36.0752,
+      "lon": 146.9274,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 85,
+      "signal": "sign",
+      "lastUsed": "2024-12-27",
+      "comments": [
+        {
+          "text": "Got spot with plenty of space to pull up. Not much shade. A cop spotted me and other local hitchhiker and camped down the ramp for a 30 min or so, fettering rides. Although it’s not illegal in NSW and we were standing before the actual freeway. The cops went away and didn’t come back or cause any more problems",
+          "date": "2024-12-27",
+          "rating": 4
+        },
+        {
+          "text": "4pm Got a ride in a truck going to Wollongong",
+          "date": "2024-08-13",
+          "rating": 4
+        }
+      ],
+      "destLat": -34.8374,
+      "destLon": 148.9064
+    },
+    {
+      "id": 58,
+      "lat": -37.4762,
+      "lon": 149.5931,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 20,
+      "signal": "sign",
+      "lastUsed": "2024-12-19",
+      "comments": [
+        {
+          "text": "Good spot for hitching south. There’s a patch of grass on the southern side of the intersection. Got a ride to Lakes Entrance in 20min",
+          "date": "2024-12-19",
+          "rating": 4
+        },
+        {
+          "text": "Nice wide grassy verge at this intersection, with a roadhouse across the way. Friendly locals, got a lift from the first car passing by!",
+          "date": null,
+          "rating": 4
+        }
+      ],
+      "destLat": -37.8794,
+      "destLon": 147.9931
+    },
+    {
+      "id": 67,
+      "lat": -31.9021,
+      "lon": 116.1024,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 13,
+      "signal": "ask",
+      "lastUsed": "2024-09-29",
+      "comments": [
+        {
+          "text": "I might have got lucky, but a guy pulled up to check his load and asked me where I was going. Got a ride to Meckering",
+          "date": "2024-09-29",
+          "rating": 4
+        },
+        {
+          "text": "For hitching east toward Kalgoorlie, Adelaide, Sydney.  There is a paved rest stop by the bus stop where cars can pull off easily, quite a good spot.  Take bus 320 from Midland station, to the stop Great Eastern Hwy Before Park Rd A.",
+          "date": null,
+          "rating": 4
+        }
+      ],
+      "destLat": -31.6271,
+      "destLon": 117.0086
+    },
+    {
+      "id": 73,
+      "lat": -21.9274,
+      "lon": 114.1258,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 13,
+      "signal": "thumb",
+      "lastUsed": "2024-09-15",
+      "comments": [
+        {
+          "text": "Good spot to hitch to the park",
+          "date": "2024-09-15",
+          "rating": 4
+        },
+        {
+          "text": "good spot to hitch into the nationalpark. there is a \"share a ride\" station. everyone who wants to go in the nationalpark has to use this road.",
+          "date": "2011-07-14",
+          "rating": 4
+        }
+      ],
+      "destLat": -21.8043,
+      "destLon": 114.1076
+    },
+    {
+      "id": 79,
+      "lat": -19.4368,
+      "lon": 134.2076,
+      "rating": 4,
+      "reviews": 2,
+      "wait": 80,
+      "signal": "ask",
+      "lastUsed": "2024-08-29",
+      "comments": [
+        {
+          "text": "Got a lift in a Mobile Crane here!! Ticked that one off the list, even though it only went 75km/hr",
+          "date": "2024-08-29",
+          "rating": 5
+        },
+        {
+          "text": "Threeways roadhouse. This place gets traffic from Darwin, Alice and the Queensland coast. I found the staff friendly and it is a good place to ask stopping cars for a lift. In my eyes way better than trying to stop one down the road. But you still might need a bit of patience.",
+          "date": "2016-02-29",
+          "rating": 3
+        }
+      ],
+      "destLat": -14.9235,
+      "destLon": 133.0659
+    },
+    {
+      "id": 5,
+      "lat": -41.2005,
+      "lon": 147.6691,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2025-12-02",
+      "comments": [
+        {
+          "text": "Easy hitch. Good visibility",
+          "date": "2025-12-02",
+          "rating": 4
+        }
+      ],
+      "destLat": -41.187,
+      "destLon": 147.5776
+    },
+    {
+      "id": 7,
+      "lat": -41.1874,
+      "lon": 146.3713,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "sign",
+      "lastUsed": "2025-12-02",
+      "comments": [
+        {
+          "text": "Easy for cars to see you in advance, plus food, and room for them to pull off and stop",
+          "date": "2025-12-02",
+          "rating": 4
+        }
+      ],
+      "destLat": -41.4532,
+      "destLon": 147.1399
+    },
+    {
+      "id": 9,
+      "lat": -17.0992,
+      "lon": 145.78,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-10-07",
+      "comments": [],
+      "destLat": -17.7481,
+      "destLon": 146.0278
+    },
+    {
+      "id": 12,
+      "lat": -27.3081,
+      "lon": 133.6254,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 200,
+      "signal": null,
+      "lastUsed": "2025-07-03",
+      "comments": [
+        {
+          "text": "Enough room to stop direct route south just not many people on the road",
+          "date": "2025-07-03",
+          "rating": 4
+        }
+      ],
+      "destLat": -27.3081,
+      "destLon": 133.6254
+    },
+    {
+      "id": 20,
+      "lat": -38.662,
+      "lon": 143.1045,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Many tourists, most of them went east",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -37.8067,
+      "destLon": 140.7915
+    },
+    {
+      "id": 22,
+      "lat": -38.7628,
+      "lon": 143.6699,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Decent amout of traffic (off season)",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.7826,
+      "destLon": 143.5367
+    },
+    {
+      "id": 23,
+      "lat": -38.6665,
+      "lon": 143.8617,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 1,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Most traffic goes direction of Apollo Bay. Not a lot traffic out of main season",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.7525,
+      "destLon": 143.6692
+    },
+    {
+      "id": 24,
+      "lat": -38.635,
+      "lon": 143.8909,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Local picked me up to bring me to Kenneth River. Told me good spots to see Koalas. But not much traffic out of the main season",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.6666,
+      "destLon": 143.8618
+    },
+    {
+      "id": 25,
+      "lat": -38.5427,
+      "lon": 143.976,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 120,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "It rained cats and dogs, so there was first no traffic. After the rain i catched a ride in 20 min",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.6349,
+      "destLon": 143.8909
+    },
+    {
+      "id": 26,
+      "lat": -38.4654,
+      "lon": 144.0991,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Not much traffic in the morning (out of main season)",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.5353,
+      "destLon": 143.9739
+    },
+    {
+      "id": 27,
+      "lat": -38.419,
+      "lon": 144.1745,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Out of main season decent amout of traffic, not so many tourists",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.4591,
+      "destLon": 144.107
+    },
+    {
+      "id": 29,
+      "lat": -38.196,
+      "lon": 144.3424,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Driver turned around and drove me to Torquay, even it wasn't on his way",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.3324,
+      "destLon": 144.3262
+    },
+    {
+      "id": 31,
+      "lat": -36.4403,
+      "lon": 146.2491,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "In the morning not very busy, but luckily a truck driver picked me up",
+          "date": "2025-03-22",
+          "rating": 4
+        }
+      ],
+      "destLat": -37.4043,
+      "destLon": 145.0157
+    },
+    {
+      "id": 35,
+      "lat": -41.8785,
+      "lon": 145.3871,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-03-01",
+      "comments": [
+        {
+          "text": "Trees for shade, and a decent frequency of cars",
+          "date": "2025-03-01",
+          "rating": 4
+        }
+      ],
+      "destLat": -41.5642,
+      "destLon": 145.6828
+    },
+    {
+      "id": 41,
+      "lat": -30.2904,
+      "lon": 153.1202,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 120,
+      "signal": "sign",
+      "lastUsed": "2025-01-25",
+      "comments": [
+        {
+          "text": "2 hours wait in the rain. There are many good spots to hitch from in Coffs. There is a sideline to pull up. I stayed between the BP station and turn to Marcia Street.",
+          "date": "2025-01-25",
+          "rating": 4
+        }
+      ],
+      "destLat": -28.8611,
+      "destLon": 153.517
+    },
+    {
+      "id": 45,
+      "lat": -33.4203,
+      "lon": 151.2903,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 3,
+      "signal": "sign",
+      "lastUsed": "2025-01-16",
+      "comments": [
+        {
+          "text": "Got dropped here while hitching from Sydney. A car pulled up just after that and took me 1km to the Wyong Servo which is the best hitching spot in the area for going north",
+          "date": "2025-01-16",
+          "rating": 4
+        }
+      ],
+      "destLat": -33.2708,
+      "destLon": 151.4052
+    },
+    {
+      "id": 46,
+      "lat": -33.4207,
+      "lon": 151.2898,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 3,
+      "signal": "sign",
+      "lastUsed": "2025-01-16",
+      "comments": [
+        {
+          "text": "Got dropped here from Hornsby. Right after getting dropped a car pulled up and got me near the Wyongs Servo which is much better hitching spot.",
+          "date": "2025-01-16",
+          "rating": 4
+        }
+      ],
+      "destLat": -33.2707,
+      "destLon": 151.4051
+    },
+    {
+      "id": 50,
+      "lat": -36.4496,
+      "lon": 148.4514,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-01-08",
+      "comments": [],
+      "destLat": -36.416,
+      "destLon": 148.6199
+    },
+    {
+      "id": 51,
+      "lat": -36.497,
+      "lon": 148.3149,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2025-01-07",
+      "comments": [
+        {
+          "text": "sunday noon, about 1 car per minute volume. got the 4th car.",
+          "date": "2025-01-07",
+          "rating": 4
+        }
+      ],
+      "destLat": -36.4495,
+      "destLon": 148.4509
+    },
+    {
+      "id": 52,
+      "lat": -38.1119,
+      "lon": 147.0685,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 40,
+      "signal": "thumb",
+      "lastUsed": "2024-12-27",
+      "comments": [
+        {
+          "text": "Nice spot for hitching down to Wilsons Prom although this route is less travelled I got a ride to the Thompson bridge campsite and from there to Foster with a couple backpackers staying at the campsite. (50km to Wilsons). Most of the locals recommended hitching to Wilsons Prom through Morwell or Traralgan, this route should easier when approaching from the east",
+          "date": "2024-12-27",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.1466,
+      "destLon": 147.0881
+    },
+    {
+      "id": 53,
+      "lat": -37.9201,
+      "lon": 147.7269,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 2,
+      "signal": "ask",
+      "lastUsed": "2024-12-27",
+      "comments": [
+        {
+          "text": "If you need transport from the Koala island to Bairnsdale just ask the cars queued to the ferry. Very friendly locals!",
+          "date": "2024-12-27",
+          "rating": 4
+        }
+      ],
+      "destLat": -37.8273,
+      "destLon": 147.6212
+    },
+    {
+      "id": 55,
+      "lat": -39.0281,
+      "lon": 146.3319,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2024-12-26",
+      "comments": [
+        {
+          "text": "If you walk a bit from the hikers parking there is a nice wide grassy area about ~50m or so before the turn to Mount Oberon, easy to get a lift to Melbourne or a town nearby from where you can get a bus for 10 bucks. Checkout time from the main campground is 11am, keep that in mind",
+          "date": "2024-12-26",
+          "rating": 4
+        }
+      ],
+      "destLat": -38.694,
+      "destLon": 146.0848
+    },
+    {
+      "id": 56,
+      "lat": -38.6505,
+      "lon": 146.1986,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 5,
+      "signal": null,
+      "lastUsed": "2024-12-24",
+      "comments": [
+        {
+          "text": "Good spot for hitching to Wilsons Promontory, parking bay right after the roundabout",
+          "date": "2024-12-24",
+          "rating": 4
+        }
+      ],
+      "destLat": -39.0309,
+      "destLon": 146.3259
+    },
+    {
+      "id": 59,
+      "lat": -37.063,
+      "lon": 149.9043,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 120,
+      "signal": "sign",
+      "lastUsed": "2024-12-19",
+      "comments": [
+        {
+          "text": "A bus bay with toilets and supermarket nearby. Good for hitching south (although had to wait 2 hours)",
+          "date": "2024-12-19",
+          "rating": 4
+        }
+      ],
+      "destLat": -37.5584,
+      "destLon": 149.7557
+    },
+    {
+      "id": 63,
+      "lat": -35.9228,
+      "lon": 150.0867,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 30,
+      "signal": "sign",
+      "lastUsed": "2024-12-16",
+      "comments": [
+        {
+          "text": "Got dropped there, in front of TEFA there’s a lot of space to pull up, some shade from trees and cars go slower after the turn. Good for going south. There are plenty other good spots though between this one and Moruya.",
+          "date": "2024-12-16",
+          "rating": 4
+        }
+      ],
+      "destLat": -36.0228,
+      "destLon": 150.1026
+    },
+    {
+      "id": 65,
+      "lat": -34.4998,
+      "lon": 150.7905,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "sign",
+      "lastUsed": "2024-12-15",
+      "comments": [
+        {
+          "text": "There’s a bus bay with a bus shelter to protect from sun. Got a ride to Nowra in 15 min",
+          "date": "2024-12-15",
+          "rating": 4
+        }
+      ],
+      "destLat": -34.9005,
+      "destLon": 150.602
+    },
+    {
+      "id": 66,
+      "lat": -18.1946,
+      "lon": 139.8065,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 90,
+      "signal": "thumb",
+      "lastUsed": "2024-11-05",
+      "comments": [
+        {
+          "text": "Darwin - Cairns, through Doomadgee and Burketown 800km of dirt road, 50km underwater (flooded)\r\nWeek long adventure, from town to town. Great fun, no long waits",
+          "date": "2024-11-05",
+          "rating": 4
+        }
+      ],
+      "destLat": -18.1946,
+      "destLon": 139.8065
+    },
+    {
+      "id": 68,
+      "lat": -27.77,
+      "lon": 114.1379,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 50,
+      "signal": "thumb",
+      "lastUsed": "2024-09-20",
+      "comments": [
+        {
+          "text": "Not a lot of traffic going south, but got a lift easily enough. No shade",
+          "date": "2024-09-20",
+          "rating": 4
+        }
+      ],
+      "destLat": -28.787,
+      "destLon": 114.6061
+    },
+    {
+      "id": 78,
+      "lat": -14.9239,
+      "lon": 133.0674,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 10,
+      "signal": "ask",
+      "lastUsed": "2024-08-29",
+      "comments": [],
+      "destLat": -15.6166,
+      "destLon": 131.1276
+    },
+    {
+      "id": 81,
+      "lat": -28.4924,
+      "lon": 153.523,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "ask",
+      "lastUsed": "2024-08-13",
+      "comments": [
+        {
+          "text": "It seems that a lot of people camp here in their cars, vans and campervans, so if you're there in the morning you can ask around. Otherwise it's a normal rest stop area",
+          "date": "2024-08-13",
+          "rating": 4
+        }
+      ],
+      "destLat": -28.0994,
+      "destLon": 153.4003
+    },
+    {
+      "id": 84,
+      "lat": -31.1197,
+      "lon": 152.8293,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 3,
+      "signal": "thumb",
+      "lastUsed": "2024-08-13",
+      "comments": [
+        {
+          "text": "10am I tried asking at the servo for about 45mins but everyone was going south. But I got a lift in a couple of mins at the on ramp",
+          "date": "2024-08-13",
+          "rating": 4
+        }
+      ],
+      "destLat": -30.3187,
+      "destLon": 153.0896
+    },
+    {
+      "id": 87,
+      "lat": -20.707,
+      "lon": 140.5262,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 700,
+      "signal": "thumb",
+      "lastUsed": "2024-06-03",
+      "comments": [
+        {
+          "text": "Shade whole day and a cable pole to lean on. Almost no traffic, so take whatever going to Rockhampton or Townsville. I spent here almost 2 days. Cars have a place to stop and are driving slowly. Closer to town center there is a truck stop.",
+          "date": "2024-06-03",
+          "rating": 4
+        }
+      ],
+      "destLat": -23.3573,
+      "destLon": 150.5189
+    },
+    {
+      "id": 90,
+      "lat": -18.2131,
+      "lon": 125.5826,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2024-06-02",
+      "comments": [
+        {
+          "text": "Got lucky. Though very small traffic. There is place to stop. There were some road works, so maybe in future spot will not work.\r\nLocal guy told me it's the place where locals HH.",
+          "date": "2024-06-02",
+          "rating": 4
+        }
+      ],
+      "destLat": -15.7713,
+      "destLon": 128.7459
+    },
+    {
+      "id": 98,
+      "lat": -21.1167,
+      "lon": 149.1275,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2023-12-05",
+      "comments": [
+        {
+          "text": "Dont usually wait on side of highways but cars only just leaving town/ring road and plenty of road to pull over in. Lotta traffic heading north so not too bad",
+          "date": "2023-12-05",
+          "rating": 4
+        }
+      ],
+      "destLat": -20.3794,
+      "destLon": 148.7027
+    },
+    {
+      "id": 100,
+      "lat": -19.3827,
+      "lon": 146.9288,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2023-10-03",
+      "comments": [
+        {
+          "text": "Gas Station without much traffic... but was easy to find a ride to Townsville",
+          "date": "2023-10-03",
+          "rating": 4
+        }
+      ],
+      "destLat": -19.3827,
+      "destLon": 146.9289
+    },
+    {
+      "id": 104,
+      "lat": -21.0404,
+      "lon": 148.9099,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 180,
+      "signal": null,
+      "lastUsed": "2023-10-02",
+      "comments": [
+        {
+          "text": "Small gas station with traffic going both directions. I got here at 5h30pm and there was almost no traffic passing, so be sure to arrive early.\r\nThe girls working in the gas station offered to take me to the caravan park when the gas station closes (at 9pm). But managed to get a ride at 8pm to the truck stop before Proserpine",
+          "date": "2023-10-02",
+          "rating": 4
+        }
+      ],
+      "destLat": -21.0404,
+      "destLon": 148.9099
+    },
+    {
+      "id": 107,
+      "lat": -24.9826,
+      "lon": 151.9506,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 90,
+      "signal": null,
+      "lastUsed": "2023-09-29",
+      "comments": [
+        {
+          "text": "Puma Gas Station where a lot of trucks stop before their night drive. \r\nArrived here already at night, tried to hitchhike the trucks but most of them were going south. Still there were some going North, but I was not lucky.\r\nAfter more than one hour, a family going to Rockhampton picked me up and drove me all the way to there.\r\n\r\nMust be a really good spot if you're trying to pick up a Truck to Brisbane",
+          "date": "2023-09-29",
+          "rating": 4
+        }
+      ],
+      "destLat": -24.9826,
+      "destLon": 151.9507
+    },
+    {
+      "id": 114,
+      "lat": -28.2574,
+      "lon": 153.5277,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 45,
+      "signal": null,
+      "lastUsed": "2023-09-28",
+      "comments": [
+        {
+          "text": "Big Gas Station with restaurants and resting area with most of the traffic going North. It was raining so I couldn't ask much around, but stayed near where people pay for the gas, and got a ride after 45mins.",
+          "date": "2023-09-28",
+          "rating": 4
+        }
+      ],
+      "destLat": -28.2574,
+      "destLon": 153.5277
+    },
+    {
+      "id": 117,
+      "lat": -26.4038,
+      "lon": 153.0831,
+      "rating": 4,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2022-11-15",
+      "comments": [
+        {
+          "text": "Got a ride to Byron Bay in 20 minutes",
+          "date": "2022-11-15",
+          "rating": 4
+        }
+      ],
+      "destLat": -26.6559,
+      "destLon": 153.0945
+    },
+    {
+      "id": 14,
+      "lat": -32.1144,
+      "lon": 133.6727,
+      "rating": 3,
+      "reviews": 2,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "The best spot to catch a ride across the Nullabor. Key is to be there very early (5 am or so) because this is when the trucks leave. Got a ride by a guy with a caravan. Haven't had problems with the roadhouse owner",
+          "date": "2025-03-22",
+          "rating": 3
+        },
+        {
+          "text": "Heading out to cross the Nullarbor, this BP station is strategically the best spot to look for a lift. Unfortunately, the roadhouse owner is one of the biggest pricks one can meet in Australia and will promptly kick you off the property (and then yell at you for an additional 5 minutes). It's best to avoid the property itself and stand adjacent to it, or you may get the cops called on you. Should the owner decide to bother you anyhow, there's no use reasoning with him, so just tell him to lick a",
+          "date": "2012-04-12",
+          "rating": 3
+        }
+      ],
+      "destLat": -32.1855,
+      "destLon": 121.7797
+    },
+    {
+      "id": 105,
+      "lat": -21.1287,
+      "lon": 149.1626,
+      "rating": 3,
+      "reviews": 2,
+      "wait": 70,
+      "signal": null,
+      "lastUsed": "2023-10-02",
+      "comments": [
+        {
+          "text": "Didn't really like this spot.. cars can only stop in the emergency lane of the bridge, and 3 lanes with a lot of traffic to different directions going quite fast. After more than one hour didn't get a ride, but luckily I saw someone who stopped the car in the emergency lane of other bridge, and managed to get a ride out of the town...\r\nNext time will probably try the truckstop in the entrance of the town",
+          "date": "2023-10-02",
+          "rating": 2
+        },
+        {
+          "text": "A pretty good spot by the traffic lights, maybe too much cars, but I got a ride after 30mins..",
+          "date": "2012-10-09",
+          "rating": 4
+        }
+      ],
+      "destLat": -21.1288,
+      "destLon": 149.1622
+    },
+    {
+      "id": 3,
+      "lat": -28.8618,
+      "lon": 153.5169,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 20,
+      "signal": null,
+      "lastUsed": "2026-01-15",
+      "comments": [
+        {
+          "text": "Great Spot to go north \r\nBut extremely bad for going south",
+          "date": "2026-01-15",
+          "rating": 3
+        }
+      ],
+      "destLat": -27.4683,
+      "destLon": 153.0208
+    },
+    {
+      "id": 11,
+      "lat": -19.659,
+      "lon": 134.1869,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 360,
+      "signal": "thumb",
+      "lastUsed": "2025-07-06",
+      "comments": [
+        {
+          "text": "September 2022, 11:00 a.m. \r\nIt took extreme long - 6 hours, but then a long ride to Alice Springs in a giant truck",
+          "date": "2025-07-06",
+          "rating": 3
+        }
+      ],
+      "destLat": -23.7005,
+      "destLon": 133.8772
+    },
+    {
+      "id": 17,
+      "lat": -34.7599,
+      "lon": 138.5911,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Service station, but not much traffic in the morning. Luckily the second driver picked me up",
+          "date": "2025-03-22",
+          "rating": 3
+        }
+      ],
+      "destLat": -34.1809,
+      "destLon": 138.1541
+    },
+    {
+      "id": 19,
+      "lat": -37.8068,
+      "lon": 140.7916,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 15,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Traffic light, but not too much space to stop. DON'T ACCEPT RIDES TO PENOLA! I asked if there is a service sation AT the highway but there isn't!!",
+          "date": "2025-03-22",
+          "rating": 3
+        }
+      ],
+      "destLat": -37.3757,
+      "destLon": 140.8363
+    },
+    {
+      "id": 21,
+      "lat": -38.7826,
+      "lon": 143.5367,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 45,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Bad spot. Cars doesn't see u well and go by fast. Got picked up by someone who came from the lighthouse",
+          "date": "2025-03-22",
+          "rating": 3
+        }
+      ],
+      "destLat": -38.6622,
+      "destLon": 143.1042
+    },
+    {
+      "id": 30,
+      "lat": -37.4042,
+      "lon": 145.0158,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 2,
+      "signal": null,
+      "lastUsed": "2025-03-22",
+      "comments": [
+        {
+          "text": "Not mutch shade, decend traffic. Was lucky to be picked up by the first car",
+          "date": "2025-03-22",
+          "rating": 3
+        }
+      ],
+      "destLat": -37.6022,
+      "destLon": 144.9428
+    },
+    {
+      "id": 34,
+      "lat": -41.5561,
+      "lon": 145.6753,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 10,
+      "signal": null,
+      "lastUsed": "2025-03-01",
+      "comments": [
+        {
+          "text": "Under tree cover. But not many good spots for waiting that are more than 1m away from the road. Cars can go pretty fast",
+          "date": "2025-03-01",
+          "rating": 3
+        }
+      ],
+      "destLat": -41.068,
+      "destLon": 145.9353
+    },
+    {
+      "id": 38,
+      "lat": -42.534,
+      "lon": 146.7523,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 30,
+      "signal": null,
+      "lastUsed": "2025-03-01",
+      "comments": [
+        {
+          "text": "Waited a while, lots of cars coming from a turnoff in the other direction. The bustop gives shade and shelter, plus there is an apple tree",
+          "date": "2025-03-01",
+          "rating": 3
+        }
+      ],
+      "destLat": -42.4844,
+      "destLon": 146.7099
+    },
+    {
+      "id": 42,
+      "lat": -32.218,
+      "lon": 152.322,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 210,
+      "signal": "sign",
+      "lastUsed": "2025-01-25",
+      "comments": [
+        {
+          "text": "It’s a good spot, right after servo, has a bus shelter heaps of traffic etc. But it was raining and when you have combo rain + heaps of traffic nobody gonna stop. After waiting 2,5 hours I got a ride to Taree and decided to go with train from there.",
+          "date": "2025-01-25",
+          "rating": 3
+        }
+      ],
+      "destLat": -31.9058,
+      "destLon": 152.4573
+    },
+    {
+      "id": 49,
+      "lat": -35.2356,
+      "lon": 149.1438,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 90,
+      "signal": "sign",
+      "lastUsed": "2025-01-12",
+      "comments": [
+        {
+          "text": "Canberra is quite tricky to hitch from since right beside the road you have cyclist path (on which cars cannot stop) and wooden poles that block the potential pull up spots. I hitched from this bus bay next to the tram stop to Sydney.",
+          "date": "2025-01-12",
+          "rating": 3
+        }
+      ],
+      "destLat": -34.0464,
+      "destLon": 150.8258
+    },
+    {
+      "id": 57,
+      "lat": -37.5585,
+      "lon": 149.756,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 120,
+      "signal": null,
+      "lastUsed": "2024-12-19",
+      "comments": [
+        {
+          "text": "Spot on front of the servo. Be sure to hitch early, the check out time from the campground is 10AM after that you’ll be getting roasted in the sun waiting for car. After two hours of nothing coming I went onto small bus that connects to the Melbourne-Batemans route going to Genoa. Got a ride for free, bus goes at 14:25.",
+          "date": "2024-12-19",
+          "rating": 3
+        }
+      ],
+      "destLat": null,
+      "destLon": null
+    },
+    {
+      "id": 69,
+      "lat": -27.9412,
+      "lon": 114.6865,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2024-09-17",
+      "comments": [
+        {
+          "text": "Plenty of space for cars to stop towards Kalbarri, no shade though",
+          "date": "2024-09-17",
+          "rating": 3
+        }
+      ],
+      "destLat": -27.7057,
+      "destLon": 114.168
+    },
+    {
+      "id": 70,
+      "lat": -27.832,
+      "lon": 114.6883,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 15,
+      "signal": "thumb",
+      "lastUsed": "2024-09-17",
+      "comments": [
+        {
+          "text": "Hitched on the highway, morning shade under the tree. Traffic goes fast here",
+          "date": "2024-09-17",
+          "rating": 3
+        }
+      ],
+      "destLat": -27.941,
+      "destLon": 114.6868
+    },
+    {
+      "id": 72,
+      "lat": -21.9556,
+      "lon": 114.132,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 140,
+      "signal": "thumb",
+      "lastUsed": "2024-09-17",
+      "comments": [
+        {
+          "text": "It took longer than expected to leave Exmouth on a Sunday arvo. I waited 1 hour in town and someone took me to the edge of town where I waited another 80 mins until I got a ride. No shade here",
+          "date": "2024-09-17",
+          "rating": 3
+        }
+      ],
+      "destLat": -23.8154,
+      "destLon": 114.009
+    },
+    {
+      "id": 76,
+      "lat": -17.9266,
+      "lon": 122.2421,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 5,
+      "signal": "thumb",
+      "lastUsed": "2024-09-10",
+      "comments": [
+        {
+          "text": "No shade until late arvo, good amount of room for cars to stop",
+          "date": "2024-09-10",
+          "rating": 3
+        }
+      ],
+      "destLat": -17.8479,
+      "destLon": 122.5011
+    },
+    {
+      "id": 77,
+      "lat": -15.6159,
+      "lon": 131.1267,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 80,
+      "signal": "ask",
+      "lastUsed": "2024-08-29",
+      "comments": [
+        {
+          "text": "Combination of asking people filling up with fuel and standing on the road thumbing it. No shade standing on the road though",
+          "date": "2024-08-29",
+          "rating": 3
+        }
+      ],
+      "destLat": -15.7786,
+      "destLon": 128.7438
+    },
+    {
+      "id": 80,
+      "lat": -20.6672,
+      "lon": 139.4944,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 3,
+      "signal": "thumb",
+      "lastUsed": "2024-08-29",
+      "comments": [
+        {
+          "text": "No shade! But everyone is going out of town from here",
+          "date": "2024-08-29",
+          "rating": 3
+        }
+      ],
+      "destLat": -19.437,
+      "destLon": 134.2078
+    },
+    {
+      "id": 83,
+      "lat": -30.3186,
+      "lon": 153.09,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 60,
+      "signal": "ask",
+      "lastUsed": "2024-08-13",
+      "comments": [
+        {
+          "text": "You can ask people at the servo but the staff sometimes tell you to leave. I got a ride by asking people in the car park",
+          "date": "2024-08-13",
+          "rating": 3
+        }
+      ],
+      "destLat": -29.9192,
+      "destLon": 153.0688
+    },
+    {
+      "id": 85,
+      "lat": -31.4621,
+      "lon": 152.82,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 50,
+      "signal": "thumb",
+      "lastUsed": "2024-08-13",
+      "comments": [
+        {
+          "text": "4pm got a lift but it took a while",
+          "date": "2024-08-13",
+          "rating": 3
+        }
+      ],
+      "destLat": -31.1316,
+      "destLon": 152.8256
+    },
+    {
+      "id": 88,
+      "lat": -14.4752,
+      "lon": 132.2973,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 20,
+      "signal": "thumb",
+      "lastUsed": "2024-06-03",
+      "comments": [
+        {
+          "text": "There is space for cars to stop. Also shade in the morning from the tree. \r\nOnly traffic leaving the town, not much of them. \r\nGot lucky.",
+          "date": "2024-06-03",
+          "rating": 3
+        }
+      ],
+      "destLat": -20.7086,
+      "destLon": 140.5195
+    },
+    {
+      "id": 89,
+      "lat": -15.7847,
+      "lon": 128.7536,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 600,
+      "signal": "thumb",
+      "lastUsed": "2024-06-02",
+      "comments": [
+        {
+          "text": "Took me almost two days. \r\nShade till ~ 2 pm. Cars have decent speed and place to stop. Not much traffic. Most people go to Lake Argyle. (After 20 km they turn to dust road to the right)\r\nHawk was attacking me every 15 mins, though only when I turned back to him. (pointing finger at him made him go back to his nest)\r\nSlept a bit further from street.",
+          "date": "2024-06-02",
+          "rating": 3
+        }
+      ],
+      "destLat": -14.4726,
+      "destLon": 132.291
+    },
+    {
+      "id": 91,
+      "lat": -17.6338,
+      "lon": 123.7389,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 180,
+      "signal": "thumb",
+      "lastUsed": "2024-06-02",
+      "comments": [
+        {
+          "text": "Cars go slow, a lot of space for them to stop. No shade. Trash bin. Small traffic.",
+          "date": "2024-06-02",
+          "rating": 3
+        }
+      ],
+      "destLat": -18.213,
+      "destLon": 125.5825
+    },
+    {
+      "id": 93,
+      "lat": -20.7811,
+      "lon": 117.1445,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 60,
+      "signal": "thumb",
+      "lastUsed": "2024-06-02",
+      "comments": [
+        {
+          "text": "No shade, but slow traffic. Got quickly a ride to Port Hedland.",
+          "date": "2024-06-02",
+          "rating": 3
+        }
+      ],
+      "destLat": -20.3565,
+      "destLon": 118.6234
+    },
+    {
+      "id": 94,
+      "lat": -20.3895,
+      "lon": 118.6608,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 120,
+      "signal": "thumb",
+      "lastUsed": "2024-06-02",
+      "comments": [
+        {
+          "text": "Not much shade, but there's place for cars to stop before railway. You get whole traffic from Port Hedland leaving the town. Got lucky with couple from NZ all the way to Broome. Took me almost 2 days to get lift (before I stood close to airport).\r\nStart early.\r\nYou can probably find a spot to camp around, or walk 1 hour to touristic shelter close to airport.",
+          "date": "2024-06-02",
+          "rating": 3
+        }
+      ],
+      "destLat": -17.9552,
+      "destLon": 122.2252
+    },
+    {
+      "id": 96,
+      "lat": -24.8621,
+      "lon": 113.7152,
+      "rating": 3,
+      "reviews": 1,
+      "wait": 150,
+      "signal": "thumb",
+      "lastUsed": "2024-05-16",
+      "comments": [
+        {
+          "text": "Crossing with petrol station. Till 11 am I had shade from sign, then moved 1,5 km further for shade and got a ride. \r\n\r\n2023",
+          "date": "2024-05-16",
+          "rating": 3
+        }
+      ],
+      "destLat": -23.8155,
+      "destLon": 114.0096
+    },
+    {
+      "id": 75,
+      "lat": -17.8441,
+      "lon": 122.5031,
+      "rating": 2.5,
+      "reviews": 2,
+      "wait": null,
+      "signal": "ask",
+      "lastUsed": "2024-09-10",
+      "comments": [
+        {
+          "text": "Beware!! Got kicked off the property by one of the staff at Roebuck Roadhouse! He was very rude and wouldn't have a conversation with me. He threatened to physically drag me off the property when I told him I wasn't bothering his customers, I was just talking to them. Such an asshole. Maybe you get lucky and he isn't working, but it might be better to stay at the exit of the servo, or on the road",
+          "date": "2024-09-10",
+          "rating": 2
+        },
+        {
+          "text": "Don't listen to Wolfe Creek!! :) There's a truckstop/roadhouse here which is your next best bet to get north (Kununurra-Darwin) or south (Port Hedland - Perth) Truckies rule! We got a ride 1000km in one go!",
+          "date": null,
+          "rating": 3
+        }
+      ],
+      "destLat": null,
+      "destLon": null
+    }
+  ]
+}
