@@ -425,7 +425,7 @@ export function notifyNewDeviceLogin(device) {
   sendLocalNotification(title, body, {
     type: 'new_device_login',
     deviceId: device.fingerprint,
-    url: '/Spothitch/?tab=profile&security=devices',
+    url: '/?tab=profile&security=devices',
   })
 }
 

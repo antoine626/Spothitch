@@ -2,9 +2,9 @@
   "name": "SpotHitch - La communauté des autostoppeurs",
   "short_name": "SpotHitch",
   "description": "Trouvez les meilleurs spots d'auto-stop en Europe. Partagez vos expériences et planifiez vos voyages.",
-  "start_url": "/Spothitch/",
-  "scope": "/Spothitch/",
-  "id": "/Spothitch/",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0f172a",
@@ -43,21 +43,21 @@
       "name": "Ajouter un spot",
       "short_name": "Ajouter",
       "description": "Partage un nouveau spot d'autostop",
-      "url": "/Spothitch/?action=add-spot",
+      "url": "/?action=add-spot",
       "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Carte",
       "short_name": "Carte",
       "description": "Voir tous les spots sur la carte",
-      "url": "/Spothitch/?tab=spots",
+      "url": "/?tab=spots",
       "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Planifier",
       "short_name": "Voyage",
       "description": "Planifier un itinéraire",
-      "url": "/Spothitch/?tab=planner",
+      "url": "/?tab=planner",
       "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
     }
   ],

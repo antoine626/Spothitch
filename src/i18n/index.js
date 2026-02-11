@@ -10352,7 +10352,7 @@ export function getLanguageInfo(code) {
  */
 export async function loadTranslations(lang) {
   try {
-    const response = await fetch(`/Spothitch/i18n/${lang}.json`);
+    const response = await fetch(`/i18n/${lang}.json`);
     if (response.ok) {
       const data = await response.json();
       translations[lang] = { ...translations[lang], ...data };

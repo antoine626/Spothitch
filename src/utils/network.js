@@ -71,7 +71,7 @@ function handleOffline() {
  */
 export async function checkConnectivity() {
   try {
-    const response = await fetch('/Spothitch/manifest.json', {
+    const response = await fetch('/manifest.json', {
       method: 'HEAD',
       cache: 'no-store',
     });
@@ -239,8 +239,8 @@ export function prefetchResources() {
   if (!navigator.onLine) return;
 
   const criticalUrls = [
-    '/Spothitch/manifest.json',
-    '/Spothitch/icon-192.png',
+    '/manifest.json',
+    '/icon-192.png',
   ];
 
   criticalUrls.forEach(url => {

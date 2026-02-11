@@ -1,6 +1,6 @@
 import http from 'http'
 
-const url = 'http://localhost:5173/Spothitch/src/main.js'
+const url = 'http://localhost:5173/src/main.js'
 http.get(url, (res) => {
   let data = ''
   res.on('data', (chunk) => { data += chunk })

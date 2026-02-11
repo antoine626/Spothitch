@@ -209,8 +209,8 @@ export function sendLocalNotification(title, body, data = {}) {
   if (Notification.permission === 'granted') {
     const notification = new Notification(title, {
       body,
-      icon: '/Spothitch/icon-192.png',
-      badge: '/Spothitch/icon-96.png',
+      icon: '/icon-192.png',
+      badge: '/icon-96.png',
       data,
       vibrate: [100, 50, 100],
     });
@@ -366,7 +366,7 @@ export function notifySpotActivity(type, data) {
       type: 'spot_activity',
       spotId: data.spotId,
       activityType: type,
-      url: `/Spothitch/?spot=${data.spotId}`
+      url: `/?spot=${data.spotId}`
     });
 
     // Also show in-app toast
@@ -488,7 +488,7 @@ export function notifyNewFriend(friend) {
   sendLocalNotification(title, body, {
     type: 'new_friend',
     friendId: friend.id,
-    url: '/Spothitch/?tab=social',
+    url: '/?tab=social',
   });
 
   // Show in-app toast with emoji
@@ -513,7 +513,7 @@ export function notifyNewMessage(message) {
     type: 'new_message',
     senderId: message.senderId,
     messageId: message.id,
-    url: `/Spothitch/?tab=chat&friend=${message.senderId}`,
+    url: `/?tab=chat&friend=${message.senderId}`,
   });
 
   // Show in-app toast
@@ -556,7 +556,7 @@ export function notifyFriendNearby(friend, distance) {
     type: 'friend_nearby',
     friendId: friend.id,
     distance,
-    url: '/Spothitch/?tab=social&nearby=true',
+    url: '/?tab=social&nearby=true',
   });
 
   // Show prominent in-app notification
@@ -583,7 +583,7 @@ export function notifyBadgeUnlocked(badge) {
   sendLocalNotification(title, body, {
     type: 'badge_unlocked',
     badgeId: badge.id,
-    url: '/Spothitch/?tab=profile&badges=true',
+    url: '/?tab=profile&badges=true',
   });
 
   // In-app notification is handled by gamification service
@@ -613,7 +613,7 @@ export function notifyLevelUp(newLevel, rewards = {}) {
     type: 'level_up',
     level: newLevel,
     rewards,
-    url: '/Spothitch/?tab=profile',
+    url: '/?tab=profile',
   });
 
   // Announce for accessibility
@@ -646,7 +646,7 @@ export function checkStreakReminder() {
     sendLocalNotification(title, body, {
       type: 'streak_reminder',
       streak,
-      url: '/Spothitch/?tab=map',
+      url: '/?tab=map',
     });
 
     showToast((t('notifStreakDangerToast') || 'Serie de {n} jours en danger ! Fais un check-in aujourd\'hui.').replace('{n}', streak), 'warning', 8000);
@@ -695,7 +695,7 @@ export function notifyDailyRewardAvailable() {
 
   sendLocalNotification(title, body, {
     type: 'daily_reward',
-    url: '/Spothitch/',
+    url: '/',
   });
 
   showToast(t('notifDailyRewardToast') || 'Ta recompense quotidienne est disponible !', 'info', 5000);

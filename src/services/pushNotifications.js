@@ -130,8 +130,8 @@ function handleProximityPush(data) {
   if ('Notification' in window && Notification.permission === 'granted') {
     const notification = new Notification('SpotHitch', {
       body: `${username || 'Un autostoppeur'} est à ${distance || '~2'}km de toi`,
-      icon: '/Spothitch/icon-192.png',
-      badge: '/Spothitch/icon-72.png',
+      icon: '/icon-192.png',
+      badge: '/icon-72.png',
       tag: 'proximity-alert',
       data: { spotId },
     })

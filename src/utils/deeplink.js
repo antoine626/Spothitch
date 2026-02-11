@@ -5,7 +5,7 @@
 
 import { setState, getState } from '../stores/state.js';
 
-// Base path for the app (e.g., '/Spothitch/' for GitHub Pages)
+// Base path for the app (e.g., '/' for deployed app)
 const BASE_PATH = import.meta.env.BASE_URL || '/';
 
 // Route mappings

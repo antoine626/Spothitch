@@ -245,7 +245,7 @@ async function getRelevantCountries() {
 async function downloadCountrySpots(countryCode) {
   try {
     // Check if file exists at public/data/spots/{country}.json
-    const url = `/Spothitch/data/spots/${countryCode.toLowerCase()}.json`
+    const url = `/data/spots/${countryCode.toLowerCase()}.json`
     const response = await fetch(url)
 
     if (!response.ok) {

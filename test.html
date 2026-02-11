@@ -15,37 +15,37 @@ addLog('1. Script inline OK')
 
 try {
   addLog('2. Import state...')
-  await import('/Spothitch/src/stores/state.js')
+  await import('/src/stores/state.js')
   addLog('   -> state OK')
 } catch(e) { addLog('   -> ERREUR: ' + e.message) }
 
 try {
   addLog('3. Import i18n...')
-  await import('/Spothitch/src/i18n/index.js')
+  await import('/src/i18n/index.js')
   addLog('   -> i18n OK')
 } catch(e) { addLog('   -> ERREUR: ' + e.message) }
 
 try {
   addLog('4. Import firebase...')
-  await import('/Spothitch/src/services/firebase.js')
+  await import('/src/services/firebase.js')
   addLog('   -> firebase OK')
 } catch(e) { addLog('   -> ERREUR: ' + e.message) }
 
 try {
   addLog('5. Import sentry...')
-  await import('/Spothitch/src/services/sentry.js')
+  await import('/src/services/sentry.js')
   addLog('   -> sentry OK')
 } catch(e) { addLog('   -> ERREUR: ' + e.message) }
 
 try {
   addLog('6. Import App...')
-  await import('/Spothitch/src/components/App.js')
+  await import('/src/components/App.js')
   addLog('   -> App OK')
 } catch(e) { addLog('   -> ERREUR: ' + e.message) }
 
 try {
   addLog('7. Import main.js complet...')
-  await import('/Spothitch/src/main.js')
+  await import('/src/main.js')
   addLog('   -> main.js OK !')
 } catch(e) { addLog('   -> ERREUR: ' + e.message) }
 

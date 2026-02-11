@@ -4,7 +4,7 @@ import legacy from '@vitejs/plugin-legacy';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 
 export default defineConfig({
-  base: '/Spothitch/',
+  base: '/',
   
   plugins: [
     // PWA Plugin
@@ -19,8 +19,8 @@ export default defineConfig({
         background_color: '#0f172a',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/Spothitch/',
-        start_url: '/Spothitch/',
+        scope: '/',
+        start_url: '/',
         icons: [
           { src: 'icon-72.png', sizes: '72x72', type: 'image/png' },
           { src: 'icon-96.png', sizes: '96x96', type: 'image/png' },
@@ -35,13 +35,13 @@ export default defineConfig({
           {
             name: 'Ajouter un spot',
             short_name: 'Ajouter',
-            url: '/Spothitch/?action=add-spot',
+            url: '/?action=add-spot',
             icons: [{ src: 'icon-96.png', sizes: '96x96' }]
           },
           {
             name: 'Carte',
             short_name: 'Carte',
-            url: '/Spothitch/?tab=spots',
+            url: '/?tab=spots',
             icons: [{ src: 'icon-96.png', sizes: '96x96' }]
           }
         ]

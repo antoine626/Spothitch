@@ -364,8 +364,8 @@ export function sendStreakReminder() {
       try {
         new Notification('SpotHitch - Serie en danger!', {
           body: message,
-          icon: '/Spothitch/icon-192.png',
-          badge: '/Spothitch/icon-96.png',
+          icon: '/icon-192.png',
+          badge: '/icon-96.png',
           tag: 'streak-reminder',
           requireInteraction: true,
           data: { type: 'streak_reminder', hours },

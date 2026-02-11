@@ -611,7 +611,7 @@ async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return
 
   try {
-    const registration = await navigator.serviceWorker.register('/Spothitch/sw.js')
+    const registration = await navigator.serviceWorker.register('/sw.js')
     console.log('✅ Service Worker registered')
 
     // Check for updates every 2 minutes

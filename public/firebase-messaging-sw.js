@@ -22,8 +22,8 @@ messaging.onBackgroundMessage((payload) => {
 
   self.registration.showNotification(title || 'SpotHitch', {
     body: body || '',
-    icon: icon || '/Spothitch/icon-192.png',
-    badge: '/Spothitch/icon-96.png',
+    icon: icon || '/icon-192.png',
+    badge: '/icon-96.png',
     tag: 'spothitch-notification',
   })
 })
