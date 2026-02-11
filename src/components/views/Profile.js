@@ -17,7 +17,7 @@ export function renderProfile(state) {
   const currentVipLevel = vipLevels.find(v => (state.totalPoints || state.points || 0) >= v.minPoints) || vipLevels[0];
 
   // Get leagues
-  const leagues = ['Bronze', 'Argent', 'Or', 'Platine', 'Diamant'];
+  const leagues = [t('leagueBronze') || 'Bronze', t('leagueSilver') || 'Argent', t('leagueGold') || 'Or', t('leaguePlatinum') || 'Platine', t('leagueDiamond') || 'Diamant'];
   const currentLeagueIndex = Math.min(Math.floor((state.seasonPoints || 0) / 500), leagues.length - 1);
   const currentLeague = leagues[currentLeagueIndex];
 
@@ -39,13 +39,13 @@ export function renderProfile(state) {
           <button
             onclick="openProfileCustomization()"
             class="absolute bottom-2 right-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm hover:bg-primary-600 transition-all"
-            aria-label="Personnaliser le profil"
+            aria-label="${t('customizeProfile') || 'Personnaliser le profil'}"
           >
             <i class="fas fa-palette" aria-hidden="true"></i>
           </button>
         </div>
-        <h2 class="text-xl font-bold">${state.username || 'Voyageur'}</h2>
-        <p class="text-slate-400 text-sm">${state.user?.email || 'Non connecté'}</p>
+        <h2 class="text-xl font-bold">${state.username || t('traveler') || 'Voyageur'}</h2>
+        <p class="text-slate-400 text-sm">${state.user?.email || t('notConnected') || 'Non connecté'}</p>
 
         <!-- Narrative Title Badge -->
         <div class="inline-flex items-center gap-2 mt-2 px-3 py-1.5 rounded-full" style="background: linear-gradient(135deg, ${currentTitle.color}20, ${currentTitle.color}40); border: 1px solid ${currentTitle.color}50;">
@@ -68,7 +68,7 @@ export function renderProfile(state) {
           class="mt-3 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm"
         >
           <i class="fas fa-wand-magic-sparkles mr-2" aria-hidden="true"></i>
-          Personnaliser (cadres & titres)
+          ${t('customizeProfile') || 'Personnaliser'} (${t('framesAndTitles') || 'cadres & titres'})
         </button>
       </div>
 
@@ -76,19 +76,19 @@ export function renderProfile(state) {
       <div class="grid grid-cols-4 gap-2">
         <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold text-primary-400">${state.points || 0}</div>
-          <div class="text-xs text-slate-500">Points</div>
+          <div class="text-xs text-slate-500">${t('points') || 'Points'}</div>
         </button>
         <button onclick="openTitles()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold" style="color: ${currentTitle.color}">${currentTitle.emoji}</div>
-          <div class="text-xs text-slate-500">Niv.${state.level || 1}</div>
+          <div class="text-xs text-slate-500">${t('level') || 'Niv'}.${state.level || 1}</div>
         </button>
         <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold text-amber-400">${currentLeague[0]}</div>
-          <div class="text-xs text-slate-500">Ligue</div>
+          <div class="text-xs text-slate-500">${t('league') || 'Ligue'}</div>
         </button>
         <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold text-orange-400">${state.streak || 0}</div>
-          <div class="text-xs text-slate-500">Série</div>
+          <div class="text-xs text-slate-500">${t('streak') || 'Série'}</div>
         </button>
       </div>
 
@@ -103,12 +103,12 @@ export function renderProfile(state) {
               <i class="fas fa-tree text-purple-400 text-xl" aria-hidden="true"></i>
             </div>
             <div>
-              <div class="font-semibold">Arbre de compétences</div>
-              <div class="text-sm text-slate-400">${state.skillPoints || 0} points disponibles</div>
+              <div class="font-semibold">${t('skillTree') || 'Arbre de compétences'}</div>
+              <div class="text-sm text-slate-400">${state.skillPoints || 0} ${t('skillPointsAvailable') || 'points disponibles'}</div>
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-sm text-purple-400">${(state.unlockedSkills || []).length} skills</span>
+            <span class="text-sm text-purple-400">${(state.unlockedSkills || []).length} ${t('skills') || 'skills'}</span>
             <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
           </div>
         </div>
@@ -117,8 +117,8 @@ export function renderProfile(state) {
       <!-- Level Progress -->
       <div class="card p-4">
         <div class="flex justify-between text-sm mb-2">
-          <span class="font-medium" style="color: ${currentTitle.color}">${currentTitle.emoji} ${currentTitle.name} - Niveau ${state.level || 1}</span>
-          <span class="text-slate-400">${pointsToNext} pts → Niveau ${(state.level || 1) + 1}</span>
+          <span class="font-medium" style="color: ${currentTitle.color}">${currentTitle.emoji} ${currentTitle.name} - ${t('level') || 'Niveau'} ${state.level || 1}</span>
+          <span class="text-slate-400">${pointsToNext} pts → ${t('level') || 'Niveau'} ${(state.level || 1) + 1}</span>
         </div>
         <div class="h-3 bg-white/10 rounded-full overflow-hidden">
           <div
@@ -132,11 +132,11 @@ export function renderProfile(state) {
         </div>
         ${titleProgress.next ? `
         <div class="text-xs text-slate-500 mt-2 text-center">
-          ${titleProgress.levelsNeeded} niveau${titleProgress.levelsNeeded > 1 ? 'x' : ''} avant le titre "${titleProgress.next.emoji} ${titleProgress.next.name}"
+          ${titleProgress.levelsNeeded} ${t('level') || 'niveau'}${titleProgress.levelsNeeded > 1 ? 'x' : ''} ${t('beforeNextTitle') || 'avant le titre'} "${titleProgress.next.emoji} ${titleProgress.next.name}"
         </div>
         ` : `
         <div class="text-xs text-amber-400 mt-2 text-center">
-          Tu as atteint le titre ultime !
+          ${t('ultimateTitleReached') || 'Tu as atteint le titre ultime !'}
         </div>
         `}
       </div>
@@ -152,8 +152,8 @@ export function renderProfile(state) {
               <span class="text-2xl">${currentTitle.emoji}</span>
             </div>
             <div>
-              <div class="font-semibold">Titres Narratifs</div>
-              <div class="text-sm text-slate-400">${unlockedTitles.length}/${allTitles.length} titres debloqués</div>
+              <div class="font-semibold">${t('narrativeTitles') || 'Titres Narratifs'}</div>
+              <div class="text-sm text-slate-400">${unlockedTitles.length}/${allTitles.length} ${t('titlesUnlocked') || 'titres debloqués'}</div>
             </div>
           </div>
           <div class="flex items-center gap-2">
@@ -170,24 +170,24 @@ export function renderProfile(state) {
       <div class="card p-4">
         <h3 class="font-bold mb-4 flex items-center gap-2">
           <i class="fas fa-chart-bar text-primary-400" aria-hidden="true"></i>
-          Activité
+          ${t('activity') || 'Activité'}
         </h3>
         <div class="grid grid-cols-2 gap-3">
           <div class="p-3 rounded-lg bg-white/5 text-center">
             <div class="text-2xl font-bold text-emerald-400">${state.spotsCreated || 0}</div>
-            <div class="text-xs text-slate-400">Spots partagés</div>
+            <div class="text-xs text-slate-400">${t('spotsShared') || 'Spots partagés'}</div>
           </div>
           <div class="p-3 rounded-lg bg-white/5 text-center">
             <div class="text-2xl font-bold text-purple-400">${state.checkins || 0}</div>
-            <div class="text-xs text-slate-400">Check-ins</div>
+            <div class="text-xs text-slate-400">${t('checkinsCount') || 'Check-ins'}</div>
           </div>
           <div class="p-3 rounded-lg bg-white/5 text-center">
             <div class="text-2xl font-bold text-amber-400">${state.reviewsGiven || 0}</div>
-            <div class="text-xs text-slate-400">Avis donnés</div>
+            <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis donnés'}</div>
           </div>
           <div class="p-3 rounded-lg bg-white/5 text-center">
             <div class="text-2xl font-bold text-sky-400">${state.badges?.length || 0}</div>
-            <div class="text-xs text-slate-400">Badges</div>
+            <div class="text-xs text-slate-400">${t('badgesEarned') || 'Badges'}</div>
           </div>
         </div>
       </div>
@@ -205,8 +205,8 @@ export function renderProfile(state) {
             <i class="fas fa-user-friends text-primary-400" aria-hidden="true"></i>
           </div>
           <div>
-            <div class="font-medium">Mes amis</div>
-            <div class="text-sm text-slate-400">${(state.friends || []).length} amis</div>
+            <div class="font-medium">${t('myFriends') || 'Mes amis'}</div>
+            <div class="text-sm text-slate-400">${(state.friends || []).length} ${t('friendsCount') || 'amis'}</div>
           </div>
         </div>
         <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
@@ -222,8 +222,8 @@ export function renderProfile(state) {
             <i class="fas fa-clipboard-list text-emerald-400" aria-hidden="true"></i>
           </div>
           <div>
-            <div class="font-medium">📋 Historique</div>
-            <div class="text-sm text-slate-400">Journal de voyage privé</div>
+            <div class="font-medium">📋 ${t('history') || 'Historique'}</div>
+            <div class="text-sm text-slate-400">${t('privateTravelJournal') || 'Journal de voyage privé'}</div>
           </div>
         </div>
         <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
@@ -233,21 +233,21 @@ export function renderProfile(state) {
       <div class="card p-4 space-y-3">
         <h3 class="font-bold flex items-center gap-2">
           <i class="fas fa-cog text-slate-400" aria-hidden="true"></i>
-          Paramètres
+          ${t('settings') || 'Paramètres'}
         </h3>
 
         <!-- Theme Toggle -->
         <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
           <div class="flex items-center gap-3">
             <i class="fas fa-moon text-purple-400" aria-hidden="true"></i>
-            <span>Thème sombre</span>
+            <span>${t('darkMode') || 'Thème sombre'}</span>
           </div>
           <button
             onclick="toggleTheme()"
             class="w-14 h-8 rounded-full ${state.theme === 'dark' ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
             role="switch"
             aria-checked="${state.theme === 'dark'}"
-            aria-label="Activer le thème sombre"
+            aria-label="${t('toggleDarkMode') || 'Activer le thème sombre'}"
           >
             <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${state.theme === 'dark' ? 'left-7' : 'left-1'}"></div>
           </button>
@@ -257,16 +257,17 @@ export function renderProfile(state) {
         <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
           <div class="flex items-center gap-3">
             <i class="fas fa-globe text-emerald-400" aria-hidden="true"></i>
-            <span>Langue</span>
+            <span>${t('language') || 'Langue'}</span>
           </div>
           <select
             class="bg-transparent border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:border-primary-500 outline-none"
             onchange="setLanguage(this.value)"
-            aria-label="Choisir la langue"
+            aria-label="${t('chooseLanguage') || 'Choisir la langue'}"
           >
             <option value="fr" ${state.lang === 'fr' ? 'selected' : ''}>🇫🇷 Français</option>
             <option value="en" ${state.lang === 'en' ? 'selected' : ''}>🇬🇧 English</option>
             <option value="es" ${state.lang === 'es' ? 'selected' : ''}>🇪🇸 Español</option>
+            <option value="de" ${state.lang === 'de' ? 'selected' : ''}>🇩🇪 Deutsch</option>
           </select>
         </div>
 
@@ -274,14 +275,14 @@ export function renderProfile(state) {
         <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
           <div class="flex items-center gap-3">
             <i class="fas fa-bell text-amber-400" aria-hidden="true"></i>
-            <span>Notifications</span>
+            <span>${t('notifications') || 'Notifications'}</span>
           </div>
           <button
             onclick="toggleNotifications()"
             class="w-14 h-8 rounded-full ${state.notifications !== false ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
             role="switch"
             aria-checked="${state.notifications !== false}"
-            aria-label="Activer les notifications"
+            aria-label="${t('toggleNotifications') || 'Activer les notifications'}"
           >
             <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${state.notifications !== false ? 'left-7' : 'left-1'}"></div>
           </button>
@@ -294,7 +295,7 @@ export function renderProfile(state) {
         >
           <div class="flex items-center gap-3">
             <i class="fas fa-question-circle text-sky-400" aria-hidden="true"></i>
-            <span>Revoir le tutoriel</span>
+            <span>${t('reviewTutorial') || 'Revoir le tutoriel'}</span>
           </div>
           <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
         </button>
@@ -306,7 +307,7 @@ export function renderProfile(state) {
         >
           <div class="flex items-center gap-3">
             <i class="fas fa-database text-blue-400" aria-hidden="true"></i>
-            <span>Mes donnees (RGPD)</span>
+            <span>${t('myData') || 'Mes donnees'} (RGPD)</span>
           </div>
           <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
         </button>
@@ -319,7 +320,7 @@ export function renderProfile(state) {
           class="card p-4 w-full flex items-center gap-3 text-left text-danger-400 hover:border-danger-500/50 transition-all"
         >
           <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-          <span>Se déconnecter</span>
+          <span>${t('logout') || 'Se déconnecter'}</span>
         </button>
       ` : `
         <button
@@ -327,7 +328,7 @@ export function renderProfile(state) {
           class="btn-primary w-full py-4"
         >
           <i class="fas fa-sign-in-alt mr-2" aria-hidden="true"></i>
-          Se connecter
+          ${t('login') || 'Se connecter'}
         </button>
       `}
 
@@ -341,7 +342,7 @@ export function renderProfile(state) {
           onclick="resetApp()"
           class="text-amber-500 hover:text-amber-400"
         >
-          Réinitialiser l'app
+          ${t('resetApp') || 'Réinitialiser l\'app'}
         </button>
       </div>
     </div>
@@ -363,12 +364,7 @@ window.handleLogout = async () => {
   }
 };
 
-window.setLanguage = async (lang) => {
-  const { setLanguage } = await import('../../i18n/index.js');
-  setLanguage(lang);
-  window.setState?.({ lang });
-  location.reload();
-};
+// setLanguage is defined in main.js (single source of truth)
 
 window.toggleTheme = () => {
   const state = window.getState?.() || {};
@@ -381,7 +377,7 @@ window.toggleNotifications = () => {
   const state = window.getState?.() || {};
   window.setState?.({ notifications: state.notifications === false ? true : false });
   window.showToast?.(
-    state.notifications === false ? 'Notifications activées' : 'Notifications désactivées',
+    state.notifications === false ? (t('notificationsEnabled') || 'Notifications activées') : (t('notificationsDisabled') || 'Notifications désactivées'),
     'info'
   );
 };

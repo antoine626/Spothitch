@@ -1083,7 +1083,9 @@ window.openSettings = () => setState({ showSettings: true });
 window.closeSettings = () => setState({ showSettings: false });
 window.setLanguage = (lang) => {
   setLanguage(lang);
-  showToast('Langue changée', 'success');
+  setState({ lang });
+  // Reload to apply all translations everywhere
+  location.reload();
 };
 
 // Tutorial handlers
