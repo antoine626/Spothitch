@@ -177,7 +177,7 @@ const MAIN_JS_HANDLERS = [
   // Home view handlers
   'homeSearchDestination', 'homeSelectFirstSuggestion', 'homeSelectPlace',
   'homeSelectDestination', 'homeClearSearch', 'homeClearDestination',
-  'homeCenterOnUser',
+  'homeCenterOnUser', 'homeZoomIn', 'homeZoomOut',
   // Trip autocomplete
   'tripSearchSuggestions', 'tripSelectSuggestion', 'tripSelectFirst',
   // Map search (defined in Map.js)

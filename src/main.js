@@ -1746,8 +1746,16 @@ window.homeClearDestination = window.homeClearSearch
 window.homeCenterOnUser = () => {
   const { userLocation } = getState()
   if (userLocation && window.homeMapInstance) {
-    window.homeMapInstance.setView([userLocation.lat, userLocation.lng], 12)
+    window.homeMapInstance.setView([userLocation.lat, userLocation.lng], 13)
   }
+}
+
+window.homeZoomIn = () => {
+  if (window.homeMapInstance) window.homeMapInstance.zoomIn()
+}
+
+window.homeZoomOut = () => {
+  if (window.homeMapInstance) window.homeMapInstance.zoomOut()
 }
 
 // Simple haversine for distance calculations

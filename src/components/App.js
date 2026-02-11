@@ -263,14 +263,13 @@ function initHomeMap(state) {
       ? [state.userLocation.lat, state.userLocation.lng]
       : [30, 0] // World center fallback
 
-    const zoom = state.userLocation ? 13 : 3
+    const zoom = state.userLocation ? 5 : 3
 
     const map = L.map(container, {
       center,
       zoom,
       zoomControl: false,
       attributionControl: false,
-      preferCanvas: true, // Canvas renderer = much faster with many markers
     })
 
     const tileConfig = getMapTileConfig(getState().lang || 'fr')
@@ -295,9 +294,39 @@ function initHomeMap(state) {
     let spotLoader = null
     import('../services/spotLoader.js').then(mod => { spotLoader = mod }).catch(() => {})
 
-    // Display spots currently available on the visible map area
+    // MarkerCluster group (loaded async)
+    let clusterGroup = null
+    import('leaflet.markercluster').then(() => {
+      import('leaflet.markercluster/dist/MarkerCluster.css').catch(() => {})
+      import('leaflet.markercluster/dist/MarkerCluster.Default.css').catch(() => {})
+      clusterGroup = L.markerClusterGroup({
+        maxClusterRadius: 50,
+        spiderfyOnMaxZoom: true,
+        showCoverageOnHover: false,
+        chunkedLoading: true,
+        disableClusteringAtZoom: 15,
+        iconCreateFunction: (cluster) => {
+          const count = cluster.getChildCount()
+          let size = 'small'
+          let px = 36
+          if (count > 100) { size = 'large'; px = 48 }
+          else if (count > 20) { size = 'medium'; px = 42 }
+          return L.divIcon({
+            html: `<div style="background:rgba(14,165,233,0.85);color:#fff;border-radius:50%;width:${px}px;height:${px}px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${count > 100 ? 14 : 12}px;border:2px solid rgba(255,255,255,0.6);box-shadow:0 2px 8px rgba(0,0,0,0.3)">${count}</div>`,
+            className: '',
+            iconSize: L.point(px, px),
+          })
+        },
+      })
+      map.addLayer(clusterGroup)
+      displayVisibleSpots()
+    }).catch(() => {
+      // Fallback: no clustering, use direct markers
+      displayVisibleSpots()
+    })
+
+    // Display spots using clustering
     const displayVisibleSpots = () => {
-      const bounds = map.getBounds()
       const currentState = getState()
       const stateSpots = currentState.spots || []
 
@@ -309,30 +338,17 @@ function initHomeMap(state) {
       }
       const allSpots = Array.from(spotsMap.values())
 
-      // Clear old markers
-      window.homeSpotMarkers.forEach(m => map.removeLayer(m))
-      window.homeSpotMarkers = []
-
-      // Add spots in visible bounds (favorites shown differently, max 500)
+      // Favorites
       let favIds = []
       try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) {}
       const favSet = new Set(favIds)
-      let count = 0
-      const MAX_MARKERS = 500
-      const visibleSpots = []
+
+      // Build markers
+      const markers = []
       allSpots.forEach(spot => {
         const lat = spot.coordinates?.lat || spot.lat
         const lng = spot.coordinates?.lng || spot.lng
         if (!lat || !lng) return
-        if (!bounds.contains([lat, lng])) return
-        visibleSpots.push(spot)
-      })
-      // Prioritize favorites, then take first MAX_MARKERS
-      visibleSpots.sort((a, b) => (favSet.has(b.id) ? 1 : 0) - (favSet.has(a.id) ? 1 : 0))
-      const toShow = visibleSpots.slice(0, MAX_MARKERS)
-      toShow.forEach(spot => {
-        const lat = spot.coordinates?.lat || spot.lat
-        const lng = spot.coordinates?.lng || spot.lng
         const isFav = favSet.has(spot.id)
 
         const marker = L.circleMarker([lat, lng], {
@@ -341,15 +357,24 @@ function initHomeMap(state) {
           color: isFav ? '#fbbf24' : '#fff',
           weight: isFav ? 2 : 1,
           fillOpacity: 0.85,
-        }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
+        }).on('click', () => window.selectSpot?.(spot.id))
 
-        window.homeSpotMarkers.push(marker)
-        count++
+        markers.push(marker)
       })
+
+      if (clusterGroup) {
+        clusterGroup.clearLayers()
+        clusterGroup.addLayers(markers)
+      } else {
+        // Fallback without clustering
+        window.homeSpotMarkers.forEach(m => map.removeLayer(m))
+        window.homeSpotMarkers = markers
+        markers.forEach(m => m.addTo(map))
+      }
 
       // Update badge count
       const badge = document.querySelector('#home-map-container .text-primary-400.font-semibold')
-      if (badge) badge.textContent = count
+      if (badge) badge.textContent = allSpots.length
     }
 
     // Load spots from spotLoader for visible bounds, then redisplay
