@@ -38,7 +38,7 @@ describe('Admin Panel', () => {
       const html = renderAdminPanel(mockState);
       expect(html).toContain('Gamification');
       expect(html).toContain('Badges');
-      expect(html).toContain('Skill Tree');
+      expect(html).toContain('compétences');
       expect(html).toContain('Quiz');
     });
 
@@ -55,6 +55,7 @@ describe('Admin Panel', () => {
     it('should have system section', () => {
       const html = renderAdminPanel(mockState);
       expect(html).toContain('Système');
+
       expect(html).toContain('Reset');
       expect(html).toContain('Export');
     });

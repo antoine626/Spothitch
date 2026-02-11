@@ -476,7 +476,7 @@ describe('Friend Challenges Service', () => {
 
       // As friend, should show Accepter and Decliner buttons
       expect(html).toContain('Accepter');
-      expect(html).toContain('Decliner');
+      expect(html).toContain('Refuser');
       expect(html).toContain('En attente');
     });
 
@@ -512,7 +512,7 @@ describe('Friend Challenges Service', () => {
       const html = renderChallengeCard(updated);
 
       expect(html).toContain('Gagne');
-      expect(html).toContain('points gagnes');
+      expect(html).toContain('Points gagnés');
     });
 
     it('should include challenge icon and name', () => {
@@ -538,7 +538,7 @@ describe('Friend Challenges Service', () => {
       const html = renderChallengeCard(challenge);
 
       expect(html).toContain('Accepter');
-      expect(html).toContain('Decliner');
+      expect(html).toContain('Refuser');
     });
 
     it('should handle unknown challenge type gracefully', () => {
