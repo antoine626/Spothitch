@@ -231,20 +231,11 @@ export function afterRender(state) {
 /**
  * Get tile URL based on app language (FR/DE have localized labels)
  */
-function getMapTileConfig(lang) {
-  switch (lang) {
-    case 'fr': return {
-      url: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
-      options: { maxZoom: 19 }
-    }
-    case 'de': return {
-      url: 'https://tile.openstreetmap.de/{z}/{x}/{y}.png',
-      options: { maxZoom: 18 }
-    }
-    default: return {
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      options: { maxZoom: 19 }
-    }
+function getMapTileConfig() {
+  // Always use standard OSM tiles - FR/DE tiles don't support all alphabets
+  return {
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    options: { maxZoom: 19 }
   }
 }
 
@@ -272,7 +263,7 @@ function initHomeMap(state) {
       attributionControl: false,
     })
 
-    const tileConfig = getMapTileConfig(getState().lang || 'fr')
+    const tileConfig = getMapTileConfig()
     L.tileLayer(tileConfig.url, tileConfig.options).addTo(map)
 
     window.homeMapInstance = map
@@ -297,8 +288,6 @@ function initHomeMap(state) {
     // MarkerCluster group (loaded async)
     let clusterGroup = null
     import('leaflet.markercluster').then(() => {
-      import('leaflet.markercluster/dist/MarkerCluster.css').catch(() => {})
-      import('leaflet.markercluster/dist/MarkerCluster.Default.css').catch(() => {})
       clusterGroup = L.markerClusterGroup({
         maxClusterRadius: 50,
         spiderfyOnMaxZoom: true,
@@ -440,7 +429,7 @@ function initTripMap(state) {
     const to = results.toCoords     // [lat, lng]
     if (!from || !to) return
 
-    const tileConfig = getMapTileConfig(state.lang || 'fr')
+    const tileConfig = getMapTileConfig()
     const map = L.map(container, {
       zoomControl: false,
       attributionControl: false,
