@@ -137,7 +137,7 @@ export function formatDuration(seconds) {
  * @returns {Promise<Array>} Suggestions
  */
 export async function searchLocation(query) {
-  if (!query || query.length < 3) {
+  if (!query || query.length < 2) {
     return [];
   }
 
@@ -145,7 +145,9 @@ export async function searchLocation(query) {
   let lang = 'fr'
   try { lang = (await import('../stores/state.js')).getState().lang || 'fr' } catch (e) {}
 
-  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&accept-language=${lang}`;
+  // Use featuretype=city to only get cities/towns (not streets, buildings etc.)
+  // Results are sorted by "importance" by default (popular cities first)
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=8&accept-language=${lang}&featuretype=city&addressdetails=1`;
 
   try {
     const response = await fetch(url, {
@@ -161,24 +163,35 @@ export async function searchLocation(query) {
 
     const data = await response.json();
 
-    const results = data.map(item => ({
-      name: item.display_name,
-      lat: parseFloat(item.lat),
-      lng: parseFloat(item.lon),
-      type: item.type,
-    }));
+    // Sort by importance (highest first = most popular cities)
+    data.sort((a, b) => (parseFloat(b.importance) || 0) - (parseFloat(a.importance) || 0))
+
+    const results = data.map(item => {
+      // Build a cleaner name: City, Country
+      const addr = item.address || {}
+      const city = addr.city || addr.town || addr.village || item.display_name.split(',')[0]
+      const country = addr.country || ''
+      const cleanName = country ? `${city}, ${country}` : city
+      return {
+        name: cleanName,
+        fullName: item.display_name,
+        lat: parseFloat(item.lat),
+        lng: parseFloat(item.lon),
+        type: item.type,
+        importance: parseFloat(item.importance) || 0,
+      }
+    });
 
     // Deduplicate: aggressively remove entries with same city name nearby
     const seen = new Set()
     return results.filter(r => {
-      // Use just the first part (city name) + rounded coordinates
       const cityName = r.name.split(',')[0].trim().toLowerCase()
       const coordKey = `${r.lat.toFixed(1)},${r.lng.toFixed(1)}`
       const key = `${cityName}|${coordKey}`
       if (seen.has(key)) return false
       seen.add(key)
       return true
-    });
+    }).slice(0, 5);
   } catch (error) {
     console.error('Geocoding failed:', error);
     return [];

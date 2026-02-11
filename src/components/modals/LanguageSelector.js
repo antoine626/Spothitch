@@ -112,10 +112,17 @@ window.selectLanguageOption = (langCode) => {
 window.confirmLanguageSelection = async () => {
   const langCode = window.selectedLanguageCode || 'en';
 
-  // Set the language
-  setLanguage(langCode);
+  // Write lang directly to localStorage first
+  try {
+    const stored = JSON.parse(localStorage.getItem('spothitch_v4_state') || '{}')
+    stored.lang = langCode
+    stored.showLanguageSelector = false
+    stored.showWelcome = true
+    localStorage.setItem('spothitch_v4_state', JSON.stringify(stored))
+  } catch (e) {}
 
-  // Mark that user has selected a language (not first launch anymore)
+  // Set the language via i18n + mark selection
+  setLanguage(langCode);
   markLanguageSelected();
 
   // Update state and proceed to welcome screen

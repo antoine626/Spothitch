@@ -131,13 +131,8 @@ window.selectWelcomeLanguage = async (langCode) => {
     el.setAttribute('aria-checked', isSelected ? 'true' : 'false');
   });
 
-  // Set the language and reload to apply translations
-  setLanguage(langCode);
-  const { setState } = await import('../../stores/state.js');
-  setState({ lang: langCode });
-
-  // Reload the page to apply translations
-  location.reload();
+  // Use global setLanguage which writes directly to localStorage + reloads
+  window.setLanguage(langCode);
 };
 
 window.completeWelcome = async () => {

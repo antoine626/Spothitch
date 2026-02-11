@@ -544,6 +544,12 @@ function render(state) {
   const app = document.getElementById('app');
   if (!app) return;
 
+  // Skip re-render if user is typing in a trip input (prevents losing input)
+  const focused = document.activeElement
+  if (focused && (focused.id === 'trip-from' || focused.id === 'trip-to' || focused.id === 'home-search')) {
+    return
+  }
+
   // Save scroll position before re-render if tab changed
   if (previousTab && previousTab !== state.activeTab) {
     saveScrollPosition(previousTab);
@@ -1082,10 +1088,17 @@ window.skipWelcome = () => {
 window.openSettings = () => setState({ showSettings: true });
 window.closeSettings = () => setState({ showSettings: false });
 window.setLanguage = (lang) => {
-  setLanguage(lang);
-  setState({ lang });
-  // Reload to apply all translations everywhere
-  location.reload();
+  // Write lang directly to localStorage BEFORE anything else
+  // This ensures it survives the reload regardless of state/render timing
+  try {
+    const stored = JSON.parse(localStorage.getItem('spothitch_v4_state') || '{}')
+    stored.lang = lang
+    localStorage.setItem('spothitch_v4_state', JSON.stringify(stored))
+  } catch (e) {}
+  // Also set via normal state (for any subscribers that run before reload)
+  setLanguage(lang)
+  // Force full page reload to apply translations everywhere
+  window.location.href = window.location.href.split('#')[0]
 };
 
 // Tutorial handlers

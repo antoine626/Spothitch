@@ -630,12 +630,11 @@ window.tripSearchSuggestions = (field, query) => {
           <div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
             ${results.map((r, i) => `
               <button
-                onclick="tripSelectSuggestion('${field}', '${(r.name || '').split(',').slice(0, 2).join(',').replace(/'/g, "\\'")}')"
-                class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
+                onclick="tripSelectSuggestion('${field}', '${(r.name || '').replace(/'/g, "\\'")}')"
+                class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
                 data-trip-${field}-suggestion="${i}"
               >
-                <div class="font-medium text-sm truncate">${(r.name || '').split(',').slice(0, 2).join(',')}</div>
-                <div class="text-xs text-slate-400 truncate">${r.name}</div>
+                <div class="font-medium text-sm truncate">${r.name || ''}</div>
               </button>
             `).join('')}
           </div>
@@ -646,7 +645,7 @@ window.tripSearchSuggestions = (field, query) => {
     } catch (e) {
       container.classList.add('hidden')
     }
-  }, 150)
+  }, 80)
 }
 
 window.tripSelectSuggestion = (field, name) => {
