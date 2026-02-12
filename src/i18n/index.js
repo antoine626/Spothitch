@@ -412,6 +412,9 @@ const translations = {
     alreadyAccount: 'Déjà un compte ?',
     createAccount: 'Créer un compte',
     continueWithGoogle: 'Continuer avec Google',
+    continueWithFacebook: 'Continuer avec Facebook',
+    continueWithApple: 'Continuer avec Apple',
+    orDivider: 'ou',
 
     // Email Verification
     emailVerificationTitle: 'Vérification de l\'email',
@@ -1582,6 +1585,9 @@ const translations = {
     signupError: 'Erreur lors de l\'inscription',
     googleLoginSuccess: 'Connexion Google réussie !',
     googleLoginError: 'Erreur de connexion Google',
+    facebookLoginSuccess: 'Connexion Facebook réussie !',
+    facebookLoginError: 'Erreur de connexion Facebook',
+    appleLoginComingSoon: 'Connexion Apple bientôt disponible !',
     enterEmailFirst: 'Entrez votre email d\'abord',
     resetEmailSent: 'Email de réinitialisation envoyé !',
     sendError: 'Erreur lors de l\'envoi',
@@ -2949,6 +2955,9 @@ const translations = {
     alreadyAccount: 'Already have an account?',
     createAccount: 'Create account',
     continueWithGoogle: 'Continue with Google',
+    continueWithFacebook: 'Continue with Facebook',
+    continueWithApple: 'Continue with Apple',
+    orDivider: 'or',
 
     // Email Verification
     emailVerificationTitle: 'Email verification',
@@ -4119,6 +4128,9 @@ const translations = {
     signupError: 'Registration error',
     googleLoginSuccess: 'Google login successful!',
     googleLoginError: 'Google login error',
+    facebookLoginSuccess: 'Facebook login successful!',
+    facebookLoginError: 'Facebook login error',
+    appleLoginComingSoon: 'Apple login coming soon!',
     enterEmailFirst: 'Enter your email first',
     resetEmailSent: 'Reset email sent!',
     sendError: 'Send error',
@@ -5286,6 +5298,9 @@ const translations = {
     alreadyAccount: '¿Ya tienes cuenta?',
     createAccount: 'Crear cuenta',
     continueWithGoogle: 'Continuar con Google',
+    continueWithFacebook: 'Continuar con Facebook',
+    continueWithApple: 'Continuar con Apple',
+    orDivider: 'o',
 
     // Email Verification
     emailVerificationTitle: 'Verificacion de correo',
@@ -6660,6 +6675,9 @@ const translations = {
     signupError: 'Error al registrarse',
     googleLoginSuccess: '¡Conexión Google exitosa!',
     googleLoginError: 'Error de conexión Google',
+    facebookLoginSuccess: '¡Conexión Facebook exitosa!',
+    facebookLoginError: 'Error de conexión Facebook',
+    appleLoginComingSoon: '¡Inicio de sesión con Apple próximamente!',
     enterEmailFirst: 'Introduce tu email primero',
     resetEmailSent: '¡Email de restablecimiento enviado!',
     sendError: 'Error al enviar',
@@ -8019,6 +8037,9 @@ const translations = {
     alreadyAccount: 'Bereits ein Konto?',
     createAccount: 'Konto erstellen',
     continueWithGoogle: 'Mit Google fortfahren',
+    continueWithFacebook: 'Mit Facebook fortfahren',
+    continueWithApple: 'Mit Apple fortfahren',
+    orDivider: 'oder',
 
     // Email Verification
     emailVerificationTitle: 'E-Mail-Verifizierung',
@@ -9193,6 +9214,9 @@ const translations = {
     signupError: 'Registrierungsfehler',
     googleLoginSuccess: 'Google-Anmeldung erfolgreich!',
     googleLoginError: 'Google-Anmeldefehler',
+    facebookLoginSuccess: 'Facebook-Anmeldung erfolgreich!',
+    facebookLoginError: 'Facebook-Anmeldefehler',
+    appleLoginComingSoon: 'Apple-Anmeldung kommt bald!',
     enterEmailFirst: 'Gib zuerst deine E-Mail ein',
     resetEmailSent: 'Zurücksetzungs-E-Mail gesendet!',
     sendError: 'Fehler beim Senden',

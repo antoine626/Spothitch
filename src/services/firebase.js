@@ -12,6 +12,7 @@ import {
   sendPasswordResetEmail,
   onAuthStateChanged,
   GoogleAuthProvider,
+  FacebookAuthProvider,
   signInWithPopup,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
@@ -118,6 +119,19 @@ export async function signInWithGoogle() {
     return { success: true, user: result.user };
   } catch (error) {
     return { success: false, error: error.code };
+  }
+}
+
+/**
+ * Sign in with Facebook
+ */
+export async function signInWithFacebook() {
+  try {
+    const provider = new FacebookAuthProvider()
+    const result = await signInWithPopup(auth, provider)
+    return { success: true, user: result.user }
+  } catch (error) {
+    return { success: false, error: error.code }
   }
 }
 

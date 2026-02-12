@@ -29,7 +29,7 @@ const MAIN_JS_HANDLERS = [
   'addEmergencyContact', 'removeEmergencyContact',
   // Auth
   'openAuth', 'closeAuth', 'setAuthMode', 'handleLogin', 'handleSignup',
-  'handleGoogleSignIn', 'handleForgotPassword', 'handleLogout',
+  'handleGoogleSignIn', 'handleFacebookSignIn', 'handleAppleLogin', 'handleForgotPassword', 'handleLogout',
   // Age Verification
   'openAgeVerification', 'closeAgeVerification', 'showAgeVerification',
   // Identity Verification

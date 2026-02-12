@@ -154,10 +154,10 @@ export function renderAuth(_state) {
           <!-- Divider -->
           <div class="flex items-center gap-4 my-6">
             <div class="flex-1 h-px bg-white/10"></div>
-            <span class="text-slate-500 text-sm">ou</span>
+            <span class="text-slate-500 text-sm">${t('orDivider') || 'or'}</span>
             <div class="flex-1 h-px bg-white/10"></div>
           </div>
-          
+
           <!-- Google Sign In -->
           <button
             onclick="handleGoogleSignIn()"
@@ -167,6 +167,28 @@ export function renderAuth(_state) {
           >
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" class="w-5 h-5" aria-hidden="true" />
             ${t('continueWithGoogle')}
+          </button>
+
+          <!-- Facebook Sign In -->
+          <button
+            onclick="handleFacebookSignIn()"
+            class="btn btn-ghost w-full mt-3"
+            type="button"
+            aria-label="${t('continueWithFacebook') || 'Sign in with Facebook'}"
+          >
+            <i class="fab fa-facebook text-blue-500 text-lg" aria-hidden="true"></i>
+            ${t('continueWithFacebook')}
+          </button>
+
+          <!-- Apple Sign In (coming soon) -->
+          <button
+            onclick="handleAppleLogin()"
+            class="btn w-full mt-3 bg-black hover:bg-gray-900 text-white border border-white/20"
+            type="button"
+            aria-label="${t('continueWithApple') || 'Sign in with Apple'}"
+          >
+            <i class="fab fa-apple text-lg" aria-hidden="true"></i>
+            ${t('continueWithApple')}
           </button>
 
           <!-- Demo Admin Login -->

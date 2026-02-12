@@ -16,6 +16,7 @@ import {
   signIn,
   signUp,
   signInWithGoogle,
+  signInWithFacebook,
   logOut,
   resetPassword,
   sendChatMessage,
@@ -996,6 +997,18 @@ window.handleGoogleSignIn = async () => {
   } else {
     showToast(t('googleLoginError') || 'Erreur de connexion Google', 'error');
   }
+};
+window.handleFacebookSignIn = async () => {
+  const result = await signInWithFacebook();
+  if (result.success) {
+    setState({ showAuth: false });
+    showToast(t('facebookLoginSuccess') || 'Connexion Facebook réussie !', 'success');
+  } else {
+    showToast(t('facebookLoginError') || 'Erreur de connexion Facebook', 'error');
+  }
+};
+window.handleAppleLogin = () => {
+  showToast(t('appleLoginComingSoon') || 'Apple Login coming soon', 'info');
 };
 window.handleForgotPassword = async () => {
   const email = document.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value;
