@@ -1,3 +1,6 @@
+/* Self-hosted fonts (must be before Tailwind) */
+@import './fonts.css';
+
 /* Tailwind CSS v4 */
 @import "tailwindcss";
 

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#f59e0b">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1520">
     <meta name="color-scheme" content="dark light">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr https://tile.openstreetmap.de https://images.unsplash.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebase.com https://nominatim.openstreetmap.org https://router.project-osrm.org https://overpass-api.de https://*.sentry.io https://*.posthog.com; frame-src https://*.firebaseapp.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.tile.openstreetmap.fr https://tile.openstreetmap.de https://images.unsplash.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebase.com https://nominatim.openstreetmap.org https://router.project-osrm.org https://overpass-api.de https://*.sentry.io https://*.posthog.com; frame-src https://*.firebaseapp.com;">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="SpotHitch">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -45,13 +45,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     
     <!-- Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <link rel="dns-prefetch" href="https://router.project-osrm.org">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Critical CSS for First Paint -->
     <style>
