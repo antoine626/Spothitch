@@ -1,12 +1,8 @@
 /* Tailwind CSS v4 */
 @import "tailwindcss";
 
-/* Leaflet CSS */
-@import 'leaflet/dist/leaflet.css';
-@import 'leaflet.markercluster/dist/MarkerCluster.css';
-@import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-
 /* ===== THEME CONFIG (replaces tailwind.config.js) ===== */
+/* MUST be right after @import "tailwindcss" for the Vite plugin to process it */
 @theme {
   /* Colors - Primary (Amber/Gold) */
   --color-primary-50: #fffbeb;
@@ -122,6 +118,11 @@
     50% { transform: translateY(-5px); }
   }
 }
+
+/* Leaflet CSS (must be after @theme) */
+@import 'leaflet/dist/leaflet.css';
+@import 'leaflet.markercluster/dist/MarkerCluster.css';
+@import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 /* ===== BASE STYLES ===== */
 @layer base {

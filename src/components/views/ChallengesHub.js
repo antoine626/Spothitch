@@ -164,21 +164,21 @@ export function renderChallengesHub(state) {
           ${activeChallenges.map(challenge => {
     const progress = Math.min((state[challenge.type] || 0) / challenge.target * 100, 100);
     return `
-              <div class="p-4 rounded-lg bg-white/5">
-                <div class="flex items-center justify-between mb-3">
-                  <div class="flex items-center gap-2">
-                    <span class="text-lg">${challenge.icon}</span>
-                    <span class="font-medium">${challenge.name || challenge.title || (t('challenge') || 'Challenge')}</span>
+              <div class="p-3 rounded-lg bg-white/5">
+                <div class="flex items-center justify-between mb-2 gap-2">
+                  <div class="flex items-center gap-2 min-w-0">
+                    <span class="text-base shrink-0">${challenge.icon}</span>
+                    <span class="font-medium text-sm truncate">${challenge.name || challenge.title || (t('challenge') || 'Challenge')}</span>
                   </div>
-                  <span class="text-xs px-2 py-0.5 rounded-full ${
+                  <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 ${
   challenge.challengeType === 'daily' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'
 }">${challenge.challengeType === 'daily' ? (t('daily') || 'Quotidien') : (t('weekly') || 'Hebdo')}</span>
                 </div>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2">
                   <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
                     <div class="h-full bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full transition-all" style="width: ${progress}%"></div>
                   </div>
-                  <span class="text-xs text-slate-400">${Math.round(progress)}%</span>
+                  <span class="text-[10px] text-slate-400 shrink-0">${Math.round(progress)}%</span>
                 </div>
               </div>
             `;

@@ -148,19 +148,18 @@ export function renderTrustScoreCard() {
   return `
     <div class="trust-score-card card p-4">
       <!-- Header -->
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-full ${tier.bg} flex items-center justify-center">
-            <i class="fas ${tier.icon} ${tier.color} text-xl"></i>
+      <div class="flex items-center justify-between mb-4 gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 rounded-full ${tier.bg} flex items-center justify-center shrink-0">
+            <i class="fas ${tier.icon} ${tier.color} text-lg"></i>
           </div>
-          <div>
+          <div class="min-w-0">
             <div class="font-bold ${tier.color}">${tier.label}</div>
-            <div class="text-sm text-slate-400">Score de confiance</div>
+            <div class="text-xs text-slate-400">${t('trustScore') || 'Score de confiance'}</div>
           </div>
         </div>
-        <div class="text-right">
-          <div class="text-3xl font-bold ${tier.color}">${score}</div>
-          <div class="text-xs text-slate-500">/100</div>
+        <div class="text-right shrink-0">
+          <div class="text-2xl font-bold ${tier.color}">${score}<span class="text-xs text-slate-500 font-normal">/100</span></div>
         </div>
       </div>
 

@@ -181,7 +181,7 @@ export function renderCookieBanner() {
     <!-- Cookie Banner -->
     <div
       id="cookie-banner"
-      class="fixed bottom-0 left-0 right-0 z-[9999] p-4 slide-up"
+      class="fixed bottom-20 left-0 right-0 z-[9999] p-4 slide-up"
       role="dialog"
       aria-modal="true"
       aria-labelledby="cookie-banner-title"
