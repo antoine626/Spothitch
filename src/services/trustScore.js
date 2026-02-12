@@ -8,7 +8,7 @@ import { getState, setState } from '../stores/state.js';
 // Trust score tiers
 export const TRUST_TIERS = {
   newcomer: { min: 0, max: 19, label: 'Nouveau', color: 'text-slate-400', bg: 'bg-slate-500/20', icon: 'fa-seedling' },
-  regular: { min: 20, max: 49, label: 'Régulier', color: 'text-sky-400', bg: 'bg-sky-500/20', icon: 'fa-user' },
+  regular: { min: 20, max: 49, label: 'Régulier', color: 'text-primary-400', bg: 'bg-primary-500/20', icon: 'fa-user' },
   trusted: { min: 50, max: 79, label: 'Fiable', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: 'fa-user-check' },
   veteran: { min: 80, max: 94, label: 'Vétéran', color: 'text-purple-400', bg: 'bg-purple-500/20', icon: 'fa-medal' },
   legend: { min: 95, max: 100, label: 'Légende', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'fa-crown' },

@@ -94,10 +94,10 @@ export function renderChallengesHub(state) {
         <!-- Quiz -->
         <button
           onclick="openQuiz()"
-          class="card p-4 text-left hover:border-sky-500/50 transition-all group"
+          class="card p-4 text-left hover:border-primary-500/50 transition-all group"
         >
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-sky-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
               🧠
             </div>
             <div>

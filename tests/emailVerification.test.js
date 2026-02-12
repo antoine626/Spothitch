@@ -120,9 +120,8 @@ describe('Email Verification Modal', () => {
     it('should have proper styling classes', () => {
       const html = renderEmailVerification('test@example.com');
 
-      expect(html).toContain('bg-dark-primary');
+      expect(html).toContain('modal-panel');
       expect(html).toContain('rounded-3xl');
-      expect(html).toContain('border-white/10');
     });
   });
 

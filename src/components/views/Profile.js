@@ -164,7 +164,7 @@ export function renderProfile(state) {
             <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis donnés'}</div>
           </div>
           <div class="p-3 rounded-lg bg-white/5 text-center">
-            <div class="text-2xl font-bold text-sky-400">${state.badges?.length || 0}</div>
+            <div class="text-2xl font-bold text-primary-400">${state.badges?.length || 0}</div>
             <div class="text-xs text-slate-400">${t('badgesEarned') || 'Badges'}</div>
           </div>
         </div>
@@ -282,7 +282,7 @@ export function renderProfile(state) {
           class="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
         >
           <div class="flex items-center gap-3">
-            <i class="fas fa-question-circle text-sky-400" aria-hidden="true"></i>
+            <i class="fas fa-question-circle text-primary-400" aria-hidden="true"></i>
             <span>${t('reviewTutorial') || 'Revoir le tutoriel'}</span>
           </div>
           <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>

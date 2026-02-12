@@ -47,7 +47,7 @@ function renderDefaultCard(spot) {
           alt="${t('spotPhoto') || 'Photo du spot'}: ${safeFrom} → ${safeTo}"
           class="w-full h-full object-cover"
           loading="lazy"
-        />` : `<div class="w-full h-full bg-gradient-to-br from-sky-900 to-slate-800 flex items-center justify-center">
+        />` : `<div class="w-full h-full bg-gradient-to-br from-dark-secondary to-dark-primary flex items-center justify-center">
           <span class="text-4xl">📍</span>
         </div>`}
         <div class="absolute top-3 right-3 flex flex-col gap-1 items-end">
@@ -151,7 +151,7 @@ function renderCompactCard(spot) {
           alt="${t('spotPhoto') || 'Photo du spot'}: ${safeFrom}"
           class="w-full h-full object-cover"
           loading="lazy"
-        />` : `<div class="w-full h-full bg-gradient-to-br from-sky-900 to-slate-800 flex items-center justify-center">
+        />` : `<div class="w-full h-full bg-gradient-to-br from-dark-secondary to-dark-primary flex items-center justify-center">
           <span class="text-2xl">📍</span>
         </div>`}
         <!-- Freshness indicator dot -->

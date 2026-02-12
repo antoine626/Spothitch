@@ -595,7 +595,7 @@ export function renderInviteModal() {
                 <span class="text-xs">Facebook</span>
               </button>
               <button onclick="window.shareInvite('twitter')"
-                class="flex flex-col items-center gap-1 p-3 bg-sky-500/20 hover:bg-sky-500/30 rounded-xl text-sky-400"
+                class="flex flex-col items-center gap-1 p-3 bg-primary-500/20 hover:bg-primary-500/30 rounded-xl text-primary-400"
                 aria-label="Twitter">
                 <i class="fab fa-twitter text-2xl"></i>
                 <span class="text-xs">Twitter</span>
