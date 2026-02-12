@@ -38,7 +38,7 @@
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.58.2",
     "@sentry/vite-plugin": "^4.9.1",
-    "@vitejs/plugin-legacy": "^5.2.0",
+    "@vitejs/plugin-legacy": "^7.2.1",
     "@vitest/coverage-v8": "^1.2.2",
     "autoprefixer": "^10.4.24",
     "better-sqlite3": "^11.10.0",
