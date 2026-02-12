@@ -15,7 +15,7 @@ export function renderSocial(state) {
   return `
     <div class="flex flex-col h-[calc(100vh-140px)]">
       <!-- Sub-tabs -->
-      <div class="flex gap-1 p-3 bg-dark-secondary/50">
+      <div class="flex gap-1 p-4 bg-dark-secondary/50">
         <button
           onclick="setSocialTab('messages')"
           class="flex-1 py-2 px-2 rounded-lg font-medium text-sm transition-all relative ${
@@ -96,7 +96,7 @@ function renderMessages(state) {
 
   if (state.chatLoading) {
     return `
-      <div class="flex-1 overflow-y-auto p-4 space-y-3">
+      <div class="flex-1 overflow-y-auto p-5 space-y-4">
         ${renderSkeletonChatList(6)}
       </div>
     `
@@ -126,7 +126,7 @@ function renderMessages(state) {
       ${conversations.map(conv => `
         <button
           onclick="openConversation('${conv.recipientId}')"
-          class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-all border-b border-white/5"
+          class="w-full text-left px-5 py-4 flex items-center gap-3 hover:bg-white/5 transition-all border-b border-white/5"
         >
           <div class="relative shrink-0">
             <span class="text-3xl">${conv.recipientAvatar || '🤙'}</span>
@@ -168,7 +168,7 @@ function renderDMChat(state, recipientId) {
 
   return `
     <!-- Header -->
-    <div class="p-3 bg-dark-secondary/50 flex items-center gap-3">
+    <div class="p-4 bg-dark-secondary/50 flex items-center gap-3">
       <button
         onclick="closeConversation()"
         class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
@@ -212,7 +212,7 @@ function renderDMChat(state, recipientId) {
     </div>
 
     <!-- Messages -->
-    <div class="flex-1 overflow-y-auto p-4 space-y-3" id="dm-messages" role="log" aria-live="polite">
+    <div class="flex-1 overflow-y-auto p-5 space-y-4" id="dm-messages" role="log" aria-live="polite">
       ${messages.length > 0
     ? messages.map(msg => renderDMMessage(msg, state)).join('')
     : `
@@ -315,10 +315,10 @@ function renderFriends(state) {
   }
 
   return `
-    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+    <div class="flex-1 overflow-y-auto p-5 space-y-5">
       <!-- Add Friend -->
-      <div class="space-y-2">
-        <div class="flex gap-2">
+      <div class="space-y-3">
+        <div class="flex gap-3">
           <div class="relative flex-1">
             <input
               type="text"
@@ -342,12 +342,12 @@ function renderFriends(state) {
 
       <!-- Friend Requests -->
       ${friendRequests.length > 0 ? `
-        <div class="card p-4 border-primary-500/30">
-          <h4 class="font-bold text-sm mb-3 flex items-center gap-2">
+        <div class="card p-5 border-primary-500/30">
+          <h4 class="font-bold text-sm mb-4 flex items-center gap-2">
             <i class="fas fa-user-plus text-primary-400" aria-hidden="true"></i>
             ${t('friendRequests')} (${friendRequests.length})
           </h4>
-          <div class="space-y-2">
+          <div class="space-y-3">
             ${friendRequests.map(req => `
               <div class="flex items-center justify-between p-2 rounded-lg bg-white/5">
                 <div class="flex items-center gap-3">
@@ -386,7 +386,7 @@ function renderFriends(state) {
             ${t('myFriends')} (${friends.length})
           </h4>
           ${friends.map(friend => `
-            <div class="card p-3 flex items-center gap-3">
+            <div class="card p-4 flex items-center gap-3">
               <div class="relative">
                 <span class="text-3xl">${friend.avatar || '🤙'}</span>
                 <span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-dark-primary ${
@@ -446,7 +446,7 @@ function renderTravelGroups(state) {
   const myGroups = groups.filter(g => g.members?.includes(state.user?.uid))
 
   return `
-    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+    <div class="flex-1 overflow-y-auto p-5 space-y-5">
       <!-- Create Group Button -->
       <button
         onclick="openCreateTravelGroup()"
@@ -534,7 +534,7 @@ function renderEvents(state) {
   const events = getUpcomingEvents()
 
   return `
-    <div class="flex-1 overflow-y-auto p-4 space-y-4 relative">
+    <div class="flex-1 overflow-y-auto p-5 space-y-5 relative">
       <!-- Events List -->
       ${events.length > 0 ? `
         <div class="space-y-3">
@@ -629,7 +629,7 @@ function renderEventDetail(state, event) {
   return `
     <div class="flex-1 overflow-y-auto">
       <!-- Header -->
-      <div class="p-3 bg-dark-secondary/50 flex items-center gap-3">
+      <div class="p-4 bg-dark-secondary/50 flex items-center gap-3">
         <button
           onclick="closeEventDetail()"
           class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
@@ -658,9 +658,9 @@ function renderEventDetail(state, event) {
         ` : ''}
       </div>
 
-      <div class="p-4 space-y-4">
+      <div class="p-5 space-y-5">
         <!-- Event Info Card -->
-        <div class="card p-4">
+        <div class="card p-5">
           <div class="flex items-center gap-3 mb-3">
             <div class="w-14 h-14 rounded-xl ${typeInfo.bg} flex items-center justify-center">
               <span class="text-3xl">${typeInfo.icon}</span>
@@ -732,8 +732,8 @@ function renderEventDetail(state, event) {
         </div>
 
         <!-- Comment Wall -->
-        <div class="card p-4">
-          <h3 class="font-bold text-sm mb-3 flex items-center gap-2">
+        <div class="card p-5">
+          <h3 class="font-bold text-sm mb-4 flex items-center gap-2">
             <i class="fas fa-comments text-primary-400" aria-hidden="true"></i>
             ${t('commentWall')} (${comments.length})
           </h3>
@@ -875,9 +875,9 @@ function renderCreateEventForm() {
   const today = new Date().toISOString().split('T')[0]
 
   return `
-    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+    <div class="flex-1 overflow-y-auto p-5 space-y-5">
       <!-- Header -->
-      <div class="flex items-center gap-3 mb-2">
+      <div class="flex items-center gap-3 mb-4">
         <button
           onclick="closeCreateEvent()"
           class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"

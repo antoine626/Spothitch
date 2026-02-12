@@ -33,8 +33,8 @@ export function renderAuth(_state) {
         </button>
         
         <!-- Header -->
-        <div class="p-6 text-center border-b border-white/10">
-          <div class="text-4xl mb-2" aria-hidden="true">🤙</div>
+        <div class="p-8 text-center border-b border-white/10">
+          <div class="text-4xl mb-3" aria-hidden="true">🤙</div>
           <h2 id="auth-modal-title" class="text-2xl font-bold gradient-text">${t('appName')}</h2>
         </div>
         
@@ -68,7 +68,7 @@ export function renderAuth(_state) {
         
         <!-- Form -->
         <div class="p-6" role="tabpanel" id="auth-form-panel">
-          <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4" aria-label="${t('loginForm') || 'Login form'}">
+          <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-5" aria-label="${t('loginForm') || 'Login form'}">
             <!-- Email -->
             <div>
               <label for="auth-email" class="text-sm text-slate-400 block mb-2">${t('email')}</label>

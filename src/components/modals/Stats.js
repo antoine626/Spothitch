@@ -41,7 +41,7 @@ export function renderStatsModal() {
       <div class="modal-panel w-full sm:max-w-lg max-h-[90vh] sm:rounded-2xl overflow-hidden
                   flex flex-col">
         <!-- Header -->
-        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-6">
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-8">
           <div class="flex justify-between items-start">
             <div>
               <h2 id="stats-title" class="text-2xl font-bold text-white">${t('myStats') || 'Mes Statistiques'}</h2>
@@ -57,17 +57,17 @@ export function renderStatsModal() {
         </div>
 
         <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-6">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
           <!-- Travel Stats Hero -->
-          <section class="bg-gradient-to-br from-emerald-900/50 to-primary-900/50 rounded-2xl p-5 border border-emerald-500/20">
-            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <section class="bg-gradient-to-br from-emerald-900/50 to-primary-900/50 rounded-2xl p-6 border border-emerald-500/20">
+            <h3 class="text-lg font-bold text-white mb-5 flex items-center gap-2">
               <span class="text-2xl">🚗</span>
               ${t('travelStats') || 'Statistiques de voyage'}
             </h3>
 
             <!-- Main Stats Grid -->
-            <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="grid grid-cols-2 gap-4 mb-5">
               <!-- Total Distance -->
               <div class="bg-white/10 rounded-xl p-4 text-center">
                 <div class="text-3xl mb-1">📏</div>
@@ -112,23 +112,23 @@ export function renderStatsModal() {
             </div>
 
             <!-- Secondary Stats -->
-            <div class="grid grid-cols-3 gap-3">
+            <div class="grid grid-cols-3 gap-4">
               <!-- Spots Used -->
-              <div class="bg-white/5 rounded-lg p-3 text-center">
+              <div class="bg-white/5 rounded-lg p-4 text-center">
                 <div class="text-xl">📍</div>
                 <div class="text-xl font-bold text-white">${travelStats.spotsUsedCount}</div>
                 <div class="text-xs text-slate-400">${t('spotsUsed') || 'Spots utilisés'}</div>
               </div>
 
               <!-- Total Rides -->
-              <div class="bg-white/5 rounded-lg p-3 text-center">
+              <div class="bg-white/5 rounded-lg p-4 text-center">
                 <div class="text-xl">🚙</div>
                 <div class="text-xl font-bold text-white">${travelStats.totalRides}</div>
                 <div class="text-xs text-slate-400">${t('ridesObtained') || 'Lifts obtenus'}</div>
               </div>
 
               <!-- Best Month -->
-              <div class="bg-white/5 rounded-lg p-3 text-center">
+              <div class="bg-white/5 rounded-lg p-4 text-center">
                 <div class="text-xl">🏆</div>
                 <div class="text-xl font-bold text-white">
                   ${travelStats.bestMonth ? travelStats.bestMonth.month : '-'}
@@ -201,10 +201,10 @@ export function renderStatsModal() {
           <!-- Level & VIP -->
           <section>
             <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">${t('progression') || 'Progression'}</h3>
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-2 gap-4">
               <!-- Level -->
-              <div class="bg-white/5 rounded-xl p-4">
-                <div class="flex items-center gap-3 mb-3">
+              <div class="bg-white/5 rounded-xl p-5">
+                <div class="flex items-center gap-3 mb-4">
                   <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full
                               flex items-center justify-center text-white text-xl font-bold">
                     ${summary.level}
@@ -221,8 +221,8 @@ export function renderStatsModal() {
               </div>
 
               <!-- VIP Level -->
-              <div class="bg-white/5 rounded-xl p-4">
-                <div class="flex items-center gap-3 mb-3">
+              <div class="bg-white/5 rounded-xl p-5">
+                <div class="flex items-center gap-3 mb-4">
                   <div class="w-12 h-12 rounded-full flex items-center justify-center"
                        style="background-color: ${summary.vipLevel.color}20">
                     ${summary.vipLevel.image
@@ -250,8 +250,8 @@ export function renderStatsModal() {
             <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
               ${t('seasonLeague') || 'Ligue Saison'}
             </h3>
-            <div class="bg-white/5 rounded-xl p-4">
-              <div class="flex items-center justify-between mb-3">
+            <div class="bg-white/5 rounded-xl p-5">
+              <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-3">
                   ${summary.league.image
     ? `<img src="${summary.league.image}" alt="${summary.league.name}" class="w-10 h-10 object-contain" loading="lazy" />`
@@ -285,7 +285,7 @@ export function renderStatsModal() {
           <!-- Activity Stats -->
           <section>
             <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">${t('activity') || 'Activité'}</h3>
-            <div class="grid grid-cols-3 gap-3">
+            <div class="grid grid-cols-3 gap-4">
               ${[
     { label: 'Check-ins', value: summary.checkins, icon: '📍' },
     { label: t('spotsCreated') || 'Spots créés', value: summary.spotsCreated, icon: '🗺️' },

@@ -29,18 +29,18 @@ export function renderChallengesHub(state) {
   const currentVipLevel = vipLevels.find(v => (state.totalPoints || 0) >= v.minPoints) || vipLevels[0];
 
   return `
-    <div class="p-4 space-y-4">
+    <div class="p-5 space-y-5 pb-28">
       <!-- Header Stats -->
-      <div class="grid grid-cols-3 gap-3">
-        <div class="card p-3 text-center">
+      <div class="grid grid-cols-3 gap-4">
+        <div class="card p-4 text-center">
           <div class="text-2xl font-bold text-amber-400">${state.thumbs || state.points || 0}</div>
           <div class="text-xs text-slate-400">👍 ${t('thumbs') || 'Pouces'}</div>
         </div>
-        <div class="card p-3 text-center">
+        <div class="card p-4 text-center">
           <div class="text-2xl font-bold text-purple-400">${currentLeague}</div>
           <div class="text-xs text-slate-400">${t('league') || 'Ligue'}</div>
         </div>
-        <div class="card p-3 text-center">
+        <div class="card p-4 text-center">
           ${currentVipLevel.image
     ? `<img src="${currentVipLevel.image}" alt="${currentVipLevel.name}" class="w-8 h-8 mx-auto" loading="lazy" />`
     : `<div class="text-2xl">${currentVipLevel.icon}</div>`
@@ -50,13 +50,13 @@ export function renderChallengesHub(state) {
       </div>
 
       <!-- Quick Actions Grid -->
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-2 gap-4">
         <!-- Badges -->
         <button
           onclick="openBadges()"
           class="card p-4 text-left hover:border-amber-500/50 transition-all group"
         >
-          <div class="flex items-center gap-3 mb-3">
+          <div class="flex items-center gap-3 mb-4">
             <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
               🏅
             </div>
@@ -75,7 +75,7 @@ export function renderChallengesHub(state) {
           onclick="openChallenges()"
           class="card p-4 text-left hover:border-purple-500/50 transition-all group"
         >
-          <div class="flex items-center gap-3 mb-3">
+          <div class="flex items-center gap-3 mb-4">
             <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
               🎯
             </div>
@@ -149,8 +149,8 @@ export function renderChallengesHub(state) {
       </button>
 
       <!-- Active Challenges Preview -->
-      <div class="card p-4">
-        <div class="flex items-center justify-between mb-4">
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-5">
           <h3 class="font-bold flex items-center gap-2">
             <i class="fas fa-fire text-orange-400" aria-hidden="true"></i>
             ${t('activeChallenges') || 'Défis en cours'}
@@ -160,12 +160,12 @@ export function renderChallengesHub(state) {
           </button>
         </div>
 
-        <div class="space-y-3">
+        <div class="space-y-4">
           ${activeChallenges.map(challenge => {
     const progress = Math.min((state[challenge.type] || 0) / challenge.target * 100, 100);
     return `
-              <div class="p-3 rounded-lg bg-white/5">
-                <div class="flex items-center justify-between mb-2">
+              <div class="p-4 rounded-lg bg-white/5">
+                <div class="flex items-center justify-between mb-3">
                   <div class="flex items-center gap-2">
                     <span class="text-lg">${challenge.icon}</span>
                     <span class="font-medium">${challenge.name || challenge.title || (t('challenge') || 'Challenge')}</span>
@@ -187,8 +187,8 @@ export function renderChallengesHub(state) {
       </div>
 
       <!-- League Progress -->
-      <div class="card p-4">
-        <div class="flex items-center justify-between mb-4">
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-5">
           <h3 class="font-bold flex items-center gap-2">
             <i class="fas fa-trophy text-amber-400" aria-hidden="true"></i>
             ${t('ranking') || 'Classement'}

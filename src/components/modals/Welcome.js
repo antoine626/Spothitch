@@ -64,7 +64,7 @@ export function renderWelcome(state) {
         <!-- Avatar Selection -->
         <fieldset class="mb-8 text-left border-none p-0">
           <legend class="text-sm text-slate-400 block mb-3">${t('chooseAvatar')}</legend>
-          <div class="grid grid-cols-6 gap-2" id="avatar-grid" role="radiogroup" aria-label="Selection d'avatar">
+          <div class="grid grid-cols-6 gap-3" id="avatar-grid" role="radiogroup" aria-label="Selection d'avatar">
             ${avatars.map((avatar, i) => `
               <button
                 type="button"

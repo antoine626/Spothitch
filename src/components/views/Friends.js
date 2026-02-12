@@ -23,10 +23,10 @@ export function renderFriends(state) {
   const offlineFriends = displayFriends.filter(f => !f.online);
 
   return `
-    <div class="friends-view pb-24">
+    <div class="friends-view pb-28">
       <!-- Header -->
       <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
-        <div class="flex items-center justify-between p-4">
+        <div class="flex items-center justify-between p-5">
           <div>
             <h1 class="text-xl font-bold text-white">${t('friendsTab') || 'Amis'}</h1>
             <p class="text-slate-500 text-sm">${friends.length} ami(s)</p>
@@ -43,7 +43,7 @@ export function renderFriends(state) {
         </div>
 
         <!-- Search -->
-        <div class="px-4 pb-4">
+        <div class="px-5 pb-5">
           <label for="friend-search-input" class="sr-only">${t('searchFriend') || 'Rechercher un ami'}</label>
           <input
             type="search"
@@ -59,13 +59,13 @@ export function renderFriends(state) {
 
       <!-- Friend Requests -->
       ${friendRequests.length > 0 ? `
-        <div class="p-4 border-b border-white/10">
-          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
+        <div class="p-5 border-b border-white/10">
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-4">
             ${t('friendRequests') || 'Demandes'} (${friendRequests.length})
           </h2>
-          <div class="space-y-2">
+          <div class="space-y-3">
             ${friendRequests.map(request => `
-              <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-sky-500/20 to-cyan-500/20
+              <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-sky-500/20 to-cyan-500/20
                           border border-sky-500/30 rounded-xl">
                 <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-xl">
                   ${request.avatar || '🤙'}
@@ -75,7 +75,7 @@ export function renderFriends(state) {
                   <div class="text-slate-500 text-xs">${t('wantsToBeFriend') || 'Veut devenir ton ami'}</div>
                 </div>
                 <button onclick="acceptFriendRequest('${request.id}')"
-                        class="px-3 py-1.5 bg-sky-500 text-white text-sm rounded-lg">
+                        class="px-4 py-2.5 bg-sky-500 text-white text-sm rounded-lg">
                   ${t('accept') || 'Accepter'}
                 </button>
                 <button onclick="rejectFriendRequest('${request.id}')"
@@ -90,11 +90,11 @@ export function renderFriends(state) {
 
       <!-- Online Friends -->
       ${onlineFriends.length > 0 ? `
-        <div class="p-4">
-          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
+        <div class="p-5">
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-4">
             ${t('online') || 'En ligne'} (${onlineFriends.length})
           </h2>
-          <div class="space-y-2">
+          <div class="space-y-3">
             ${onlineFriends.map(friend => renderFriendCard(friend, true)).join('')}
           </div>
         </div>
@@ -102,11 +102,11 @@ export function renderFriends(state) {
 
       <!-- Offline Friends -->
       ${offlineFriends.length > 0 ? `
-        <div class="p-4 ${onlineFriends.length > 0 ? 'border-t border-white/10' : ''}">
-          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
+        <div class="p-5 ${onlineFriends.length > 0 ? 'border-t border-white/10' : ''}">
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-4">
             ${t('offline') || 'Hors ligne'} (${offlineFriends.length})
           </h2>
-          <div class="space-y-2">
+          <div class="space-y-3">
             ${offlineFriends.map(friend => renderFriendCard(friend, false)).join('')}
           </div>
         </div>
@@ -135,7 +135,7 @@ export function renderFriends(state) {
  */
 function renderFriendCard(friend, isOnline) {
   return `
-    <div class="friend-card flex items-center gap-3 p-3 bg-white/5 rounded-xl cursor-pointer
+    <div class="friend-card flex items-center gap-3 p-4 bg-white/5 rounded-xl cursor-pointer
                 hover:bg-white/10 transition-colors"
          onclick="openFriendsChat('${friend.id}')">
       <div class="relative">
@@ -296,7 +296,7 @@ export function renderAddFriendModal() {
   return `
     <div class="add-friend-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
          onclick="if(event.target===this)closeAddFriend()">
-      <div class="modal-panel w-full sm:max-w-md sm:rounded-2xl p-6">
+      <div class="modal-panel w-full sm:max-w-md sm:rounded-2xl p-8">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-xl font-bold text-white">${t('addFriend') || 'Ajouter un ami'}</h2>
           <button onclick="closeAddFriend()" class="p-2 hover:bg-white/5 rounded-full">

@@ -67,8 +67,8 @@ function renderCountrySelection() {
          aria-labelledby="quiz-title">
       <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
         <!-- Header -->
-        <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-6 text-center">
-          <div class="text-5xl mb-3" aria-hidden="true">\uD83E\uDDE0</div>
+        <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-8 text-center">
+          <div class="text-5xl mb-4" aria-hidden="true">\uD83E\uDDE0</div>
           <h2 id="quiz-title" class="text-2xl font-bold text-white">${t('quizTitle')}</h2>
           <p class="text-white/80 mt-1">${t('quizSubtitle')}</p>
         </div>
@@ -76,7 +76,7 @@ function renderCountrySelection() {
         <!-- Content -->
         <div class="p-6">
           <!-- General quiz -->
-          <div class="mb-6">
+          <div class="mb-7">
             <button onclick="startQuizGame()"
                     class="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white
                            font-bold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all"
@@ -93,7 +93,7 @@ function renderCountrySelection() {
           <!-- Country quizzes -->
           <div class="border-t border-white/10 pt-4">
             <h3 class="text-white font-bold mb-3 text-center">${t('quizCountryTitle', { country: '' }).trim()}</h3>
-            <div class="space-y-2">
+            <div class="space-y-3">
               ${countries.map(c => {
                 const score = scores[c.code]
                 const bestScore = score ? score.best : null
@@ -192,7 +192,7 @@ function renderQuizQuestion(question, quizState) {
           <h3 id="quiz-question" class="text-xl font-bold text-white mb-6">${qText}</h3>
 
           <!-- Options -->
-          <div class="space-y-3" role="group" aria-labelledby="quiz-question">
+          <div class="space-y-4" role="group" aria-labelledby="quiz-question">
             ${options.map((option, index) => `
               <button onclick="answerQuizQuestion(${index})"
                       class="w-full p-4 text-left bg-white/5 rounded-xl text-white
@@ -365,7 +365,7 @@ function renderQuizResult(result) {
           ` : ''}
 
           <!-- Actions -->
-          <div class="space-y-3">
+          <div class="space-y-4">
             <button onclick="${countryCode ? `startCountryQuiz('${countryCode}')` : 'retryQuiz()'}"
                     class="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white
                            font-bold rounded-xl hover:from-purple-600 hover:to-pink-600">

@@ -77,7 +77,7 @@ export function renderLeaderboardModal() {
          aria-labelledby="leaderboard-title">
       <div class="modal-panel w-full sm:max-w-lg max-h-[90vh] sm:rounded-2xl overflow-hidden flex flex-col">
         <!-- Header -->
-        <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-6">
+        <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-8">
           <div class="flex justify-between items-start">
             <div>
               <h2 id="leaderboard-title" class="text-2xl font-bold text-white">Classement</h2>
@@ -129,20 +129,20 @@ export function renderLeaderboardModal() {
         <!-- Leaderboard List -->
         <div class="flex-1 overflow-y-auto">
           <!-- Top 3 Podium -->
-          <div class="flex justify-center items-end gap-4 p-6 bg-gradient-to-b from-dark-secondary/50 to-transparent">
+          <div class="flex justify-center items-end gap-4 p-8 bg-gradient-to-b from-dark-secondary/50 to-transparent">
             ${renderPodiumPlace(leaderboardData[1], 2)}
             ${renderPodiumPlace(leaderboardData[0], 1)}
             ${renderPodiumPlace(leaderboardData[2], 3)}
           </div>
 
           <!-- Rest of Leaderboard -->
-          <div class="px-4 pb-4 space-y-2">
+          <div class="px-5 pb-5 space-y-3">
             ${leaderboardData.slice(3).map((user, index) => renderLeaderboardRow(user, index + 4)).join('')}
           </div>
         </div>
 
         <!-- Footer Stats -->
-        <div class="p-4 border-t border-white/10 bg-dark-secondary/50">
+        <div class="p-5 border-t border-white/10 bg-dark-secondary/50">
           <div class="flex justify-around text-center">
             <div>
               <div class="text-2xl font-bold text-amber-400">${leaderboardData.reduce((sum, u) => sum + u.points, 0).toLocaleString()}</div>
@@ -194,7 +194,7 @@ function renderPodiumPlace(user, position) {
  */
 function renderLeaderboardRow(user, rank) {
   return `
-    <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
+    <div class="flex items-center gap-3 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
       <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-amber-400' : 'text-slate-500'}">
         ${rank}
       </div>

@@ -29,7 +29,7 @@ export function renderProfile(state) {
   const allTitles = getAllTitles();
 
   return `
-    <div class="p-4 space-y-4 pb-24">
+    <div class="p-5 space-y-5 pb-28">
       <!-- Profile Header -->
       <div class="card p-6 text-center">
         <div class="relative inline-block">
@@ -73,28 +73,28 @@ export function renderProfile(state) {
       </div>
 
       <!-- Quick Stats -->
-      <div class="grid grid-cols-4 gap-2">
-        <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
+      <div class="grid grid-cols-4 gap-3">
+        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold text-primary-400">${state.points || 0}</div>
           <div class="text-xs text-slate-500">${t('points') || 'Points'}</div>
         </button>
-        <button onclick="openTitles()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
+        <button onclick="openTitles()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold" style="color: ${currentTitle.color}">${currentTitle.emoji}</div>
           <div class="text-xs text-slate-500">${t('level') || 'Niv'}.${state.level || 1}</div>
         </button>
-        <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
+        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold text-amber-400">${currentLeague[0]}</div>
           <div class="text-xs text-slate-500">${t('league') || 'Ligue'}</div>
         </button>
-        <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
+        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
           <div class="text-xl font-bold text-orange-400">${(state.badges || []).length}</div>
           <div class="text-xs text-slate-500">${t('badgesEarned') || 'Badges'}</div>
         </button>
       </div>
 
       <!-- Level Progress -->
-      <div class="card p-4">
-        <div class="flex justify-between text-sm mb-2">
+      <div class="card p-5">
+        <div class="flex justify-between text-sm mb-3">
           <span class="font-medium" style="color: ${currentTitle.color}">${currentTitle.emoji} ${currentTitle.name} - ${t('level') || 'Niveau'} ${state.level || 1}</span>
           <span class="text-slate-400">${pointsToNext} pts → ${t('level') || 'Niveau'} ${(state.level || 1) + 1}</span>
         </div>
@@ -122,7 +122,7 @@ export function renderProfile(state) {
       <!-- Titles Section -->
       <button
         onclick="openTitles()"
-        class="card p-4 w-full text-left hover:border-amber-500/50 transition-all"
+        class="card p-5 w-full text-left hover:border-amber-500/50 transition-all"
       >
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
@@ -145,25 +145,25 @@ export function renderProfile(state) {
       </button>
 
       <!-- Activity Stats -->
-      <div class="card p-4">
-        <h3 class="font-bold mb-4 flex items-center gap-2">
+      <div class="card p-5">
+        <h3 class="font-bold mb-5 flex items-center gap-2">
           <i class="fas fa-chart-bar text-primary-400" aria-hidden="true"></i>
           ${t('activity') || 'Activité'}
         </h3>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="p-3 rounded-lg bg-white/5 text-center">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-4 rounded-lg bg-white/5 text-center">
             <div class="text-2xl font-bold text-emerald-400">${state.spotsCreated || 0}</div>
             <div class="text-xs text-slate-400">${t('spotsShared') || 'Spots partagés'}</div>
           </div>
-          <div class="p-3 rounded-lg bg-white/5 text-center">
+          <div class="p-4 rounded-lg bg-white/5 text-center">
             <div class="text-2xl font-bold text-purple-400">${state.checkins || 0}</div>
             <div class="text-xs text-slate-400">${t('checkinsCount') || 'Check-ins'}</div>
           </div>
-          <div class="p-3 rounded-lg bg-white/5 text-center">
+          <div class="p-4 rounded-lg bg-white/5 text-center">
             <div class="text-2xl font-bold text-amber-400">${state.reviewsGiven || 0}</div>
             <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis donnés'}</div>
           </div>
-          <div class="p-3 rounded-lg bg-white/5 text-center">
+          <div class="p-4 rounded-lg bg-white/5 text-center">
             <div class="text-2xl font-bold text-primary-400">${state.badges?.length || 0}</div>
             <div class="text-xs text-slate-400">${t('badgesEarned') || 'Badges'}</div>
           </div>
@@ -176,7 +176,7 @@ export function renderProfile(state) {
       <!-- Friends Link -->
       <button
         onclick="changeTab('social'); setSocialTab('friends');"
-        class="card p-4 w-full text-left hover:border-primary-500/50 transition-all flex items-center justify-between"
+        class="card p-5 w-full text-left hover:border-primary-500/50 transition-all flex items-center justify-between"
       >
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center">
@@ -193,7 +193,7 @@ export function renderProfile(state) {
       <!-- Trip History -->
       <button
         onclick="openTripHistory()"
-        class="card p-4 w-full text-left hover:border-emerald-500/50 transition-all flex items-center justify-between"
+        class="card p-5 w-full text-left hover:border-emerald-500/50 transition-all flex items-center justify-between"
       >
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
@@ -208,7 +208,7 @@ export function renderProfile(state) {
       </button>
 
       <!-- Settings -->
-      <div class="card p-4 space-y-3">
+      <div class="card p-5 space-y-4">
         <h3 class="font-bold flex items-center gap-2">
           <i class="fas fa-cog text-slate-400" aria-hidden="true"></i>
           ${t('settings') || 'Paramètres'}
@@ -237,7 +237,7 @@ export function renderProfile(state) {
             <i class="fas fa-globe text-emerald-400" aria-hidden="true"></i>
             <span>${t('language') || 'Langue'}</span>
           </div>
-          <div class="grid grid-cols-4 gap-2" role="radiogroup" aria-label="${t('chooseLanguage') || 'Choisir la langue'}">
+          <div class="grid grid-cols-4 gap-3" role="radiogroup" aria-label="${t('chooseLanguage') || 'Choisir la langue'}">
             ${[
               { code: 'fr', flag: '\uD83C\uDDEB\uD83C\uDDF7', name: 'FR' },
               { code: 'en', flag: '\uD83C\uDDEC\uD83C\uDDE7', name: 'EN' },
@@ -305,7 +305,7 @@ export function renderProfile(state) {
       ${state.isLoggedIn ? `
         <button
           onclick="handleLogout()"
-          class="card p-4 w-full flex items-center gap-3 text-left text-danger-400 hover:border-danger-500/50 transition-all"
+          class="card p-5 w-full flex items-center gap-3 text-left text-danger-400 hover:border-danger-500/50 transition-all"
         >
           <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
           <span>${t('logout') || 'Se déconnecter'}</span>

@@ -52,7 +52,7 @@ export function renderAddSpot(_state) {
         onclick="event.stopPropagation()"
       >
         <!-- Header -->
-        <div class="flex items-center justify-between p-4 border-b border-white/10">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
           <h2 id="addspot-modal-title" class="text-xl font-bold">${t('addSpot')}${isPreview ? ` <span class="text-sm font-normal text-amber-400 ml-2">${t('previewMode')}</span>` : ''}</h2>
           <button
             onclick="closeAddSpot()"
@@ -65,8 +65,8 @@ export function renderAddSpot(_state) {
         </div>
 
         <!-- Form -->
-        <div class="p-4 overflow-y-auto max-h-[calc(90vh-8rem)]">
-          <form id="add-spot-form" onsubmit="handleAddSpot(event)" class="space-y-4" aria-label="${t('addSpotForm') || 'Formulaire d\'ajout de spot'}">
+        <div class="p-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
+          <form id="add-spot-form" onsubmit="handleAddSpot(event)" class="space-y-5" aria-label="${t('addSpotForm') || 'Formulaire d\'ajout de spot'}">
             <!-- Photo -->
             <div>
               <label for="spot-photo" class="text-sm text-slate-400 block mb-2">${t('photoRequired')}</label>

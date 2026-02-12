@@ -17,7 +17,7 @@ export function renderChat(state) {
   return `
     <div class="flex flex-col h-[calc(100vh-140px)]" role="tabpanel" id="panel-chat" aria-labelledby="tab-chat">
       <!-- Room Tabs -->
-      <div class="flex gap-2 p-4 overflow-x-auto scrollbar-hide" role="tablist" aria-label="Salons de discussion">
+      <div class="flex gap-3 p-5 overflow-x-auto scrollbar-hide" role="tablist" aria-label="Salons de discussion">
         ${rooms.map(room => `
           <button
             class="badge ${room.id === state.chatRoom ? 'badge-primary' : 'bg-white/5 text-slate-400'} whitespace-nowrap"
@@ -33,7 +33,7 @@ export function renderChat(state) {
       </div>
 
       <!-- Messages -->
-      <div class="flex-1 overflow-y-auto p-4 space-y-3" id="chat-messages" role="log" aria-live="polite" aria-label="Messages du chat">
+      <div class="flex-1 overflow-y-auto p-5 space-y-4" id="chat-messages" role="log" aria-live="polite" aria-label="Messages du chat">
         ${state.chatLoading
     ? renderSkeletonChatList(6)
     : (state.messages.length > 0

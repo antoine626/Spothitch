@@ -42,7 +42,7 @@ export function renderChallengesModal() {
       <div class="modal-panel w-full sm:max-w-lg max-h-[85vh] sm:rounded-2xl overflow-hidden
                   flex flex-col">
         <!-- Header -->
-        <div class="bg-gradient-to-r from-purple-500 to-indigo-500 p-6">
+        <div class="bg-gradient-to-r from-purple-500 to-indigo-500 p-8">
           <div class="flex justify-between items-start">
             <div>
               <h2 id="challenges-title" class="text-2xl font-bold text-white">Defis</h2>
@@ -74,7 +74,7 @@ export function renderChallengesModal() {
         </div>
 
         <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-4">
+        <div class="flex-1 overflow-y-auto p-5">
           ${challengeTab === 'daily' ? `
             <!-- Daily Challenges -->
             <section>
@@ -86,7 +86,7 @@ export function renderChallengesModal() {
                   Renouvellement dans ${getTimeUntilMidnight()}
                 </span>
               </div>
-              <div class="space-y-3">
+              <div class="space-y-4">
                 ${challenges.daily.map(c => renderChallengeCard(c, lang, 'daily')).join('')}
               </div>
             </section>
@@ -103,7 +103,7 @@ export function renderChallengesModal() {
                   ${getDaysUntilSunday()} jours restants
                 </span>
               </div>
-              <div class="space-y-3">
+              <div class="space-y-4">
                 ${challenges.weekly.map(c => renderChallengeCard(c, lang, 'weekly')).join('')}
               </div>
             </section>
@@ -115,7 +115,7 @@ export function renderChallengesModal() {
               <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
                 Objectifs long terme
               </h3>
-              <div class="space-y-3">
+              <div class="space-y-4">
                 ${challenges.longterm.map(c => renderChallengeCard(c, lang, 'longterm')).join('')}
               </div>
             </section>
@@ -142,7 +142,7 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
   };
 
   return `
-    <div class="challenge-card p-4 bg-white/5 rounded-xl ${isCompleted ? 'opacity-60' : ''}">
+    <div class="challenge-card p-5 bg-white/5 rounded-xl ${isCompleted ? 'opacity-60' : ''}">
       <div class="flex items-start gap-3">
         <!-- Icon -->
         <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl

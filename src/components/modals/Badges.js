@@ -42,7 +42,7 @@ export function renderBadgesModal() {
       <div class="modal-panel w-full sm:max-w-lg max-h-[85vh] sm:rounded-2xl overflow-hidden
                   flex flex-col">
         <!-- Header -->
-        <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-6">
+        <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-8">
           <div class="flex justify-between items-start">
             <div>
               <h2 id="badges-title" class="text-2xl font-bold text-white">Mes Badges</h2>
@@ -66,14 +66,14 @@ export function renderBadgesModal() {
         </div>
 
         <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-4">
+        <div class="flex-1 overflow-y-auto p-6">
           <!-- Next badges to unlock -->
           ${nextBadges.length > 0 ? `
             <section class="mb-6">
               <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
                 Prochains badges
               </h3>
-              <div class="grid grid-cols-3 gap-3">
+              <div class="grid grid-cols-3 gap-4">
                 ${nextBadges.map(badge => `
                   <div class="bg-white/5 rounded-xl p-3 text-center opacity-60">
                     ${badge.image
@@ -99,7 +99,7 @@ export function renderBadgesModal() {
                   ${category.icon} ${category.name}
                   <span class="text-xs text-slate-500">(${earned.length}/${categoryBadges.length})</span>
                 </h3>
-                <div class="grid grid-cols-3 gap-3">
+                <div class="grid grid-cols-3 gap-4">
                   ${categoryBadges.map(badge => {
     const isEarned = earnedBadgeIds.includes(badge.id) || badge.condition(userStats);
     return `

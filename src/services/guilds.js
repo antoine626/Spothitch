@@ -1165,7 +1165,7 @@ export function renderGuildCard(guild) {
   };
 
   return `
-    <div class="bg-dark-700 rounded-xl p-4 border border-dark-600 hover:border-primary/50 transition-colors"
+    <div class="bg-dark-primary rounded-xl p-4 border border-white/10 hover:border-primary/50 transition-colors"
          data-guild-id="${escapeHTML(guild.id)}">
       <div class="flex items-center gap-3 mb-3">
         <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl"
@@ -1214,7 +1214,7 @@ export function renderGuildCard(guild) {
             </button>
           ` : `
             <button onclick="window.requestJoinGuild('${escapeHTML(guild.id)}')"
-                    class="flex-1 bg-dark-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-dark-500 transition-colors">
+                    class="flex-1 bg-white/5 text-white py-2 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors">
               ${t('guildRequestButton')}
             </button>
           `}
@@ -1222,7 +1222,7 @@ export function renderGuildCard(guild) {
       ` : `
         <div class="flex gap-2">
           <button onclick="window.viewGuild('${escapeHTML(guild.id)}')"
-                  class="flex-1 bg-dark-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-dark-500 transition-colors">
+                  class="flex-1 bg-white/5 text-white py-2 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors">
             ${t('guildViewButton')}
           </button>
         </div>
@@ -1282,8 +1282,8 @@ export function renderMemberList(members, guildId) {
   };
 
   return members.map(member => `
-    <div class="flex items-center gap-3 p-3 bg-dark-700 rounded-lg">
-      <div class="w-10 h-10 rounded-full bg-dark-600 flex items-center justify-center text-lg">
+    <div class="flex items-center gap-3 p-3 bg-dark-primary rounded-lg">
+      <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-lg">
         ${escapeHTML(member.avatar || '')}
       </div>
       <div class="flex-1 min-w-0">
@@ -1299,13 +1299,13 @@ export function renderMemberList(members, guildId) {
         <div class="flex gap-1">
           ${isLeader ? `
             <button onclick="window.promoteToOfficer('${escapeHTML(guildId)}', '${escapeHTML(member.id)}')"
-                    class="p-2 text-blue-400 hover:bg-dark-600 rounded"
+                    class="p-2 text-blue-400 hover:bg-white/5 rounded"
                     title="${t('promote')}">
               &#11014;
             </button>
           ` : ''}
           <button onclick="window.kickMember('${escapeHTML(guildId)}', '${escapeHTML(member.id)}')"
-                  class="p-2 text-red-400 hover:bg-dark-600 rounded"
+                  class="p-2 text-red-400 hover:bg-white/5 rounded"
                   title="${t('kick')}">
             &#10006;
           </button>
@@ -1314,12 +1314,12 @@ export function renderMemberList(members, guildId) {
       ${isLeader && member.role === GuildRole.OFFICER && member.id !== (state.user?.uid || 'local') ? `
         <div class="flex gap-1">
           <button onclick="window.demoteToMember('${escapeHTML(guildId)}', '${escapeHTML(member.id)}')"
-                  class="p-2 text-slate-400 hover:bg-dark-600 rounded"
+                  class="p-2 text-slate-400 hover:bg-white/5 rounded"
                   title="${t('demote')}">
             &#11015;
           </button>
           <button onclick="window.kickMember('${escapeHTML(guildId)}', '${escapeHTML(member.id)}')"
-                  class="p-2 text-red-400 hover:bg-dark-600 rounded"
+                  class="p-2 text-red-400 hover:bg-white/5 rounded"
                   title="${t('kick')}">
             &#10006;
           </button>

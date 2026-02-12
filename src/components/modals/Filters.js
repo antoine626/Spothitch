@@ -67,11 +67,11 @@ export function renderFiltersModal() {
          aria-labelledby="filters-title">
       <div class="modal-panel w-full sm:max-w-md sm:rounded-2xl overflow-hidden">
         <!-- Header -->
-        <div class="flex items-center justify-between p-4 border-b border-white/10">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
           <h2 id="filters-title" class="text-xl font-bold text-white">${t('filters')}</h2>
           <div class="flex gap-2">
             <button onclick="resetFilters()"
-                    class="px-3 py-1.5 text-slate-400 hover:text-white text-sm"
+                    class="px-4 py-2.5 text-slate-400 hover:text-white text-sm"
                     type="button">
               ${t('resetFilters')}
             </button>
@@ -85,13 +85,13 @@ export function renderFiltersModal() {
         </div>
 
         <!-- Content -->
-        <div class="p-4 space-y-6 max-h-[60vh] overflow-y-auto">
+        <div class="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
           <!-- Country Filter -->
           <section>
-            <label class="block text-sm font-medium text-slate-400 mb-3">
+            <label class="block text-sm font-medium text-slate-400 mb-4">
               ${t('country') || 'Pays'}
             </label>
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-3 gap-3">
               ${countryOptions.map(opt => `
                 <button onclick="setFilterCountry('${opt.code}')"
                         class="p-2 rounded-xl text-center transition-colors
@@ -107,13 +107,13 @@ export function renderFiltersModal() {
 
           <!-- Rating Filter -->
           <section>
-            <label class="block text-sm font-medium text-slate-400 mb-3">
+            <label class="block text-sm font-medium text-slate-400 mb-4">
               ${t('minRating')}
             </label>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-3">
               ${ratingOptions.map(opt => `
                 <button onclick="setFilterMinRating(${opt.value})"
-                        class="px-4 py-2 rounded-xl transition-colors
+                        class="px-4 py-2.5 rounded-xl transition-colors
                                ${filterMinRating === opt.value
     ? 'bg-sky-500 text-white'
     : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
@@ -125,13 +125,13 @@ export function renderFiltersModal() {
 
           <!-- Wait Time Filter -->
           <section>
-            <label class="block text-sm font-medium text-slate-400 mb-3">
+            <label class="block text-sm font-medium text-slate-400 mb-4">
               ${t('maxWait')}
             </label>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-3">
               ${waitOptions.map(opt => `
                 <button onclick="setFilterMaxWait(${opt.value})"
-                        class="px-4 py-2 rounded-xl transition-colors
+                        class="px-4 py-2.5 rounded-xl transition-colors
                                ${filterMaxWait === opt.value
     ? 'bg-sky-500 text-white'
     : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
@@ -143,7 +143,7 @@ export function renderFiltersModal() {
 
           <!-- Verified Only Toggle -->
           <section>
-            <label class="flex items-center justify-between p-4 bg-white/5 rounded-xl cursor-pointer">
+            <label class="flex items-center justify-between p-5 bg-white/5 rounded-xl cursor-pointer">
               <div>
                 <span class="text-white font-medium">${t('verifiedOnly') || 'Spots vérifiés uniquement'}</span>
                 <p class="text-slate-500 text-sm">${t('verifiedOnlyDesc') || "N'afficher que les spots avec ✓"}</p>
@@ -159,10 +159,10 @@ export function renderFiltersModal() {
 
           <!-- Sort Options -->
           <section>
-            <label class="block text-sm font-medium text-slate-400 mb-3">
+            <label class="block text-sm font-medium text-slate-400 mb-4">
               ${t('sortBy') || 'Trier par'}
             </label>
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-2 gap-3">
               ${[
     { value: 'rating', label: t('rating') || 'Note', icon: '⭐' },
     { value: 'recent', label: t('recent') || 'Récent', icon: '🕐' },
@@ -183,7 +183,7 @@ export function renderFiltersModal() {
         </div>
 
         <!-- Footer -->
-        <div class="p-4 border-t border-white/10">
+        <div class="p-5 border-t border-white/10">
           <button onclick="applyFilters()"
                   class="w-full py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-white
                          font-bold rounded-xl hover:from-sky-600 hover:to-cyan-600">

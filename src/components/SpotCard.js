@@ -41,7 +41,7 @@ function renderDefaultCard(spot) {
       aria-label="${t('hitchSpot') || 'Spot'}: ${safeFrom} → ${safeTo}. ${ratingText}. ${waitText}"
     >
       <!-- Photo -->
-      <div class="relative h-40 overflow-hidden">
+      <div class="relative h-44 overflow-hidden">
         ${safePhotoUrl ? `<img
           src="${safePhotoUrl}"
           alt="${t('spotPhoto') || 'Photo du spot'}: ${safeFrom} → ${safeTo}"
@@ -50,7 +50,7 @@ function renderDefaultCard(spot) {
         />` : `<div class="w-full h-full bg-gradient-to-br from-dark-secondary to-dark-primary flex items-center justify-center">
           <span class="text-4xl">📍</span>
         </div>`}
-        <div class="absolute top-3 right-3 flex flex-col gap-1 items-end">
+        <div class="absolute top-3 right-3 flex flex-col gap-2 items-end">
           <span class="badge ${typeClass}" aria-label="${t('spotType') || 'Type'}: ${typeLabel}">${typeLabel}</span>
           <!-- Freshness Badge -->
           <span
@@ -77,8 +77,8 @@ function renderDefaultCard(spot) {
       </div>
 
       <!-- Content -->
-      <div class="p-4">
-        <h3 class="font-bold text-lg mb-1">
+      <div class="p-5">
+        <h3 class="font-bold text-lg mb-2">
           ${safeFrom && safeTo
             ? `${safeFrom} <i class="fas fa-arrow-right text-primary-400 text-sm mx-1"></i> ${safeTo}`
             : spot.direction

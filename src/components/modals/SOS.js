@@ -25,7 +25,7 @@ export function renderSOS(state) {
         onclick="event.stopPropagation()"
       >
         <!-- Header -->
-        <div class="bg-danger-500/20 p-6 text-center">
+        <div class="bg-danger-500/20 p-8 text-center">
           <div class="w-20 h-20 rounded-full bg-danger-500 flex items-center justify-center
             text-4xl mx-auto mb-4 animate-pulse" aria-hidden="true">
             🆘
@@ -35,7 +35,7 @@ export function renderSOS(state) {
         </div>
         
         <!-- Content -->
-        <div class="p-6 space-y-4">
+        <div class="p-6 space-y-5">
           <!-- Share Location Button -->
           <button
             onclick="shareSOSLocation()"
@@ -63,10 +63,10 @@ export function renderSOS(state) {
           
           <!-- Emergency Contacts -->
           <div>
-            <h3 class="font-semibold mb-3" id="contacts-heading">${t('emergencyContacts')}</h3>
+            <h3 class="font-semibold mb-4" id="contacts-heading">${t('emergencyContacts')}</h3>
 
             <!-- Add Contact Form -->
-            <div class="card p-3 mb-3 space-y-2">
+            <div class="card p-4 mb-4 space-y-3">
               <div class="flex gap-2">
                 <input
                   type="text"
@@ -140,13 +140,13 @@ export function renderSOS(state) {
           </a>
 
           <!-- Country Emergency Numbers -->
-          <div class="card p-4 space-y-3">
+          <div class="card p-5 space-y-4">
             <h3 class="font-semibold flex items-center gap-2">
               <i class="fas fa-globe text-primary-400"></i>
               ${t('emergencyNumbersByCountry') || 'Numéros d\'urgence par pays'}
             </h3>
             <div id="country-emergency-numbers">
-              <div class="grid grid-cols-2 gap-2 text-sm">
+              <div class="grid grid-cols-2 gap-3 text-sm">
                 <a href="tel:112" class="p-2 rounded-lg bg-danger-500/10 text-center">
                   <div class="text-xs text-slate-400">Europe</div>
                   <div class="font-bold text-danger-400">112</div>
@@ -168,12 +168,12 @@ export function renderSOS(state) {
           </div>
 
           <!-- Pre-programmed Messages -->
-          <div class="card p-4 space-y-3">
+          <div class="card p-5 space-y-4">
             <h3 class="font-semibold flex items-center gap-2">
               <i class="fas fa-comment-dots text-emerald-400"></i>
               ${t('emergencyMessages') || 'Messages d\'urgence'}
             </h3>
-            <div class="space-y-2">
+            <div class="space-y-3">
               <button onclick="sendSOSTemplate('danger')" class="w-full p-3 rounded-lg bg-danger-500/10 text-left text-sm hover:bg-danger-500/20 transition-all">
                 <div class="font-medium text-danger-400">🚨 ${t('sosInDanger') || 'Je suis en danger'}</div>
                 <div class="text-xs text-slate-400">${t('sosInDangerDesc') || 'Envoie ta position + message d\'alerte'}</div>

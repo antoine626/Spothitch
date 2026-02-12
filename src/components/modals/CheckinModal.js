@@ -28,7 +28,7 @@ export function renderCheckinModal(state) {
         onclick="event.stopPropagation()"
       >
         <!-- Header -->
-        <div class="p-4 border-b border-white/10 bg-gradient-to-r from-emerald-500/20 to-primary-500/20">
+        <div class="px-5 py-4 border-b border-white/10 bg-gradient-to-r from-emerald-500/20 to-primary-500/20">
           <div class="flex items-center justify-between">
             <div>
               <h2 id="checkin-title" class="text-xl font-bold flex items-center gap-2">
@@ -50,10 +50,10 @@ export function renderCheckinModal(state) {
         </div>
 
         <!-- Content -->
-        <div class="p-4 overflow-y-auto max-h-[60vh] space-y-4">
+        <div class="p-6 overflow-y-auto max-h-[70vh] space-y-5">
 
           <!-- Photo Upload -->
-          <div class="space-y-2">
+          <div class="space-y-3">
             <label class="block text-sm font-medium">
               <i class="fas fa-camera mr-2 text-primary-400"></i>
               ${t('addPhotoOptional') || 'Ajouter une photo (optionnel)'}
@@ -81,17 +81,17 @@ export function renderCheckinModal(state) {
           </div>
 
           <!-- Wait Time -->
-          <div class="space-y-2">
+          <div class="space-y-3">
             <label class="block text-sm font-medium">
               <i class="fas fa-clock mr-2 text-warning-400"></i>
               ${t('waitTime') || 'Temps d\'attente'}
             </label>
-            <div class="grid grid-cols-4 gap-2">
+            <div class="grid grid-cols-4 gap-3">
               ${['< 5 min', '5-15 min', '15-30 min', '> 30 min'].map((time, i) => `
                 <button
                   type="button"
                   onclick="setCheckinWaitTime(${i})"
-                  class="checkin-wait-btn px-3 py-2 rounded-lg text-xs font-medium border transition-all
+                  class="checkin-wait-btn px-4 py-2.5 rounded-lg text-xs font-medium border transition-all
                     ${state.checkinWaitTime === i
                       ? 'bg-warning-500 border-warning-500 text-white'
                       : 'bg-white/5 border-white/10 hover:border-warning-400'}"
@@ -104,12 +104,12 @@ export function renderCheckinModal(state) {
           </div>
 
           <!-- Characteristics -->
-          <div class="space-y-2">
+          <div class="space-y-3">
             <label class="block text-sm font-medium">
               <i class="fas fa-check-circle mr-2 text-emerald-400"></i>
               ${t('confirmCharacteristics') || 'Confirmer les caractéristiques'}
             </label>
-            <div class="space-y-2">
+            <div class="space-y-3">
               ${[
                 { id: 'safe', icon: 'shield-alt', label: t('safeSpot') || 'Spot sécurisé', color: 'emerald' },
                 { id: 'visible', icon: 'eye', label: t('goodVisibility') || 'Bonne visibilité', color: 'primary' },
@@ -132,7 +132,7 @@ export function renderCheckinModal(state) {
           </div>
 
           <!-- Comment -->
-          <div class="space-y-2">
+          <div class="space-y-3">
             <label class="block text-sm font-medium">
               <i class="fas fa-comment mr-2 text-primary-400"></i>
               ${t('commentOptional') || 'Commentaire (optionnel)'}
@@ -149,8 +149,8 @@ export function renderCheckinModal(state) {
         </div>
 
         <!-- Footer -->
-        <div class="p-4 border-t border-white/10 bg-white/5">
-          <div class="flex items-center justify-between mb-3">
+        <div class="p-5 border-t border-white/10 bg-white/5">
+          <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-2 text-sm">
               <i class="fas fa-gift text-warning-400"></i>
               <span>${t('reward') || 'Récompense'}: <strong class="text-warning-400">+15 points</strong></span>

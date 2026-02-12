@@ -14,13 +14,13 @@ export function renderNavigation(state) {
   ]
 
   return `
-    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-1 py-1 rounded-2xl bg-dark-primary/80 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/30 safe-area-inset-bottom" role="navigation" aria-label="${t('mainNavigation') || 'Navigation principale'}">
-      <ul class="flex items-center gap-1 list-none m-0 p-0" role="tablist" aria-label="${t('mainNavigation') || 'Navigation principale'}">
+    <nav class="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 px-3 py-2 rounded-2xl bg-dark-primary/80 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/30 safe-area-inset-bottom" role="navigation" aria-label="${t('mainNavigation') || 'Navigation principale'}">
+      <ul class="flex items-center gap-2 list-none m-0 p-0" role="tablist" aria-label="${t('mainNavigation') || 'Navigation principale'}">
         ${tabs.map(tab => `
           <li role="presentation">
             <button
               onclick="changeTab('${tab.id}')"
-              class="nav-btn relative flex flex-col items-center gap-0.5 px-4 py-2 rounded-xl transition-all duration-300 ${
+              class="nav-btn relative flex flex-col items-center gap-1.5 px-5 py-3 rounded-xl transition-all duration-300 ${
   state.activeTab === tab.id
     ? 'text-primary-400'
     : 'text-slate-500 hover:text-white'
@@ -33,9 +33,9 @@ export function renderNavigation(state) {
               aria-controls="panel-${tab.id}"
               tabindex="${state.activeTab === tab.id ? '0' : '-1'}"
             >
-              <i class="fas ${tab.icon} text-lg" aria-hidden="true"></i>
-              <span class="text-[10px] font-medium">${tab.label}</span>
-              ${state.activeTab === tab.id ? '<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-primary-400"></span>' : ''}
+              <i class="fas ${tab.icon} text-xl" aria-hidden="true"></i>
+              <span class="text-xs font-medium">${tab.label}</span>
+              ${state.activeTab === tab.id ? '<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-6 h-1 rounded-full bg-primary-400"></span>' : ''}
             </button>
           </li>
         `).join('')}

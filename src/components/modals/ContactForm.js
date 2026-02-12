@@ -35,7 +35,7 @@ export function renderContactFormModal() {
         </button>
 
         <!-- Header -->
-        <div class="p-6 text-center bg-gradient-to-b from-primary-500/20 to-transparent border-b border-white/10">
+        <div class="p-8 text-center bg-gradient-to-b from-primary-500/20 to-transparent border-b border-white/10">
           <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-500/20 flex items-center justify-center">
             <i class="fas fa-envelope text-primary-400 text-3xl" aria-hidden="true"></i>
           </div>
@@ -44,7 +44,7 @@ export function renderContactFormModal() {
         </div>
 
         <!-- Form -->
-        <form id="contact-form" class="p-6 space-y-4" onsubmit="submitContactForm(event)">
+        <form id="contact-form" class="p-6 space-y-5" onsubmit="submitContactForm(event)">
           <!-- Name -->
           <div>
             <label for="contact-name" class="block text-sm font-medium text-slate-300 mb-1">

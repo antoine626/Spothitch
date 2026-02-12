@@ -451,7 +451,7 @@ export function renderChallengeCard(challenge) {
   };
 
   return `
-    <div class="bg-dark-700 rounded-xl p-4 border border-dark-600">
+    <div class="bg-dark-primary rounded-xl p-4 border border-white/10">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
           <span class="text-2xl">${challengeType?.icon || '🎯'}</span>
@@ -469,14 +469,14 @@ export function renderChallengeCard(challenge) {
         <div class="space-y-2 mb-3">
           <div class="flex items-center gap-2">
             <span class="text-xs text-slate-400 w-12">${t('you') || 'Toi'}</span>
-            <div class="flex-1 bg-dark-600 rounded-full h-2 overflow-hidden">
+            <div class="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
               <div class="bg-primary h-full transition-all" style="width: ${progressPercent}%"></div>
             </div>
             <span class="text-xs text-white w-10 text-right">${myProgress}/${challenge.target}</span>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-xs text-slate-400 w-12 truncate">${opponentName.substring(0, 5)}</span>
-            <div class="flex-1 bg-dark-600 rounded-full h-2 overflow-hidden">
+            <div class="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
               <div class="bg-red-500 h-full transition-all" style="width: ${opponentPercent}%"></div>
             </div>
             <span class="text-xs text-white w-10 text-right">${opponentProgress}/${challenge.target}</span>
@@ -494,7 +494,7 @@ export function renderChallengeCard(challenge) {
             ${t('accept') || 'Accepter'}
           </button>
           <button onclick="window.declineFriendChallenge('${challenge.id}')"
-            class="flex-1 bg-dark-600 text-slate-300 py-2 rounded-lg text-sm hover:bg-dark-500">
+            class="flex-1 bg-white/5 text-slate-300 py-2 rounded-lg text-sm hover:bg-white/10">
             ${t('decline') || 'Decliner'}
           </button>
         </div>
@@ -503,7 +503,7 @@ export function renderChallengeCard(challenge) {
       ${challenge.status === ChallengeStatus.PENDING && isCreator ? `
         <div class="mt-3">
           <button onclick="window.cancelFriendChallenge('${challenge.id}')"
-            class="w-full bg-dark-600 text-slate-300 py-2 rounded-lg text-sm hover:bg-dark-500">
+            class="w-full bg-white/5 text-slate-300 py-2 rounded-lg text-sm hover:bg-white/10">
             ${t('cancel') || 'Annuler'}
           </button>
         </div>

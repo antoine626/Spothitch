@@ -14,15 +14,15 @@ export function renderPlanner(state) {
   const { tripSteps = [], activeTrip, savedTrips = [] } = state;
 
   return `
-    <div class="planner-view pb-24">
+    <div class="planner-view pb-28">
       <!-- Header -->
-      <div class="p-4 border-b border-white/10">
-        <h1 class="text-xl font-bold text-white mb-1">${t('planTrip')}</h1>
+      <div class="p-5 border-b border-white/10">
+        <h1 class="text-xl font-bold text-white mb-2">${t('planTrip')}</h1>
         <p class="text-slate-400 text-sm">${t('planNextTrip') || 'Planifie ton prochain voyage en autostop'}</p>
       </div>
 
       <!-- Trip Steps -->
-      <div class="p-4 space-y-3">
+      <div class="p-5 space-y-4">
         <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">${t('steps') || 'Étapes'}</h2>
 
         <div id="trip-steps" class="space-y-2">
@@ -83,8 +83,8 @@ export function renderPlanner(state) {
       ` : ''}
 
       <!-- Saved Trips Section -->
-      <div class="p-4 border-t border-white/10">
-        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
+      <div class="p-5 border-t border-white/10">
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-4">
           ${t('myTrips')} (${savedTrips.length})
         </h2>
 
@@ -158,7 +158,7 @@ function renderTripStep(step, index, totalSteps) {
  */
 function renderActiveTripDetails(trip) {
   return `
-    <div class="active-trip mx-4 mb-4 p-4 bg-gradient-to-br from-dark-secondary to-dark-primary rounded-xl border border-white/10">
+    <div class="active-trip mx-5 mb-5 p-5 bg-gradient-to-br from-dark-secondary to-dark-primary rounded-xl border border-white/10">
       <div class="flex justify-between items-start mb-3">
         <h3 class="text-lg font-bold text-white">Itinéraire calculé</h3>
         <button onclick="saveCurrentTrip()" class="text-sky-400 hover:text-sky-300 text-sm">
@@ -166,7 +166,7 @@ function renderActiveTripDetails(trip) {
         </button>
       </div>
 
-      <div class="grid grid-cols-3 gap-3 mb-4">
+      <div class="grid grid-cols-3 gap-4 mb-5">
         <div class="text-center">
           <div class="text-2xl font-bold text-white">${formatDistance(trip.totalDistance)}</div>
           <div class="text-xs text-slate-500">Distance</div>
@@ -258,7 +258,7 @@ export function renderSavedTripDetail(tripId) {
   }
 
   return `
-    <div class="trip-detail pb-24">
+    <div class="trip-detail pb-28">
       <!-- Header -->
       <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center gap-3 p-4">
@@ -279,7 +279,7 @@ export function renderSavedTripDetail(tripId) {
       <div id="trip-detail-map" class="h-48 bg-dark-secondary"></div>
 
       <!-- Stats -->
-      <div class="p-4 grid grid-cols-3 gap-4 border-b border-white/10">
+      <div class="p-5 grid grid-cols-3 gap-4 border-b border-white/10">
         <div class="text-center">
           <div class="text-xl font-bold text-white">${formatDistance(trip.totalDistance)}</div>
           <div class="text-xs text-slate-500">Distance totale</div>

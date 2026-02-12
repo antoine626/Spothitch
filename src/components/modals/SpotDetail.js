@@ -76,9 +76,9 @@ export function renderSpotDetail(state) {
         </div>
         
         <!-- Content -->
-        <div class="p-4 overflow-y-auto max-h-[calc(90vh-10rem)]">
+        <div class="p-6 overflow-y-auto max-h-[calc(90vh-10rem)]">
           <!-- Stats -->
-          <div class="grid grid-cols-3 gap-3 mb-4" role="group" aria-label="${t('spotStats') || 'Statistiques du spot'}">
+          <div class="grid grid-cols-3 gap-4 mb-5" role="group" aria-label="${t('spotStats') || 'Statistiques du spot'}">
             <div class="card p-3 text-center">
               <div class="text-xl font-bold text-warning-400" aria-label="${t('rating') || 'Note'}: ${spot.globalRating?.toFixed(1) || 'N/A'}/5">
                 <i class="fas fa-star mr-1" aria-hidden="true"></i>${spot.globalRating?.toFixed(1) || 'N/A'}
@@ -101,8 +101,8 @@ export function renderSpotDetail(state) {
           
           <!-- Spot Info (type, direction) -->
           ${spot.spotType || spot.direction ? `
-          <div class="mb-4">
-            <div class="flex flex-wrap gap-2">
+          <div class="mb-5">
+            <div class="flex flex-wrap gap-3">
               ${spot.spotType && spot.spotType !== 'custom' ? `
                 <span class="badge bg-sky-500/20 text-sky-300 border border-sky-500/30">
                   ${spot.spotType === 'city_exit' ? '🏙️ ' + (t('spotTypeCityExit') || 'Sortie de ville')
@@ -126,8 +126,8 @@ export function renderSpotDetail(state) {
           </div>` : ''}
 
           <!-- Description -->
-          <div class="mb-4">
-            <h3 class="font-semibold mb-2"><span aria-hidden="true">📍</span> ${t('description') || 'Description'}</h3>
+          <div class="mb-5">
+            <h3 class="font-semibold mb-3"><span aria-hidden="true">📍</span> ${t('description') || 'Description'}</h3>
             <p id="spot-desc-${spot.id}" class="text-slate-300 text-sm leading-relaxed">
               ${escapeHTML(spot.description || (t('noDescription') || 'Aucune description disponible.'))}
             </p>
@@ -138,9 +138,9 @@ export function renderSpotDetail(state) {
           ${renderFreshnessSection(spot.lastCheckin || spot.lastUsed)}
 
           <!-- Ratings Breakdown -->
-          <div class="mb-4">
-            <h3 class="font-semibold mb-3"><span aria-hidden="true">⭐</span> ${t('detailedRatings') || 'Évaluations détaillées'}</h3>
-            <div class="space-y-2" role="list" aria-label="${t('detailedRatings') || 'Notes détaillées'}">
+          <div class="mb-5">
+            <h3 class="font-semibold mb-4"><span aria-hidden="true">⭐</span> ${t('detailedRatings') || 'Évaluations détaillées'}</h3>
+            <div class="space-y-3" role="list" aria-label="${t('detailedRatings') || 'Notes détaillées'}">
               ${renderRatingBar(t('safetyRating'), spot.ratings?.safety)}
               ${renderRatingBar(t('traffic'), spot.ratings?.traffic)}
               ${renderRatingBar(t('accessibility'), spot.ratings?.accessibility)}
@@ -148,7 +148,7 @@ export function renderSpotDetail(state) {
           </div>
 
           <!-- Actions -->
-          <div class="grid grid-cols-3 gap-2 mb-4">
+          <div class="grid grid-cols-3 gap-3 mb-5">
             <button
               onclick="openCheckinModal(${spot.id})"
               class="btn btn-primary"
@@ -189,15 +189,15 @@ export function renderSpotDetail(state) {
           </button>
 
           <!-- Navigation Apps Quick Access -->
-          <div class="mb-4">
-            <p class="text-xs text-slate-400 mb-2 text-center">${t('openDirectlyIn') || 'Ouvrir directement dans :'}</p>
-            <div class="flex gap-2 justify-center">
+          <div class="mb-5">
+            <p class="text-xs text-slate-400 mb-3 text-center">${t('openDirectlyIn') || 'Ouvrir directement dans :'}</p>
+            <div class="flex gap-3 justify-center">
               ${renderNavigationAppButtons(spot.coordinates?.lat, spot.coordinates?.lng, spot.from + ' - ' + spot.to)}
             </div>
           </div>
 
           <!-- In-App Navigation & Share -->
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-2 gap-3">
             <button
               onclick="startSpotNavigation(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeHTML((spot.from + ' - ' + spot.to).replace(/'/g, "\\'"))}')"
               class="btn btn-ghost text-sm py-2"
