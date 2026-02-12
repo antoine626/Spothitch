@@ -24,7 +24,7 @@ export function renderCheckinModal(state) {
 
       <!-- Modal -->
       <div
-        class="relative bg-dark-primary border border-white/10 rounded-2xl w-full max-w-md max-h-[90vh] overflow-hidden slide-up"
+        class="relative modal-panel rounded-2xl w-full max-w-md max-h-[90vh] overflow-hidden slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Header -->

@@ -71,7 +71,7 @@ export function renderIdentityVerification() {
 
       <!-- Modal -->
       <div
-        class="relative bg-dark-primary border border-white/10 rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"
+        class="relative modal-panel rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Close Button -->

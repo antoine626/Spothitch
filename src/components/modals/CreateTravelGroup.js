@@ -16,7 +16,7 @@ export function renderCreateTravelGroupModal(state) {
     >
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
       <div
-        class="relative bg-dark-primary border border-white/10 rounded-3xl w-full max-w-md max-h-[85vh] overflow-y-auto slide-up"
+        class="relative modal-panel rounded-3xl w-full max-w-md max-h-[85vh] overflow-y-auto slide-up"
         onclick="event.stopPropagation()"
       >
         <div class="p-6 space-y-4">

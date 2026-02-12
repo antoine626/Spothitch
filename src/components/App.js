@@ -151,7 +151,7 @@ export function renderApp(state) {
     ${state.showTeamChallenges ? `
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTeamChallenges()">
         <div class="min-h-screen pb-20">
-          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold"><i class="fas fa-users mr-2 text-orange-400"></i>${t('teamChallenges') || "Défis d'équipe"}</h2>
             <button onclick="closeTeamChallenges()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
               <i class="fas fa-times"></i>
@@ -186,7 +186,7 @@ export function renderApp(state) {
     ${state.showTripHistory ? `
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripHistory()">
         <div class="min-h-screen pb-20">
-          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold"><i class="fas fa-clipboard-list mr-2 text-emerald-400"></i>${t('tripHistory') || 'Historique de voyage'}</h2>
             <div class="flex items-center gap-2">
               <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all" aria-label="${t('clearHistory') || "Effacer l'historique"}">
@@ -209,7 +209,7 @@ export function renderApp(state) {
     ${state.showTripPlanner ? `
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripPlanner()">
         <div class="min-h-screen pb-20">
-          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold"><i class="fas fa-route mr-2 text-primary-400"></i>${t('planTrip') || 'Planifier un trajet'}</h2>
             <button onclick="closeTripPlanner()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
               <i class="fas fa-times"></i>
@@ -224,7 +224,7 @@ export function renderApp(state) {
     ${state.showGuidesOverlay ? `
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeGuidesOverlay()">
         <div class="min-h-screen pb-20">
-          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold"><i class="fas fa-book-atlas mr-2 text-emerald-400"></i>${t('countryGuides') || 'Guides pays'}</h2>
             <button onclick="closeGuidesOverlay()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
               <i class="fas fa-times"></i>

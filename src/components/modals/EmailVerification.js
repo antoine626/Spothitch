@@ -36,7 +36,7 @@ export function renderEmailVerification(email) {
 
       <!-- Modal -->
       <div
-        class="relative bg-dark-primary border border-white/10 rounded-3xl w-full max-w-md overflow-hidden slide-up"
+        class="relative modal-panel rounded-3xl w-full max-w-md overflow-hidden slide-up"
         onclick="event.stopPropagation()"
       >
         <!-- Close Button -->

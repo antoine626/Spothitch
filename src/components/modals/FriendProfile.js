@@ -22,7 +22,7 @@ export function renderFriendProfileModal(state) {
     >
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
       <div
-        class="relative bg-dark-primary border border-white/10 rounded-3xl w-full max-w-sm slide-up"
+        class="relative modal-panel rounded-3xl w-full max-w-sm slide-up"
         onclick="event.stopPropagation()"
       >
         <div class="p-6 text-center space-y-4">

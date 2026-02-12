@@ -246,7 +246,7 @@ export function renderNavigationPicker(data) {
 
       <!-- Modal -->
       <div
-        class="relative bg-dark-primary border border-white/10 rounded-t-3xl sm:rounded-3xl
+        class="relative modal-panel sm:rounded-3xl
           w-full max-w-md p-6 slide-up"
         onclick="event.stopPropagation()"
       >
