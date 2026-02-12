@@ -13,8 +13,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
-    "lint": "eslint src --ext .js,.jsx",
-    "lint:fix": "eslint src --ext .js,.jsx --fix",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "format": "prettier --write src/**/*.{js,jsx,css,html}",
     "test:lighthouse": "lhci autorun",
     "test:monkey": "playwright test e2e/monkeyTest.spec.js --project=chromium",
@@ -25,9 +25,11 @@
     "sync:spots": "node scripts/extract-spots.mjs"
   },
   "dependencies": {
+    "@eslint/js": "^10.0.1",
     "@sentry/browser": "^7.120.4",
     "dompurify": "^3.0.6",
     "firebase": "^12.7.0",
+    "globals": "^17.3.0",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3"
   },
@@ -40,7 +42,7 @@
     "@vitest/coverage-v8": "^1.2.2",
     "autoprefixer": "^10.4.24",
     "better-sqlite3": "^11.10.0",
-    "eslint": "^8.56.0",
+    "eslint": "^10.0.0",
     "gh-pages": "^6.1.1",
     "gremlins.js": "^2.2.0",
     "happy-dom": "^20.6.1",
