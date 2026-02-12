@@ -192,7 +192,7 @@ function setupKeyboardShortcuts() {
           announce(t('sr.openingAddSpotForm') || 'Ouverture du formulaire d\'ajout de spot');
           window.openAddSpot?.();
           break;
-        case '/':
+        case '/': {
           // Alt+/: Focus search
           e.preventDefault();
           const searchInput = document.querySelector('#search-input, [type="search"]');
@@ -201,6 +201,7 @@ function setupKeyboardShortcuts() {
             announce(t('sr.searchActivated') || 'Recherche activée');
           }
           break;
+        }
         case 'x':
           // Alt+X: Close current modal
           e.preventDefault();

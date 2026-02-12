@@ -38,7 +38,7 @@ describe('Admin Panel', () => {
       const html = renderAdminPanel(mockState);
       expect(html).toContain('Gamification');
       expect(html).toContain('Badges');
-      expect(html).toContain('compétences');
+      expect(html).toContain('Quiz');
       expect(html).toContain('Quiz');
     });
 

@@ -142,25 +142,29 @@ export async function syncOfflineQueue() {
  */
 async function processOfflineAction(action) {
   switch (action.type) {
-    case 'ADD_SPOT':
+    case 'ADD_SPOT': {
       const { saveSpotToFirebase } = await import('../services/firebase.js');
       await saveSpotToFirebase(action.data);
       break;
+    }
 
-    case 'CHECKIN':
+    case 'CHECKIN': {
       const { saveValidationToFirebase } = await import('../services/firebase.js');
       await saveValidationToFirebase(action.spotId, action.userId);
       break;
+    }
 
-    case 'REVIEW':
+    case 'REVIEW': {
       const { saveCommentToFirebase } = await import('../services/firebase.js');
       await saveCommentToFirebase(action.data);
       break;
+    }
 
-    case 'CHAT_MESSAGE':
+    case 'CHAT_MESSAGE': {
       const { sendChatMessage } = await import('../services/firebase.js');
       await sendChatMessage(action.room, action.text);
       break;
+    }
 
     default:
       console.warn('Unknown offline action type:', action.type);

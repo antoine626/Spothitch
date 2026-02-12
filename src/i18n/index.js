@@ -10400,7 +10400,7 @@ export function detectLanguage() {
     if (saved.lang && supported.includes(saved.lang)) {
       return saved.lang
     }
-  } catch (e) {}
+  } catch (e) { /* no-op */ }
 
   // 2. Fallback to browser language
   const browserLang = navigator.language?.substring(0, 2).toLowerCase();

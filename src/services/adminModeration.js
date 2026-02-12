@@ -323,11 +323,12 @@ export function getModerationQueue(options = {}) {
     let comparison = 0;
 
     switch (sortBy) {
-      case 'priority':
+      case 'priority': {
         const aPriority = ReportPriority[a.severity?.toUpperCase()]?.value || 0;
         const bPriority = ReportPriority[b.severity?.toUpperCase()]?.value || 0;
         comparison = bPriority - aPriority;
         break;
+      }
       case 'date':
         comparison = new Date(b.timestamp) - new Date(a.timestamp);
         break;
@@ -2440,6 +2441,5 @@ export default {
   // Render
   renderAdminDashboard,
   renderModerationQueue,
-  renderSanctionsHistory,
   renderForbiddenWordsPanel,
 };

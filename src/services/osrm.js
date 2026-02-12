@@ -143,7 +143,7 @@ export async function searchLocation(query) {
 
   // Get app language for localized results
   let lang = 'fr'
-  try { lang = (await import('../stores/state.js')).getState().lang || 'fr' } catch (e) {}
+  try { lang = (await import('../stores/state.js')).getState().lang || 'fr' } catch (e) { /* no-op */ }
 
   // Use featuretype=city to only get cities/towns (not streets, buildings etc.)
   // Results are sorted by "importance" by default (popular cities first)

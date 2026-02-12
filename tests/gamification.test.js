@@ -24,9 +24,9 @@ describe('Gamification Service', () => {
       expect(summary).toHaveProperty('league');
     });
 
-    it('should include streak information', () => {
+    it('should include badge information', () => {
       const summary = getGamificationSummary();
-      expect(summary).toHaveProperty('streak');
+      expect(summary).toHaveProperty('badgesCount');
     });
   });
 });

@@ -53,18 +53,6 @@ const initialState = {
   showSideMenu: false,
   showIdentityVerification: false,
 
-  // Identity Verification (Trust Levels 0-5)
-  verificationLevel: 0,
-  trustLevel: 0, // Alias for verificationLevel
-  pendingPhoneVerification: null,
-  pendingPhotoVerification: null,
-  pendingIdentityVerification: null,
-  pendingSelfieIdVerification: null, // New: 3-step selfie + ID
-  verifiedPhone: null,
-  verifiedPhotoUrl: null,
-  identityVerifiedAt: null,
-  selfieIdVerifiedAt: null,
-
   // Checkin Modal
   checkinSpot: null,
   checkinWaitTime: null,

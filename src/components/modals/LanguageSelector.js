@@ -119,7 +119,7 @@ window.confirmLanguageSelection = async () => {
     stored.showLanguageSelector = false
     stored.showWelcome = true
     localStorage.setItem('spothitch_v4_state', JSON.stringify(stored))
-  } catch (e) {}
+  } catch (e) { /* no-op */ }
 
   // Set the language via i18n + mark selection
   setLanguage(langCode);

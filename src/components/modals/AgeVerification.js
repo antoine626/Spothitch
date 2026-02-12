@@ -325,7 +325,7 @@ export function initAgeVerification() {
       document.getElementById('age-value').textContent = validation.age;
     }
   });
-};
+}
 
 // Export functions for testing and external use
 export { MINIMUM_AGE };

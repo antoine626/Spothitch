@@ -597,10 +597,11 @@ export function shareReferralLink(method) {
       case 'sms':
         window.open(`sms:?body=${encodeURIComponent(fullText)}`)
         break
-      case 'email':
+      case 'email': {
         const subject = t('referralEmailSubject')
         window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullText)}`)
         break
+      }
       case 'whatsapp':
         window.open(`https://wa.me/?text=${encodeURIComponent(fullText)}`)
         break

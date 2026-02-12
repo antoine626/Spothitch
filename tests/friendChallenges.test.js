@@ -577,18 +577,18 @@ describe('Friend Challenges Service', () => {
       expect(updated.creatorProgress).toBe(3);
     });
 
-    it('should handle streak metric', () => {
-      const challenge = createChallenge('user2', 'streak_challenge', 7);
+    it('should handle checkin metric', () => {
+      const challenge = createChallenge('user2', 'checkins_race', 10);
 
       setState({ user: { uid: 'user2' } });
       acceptChallenge(challenge.id);
 
-      setState({ user: { uid: 'user1' }, streak: 4 });
+      setState({ user: { uid: 'user1' }, checkins: 5 });
       syncChallengeProgress();
 
       const state = getState();
       const updated = state.friendChallenges.find(c => c.id === challenge.id);
-      expect(updated.creatorProgress).toBe(4);
+      expect(updated.creatorProgress).toBe(5);
     });
   });
 

@@ -181,7 +181,7 @@ window.checkEmailVerified = async () => {
 
       // Close modal after success
       setTimeout(() => {
-        closeEmailVerification();
+        window.closeEmailVerification();
       }, 2000);
     } else {
       if (statusEl) {

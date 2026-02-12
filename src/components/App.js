@@ -370,7 +370,7 @@ function initHomeMap(state) {
     // Add NEW spots to cluster (never clear, only append)
     const addSpotsToCluster = (spots) => {
       let favIds = []
-      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) {}
+      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) { /* no-op */ }
       const favSet = new Set(favIds)
 
       const newMarkers = []
@@ -504,7 +504,7 @@ function initTripMap(state) {
     // Trip spot markers (ONLY trip spots, not all)
     // Check favorites from localStorage
     let favIds = []
-    try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) {}
+    try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) { /* no-op */ }
     const favSet = new Set(favIds)
 
     const spots = results.spots || []

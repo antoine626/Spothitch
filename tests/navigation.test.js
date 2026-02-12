@@ -20,8 +20,7 @@ describe('Navigation Component', () => {
     it('should render all tabs', () => {
       const html = renderNavigation(mockState);
       expect(html).toContain('Carte');
-      expect(html).toContain('Voyage');
-      expect(html).toContain('Défis');
+      expect(html).toContain('Activités');
       expect(html).toContain('Social');
       expect(html).toContain('Profil');
     });
@@ -29,7 +28,6 @@ describe('Navigation Component', () => {
     it('should have data-tab attributes', () => {
       const html = renderNavigation(mockState);
       expect(html).toContain('data-tab="map"');
-      expect(html).toContain('data-tab="travel"');
       expect(html).toContain('data-tab="challenges"');
       expect(html).toContain('data-tab="social"');
       expect(html).toContain('data-tab="profile"');
@@ -38,8 +36,7 @@ describe('Navigation Component', () => {
     it('should have aria-labels for accessibility', () => {
       const html = renderNavigation(mockState);
       expect(html).toContain('aria-label="Carte"');
-      expect(html).toContain('aria-label="Voyage"');
-      expect(html).toContain('aria-label="Défis"');
+      expect(html).toContain('aria-label="Activités"');
       expect(html).toContain('aria-label="Social"');
       expect(html).toContain('aria-label="Profil"');
     });
@@ -52,7 +49,6 @@ describe('Navigation Component', () => {
     it('should use changeTab onclick handler', () => {
       const html = renderNavigation(mockState);
       expect(html).toContain("changeTab('map')");
-      expect(html).toContain("changeTab('travel')");
       expect(html).toContain("changeTab('challenges')");
       expect(html).toContain("changeTab('social')");
       expect(html).toContain("changeTab('profile')");
@@ -61,8 +57,7 @@ describe('Navigation Component', () => {
     it('should have icons for each tab', () => {
       const html = renderNavigation(mockState);
       expect(html).toContain('fa-map-marked-alt');
-      expect(html).toContain('fa-route');
-      expect(html).toContain('fa-gamepad');
+      expect(html).toContain('fa-compass');
       expect(html).toContain('fa-users');
       expect(html).toContain('fa-user');
     });

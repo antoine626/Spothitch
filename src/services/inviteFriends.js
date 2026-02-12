@@ -101,10 +101,11 @@ export function shareInvite(method) {
         window.open(`sms:?body=${encodeURIComponent(fullText)}`);
         break;
 
-      case 'email':
+      case 'email': {
         const subject = t('inviteEmailSubject');
         window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullText)}`);
         break;
+      }
 
       case 'whatsapp':
         window.open(`https://wa.me/?text=${encodeURIComponent(fullText)}`);

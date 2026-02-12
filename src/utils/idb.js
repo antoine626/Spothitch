@@ -23,6 +23,7 @@ const STORES = {
 }
 
 let dbPromise = null
+let worker = null
 
 /**
  * Open/create the database

@@ -235,7 +235,7 @@ function startVersionCheck() {
   }
 
   // Initial check to store current version (always run)
-  ;(async () => {
+  (async () => {
     try {
       const res = await fetch(`${BASE}version.json?t=${Date.now()}`, { cache: 'no-store' })
       if (res.ok) {
@@ -488,7 +488,7 @@ function loadInitialData() {
   try {
     const savedTrips = JSON.parse(localStorage.getItem('spothitch_saved_trips') || '[]')
     if (savedTrips.length > 0) setState({ savedTrips })
-  } catch (e) {}
+  } catch (e) { /* no-op */ }
 
   // Try to get user location and load nearby spots
   if (navigator.geolocation) {
@@ -905,7 +905,7 @@ window.closeSOS = () => setState({ showSOS: false });
 // Missing handlers (prevent ReferenceError on click)
 window.openAccessibilityHelp = () => showToast(t('accessibilityHelp') || 'Accessibilité : utilise les raccourcis clavier et le zoom du navigateur', 'info')
 window.showFriendOptions = () => showToast(t('friendOptionsSoon') || 'Options ami bientôt disponibles', 'info')
-window.showFullNavigation = () => changeTab('map')
+window.showFullNavigation = () => window.changeTab('map')
 window.shareSOSLocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -1125,7 +1125,7 @@ window.setLanguage = (lang) => {
     const stored = JSON.parse(localStorage.getItem('spothitch_v4_state') || '{}')
     stored.lang = lang
     localStorage.setItem('spothitch_v4_state', JSON.stringify(stored))
-  } catch (e) {}
+  } catch (e) { /* no-op */ }
   // Also set via normal state (for any subscribers that run before reload)
   setLanguage(lang)
   // Force full page reload to apply translations everywhere
