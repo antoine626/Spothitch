@@ -55,7 +55,7 @@ export function renderContactFormModal() {
               id="contact-name"
               name="name"
               required
-              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition-all"
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-all"
               placeholder="${t('contactFormName')}"
             />
           </div>
@@ -70,7 +70,7 @@ export function renderContactFormModal() {
               id="contact-email"
               name="email"
               required
-              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition-all"
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-all"
               placeholder="${t('contactFormEmail')}"
             />
           </div>
@@ -83,7 +83,7 @@ export function renderContactFormModal() {
             <select
               id="contact-subject"
               name="subject"
-              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition-all"
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-all"
             >
               <option value="general">${t('contactFormSubjectGeneral')}</option>
               <option value="bug">${t('contactFormSubjectBug')}</option>
@@ -103,7 +103,7 @@ export function renderContactFormModal() {
               name="message"
               required
               rows="5"
-              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-none transition-all resize-none"
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-all resize-none"
               placeholder="${t('contactFormMessage')}"
             ></textarea>
           </div>

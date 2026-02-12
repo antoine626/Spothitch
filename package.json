@@ -31,16 +31,17 @@
     "firebase": "^12.7.0",
     "globals": "^17.3.0",
     "leaflet": "^1.9.4",
-    "leaflet.markercluster": "^1.5.3"
+    "leaflet.markercluster": "^1.5.3",
+    "lucide": "^0.563.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.58.2",
     "@sentry/vite-plugin": "^4.9.1",
+    "@tailwindcss/vite": "^4.1.18",
     "@vitejs/plugin-legacy": "^7.2.1",
     "@vitest/coverage-v8": "^4.0.18",
-    "autoprefixer": "^10.4.24",
     "better-sqlite3": "^11.10.0",
     "eslint": "^10.0.0",
     "gh-pages": "^6.1.1",
@@ -51,7 +52,7 @@
     "postcss": "^8.4.33",
     "prettier": "^3.8.1",
     "sharp": "^0.34.5",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^4.1.18",
     "vite": "^7.3.1",
     "vite-plugin-pwa": "^1.2.0",
     "vitest": "^4.0.18"

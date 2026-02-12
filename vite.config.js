@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import legacy from '@vitejs/plugin-legacy';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
@@ -19,6 +20,9 @@ export default defineConfig({
   base: '/',
 
   plugins: [
+    // Tailwind CSS v4
+    tailwindcss(),
+
     // Version check for auto-reload
     versionPlugin(),
 
@@ -173,9 +177,7 @@ export default defineConfig({
     port: 4173
   },
   
-  css: {
-    postcss: './postcss.config.js'
-  },
+  css: {},
   
   optimizeDeps: {
     include: ['leaflet', 'firebase/app', 'dompurify']

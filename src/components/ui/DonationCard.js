@@ -250,7 +250,7 @@ export function renderDonationModal(state) {
                   max="500"
                   value="5"
                   id="custom-amount"
-                  class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-center text-2xl font-bold text-white focus:border-rose-500 focus:outline-none"
+                  class="w-full px-4 py-4 bg-white/10 border border-white/20 rounded-xl text-center text-2xl font-bold text-white focus:border-rose-500 focus:outline-hidden"
                   placeholder="5"
                 />
                 <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl font-bold">EUR</span>

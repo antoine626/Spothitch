@@ -1,11 +1,80 @@
+/* Tailwind CSS v4 */
+@import "tailwindcss";
+
 /* Leaflet CSS */
 @import 'leaflet/dist/leaflet.css';
 @import 'leaflet.markercluster/dist/MarkerCluster.css';
 @import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ===== THEME CONFIG (replaces tailwind.config.js) ===== */
+@theme {
+  /* Colors - Primary (Sky blue, will change to Amber in Phase 1) */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+  --color-primary-950: #082f49;
+
+  /* Colors - Success */
+  --color-success-400: #34d399;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+
+  /* Colors - Warning */
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+
+  /* Colors - Danger */
+  --color-danger-400: #f87171;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+
+  /* Colors - Dark */
+  --color-dark-primary: #0f172a;
+  --color-dark-secondary: #1e293b;
+  --color-dark-card: rgba(255, 255, 255, 0.05);
+  --color-dark-border: rgba(255, 255, 255, 0.1);
+
+  /* Colors - Light */
+  --color-light-primary: #FFF8F0;
+  --color-light-secondary: #FFF1E6;
+  --color-light-border: #fed7aa;
+
+  /* Fonts */
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+
+  /* Animations */
+  --animate-fade-in: fadeIn 0.4s ease-out forwards;
+  --animate-slide-up: slideUp 0.4s ease-out forwards;
+  --animate-pulse-glow: pulseGlow 2s ease-in-out infinite;
+  --animate-bounce-subtle: bounceSubtle 1s ease-in-out infinite;
+
+  /* Keyframes */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+    50% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.8); }
+  }
+  @keyframes bounceSubtle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+}
 
 /* ===== BASE STYLES ===== */
 @layer base {
@@ -61,7 +130,7 @@
   }
 
   .light-theme .card {
-    @apply bg-white border-light-border shadow-sm;
+    @apply bg-white border-light-border shadow-xs;
   }
 
   /* Buttons */
@@ -126,7 +195,7 @@
   /* Inputs */
   .input-modern {
     @apply w-full p-4 bg-white/5 border-2 border-white/10 rounded-xl text-white text-base;
-    @apply transition-all duration-300 outline-none;
+    @apply transition-all duration-300 outline-hidden;
   }
 
   .input-modern:focus {
@@ -640,7 +709,7 @@ label {
 
 /* Focus Visible - enhanced focus indicators */
 *:focus-visible {
-  outline: 2px solid theme('colors.primary.400');
+  outline: 2px solid var(--color-primary-400);
   outline-offset: 2px;
 }
 
@@ -783,12 +852,12 @@ body:not(.keyboard-nav) textarea:focus {
 /* Link Distinction */
 a:not(.btn):not(.nav-btn) {
   text-decoration: underline;
-  text-decoration-color: theme('colors.primary.400');
+  text-decoration-color: var(--color-primary-400);
   text-underline-offset: 3px;
 }
 
 a:not(.btn):not(.nav-btn):hover {
-  text-decoration-color: theme('colors.primary.300');
+  text-decoration-color: var(--color-primary-300);
 }
 
 /* Selection Colors */
@@ -1083,7 +1152,7 @@ img[data-error="true"]::after {
 [role="tab"]:focus-visible,
 [role="radio"]:focus-visible,
 [role="checkbox"]:focus-visible {
-  @apply ring-2 ring-primary-400 ring-offset-2 ring-offset-dark-primary outline-none;
+  @apply ring-2 ring-primary-400 ring-offset-2 ring-offset-dark-primary outline-hidden;
 }
 
 /* Visually hidden but accessible to screen readers */
@@ -1102,13 +1171,13 @@ img[data-error="true"]::after {
 /* Dialog/Modal focus trap styling */
 [role="dialog"],
 [role="alertdialog"] {
-  @apply outline-none;
+  @apply outline-hidden;
 }
 
 /* Ensure dialogs are properly styled when focused */
 [role="dialog"]:focus,
 [role="alertdialog"]:focus {
-  @apply outline-none;
+  @apply outline-hidden;
 }
 
 /* Better contrast for disabled elements */
@@ -1201,7 +1270,7 @@ textarea[aria-invalid="true"] {
   @apply bg-slate-800/80 border border-white/10 text-white rounded-xl px-4 py-3 placeholder-slate-400 transition-all;
 }
 .input-field:focus {
-  @apply border-sky-500 ring-2 ring-sky-500/20 outline-none;
+  @apply border-sky-500 ring-2 ring-sky-500/20 outline-hidden;
 }
 textarea.input-field {
   @apply min-h-[80px] resize-y;
@@ -2659,7 +2728,7 @@ textarea.input-field {
 
   /* Keep focus indicators visible */
   *:focus-visible {
-    outline: 2px solid theme('colors.primary.400');
+    outline: 2px solid var(--color-primary-400);
     outline-offset: 2px;
     transition: none !important;
   }

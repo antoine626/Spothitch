@@ -140,7 +140,7 @@ export function renderCheckinModal(state) {
             <textarea
               id="checkin-comment"
               class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white
-                placeholder-slate-500 resize-none focus:border-primary-400 focus:outline-none"
+                placeholder-slate-500 resize-none focus:border-primary-400 focus:outline-hidden"
               placeholder="${t('checkinCommentPlaceholder') || 'Ex: Super spot, voiture arrêtée en 5 min!'}"
               rows="2"
             ></textarea>

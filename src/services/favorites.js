@@ -313,7 +313,7 @@ export function renderFavoritesSection(sortBy = 'date') {
         <!-- Sort Dropdown -->
         <select
           onchange="setFavoritesSort(this.value)"
-          class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:border-primary-500 outline-none"
+          class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:border-primary-500 outline-hidden"
           aria-label="${t('favoritesSortLabel') || 'Trier les favoris'}"
         >
           <option value="date" ${sortBy === 'date' ? 'selected' : ''}>${t('favoritesSortRecent') || 'Plus recents'}</option>
