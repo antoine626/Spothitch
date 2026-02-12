@@ -43,6 +43,7 @@ import {
 import {
   startQuiz,
   answerQuestion as answerQuizQuestion,
+  nextQuizQuestion,
   finishQuiz,
   getQuizState,
 } from './services/quiz.js';
@@ -1232,15 +1233,24 @@ window.resetFilters = () => resetFiltersUtil();
 
 // Quiz handlers
 window.openQuiz = () => setState({ showQuiz: true });
-window.closeQuiz = () => setState({ showQuiz: false, quizActive: false, quizResult: null });
+window.closeQuiz = () => setState({ showQuiz: false, quizActive: false, quizResult: null, quizCountryCode: null, quizShowExplanation: false });
 window.startQuizGame = () => {
   startQuiz();
+};
+window.startCountryQuiz = (countryCode) => {
+  startQuiz(countryCode);
 };
 window.answerQuizQuestion = (answerIndex) => {
   answerQuizQuestion(answerIndex);
 };
+window.nextQuizQuestion = () => {
+  nextQuizQuestion();
+};
 window.retryQuiz = () => {
   startQuiz();
+};
+window.showCountryQuizSelection = () => {
+  setState({ quizActive: false, quizResult: null, quizCountryCode: null, quizShowExplanation: false });
 };
 
 // Badge handlers

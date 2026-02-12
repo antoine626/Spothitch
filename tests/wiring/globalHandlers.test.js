@@ -47,7 +47,8 @@ const MAIN_JS_HANDLERS = [
   'setFilterCountry', 'setFilterMinRating', 'setFilterMaxWait',
   'toggleVerifiedFilter', 'setSortBy', 'applyFilters', 'resetFilters',
   // Quiz
-  'openQuiz', 'closeQuiz', 'startQuizGame', 'answerQuizQuestion', 'retryQuiz',
+  'openQuiz', 'closeQuiz', 'startQuizGame', 'startCountryQuiz', 'answerQuizQuestion',
+  'nextQuizQuestion', 'retryQuiz', 'showCountryQuizSelection',
   // Badges
   'openBadges', 'closeBadges', 'showBadgeDetail', 'closeBadgeDetail', 'dismissBadgePopup',
   // Challenges

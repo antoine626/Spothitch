@@ -1,14 +1,16 @@
 /**
  * Quiz Service
  * Handles hitchhiking quiz logic and scoring
+ * Supports both general and country-specific quizzes
  */
 
-import { getState, setState } from '../stores/state.js';
-import { addPoints, addSeasonPoints, checkBadges } from './gamification.js';
-import { showToast } from './notifications.js';
-import { t } from '../i18n/index.js';
+import { getState, setState } from '../stores/state.js'
+import { addPoints, addSeasonPoints, checkBadges } from './gamification.js'
+import { showToast } from './notifications.js'
+import { t } from '../i18n/index.js'
+import { getCountryQuizData, getAvailableQuizCountries, countryFlags, countryNames } from '../data/quizzes/index.js'
 
-// Quiz questions database
+// Quiz questions database (general hitchhiking questions)
 export const quizQuestions = [
   {
     id: 1,
@@ -220,54 +222,98 @@ export const quizQuestions = [
     explanationEn: '112 works in all European Union countries.',
     points: 10,
   },
-];
+]
 
 // Quiz state
-let quizTimer = null;
-let quizStartTime = null;
+let quizTimer = null
+let quizStartTime = null
 
 /**
- * Start a new quiz
+ * Get quiz questions for a specific country
+ * Converts country quiz format to the internal quiz format
+ * @param {string} countryCode - ISO 2-letter country code
+ * @returns {Array} Array of quiz questions in internal format
  */
-export function startQuiz() {
-  const shuffled = [...quizQuestions].sort(() => Math.random() - 0.5).slice(0, 5);
+export function getQuizForCountry(countryCode) {
+  const quizData = getCountryQuizData(countryCode)
+  if (!quizData) return null
+
+  const { lang } = getState()
+
+  return quizData.questions.map((q, index) => {
+    const correctIdx = q.answers.findIndex(a => a.correct)
+    return {
+      id: `${countryCode}_${index + 1}`,
+      question: q.question[lang] || q.question.en || q.question.fr,
+      options: q.answers.map(a => a.text[lang] || a.text.en || a.text.fr),
+      correctIndex: correctIdx,
+      explanation: q.explanation[lang] || q.explanation.en || q.explanation.fr,
+      category: q.category,
+      points: 10,
+      // Keep multilingual data for rendering
+      _multilingual: q,
+    }
+  })
+}
+
+/**
+ * Start a new quiz (general or country-specific)
+ * @param {string} [countryCode] - Optional country code for country quiz
+ */
+export function startQuiz(countryCode) {
+  let questions
+
+  if (countryCode) {
+    const countryQuestions = getQuizForCountry(countryCode)
+    if (countryQuestions) {
+      questions = [...countryQuestions].sort(() => Math.random() - 0.5)
+    } else {
+      // Fallback to general questions
+      questions = [...quizQuestions].sort(() => Math.random() - 0.5).slice(0, 5)
+      countryCode = null
+    }
+  } else {
+    questions = [...quizQuestions].sort(() => Math.random() - 0.5).slice(0, 5)
+  }
 
   setState({
     quizActive: true,
-    quizQuestions: shuffled,
+    quizQuestions: questions,
     quizCurrentIndex: 0,
     quizAnswers: [],
     quizScore: 0,
-    quizTimeLeft: 60, // 60 seconds per quiz
+    quizTimeLeft: countryCode ? 120 : 60, // 120s for country quizzes (10 questions)
     quizStartTime: Date.now(),
-  });
+    quizCountryCode: countryCode || null,
+    quizShowExplanation: false,
+  })
 
-  startQuizTimer();
+  startQuizTimer(countryCode ? 120 : 60)
 
-  return shuffled;
+  return questions
 }
 
 /**
  * Start the quiz timer
+ * @param {number} [duration=60] - Timer duration in seconds
  */
-export function startQuizTimer() {
+export function startQuizTimer(duration = 60) {
   if (quizTimer) {
-    clearInterval(quizTimer);
+    clearInterval(quizTimer)
   }
 
-  quizStartTime = Date.now();
+  quizStartTime = Date.now()
 
   quizTimer = setInterval(() => {
-    const state = getState();
-    const elapsed = Math.floor((Date.now() - quizStartTime) / 1000);
-    const timeLeft = Math.max(0, 60 - elapsed);
+    const elapsed = Math.floor((Date.now() - quizStartTime) / 1000)
+    const timeLeft = Math.max(0, duration - elapsed)
 
-    setState({ quizTimeLeft: timeLeft });
+    setState({ quizTimeLeft: timeLeft })
 
     if (timeLeft <= 0) {
-      finishQuiz();
+      finishQuiz()
     }
-  }, 1000);
+  }, 1000)
 }
 
 /**
@@ -275,8 +321,8 @@ export function startQuizTimer() {
  */
 export function stopQuizTimer() {
   if (quizTimer) {
-    clearInterval(quizTimer);
-    quizTimer = null;
+    clearInterval(quizTimer)
+    quizTimer = null
   }
 }
 
@@ -285,9 +331,9 @@ export function stopQuizTimer() {
  * @param {number} answerIndex - Index of selected answer
  */
 export function answerQuestion(answerIndex) {
-  const state = getState();
-  const currentQuestion = state.quizQuestions[state.quizCurrentIndex];
-  const isCorrect = answerIndex === currentQuestion.correctIndex;
+  const state = getState()
+  const currentQuestion = state.quizQuestions[state.quizCurrentIndex]
+  const isCorrect = answerIndex === currentQuestion.correctIndex
 
   const newAnswers = [
     ...state.quizAnswers,
@@ -297,58 +343,76 @@ export function answerQuestion(answerIndex) {
       isCorrect,
       points: isCorrect ? currentQuestion.points : 0,
     },
-  ];
+  ]
 
-  const newScore = state.quizScore + (isCorrect ? currentQuestion.points : 0);
-  const nextIndex = state.quizCurrentIndex + 1;
+  const newScore = state.quizScore + (isCorrect ? currentQuestion.points : 0)
 
+  // For country quizzes, show explanation before advancing
   setState({
     quizAnswers: newAnswers,
     quizScore: newScore,
-    quizCurrentIndex: nextIndex,
+    quizShowExplanation: true,
     quizLastAnswer: {
       isCorrect,
       explanation: currentQuestion.explanation,
+      selectedIndex: answerIndex,
+      correctIndex: currentQuestion.correctIndex,
+      category: currentQuestion.category || null,
     },
-  });
+  })
+
+  return { isCorrect, explanation: currentQuestion.explanation }
+}
+
+/**
+ * Advance to next question after viewing explanation
+ */
+export function nextQuizQuestion() {
+  const state = getState()
+  const nextIndex = state.quizCurrentIndex + 1
+
+  setState({
+    quizCurrentIndex: nextIndex,
+    quizShowExplanation: false,
+    quizLastAnswer: null,
+  })
 
   // Check if quiz is complete
   if (nextIndex >= state.quizQuestions.length) {
-    finishQuiz();
+    finishQuiz()
   }
-
-  return { isCorrect, explanation: currentQuestion.explanation };
 }
 
 /**
  * Finish the quiz and calculate final score
  */
 export function finishQuiz() {
-  stopQuizTimer();
+  stopQuizTimer()
 
-  const state = getState();
-  const totalQuestions = state.quizQuestions?.length || 5;
-  const correctAnswers = state.quizAnswers?.filter(a => a.isCorrect).length || 0;
-  const score = state.quizScore || 0;
-  const timeTaken = state.quizStartTime ? Math.floor((Date.now() - state.quizStartTime) / 1000) : 60;
+  const state = getState()
+  const totalQuestions = state.quizQuestions?.length || 5
+  const correctAnswers = state.quizAnswers?.filter(a => a.isCorrect).length || 0
+  const score = state.quizScore || 0
+  const timeTaken = state.quizStartTime ? Math.floor((Date.now() - state.quizStartTime) / 1000) : 60
+  const countryCode = state.quizCountryCode || null
 
-  const isPerfect = correctAnswers === totalQuestions;
-  const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+  const isPerfect = correctAnswers === totalQuestions
+  const percentage = Math.round((correctAnswers / totalQuestions) * 100)
 
   // Calculate bonus points
-  let bonusPoints = 0;
+  let bonusPoints = 0
   if (isPerfect) {
-    bonusPoints = 50; // Perfect score bonus
+    bonusPoints = 50 // Perfect score bonus
   } else if (percentage >= 80) {
-    bonusPoints = 20; // Good score bonus
+    bonusPoints = 20 // Good score bonus
   }
 
   // Time bonus (max 10 points if under 30 seconds)
   if (timeTaken < 30) {
-    bonusPoints += Math.floor((30 - timeTaken) / 3);
+    bonusPoints += Math.floor((30 - timeTaken) / 3)
   }
 
-  const totalPoints = score + bonusPoints;
+  const totalPoints = score + bonusPoints
 
   const result = {
     totalQuestions,
@@ -359,38 +423,85 @@ export function finishQuiz() {
     percentage,
     isPerfect,
     timeTaken,
-  };
+    countryCode,
+  }
 
   setState({
     quizActive: false,
     quizResult: result,
+    quizShowExplanation: false,
     perfectQuiz: state.perfectQuiz || isPerfect,
-  });
+  })
+
+  // Save country score to localStorage
+  if (countryCode) {
+    saveCountryScore(countryCode, percentage, totalPoints)
+  }
 
   // Award points
-  addPoints(totalPoints, 'quiz');
-  addSeasonPoints(Math.floor(totalPoints / 2));
+  addPoints(totalPoints, 'quiz')
+  addSeasonPoints(Math.floor(totalPoints / 2))
 
   // Check for quiz master badge
   if (isPerfect) {
-    checkBadges();
-    showToast(t('quizPerfectScore') || '🧠 Score parfait ! Quiz Master débloqué !', 'success');
+    checkBadges()
+    showToast(t('quizPerfectScore') || 'Score parfait ! Quiz Master debloque !', 'success')
   } else if (percentage >= 80) {
-    showToast(t('quizExcellent') || `🎉 Excellent ! ${percentage}% !`, 'success');
+    showToast(t('quizExcellent') || `Excellent ! ${percentage}% !`, 'success')
   } else if (percentage >= 60) {
-    showToast(t('quizGood') || `👍 Bien joué ! ${percentage}%`, 'info');
+    showToast(t('quizGood') || `Bien joue ! ${percentage}%`, 'info')
   } else {
-    showToast(t('quizKeepPracticing') || `📚 ${percentage}% - Continue !`, 'info');
+    showToast(t('quizKeepPracticing') || `${percentage}% - Continue !`, 'info')
   }
 
-  return result;
+  return result
+}
+
+/**
+ * Save country quiz score to localStorage
+ * @param {string} countryCode - Country code
+ * @param {number} percentage - Score percentage
+ * @param {number} points - Total points earned
+ */
+function saveCountryScore(countryCode, percentage, points) {
+  try {
+    const stored = localStorage.getItem('spothitch_country_quiz_scores')
+    const scores = stored ? JSON.parse(stored) : {}
+
+    if (!scores[countryCode]) {
+      scores[countryCode] = { best: 0, attempts: 0, totalPoints: 0 }
+    }
+
+    scores[countryCode].attempts += 1
+    scores[countryCode].totalPoints += points
+    if (percentage > scores[countryCode].best) {
+      scores[countryCode].best = percentage
+    }
+
+    localStorage.setItem('spothitch_country_quiz_scores', JSON.stringify(scores))
+  } catch {
+    // localStorage not available, ignore
+  }
+}
+
+/**
+ * Get saved country quiz scores
+ * @returns {object} Scores by country code
+ */
+export function getCountryScores() {
+  try {
+    const stored = localStorage.getItem('spothitch_country_quiz_scores')
+    return stored ? JSON.parse(stored) : {}
+  } catch {
+    return {}
+  }
 }
 
 /**
  * Get current quiz state
  */
 export function getQuizState() {
-  const state = getState();
+  const state = getState()
   return {
     isActive: state.quizActive,
     questions: state.quizQuestions,
@@ -399,22 +510,38 @@ export function getQuizState() {
     score: state.quizScore,
     timeLeft: state.quizTimeLeft,
     result: state.quizResult,
-  };
+    countryCode: state.quizCountryCode || null,
+    showExplanation: state.quizShowExplanation || false,
+    lastAnswer: state.quizLastAnswer || null,
+  }
+}
+
+/**
+ * Get available quiz countries with their data
+ * @returns {Array} Array of { code, flag, name } objects
+ */
+export function getAvailableCountries() {
+  const { lang } = getState()
+  return getAvailableQuizCountries().map(code => ({
+    code,
+    flag: countryFlags[code] || '',
+    name: countryNames[code]?.[lang] || countryNames[code]?.en || code,
+  }))
 }
 
 /**
  * Get a random question for practice
  */
 export function getRandomQuestion() {
-  const randomIndex = Math.floor(Math.random() * quizQuestions.length);
-  return quizQuestions[randomIndex];
+  const randomIndex = Math.floor(Math.random() * quizQuestions.length)
+  return quizQuestions[randomIndex]
 }
 
 /**
  * Get all questions (for review mode)
  */
 export function getAllQuestions() {
-  return quizQuestions;
+  return quizQuestions
 }
 
 export default {
@@ -423,8 +550,12 @@ export default {
   startQuizTimer,
   stopQuizTimer,
   answerQuestion,
+  nextQuizQuestion,
   finishQuiz,
   getQuizState,
+  getQuizForCountry,
+  getAvailableCountries,
+  getCountryScores,
   getRandomQuestion,
   getAllQuestions,
-};
+}
