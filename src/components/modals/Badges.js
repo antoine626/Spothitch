@@ -39,7 +39,7 @@ export function renderBadgesModal() {
          role="dialog"
          aria-modal="true"
          aria-labelledby="badges-title">
-      <div class="bg-gray-900 w-full sm:max-w-lg max-h-[85vh] rounded-t-3xl sm:rounded-2xl overflow-hidden
+      <div class="modal-panel w-full sm:max-w-lg max-h-[85vh] sm:rounded-2xl overflow-hidden
                   flex flex-col">
         <!-- Header -->
         <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-6">
@@ -70,18 +70,18 @@ export function renderBadgesModal() {
           <!-- Next badges to unlock -->
           ${nextBadges.length > 0 ? `
             <section class="mb-6">
-              <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+              <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
                 Prochains badges
               </h3>
               <div class="grid grid-cols-3 gap-3">
                 ${nextBadges.map(badge => `
-                  <div class="bg-gray-800 rounded-xl p-3 text-center opacity-60">
+                  <div class="bg-white/5 rounded-xl p-3 text-center opacity-60">
                     ${badge.image
     ? `<img src="${badge.image}" alt="${badge.name}" class="w-12 h-12 mx-auto mb-2 grayscale" loading="lazy" />`
     : `<div class="text-3xl mb-2 grayscale">${badge.icon}</div>`
 }
                     <div class="text-white text-xs font-medium">${badge.name}</div>
-                    <div class="text-gray-500 text-xs mt-1">+${badge.points} pts</div>
+                    <div class="text-slate-500 text-xs mt-1">+${badge.points} pts</div>
                   </div>
                 `).join('')}
               </div>
@@ -95,16 +95,16 @@ export function renderBadgesModal() {
 
     return `
               <section class="mb-6">
-                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3 flex items-center gap-2">
                   ${category.icon} ${category.name}
-                  <span class="text-xs text-gray-600">(${earned.length}/${categoryBadges.length})</span>
+                  <span class="text-xs text-slate-500">(${earned.length}/${categoryBadges.length})</span>
                 </h3>
                 <div class="grid grid-cols-3 gap-3">
                   ${categoryBadges.map(badge => {
     const isEarned = earnedBadgeIds.includes(badge.id) || badge.condition(userStats);
     return `
-                      <div class="badge-card bg-gray-800 rounded-xl p-3 text-center cursor-pointer
-                                  ${isEarned ? 'hover:bg-gray-700' : 'opacity-40'}"
+                      <div class="badge-card bg-white/5 rounded-xl p-3 text-center cursor-pointer
+                                  ${isEarned ? 'hover:bg-white/10' : 'opacity-40'}"
                            onclick="${isEarned ? `showBadgeDetail('${badge.id}')` : ''}">
                         ${badge.image
     ? `<img src="${badge.image}" alt="${badge.name}" class="w-12 h-12 mx-auto mb-2 ${isEarned ? '' : 'grayscale'}" loading="lazy" />`
@@ -113,7 +113,7 @@ export function renderBadgesModal() {
                         <div class="text-white text-xs font-medium truncate">${badge.name}</div>
                         ${isEarned
     ? '<div class="text-green-400 text-xs mt-1">✓ Débloqué</div>'
-    : '<div class="text-gray-500 text-xs mt-1">🔒</div>'
+    : '<div class="text-slate-500 text-xs mt-1">🔒</div>'
 }
                       </div>
                     `;
@@ -140,7 +140,7 @@ export function renderBadgePopup() {
   return `
     <div class="badge-popup fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
          onclick="dismissBadgePopup()">
-      <div class="bg-gray-900 w-full max-w-sm rounded-2xl overflow-hidden animate-scale-up"
+      <div class="modal-panel w-full max-w-sm rounded-2xl overflow-hidden animate-scale-up"
            onclick="event.stopPropagation()">
         <!-- Confetti effect would be nice here -->
         <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-8 text-center relative overflow-hidden">
@@ -166,7 +166,7 @@ export function renderBadgePopup() {
 
         <div class="p-6 text-center">
           <h3 class="text-2xl font-bold text-white mb-2">${newBadge.name}</h3>
-          <p class="text-gray-400 mb-4">${newBadge.description}</p>
+          <p class="text-slate-400 mb-4">${newBadge.description}</p>
 
           <div class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 rounded-full text-amber-400 mb-6">
             <span>+${newBadge.points}</span>
@@ -195,7 +195,7 @@ export function renderBadgeDetail(badgeId) {
   return `
     <div class="badge-detail fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
          onclick="closeBadgeDetail()">
-      <div class="bg-gray-900 w-full max-w-sm rounded-2xl overflow-hidden"
+      <div class="modal-panel w-full max-w-sm rounded-2xl overflow-hidden"
            onclick="event.stopPropagation()">
         <div class="bg-gradient-to-r from-amber-500/20 to-orange-500/20 p-8 text-center">
           ${badge.image
@@ -206,21 +206,21 @@ export function renderBadgeDetail(badgeId) {
 
         <div class="p-6 text-center">
           <h3 class="text-xl font-bold text-white mb-2">${badge.name}</h3>
-          <p class="text-gray-400 mb-4">${badge.description}</p>
+          <p class="text-slate-400 mb-4">${badge.description}</p>
 
           <div class="flex justify-center gap-4 text-sm">
             <div class="text-center">
               <div class="text-amber-400 font-bold">${badge.points}</div>
-              <div class="text-gray-500">Points</div>
+              <div class="text-slate-500">Points</div>
             </div>
             <div class="text-center">
               <div class="text-purple-400 font-bold">${badge.category}</div>
-              <div class="text-gray-500">Catégorie</div>
+              <div class="text-slate-500">Catégorie</div>
             </div>
           </div>
 
           <button onclick="closeBadgeDetail()"
-                  class="mt-6 w-full py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-700">
+                  class="mt-6 w-full py-3 bg-white/5 text-white rounded-xl hover:bg-white/10">
             Fermer
           </button>
         </div>

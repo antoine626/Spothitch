@@ -75,7 +75,7 @@ export function renderLeaderboardModal() {
          role="dialog"
          aria-modal="true"
          aria-labelledby="leaderboard-title">
-      <div class="bg-gray-900 w-full sm:max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-2xl overflow-hidden flex flex-col">
+      <div class="modal-panel w-full sm:max-w-lg max-h-[90vh] sm:rounded-2xl overflow-hidden flex flex-col">
         <!-- Header -->
         <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-6">
           <div class="flex justify-between items-start">
@@ -108,20 +108,20 @@ export function renderLeaderboardModal() {
         </div>
 
         <!-- Tabs -->
-        <div class="flex border-b border-gray-700">
+        <div class="flex border-b border-white/10">
           <button onclick="setLeaderboardTab('weekly')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
-                         ${leaderboardTab === 'weekly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-gray-500 hover:text-gray-300'}">
+                         ${leaderboardTab === 'weekly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
             Cette semaine
           </button>
           <button onclick="setLeaderboardTab('monthly')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
-                         ${leaderboardTab === 'monthly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-gray-500 hover:text-gray-300'}">
+                         ${leaderboardTab === 'monthly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
             Ce mois
           </button>
           <button onclick="setLeaderboardTab('allTime')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
-                         ${leaderboardTab === 'allTime' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-gray-500 hover:text-gray-300'}">
+                         ${leaderboardTab === 'allTime' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
             All-time
           </button>
         </div>
@@ -129,7 +129,7 @@ export function renderLeaderboardModal() {
         <!-- Leaderboard List -->
         <div class="flex-1 overflow-y-auto">
           <!-- Top 3 Podium -->
-          <div class="flex justify-center items-end gap-4 p-6 bg-gradient-to-b from-gray-800/50 to-transparent">
+          <div class="flex justify-center items-end gap-4 p-6 bg-gradient-to-b from-dark-secondary/50 to-transparent">
             ${renderPodiumPlace(leaderboardData[1], 2)}
             ${renderPodiumPlace(leaderboardData[0], 1)}
             ${renderPodiumPlace(leaderboardData[2], 3)}
@@ -142,19 +142,19 @@ export function renderLeaderboardModal() {
         </div>
 
         <!-- Footer Stats -->
-        <div class="p-4 border-t border-gray-700 bg-gray-800/50">
+        <div class="p-4 border-t border-white/10 bg-dark-secondary/50">
           <div class="flex justify-around text-center">
             <div>
               <div class="text-2xl font-bold text-amber-400">${leaderboardData.reduce((sum, u) => sum + u.points, 0).toLocaleString()}</div>
-              <div class="text-xs text-gray-500">Points totaux</div>
+              <div class="text-xs text-slate-500">Points totaux</div>
             </div>
             <div>
               <div class="text-2xl font-bold text-emerald-400">${leaderboardData.length * 10}+</div>
-              <div class="text-xs text-gray-500">Participants</div>
+              <div class="text-xs text-slate-500">Participants</div>
             </div>
             <div>
               <div class="text-2xl font-bold text-purple-400">${Math.max(...leaderboardData.map(u => u.level))}</div>
-              <div class="text-xs text-gray-500">Meilleur niveau</div>
+              <div class="text-xs text-slate-500">Meilleur niveau</div>
             </div>
           </div>
         </div>
@@ -171,7 +171,7 @@ function renderPodiumPlace(user, position) {
 
   const podiumStyles = {
     1: { height: 'h-28', medal: '🥇', bg: 'from-amber-500/30 to-amber-600/30', border: 'border-amber-500/50' },
-    2: { height: 'h-24', medal: '🥈', bg: 'from-gray-400/30 to-gray-500/30', border: 'border-gray-400/50' },
+    2: { height: 'h-24', medal: '🥈', bg: 'from-slate-400/30 to-slate-500/30', border: 'border-slate-400/50' },
     3: { height: 'h-20', medal: '🥉', bg: 'from-orange-700/30 to-orange-800/30', border: 'border-orange-700/50' },
   };
 
@@ -181,7 +181,7 @@ function renderPodiumPlace(user, position) {
     <div class="flex flex-col items-center ${position === 1 ? 'order-2' : position === 2 ? 'order-1' : 'order-3'}">
       <div class="text-3xl mb-2">${user.avatar}</div>
       <div class="text-white font-medium text-sm truncate max-w-20">${user.username}</div>
-      <div class="text-gray-400 text-xs">${user.points.toLocaleString()} pts</div>
+      <div class="text-slate-400 text-xs">${user.points.toLocaleString()} pts</div>
       <div class="mt-2 w-20 ${style.height} rounded-t-lg bg-gradient-to-b ${style.bg} border-2 ${style.border} flex items-start justify-center pt-2">
         <span class="text-2xl">${style.medal}</span>
       </div>
@@ -194,8 +194,8 @@ function renderPodiumPlace(user, position) {
  */
 function renderLeaderboardRow(user, rank) {
   return `
-    <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors">
-      <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-amber-400' : 'text-gray-500'}">
+    <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
+      <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-amber-400' : 'text-slate-500'}">
         ${rank}
       </div>
       <div class="text-2xl">${user.avatar}</div>
@@ -204,11 +204,11 @@ function renderLeaderboardRow(user, rank) {
           <span class="text-white font-medium truncate">${user.username}</span>
           <span class="text-sm">${countryFlags[user.country] || '🌍'}</span>
         </div>
-        <div class="text-gray-500 text-xs">Niv. ${user.level}</div>
+        <div class="text-slate-500 text-xs">Niv. ${user.level}</div>
       </div>
       <div class="text-right">
         <div class="text-amber-400 font-bold">${user.points.toLocaleString()}</div>
-        <div class="text-gray-500 text-xs">points</div>
+        <div class="text-slate-500 text-xs">points</div>
       </div>
     </div>
   `;

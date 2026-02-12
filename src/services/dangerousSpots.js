@@ -803,7 +803,7 @@ export function renderDangerReportModal(spotId) {
       aria-modal="true"
       aria-labelledby="danger-report-modal-title"
     >
-      <div class="bg-gray-900 w-full max-w-md rounded-2xl overflow-hidden">
+      <div class="modal-panel w-full max-w-md overflow-hidden">
         <!-- Header -->
         <div class="bg-gradient-to-r from-red-500 to-orange-500 p-6">
           <div class="flex justify-between items-start">

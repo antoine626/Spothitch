@@ -263,7 +263,7 @@ export function renderReportModal(state) {
       role="dialog"
       aria-modal="true"
     >
-      <div class="bg-gray-900 w-full sm:max-w-md max-h-[90vh] rounded-t-3xl sm:rounded-2xl overflow-hidden">
+      <div class="modal-panel w-full sm:max-w-md max-h-[90vh] sm:rounded-2xl overflow-hidden">
         <!-- Header -->
         <div class="bg-gradient-to-r from-orange-500 to-red-500 p-6">
           <div class="flex justify-between items-start">

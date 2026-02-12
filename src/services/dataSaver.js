@@ -403,7 +403,7 @@ export function renderDataSaverToggle(options = {}) {
           />
           <div class="w-11 h-6 bg-gray-200 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-500"></div>
         </label>
-        <span class="text-sm ${settings.enabled ? 'text-primary-500' : 'text-gray-500'}">
+        <span class="text-sm ${settings.enabled ? 'text-primary-500' : 'text-slate-500'}">
           <i class="fas fa-leaf mr-1"></i>
           ${settings.enabled ? 'Actif' : 'Inactif'}
         </span>
@@ -420,7 +420,7 @@ export function renderDataSaverToggle(options = {}) {
           </div>
           <div>
             <h3 class="font-semibold text-gray-900 dark:text-white">Mode economie de donnees</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Reduisez votre consommation</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Reduisez votre consommation</p>
           </div>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
@@ -436,9 +436,9 @@ export function renderDataSaverToggle(options = {}) {
       </div>
 
       ${settings.enabled ? `
-        <div class="space-y-3 border-t border-gray-200 dark:border-gray-700 pt-4">
+        <div class="space-y-3 border-t border-gray-200 dark:border-white/10 pt-4">
           <div class="flex items-center justify-between text-sm">
-            <span class="text-gray-600 dark:text-gray-400">Qualite des images</span>
+            <span class="text-gray-600 dark:text-slate-400">Qualite des images</span>
             <select
               class="bg-gray-100 dark:bg-dark-primary rounded px-2 py-1 text-sm"
               onchange="window.setDataSaverImageQuality(this.value)"
@@ -452,7 +452,7 @@ export function renderDataSaverToggle(options = {}) {
           </div>
 
           <label class="flex items-center justify-between text-sm cursor-pointer">
-            <span class="text-gray-600 dark:text-gray-400">Limiter le prechargement</span>
+            <span class="text-gray-600 dark:text-slate-400">Limiter le prechargement</span>
             <input
               type="checkbox"
               class="rounded text-primary-500 focus:ring-primary-500"
@@ -462,7 +462,7 @@ export function renderDataSaverToggle(options = {}) {
           </label>
 
           <label class="flex items-center justify-between text-sm cursor-pointer">
-            <span class="text-gray-600 dark:text-gray-400">Compresser les requetes</span>
+            <span class="text-gray-600 dark:text-slate-400">Compresser les requetes</span>
             <input
               type="checkbox"
               class="rounded text-primary-500 focus:ring-primary-500"
@@ -472,7 +472,7 @@ export function renderDataSaverToggle(options = {}) {
           </label>
 
           <label class="flex items-center justify-between text-sm cursor-pointer">
-            <span class="text-gray-600 dark:text-gray-400">Desactiver les animations</span>
+            <span class="text-gray-600 dark:text-slate-400">Desactiver les animations</span>
             <input
               type="checkbox"
               class="rounded text-primary-500 focus:ring-primary-500"
@@ -482,7 +482,7 @@ export function renderDataSaverToggle(options = {}) {
           </label>
 
           <label class="flex items-center justify-between text-sm cursor-pointer">
-            <span class="text-gray-600 dark:text-gray-400">Reduire la frequence de rafraichissement</span>
+            <span class="text-gray-600 dark:text-slate-400">Reduire la frequence de rafraichissement</span>
             <input
               type="checkbox"
               class="rounded text-primary-500 focus:ring-primary-500"
@@ -494,7 +494,7 @@ export function renderDataSaverToggle(options = {}) {
       ` : ''}
 
       ${showDetails && settings.enabled ? `
-        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-white/10">
           <div class="flex items-center gap-2 mb-3">
             <i class="fas fa-chart-line text-primary-500"></i>
             <span class="font-medium text-gray-900 dark:text-white">Economies estimees</span>
@@ -513,7 +513,7 @@ export function renderDataSaverToggle(options = {}) {
               <div class="text-xs text-blue-700 dark:text-blue-300">Par mois (estime)</div>
             </div>
           </div>
-          <div class="mt-3 text-xs text-gray-500 dark:text-gray-400 text-center">
+          <div class="mt-3 text-xs text-slate-500 dark:text-slate-400 text-center">
             ${savings.imagesOptimized} images optimisees - ${savings.preloadsBlocked} prechargements bloques
           </div>
         </div>

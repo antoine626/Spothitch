@@ -30,9 +30,9 @@ export function renderGuides(state) {
   return `
     <div class="guides-view pb-24">
       <!-- Header -->
-      <div class="p-4 border-b border-gray-700">
+      <div class="p-4 border-b border-white/10">
         <h1 class="text-xl font-bold text-white mb-1">Guides Pays</h1>
-        <p class="text-gray-400 text-sm">Tout savoir sur l'autostop par pays</p>
+        <p class="text-slate-400 text-sm">Tout savoir sur l'autostop par pays</p>
       </div>
 
       <!-- Search -->
@@ -44,7 +44,7 @@ export function renderGuides(state) {
           placeholder="Rechercher un pays..."
           value="${searchGuideQuery}"
           oninput="setState({searchGuideQuery: this.value})"
-          class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white
                  placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
         />
       </div>
@@ -52,17 +52,17 @@ export function renderGuides(state) {
       <!-- Quick Stats -->
       <div class="px-4 mb-4">
         <div class="grid grid-cols-3 gap-3">
-          <div class="bg-gray-800 rounded-xl p-3 text-center">
+          <div class="bg-white/5 rounded-xl p-3 text-center">
             <div class="text-2xl font-bold text-white">${countryGuides.length}</div>
-            <div class="text-xs text-gray-500">Pays</div>
+            <div class="text-xs text-slate-500">Pays</div>
           </div>
-          <div class="bg-gray-800 rounded-xl p-3 text-center">
+          <div class="bg-white/5 rounded-xl p-3 text-center">
             <div class="text-2xl text-white">${easiest[0]?.flag || '🇳🇱'}</div>
-            <div class="text-xs text-gray-500">Plus facile</div>
+            <div class="text-xs text-slate-500">Plus facile</div>
           </div>
-          <div class="bg-gray-800 rounded-xl p-3 text-center cursor-pointer" onclick="showSafetyPage()">
+          <div class="bg-white/5 rounded-xl p-3 text-center cursor-pointer" onclick="showSafetyPage()">
             <div class="text-2xl">🆘</div>
-            <div class="text-xs text-gray-500">Sécurité</div>
+            <div class="text-xs text-slate-500">Sécurité</div>
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ export function renderGuides(state) {
       <!-- Featured: Easiest Countries -->
       ${!searchGuideQuery ? `
         <div class="px-4 mb-4">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
             Les plus faciles
           </h2>
           <div class="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
@@ -89,7 +89,7 @@ export function renderGuides(state) {
 
       <!-- All Countries List -->
       <div class="px-4">
-        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
           Tous les pays (${sortedGuides.length})
         </h2>
         <div class="space-y-2">
@@ -115,19 +115,19 @@ function renderGuideCard(guide, lang = 'fr') {
   const name = lang === 'en' && guide.nameEn ? guide.nameEn : guide.name;
 
   return `
-    <div class="guide-card flex items-center gap-3 p-3 bg-gray-800 rounded-xl cursor-pointer
+    <div class="guide-card flex items-center gap-3 p-3 bg-white/5 rounded-xl cursor-pointer
                 hover:bg-gray-750 transition-colors"
          onclick="showCountryDetail('${guide.code}')">
       <div class="text-3xl">${guide.flag}</div>
       <div class="flex-1 min-w-0">
         <div class="text-white font-medium">${name}</div>
-        <div class="text-gray-500 text-xs truncate">${guide.legalityText}</div>
+        <div class="text-slate-500 text-xs truncate">${guide.legalityText}</div>
       </div>
       <div class="flex items-center gap-2">
         <span class="px-2 py-1 rounded-full text-xs ${color}">
           ${guide.difficultyText}
         </span>
-        <span class="text-gray-500">→</span>
+        <span class="text-slate-500">→</span>
       </div>
     </div>
   `;
@@ -142,7 +142,7 @@ export function renderCountryDetail(countryCode) {
 
   if (!guide) {
     return `
-      <div class="text-center py-20 text-gray-500">
+      <div class="text-center py-20 text-slate-500">
         <span class="text-4xl">❌</span>
         <p class="mt-4">Pays non trouvé</p>
         <button onclick="showGuides()" class="mt-4 text-sky-400 hover:text-sky-300">
@@ -192,36 +192,36 @@ export function renderCountryDetail(countryCode) {
 
       <!-- Quick Stats -->
       <div class="grid grid-cols-3 gap-3 p-4 -mt-6 relative z-10">
-        <div class="bg-gray-800 rounded-xl p-3 text-center shadow-lg">
+        <div class="bg-white/5 rounded-xl p-3 text-center shadow-lg">
           <div class="text-xl font-bold text-white">${guide.avgWaitTime}'</div>
-          <div class="text-xs text-gray-500">Attente moy.</div>
+          <div class="text-xs text-slate-500">Attente moy.</div>
         </div>
-        <div class="bg-gray-800 rounded-xl p-3 text-center shadow-lg">
+        <div class="bg-white/5 rounded-xl p-3 text-center shadow-lg">
           <div class="text-xl font-bold text-green-400">✓</div>
-          <div class="text-xs text-gray-500">Légalité</div>
+          <div class="text-xs text-slate-500">Légalité</div>
         </div>
-        <div class="bg-gray-800 rounded-xl p-3 text-center shadow-lg">
+        <div class="bg-white/5 rounded-xl p-3 text-center shadow-lg">
           <div class="text-xl font-bold text-white">${guide.bestMonths?.length || '-'}</div>
-          <div class="text-xs text-gray-500">Mois idéaux</div>
+          <div class="text-xs text-slate-500">Mois idéaux</div>
         </div>
       </div>
 
       <!-- Legality Section -->
       <div class="p-4">
-        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Légalité</h2>
-        <div class="bg-gray-800 rounded-xl p-4">
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Légalité</h2>
+        <div class="bg-white/5 rounded-xl p-4">
           <p class="text-white">${legalityText}</p>
         </div>
       </div>
 
       <!-- Tips Section -->
       <div class="p-4">
-        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Conseils</h2>
-        <div class="bg-gray-800 rounded-xl p-4 space-y-3">
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Conseils</h2>
+        <div class="bg-white/5 rounded-xl p-4 space-y-3">
           ${tips.map(tip => `
             <div class="flex gap-3">
               <span class="text-sky-400">💡</span>
-              <p class="text-gray-300 text-sm">${tip}</p>
+              <p class="text-slate-300 text-sm">${tip}</p>
             </div>
           `).join('')}
         </div>
@@ -230,12 +230,12 @@ export function renderCountryDetail(countryCode) {
       <!-- Best Months -->
       ${guide.bestMonths ? `
         <div class="p-4">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Meilleure période</h2>
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Meilleure période</h2>
           <div class="flex flex-wrap gap-2">
             ${['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
     .map((month, i) => `
                 <span class="px-3 py-1 rounded-full text-sm
-                            ${guide.bestMonths.includes(i + 1) ? 'bg-green-500/20 text-green-400' : 'bg-gray-700 text-gray-500'}">
+                            ${guide.bestMonths.includes(i + 1) ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-slate-500'}">
                   ${month}
                 </span>
               `).join('')}
@@ -245,17 +245,17 @@ export function renderCountryDetail(countryCode) {
 
       <!-- Emergency Numbers -->
       <div class="p-4">
-        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Numéros d'urgence</h2>
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Numéros d'urgence</h2>
         <div class="grid grid-cols-2 gap-3">
           ${Object.entries(guide.emergencyNumbers || {}).map(([key, number]) => `
             <a href="tel:${number}"
-               class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl">
+               class="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
               <span class="text-xl">
                 ${key === 'police' ? '👮' : key === 'ambulance' ? '🚑' : key === 'fire' ? '🚒' : '📞'}
               </span>
               <div>
                 <div class="text-white font-bold">${number}</div>
-                <div class="text-gray-500 text-xs capitalize">${key === 'universal' ? 'Universel' : key}</div>
+                <div class="text-slate-500 text-xs capitalize">${key === 'universal' ? 'Universel' : key}</div>
               </div>
             </a>
           `).join('')}
@@ -265,10 +265,10 @@ export function renderCountryDetail(countryCode) {
       <!-- Best Spots -->
       ${guide.bestSpots ? `
         <div class="p-4">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Meilleurs spots</h2>
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Meilleurs spots</h2>
           <div class="space-y-2">
             ${guide.bestSpots.map(spot => `
-              <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl">
+              <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                 <span class="text-xl">📍</span>
                 <span class="text-white">${spot}</span>
               </div>
@@ -307,9 +307,9 @@ export function renderSafety() {
   return `
     <div class="safety-page pb-24">
       <!-- Header -->
-      <div class="sticky top-0 bg-gray-900/95 backdrop-blur z-10 border-b border-gray-700">
+      <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center gap-3 p-4">
-          <button onclick="showGuides()" class="p-2 hover:bg-gray-800 rounded-full">
+          <button onclick="showGuides()" class="p-2 hover:bg-white/5 rounded-full">
             ←
           </button>
           <h1 class="text-lg font-bold text-white">Conseils de Sécurité</h1>
@@ -331,9 +331,9 @@ export function renderSafety() {
     'Note les plaques d\'immatriculation et partage-les',
     'Assieds-toi près de la porte quand possible',
   ].map(tip => `
-              <div class="flex gap-3 p-3 bg-gray-800 rounded-xl">
+              <div class="flex gap-3 p-3 bg-white/5 rounded-xl">
                 <span class="text-green-400">✓</span>
-                <p class="text-gray-300 text-sm">${tip}</p>
+                <p class="text-slate-300 text-sm">${tip}</p>
               </div>
             `).join('')}
           </div>
@@ -352,9 +352,9 @@ export function renderSafety() {
     'N\'accepte pas de nourriture/boissons ouvertes',
     'Ne laisse pas tes affaires hors de ta vue',
   ].map(tip => `
-              <div class="flex gap-3 p-3 bg-gray-800 rounded-xl">
+              <div class="flex gap-3 p-3 bg-white/5 rounded-xl">
                 <span class="text-red-400">✕</span>
-                <p class="text-gray-300 text-sm">${tip}</p>
+                <p class="text-slate-300 text-sm">${tip}</p>
               </div>
             `).join('')}
           </div>
@@ -373,9 +373,9 @@ export function renderSafety() {
     'Porte une alliance factice si tu le souhaites',
     'Aie un numéro d\'urgence en raccourci',
   ].map(tip => `
-              <div class="flex gap-3 p-3 bg-gray-800 rounded-xl">
+              <div class="flex gap-3 p-3 bg-white/5 rounded-xl">
                 <span class="text-purple-400">💜</span>
-                <p class="text-gray-300 text-sm">${tip}</p>
+                <p class="text-slate-300 text-sm">${tip}</p>
               </div>
             `).join('')}
           </div>
@@ -388,7 +388,7 @@ export function renderSafety() {
           </h2>
           <div class="bg-red-500/20 border border-red-500/30 rounded-xl p-4">
             <p class="text-red-400 font-bold mb-3">Numéro européen : 112</p>
-            <p class="text-gray-300 text-sm mb-3">
+            <p class="text-slate-300 text-sm mb-3">
               Ce numéro fonctionne dans toute l'Europe, même sans carte SIM.
             </p>
             <button onclick="openSOS()"
@@ -413,12 +413,12 @@ export function renderSafety() {
     'Copie des documents d\'identite',
     'Premiers soins basiques',
   ].map((item, index) => `
-              <label class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl cursor-pointer" for="checklist-item-${index}">
+              <label class="flex items-center gap-3 p-3 bg-white/5 rounded-xl cursor-pointer" for="checklist-item-${index}">
                 <input type="checkbox"
                        id="checklist-item-${index}"
-                       class="w-5 h-5 rounded bg-gray-700 border-gray-600
+                       class="w-5 h-5 rounded bg-white/10 border-gray-600
                               text-sky-500 focus:ring-sky-500">
-                <span class="text-gray-300">${item}</span>
+                <span class="text-slate-300">${item}</span>
               </label>
             `).join('')}
           </div>

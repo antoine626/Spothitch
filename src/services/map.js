@@ -381,7 +381,7 @@ function createSpotPopup(spot) {
         <span>⭐ ${spot.globalRating?.toFixed(1) || 'N/A'}</span>
         <span>⏱️ ${spot.avgWaitTime || '?'} min</span>
       </div>
-      <p class="text-xs text-gray-500 mt-1 line-clamp-2">${spot.description || ''}</p>
+      <p class="text-xs text-slate-500 mt-1 line-clamp-2">${spot.description || ''}</p>
       <button onclick="selectSpot(${typeof spot.id === 'string' ? `'${spot.id}'` : spot.id})"
               class="mt-2 w-full px-3 py-1.5 bg-primary-500 text-white rounded-lg text-sm">
         Voir détails
@@ -515,11 +515,11 @@ export function displayFallbackSpots(container) {
   const spots = getState().spots || sampleSpots;
 
   container.innerHTML = `
-    <div class="fallback-spots p-4 bg-gray-800 rounded-xl text-center">
-      <p class="text-gray-400 mb-4">Carte non disponible</p>
+    <div class="fallback-spots p-4 bg-white/5 rounded-xl text-center">
+      <p class="text-slate-400 mb-4">Carte non disponible</p>
       <div class="space-y-2 max-h-48 overflow-y-auto">
         ${spots.slice(0, 10).map(spot => `
-          <div class="flex items-center gap-2 p-2 bg-gray-700 rounded-lg cursor-pointer"
+          <div class="flex items-center gap-2 p-2 bg-white/10 rounded-lg cursor-pointer"
                onclick="selectSpot(${spot.id})">
             <span>📍</span>
             <span class="text-white text-sm truncate">${spot.from} → ${spot.to}</span>

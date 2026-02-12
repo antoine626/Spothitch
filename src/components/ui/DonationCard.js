@@ -228,7 +228,7 @@ export function renderDonationModal(state) {
       aria-modal="true"
       aria-labelledby="donation-title"
     >
-      <div class="bg-gray-900 rounded-2xl max-w-md w-full overflow-hidden animate-in">
+      <div class="modal-panel rounded-2xl max-w-md w-full overflow-hidden animate-in">
         <!-- Header -->
         <div class="bg-gradient-to-r from-rose-500 via-amber-500 to-orange-500 p-6 text-center">
           <div class="text-5xl mb-2">
@@ -347,7 +347,7 @@ export function renderThankYouModal(state) {
       aria-modal="true"
       aria-labelledby="thank-you-title"
     >
-      <div class="bg-gray-900 rounded-2xl max-w-md w-full overflow-hidden animate-in text-center">
+      <div class="modal-panel rounded-2xl max-w-md w-full overflow-hidden animate-in text-center">
         <!-- Confetti effect area -->
         <div class="bg-gradient-to-br from-rose-500/20 via-amber-500/20 to-orange-500/20 p-8">
           <!-- Animated heart -->

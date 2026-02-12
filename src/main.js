@@ -1326,12 +1326,12 @@ window.searchTripCity = (query) => {
     if (container && results.length > 0) {
       container.classList.remove('hidden');
       container.innerHTML = `
-        <div class="bg-gray-800 rounded-xl shadow-xl border border-gray-700 overflow-hidden">
+        <div class="bg-white/5 rounded-xl shadow-xl border border-white/10 overflow-hidden">
           ${results.map(r => `
             <button onclick="addTripStepFromSearch('${escapeHTML(r.name).replace(/'/g, '&#39;')}', ${Number(r.lat)}, ${Number(r.lng)}, '${escapeHTML(r.fullName).replace(/'/g, '&#39;')}')"
-                    class="w-full px-4 py-3 text-left text-white hover:bg-gray-700 border-b border-gray-700 last:border-0">
+                    class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/10 last:border-0">
               <div class="font-medium">${escapeHTML(r.name)}</div>
-              <div class="text-xs text-gray-500 truncate">${escapeHTML(r.fullName)}</div>
+              <div class="text-xs text-slate-500 truncate">${escapeHTML(r.fullName)}</div>
             </button>
           `).join('')}
         </div>

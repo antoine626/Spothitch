@@ -65,7 +65,7 @@ function renderCountrySelection() {
          role="dialog"
          aria-modal="true"
          aria-labelledby="quiz-title">
-      <div class="bg-gray-900 w-full max-w-md rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+      <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
         <!-- Header -->
         <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-6 text-center">
           <div class="text-5xl mb-3" aria-hidden="true">\uD83E\uDDE0</div>
@@ -83,7 +83,7 @@ function renderCountrySelection() {
                     type="button">
               ${t('startQuiz')}
             </button>
-            <div class="flex items-center gap-2 justify-center mt-2 text-gray-400 text-sm">
+            <div class="flex items-center gap-2 justify-center mt-2 text-slate-400 text-sm">
               <span>5 ${t('quizRandomQuestions')}</span>
               <span>\u2022</span>
               <span>${t('quizTimeLimit')}</span>
@@ -91,7 +91,7 @@ function renderCountrySelection() {
           </div>
 
           <!-- Country quizzes -->
-          <div class="border-t border-gray-700 pt-4">
+          <div class="border-t border-white/10 pt-4">
             <h3 class="text-white font-bold mb-3 text-center">${t('quizCountryTitle', { country: '' }).trim()}</h3>
             <div class="space-y-2">
               ${countries.map(c => {
@@ -99,7 +99,7 @@ function renderCountrySelection() {
                 const bestScore = score ? score.best : null
                 return `
                   <button onclick="startCountryQuiz('${c.code}')"
-                          class="w-full p-3 flex items-center gap-3 bg-gray-800 rounded-xl
+                          class="w-full p-3 flex items-center gap-3 bg-white/5 rounded-xl
                                  hover:bg-purple-500/20 hover:border-purple-500 border-2 border-transparent
                                  transition-all text-left"
                           type="button"
@@ -107,10 +107,10 @@ function renderCountrySelection() {
                     <span class="text-2xl">${c.flag}</span>
                     <div class="flex-1">
                       <span class="text-white font-medium">${c.name}</span>
-                      <span class="text-gray-400 text-sm ml-2">10 ${t('quizRandomQuestions').toLowerCase()}</span>
+                      <span class="text-slate-400 text-sm ml-2">10 ${t('quizRandomQuestions').toLowerCase()}</span>
                     </div>
                     ${bestScore !== null ? `
-                      <span class="text-sm font-bold ${bestScore >= 80 ? 'text-green-400' : bestScore >= 60 ? 'text-yellow-400' : 'text-gray-400'}">
+                      <span class="text-sm font-bold ${bestScore >= 80 ? 'text-green-400' : bestScore >= 60 ? 'text-yellow-400' : 'text-slate-400'}">
                         ${bestScore}%
                       </span>
                     ` : ''}
@@ -121,7 +121,7 @@ function renderCountrySelection() {
           </div>
 
           <button onclick="closeQuiz()"
-                  class="w-full py-3 text-gray-400 hover:text-white mt-4"
+                  class="w-full py-3 text-slate-400 hover:text-white mt-4"
                   type="button">
             ${t('cancel')}
           </button>
@@ -155,7 +155,7 @@ function renderQuizQuestion(question, quizState) {
          role="dialog"
          aria-modal="true"
          aria-labelledby="quiz-question">
-      <div class="bg-gray-900 w-full max-w-md rounded-2xl overflow-hidden">
+      <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden">
         <!-- Header with timer -->
         <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-4">
           <div class="flex justify-between items-center mb-3">
@@ -195,13 +195,13 @@ function renderQuizQuestion(question, quizState) {
           <div class="space-y-3" role="group" aria-labelledby="quiz-question">
             ${options.map((option, index) => `
               <button onclick="answerQuizQuestion(${index})"
-                      class="w-full p-4 text-left bg-gray-800 rounded-xl text-white
+                      class="w-full p-4 text-left bg-white/5 rounded-xl text-white
                              hover:bg-purple-500/30 hover:border-purple-500 border-2 border-transparent
                              transition-all"
                       type="button"
                       aria-label="${t('answer')} ${['A', 'B', 'C', 'D'][index]}: ${option}">
                 <span class="inline-flex items-center justify-center w-8 h-8 rounded-full
-                             bg-gray-700 text-gray-300 mr-3 font-bold" aria-hidden="true">
+                             bg-white/10 text-slate-300 mr-3 font-bold" aria-hidden="true">
                   ${['A', 'B', 'C', 'D'][index]}
                 </span>
                 ${option}
@@ -210,7 +210,7 @@ function renderQuizQuestion(question, quizState) {
           </div>
 
           <!-- Score -->
-          <div class="mt-6 text-center text-gray-400">
+          <div class="mt-6 text-center text-slate-400">
             ${t('currentScore')} : <span class="text-white font-bold">${quizState.score}</span> ${t('points')}
           </div>
         </div>
@@ -241,7 +241,7 @@ function renderExplanation(question, quizState) {
          role="dialog"
          aria-modal="true"
          aria-labelledby="quiz-explanation-title">
-      <div class="bg-gray-900 w-full max-w-md rounded-2xl overflow-hidden">
+      <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden">
         <!-- Header -->
         <div class="${isCorrect ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-red-500 to-rose-500'} p-4 text-center">
           <div class="flex items-center justify-center gap-2">
@@ -264,7 +264,7 @@ function renderExplanation(question, quizState) {
           ` : ''}
 
           <!-- Explanation -->
-          <div class="mb-6 p-4 bg-gray-800 rounded-xl">
+          <div class="mb-6 p-4 bg-white/5 rounded-xl">
             ${category ? `
               <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-purple-500/20 text-purple-300
                           rounded-full text-xs mb-2">
@@ -273,11 +273,11 @@ function renderExplanation(question, quizState) {
               </div>
             ` : ''}
             <div class="text-sm font-medium text-purple-300 mb-1">${t('quizExplanation')}</div>
-            <div class="text-gray-300">${explanation}</div>
+            <div class="text-slate-300">${explanation}</div>
           </div>
 
           <!-- Score update -->
-          <div class="text-center text-gray-400 mb-4">
+          <div class="text-center text-slate-400 mb-4">
             ${t('currentScore')} : <span class="text-white font-bold">${quizState.score}</span> ${t('points')}
           </div>
 
@@ -320,7 +320,7 @@ function renderQuizResult(result) {
   return `
     <div class="quiz-modal fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
          onclick="if(event.target===this)closeQuiz()">
-      <div class="bg-gray-900 w-full max-w-md rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+      <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
         <!-- Result Header -->
         <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-8 text-center">
           ${countryCode ? `
@@ -337,15 +337,15 @@ function renderQuizResult(result) {
           <div class="grid grid-cols-3 gap-4 mb-6">
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${percentage}%</div>
-              <div class="text-xs text-gray-500">${t('score')}</div>
+              <div class="text-xs text-slate-500">${t('score')}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${correctAnswers}/${totalQuestions}</div>
-              <div class="text-xs text-gray-500">${t('correct')}</div>
+              <div class="text-xs text-slate-500">${t('correct')}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${timeTaken}s</div>
-              <div class="text-xs text-gray-500">${t('time')}</div>
+              <div class="text-xs text-slate-500">${t('time')}</div>
             </div>
           </div>
 
@@ -374,20 +374,20 @@ function renderQuizResult(result) {
 
             ${countryCode ? `
               <button onclick="showCountryQuizSelection()"
-                      class="w-full py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-700">
+                      class="w-full py-3 bg-white/5 text-white rounded-xl hover:bg-white/10">
                 ${t('quizTryAnotherCountry')}
               </button>
             ` : ''}
 
             ${!countryCode && countries.length > 0 ? `
               <button onclick="showCountryQuizSelection()"
-                      class="w-full py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-700">
+                      class="w-full py-3 bg-white/5 text-white rounded-xl hover:bg-white/10">
                 ${t('quizTryAnotherCountry')}
               </button>
             ` : ''}
 
             <button onclick="closeQuiz()"
-                    class="w-full py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-700">
+                    class="w-full py-3 bg-white/5 text-white rounded-xl hover:bg-white/10">
               ${t('close')}
             </button>
           </div>

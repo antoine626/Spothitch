@@ -38,7 +38,7 @@ export function renderStatsModal() {
          role="dialog"
          aria-modal="true"
          aria-labelledby="stats-title">
-      <div class="bg-gray-900 w-full sm:max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-2xl overflow-hidden
+      <div class="modal-panel w-full sm:max-w-lg max-h-[90vh] sm:rounded-2xl overflow-hidden
                   flex flex-col">
         <!-- Header -->
         <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-6">
@@ -184,14 +184,14 @@ export function renderStatsModal() {
           <!-- Mini Progression Chart -->
           ${progressionData.some(d => d.checkins > 0) ? `
             <section>
-              <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+              <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
                 ${t('progression6months') || 'Progression (6 mois)'}
               </h3>
-              <div class="bg-gray-800 rounded-xl p-4">
+              <div class="bg-white/5 rounded-xl p-4">
                 <div class="flex items-end justify-between h-24 gap-2">
                   ${renderMiniChart(progressionData)}
                 </div>
-                <div class="flex justify-between mt-2 text-xs text-gray-500">
+                <div class="flex justify-between mt-2 text-xs text-slate-500">
                   ${progressionData.map(d => `<span>${d.month}</span>`).join('')}
                 </div>
               </div>
@@ -200,10 +200,10 @@ export function renderStatsModal() {
 
           <!-- Level & VIP -->
           <section>
-            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">${t('progression') || 'Progression'}</h3>
+            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">${t('progression') || 'Progression'}</h3>
             <div class="grid grid-cols-2 gap-3">
               <!-- Level -->
-              <div class="bg-gray-800 rounded-xl p-4">
+              <div class="bg-white/5 rounded-xl p-4">
                 <div class="flex items-center gap-3 mb-3">
                   <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full
                               flex items-center justify-center text-white text-xl font-bold">
@@ -211,17 +211,17 @@ export function renderStatsModal() {
                   </div>
                   <div>
                     <div class="text-white font-bold">${t('level') || 'Niveau'} ${summary.level}</div>
-                    <div class="text-gray-500 text-xs">${summary.points} pts</div>
+                    <div class="text-slate-500 text-xs">${summary.points} pts</div>
                   </div>
                 </div>
-                <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
                   <div class="h-full bg-gradient-to-r from-primary-500 to-primary-600"
                        style="width: ${(summary.points % 100)}%"></div>
                 </div>
               </div>
 
               <!-- VIP Level -->
-              <div class="bg-gray-800 rounded-xl p-4">
+              <div class="bg-white/5 rounded-xl p-4">
                 <div class="flex items-center gap-3 mb-3">
                   <div class="w-12 h-12 rounded-full flex items-center justify-center"
                        style="background-color: ${summary.vipLevel.color}20">
@@ -232,12 +232,12 @@ export function renderStatsModal() {
                   </div>
                   <div>
                     <div class="text-white font-bold">${summary.vipLevel.name}</div>
-                    <div class="text-gray-500 text-xs">
+                    <div class="text-slate-500 text-xs">
                       ${summary.nextVip ? `${summary.pointsToNextVip} pts ${t('toNext') || 'au suivant'}` : (t('maxReached') || 'Max atteint')}
                     </div>
                   </div>
                 </div>
-                <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
                   <div class="h-full transition-all" style="width: ${vipProgress.progress * 100}%;
                        background-color: ${summary.vipLevel.color}"></div>
                 </div>
@@ -247,10 +247,10 @@ export function renderStatsModal() {
 
           <!-- League -->
           <section>
-            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
               ${t('seasonLeague') || 'Ligue Saison'}
             </h3>
-            <div class="bg-gray-800 rounded-xl p-4">
+            <div class="bg-white/5 rounded-xl p-4">
               <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-3">
                   ${summary.league.image
@@ -259,12 +259,12 @@ export function renderStatsModal() {
 }
                   <div>
                     <div class="text-white font-bold">${summary.league.name}</div>
-                    <div class="text-gray-500 text-xs">${state.seasonPoints || 0} pts ${t('season') || 'saison'}</div>
+                    <div class="text-slate-500 text-xs">${state.seasonPoints || 0} pts ${t('season') || 'saison'}</div>
                   </div>
                 </div>
                 ${leagueProgress.next ? `
                   <div class="text-right">
-                    <div class="text-gray-500 text-xs">${t('next') || 'Prochain'}</div>
+                    <div class="text-slate-500 text-xs">${t('next') || 'Prochain'}</div>
                     <div class="text-white flex items-center gap-1 justify-end">
                       ${leagueProgress.next.image
     ? `<img src="${leagueProgress.next.image}" alt="${leagueProgress.next.name}" class="w-5 h-5 object-contain" loading="lazy" />`
@@ -275,7 +275,7 @@ export function renderStatsModal() {
                   </div>
                 ` : ''}
               </div>
-              <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+              <div class="h-2 bg-white/10 rounded-full overflow-hidden">
                 <div class="h-full transition-all" style="width: ${leagueProgress.progress * 100}%;
                      background-color: ${summary.league.color}"></div>
               </div>
@@ -284,7 +284,7 @@ export function renderStatsModal() {
 
           <!-- Activity Stats -->
           <section>
-            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">${t('activity') || 'Activité'}</h3>
+            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">${t('activity') || 'Activité'}</h3>
             <div class="grid grid-cols-3 gap-3">
               ${[
     { label: 'Check-ins', value: summary.checkins, icon: '📍' },
@@ -292,10 +292,10 @@ export function renderStatsModal() {
     { label: t('reviewsGivenLabel') || 'Avis donnés', value: summary.reviewsGiven, icon: '⭐' },
     { label: 'Badges', value: `${summary.badgesCount}/${summary.totalBadges}`, icon: '🎖️' },
   ].map(stat => `
-                <div class="bg-gray-800 rounded-xl p-3 text-center">
+                <div class="bg-white/5 rounded-xl p-3 text-center">
                   <div class="text-xl mb-1">${stat.icon}</div>
                   <div class="text-xl font-bold text-white">${stat.value}</div>
-                  <div class="text-gray-500 text-xs">${stat.label}</div>
+                  <div class="text-slate-500 text-xs">${stat.label}</div>
                 </div>
               `).join('')}
             </div>
@@ -303,21 +303,21 @@ export function renderStatsModal() {
 
           <!-- Achievements Timeline -->
           <section>
-            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
               ${t('recentAchievements') || 'Dernières réussites'}
             </h3>
             <div class="space-y-2">
               ${(state.recentAchievements || []).slice(0, 5).map(achievement => `
-                <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl">
+                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                   <span class="text-xl">${achievement.icon}</span>
                   <div class="flex-1">
                     <div class="text-white text-sm">${achievement.title}</div>
-                    <div class="text-gray-500 text-xs">${formatDate(achievement.date)}</div>
+                    <div class="text-slate-500 text-xs">${formatDate(achievement.date)}</div>
                   </div>
                   <span class="text-amber-400 text-sm">+${achievement.points}</span>
                 </div>
               `).join('') || `
-                <div class="text-center py-4 text-gray-500 text-sm">
+                <div class="text-center py-4 text-slate-500 text-sm">
                   ${t('noRecentAchievements') || 'Aucune réussite récente'}
                 </div>
               `}
@@ -347,11 +347,11 @@ function renderMiniChart(data) {
 
   return data.map(d => {
     const height = d.checkins > 0 ? Math.max((d.checkins / maxValue) * 100, 10) : 5;
-    const color = d.checkins > 0 ? 'from-primary-500 to-emerald-500' : 'from-gray-600 to-gray-700';
+    const color = d.checkins > 0 ? 'from-primary-500 to-emerald-500' : 'from-white/5 to-white/10';
 
     return `
       <div class="flex-1 flex flex-col items-center gap-1">
-        <div class="text-xs text-gray-400">${d.checkins > 0 ? d.checkins : ''}</div>
+        <div class="text-xs text-slate-400">${d.checkins > 0 ? d.checkins : ''}</div>
         <div class="w-full bg-gradient-to-t ${color} rounded-t-sm transition-all"
              style="height: ${height}%"
              title="${d.month}: ${d.checkins} check-ins, ${d.distance} km"></div>

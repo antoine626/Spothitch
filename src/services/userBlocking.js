@@ -438,7 +438,7 @@ export function renderBlockModal(userId, username = '') {
       aria-modal="true"
       aria-labelledby="block-modal-title"
     >
-      <div class="bg-gray-900 w-full max-w-md rounded-2xl overflow-hidden">
+      <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden">
         <!-- Header -->
         <div class="bg-gradient-to-r from-danger-500 to-orange-500 p-6">
           <div class="flex justify-between items-start">
@@ -522,7 +522,7 @@ export function renderUnblockModal(userId, username = '') {
       aria-modal="true"
       aria-labelledby="unblock-modal-title"
     >
-      <div class="bg-gray-900 w-full max-w-md rounded-2xl overflow-hidden">
+      <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden">
         <!-- Header -->
         <div class="bg-gradient-to-r from-primary-500 to-teal-500 p-6">
           <div class="flex justify-between items-start">

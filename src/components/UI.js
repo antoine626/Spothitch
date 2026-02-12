@@ -33,14 +33,14 @@ export function renderSideMenu() {
 
   return `
     <div class="side-menu-overlay fixed inset-0 bg-black/60 z-50" onclick="closeSideMenu()" role="presentation">
-      <aside class="side-menu fixed left-0 top-0 bottom-0 w-72 bg-gray-900 shadow-2xl
+      <aside class="side-menu fixed left-0 top-0 bottom-0 w-72 bg-dark-secondary shadow-2xl
                   transform transition-transform animate-slide-in-left"
            onclick="event.stopPropagation()"
            role="dialog"
            aria-modal="true"
            aria-label="${t('sideMenu') || 'Side menu'}">
         <!-- Header -->
-        <div class="p-6 border-b border-gray-700">
+        <div class="p-6 border-b border-white/10">
           ${isLoggedIn ? `
             <div class="flex items-center gap-3">
               <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-primary-600
@@ -49,7 +49,7 @@ export function renderSideMenu() {
               </div>
               <div>
                 <div class="text-white font-bold">${user?.displayName || state.username || (t('you') || 'Traveler')}</div>
-                <div class="text-gray-500 text-sm">${t('levelPrefix') || 'Lvl.'} ${state.level || 1}</div>
+                <div class="text-slate-500 text-sm">${t('levelPrefix') || 'Lvl.'} ${state.level || 1}</div>
               </div>
             </div>
           ` : `
@@ -69,7 +69,7 @@ export function renderSideMenu() {
                     class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left
                            ${state.activeTab === item.id
     ? 'bg-primary-500/20 text-primary-400'
-    : 'text-gray-300 hover:bg-gray-800'}"
+    : 'text-slate-300 hover:bg-white/10'}"
                     type="button"
                     aria-current="${state.activeTab === item.id ? 'page' : 'false'}">
               <span class="text-xl" aria-hidden="true">${item.icon}</span>
@@ -79,14 +79,14 @@ export function renderSideMenu() {
         </nav>
 
         <!-- Divider -->
-        <div class="mx-4 border-t border-gray-700" aria-hidden="true"></div>
+        <div class="mx-4 border-t border-white/10" aria-hidden="true"></div>
 
         <!-- Bottom Menu -->
         <nav class="p-4 space-y-1" aria-label="${t('secondaryMenu') || 'Secondary menu'}">
           ${bottomItems.map(item => `
             <button onclick="closeSideMenu(); ${item.action}()"
                     class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left
-                           text-gray-300 hover:bg-gray-800"
+                           text-slate-300 hover:bg-white/10"
                     type="button">
               <span class="text-xl" aria-hidden="true">${item.icon}</span>
               <span>${item.label}</span>
@@ -95,8 +95,8 @@ export function renderSideMenu() {
         </nav>
 
         <!-- Footer -->
-        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700">
-          <div class="text-center text-gray-500 text-xs">
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
+          <div class="text-center text-slate-500 text-xs">
             SpotHitch v2.0 - Open Source
           </div>
         </div>
@@ -178,7 +178,7 @@ export function renderEmptyState(type = 'spots') {
     <div class="empty-state py-16 px-8 text-center">
       <div class="text-6xl mb-4">${state.icon}</div>
       <h3 class="text-xl font-bold text-white mb-2">${state.title}</h3>
-      <p class="text-gray-500 mb-6">${state.description}</p>
+      <p class="text-slate-500 mb-6">${state.description}</p>
       ${state.action ? `
         <button onclick="${state.action.onclick}"
                 class="px-6 py-3 bg-primary-500 text-white font-semibold rounded-xl
@@ -195,14 +195,14 @@ export function renderEmptyState(type = 'spots') {
  */
 export function renderSkeletonSpotCard() {
   return `
-    <div class="skeleton-card bg-gray-800 rounded-xl overflow-hidden animate-pulse">
-      <div class="h-32 bg-gray-700"></div>
+    <div class="skeleton-card bg-white/5 rounded-xl overflow-hidden animate-pulse">
+      <div class="h-32 bg-white/10"></div>
       <div class="p-4 space-y-3">
-        <div class="h-4 bg-gray-700 rounded w-3/4"></div>
-        <div class="h-3 bg-gray-700 rounded w-1/2"></div>
+        <div class="h-4 bg-white/10 rounded w-3/4"></div>
+        <div class="h-3 bg-white/10 rounded w-1/2"></div>
         <div class="flex gap-2">
-          <div class="h-6 bg-gray-700 rounded w-16"></div>
-          <div class="h-6 bg-gray-700 rounded w-12"></div>
+          <div class="h-6 bg-white/10 rounded w-16"></div>
+          <div class="h-6 bg-white/10 rounded w-12"></div>
         </div>
       </div>
     </div>
@@ -232,8 +232,8 @@ export function renderSpinner(size = 'md', text = '') {
 
   return `
     <div class="spinner flex flex-col items-center justify-center gap-3">
-      <div class="${sizes[size]} border-2 border-gray-700 border-t-primary-500 rounded-full animate-spin"></div>
-      ${text ? `<div class="text-gray-500 text-sm">${text}</div>` : ''}
+      <div class="${sizes[size]} border-2 border-white/10 border-t-primary-500 rounded-full animate-spin"></div>
+      ${text ? `<div class="text-slate-500 text-sm">${text}</div>` : ''}
     </div>
   `;
 }
@@ -277,19 +277,19 @@ export function renderConfirmDialog(title, message, onConfirm, onCancel = 'close
          aria-modal="true"
          aria-labelledby="confirm-title"
          aria-describedby="confirm-message">
-      <div class="bg-gray-900 w-full max-w-sm rounded-2xl overflow-hidden">
+      <div class="modal-panel w-full max-w-sm rounded-2xl overflow-hidden">
         <div class="p-6 text-center">
           <h3 id="confirm-title" class="text-xl font-bold text-white mb-2">${title}</h3>
-          <p id="confirm-message" class="text-gray-400">${message}</p>
+          <p id="confirm-message" class="text-slate-400">${message}</p>
         </div>
-        <div class="flex border-t border-gray-700">
+        <div class="flex border-t border-white/10">
           <button onclick="${onCancel}"
-                  class="flex-1 py-3 text-gray-400 hover:bg-gray-800"
+                  class="flex-1 py-3 text-slate-400 hover:bg-white/10"
                   type="button">
             Annuler
           </button>
           <button onclick="${onConfirm}"
-                  class="flex-1 py-3 text-red-400 hover:bg-gray-800 border-l border-gray-700"
+                  class="flex-1 py-3 text-red-400 hover:bg-white/10 border-l border-white/10"
                   type="button">
             Confirmer
           </button>
@@ -305,7 +305,7 @@ export function renderConfirmDialog(title, message, onConfirm, onCancel = 'close
 export function renderBackButton(onclick = 'history.back()') {
   return `
     <button onclick="${onclick}"
-            class="p-2 hover:bg-gray-800 rounded-full transition-colors"
+            class="p-2 hover:bg-white/10 rounded-full transition-colors"
             aria-label="Retour a la page precedente"
             type="button">
       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -352,7 +352,7 @@ export function renderRatingStars(rating, interactive = false, size = 'md') {
  */
 export function renderBadge(text, type = 'default') {
   const typeStyles = {
-    default: 'bg-gray-700 text-gray-300',
+    default: 'bg-white/10 text-slate-300',
     primary: 'bg-primary-500/20 text-primary-400',
     success: 'bg-green-500/20 text-green-400',
     warning: 'bg-amber-500/20 text-amber-400',
@@ -379,7 +379,7 @@ export function renderProgressBar(progress, color = 'primary') {
   const percentage = Math.min(progress * 100, 100);
 
   return `
-    <div class="progress-bar h-2 bg-gray-700 rounded-full overflow-hidden"
+    <div class="progress-bar h-2 bg-white/10 rounded-full overflow-hidden"
          role="progressbar"
          aria-valuenow="${Math.round(percentage)}"
          aria-valuemin="0"

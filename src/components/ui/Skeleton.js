@@ -149,7 +149,7 @@ export function renderSkeletonChatList(count = 5) {
  */
 export function renderSkeletonLeaderboardRow() {
   return `
-    <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl animate-pulse">
+    <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl animate-pulse">
       <div class="skeleton w-8 h-6 rounded"></div>
       <div class="skeleton w-10 h-10 rounded-full"></div>
       <div class="flex-1 space-y-2">
@@ -194,7 +194,7 @@ export function renderSkeletonProfileStats() {
  */
 export function renderSkeletonFriendCard() {
   return `
-    <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl animate-pulse">
+    <div class="flex items-center gap-3 p-3 bg-white/5 rounded-xl animate-pulse">
       <div class="skeleton w-12 h-12 rounded-full"></div>
       <div class="flex-1 space-y-2">
         <div class="skeleton h-4 w-24 rounded"></div>

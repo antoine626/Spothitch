@@ -183,7 +183,7 @@ export function renderAuth(_state) {
           <!-- Apple Sign In (coming soon) -->
           <button
             onclick="handleAppleLogin()"
-            class="btn w-full mt-3 bg-black hover:bg-gray-900 text-white border border-white/20"
+            class="btn w-full mt-3 bg-black hover:bg-slate-900 text-white border border-white/20"
             type="button"
             aria-label="${t('continueWithApple') || 'Sign in with Apple'}"
           >

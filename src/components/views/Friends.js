@@ -25,11 +25,11 @@ export function renderFriends(state) {
   return `
     <div class="friends-view pb-24">
       <!-- Header -->
-      <div class="sticky top-0 bg-gray-900/95 backdrop-blur z-10 border-b border-gray-700">
+      <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center justify-between p-4">
           <div>
             <h1 class="text-xl font-bold text-white">${t('friendsTab') || 'Amis'}</h1>
-            <p class="text-gray-500 text-sm">${friends.length} ami(s)</p>
+            <p class="text-slate-500 text-sm">${friends.length} ami(s)</p>
           </div>
           <button onclick="showAddFriend()"
                   class="p-2 bg-sky-500 text-white rounded-full"
@@ -51,35 +51,35 @@ export function renderFriends(state) {
             placeholder="${t('searchFriend') || 'Rechercher un ami...'}"
             value="${searchFriendQuery}"
             oninput="setState({searchFriendQuery: this.value})"
-            class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2 text-white
-                   placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white
+                   placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
           />
         </div>
       </div>
 
       <!-- Friend Requests -->
       ${friendRequests.length > 0 ? `
-        <div class="p-4 border-b border-gray-700">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        <div class="p-4 border-b border-white/10">
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
             ${t('friendRequests') || 'Demandes'} (${friendRequests.length})
           </h2>
           <div class="space-y-2">
             ${friendRequests.map(request => `
               <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-sky-500/20 to-cyan-500/20
                           border border-sky-500/30 rounded-xl">
-                <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-xl">
+                <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-xl">
                   ${request.avatar || '🤙'}
                 </div>
                 <div class="flex-1">
                   <div class="text-white font-medium">${request.name}</div>
-                  <div class="text-gray-500 text-xs">${t('wantsToBeFriend') || 'Veut devenir ton ami'}</div>
+                  <div class="text-slate-500 text-xs">${t('wantsToBeFriend') || 'Veut devenir ton ami'}</div>
                 </div>
                 <button onclick="acceptFriendRequest('${request.id}')"
                         class="px-3 py-1.5 bg-sky-500 text-white text-sm rounded-lg">
                   ${t('accept') || 'Accepter'}
                 </button>
                 <button onclick="rejectFriendRequest('${request.id}')"
-                        class="p-1.5 text-gray-400 hover:text-red-400">
+                        class="p-1.5 text-slate-400 hover:text-red-400">
                   ✕
                 </button>
               </div>
@@ -91,7 +91,7 @@ export function renderFriends(state) {
       <!-- Online Friends -->
       ${onlineFriends.length > 0 ? `
         <div class="p-4">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
             ${t('online') || 'En ligne'} (${onlineFriends.length})
           </h2>
           <div class="space-y-2">
@@ -102,8 +102,8 @@ export function renderFriends(state) {
 
       <!-- Offline Friends -->
       ${offlineFriends.length > 0 ? `
-        <div class="p-4 ${onlineFriends.length > 0 ? 'border-t border-gray-700' : ''}">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        <div class="p-4 ${onlineFriends.length > 0 ? 'border-t border-white/10' : ''}">
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
             ${t('offline') || 'Hors ligne'} (${offlineFriends.length})
           </h2>
           <div class="space-y-2">
@@ -117,7 +117,7 @@ export function renderFriends(state) {
         <div class="text-center py-20 px-8">
           <div class="text-6xl mb-4">👋</div>
           <h2 class="text-xl font-bold text-white mb-2">${t('noFriendsYet') || 'Aucun ami pour l\'instant'}</h2>
-          <p class="text-gray-500 mb-6">
+          <p class="text-slate-500 mb-6">
             ${t('addFriendsToTravel') || 'Ajoute des amis pour discuter et voyager ensemble !'}
           </p>
           <button onclick="showAddFriend()"
@@ -135,19 +135,19 @@ export function renderFriends(state) {
  */
 function renderFriendCard(friend, isOnline) {
   return `
-    <div class="friend-card flex items-center gap-3 p-3 bg-gray-800 rounded-xl cursor-pointer
-                hover:bg-gray-750 transition-colors"
+    <div class="friend-card flex items-center gap-3 p-3 bg-white/5 rounded-xl cursor-pointer
+                hover:bg-white/10 transition-colors"
          onclick="openFriendsChat('${friend.id}')">
       <div class="relative">
-        <div class="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center text-2xl">
+        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-2xl">
           ${friend.avatar || '🤙'}
         </div>
-        <div class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-gray-800
-                    ${isOnline ? 'bg-green-500' : 'bg-gray-500'}"></div>
+        <div class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white/5
+                    ${isOnline ? 'bg-green-500' : 'bg-slate-500'}"></div>
       </div>
       <div class="flex-1 min-w-0">
         <div class="text-white font-medium">${friend.name}</div>
-        <div class="text-gray-500 text-xs truncate">
+        <div class="text-slate-500 text-xs truncate">
           ${isOnline ? t('online') || 'En ligne' : friend.lastSeen ? `Vu ${formatRelativeTime(friend.lastSeen)}` : t('offline') || 'Hors ligne'}
         </div>
       </div>
@@ -187,7 +187,7 @@ export function renderFriendsChat(friendId) {
 
   if (!friend) {
     return `
-      <div class="text-center py-20 text-gray-500">
+      <div class="text-center py-20 text-slate-500">
         <span class="text-4xl">❌</span>
         <p class="mt-4">${t('friendNotFound') || 'Ami non trouvé'}</p>
         <button onclick="showFriends()" class="mt-4 text-sky-400 hover:text-sky-300">
@@ -202,26 +202,26 @@ export function renderFriendsChat(friendId) {
   return `
     <div class="friends-chat flex flex-col h-full">
       <!-- Header -->
-      <div class="sticky top-0 bg-gray-900/95 backdrop-blur z-10 border-b border-gray-700">
+      <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center gap-3 p-4">
-          <button onclick="showFriends()" class="p-2 hover:bg-gray-800 rounded-full">
+          <button onclick="showFriends()" class="p-2 hover:bg-white/5 rounded-full">
             ←
           </button>
           <div class="relative">
-            <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-xl">
+            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-xl">
               ${friend.avatar || '🤙'}
             </div>
-            <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-gray-900
-                        ${friend.online ? 'bg-green-500' : 'bg-gray-500'}"></div>
+            <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-dark-primary
+                        ${friend.online ? 'bg-green-500' : 'bg-slate-500'}"></div>
           </div>
           <div class="flex-1">
             <div class="text-white font-medium">${friend.name}</div>
-            <div class="text-gray-500 text-xs">
+            <div class="text-slate-500 text-xs">
               ${friend.online ? t('online') || 'En ligne' : t('offline') || 'Hors ligne'}
             </div>
           </div>
           <button onclick="showFriendOptions('${friend.id}')"
-                  class="p-2 hover:bg-gray-800 rounded-full text-gray-400">
+                  class="p-2 hover:bg-white/5 rounded-full text-slate-400">
             ⋮
           </button>
         </div>
@@ -230,7 +230,7 @@ export function renderFriendsChat(friendId) {
       <!-- Messages -->
       <div class="flex-1 overflow-y-auto p-4 space-y-3" id="private-chat-messages">
         ${messages.length === 0 ? `
-          <div class="text-center py-10 text-gray-500">
+          <div class="text-center py-10 text-slate-500">
             <span class="text-3xl">💬</span>
             <p class="mt-2 text-sm">${t('noMessagesYet') || 'Aucun message encore'}</p>
             <p class="text-xs">${t('sayHello') || 'Dis bonjour !'}</p>
@@ -239,14 +239,14 @@ export function renderFriendsChat(friendId) {
       </div>
 
       <!-- Input -->
-      <div class="sticky bottom-16 bg-gray-900 border-t border-gray-700 p-4">
+      <div class="sticky bottom-16 bg-dark-secondary border-t border-white/10 p-4">
         <div class="flex gap-2">
           <input
             type="text"
             id="private-chat-input"
             placeholder="Message..."
-            class="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white
-                   placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white
+                   placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             onkeydown="if(event.key==='Enter')sendPrivateMessage('${friend.id}')"
           />
           <button onclick="sendPrivateMessage('${friend.id}')"
@@ -273,14 +273,14 @@ function renderPrivateMessage(message, friend) {
     <div class="flex ${isOwn ? 'justify-end' : 'justify-start'}">
       <div class="flex items-end gap-2 max-w-[80%]">
         ${!isOwn ? `
-          <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-sm shrink-0">
+          <div class="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-sm shrink-0">
             ${friend.avatar || '🤙'}
           </div>
         ` : ''}
-        <div class="${isOwn ? 'bg-sky-500 text-white' : 'bg-gray-800 text-gray-100'}
+        <div class="${isOwn ? 'bg-sky-500 text-white' : 'bg-white/5 text-slate-100'}
                     px-4 py-2.5 rounded-2xl ${isOwn ? 'rounded-br-md' : 'rounded-bl-md'}">
           <p class="text-sm">${message.text}</p>
-          <p class="text-xs mt-1 ${isOwn ? 'text-sky-200' : 'text-gray-500'}">
+          <p class="text-xs mt-1 ${isOwn ? 'text-sky-200' : 'text-slate-500'}">
             ${new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>
@@ -296,24 +296,24 @@ export function renderAddFriendModal() {
   return `
     <div class="add-friend-modal fixed inset-0 bg-black/80 z-50 flex items-end sm:items-center justify-center"
          onclick="if(event.target===this)closeAddFriend()">
-      <div class="bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl p-6">
+      <div class="modal-panel w-full sm:max-w-md sm:rounded-2xl p-6">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-xl font-bold text-white">${t('addFriend') || 'Ajouter un ami'}</h2>
-          <button onclick="closeAddFriend()" class="p-2 hover:bg-gray-800 rounded-full">
+          <button onclick="closeAddFriend()" class="p-2 hover:bg-white/5 rounded-full">
             ✕
           </button>
         </div>
 
         <!-- Search by username -->
         <div class="mb-4">
-          <label class="block text-gray-400 text-sm mb-2">${t('byUsername') || 'Par pseudo'}</label>
+          <label class="block text-slate-400 text-sm mb-2">${t('byUsername') || 'Par pseudo'}</label>
           <div class="relative">
             <input
               type="text"
               id="friend-search"
               placeholder="${t('searchUsername') || 'Rechercher un pseudo...'}"
-              class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white
-                     placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white
+                     placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
               oninput="searchUsers(this.value)"
             />
             <div id="user-search-results" class="absolute top-full left-0 right-0 mt-1 hidden"></div>
@@ -322,24 +322,24 @@ export function renderAddFriendModal() {
 
         <!-- Share link -->
         <div class="mb-4">
-          <label class="block text-gray-400 text-sm mb-2">${t('orShareLink') || 'Ou partage ton lien'}</label>
+          <label class="block text-slate-400 text-sm mb-2">${t('orShareLink') || 'Ou partage ton lien'}</label>
           <div class="flex gap-2">
             <input
               type="text"
               readonly
               value="spothitch.app/add/user123"
-              class="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-gray-400"
+              class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-slate-400"
             />
             <button onclick="copyFriendLink()"
-                    class="px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white hover:bg-gray-750">
+                    class="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white hover:bg-white/10">
               📋
             </button>
           </div>
         </div>
 
         <!-- QR Code -->
-        <div class="text-center py-6 border-t border-gray-700 mt-4">
-          <p class="text-gray-500 text-sm mb-3">${t('orScanQR') || 'Ou scanne le QR code'}</p>
+        <div class="text-center py-6 border-t border-white/10 mt-4">
+          <p class="text-slate-500 text-sm mb-3">${t('orScanQR') || 'Ou scanne le QR code'}</p>
           <div class="w-32 h-32 bg-white mx-auto rounded-lg flex items-center justify-center">
             <span class="text-4xl">📱</span>
           </div>

@@ -42,7 +42,7 @@ export function renderWeeklyLeaderboardModal() {
          role="dialog"
          aria-modal="true"
          aria-labelledby="weekly-leaderboard-title">
-      <div class="bg-gray-900 w-full sm:max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-2xl overflow-hidden flex flex-col animate-slide-up">
+      <div class="modal-panel w-full sm:max-w-lg max-h-[90vh] sm:rounded-2xl overflow-hidden flex flex-col animate-slide-up">
         <!-- Header with Gradient -->
         <div class="bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 p-6">
           <div class="flex justify-between items-start">
@@ -103,22 +103,22 @@ export function renderWeeklyLeaderboardModal() {
         </div>
 
         <!-- Tabs -->
-        <div class="flex border-b border-gray-700 bg-gray-800/50">
+        <div class="flex border-b border-white/10 bg-white/5/50">
           <button onclick="setWeeklyLeaderboardTab('ranking')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
-                         ${weeklyLeaderboardTab === 'ranking' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-gray-500 hover:text-gray-300'}">
+                         ${weeklyLeaderboardTab === 'ranking' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
             <i class="fas fa-trophy" aria-hidden="true"></i>
             ${t('ranking') || 'Ranking'}
           </button>
           <button onclick="setWeeklyLeaderboardTab('rewards')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
-                         ${weeklyLeaderboardTab === 'rewards' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-gray-500 hover:text-gray-300'}">
+                         ${weeklyLeaderboardTab === 'rewards' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
             <i class="fas fa-gift" aria-hidden="true"></i>
             ${t('rewards') || 'Rewards'}
           </button>
           <button onclick="setWeeklyLeaderboardTab('history')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
-                         ${weeklyLeaderboardTab === 'history' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-gray-500 hover:text-gray-300'}">
+                         ${weeklyLeaderboardTab === 'history' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
             <i class="fas fa-history" aria-hidden="true"></i>
             ${t('history') || 'History'}
           </button>
@@ -170,7 +170,7 @@ function renderRankingTab(leaderboard, currentUser) {
 
       <!-- Show more indicator -->
       ${leaderboard.length > 10 ? `
-        <div class="text-center mt-4 text-gray-500 text-sm">
+        <div class="text-center mt-4 text-slate-500 text-sm">
           + ${leaderboard.length - 10} ${t('otherParticipants') || 'other participants'}
         </div>
       ` : ''}
@@ -187,7 +187,7 @@ function renderPodiumPlace(user, position) {
       <div class="flex flex-col items-center ${position === 1 ? 'order-2' : position === 2 ? 'order-1' : 'order-3'}">
         <div class="text-3xl mb-2 opacity-30">?</div>
         <div class="text-gray-600 font-medium text-sm">${t('empty') || 'Empty'}</div>
-        <div class="mt-2 w-20 ${position === 1 ? 'h-28' : position === 2 ? 'h-24' : 'h-20'} rounded-t-lg bg-gray-800/50 border-2 border-gray-700/50 flex items-start justify-center pt-2">
+        <div class="mt-2 w-20 ${position === 1 ? 'h-28' : position === 2 ? 'h-24' : 'h-20'} rounded-t-lg bg-white/5/50 border-2 border-white/10/50 flex items-start justify-center pt-2">
           <span class="text-2xl opacity-30">${position === 1 ? '🥇' : position === 2 ? '🥈' : '🥉'}</span>
         </div>
       </div>
@@ -226,9 +226,9 @@ function renderLeaderboardRow(user, rank, currentUserRank) {
 
   return `
     <div class="flex items-center gap-3 p-3 rounded-xl transition-all animate-fade-in
-                ${isCurrentUser ? 'bg-emerald-500/20 border border-emerald-500/50' : 'bg-gray-800 hover:bg-gray-700'}"
+                ${isCurrentUser ? 'bg-emerald-500/20 border border-emerald-500/50' : 'bg-white/5 hover:bg-white/10'}"
          style="animation-delay: ${(rank - 4) * 50}ms">
-      <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-emerald-400' : 'text-gray-500'}">
+      <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-emerald-400' : 'text-slate-500'}">
         ${rank}
       </div>
       <div class="text-2xl">${user.avatar}</div>
@@ -237,11 +237,11 @@ function renderLeaderboardRow(user, rank, currentUserRank) {
           <span class="text-white font-medium truncate">${user.username}</span>
           ${isCurrentUser ? `<span class="text-xs bg-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded-full">${t('you') || 'You'}</span>` : ''}
         </div>
-        <div class="text-gray-500 text-xs">${t('levelPrefix') || 'Lvl.'} ${user.level}</div>
+        <div class="text-slate-500 text-xs">${t('levelPrefix') || 'Lvl.'} ${user.level}</div>
       </div>
       <div class="text-right">
         <div class="text-emerald-400 font-bold">${user.weeklyPoints.toLocaleString()}</div>
-        <div class="text-gray-500 text-xs">${t('points') || 'points'}</div>
+        <div class="text-slate-500 text-xs">${t('points') || 'points'}</div>
       </div>
     </div>
   `;
@@ -277,7 +277,7 @@ function renderRewardsTab() {
                 ${reward.rewards.map(r => `
                   <div class="flex items-center gap-2 text-sm">
                     <span>${r.icon}</span>
-                    <span class="text-gray-300">${r.text}</span>
+                    <span class="text-slate-300">${r.text}</span>
                   </div>
                 `).join('')}
               </div>
@@ -294,9 +294,9 @@ function renderRewardsTab() {
         </h3>
         <div class="space-y-3">
           ${rules.map(rule => `
-            <div class="flex items-start gap-3 p-3 bg-gray-800/50 rounded-lg">
+            <div class="flex items-start gap-3 p-3 bg-white/5/50 rounded-lg">
               <span class="text-xl">${rule.icon}</span>
-              <span class="text-gray-300 text-sm">${rule.text}</span>
+              <span class="text-slate-300 text-sm">${rule.text}</span>
             </div>
           `).join('')}
         </div>
@@ -309,25 +309,25 @@ function renderRewardsTab() {
           ${t('howToEarnPoints') || 'How to earn points?'}
         </h3>
         <div class="grid grid-cols-2 gap-3">
-          <div class="p-3 bg-gray-800 rounded-lg text-center">
+          <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">📍</div>
             <div class="text-emerald-400 font-bold">+5 pts</div>
-            <div class="text-gray-500 text-xs">Check-in</div>
+            <div class="text-slate-500 text-xs">Check-in</div>
           </div>
-          <div class="p-3 bg-gray-800 rounded-lg text-center">
+          <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">➕</div>
             <div class="text-emerald-400 font-bold">+20 pts</div>
-            <div class="text-gray-500 text-xs">${t('addSpot') || 'New spot'}</div>
+            <div class="text-slate-500 text-xs">${t('addSpot') || 'New spot'}</div>
           </div>
-          <div class="p-3 bg-gray-800 rounded-lg text-center">
+          <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">⭐</div>
             <div class="text-emerald-400 font-bold">+10 pts</div>
-            <div class="text-gray-500 text-xs">${t('reviewLabel') || 'Review'}</div>
+            <div class="text-slate-500 text-xs">${t('reviewLabel') || 'Review'}</div>
           </div>
-          <div class="p-3 bg-gray-800 rounded-lg text-center">
+          <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">🧠</div>
             <div class="text-emerald-400 font-bold">+50 pts</div>
-            <div class="text-gray-500 text-xs">${t('perfectQuiz') || 'Perfect quiz'}</div>
+            <div class="text-slate-500 text-xs">${t('perfectQuiz') || 'Perfect quiz'}</div>
           </div>
         </div>
       </div>
@@ -345,8 +345,8 @@ function renderHistoryTab() {
     return `
       <div class="p-8 text-center">
         <div class="text-5xl mb-4 opacity-50">📅</div>
-        <div class="text-gray-400 text-lg mb-2">${t('noHistoryYet') || 'No history yet'}</div>
-        <div class="text-gray-500 text-sm">${t('historyAfterFirstWeek') || 'History will appear after the first complete week'}</div>
+        <div class="text-slate-400 text-lg mb-2">${t('noHistoryYet') || 'No history yet'}</div>
+        <div class="text-slate-500 text-sm">${t('historyAfterFirstWeek') || 'History will appear after the first complete week'}</div>
       </div>
     `;
   }
@@ -357,11 +357,11 @@ function renderHistoryTab() {
         <div class="card p-4">
           <div class="flex items-center justify-between mb-3">
             <div class="font-bold text-white">${t('weekNumber') || 'Week'} ${week.weekId.split('-W')[1]}</div>
-            <div class="text-gray-500 text-sm">${formatWeekDate(week.weekStart)}</div>
+            <div class="text-slate-500 text-sm">${formatWeekDate(week.weekStart)}</div>
           </div>
           <div class="space-y-2">
             ${week.topPlayers.slice(0, 3).map((player, index) => `
-              <div class="flex items-center gap-3 p-2 ${index === 0 ? 'bg-amber-500/10' : 'bg-gray-800/50'} rounded-lg">
+              <div class="flex items-center gap-3 p-2 ${index === 0 ? 'bg-amber-500/10' : 'bg-white/5/50'} rounded-lg">
                 <span class="text-lg">${index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}</span>
                 <span class="text-xl">${player.avatar}</span>
                 <span class="text-white flex-1">${player.username}</span>

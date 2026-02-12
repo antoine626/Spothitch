@@ -15,7 +15,7 @@ import { t } from '../i18n/index.js';
 export function renderPhotoGallery(photos = [], spotId = 0) {
   if (!photos || photos.length === 0) {
     return `
-      <div class="photo-gallery-empty bg-gray-800 rounded-xl p-8 text-center">
+      <div class="photo-gallery-empty bg-white/5 rounded-xl p-8 text-center">
         <i class="fas fa-camera text-4xl text-slate-500 mb-3"></i>
         <p class="text-slate-400 text-sm">${t('noPhotosForSpot') || 'No photos for this spot'}</p>
         <button
@@ -33,7 +33,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
   return `
     <div class="photo-gallery relative" data-gallery-id="${galleryId}" data-current="0">
       <!-- Main Image -->
-      <div class="relative aspect-video rounded-xl overflow-hidden bg-gray-800">
+      <div class="relative aspect-video rounded-xl overflow-hidden bg-white/5">
         <img
           id="${galleryId}-main"
           src="${escapeHTML(photos[0])}"

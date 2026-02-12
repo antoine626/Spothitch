@@ -16,7 +16,7 @@ export function renderPlanner(state) {
   return `
     <div class="planner-view pb-24">
       <!-- Header -->
-      <div class="p-4 border-b border-gray-700">
+      <div class="p-4 border-b border-white/10">
         <h1 class="text-xl font-bold text-white mb-1">${t('planTrip')}</h1>
         <p class="text-gray-400 text-sm">${t('planNextTrip') || 'Planifie ton prochain voyage en autostop'}</p>
       </div>
@@ -43,7 +43,7 @@ export function renderPlanner(state) {
             type="text"
             id="step-input"
             placeholder="${t('addCity') || 'Ajouter une ville...'}"
-            class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white
+            class="w-full bg-dark-secondary border border-white/10 rounded-xl px-4 py-3 text-white
                    placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             oninput="searchTripCity(this.value)"
             onkeydown="if(event.key==='Enter')addFirstSuggestion()"
@@ -78,12 +78,12 @@ export function renderPlanner(state) {
       <!-- Map Container -->
       ${tripSteps.length >= 2 || activeTrip ? `
         <div class="px-4 mb-4">
-          <div id="planner-map" class="h-64 rounded-xl overflow-hidden bg-gray-800"></div>
+          <div id="planner-map" class="h-64 rounded-xl overflow-hidden bg-dark-secondary"></div>
         </div>
       ` : ''}
 
       <!-- Saved Trips Section -->
-      <div class="p-4 border-t border-gray-700">
+      <div class="p-4 border-t border-white/10">
         <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
           ${t('myTrips')} (${savedTrips.length})
         </h2>
@@ -114,7 +114,7 @@ function renderTripStep(step, index, totalSteps) {
   const isLast = index === totalSteps - 1;
 
   return `
-    <div class="trip-step flex items-center gap-3 p-3 bg-gray-800 rounded-xl group">
+    <div class="trip-step flex items-center gap-3 p-3 bg-dark-secondary rounded-xl group">
       <!-- Step indicator -->
       <div class="flex flex-col items-center">
         <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
@@ -158,7 +158,7 @@ function renderTripStep(step, index, totalSteps) {
  */
 function renderActiveTripDetails(trip) {
   return `
-    <div class="active-trip mx-4 mb-4 p-4 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-gray-700">
+    <div class="active-trip mx-4 mb-4 p-4 bg-gradient-to-br from-dark-secondary to-dark-primary rounded-xl border border-white/10">
       <div class="flex justify-between items-start mb-3">
         <h3 class="text-lg font-bold text-white">Itinéraire calculé</h3>
         <button onclick="saveCurrentTrip()" class="text-sky-400 hover:text-sky-300 text-sm">
@@ -186,7 +186,7 @@ function renderActiveTripDetails(trip) {
         <div class="space-y-3">
           <h4 class="text-sm font-semibold text-gray-400">Spots recommandés</h4>
           ${trip.spotsByLeg.map(leg => `
-            <div class="bg-gray-800/50 rounded-lg p-3">
+            <div class="bg-dark-secondary/50 rounded-lg p-3">
               <div class="text-sm text-gray-300 mb-2">${leg.from} → ${leg.to}</div>
               ${leg.spots.length > 0
     ? `<div class="flex flex-wrap gap-2">
@@ -217,7 +217,7 @@ function renderSavedTripCard(trip) {
     : stepNames.join(' → ');
 
   return `
-    <div class="saved-trip p-3 bg-gray-800 rounded-xl flex items-center gap-3 cursor-pointer
+    <div class="saved-trip p-3 bg-dark-secondary rounded-xl flex items-center gap-3 cursor-pointer
                 hover:bg-gray-750 transition-colors"
          onclick="loadSavedTrip('${trip.id}')">
       <div class="w-10 h-10 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-lg
@@ -260,26 +260,26 @@ export function renderSavedTripDetail(tripId) {
   return `
     <div class="trip-detail pb-24">
       <!-- Header -->
-      <div class="sticky top-0 bg-gray-900/95 backdrop-blur z-10 border-b border-gray-700">
+      <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center gap-3 p-4">
-          <button onclick="changeTab('planner')" class="p-2 hover:bg-gray-800 rounded-full">
+          <button onclick="changeTab('planner')" class="p-2 hover:bg-dark-secondary rounded-full">
             ←
           </button>
           <div class="flex-1">
             <h1 class="text-lg font-bold text-white">Détails du voyage</h1>
             <p class="text-gray-500 text-xs">Créé le ${new Date(trip.createdAt).toLocaleDateString()}</p>
           </div>
-          <button onclick="deleteSavedTrip('${trip.id}')" class="p-2 text-red-400 hover:bg-gray-800 rounded-full">
+          <button onclick="deleteSavedTrip('${trip.id}')" class="p-2 text-red-400 hover:bg-dark-secondary rounded-full">
             🗑️
           </button>
         </div>
       </div>
 
       <!-- Map -->
-      <div id="trip-detail-map" class="h-48 bg-gray-800"></div>
+      <div id="trip-detail-map" class="h-48 bg-dark-secondary"></div>
 
       <!-- Stats -->
-      <div class="p-4 grid grid-cols-3 gap-4 border-b border-gray-700">
+      <div class="p-4 grid grid-cols-3 gap-4 border-b border-white/10">
         <div class="text-center">
           <div class="text-xl font-bold text-white">${formatDistance(trip.totalDistance)}</div>
           <div class="text-xs text-gray-500">Distance totale</div>
@@ -299,7 +299,7 @@ export function renderSavedTripDetail(tripId) {
         <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">Étapes</h2>
         <div class="space-y-2">
           ${trip.steps.map((step, i) => `
-            <div class="flex items-center gap-3 p-3 bg-gray-800 rounded-xl">
+            <div class="flex items-center gap-3 p-3 bg-dark-secondary rounded-xl">
               <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
                           ${i === 0 ? 'bg-green-500' : i === trip.steps.length - 1 ? 'bg-red-500' : 'bg-gray-600'}">
                 ${i === 0 ? '🚀' : i === trip.steps.length - 1 ? '🏁' : i}
@@ -315,7 +315,7 @@ export function renderSavedTripDetail(tripId) {
 
       <!-- Recommended Spots -->
       ${trip.spotsByLeg ? `
-        <div class="p-4 border-t border-gray-700">
+        <div class="p-4 border-t border-white/10">
           <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
             Spots recommandés
           </h2>
@@ -325,7 +325,7 @@ export function renderSavedTripDetail(tripId) {
                 <div class="text-sm text-gray-400 mb-2">${leg.from} → ${leg.to}</div>
                 <div class="grid grid-cols-1 gap-2">
                   ${leg.spots.slice(0, 3).map(spot => `
-                    <div class="flex items-center gap-3 p-2 bg-gray-800 rounded-lg cursor-pointer
+                    <div class="flex items-center gap-3 p-2 bg-dark-secondary rounded-lg cursor-pointer
                                 hover:bg-gray-750"
                          onclick="selectSpot(${spot.id})">
                       <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />

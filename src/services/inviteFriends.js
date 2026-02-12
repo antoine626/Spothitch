@@ -392,7 +392,7 @@ export function renderInviteCard() {
         </div>
         <div>
           <h3 class="font-bold text-white">${t('inviteFriendsTitle')}</h3>
-          <p class="text-sm text-gray-400">${t('inviteFriendsSubtitle')}</p>
+          <p class="text-sm text-slate-400">${t('inviteFriendsSubtitle')}</p>
         </div>
       </div>
 
@@ -400,21 +400,21 @@ export function renderInviteCard() {
       <div class="grid grid-cols-3 gap-2 mb-4">
         <div class="bg-dark-700/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-white">${stats.totalInvites}</p>
-          <p class="text-xs text-gray-400">${t('invitesAccepted')}</p>
+          <p class="text-xs text-slate-400">${t('invitesAccepted')}</p>
         </div>
         <div class="bg-dark-700/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-primary">${stats.pointsEarned}</p>
-          <p class="text-xs text-gray-400">${t('pointsEarned')}</p>
+          <p class="text-xs text-slate-400">${t('pointsEarned')}</p>
         </div>
         <div class="bg-dark-700/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-yellow-400">${rewards.inviterReward}</p>
-          <p class="text-xs text-gray-400">${t('perInvite')}</p>
+          <p class="text-xs text-slate-400">${t('perInvite')}</p>
         </div>
       </div>
 
       <!-- Invite Code -->
       <div class="bg-dark-700 rounded-lg p-3 mb-4">
-        <p class="text-xs text-gray-400 mb-1">${t('yourInviteCode')}</p>
+        <p class="text-xs text-slate-400 mb-1">${t('yourInviteCode')}</p>
         <div class="flex items-center justify-between">
           <span class="font-mono text-lg font-bold text-white tracking-wider">${stats.inviteCode}</span>
           <button onclick="window.copyInviteCode()" class="text-primary hover:text-primary/80" aria-label="${t('copyCode')}">
@@ -426,14 +426,14 @@ export function renderInviteCard() {
       <!-- Progress to next milestone -->
       ${stats.nextMilestone ? `
         <div class="mb-4">
-          <div class="flex justify-between text-xs text-gray-400 mb-1">
+          <div class="flex justify-between text-xs text-slate-400 mb-1">
             <span>${t('nextMilestone')}: ${stats.nextMilestone} ${t('invites')}</span>
             <span>+${stats.milestoneReward} pts</span>
           </div>
           <div class="bg-dark-600 rounded-full h-2 overflow-hidden">
             <div class="bg-primary h-full transition-all" style="width: ${((stats.totalInvites / stats.nextMilestone) * 100).toFixed(0)}%"></div>
           </div>
-          <p class="text-xs text-gray-400 mt-1">${stats.invitesUntilMilestone} ${t('invitesUntilBonus')}</p>
+          <p class="text-xs text-slate-400 mt-1">${stats.invitesUntilMilestone} ${t('invitesUntilBonus')}</p>
         </div>
       ` : `
         <div class="mb-4">
@@ -457,7 +457,7 @@ export function renderInviteCard() {
           <i class="fab fa-telegram"></i>
         </button>
         <button onclick="window.shareInvite('sms')"
-          class="flex-1 min-w-[70px] bg-gray-600 hover:bg-gray-700 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 min-w-[70px] bg-gray-600 hover:bg-white/10 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} SMS">
           <i class="fas fa-sms"></i>
         </button>
@@ -494,7 +494,7 @@ export function renderInviteModal() {
             ${t('inviteFriendsTitle')}
           </h2>
           <button onclick="window.closeInviteModal()"
-            class="text-gray-400 hover:text-white"
+            class="text-slate-400 hover:text-white"
             aria-label="${t('close')}">
             <i class="fas fa-times text-xl"></i>
           </button>
@@ -505,21 +505,21 @@ export function renderInviteModal() {
           <div class="bg-gradient-to-r from-primary/20 to-yellow-500/20 rounded-xl p-4">
             <h3 class="font-semibold text-white mb-2">${t('inviteRewardsTitle')}</h3>
             <div class="space-y-2 text-sm">
-              <div class="flex justify-between text-gray-300">
+              <div class="flex justify-between text-slate-300">
                 <span>${t('youGet')}</span>
                 <span class="text-primary font-bold">+${rewards.inviterReward} pts</span>
               </div>
-              <div class="flex justify-between text-gray-300">
+              <div class="flex justify-between text-slate-300">
                 <span>${t('friendGets')}</span>
                 <span class="text-green-400 font-bold">+${rewards.inviteeReward} pts</span>
               </div>
             </div>
             <div class="mt-3 pt-3 border-t border-dark-600">
-              <p class="text-xs text-gray-400">${t('milestoneBonus')}</p>
+              <p class="text-xs text-slate-400">${t('milestoneBonus')}</p>
               <div class="flex gap-2 mt-1">
                 ${rewards.milestones.map(m => `
                   <span class="text-xs px-2 py-1 rounded-full ${
-                    stats.totalInvites >= m.count ? 'bg-green-500/20 text-green-400' : 'bg-dark-600 text-gray-400'
+                    stats.totalInvites >= m.count ? 'bg-green-500/20 text-green-400' : 'bg-dark-600 text-slate-400'
                   }">
                     ${m.count} = +${m.reward}
                   </span>
@@ -530,7 +530,7 @@ export function renderInviteModal() {
 
           <!-- Invite code -->
           <div class="bg-dark-700 rounded-xl p-4">
-            <p class="text-sm text-gray-400 mb-2">${t('yourInviteCode')}</p>
+            <p class="text-sm text-slate-400 mb-2">${t('yourInviteCode')}</p>
             <div class="flex items-center gap-3">
               <div class="flex-1 bg-dark-600 rounded-lg px-4 py-3 font-mono text-xl text-center text-white tracking-widest">
                 ${stats.inviteCode}
@@ -545,12 +545,12 @@ export function renderInviteModal() {
 
           <!-- Invite link -->
           <div class="bg-dark-700 rounded-xl p-4">
-            <p class="text-sm text-gray-400 mb-2">${t('inviteLink')}</p>
+            <p class="text-sm text-slate-400 mb-2">${t('inviteLink')}</p>
             <div class="flex items-center gap-2">
               <input type="text"
                 value="${stats.inviteLink}"
                 readonly
-                class="flex-1 bg-dark-600 rounded-lg px-3 py-2 text-sm text-gray-300 truncate"
+                class="flex-1 bg-dark-600 rounded-lg px-3 py-2 text-sm text-slate-300 truncate"
                 aria-label="${t('inviteLink')}" />
               <button onclick="window.copyInviteLink()"
                 class="bg-dark-600 hover:bg-dark-500 text-white p-2 rounded-lg"
@@ -562,7 +562,7 @@ export function renderInviteModal() {
 
           <!-- Share methods -->
           <div>
-            <p class="text-sm text-gray-400 mb-3">${t('shareVia')}</p>
+            <p class="text-sm text-slate-400 mb-3">${t('shareVia')}</p>
             <div class="grid grid-cols-4 gap-3">
               <button onclick="window.shareInvite('whatsapp')"
                 class="flex flex-col items-center gap-1 p-3 bg-green-600/20 hover:bg-green-600/30 rounded-xl text-green-400"
@@ -577,7 +577,7 @@ export function renderInviteModal() {
                 <span class="text-xs">Telegram</span>
               </button>
               <button onclick="window.shareInvite('sms')"
-                class="flex flex-col items-center gap-1 p-3 bg-gray-600/20 hover:bg-gray-600/30 rounded-xl text-gray-300"
+                class="flex flex-col items-center gap-1 p-3 bg-gray-600/20 hover:bg-gray-600/30 rounded-xl text-slate-300"
                 aria-label="SMS">
                 <i class="fas fa-sms text-2xl"></i>
                 <span class="text-xs">SMS</span>
@@ -618,7 +618,7 @@ export function renderInviteModal() {
           <!-- Invited users list -->
           ${invitedUsers.length > 0 ? `
             <div>
-              <p class="text-sm text-gray-400 mb-3">${t('friendsInvited')} (${invitedUsers.length})</p>
+              <p class="text-sm text-slate-400 mb-3">${t('friendsInvited')} (${invitedUsers.length})</p>
               <div class="space-y-2 max-h-40 overflow-y-auto">
                 ${invitedUsers.map(user => `
                   <div class="flex items-center justify-between bg-dark-700 rounded-lg p-2">
@@ -628,7 +628,7 @@ export function renderInviteModal() {
                       </div>
                       <span class="text-white text-sm">${user.name || t('anonymousUser')}</span>
                     </div>
-                    <span class="text-xs text-gray-400">${new Date(user.joinedAt).toLocaleDateString()}</span>
+                    <span class="text-xs text-slate-400">${new Date(user.joinedAt).toLocaleDateString()}</span>
                   </div>
                 `).join('')}
               </div>
@@ -636,8 +636,8 @@ export function renderInviteModal() {
           ` : `
             <div class="text-center py-4">
               <i class="fas fa-users text-4xl text-gray-600 mb-2"></i>
-              <p class="text-gray-400">${t('noInvitedFriendsYet')}</p>
-              <p class="text-sm text-gray-500">${t('startInviting')}</p>
+              <p class="text-slate-400">${t('noInvitedFriendsYet')}</p>
+              <p class="text-sm text-slate-500">${t('startInviting')}</p>
             </div>
           `}
         </div>

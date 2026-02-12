@@ -577,7 +577,7 @@ export function renderReviewForm(spotId) {
 
   return `
     <div
-      class="review-form bg-gray-900 rounded-2xl p-6"
+      class="review-form bg-dark-secondary rounded-2xl p-6"
       role="form"
       aria-labelledby="review-form-title"
     >

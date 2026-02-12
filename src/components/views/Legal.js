@@ -27,9 +27,9 @@ export function renderLegalPage(page = 'cgu') {
   return `
     <div class="legal-page pb-24">
       <!-- Header -->
-      <div class="sticky top-0 bg-gray-900/95 backdrop-blur z-10 border-b border-gray-700">
+      <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center gap-3 p-4">
-          <button onclick="changeTab('profile')" class="p-2 hover:bg-gray-800 rounded-full">
+          <button onclick="changeTab('profile')" class="p-2 hover:bg-dark-secondary rounded-full">
             ←
           </button>
           <h1 class="text-lg font-bold text-white">
@@ -39,7 +39,7 @@ export function renderLegalPage(page = 'cgu') {
       </div>
 
       <!-- Tabs -->
-      <div class="flex border-b border-gray-700 overflow-x-auto">
+      <div class="flex border-b border-white/10 overflow-x-auto">
         <button onclick="showLegalPage('cgu')"
                 class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
           ${t('legalTabTerms') || 'CGU'}
@@ -249,34 +249,34 @@ export function renderCookiePolicy() {
       <p>Ces cookies sont essentiels au fonctionnement de l'application :</p>
       <table class="w-full text-sm mt-2 mb-4">
         <thead>
-          <tr class="border-b border-gray-700">
+          <tr class="border-b border-white/10">
             <th class="text-left py-2">Nom</th>
             <th class="text-left py-2">Finalité</th>
             <th class="text-left py-2">Durée</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>spothitch_auth</code></td>
             <td class="py-2">Authentification utilisateur</td>
             <td class="py-2">Session</td>
           </tr>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>spothitch_state</code></td>
             <td class="py-2">État de l'application (préférences)</td>
             <td class="py-2">1 an</td>
           </tr>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>cookie_consent</code></td>
             <td class="py-2">Mémoriser vos choix de cookies</td>
             <td class="py-2">1 an</td>
           </tr>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>consent_history</code></td>
             <td class="py-2">Historique des consentements (RGPD)</td>
             <td class="py-2">3 ans</td>
           </tr>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>spothitch_offline</code></td>
             <td class="py-2">Données hors-ligne (spots, favoris)</td>
             <td class="py-2">30 jours</td>
@@ -288,19 +288,19 @@ export function renderCookiePolicy() {
       <p>Ces cookies nous aident à comprendre comment vous utilisez l'application :</p>
       <table class="w-full text-sm mt-2 mb-4">
         <thead>
-          <tr class="border-b border-gray-700">
+          <tr class="border-b border-white/10">
             <th class="text-left py-2">Nom</th>
             <th class="text-left py-2">Finalité</th>
             <th class="text-left py-2">Durée</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>_ga</code></td>
             <td class="py-2">Google Analytics - identification anonyme</td>
             <td class="py-2">2 ans</td>
           </tr>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>mp_*</code></td>
             <td class="py-2">Mixpanel - analyse d'usage (si activé)</td>
             <td class="py-2">1 an</td>
@@ -312,14 +312,14 @@ export function renderCookiePolicy() {
       <p>Ces cookies permettent d'afficher des contenus pertinents :</p>
       <table class="w-full text-sm mt-2 mb-4">
         <thead>
-          <tr class="border-b border-gray-700">
+          <tr class="border-b border-white/10">
             <th class="text-left py-2">Nom</th>
             <th class="text-left py-2">Finalité</th>
             <th class="text-left py-2">Durée</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>spothitch_ads</code></td>
             <td class="py-2">Partenariats voyage (non intrusifs)</td>
             <td class="py-2">6 mois</td>
@@ -331,24 +331,24 @@ export function renderCookiePolicy() {
       <p>Ces cookies améliorent votre expérience :</p>
       <table class="w-full text-sm mt-2 mb-4">
         <thead>
-          <tr class="border-b border-gray-700">
+          <tr class="border-b border-white/10">
             <th class="text-left py-2">Nom</th>
             <th class="text-left py-2">Finalité</th>
             <th class="text-left py-2">Durée</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>spothitch_lang</code></td>
             <td class="py-2">Langue préférée</td>
             <td class="py-2">1 an</td>
           </tr>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>spothitch_theme</code></td>
             <td class="py-2">Thème (clair/sombre)</td>
             <td class="py-2">1 an</td>
           </tr>
-          <tr class="border-b border-gray-800">
+          <tr class="border-b border-white/10">
             <td class="py-2"><code>spothitch_recent</code></td>
             <td class="py-2">Spots récemment consultés</td>
             <td class="py-2">30 jours</td>
@@ -420,7 +420,7 @@ export function renderCookiePolicy() {
       </p>
 
       <!-- Bouton pour modifier les préférences -->
-      <div class="mt-6 p-4 bg-gray-800 rounded-lg text-center">
+      <div class="mt-6 p-4 bg-dark-secondary rounded-lg text-center">
         <p class="text-sm text-gray-400 mb-3">${t('manageCookiePrefs') || 'Gérer vos préférences de cookies'}</p>
         <button onclick="showCookieCustomize()" class="btn bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg">
           <i class="fas fa-cog mr-2"></i>

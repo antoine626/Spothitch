@@ -39,7 +39,7 @@ export function renderChallengesModal() {
          role="dialog"
          aria-modal="true"
          aria-labelledby="challenges-title">
-      <div class="bg-gray-900 w-full sm:max-w-lg max-h-[85vh] rounded-t-3xl sm:rounded-2xl overflow-hidden
+      <div class="modal-panel w-full sm:max-w-lg max-h-[85vh] sm:rounded-2xl overflow-hidden
                   flex flex-col">
         <!-- Header -->
         <div class="bg-gradient-to-r from-purple-500 to-indigo-500 p-6">
@@ -58,17 +58,17 @@ export function renderChallengesModal() {
         </div>
 
         <!-- Tabs -->
-        <div class="flex border-b border-gray-700">
+        <div class="flex border-b border-white/10">
           <button onclick="setChallengeTab('daily')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'daily' ? 'text-primary-400 border-b-2 border-primary-400' : 'text-gray-500 hover:text-gray-300'}">
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'daily' ? 'text-primary-400 border-b-2 border-primary-400' : 'text-slate-500 hover:text-slate-300'}">
             Quotidien
           </button>
           <button onclick="setChallengeTab('weekly')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'weekly' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-gray-500 hover:text-gray-300'}">
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'weekly' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-slate-500 hover:text-slate-300'}">
             Hebdo
           </button>
           <button onclick="setChallengeTab('longterm')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'longterm' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-gray-500 hover:text-gray-300'}">
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'longterm' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
             Long terme
           </button>
         </div>
@@ -79,10 +79,10 @@ export function renderChallengesModal() {
             <!-- Daily Challenges -->
             <section>
               <div class="flex items-center justify-between mb-3">
-                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide">
+                <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Défis du jour
                 </h3>
-                <span class="text-xs text-gray-500">
+                <span class="text-xs text-slate-500">
                   Renouvellement dans ${getTimeUntilMidnight()}
                 </span>
               </div>
@@ -96,10 +96,10 @@ export function renderChallengesModal() {
             <!-- Weekly Challenges -->
             <section>
               <div class="flex items-center justify-between mb-3">
-                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide">
+                <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Défis de la semaine
                 </h3>
-                <span class="text-xs text-gray-500">
+                <span class="text-xs text-slate-500">
                   ${getDaysUntilSunday()} jours restants
                 </span>
               </div>
@@ -112,7 +112,7 @@ export function renderChallengesModal() {
           ${challengeTab === 'longterm' ? `
             <!-- Long-term Challenges -->
             <section>
-              <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+              <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
                 Objectifs long terme
               </h3>
               <div class="space-y-3">
@@ -142,7 +142,7 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
   };
 
   return `
-    <div class="challenge-card p-4 bg-gray-800 rounded-xl ${isCompleted ? 'opacity-60' : ''}">
+    <div class="challenge-card p-4 bg-white/5 rounded-xl ${isCompleted ? 'opacity-60' : ''}">
       <div class="flex items-start gap-3">
         <!-- Icon -->
         <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl
@@ -155,7 +155,7 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
           <div class="flex items-start justify-between">
             <div>
               <h4 class="text-white font-semibold">${name}</h4>
-              <p class="text-gray-500 text-sm">${description}</p>
+              <p class="text-slate-500 text-sm">${description}</p>
             </div>
             ${isCompleted ? `
               <span class="text-green-400 text-xl">✓</span>
@@ -165,10 +165,10 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
           <!-- Progress -->
           <div class="mt-3">
             <div class="flex justify-between text-xs mb-1">
-              <span class="text-gray-400">${challenge.current}/${challenge.target}</span>
-              <span class="text-gray-400">${Math.round(progressPercent)}%</span>
+              <span class="text-slate-400">${challenge.current}/${challenge.target}</span>
+              <span class="text-slate-400">${Math.round(progressPercent)}%</span>
             </div>
-            <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+            <div class="h-2 bg-white/10 rounded-full overflow-hidden">
               <div class="h-full bg-gradient-to-r ${typeColors[type]} transition-all duration-500"
                    style="width: ${progressPercent}%"></div>
             </div>

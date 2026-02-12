@@ -65,18 +65,18 @@ export function renderFiltersModal() {
          role="dialog"
          aria-modal="true"
          aria-labelledby="filters-title">
-      <div class="bg-gray-900 w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden">
+      <div class="modal-panel w-full sm:max-w-md sm:rounded-2xl overflow-hidden">
         <!-- Header -->
-        <div class="flex items-center justify-between p-4 border-b border-gray-700">
+        <div class="flex items-center justify-between p-4 border-b border-white/10">
           <h2 id="filters-title" class="text-xl font-bold text-white">${t('filters')}</h2>
           <div class="flex gap-2">
             <button onclick="resetFilters()"
-                    class="px-3 py-1.5 text-gray-400 hover:text-white text-sm"
+                    class="px-3 py-1.5 text-slate-400 hover:text-white text-sm"
                     type="button">
               ${t('resetFilters')}
             </button>
             <button onclick="closeFilters()"
-                    class="w-10 h-10 flex items-center justify-center hover:bg-gray-800 rounded-full"
+                    class="w-10 h-10 flex items-center justify-center hover:bg-white/5 rounded-full"
                     type="button"
                     aria-label="${t('closeFilters') || 'Close filters'}">
               <span aria-hidden="true">✕</span>
@@ -88,7 +88,7 @@ export function renderFiltersModal() {
         <div class="p-4 space-y-6 max-h-[60vh] overflow-y-auto">
           <!-- Country Filter -->
           <section>
-            <label class="block text-sm font-medium text-gray-400 mb-3">
+            <label class="block text-sm font-medium text-slate-400 mb-3">
               ${t('country') || 'Pays'}
             </label>
             <div class="grid grid-cols-3 gap-2">
@@ -97,7 +97,7 @@ export function renderFiltersModal() {
                         class="p-2 rounded-xl text-center transition-colors
                                ${filterCountry === opt.code
     ? 'bg-sky-500 text-white'
-    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+    : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
                   <span class="text-lg">${opt.flag}</span>
                   <span class="block text-xs mt-1 truncate">${opt.code === 'all' ? (t('all') || 'All') : opt.code}</span>
                 </button>
@@ -107,7 +107,7 @@ export function renderFiltersModal() {
 
           <!-- Rating Filter -->
           <section>
-            <label class="block text-sm font-medium text-gray-400 mb-3">
+            <label class="block text-sm font-medium text-slate-400 mb-3">
               ${t('minRating')}
             </label>
             <div class="flex flex-wrap gap-2">
@@ -116,7 +116,7 @@ export function renderFiltersModal() {
                         class="px-4 py-2 rounded-xl transition-colors
                                ${filterMinRating === opt.value
     ? 'bg-sky-500 text-white'
-    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+    : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
                   ${opt.label}
                 </button>
               `).join('')}
@@ -125,7 +125,7 @@ export function renderFiltersModal() {
 
           <!-- Wait Time Filter -->
           <section>
-            <label class="block text-sm font-medium text-gray-400 mb-3">
+            <label class="block text-sm font-medium text-slate-400 mb-3">
               ${t('maxWait')}
             </label>
             <div class="flex flex-wrap gap-2">
@@ -134,7 +134,7 @@ export function renderFiltersModal() {
                         class="px-4 py-2 rounded-xl transition-colors
                                ${filterMaxWait === opt.value
     ? 'bg-sky-500 text-white'
-    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+    : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
                   ${opt.label}
                 </button>
               `).join('')}
@@ -143,14 +143,14 @@ export function renderFiltersModal() {
 
           <!-- Verified Only Toggle -->
           <section>
-            <label class="flex items-center justify-between p-4 bg-gray-800 rounded-xl cursor-pointer">
+            <label class="flex items-center justify-between p-4 bg-white/5 rounded-xl cursor-pointer">
               <div>
                 <span class="text-white font-medium">${t('verifiedOnly') || 'Spots vérifiés uniquement'}</span>
-                <p class="text-gray-500 text-sm">${t('verifiedOnlyDesc') || "N'afficher que les spots avec ✓"}</p>
+                <p class="text-slate-500 text-sm">${t('verifiedOnlyDesc') || "N'afficher que les spots avec ✓"}</p>
               </div>
               <button onclick="toggleVerifiedFilter()"
                       class="w-12 h-7 rounded-full transition-colors relative
-                             ${filterVerifiedOnly ? 'bg-sky-500' : 'bg-gray-700'}">
+                             ${filterVerifiedOnly ? 'bg-sky-500' : 'bg-white/10'}">
                 <span class="absolute w-5 h-5 bg-white rounded-full top-1 transition-transform
                              ${filterVerifiedOnly ? 'translate-x-6' : 'translate-x-1'}"></span>
               </button>
@@ -159,7 +159,7 @@ export function renderFiltersModal() {
 
           <!-- Sort Options -->
           <section>
-            <label class="block text-sm font-medium text-gray-400 mb-3">
+            <label class="block text-sm font-medium text-slate-400 mb-3">
               ${t('sortBy') || 'Trier par'}
             </label>
             <div class="grid grid-cols-2 gap-2">
@@ -173,7 +173,7 @@ export function renderFiltersModal() {
                         class="p-3 rounded-xl text-left transition-colors flex items-center gap-2
                                ${state.sortBy === opt.value
     ? 'bg-sky-500 text-white'
-    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}">
+    : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
                   <span>${opt.icon}</span>
                   <span>${opt.label}</span>
                 </button>
@@ -183,7 +183,7 @@ export function renderFiltersModal() {
         </div>
 
         <!-- Footer -->
-        <div class="p-4 border-t border-gray-700">
+        <div class="p-4 border-t border-white/10">
           <button onclick="applyFilters()"
                   class="w-full py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-white
                          font-bold rounded-xl hover:from-sky-600 hover:to-cyan-600">
