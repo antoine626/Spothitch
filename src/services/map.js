@@ -427,7 +427,7 @@ export function drawRoute(map, L, routeCoords) {
   const latLngs = routeCoords.map(coord => [coord[1], coord[0]]);
 
   routeLayer = L.polyline(latLngs, {
-    color: '#0ea5e9',
+    color: '#f59e0b',
     weight: 4,
     opacity: 0.8,
     smoothFactor: 1,

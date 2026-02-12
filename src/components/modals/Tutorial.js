@@ -288,7 +288,7 @@ export function renderTutorial(state) {
         position: fixed;
         z-index: 101;
         border-radius: 12px;
-        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.5), 0 0 0 9999px rgba(0, 0, 0, 0.75);
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.5), 0 0 0 9999px rgba(0, 0, 0, 0.75);
         pointer-events: none;
         transition: all 0.3s ease-out;
       }

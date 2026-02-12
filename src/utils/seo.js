@@ -642,7 +642,7 @@ export function setLinkedInMeta(article = {}) {
  */
 export function setPWAMetaTags(options = {}) {
   const {
-    themeColor = '#0ea5e9',
+    themeColor = '#f59e0b',
     appName = APP_NAME,
     startUrl = '/',
     display = 'standalone',

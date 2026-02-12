@@ -481,7 +481,7 @@ async function init() {
           <div style="color:#fff;font-size:18px;margin-bottom:8px">${t('loadingError') || 'Erreur de chargement'}</div>
           <div style="color:#94a3b8;font-size:14px">${error.message}</div>
           <button onclick="location.reload()" class="reload-btn">${t('retry') || 'Réessayer'}</button>
-          <style>.reload-btn{margin-top:16px;padding:8px 16px;background:#0ea5e9;color:#fff;
+          <style>.reload-btn{margin-top:16px;padding:8px 16px;background:#f59e0b;color:#fff;
             border:none;border-radius:8px;cursor:pointer}</style>
         </div>
       `;

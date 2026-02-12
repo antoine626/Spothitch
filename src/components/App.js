@@ -326,7 +326,7 @@ function initHomeMap(state) {
     if (state.userLocation) {
       L.circleMarker([state.userLocation.lat, state.userLocation.lng], {
         radius: 10,
-        fillColor: '#0ea5e9',
+        fillColor: '#f59e0b',
         color: '#fff',
         weight: 3,
         fillOpacity: 1,
@@ -353,7 +353,7 @@ function initHomeMap(state) {
           if (count > 100) px = 48
           else if (count > 20) px = 42
           return L.divIcon({
-            html: `<div style="background:rgba(14,165,233,0.85);color:#fff;border-radius:50%;width:${px}px;height:${px}px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${count > 100 ? 14 : 12}px;border:2px solid rgba(255,255,255,0.6);box-shadow:0 2px 8px rgba(0,0,0,0.3)">${count}</div>`,
+            html: `<div style="background:rgba(245,158,11,0.85);color:#fff;border-radius:50%;width:${px}px;height:${px}px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${count > 100 ? 14 : 12}px;border:2px solid rgba(255,255,255,0.6);box-shadow:0 2px 8px rgba(0,0,0,0.3)">${count}</div>`,
             className: '',
             iconSize: L.point(px, px),
           })
@@ -491,11 +491,11 @@ function initTripMap(state) {
     if (results.routeGeometry && results.routeGeometry.length > 0) {
       const routeLatLngs = results.routeGeometry.map(([lng, lat]) => [lat, lng])
       L.polyline(routeLatLngs, {
-        color: '#0ea5e9', weight: 4, opacity: 0.8
+        color: '#f59e0b', weight: 4, opacity: 0.8
       }).addTo(map)
     } else {
       L.polyline([from, to], {
-        color: '#0ea5e9', weight: 3, opacity: 0.6, dashArray: '8, 8'
+        color: '#f59e0b', weight: 3, opacity: 0.6, dashArray: '8, 8'
       }).addTo(map)
     }
 
@@ -527,7 +527,7 @@ function initTripMap(state) {
       state.routeAmenities.forEach(poi => {
         if (!poi.lat || !poi.lng) return
         const isFuel = poi.type === 'fuel'
-        const fillColor = isFuel ? '#10b981' : '#0ea5e9'
+        const fillColor = isFuel ? '#10b981' : '#f59e0b'
         const label = isFuel ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
         const tooltipText = poi.name || (isFuel ? (t('gasStation') || 'Station-service') : (t('restArea') || 'Aire de repos'))
 

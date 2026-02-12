@@ -168,7 +168,7 @@ function showShareModal(data) {
 
   modal.innerHTML = `
     <div style="
-      background: #1e293b;
+      background: #1a2332;
       width: 100%;
       max-width: 500px;
       border-radius: 24px 24px 0 0;

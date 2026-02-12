@@ -110,7 +110,7 @@ function showUndoToast(actionId, message) {
   toast.dataset.actionId = actionId
   toast.style.cssText = `
     display:flex;align-items:center;gap:12px;
-    background:#1e293b;border:1px solid #334155;
+    background:#1a2332;border:1px solid #334155;
     color:#e2e8f0;padding:12px 16px;border-radius:12px;
     box-shadow:0 4px 12px rgba(0,0,0,0.3);
     font-size:14px;min-width:280px;
@@ -119,7 +119,7 @@ function showUndoToast(actionId, message) {
   toast.innerHTML = `
     <span style="flex:1">${message}</span>
     <button onclick="window.undoAction('${actionId}')"
-            style="background:#0ea5e9;color:white;border:none;padding:6px 14px;
+            style="background:#f59e0b;color:white;border:none;padding:6px 14px;
                    border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;
                    white-space:nowrap;">
       Annuler

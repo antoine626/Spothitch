@@ -127,7 +127,7 @@ export function showBadgeUnlockAnimation(badge) {
 
   overlay.innerHTML = `
     <div style="
-      background: linear-gradient(135deg, #1e293b, #0f172a);
+      background: linear-gradient(135deg, #1a2332, #0f1520);
       padding: 40px 60px;
       border-radius: 24px;
       text-align: center;

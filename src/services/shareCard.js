@@ -28,7 +28,7 @@ export function generateShareCard(spot) {
       width: 400px;
       max-width: 90vw;
       padding: 24px;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
+      background: linear-gradient(135deg, #0f1520, #1a2332);
       border-radius: 16px;
       color: white;
       font-family: system-ui, -apple-system, sans-serif;
@@ -102,7 +102,7 @@ export function showShareModal(spot) {
 
   modal.innerHTML = `
     <div style="
-      background: #1e293b;
+      background: #1a2332;
       max-width: 500px;
       width: 100%;
       border-radius: 20px;

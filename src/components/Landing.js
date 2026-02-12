@@ -43,7 +43,7 @@ export function renderLanding() {
           <button
             onclick="dismissLanding()"
             class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 transition-all duration-300"
-            style="background:linear-gradient(135deg,#0ea5e9,#0284c7)"
+            style="background:linear-gradient(135deg,#f59e0b,#d97706)"
           >
             <i class="fas fa-rocket" aria-hidden="true"></i>
             ${t('landingGetStarted')}
@@ -57,7 +57,7 @@ export function renderLanding() {
 
         <!-- Map illustration (CSS only) -->
         <div class="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" aria-hidden="true"
-             style="background:linear-gradient(to top,#0f172a,transparent)"></div>
+             style="background:linear-gradient(to top,#0f1520,transparent)"></div>
       </section>
 
       <!-- Features Section -->
@@ -147,7 +147,7 @@ export function renderLanding() {
             <button
               onclick="dismissLanding()"
               class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 transition-all duration-300"
-              style="background:linear-gradient(135deg,#0ea5e9,#0284c7)"
+              style="background:linear-gradient(135deg,#f59e0b,#d97706)"
             >
               <i class="fas fa-compass" aria-hidden="true"></i>
               ${t('landingStartExploring')}
