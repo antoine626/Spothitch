@@ -211,14 +211,14 @@ import {
 // ==================== AUTO-UPDATE ====================
 
 let currentVersion = null
+let isReloading = false
 
 function startVersionCheck() {
   const CHECK_INTERVAL = 300_000 // 5 minutes
   const BASE = import.meta.env.BASE_URL || '/'
 
-  async function check() {
-    // Only check when app is in background or hidden
-    if (document.visibilityState === 'visible') return
+  async function checkVersion() {
+    if (isReloading) return
     try {
       const res = await fetch(`${BASE}version.json?t=${Date.now()}`, { cache: 'no-store' })
       if (!res.ok) return
@@ -229,23 +229,35 @@ function startVersionCheck() {
       }
       if (data.version !== currentVersion) {
         currentVersion = data.version
+        isReloading = true
         window.location.reload()
       }
     } catch { /* offline or file missing — ignore */ }
   }
 
   // Initial check to store current version (always run)
-  (async () => {
-    try {
-      const res = await fetch(`${BASE}version.json?t=${Date.now()}`, { cache: 'no-store' })
-      if (res.ok) {
-        const data = await res.json()
-        currentVersion = data.version
-      }
-    } catch { /* ignore */ }
-  })()
+  checkVersion()
 
-  setInterval(check, CHECK_INTERVAL)
+  // Check every 5 minutes in background
+  setInterval(() => {
+    if (document.visibilityState !== 'visible') checkVersion()
+  }, CHECK_INTERVAL)
+
+  // Check immediately when user comes back from background
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      setTimeout(checkVersion, 1000)
+    }
+  })
+
+  // Auto-reload when Service Worker updates and takes control
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (isReloading) return
+      isReloading = true
+      window.location.reload()
+    })
+  }
 }
 
 // ==================== INITIALIZATION ====================
