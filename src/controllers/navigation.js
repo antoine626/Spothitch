@@ -61,7 +61,6 @@ function restoreScrollPosition(tab) {
  * Open full map view
  */
 export function openFullMap() {
-  console.log('🗺️ openFullMap called');
   setState({ activeTab: 'spots', viewMode: 'map' });
   trackPageView('spots-map');
   setTimeout(() => initMap(), 200);

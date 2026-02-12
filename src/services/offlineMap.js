@@ -42,7 +42,6 @@ export async function initOfflineMapDB() {
 
     request.onsuccess = () => {
       db = request.result;
-      console.log('[OfflineMap] Database initialized');
       resolve(db);
     };
 
@@ -280,8 +279,6 @@ export async function downloadZone(bounds, zoomLevels = [8, 10, 12, 14], options
   zone.failedTiles = failedTiles.length;
   await saveZone(zone);
 
-  console.log(`[OfflineMap] Zone ${zoneId} downloaded: ${downloadedCount}/${tiles.length} tiles, ${spotsInZone.length} spots`);
-
   return {
     zoneId,
     tileCount: downloadedCount,
@@ -435,7 +432,6 @@ export async function deleteZone(zoneId) {
   return new Promise((resolve, reject) => {
     const request = zonesStore.delete(zoneId);
     request.onsuccess = () => {
-      console.log(`[OfflineMap] Zone ${zoneId} deleted`);
       resolve(true);
     };
     request.onerror = () => reject(request.error);
@@ -563,7 +559,6 @@ export async function clearAllOfflineMaps() {
     request.onerror = () => reject(request.error);
   });
 
-  console.log('[OfflineMap] All offline maps cleared');
   return true;
 }
 
@@ -668,8 +663,6 @@ if (typeof window !== 'undefined') {
   window.viewOfflineZone = async (zoneId) => {
     const zone = await getZone(zoneId);
     if (zone && zone.bounds) {
-      // Would trigger map navigation to zone bounds
-      console.log('[OfflineMap] View zone:', zone);
       // Dispatch event for map component to handle
       window.dispatchEvent(
         new CustomEvent('offlineZoneView', { detail: zone })

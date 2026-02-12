@@ -430,8 +430,6 @@ window.handleDonationClick = (platform) => {
   // Show toast
   window.showToast?.(t('donationThankYou') || 'Thank you for your support!', 'success');
 
-  // Log for analytics (placeholder)
-  console.log(`Donation click: ${platform}, amount: ${amount}EUR`);
 };
 
 window.closeDonationThankYou = () => {

@@ -37,14 +37,6 @@ export async function compressImage(file, maxWidth = 1200, quality = 0.8) {
         // Convert to base64
         const compressed = canvas.toDataURL('image/jpeg', quality);
 
-        // Log compression ratio
-        const originalSize = e.target.result.length;
-        const compressedSize = compressed.length;
-        const ratio = Math.round(compressedSize / originalSize * 100);
-        const origKB = Math.round(originalSize / 1024);
-        const compKB = Math.round(compressedSize / 1024);
-        console.log(`📸 Compressed: ${origKB}KB → ${compKB}KB (${ratio}%)`);
-
         resolve(compressed);
       };
 

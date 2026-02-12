@@ -79,7 +79,6 @@ export function initPrivateMessages() {
     // Update state with total unread
     updateUnreadState()
 
-    console.log('[PrivateMessages] Service initialized')
     return { success: true }
   } catch (error) {
     console.error('[PrivateMessages] Init error:', error)

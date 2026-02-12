@@ -48,7 +48,6 @@ export function initOfflineIndicator() {
   }
 
   isInitialized = true
-  console.log('[OfflineIndicator] Initialized')
   return true
 }
 
@@ -80,7 +79,6 @@ export function destroyOfflineIndicator() {
   connectionChangeCallbacks = []
 
   isInitialized = false
-  console.log('[OfflineIndicator] Destroyed')
 }
 
 /**
@@ -336,7 +334,6 @@ function handleOnlineEvent() {
   // Announce to screen readers
   announceToScreenReader('Connexion retablie')
 
-  console.log('[OfflineIndicator] Connection restored')
 }
 
 /**
@@ -358,7 +355,6 @@ function handleOfflineEvent() {
   // Announce to screen readers
   announceToScreenReader('Mode hors-ligne active')
 
-  console.log('[OfflineIndicator] Connection lost')
 }
 
 /**

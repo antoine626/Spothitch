@@ -273,7 +273,6 @@ export function clearAllUserData() {
     // ignore
   }
 
-  console.log(`[StorageRegistry] Cleared ${result.cleared} keys`)
   return result
 }
 

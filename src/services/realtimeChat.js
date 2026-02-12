@@ -76,7 +76,6 @@ export function initRealtimeChat() {
       setUserOnline(state.user.uid)
     }
 
-    console.log('[RealtimeChat] Service initialized')
     return { success: true }
   } catch (error) {
     console.error('[RealtimeChat] Init error:', error)
@@ -110,7 +109,6 @@ export function destroyRealtimeChat() {
     setUserOffline(state.user.uid)
   }
 
-  console.log('[RealtimeChat] Service destroyed')
 }
 
 // ==================== MESSAGE FUNCTIONS ====================

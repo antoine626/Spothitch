@@ -176,7 +176,6 @@ function handlePositionError(error) {
 function updateSharedLocation(position, session) {
   // In production, this would update a Firebase document
   // that contacts can watch in real-time
-  console.log('Updated shared location:', position);
 
   // Store in localStorage for demo purposes
   const sharedData = {
@@ -206,11 +205,6 @@ function notifyContacts(session) {
   // Generate share URL
   const shareUrl = generateShareUrl(session.id);
 
-  // In production, this would send SMS/notifications
-  // For now, show what would be sent
-  console.log('Notifying contacts:', contacts);
-  console.log('Share URL:', shareUrl);
-
   // Offer to share via native share API
   if (navigator.share) {
     navigator.share({
@@ -225,8 +219,7 @@ function notifyContacts(session) {
  * Notify contacts that user is safe
  */
 function notifyContactsSafe(session) {
-  // In production, this would send notifications
-  console.log('User marked as safe, notifying contacts');
+  /* no-op */
 }
 
 /**

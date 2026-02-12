@@ -72,7 +72,6 @@ export async function initNotifications() {
   if ('Notification' in window) {
     const token = await requestNotificationPermission();
     if (token) {
-      console.log('✅ Push notifications enabled');
       // Save token to server for sending notifications
       await saveNotificationToken(token);
     }
@@ -80,7 +79,6 @@ export async function initNotifications() {
 
   // Listen for foreground messages
   onForegroundMessage((payload) => {
-    console.log('📬 Foreground message:', payload);
     showToast(payload.notification?.body || 'Nouvelle notification', 'info');
   });
 }
@@ -89,8 +87,7 @@ export async function initNotifications() {
  * Save notification token to backend
  */
 async function saveNotificationToken(token) {
-  // In a real app, save this to your backend
-  console.log('FCM Token:', token);
+  /* no-op */
 }
 
 /**

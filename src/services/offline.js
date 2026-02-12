@@ -29,8 +29,6 @@ export function initOfflineHandler() {
 
   // Load pending actions from storage
   loadPendingActions();
-
-  console.log('📡 Offline handler initialized');
 }
 
 /**
@@ -133,8 +131,6 @@ function savePendingActions() {
 async function syncPendingActions() {
   if (pendingActions.length === 0) return;
 
-  console.log(`🔄 Syncing ${pendingActions.length} pending actions...`);
-
   const actionsToSync = [...pendingActions];
   pendingActions = [];
   savePendingActions();
@@ -142,7 +138,6 @@ async function syncPendingActions() {
   for (const action of actionsToSync) {
     try {
       await processAction(action);
-      console.log(`✅ Synced action: ${action.type}`);
     } catch (error) {
       console.error(`❌ Failed to sync action: ${action.type}`, error);
       // Re-queue failed action
@@ -160,14 +155,13 @@ async function syncPendingActions() {
 async function processAction(action) {
   switch (action.type) {
     case 'ADD_SPOT':
-      // Would integrate with firebase service
-      console.log('Would sync spot:', action.data);
+      /* no-op */
       break;
     case 'ADD_RATING':
-      console.log('Would sync rating:', action.data);
+      /* no-op */
       break;
     case 'SEND_MESSAGE':
-      console.log('Would sync message:', action.data);
+      /* no-op */
       break;
     default:
       console.warn('Unknown action type:', action.type);

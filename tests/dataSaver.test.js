@@ -80,17 +80,9 @@ describe('Data Saver Service', () => {
       expect(stored.enabled).toBe(true);
     });
 
-    it('should log enabling to console', () => {
-      const logSpy = vi.spyOn(console, 'log').mockImplementation();
-
+    it('should enable data saver mode', () => {
       enableDataSaver();
-
-      expect(logSpy).toHaveBeenCalledWith(
-        '[DataSaver] Mode enabled with settings:',
-        expect.objectContaining({ enabled: true })
-      );
-
-      logSpy.mockRestore();
+      expect(isDataSaverEnabled()).toBe(true);
     });
   });
 
@@ -124,14 +116,10 @@ describe('Data Saver Service', () => {
       expect(stylesAfter).toBeNull();
     });
 
-    it('should log disabling to console', () => {
-      const logSpy = vi.spyOn(console, 'log').mockImplementation();
-
+    it('should disable data saver mode', () => {
+      enableDataSaver();
       disableDataSaver();
-
-      expect(logSpy).toHaveBeenCalledWith('[DataSaver] Mode disabled');
-
-      logSpy.mockRestore();
+      expect(isDataSaverEnabled()).toBe(false);
     });
   });
 
@@ -249,14 +237,10 @@ describe('Data Saver Service', () => {
       warnSpy.mockRestore();
     });
 
-    it('should log quality change', () => {
-      const logSpy = vi.spyOn(console, 'log').mockImplementation();
-
+    it('should accept valid quality setting', () => {
       setImageQuality('low');
-
-      expect(logSpy).toHaveBeenCalledWith('[DataSaver] Image quality set to: low');
-
-      logSpy.mockRestore();
+      const config = getImageQualityConfig('low');
+      expect(config).toBeDefined();
     });
   });
 

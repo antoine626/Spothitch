@@ -118,7 +118,6 @@ export function saveCustomPreferences() {
 function initializeAnalytics() {
   const preferences = getConsent();
   if (preferences.analytics) {
-    console.log('Analytics initialized with user consent');
     // Here you would initialize your analytics service (Google Analytics, etc.)
   }
 }

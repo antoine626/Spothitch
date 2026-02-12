@@ -339,11 +339,8 @@ describe('Sponsored Content Service', () => {
       expect(() => trackSponsorClick('mcdo-highway')).not.toThrow()
     })
 
-    it('should log sponsor click', () => {
-      const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
-      trackSponsorClick('mcdo-highway')
-      expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Click tracked'))
-      logSpy.mockRestore()
+    it('should track sponsor click without error', () => {
+      expect(() => trackSponsorClick('mcdo-highway')).not.toThrow()
     })
   })
 

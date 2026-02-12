@@ -203,8 +203,6 @@ export function cleanupOldData() {
 
     // Update timestamp
     Storage.set(CACHE_TIMESTAMP_KEY, now);
-
-    console.log('Old cache data cleaned up');
   }
 }
 

@@ -115,8 +115,6 @@ export function enableDataSaver(options = {}) {
   saveSettings(enabledSettings);
   applyDataSaverStyles(true);
 
-  console.log('[DataSaver] Mode enabled with settings:', enabledSettings);
-
   return enabledSettings;
 }
 
@@ -128,8 +126,6 @@ export function disableDataSaver() {
   const settings = { ...defaultSettings, enabled: false };
   saveSettings(settings);
   applyDataSaverStyles(false);
-
-  console.log('[DataSaver] Mode disabled');
 
   return settings;
 }
@@ -187,8 +183,6 @@ export function setImageQuality(quality) {
   settings.disableHDImages = quality !== 'high';
 
   saveSettings(settings);
-
-  console.log(`[DataSaver] Image quality set to: ${quality}`);
 
   return settings;
 }

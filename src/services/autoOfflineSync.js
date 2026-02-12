@@ -22,7 +22,6 @@ let lastSyncTime = null
  */
 export function initAutoOfflineSync() {
   if (isInitialized) {
-    console.log('[AutoOfflineSync] Already initialized')
     return
   }
 
@@ -57,7 +56,6 @@ export function initAutoOfflineSync() {
     }, SYNC_INTERVAL)
 
     isInitialized = true
-    console.log('[AutoOfflineSync] Initialized')
   } catch (err) {
     console.error('[AutoOfflineSync] Initialization failed:', err)
   }
@@ -67,7 +65,6 @@ export function initAutoOfflineSync() {
  * Handle coming back online
  */
 function handleOnline() {
-  console.log('[AutoOfflineSync] Network online, checking sync...')
   if (shouldAutoSync()) {
     setTimeout(() => {
       performAutoSync().catch(err => {
@@ -122,8 +119,6 @@ function shouldAutoSync() {
  * @returns {Promise<Object>}
  */
 export async function performAutoSync() {
-  console.log('[AutoOfflineSync] Starting sync...')
-
   try {
     const startTime = Date.now()
     const syncedData = {
@@ -140,7 +135,6 @@ export async function performAutoSync() {
     const countries = await getRelevantCountries()
 
     if (countries.length === 0) {
-      console.log('[AutoOfflineSync] No relevant countries to sync')
       return { success: true, synced: syncedData }
     }
 
@@ -173,7 +167,6 @@ export async function performAutoSync() {
     localStorage.setItem(`${STORAGE_PREFIX}last_sync`, lastSyncTime.toString())
 
     const duration = Date.now() - startTime
-    console.log(`[AutoOfflineSync] Sync complete in ${duration}ms:`, syncedData)
 
     // Show subtle notification
     if (syncedData.countries.length > 0) {
@@ -262,7 +255,6 @@ async function downloadCountrySpots(countryCode) {
       cachedAt: Date.now(),
     }))
 
-    console.log(`[AutoOfflineSync] Downloaded ${spots.length} spots for ${countryCode}`)
   } catch (err) {
     console.warn(`[AutoOfflineSync] Could not download spots for ${countryCode}:`, err.message)
     throw err
@@ -287,7 +279,6 @@ async function downloadCountryGuide(countryCode) {
         guide,
         cachedAt: Date.now(),
       }))
-      console.log(`[AutoOfflineSync] Cached guide for ${countryCode}`)
     }
   } catch (err) {
     console.warn(`[AutoOfflineSync] Could not cache guide for ${countryCode}:`, err.message)
@@ -421,7 +412,6 @@ export function clearOfflineData() {
   }
 
   lastSyncTime = null
-  console.log(`[AutoOfflineSync] Cleared ${keys.length} offline cache entries`)
 }
 
 // ============================================

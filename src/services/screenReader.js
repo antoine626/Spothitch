@@ -42,8 +42,6 @@ export function initScreenReaderSupport() {
 
   // Set up keyboard shortcuts
   setupKeyboardShortcuts();
-
-  console.log('Screen reader support initialized');
 }
 
 /**

@@ -54,7 +54,6 @@ export async function loadCountrySpots(countryCode) {
     // Update global spots array
     allLoadedSpots = [...allLoadedSpots, ...spots]
 
-    console.log(`📍 Loaded ${spots.length} spots for ${code}`)
     return spots
   } catch (error) {
     console.warn(`Failed to load spots for ${code}:`, error)

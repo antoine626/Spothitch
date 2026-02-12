@@ -47,7 +47,6 @@ export function getMapAttribution() {
  * @param {string} containerId - Map container element ID (default: 'map')
  */
 export async function initMap(containerId = 'map') {
-  console.log('🗺️ initMap called for:', containerId);
   const mapContainer = document.getElementById(containerId);
   if (!mapContainer) {
     console.warn('🗺️ Map container not found:', containerId);
@@ -56,7 +55,6 @@ export async function initMap(containerId = 'map') {
 
   // Prevent concurrent initialization (race condition)
   if (mapInitializing) {
-    console.log('🗺️ Map already initializing, skipping')
     return null;
   }
 
@@ -69,7 +67,6 @@ export async function initMap(containerId = 'map') {
         return mainMap
       }
       // Container was removed from DOM, clean up
-      console.log('🗺️ Destroying orphaned map instance')
       mainMap.remove()
     } catch (e) {
       console.warn('🗺️ Error cleaning up old map:', e)
@@ -167,7 +164,6 @@ export async function initMap(containerId = 'map') {
       mainMap._resizeObserver = resizeObserver;
     }
 
-    console.log('✅ Map initialized with', (state.spots || sampleSpots).length, 'spots');
     mapInitializing = false;
     return mainMap;
   } catch (error) {
@@ -505,7 +501,6 @@ async function loadDynamicSpots(map, L) {
       countEl.textContent = total;
     }
 
-    console.log(`📍 Added ${newSpots.length} dynamic spots (total: ${loadedSpotIds.size})`);
   } catch (error) {
     console.warn('Failed to load dynamic spots:', error);
   }
@@ -582,7 +577,6 @@ export function centerOnSpot(spot) {
  * Destroy map instances (cleanup to prevent memory leaks)
  */
 export function destroyMaps() {
-  console.log('🗺️ Destroying map instances for cleanup');
   if (mainMap) {
     try {
       // Clean up ResizeObserver if exists

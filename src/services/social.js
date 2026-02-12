@@ -556,8 +556,7 @@ export function getReferralStats() {
  * @param {string} referrerId - ID of the user who referred
  */
 export function trackReferral(referrerId) {
-  // In real app, this would credit points to referrer
-  console.log('Referral tracked from:', referrerId);
+  /* no-op */
 }
 
 // ==================== SOCIAL SHARING ====================

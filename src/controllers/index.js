@@ -12,14 +12,10 @@ import { registerModalsHandlers } from './modals.js';
  * Initialize all controllers and register handlers
  */
 export function initControllers() {
-  console.log('🎮 Initializing controllers...');
-
   registerAuthHandlers();
   registerNavigationHandlers();
   registerSpotsHandlers();
   registerModalsHandlers();
-
-  console.log('✅ Controllers initialized');
 }
 
 export {

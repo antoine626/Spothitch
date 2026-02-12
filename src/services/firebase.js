@@ -74,7 +74,6 @@ export function initializeFirebase() {
       messaging = getMessaging(app);
     }
 
-    console.log('✅ Firebase initialized');
     return true;
   } catch (error) {
     console.error('❌ Firebase initialization failed:', error);
@@ -326,7 +325,6 @@ export async function uploadImage(base64Data, path) {
 export async function requestNotificationPermission() {
   try {
     if (!messaging) {
-      console.log('Messaging not supported');
       return null;
     }
 
@@ -645,7 +643,6 @@ export async function deleteUserAccount(password) {
     // Delete the Firebase Auth user
     await deleteUser(user);
 
-    console.log('User account deleted successfully');
     return { success: true };
   } catch (error) {
     console.error('Error deleting user account:', error);
@@ -673,8 +670,6 @@ export async function deleteUserAccountGoogle() {
 
     // Delete the Firebase Auth user
     await deleteUser(user);
-
-    console.log('User account deleted successfully');
     return { success: true };
   } catch (error) {
     console.error('Error deleting user account:', error);
@@ -709,7 +704,6 @@ async function deleteUserData(userId) {
     // Commit the batch
     await batch.commit();
 
-    console.log(`User data deleted for: ${userId}`);
     return { success: true };
   } catch (error) {
     console.error('Error deleting user data:', error);

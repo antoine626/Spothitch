@@ -1003,7 +1003,6 @@ export function trackHostelClick(hostelId) {
     timestamp: new Date().toISOString(),
   })
 
-  console.log(`[HostelPartnership] Click tracked: ${hostel.name}`)
 }
 
 /**

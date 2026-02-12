@@ -547,7 +547,6 @@ async function sendBanNotificationEmail(userId, banDetails) {
   const user = (state.allUsers || []).find(u => u.uid === userId);
 
   if (!user?.email) {
-    console.log('No email found for user:', userId);
     return false;
   }
 
@@ -565,8 +564,6 @@ async function sendBanNotificationEmail(userId, banDetails) {
           expiresAt: new Date(banDetails.expiresAt).toLocaleString(),
         }),
   };
-
-  console.log('Sending ban notification email:', emailData);
 
   // Log email sent
   const emailLogs = state.emailLogs || [];
@@ -764,7 +761,6 @@ export function processExpiredBans() {
 
   if (unbannedCount > 0) {
     setState({ bans: updatedBans });
-    console.log(`Auto-unbanned ${unbannedCount} users`);
   }
 
   return unbannedCount;

@@ -6,6 +6,7 @@
 
 import { showToast, sendLocalNotification } from './notifications.js'
 import { getState } from '../stores/state.js'
+import { t } from '../i18n/index.js'
 
 // Storage key for known devices
 const KNOWN_DEVICES_KEY = 'spothitch_known_devices'
@@ -413,13 +414,13 @@ export function updateDeviceName(deviceId, newName) {
  */
 export function notifyNewDeviceLogin(device) {
   const state = getState()
-  const username = state.username || 'Voyageur'
+  const username = state.username || (t('traveler') || 'Traveler')
 
-  const title = 'Nouvelle connexion detectee'
-  const body = `Connexion depuis un nouvel appareil: ${device.name} (${device.os})`
+  const title = t('newDeviceLoginDetected') || 'New login detected'
+  const body = `${t('loginFromNewDevice') || 'Login from new device'}: ${device.name} (${device.os})`
 
   // Show toast notification
-  showToast(`Nouvel appareil connecte: ${device.name}`, 'warning', 6000)
+  showToast(`${t('newDeviceConnected') || 'New device connected'}: ${device.name}`, 'warning', 6000)
 
   // Send local notification if available
   sendLocalNotification(title, body, {

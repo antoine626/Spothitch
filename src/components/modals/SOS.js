@@ -245,9 +245,6 @@ window.shareSOSLocation = async () => {
       actions.toggleSOS();
       actions.setUserLocation({ lat, lng });
 
-      // In production, send to backend and notify contacts
-      console.log('SOS Location:', lat, lng);
-
       showSuccess(t('locationShared'));
 
       // Share via native share if available

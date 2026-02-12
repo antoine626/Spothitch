@@ -37,7 +37,6 @@ export async function initDB() {
 
     request.onsuccess = () => {
       db = request.result;
-      console.log('✅ IndexedDB initialized');
       resolve(db);
     };
 

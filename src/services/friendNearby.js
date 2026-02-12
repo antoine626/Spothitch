@@ -588,7 +588,6 @@ export function notifyFriendNearby(friend, distance) {
 
   // Check cooldown
   if (!shouldNotifyForFriend(friend.friendId)) {
-    console.log('[FriendNearby] Skipping notification (cooldown):', friend.name)
     return false
   }
 

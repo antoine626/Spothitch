@@ -32,7 +32,6 @@ export function initNearbyFriendsTracking() {
 
   // Check if feature is enabled
   if (!state.nearbyFriendsEnabled) {
-    console.log('Nearby friends tracking disabled');
     return;
   }
 
@@ -41,8 +40,6 @@ export function initNearbyFriendsTracking() {
 
   // Set up periodic checks
   checkInterval = setInterval(checkNearbyFriends, CONFIG.updateInterval);
-
-  console.log('Nearby friends tracking initialized');
 }
 
 /**
@@ -59,7 +56,6 @@ export function stopNearbyFriendsTracking() {
     checkInterval = null;
   }
 
-  console.log('Nearby friends tracking stopped');
 }
 
 /**

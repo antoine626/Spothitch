@@ -1112,7 +1112,6 @@ window.sendPrivateMessage = async (friendId) => {
 }
 
 window.acceptFriendRequest = async (requestId) => {
-  console.log('Accept friend request:', requestId)
   window.showSuccess?.(t('friendAdded') || 'Ami ajoute !')
 
   try {
@@ -1124,7 +1123,7 @@ window.acceptFriendRequest = async (requestId) => {
 }
 
 window.declineFriendRequest = (requestId) => {
-  console.log('Decline friend request:', requestId)
+  /* no-op */
 }
 
 window.showAddFriend = () => {

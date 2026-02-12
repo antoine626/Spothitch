@@ -348,8 +348,6 @@ export function trackSponsorClick(sponsorId) {
     timestamp: new Date().toISOString(),
   })
 
-  console.log(`[Sponsor] Click tracked for: ${partner.name} (${sponsorId})`)
-
   // Send tracking beacon to sponsor's tracking URL
   if (partner.trackingUrl) {
     try {

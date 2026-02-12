@@ -12,7 +12,7 @@ let Sentry = null;
  */
 export async function initSentry() {
   if (!SENTRY_DSN || typeof window === 'undefined') {
-    console.log('⚠️ Sentry DSN not configured, skipping initialization');
+    console.warn('Sentry DSN not configured, skipping initialization');
     return false;
   }
 
@@ -54,7 +54,6 @@ export async function initSentry() {
       beforeSend(event, _hint) {
         // Don't send errors in development
         if (import.meta.env.DEV) {
-          console.log('🐛 Sentry event (dev):', event);
           return null;
         }
 
@@ -71,7 +70,6 @@ export async function initSentry() {
       },
     });
 
-    console.log('✅ Sentry initialized');
     return true;
   } catch (error) {
     console.error('❌ Sentry initialization failed:', error);
@@ -101,7 +99,6 @@ export function captureException(error, context = {}) {
  */
 export function captureMessage(message, level = 'info', context = {}) {
   if (!Sentry) {
-    console.log(`Message (Sentry not initialized): ${message}`);
     return;
   }
 
@@ -178,7 +175,6 @@ export function setupGlobalErrorHandlers() {
     });
   };
 
-  console.log('✅ Global error handlers set up');
 }
 
 export default {

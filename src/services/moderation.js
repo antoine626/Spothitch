@@ -148,8 +148,6 @@ async function handleHighSeverityReport(report) {
     setState({ spots });
   }
 
-  // Log for admin review
-  console.log('High severity report requires review:', report);
 }
 
 /**

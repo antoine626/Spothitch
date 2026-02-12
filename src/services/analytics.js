@@ -53,7 +53,6 @@ export async function initAnalytics(force = false) {
     }
 
     isInitialized = true
-    console.log(`Analytics initialized (${ANALYTICS_PROVIDER})`)
     return true
   } catch (error) {
     console.error('Analytics initialization failed:', error)
@@ -154,11 +153,6 @@ export function trackEvent(eventName, properties = {}) {
     mixpanel.track(eventName, enrichedProps)
   } else if (ANALYTICS_PROVIDER === 'plausible' && window.plausible) {
     window.plausible(eventName, { props: enrichedProps })
-  }
-
-  // Also log in dev mode
-  if (import.meta.env.DEV) {
-    console.log(`[Analytics] ${eventName}`, enrichedProps)
   }
 
   // Store for local reporting

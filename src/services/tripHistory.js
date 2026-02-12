@@ -110,7 +110,6 @@ export function logTripEvent(type, data = {}) {
     // Save
     saveHistory(history)
 
-    console.log('[TripHistory] Event logged:', type, event)
     return true
   } catch (e) {
     console.error('[TripHistory] Failed to log event:', e)
@@ -136,7 +135,6 @@ export function clearTripHistory() {
   try {
     localStorage.removeItem(CONFIG.storageKey)
     showToast(t('tripHistoryCleared') || 'Historique effacé', 'success')
-    console.log('[TripHistory] History cleared')
     return true
   } catch (e) {
     console.error('[TripHistory] Failed to clear history:', e)

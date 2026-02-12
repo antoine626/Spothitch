@@ -788,7 +788,6 @@ export async function uploadSelfieIdVerification(photos) {
         trustLevel: 3,
         hasPhotos: true,
       });
-      console.log('ID verification request saved to Firestore');
     } catch (error) {
       console.warn('Could not save ID verification to Firestore:', error);
     }
@@ -844,7 +843,6 @@ export async function approveSelfieIdVerification() {
             approvedAt: new Date().toISOString(),
             trustLevel: 4,
           });
-          console.log('ID verification status updated in Firestore');
         }
       }
     } catch (error) {

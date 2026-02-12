@@ -14,11 +14,7 @@ function reportMetric(name, value, rating) {
   metrics[name] = { value, rating, timestamp: Date.now() }
   callbacks.forEach(cb => cb(name, value, rating))
 
-  // Log in dev mode
-  if (import.meta.env?.DEV) {
-    const color = rating === 'good' ? '#0f0' : rating === 'needs-improvement' ? '#ff0' : '#f00'
-    console.log(`%c[Web Vital] ${name}: ${Math.round(value)}ms (${rating})`, `color: ${color}`)
-  }
+  // Dev mode logging removed for production
 }
 
 /**

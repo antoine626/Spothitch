@@ -118,7 +118,6 @@ export async function addRecommendation(cityName, hostelName, category) {
     const { db } = await import('./firebase.js')
     const { collection, addDoc } = await import('firebase/firestore')
     await addDoc(collection(db, 'hostel_recs'), newRecommendation)
-    console.log('Hostel recommendation saved to Firestore')
   } catch (error) {
     console.warn('Could not save hostel recommendation to Firestore:', error)
   }
@@ -144,7 +143,6 @@ export async function getRecommendations(cityName) {
     )
     const snapshot = await getDocs(q)
     firestoreRecs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-    console.log(`Loaded ${firestoreRecs.length} hostel recs from Firestore`)
   } catch (error) {
     console.warn('Could not load hostel recommendations from Firestore:', error)
   }
@@ -244,7 +242,6 @@ export async function upvoteRecommendation(city, hostelName) {
         upvotes: increment(1),
         upvotedBy: arrayUnion(userId)
       })
-      console.log('Hostel upvote saved to Firestore')
     }
   } catch (error) {
     console.warn('Could not save upvote to Firestore:', error)

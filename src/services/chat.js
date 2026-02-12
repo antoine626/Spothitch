@@ -228,8 +228,7 @@ export function sendPrivateMessage(friendId, text, options = {}) {
 
   // Send notification if not muted
   if (!isConversationMuted(friendId)) {
-    // In real app, send push notification via Firebase
-    console.log('Send notification to', friendId);
+    /* no-op */
   }
 
   return { success: true, message };

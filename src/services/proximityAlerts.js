@@ -139,7 +139,6 @@ export function checkNearbySpots(lat, lng) {
       // Mark as alerted
       alertedSpots.add(spot.id)
 
-      console.log('[ProximityAlerts] Alert sent:', spot.from || spot.name, distanceText)
     }
   }
 }
@@ -163,7 +162,6 @@ export function initProximityAlerts() {
       startWatching()
     }
 
-    console.log('[ProximityAlerts] Initialized. Enabled:', isEnabled, 'Radius:', proximityRadius + 'm')
     return true
   } catch (e) {
     console.warn('[ProximityAlerts] Init failed:', e)
@@ -204,7 +202,6 @@ function startWatching() {
     }
   )
 
-  console.log('[ProximityAlerts] Started watching position')
   return true
 }
 
@@ -215,7 +212,6 @@ function stopWatching() {
   if (watchId !== null) {
     navigator.geolocation.clearWatch(watchId)
     watchId = null
-    console.log('[ProximityAlerts] Stopped watching position')
   }
 }
 
@@ -242,7 +238,6 @@ export function setProximityRadius(meters) {
   settings.radius = proximityRadius
   saveSettings(settings)
   showToast(`${t('proximityAlertsRadius') || 'Rayon de proximité'}: ${proximityRadius}m`, 'info')
-  console.log('[ProximityAlerts] Radius set to', proximityRadius + 'm')
 }
 
 /**
@@ -279,7 +274,6 @@ export function isProximityAlertsEnabled() {
  */
 export function clearAlertedSpots() {
   alertedSpots.clear()
-  console.log('[ProximityAlerts] Alerted spots cleared')
 }
 
 /**
