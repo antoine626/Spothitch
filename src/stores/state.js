@@ -92,7 +92,6 @@ const initialState = {
   checkins: 0,
   spotsCreated: 0,
   reviewsGiven: 0,
-  streak: 0,
   badges: [],
   rewards: [],
 
@@ -194,7 +193,6 @@ function persistState() {
     checkins: state.checkins,
     spotsCreated: state.spotsCreated,
     reviewsGiven: state.reviewsGiven,
-    streak: state.streak,
     badges: state.badges,
     rewards: state.rewards,
     savedTrips: state.savedTrips,

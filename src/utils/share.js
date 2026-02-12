@@ -64,7 +64,6 @@ export function shareStats(stats) {
   const text = `🎯 ${t('shareStatsIntro') || 'Mes stats d\'autostop'}:
 📍 ${stats.checkins || 0} check-ins
 🗺️ ${stats.spotsCreated || 0} ${t('spotsShared') || 'spots partagés'}
-🔥 ${stats.streak || 0} ${t('dayStreak') || 'jours de série'}
 🏆 ${t('level') || 'Niveau'} ${stats.level || 1}
 ${t('joinMeOnSpotHitch') || 'Rejoins-moi sur SpotHitch !'}`;
   const url = APP_URL;

@@ -253,22 +253,6 @@ export function renderChallengesHub(state) {
         </div>
       </div>
 
-      <!-- Daily Streak -->
-      ${state.streak > 0 ? `
-        <div class="card p-4 bg-gradient-to-r from-orange-500/10 to-red-500/10 border-orange-500/30">
-          <div class="flex items-center gap-4">
-            <div class="text-4xl">🔥</div>
-            <div class="flex-1">
-              <div class="font-bold text-lg">${state.streak} ${t('consecutiveDays') || 'jours consécutifs'} !</div>
-              <div class="text-sm text-slate-400">${t('keepGoingBadges') || 'Continue pour débloquer des badges'}</div>
-            </div>
-            <div class="text-right">
-              <div class="text-2xl font-bold text-orange-400">+${state.streak * 5}</div>
-              <div class="text-xs text-slate-400">${t('bonusPts') || 'bonus pts'}</div>
-            </div>
-          </div>
-        </div>
-      ` : ''}
     </div>
   `;
 }

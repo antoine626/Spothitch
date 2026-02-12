@@ -66,19 +66,6 @@ export const challengeTypes = [
     rewardPoints: 120,
   },
   {
-    id: 'streak_challenge',
-    name: t('friendChallengeStreakChallengeName') || 'Defi Serie',
-    nameEn: 'Streak Challenge',
-    description: t('friendChallengeStreakChallengeDesc') || 'Le premier a atteindre X jours de suite gagne',
-    descriptionEn: 'First to reach X consecutive days wins',
-    icon: '🔥',
-    metric: 'streak',
-    defaultTarget: 7,
-    minTarget: 3,
-    maxTarget: 30,
-    rewardPoints: 200,
-  },
-  {
     id: 'distance_race',
     name: t('friendChallengeDistanceRaceName') || 'Course aux Kilometres',
     nameEn: 'Distance Race',
@@ -338,9 +325,6 @@ export function syncChallengeProgress() {
         break;
       case 'reviewsGiven':
         newProgress = state.reviewsGiven || 0;
-        break;
-      case 'streak':
-        newProgress = state.streak || 0;
         break;
       case 'totalDistance':
         newProgress = state.totalDistance || 0;

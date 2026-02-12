@@ -26,7 +26,6 @@ const DEFAULT_NOTIFICATION_PREFS = {
   // Gamification notifications
   badgeUnlocked: true,
   levelUp: true,
-  streakReminder: true,
   dailyReward: true,
   // Spot notifications
   spotCheckin: true,
@@ -46,8 +45,6 @@ const DEFAULT_NOTIFICATION_PREFS = {
 // Scheduled notification IDs
 const scheduledNotifications = new Map();
 
-// Streak reminder check interval (1 hour)
-let streakCheckInterval = null;
 
 /**
  * Initialize notifications
@@ -620,61 +617,10 @@ export function notifyLevelUp(newLevel, rewards = {}) {
   announce((t('notifLevelUpAnnounce') || 'Niveau {level} atteint').replace('{level}', newLevel));
 }
 
-/**
- * Check and notify if streak is at risk
- * Called periodically to remind users
- */
-export function checkStreakReminder() {
-  if (!isNotificationEnabled('streakReminder')) return;
-
-  const state = getState();
-  const { streak, lastActiveDate } = state;
-
-  if (!streak || streak < 2) return; // Only remind if they have a streak
-
-  const today = new Date().toDateString();
-  if (lastActiveDate === today) return; // Already active today
-
-  const now = new Date();
-  const hours = now.getHours();
-
-  // Remind in the evening (18:00-21:00) if not active today
-  if (hours >= 18 && hours < 21) {
-    const title = t('notifStreakDangerTitle') || 'Ta serie est en danger !';
-    const body = (t('notifStreakDangerBody') || '{n} jours de suite... Ne les perds pas ! Fais un check-in aujourd\'hui.').replace('{n}', streak);
-
-    sendLocalNotification(title, body, {
-      type: 'streak_reminder',
-      streak,
-      url: '/?tab=map',
-    });
-
-    showToast((t('notifStreakDangerToast') || 'Serie de {n} jours en danger ! Fais un check-in aujourd\'hui.').replace('{n}', streak), 'warning', 8000);
-  }
-}
-
-/**
- * Start streak reminder checker
- */
-export function startStreakReminderCheck() {
-  if (streakCheckInterval) return;
-
-  // Check immediately
-  checkStreakReminder();
-
-  // Then check every hour
-  streakCheckInterval = setInterval(checkStreakReminder, 3600000);
-}
-
-/**
- * Stop streak reminder checker
- */
-export function stopStreakReminderCheck() {
-  if (streakCheckInterval) {
-    clearInterval(streakCheckInterval);
-    streakCheckInterval = null;
-  }
-}
+/** Streak reminder (removed - no-op) */
+export function checkStreakReminder() {}
+export function startStreakReminderCheck() {}
+export function stopStreakReminderCheck() {}
 
 // ==================== DAILY REWARD NOTIFICATION ====================
 

@@ -69,26 +69,14 @@ export function renderDailyRewardModal() {
           </button>
         </div>
 
-        <!-- Streak Info -->
+        <!-- Reward Info -->
         <div class="bg-dark-secondary/50 p-4 border-b border-white/10">
           <div class="flex items-center justify-center gap-6">
             <div class="text-center">
-              <div class="text-3xl font-bold text-amber-400">${info.totalStreak}</div>
-              <div class="text-xs text-slate-400">Jours consecutifs</div>
+              <div class="text-3xl font-bold text-amber-400">${t('day') || 'Jour'} ${info.currentDay}</div>
+              <div class="text-xs text-slate-400">${t('dailyRewardCycle') || 'Cycle de recompenses'}</div>
             </div>
-            ${info.hasProtection ? `
-              <div class="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/20 rounded-full">
-                <i class="fas fa-shield-alt text-emerald-400" aria-hidden="true"></i>
-                <span class="text-xs text-emerald-400 font-medium">Protection active</span>
-              </div>
-            ` : ''}
           </div>
-          ${info.streakBroken && !info.hasProtection && canClaim ? `
-            <div class="mt-3 text-center text-sm text-amber-400">
-              <i class="fas fa-exclamation-triangle mr-1" aria-hidden="true"></i>
-              Tu as rate un jour ! Ta serie va recommencer.
-            </div>
-          ` : ''}
         </div>
 
         <!-- Calendar Grid -->
@@ -232,11 +220,6 @@ function renderRewardResult(result) {
             </div>
           ` : ''}
 
-          <!-- Streak Info -->
-          <div class="text-slate-400 text-sm">
-            <i class="fas fa-fire text-orange-400 mr-1" aria-hidden="true"></i>
-            Serie de ${result.newStreak} jour${result.newStreak > 1 ? 's' : ''} !
-          </div>
         </div>
 
         <!-- Continue Button -->

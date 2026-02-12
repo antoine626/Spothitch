@@ -290,8 +290,6 @@ export function renderStatsModal() {
     { label: 'Check-ins', value: summary.checkins, icon: '📍' },
     { label: t('spotsCreated') || 'Spots créés', value: summary.spotsCreated, icon: '🗺️' },
     { label: t('reviewsGivenLabel') || 'Avis donnés', value: summary.reviewsGiven, icon: '⭐' },
-    { label: t('currentStreak') || 'Série actuelle', value: `${summary.streak}j`, icon: '🔥' },
-    { label: t('streakRecord') || 'Record série', value: `${summary.maxStreak}j`, icon: '🏆' },
     { label: 'Badges', value: `${summary.badgesCount}/${summary.totalBadges}`, icon: '🎖️' },
   ].map(stat => `
                 <div class="bg-gray-800 rounded-xl p-3 text-center">

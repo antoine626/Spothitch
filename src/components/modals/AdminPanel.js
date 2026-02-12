@@ -283,11 +283,10 @@ window.adminMaxStats = () => {
     level: 50,
     skillPoints: 100,
     thumbs: 9999,
-    streak: 30,
     spotsCreated: 50,
     checkins: 100,
     reviewsGiven: 75,
-    badges: ['first_spot', 'explorer', 'social', 'veteran', 'helper', 'night_owl', 'early_bird', 'marathon', 'streak_7', 'streak_30']
+    badges: ['first_spot', 'explorer', 'social', 'veteran', 'helper', 'night_owl', 'early_bird', 'marathon']
   });
   window.showToast?.(t('statsMaxed') || 'Stats maximisées !', 'success');
 };

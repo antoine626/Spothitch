@@ -462,10 +462,7 @@ export const viewRefreshHandlers = {
   },
 
   profile: async () => {
-    const { updateStreak } = await import('../services/gamification.js');
-
     await new Promise(resolve => setTimeout(resolve, 500));
-    updateStreak();
 
     window.showToast?.('Profil synchronise !', 'success');
   },

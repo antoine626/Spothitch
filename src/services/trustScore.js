@@ -14,15 +14,14 @@ export const TRUST_TIERS = {
   legend: { min: 95, max: 100, label: 'Légende', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'fa-crown' },
 };
 
-// Score factors with weights
+// Score factors with weights (total = 100)
 const SCORE_FACTORS = {
-  accountAge: { weight: 15, max: 15 },      // Max 15 points for account age
-  spotsCreated: { weight: 20, max: 20 },    // Max 20 points for spots
-  verifiedSpots: { weight: 15, max: 15 },   // Max 15 points for verified spots
-  helpfulReviews: { weight: 15, max: 15 },  // Max 15 points for reviews
-  streakDays: { weight: 10, max: 10 },      // Max 10 points for streak
-  communityVotes: { weight: 15, max: 15 },  // Max 15 points for positive votes
-  noWarnings: { weight: 10, max: 10 },      // Max 10 points if no warnings
+  accountAge: { weight: 20, max: 20 },         // Max 20 points for account age
+  spotsCreated: { weight: 20, max: 20 },       // Max 20 points for spots
+  verifiedSpots: { weight: 15, max: 15 },      // Max 15 points for verified spots
+  helpfulReviews: { weight: 15, max: 15 },     // Max 15 points for reviews
+  identityVerification: { weight: 15, max: 15 }, // Max 15 points for identity verification
+  communityVotes: { weight: 15, max: 15 },     // Max 15 points for positive votes
 };
 
 /**
@@ -37,10 +36,14 @@ export function calculateTrustScore(userStats = {}) {
     spotsCreated: userStats.spotsCreated || state.spotsCreated || 0,
     verifiedSpots: userStats.verifiedSpots || state.verifiedSpots || 0,
     helpfulReviews: userStats.helpfulReviews || state.reviewsGiven || 0,
-    streakDays: userStats.streakDays || state.streak || 0,
+    emailVerified: userStats.emailVerified ?? state.emailVerified ?? false,
+    phoneVerified: userStats.phoneVerified ?? state.phoneVerified ?? false,
+    idVerified: userStats.idVerified ?? state.idVerified ?? false,
     communityVotes: userStats.communityVotes || state.positiveVotes || 0,
-    warnings: userStats.warnings || state.warnings || 0,
   };
+
+  // Identity verification score: email +5, phone +5, ID +5
+  const identityScore = (stats.emailVerified ? 5 : 0) + (stats.phoneVerified ? 5 : 0) + (stats.idVerified ? 5 : 0);
 
   // Calculate individual scores
   const scores = {
@@ -48,9 +51,8 @@ export function calculateTrustScore(userStats = {}) {
     spotsCreated: Math.min((stats.spotsCreated / 20) * SCORE_FACTORS.spotsCreated.max, SCORE_FACTORS.spotsCreated.max),
     verifiedSpots: Math.min((stats.verifiedSpots / 10) * SCORE_FACTORS.verifiedSpots.max, SCORE_FACTORS.verifiedSpots.max),
     helpfulReviews: Math.min((stats.helpfulReviews / 30) * SCORE_FACTORS.helpfulReviews.max, SCORE_FACTORS.helpfulReviews.max),
-    streakDays: Math.min((stats.streakDays / 30) * SCORE_FACTORS.streakDays.max, SCORE_FACTORS.streakDays.max),
+    identityVerification: Math.min(identityScore, SCORE_FACTORS.identityVerification.max),
     communityVotes: Math.min((stats.communityVotes / 50) * SCORE_FACTORS.communityVotes.max, SCORE_FACTORS.communityVotes.max),
-    noWarnings: stats.warnings === 0 ? SCORE_FACTORS.noWarnings.max : Math.max(0, SCORE_FACTORS.noWarnings.max - stats.warnings * 5),
   };
 
   // Calculate total score
@@ -59,9 +61,8 @@ export function calculateTrustScore(userStats = {}) {
     scores.spotsCreated +
     scores.verifiedSpots +
     scores.helpfulReviews +
-    scores.streakDays +
-    scores.communityVotes +
-    scores.noWarnings
+    scores.identityVerification +
+    scores.communityVotes
   );
 
   // Get tier
@@ -187,9 +188,8 @@ export function renderTrustScoreCard() {
         ${renderScoreFactor('Spots créés', breakdown.spotsCreated, SCORE_FACTORS.spotsCreated.max, 'fa-map-marker-alt')}
         ${renderScoreFactor('Spots vérifiés', breakdown.verifiedSpots, SCORE_FACTORS.verifiedSpots.max, 'fa-check-circle')}
         ${renderScoreFactor('Avis utiles', breakdown.helpfulReviews, SCORE_FACTORS.helpfulReviews.max, 'fa-star')}
-        ${renderScoreFactor('Activité (série)', breakdown.streakDays, SCORE_FACTORS.streakDays.max, 'fa-fire')}
+        ${renderScoreFactor('Vérification identité', breakdown.identityVerification, SCORE_FACTORS.identityVerification.max, 'fa-id-card')}
         ${renderScoreFactor('Votes positifs', breakdown.communityVotes, SCORE_FACTORS.communityVotes.max, 'fa-thumbs-up')}
-        ${renderScoreFactor('Aucun avertissement', breakdown.noWarnings, SCORE_FACTORS.noWarnings.max, 'fa-shield-alt')}
       </div>
 
       <!-- Tips to improve -->
@@ -202,7 +202,7 @@ export function renderTrustScoreCard() {
           <ul class="text-xs text-slate-400 space-y-1">
             ${breakdown.spotsCreated < 15 ? '<li>• Crée plus de spots pour aider la communauté</li>' : ''}
             ${breakdown.helpfulReviews < 10 ? '<li>• Laisse des avis sur les spots que tu utilises</li>' : ''}
-            ${breakdown.streakDays < 8 ? '<li>• Connecte-toi régulièrement pour maintenir ta série</li>' : ''}
+            ${breakdown.identityVerification < 10 ? '<li>• Vérifie ton email et ton téléphone</li>' : ''}
             ${breakdown.communityVotes < 10 ? '<li>• Participe aux vérifications de spots</li>' : ''}
           </ul>
         </div>

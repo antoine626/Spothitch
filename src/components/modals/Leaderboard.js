@@ -9,40 +9,40 @@ import { t } from '../../i18n/index.js';
 // Mock leaderboard data (in real app, this would come from Firebase)
 const mockLeaderboardData = {
   weekly: [
-    { id: 1, username: 'RoadRunner', avatar: '🏃', points: 1250, level: 15, streak: 12, country: 'FR' },
-    { id: 2, username: 'ThumbsUp', avatar: '👍', points: 1180, level: 14, streak: 8, country: 'DE' },
-    { id: 3, username: 'WanderlustPro', avatar: '🌍', points: 1050, level: 13, streak: 15, country: 'NL' },
-    { id: 4, username: 'FreeSoul', avatar: '✌️', points: 920, level: 12, streak: 5, country: 'ES' },
-    { id: 5, username: 'HitchKing', avatar: '👑', points: 850, level: 11, streak: 7, country: 'IT' },
-    { id: 6, username: 'Nomad42', avatar: '🎒', points: 780, level: 10, streak: 3, country: 'BE' },
-    { id: 7, username: 'RoadTripper', avatar: '🚗', points: 720, level: 9, streak: 6, country: 'PT' },
-    { id: 8, username: 'Backpacker', avatar: '🧳', points: 650, level: 8, streak: 4, country: 'AT' },
-    { id: 9, username: 'Explorer99', avatar: '🧭', points: 580, level: 7, streak: 2, country: 'CH' },
-    { id: 10, username: 'Adventurer', avatar: '⛺', points: 520, level: 6, streak: 1, country: 'PL' },
+    { id: 1, username: 'RoadRunner', avatar: '🏃', points: 1250, level: 15, country: 'FR' },
+    { id: 2, username: 'ThumbsUp', avatar: '👍', points: 1180, level: 14, country: 'DE' },
+    { id: 3, username: 'WanderlustPro', avatar: '🌍', points: 1050, level: 13, country: 'NL' },
+    { id: 4, username: 'FreeSoul', avatar: '✌️', points: 920, level: 12, country: 'ES' },
+    { id: 5, username: 'HitchKing', avatar: '👑', points: 850, level: 11, country: 'IT' },
+    { id: 6, username: 'Nomad42', avatar: '🎒', points: 780, level: 10, country: 'BE' },
+    { id: 7, username: 'RoadTripper', avatar: '🚗', points: 720, level: 9, country: 'PT' },
+    { id: 8, username: 'Backpacker', avatar: '🧳', points: 650, level: 8, country: 'AT' },
+    { id: 9, username: 'Explorer99', avatar: '🧭', points: 580, level: 7, country: 'CH' },
+    { id: 10, username: 'Adventurer', avatar: '⛺', points: 520, level: 6, country: 'PL' },
   ],
   monthly: [
-    { id: 1, username: 'LegendHitcher', avatar: '🏆', points: 5200, level: 25, streak: 30, country: 'FR' },
-    { id: 2, username: 'RoadRunner', avatar: '🏃', points: 4800, level: 24, streak: 28, country: 'FR' },
-    { id: 3, username: 'ThumbsUp', avatar: '👍', points: 4500, level: 22, streak: 25, country: 'DE' },
-    { id: 4, username: 'WanderlustPro', avatar: '🌍', points: 4200, level: 21, streak: 22, country: 'NL' },
-    { id: 5, username: 'MasterNomad', avatar: '🎯', points: 3900, level: 20, streak: 20, country: 'ES' },
-    { id: 6, username: 'FreeSoul', avatar: '✌️', points: 3600, level: 19, streak: 18, country: 'ES' },
-    { id: 7, username: 'HitchKing', avatar: '👑', points: 3300, level: 18, streak: 15, country: 'IT' },
-    { id: 8, username: 'Nomad42', avatar: '🎒', points: 3000, level: 17, streak: 12, country: 'BE' },
-    { id: 9, username: 'RoadTripper', avatar: '🚗', points: 2700, level: 16, streak: 10, country: 'PT' },
-    { id: 10, username: 'Backpacker', avatar: '🧳', points: 2400, level: 15, streak: 8, country: 'AT' },
+    { id: 1, username: 'LegendHitcher', avatar: '🏆', points: 5200, level: 25, country: 'FR' },
+    { id: 2, username: 'RoadRunner', avatar: '🏃', points: 4800, level: 24, country: 'FR' },
+    { id: 3, username: 'ThumbsUp', avatar: '👍', points: 4500, level: 22, country: 'DE' },
+    { id: 4, username: 'WanderlustPro', avatar: '🌍', points: 4200, level: 21, country: 'NL' },
+    { id: 5, username: 'MasterNomad', avatar: '🎯', points: 3900, level: 20, country: 'ES' },
+    { id: 6, username: 'FreeSoul', avatar: '✌️', points: 3600, level: 19, country: 'ES' },
+    { id: 7, username: 'HitchKing', avatar: '👑', points: 3300, level: 18, country: 'IT' },
+    { id: 8, username: 'Nomad42', avatar: '🎒', points: 3000, level: 17, country: 'BE' },
+    { id: 9, username: 'RoadTripper', avatar: '🚗', points: 2700, level: 16, country: 'PT' },
+    { id: 10, username: 'Backpacker', avatar: '🧳', points: 2400, level: 15, country: 'AT' },
   ],
   allTime: [
-    { id: 1, username: 'LegendHitcher', avatar: '🏆', points: 52000, level: 50, streak: 365, country: 'FR' },
-    { id: 2, username: 'MasterNomad', avatar: '🎯', points: 48000, level: 48, streak: 300, country: 'ES' },
-    { id: 3, username: 'RoadRunner', avatar: '🏃', points: 45000, level: 45, streak: 250, country: 'FR' },
-    { id: 4, username: 'ThumbsUp', avatar: '👍', points: 42000, level: 42, streak: 200, country: 'DE' },
-    { id: 5, username: 'WanderlustPro', avatar: '🌍', points: 38000, level: 38, streak: 180, country: 'NL' },
-    { id: 6, username: 'FreeSoul', avatar: '✌️', points: 35000, level: 35, streak: 150, country: 'ES' },
-    { id: 7, username: 'HitchKing', avatar: '👑', points: 32000, level: 32, streak: 120, country: 'IT' },
-    { id: 8, username: 'Nomad42', avatar: '🎒', points: 28000, level: 28, streak: 100, country: 'BE' },
-    { id: 9, username: 'RoadTripper', avatar: '🚗', points: 25000, level: 25, streak: 80, country: 'PT' },
-    { id: 10, username: 'Backpacker', avatar: '🧳', points: 22000, level: 22, streak: 60, country: 'AT' },
+    { id: 1, username: 'LegendHitcher', avatar: '🏆', points: 52000, level: 50, country: 'FR' },
+    { id: 2, username: 'MasterNomad', avatar: '🎯', points: 48000, level: 48, country: 'ES' },
+    { id: 3, username: 'RoadRunner', avatar: '🏃', points: 45000, level: 45, country: 'FR' },
+    { id: 4, username: 'ThumbsUp', avatar: '👍', points: 42000, level: 42, country: 'DE' },
+    { id: 5, username: 'WanderlustPro', avatar: '🌍', points: 38000, level: 38, country: 'NL' },
+    { id: 6, username: 'FreeSoul', avatar: '✌️', points: 35000, level: 35, country: 'ES' },
+    { id: 7, username: 'HitchKing', avatar: '👑', points: 32000, level: 32, country: 'IT' },
+    { id: 8, username: 'Nomad42', avatar: '🎒', points: 28000, level: 28, country: 'BE' },
+    { id: 9, username: 'RoadTripper', avatar: '🚗', points: 25000, level: 25, country: 'PT' },
+    { id: 10, username: 'Backpacker', avatar: '🧳', points: 22000, level: 22, country: 'AT' },
   ],
 };
 
@@ -153,8 +153,8 @@ export function renderLeaderboardModal() {
               <div class="text-xs text-gray-500">Participants</div>
             </div>
             <div>
-              <div class="text-2xl font-bold text-purple-400">🔥 ${Math.max(...leaderboardData.map(u => u.streak))}</div>
-              <div class="text-xs text-gray-500">Record série</div>
+              <div class="text-2xl font-bold text-purple-400">${Math.max(...leaderboardData.map(u => u.level))}</div>
+              <div class="text-xs text-gray-500">Meilleur niveau</div>
             </div>
           </div>
         </div>
@@ -204,7 +204,7 @@ function renderLeaderboardRow(user, rank) {
           <span class="text-white font-medium truncate">${user.username}</span>
           <span class="text-sm">${countryFlags[user.country] || '🌍'}</span>
         </div>
-        <div class="text-gray-500 text-xs">Niv. ${user.level} • 🔥 ${user.streak}j</div>
+        <div class="text-gray-500 text-xs">Niv. ${user.level}</div>
       </div>
       <div class="text-right">
         <div class="text-amber-400 font-bold">${user.points.toLocaleString()}</div>

@@ -101,7 +101,6 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_season_data', category: DataCategory.GAMIFICATION, description: 'Current season data' },
   { key: 'spothitch_season_history', category: DataCategory.GAMIFICATION, description: 'Season history' },
   { key: 'spothitch_season_rewards', category: DataCategory.GAMIFICATION, description: 'Season rewards earned' },
-  { key: 'spothitch_streak_reminder', category: DataCategory.GAMIFICATION, description: 'Streak reminder data' },
   { key: 'spothitch_anniversary_last_claimed', category: DataCategory.GAMIFICATION, description: 'Last anniversary reward claimed' },
   { key: 'spothitch_gamification_ui', category: DataCategory.GAMIFICATION, description: 'Gamification UI level' },
   { key: 'spothitch_roadmap_votes', category: DataCategory.GAMIFICATION, description: 'Roadmap votes' },

@@ -28,7 +28,6 @@ export function renderChallengesModal() {
     totalCheckins: state.checkins || 0,
     totalSpotsCreated: state.spotsCreated || 0,
     totalReviews: state.reviewsGiven || 0,
-    maxStreak: state.maxStreak || 0,
     fiveStarSpots: state.fiveStarSpots || 0,
   };
 

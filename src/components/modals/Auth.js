@@ -355,14 +355,11 @@ window.loginAsAdmin = async () => {
       checkins: 500,
       spotsCreated: 150,
       reviewsGiven: 300,
-      streak: 365,
-      maxStreak: 365,
       totalDistance: 50000000,
       totalRides: 1000,
       visitedCountries: ['FR', 'DE', 'ES', 'IT', 'NL', 'BE', 'PL', 'CZ', 'AT', 'CH', 'PT', 'IE'],
       badges: [
         'first-checkin', 'explorer-10', 'expert-50', 'master-100',
-        'streak-7', 'streak-30', 'streak-100', 'streak-365',
         'first-spot', 'cartographer-5', 'mapper-20',
         'first-review', 'critic-10', 'influencer-50',
         'night-owl', 'early-bird', 'globetrotter', 'legend'

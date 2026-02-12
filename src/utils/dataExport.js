@@ -42,7 +42,6 @@ export async function collectUserData() {
     totalPoints: state.totalPoints || 0,
     seasonPoints: state.seasonPoints || 0,
     level: state.level || 1,
-    streak: state.streak || 0,
     checkins: state.checkins || 0,
     spotsCreated: state.spotsCreated || 0,
     reviewsGiven: state.reviewsGiven || 0,

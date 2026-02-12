@@ -40,7 +40,6 @@ function getUserData() {
     level: state.level || 1,
     seasonPoints: state.seasonPoints || 0,
     totalPoints: state.totalPoints || 0,
-    streak: state.streak || 0,
     skillPoints: state.skillPoints || 0,
     unlockedSkills: (state.unlockedSkills || []).length,
   };
@@ -230,10 +229,6 @@ export function renderMyDataModal() {
             <div class="flex justify-between">
               <span class="text-slate-400">${t('seasonPoints') || 'Points de saison'}</span>
               <span class="font-medium">${gamificationData.seasonPoints}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">${t('currentStreak') || 'Série actuelle'}</span>
-              <span class="font-medium">${gamificationData.streak} ${t('days') || 'jours'}</span>
             </div>
             <div class="flex justify-between">
               <span class="text-slate-400">${t('skillPoints') || 'Points de compétence'}</span>

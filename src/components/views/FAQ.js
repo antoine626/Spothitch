@@ -130,12 +130,12 @@ const faqData = {
       {
         id: 'account-4',
         q: t('faqQ19', "Comment gagner des points ?"),
-        a: t('faqA19', "Vous gagnez des points en : ajoutant des spots (+50), faisant des check-ins (+10), laissant des avis (+15), complétant des défis (variable), et en vous connectant chaque jour (streak bonus).")
+        a: t('faqA19', "Vous gagnez des points en : ajoutant des spots (+50), faisant des check-ins (+10), laissant des avis (+15), et en complétant des défis (variable).")
       },
       {
         id: 'account-5',
-        q: t('faqQ20', "Qu'est-ce que l'arbre de compétences ?"),
-        a: t('faqA20', "L'arbre de compétences vous permet de débloquer des bonus permanents en dépensant des points de compétence. Par exemple : bonus de points, réduction des temps d'attente affichés, etc.")
+        q: t('faqQ20', "Comment fonctionne le score de confiance ?"),
+        a: t('faqA20', "Le score de confiance reflète votre fiabilité. Il augmente avec l'ancienneté du compte, les spots créés et vérifiés, les avis utiles, la vérification d'identité et les votes positifs de la communauté.")
       }
     ]
   },

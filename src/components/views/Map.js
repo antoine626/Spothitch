@@ -61,16 +61,6 @@ export function renderMap(state) {
             <span class="text-primary-400">⭐</span>
             <span class="font-bold text-white">${t('levelPrefix') || 'Lvl.'} ${state.level || 1}</span>
           </button>
-          ${state.streak > 0 ? `
-            <button
-              onclick="openStats()"
-              class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm hover:border-primary-500/50 transition-all"
-              aria-label="${t('streakDays') || 'day streak'}: ${state.streak}"
-            >
-              <span class="text-orange-400">🔥</span>
-              <span class="font-bold text-white">${state.streak}j</span>
-            </button>
-          ` : ''}
         </div>
       </div>
 

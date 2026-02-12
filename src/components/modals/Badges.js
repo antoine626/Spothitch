@@ -21,7 +21,6 @@ export function renderBadgesModal() {
     checkins: state.checkins || 0,
     spotsCreated: state.spotsCreated || 0,
     reviewsGiven: state.reviewsGiven || 0,
-    streak: state.streak || 0,
     countriesVisited: state.countriesVisited || 0,
   };
 
@@ -31,7 +30,6 @@ export function renderBadgesModal() {
   const categories = [
     { id: 'beginner', name: 'Débutant', nameEn: 'Beginner', icon: '🌱' },
     { id: 'progress', name: 'Progression', nameEn: 'Progress', icon: '📈' },
-    { id: 'streak', name: 'Séries', nameEn: 'Streaks', icon: '🔥' },
     { id: 'special', name: 'Spécial', nameEn: 'Special', icon: '⭐' },
   ];
 

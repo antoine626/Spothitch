@@ -171,7 +171,6 @@ export function checkBadges() {
     checkins: state.checkins || 0,
     spotsCreated: state.spotsCreated || 0,
     reviewsGiven: state.reviewsGiven || 0,
-    streak: state.streak || 0,
     countriesVisited: state.countriesVisited || 0,
     nightCheckin: state.nightCheckin || false,
     earlyCheckin: state.earlyCheckin || false,
@@ -353,44 +352,6 @@ export function recordReview() {
 }
 
 /**
- * Update daily streak
- */
-export function updateStreak() {
-  const state = getState();
-  const today = new Date().toDateString();
-  const lastActive = state.lastActiveDate;
-
-  if (lastActive === today) {
-    return state.streak; // Already active today
-  }
-
-  const yesterday = new Date(Date.now() - 86400000).toDateString();
-  let newStreak = 1;
-
-  if (lastActive === yesterday) {
-    newStreak = (state.streak || 0) + 1;
-    if (newStreak > (state.maxStreak || 0)) {
-      setState({ maxStreak: newStreak });
-    }
-  }
-
-  setState({
-    streak: newStreak,
-    lastActiveDate: today,
-  });
-
-  // Streak milestones
-  if (newStreak === 7 || newStreak === 30 || newStreak === 100) {
-    showToast(`🔥 ${t('streakDays') || 'Série de'} ${newStreak} ${t('days') || 'jours'} !`, 'success');
-    addPoints(newStreak, 'streak_milestone');
-  }
-
-  checkBadges();
-
-  return newStreak;
-}
-
-/**
  * Record country visit
  * @param {string} countryCode - Country code
  */
@@ -427,8 +388,6 @@ export function getGamificationSummary() {
     titleProgress,
     vipLevel,
     league,
-    streak: state.streak || 0,
-    maxStreak: state.maxStreak || 0,
     checkins: state.checkins || 0,
     spotsCreated: state.spotsCreated || 0,
     reviewsGiven: state.reviewsGiven || 0,
@@ -454,7 +413,6 @@ export default {
   recordCheckin,
   recordSpotCreated,
   recordReview,
-  updateStreak,
   recordCountryVisit,
   getGamificationSummary,
   // Title exports
