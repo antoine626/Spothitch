@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpotHitch - Design Showcase</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;700&family=Nunito:wght@400;600;700;800&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; }
+.header-bar { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(20px); padding: 1rem 2rem; border-bottom: 1px solid #222; display: flex; align-items: center; justify-content: space-between; }
+.header-bar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; }
+.header-bar span { color: #888; font-size: 0.9rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 2rem; padding: 2rem; max-width: 1600px; margin: 0 auto; }
+@media (max-width: 500px) { .grid { grid-template-columns: 1fr; padding: 1rem; gap: 1.5rem; } }
+.theme-card { border-radius: 20px; overflow: hidden; border: 2px solid transparent; transition: all 0.3s; cursor: pointer; }
+.theme-card:hover { transform: translateY(-4px); border-color: #fff3; }
+.theme-label { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+.theme-label h3 { font-size: 1rem; font-weight: 600; }
+.theme-label span { font-size: 0.75rem; opacity: 0.6; }
+.phone { width: 100%; aspect-ratio: 9/16; max-height: 580px; overflow: hidden; position: relative; }
+/* Mini components inside each theme */
+.t-header { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+.t-header .logo { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 6px; }
+.t-header .icons { display: flex; gap: 12px; font-size: 0.9rem; }
+.t-search { margin: 0 12px 8px; padding: 10px 14px; border-radius: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+.t-map { height: 180px; position: relative; overflow: hidden; margin: 0 12px; border-radius: 12px; }
+.t-map .dots { position: absolute; }
+.t-map .dot { width: 8px; height: 8px; border-radius: 50%; position: absolute; }
+.t-stats { display: flex; gap: 8px; padding: 8px 12px; overflow-x: auto; }
+.t-stats .chip { padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; white-space: nowrap; font-weight: 600; }
+.t-card { margin: 8px 12px; padding: 14px; border-radius: 14px; }
+.t-card .title { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+.t-card .sub { font-size: 0.75rem; opacity: 0.7; }
+.t-card .rating { margin-top: 6px; font-size: 0.8rem; }
+.t-card .btn { margin-top: 8px; padding: 8px 16px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+.t-nav { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; padding: 10px 0 14px; }
+.t-nav .item { text-align: center; font-size: 0.6rem; }
+.t-nav .item i { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+.t-nav .item.active { opacity: 1; }
+.t-nav .item:not(.active) { opacity: 0.5; }
+.t-fab { position: absolute; bottom: 70px; right: 16px; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.badge-tag { position: absolute; top: 8px; left: 8px; padding: 4px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; }
+.instruction { text-align: center; padding: 3rem 2rem 1rem; }
+.instruction h2 { font-size: 1.8rem; font-family: 'Space Grotesk', sans-serif; margin-bottom: 0.5rem; }
+.instruction p { color: #888; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="header-bar">
+  <h1>SpotHitch Design Showcase</h1>
+  <span>25 propositions &bull; Clique sur celui qui te plait</span>
+</div>
+
+<div class="instruction">
+  <h2>Choisis ton style</h2>
+  <p>Chaque mini-telephone montre a quoi ressemblerait l'app. Regarde les couleurs, la navigation, les boutons, et l'ambiance generale. Dis-moi le(s) numero(s) que tu preferes !</p>
+</div>
+
+<div class="grid">
+
+<!-- 1. Midnight Ocean -->
+<div class="theme-card" style="background:#0c1425">
+<div class="theme-label" style="background:#0f1a30;color:#8bb4f8"><h3>1. Midnight Ocean</h3><span>Profond & Pro</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#0c1425,#0f1a30);font-family:'Inter',sans-serif;color:#c8d6e5">
+  <div class="t-header" style="border-bottom:1px solid #1a2744"><div class="logo" style="color:#5b9cf6">🤙 SpotHitch</div><div class="icons" style="color:#5b9cf6"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:#1a2744;color:#7a9cc8"><i class="fas fa-search"></i> Rechercher un lieu...</div>
+  <div class="t-map" style="background:linear-gradient(135deg,#0a1628,#162a4a)">
+    <div class="badge-tag" style="background:#5b9cf6;color:#0c1425">14 669 spots</div>
+    <div class="dot" style="background:#5b9cf6;top:40px;left:60px;box-shadow:0 0 10px #5b9cf6"></div>
+    <div class="dot" style="background:#34d399;top:80px;left:150px"></div>
+    <div class="dot" style="background:#34d399;top:60px;left:200px"></div>
+    <div class="dot" style="background:#5b9cf6;top:120px;left:100px;box-shadow:0 0 10px #5b9cf6"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#5b9cf620;color:#5b9cf6">France</div><div class="chip" style="background:#34d39920;color:#34d399">4.2 ★</div><div class="chip" style="background:#f59e0b20;color:#f59e0b">< 15 min</div></div>
+  <div class="t-card" style="background:#1a2744;border:1px solid #243556">
+    <div class="title" style="color:#e2e8f0">Sortie A6 - Fontainebleau</div>
+    <div class="sub">Paris → Lyon &bull; Station essence</div>
+    <div class="rating">⭐⭐⭐⭐ <span style="color:#5b9cf6">4.2</span> &bull; 23 avis</div>
+    <div class="btn" style="background:linear-gradient(135deg,#5b9cf6,#3b7cf6);color:#fff">Voir le spot</div>
+  </div>
+  <div class="t-fab" style="background:linear-gradient(135deg,#5b9cf6,#3b7cf6);color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#0c1425;border-top:1px solid #1a2744;color:#5b9cf6">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-compass"></i>Explorer</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 2. Sunset Road -->
+<div class="theme-card" style="background:#1a0f0a">
+<div class="theme-label" style="background:#241510;color:#f59e0b"><h3>2. Sunset Road</h3><span>Chaud & Aventure</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#1a0f0a,#241510);font-family:'Poppins',sans-serif;color:#e8d5c4">
+  <div class="t-header" style="border-bottom:1px solid #3a251a"><div class="logo" style="color:#f59e0b">🤙 SpotHitch</div><div class="icons" style="color:#f59e0b"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:#3a251a;color:#c4a882"><i class="fas fa-search"></i> Ou vas-tu ?</div>
+  <div class="t-map" style="background:linear-gradient(135deg,#2a1a10,#3a2a1a)">
+    <div class="badge-tag" style="background:#f59e0b;color:#1a0f0a">14 669 spots</div>
+    <div class="dot" style="background:#f59e0b;top:40px;left:60px;box-shadow:0 0 10px #f59e0b"></div>
+    <div class="dot" style="background:#ef4444;top:80px;left:150px"></div>
+    <div class="dot" style="background:#f59e0b;top:60px;left:200px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#f59e0b20;color:#f59e0b">Populaire</div><div class="chip" style="background:#ef444420;color:#ef4444">SOS</div><div class="chip" style="background:#10b98120;color:#10b981">Securise</div></div>
+  <div class="t-card" style="background:#3a251a;border:1px solid #4a3525">
+    <div class="title" style="color:#f5e6d3">Aire de Beaune</div>
+    <div class="sub">A6 Sud &bull; Parking camions</div>
+    <div class="rating">🔥🔥🔥🔥 <span style="color:#f59e0b">4.5</span></div>
+    <div class="btn" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#1a0f0a">Explorer</div>
+  </div>
+  <div class="t-fab" style="background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#1a0f0a;border-top:1px solid #3a251a;color:#f59e0b">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-fire"></i>Activites</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 3. Forest Trail -->
+<div class="theme-card" style="background:#0a1a0f">
+<div class="theme-label" style="background:#0f241a;color:#34d399"><h3>3. Forest Trail</h3><span>Nature & Zen</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#0a1a0f,#0f241a);font-family:'Nunito',sans-serif;color:#b8d4c8">
+  <div class="t-header" style="border-bottom:1px solid #1a3a25"><div class="logo" style="color:#34d399">🌿 SpotHitch</div><div class="icons" style="color:#34d399"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:#1a3a25;color:#7ab89c;border-radius:25px"><i class="fas fa-search"></i> Trouver un spot...</div>
+  <div class="t-map" style="background:linear-gradient(135deg,#0f2a18,#1a3a25)">
+    <div class="badge-tag" style="background:#34d399;color:#0a1a0f;border-radius:8px">14 669 spots</div>
+    <div class="dot" style="background:#34d399;top:40px;left:60px;box-shadow:0 0 12px #34d39980"></div>
+    <div class="dot" style="background:#6ee7b7;top:80px;left:150px"></div>
+    <div class="dot" style="background:#34d399;top:100px;left:220px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#34d39920;color:#34d399;border-radius:8px">Nature</div><div class="chip" style="background:#6ee7b720;color:#6ee7b7;border-radius:8px">Calme</div><div class="chip" style="background:#a7f3d020;color:#a7f3d0;border-radius:8px">Gratuit</div></div>
+  <div class="t-card" style="background:#1a3a25;border:1px solid #2a4a35;border-radius:16px">
+    <div class="title" style="color:#d1fae5">Col du Lautaret</div>
+    <div class="sub">Route des Alpes &bull; Vue montagne</div>
+    <div class="rating">🌲🌲🌲🌲🌲 <span style="color:#34d399">5.0</span></div>
+    <div class="btn" style="background:#34d399;color:#0a1a0f;border-radius:25px">Decouvrir</div>
+  </div>
+  <div class="t-fab" style="background:#34d399;color:#0a1a0f"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#0a1a0f;border-top:1px solid #1a3a25;color:#34d399">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-leaf"></i>Activites</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 4. Neon Tokyo -->
+<div class="theme-card" style="background:#0a0a14">
+<div class="theme-label" style="background:#10101e;color:#e879f9"><h3>4. Neon Tokyo</h3><span>Cyberpunk</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#0a0a14,#10101e);font-family:'Space Grotesk',sans-serif;color:#c4b5fd">
+  <div class="t-header" style="border-bottom:1px solid #2a1a4a"><div class="logo" style="color:#e879f9">⚡ SpotHitch</div><div class="icons" style="color:#22d3ee"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:#1a1a2e;border:1px solid #e879f940;color:#a78bfa"><i class="fas fa-search"></i> Destination...</div>
+  <div class="t-map" style="background:#0f0f1e;border:1px solid #e879f930">
+    <div class="badge-tag" style="background:#e879f9;color:#0a0a14">14 669</div>
+    <div class="dot" style="background:#e879f9;top:40px;left:60px;box-shadow:0 0 15px #e879f9;width:10px;height:10px"></div>
+    <div class="dot" style="background:#22d3ee;top:80px;left:150px;box-shadow:0 0 15px #22d3ee;width:10px;height:10px"></div>
+    <div class="dot" style="background:#e879f9;top:110px;left:100px;box-shadow:0 0 15px #e879f9"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#e879f920;color:#e879f9;border:1px solid #e879f940">Nuit</div><div class="chip" style="background:#22d3ee20;color:#22d3ee;border:1px solid #22d3ee40">24/7</div><div class="chip" style="background:#a78bfa20;color:#a78bfa;border:1px solid #a78bfa40">Eclaire</div></div>
+  <div class="t-card" style="background:#1a1a2e;border:1px solid #e879f930">
+    <div class="title" style="color:#f0e7ff">Porte de Clignancourt</div>
+    <div class="sub">Peripherique Nord &bull; Metro proche</div>
+    <div class="rating">💜💜💜💜 <span style="color:#e879f9">4.1</span></div>
+    <div class="btn" style="background:linear-gradient(135deg,#e879f9,#22d3ee);color:#0a0a14">Go !</div>
+  </div>
+  <div class="t-fab" style="background:linear-gradient(135deg,#e879f9,#22d3ee);color:#0a0a14"><i class="fas fa-bolt"></i></div>
+  <div class="t-nav" style="background:#0a0a14;border-top:1px solid #1a1a2e;color:#e879f9">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-bolt"></i>Quetes</div>
+    <div class="item"><i class="fas fa-satellite-dish"></i>Social</div>
+    <div class="item"><i class="fas fa-id-badge"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 5. Arctic Clean -->
+<div class="theme-card" style="background:#f0f4f8">
+<div class="theme-label" style="background:#e2e8f0;color:#1e40af"><h3>5. Arctic Clean</h3><span>Minimaliste Clair</span></div>
+<div class="phone" style="background:#f8fafc;font-family:'DM Sans',sans-serif;color:#334155">
+  <div class="t-header" style="border-bottom:1px solid #e2e8f0;background:#fff"><div class="logo" style="color:#1e40af">🤙 SpotHitch</div><div class="icons" style="color:#64748b"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:#fff;border:2px solid #e2e8f0;color:#94a3b8"><i class="fas fa-search"></i> Rechercher...</div>
+  <div class="t-map" style="background:#e2e8f0">
+    <div class="badge-tag" style="background:#1e40af;color:#fff">14 669 spots</div>
+    <div class="dot" style="background:#1e40af;top:40px;left:60px"></div>
+    <div class="dot" style="background:#3b82f6;top:80px;left:150px"></div>
+    <div class="dot" style="background:#1e40af;top:60px;left:200px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#dbeafe;color:#1e40af">Recents</div><div class="chip" style="background:#dcfce7;color:#166534">Verifies</div><div class="chip" style="background:#fef3c7;color:#92400e">Populaires</div></div>
+  <div class="t-card" style="background:#fff;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+    <div class="title" style="color:#0f172a">Peage de Fleury</div>
+    <div class="sub" style="color:#64748b">A10 &bull; Sortie de ville</div>
+    <div class="rating">⭐⭐⭐⭐⭐ <span style="color:#1e40af">4.8</span></div>
+    <div class="btn" style="background:#1e40af;color:#fff">Voir</div>
+  </div>
+  <div class="t-fab" style="background:#1e40af;color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#fff;border-top:1px solid #e2e8f0;color:#1e40af">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-compass"></i>Explorer</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 6. Campfire -->
+<div class="theme-card" style="background:#1a1008">
+<div class="theme-label" style="background:#241a0f;color:#fb923c"><h3>6. Campfire</h3><span>Feu de camp</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#1a1008,#241a0f);font-family:'Nunito',sans-serif;color:#fcd9b6">
+  <div class="t-header" style="border-bottom:1px solid #3a2a1a"><div class="logo" style="color:#fb923c">🔥 SpotHitch</div><div class="icons" style="color:#fb923c"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:#2a1a0f;color:#c4946a;border-radius:25px"><i class="fas fa-search"></i> Ou tu vas ce soir ?</div>
+  <div class="t-map" style="background:radial-gradient(ellipse at center,#2a1f14,#1a1008)">
+    <div class="badge-tag" style="background:#fb923c;color:#1a1008;border-radius:8px">14 669</div>
+    <div class="dot" style="background:#fb923c;top:40px;left:60px;box-shadow:0 0 15px #fb923c80"></div>
+    <div class="dot" style="background:#fbbf24;top:80px;left:150px;box-shadow:0 0 10px #fbbf2460"></div>
+    <div class="dot" style="background:#ef4444;top:100px;left:100px;box-shadow:0 0 10px #ef444460"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#fb923c20;color:#fb923c">Ce soir</div><div class="chip" style="background:#fbbf2420;color:#fbbf24">Eclaire</div><div class="chip" style="background:#ef444420;color:#ef4444">Urgence</div></div>
+  <div class="t-card" style="background:#2a1a0f;border-left:3px solid #fb923c">
+    <div class="title" style="color:#fde68a">Station Total - A7</div>
+    <div class="sub">Valence Sud &bull; Douches dispo</div>
+    <div class="rating">🔥🔥🔥🔥 <span style="color:#fb923c">4.3</span></div>
+    <div class="btn" style="background:#fb923c;color:#1a1008;border-radius:25px">Y aller</div>
+  </div>
+  <div class="t-fab" style="background:#fb923c;color:#1a1008"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#1a1008;border-top:1px solid #2a1a0f;color:#fb923c">
+    <div class="item active"><i class="fas fa-map-marked-alt"></i>Carte</div>
+    <div class="item"><i class="fas fa-star"></i>Activites</div>
+    <div class="item"><i class="fas fa-campground"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 7. Nordic Frost -->
+<div class="theme-card" style="background:#f5f7fa">
+<div class="theme-label" style="background:#edf0f5;color:#475569"><h3>7. Nordic Frost</h3><span>Epure Scandinave</span></div>
+<div class="phone" style="background:#fafbfd;font-family:'Montserrat',sans-serif;color:#475569">
+  <div class="t-header" style="background:#fff"><div class="logo" style="color:#0f172a;font-weight:800;letter-spacing:-0.5px">SPOTHITCH</div><div class="icons" style="color:#94a3b8"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#f1f5f9;color:#94a3b8;border-radius:8px"><i class="fas fa-search"></i> Rechercher</div>
+  <div class="t-map" style="background:#e8ecf2">
+    <div class="badge-tag" style="background:#0f172a;color:#fff;border-radius:6px">14 669</div>
+    <div class="dot" style="background:#0f172a;top:50px;left:80px"></div>
+    <div class="dot" style="background:#475569;top:90px;left:170px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#0f172a;color:#fff;border-radius:6px">Tous</div><div class="chip" style="background:#f1f5f9;color:#475569;border-radius:6px">Proches</div><div class="chip" style="background:#f1f5f9;color:#475569;border-radius:6px">Recents</div></div>
+  <div class="t-card" style="background:#fff;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,0.05)">
+    <div class="title" style="color:#0f172a;font-weight:700">Sortie Autoroute Macon</div>
+    <div class="sub" style="color:#94a3b8">Direction Lyon &bull; Peage</div>
+    <div class="rating" style="color:#475569">★★★★☆ 4.2</div>
+    <div class="btn" style="background:#0f172a;color:#fff;border-radius:6px">Voir le spot</div>
+  </div>
+  <div class="t-fab" style="background:#0f172a;color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#fff;border-top:1px solid #e8ecf2;color:#0f172a">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-th-large"></i>Explorer</div>
+    <div class="item"><i class="fas fa-comment"></i>Chat</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 8. Aurora Borealis -->
+<div class="theme-card" style="background:#0a0f1a">
+<div class="theme-label" style="background:#0f1528;color:#a78bfa"><h3>8. Aurora Borealis</h3><span>Aurore boreale</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#0a0f1a 0%,#1a0f2a 50%,#0f1a1a 100%);font-family:'Outfit',sans-serif;color:#c4b5fd">
+  <div class="t-header"><div class="logo" style="background:linear-gradient(135deg,#a78bfa,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">SpotHitch</div><div class="icons" style="color:#a78bfa"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:linear-gradient(135deg,#a78bfa10,#22d3ee10);border:1px solid #a78bfa30;color:#8b8bf4"><i class="fas fa-search"></i> Explorer le monde...</div>
+  <div class="t-map" style="background:linear-gradient(135deg,#0f1528,#1a0f28)">
+    <div class="badge-tag" style="background:linear-gradient(135deg,#a78bfa,#22d3ee);color:#0a0f1a">14 669</div>
+    <div class="dot" style="background:#a78bfa;top:40px;left:70px;box-shadow:0 0 20px #a78bfa80;width:10px;height:10px"></div>
+    <div class="dot" style="background:#22d3ee;top:90px;left:160px;box-shadow:0 0 20px #22d3ee80;width:10px;height:10px"></div>
+    <div class="dot" style="background:#34d399;top:70px;left:230px;box-shadow:0 0 15px #34d39960"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:linear-gradient(135deg,#a78bfa20,#22d3ee20);color:#a78bfa">Magique</div><div class="chip" style="background:#34d39920;color:#34d399">Verifie</div></div>
+  <div class="t-card" style="background:#ffffff08;border:1px solid #a78bfa20;backdrop-filter:blur(10px)">
+    <div class="title" style="color:#e2e0ff">Route des Fjords</div>
+    <div class="sub">Norvege &bull; Vue epoustouflante</div>
+    <div class="rating">💜💙💚💜💙 <span style="color:#a78bfa">4.9</span></div>
+    <div class="btn" style="background:linear-gradient(135deg,#a78bfa,#22d3ee);color:#0a0f1a">Voyager</div>
+  </div>
+  <div class="t-fab" style="background:linear-gradient(135deg,#a78bfa,#22d3ee);color:#0a0f1a"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#0a0f1a;border-top:1px solid #a78bfa20;color:#a78bfa">
+    <div class="item active"><i class="fas fa-globe"></i>Carte</div>
+    <div class="item"><i class="fas fa-sparkles"></i>Quetes</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 9. Terracotta -->
+<div class="theme-card" style="background:#faf5ef">
+<div class="theme-label" style="background:#f0e6d8;color:#9a3412"><h3>9. Terracotta</h3><span>Mediterranee</span></div>
+<div class="phone" style="background:#faf5ef;font-family:'Raleway',sans-serif;color:#78350f">
+  <div class="t-header" style="background:#faf5ef;border-bottom:1px solid #e8d5c0"><div class="logo" style="color:#c2410c;font-weight:700">SpotHitch</div><div class="icons" style="color:#c2410c"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#fff;border:2px solid #f4d5b8;color:#b45309;border-radius:25px"><i class="fas fa-search"></i> Rechercher...</div>
+  <div class="t-map" style="background:#e8d5c0">
+    <div class="badge-tag" style="background:#c2410c;color:#fff;border-radius:20px">14 669</div>
+    <div class="dot" style="background:#c2410c;top:50px;left:80px"></div>
+    <div class="dot" style="background:#b45309;top:90px;left:170px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#c2410c20;color:#c2410c;border-radius:20px">Ete</div><div class="chip" style="background:#15803d20;color:#15803d;border-radius:20px">Nature</div><div class="chip" style="background:#1e40af20;color:#1e40af;border-radius:20px">Plage</div></div>
+  <div class="t-card" style="background:#fff;border-radius:16px;border-left:4px solid #c2410c">
+    <div class="title" style="color:#431407">Route cotiere - Amalfi</div>
+    <div class="sub" style="color:#92400e">Italie du Sud &bull; Bord de mer</div>
+    <div class="rating">☀️☀️☀️☀️☀️ <span style="color:#c2410c">4.9</span></div>
+    <div class="btn" style="background:#c2410c;color:#fff;border-radius:20px">Explorer</div>
+  </div>
+  <div class="t-fab" style="background:#c2410c;color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#faf5ef;border-top:2px solid #e8d5c0;color:#c2410c">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-sun"></i>Activites</div>
+    <div class="item"><i class="fas fa-comments"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 10. Stealth Black -->
+<div class="theme-card" style="background:#000">
+<div class="theme-label" style="background:#111;color:#fff"><h3>10. Stealth Black</h3><span>Noir total</span></div>
+<div class="phone" style="background:#000;font-family:'Inter',sans-serif;color:#999">
+  <div class="t-header" style="border-bottom:1px solid #222"><div class="logo" style="color:#fff;font-weight:700;letter-spacing:1px">SPOTHITCH</div><div class="icons" style="color:#555"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#111;border:1px solid #333;color:#666"><i class="fas fa-search"></i> Rechercher</div>
+  <div class="t-map" style="background:#0a0a0a;border:1px solid #1a1a1a">
+    <div class="badge-tag" style="background:#fff;color:#000">14 669</div>
+    <div class="dot" style="background:#fff;top:50px;left:80px"></div>
+    <div class="dot" style="background:#888;top:90px;left:170px"></div>
+    <div class="dot" style="background:#fff;top:70px;left:120px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#1a1a1a;color:#fff;border:1px solid #333">Tous</div><div class="chip" style="background:#111;color:#888;border:1px solid #222">Top</div></div>
+  <div class="t-card" style="background:#111;border:1px solid #222">
+    <div class="title" style="color:#fff">Echangeur A1/A3</div>
+    <div class="sub">Roissy &bull; 24/7</div>
+    <div class="rating">★★★★★ <span style="color:#fff">4.7</span></div>
+    <div class="btn" style="background:#fff;color:#000">Voir</div>
+  </div>
+  <div class="t-fab" style="background:#fff;color:#000"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#000;border-top:1px solid #222;color:#fff">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-grip"></i>Feed</div>
+    <div class="item"><i class="fas fa-message"></i>Chat</div>
+    <div class="item"><i class="fas fa-circle-user"></i>Moi</div>
+  </div>
+</div></div>
+
+<!-- 11. Coral Reef -->
+<div class="theme-card" style="background:#0a1a1a">
+<div class="theme-label" style="background:#0f2424;color:#fb7185"><h3>11. Coral Reef</h3><span>Ocean & Corail</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#0a1a1a,#0f2424);font-family:'Poppins',sans-serif;color:#99f6e4">
+  <div class="t-header" style="border-bottom:1px solid #1a3a3a"><div class="logo" style="color:#fb7185">🐚 SpotHitch</div><div class="icons" style="color:#2dd4bf"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:#1a3a3a;color:#5eead4;border-radius:14px"><i class="fas fa-search"></i> Ou aller ?</div>
+  <div class="t-map" style="background:linear-gradient(135deg,#0f2424,#142a2a)">
+    <div class="badge-tag" style="background:#fb7185;color:#0a1a1a">14 669</div>
+    <div class="dot" style="background:#fb7185;top:40px;left:70px;box-shadow:0 0 12px #fb718580"></div>
+    <div class="dot" style="background:#2dd4bf;top:80px;left:160px;box-shadow:0 0 12px #2dd4bf60"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#fb718520;color:#fb7185">Favoris</div><div class="chip" style="background:#2dd4bf20;color:#2dd4bf">Proches</div></div>
+  <div class="t-card" style="background:#1a3a3a;border:1px solid #2a4a4a">
+    <div class="title" style="color:#f0fdfa">Route de la corniche</div>
+    <div class="sub">Cote d'Azur &bull; Vue mer</div>
+    <div class="rating">🌊🌊🌊🌊 <span style="color:#fb7185">4.6</span></div>
+    <div class="btn" style="background:linear-gradient(135deg,#fb7185,#f472b6);color:#fff">Decouvrir</div>
+  </div>
+  <div class="t-fab" style="background:linear-gradient(135deg,#fb7185,#2dd4bf);color:#0a1a1a"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#0a1a1a;border-top:1px solid #1a3a3a;color:#fb7185">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-compass"></i>Explorer</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 12. Golden Hour -->
+<div class="theme-card" style="background:#1a1510">
+<div class="theme-label" style="background:#24201a;color:#fbbf24"><h3>12. Golden Hour</h3><span>Heure doree</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#1a1510 0%,#241a10 100%);font-family:'Outfit',sans-serif;color:#fde68a">
+  <div class="t-header" style="border-bottom:1px solid #3a3020"><div class="logo" style="color:#fbbf24;font-weight:700">☀️ SpotHitch</div><div class="icons" style="color:#fbbf24"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#2a2010;border:1px solid #fbbf2430;color:#d4a520"><i class="fas fa-search"></i> Trouver un spot...</div>
+  <div class="t-map" style="background:linear-gradient(180deg,#1a1510,#2a2010)">
+    <div class="badge-tag" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1510">14 669</div>
+    <div class="dot" style="background:#fbbf24;top:50px;left:80px;box-shadow:0 0 15px #fbbf2480"></div>
+    <div class="dot" style="background:#f59e0b;top:90px;left:170px;box-shadow:0 0 10px #f59e0b60"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#fbbf2415;color:#fbbf24">Top spots</div><div class="chip" style="background:#f59e0b15;color:#f59e0b">Coucher soleil</div></div>
+  <div class="t-card" style="background:#2a2010;border:1px solid #3a3020">
+    <div class="title" style="color:#fef3c7">Belvedere du Mont Blanc</div>
+    <div class="sub" style="color:#d4a520">Chamonix &bull; Vue panoramique</div>
+    <div class="rating">⭐⭐⭐⭐⭐ <span style="color:#fbbf24">5.0</span></div>
+    <div class="btn" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1510">Explorer</div>
+  </div>
+  <div class="t-fab" style="background:#fbbf24;color:#1a1510"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#1a1510;border-top:1px solid #2a2010;color:#fbbf24">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-trophy"></i>Activites</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 13. Glassmorphism -->
+<div class="theme-card" style="background:#1a1030">
+<div class="theme-label" style="background:#20143a;color:#c084fc"><h3>13. Glassmorphism</h3><span>Verre depoli</span></div>
+<div class="phone" style="background:linear-gradient(135deg,#1a1030,#301a40,#102030);font-family:'Inter',sans-serif;color:#e2d5f0">
+  <div class="t-header" style="background:rgba(255,255,255,0.05);backdrop-filter:blur(10px)"><div class="logo" style="color:#c084fc">✨ SpotHitch</div><div class="icons" style="color:#c084fc"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#a78bfa;backdrop-filter:blur(10px)"><i class="fas fa-search"></i> Chercher...</div>
+  <div class="t-map" style="background:rgba(255,255,255,0.03)">
+    <div class="badge-tag" style="background:rgba(192,132,252,0.3);border:1px solid rgba(192,132,252,0.3);color:#e2d5f0;backdrop-filter:blur(5px)">14 669</div>
+    <div class="dot" style="background:#c084fc;top:50px;left:80px;box-shadow:0 0 20px #c084fc60"></div>
+    <div class="dot" style="background:#818cf8;top:80px;left:160px;box-shadow:0 0 15px #818cf860"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#c084fc;backdrop-filter:blur(5px)">Proches</div><div class="chip" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:#a78bfa">Recents</div></div>
+  <div class="t-card" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:16px">
+    <div class="title" style="color:#f3e8ff">Rond-point de Metz</div>
+    <div class="sub" style="color:#a78bfa">A31 Nord &bull; Bon eclairage</div>
+    <div class="rating">✨✨✨✨ <span style="color:#c084fc">4.4</span></div>
+    <div class="btn" style="background:rgba(192,132,252,0.2);border:1px solid rgba(192,132,252,0.3);color:#c084fc">Voir le spot</div>
+  </div>
+  <div class="t-fab" style="background:rgba(192,132,252,0.3);border:1px solid rgba(192,132,252,0.3);color:#c084fc;backdrop-filter:blur(10px)"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,0.08);color:#c084fc">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-sparkles"></i>Explorer</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 14. Spotify Dark -->
+<div class="theme-card" style="background:#121212">
+<div class="theme-label" style="background:#181818;color:#1db954"><h3>14. Spotify Dark</h3><span>Vert vif sur noir</span></div>
+<div class="phone" style="background:#121212;font-family:'DM Sans',sans-serif;color:#b3b3b3">
+  <div class="t-header" style="background:#121212"><div class="logo" style="color:#1db954;font-weight:700">SpotHitch</div><div class="icons" style="color:#b3b3b3"><i class="fas fa-bell"></i><i class="fas fa-cog"></i></div></div>
+  <div class="t-search" style="background:#2a2a2a;color:#727272;border-radius:25px"><i class="fas fa-search"></i> Quoi de neuf ?</div>
+  <div class="t-map" style="background:#181818;border-radius:8px">
+    <div class="badge-tag" style="background:#1db954;color:#000;border-radius:20px">14 669</div>
+    <div class="dot" style="background:#1db954;top:50px;left:80px"></div>
+    <div class="dot" style="background:#1db954;top:80px;left:150px;opacity:0.6"></div>
+    <div class="dot" style="background:#1db954;top:110px;left:200px;opacity:0.3"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#2a2a2a;color:#fff;border-radius:20px">Pour toi</div><div class="chip" style="background:#333;color:#b3b3b3;border-radius:20px">Populaire</div><div class="chip" style="background:#333;color:#b3b3b3;border-radius:20px">Nouveaux</div></div>
+  <div class="t-card" style="background:#181818;border-radius:8px">
+    <div class="title" style="color:#fff">Echangeur A6/A10</div>
+    <div class="sub" style="color:#727272">Wissous &bull; Bien eclaire</div>
+    <div class="rating" style="color:#b3b3b3">★★★★☆ <span style="color:#1db954">4.0</span></div>
+    <div class="btn" style="background:#1db954;color:#000;border-radius:25px;font-weight:700">VOIR LE SPOT</div>
+  </div>
+  <div class="t-fab" style="background:#1db954;color:#000"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#121212;border-top:1px solid #282828;color:#b3b3b3">
+    <div class="item active" style="color:#fff"><i class="fas fa-home"></i>Accueil</div>
+    <div class="item"><i class="fas fa-search"></i>Chercher</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 15. Warm Cream -->
+<div class="theme-card" style="background:#fefcf3">
+<div class="theme-label" style="background:#f8f0e0;color:#854d0e"><h3>15. Warm Cream</h3><span>Doux & Accueillant</span></div>
+<div class="phone" style="background:#fefcf3;font-family:'Nunito',sans-serif;color:#78350f">
+  <div class="t-header" style="background:#fefcf3;border-bottom:2px solid #f0e4cc"><div class="logo" style="color:#b45309;font-weight:800">SpotHitch</div><div class="icons" style="color:#b45309"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#fff;border:2px solid #f0e4cc;color:#a16207;border-radius:14px"><i class="fas fa-search"></i> Trouver un spot sympa...</div>
+  <div class="t-map" style="background:#f0e4cc">
+    <div class="badge-tag" style="background:#b45309;color:#fefcf3;border-radius:10px">14 669 spots</div>
+    <div class="dot" style="background:#b45309;top:50px;left:80px"></div>
+    <div class="dot" style="background:#d97706;top:90px;left:170px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#fef3c7;color:#92400e;border-radius:10px">Sympathiques</div><div class="chip" style="background:#dcfce7;color:#166534;border-radius:10px">Surs</div></div>
+  <div class="t-card" style="background:#fff;border:2px solid #f0e4cc;border-radius:14px">
+    <div class="title" style="color:#431407">Sortie Annecy Nord</div>
+    <div class="sub" style="color:#92400e">Vers Geneve &bull; Super accueil</div>
+    <div class="rating">💛💛💛💛💛 <span style="color:#b45309">4.8</span></div>
+    <div class="btn" style="background:#b45309;color:#fefcf3;border-radius:10px">Voir le spot</div>
+  </div>
+  <div class="t-fab" style="background:#b45309;color:#fefcf3"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#fefcf3;border-top:2px solid #f0e4cc;color:#b45309">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-heart"></i>Activites</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 16. Electric Blue -->
+<div class="theme-card" style="background:#001025">
+<div class="theme-label" style="background:#001530;color:#38bdf8"><h3>16. Electric Blue</h3><span>Bleu electrique</span></div>
+<div class="phone" style="background:#001025;font-family:'Space Grotesk',sans-serif;color:#7dd3fc">
+  <div class="t-header" style="border-bottom:1px solid #002550"><div class="logo" style="color:#38bdf8;font-weight:700">⚡ SpotHitch</div><div class="icons" style="color:#38bdf8"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#001530;border:1px solid #0369a1;color:#38bdf8"><i class="fas fa-search"></i> Rechercher</div>
+  <div class="t-map" style="background:#001530">
+    <div class="badge-tag" style="background:#0ea5e9;color:#fff">14 669</div>
+    <div class="dot" style="background:#38bdf8;top:50px;left:80px;box-shadow:0 0 15px #38bdf8"></div>
+    <div class="dot" style="background:#0ea5e9;top:80px;left:160px;box-shadow:0 0 10px #0ea5e9"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#0ea5e920;color:#38bdf8">Online</div><div class="chip" style="background:#06b6d420;color:#22d3ee">Live</div></div>
+  <div class="t-card" style="background:#001530;border:1px solid #0369a150">
+    <div class="title" style="color:#bae6fd">Peage Senlis</div>
+    <div class="sub" style="color:#7dd3fc">A1 Nord &bull; Actif 24h</div>
+    <div class="rating">💙💙💙💙 <span style="color:#38bdf8">4.5</span></div>
+    <div class="btn" style="background:#0ea5e9;color:#fff">Go</div>
+  </div>
+  <div class="t-fab" style="background:#0ea5e9;color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#001025;border-top:1px solid #002550;color:#38bdf8">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-bolt"></i>Activites</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 17. Rose Gold -->
+<div class="theme-card" style="background:#1a1018">
+<div class="theme-label" style="background:#241520;color:#f9a8d4"><h3>17. Rose Gold</h3><span>Rose & Premium</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#1a1018,#1e1220);font-family:'Outfit',sans-serif;color:#fce7f3">
+  <div class="t-header" style="border-bottom:1px solid #3a2535"><div class="logo" style="color:#f9a8d4;font-weight:600">SpotHitch</div><div class="icons" style="color:#f9a8d4"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#2a1a25;color:#d4a0c0;border-radius:25px"><i class="fas fa-search"></i> Ou partir ?</div>
+  <div class="t-map" style="background:#1e1220">
+    <div class="badge-tag" style="background:linear-gradient(135deg,#f9a8d4,#c084fc);color:#1a1018">14 669</div>
+    <div class="dot" style="background:#f9a8d4;top:50px;left:80px;box-shadow:0 0 12px #f9a8d460"></div>
+    <div class="dot" style="background:#c084fc;top:80px;left:160px;box-shadow:0 0 12px #c084fc60"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#f9a8d420;color:#f9a8d4;border-radius:20px">Coups de coeur</div><div class="chip" style="background:#c084fc20;color:#c084fc;border-radius:20px">Premium</div></div>
+  <div class="t-card" style="background:#2a1a25;border:1px solid #3a2535">
+    <div class="title" style="color:#fce7f3">Route Napoleon</div>
+    <div class="sub" style="color:#d4a0c0">Alpes &bull; Magnifique</div>
+    <div class="rating">💖💖💖💖💖 <span style="color:#f9a8d4">5.0</span></div>
+    <div class="btn" style="background:linear-gradient(135deg,#f9a8d4,#c084fc);color:#1a1018;border-radius:20px">Voir</div>
+  </div>
+  <div class="t-fab" style="background:linear-gradient(135deg,#f9a8d4,#c084fc);color:#1a1018"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#1a1018;border-top:1px solid #2a1a25;color:#f9a8d4">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-gem"></i>Explorer</div>
+    <div class="item"><i class="fas fa-heart"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 18. Jungle -->
+<div class="theme-card" style="background:#0a140a">
+<div class="theme-label" style="background:#0f1e0f;color:#84cc16"><h3>18. Jungle</h3><span>Vert jungle</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#0a140a,#0f1e0f);font-family:'Montserrat',sans-serif;color:#bef264">
+  <div class="t-header" style="border-bottom:1px solid #1a3a1a"><div class="logo" style="color:#84cc16;font-weight:700">🌴 SpotHitch</div><div class="icons" style="color:#84cc16"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#1a3a1a;color:#65a30d"><i class="fas fa-search"></i> Explorer...</div>
+  <div class="t-map" style="background:#0f1e0f">
+    <div class="badge-tag" style="background:#84cc16;color:#0a140a">14 669</div>
+    <div class="dot" style="background:#84cc16;top:50px;left:80px;box-shadow:0 0 10px #84cc1680"></div>
+    <div class="dot" style="background:#a3e635;top:80px;left:160px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#84cc1620;color:#84cc16">Sauvage</div><div class="chip" style="background:#a3e63520;color:#a3e635">Libre</div></div>
+  <div class="t-card" style="background:#1a3a1a;border:1px solid #2a4a2a">
+    <div class="title" style="color:#ecfccb">Piste forestiere</div>
+    <div class="sub" style="color:#a3e635">Landes &bull; Pleine nature</div>
+    <div class="rating">🌿🌿🌿🌿 <span style="color:#84cc16">4.3</span></div>
+    <div class="btn" style="background:#84cc16;color:#0a140a">Partir</div>
+  </div>
+  <div class="t-fab" style="background:#84cc16;color:#0a140a"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#0a140a;border-top:1px solid #1a3a1a;color:#84cc16">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-hiking"></i>Activites</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 19. Pastel Dream (Light) -->
+<div class="theme-card" style="background:#f0f0ff">
+<div class="theme-label" style="background:#e8e8ff;color:#6366f1"><h3>19. Pastel Dream</h3><span>Pastel & Doux (clair)</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#f0f0ff,#fff0f5);font-family:'Nunito',sans-serif;color:#4c1d95">
+  <div class="t-header" style="background:rgba(255,255,255,0.8);backdrop-filter:blur(10px)"><div class="logo" style="color:#7c3aed;font-weight:800">SpotHitch</div><div class="icons" style="color:#a78bfa"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#fff;border:2px solid #e8e0ff;color:#8b5cf6;border-radius:25px"><i class="fas fa-search"></i> Rechercher un lieu magique...</div>
+  <div class="t-map" style="background:linear-gradient(135deg,#e0e7ff,#fce7f3)">
+    <div class="badge-tag" style="background:#7c3aed;color:#fff;border-radius:20px">14 669</div>
+    <div class="dot" style="background:#7c3aed;top:50px;left:80px"></div>
+    <div class="dot" style="background:#ec4899;top:80px;left:160px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#ede9fe;color:#6d28d9;border-radius:20px">Decouverte</div><div class="chip" style="background:#fce7f3;color:#be185d;border-radius:20px">Favoris</div></div>
+  <div class="t-card" style="background:#fff;border:2px solid #e8e0ff;border-radius:20px">
+    <div class="title" style="color:#1e1b4b">Pont du Gard</div>
+    <div class="sub" style="color:#6d28d9">Provence &bull; Historique</div>
+    <div class="rating">💜💜💜💜💜 <span style="color:#7c3aed">4.9</span></div>
+    <div class="btn" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;border-radius:20px">Voir</div>
+  </div>
+  <div class="t-fab" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:rgba(255,255,255,0.9);border-top:2px solid #e8e0ff;color:#7c3aed">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-wand-magic-sparkles"></i>Fun</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 20. Brutalist -->
+<div class="theme-card" style="background:#e5e5e5">
+<div class="theme-label" style="background:#d4d4d4;color:#000"><h3>20. Brutalist</h3><span>Brut & Direct</span></div>
+<div class="phone" style="background:#f5f5f5;font-family:'Space Grotesk',sans-serif;color:#000">
+  <div class="t-header" style="background:#000;color:#fff;padding:14px 16px"><div class="logo" style="font-weight:700;font-size:1.2rem;letter-spacing:-1px">SPOTHITCH</div><div class="icons"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#fff;border:3px solid #000;color:#666;border-radius:0"><i class="fas fa-search"></i> RECHERCHER</div>
+  <div class="t-map" style="background:#d4d4d4;border:3px solid #000;border-radius:0">
+    <div class="badge-tag" style="background:#000;color:#fff;border-radius:0;font-size:0.7rem">14 669 SPOTS</div>
+    <div class="dot" style="background:#000;top:50px;left:80px;width:12px;height:12px;border-radius:0"></div>
+    <div class="dot" style="background:#ef4444;top:80px;left:160px;width:12px;height:12px;border-radius:0"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#000;color:#fff;border-radius:0">TOUS</div><div class="chip" style="background:#fff;color:#000;border:2px solid #000;border-radius:0">TOP</div><div class="chip" style="background:#ef4444;color:#fff;border-radius:0">SOS</div></div>
+  <div class="t-card" style="background:#fff;border:3px solid #000;border-radius:0">
+    <div class="title" style="font-weight:800;text-transform:uppercase;font-size:0.85rem">AIRE DE VIENNE</div>
+    <div class="sub" style="color:#666">A7 SUD / STATION SERVICE</div>
+    <div class="rating" style="font-weight:700">★★★★☆ 4.2</div>
+    <div class="btn" style="background:#000;color:#fff;border-radius:0;text-transform:uppercase;letter-spacing:1px">VOIR</div>
+  </div>
+  <div class="t-fab" style="background:#ef4444;color:#fff;border-radius:0;width:50px;height:50px"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#000;color:#fff;border:none">
+    <div class="item active"><i class="fas fa-map"></i>CARTE</div>
+    <div class="item"><i class="fas fa-list"></i>FEED</div>
+    <div class="item"><i class="fas fa-users"></i>GENS</div>
+    <div class="item"><i class="fas fa-user"></i>MOI</div>
+  </div>
+</div></div>
+
+<!-- 21. Emerald Luxury -->
+<div class="theme-card" style="background:#021a0a">
+<div class="theme-label" style="background:#042410;color:#6ee7b7"><h3>21. Emerald Luxury</h3><span>Luxe & Emeraude</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#021a0a,#042410);font-family:'Raleway',sans-serif;color:#a7f3d0">
+  <div class="t-header" style="border-bottom:1px solid #0a3a1a"><div class="logo" style="color:#6ee7b7;font-weight:600;letter-spacing:2px">SPOTHITCH</div><div class="icons" style="color:#6ee7b7"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#0a3a1a;color:#34d399;border:1px solid #10b98130"><i class="fas fa-search"></i> Destination...</div>
+  <div class="t-map" style="background:#031f0c">
+    <div class="badge-tag" style="background:#10b981;color:#021a0a">14 669</div>
+    <div class="dot" style="background:#6ee7b7;top:50px;left:80px;box-shadow:0 0 15px #6ee7b760"></div>
+    <div class="dot" style="background:#34d399;top:80px;left:160px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#10b98120;color:#6ee7b7">VIP</div><div class="chip" style="background:#fbbf2420;color:#fbbf24">Gold</div></div>
+  <div class="t-card" style="background:#0a3a1a;border:1px solid #10b98130">
+    <div class="title" style="color:#d1fae5;letter-spacing:0.5px">Aire Premium Beaune</div>
+    <div class="sub" style="color:#6ee7b7">A6 &bull; Services complets</div>
+    <div class="rating">💎💎💎💎💎 <span style="color:#6ee7b7">5.0</span></div>
+    <div class="btn" style="background:#10b981;color:#021a0a">Decouvrir</div>
+  </div>
+  <div class="t-fab" style="background:#10b981;color:#021a0a"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#021a0a;border-top:1px solid #0a3a1a;color:#6ee7b7">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-crown"></i>Explorer</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 22. Sand & Sky -->
+<div class="theme-card" style="background:#faf8f0">
+<div class="theme-label" style="background:#f0ece0;color:#0369a1"><h3>22. Sand & Sky</h3><span>Sable & Ciel</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#87ceeb40,#faf8f0);font-family:'Outfit',sans-serif;color:#1e3a5f">
+  <div class="t-header" style="background:rgba(255,255,255,0.8)"><div class="logo" style="color:#0369a1;font-weight:700">SpotHitch</div><div class="icons" style="color:#0369a1"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#fff;border:2px solid #bae6fd;color:#0284c7;border-radius:14px"><i class="fas fa-search"></i> Rechercher...</div>
+  <div class="t-map" style="background:linear-gradient(180deg,#bae6fd60,#f0e4cc80)">
+    <div class="badge-tag" style="background:#0369a1;color:#fff">14 669</div>
+    <div class="dot" style="background:#0369a1;top:50px;left:80px"></div>
+    <div class="dot" style="background:#d97706;top:90px;left:170px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#e0f2fe;color:#0369a1">Plage</div><div class="chip" style="background:#fef3c7;color:#92400e">Desert</div><div class="chip" style="background:#dcfce7;color:#166534">Oasis</div></div>
+  <div class="t-card" style="background:#fff;border:2px solid #bae6fd;border-radius:14px">
+    <div class="title" style="color:#0c4a6e">Plage de Leucate</div>
+    <div class="sub" style="color:#0369a1">Mediterranee &bull; Bord de route</div>
+    <div class="rating">🏖️🏖️🏖️🏖️🏖️ <span style="color:#0369a1">4.9</span></div>
+    <div class="btn" style="background:#0369a1;color:#fff;border-radius:14px">Y aller</div>
+  </div>
+  <div class="t-fab" style="background:#0369a1;color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#faf8f0;border-top:2px solid #bae6fd;color:#0369a1">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-umbrella-beach"></i>Explorer</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 23. Retro Vintage -->
+<div class="theme-card" style="background:#2a1a0a">
+<div class="theme-label" style="background:#3a2a1a;color:#d4a574"><h3>23. Retro Vintage</h3><span>Vieille carte</span></div>
+<div class="phone" style="background:#2a1a0a;font-family:'Space Grotesk',sans-serif;color:#d4a574">
+  <div class="t-header" style="border-bottom:2px solid #4a3a2a"><div class="logo" style="color:#d4a574;font-weight:700;font-size:1rem">~ SpotHitch ~</div><div class="icons" style="color:#a4845a"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:#3a2a1a;border:1px solid #5a4a3a;color:#a4845a"><i class="fas fa-search"></i> Trouver un lieu...</div>
+  <div class="t-map" style="background:#3a2a1a;border:2px solid #5a4a3a">
+    <div class="badge-tag" style="background:#d4a574;color:#2a1a0a;border-radius:4px">14 669</div>
+    <div class="dot" style="background:#d4a574;top:50px;left:80px;width:10px;height:10px"></div>
+    <div class="dot" style="background:#a4845a;top:80px;left:160px;width:10px;height:10px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#5a4a3a;color:#d4a574;border-radius:4px">Historiques</div><div class="chip" style="background:#4a3a2a;color:#a4845a;border-radius:4px">Legendaires</div></div>
+  <div class="t-card" style="background:#3a2a1a;border:2px solid #5a4a3a;border-radius:8px">
+    <div class="title" style="color:#e8d0a8">Route 66 francaise</div>
+    <div class="sub" style="color:#a4845a">Nationale 7 &bull; Classique</div>
+    <div class="rating">🗺️🗺️🗺️🗺️🗺️ <span style="color:#d4a574">5.0</span></div>
+    <div class="btn" style="background:#d4a574;color:#2a1a0a;border-radius:4px">Decouvrir</div>
+  </div>
+  <div class="t-fab" style="background:#d4a574;color:#2a1a0a"><i class="fas fa-compass"></i></div>
+  <div class="t-nav" style="background:#2a1a0a;border-top:2px solid #4a3a2a;color:#d4a574">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-compass"></i>Explorer</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 24. Gradient Wave -->
+<div class="theme-card" style="background:#0f0a2a">
+<div class="theme-label" style="background:#1a1040;color:#818cf8"><h3>24. Gradient Wave</h3><span>Degrades fluides</span></div>
+<div class="phone" style="background:linear-gradient(160deg,#0f0a2a 0%,#1a0a30 30%,#0a1a30 60%,#0a2a2a 100%);font-family:'Poppins',sans-serif;color:#c7d2fe">
+  <div class="t-header"><div class="logo" style="background:linear-gradient(135deg,#818cf8,#c084fc,#fb7185);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;font-size:1.2rem">SpotHitch</div><div class="icons" style="color:#818cf8"><i class="fas fa-bell"></i></div></div>
+  <div class="t-search" style="background:linear-gradient(135deg,rgba(129,140,248,0.1),rgba(192,132,252,0.1));border:1px solid #818cf830;color:#a5b4fc"><i class="fas fa-search"></i> Prochaine aventure...</div>
+  <div class="t-map" style="background:linear-gradient(135deg,#1a1040,#0a2040)">
+    <div class="badge-tag" style="background:linear-gradient(135deg,#818cf8,#c084fc);color:#fff">14 669</div>
+    <div class="dot" style="background:#818cf8;top:50px;left:80px;box-shadow:0 0 20px #818cf880"></div>
+    <div class="dot" style="background:#c084fc;top:80px;left:160px;box-shadow:0 0 20px #c084fc80"></div>
+    <div class="dot" style="background:#fb7185;top:100px;left:120px;box-shadow:0 0 15px #fb718560"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:linear-gradient(135deg,#818cf820,#c084fc20);color:#a5b4fc">Trending</div><div class="chip" style="background:linear-gradient(135deg,#fb718520,#f9731620);color:#fda4af">Hot</div></div>
+  <div class="t-card" style="background:linear-gradient(135deg,rgba(129,140,248,0.08),rgba(192,132,252,0.05));border:1px solid #818cf820;border-radius:16px">
+    <div class="title" style="color:#e0e7ff">Col de l'Iseran</div>
+    <div class="sub" style="color:#a5b4fc">Plus haute route d'Europe</div>
+    <div class="rating">🌟🌟🌟🌟🌟 <span style="color:#818cf8">5.0</span></div>
+    <div class="btn" style="background:linear-gradient(135deg,#818cf8,#c084fc);color:#fff;border-radius:12px">Explorer</div>
+  </div>
+  <div class="t-fab" style="background:linear-gradient(135deg,#818cf8,#c084fc,#fb7185);color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:rgba(15,10,42,0.9);border-top:1px solid #818cf820;color:#818cf8">
+    <div class="item active"><i class="fas fa-globe"></i>Carte</div>
+    <div class="item"><i class="fas fa-star"></i>Quetes</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+<!-- 25. Highway Classic -->
+<div class="theme-card" style="background:#0f172a">
+<div class="theme-label" style="background:#1e293b;color:#0ea5e9"><h3>25. Highway Classic</h3><span>L'actuel ameliore</span></div>
+<div class="phone" style="background:linear-gradient(180deg,#0f172a,#1e293b);font-family:'Outfit',sans-serif;color:#e2e8f0">
+  <div class="t-header" style="border-bottom:1px solid #ffffff15"><div class="logo" style="color:#0ea5e9;font-weight:700">🤙 SpotHitch</div><div class="icons" style="color:#0ea5e9"><i class="fas fa-bell"></i><i class="fas fa-user-circle"></i></div></div>
+  <div class="t-search" style="background:#ffffff08;border:1px solid #ffffff15;color:#94a3b8"><i class="fas fa-search"></i> Rechercher un lieu...</div>
+  <div class="t-map" style="background:#0f172a">
+    <div class="badge-tag" style="background:#0ea5e9;color:#fff">14 669 spots</div>
+    <div class="dot" style="background:#22c55e;top:50px;left:80px"></div>
+    <div class="dot" style="background:#22c55e;top:80px;left:160px;opacity:0.7"></div>
+    <div class="dot" style="background:#f59e0b;top:100px;left:120px"></div>
+  </div>
+  <div class="t-stats"><div class="chip" style="background:#0ea5e920;color:#38bdf8">Proches</div><div class="chip" style="background:#22c55e20;color:#4ade80">Verifies</div><div class="chip" style="background:#f59e0b20;color:#fbbf24">Populaires</div></div>
+  <div class="t-card" style="background:#ffffff08;border:1px solid #ffffff10">
+    <div class="title" style="color:#f1f5f9">Sortie A6 - Auxerre</div>
+    <div class="sub" style="color:#94a3b8">Paris → Lyon &bull; Peage</div>
+    <div class="rating">⭐⭐⭐⭐ <span style="color:#0ea5e9">4.2</span> &bull; 18 avis</div>
+    <div class="btn" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff">Voir le spot</div>
+  </div>
+  <div class="t-fab" style="background:#0ea5e9;color:#fff"><i class="fas fa-plus"></i></div>
+  <div class="t-nav" style="background:#0f172a;border-top:1px solid #ffffff10;color:#0ea5e9">
+    <div class="item active"><i class="fas fa-map"></i>Carte</div>
+    <div class="item"><i class="fas fa-compass"></i>Activites</div>
+    <div class="item"><i class="fas fa-users"></i>Social</div>
+    <div class="item"><i class="fas fa-user"></i>Profil</div>
+  </div>
+</div></div>
+
+</div>
+
+<div style="text-align:center;padding:3rem;color:#666">
+  <p>Dis-moi le(s) numero(s) que tu preferes, et je l'applique a toute l'app !</p>
+  <p style="margin-top:0.5rem;color:#444">Tu peux aussi mixer : "les couleurs du 8 avec les boutons du 14"</p>
+</div>
+
+</body>
+</html>
