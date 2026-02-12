@@ -398,22 +398,22 @@ export function renderInviteCard() {
 
       <!-- Stats -->
       <div class="grid grid-cols-3 gap-2 mb-4">
-        <div class="bg-dark-700/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-white">${stats.totalInvites}</p>
           <p class="text-xs text-slate-400">${t('invitesAccepted')}</p>
         </div>
-        <div class="bg-dark-700/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-primary">${stats.pointsEarned}</p>
           <p class="text-xs text-slate-400">${t('pointsEarned')}</p>
         </div>
-        <div class="bg-dark-700/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-yellow-400">${rewards.inviterReward}</p>
           <p class="text-xs text-slate-400">${t('perInvite')}</p>
         </div>
       </div>
 
       <!-- Invite Code -->
-      <div class="bg-dark-700 rounded-lg p-3 mb-4">
+      <div class="bg-dark-primary rounded-lg p-3 mb-4">
         <p class="text-xs text-slate-400 mb-1">${t('yourInviteCode')}</p>
         <div class="flex items-center justify-between">
           <span class="font-mono text-lg font-bold text-white tracking-wider">${stats.inviteCode}</span>
@@ -486,9 +486,9 @@ export function renderInviteModal() {
          role="dialog"
          aria-modal="true"
          aria-labelledby="invite-modal-title">
-      <div class="bg-dark-800 rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div class="bg-dark-secondary rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
         <!-- Header -->
-        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex items-center justify-between">
+        <div class="sticky top-0 bg-dark-secondary p-4 border-b border-white/10 flex items-center justify-between">
           <h2 id="invite-modal-title" class="text-xl font-bold text-white flex items-center gap-2">
             <i class="fas fa-user-plus text-primary"></i>
             ${t('inviteFriendsTitle')}
@@ -514,7 +514,7 @@ export function renderInviteModal() {
                 <span class="text-green-400 font-bold">+${rewards.inviteeReward} pts</span>
               </div>
             </div>
-            <div class="mt-3 pt-3 border-t border-dark-600">
+            <div class="mt-3 pt-3 border-t border-white/10">
               <p class="text-xs text-slate-400">${t('milestoneBonus')}</p>
               <div class="flex gap-2 mt-1">
                 ${rewards.milestones.map(m => `
@@ -529,7 +529,7 @@ export function renderInviteModal() {
           </div>
 
           <!-- Invite code -->
-          <div class="bg-dark-700 rounded-xl p-4">
+          <div class="bg-dark-primary rounded-xl p-4">
             <p class="text-sm text-slate-400 mb-2">${t('yourInviteCode')}</p>
             <div class="flex items-center gap-3">
               <div class="flex-1 bg-white/5 rounded-lg px-4 py-3 font-mono text-xl text-center text-white tracking-widest">
@@ -544,7 +544,7 @@ export function renderInviteModal() {
           </div>
 
           <!-- Invite link -->
-          <div class="bg-dark-700 rounded-xl p-4">
+          <div class="bg-dark-primary rounded-xl p-4">
             <p class="text-sm text-slate-400 mb-2">${t('inviteLink')}</p>
             <div class="flex items-center gap-2">
               <input type="text"
@@ -553,7 +553,7 @@ export function renderInviteModal() {
                 class="flex-1 bg-white/5 rounded-lg px-3 py-2 text-sm text-slate-300 truncate"
                 aria-label="${t('inviteLink')}" />
               <button onclick="window.copyInviteLink()"
-                class="bg-white/5 hover:bg-dark-500 text-white p-2 rounded-lg"
+                class="bg-white/5 hover:bg-white/10 text-white p-2 rounded-lg"
                 aria-label="${t('copyLink')}">
                 <i class="fas fa-link"></i>
               </button>
@@ -621,7 +621,7 @@ export function renderInviteModal() {
               <p class="text-sm text-slate-400 mb-3">${t('friendsInvited')} (${invitedUsers.length})</p>
               <div class="space-y-2 max-h-40 overflow-y-auto">
                 ${invitedUsers.map(user => `
-                  <div class="flex items-center justify-between bg-dark-700 rounded-lg p-2">
+                  <div class="flex items-center justify-between bg-dark-primary rounded-lg p-2">
                     <div class="flex items-center gap-2">
                       <div class="w-8 h-8 bg-primary/30 rounded-full flex items-center justify-center text-sm">
                         ${user.name?.charAt(0)?.toUpperCase() || '?'}
