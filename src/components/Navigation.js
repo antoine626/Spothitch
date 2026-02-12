@@ -1,9 +1,9 @@
 /**
- * Bottom Navigation Component
+ * Bottom Navigation Component — Floating pill design
  * 4 tabs: Carte, Activités, Social, Profil
  */
 
-import { t } from '../i18n/index.js';
+import { t } from '../i18n/index.js'
 
 export function renderNavigation(state) {
   const tabs = [
@@ -11,19 +11,19 @@ export function renderNavigation(state) {
     { id: 'challenges', icon: 'fa-compass', label: t('navActivities') || 'Activités' },
     { id: 'social', icon: 'fa-users', label: t('navSocial') || 'Social' },
     { id: 'profile', icon: 'fa-user', label: t('navProfile') || 'Profil' },
-  ];
+  ]
 
   return `
-    <nav class="glass-dark fixed bottom-0 left-0 right-0 z-40 px-2 py-2 safe-area-inset-bottom" role="navigation" aria-label="${t('mainNavigation') || 'Navigation principale'}">
-      <ul class="flex justify-around items-center max-w-lg mx-auto list-none m-0 p-0" role="tablist" aria-label="${t('mainNavigation') || 'Navigation principale'}">
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-1 py-1 rounded-2xl bg-dark-primary/80 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/30 safe-area-inset-bottom" role="navigation" aria-label="${t('mainNavigation') || 'Navigation principale'}">
+      <ul class="flex items-center gap-1 list-none m-0 p-0" role="tablist" aria-label="${t('mainNavigation') || 'Navigation principale'}">
         ${tabs.map(tab => `
           <li role="presentation">
             <button
               onclick="changeTab('${tab.id}')"
-              class="nav-btn flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all duration-300 ${
+              class="nav-btn relative flex flex-col items-center gap-0.5 px-4 py-2 rounded-xl transition-all duration-300 ${
   state.activeTab === tab.id
-    ? 'bg-primary-500 text-white scale-105'
-    : 'text-slate-400 hover:text-white hover:bg-white/5'
+    ? 'text-primary-400'
+    : 'text-slate-500 hover:text-white'
 }"
               role="tab"
               id="tab-${tab.id}"
@@ -34,13 +34,14 @@ export function renderNavigation(state) {
               tabindex="${state.activeTab === tab.id ? '0' : '-1'}"
             >
               <i class="fas ${tab.icon} text-lg" aria-hidden="true"></i>
-              <span class="text-xs font-medium">${tab.label}</span>
+              <span class="text-[10px] font-medium">${tab.label}</span>
+              ${state.activeTab === tab.id ? '<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-primary-400"></span>' : ''}
             </button>
           </li>
         `).join('')}
       </ul>
     </nav>
-  `;
+  `
 }
 
-export default { renderNavigation };
+export default { renderNavigation }

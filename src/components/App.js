@@ -90,7 +90,7 @@ export function renderApp(state) {
 
     ${renderHeader(state)}
 
-    <main id="main-content" class="pb-20 pt-16 min-h-screen" role="main" tabindex="-1">
+    <main id="main-content" class="pb-24 pt-16 min-h-screen" role="main" tabindex="-1">
       ${renderActiveView(state)}
     </main>
 

@@ -1,19 +1,19 @@
 /**
- * Header Component
+ * Header Component — Translucent glassmorphism
  */
 
-import { t } from '../i18n/index.js';
+import { t } from '../i18n/index.js'
 
 export function renderHeader(state) {
   return `
-    <header class="glass-dark fixed top-0 left-0 right-0 z-40 px-4 py-3" role="banner">
+    <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 bg-dark-primary/60 backdrop-blur-xl border-b border-white/5" role="banner">
       <div class="flex items-center justify-between max-w-7xl mx-auto">
         <!-- Logo -->
         <div class="flex items-center gap-2">
           <span class="text-2xl">🤙</span>
           <h1 class="font-display text-xl font-bold gradient-text">${t('appName')}</h1>
         </div>
-        
+
         <!-- Actions -->
         <div class="flex items-center gap-2">
           <!-- Admin Button -->
@@ -37,7 +37,7 @@ export function renderHeader(state) {
           </button>
         </div>
       </div>
-      
+
       <!-- Online/Offline indicator -->
       ${!state.isOnline ? `
         <div class="absolute bottom-0 left-0 right-0 bg-warning-500/20 text-warning-400 text-xs text-center py-1" role="status" aria-live="polite">
@@ -46,7 +46,7 @@ export function renderHeader(state) {
         </div>
       ` : ''}
     </header>
-  `;
+  `
 }
 
-export default { renderHeader };
+export default { renderHeader }
