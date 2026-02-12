@@ -5,6 +5,7 @@
 
 import { getState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render legal page container
@@ -423,7 +424,7 @@ export function renderCookiePolicy() {
       <div class="mt-6 p-4 bg-dark-secondary rounded-lg text-center">
         <p class="text-sm text-slate-400 mb-3">${t('manageCookiePrefs') || 'Gérer vos préférences de cookies'}</p>
         <button onclick="showCookieCustomize()" class="btn bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg">
-          <i class="fas fa-cog mr-2"></i>
+          ${icon('cog', 'w-5 h-5 mr-2')}
           ${t('modifyMyChoices') || 'Modifier mes choix'}
         </button>
       </div>

@@ -6,6 +6,7 @@
 
 import { getCurrentTip, dismissTip, TIPS } from '../services/contextualTips.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 /**
  * Render a floating contextual tip (bottom of screen)
@@ -51,7 +52,7 @@ export function renderContextualTip() {
         <div class="flex items-start gap-3">
           <!-- Lightbulb Icon -->
           <div class="shrink-0 w-10 h-10 rounded-xl ${iconClass} flex items-center justify-center">
-            <i class="fas fa-lightbulb text-lg" aria-hidden="true"></i>
+            ${icon('lightbulb', 'w-5 h-5')}
           </div>
 
           <!-- Content -->
@@ -69,7 +70,7 @@ export function renderContextualTip() {
             aria-label="${t('closeTip') || 'Close tip'}"
             type="button"
           >
-            <i class="fas fa-check text-sm" aria-hidden="true"></i>
+            ${icon('check', 'w-4 h-4')}
           </button>
         </div>
 
@@ -79,7 +80,7 @@ export function renderContextualTip() {
           class="mt-3 w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-all flex items-center justify-center gap-2"
           type="button"
         >
-          <i class="fas fa-thumbs-up" aria-hidden="true"></i>
+          ${icon('thumbs-up', 'w-5 h-5')}
           ${t('gotIt') || 'Got it!'}
         </button>
       </div>
@@ -122,7 +123,7 @@ export function renderInlineTip(tip, dismissible = true) {
 
   return `
     <div class="${bgClass} border rounded-xl p-3 flex items-start gap-3" role="note">
-      <i class="fas fa-lightbulb ${iconClass} mt-0.5" aria-hidden="true"></i>
+      ${icon('lightbulb', `w-5 h-5 ${iconClass} mt-0.5`)}
       <div class="flex-1">
         <p class="text-sm">${tip.message}</p>
       </div>
@@ -133,7 +134,7 @@ export function renderInlineTip(tip, dismissible = true) {
           aria-label="Fermer l'astuce"
           type="button"
         >
-          <i class="fas fa-times text-xs" aria-hidden="true"></i>
+          ${icon('times', 'w-3 h-3')}
         </button>
       ` : ''}
     </div>
@@ -166,7 +167,7 @@ export function renderTooltipTip(tip, position = 'bottom') {
     <div class="absolute ${positionClasses[position]} z-50 w-64 fade-in" role="tooltip">
       <div class="bg-slate-800 border border-white/10 rounded-xl p-3 shadow-xl">
         <div class="flex items-start gap-2">
-          <i class="fas fa-lightbulb text-amber-400 mt-0.5" aria-hidden="true"></i>
+          ${icon('lightbulb', 'w-5 h-5 text-amber-400 mt-0.5')}
           <p class="text-white text-xs leading-relaxed">${tip.message}</p>
         </div>
         <button

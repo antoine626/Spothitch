@@ -4,6 +4,7 @@
  */
 
 import { Storage } from '../utils/storage.js'
+import { icon } from '../utils/icons.js'
 
 const TIPS_KEY = 'spothitch_community_tips'
 
@@ -60,7 +61,7 @@ export function renderCommunityTips(countryCode) {
   return `
     <div class="card p-4 space-y-3">
       <h3 class="font-bold flex items-center gap-2">
-        <i class="fas fa-users text-primary-400" aria-hidden="true"></i>
+        ${icon('users', 'w-5 h-5 text-primary-400')}
         Conseils de la communaute
       </h3>
 
@@ -77,7 +78,7 @@ export function renderCommunityTips(countryCode) {
           onclick="submitCommunityTip('${countryCode}')"
           class="btn-primary px-4"
         >
-          <i class="fas fa-paper-plane" aria-hidden="true"></i>
+          ${icon('paper-plane', 'w-5 h-5')}
         </button>
       </div>
 

@@ -6,6 +6,7 @@
 
 import { Storage, SpotHitchDB } from '../utils/storage.js';
 import { getAllLoadedSpots } from './spotLoader.js';
+import { icon } from '../utils/icons.js'
 
 // Constants
 const DB_NAME = 'spothitch-offline-maps';
@@ -621,22 +622,22 @@ export function renderZoneCard(zone) {
         </span>
       </div>
       <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-300 mb-3">
-        <span><i class="fas fa-map-marker-alt mr-1"></i> ${zone.spotsCount} spots</span>
-        <span><i class="fas fa-th mr-1"></i> ${zone.downloadedTiles} tuiles</span>
-        <span><i class="fas fa-database mr-1"></i> ${sizeMB} MB</span>
+        <span>${icon('map-marker-alt', 'w-5 h-5 mr-1')} ${zone.spotsCount} spots</span>
+        <span>${icon('th', 'w-5 h-5 mr-1')} ${zone.downloadedTiles} tuiles</span>
+        <span>${icon('database', 'w-5 h-5 mr-1')} ${sizeMB} MB</span>
       </div>
       <div class="flex gap-2">
         <button
           onclick="window.viewOfflineZone('${zone.id}')"
           class="flex-1 px-3 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition text-sm"
         >
-          <i class="fas fa-eye mr-1"></i> Voir
+          ${icon('eye', 'w-5 h-5 mr-1')} Voir
         </button>
         <button
           onclick="window.deleteOfflineZone('${zone.id}')"
           class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition text-sm"
         >
-          <i class="fas fa-trash mr-1"></i>
+          ${icon('trash', 'w-5 h-5 mr-1')}
         </button>
       </div>
     </div>

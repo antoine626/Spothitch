@@ -6,6 +6,7 @@
 import { t } from '../../i18n/index.js';
 import { getState, setState } from '../../stores/state.js';
 import { escapeHTML } from '../../utils/sanitize.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderCheckinModal(state) {
   const spot = state.checkinSpot;
@@ -32,7 +33,7 @@ export function renderCheckinModal(state) {
           <div class="flex items-center justify-between">
             <div>
               <h2 id="checkin-title" class="text-xl font-bold flex items-center gap-2">
-                <i class="fas fa-map-pin text-emerald-400"></i>
+                ${icon('map-pin', 'w-5 h-5 text-emerald-400')}
                 ${t('validateSpot') || 'Valider ce spot'}
               </h2>
               <p class="text-sm text-slate-400 mt-1">
@@ -44,7 +45,7 @@ export function renderCheckinModal(state) {
               class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
               aria-label="${t('close') || 'Fermer'}"
             >
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -55,7 +56,7 @@ export function renderCheckinModal(state) {
           <!-- Photo Upload -->
           <div class="space-y-3">
             <label class="block text-sm font-medium">
-              <i class="fas fa-camera mr-2 text-primary-400"></i>
+              ${icon('camera', 'w-5 h-5 mr-2 text-primary-400')}
               ${t('addPhotoOptional') || 'Ajouter une photo (optionnel)'}
             </label>
             <div
@@ -66,7 +67,7 @@ export function renderCheckinModal(state) {
               onclick="triggerCheckinPhoto()"
             >
               <div id="checkin-photo-placeholder" class="text-center">
-                <i class="fas fa-cloud-upload-alt text-3xl text-slate-500 mb-2"></i>
+                ${icon('cloud-upload-alt', 'w-8 h-8 text-slate-500 mb-2')}
                 <p class="text-sm text-slate-400">${t('clickToAddPhoto') || 'Cliquer pour ajouter une photo'}</p>
               </div>
               <img id="checkin-photo-img" class="hidden w-full h-full object-cover rounded-xl" alt="Photo du spot"/>
@@ -83,7 +84,7 @@ export function renderCheckinModal(state) {
           <!-- Wait Time -->
           <div class="space-y-3">
             <label class="block text-sm font-medium">
-              <i class="fas fa-clock mr-2 text-warning-400"></i>
+              ${icon('clock', 'w-5 h-5 mr-2 text-warning-400')}
               ${t('waitTime') || 'Temps d\'attente'}
             </label>
             <div class="grid grid-cols-4 gap-3">
@@ -106,7 +107,7 @@ export function renderCheckinModal(state) {
           <!-- Characteristics -->
           <div class="space-y-3">
             <label class="block text-sm font-medium">
-              <i class="fas fa-check-circle mr-2 text-emerald-400"></i>
+              ${icon('check-circle', 'w-5 h-5 mr-2 text-emerald-400')}
               ${t('confirmCharacteristics') || 'Confirmer les caractéristiques'}
             </label>
             <div class="space-y-3">
@@ -134,7 +135,7 @@ export function renderCheckinModal(state) {
           <!-- Comment -->
           <div class="space-y-3">
             <label class="block text-sm font-medium">
-              <i class="fas fa-comment mr-2 text-primary-400"></i>
+              ${icon('comment', 'w-5 h-5 mr-2 text-primary-400')}
               ${t('commentOptional') || 'Commentaire (optionnel)'}
             </label>
             <textarea
@@ -152,12 +153,12 @@ export function renderCheckinModal(state) {
         <div class="p-5 border-t border-white/10 bg-white/5">
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-2 text-sm">
-              <i class="fas fa-gift text-warning-400"></i>
+              ${icon('gift', 'w-5 h-5 text-warning-400')}
               <span>${t('reward') || 'Récompense'}: <strong class="text-warning-400">+15 points</strong></span>
             </div>
             ${state.checkinPhotoData ? `
               <span class="text-xs text-emerald-400">
-                <i class="fas fa-check mr-1"></i> ${t('photoAdded') || 'Photo ajoutée'} (+5 pts)
+                ${icon('check', 'w-5 h-5 mr-1')} ${t('photoAdded') || 'Photo ajoutée'} (+5 pts)
               </span>
             ` : ''}
           </div>
@@ -165,7 +166,7 @@ export function renderCheckinModal(state) {
             onclick="submitCheckin()"
             class="w-full btn btn-primary py-3 font-semibold"
           >
-            <i class="fas fa-check-circle mr-2"></i>
+            ${icon('check-circle', 'w-5 h-5 mr-2')}
             ${t('validateMyCheckin') || 'Valider mon passage'}
           </button>
         </div>

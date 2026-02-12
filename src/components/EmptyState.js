@@ -1,3 +1,5 @@
+import { icon } from '../utils/icons.js'
+
 /**
  * EmptyState Component
  * Displays funny empty state messages with call-to-action buttons
@@ -76,7 +78,7 @@ export function renderEmptyState(type) {
         onclick="${state.buttonAction}"
         class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition-transform"
       >
-        <i class="fas ${state.buttonIcon}" aria-hidden="true"></i>
+        ${icon(state.buttonIcon, 'w-5 h-5')}
         ${state.buttonText}
       </button>
     </div>

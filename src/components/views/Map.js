@@ -5,6 +5,7 @@
 
 import { t } from '../../i18n/index.js';
 import { countryGuides, getGuideByCode } from '../../data/guides.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderMap(state) {
   // Get current country from search or map center
@@ -28,7 +29,7 @@ export function renderMap(state) {
             aria-label="${t('searchMapLocation') || 'Search a location on the map'}"
             autocomplete="off"
           />
-          <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+          ${icon('search', 'w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
           <div id="map-search-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
         </div>
         <button
@@ -37,7 +38,7 @@ export function renderMap(state) {
           aria-label="${t('filterSpots') || 'Filter spots'}"
           title="${t('filters') || 'Filters'}"
         >
-          <i class="fas fa-sliders-h" aria-hidden="true"></i>
+          ${icon('sliders-h', 'w-5 h-5')}
         </button>
       </div>
 
@@ -79,7 +80,7 @@ export function renderMap(state) {
             <div class="text-xs opacity-80">${t('guideAvailable') || 'Guide available'}</div>
             <div class="font-bold">${currentGuide?.name || (t('country') || 'Country')}</div>
           </div>
-          <i class="fas fa-chevron-right ml-2" aria-hidden="true"></i>
+          ${icon('chevron-right', 'w-5 h-5 ml-2')}
         </button>
       </div>
 
@@ -91,7 +92,7 @@ export function renderMap(state) {
           aria-label="${t('zoomIn') || 'Zoom in'}"
           title="Zoom +"
         >
-          <i class="fas fa-plus" aria-hidden="true"></i>
+          ${icon('plus', 'w-5 h-5')}
         </button>
         <button
           onclick="mapZoomOut()"
@@ -99,7 +100,7 @@ export function renderMap(state) {
           aria-label="${t('zoomOut') || 'Zoom out'}"
           title="Zoom -"
         >
-          <i class="fas fa-minus" aria-hidden="true"></i>
+          ${icon('minus', 'w-5 h-5')}
         </button>
         <button
           onclick="centerOnUser()"
@@ -107,7 +108,7 @@ export function renderMap(state) {
           aria-label="${t('myLocation') || 'My location'}"
           title="${t('myLocation') || 'My location'}"
         >
-          <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
+          ${icon('location-crosshairs', 'w-5 h-5')}
         </button>
       </div>
 
@@ -118,7 +119,7 @@ export function renderMap(state) {
         aria-label="${t('addNewSpot') || 'Add a new spot'}"
         title="${t('addSpot') || 'Add spot'}"
       >
-        <i class="fas fa-plus" aria-hidden="true"></i>
+        ${icon('plus', 'w-5 h-5')}
       </button>
 
       <!-- Spots count -->
@@ -146,7 +147,7 @@ export function initMainMap(state) {
     mapContainer.innerHTML = `
       <div class="h-full flex items-center justify-center">
         <div class="text-center text-slate-400">
-          <i class="fas fa-map-marked-alt text-5xl mb-4 text-primary-400"></i>
+          ${icon('map-marked-alt', 'w-5 h-5 text-5xl mb-4 text-primary-400')}
           <p>Carte en chargement...</p>
         </div>
       </div>

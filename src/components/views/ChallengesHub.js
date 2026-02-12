@@ -8,6 +8,7 @@ import { allBadges } from '../../data/badges.js';
 import { allChallenges } from '../../data/challenges.js';
 import { shopRewards } from '../../data/rewards.js';
 import { vipLevels } from '../../data/vip-levels.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderChallengesHub(state) {
   const userBadges = state.badges || [];
@@ -143,7 +144,7 @@ export function renderChallengesHub(state) {
             <span class="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-sm font-medium">
               ${t('new') || 'Nouveau'}
             </span>
-            <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+            ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
           </div>
         </div>
       </button>
@@ -152,7 +153,7 @@ export function renderChallengesHub(state) {
       <div class="card p-5">
         <div class="flex items-center justify-between mb-5">
           <h3 class="font-bold flex items-center gap-2">
-            <i class="fas fa-fire text-orange-400" aria-hidden="true"></i>
+            ${icon('fire', 'w-5 h-5 text-orange-400')}
             ${t('activeChallenges') || 'Défis en cours'}
           </h3>
           <button onclick="openChallenges()" class="text-sm text-primary-400">
@@ -190,11 +191,11 @@ export function renderChallengesHub(state) {
       <div class="card p-5">
         <div class="flex items-center justify-between mb-5">
           <h3 class="font-bold flex items-center gap-2">
-            <i class="fas fa-trophy text-amber-400" aria-hidden="true"></i>
+            ${icon('trophy', 'w-5 h-5 text-amber-400')}
             ${t('ranking') || 'Classement'}
           </h3>
           <button onclick="openLeaderboard()" class="text-sm text-amber-400 hover:text-amber-300 transition-colors">
-            <i class="fas fa-crown mr-1" aria-hidden="true"></i>
+            ${icon('crown', 'w-5 h-5 mr-1')}
             ${t('seeRanking') || 'Voir le classement'} →
           </button>
         </div>

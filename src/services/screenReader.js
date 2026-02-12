@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../stores/state.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // ARIA live region priorities
 const PRIORITY = {
@@ -466,7 +467,7 @@ export function renderAccessibilityHelp(state) {
         <div class="p-6 border-b border-white/10">
           <div class="flex justify-between items-center">
             <h2 id="a11y-help-title" class="text-xl font-bold">
-              <i class="fas fa-universal-access mr-2 text-primary-400" aria-hidden="true"></i>
+              ${icon('universal-access', 'w-5 h-5 mr-2 text-primary-400')}
               ${t('sr.keyboardShortcuts') || 'Raccourcis clavier'}
             </h2>
             <button
@@ -474,7 +475,7 @@ export function renderAccessibilityHelp(state) {
               class="p-2 rounded-full hover:bg-white/10 transition-colors"
               aria-label="${t('sr.closeHelp') || 'Fermer l\'aide'}"
             >
-              <i class="fas fa-times" aria-hidden="true"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -544,7 +545,7 @@ export function renderAccessibilityHelp(state) {
 
           <section class="p-4 bg-primary-500/10 rounded-xl">
             <h3 class="font-semibold text-primary-400 mb-2">
-              <i class="fas fa-info-circle mr-1" aria-hidden="true"></i>
+              ${icon('info-circle', 'w-5 h-5 mr-1')}
               ${t('sr.tips') || 'Conseils'}
             </h3>
             <ul class="text-sm text-slate-300 space-y-1" role="list">

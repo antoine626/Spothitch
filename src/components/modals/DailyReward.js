@@ -14,6 +14,7 @@ import {
 } from '../../services/dailyReward.js';
 import { launchConfettiBurst } from '../../utils/confetti.js';
 import { showToast } from '../../services/notifications.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render daily reward modal
@@ -65,7 +66,7 @@ export function renderDailyRewardModal() {
                   class="absolute top-4 right-4 p-2 bg-white/20 rounded-full text-white hover:bg-white/30 z-20"
                   type="button"
                   aria-label="${t('close') || 'Close'}">
-            <i class="fas fa-times" aria-hidden="true"></i>
+            ${icon('times', 'w-5 h-5')}
           </button>
         </div>
 
@@ -96,13 +97,13 @@ export function renderDailyRewardModal() {
                            shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50
                            transition-all transform hover:scale-[1.02] active:scale-[0.98]"
                     id="claim-reward-btn">
-              <i class="fas fa-gift mr-2" aria-hidden="true"></i>
+              ${icon('gift', 'w-5 h-5 mr-2')}
               Recuperer ma recompense !
             </button>
           ` : `
             <div class="text-center">
               <div class="py-4 px-6 rounded-xl bg-white/5 text-slate-400">
-                <i class="fas fa-check-circle text-emerald-400 mr-2" aria-hidden="true"></i>
+                ${icon('check-circle', 'w-5 h-5 text-emerald-400 mr-2')}
                 Recompense recuperee aujourd'hui !
               </div>
               <p class="text-xs text-slate-500 mt-2">
@@ -114,7 +115,7 @@ export function renderDailyRewardModal() {
 
         <!-- Info Footer -->
         <div class="px-4 pb-4 text-center text-xs text-slate-500">
-          <i class="fas fa-info-circle mr-1" aria-hidden="true"></i>
+          ${icon('info-circle', 'w-5 h-5 mr-1')}
           Connecte-toi chaque jour pour maximiser tes recompenses !
         </div>
       </div>
@@ -229,7 +230,7 @@ function renderRewardResult(result) {
                          bg-gradient-to-r from-primary-500 to-cyan-500
                          hover:from-primary-600 hover:to-cyan-600
                          shadow-lg transition-all">
-            <i class="fas fa-thumbs-up mr-2" aria-hidden="true"></i>
+            ${icon('thumbs-up', 'w-5 h-5 mr-2')}
             Super !
           </button>
         </div>

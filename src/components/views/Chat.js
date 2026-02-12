@@ -5,6 +5,7 @@
 import { t } from '../../i18n/index.js';
 import { escapeHTML } from '../../utils/sanitize.js';
 import { renderSkeletonChatList } from '../ui/Skeleton.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderChat(state) {
   const rooms = [
@@ -59,7 +60,7 @@ export function renderChat(state) {
             class="btn btn-primary px-4"
             aria-label="${t('send')}"
           >
-            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+            ${icon('paper-plane', 'w-5 h-5')}
           </button>
         </form>
       </div>
@@ -90,7 +91,7 @@ function renderMessage(msg, state) {
 function renderEmptyChat() {
   return `
     <div class="text-center py-12" role="status">
-      <i class="fas fa-comments text-5xl text-slate-600 mb-4" aria-hidden="true"></i>
+      ${icon('comments', 'w-5 h-5 text-5xl text-slate-600 mb-4')}
       <h3 class="text-lg font-bold mb-2">Pas encore de messages</h3>
       <p class="text-slate-400">Sois le premier a ecrire !</p>
     </div>

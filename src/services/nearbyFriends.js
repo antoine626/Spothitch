@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Configuration
 const CONFIG = {
@@ -325,7 +326,7 @@ export function renderNearbyFriendsWidget(state) {
         class="relative p-3 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-all"
         aria-label="${t('nearbyFriendsLabel') || 'Amis proches'} (${nearbyFriends.length})"
       >
-        <i class="fas fa-user-friends" aria-hidden="true"></i>
+        ${icon('user-friends', 'w-5 h-5')}
         <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 text-xs flex items-center justify-center font-bold">
           ${nearbyFriends.length}
         </span>
@@ -361,7 +362,7 @@ export function renderNearbyFriendsList(state) {
             class="p-2 rounded-full hover:bg-white/10 transition-colors"
             aria-label="${t('close') || 'Fermer'}"
           >
-            <i class="fas fa-times" aria-hidden="true"></i>
+            ${icon('times', 'w-5 h-5')}
           </button>
         </div>
 
@@ -382,7 +383,7 @@ export function renderNearbyFriendsList(state) {
                     <div class="flex-1">
                       <div class="font-medium">${friend.username}</div>
                       <div class="text-sm text-slate-400 flex items-center gap-2">
-                        <i class="fas ${proximity.icon}" aria-hidden="true"></i>
+                        ${icon(proximity.icon, 'w-5 h-5')}
                         <span>${friend.distance}km - ${proximity.label}</span>
                       </div>
                     </div>
@@ -392,14 +393,14 @@ export function renderNearbyFriendsList(state) {
                         class="p-2 rounded-lg bg-primary-500/20 text-primary-400 hover:bg-primary-500/30 transition-colors"
                         aria-label="${t('sendMessage') || 'Envoyer un message'}"
                       >
-                        <i class="fas fa-comment" aria-hidden="true"></i>
+                        ${icon('comment', 'w-5 h-5')}
                       </button>
                       <button
                         onclick="showFriendOnMap('${friend.userId}')"
                         class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
                         aria-label="${t('showOnMap') || 'Voir sur la carte'}"
                       >
-                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        ${icon('map-marker-alt', 'w-5 h-5')}
                       </button>
                     </div>
                   </div>
@@ -408,7 +409,7 @@ export function renderNearbyFriendsList(state) {
             </div>
           ` : `
             <div class="p-8 text-center text-slate-400">
-              <i class="fas fa-user-friends text-3xl mb-2" aria-hidden="true"></i>
+              ${icon('user-friends', 'w-8 h-8 mb-2')}
               <p>${t('nearbyFriendsEmpty') || 'Aucun ami à proximité'}</p>
             </div>
           `}
@@ -453,7 +454,7 @@ export function renderNearbyFriendsSettings(state) {
     <div class="bg-dark-card rounded-xl p-4">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
-          <i class="fas fa-user-friends text-primary-400" aria-hidden="true"></i>
+          ${icon('user-friends', 'w-5 h-5 text-primary-400')}
         </div>
         <div>
           <h3 class="font-semibold">Amis proches</h3>

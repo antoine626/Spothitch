@@ -14,6 +14,7 @@
 
 import { getState, setState } from '../stores/state.js'
 import { showToast } from './notifications.js'
+import { icon } from '../utils/icons.js'
 
 // ==================== CONSTANTS ====================
 
@@ -671,7 +672,7 @@ export function renderNearbyFriendCard(friend, distance) {
       <div class="friend-info flex-1 min-w-0">
         <div class="friend-name font-medium text-white truncate">${name}</div>
         <div class="friend-distance text-sm text-emerald-400 flex items-center gap-1">
-          <i class="fas fa-location-arrow text-xs" aria-hidden="true"></i>
+          ${icon('location-arrow', 'w-3 h-3')}
           <span>${distFormatted} ${t('away')}</span>
         </div>
         ${lastSeenText ? `<div class="friend-last-seen text-xs text-slate-400">${escapeHTML(lastSeenText)}</div>` : ''}
@@ -682,14 +683,14 @@ export function renderNearbyFriendCard(friend, distance) {
           class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
           aria-label="${t('viewOnMap')}"
         >
-          <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+          ${icon('map-marker-alt', 'w-5 h-5')}
         </button>
         <button
           onclick="openFriendChat('${friendId}')"
           class="p-2 rounded-lg bg-primary-500/20 text-primary-400 hover:bg-primary-500/30 transition-colors"
           aria-label="${t('sendMessage')}"
         >
-          <i class="fas fa-comment" aria-hidden="true"></i>
+          ${icon('comment', 'w-5 h-5')}
         </button>
       </div>
     </div>
@@ -724,7 +725,7 @@ export function renderNearbyFriendsList(friends) {
   if (!friends || friends.length === 0) {
     return `
       <div class="nearby-friends-empty p-8 text-center text-slate-400">
-        <i class="fas fa-user-friends text-3xl mb-2" aria-hidden="true"></i>
+        ${icon('user-friends', 'w-8 h-8 mb-2')}
         <p>${t('noFriendsNearby')}</p>
         <p class="text-xs mt-2">${t('privacyNote')}</p>
       </div>
@@ -763,7 +764,7 @@ export function renderFriendNearbySettings() {
     <div class="friend-nearby-settings bg-dark-card rounded-xl p-4">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-          <i class="fas fa-user-friends text-emerald-400" aria-hidden="true"></i>
+          ${icon('user-friends', 'w-5 h-5 text-emerald-400')}
         </div>
         <div class="flex-1">
           <h3 class="font-semibold">${t('friendNearbyTitle')}</h3>

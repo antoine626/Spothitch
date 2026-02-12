@@ -6,6 +6,7 @@
 import { getState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
 import { countryGuides, getGuideByCode, getEasiestCountries } from '../../data/guides.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render guides list view
@@ -185,7 +186,7 @@ export function renderCountryDetail(countryCode) {
       <!-- Disclaimer Banner -->
       <div class="p-4">
         <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-xs text-amber-300 flex items-start gap-2">
-          <i class="fas fa-info-circle mt-0.5 shrink-0"></i>
+          ${icon('info-circle', 'w-5 h-5 mt-0.5 shrink-0')}
           <span>Ces conseils sont basés sur des retours de voyageurs. Vérifiez toujours les lois locales avant de partir.</span>
         </div>
       </div>
@@ -284,7 +285,7 @@ export function renderCountryDetail(countryCode) {
           onclick="downloadCountryOffline('${guide.code}', '${name}')"
           class="w-full p-3 rounded-xl bg-primary-500/10 border border-primary-500/30 text-primary-400 text-sm hover:bg-primary-500/20 transition-all flex items-center justify-center gap-2"
         >
-          <i class="fas fa-download"></i>
+          ${icon('download', 'w-5 h-5')}
           Télécharger pour offline
         </button>
       </div>
@@ -292,7 +293,7 @@ export function renderCountryDetail(countryCode) {
       <!-- Report Error Button -->
       <div class="p-4 -mt-2">
         <button onclick="reportGuideError('${guide.code}')" class="w-full p-3 rounded-xl border border-slate-600 text-slate-400 text-sm hover:border-red-500/50 hover:text-red-400 transition-all flex items-center justify-center gap-2">
-          <i class="fas fa-flag"></i>
+          ${icon('flag', 'w-5 h-5')}
           Signaler une erreur dans ce guide
         </button>
       </div>

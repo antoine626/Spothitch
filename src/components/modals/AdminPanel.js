@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderAdminPanel(state) {
   return `
@@ -12,11 +13,11 @@ export function renderAdminPanel(state) {
       <div class="modal-content max-w-lg max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-bold flex items-center gap-2">
-            <i class="fas fa-shield-alt text-amber-400" aria-hidden="true"></i>
+            ${icon('shield-alt', 'w-5 h-5 text-amber-400')}
             ${t('adminPanel') || 'Panneau Admin'}
           </h2>
           <button onclick="closeAdminPanel()" class="text-slate-400 hover:text-white">
-            <i class="fas fa-times text-xl" aria-hidden="true"></i>
+            ${icon('times', 'w-6 h-6')}
           </button>
         </div>
 
@@ -45,7 +46,7 @@ export function renderAdminPanel(state) {
         <!-- Add Points/Resources -->
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-amber-400">
-            <i class="fas fa-coins mr-2" aria-hidden="true"></i>
+            ${icon('coins', 'w-5 h-5 mr-2')}
             ${t('resources') || 'Ressources'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
@@ -73,28 +74,28 @@ export function renderAdminPanel(state) {
         <!-- Gamification -->
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-purple-400">
-            <i class="fas fa-gamepad mr-2" aria-hidden="true"></i>
+            ${icon('gamepad', 'w-5 h-5 mr-2')}
             ${t('gamification') || 'Gamification'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openBadges(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-medal text-amber-400" aria-hidden="true"></i>
+              ${icon('medal', 'w-5 h-5 text-amber-400')}
               ${t('badges') || 'Badges'}
             </button>
             <button onclick="openChallenges(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-bullseye text-purple-400" aria-hidden="true"></i>
+              ${icon('bullseye', 'w-5 h-5 text-purple-400')}
               ${t('challenges') || 'Défis'}
             </button>
             <button onclick="openTeamChallenges(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-users-cog text-orange-400" aria-hidden="true"></i>
+              ${icon('users-cog', 'w-5 h-5 text-orange-400')}
               ${t('teamChallenges') || 'Défis Équipe'}
             </button>
             <button onclick="openQuiz(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-brain text-sky-400" aria-hidden="true"></i>
+              ${icon('brain', 'w-5 h-5 text-sky-400')}
               ${t('quiz') || 'Quiz'}
             </button>
             <button onclick="openLeaderboard(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-trophy text-yellow-400" aria-hidden="true"></i>
+              ${icon('trophy', 'w-5 h-5 text-yellow-400')}
               ${t('leaderboard') || 'Classement'}
             </button>
           </div>
@@ -103,24 +104,24 @@ export function renderAdminPanel(state) {
         <!-- Shop & Rewards -->
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-emerald-400">
-            <i class="fas fa-store mr-2" aria-hidden="true"></i>
+            ${icon('store', 'w-5 h-5 mr-2')}
             ${t('shopRewards') || 'Boutique & Récompenses'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openShop(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-shopping-cart text-emerald-400" aria-hidden="true"></i>
+              ${icon('shopping-cart', 'w-5 h-5 text-emerald-400')}
               ${t('shop') || 'Boutique'}
             </button>
             <button onclick="openMyRewards(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-gift text-pink-400" aria-hidden="true"></i>
+              ${icon('gift', 'w-5 h-5 text-pink-400')}
               ${t('myRewards') || 'Mes Récompenses'}
             </button>
             <button onclick="openProfileCustomization(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-palette text-purple-400" aria-hidden="true"></i>
+              ${icon('palette', 'w-5 h-5 text-purple-400')}
               ${t('customization') || 'Personnalisation'}
             </button>
             <button onclick="openStats(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-chart-bar text-sky-400" aria-hidden="true"></i>
+              ${icon('chart-bar', 'w-5 h-5 text-sky-400')}
               ${t('stats') || 'Statistiques'}
             </button>
           </div>
@@ -129,24 +130,24 @@ export function renderAdminPanel(state) {
         <!-- Social -->
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-sky-400">
-            <i class="fas fa-users mr-2" aria-hidden="true"></i>
+            ${icon('users', 'w-5 h-5 mr-2')}
             ${t('social') || 'Social'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openNearbyFriends(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-location-dot text-emerald-400" aria-hidden="true"></i>
+              ${icon('location-dot', 'w-5 h-5 text-emerald-400')}
               ${t('nearbyFriends') || 'Amis Proches'}
             </button>
             <button onclick="openCreateTravelGroup(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-car text-purple-400" aria-hidden="true"></i>
+              ${icon('car', 'w-5 h-5 text-purple-400')}
               ${t('travelGroups') || 'Groupes Voyage'}
             </button>
             <button onclick="changeTab('social'); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-comments text-sky-400" aria-hidden="true"></i>
+              ${icon('comments', 'w-5 h-5 text-sky-400')}
               ${t('chat') || 'Chat'}
             </button>
             <button onclick="openReport(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-flag text-red-400" aria-hidden="true"></i>
+              ${icon('flag', 'w-5 h-5 text-red-400')}
               ${t('report') || 'Signalement'}
             </button>
           </div>
@@ -155,24 +156,24 @@ export function renderAdminPanel(state) {
         <!-- Map & Spots -->
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-primary-400">
-            <i class="fas fa-map-marked-alt mr-2" aria-hidden="true"></i>
+            ${icon('map-marked-alt', 'w-5 h-5 mr-2')}
             ${t('mapSpots') || 'Carte & Spots'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openAddSpot(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-plus-circle text-emerald-400" aria-hidden="true"></i>
+              ${icon('plus-circle', 'w-5 h-5 text-emerald-400')}
               ${t('addSpot') || 'Ajouter Spot'}
             </button>
             <button onclick="openFilters(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-filter text-purple-400" aria-hidden="true"></i>
+              ${icon('filter', 'w-5 h-5 text-purple-400')}
               ${t('filters') || 'Filtres'}
             </button>
             <button onclick="changeTab('travel'); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-route text-amber-400" aria-hidden="true"></i>
+              ${icon('route', 'w-5 h-5 text-amber-400')}
               ${t('planner') || 'Planificateur'}
             </button>
             <button onclick="openSOS(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-exclamation-triangle text-red-400" aria-hidden="true"></i>
+              ${icon('exclamation-triangle', 'w-5 h-5 text-red-400')}
               ${t('sosMode') || 'Mode SOS'}
             </button>
           </div>
@@ -181,32 +182,32 @@ export function renderAdminPanel(state) {
         <!-- System -->
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-slate-400">
-            <i class="fas fa-cog mr-2" aria-hidden="true"></i>
+            ${icon('cog', 'w-5 h-5 mr-2')}
             ${t('system') || 'Système'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openAuth(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-sign-in-alt text-primary-400" aria-hidden="true"></i>
+              ${icon('sign-in-alt', 'w-5 h-5 text-primary-400')}
               ${t('login') || 'Connexion'}
             </button>
             <button onclick="startTutorial(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-graduation-cap text-amber-400" aria-hidden="true"></i>
+              ${icon('graduation-cap', 'w-5 h-5 text-amber-400')}
               ${t('tutorial') || 'Tutoriel'}
             </button>
             <button onclick="openAccessibilityHelp(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-universal-access text-sky-400" aria-hidden="true"></i>
+              ${icon('universal-access', 'w-5 h-5 text-sky-400')}
               ${t('accessibility') || 'Accessibilité'}
             </button>
             <button onclick="openDonation(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-heart text-pink-400" aria-hidden="true"></i>
+              ${icon('heart', 'w-5 h-5 text-pink-400')}
               ${t('donation') || 'Donation'}
             </button>
             <button onclick="adminResetState()" class="admin-btn text-red-400">
-              <i class="fas fa-trash-alt" aria-hidden="true"></i>
+              ${icon('trash-alt', 'w-5 h-5')}
               ${t('resetState') || 'Reset State'}
             </button>
             <button onclick="adminExportState()" class="admin-btn">
-              <i class="fas fa-download text-emerald-400" aria-hidden="true"></i>
+              ${icon('download', 'w-5 h-5 text-emerald-400')}
               ${t('exportState') || 'Export State'}
             </button>
           </div>
@@ -215,7 +216,7 @@ export function renderAdminPanel(state) {
         <!-- Navigation Tabs -->
         <div class="card p-4">
           <h3 class="font-bold text-sm mb-3 text-slate-400">
-            <i class="fas fa-compass mr-2" aria-hidden="true"></i>
+            ${icon('compass', 'w-5 h-5 mr-2')}
             ${t('quickNavigation') || 'Navigation Rapide'}
           </h3>
           <div class="flex flex-wrap gap-2">

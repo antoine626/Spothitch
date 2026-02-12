@@ -7,6 +7,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { addPoints, addSeasonPoints } from './gamification.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Team challenge types
 export const TEAM_CHALLENGE_TYPES = {
@@ -446,7 +447,7 @@ export function renderTeamDashboard(state) {
             class="p-2 rounded-lg bg-white/20 text-white hover:bg-white/30 transition-colors"
             aria-label="${t('teamSettingsLabel') || 'Paramètres de l\'équipe'}"
           >
-            <i class="fas fa-cog" aria-hidden="true"></i>
+            ${icon('cog', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -498,7 +499,7 @@ export function renderTeamDashboard(state) {
                 <div class="bg-dark-card rounded-xl p-4">
                   <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 rounded-lg bg-gradient-to-br ${type.color || 'from-slate-500 to-slate-600'} flex items-center justify-center text-white">
-                      <i class="fas ${type.icon || 'fa-flag'}" aria-hidden="true"></i>
+                      ${icon(type.icon || 'fa-flag', 'w-5 h-5')}
                     </div>
                     <div class="flex-1">
                       <div class="font-medium">${challenge.name}</div>
@@ -525,7 +526,7 @@ export function renderTeamDashboard(state) {
         `
     : `
           <div class="text-center py-8 text-slate-400">
-            <i class="fas fa-flag text-3xl mb-2" aria-hidden="true"></i>
+            ${icon('flag', 'w-8 h-8 mb-2')}
             <p>${t('teamNoActiveChallenges') || 'Aucun défi actif'}</p>
             <button
               onclick="openTeamChallengesList()"
@@ -546,7 +547,7 @@ export function renderTeamDashboard(state) {
             onclick="inviteToTeam()"
             class="text-sm text-primary-400 hover:text-primary-300 transition-colors"
           >
-            <i class="fas fa-user-plus mr-1" aria-hidden="true"></i>
+            ${icon('user-plus', 'w-5 h-5 mr-1')}
             ${t('teamInvite') || 'Inviter'}
           </button>
         </div>
@@ -577,7 +578,7 @@ function renderNoTeam(state) {
     <div class="p-4 space-y-6">
       <div class="text-center py-12">
         <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-primary-500/20 flex items-center justify-center">
-          <i class="fas fa-users text-4xl text-primary-400" aria-hidden="true"></i>
+          ${icon('users', 'w-10 h-10 text-primary-400')}
         </div>
         <h2 class="text-xl font-bold mb-2">${t('teamJoinTitle') || 'Rejoins une équipe !'}</h2>
         <p class="text-slate-400 mb-6">
@@ -585,11 +586,11 @@ function renderNoTeam(state) {
         </p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
           <button onclick="openCreateTeam()" class="btn btn-primary">
-            <i class="fas fa-plus mr-2" aria-hidden="true"></i>
+            ${icon('plus', 'w-5 h-5 mr-2')}
             ${t('teamCreateButton') || 'Créer une équipe'}
           </button>
           <button onclick="openJoinTeam()" class="btn btn-ghost">
-            <i class="fas fa-search mr-2" aria-hidden="true"></i>
+            ${icon('search', 'w-5 h-5 mr-2')}
             ${t('teamFindButton') || 'Trouver une équipe'}
           </button>
         </div>
@@ -607,13 +608,13 @@ function renderNoTeam(state) {
             <div class="bg-dark-card rounded-xl p-4">
               <div class="flex items-center gap-3">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${type.color || 'from-slate-500 to-slate-600'} flex items-center justify-center text-white text-xl">
-                  <i class="fas ${type.icon || 'fa-flag'}" aria-hidden="true"></i>
+                  ${icon(type.icon || 'fa-flag', 'w-5 h-5')}
                 </div>
                 <div class="flex-1">
                   <div class="font-medium">${challenge.name}</div>
                   <div class="text-sm text-slate-400">${challenge.description}</div>
                   <div class="text-xs text-primary-400 mt-1">
-                    <i class="fas fa-gift mr-1" aria-hidden="true"></i>
+                    ${icon('gift', 'w-5 h-5 mr-1')}
                     ${challenge.rewards.points} ${t('points') || 'points'}
                   </div>
                 </div>

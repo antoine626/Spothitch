@@ -4,6 +4,7 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderSOS(state) {
   return `
@@ -45,7 +46,7 @@ export function renderSOS(state) {
             aria-pressed="${state.sosActive ? 'true' : 'false'}"
             aria-describedby="sos-status"
           >
-            <i class="fas ${state.sosActive ? 'fa-stop' : 'fa-broadcast-tower'}" aria-hidden="true"></i>
+            ${icon(state.sosActive ? 'fa-stop' : 'fa-broadcast-tower', 'w-5 h-5')}
             ${state.sosActive ? t('stopSharing') : t('shareLocation')}
           </button>
 
@@ -91,7 +92,7 @@ export function renderSOS(state) {
                   type="button"
                   aria-label="${t('addContact') || 'Ajouter le contact'}"
                 >
-                  <i class="fas fa-plus" aria-hidden="true"></i>
+                  ${icon('plus', 'w-5 h-5')}
                 </button>
               </div>
             </div>
@@ -115,13 +116,13 @@ export function renderSOS(state) {
                         type="button"
                         aria-label="${t('deleteContact') || 'Supprimer le contact'} ${contact.name}"
                       >
-                        <i class="fas fa-times" aria-hidden="true"></i>
+                        ${icon('times', 'w-5 h-5')}
                       </button>
                     </li>
                   `).join('')
     : `
                   <li class="text-center text-slate-400 py-4">
-                    <i class="fas fa-user-plus text-2xl mb-2" aria-hidden="true"></i>
+                    ${icon('user-plus', 'w-7 h-7 mb-2')}
                     <p class="text-sm">${t('addTrustedContacts') || 'Ajoute des contacts de confiance'}</p>
                   </li>
                 `
@@ -135,14 +136,14 @@ export function renderSOS(state) {
             class="btn btn-ghost w-full border border-danger-500/30 text-danger-400"
             aria-label="${t('call112') || 'Appeler le 112, numéro d\'urgence européen'}"
           >
-            <i class="fas fa-phone-alt" aria-hidden="true"></i>
+            ${icon('phone-alt', 'w-5 h-5')}
             ${t('call112Label') || 'Appeler le 112 (Urgences EU)'}
           </a>
 
           <!-- Country Emergency Numbers -->
           <div class="card p-5 space-y-4">
             <h3 class="font-semibold flex items-center gap-2">
-              <i class="fas fa-globe text-primary-400"></i>
+              ${icon('globe', 'w-5 h-5 text-primary-400')}
               ${t('emergencyNumbersByCountry') || 'Numéros d\'urgence par pays'}
             </h3>
             <div id="country-emergency-numbers">
@@ -170,7 +171,7 @@ export function renderSOS(state) {
           <!-- Pre-programmed Messages -->
           <div class="card p-5 space-y-4">
             <h3 class="font-semibold flex items-center gap-2">
-              <i class="fas fa-comment-dots text-emerald-400"></i>
+              ${icon('comment-dots', 'w-5 h-5 text-emerald-400')}
               ${t('emergencyMessages') || 'Messages d\'urgence'}
             </h3>
             <div class="space-y-3">
@@ -196,7 +197,7 @@ export function renderSOS(state) {
               class="btn btn-success w-full"
               type="button"
             >
-              <i class="fas fa-check-circle" aria-hidden="true"></i>
+              ${icon('check-circle', 'w-5 h-5')}
               ${t('iAmSafe')}
             </button>
           ` : ''}
@@ -209,7 +210,7 @@ export function renderSOS(state) {
           aria-label="${t('closeSOSWindow') || 'Fermer la fenêtre SOS'}"
           type="button"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
       </div>
     </div>

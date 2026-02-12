@@ -4,6 +4,7 @@
  */
 
 import { t } from '../../i18n/index.js'
+import { icon } from '../../utils/icons.js'
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjgegaka'
 
@@ -31,13 +32,13 @@ export function renderContactFormModal() {
           aria-label="${t('close') || 'Fermer'}"
           type="button"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
 
         <!-- Header -->
         <div class="p-8 text-center bg-gradient-to-b from-primary-500/20 to-transparent border-b border-white/10">
           <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-500/20 flex items-center justify-center">
-            <i class="fas fa-envelope text-primary-400 text-3xl" aria-hidden="true"></i>
+            ${icon('envelope', 'w-8 h-8 text-primary-400')}
           </div>
           <h2 id="contact-form-title" class="text-2xl font-bold">${t('contactFormTitle')}</h2>
           <p class="text-slate-400 text-sm mt-2">${t('contactFormSubtitle')}</p>
@@ -114,7 +115,7 @@ export function renderContactFormModal() {
             id="contact-submit-btn"
             class="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
           >
-            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+            ${icon('paper-plane', 'w-5 h-5')}
             ${t('contactFormSend')}
           </button>
         </form>
@@ -147,7 +148,7 @@ export async function handleContactFormSubmit(event) {
 
   // Disable button during submission
   btn.disabled = true
-  btn.innerHTML = `<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> ${t('contactFormSending')}`
+  btn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin')} ${t('contactFormSending')}`
 
   try {
     const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -164,7 +165,7 @@ export async function handleContactFormSubmit(event) {
       form.innerHTML = `
         <div class="text-center py-8">
           <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/20 flex items-center justify-center">
-            <i class="fas fa-check text-emerald-400 text-3xl" aria-hidden="true"></i>
+            ${icon('check', 'w-8 h-8 text-emerald-400')}
           </div>
           <p class="text-lg font-semibold text-emerald-400 mb-2">${t('contactFormSuccess')}</p>
         </div>
@@ -179,7 +180,7 @@ export async function handleContactFormSubmit(event) {
   } catch (e) {
     // Re-enable button on error
     btn.disabled = false
-    btn.innerHTML = `<i class="fas fa-paper-plane" aria-hidden="true"></i> ${t('contactFormSend')}`
+    btn.innerHTML = `${icon('paper-plane', 'w-5 h-5')} ${t('contactFormSend')}`
 
     // Show error below button
     const existingError = form.querySelector('.contact-error')

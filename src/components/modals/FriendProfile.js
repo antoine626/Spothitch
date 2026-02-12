@@ -5,6 +5,7 @@
 
 import { getTrustBadge } from '../../services/identityVerification.js'
 import { t } from '../../i18n/index.js'
+import { icon } from '../../utils/icons.js'
 
 export function renderFriendProfileModal(state) {
   const friendId = state.selectedFriendProfileId
@@ -72,14 +73,14 @@ export function renderFriendProfileModal(state) {
               onclick="closeFriendProfile(); openFriendChat('${friend.id}')"
               class="btn-primary w-full"
             >
-              <i class="fas fa-comment mr-2" aria-hidden="true"></i>
+              ${icon('comment', 'w-5 h-5 mr-2')}
               ${t('sendMessage')}
             </button>
             <button
               onclick="removeFriend('${friend.id}'); closeFriendProfile()"
               class="w-full py-2 rounded-lg border border-danger-500/30 text-danger-400 hover:bg-danger-500/10 transition-all text-sm"
             >
-              <i class="fas fa-user-minus mr-2" aria-hidden="true"></i>
+              ${icon('user-minus', 'w-5 h-5 mr-2')}
               ${t('removeFriend')}
             </button>
           </div>
@@ -90,7 +91,7 @@ export function renderFriendProfileModal(state) {
           class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
           aria-label="${t('close') || 'Close'}"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
       </div>
     </div>

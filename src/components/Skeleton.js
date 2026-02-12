@@ -1,3 +1,5 @@
+import { icon } from '../utils/icons.js'
+
 /**
  * Skeleton Loading Components
  * Placeholder UI while content loads
@@ -61,7 +63,7 @@ export function renderSkeletonMap() {
     <div class="h-full w-full bg-dark-secondary flex items-center justify-center animate-pulse">
       <div class="text-center">
         <div class="w-16 h-16 rounded-full bg-white/10 mx-auto mb-4 flex items-center justify-center">
-          <i class="fas fa-map-marked-alt text-2xl text-white/20"></i>
+          ${icon('map-marked-alt', 'w-7 h-7 text-white/20')}
         </div>
         <div class="h-4 bg-white/10 rounded w-32 mx-auto mb-2"></div>
         <div class="h-3 bg-white/10 rounded w-24 mx-auto"></div>

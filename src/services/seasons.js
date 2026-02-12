@@ -9,6 +9,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { addPoints } from './gamification.js';
 import { unlockFrame, unlockTitle } from './profileCustomization.js';
+import { icon } from '../utils/icons.js'
 
 // Storage keys
 const SEASON_DATA_KEY = 'spothitch_season_data';
@@ -909,7 +910,7 @@ export function renderSeasonRewardsContent() {
                   </button>
                 `}
               ` : `
-                <span class="text-slate-500"><i class="fas fa-lock"></i></span>
+                <span class="text-slate-500">${icon('lock', 'w-5 h-5')}</span>
               `}
             </div>
             <div class="flex flex-wrap gap-2 mt-2">

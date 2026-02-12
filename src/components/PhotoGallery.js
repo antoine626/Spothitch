@@ -5,6 +5,7 @@
 
 import { escapeHTML } from '../utils/sanitize.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 /**
  * Render photo gallery with carousel
@@ -16,13 +17,13 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
   if (!photos || photos.length === 0) {
     return `
       <div class="photo-gallery-empty bg-white/5 rounded-xl p-8 text-center">
-        <i class="fas fa-camera text-4xl text-slate-500 mb-3"></i>
+        ${icon('camera', 'w-10 h-10 text-slate-500 mb-3')}
         <p class="text-slate-400 text-sm">${t('noPhotosForSpot') || 'No photos for this spot'}</p>
         <button
           onclick="openPhotoUpload(${spotId})"
           class="mt-3 text-primary-400 text-sm hover:underline"
         >
-          <i class="fas fa-plus mr-1"></i>${t('addPhoto') || 'Add a photo'}
+          ${icon('plus', 'w-5 h-5 mr-1')}${t('addPhoto') || 'Add a photo'}
         </button>
       </div>
     `;
@@ -51,7 +52,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
               flex items-center justify-center text-white hover:bg-black/70 transition-colors"
             aria-label="${t('previousPhoto') || 'Previous photo'}"
           >
-            <i class="fas fa-chevron-left"></i>
+            ${icon('chevron-left', 'w-5 h-5')}
           </button>
           <button
             onclick="nextPhoto('${galleryId}')"
@@ -59,7 +60,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
               flex items-center justify-center text-white hover:bg-black/70 transition-colors"
             aria-label="${t('nextPhoto') || 'Next photo'}"
           >
-            <i class="fas fa-chevron-right"></i>
+            ${icon('chevron-right', 'w-5 h-5')}
           </button>
         ` : ''}
 
@@ -77,7 +78,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
             flex items-center justify-center text-white hover:bg-black/70 transition-colors"
           aria-label="${t('fullscreen') || 'Fullscreen'}"
         >
-          <i class="fas fa-expand"></i>
+          ${icon('expand', 'w-5 h-5')}
         </button>
       </div>
 
@@ -109,7 +110,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
         class="mt-3 w-full py-2 border border-dashed border-slate-600 rounded-lg text-slate-400
           hover:border-primary-500 hover:text-primary-400 transition-colors flex items-center justify-center gap-2"
       >
-        <i class="fas fa-plus"></i>
+        ${icon('plus', 'w-5 h-5')}
         ${t('addPhoto') || 'Add a photo'}
       </button>
 
@@ -142,7 +143,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
           flex items-center justify-center text-white hover:bg-white/20 transition-colors"
         aria-label="${t('close') || 'Close'}"
       >
-        <i class="fas fa-times text-xl"></i>
+        ${icon('times', 'w-6 h-6')}
       </button>
 
       <!-- Main Image Container -->
@@ -163,7 +164,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
             flex items-center justify-center text-white hover:bg-white/20 transition-colors"
           aria-label="${t('previousPhoto') || 'Previous photo'}"
         >
-          <i class="fas fa-chevron-left text-xl"></i>
+          ${icon('chevron-left', 'w-6 h-6')}
         </button>
         <button
           onclick="nextPhotoFullscreen(); event.stopPropagation();"
@@ -171,7 +172,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
             flex items-center justify-center text-white hover:bg-white/20 transition-colors"
           aria-label="${t('nextPhoto') || 'Next photo'}"
         >
-          <i class="fas fa-chevron-right text-xl"></i>
+          ${icon('chevron-right', 'w-6 h-6')}
         </button>
       ` : ''}
 

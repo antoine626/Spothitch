@@ -7,6 +7,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { addPoints } from './gamification.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 /**
  * Add a spot to favorites
@@ -268,7 +269,7 @@ export function renderFavoriteButton(spotId, size = 'md') {
       aria-pressed="${favorited}"
       type="button"
     >
-      <i class="fas fa-heart ${favorited ? 'favorite-active' : ''}" aria-hidden="true"></i>
+      ${icon('heart', `w-5 h-5 ${favorited ? 'favorite-active' : ''}`)}
     </button>
   `;
 }
@@ -286,14 +287,14 @@ export function renderFavoritesSection(sortBy = 'date') {
     return `
       <div class="card p-6 text-center">
         <div class="w-16 h-16 rounded-full bg-danger-500/20 flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-heart text-danger-400 text-2xl" aria-hidden="true"></i>
+          ${icon('heart', 'w-7 h-7 text-danger-400')}
         </div>
         <h3 class="font-semibold mb-2">${t('favoritesNone') || 'Pas encore de favoris'}</h3>
         <p class="text-slate-400 text-sm mb-4">
           ${t('favoritesNoneDesc') || 'Ajoutez vos spots preferes en cliquant sur le coeur'}
         </p>
         <button onclick="changeTab('spots')" class="btn btn-primary">
-          <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
+          ${icon('map-marker-alt', 'w-5 h-5 mr-2')}
           ${t('favoritesExplore') || 'Explorer les spots'}
         </button>
       </div>
@@ -305,7 +306,7 @@ export function renderFavoritesSection(sortBy = 'date') {
       <!-- Header -->
       <div class="p-4 border-b border-white/10 flex items-center justify-between">
         <h3 class="font-semibold flex items-center gap-2">
-          <i class="fas fa-heart text-danger-400" aria-hidden="true"></i>
+          ${icon('heart', 'w-5 h-5 text-danger-400')}
           ${t('favoritesTitle') || 'Mes favoris'}
           <span class="text-sm text-slate-400">(${count})</span>
         </h3>
@@ -333,7 +334,7 @@ export function renderFavoritesSection(sortBy = 'date') {
           onclick="showFavoritesOnMap()"
           class="w-full btn btn-ghost text-sm"
         >
-          <i class="fas fa-map mr-2" aria-hidden="true"></i>
+          ${icon('map', 'w-5 h-5 mr-2')}
           ${t('favoritesShowMap') || 'Voir sur la carte'}
         </button>
       </div>
@@ -374,7 +375,7 @@ function renderFavoriteItem(spot) {
         </div>
         <div class="flex items-center gap-2 text-xs text-slate-400">
           <span class="flex items-center gap-1">
-            <i class="fas fa-star text-warning-400" aria-hidden="true"></i>
+            ${icon('star', 'w-5 h-5 text-warning-400')}
             ${spot.globalRating?.toFixed(1) || 'N/A'}
           </span>
           <span>•</span>
@@ -389,7 +390,7 @@ function renderFavoriteItem(spot) {
         aria-label="${t('favoritesRemoveLabel') || 'Retirer des favoris'}"
         type="button"
       >
-        <i class="fas fa-heart" aria-hidden="true"></i>
+        ${icon('heart', 'w-5 h-5')}
       </button>
     </div>
   `;

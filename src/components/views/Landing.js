@@ -5,6 +5,7 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render the landing page for new visitors
@@ -143,14 +144,14 @@ export function renderLanding(state) {
               onclick="openAuth(); setAuthMode('register')"
               class="btn-primary text-lg px-8 py-4"
             >
-              <i class="fas fa-rocket mr-2" aria-hidden="true"></i>
+              ${icon('rocket', 'w-5 h-5 mr-2')}
               Commencer gratuitement
             </button>
             <button
               onclick="skipWelcome()"
               class="btn-ghost text-lg px-8 py-4"
             >
-              <i class="fas fa-map mr-2" aria-hidden="true"></i>
+              ${icon('map', 'w-5 h-5 mr-2')}
               Explorer la carte
             </button>
           </div>
@@ -177,7 +178,7 @@ export function renderLanding(state) {
 
           <!-- Scroll indicator -->
           <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <i class="fas fa-chevron-down text-2xl text-slate-400"></i>
+            ${icon('chevron-down', 'w-7 h-7 text-slate-400')}
           </div>
         </div>
       </section>
@@ -196,7 +197,7 @@ export function renderLanding(state) {
             ${features.map(feature => `
               <div class="card p-6 hover:scale-105 transition-transform">
                 <div class="w-14 h-14 rounded-xl bg-${feature.color}-500/20 flex items-center justify-center mb-4">
-                  <i class="fas ${feature.icon} text-2xl text-${feature.color}-400" aria-hidden="true"></i>
+                  ${icon(feature.icon, `w-7 h-7 text-${feature.color}-400`)}
                 </div>
                 <h3 class="text-xl font-semibold mb-2">${feature.title}</h3>
                 <p class="text-slate-400">${feature.description}</p>
@@ -224,7 +225,7 @@ export function renderLanding(state) {
               ${howItWorks.map(item => `
                 <div class="relative text-center">
                   <div class="relative z-10 w-20 h-20 rounded-full bg-gradient-to-br from-primary-500 to-emerald-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-500/30">
-                    <i class="fas ${item.icon} text-2xl text-white" aria-hidden="true"></i>
+                    ${icon(item.icon, 'w-7 h-7 text-white')}
                   </div>
                   <div class="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white text-slate-900 font-bold flex items-center justify-center text-sm shadow-lg z-20">
                     ${item.step}
@@ -261,7 +262,7 @@ export function renderLanding(state) {
                   </div>
                 </div>
                 <div class="flex gap-1 mb-3">
-                  ${Array(testimonial.rating).fill('<i class="fas fa-star text-amber-400" aria-hidden="true"></i>').join('')}
+                  ${Array(testimonial.rating).fill(icon('star', 'w-5 h-5 text-amber-400')).join('')}
                 </div>
                 <p class="text-slate-300 italic">"${testimonial.text}"</p>
               </div>
@@ -281,7 +282,7 @@ export function renderLanding(state) {
               <ul class="space-y-4">
                 <li class="flex items-start gap-3">
                   <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <i class="fas fa-check text-emerald-400" aria-hidden="true"></i>
+                    ${icon('check', 'w-5 h-5 text-emerald-400')}
                   </div>
                   <div>
                     <div class="font-semibold">Mode hors-ligne</div>
@@ -290,7 +291,7 @@ export function renderLanding(state) {
                 </li>
                 <li class="flex items-start gap-3">
                   <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <i class="fas fa-check text-emerald-400" aria-hidden="true"></i>
+                    ${icon('check', 'w-5 h-5 text-emerald-400')}
                   </div>
                   <div>
                     <div class="font-semibold">GPS integre</div>
@@ -299,7 +300,7 @@ export function renderLanding(state) {
                 </li>
                 <li class="flex items-start gap-3">
                   <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <i class="fas fa-check text-emerald-400" aria-hidden="true"></i>
+                    ${icon('check', 'w-5 h-5 text-emerald-400')}
                   </div>
                   <div>
                     <div class="font-semibold">100% gratuit</div>
@@ -308,7 +309,7 @@ export function renderLanding(state) {
                 </li>
                 <li class="flex items-start gap-3">
                   <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <i class="fas fa-check text-emerald-400" aria-hidden="true"></i>
+                    ${icon('check', 'w-5 h-5 text-emerald-400')}
                   </div>
                   <div>
                     <div class="font-semibold">Multilingue</div>
@@ -321,7 +322,7 @@ export function renderLanding(state) {
                 onclick="installPWA()"
                 class="mt-8 btn-primary"
               >
-                <i class="fas fa-download mr-2" aria-hidden="true"></i>
+                ${icon('download', 'w-5 h-5 mr-2')}
                 Installer l'application
               </button>
             </div>
@@ -331,14 +332,14 @@ export function renderLanding(state) {
                 <div class="h-full bg-gradient-to-b from-slate-900 to-slate-800 p-4 flex flex-col">
                   <div class="text-center text-primary-400 font-bold text-lg mb-4">SpotHitch</div>
                   <div class="flex-1 rounded-2xl bg-emerald-900/30 flex items-center justify-center">
-                    <i class="fas fa-map-marked-alt text-6xl text-emerald-400/50" aria-hidden="true"></i>
+                    ${icon('map-marked-alt', 'w-5 h-5 text-6xl text-emerald-400/50')}
                   </div>
                   <div class="flex justify-around mt-4 pt-2 border-t border-slate-700">
-                    <i class="fas fa-map text-primary-400" aria-hidden="true"></i>
-                    <i class="fas fa-compass text-slate-500" aria-hidden="true"></i>
-                    <i class="fas fa-trophy text-slate-500" aria-hidden="true"></i>
-                    <i class="fas fa-comments text-slate-500" aria-hidden="true"></i>
-                    <i class="fas fa-user text-slate-500" aria-hidden="true"></i>
+                    ${icon('map', 'w-5 h-5 text-primary-400')}
+                    ${icon('compass', 'w-5 h-5 text-slate-500')}
+                    ${icon('trophy', 'w-5 h-5 text-slate-500')}
+                    ${icon('comments', 'w-5 h-5 text-slate-500')}
+                    ${icon('user', 'w-5 h-5 text-slate-500')}
                   </div>
                 </div>
               </div>
@@ -365,14 +366,14 @@ export function renderLanding(state) {
               onclick="openAuth(); setAuthMode('register')"
               class="btn-primary text-lg px-8 py-4"
             >
-              <i class="fas fa-user-plus mr-2" aria-hidden="true"></i>
+              ${icon('user-plus', 'w-5 h-5 mr-2')}
               Creer un compte gratuit
             </button>
             <button
               onclick="openAuth(); setAuthMode('login')"
               class="btn-ghost text-lg px-8 py-4"
             >
-              <i class="fas fa-sign-in-alt mr-2" aria-hidden="true"></i>
+              ${icon('sign-in-alt', 'w-5 h-5 mr-2')}
               Se connecter
             </button>
           </div>
@@ -436,15 +437,15 @@ export function renderLanding(state) {
             </p>
             <div class="flex gap-4">
               <a href="https://github.com/antoine626/Spothitch" target="_blank" rel="noopener" class="text-slate-400 hover:text-white">
-                <i class="fab fa-github text-xl" aria-hidden="true"></i>
+                ${icon('github', 'w-6 h-6')}
                 <span class="sr-only">GitHub</span>
               </a>
               <a href="#" class="text-slate-400 hover:text-white">
-                <i class="fab fa-twitter text-xl" aria-hidden="true"></i>
+                ${icon('twitter', 'w-6 h-6')}
                 <span class="sr-only">Twitter</span>
               </a>
               <a href="#" class="text-slate-400 hover:text-white">
-                <i class="fab fa-instagram text-xl" aria-hidden="true"></i>
+                ${icon('instagram', 'w-6 h-6')}
                 <span class="sr-only">Instagram</span>
               </a>
             </div>

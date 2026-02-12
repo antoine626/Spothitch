@@ -10,6 +10,7 @@ import { getState, setState } from '../stores/state.js';
 import { Storage } from '../utils/storage.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Storage keys
 const DANGEROUS_SPOTS_KEY = 'spothitch_dangerous_spots';
@@ -715,7 +716,7 @@ export function renderDangerAlert(spot) {
   const deletionSection = proposal ? `
     <div class="mt-3 pt-3 border-t border-white/20">
       <p class="text-white/90 text-sm mb-2">
-        <i class="fas fa-trash-alt mr-1"></i>
+        ${icon('trash-alt', 'w-5 h-5 mr-1')}
         ${escapeHTML(t('deletionProposed') || 'Suppression proposee')}
       </p>
       <div class="flex gap-2">
@@ -724,7 +725,7 @@ export function renderDangerAlert(spot) {
           class="btn btn-sm bg-white/20 hover:bg-white/30 text-white flex-1"
           aria-label="${escapeHTML(t('approveDelete') || 'Approuver la suppression')}"
         >
-          <i class="fas fa-check mr-1"></i>
+          ${icon('check', 'w-5 h-5 mr-1')}
           ${escapeHTML(t('approve') || 'Approuver')} (${proposal.votes.approve.length})
         </button>
         <button
@@ -732,7 +733,7 @@ export function renderDangerAlert(spot) {
           class="btn btn-sm bg-white/20 hover:bg-white/30 text-white flex-1"
           aria-label="${escapeHTML(t('rejectDelete') || 'Rejeter la suppression')}"
         >
-          <i class="fas fa-times mr-1"></i>
+          ${icon('times', 'w-5 h-5 mr-1')}
           ${escapeHTML(t('reject') || 'Rejeter')} (${proposal.votes.reject.length})
         </button>
       </div>
@@ -749,7 +750,7 @@ export function renderDangerAlert(spot) {
     >
       <div class="flex items-start gap-3">
         <div class="text-2xl">
-          <i class="fas ${icon} text-white"></i>
+          ${icon(icon, 'w-5 h-5 text-white')}
         </div>
         <div class="flex-1">
           <h3 class="font-bold text-white text-lg">${escapeHTML(label)}</h3>
@@ -766,7 +767,7 @@ export function renderDangerAlert(spot) {
               class="btn btn-sm bg-white/20 hover:bg-white/30 text-white"
               aria-label="${escapeHTML(t('confirmDanger') || 'Confirmer le danger')}"
             >
-              <i class="fas fa-check mr-1"></i>
+              ${icon('check', 'w-5 h-5 mr-1')}
               ${escapeHTML(t('confirmDanger') || 'Confirmer')}
             </button>
             <button
@@ -774,7 +775,7 @@ export function renderDangerAlert(spot) {
               class="btn btn-sm bg-white/20 hover:bg-white/30 text-white"
               aria-label="${escapeHTML(t('reportNewDanger') || 'Signaler un autre danger')}"
             >
-              <i class="fas fa-plus mr-1"></i>
+              ${icon('plus', 'w-5 h-5 mr-1')}
               ${escapeHTML(t('reportNewDanger') || 'Autre danger')}
             </button>
           </div>
@@ -809,7 +810,7 @@ export function renderDangerReportModal(spotId) {
           <div class="flex justify-between items-start">
             <div>
               <h2 id="danger-report-modal-title" class="text-xl font-bold text-white">
-                <i class="fas fa-exclamation-triangle mr-2"></i>
+                ${icon('exclamation-triangle', 'w-5 h-5 mr-2')}
                 ${escapeHTML(t('reportDangerTitle') || 'Signaler un danger')}
               </h2>
               <p class="text-white/80 text-sm mt-1">
@@ -821,7 +822,7 @@ export function renderDangerReportModal(spotId) {
               class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
               aria-label="${escapeHTML(t('close') || 'Fermer')}"
             >
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -877,7 +878,7 @@ export function renderDangerReportModal(spotId) {
           <!-- Warning -->
           <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
             <p class="text-red-400 text-sm">
-              <i class="fas fa-info-circle mr-2"></i>
+              ${icon('info-circle', 'w-5 h-5 mr-2')}
               ${escapeHTML(t('dangerReportWarning') || 'Les faux signalements peuvent entrainer des sanctions. Signale uniquement les vrais dangers.')}
             </p>
           </div>
@@ -896,7 +897,7 @@ export function renderDangerReportModal(spotId) {
             class="btn flex-1 bg-red-500 hover:bg-red-600 text-white"
             id="submit-danger-report-btn"
           >
-            <i class="fas fa-exclamation-triangle mr-2"></i>
+            ${icon('exclamation-triangle', 'w-5 h-5 mr-2')}
             ${escapeHTML(t('submitDangerReport') || 'Signaler le danger')}
           </button>
         </div>
@@ -942,7 +943,7 @@ export function renderDangerBadge(spotId) {
       aria-label="${escapeHTML(t('dangerBadge') || 'Spot signale comme dangereux')}"
       data-danger-level="${escapeHTML(dangerLevel.level)}"
     >
-      <i class="fas ${icon}"></i>
+      ${icon(icon, 'w-5 h-5')}
       <span class="sr-only">${escapeHTML(dangerLevel.level)}</span>
     </span>
   `;

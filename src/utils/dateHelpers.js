@@ -4,6 +4,7 @@
  */
 
 import { getState } from '../stores/state.js';
+import { icon } from './icons.js'
 
 /**
  * Freshness levels for spots based on last check-in date
@@ -354,7 +355,7 @@ export function renderFreshnessSection(lastCheckinDate) {
     <div class="mb-4 p-3 rounded-xl ${badge.bgColor} border ${badge.borderColor}">
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <i class="fas fa-clock ${badge.iconColor}" aria-hidden="true"></i>
+          ${icon('clock', `w-5 h-5 ${badge.iconColor}`)}
           <span class="text-sm font-medium ${badge.textColor}">${label}</span>
         </div>
         ${renderFreshnessBadge(lastCheckinDate, 'sm')}
@@ -364,7 +365,7 @@ export function renderFreshnessSection(lastCheckinDate) {
       </div>
       ${warning ? `
         <div class="mt-3 flex items-start gap-2 p-2 rounded-lg bg-red-500/10 border border-red-500/20">
-          <i class="fas fa-exclamation-triangle text-red-400 mt-0.5" aria-hidden="true"></i>
+          ${icon('exclamation-triangle', 'w-5 h-5 text-red-400 mt-0.5')}
           <p class="text-xs text-red-300">${warning}</p>
         </div>
       ` : ''}

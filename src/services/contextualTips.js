@@ -4,6 +4,7 @@
  */
 
 import { Storage } from '../utils/storage.js';
+import { icon } from '../utils/icons.js'
 
 // Storage key for seen tips
 const TIPS_STORAGE_KEY = 'contextual_tips_seen';
@@ -211,7 +212,7 @@ function showTipUI(tip) {
       <div class="flex items-start gap-3">
         <!-- Lightbulb Icon -->
         <div class="shrink-0 w-10 h-10 rounded-xl ${iconClass} flex items-center justify-center">
-          <i class="fas fa-lightbulb text-lg" aria-hidden="true"></i>
+          ${icon('lightbulb', 'w-5 h-5')}
         </div>
 
         <!-- Content -->
@@ -229,7 +230,7 @@ function showTipUI(tip) {
           aria-label="Fermer l'astuce"
           type="button"
         >
-          <i class="fas fa-check text-sm" aria-hidden="true"></i>
+          ${icon('check', 'w-4 h-4')}
         </button>
       </div>
 
@@ -239,7 +240,7 @@ function showTipUI(tip) {
         class="mt-3 w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-all flex items-center justify-center gap-2"
         type="button"
       >
-        <i class="fas fa-thumbs-up" aria-hidden="true"></i>
+        ${icon('thumbs-up', 'w-5 h-5')}
         OK, compris !
       </button>
     </div>

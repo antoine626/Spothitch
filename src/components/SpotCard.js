@@ -8,6 +8,7 @@ import { escapeHTML } from '../utils/sanitize.js';
 import { getStatusBadge, getSpotVerification } from '../services/verification.js';
 import { renderFreshnessIndicator, getFreshnessLevel, getFreshnessBadge, getTimeAgo, FRESHNESS_LEVELS } from '../utils/dateHelpers.js';
 import { renderFreshnessBadge as renderReliabilityBadge } from '../services/spotFreshness.js';
+import { icon } from '../utils/icons.js'
 
 export function renderSpotCard(spot, variant = 'default') {
   if (variant === 'compact') {
@@ -58,7 +59,7 @@ function renderDefaultCard(spot) {
             aria-label="${t('freshness') || 'Fraîcheur'}: ${freshnessBadge.label}"
             title="${freshnessBadge.description}"
           >
-            <i class="fas fa-circle ${freshnessBadge.iconColor} text-[8px] mr-1" aria-hidden="true"></i>
+            ${icon('circle', `w-5 h-5 ${freshnessBadge.iconColor} text-[8px] mr-1`)}
             ${freshnessBadge.label}
           </span>
         </div>
@@ -68,7 +69,7 @@ function renderDefaultCard(spot) {
     return verification.status !== 'unverified' ? `
             <div class="absolute top-3 left-3">
               <span class="badge ${badge.bg} ${badge.color}" aria-label="${badge.label}">
-                <i class="fas ${badge.icon}" aria-hidden="true"></i>
+                ${icon(badge.icon, 'w-5 h-5')}
                 ${badge.label}
               </span>
             </div>
@@ -80,7 +81,7 @@ function renderDefaultCard(spot) {
       <div class="p-5">
         <h3 class="font-bold text-lg mb-2">
           ${safeFrom && safeTo
-            ? `${safeFrom} <i class="fas fa-arrow-right text-primary-400 text-sm mx-1"></i> ${safeTo}`
+            ? `${safeFrom} ${icon('arrow-right', 'w-4 h-4 text-primary-400 mx-1')} ${safeTo}`
             : spot.direction
               ? `📍 ${escapeHTML(spot.direction)}`
               : `📍 ${t('spotLocation') || 'Spot'} #${spot.id}`}
@@ -94,7 +95,7 @@ function renderDefaultCard(spot) {
         <div class="flex items-center justify-between text-sm">
           <div class="flex items-center gap-3">
             <span class="flex items-center gap-1 text-warning-400" aria-label="${t('rating') || 'Note'}: ${spot.globalRating?.toFixed(1) || 'N/A'}/5">
-              <i class="fas fa-star" aria-hidden="true"></i>
+              ${icon('star', 'w-5 h-5')}
               <span>${spot.globalRating?.toFixed(1) || 'N/A'}</span>
             </span>
             <span class="text-slate-400">
@@ -103,7 +104,7 @@ function renderDefaultCard(spot) {
           </div>
 
           <div class="flex items-center gap-1 text-slate-400" aria-label="${t('avgWait') || 'Attente moyenne'}: ${spot.avgWaitTime || '?'} min">
-            <i class="fas fa-clock" aria-hidden="true"></i>
+            ${icon('clock', 'w-5 h-5')}
             <span>~${spot.avgWaitTime || '?'} min</span>
           </div>
         </div>
@@ -171,7 +172,7 @@ function renderCompactCard(spot) {
         </h3>
         <div class="flex items-center gap-2 mt-1 text-xs text-slate-400">
           <span class="flex items-center gap-1 text-warning-400" aria-label="${ratingText}">
-            <i class="fas fa-star" aria-hidden="true"></i>
+            ${icon('star', 'w-5 h-5')}
             <span>${spot.globalRating?.toFixed(1) || 'N/A'}</span>
           </span>
           <span aria-hidden="true">•</span>
@@ -184,7 +185,7 @@ function renderCompactCard(spot) {
 
       <!-- Arrow -->
       <div class="flex items-center" aria-hidden="true">
-        <i class="fas fa-chevron-right text-slate-500"></i>
+        ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
       </div>
     </article>
   `;

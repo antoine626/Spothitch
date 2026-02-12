@@ -5,6 +5,7 @@
  */
 
 import { getState } from '../stores/state.js';
+import { icon } from '../utils/icons.js'
 
 // Supported languages
 export const SUPPORTED_LANGUAGES = ['fr', 'en', 'es', 'de'];
@@ -428,7 +429,7 @@ export function renderTranslateButton(text, elementId) {
       data-source-lang="${detectedLang}"
       data-target-lang="${userLang}"
     >
-      <i class="fas fa-language" aria-hidden="true"></i>
+      ${icon('language', 'w-5 h-5')}
       <span>${buttonLabel[userLang] || 'Translate'} (${langNames[detectedLang] || detectedLang})</span>
     </button>
   `;
@@ -462,7 +463,7 @@ export function renderShowOriginalButton(elementId) {
       aria-label="${buttonLabel[userLang] || 'Show original'}"
       data-element-id="${escapeHtml(elementId)}"
     >
-      <i class="fas fa-undo" aria-hidden="true"></i>
+      ${icon('undo', 'w-5 h-5')}
       <span>${buttonLabel[userLang] || 'Show original'}</span>
     </button>
   `;

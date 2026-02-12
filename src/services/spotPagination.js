@@ -4,6 +4,7 @@
  */
 
 import { getState, setState } from '../stores/state.js';
+import { icon } from '../utils/icons.js'
 
 // Configuration
 const CONFIG = {
@@ -372,7 +373,7 @@ export function renderPagination(currentPage, totalPages, onPageChange = 'goToPa
         ${currentPage === 0 ? 'disabled' : ''}
         aria-label="Page précédente"
       >
-        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        ${icon('chevron-left', 'w-5 h-5')}
       </button>
 
       ${pages
@@ -400,7 +401,7 @@ export function renderPagination(currentPage, totalPages, onPageChange = 'goToPa
         ${currentPage >= totalPages - 1 ? 'disabled' : ''}
         aria-label="Page suivante"
       >
-        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        ${icon('chevron-right', 'w-5 h-5')}
       </button>
     </div>
   `;

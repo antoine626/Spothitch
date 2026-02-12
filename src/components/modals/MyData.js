@@ -6,6 +6,7 @@
 import { getState, setState } from '../../stores/state.js';
 import { Storage } from '../../utils/storage.js';
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Get all user data for GDPR compliance
@@ -127,7 +128,7 @@ export function renderMyDataModal() {
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/30 to-cyan-500/30 flex items-center justify-center">
-              <i class="fas fa-database text-blue-400 text-xl" aria-hidden="true"></i>
+              ${icon('database', 'w-6 h-6 text-blue-400')}
             </div>
             <div>
               <h2 id="mydata-title" class="text-xl font-bold">${t('myData') || 'Mes données'}</h2>
@@ -139,14 +140,14 @@ export function renderMyDataModal() {
             class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all"
             aria-label="${t('close') || 'Fermer'}"
           >
-            <i class="fas fa-times" aria-hidden="true"></i>
+            ${icon('times', 'w-5 h-5')}
           </button>
         </div>
 
         <!-- Personal Information Section -->
         <section class="mb-6" aria-labelledby="section-personal">
           <h3 id="section-personal" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            <i class="fas fa-user text-primary-400" aria-hidden="true"></i>
+            ${icon('user', 'w-5 h-5 text-primary-400')}
             ${t('personalInfo') || 'Informations personnelles'}
           </h3>
           <div class="card p-4 space-y-3">
@@ -172,7 +173,7 @@ export function renderMyDataModal() {
         <!-- Activity Section -->
         <section class="mb-6" aria-labelledby="section-activity">
           <h3 id="section-activity" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            <i class="fas fa-chart-line text-emerald-400" aria-hidden="true"></i>
+            ${icon('chart-line', 'w-5 h-5 text-emerald-400')}
             ${t('activity') || 'Activité'}
           </h3>
           <div class="card p-4">
@@ -214,7 +215,7 @@ export function renderMyDataModal() {
         <!-- Gamification Section -->
         <section class="mb-6" aria-labelledby="section-gamification">
           <h3 id="section-gamification" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            <i class="fas fa-trophy text-amber-400" aria-hidden="true"></i>
+            ${icon('trophy', 'w-5 h-5 text-amber-400')}
             ${t('progression') || 'Progression'}
           </h3>
           <div class="card p-4 space-y-2 text-sm">
@@ -244,7 +245,7 @@ export function renderMyDataModal() {
         <!-- Location Data Section -->
         <section class="mb-6" aria-labelledby="section-location">
           <h3 id="section-location" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            <i class="fas fa-map-marker-alt text-red-400" aria-hidden="true"></i>
+            ${icon('map-marker-alt', 'w-5 h-5 text-red-400')}
             ${t('locationData') || 'Données de localisation'}
           </h3>
           <div class="card p-4 space-y-3">
@@ -263,7 +264,7 @@ export function renderMyDataModal() {
               <span class="font-medium">${locationData.locationHistoryCount} ${t('entries') || 'entrées'}</span>
             </div>
             <p class="text-xs text-slate-500 mt-2">
-              <i class="fas fa-info-circle mr-1" aria-hidden="true"></i>
+              ${icon('info-circle', 'w-5 h-5 mr-1')}
               ${t('gpsDisclaimer') || "La position n'est collectée que lorsque vous utilisez activement l'application avec GPS activé."}
             </p>
           </div>
@@ -272,7 +273,7 @@ export function renderMyDataModal() {
         <!-- Consents Section -->
         <section class="mb-6" aria-labelledby="section-consents">
           <h3 id="section-consents" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            <i class="fas fa-shield-alt text-purple-400" aria-hidden="true"></i>
+            ${icon('shield-alt', 'w-5 h-5 text-purple-400')}
             ${t('consents') || 'Consentements'}
           </h3>
           <div class="card p-4 space-y-4">
@@ -307,7 +308,7 @@ export function renderMyDataModal() {
               onclick="openConsentSettings()"
               class="w-full mt-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm"
             >
-              <i class="fas fa-cog mr-2" aria-hidden="true"></i>
+              ${icon('cog', 'w-5 h-5 mr-2')}
               ${t('manageConsents') || 'Gérer mes consentements'}
             </button>
           </div>
@@ -316,7 +317,7 @@ export function renderMyDataModal() {
         <!-- Actions Section -->
         <section aria-labelledby="section-actions">
           <h3 id="section-actions" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            <i class="fas fa-cogs text-slate-400" aria-hidden="true"></i>
+            ${icon('cogs', 'w-5 h-5 text-slate-400')}
             Actions
           </h3>
           <div class="space-y-3">
@@ -327,14 +328,14 @@ export function renderMyDataModal() {
             >
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
-                  <i class="fas fa-download text-blue-400" aria-hidden="true"></i>
+                  ${icon('download', 'w-5 h-5 text-blue-400')}
                 </div>
                 <div class="text-left">
                   <div class="font-medium">${t('downloadMyData') || 'Télécharger mes données'}</div>
                   <div class="text-xs text-slate-400">${t('completeJsonExport') || 'Export JSON complet'}</div>
                 </div>
               </div>
-              <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+              ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
             </button>
 
             <!-- Delete Account -->
@@ -344,14 +345,14 @@ export function renderMyDataModal() {
             >
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-                  <i class="fas fa-trash-alt text-red-400" aria-hidden="true"></i>
+                  ${icon('trash-alt', 'w-5 h-5 text-red-400')}
                 </div>
                 <div class="text-left">
                   <div class="font-medium text-red-400">${t('deleteAccount') || 'Supprimer mon compte'}</div>
                   <div class="text-xs text-slate-400">${t('irreversibleAction') || 'Action irréversible'}</div>
                 </div>
               </div>
-              <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+              ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
             </button>
           </div>
         </section>

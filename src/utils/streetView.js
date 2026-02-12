@@ -1,3 +1,5 @@
+import { icon } from './icons.js'
+
 /**
  * Street View Utility Functions
  * Integration with Google Street View for spot visualization
@@ -123,7 +125,7 @@ export function renderStreetViewPreview(lat, lng, options = {}) {
   if (!lat || !lng) {
     return `
       <div class="street-view-unavailable p-4 bg-slate-800/50 rounded-xl text-center">
-        <i class="fas fa-street-view text-3xl text-slate-500 mb-2"></i>
+        ${icon('street-view', 'w-8 h-8 text-slate-500 mb-2')}
         <p class="text-sm text-slate-400">Coordonnees non disponibles</p>
       </div>
     `;
@@ -136,7 +138,7 @@ export function renderStreetViewPreview(lat, lng, options = {}) {
       <div class="relative">
         <!-- Placeholder for Street View -->
         <div class="aspect-video bg-gradient-to-br from-slate-700 to-slate-800 flex flex-col items-center justify-center">
-          <i class="fas fa-street-view text-4xl text-primary-400 mb-3"></i>
+          ${icon('street-view', 'w-10 h-10 text-primary-400 mb-3')}
           <p class="text-sm text-slate-300 mb-1">Google Street View</p>
           <p class="text-xs text-slate-500">${lat.toFixed(6)}, ${lng.toFixed(6)}</p>
         </div>
@@ -148,7 +150,7 @@ export function renderStreetViewPreview(lat, lng, options = {}) {
               class="btn btn-primary text-sm"
               type="button"
             >
-              <i class="fas fa-external-link-alt"></i>
+              ${icon('external-link-alt', 'w-5 h-5')}
               ${buttonText}
             </button>
           </div>

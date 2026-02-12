@@ -11,6 +11,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
 import { Storage } from '../utils/storage.js';
+import { icon } from '../utils/icons.js'
 
 // Storage keys
 const TRAVEL_PLANS_KEY = 'spothitch_travel_plans';
@@ -868,7 +869,7 @@ export function renderTravelPlanCard(plan) {
             <div class="text-xs text-slate-400 flex items-center gap-2">
               <span>${t('level') || 'Niveau'} ${plan.userLevel || 1}</span>
               ${plan.verificationLevel > 0 ? `
-                <span class="text-emerald-400"><i class="fas fa-check-circle"></i></span>
+                <span class="text-emerald-400">${icon('check-circle', 'w-5 h-5')}</span>
               ` : ''}
             </div>
           </div>
@@ -885,12 +886,12 @@ export function renderTravelPlanCard(plan) {
         <div class="flex items-center gap-2 text-lg font-semibold">
           ${plan.departure ? `
             <span>${escapeHTML(plan.departure)}</span>
-            <i class="fas fa-arrow-right text-primary-400 text-sm"></i>
+            ${icon('arrow-right', 'w-4 h-4 text-primary-400')}
           ` : ''}
           <span class="text-primary-400">${escapeHTML(plan.destination)}</span>
         </div>
         <div class="text-sm text-slate-400 mt-1">
-          <i class="fas fa-calendar mr-1"></i>
+          ${icon('calendar', 'w-5 h-5 mr-1')}
           ${formatDate(plan.startDate)}
           ${plan.endDate ? ` - ${formatDate(plan.endDate)}` : ''}
         </div>
@@ -915,7 +916,7 @@ export function renderTravelPlanCard(plan) {
             <span class="text-amber-400">${pendingResponses} ${t('pending') || 'en attente'}</span>
           ` : ''}
           <span>${plan.acceptedCount || 0}/${plan.maxCompanions || 2}</span>
-          <i class="fas fa-users"></i>
+          ${icon('users', 'w-5 h-5')}
         </div>
       </div>
     </div>
@@ -963,7 +964,7 @@ export function renderResponseCard(response, isOwner = false) {
           </div>
           <div class="text-xs text-slate-400 mb-2">
             ${t('level') || 'Niveau'} ${response.userLevel || 1}
-            ${response.verificationLevel > 0 ? ' <i class="fas fa-check-circle text-emerald-400"></i>' : ''}
+            ${response.verificationLevel > 0 ? ' ${icon('check-circle', 'w-5 h-5 text-emerald-400')}' : ''}
           </div>
           <p class="text-sm text-slate-300">${escapeHTML(response.message)}</p>
 
@@ -973,14 +974,14 @@ export function renderResponseCard(response, isOwner = false) {
                 onclick="event.stopPropagation(); acceptPlanResponse('${escapeHTML(response.planId)}', '${escapeHTML(response.id)}')"
                 class="btn btn-sm btn-primary"
               >
-                <i class="fas fa-check mr-1"></i>
+                ${icon('check', 'w-5 h-5 mr-1')}
                 ${t('accept') || 'Accepter'}
               </button>
               <button
                 onclick="event.stopPropagation(); declinePlanResponse('${escapeHTML(response.planId)}', '${escapeHTML(response.id)}')"
                 class="btn btn-sm bg-white/10 hover:bg-white/20"
               >
-                <i class="fas fa-times mr-1"></i>
+                ${icon('times', 'w-5 h-5 mr-1')}
                 ${t('decline') || 'Refuser'}
               </button>
             </div>

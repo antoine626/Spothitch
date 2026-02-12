@@ -10,6 +10,7 @@ import { getState, setState } from '../stores/state.js';
 import { Storage } from '../utils/storage.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Storage keys
 const FRIENDS_KEY = 'spothitch_friends';
@@ -548,16 +549,16 @@ export function renderFriendCard(friend) {
     >
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-teal-500 flex items-center justify-center text-2xl">
-          ${avatar ? escapeHTML(avatar) : '<i class="fas fa-user text-white text-lg"></i>'}
+          ${avatar ? escapeHTML(avatar) : icon('user', 'w-5 h-5 text-white')}
         </div>
         <div>
           <div class="font-medium text-white">${username}</div>
           <div class="text-xs text-slate-400 flex items-center gap-2">
-            <i class="fas fa-calendar-alt"></i>
+            ${icon('calendar-alt', 'w-5 h-5')}
             <span>${t('friendsSince') || 'Amis depuis'} ${escapeHTML(friendsSince)}</span>
             ${lastSeen ? `
               <span class="text-slate-500">|</span>
-              <i class="fas fa-clock"></i>
+              ${icon('clock', 'w-5 h-5')}
               <span>${escapeHTML(lastSeen)}</span>
             ` : ''}
           </div>
@@ -569,21 +570,21 @@ export function renderFriendCard(friend) {
           class="btn btn-sm bg-primary-500/20 hover:bg-primary-500/30 text-primary-400"
           aria-label="${t('sendMessage') || 'Envoyer un message'}"
         >
-          <i class="fas fa-comment"></i>
+          ${icon('comment', 'w-5 h-5')}
         </button>
         <button
           onclick="openFriendProfile('${escapeHTML(friend.id)}')"
           class="btn btn-sm bg-white/10 hover:bg-white/20 text-white"
           aria-label="${t('viewProfile') || 'Voir le profil'}"
         >
-          <i class="fas fa-user"></i>
+          ${icon('user', 'w-5 h-5')}
         </button>
         <button
           onclick="confirmRemoveFriend('${escapeHTML(friend.id)}', '${username}')"
           class="btn btn-sm bg-danger-500/20 hover:bg-danger-500/30 text-danger-400"
           aria-label="${t('removeFriend') || 'Supprimer'}"
         >
-          <i class="fas fa-user-minus"></i>
+          ${icon('user-minus', 'w-5 h-5')}
         </button>
       </div>
     </div>
@@ -612,12 +613,12 @@ export function renderFriendRequestCard(request, type = 'received') {
       >
         <div class="flex items-center gap-3">
           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-2xl">
-            ${avatar ? escapeHTML(avatar) : '<i class="fas fa-user-clock text-white text-lg"></i>'}
+            ${avatar ? escapeHTML(avatar) : icon('user-clock', 'w-5 h-5 text-white')}
           </div>
           <div>
             <div class="font-medium text-white">${username}</div>
             <div class="text-xs text-slate-400 flex items-center gap-2">
-              <i class="fas fa-paper-plane"></i>
+              ${icon('paper-plane', 'w-5 h-5')}
               <span>${t('requestSent') || 'Envoyee'} ${escapeHTML(sentAt)}</span>
             </div>
           </div>
@@ -631,7 +632,7 @@ export function renderFriendRequestCard(request, type = 'received') {
             class="btn btn-sm bg-white/10 hover:bg-white/20 text-white"
             aria-label="${t('cancelRequest') || 'Annuler'}"
           >
-            <i class="fas fa-times"></i>
+            ${icon('times', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -647,12 +648,12 @@ export function renderFriendRequestCard(request, type = 'received') {
     >
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-purple-500 flex items-center justify-center text-2xl">
-          ${avatar ? escapeHTML(avatar) : '<i class="fas fa-user-plus text-white text-lg"></i>'}
+          ${avatar ? escapeHTML(avatar) : icon('user-plus', 'w-5 h-5 text-white')}
         </div>
         <div>
           <div class="font-medium text-white">${username}</div>
           <div class="text-xs text-slate-400 flex items-center gap-2">
-            <i class="fas fa-inbox"></i>
+            ${icon('inbox', 'w-5 h-5')}
             <span>${t('receivedAt') || 'Recue'} ${escapeHTML(sentAt)}</span>
           </div>
         </div>
@@ -663,7 +664,7 @@ export function renderFriendRequestCard(request, type = 'received') {
           class="btn btn-sm btn-primary"
           aria-label="${t('acceptRequest') || 'Accepter'}"
         >
-          <i class="fas fa-check mr-1"></i>
+          ${icon('check', 'w-5 h-5 mr-1')}
           ${t('accept') || 'Accepter'}
         </button>
         <button
@@ -671,7 +672,7 @@ export function renderFriendRequestCard(request, type = 'received') {
           class="btn btn-sm bg-white/10 hover:bg-white/20 text-white"
           aria-label="${t('declineRequest') || 'Refuser'}"
         >
-          <i class="fas fa-times"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
       </div>
     </div>
@@ -697,7 +698,7 @@ export function renderFriendsList(options = {}) {
     html += `
       <div class="pending-requests-section mb-6">
         <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-          <i class="fas fa-user-plus text-primary-400"></i>
+          ${icon('user-plus', 'w-5 h-5 text-primary-400')}
           ${t('pendingRequests') || 'Demandes recues'}
           <span class="ml-auto px-2 py-1 text-xs bg-primary-500/20 text-primary-400 rounded-full">
             ${pendingRequests.length}
@@ -715,7 +716,7 @@ export function renderFriendsList(options = {}) {
     html += `
       <div class="sent-requests-section mb-6">
         <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-          <i class="fas fa-paper-plane text-yellow-400"></i>
+          ${icon('paper-plane', 'w-5 h-5 text-yellow-400')}
           ${t('sentRequests') || 'Demandes envoyees'}
           <span class="ml-auto px-2 py-1 text-xs bg-yellow-500/20 text-yellow-400 rounded-full">
             ${sentRequests.length}
@@ -739,7 +740,7 @@ export function renderFriendsList(options = {}) {
           onclick="openFindFriends()"
           class="btn btn-primary"
         >
-          <i class="fas fa-search mr-2"></i>
+          ${icon('search', 'w-5 h-5 mr-2')}
           ${t('findFriends') || 'Trouver des amis'}
         </button>
       </div>
@@ -748,7 +749,7 @@ export function renderFriendsList(options = {}) {
     html += `
       <div class="friends-section">
         <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-          <i class="fas fa-users text-primary-400"></i>
+          ${icon('users', 'w-5 h-5 text-primary-400')}
           ${t('myFriends') || 'Mes amis'}
           <span class="ml-auto px-2 py-1 text-xs bg-primary-500/20 text-primary-400 rounded-full">
             ${friends.length}

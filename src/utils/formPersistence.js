@@ -1,3 +1,5 @@
+import { icon } from './icons.js'
+
 /**
  * Smart Form Persistence
  * Auto-saves form drafts to localStorage on input
@@ -117,7 +119,7 @@ export function renderDraftBanner(formId) {
 
   return `
     <div class="flex items-center gap-2 bg-amber-500/20 border border-amber-500/30 rounded-lg px-3 py-2 mb-3 text-sm text-amber-300">
-      <i class="fas fa-file-alt"></i>
+      ${icon('file-alt', 'w-5 h-5')}
       <span>Brouillon restaure</span>
       <button onclick="window.clearFormDraft('${formId}')" class="ml-auto text-amber-400 hover:text-amber-200 text-xs underline">
         Effacer

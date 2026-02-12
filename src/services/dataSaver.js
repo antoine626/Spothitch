@@ -4,6 +4,7 @@
  */
 
 import { Storage } from '../utils/storage.js';
+import { icon } from '../utils/icons.js'
 
 // Storage key for data saver settings
 const DATA_SAVER_KEY = 'dataSaver';
@@ -404,7 +405,7 @@ export function renderDataSaverToggle(options = {}) {
           <div class="w-11 h-6 bg-white/10 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-dark-primary peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-white/10 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-white/10 peer-checked:bg-primary-500"></div>
         </label>
         <span class="text-sm ${settings.enabled ? 'text-primary-500' : 'text-slate-500'}">
-          <i class="fas fa-leaf mr-1"></i>
+          ${icon('leaf', 'w-5 h-5 mr-1')}
           ${settings.enabled ? 'Actif' : 'Inactif'}
         </span>
       </div>
@@ -416,7 +417,7 @@ export function renderDataSaverToggle(options = {}) {
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
-            <i class="fas fa-leaf text-green-600 dark:text-green-400"></i>
+            ${icon('leaf', 'w-5 h-5 text-green-600 dark:text-green-400')}
           </div>
           <div>
             <h3 class="font-semibold text-white dark:text-white">Mode economie de donnees</h3>
@@ -496,7 +497,7 @@ export function renderDataSaverToggle(options = {}) {
       ${showDetails && settings.enabled ? `
         <div class="mt-4 pt-4 border-t border-white/10 dark:border-white/10">
           <div class="flex items-center gap-2 mb-3">
-            <i class="fas fa-chart-line text-primary-500"></i>
+            ${icon('chart-line', 'w-5 h-5 text-primary-500')}
             <span class="font-medium text-white dark:text-white">Economies estimees</span>
           </div>
           <div class="grid grid-cols-2 gap-3">
@@ -536,7 +537,7 @@ export function renderSavingsIndicator() {
 
   return `
     <div class="data-saver-indicator fixed bottom-20 right-4 bg-green-500 text-white rounded-full px-3 py-1 text-sm shadow-lg flex items-center gap-2 z-50" role="status" aria-live="polite">
-      <i class="fas fa-leaf"></i>
+      ${icon('leaf', 'w-5 h-5')}
       <span>${savings.totalSavedMB} Mo economises</span>
     </div>
   `;

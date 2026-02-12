@@ -4,6 +4,7 @@
  */
 
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Messages humoristiques pour le refresh
 const refreshMessages = {
@@ -145,10 +146,10 @@ function createPTRIndicator(container) {
   indicator.innerHTML = `
     <div class="ptr-content">
       <div class="ptr-spinner">
-        <i class="fas fa-circle-notch fa-spin"></i>
+        ${icon('circle-notch', 'w-5 h-5 animate-spin')}
       </div>
       <div class="ptr-icon">
-        <i class="fas fa-arrow-down"></i>
+        ${icon('arrow-down', 'w-5 h-5')}
       </div>
       <div class="ptr-message">Tirez pour actualiser</div>
     </div>
@@ -186,35 +187,35 @@ function updateIndicator() {
 
   const content = indicator.querySelector('.ptr-content');
   const spinner = indicator.querySelector('.ptr-spinner');
-  const icon = indicator.querySelector('.ptr-icon');
+  const iconEl = indicator.querySelector('.ptr-icon');
   const message = indicator.querySelector('.ptr-message');
 
   if (ptrState.refreshing) {
     indicator.style.height = `${ptrState.threshold}px`;
     indicator.classList.add('refreshing');
     spinner.style.display = 'block';
-    icon.style.display = 'none';
+    iconEl.style.display = 'none';
     message.textContent = getRandomRefreshMessage(currentLang);
   } else if (ptrState.pullDistance > 0) {
     const height = Math.min(ptrState.pullDistance, ptrState.maxPull);
     indicator.style.height = `${height}px`;
     indicator.classList.remove('refreshing');
     spinner.style.display = 'none';
-    icon.style.display = 'block';
+    iconEl.style.display = 'block';
 
     // Rotate arrow based on pull distance
     const progress = Math.min(ptrState.pullDistance / ptrState.threshold, 1);
     const rotation = progress * 180;
-    icon.style.transform = `rotate(${rotation}deg)`;
+    iconEl.style.transform = `rotate(${rotation}deg)`;
 
     // Update message based on state
     if (ptrState.pullDistance >= ptrState.threshold) {
       message.textContent = 'Relacher pour actualiser';
-      icon.innerHTML = '<i class="fas fa-sync-alt"></i>';
+      iconEl.innerHTML = icon('sync-alt', 'w-5 h-5');
       indicator.classList.add('ready');
     } else {
       message.textContent = 'Tirez pour actualiser';
-      icon.innerHTML = '<i class="fas fa-arrow-down"></i>';
+      iconEl.innerHTML = icon('arrow-down', 'w-5 h-5');
       indicator.classList.remove('ready');
     }
 
@@ -379,10 +380,10 @@ export function renderPullToRefreshWrapper(content, viewId) {
       <div id="ptr-indicator-${viewId}" class="ptr-indicator">
         <div class="ptr-content">
           <div class="ptr-spinner">
-            <i class="fas fa-circle-notch fa-spin"></i>
+            ${icon('circle-notch', 'w-5 h-5 animate-spin')}
           </div>
           <div class="ptr-icon">
-            <i class="fas fa-arrow-down"></i>
+            ${icon('arrow-down', 'w-5 h-5')}
           </div>
           <div class="ptr-message">Tirez pour actualiser</div>
         </div>

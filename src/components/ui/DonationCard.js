@@ -4,6 +4,7 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render donation card
@@ -37,12 +38,12 @@ function renderFullDonation() {
         <!-- Heart icon with animation -->
         <div class="text-5xl mb-4">
           <span class="inline-block animate-pulse text-rose-400">
-            <i class="fas fa-heart"></i>
+            ${icon('heart', 'w-5 h-5')}
           </span>
         </div>
 
         <h3 class="text-xl font-bold mb-2 flex items-center justify-center gap-2">
-          <i class="fas fa-hand-holding-heart text-rose-400" aria-hidden="true"></i>
+          ${icon('hand-holding-heart', 'w-5 h-5 text-rose-400')}
           Soutenir SpotHitch
         </h3>
 
@@ -56,7 +57,7 @@ function renderFullDonation() {
           <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-rose-500/20 to-amber-500/20 border border-rose-500/30">
             <div class="flex items-center justify-center gap-3">
               <span class="text-3xl">
-                <i class="fas fa-medal text-amber-400"></i>
+                ${icon('medal', 'w-5 h-5 text-amber-400')}
               </span>
               <div class="text-left">
                 <div class="font-bold text-amber-400">Merci Supporter !</div>
@@ -74,7 +75,7 @@ function renderFullDonation() {
             class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-amber-500/20 transition-all text-white border border-white/10 hover:border-amber-500/50 group"
           >
             <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">
-              <i class="fas fa-mug-hot text-amber-400"></i>
+              ${icon('mug-hot', 'w-5 h-5 text-amber-400')}
             </div>
             <div class="font-bold text-lg">3 EUR</div>
             <div class="text-xs text-slate-400">Offrir un cafe</div>
@@ -86,7 +87,7 @@ function renderFullDonation() {
             class="donation-btn p-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/30 transition-all text-white border border-amber-500/30 hover:border-amber-500/50 ring-2 ring-amber-500/20 group"
           >
             <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">
-              <i class="fas fa-pizza-slice text-orange-400"></i>
+              ${icon('pizza-slice', 'w-5 h-5 text-orange-400')}
             </div>
             <div class="font-bold text-lg">10 EUR</div>
             <div class="text-xs text-amber-400">Offrir une pizza</div>
@@ -99,7 +100,7 @@ function renderFullDonation() {
             class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-emerald-500/20 transition-all text-white border border-white/10 hover:border-emerald-500/50 group"
           >
             <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">
-              <i class="fas fa-gas-pump text-emerald-400"></i>
+              ${icon('gas-pump', 'w-5 h-5 text-emerald-400')}
             </div>
             <div class="font-bold text-lg">50 EUR</div>
             <div class="text-xs text-slate-400">Offrir le plein</div>
@@ -111,7 +112,7 @@ function renderFullDonation() {
             class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-rose-500/20 transition-all text-white border border-white/10 hover:border-rose-500/50 group"
           >
             <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">
-              <i class="fas fa-heart text-rose-400"></i>
+              ${icon('heart', 'w-5 h-5 text-rose-400')}
             </div>
             <div class="font-bold text-lg">? EUR</div>
             <div class="text-xs text-slate-400">Montant libre</div>
@@ -127,7 +128,7 @@ function renderFullDonation() {
             class="text-sm text-slate-400 hover:text-rose-400 transition-colors flex items-center gap-1"
             aria-label="Soutenir sur Ko-fi"
           >
-            <i class="fas fa-coffee"></i>
+            ${icon('coffee', 'w-5 h-5')}
             Ko-fi
           </a>
           <span class="text-slate-600">|</span>
@@ -138,7 +139,7 @@ function renderFullDonation() {
             class="text-sm text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-1"
             aria-label="Buy Me a Coffee"
           >
-            <i class="fas fa-mug-saucer"></i>
+            ${icon('mug-saucer', 'w-5 h-5')}
             Buy Me a Coffee
           </a>
         </div>
@@ -147,7 +148,7 @@ function renderFullDonation() {
         ${!isSupporter ? `
           <div class="pt-4 border-t border-white/10">
             <p class="text-xs text-slate-500 flex items-center justify-center gap-2">
-              <i class="fas fa-star text-amber-400"></i>
+              ${icon('star', 'w-5 h-5 text-amber-400')}
               Recois le badge <strong class="text-amber-400">Supporter</strong> sur ton profil !
             </p>
           </div>
@@ -167,7 +168,7 @@ function renderCompactDonation() {
       class="donation-btn-compact flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500/20 to-amber-500/20 border border-rose-500/30 hover:border-rose-500/50 transition-all"
     >
       <span class="text-xl">
-        <i class="fas fa-heart text-rose-400"></i>
+        ${icon('heart', 'w-5 h-5 text-rose-400')}
       </span>
       <span class="text-sm font-medium text-rose-400">Soutenir</span>
     </button>
@@ -183,7 +184,7 @@ function renderDonationBanner() {
       <div class="flex items-center justify-between max-w-screen-lg mx-auto">
         <div class="flex items-center gap-3">
           <span class="text-2xl">
-            <i class="fas fa-heart text-rose-400 animate-pulse"></i>
+            ${icon('heart', 'w-5 h-5 text-rose-400 animate-pulse')}
           </span>
           <div>
             <div class="font-medium text-sm">Tu aimes SpotHitch ?</div>
@@ -194,7 +195,7 @@ function renderDonationBanner() {
           onclick="openDonation(10, 'pizza')"
           class="px-4 py-2 rounded-lg bg-gradient-to-r from-rose-500 to-amber-500 text-white text-sm font-medium hover:from-rose-600 hover:to-amber-600 transition-all shadow-lg shadow-rose-500/30"
         >
-          <i class="fas fa-heart mr-1"></i> Soutenir
+          ${icon('heart', 'w-5 h-5 mr-1')} Soutenir
         </button>
       </div>
     </div>
@@ -232,7 +233,7 @@ export function renderDonationModal(state) {
         <!-- Header -->
         <div class="bg-gradient-to-r from-rose-500 via-amber-500 to-orange-500 p-6 text-center">
           <div class="text-5xl mb-2">
-            <i class="fas ${info.icon} text-white"></i>
+            ${icon(info.icon, 'w-5 h-5 text-white')}
           </div>
           <h2 id="donation-title" class="text-2xl font-bold text-white">Soutenir SpotHitch</h2>
           <p class="text-white/80 text-sm">${info.label}</p>
@@ -260,7 +261,7 @@ export function renderDonationModal(state) {
             <div class="text-center mb-6">
               <div class="inline-flex items-center justify-center gap-3 mb-2">
                 <span class="text-4xl">
-                  <i class="fas ${info.icon} text-${info.color}-400"></i>
+                  ${icon(info.icon, `w-5 h-5 text-${info.color}-400`)}
                 </span>
                 <span class="text-5xl font-bold text-white">${donationAmount} EUR</span>
               </div>
@@ -277,7 +278,7 @@ export function renderDonationModal(state) {
               onclick="handleDonationClick('kofi')"
               class="w-full py-4 px-6 rounded-xl bg-[#FF5E5B] text-white font-medium flex items-center justify-center gap-3 hover:bg-[#e5524f] transition-all block text-center"
             >
-              <i class="fas fa-coffee text-xl"></i>
+              ${icon('coffee', 'w-6 h-6')}
               Ko-fi
             </a>
 
@@ -288,7 +289,7 @@ export function renderDonationModal(state) {
               onclick="handleDonationClick('bmc')"
               class="w-full py-4 px-6 rounded-xl bg-[#FFDD00] text-black font-medium flex items-center justify-center gap-3 hover:bg-[#E5C700] transition-all block text-center"
             >
-              <i class="fas fa-mug-saucer text-xl"></i>
+              ${icon('mug-saucer', 'w-6 h-6')}
               Buy Me a Coffee
             </a>
 
@@ -299,7 +300,7 @@ export function renderDonationModal(state) {
               onclick="handleDonationClick('paypal')"
               class="w-full py-4 px-6 rounded-xl bg-[#0070ba] text-white font-medium flex items-center justify-center gap-3 hover:bg-[#005ea6] transition-all block text-center"
             >
-              <i class="fab fa-paypal text-xl"></i>
+              ${icon('paypal', 'w-6 h-6')}
               PayPal
             </a>
           </div>
@@ -307,11 +308,11 @@ export function renderDonationModal(state) {
           <!-- Info notice -->
           <div class="mt-6 text-center space-y-2">
             <p class="text-xs text-slate-500 flex items-center justify-center gap-2">
-              <i class="fas fa-lock"></i>
+              ${icon('lock', 'w-5 h-5')}
               Paiement securise via les plateformes officielles
             </p>
             <p class="text-xs text-amber-400/80 flex items-center justify-center gap-2">
-              <i class="fas fa-star"></i>
+              ${icon('star', 'w-5 h-5')}
               Tu recevras le badge Supporter !
             </p>
           </div>
@@ -323,7 +324,7 @@ export function renderDonationModal(state) {
             onclick="closeDonation()"
             class="text-slate-400 hover:text-white transition-colors text-sm"
           >
-            <i class="fas fa-times mr-1"></i>
+            ${icon('times', 'w-5 h-5 mr-1')}
             Peut-etre plus tard
           </button>
         </div>
@@ -352,7 +353,7 @@ export function renderThankYouModal(state) {
         <div class="bg-gradient-to-br from-rose-500/20 via-amber-500/20 to-orange-500/20 p-8">
           <!-- Animated heart -->
           <div class="text-7xl mb-4 animate-bounce">
-            <i class="fas fa-heart text-rose-500"></i>
+            ${icon('heart', 'w-5 h-5 text-rose-500')}
           </div>
 
           <h2 id="thank-you-title" class="text-3xl font-bold mb-2">MERCI !</h2>
@@ -362,7 +363,7 @@ export function renderThankYouModal(state) {
 
           <!-- Badge earned -->
           <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-amber-500/30 to-orange-500/30 border border-amber-500/50">
-            <i class="fas fa-medal text-amber-400 text-2xl"></i>
+            ${icon('medal', 'w-7 h-7 text-amber-400')}
             <div class="text-left">
               <div class="text-xs text-amber-400/80">Badge debloque</div>
               <div class="font-bold text-amber-400">Supporter</div>
@@ -380,7 +381,7 @@ export function renderThankYouModal(state) {
             onclick="closeDonationThankYou()"
             class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-white font-medium hover:from-rose-600 hover:to-amber-600 transition-all"
           >
-            <i class="fas fa-check mr-2"></i>
+            ${icon('check', 'w-5 h-5 mr-2')}
             Super, merci !
           </button>
         </div>

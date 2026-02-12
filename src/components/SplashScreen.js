@@ -4,6 +4,7 @@
  */
 
 import { t } from '../i18n/index.js'
+import { icon } from '../utils/icons.js'
 
 // Loading message i18n keys
 const loadingMessageKeys = [
@@ -48,7 +49,7 @@ export function renderSplashScreen() {
         <!-- Logo -->
         <div class="splash-logo">
           <span class="splash-logo-icon">
-            <i class="fas fa-route" aria-hidden="true"></i>
+            ${icon('route', 'w-5 h-5')}
           </span>
           <h1 class="splash-logo-text">SpotHitch</h1>
         </div>
@@ -58,16 +59,16 @@ export function renderSplashScreen() {
           <!-- Person with thumb up -->
           <div class="splash-hitchhiker">
             <div class="hitchhiker-body">
-              <i class="fas fa-person" aria-hidden="true"></i>
+              ${icon('person', 'w-5 h-5')}
             </div>
             <div class="hitchhiker-thumb">
-              <i class="fas fa-thumbs-up" aria-hidden="true"></i>
+              ${icon('thumbs-up', 'w-5 h-5')}
             </div>
           </div>
 
           <!-- Car passing by -->
           <div class="splash-car">
-            <i class="fas fa-car-side" aria-hidden="true"></i>
+            ${icon('car-side', 'w-5 h-5')}
           </div>
         </div>
 
@@ -84,9 +85,9 @@ export function renderSplashScreen() {
 
       <!-- Decorative elements -->
       <div class="splash-decorations">
-        <i class="fas fa-sun splash-sun" aria-hidden="true"></i>
-        <i class="fas fa-cloud splash-cloud splash-cloud-1" aria-hidden="true"></i>
-        <i class="fas fa-cloud splash-cloud splash-cloud-2" aria-hidden="true"></i>
+        ${icon('sun', 'w-5 h-5 splash-sun')}
+        ${icon('cloud', 'w-5 h-5 splash-cloud splash-cloud-1')}
+        ${icon('cloud', 'w-5 h-5 splash-cloud splash-cloud-2')}
       </div>
     </div>
   `

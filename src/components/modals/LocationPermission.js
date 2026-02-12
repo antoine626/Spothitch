@@ -4,6 +4,7 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render the location permission explanation modal
@@ -28,7 +29,7 @@ export function renderLocationPermission(_state) {
         <!-- Header with icon -->
         <div class="p-6 text-center border-b border-white/10">
           <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary-500 to-cyan-500 flex items-center justify-center">
-            <i class="fas fa-map-marker-alt text-3xl text-white" aria-hidden="true"></i>
+            ${icon('map-marker-alt', 'w-8 h-8 text-white')}
           </div>
           <h2 id="location-modal-title" class="text-2xl font-bold text-white">
             ${t('locationPermissionTitle')}
@@ -45,7 +46,7 @@ export function renderLocationPermission(_state) {
           <div class="space-y-3">
             <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
               <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center shrink-0">
-                <i class="fas fa-search-location text-primary-400" aria-hidden="true"></i>
+                ${icon('search-location', 'w-5 h-5 text-primary-400')}
               </div>
               <div>
                 <p class="text-white font-medium">${t('locationReason1Title')}</p>
@@ -55,7 +56,7 @@ export function renderLocationPermission(_state) {
 
             <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
               <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center shrink-0">
-                <i class="fas fa-map text-cyan-400" aria-hidden="true"></i>
+                ${icon('map', 'w-5 h-5 text-cyan-400')}
               </div>
               <div>
                 <p class="text-white font-medium">${t('locationReason2Title')}</p>
@@ -65,7 +66,7 @@ export function renderLocationPermission(_state) {
 
             <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
               <div class="w-10 h-10 rounded-full bg-success-500/20 flex items-center justify-center shrink-0">
-                <i class="fas fa-route text-success-400" aria-hidden="true"></i>
+                ${icon('route', 'w-5 h-5 text-success-400')}
               </div>
               <div>
                 <p class="text-white font-medium">${t('locationReason3Title')}</p>
@@ -76,7 +77,7 @@ export function renderLocationPermission(_state) {
 
           <!-- Privacy assurance -->
           <div class="flex items-center gap-2 p-3 bg-success-500/10 border border-success-500/20 rounded-xl mt-4">
-            <i class="fas fa-shield-alt text-success-400" aria-hidden="true"></i>
+            ${icon('shield-alt', 'w-5 h-5 text-success-400')}
             <p class="text-success-400 text-sm font-medium">
               ${t('locationPrivacyAssurance')}
             </p>
@@ -90,7 +91,7 @@ export function renderLocationPermission(_state) {
             class="btn btn-primary w-full"
             type="button"
           >
-            <i class="fas fa-check mr-2" aria-hidden="true"></i>
+            ${icon('check', 'w-5 h-5 mr-2')}
             ${t('locationAllow')}
           </button>
           <button

@@ -7,6 +7,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
 import { addPoints, addSeasonPoints } from './gamification.js';
+import { icon } from '../utils/icons.js'
 
 // Vote types
 export const VOTE_TYPES = {
@@ -244,7 +245,7 @@ export function renderVerificationBadge(spotId) {
 
   return `
     <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${badge.bg} ${badge.color}">
-      <i class="fas ${badge.icon}" aria-hidden="true"></i>
+      ${icon(badge.icon, 'w-5 h-5')}
       ${badge.label}
       ${verification.score > 0 ? `<span class="opacity-70">(${verification.score})</span>` : ''}
     </span>
@@ -260,7 +261,7 @@ export function renderVoteButtons(spotId) {
   if (!verification.canVote) {
     return `
       <div class="text-center p-4 bg-white/5 rounded-xl">
-        <i class="fas fa-check-circle text-emerald-400 mb-2"></i>
+        ${icon('check-circle', 'w-5 h-5 text-emerald-400 mb-2')}
         <p class="text-sm text-slate-400">${t('alreadyVotedToday') || 'Tu as déjà voté aujourd\'hui'}</p>
         <p class="text-xs text-slate-500 mt-1">${t('comeBackTomorrow') || 'Reviens demain pour voter à nouveau'}</p>
       </div>
@@ -270,7 +271,7 @@ export function renderVoteButtons(spotId) {
   return `
     <div class="verification-votes space-y-3">
       <h4 class="font-medium text-sm flex items-center gap-2">
-        <i class="fas fa-users text-primary-400" aria-hidden="true"></i>
+        ${icon('users', 'w-5 h-5 text-primary-400')}
         ${t('verifyThisSpot') || 'Vérifie ce spot'}
       </h4>
 
@@ -280,7 +281,7 @@ export function renderVoteButtons(spotId) {
           class="vote-btn p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-left"
         >
           <div class="flex items-center gap-2 mb-1">
-            <i class="fas fa-check text-emerald-400"></i>
+            ${icon('check', 'w-5 h-5 text-emerald-400')}
             <span class="font-medium text-sm">${t('stillGood') || 'Toujours bon'}</span>
           </div>
           <span class="text-xs text-slate-400">${verification.votes.accurate} votes</span>
@@ -291,7 +292,7 @@ export function renderVoteButtons(spotId) {
           class="vote-btn p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition-all text-left"
         >
           <div class="flex items-center gap-2 mb-1">
-            <i class="fas fa-star text-amber-400"></i>
+            ${icon('star', 'w-5 h-5 text-amber-400')}
             <span class="font-medium text-sm">Excellent</span>
           </div>
           <span class="text-xs text-slate-400">${verification.votes.excellent} votes</span>
@@ -302,7 +303,7 @@ export function renderVoteButtons(spotId) {
           class="vote-btn p-3 rounded-xl bg-orange-500/10 border border-orange-500/30 hover:bg-orange-500/20 transition-all text-left"
         >
           <div class="flex items-center gap-2 mb-1">
-            <i class="fas fa-clock text-orange-400"></i>
+            ${icon('clock', 'w-5 h-5 text-orange-400')}
             <span class="font-medium text-sm">${t('outdated') || 'Plus d\'actualité'}</span>
           </div>
           <span class="text-xs text-slate-400">${verification.votes.outdated} votes</span>
@@ -313,7 +314,7 @@ export function renderVoteButtons(spotId) {
           class="vote-btn p-3 rounded-xl bg-danger-500/10 border border-danger-500/30 hover:bg-danger-500/20 transition-all text-left"
         >
           <div class="flex items-center gap-2 mb-1">
-            <i class="fas fa-exclamation-triangle text-danger-400"></i>
+            ${icon('exclamation-triangle', 'w-5 h-5 text-danger-400')}
             <span class="font-medium text-sm">${t('dangerous') || 'Dangereux'}</span>
           </div>
           <span class="text-xs text-slate-400">${verification.votes.dangerous} votes</span>
@@ -321,7 +322,7 @@ export function renderVoteButtons(spotId) {
       </div>
 
       <p class="text-xs text-slate-500 text-center">
-        <i class="fas fa-info-circle mr-1"></i>
+        ${icon('info-circle', 'w-5 h-5 mr-1')}
         ${t('earnPointsByVerifying') || 'Gagne des points en vérifiant les spots !'}
       </p>
     </div>

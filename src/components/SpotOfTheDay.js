@@ -6,6 +6,7 @@
 import { t } from '../i18n/index.js'
 import { escapeHTML } from '../utils/sanitize.js'
 import { getSpotOfTheDay, getTimeUntilNextSpot } from '../services/spotOfTheDay.js'
+import { icon } from '../utils/icons.js'
 
 /**
  * Render the Spot of the Day card
@@ -40,7 +41,7 @@ export function renderSpotOfTheDay(state) {
           <span class="font-bold text-white text-sm uppercase tracking-wide">Spot du Jour</span>
         </div>
         <div class="text-xs text-white/80 flex items-center gap-1">
-          <i class="fas fa-clock" aria-hidden="true"></i>
+          ${icon('clock', 'w-5 h-5')}
           <span>Prochain dans ${timeUntilNext.formatted}</span>
         </div>
       </div>
@@ -58,7 +59,7 @@ export function renderSpotOfTheDay(state) {
             />
           ` : `
             <div class="w-full h-full bg-gradient-to-br from-primary-500 to-emerald-500 flex items-center justify-center">
-              <i class="fas fa-map-marker-alt text-2xl text-white" aria-hidden="true"></i>
+              ${icon('map-marker-alt', 'w-7 h-7 text-white')}
             </div>
           `}
           <!-- Star badge overlay -->
@@ -80,18 +81,18 @@ export function renderSpotOfTheDay(state) {
           <!-- Stats -->
           <div class="flex items-center gap-3 mt-2 text-xs">
             <span class="flex items-center gap-1 text-amber-400" aria-label="Note: ${spot.globalRating?.toFixed(1) || 'Non note'} sur 5">
-              <i class="fas fa-star" aria-hidden="true"></i>
+              ${icon('star', 'w-5 h-5')}
               <span class="font-bold">${spot.globalRating?.toFixed(1) || 'N/A'}</span>
             </span>
             <span class="text-slate-500" aria-hidden="true">&#8226;</span>
             <span class="text-slate-400" aria-label="Temps d'attente: environ ${spot.avgWaitTime || 'inconnu'} minutes">
-              <i class="fas fa-clock mr-1" aria-hidden="true"></i>
+              ${icon('clock', 'w-5 h-5 mr-1')}
               ~${spot.avgWaitTime || '?'} min
             </span>
             ${spot.checkins ? `
               <span class="text-slate-500" aria-hidden="true">&#8226;</span>
               <span class="text-emerald-400" aria-label="${spot.checkins} check-ins">
-                <i class="fas fa-check-circle mr-1" aria-hidden="true"></i>
+                ${icon('check-circle', 'w-5 h-5 mr-1')}
                 ${spot.checkins}
               </span>
             ` : ''}
@@ -100,7 +101,7 @@ export function renderSpotOfTheDay(state) {
 
         <!-- Arrow -->
         <div class="flex items-center" aria-hidden="true">
-          <i class="fas fa-chevron-right text-slate-500"></i>
+          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
         </div>
       </div>
 
@@ -110,7 +111,7 @@ export function renderSpotOfTheDay(state) {
           onclick="event.stopPropagation(); selectSpot(${spot.id})"
           class="w-full py-2 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-400 text-sm font-medium hover:from-amber-500/30 hover:to-orange-500/30 transition-all"
         >
-          <i class="fas fa-eye mr-2" aria-hidden="true"></i>
+          ${icon('eye', 'w-5 h-5 mr-2')}
           Voir ce spot
         </button>
       </div>
@@ -158,7 +159,7 @@ export function renderSpotOfTheDayCompact(state) {
           />
         ` : `
           <div class="w-full h-full bg-white/20 flex items-center justify-center">
-            <i class="fas fa-map-marker-alt text-sm" aria-hidden="true"></i>
+            ${icon('map-marker-alt', 'w-4 h-4')}
           </div>
         `}
       </div>
@@ -174,10 +175,10 @@ export function renderSpotOfTheDayCompact(state) {
       <!-- Rating & Chevron -->
       <div class="flex items-center gap-2">
         <span class="flex items-center gap-1 text-xs bg-white/20 px-2 py-0.5 rounded-full">
-          <i class="fas fa-star text-yellow-300" aria-hidden="true"></i>
+          ${icon('star', 'w-5 h-5 text-yellow-300')}
           <span>${spot.globalRating?.toFixed(1) || 'N/A'}</span>
         </span>
-        <i class="fas fa-chevron-right opacity-60" aria-hidden="true"></i>
+        ${icon('chevron-right', 'w-5 h-5 opacity-60')}
       </div>
     </div>
   `

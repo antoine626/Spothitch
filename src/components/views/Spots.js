@@ -6,6 +6,7 @@
 import { t } from '../../i18n/index.js';
 import { renderSpotCard } from '../SpotCard.js';
 import { renderSkeletonSpotList, renderSkeletonMapLoading } from '../ui/Skeleton.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderSpots(state) {
   const filteredSpots = filterSpots(state);
@@ -15,7 +16,7 @@ export function renderSpots(state) {
       <!-- Search & View Toggle -->
       <div class="flex gap-2 mb-4">
         <div class="flex-1 relative">
-          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+          ${icon('search', 'w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400')}
           <label for="search-input" class="sr-only">${t('searchSpot')}</label>
           <input
             id="search-input"
@@ -36,7 +37,7 @@ export function renderSpots(state) {
             aria-pressed="${state.viewMode === 'list' ? 'true' : 'false'}"
             type="button"
           >
-            <i class="fas fa-list" aria-hidden="true"></i>
+            ${icon('list', 'w-5 h-5')}
           </button>
           <button
             onclick="setViewMode('map')"
@@ -45,7 +46,7 @@ export function renderSpots(state) {
             aria-pressed="${state.viewMode === 'map' ? 'true' : 'false'}"
             type="button"
           >
-            <i class="fas fa-map" aria-hidden="true"></i>
+            ${icon('map', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -57,7 +58,7 @@ export function renderSpots(state) {
           onclick="openFilters()"
           class="badge bg-white/5 text-slate-400 whitespace-nowrap hover:bg-white/10"
         >
-          <i class="fas fa-sliders-h"></i>
+          ${icon('sliders-h', 'w-5 h-5')}
           Plus
         </button>
       </div>
@@ -86,7 +87,7 @@ function renderFilterButtons(state) {
       aria-pressed="${state.activeFilter === filter.id ? 'true' : 'false'}"
       type="button"
     >
-      <i class="fas ${filter.icon}" aria-hidden="true"></i>
+      ${icon(filter.icon, 'w-5 h-5')}
       ${filter.label}
     </button>
   `).join('');
@@ -96,11 +97,11 @@ function renderSpotsList(spots) {
   if (spots.length === 0) {
     return `
       <div class="text-center py-12" role="status">
-        <i class="fas fa-map-marker-alt text-5xl text-slate-600 mb-4" aria-hidden="true"></i>
+        ${icon('map-marker-alt', 'w-5 h-5 text-5xl text-slate-600 mb-4')}
         <h3 class="text-lg font-bold mb-2">${t('noSpots')}</h3>
         <p class="text-slate-400 mb-4">${t('beFirst')}</p>
         <button onclick="openAddSpot()" class="btn btn-primary" type="button">
-          <i class="fas fa-plus mr-2" aria-hidden="true"></i>
+          ${icon('plus', 'w-5 h-5 mr-2')}
           ${t('addSpot')}
         </button>
       </div>
@@ -128,7 +129,7 @@ function renderSpotsMap() {
     >
       <div class="flex items-center justify-center h-full bg-slate-800">
         <div class="text-center">
-          <i class="fas fa-spinner fa-spin text-3xl text-primary-400 mb-3"></i>
+          ${icon('spinner', 'w-8 h-8 animate-spin text-primary-400 mb-3')}
           <p class="text-slate-400">${t('mapLoading') || 'Chargement de la carte...'}</p>
         </div>
       </div>

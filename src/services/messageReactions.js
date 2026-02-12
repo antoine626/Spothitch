@@ -8,6 +8,7 @@ import { Storage } from '../utils/storage.js';
 import { showToast } from './notifications.js';
 import { escapeHTML } from '../utils/sanitize.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Storage key
 const REACTIONS_STORAGE_KEY = 'spothitch_message_reactions';
@@ -387,7 +388,7 @@ export function renderAddReactionButton(messageId) {
       aria-label="${t('addReaction')}"
       title="${t('addReaction')}"
     >
-      <i class="far fa-smile" aria-hidden="true"></i>
+      ${icon('smile', 'w-5 h-5')}
     </button>
   `;
 }

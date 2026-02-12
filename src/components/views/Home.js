@@ -5,6 +5,7 @@
 
 import { t } from '../../i18n/index.js'
 import { getGuideByCode } from '../../data/guides.js'
+import { icon } from '../../utils/icons.js'
 
 export function renderHome(state) {
   const hasGPS = !!state.userLocation
@@ -39,14 +40,14 @@ export function renderHome(state) {
               autocomplete="off"
               aria-label="${t('searchPlace') || 'Rechercher un lieu'}"
             />
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+            ${icon('search', 'w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400')}
             ${searchLabel ? `
               <button
                 onclick="homeClearSearch()"
                 class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
                 aria-label="${t('clear') || 'Effacer'}"
               >
-                <i class="fas fa-times" aria-hidden="true"></i>
+                ${icon('times', 'w-5 h-5')}
               </button>
             ` : ''}
             <div id="home-dest-suggestions" class="absolute top-full left-0 right-0 mt-1 z-[60] hidden"></div>
@@ -58,7 +59,7 @@ export function renderHome(state) {
             aria-label="${t('filterSpots') || 'Filtrer les spots'}"
             title="${t('filters') || 'Filtres'}"
           >
-            <i class="fas fa-sliders-h" aria-hidden="true"></i>
+            ${icon('sliders-h', 'w-5 h-5')}
           </button>
           <!-- Trip planner button -->
           <button
@@ -67,7 +68,7 @@ export function renderHome(state) {
             aria-label="${t('planTrip') || 'Planifier un trajet'}"
             title="${t('planTrip') || 'Planifier un trajet'}"
           >
-            <i class="fas fa-route" aria-hidden="true"></i>
+            ${icon('route', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -98,7 +99,7 @@ export function renderHome(state) {
             class="w-10 h-10 rounded-lg bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-all shadow-lg"
             aria-label="${t('myLocation') || 'Ma position'}"
           >
-            <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
+            ${icon('location-crosshairs', 'w-5 h-5')}
           </button>
         ` : ''}
         <!-- Split view toggle -->
@@ -108,7 +109,7 @@ export function renderHome(state) {
           aria-label="${t('splitView') || 'Vue partagée'}"
           title="${t('splitView') || 'Vue partagée'}"
         >
-          <i class="fas fa-columns" aria-hidden="true"></i>
+          ${icon('columns', 'w-5 h-5')}
         </button>
       </div>
 
@@ -121,7 +122,7 @@ export function renderHome(state) {
         >
           <span class="text-lg">${currentGuide?.flag || ''}</span>
           <span>${t('guideAvailable') || 'Guide'}</span>
-          <i class="fas fa-chevron-right text-xs" aria-hidden="true"></i>
+          ${icon('chevron-right', 'w-3 h-3')}
         </button>
       </div>
 
@@ -133,7 +134,7 @@ export function renderHome(state) {
             class="flex items-center gap-2 px-3 py-2 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-emerald-500/50 transition-all text-sm shadow-lg"
             aria-label="${t('countryGuides') || 'Guides pays'}"
           >
-            <i class="fas fa-book-atlas" aria-hidden="true"></i>
+            ${icon('book-atlas', 'w-5 h-5')}
             <span>${t('guides') || 'Guides'}</span>
           </button>
         </div>
@@ -156,7 +157,7 @@ export function renderHome(state) {
         <div class="absolute bottom-0 left-0 right-0 top-1/2 z-20 bg-dark-primary/95 backdrop-blur-xl border-t border-white/10 overflow-y-auto">
           <div class="p-5">
             <h3 class="text-sm font-semibold text-slate-400 mb-4">
-              <i class="fas fa-list mr-1" aria-hidden="true"></i>
+              ${icon('list', 'w-5 h-5 mr-1')}
               ${t('nearbySpots') || 'Spots à proximité'}
             </h3>
             <div id="split-spots-list" class="space-y-2">
@@ -173,7 +174,7 @@ export function renderHome(state) {
         aria-label="${t('addSpot') || 'Ajouter un spot'}"
         title="${t('addSpot') || 'Ajouter un spot'}"
       >
-        <i class="fas fa-plus" aria-hidden="true"></i>
+        ${icon('plus', 'w-5 h-5')}
       </button>
     </div>
   `

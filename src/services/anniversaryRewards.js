@@ -8,6 +8,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { addPoints } from './gamification.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Anniversary reward tiers
 export const ANNIVERSARY_REWARDS = {
@@ -459,7 +460,7 @@ export function renderAnniversaryModal(years, reward) {
             class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
             aria-label="${t('close')}"
           >
-            <i class="fas fa-times text-xl"></i>
+            ${icon('times', 'w-6 h-6')}
           </button>
 
           <div class="text-6xl mb-4 animate-bounce-slow">${reward.badge.icon}</div>

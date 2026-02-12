@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js'
 import { showToast } from './notifications.js'
 import { t } from '../i18n/index.js'
+import { icon } from '../utils/icons.js'
 
 // Affiliate IDs - TODO: Replace with real affiliate IDs when available
 const HOSTELWORLD_AFFILIATE_ID = 'SPOTHITCH_HW_ID'
@@ -286,7 +287,7 @@ export async function renderHostelSection(cityName) {
         <div class="text-center py-6 text-slate-400">
           <p class="mb-3">${t('hostelNoneYet') || 'Aucune auberge recommandée pour l\'instant'}</p>
           <button onclick="openAddHostel('${cityName}')" class="btn-primary">
-            <i class="fas fa-plus mr-2" aria-hidden="true"></i>
+            ${icon('plus', 'w-5 h-5 mr-2')}
             ${t('hostelRecommend') || 'Recommander une auberge'}
           </button>
         </div>
@@ -301,7 +302,7 @@ export async function renderHostelSection(cityName) {
           🏠 ${t('hostelRecommendations') || 'Auberges recommandées'} à ${cityName}
         </h3>
         <button onclick="openAddHostel('${cityName}')" class="text-sm text-primary-400 hover:text-primary-300">
-          <i class="fas fa-plus mr-1" aria-hidden="true"></i>
+          ${icon('plus', 'w-5 h-5 mr-1')}
           ${t('hostelAdd') || 'Ajouter'}
         </button>
       </div>
@@ -387,7 +388,7 @@ function renderHostelCard(hostel, cityName) {
               class="flex items-center gap-1 text-sm ${hasUpvoted ? 'text-primary-400' : 'text-slate-400 hover:text-primary-400'} transition-all"
               ${hasUpvoted ? 'disabled' : ''}
             >
-              <i class="fas fa-thumbs-up" aria-hidden="true"></i>
+              ${icon('thumbs-up', 'w-5 h-5')}
               <span>${hostel.upvotes || 0}</span>
             </button>
           </div>
@@ -436,7 +437,7 @@ export function renderAddHostelForm(cityName) {
             ${t('hostelRecommend') || 'Recommander une auberge'}
           </h3>
           <button onclick="closeAddHostel()" class="text-slate-400 hover:text-white">
-            <i class="fas fa-times" aria-hidden="true"></i>
+            ${icon('times', 'w-5 h-5')}
           </button>
         </div>
 
@@ -498,7 +499,7 @@ export function renderAddHostelForm(cityName) {
             onclick="submitHostelRec('${cityName}')"
             class="btn-primary w-full"
           >
-            <i class="fas fa-check mr-2" aria-hidden="true"></i>
+            ${icon('check', 'w-5 h-5 mr-2')}
             ${t('hostelRecommendAction') || 'Recommander'}
           </button>
         </div>

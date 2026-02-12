@@ -7,6 +7,7 @@ import { setState, getState } from '../stores/state.js';
 import { signIn, signUp, signInWithGoogle, logOut, resetPassword } from '../services/firebase.js';
 import { showToast } from '../services/notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Current auth mode
 let authMode = 'login';
@@ -70,7 +71,7 @@ export async function handleAuth(event) {
 
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    submitBtn.innerHTML = icon('spinner', 'w-5 h-5 animate-spin');
   }
 
   try {

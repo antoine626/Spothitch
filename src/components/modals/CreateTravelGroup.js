@@ -4,6 +4,7 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderCreateTravelGroupModal(state) {
   return `
@@ -21,7 +22,7 @@ export function renderCreateTravelGroupModal(state) {
       >
         <div class="p-6 space-y-4">
           <h2 id="create-group-title" class="text-xl font-bold flex items-center gap-2">
-            <i class="fas fa-users text-primary-400" aria-hidden="true"></i>
+            ${icon('users', 'w-5 h-5 text-primary-400')}
             ${t('createTravelGroup') || 'Creer un groupe de voyage'}
           </h2>
 
@@ -90,7 +91,7 @@ export function renderCreateTravelGroupModal(state) {
             onclick="submitCreateTravelGroup()"
             class="btn-primary w-full py-3"
           >
-            <i class="fas fa-plus mr-2" aria-hidden="true"></i>
+            ${icon('plus', 'w-5 h-5 mr-2')}
             ${t('createGroup') || 'Creer le groupe'}
           </button>
         </div>
@@ -100,7 +101,7 @@ export function renderCreateTravelGroupModal(state) {
           class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
           aria-label="${t('close') || 'Fermer'}"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
       </div>
     </div>

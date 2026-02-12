@@ -7,6 +7,7 @@
 
 import { getState } from '../stores/state.js'
 import { trackEvent } from './analytics.js'
+import { icon } from '../utils/icons.js'
 
 // Sponsored partners database by category
 // In production, this would come from Firebase with real sponsor data
@@ -253,15 +254,15 @@ export function renderSponsoredBanner(content) {
   if (!content) return ''
 
   const benefitIcons = {
-    wifi: '<i class="fas fa-wifi"></i>',
-    showers: '<i class="fas fa-shower"></i>',
-    food: '<i class="fas fa-utensils"></i>',
-    toilets: '<i class="fas fa-restroom"></i>',
-    rest_area: '<i class="fas fa-couch"></i>',
-    charging: '<i class="fas fa-plug"></i>',
-    supplies: '<i class="fas fa-shopping-basket"></i>',
-    accommodation: '<i class="fas fa-bed"></i>',
-    parking: '<i class="fas fa-parking"></i>',
+    wifi: icon('wifi', 'w-5 h-5'),
+    showers: icon('shower', 'w-5 h-5'),
+    food: icon('utensils', 'w-5 h-5'),
+    toilets: icon('restroom', 'w-5 h-5'),
+    rest_area: icon('couch', 'w-5 h-5'),
+    charging: icon('plug', 'w-5 h-5'),
+    supplies: icon('shopping-basket', 'w-5 h-5'),
+    accommodation: icon('bed', 'w-5 h-5'),
+    parking: icon('parking', 'w-5 h-5'),
   }
 
   const categoryLabels = {
@@ -287,7 +288,7 @@ export function renderSponsoredBanner(content) {
       <div class="flex items-start gap-3">
         <div class="shrink-0">
           <span class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-accent-500/20 text-accent-400">
-            <i class="fas fa-handshake text-sm"></i>
+            ${icon('handshake', 'w-4 h-4')}
           </span>
         </div>
         <div class="flex-1 min-w-0">

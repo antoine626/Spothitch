@@ -6,6 +6,7 @@
 
 import { t } from '../../i18n/index.js';
 import { getState, setState } from '../../stores/state.js';
+import { icon } from '../../utils/icons.js'
 import {
   verificationLevels,
   verificationReasons,
@@ -81,7 +82,7 @@ export function renderIdentityVerification() {
           aria-label="${t('close')}"
           type="button"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
 
         <!-- Scrollable Content -->
@@ -105,7 +106,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
     <!-- Header -->
     <div class="p-6 text-center border-b border-white/10 bg-gradient-to-b from-purple-500/10 to-transparent">
       <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-        <i class="fas fa-shield-alt text-3xl text-white" aria-hidden="true"></i>
+        ${icon('shield-alt', 'w-8 h-8 text-white')}
       </div>
       <h2 id="identity-verification-title" class="text-2xl font-bold text-white mb-2">
         ${t('identityVerificationTitle')}
@@ -123,7 +124,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
           class="w-12 h-12 rounded-full flex items-center justify-center text-2xl"
           style="background: ${currentLevel.color}20;"
         >
-          ${currentLevel.icon || '<i class="fas fa-user"></i>'}
+          ${currentLevel.icon || icon('user', 'w-5 h-5')}
         </div>
         <div class="text-left">
           <div class="text-sm text-slate-400">${t('currentVerificationLevel')}</div>
@@ -161,7 +162,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
       <!-- Why Verify Section -->
       <div class="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
         <h3 class="font-bold text-blue-300 mb-3 flex items-center gap-2">
-          <i class="fas fa-info-circle" aria-hidden="true"></i>
+          ${icon('info-circle', 'w-5 h-5')}
           ${reasons.title}
         </h3>
         <ul class="space-y-2 text-sm text-slate-300">
@@ -176,7 +177,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
 
       <!-- Privacy Note -->
       <div class="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
-        <i class="fas fa-lock text-green-400 mt-1 shrink-0" aria-hidden="true"></i>
+        ${icon('lock', 'w-5 h-5 text-green-400 mt-1 shrink-0')}
         <p class="text-green-300 text-sm">
           ${reasons.privacyNote}
         </p>
@@ -189,7 +190,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
           class="w-full btn btn-primary py-4 text-lg"
           type="button"
         >
-          <span class="mr-2">${nextLevel.icon || '<i class="fas fa-arrow-right"></i>'}</span>
+          <span class="mr-2">${nextLevel.icon || icon('arrow-right', 'w-5 h-5')}</span>
           ${t('startVerificationLevel')} ${nextLevel.id}: ${lang === 'en' ? nextLevel.nameEn : nextLevel.name}
         </button>
       ` : `
@@ -261,10 +262,10 @@ function renderPhoneStep(lang) {
         aria-label="${t('back')}"
         type="button"
       >
-        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
-        <i class="fas fa-mobile-alt text-2xl text-green-400" aria-hidden="true"></i>
+        ${icon('mobile-alt', 'w-7 h-7 text-green-400')}
       </div>
       <h3 class="text-xl font-bold text-white">${t('phoneVerificationTitle')}</h3>
       <p class="text-slate-400 text-sm mt-2">${t('phoneVerificationDesc')}</p>
@@ -274,7 +275,7 @@ function renderPhoneStep(lang) {
     <div class="p-6 space-y-4">
       ${modalState.error ? `
         <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
-          <i class="fas fa-exclamation-circle text-red-400 mt-1" aria-hidden="true"></i>
+          ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1')}
           <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
         </div>
       ` : ''}
@@ -322,8 +323,8 @@ function renderPhoneStep(lang) {
         ${modalState.isLoading ? 'disabled' : ''}
       >
         ${modalState.isLoading
-          ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
-          : '<i class="fas fa-paper-plane mr-2"></i>'
+          ? icon('spinner', 'w-5 h-5 animate-spin mr-2')
+          : icon('paper-plane', 'w-5 h-5 mr-2')
         }
         ${t('sendVerificationCode')}
       </button>
@@ -332,9 +333,9 @@ function renderPhoneStep(lang) {
       <div class="p-4 rounded-xl bg-white/5 border border-white/10">
         <h4 class="font-medium text-white mb-2">${t('phoneVerificationBenefits')}</h4>
         <ul class="text-sm text-slate-400 space-y-1">
-          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('phoneBenefit1')}</li>
-          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('phoneBenefit2')}</li>
-          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('phoneBenefit3')}</li>
+          <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('phoneBenefit1')}</li>
+          <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('phoneBenefit2')}</li>
+          <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('phoneBenefit3')}</li>
         </ul>
       </div>
     </div>
@@ -356,10 +357,10 @@ function renderPhoneCodeStep(lang) {
         aria-label="${t('back')}"
         type="button"
       >
-        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
-        <i class="fas fa-sms text-2xl text-green-400" aria-hidden="true"></i>
+        ${icon('sms', 'w-7 h-7 text-green-400')}
       </div>
       <h3 class="text-xl font-bold text-white">${t('enterVerificationCode')}</h3>
       <p class="text-slate-400 text-sm mt-2">${t('codeSentTo')} <strong class="text-white">${modalState.phoneNumber}</strong></p>
@@ -369,7 +370,7 @@ function renderPhoneCodeStep(lang) {
     <div class="p-6 space-y-4">
       ${modalState.error ? `
         <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
-          <i class="fas fa-exclamation-circle text-red-400 mt-1" aria-hidden="true"></i>
+          ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1')}
           <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
         </div>
       ` : ''}
@@ -401,8 +402,8 @@ function renderPhoneCodeStep(lang) {
         ${modalState.isLoading ? 'disabled' : ''}
       >
         ${modalState.isLoading
-          ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
-          : '<i class="fas fa-check mr-2"></i>'
+          ? icon('spinner', 'w-5 h-5 animate-spin mr-2')
+          : icon('check', 'w-5 h-5 mr-2')
         }
         ${t('verifyCode')}
       </button>
@@ -416,7 +417,7 @@ function renderPhoneCodeStep(lang) {
       </button>
 
       <div class="text-center text-xs text-slate-500">
-        <i class="fas fa-info-circle mr-1"></i>
+        ${icon('info-circle', 'w-5 h-5 mr-1')}
         ${t('demoCodeHint')}
       </div>
     </div>
@@ -438,10 +439,10 @@ function renderPhotoStep(lang) {
         aria-label="${t('back')}"
         type="button"
       >
-        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-500/20 flex items-center justify-center">
-        <i class="fas fa-camera text-2xl text-amber-400" aria-hidden="true"></i>
+        ${icon('camera', 'w-7 h-7 text-amber-400')}
       </div>
       <h3 class="text-xl font-bold text-white">${t('photoVerificationTitle')}</h3>
       <p class="text-slate-400 text-sm mt-2">${t('photoVerificationDesc')}</p>
@@ -451,7 +452,7 @@ function renderPhotoStep(lang) {
     <div class="p-6 space-y-4">
       ${modalState.error ? `
         <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
-          <i class="fas fa-exclamation-circle text-red-400 mt-1" aria-hidden="true"></i>
+          ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1')}
           <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
         </div>
       ` : ''}
@@ -467,7 +468,7 @@ function renderPhotoStep(lang) {
               type="button"
               aria-label="${t('removePhoto')}"
             >
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         ` : `
@@ -476,7 +477,7 @@ function renderPhotoStep(lang) {
             class="block w-full h-64 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-primary-500/50 transition-colors flex flex-col items-center justify-center gap-4"
           >
             <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
-              <i class="fas fa-camera text-2xl text-slate-400"></i>
+              ${icon('camera', 'w-7 h-7 text-slate-400')}
             </div>
             <div class="text-center">
               <p class="text-white font-medium">${t('takeOrUploadPhoto')}</p>
@@ -498,10 +499,10 @@ function renderPhotoStep(lang) {
       <div class="p-4 rounded-xl bg-white/5 border border-white/10">
         <h4 class="font-medium text-white mb-2">${t('photoGuidelines')}</h4>
         <ul class="text-sm text-slate-400 space-y-1">
-          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('photoGuideline1')}</li>
-          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('photoGuideline2')}</li>
-          <li><i class="fas fa-check text-green-400 mr-2"></i>${t('photoGuideline3')}</li>
-          <li><i class="fas fa-times text-red-400 mr-2"></i>${t('photoGuideline4')}</li>
+          <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('photoGuideline1')}</li>
+          <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('photoGuideline2')}</li>
+          <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('photoGuideline3')}</li>
+          <li>${icon('times', 'w-5 h-5 text-red-400 mr-2')}${t('photoGuideline4')}</li>
         </ul>
       </div>
 
@@ -513,8 +514,8 @@ function renderPhotoStep(lang) {
           ${modalState.isLoading ? 'disabled' : ''}
         >
           ${modalState.isLoading
-            ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
-            : '<i class="fas fa-upload mr-2"></i>'
+            ? icon('spinner', 'w-5 h-5 animate-spin mr-2')
+            : icon('upload', 'w-5 h-5 mr-2')
           }
           ${t('submitPhoto')}
         </button>
@@ -578,7 +579,7 @@ function renderSelfieIdStep(lang) {
         aria-label="${t('back')}"
         type="button"
       >
-        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-${current.color}-500/20 flex items-center justify-center">
         <i class="fas fa-${current.icon} text-2xl text-${current.color}-400" aria-hidden="true"></i>
@@ -591,7 +592,7 @@ function renderSelfieIdStep(lang) {
     <div class="p-6 space-y-4">
       ${modalState.error ? `
         <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
-          <i class="fas fa-exclamation-circle text-red-400 mt-1" aria-hidden="true"></i>
+          ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1')}
           <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
         </div>
       ` : ''}
@@ -601,7 +602,7 @@ function renderSelfieIdStep(lang) {
         ${[1, 2, 3].map(s => `
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${s === step ? 'bg-primary-500 text-white' : s < step || stepInfo[s].photo ? 'bg-green-500 text-white' : 'bg-white/10 text-slate-500'}">
-              ${stepInfo[s].photo ? '<i class="fas fa-check"></i>' : s}
+              ${stepInfo[s].photo ? icon('check', 'w-5 h-5') : s}
             </div>
             ${s < 3 ? '<div class="w-8 h-0.5 bg-white/20"></div>' : ''}
           </div>
@@ -619,7 +620,7 @@ function renderSelfieIdStep(lang) {
               type="button"
               aria-label="${t('removePhoto')}"
             >
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         ` : `
@@ -649,29 +650,29 @@ function renderSelfieIdStep(lang) {
       <!-- Guidelines -->
       <div class="p-4 rounded-xl bg-white/5 border border-white/10">
         <h4 class="font-medium text-white mb-2 flex items-center gap-2">
-          <i class="fas fa-lightbulb text-amber-400"></i>
+          ${icon('lightbulb', 'w-5 h-5 text-amber-400')}
           ${lang === 'en' ? 'Tips' : 'Conseils'}
         </h4>
         <ul class="text-sm text-slate-400 space-y-1">
           ${step === 1 ? `
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Good lighting' : 'Bon eclairage'}</li>
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Face clearly visible' : 'Visage bien visible'}</li>
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'No glasses or hat' : 'Sans lunettes ni chapeau'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'Good lighting' : 'Bon eclairage'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'Face clearly visible' : 'Visage bien visible'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'No glasses or hat' : 'Sans lunettes ni chapeau'}</li>
           ` : step === 2 ? `
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'All text readable' : 'Texte lisible'}</li>
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'No glare or blur' : 'Sans reflet ni flou'}</li>
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Front side only' : 'Recto uniquement'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'All text readable' : 'Texte lisible'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'No glare or blur' : 'Sans reflet ni flou'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'Front side only' : 'Recto uniquement'}</li>
           ` : `
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Hold card next to face' : 'Carte a cote du visage'}</li>
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Both face and card visible' : 'Visage et carte visibles'}</li>
-            <li><i class="fas fa-check text-green-400 mr-2"></i>${lang === 'en' ? 'Good focus' : 'Bonne mise au point'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'Hold card next to face' : 'Carte a cote du visage'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'Both face and card visible' : 'Visage et carte visibles'}</li>
+            <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${lang === 'en' ? 'Good focus' : 'Bonne mise au point'}</li>
           `}
         </ul>
       </div>
 
       <!-- Privacy Notice -->
       <div class="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
-        <i class="fas fa-lock text-green-400 mt-1 shrink-0" aria-hidden="true"></i>
+        ${icon('lock', 'w-5 h-5 text-green-400 mt-1 shrink-0')}
         <p class="text-green-300 text-sm">
           ${lang === 'en' ? 'Your photos are encrypted and only seen by moderators. They are deleted after verification.' : 'Tes photos sont chiffrees et vues uniquement par les moderateurs. Elles sont supprimees apres verification.'}
         </p>
@@ -686,7 +687,7 @@ function renderSelfieIdStep(lang) {
               class="w-full btn btn-primary py-3"
               type="button"
             >
-              <i class="fas fa-arrow-right mr-2"></i>
+              ${icon('arrow-right', 'w-5 h-5 mr-2')}
               ${lang === 'en' ? 'Next step' : 'Etape suivante'}
             </button>
           ` : allPhotosReady ? `
@@ -697,8 +698,8 @@ function renderSelfieIdStep(lang) {
               ${modalState.isLoading ? 'disabled' : ''}
             >
               ${modalState.isLoading
-                ? '<i class="fas fa-spinner fa-spin mr-2"></i>'
-                : '<i class="fas fa-paper-plane mr-2"></i>'
+                ? icon('spinner', 'w-5 h-5 animate-spin mr-2')
+                : icon('paper-plane', 'w-5 h-5 mr-2')
               }
               ${lang === 'en' ? 'Submit for verification' : 'Envoyer pour verification'}
             </button>

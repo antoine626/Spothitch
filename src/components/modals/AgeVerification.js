@@ -6,6 +6,7 @@
 
 import { t } from '../../i18n/index.js';
 import { recordAgeVerification } from '../../services/consentHistory.js';
+import { icon } from '../../utils/icons.js'
 
 // Configuration
 const MINIMUM_AGE = 16;
@@ -97,7 +98,7 @@ export function renderAgeVerification(state) {
         <!-- Header -->
         <div class="p-6 text-center border-b border-white/10">
           <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-            <i class="fas fa-birthday-cake text-3xl text-white" aria-hidden="true"></i>
+            ${icon('birthday-cake', 'w-8 h-8 text-white')}
           </div>
           <h2 id="age-verification-title" class="text-2xl font-bold text-white">
             ${t('ageVerificationTitle')}
@@ -112,7 +113,7 @@ export function renderAgeVerification(state) {
 
           <!-- Important note -->
           <div class="flex items-start gap-3 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-            <i class="fas fa-info-circle text-blue-400 mt-1 shrink-0" aria-hidden="true"></i>
+            ${icon('info-circle', 'w-5 h-5 text-blue-400 mt-1 shrink-0')}
             <p class="text-blue-300 text-sm">
               ${t('ageVerificationNote')}
             </p>
@@ -143,7 +144,7 @@ export function renderAgeVerification(state) {
               class="hidden flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
               role="alert"
             >
-              <i class="fas fa-exclamation-circle text-red-400 mt-1 shrink-0" aria-hidden="true"></i>
+              ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1 shrink-0')}
               <div>
                 <p id="age-error-text" class="text-red-300 text-sm"></p>
               </div>
@@ -161,7 +162,7 @@ export function renderAgeVerification(state) {
               class="btn btn-primary w-full"
               id="age-submit-btn"
             >
-              <i class="fas fa-check mr-2" aria-hidden="true"></i>
+              ${icon('check', 'w-5 h-5 mr-2')}
               ${t('ageVerify')}
             </button>
           </form>
@@ -169,7 +170,7 @@ export function renderAgeVerification(state) {
           <!-- Too young message (hidden by default) -->
           <div id="too-young-message" class="hidden space-y-4">
             <div class="flex items-start gap-3 p-4 bg-orange-500/10 border border-orange-500/20 rounded-xl">
-              <i class="fas fa-heart text-orange-400 mt-1 shrink-0" aria-hidden="true"></i>
+              ${icon('heart', 'w-5 h-5 text-orange-400 mt-1 shrink-0')}
               <div>
                 <p class="text-orange-300 text-sm font-medium">${t('ageTooYoungTitle')}</p>
                 <p class="text-orange-200 text-xs mt-1">${t('ageTooYoungMessage')}</p>
@@ -240,7 +241,7 @@ window.handleAgeVerification = async (event) => {
   // Disable submit button during processing
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + t('ageVerifying');
+    submitBtn.innerHTML = icon('spinner', 'w-5 h-5 animate-spin') + ' ' + t('ageVerifying');
   }
 
   try {
@@ -274,7 +275,7 @@ window.handleAgeVerification = async (event) => {
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-check mr-2" aria-hidden="true"></i>' + t('ageVerify');
+      submitBtn.innerHTML = icon('check', 'w-5 h-5 mr-2') + t('ageVerify');
     }
   }
 };

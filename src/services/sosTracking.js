@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Tracking configuration
 const TRACKING_CONFIG = {
@@ -293,7 +294,7 @@ export function renderSOSTrackingWidget(state) {
           </div>
           ${lastPos ? `
             <div class="text-white/60 text-xs mt-1">
-              <i class="fas fa-map-pin mr-1"></i>
+              ${icon('map-pin', 'w-5 h-5 mr-1')}
               ${lastPos.lat.toFixed(5)}, ${lastPos.lng.toFixed(5)}
               ${lastPos.accuracy ? `(±${Math.round(lastPos.accuracy)}m)` : ''}
             </div>
@@ -313,14 +314,14 @@ export function renderSOSTrackingWidget(state) {
           onclick="shareSOSLink()"
           class="flex-1 py-2 rounded-lg bg-white/20 text-white text-sm font-medium hover:bg-white/30 transition-all"
         >
-          <i class="fas fa-share-alt mr-2"></i>
+          ${icon('share-alt', 'w-5 h-5 mr-2')}
           ${t('shareLink') || 'Partager le lien'}
         </button>
         <button
           onclick="callEmergency()"
           class="flex-1 py-2 rounded-lg bg-white text-danger-500 text-sm font-bold hover:bg-white/90 transition-all"
         >
-          <i class="fas fa-phone mr-2"></i>
+          ${icon('phone', 'w-5 h-5 mr-2')}
           ${t('callEmergency') || 'Appeler 112'}
         </button>
       </div>

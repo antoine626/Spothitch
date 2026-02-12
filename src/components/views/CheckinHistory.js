@@ -6,6 +6,7 @@
 import { t } from '../../i18n/index.js'
 import { getState, setState } from '../../stores/state.js'
 import { escapeHTML } from '../../utils/sanitize.js'
+import { icon } from '../../utils/icons.js'
 
 /**
  * Get check-in statistics
@@ -106,7 +107,7 @@ function renderWaitTimeBadge(waitTime) {
 
   return `
     <span class="px-2 py-0.5 rounded-full text-xs ${waitColors[waitTime] || waitColors[0]}">
-      <i class="fas fa-clock mr-1" aria-hidden="true"></i>
+      ${icon('clock', 'w-5 h-5 mr-1')}
       ${waitLabels[waitTime] || 'N/A'}
     </span>
   `
@@ -124,13 +125,13 @@ function renderRatingStars(rating) {
 
   let stars = ''
   for (let i = 0; i < fullStars; i++) {
-    stars += '<i class="fas fa-star text-amber-400" aria-hidden="true"></i>'
+    stars += icon('star', 'w-5 h-5 text-amber-400')
   }
   if (hasHalf) {
-    stars += '<i class="fas fa-star-half-alt text-amber-400" aria-hidden="true"></i>'
+    stars += icon('star-half-alt', 'w-5 h-5 text-amber-400')
   }
   for (let i = 0; i < emptyStars; i++) {
-    stars += '<i class="far fa-star text-slate-600" aria-hidden="true"></i>'
+    stars += icon('star', 'w-5 h-5 text-slate-600')
   }
 
   return `<div class="flex items-center gap-0.5 text-sm">${stars}</div>`
@@ -168,7 +169,7 @@ function renderCheckinItem(checkin) {
 
           <!-- Route -->
           <div class="text-sm text-slate-400 truncate">
-            ${escapeHTML(checkin.spotFrom || '?')} <i class="fas fa-arrow-right text-xs mx-1" aria-hidden="true"></i> ${escapeHTML(checkin.spotTo || '?')}
+            ${escapeHTML(checkin.spotFrom || '?')} ${icon('arrow-right', 'w-3 h-3 mx-1')} ${escapeHTML(checkin.spotTo || '?')}
           </div>
 
           <!-- Date and badges -->
@@ -177,8 +178,8 @@ function renderCheckinItem(checkin) {
               ${formatCheckinDate(checkin.timestamp)}
             </span>
             ${renderWaitTimeBadge(checkin.waitTime)}
-            ${hasComment ? '<span class="text-xs text-primary-400"><i class="fas fa-comment" aria-hidden="true"></i></span>' : ''}
-            ${hasPhoto ? '<span class="text-xs text-emerald-400"><i class="fas fa-camera" aria-hidden="true"></i></span>' : ''}
+            ${hasComment ? `<span class="text-xs text-primary-400">${icon('comment', 'w-5 h-5')}</span>` : ''}
+            ${hasPhoto ? `<span class="text-xs text-emerald-400">${icon('camera', 'w-5 h-5')}</span>` : ''}
           </div>
 
           <!-- Rating -->
@@ -198,7 +199,7 @@ function renderCheckinItem(checkin) {
 
         <!-- Arrow -->
         <div class="flex items-center text-slate-500">
-          <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          ${icon('chevron-right', 'w-5 h-5')}
         </div>
       </div>
     </button>
@@ -237,7 +238,7 @@ export function renderCheckinHistory(state) {
           class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
           aria-label="${t('backToProfile') || 'Back to profile'}"
         >
-          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          ${icon('arrow-left', 'w-5 h-5')}
         </button>
         <h1 class="text-xl font-bold">${t('myCheckins') || 'My check-ins'}</h1>
       </div>
@@ -305,7 +306,7 @@ export function renderCheckinHistory(state) {
                 <!-- Month header -->
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm">
-                    <i class="fas fa-calendar text-primary-400" aria-hidden="true"></i>
+                    ${icon('calendar', 'w-5 h-5 text-primary-400')}
                   </div>
                   <h3 class="font-semibold text-slate-300 capitalize">${group.label}</h3>
                   <span class="text-sm text-slate-500">(${group.checkins.length})</span>
@@ -325,7 +326,7 @@ export function renderCheckinHistory(state) {
               onclick="loadMoreCheckins()"
               class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all"
             >
-              <i class="fas fa-plus mr-2" aria-hidden="true"></i>
+              ${icon('plus', 'w-5 h-5 mr-2')}
               Charger plus (${sortedCheckins.length - displayLimit} restants)
             </button>
           ` : ''}
@@ -334,7 +335,7 @@ export function renderCheckinHistory(state) {
         <!-- Empty state -->
         <div class="card p-8 text-center">
           <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-500/20 flex items-center justify-center">
-            <i class="fas fa-map-marker-alt text-3xl text-primary-400" aria-hidden="true"></i>
+            ${icon('map-marker-alt', 'w-8 h-8 text-primary-400')}
           </div>
           <h3 class="font-bold text-lg mb-2">Aucun check-in ${filterPeriod !== 'all' ? 'pour cette periode' : ''}</h3>
           <p class="text-slate-400 text-sm mb-4">
@@ -347,7 +348,7 @@ export function renderCheckinHistory(state) {
             onclick="changeTab('map')"
             class="btn-primary"
           >
-            <i class="fas fa-map mr-2" aria-hidden="true"></i>
+            ${icon('map', 'w-5 h-5 mr-2')}
             Trouver un spot
           </button>
         </div>

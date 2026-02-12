@@ -1,3 +1,5 @@
+import { icon } from '../utils/icons.js'
+
 /**
  * Webhooks System
  * Sends notifications to external services (Discord, Telegram, Slack)
@@ -224,7 +226,7 @@ export function renderWebhookSettings() {
             ${w.enabled ? 'Actif' : 'Inactif'}
           </button>
           <button onclick="window.removeWebhookAction('${w.id}')" class="text-red-400 hover:text-red-300">
-            <i class="fas fa-trash text-xs"></i>
+            ${icon('trash', 'w-3 h-3')}
           </button>
         </div>
       `).join('')}

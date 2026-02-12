@@ -5,6 +5,7 @@
 
 import { formatDistance, formatDuration, getDirectionIcon } from '../../services/navigation.js';
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render navigation overlay
@@ -32,7 +33,7 @@ export function renderNavigationOverlay(state) {
           <!-- Main instruction -->
           <div class="p-4 flex items-center gap-4">
             <div class="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-              <i class="fas ${currentInstruction ? getDirectionIcon(currentInstruction.maneuver?.type, currentInstruction.maneuver?.modifier) : 'fa-arrow-up'} text-3xl text-white"></i>
+              ${icon(currentInstruction ? getDirectionIcon(currentInstruction.maneuver?.type, currentInstruction.maneuver?.modifier) : 'fa-arrow-up', 'w-8 h-8 text-white')}
             </div>
             <div class="flex-1 min-w-0">
               <div class="text-white font-bold text-lg leading-tight">
@@ -49,7 +50,7 @@ export function renderNavigationOverlay(state) {
           ${nextInstruction ? `
             <div class="px-4 py-3 bg-black/20 flex items-center gap-3">
               <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                <i class="fas ${getDirectionIcon(nextInstruction.maneuver?.type, nextInstruction.maneuver?.modifier)} text-white/70"></i>
+                ${icon(getDirectionIcon(nextInstruction.maneuver?.type, nextInstruction.maneuver?.modifier), 'w-5 h-5 text-white/70')}
               </div>
               <div class="flex-1 text-white/70 text-sm truncate">
                 ${t('then') || 'Puis'}: ${nextInstruction.instruction}
@@ -110,14 +111,14 @@ export function renderNavigationOverlay(state) {
               onclick="stopNavigation()"
               class="flex-1 py-3 px-4 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all"
             >
-              <i class="fas fa-times mr-2"></i>
+              ${icon('times', 'w-5 h-5 mr-2')}
               ${t('stop') || 'Arrêter'}
             </button>
             <button
               onclick="openExternalNavigation(${navigationDestination?.lat}, ${navigationDestination?.lng}, '${navigationDestination?.name?.replace(/'/g, "\\'")}')"
               class="flex-1 py-3 px-4 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-all"
             >
-              <i class="fas fa-external-link-alt mr-2"></i>
+              ${icon('external-link-alt', 'w-5 h-5 mr-2')}
               ${t('externalGPS') || 'GPS externe'}
             </button>
           </div>
@@ -160,7 +161,7 @@ export function renderNavigationWidget(state) {
         class="w-full bg-primary-600 rounded-xl p-3 shadow-lg flex items-center gap-3 hover:bg-primary-500 transition-all"
       >
         <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-          <i class="fas fa-route text-white"></i>
+          ${icon('route', 'w-5 h-5 text-white')}
         </div>
         <div class="flex-1 text-left">
           <div class="text-white font-medium text-sm truncate">
@@ -171,7 +172,7 @@ export function renderNavigationWidget(state) {
             ${navigationDuration ? formatDuration(navigationDuration) : ''}
           </div>
         </div>
-        <i class="fas fa-chevron-up text-white/70"></i>
+        ${icon('chevron-up', 'w-5 h-5 text-white/70')}
       </button>
     </div>
   `;

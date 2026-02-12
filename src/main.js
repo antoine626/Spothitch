@@ -199,6 +199,7 @@ import {
   preloadOnIdle,
 } from './utils/lazyLoad.js';
 import { exportUserData, getExportSummary } from './utils/dataExport.js';
+import { icon } from './utils/icons.js'
 import {
   showLoading,
   hideLoading,
@@ -1726,17 +1727,17 @@ window.downloadCountryOffline = async (code, name) => {
   const btn = document.getElementById(`offline-download-${code}`)
   if (btn) {
     btn.disabled = true
-    btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>${t('downloading') || 'Téléchargement...'}`
+    btn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin mr-2')}${t('downloading') || 'Téléchargement...'}`
   }
   try {
     const { downloadCountrySpots } = await import('./services/offlineDownload.js')
     const result = await downloadCountrySpots(code, (progress) => {
-      if (btn) btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>${progress}%`
+      if (btn) btn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin mr-2')}${progress}%`
     })
     if (result.success) {
       showToast(`${name}: ${result.count} ${t('spotsDownloaded') || 'spots téléchargés pour offline'}`, 'success')
       if (btn) {
-        btn.innerHTML = `<i class="fas fa-check mr-2"></i>${t('downloaded') || 'Téléchargé'}`
+        btn.innerHTML = `${icon('check', 'w-5 h-5 mr-2')}${t('downloaded') || 'Téléchargé'}`
         btn.classList.remove('border-primary-500/30', 'text-primary-400')
         btn.classList.add('border-green-500/30', 'text-green-400')
       }
@@ -1744,7 +1745,7 @@ window.downloadCountryOffline = async (code, name) => {
       showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
       if (btn) {
         btn.disabled = false
-        btn.innerHTML = `<i class="fas fa-download"></i> ${t('downloadForOffline') || 'Télécharger pour offline'}`
+        btn.innerHTML = `${icon('download', 'w-5 h-5')} ${t('downloadForOffline') || 'Télécharger pour offline'}`
       }
     }
   } catch (e) {
@@ -1752,7 +1753,7 @@ window.downloadCountryOffline = async (code, name) => {
     showToast(t('downloadError') || 'Erreur lors du téléchargement', 'error')
     if (btn) {
       btn.disabled = false
-      btn.innerHTML = `<i class="fas fa-download"></i> ${t('downloadForOffline') || 'Télécharger pour offline'}`
+      btn.innerHTML = `${icon('download', 'w-5 h-5')} ${t('downloadForOffline') || 'Télécharger pour offline'}`
     }
   }
 }

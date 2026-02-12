@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Report types - labels are now translated dynamically
 export const REPORT_TYPES = {
@@ -272,7 +273,7 @@ export function renderReportModal(state) {
               <p class="text-white/80 text-sm">${t('reportSubtitle') || 'Aide-nous à garder la communauté sûre'}</p>
             </div>
             <button onclick="closeReport()" class="p-2 bg-white/20 rounded-full text-white">
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -288,7 +289,7 @@ export function renderReportModal(state) {
                 class="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-left flex items-center gap-3 ${state.selectedReportReason === reason.id ? 'ring-2 ring-primary-500 bg-primary-500/10' : ''}"
               >
                 <div class="w-10 h-10 rounded-lg ${SEVERITY_LEVELS[reason.severity].bg} flex items-center justify-center">
-                  <i class="fas ${reason.icon} ${SEVERITY_LEVELS[reason.severity].color}"></i>
+                  ${icon(reason.icon, `w-5 h-5 ${SEVERITY_LEVELS[reason.severity].color}`)}
                 </div>
                 <div class="flex-1">
                   <div class="font-medium">${getReasonLabel(reason)}</div>
@@ -296,7 +297,7 @@ export function renderReportModal(state) {
                     ${t('reportPriority') || 'Priorité'} ${reason.severity === 'low' ? (t('reportPriorityLow') || 'basse') : reason.severity === 'medium' ? (t('reportPriorityMedium') || 'moyenne') : (t('reportPriorityHigh') || 'haute')}
                   </div>
                 </div>
-                ${state.selectedReportReason === reason.id ? '<i class="fas fa-check text-primary-400"></i>' : ''}
+                ${state.selectedReportReason === reason.id ? icon('check', 'w-5 h-5 text-primary-400') : ''}
               </button>
             `).join('')}
           </div>
@@ -321,7 +322,7 @@ export function renderReportModal(state) {
             class="btn btn-danger w-full"
             ${!state.selectedReportReason ? 'disabled' : ''}
           >
-            <i class="fas fa-flag mr-2"></i>
+            ${icon('flag', 'w-5 h-5 mr-2')}
             ${t('reportSubmitButton') || 'Envoyer le signalement'}
           </button>
           <p class="text-xs text-slate-500 text-center mt-2">

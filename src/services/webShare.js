@@ -5,6 +5,7 @@
  */
 
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 /**
  * Check if Web Share API is supported
@@ -296,7 +297,7 @@ export function renderShareButton(type, data) {
       onclick="window.handleShare('${type}', '${dataAttr}')"
       aria-label="${ariaLabel}"
     >
-      <i class="fas fa-share-alt" aria-hidden="true"></i>
+      ${icon('share-alt', 'w-5 h-5')}
       <span>${buttonLabel}</span>
     </button>
   `;
@@ -326,7 +327,7 @@ export function renderShareIconButton(type, data) {
       onclick="window.handleShare('${type}', '${dataAttr}')"
       aria-label="${ariaLabel}"
     >
-      <i class="fas fa-share-alt" aria-hidden="true"></i>
+      ${icon('share-alt', 'w-5 h-5')}
     </button>
   `;
 }

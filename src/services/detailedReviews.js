@@ -10,6 +10,7 @@ import { Storage } from '../utils/storage.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
 import { renderTranslateButton } from './autoTranslate.js';
+import { icon } from '../utils/icons.js'
 
 // Storage key for reviews
 const DETAILED_REVIEWS_KEY = 'spothitch_detailed_reviews';
@@ -540,23 +541,23 @@ export function renderStarRating(rating, interactive = false, criterionId = '') 
   // Full stars
   for (let i = 0; i < fullStars; i++) {
     if (interactive) {
-      html += `<button type="button" onclick="setReviewRating('${escapeHTML(criterionId)}', ${i + 1})" class="text-yellow-400 hover:text-yellow-300 transition-colors" aria-label="${i + 1} etoile${i > 0 ? 's' : ''}"><i class="fas fa-star"></i></button>`;
+      html += `<button type="button" onclick="setReviewRating('${escapeHTML(criterionId)}', ${i + 1})" class="text-yellow-400 hover:text-yellow-300 transition-colors" aria-label="${i + 1} etoile${i > 0 ? 's' : ''}">${icon('star', 'w-5 h-5')}</button>`;
     } else {
-      html += '<i class="fas fa-star text-yellow-400"></i>';
+      html += icon('star', 'w-5 h-5 text-yellow-400');
     }
   }
 
   // Half star
   if (hasHalfStar) {
-    html += '<i class="fas fa-star-half-alt text-yellow-400"></i>';
+    html += icon('star-half-alt', 'w-5 h-5 text-yellow-400');
   }
 
   // Empty stars
   for (let i = 0; i < emptyStars; i++) {
     if (interactive) {
-      html += `<button type="button" onclick="setReviewRating('${escapeHTML(criterionId)}', ${fullStars + (hasHalfStar ? 1 : 0) + i + 1})" class="text-slate-500 hover:text-yellow-300 transition-colors" aria-label="${fullStars + (hasHalfStar ? 1 : 0) + i + 1} etoiles"><i class="far fa-star"></i></button>`;
+      html += `<button type="button" onclick="setReviewRating('${escapeHTML(criterionId)}', ${fullStars + (hasHalfStar ? 1 : 0) + i + 1})" class="text-slate-500 hover:text-yellow-300 transition-colors" aria-label="${fullStars + (hasHalfStar ? 1 : 0) + i + 1} etoiles">${icon('star', 'w-5 h-5')}</button>`;
     } else {
-      html += '<i class="far fa-star text-slate-500"></i>';
+      html += icon('star', 'w-5 h-5 text-slate-500');
     }
   }
 
@@ -582,7 +583,7 @@ export function renderReviewForm(spotId) {
       aria-labelledby="review-form-title"
     >
       <h3 id="review-form-title" class="text-xl font-bold text-white mb-4">
-        <i class="fas fa-star mr-2 text-yellow-400"></i>
+        ${icon('star', 'w-5 h-5 mr-2 text-yellow-400')}
         ${escapeHTML(t('writeReview') || 'Donner ton avis')}
       </h3>
 
@@ -592,7 +593,7 @@ export function renderReviewForm(spotId) {
           <div class="criterion-rating" data-criterion="${escapeHTML(criterion.id)}">
             <div class="flex items-center justify-between mb-2">
               <label class="flex items-center gap-2 text-white">
-                <i class="fas ${escapeHTML(criterion.icon)} text-primary-400"></i>
+                ${icon(escapeHTML(criterion.icon), 'w-5 h-5 text-primary-400')}
                 <span>${escapeHTML(t(`criterion${criterion.id.charAt(0).toUpperCase() + criterion.id.slice(1)}`) || criterion.label)}</span>
               </label>
               <span class="text-sm text-slate-400">${escapeHTML(criterion.description)}</span>
@@ -606,7 +607,7 @@ export function renderReviewForm(spotId) {
                   data-star="${star}"
                   aria-label="${star} etoile${star > 1 ? 's' : ''}"
                 >
-                  <i class="far fa-star"></i>
+                  ${icon('star', 'w-5 h-5')}
                 </button>
               `).join('')}
               <span class="rating-value ml-2 text-white font-medium" data-criterion="${escapeHTML(criterion.id)}">-</span>
@@ -643,7 +644,7 @@ export function renderReviewForm(spotId) {
           onclick="triggerReviewPhotoUpload()"
           class="btn bg-white/10 hover:bg-white/20 text-white"
         >
-          <i class="fas fa-camera mr-2"></i>
+          ${icon('camera', 'w-5 h-5 mr-2')}
           ${escapeHTML(t('addPhoto') || 'Ajouter une photo')}
         </button>
         <input type="file" id="review-photo-input" class="hidden" accept="image/*" multiple>
@@ -656,7 +657,7 @@ export function renderReviewForm(spotId) {
         class="btn w-full bg-primary-500 hover:bg-primary-600 text-white"
         id="submit-review-btn"
       >
-        <i class="fas fa-paper-plane mr-2"></i>
+        ${icon('paper-plane', 'w-5 h-5 mr-2')}
         ${escapeHTML(t('submitReview') || 'Publier mon avis')}
       </button>
     </div>
@@ -711,7 +712,7 @@ export function renderReviewCard(review) {
         ${criteria.map(criterion => `
           <div class="flex items-center justify-between text-sm">
             <span class="text-slate-400">
-              <i class="fas ${escapeHTML(criterion.icon)} mr-1 text-xs"></i>
+              ${icon(escapeHTML(criterion.icon), 'w-3 h-3 mr-1')}
               ${escapeHTML(criterion.label)}
             </span>
             <div class="flex items-center gap-1">
@@ -749,7 +750,7 @@ export function renderReviewCard(review) {
           class="flex items-center gap-2 text-sm ${hasMarkedHelpful ? 'text-primary-400' : 'text-slate-400'} hover:text-primary-300 transition-colors"
           ${isAuthor ? 'disabled' : ''}
         >
-          <i class="fas fa-thumbs-up"></i>
+          ${icon('thumbs-up', 'w-5 h-5')}
           <span>${escapeHTML(t('helpful') || 'Utile')} (${review.helpfulCount || 0})</span>
         </button>
 
@@ -759,14 +760,14 @@ export function renderReviewCard(review) {
               onclick="editReviewModal('${escapeHTML(review.id)}')"
               class="text-sm text-blue-400 hover:text-blue-300"
             >
-              <i class="fas fa-edit mr-1"></i>
+              ${icon('edit', 'w-5 h-5 mr-1')}
               ${escapeHTML(t('edit') || 'Modifier')}
             </button>
             <button
               onclick="deleteReviewConfirm('${escapeHTML(review.id)}')"
               class="text-sm text-red-400 hover:text-red-300"
             >
-              <i class="fas fa-trash mr-1"></i>
+              ${icon('trash', 'w-5 h-5 mr-1')}
               ${escapeHTML(t('delete') || 'Supprimer')}
             </button>
           ` : `
@@ -774,7 +775,7 @@ export function renderReviewCard(review) {
               onclick="openReplyModal('${escapeHTML(review.id)}')"
               class="text-sm text-slate-400 hover:text-white"
             >
-              <i class="fas fa-reply mr-1"></i>
+              ${icon('reply', 'w-5 h-5 mr-1')}
               ${escapeHTML(t('reply') || 'Repondre')}
             </button>
           `}
@@ -809,7 +810,7 @@ export function renderSpotReviews(spotId) {
               onclick="showReviewForm('${escapeHTML(spotId)}')"
               class="btn bg-primary-500 hover:bg-primary-600 text-white"
             >
-              <i class="fas fa-star mr-2"></i>
+              ${icon('star', 'w-5 h-5 mr-2')}
               ${escapeHTML(t('writeReview') || 'Donner ton avis')}
             </button>
           ` : ''}
@@ -835,7 +836,7 @@ export function renderSpotReviews(spotId) {
           ${criteria.map(criterion => `
             <div class="flex items-center gap-2">
               <span class="text-sm text-slate-400 w-32">
-                <i class="fas ${escapeHTML(criterion.icon)} mr-1"></i>
+                ${icon(escapeHTML(criterion.icon), 'w-5 h-5 mr-1')}
                 ${escapeHTML(criterion.label)}
               </span>
               <div class="flex-1 bg-white/10 rounded-full h-2 overflow-hidden">
@@ -856,7 +857,7 @@ export function renderSpotReviews(spotId) {
           onclick="showReviewForm('${escapeHTML(spotId)}')"
           class="btn w-full bg-primary-500 hover:bg-primary-600 text-white mb-4"
         >
-          <i class="fas fa-star mr-2"></i>
+          ${icon('star', 'w-5 h-5 mr-2')}
           ${escapeHTML(t('writeReview') || 'Donner ton avis')}
         </button>
       ` : ''}

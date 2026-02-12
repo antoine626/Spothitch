@@ -4,6 +4,7 @@
  */
 
 import { t } from '../../i18n/index.js'
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render interactive star rating for a criterion
@@ -22,7 +23,7 @@ function renderStarInput(criterion, label) {
             data-star="${star}"
             aria-label="${star}/5"
           >
-            <i class="far fa-star"></i>
+            ${icon('star', 'w-5 h-5')}
           </button>
         `).join('')}
         <span class="ml-2 text-sm text-white font-medium" id="spot-rating-value-${criterion}">-</span>
@@ -60,7 +61,7 @@ export function renderAddSpot(_state) {
             aria-label="${t('close') || 'Fermer'}"
             type="button"
           >
-            <i class="fas fa-times" aria-hidden="true"></i>
+            ${icon('times', 'w-5 h-5')}
           </button>
         </div>
 
@@ -90,7 +91,7 @@ export function renderAddSpot(_state) {
                   aria-describedby="photo-help"
                 />
                 <div id="photo-preview">
-                  <i class="fas fa-camera text-4xl text-slate-500 mb-2" aria-hidden="true"></i>
+                  ${icon('camera', 'w-10 h-10 text-slate-500 mb-2')}
                   <p class="text-slate-400">${t('takePhoto')}</p>
                   <p class="text-slate-500 text-sm" id="photo-help">${t('chooseFromGallery')}</p>
                 </div>
@@ -194,7 +195,7 @@ export function renderAddSpot(_state) {
                 class="btn btn-ghost w-full"
                 aria-describedby="location-display"
               >
-                <i class="fas fa-crosshairs" aria-hidden="true"></i>
+                ${icon('crosshairs', 'w-5 h-5')}
                 ${t('useMyPosition') || 'Utiliser ma position actuelle'}
               </button>
               <div id="location-display" class="text-sm text-slate-400 mt-2 text-center" aria-live="polite" role="status"></div>
@@ -208,7 +209,7 @@ export function renderAddSpot(_state) {
               class="btn w-full text-lg bg-amber-500/20 text-amber-400 border border-amber-500/30"
               id="submit-spot-btn"
             >
-              <i class="fas fa-eye" aria-hidden="true"></i>
+              ${icon('eye', 'w-5 h-5')}
               ${t('previewModeClose')}
             </button>
             ` : `
@@ -217,7 +218,7 @@ export function renderAddSpot(_state) {
               class="btn btn-primary w-full text-lg"
               id="submit-spot-btn"
             >
-              <i class="fas fa-share" aria-hidden="true"></i>
+              ${icon('share', 'w-5 h-5')}
               ${t('create')}
             </button>
             `}
@@ -369,7 +370,7 @@ window.getSpotLocation = () => {
     return
   }
 
-  if (display) display.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('locating') || 'Localisation...'}`
+  if (display) display.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin')} ${t('locating') || 'Localisation...'}`
 
   navigator.geolocation.getCurrentPosition(
     async (position) => {
@@ -383,14 +384,14 @@ window.getSpotLocation = () => {
 
         if (display) {
           display.innerHTML = `
-            <i class="fas fa-check-circle text-success-400"></i>
+            ${icon('check-circle', 'w-5 h-5 text-success-400')}
             ${location?.city || 'Position'} (${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)})
           `
         }
       } catch {
         if (display) {
           display.innerHTML = `
-            <i class="fas fa-check-circle text-success-400"></i>
+            ${icon('check-circle', 'w-5 h-5 text-success-400')}
             ${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}
           `
         }
@@ -439,7 +440,7 @@ window.handleAddSpot = async (event) => {
   // Disable button
   if (submitBtn) {
     submitBtn.disabled = true
-    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('sending') || 'Envoi...'}`
+    submitBtn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin')} ${t('sending') || 'Envoi...'}`
   }
 
   const ratings = window.spotFormData.ratings || { safety: 0, traffic: 0, accessibility: 0 }
@@ -517,7 +518,7 @@ window.handleAddSpot = async (event) => {
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false
-      submitBtn.innerHTML = `<i class="fas fa-share"></i> ${t('create')}`
+      submitBtn.innerHTML = `${icon('share', 'w-5 h-5')} ${t('create')}`
     }
   }
 }

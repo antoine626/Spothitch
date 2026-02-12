@@ -6,6 +6,7 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * FAQ data organized by category (5 categories, 20+ questions)
@@ -235,7 +236,7 @@ export function renderFAQ(state) {
             aria-label="${t('back', 'Retour')}"
             title="${t('back', 'Retour')}"
           >
-            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            ${icon('arrow-left', 'w-5 h-5')}
           </button>
           <div>
             <h1 class="text-2xl font-bold">${t('faqTitle', 'Questions fréquentes')}</h1>
@@ -254,7 +255,7 @@ export function renderFAQ(state) {
             value="${searchQuery}"
             aria-label="${t('searchFAQ', 'Rechercher dans la FAQ...')}"
           />
-          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+          ${icon('search', 'w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400')}
           ${searchQuery ? `
             <button
               onclick="clearFAQSearch()"
@@ -262,7 +263,7 @@ export function renderFAQ(state) {
               aria-label="${t('clearSearch', 'Effacer la recherche')}"
               title="${t('clearSearch', 'Effacer la recherche')}"
             >
-              <i class="fas fa-times" aria-hidden="true"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           ` : ''}
         </div>
@@ -278,7 +279,7 @@ export function renderFAQ(state) {
                 onclick="scrollToFAQCategory('${key}')"
                 class="px-3 py-2 rounded-full bg-${category.color}-500/20 hover:bg-${category.color}-500/30 transition-all text-sm flex items-center gap-2 border border-${category.color}-500/30"
               >
-                <i class="fas ${category.icon}" aria-hidden="true"></i>
+                ${icon(category.icon, 'w-5 h-5')}
                 <span>${category.title}</span>
               </button>
             `).join('')}
@@ -294,7 +295,7 @@ export function renderFAQ(state) {
               <div id="faq-${key}" class="faq-category">
                 <h2 class="text-lg font-bold mb-4 flex items-center gap-3">
                   <div class="w-10 h-10 rounded-lg bg-${category.color}-500/20 flex items-center justify-center">
-                    <i class="fas ${category.icon} text-${category.color}-400" aria-hidden="true"></i>
+                    ${icon(category.icon, `w-5 h-5 text-${category.color}-400`)}
                   </div>
                   <span>${category.title}</span>
                   <span class="text-sm text-slate-400 ml-auto">${category.questions.length}</span>
@@ -310,7 +311,7 @@ export function renderFAQ(state) {
                         aria-controls="faq-answer-${item.id}"
                       >
                         <span class="font-medium flex-1">${item.q}</span>
-                        <i class="fas fa-chevron-down text-slate-400 transition-transform shrink-0" aria-hidden="true"></i>
+                        ${icon('chevron-down', 'w-5 h-5 text-slate-400 transition-transform shrink-0')}
                       </button>
                       <div id="faq-answer-${item.id}" class="faq-answer hidden" role="region" aria-hidden="true">
                         <div class="px-4 pb-4 text-slate-300 border-t border-slate-700/50">
@@ -333,7 +334,7 @@ export function renderFAQ(state) {
               onclick="clearFAQSearch()"
               class="btn-primary"
             >
-              <i class="fas fa-times mr-2" aria-hidden="true"></i>
+              ${icon('times', 'w-5 h-5 mr-2')}
               ${t('clearSearch', 'Effacer la recherche')}
             </button>
           </div>
@@ -349,7 +350,7 @@ export function renderFAQ(state) {
           onclick="openContactForm()"
           class="btn-primary"
         >
-          <i class="fas fa-envelope mr-2" aria-hidden="true"></i>
+          ${icon('envelope', 'w-5 h-5 mr-2')}
           ${t('contactUs', 'Nous contacter')}
         </button>
       </div>

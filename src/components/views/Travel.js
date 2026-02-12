@@ -8,6 +8,7 @@ import { countryGuides, getGuideByCode } from '../../data/guides.js'
 import { renderCommunityTips } from '../../services/communityTips.js'
 import { renderHostelSection } from '../../services/hostelRecommendations.js'
 import { escapeHTML } from '../../utils/sanitize.js'
+import { icon } from '../../utils/icons.js'
 
 const SAVED_TRIPS_KEY = 'spothitch_saved_trips'
 
@@ -58,7 +59,7 @@ export function renderTravel(state) {
 }"
           aria-selected="${activeSubTab === 'planner'}"
         >
-          <i class="fas fa-route mr-2" aria-hidden="true"></i>
+          ${icon('route', 'w-5 h-5 mr-2')}
           ${t('plan') || 'Planifier'}
         </button>
         <button
@@ -70,7 +71,7 @@ export function renderTravel(state) {
 }"
           aria-selected="${activeSubTab === 'guides'}"
         >
-          <i class="fas fa-book mr-2" aria-hidden="true"></i>
+          ${icon('book', 'w-5 h-5 mr-2')}
           ${t('guides') || 'Guides'}
         </button>
       </div>
@@ -96,7 +97,7 @@ function renderPlanner(state) {
       <!-- New Trip Form -->
       <div class="card p-4 space-y-4">
         <h3 class="font-bold text-lg flex items-center gap-2">
-          <i class="fas fa-map-signs text-primary-400" aria-hidden="true"></i>
+          ${icon('map-signs', 'w-5 h-5 text-primary-400')}
           ${t('newTrip') || 'Nouveau voyage'}
         </h3>
 
@@ -124,7 +125,7 @@ function renderPlanner(state) {
               class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
               aria-label="${t('swap') || 'Inverser'}"
             >
-              <i class="fas fa-exchange-alt rotate-90" aria-hidden="true"></i>
+              ${icon('exchange-alt', 'w-5 h-5 rotate-90')}
             </button>
           </div>
 
@@ -152,8 +153,8 @@ function renderPlanner(state) {
           ${state.tripLoading ? 'disabled' : ''}
         >
           ${state.tripLoading
-            ? '<i class="fas fa-spinner fa-spin mr-2" aria-hidden="true"></i>' + (t('calculating') || 'Calcul en cours...')
-            : '<i class="fas fa-route mr-2" aria-hidden="true"></i>' + (t('findSpotsOnRoute') || 'Trouver les spots sur le trajet')
+            ? icon('spinner', 'w-5 h-5 animate-spin mr-2') + (t('calculating') || 'Calcul en cours...')
+            : icon('route', 'w-5 h-5 mr-2') + (t('findSpotsOnRoute') || 'Trouver les spots sur le trajet')
           }
         </button>
       </div>
@@ -189,22 +190,22 @@ function renderTripResults(results) {
           ${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}
         </h4>
         <button onclick="clearTripResults()" class="text-slate-400 hover:text-white transition-colors" aria-label="${t('close') || 'Fermer'}">
-          <i class="fas fa-times"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
       </div>
 
       <!-- Stats -->
       <div class="flex gap-4 text-sm">
         <div class="flex items-center gap-2">
-          <i class="fas fa-road text-slate-400" aria-hidden="true"></i>
+          ${icon('road', 'w-5 h-5 text-slate-400')}
           <span>${results.distance || '?'} km</span>
         </div>
         <div class="flex items-center gap-2">
-          <i class="fas fa-clock text-slate-400" aria-hidden="true"></i>
+          ${icon('clock', 'w-5 h-5 text-slate-400')}
           <span>~${results.estimatedTime || '?'}</span>
         </div>
         <div class="flex items-center gap-2">
-          <i class="fas fa-map-pin text-primary-400" aria-hidden="true"></i>
+          ${icon('map-pin', 'w-5 h-5 text-primary-400')}
           <span class="text-primary-400 font-semibold">${spots.length} spots</span>
         </div>
       </div>
@@ -212,11 +213,11 @@ function renderTripResults(results) {
       <!-- Action buttons -->
       <div class="grid grid-cols-2 gap-2">
         <button onclick="viewTripOnMap()" class="btn-primary py-3">
-          <i class="fas fa-map mr-2" aria-hidden="true"></i>
+          ${icon('map', 'w-5 h-5 mr-2')}
           ${t('viewOnMap') || 'Voir sur la carte'}
         </button>
         <button onclick="saveTripWithSpots()" class="btn-secondary py-3 font-bold">
-          <i class="fas fa-bookmark mr-2" aria-hidden="true"></i>
+          ${icon('bookmark', 'w-5 h-5 mr-2')}
           ${t('saveTrip') || 'Sauvegarder ce trajet'}
         </button>
       </div>
@@ -238,7 +239,7 @@ function renderTripResults(results) {
       <!-- Loading amenities indicator -->
       ${loadingAmenities ? `
         <div class="flex items-center gap-2 text-sm text-slate-400 px-1">
-          <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+          ${icon('spinner', 'w-5 h-5 animate-spin')}
           <span>${t('travel_loading_stations') || 'Chargement des stations...'}</span>
         </div>
       ` : ''}
@@ -267,7 +268,7 @@ function renderTripResults(results) {
           <!-- Departure -->
           <div class="relative flex items-start gap-3 pb-4">
             <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-emerald-500 border-2 border-dark-primary flex items-center justify-center z-10">
-              <i class="fas fa-flag text-[8px] text-white" aria-hidden="true"></i>
+              ${icon('flag', 'w-5 h-5 text-[8px] text-white')}
             </div>
             <div class="pt-0.5">
               <div class="text-sm font-semibold">${results.from?.split(',')[0] || '?'}</div>
@@ -286,11 +287,11 @@ function renderTripResults(results) {
                 <div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
                   ${spot.type ? `<span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">${spot.type}</span>` : ''}
                   ${spot.globalRating ? `<span class="text-primary-400">★ ${spot.globalRating.toFixed(1)}</span>` : ''}
-                  ${spot.avgWait ? `<span><i class="fas fa-clock mr-0.5" aria-hidden="true"></i>${spot.avgWait} min</span>` : ''}
+                  ${spot.avgWait ? `<span>${icon('clock', 'w-5 h-5 mr-0.5')}${spot.avgWait} min</span>` : ''}
                 </div>
               </div>
               <button onclick="event.stopPropagation();removeSpotFromTrip(${spot.id})" class="text-slate-600 hover:text-danger-400 transition-colors mt-1" aria-label="${t('remove') || 'Retirer'}">
-                <i class="fas fa-times text-xs" aria-hidden="true"></i>
+                ${icon('times', 'w-3 h-3')}
               </button>
             </div>
           `).join('')}
@@ -298,7 +299,7 @@ function renderTripResults(results) {
           <!-- Arrival -->
           <div class="relative flex items-start gap-3">
             <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-primary-500 border-2 border-dark-primary flex items-center justify-center z-10">
-              <i class="fas fa-map-marker-alt text-[8px] text-white" aria-hidden="true"></i>
+              ${icon('map-marker-alt', 'w-5 h-5 text-[8px] text-white')}
             </div>
             <div class="pt-0.5">
               <div class="text-sm font-semibold">${results.to?.split(',')[0] || '?'}</div>
@@ -308,7 +309,7 @@ function renderTripResults(results) {
         </div>
       ` : `
         <div class="text-center py-4">
-          <i class="fas fa-search text-3xl text-slate-600 mb-2" aria-hidden="true"></i>
+          ${icon('search', 'w-8 h-8 text-slate-600 mb-2')}
           <p class="text-slate-400 text-sm">${t('noSpotsFound') || 'Aucun spot trouve sur ce trajet'}</p>
         </div>
       `}
@@ -352,12 +353,12 @@ function renderTripSpot(spot, index) {
   return `
     <div class="card p-3 flex items-center gap-3 ${isFav ? 'border-amber-500/30' : ''}">
       <div class="shrink-0 w-8 h-8 rounded-full ${isFav ? 'bg-amber-500/20' : 'bg-primary-500/20'} flex items-center justify-center text-sm font-bold ${isFav ? 'text-amber-400' : 'text-primary-400'}">
-        ${isFav ? '<i class="fas fa-star text-xs"></i>' : (index + 1)}
+        ${isFav ? icon('star', 'w-3 h-3') : (index + 1)}
       </div>
       <button onclick="openSpotDetail('${spot.id}')" class="flex-1 min-w-0 text-left">
         <div class="flex items-center gap-2">
           <span class="text-sm">${flag}</span>
-          ${rating !== '?' ? `<span class="flex items-center gap-1 text-xs text-amber-400"><i class="fas fa-star" aria-hidden="true"></i>${rating}</span>` : ''}
+          ${rating !== '?' ? `<span class="flex items-center gap-1 text-xs text-amber-400">${icon('star', 'w-5 h-5')}${rating}</span>` : ''}
           ${wait ? `<span class="text-xs text-slate-500">${wait}</span>` : ''}
         </div>
         <div class="text-sm text-slate-300 truncate mt-0.5">${desc || t('hitchhikingSpot') || 'Spot d\'autostop'}</div>
@@ -368,14 +369,14 @@ function renderTripSpot(spot, index) {
         aria-label="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
         title="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
       >
-        <i class="fas fa-heart text-xs" aria-hidden="true"></i>
+        ${icon('heart', 'w-3 h-3')}
       </button>
       <button
         onclick="removeSpotFromTrip(${index})"
         class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
         aria-label="${t('remove') || 'Retirer'}"
       >
-        <i class="fas fa-times text-xs" aria-hidden="true"></i>
+        ${icon('times', 'w-3 h-3')}
       </button>
     </div>
   `
@@ -393,7 +394,7 @@ function renderTripMapView(results) {
         onclick="closeTripMap()"
         class="absolute top-3 left-3 z-[1000] px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center gap-2 hover:bg-dark-secondary transition-all"
       >
-        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        ${icon('arrow-left', 'w-5 h-5')}
         <span>${t('back') || 'Retour'}</span>
       </button>
 
@@ -418,7 +419,7 @@ function renderSavedTrips(savedTrips) {
   if (!savedTrips || savedTrips.length === 0) {
     return `
       <div class="card p-6 text-center">
-        <i class="fas fa-route text-4xl text-slate-600 mb-3" aria-hidden="true"></i>
+        ${icon('route', 'w-10 h-10 text-slate-600 mb-3')}
         <p class="text-slate-400">${t('noSavedTrips') || 'Aucun voyage sauvegardé'}</p>
         <p class="text-sm text-slate-500 mt-1">${t('planFirstTrip') || 'Planifiez votre premier voyage !'}</p>
       </div>
@@ -428,7 +429,7 @@ function renderSavedTrips(savedTrips) {
   return `
     <div class="space-y-3">
       <h3 class="font-bold text-lg flex items-center gap-2">
-        <i class="fas fa-bookmark text-amber-400" aria-hidden="true"></i>
+        ${icon('bookmark', 'w-5 h-5 text-amber-400')}
         ${t('savedTrips') || 'Voyages sauvegardés'}
       </h3>
 
@@ -437,7 +438,7 @@ function renderSavedTrips(savedTrips) {
           <div class="flex items-center justify-between">
             <button onclick="loadSavedTrip(${index})" class="flex-1 text-left flex items-center gap-3">
               <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center shrink-0">
-                <i class="fas fa-route text-primary-400" aria-hidden="true"></i>
+                ${icon('route', 'w-5 h-5 text-primary-400')}
               </div>
               <div class="min-w-0">
                 <div class="font-medium truncate">${trip.from?.split(',')[0] || '?'} → ${trip.to?.split(',')[0] || '?'}</div>
@@ -449,7 +450,7 @@ function renderSavedTrips(savedTrips) {
               class="shrink-0 w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all ml-2"
               aria-label="${t('delete') || 'Supprimer'}"
             >
-              <i class="fas fa-trash text-xs" aria-hidden="true"></i>
+              ${icon('trash', 'w-3 h-3')}
             </button>
           </div>
         </div>
@@ -477,18 +478,18 @@ function renderGuides(state, selectedGuide) {
           oninput="filterGuides(this.value)"
           aria-label="${t('searchCountry') || 'Rechercher un pays'}"
         />
-        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+        ${icon('search', 'w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
       </div>
 
       <div class="flex flex-wrap gap-2 text-xs">
         <span class="flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400">
-          <i class="fas fa-smile" aria-hidden="true"></i> ${t('veryEasy') || 'Très facile'}
+          ${icon('smile', 'w-5 h-5')} ${t('veryEasy') || 'Très facile'}
         </span>
         <span class="flex items-center gap-1 px-2 py-1 rounded-full bg-primary-500/20 text-primary-400">
-          <i class="fas fa-meh" aria-hidden="true"></i> ${t('easy') || 'Facile'}
+          ${icon('meh', 'w-5 h-5')} ${t('easy') || 'Facile'}
         </span>
         <span class="flex items-center gap-1 px-2 py-1 rounded-full bg-amber-500/20 text-amber-400">
-          <i class="fas fa-frown" aria-hidden="true"></i> ${t('medium') || 'Moyen'}
+          ${icon('frown', 'w-5 h-5')} ${t('medium') || 'Moyen'}
         </span>
       </div>
 
@@ -510,7 +511,7 @@ function renderGuides(state, selectedGuide) {
               </div>
             </div>
             <div class="flex items-center gap-2 text-xs text-slate-400">
-              <i class="fas fa-clock" aria-hidden="true"></i>
+              ${icon('clock', 'w-5 h-5')}
               <span>~${guide.avgWaitTime} min</span>
             </div>
           </button>
@@ -533,7 +534,7 @@ function renderGuideDetail(guide) {
         onclick="selectGuide(null)"
         class="flex items-center gap-2 text-slate-400 hover:text-white transition-all"
       >
-        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        ${icon('arrow-left', 'w-5 h-5')}
         ${t('backToGuides') || 'Retour aux guides'}
       </button>
 
@@ -552,7 +553,7 @@ function renderGuideDetail(guide) {
 
       <div class="card p-4">
         <h3 class="font-bold mb-2 flex items-center gap-2">
-          <i class="fas fa-gavel text-primary-400" aria-hidden="true"></i>
+          ${icon('gavel', 'w-5 h-5 text-primary-400')}
           ${t('legality') || 'Légalité'}
         </h3>
         <p class="text-slate-300">${guide.legalityText}</p>
@@ -560,13 +561,13 @@ function renderGuideDetail(guide) {
 
       <div class="card p-4">
         <h3 class="font-bold mb-3 flex items-center gap-2">
-          <i class="fas fa-lightbulb text-amber-400" aria-hidden="true"></i>
+          ${icon('lightbulb', 'w-5 h-5 text-amber-400')}
           ${t('tips') || 'Conseils'}
         </h3>
         <ul class="space-y-2">
           ${guide.tips.map(tip => `
             <li class="flex items-start gap-2">
-              <i class="fas fa-check text-emerald-400 mt-1" aria-hidden="true"></i>
+              ${icon('check', 'w-5 h-5 text-emerald-400 mt-1')}
               <span class="text-slate-300">${tip}</span>
             </li>
           `).join('')}
@@ -575,7 +576,7 @@ function renderGuideDetail(guide) {
 
       <div class="card p-4">
         <h3 class="font-bold mb-3 flex items-center gap-2">
-          <i class="fas fa-calendar text-purple-400" aria-hidden="true"></i>
+          ${icon('calendar', 'w-5 h-5 text-purple-400')}
           ${t('bestMonths') || 'Meilleurs mois'}
         </h3>
         <div class="flex flex-wrap gap-2">
@@ -592,13 +593,13 @@ function renderGuideDetail(guide) {
       ${guide.bestSpots && guide.bestSpots.length > 0 ? `
         <div class="card p-4">
           <h3 class="font-bold mb-3 flex items-center gap-2">
-            <i class="fas fa-map-marker-alt text-danger-400" aria-hidden="true"></i>
+            ${icon('map-marker-alt', 'w-5 h-5 text-danger-400')}
             ${t('bestSpots') || 'Meilleurs spots'}
           </h3>
           <div class="space-y-2">
             ${guide.bestSpots.map(spot => `
               <div class="flex items-center gap-2 p-2 rounded-lg bg-white/5">
-                <i class="fas fa-thumbs-up text-primary-400" aria-hidden="true"></i>
+                ${icon('thumbs-up', 'w-5 h-5 text-primary-400')}
                 <span class="text-slate-300">${spot}</span>
               </div>
             `).join('')}
@@ -608,7 +609,7 @@ function renderGuideDetail(guide) {
 
       <div class="card p-4 border-danger-500/30">
         <h3 class="font-bold mb-3 flex items-center gap-2 text-danger-400">
-          <i class="fas fa-phone-alt" aria-hidden="true"></i>
+          ${icon('phone-alt', 'w-5 h-5')}
           ${t('emergencyNumbers') || "Numéros d'urgence"}
         </h3>
         <div class="grid grid-cols-2 gap-3">
@@ -634,7 +635,7 @@ function renderGuideDetail(guide) {
       ${guide.events && guide.events.length > 0 ? `
         <div class="card p-4">
           <h3 class="font-bold mb-3 flex items-center gap-2">
-            <i class="fas fa-calendar-alt text-pink-400" aria-hidden="true"></i>
+            ${icon('calendar-alt', 'w-5 h-5 text-pink-400')}
             ${t('eventsAndFestivals') || 'Evenements & festivals'}
           </h3>
           <div class="space-y-3">
@@ -649,7 +650,7 @@ function renderGuideDetail(guide) {
               return `
               <div class="flex items-start gap-3 p-3 rounded-xl bg-white/5">
                 <div class="shrink-0 w-9 h-9 rounded-full ${typeColor} flex items-center justify-center">
-                  <i class="fas ${typeIcon} text-sm" aria-hidden="true"></i>
+                  ${icon(typeIcon, 'w-4 h-4')}
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-2">

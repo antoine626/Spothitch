@@ -7,6 +7,7 @@
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // ============================================
 // CONSTANTS & ENUMS
@@ -1107,7 +1108,7 @@ export function renderAdminDashboard() {
       <div class="flex justify-between items-center">
         <h2 class="text-2xl font-bold text-white">${t('adminDashboardTitle')}</h2>
         <button onclick="refreshAdminDashboard()" class="btn btn-secondary btn-sm">
-          <i class="fas fa-sync-alt mr-2"></i>${t('refresh')}
+          ${icon('sync-alt', 'w-5 h-5 mr-2')}${t('refresh')}
         </button>
       </div>
 
@@ -1124,7 +1125,7 @@ export function renderAdminDashboard() {
             return `
             <div class="p-4 rounded-xl ${cls.bg} border ${cls.border}">
               <div class="flex items-center gap-3">
-                <i class="fas ${alert.icon} ${cls.text}"></i>
+                ${icon(alert.icon, `w-5 h-5 ${cls.text}`)}
                 <div class="flex-1">
                   <div class="font-medium ${cls.text}">${alert.title}</div>
                   <div class="text-sm text-slate-400">${alert.message}</div>
@@ -1142,7 +1143,7 @@ export function renderAdminDashboard() {
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
             <div class="w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
-              <i class="fas fa-users text-primary-400"></i>
+              ${icon('users', 'w-5 h-5 text-primary-400')}
             </div>
             <div class="text-2xl font-bold">${stats.users.total}</div>
           </div>
@@ -1154,7 +1155,7 @@ export function renderAdminDashboard() {
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
             <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
-              <i class="fas fa-map-marker-alt text-amber-400"></i>
+              ${icon('map-marker-alt', 'w-5 h-5 text-amber-400')}
             </div>
             <div class="text-2xl font-bold">${stats.spots.total}</div>
           </div>
@@ -1166,7 +1167,7 @@ export function renderAdminDashboard() {
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
             <div class="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
-              <i class="fas fa-flag text-orange-400"></i>
+              ${icon('flag', 'w-5 h-5 text-orange-400')}
             </div>
             <div class="text-2xl font-bold">${stats.reports.pending}</div>
           </div>
@@ -1178,7 +1179,7 @@ export function renderAdminDashboard() {
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
             <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center">
-              <i class="fas fa-ban text-red-400"></i>
+              ${icon('ban', 'w-5 h-5 text-red-400')}
             </div>
             <div class="text-2xl font-bold">${stats.moderation.activeBans}</div>
           </div>
@@ -1207,25 +1208,25 @@ export function renderAdminDashboard() {
       <!-- Quick Actions -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <button onclick="openModerationQueue()" class="p-4 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 transition-colors text-left">
-          <i class="fas fa-inbox text-orange-400 text-xl mb-2"></i>
+          ${icon('inbox', 'w-6 h-6 text-orange-400 mb-2')}
           <div class="font-medium">${t('adminModerationQueue')}</div>
           <div class="text-sm text-slate-400">${stats.reports.pending} ${t('adminPending')}</div>
         </button>
 
         <button onclick="openBanManagement()" class="p-4 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors text-left">
-          <i class="fas fa-user-slash text-red-400 text-xl mb-2"></i>
+          ${icon('user-slash', 'w-6 h-6 text-red-400 mb-2')}
           <div class="font-medium">${t('adminBanManagement')}</div>
           <div class="text-sm text-slate-400">${stats.moderation.activeBans} ${t('adminActiveBansLabel')}</div>
         </button>
 
         <button onclick="openWarningManagement()" class="p-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 transition-colors text-left">
-          <i class="fas fa-exclamation-circle text-amber-400 text-xl mb-2"></i>
+          ${icon('exclamation-circle', 'w-6 h-6 text-amber-400 mb-2')}
           <div class="font-medium">${t('adminWarnings')}</div>
           <div class="text-sm text-slate-400">${stats.moderation.totalWarnings} ${t('adminTotal')}</div>
         </button>
 
         <button onclick="openModerationLogs()" class="p-4 rounded-xl bg-slate-500/20 hover:bg-slate-500/30 transition-colors text-left">
-          <i class="fas fa-history text-slate-400 text-xl mb-2"></i>
+          ${icon('history', 'w-6 h-6 text-slate-400 mb-2')}
           <div class="font-medium">${t('adminLogs')}</div>
           <div class="text-sm text-slate-400">${t('adminViewHistory')}</div>
         </button>
@@ -1259,7 +1260,7 @@ export function renderModerationQueue(options = {}) {
 
       ${reports.length === 0 ? `
         <div class="text-center py-8 text-slate-400">
-          <i class="fas fa-check-circle text-4xl text-green-400 mb-4"></i>
+          ${icon('check-circle', 'w-10 h-10 text-green-400 mb-4')}
           <div>${t('adminNoReportsToProcess')}</div>
         </div>
       ` : `
@@ -1287,13 +1288,13 @@ export function renderModerationQueue(options = {}) {
 
               <div class="flex gap-2">
                 <button onclick="quickReportAction('${report.id}', 'resolve')" class="btn btn-success btn-sm flex-1">
-                  <i class="fas fa-check mr-1"></i>${t('adminResolve')}
+                  ${icon('check', 'w-5 h-5 mr-1')}${t('adminResolve')}
                 </button>
                 <button onclick="quickReportAction('${report.id}', 'dismiss')" class="btn btn-secondary btn-sm flex-1">
-                  <i class="fas fa-times mr-1"></i>${t('adminDismiss')}
+                  ${icon('times', 'w-5 h-5 mr-1')}${t('adminDismiss')}
                 </button>
                 <button onclick="quickReportAction('${report.id}', 'escalate')" class="btn btn-warning btn-sm">
-                  <i class="fas fa-arrow-up"></i>
+                  ${icon('arrow-up', 'w-5 h-5')}
                 </button>
               </div>
             </div>
@@ -2320,7 +2321,7 @@ export function renderForbiddenWordsPanel() {
       <div class="flex justify-between items-center">
         <h3 class="text-lg font-bold">${t('adminForbiddenWords')}</h3>
         <button onclick="openAddForbiddenWordModal()" class="btn btn-primary btn-sm">
-          <i class="fas fa-plus mr-2"></i>${t('adminAddWord')}
+          ${icon('plus', 'w-5 h-5 mr-2')}${t('adminAddWord')}
         </button>
       </div>
 
@@ -2339,7 +2340,7 @@ export function renderForbiddenWordsPanel() {
               <span class="ml-2 text-xs text-slate-500">${entry.action}</span>
             </div>
             <button onclick="removeForbiddenWord('${entry.word}')" class="text-red-400 hover:text-red-300">
-              <i class="fas fa-trash"></i>
+              ${icon('trash', 'w-5 h-5')}
             </button>
           </div>
         `}).join('')}

@@ -6,6 +6,7 @@
 
 import { t } from '../i18n/index.js'
 import {
+import { icon } from '../utils/icons.js'
   getKnownDevices,
   removeDevice,
   removeAllOtherDevices,
@@ -112,14 +113,14 @@ export function renderDeviceManager() {
           aria-label="${t('close')}"
           type="button"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
 
         <!-- Header -->
         <div class="p-6 border-b border-white/10">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 bg-primary-500/20 rounded-full flex items-center justify-center">
-              <i class="fas fa-laptop text-primary-400 text-xl" aria-hidden="true"></i>
+              ${icon('laptop', 'w-6 h-6 text-primary-400')}
             </div>
             <div>
               <h2 id="device-manager-title" class="text-xl font-bold text-white">
@@ -159,7 +160,7 @@ export function renderDeviceManager() {
               id="remove-all-devices-btn"
               aria-label="${t('disconnectAllOtherDevices')}"
             >
-              <i class="fas fa-sign-out-alt mr-2" aria-hidden="true"></i>
+              ${icon('sign-out-alt', 'w-5 h-5 mr-2')}
               ${t('disconnectAllOtherDevices')}
             </button>
           </div>
@@ -219,7 +220,7 @@ function renderDeviceItem(device, isCurrent) {
             ${deviceOS}${screenRes ? ` - ${screenRes}` : ''}
           </div>
           <div class="text-xs text-slate-500 flex items-center gap-1 mt-1">
-            <i class="fas fa-clock" aria-hidden="true"></i>
+            ${icon('clock', 'w-5 h-5')}
             <span>${t('lastConnection')}: ${lastSeen}</span>
           </div>
         </div>
@@ -231,7 +232,7 @@ function renderDeviceItem(device, isCurrent) {
           class="shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center hover:bg-red-500/20 transition-colors text-red-400"
           aria-label="${t('removeDevice')} ${deviceName}"
         >
-          <i class="fas fa-trash-alt" aria-hidden="true"></i>
+          ${icon('trash-alt', 'w-5 h-5')}
         </button>
       ` : ''}
     </div>
@@ -268,7 +269,7 @@ function renderRemoveConfirmation(deviceId) {
       <div class="relative bg-dark-secondary border border-white/10 rounded-2xl p-6 max-w-sm w-full slide-up" onclick="event.stopPropagation()">
         <div class="text-center">
           <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-exclamation-triangle text-red-400 text-2xl" aria-hidden="true"></i>
+            ${icon('exclamation-triangle', 'w-7 h-7 text-red-400')}
           </div>
           <h3 class="text-lg font-bold text-white mb-2">${t('confirmRemoveDevice')}</h3>
           <p class="text-slate-400 text-sm mb-6">
@@ -311,7 +312,7 @@ function renderRemoveAllConfirmation() {
       <div class="relative bg-dark-secondary border border-white/10 rounded-2xl p-6 max-w-sm w-full slide-up" onclick="event.stopPropagation()">
         <div class="text-center">
           <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-sign-out-alt text-red-400 text-2xl" aria-hidden="true"></i>
+            ${icon('sign-out-alt', 'w-7 h-7 text-red-400')}
           </div>
           <h3 class="text-lg font-bold text-white mb-2">${t('confirmRemoveAllDevices')}</h3>
           <p class="text-slate-400 text-sm mb-6">

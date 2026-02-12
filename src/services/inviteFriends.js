@@ -8,6 +8,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { addPoints } from './gamification.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 /**
  * Reward configuration for invitations
@@ -388,7 +389,7 @@ export function renderInviteCard() {
     <div class="bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl p-4 border border-primary/30">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-12 h-12 bg-primary/30 rounded-full flex items-center justify-center">
-          <i class="fas fa-user-plus text-2xl text-primary"></i>
+          ${icon('user-plus', 'w-7 h-7 text-primary')}
         </div>
         <div>
           <h3 class="font-bold text-white">${t('inviteFriendsTitle')}</h3>
@@ -418,7 +419,7 @@ export function renderInviteCard() {
         <div class="flex items-center justify-between">
           <span class="font-mono text-lg font-bold text-white tracking-wider">${stats.inviteCode}</span>
           <button onclick="window.copyInviteCode()" class="text-primary hover:text-primary/80" aria-label="${t('copyCode')}">
-            <i class="fas fa-copy"></i>
+            ${icon('copy', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -438,7 +439,7 @@ export function renderInviteCard() {
       ` : `
         <div class="mb-4">
           <div class="flex items-center gap-2 text-green-400">
-            <i class="fas fa-trophy"></i>
+            ${icon('trophy', 'w-5 h-5')}
             <span class="text-sm">${t('allMilestonesCompleted')}</span>
           </div>
         </div>
@@ -449,22 +450,22 @@ export function renderInviteCard() {
         <button onclick="window.shareInvite('whatsapp')"
           class="flex-1 min-w-[70px] bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} WhatsApp">
-          <i class="fab fa-whatsapp"></i>
+          ${icon('whatsapp', 'w-5 h-5')}
         </button>
         <button onclick="window.shareInvite('telegram')"
           class="flex-1 min-w-[70px] bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} Telegram">
-          <i class="fab fa-telegram"></i>
+          ${icon('telegram', 'w-5 h-5')}
         </button>
         <button onclick="window.shareInvite('sms')"
           class="flex-1 min-w-[70px] bg-dark-secondary hover:bg-white/10 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} SMS">
-          <i class="fas fa-sms"></i>
+          ${icon('sms', 'w-5 h-5')}
         </button>
         <button onclick="window.openInviteModal()"
           class="flex-1 min-w-[70px] bg-primary hover:bg-primary/80 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('moreOptions')}">
-          <i class="fas fa-share-alt"></i>
+          ${icon('share-alt', 'w-5 h-5')}
         </button>
       </div>
     </div>
@@ -490,13 +491,13 @@ export function renderInviteModal() {
         <!-- Header -->
         <div class="sticky top-0 bg-dark-secondary p-4 border-b border-white/10 flex items-center justify-between">
           <h2 id="invite-modal-title" class="text-xl font-bold text-white flex items-center gap-2">
-            <i class="fas fa-user-plus text-primary"></i>
+            ${icon('user-plus', 'w-5 h-5 text-primary')}
             ${t('inviteFriendsTitle')}
           </h2>
           <button onclick="window.closeInviteModal()"
             class="text-slate-400 hover:text-white"
             aria-label="${t('close')}">
-            <i class="fas fa-times text-xl"></i>
+            ${icon('times', 'w-6 h-6')}
           </button>
         </div>
 
@@ -538,7 +539,7 @@ export function renderInviteModal() {
               <button onclick="window.copyInviteCode()"
                 class="bg-primary hover:bg-primary/80 text-white p-3 rounded-lg"
                 aria-label="${t('copyCode')}">
-                <i class="fas fa-copy"></i>
+                ${icon('copy', 'w-5 h-5')}
               </button>
             </div>
           </div>
@@ -555,7 +556,7 @@ export function renderInviteModal() {
               <button onclick="window.copyInviteLink()"
                 class="bg-white/5 hover:bg-white/10 text-white p-2 rounded-lg"
                 aria-label="${t('copyLink')}">
-                <i class="fas fa-link"></i>
+                ${icon('link', 'w-5 h-5')}
               </button>
             </div>
           </div>
@@ -567,49 +568,49 @@ export function renderInviteModal() {
               <button onclick="window.shareInvite('whatsapp')"
                 class="flex flex-col items-center gap-1 p-3 bg-green-600/20 hover:bg-green-600/30 rounded-xl text-green-400"
                 aria-label="WhatsApp">
-                <i class="fab fa-whatsapp text-2xl"></i>
+                ${icon('whatsapp', 'w-7 h-7')}
                 <span class="text-xs">WhatsApp</span>
               </button>
               <button onclick="window.shareInvite('telegram')"
                 class="flex flex-col items-center gap-1 p-3 bg-blue-500/20 hover:bg-blue-500/30 rounded-xl text-blue-400"
                 aria-label="Telegram">
-                <i class="fab fa-telegram text-2xl"></i>
+                ${icon('telegram', 'w-7 h-7')}
                 <span class="text-xs">Telegram</span>
               </button>
               <button onclick="window.shareInvite('sms')"
                 class="flex flex-col items-center gap-1 p-3 bg-dark-secondary/20 hover:bg-dark-secondary/30 rounded-xl text-slate-300"
                 aria-label="SMS">
-                <i class="fas fa-sms text-2xl"></i>
+                ${icon('sms', 'w-7 h-7')}
                 <span class="text-xs">SMS</span>
               </button>
               <button onclick="window.shareInvite('email')"
                 class="flex flex-col items-center gap-1 p-3 bg-red-500/20 hover:bg-red-500/30 rounded-xl text-red-400"
                 aria-label="Email">
-                <i class="fas fa-envelope text-2xl"></i>
+                ${icon('envelope', 'w-7 h-7')}
                 <span class="text-xs">Email</span>
               </button>
               <button onclick="window.shareInvite('facebook')"
                 class="flex flex-col items-center gap-1 p-3 bg-blue-600/20 hover:bg-blue-600/30 rounded-xl text-blue-400"
                 aria-label="Facebook">
-                <i class="fab fa-facebook text-2xl"></i>
+                ${icon('facebook', 'w-7 h-7')}
                 <span class="text-xs">Facebook</span>
               </button>
               <button onclick="window.shareInvite('twitter')"
                 class="flex flex-col items-center gap-1 p-3 bg-primary-500/20 hover:bg-primary-500/30 rounded-xl text-primary-400"
                 aria-label="Twitter">
-                <i class="fab fa-twitter text-2xl"></i>
+                ${icon('twitter', 'w-7 h-7')}
                 <span class="text-xs">Twitter</span>
               </button>
               <button onclick="window.shareInvite('native')"
                 class="flex flex-col items-center gap-1 p-3 bg-primary/20 hover:bg-primary/30 rounded-xl text-primary"
                 aria-label="${t('nativeShare')}">
-                <i class="fas fa-share-alt text-2xl"></i>
+                ${icon('share-alt', 'w-7 h-7')}
                 <span class="text-xs">${t('more')}</span>
               </button>
               <button onclick="window.shareInvite('copy')"
                 class="flex flex-col items-center gap-1 p-3 bg-purple-500/20 hover:bg-purple-500/30 rounded-xl text-purple-400"
                 aria-label="${t('copyText')}">
-                <i class="fas fa-copy text-2xl"></i>
+                ${icon('copy', 'w-7 h-7')}
                 <span class="text-xs">${t('copy')}</span>
               </button>
             </div>
@@ -635,7 +636,7 @@ export function renderInviteModal() {
             </div>
           ` : `
             <div class="text-center py-4">
-              <i class="fas fa-users text-4xl text-slate-600 mb-2"></i>
+              ${icon('users', 'w-10 h-10 text-slate-600 mb-2')}
               <p class="text-slate-400">${t('noInvitedFriendsYet')}</p>
               <p class="text-sm text-slate-500">${t('startInviting')}</p>
             </div>

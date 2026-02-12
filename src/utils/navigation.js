@@ -1,3 +1,5 @@
+import { icon } from './icons.js'
+
 /**
  * External Navigation Apps Utility
  * Open Google Maps, Waze, or Apple Maps to navigate to a spot
@@ -251,7 +253,7 @@ export function renderNavigationPicker(data) {
         onclick="event.stopPropagation()"
       >
         <h2 id="nav-picker-title" class="text-xl font-bold mb-2 text-center">
-          <i class="fas fa-route text-primary-400 mr-2" aria-hidden="true"></i>
+          ${icon('route', 'w-5 h-5 text-primary-400 mr-2')}
           Y aller
         </h2>
         <p class="text-sm text-slate-400 text-center mb-6">
@@ -267,10 +269,10 @@ export function renderNavigationPicker(data) {
               type="button"
             >
               <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                <i class="fab ${app.icon} text-2xl" aria-hidden="true"></i>
+                ${icon(app.icon, 'w-7 h-7')}
               </div>
               <span class="flex-1 text-left">${app.name}</span>
-              <i class="fas fa-chevron-right text-white/60" aria-hidden="true"></i>
+              ${icon('chevron-right', 'w-5 h-5 text-white/60')}
             </button>
           `).join('')}
         </div>

@@ -179,7 +179,14 @@ export default defineConfig({
   
   css: {},
   
+  resolve: {
+    alias: {
+      // lucide 0.563.0 has a broken module entry point — fix it
+      'lucide': 'lucide/dist/esm/lucide/src/lucide.js',
+    }
+  },
+
   optimizeDeps: {
-    include: ['leaflet', 'firebase/app', 'dompurify']
+    include: ['leaflet', 'firebase/app', 'dompurify', 'lucide']
   }
 });

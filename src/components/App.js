@@ -66,6 +66,7 @@ import { renderCreateTravelGroupModal } from './modals/CreateTravelGroup.js';
 import { renderFriendProfileModal } from './modals/FriendProfile.js';
 import { renderContactFormModal } from './modals/ContactForm.js';
 import { renderTripHistory } from '../services/tripHistory.js';
+import { icon } from '../utils/icons.js'
 
 /**
  * Render the complete application
@@ -101,7 +102,7 @@ export function renderApp(state) {
       <div class="fixed bottom-[4.5rem] left-4 right-4 z-30 px-4 py-2.5 rounded-xl bg-primary-500/90 backdrop-blur-xl border border-primary-400/30 shadow-lg shadow-primary-500/20 cursor-pointer" onclick="openActiveTrip()">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3 min-w-0">
-            <i class="fas fa-route text-white/80" aria-hidden="true"></i>
+            ${icon('route', 'w-5 h-5 text-white/80')}
             <div class="min-w-0">
               <div class="text-xs text-white/70">${t('tripInProgress')}</div>
               <div class="text-sm font-semibold text-white truncate">
@@ -111,7 +112,7 @@ export function renderApp(state) {
           </div>
           <div class="flex items-center gap-2">
             <span class="text-xs text-white/70">${state.tripResults.spots?.length || 0} spots</span>
-            <i class="fas fa-chevron-up text-white/60 text-xs" aria-hidden="true"></i>
+            ${icon('chevron-up', 'w-3 h-3 text-white/60')}
           </div>
         </div>
       </div>
@@ -152,9 +153,9 @@ export function renderApp(state) {
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTeamChallenges()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
-            <h2 class="text-lg font-bold"><i class="fas fa-users mr-2 text-orange-400"></i>${t('teamChallenges') || "Défis d'équipe"}</h2>
+            <h2 class="text-lg font-bold">${icon('users', 'w-5 h-5 mr-2 text-orange-400')}${t('teamChallenges') || "Défis d'équipe"}</h2>
             <button onclick="closeTeamChallenges()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
           ${renderTeamDashboard(state)}
@@ -187,13 +188,13 @@ export function renderApp(state) {
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripHistory()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
-            <h2 class="text-lg font-bold"><i class="fas fa-clipboard-list mr-2 text-emerald-400"></i>${t('tripHistory') || 'Historique de voyage'}</h2>
+            <h2 class="text-lg font-bold">${icon('clipboard-list', 'w-5 h-5 mr-2 text-emerald-400')}${t('tripHistory') || 'Historique de voyage'}</h2>
             <div class="flex items-center gap-2">
               <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all" aria-label="${t('clearHistory') || "Effacer l'historique"}">
-                <i class="fas fa-trash mr-1"></i>${t('clear') || 'Effacer'}
+                ${icon('trash', 'w-5 h-5 mr-1')}${t('clear') || 'Effacer'}
               </button>
               <button onclick="closeTripHistory()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-                <i class="fas fa-times"></i>
+                ${icon('times', 'w-5 h-5')}
               </button>
             </div>
           </div>
@@ -210,9 +211,9 @@ export function renderApp(state) {
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripPlanner()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
-            <h2 class="text-lg font-bold"><i class="fas fa-route mr-2 text-primary-400"></i>${t('planTrip') || 'Planifier un trajet'}</h2>
+            <h2 class="text-lg font-bold">${icon('route', 'w-5 h-5 mr-2 text-primary-400')}${t('planTrip') || 'Planifier un trajet'}</h2>
             <button onclick="closeTripPlanner()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
           ${renderTravel({ ...state, activeSubTab: 'planner' })}
@@ -225,9 +226,9 @@ export function renderApp(state) {
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeGuidesOverlay()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
-            <h2 class="text-lg font-bold"><i class="fas fa-book-atlas mr-2 text-emerald-400"></i>${t('countryGuides') || 'Guides pays'}</h2>
+            <h2 class="text-lg font-bold">${icon('book-atlas', 'w-5 h-5 mr-2 text-emerald-400')}${t('countryGuides') || 'Guides pays'}</h2>
             <button onclick="closeGuidesOverlay()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
           ${renderTravel({ ...state, activeSubTab: 'guides' })}

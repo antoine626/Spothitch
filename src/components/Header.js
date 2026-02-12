@@ -3,6 +3,7 @@
  */
 
 import { t } from '../i18n/index.js'
+import { icon } from '../utils/icons.js'
 
 export function renderHeader(state) {
   return `
@@ -23,7 +24,7 @@ export function renderHeader(state) {
             aria-label="${t('adminPanel') || 'Panneau Admin'}"
             title="${t('adminPanel') || 'Panneau Admin'}"
           >
-            <i class="fas fa-shield-alt text-base" aria-hidden="true"></i>
+            ${icon('shield-alt', 'w-5 h-5')}
           </button>
           <!-- SOS Button - Always visible, prominent -->
           <button
@@ -32,7 +33,7 @@ export function renderHeader(state) {
             aria-label="Mode urgence SOS - Partager ma position"
             title="Mode urgence SOS"
           >
-            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            ${icon('exclamation-triangle', 'w-5 h-5')}
             <span>SOS</span>
           </button>
         </div>
@@ -41,7 +42,7 @@ export function renderHeader(state) {
       <!-- Online/Offline indicator -->
       ${!state.isOnline ? `
         <div class="absolute bottom-0 left-0 right-0 bg-warning-500/20 text-warning-400 text-xs text-center py-1" role="status" aria-live="polite">
-          <i class="fas fa-wifi-slash mr-1" aria-hidden="true"></i>
+          ${icon('wifi-slash', 'w-5 h-5 mr-1')}
           <span>${t('offlineMode') || 'Mode hors-ligne'}</span>
         </div>
       ` : ''}

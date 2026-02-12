@@ -8,6 +8,7 @@ import { vipLevels } from '../../data/vip-levels.js';
 import { renderDonationCard } from '../ui/DonationCard.js';
 import { renderTrustScoreCard, getUserTrustScore } from '../../services/trustScore.js';
 import { getTitleForLevel, getTitleProgress, getUnlockedTitles, getLockedTitles, getAllTitles } from '../../data/titles.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderProfile(state) {
   const levelProgress = (state.points || 0) % 100;
@@ -41,7 +42,7 @@ export function renderProfile(state) {
             class="absolute bottom-2 right-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm hover:bg-primary-600 transition-all"
             aria-label="${t('customizeProfile') || 'Personnaliser le profil'}"
           >
-            <i class="fas fa-palette" aria-hidden="true"></i>
+            ${icon('palette', 'w-5 h-5')}
           </button>
         </div>
         <h2 class="text-xl font-bold">${state.username || t('traveler') || 'Voyageur'}</h2>
@@ -67,7 +68,7 @@ export function renderProfile(state) {
           onclick="openProfileCustomization()"
           class="mt-3 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm"
         >
-          <i class="fas fa-wand-magic-sparkles mr-2" aria-hidden="true"></i>
+          ${icon('wand-magic-sparkles', 'w-5 h-5 mr-2')}
           ${t('customizeProfile') || 'Personnaliser'} (${t('framesAndTitles') || 'cadres & titres'})
         </button>
       </div>
@@ -139,7 +140,7 @@ export function renderProfile(state) {
               ${unlockedTitles.slice(0, 3).map(t => `<span class="text-sm">${t.emoji}</span>`).join('')}
               ${unlockedTitles.length > 3 ? `<span class="text-xs text-slate-400">+${unlockedTitles.length - 3}</span>` : ''}
             </div>
-            <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+            ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
           </div>
         </div>
       </button>
@@ -147,7 +148,7 @@ export function renderProfile(state) {
       <!-- Activity Stats -->
       <div class="card p-5">
         <h3 class="font-bold mb-5 flex items-center gap-2">
-          <i class="fas fa-chart-bar text-primary-400" aria-hidden="true"></i>
+          ${icon('chart-bar', 'w-5 h-5 text-primary-400')}
           ${t('activity') || 'Activité'}
         </h3>
         <div class="grid grid-cols-2 gap-4">
@@ -180,14 +181,14 @@ export function renderProfile(state) {
       >
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center">
-            <i class="fas fa-user-friends text-primary-400" aria-hidden="true"></i>
+            ${icon('user-friends', 'w-5 h-5 text-primary-400')}
           </div>
           <div>
             <div class="font-medium">${t('myFriends') || 'Mes amis'}</div>
             <div class="text-sm text-slate-400">${(state.friends || []).length} ${t('friendsCount') || 'amis'}</div>
           </div>
         </div>
-        <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+        ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
       </button>
 
       <!-- Trip History -->
@@ -197,27 +198,27 @@ export function renderProfile(state) {
       >
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-            <i class="fas fa-clipboard-list text-emerald-400" aria-hidden="true"></i>
+            ${icon('clipboard-list', 'w-5 h-5 text-emerald-400')}
           </div>
           <div>
             <div class="font-medium">📋 ${t('history') || 'Historique'}</div>
             <div class="text-sm text-slate-400">${t('privateTravelJournal') || 'Journal de voyage privé'}</div>
           </div>
         </div>
-        <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+        ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
       </button>
 
       <!-- Settings -->
       <div class="card p-5 space-y-4">
         <h3 class="font-bold flex items-center gap-2">
-          <i class="fas fa-cog text-slate-400" aria-hidden="true"></i>
+          ${icon('cog', 'w-5 h-5 text-slate-400')}
           ${t('settings') || 'Paramètres'}
         </h3>
 
         <!-- Theme Toggle -->
         <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
           <div class="flex items-center gap-3">
-            <i class="fas fa-moon text-purple-400" aria-hidden="true"></i>
+            ${icon('moon', 'w-5 h-5 text-purple-400')}
             <span>${t('darkMode') || 'Thème sombre'}</span>
           </div>
           <button
@@ -234,7 +235,7 @@ export function renderProfile(state) {
         <!-- Language -->
         <div class="p-3 rounded-lg bg-white/5">
           <div class="flex items-center gap-3 mb-3">
-            <i class="fas fa-globe text-emerald-400" aria-hidden="true"></i>
+            ${icon('globe', 'w-5 h-5 text-emerald-400')}
             <span>${t('language') || 'Langue'}</span>
           </div>
           <div class="grid grid-cols-4 gap-3" role="radiogroup" aria-label="${t('chooseLanguage') || 'Choisir la langue'}">
@@ -262,7 +263,7 @@ export function renderProfile(state) {
         <!-- Notifications -->
         <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
           <div class="flex items-center gap-3">
-            <i class="fas fa-bell text-amber-400" aria-hidden="true"></i>
+            ${icon('bell', 'w-5 h-5 text-amber-400')}
             <span>${t('notifications') || 'Notifications'}</span>
           </div>
           <button
@@ -282,10 +283,10 @@ export function renderProfile(state) {
           class="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
         >
           <div class="flex items-center gap-3">
-            <i class="fas fa-question-circle text-primary-400" aria-hidden="true"></i>
+            ${icon('question-circle', 'w-5 h-5 text-primary-400')}
             <span>${t('reviewTutorial') || 'Revoir le tutoriel'}</span>
           </div>
-          <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
         </button>
 
         <!-- GDPR My Data -->
@@ -294,10 +295,10 @@ export function renderProfile(state) {
           class="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
         >
           <div class="flex items-center gap-3">
-            <i class="fas fa-database text-blue-400" aria-hidden="true"></i>
+            ${icon('database', 'w-5 h-5 text-blue-400')}
             <span>${t('myData') || 'Mes donnees'} (RGPD)</span>
           </div>
-          <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
         </button>
       </div>
 
@@ -307,7 +308,7 @@ export function renderProfile(state) {
           onclick="handleLogout()"
           class="card p-5 w-full flex items-center gap-3 text-left text-danger-400 hover:border-danger-500/50 transition-all"
         >
-          <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+          ${icon('sign-out-alt', 'w-5 h-5')}
           <span>${t('logout') || 'Se déconnecter'}</span>
         </button>
       ` : `
@@ -315,7 +316,7 @@ export function renderProfile(state) {
           onclick="openAuth()"
           class="btn-primary w-full py-4"
         >
-          <i class="fas fa-sign-in-alt mr-2" aria-hidden="true"></i>
+          ${icon('sign-in-alt', 'w-5 h-5 mr-2')}
           ${t('login') || 'Se connecter'}
         </button>
       `}

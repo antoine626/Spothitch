@@ -4,6 +4,7 @@
  */
 
 import { getState, setState } from '../stores/state.js';
+import { icon } from '../utils/icons.js'
 
 // Trust score tiers
 export const TRUST_TIERS = {
@@ -132,7 +133,7 @@ export function renderTrustBadge(score, size = 'md') {
 
   return `
     <span class="inline-flex items-center gap-1.5 rounded-full ${tier.bg} ${tier.color} ${sizes[size]} font-medium">
-      <i class="fas ${tier.icon}" aria-hidden="true"></i>
+      ${icon(tier.icon, 'w-5 h-5')}
       <span>${tier.label}</span>
       <span class="opacity-70">${score}</span>
     </span>
@@ -151,7 +152,7 @@ export function renderTrustScoreCard() {
       <div class="flex items-center justify-between mb-4 gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <div class="w-10 h-10 rounded-full ${tier.bg} flex items-center justify-center shrink-0">
-            <i class="fas ${tier.icon} ${tier.color} text-lg"></i>
+            ${icon(tier.icon, `w-5 h-5 ${tier.color}`)}
           </div>
           <div class="min-w-0">
             <div class="font-bold ${tier.color}">${tier.label}</div>
@@ -195,7 +196,7 @@ export function renderTrustScoreCard() {
       ${score < 80 ? `
         <div class="mt-4 p-3 rounded-lg bg-primary-500/10 border border-primary-500/30">
           <h4 class="font-medium text-sm text-primary-400 mb-2">
-            <i class="fas fa-lightbulb mr-1"></i>
+            ${icon('lightbulb', 'w-5 h-5 mr-1')}
             Améliore ton score
           </h4>
           <ul class="text-xs text-slate-400 space-y-1">
@@ -220,7 +221,7 @@ function renderScoreFactor(label, value, max, icon) {
   return `
     <div class="flex items-center gap-3">
       <div class="w-6 text-center">
-        <i class="fas ${icon} text-slate-400 text-sm"></i>
+        ${icon(icon, 'w-4 h-4 text-slate-400')}
       </div>
       <div class="flex-1 min-w-0">
         <div class="flex justify-between text-xs mb-1">

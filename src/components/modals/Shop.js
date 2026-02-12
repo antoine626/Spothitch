@@ -7,6 +7,7 @@ import { getState, setState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
 import { shopRewards, rewardCategories, getRewardsByCategory, getRewardById, canAfford } from '../../data/rewards.js';
 import { showToast } from '../../services/notifications.js';
+import { icon } from '../../utils/icons.js'
 
 /**
  * Render shop modal
@@ -39,7 +40,7 @@ export function renderShopModal() {
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
                     aria-label="${t('close') || 'Close'}">
-              <i class="fas fa-times" aria-hidden="true"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
 
@@ -84,7 +85,7 @@ export function renderShopModal() {
         <div class="p-5 border-t border-white/10">
           <button onclick="showMyRewards()"
                   class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all">
-            <i class="fas fa-ticket-alt mr-2" aria-hidden="true"></i>
+            ${icon('ticket-alt', 'w-5 h-5 mr-2')}
             Mes codes promo (${redeemedCodes?.length || 0})
           </button>
         </div>
@@ -135,7 +136,7 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
 
             ${isRedeemed ? `
               <span class="text-emerald-400 text-sm font-medium">
-                <i class="fas fa-check mr-1" aria-hidden="true"></i>
+                ${icon('check', 'w-5 h-5 mr-1')}
                 Obtenu
               </span>
             ` : canBuy ? `
@@ -185,7 +186,7 @@ export function renderMyRewardsModal() {
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
                     aria-label="${t('close') || 'Close'}">
-              <i class="fas fa-times" aria-hidden="true"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -225,19 +226,19 @@ export function renderMyRewardsModal() {
                         <button onclick="copyCode('${reward.code}')"
                                 class="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600"
                                 aria-label="${t('copyCode') || 'Copy code'}">
-                          <i class="fas fa-copy" aria-hidden="true"></i>
+                          ${icon('copy', 'w-5 h-5')}
                         </button>
                       </div>
 
                       <!-- Use Button -->
                       <a href="${reward.url}" target="_blank" rel="noopener"
                          class="mt-3 flex items-center justify-center gap-2 w-full py-2 bg-white/5 rounded-lg text-slate-400 hover:bg-white/10 transition-all">
-                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                        ${icon('external-link-alt', 'w-5 h-5')}
                         Utiliser sur ${reward.partner}
                       </a>
 
                       <p class="text-xs text-slate-500 mt-2">
-                        <i class="fas fa-info-circle mr-1" aria-hidden="true"></i>
+                        ${icon('info-circle', 'w-5 h-5 mr-1')}
                         ${reward.conditions}
                       </p>
                     </div>

@@ -8,6 +8,7 @@ import { renderSkeletonChatList, renderSkeletonFriendCard } from '../ui/Skeleton
 import { getTrustBadge } from '../../services/identityVerification.js'
 import { getConversationsList, getConversationMessages } from '../../services/directMessages.js'
 import { getUpcomingEvents, getEventComments, EVENT_TYPES } from '../../services/events.js'
+import { icon } from '../../utils/icons.js'
 
 export function renderSocial(state) {
   const activeSubTab = state.socialSubTab || 'messages'
@@ -24,7 +25,7 @@ export function renderSocial(state) {
     : 'text-slate-400 hover:text-white hover:bg-white/5'
 }"
         >
-          <i class="fas fa-envelope mr-1" aria-hidden="true"></i>
+          ${icon('envelope', 'w-5 h-5 mr-1')}
           ${t('messagesTab')}
           ${(state.unreadDMCount || 0) > 0 ? `
             <span class="absolute -top-1 -right-1 w-5 h-5 bg-danger-500 rounded-full text-xs flex items-center justify-center">
@@ -40,7 +41,7 @@ export function renderSocial(state) {
     : 'text-slate-400 hover:text-white hover:bg-white/5'
 }"
         >
-          <i class="fas fa-user-friends mr-1" aria-hidden="true"></i>
+          ${icon('user-friends', 'w-5 h-5 mr-1')}
           ${t('friendsTab')}
           ${(state.unreadFriendMessages || 0) > 0 ? `
             <span class="absolute -top-1 -right-1 w-5 h-5 bg-danger-500 rounded-full text-xs flex items-center justify-center">
@@ -56,7 +57,7 @@ export function renderSocial(state) {
     : 'text-slate-400 hover:text-white hover:bg-white/5'
 }"
         >
-          <i class="fas fa-users mr-1" aria-hidden="true"></i>
+          ${icon('users', 'w-5 h-5 mr-1')}
           ${t('groupsTab')}
         </button>
         <button
@@ -67,7 +68,7 @@ export function renderSocial(state) {
     : 'text-slate-400 hover:text-white hover:bg-white/5'
 }"
         >
-          <i class="fas fa-calendar-alt mr-1" aria-hidden="true"></i>
+          ${icon('calendar-alt', 'w-5 h-5 mr-1')}
           ${t('eventsTab')}
         </button>
       </div>
@@ -113,7 +114,7 @@ function renderMessages(state) {
             onclick="setSocialTab('friends')"
             class="btn-primary"
           >
-            <i class="fas fa-user-friends mr-2" aria-hidden="true"></i>
+            ${icon('user-friends', 'w-5 h-5 mr-2')}
             ${t('findFriendsToChat')}
           </button>
         </div>
@@ -174,7 +175,7 @@ function renderDMChat(state, recipientId) {
         class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
         aria-label="${t('back')}"
       >
-        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <div class="relative">
         <span class="text-2xl">${recipientAvatar}</span>
@@ -192,7 +193,7 @@ function renderDMChat(state, recipientId) {
         aria-label="${t('shareSpot')}"
         title="${t('shareSpot')}"
       >
-        <i class="fas fa-map-pin" aria-hidden="true"></i>
+        ${icon('map-pin', 'w-5 h-5')}
       </button>
       <button
         onclick="shareDMPosition('${recipientId}')"
@@ -200,14 +201,14 @@ function renderDMChat(state, recipientId) {
         aria-label="${t('sharePosition')}"
         title="${t('sharePosition')}"
       >
-        <i class="fas fa-location-crosshairs" aria-hidden="true"></i>
+        ${icon('location-crosshairs', 'w-5 h-5')}
       </button>
       <button
         onclick="showFriendProfile('${recipientId}')"
         class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
         aria-label="${t('viewProfile')}"
       >
-        <i class="fas fa-user" aria-hidden="true"></i>
+        ${icon('user', 'w-5 h-5')}
       </button>
     </div>
 
@@ -240,7 +241,7 @@ function renderDMChat(state, recipientId) {
           class="btn-primary px-4"
           aria-label="${t('send')}"
         >
-          <i class="fas fa-paper-plane" aria-hidden="true"></i>
+          ${icon('paper-plane', 'w-5 h-5')}
         </button>
       </form>
     </div>
@@ -257,7 +258,7 @@ function renderDMMessage(msg, state) {
     content = `
       <div class="bg-white/10 rounded-lg p-2 mb-1">
         <div class="flex items-center gap-2">
-          <i class="fas fa-map-pin text-primary-400" aria-hidden="true"></i>
+          ${icon('map-pin', 'w-5 h-5 text-primary-400')}
           <div>
             <div class="text-sm font-medium text-white">${msg.spot.name || ''}</div>
             <div class="text-xs text-slate-400">${msg.spot.city || ''}, ${msg.spot.country || ''}</div>
@@ -270,7 +271,7 @@ function renderDMMessage(msg, state) {
     content = `
       <div class="bg-white/10 rounded-lg p-2 mb-1">
         <div class="flex items-center gap-2">
-          <i class="fas fa-location-crosshairs text-emerald-400" aria-hidden="true"></i>
+          ${icon('location-crosshairs', 'w-5 h-5 text-emerald-400')}
           <div class="text-sm text-white">${msg.location.address || t('sharedPosition')}</div>
         </div>
       </div>
@@ -328,14 +329,14 @@ function renderFriends(state) {
               aria-label="${t('addFriend')}"
               onkeydown="if(event.key==='Enter') addFriendByName()"
             />
-            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true"></i>
+            ${icon('search', 'w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
           </div>
           <button
             onclick="addFriendByName()"
             class="btn-primary px-4"
             aria-label="${t('addFriend')}"
           >
-            <i class="fas fa-user-plus" aria-hidden="true"></i>
+            ${icon('user-plus', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -344,7 +345,7 @@ function renderFriends(state) {
       ${friendRequests.length > 0 ? `
         <div class="card p-5 border-primary-500/30">
           <h4 class="font-bold text-sm mb-4 flex items-center gap-2">
-            <i class="fas fa-user-plus text-primary-400" aria-hidden="true"></i>
+            ${icon('user-plus', 'w-5 h-5 text-primary-400')}
             ${t('friendRequests')} (${friendRequests.length})
           </h4>
           <div class="space-y-3">
@@ -363,14 +364,14 @@ function renderFriends(state) {
                     class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30"
                     aria-label="${t('accept')}"
                   >
-                    <i class="fas fa-check" aria-hidden="true"></i>
+                    ${icon('check', 'w-5 h-5')}
                   </button>
                   <button
                     onclick="declineFriendRequest('${req.id}')"
                     class="w-8 h-8 rounded-full bg-danger-500/20 text-danger-400 hover:bg-danger-500/30"
                     aria-label="${t('decline')}"
                   >
-                    <i class="fas fa-times" aria-hidden="true"></i>
+                    ${icon('times', 'w-5 h-5')}
                   </button>
                 </div>
               </div>
@@ -408,7 +409,7 @@ function renderFriends(state) {
                 aria-label="${t('sendMessage')}"
                 title="${t('sendMessage')}"
               >
-                <i class="fas fa-comment" aria-hidden="true"></i>
+                ${icon('comment', 'w-5 h-5')}
               </button>
               <button
                 onclick="showFriendProfile('${friend.id}')"
@@ -416,7 +417,7 @@ function renderFriends(state) {
                 aria-label="${t('viewProfile')}"
                 title="${t('viewProfile')}"
               >
-                <i class="fas fa-user" aria-hidden="true"></i>
+                ${icon('user', 'w-5 h-5')}
               </button>
             </div>
           `).join('')}
@@ -430,7 +431,7 @@ function renderFriends(state) {
             onclick="showAddFriend()"
             class="btn-primary mt-4"
           >
-            <i class="fas fa-user-plus mr-2" aria-hidden="true"></i>
+            ${icon('user-plus', 'w-5 h-5 mr-2')}
             ${t('addFriend')}
           </button>
         </div>
@@ -454,7 +455,7 @@ function renderTravelGroups(state) {
       >
         <div class="flex items-center gap-3">
           <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center">
-            <i class="fas fa-plus text-primary-400 text-xl" aria-hidden="true"></i>
+            ${icon('plus', 'w-6 h-6 text-primary-400')}
           </div>
           <div>
             <div class="font-bold">${t('createTravelGroup')}</div>
@@ -471,14 +472,14 @@ function renderTravelGroups(state) {
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-              <i class="fas fa-location-dot text-emerald-400 text-xl" aria-hidden="true"></i>
+              ${icon('location-dot', 'w-6 h-6 text-emerald-400')}
             </div>
             <div>
               <div class="font-bold">${t('nearbyFriends')}</div>
               <div class="text-sm text-slate-400">${t('seeWhoIsNear')}</div>
             </div>
           </div>
-          <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
         </div>
       </button>
 
@@ -501,7 +502,7 @@ function renderTravelGroups(state) {
                 </div>
                 <div class="text-right">
                   <div class="text-xs text-primary-400">${group.status || t('planning')}</div>
-                  <i class="fas fa-chevron-right text-slate-500 mt-1" aria-hidden="true"></i>
+                  ${icon('chevron-right', 'w-5 h-5 text-slate-500 mt-1')}
                 </div>
               </div>
             </button>
@@ -554,7 +555,7 @@ function renderEvents(state) {
         class="fixed bottom-24 right-4 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-all flex items-center justify-center z-30"
         aria-label="${t('createEvent')}"
       >
-        <i class="fas fa-plus text-xl" aria-hidden="true"></i>
+        ${icon('plus', 'w-6 h-6')}
       </button>
     </div>
   `
@@ -584,27 +585,27 @@ function renderEventCard(event, state) {
           </div>
           <div class="flex items-center gap-3 text-sm text-slate-400">
             <span>
-              <i class="fas fa-calendar mr-1" aria-hidden="true"></i>
+              ${icon('calendar', 'w-5 h-5 mr-1')}
               ${formatEventDate(event.date)}${event.time ? ` ${t('at')} ${event.time}` : ''}
             </span>
           </div>
           ${event.location ? `
             <div class="text-sm text-slate-400 mt-1">
-              <i class="fas fa-map-marker-alt mr-1" aria-hidden="true"></i>
+              ${icon('map-marker-alt', 'w-5 h-5 mr-1')}
               ${event.location}
             </div>
           ` : ''}
           <div class="flex items-center justify-between mt-2">
             <div class="flex items-center gap-2 text-xs text-slate-500">
               <span class="flex items-center gap-1">
-                <i class="fas fa-user" aria-hidden="true"></i>
+                ${icon('user', 'w-5 h-5')}
                 ${participantCount} ${t('participants')}
               </span>
               <span>${event.creatorAvatar || '🤙'} ${event.creatorName}</span>
             </div>
             ${event.visibility === 'private' ? `
               <span class="text-xs text-slate-500">
-                <i class="fas fa-lock" aria-hidden="true"></i>
+                ${icon('lock', 'w-5 h-5')}
               </span>
             ` : ''}
           </div>
@@ -635,7 +636,7 @@ function renderEventDetail(state, event) {
           class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
           aria-label="${t('back')}"
         >
-          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          ${icon('arrow-left', 'w-5 h-5')}
         </button>
         <div class="flex-1">
           <div class="font-medium">${t('eventDetail')}</div>
@@ -645,7 +646,7 @@ function renderEventDetail(state, event) {
           class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
           aria-label="${t('share')}"
         >
-          <i class="fas fa-share-alt" aria-hidden="true"></i>
+          ${icon('share-alt', 'w-5 h-5')}
         </button>
         ${isCreator ? `
           <button
@@ -653,7 +654,7 @@ function renderEventDetail(state, event) {
             class="w-10 h-10 rounded-full bg-danger-500/10 flex items-center justify-center text-danger-400 hover:bg-danger-500/20"
             aria-label="${t('deleteEvent')}"
           >
-            <i class="fas fa-trash" aria-hidden="true"></i>
+            ${icon('trash', 'w-5 h-5')}
           </button>
         ` : ''}
       </div>
@@ -673,26 +674,26 @@ function renderEventDetail(state, event) {
 
           <div class="space-y-2 text-sm">
             <div class="flex items-center gap-2 text-slate-300">
-              <i class="fas fa-calendar w-5 text-center text-slate-400" aria-hidden="true"></i>
+              ${icon('calendar', 'w-5 h-5 w-5 text-center text-slate-400')}
               ${formatEventDate(event.date)}${event.time ? ` ${t('at')} ${event.time}` : ''}
             </div>
             ${event.location ? `
               <div class="flex items-center gap-2 text-slate-300">
-                <i class="fas fa-map-marker-alt w-5 text-center text-slate-400" aria-hidden="true"></i>
+                ${icon('map-marker-alt', 'w-5 h-5 w-5 text-center text-slate-400')}
                 ${event.location}
               </div>
             ` : ''}
             <div class="flex items-center gap-2 text-slate-300">
-              <i class="fas fa-users w-5 text-center text-slate-400" aria-hidden="true"></i>
+              ${icon('users', 'w-5 h-5 w-5 text-center text-slate-400')}
               ${participantCount} ${t('participants')}
             </div>
             <div class="flex items-center gap-2 text-slate-300">
-              <i class="fas fa-user w-5 text-center text-slate-400" aria-hidden="true"></i>
+              ${icon('user', 'w-5 h-5 w-5 text-center text-slate-400')}
               ${t('createdBy')} ${event.creatorAvatar || '🤙'} ${event.creatorName}
             </div>
             ${event.visibility === 'private' ? `
               <div class="flex items-center gap-2 text-slate-300">
-                <i class="fas fa-lock w-5 text-center text-slate-400" aria-hidden="true"></i>
+                ${icon('lock', 'w-5 h-5 w-5 text-center text-slate-400')}
                 ${t('privateEvent')}
               </div>
             ` : ''}
@@ -712,7 +713,7 @@ function renderEventDetail(state, event) {
               onclick="leaveEvent('${event.id}')"
               class="w-full py-3 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all"
             >
-              <i class="fas fa-sign-out-alt mr-2" aria-hidden="true"></i>
+              ${icon('sign-out-alt', 'w-5 h-5 mr-2')}
               ${t('leaveEvent')}
             </button>
           ` : !isParticipant ? `
@@ -720,12 +721,12 @@ function renderEventDetail(state, event) {
               onclick="joinEvent('${event.id}')"
               class="w-full py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-all"
             >
-              <i class="fas fa-user-plus mr-2" aria-hidden="true"></i>
+              ${icon('user-plus', 'w-5 h-5 mr-2')}
               ${t('joinEvent')}
             </button>
           ` : `
             <div class="w-full py-3 rounded-xl bg-emerald-500/20 text-emerald-400 font-medium text-center">
-              <i class="fas fa-check mr-2" aria-hidden="true"></i>
+              ${icon('check', 'w-5 h-5 mr-2')}
               ${t('youAreOrganizer')}
             </div>
           `}
@@ -734,7 +735,7 @@ function renderEventDetail(state, event) {
         <!-- Comment Wall -->
         <div class="card p-5">
           <h3 class="font-bold text-sm mb-4 flex items-center gap-2">
-            <i class="fas fa-comments text-primary-400" aria-hidden="true"></i>
+            ${icon('comments', 'w-5 h-5 text-primary-400')}
             ${t('commentWall')} (${comments.length})
           </h3>
 
@@ -753,7 +754,7 @@ function renderEventDetail(state, event) {
               class="btn-primary px-4"
               aria-label="${t('send')}"
             >
-              <i class="fas fa-paper-plane" aria-hidden="true"></i>
+              ${icon('paper-plane', 'w-5 h-5')}
             </button>
           </div>
 
@@ -801,7 +802,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
                 class="text-xs text-slate-500 hover:text-danger-400 ml-auto"
                 aria-label="${t('deleteComment')}"
               >
-                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                ${icon('trash-alt', 'w-5 h-5')}
               </button>
             ` : ''}
           </div>
@@ -823,7 +824,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
               onclick="toggleReplyInput('${comment.id}')"
               class="px-2 py-0.5 rounded-full text-xs bg-white/5 text-slate-400 hover:bg-white/10 transition-all ml-1"
             >
-              <i class="fas fa-reply mr-1" aria-hidden="true"></i>
+              ${icon('reply', 'w-5 h-5 mr-1')}
               ${t('reply')}
             </button>
           </div>
@@ -861,7 +862,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
                 class="btn-primary px-3 text-sm"
                 aria-label="${t('send')}"
               >
-                <i class="fas fa-reply" aria-hidden="true"></i>
+                ${icon('reply', 'w-5 h-5')}
               </button>
             </div>
           </div>
@@ -883,7 +884,7 @@ function renderCreateEventForm() {
           class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white"
           aria-label="${t('back')}"
         >
-          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          ${icon('arrow-left', 'w-5 h-5')}
         </button>
         <h2 class="text-lg font-bold">${t('createEvent')}</h2>
       </div>
@@ -969,7 +970,7 @@ function renderCreateEventForm() {
           onclick="submitCreateEvent()"
           class="w-full py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-all"
         >
-          <i class="fas fa-calendar-plus mr-2" aria-hidden="true"></i>
+          ${icon('calendar-plus', 'w-5 h-5 mr-2')}
           ${t('publishEvent')}
         </button>
       </div>

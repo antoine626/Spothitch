@@ -10,6 +10,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
 import { Storage } from '../utils/storage.js';
+import { icon } from '../utils/icons.js'
 
 // Storage key
 const TRAVEL_GROUPS_KEY = 'spothitch_travel_groups';
@@ -911,7 +912,7 @@ export function renderTravelGroupCard(group) {
         <div class="absolute bottom-3 left-4 right-4">
           <div class="flex items-center gap-2 text-white/90 text-sm">
             <span>${group.departure?.city || 'Départ'}</span>
-            <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i>
+            ${icon('arrow-right', 'w-3 h-3')}
             <span>${group.destination?.city || 'Destination'}</span>
           </div>
         </div>
@@ -933,11 +934,11 @@ export function renderTravelGroupCard(group) {
         <!-- Info row -->
         <div class="flex items-center gap-4 text-sm text-slate-400 mb-3">
           <div>
-            <i class="fas fa-calendar mr-1" aria-hidden="true"></i>
+            ${icon('calendar', 'w-5 h-5 mr-1')}
             ${formatDate(group.startDate)}
           </div>
           <div>
-            <i class="fas fa-users mr-1" aria-hidden="true"></i>
+            ${icon('users', 'w-5 h-5 mr-1')}
             ${group.members.length}/${group.maxMembers}
           </div>
         </div>
@@ -963,7 +964,7 @@ export function renderTravelGroupCard(group) {
           </div>
           ${spotsLeft > 0 ? `
             <span class="text-xs text-emerald-400">
-              <i class="fas fa-user-plus mr-1" aria-hidden="true"></i>
+              ${icon('user-plus', 'w-5 h-5 mr-1')}
               ${spotsLeft} place${spotsLeft > 1 ? 's' : ''} libre${spotsLeft > 1 ? 's' : ''}
             </span>
           ` : ''}
@@ -991,7 +992,7 @@ export function renderTravelGroupsList(state) {
           <p class="text-sm text-slate-400">Trouve des compagnons de route</p>
         </div>
         <button onclick="openCreateTravelGroup()" class="btn btn-primary">
-          <i class="fas fa-plus mr-2" aria-hidden="true"></i>
+          ${icon('plus', 'w-5 h-5 mr-2')}
           Créer
         </button>
       </div>
@@ -1015,7 +1016,7 @@ export function renderTravelGroupsList(state) {
           </div>
         ` : `
           <div class="text-center py-8 text-slate-400">
-            <i class="fas fa-users-slash text-3xl mb-2" aria-hidden="true"></i>
+            ${icon('users-slash', 'w-8 h-8 mb-2')}
             <p>Aucun groupe disponible pour le moment</p>
             <button onclick="openCreateTravelGroup()" class="btn btn-ghost mt-4">
               Crée le premier !
@@ -1051,7 +1052,7 @@ export function renderTravelGroupDetail(state) {
             class="absolute top-4 left-4 p-2 bg-black/20 rounded-full text-white"
             aria-label="Retour"
           >
-            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            ${icon('arrow-left', 'w-5 h-5')}
           </button>
           ${isCreator ? `
             <button
@@ -1059,13 +1060,13 @@ export function renderTravelGroupDetail(state) {
               class="absolute top-4 right-4 p-2 bg-black/20 rounded-full text-white"
               aria-label="Modifier"
             >
-              <i class="fas fa-edit" aria-hidden="true"></i>
+              ${icon('edit', 'w-5 h-5')}
             </button>
           ` : ''}
           <div class="absolute bottom-4 left-4 right-4">
             <div class="flex items-center gap-2 text-white/90 text-sm mb-1">
               <span>${group.departure?.city}</span>
-              <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i>
+              ${icon('arrow-right', 'w-3 h-3')}
               <span>${group.destination?.city}</span>
             </div>
             <h1 class="text-2xl font-bold text-white">${group.name}</h1>
@@ -1080,11 +1081,11 @@ export function renderTravelGroupDetail(state) {
               ${statusInfo.label}
             </span>
             <span class="px-3 py-1 rounded-full bg-white/10 text-slate-300">
-              <i class="fas fa-calendar mr-1" aria-hidden="true"></i>
+              ${icon('calendar', 'w-5 h-5 mr-1')}
               ${formatDate(group.startDate)} - ${formatDate(group.endDate)}
             </span>
             <span class="px-3 py-1 rounded-full bg-white/10 text-slate-300">
-              <i class="fas fa-users mr-1" aria-hidden="true"></i>
+              ${icon('users', 'w-5 h-5 mr-1')}
               ${group.members.length}/${group.maxMembers}
             </span>
           </div>
@@ -1103,7 +1104,7 @@ export function renderTravelGroupDetail(state) {
               <h3 class="font-semibold mb-2">Conditions</h3>
               <ul class="space-y-1 text-slate-400">
                 ${group.requirements.map((r) => `
-                  <li><i class="fas fa-check text-emerald-400 mr-2" aria-hidden="true"></i>${r}</li>
+                  <li>${icon('check', 'w-5 h-5 text-emerald-400 mr-2')}${r}</li>
                 `).join('')}
               </ul>
             </div>
@@ -1151,7 +1152,7 @@ export function renderTravelGroupDetail(state) {
                   onkeypress="if(event.key==='Enter')sendGroupChatMessage('${group.id}')"
                 />
                 <button onclick="sendGroupChatMessage('${group.id}')" class="btn btn-primary">
-                  <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                  ${icon('paper-plane', 'w-5 h-5')}
                 </button>
               </div>
             </div>
@@ -1161,19 +1162,19 @@ export function renderTravelGroupDetail(state) {
           <div class="flex gap-3">
             ${!isMember && group.status === 'planning' && group.members.length < group.maxMembers ? `
               <button onclick="joinTravelGroup('${group.id}')" class="btn btn-primary flex-1">
-                <i class="fas fa-user-plus mr-2" aria-hidden="true"></i>
+                ${icon('user-plus', 'w-5 h-5 mr-2')}
                 Rejoindre
               </button>
             ` : ''}
             ${isMember && !isCreator ? `
               <button onclick="leaveTravelGroup('${group.id}')" class="btn btn-danger flex-1">
-                <i class="fas fa-sign-out-alt mr-2" aria-hidden="true"></i>
+                ${icon('sign-out-alt', 'w-5 h-5 mr-2')}
                 Quitter
               </button>
             ` : ''}
             ${isCreator && group.status === 'planning' ? `
               <button onclick="updateGroupStatus('${group.id}', 'active')" class="btn btn-success flex-1">
-                <i class="fas fa-play mr-2" aria-hidden="true"></i>
+                ${icon('play', 'w-5 h-5 mr-2')}
                 Démarrer le voyage
               </button>
             ` : ''}

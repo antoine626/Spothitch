@@ -5,6 +5,7 @@
  */
 
 import { t } from '../i18n/index.js'
+import { icon } from '../utils/icons.js'
 
 export function renderLanding() {
   return `
@@ -45,13 +46,13 @@ export function renderLanding() {
             class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 transition-all duration-300"
             style="background:linear-gradient(135deg,#f59e0b,#d97706)"
           >
-            <i class="fas fa-rocket" aria-hidden="true"></i>
+            ${icon('rocket', 'w-5 h-5')}
             ${t('landingGetStarted')}
           </button>
 
           <!-- Scroll hint -->
           <div class="mt-16 text-slate-500 animate-bounce">
-            <i class="fas fa-chevron-down text-2xl" aria-hidden="true"></i>
+            ${icon('chevron-down', 'w-7 h-7')}
           </div>
         </div>
 
@@ -149,7 +150,7 @@ export function renderLanding() {
               class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 transition-all duration-300"
               style="background:linear-gradient(135deg,#f59e0b,#d97706)"
             >
-              <i class="fas fa-compass" aria-hidden="true"></i>
+              ${icon('compass', 'w-5 h-5')}
               ${t('landingStartExploring')}
             </button>
 
@@ -158,7 +159,7 @@ export function renderLanding() {
               id="landing-install-btn"
               class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-primary-400 font-bold text-lg border-2 border-primary-500/30 hover:border-primary-500/60 hover:bg-primary-500/10 hover:scale-105 transition-all duration-300"
             >
-              <i class="fas fa-mobile-alt" aria-hidden="true"></i>
+              ${icon('mobile-alt', 'w-5 h-5')}
               ${t('landingInstallApp')}
             </button>
           </div>
@@ -176,7 +177,7 @@ export function renderLanding() {
   `
 }
 
-function renderFeatureCard(icon, color, title, desc) {
+function renderFeatureCard(iconName, color, title, desc) {
   const colorMap = {
     primary: { bg: 'bg-primary-500/10', text: 'text-primary-400', border: 'border-primary-500/20' },
     emerald: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
@@ -188,7 +189,7 @@ function renderFeatureCard(icon, color, title, desc) {
   return `
     <div class="p-6 rounded-2xl bg-white/[0.03] border ${c.border} hover:bg-white/[0.06] transition-all duration-300 group">
       <div class="w-12 h-12 rounded-xl ${c.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-        <i class="fas ${icon} text-xl ${c.text}" aria-hidden="true"></i>
+        ${icon(iconName, `w-6 h-6 ${c.text}`)}
       </div>
       <h4 class="text-lg font-bold text-white mb-2">${title}</h4>
       <p class="text-slate-400 text-sm leading-relaxed">${desc}</p>
@@ -196,7 +197,7 @@ function renderFeatureCard(icon, color, title, desc) {
   `
 }
 
-function renderStatCard(number, label, icon, color) {
+function renderStatCard(number, label, iconName, color) {
   const colorMap = {
     primary: 'text-primary-400',
     emerald: 'text-emerald-400',
@@ -207,20 +208,20 @@ function renderStatCard(number, label, icon, color) {
 
   return `
     <div class="text-center p-6 rounded-2xl bg-white/[0.03] border border-white/5">
-      <i class="fas ${icon} text-2xl ${textColor} mb-3" aria-hidden="true"></i>
+      ${icon(iconName, `w-7 h-7 ${textColor} mb-3`)}
       <div class="text-3xl md:text-4xl font-bold text-white mb-1">${number}</div>
       <div class="text-slate-400 text-sm">${label}</div>
     </div>
   `
 }
 
-function renderStepCard(number, title, desc, icon) {
+function renderStepCard(number, title, desc, iconName) {
   return `
     <div class="flex-1 text-center p-6 rounded-2xl bg-white/[0.03] border border-white/5 relative">
       <div class="w-12 h-12 rounded-full bg-primary-500 text-white font-bold text-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-500/30">
         ${number}
       </div>
-      <i class="fas ${icon} text-2xl text-slate-500 mb-3" aria-hidden="true"></i>
+      ${icon(iconName, 'w-7 h-7 text-slate-500 mb-3')}
       <h4 class="text-lg font-bold text-white mb-2">${title}</h4>
       <p class="text-slate-400 text-sm leading-relaxed">${desc}</p>
     </div>

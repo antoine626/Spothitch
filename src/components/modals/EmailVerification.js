@@ -5,6 +5,7 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 // State for email verification modal
 window.emailVerificationState = {
@@ -46,7 +47,7 @@ export function renderEmailVerification(email) {
           aria-label="${t('close') || 'Close'}"
           type="button"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
 
         <!-- Header -->
@@ -150,7 +151,7 @@ window.checkEmailVerified = async () => {
   try {
     window.emailVerificationState.checkingEmail = true;
     verifyBtn.disabled = true;
-    if (verifyBtnText) verifyBtnText.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    if (verifyBtnText) verifyBtnText.innerHTML = icon('spinner', 'w-5 h-5 animate-spin');
 
     const { getCurrentUser } = await import('../../services/firebase.js');
     const { showSuccess, showError } = await import('../../services/notifications.js');
@@ -171,7 +172,7 @@ window.checkEmailVerified = async () => {
       if (statusEl) {
         statusEl.innerHTML = `
           <div class="text-green-400 flex items-center justify-center gap-2">
-            <i class="fas fa-check-circle" aria-hidden="true"></i>
+            ${icon('check-circle', 'w-5 h-5')}
             <span>${t('emailVerified')}</span>
           </div>
         `;
@@ -187,7 +188,7 @@ window.checkEmailVerified = async () => {
       if (statusEl) {
         statusEl.innerHTML = `
           <p class="text-yellow-400">
-            <i class="fas fa-info-circle" aria-hidden="true"></i>
+            ${icon('info-circle', 'w-5 h-5')}
             ${t('emailVerificationPending')}
           </p>
         `;
@@ -216,7 +217,7 @@ window.resendVerificationEmail = async () => {
 
   try {
     resendBtn.disabled = true;
-    if (resendBtnText) resendBtnText.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    if (resendBtnText) resendBtnText.innerHTML = icon('spinner', 'w-5 h-5 animate-spin');
 
     const { getCurrentUser } = await import('../../services/firebase.js');
     const { showSuccess, showError } = await import('../../services/notifications.js');

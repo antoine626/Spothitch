@@ -4,6 +4,7 @@
  */
 
 import {
+import { icon } from '../../utils/icons.js'
   getAvailableLanguages,
   setLanguage,
   detectLanguage,
@@ -54,7 +55,7 @@ export function renderLanguageSelector(state) {
 
         <!-- Detected language hint -->
         <p class="text-xs text-slate-500 mb-6">
-          <i class="fas fa-magic mr-1" aria-hidden="true"></i>
+          ${icon('magic', 'w-5 h-5 mr-1')}
           Auto-detected: ${languages.find(l => l.code === detectedLang)?.nativeName || 'English'}
         </p>
 

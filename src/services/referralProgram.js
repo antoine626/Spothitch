@@ -9,6 +9,7 @@ import { showToast } from './notifications.js'
 import { addPoints } from './gamification.js'
 import { trackEvent } from './analytics.js'
 import { t } from '../i18n/index.js'
+import { icon } from '../utils/icons.js'
 
 /**
  * Referrer levels based on number of successful referrals
@@ -493,7 +494,7 @@ export function renderReferralCard() {
     <div class="bg-gradient-to-br from-${levelColor}-500/20 to-${levelColor}-500/5 rounded-xl p-4 border border-${levelColor}-500/30">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-12 h-12 bg-${levelColor}-500/30 rounded-full flex items-center justify-center">
-          <i class="fas ${levelIcon} text-2xl text-${levelColor}-400"></i>
+          ${icon(levelIcon, `w-7 h-7 text-${levelColor}-400`)}
         </div>
         <div>
           <h3 class="font-bold text-white">${t('referralProgramTitle')}</h3>
@@ -542,7 +543,7 @@ export function renderReferralCard() {
         </div>
       ` : `
         <div class="mb-4 flex items-center gap-2 text-purple-400">
-          <i class="fas fa-star"></i>
+          ${icon('star', 'w-5 h-5')}
           <span class="text-sm">${t('maxLevelReached')}</span>
         </div>
       `}
@@ -553,7 +554,7 @@ export function renderReferralCard() {
         <div class="flex items-center justify-between">
           <span class="font-mono text-lg font-bold text-white tracking-wider">${stats.referralCode}</span>
           <button onclick="window.copyReferralCode()" class="text-primary hover:text-primary/80" aria-label="${t('copyCode')}">
-            <i class="fas fa-copy"></i>
+            ${icon('copy', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -563,17 +564,17 @@ export function renderReferralCard() {
         <button onclick="window.shareReferralLink('whatsapp')"
           class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} WhatsApp">
-          <i class="fab fa-whatsapp"></i>
+          ${icon('whatsapp', 'w-5 h-5')}
         </button>
         <button onclick="window.shareReferralLink('telegram')"
           class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} Telegram">
-          <i class="fab fa-telegram"></i>
+          ${icon('telegram', 'w-5 h-5')}
         </button>
         <button onclick="window.shareReferralLink('copy')"
           class="flex-1 bg-primary hover:bg-primary/80 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('copyLink')}">
-          <i class="fas fa-link"></i>
+          ${icon('link', 'w-5 h-5')}
         </button>
       </div>
     </div>

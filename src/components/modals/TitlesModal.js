@@ -5,6 +5,7 @@
 
 import { getAllTitles, getTitleForLevel, getUnlockedTitles, getLockedTitles } from '../../data/titles.js'
 import { t } from '../../i18n/index.js'
+import { icon } from '../../utils/icons.js'
 
 export function renderTitlesModal(state) {
   const level = state.level || 1
@@ -73,7 +74,7 @@ export function renderTitlesModal(state) {
           class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
           aria-label="${t('close') || 'Close'}"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
       </div>
     </div>

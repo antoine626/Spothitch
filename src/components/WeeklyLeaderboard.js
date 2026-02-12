@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js';
 import { t } from '../i18n/index.js';
 import {
+import { icon } from '../utils/icons.js'
   getWeeklyLeaderboard,
   getUserWeeklyRank,
   formatTimeRemaining,
@@ -107,19 +108,19 @@ export function renderWeeklyLeaderboardModal() {
           <button onclick="setWeeklyLeaderboardTab('ranking')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
                          ${weeklyLeaderboardTab === 'ranking' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
-            <i class="fas fa-trophy" aria-hidden="true"></i>
+            ${icon('trophy', 'w-5 h-5')}
             ${t('ranking') || 'Ranking'}
           </button>
           <button onclick="setWeeklyLeaderboardTab('rewards')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
                          ${weeklyLeaderboardTab === 'rewards' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
-            <i class="fas fa-gift" aria-hidden="true"></i>
+            ${icon('gift', 'w-5 h-5')}
             ${t('rewards') || 'Rewards'}
           </button>
           <button onclick="setWeeklyLeaderboardTab('history')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
                          ${weeklyLeaderboardTab === 'history' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
-            <i class="fas fa-history" aria-hidden="true"></i>
+            ${icon('history', 'w-5 h-5')}
             ${t('history') || 'History'}
           </button>
         </div>
@@ -416,7 +417,7 @@ export function renderWeeklyLeaderboardWidget(state) {
               #${userRank.rank}
             </span>
           ` : ''}
-          <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
+          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
         </div>
       </div>
 

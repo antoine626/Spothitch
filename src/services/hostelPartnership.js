@@ -8,6 +8,7 @@
 
 import { getState, setState } from '../stores/state.js'
 import { trackEvent } from './analytics.js'
+import { icon } from '../utils/icons.js'
 
 // Storage key for discount codes
 const STORAGE_KEY = 'spothitch_hostel_codes'
@@ -1053,7 +1054,7 @@ export function renderHostelCard(hostel) {
           <!-- Rating -->
           <div class="flex items-center gap-2 mt-2">
             <div class="flex items-center text-yellow-400 text-sm">
-              <i class="fas fa-star"></i>
+              ${icon('star', 'w-5 h-5')}
               <span class="ml-1 text-white">${ratingInfo.average}</span>
             </div>
             <span class="text-xs text-slate-500">(${ratingInfo.count} ${t('reviews')})</span>
@@ -1076,7 +1077,7 @@ export function renderHostelCard(hostel) {
       <!-- Partner badge -->
       <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/10 text-xs">
         <span class="text-primary-400 flex items-center gap-1">
-          <i class="fas fa-check-circle"></i>
+          ${icon('check-circle', 'w-5 h-5')}
           ${t('verified')}
         </span>
         <span class="text-slate-500">${t('seeDetails')} →</span>
@@ -1094,7 +1095,7 @@ export function renderHostelList(hostels) {
   if (!hostels || hostels.length === 0) {
     return `
       <div class="text-center py-8 text-slate-400">
-        <i class="fas fa-hotel text-4xl mb-3"></i>
+        ${icon('hotel', 'w-10 h-10 mb-3')}
         <p>${t('noHostelsFound')}</p>
       </div>
     `
@@ -1138,7 +1139,7 @@ export function renderHostelDetail(hostel) {
           <button onclick="window.closeHostelDetail?.()"
             class="text-slate-400 hover:text-white w-8 h-8 flex items-center justify-center"
             aria-label="Close">
-            <i class="fas fa-times text-xl"></i>
+            ${icon('times', 'w-6 h-6')}
           </button>
         </div>
 
@@ -1155,7 +1156,7 @@ export function renderHostelDetail(hostel) {
         <div class="p-4 space-y-4">
           <!-- Location -->
           <div class="flex items-center gap-2 text-slate-400">
-            <i class="fas fa-map-marker-alt"></i>
+            ${icon('map-marker-alt', 'w-5 h-5')}
             <span>${hostel.address}</span>
           </div>
 
@@ -1177,7 +1178,7 @@ export function renderHostelDetail(hostel) {
             <span class="text-2xl font-bold text-white ml-2">${hostel.priceRange.min}€</span>
             <span class="text-slate-400">${t('perNight')}</span>
             <div class="text-primary-400 text-sm mt-1">
-              <i class="fas fa-tag mr-1"></i>
+              ${icon('tag', 'w-5 h-5 mr-1')}
               ${t('discountBanner', { discount: hostel.discount })}
             </div>
           </div>
@@ -1188,7 +1189,7 @@ export function renderHostelDetail(hostel) {
             <div class="flex flex-wrap gap-2">
               ${amenities.map((a) => `
                 <span class="flex items-center gap-1 bg-white/5 px-3 py-1 rounded-full text-sm text-slate-300">
-                  <i class="fas ${a.icon}"></i>
+                  ${icon(a.icon, 'w-5 h-5')}
                   ${a.label}
                 </span>
               `).join('')}
@@ -1232,12 +1233,12 @@ export function renderHostelDetail(hostel) {
           <div class="flex gap-3 pt-2">
             <button onclick="window.generateHostelCode?.('${hostel.id}')"
               class="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2">
-              <i class="fas fa-ticket-alt"></i>
+              ${icon('ticket-alt', 'w-5 h-5')}
               ${t('generateCode')}
             </button>
             <button onclick="window.bookHostelNow?.('${hostel.id}')"
               class="flex-1 bg-primary hover:bg-primary/80 text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2 font-semibold">
-              <i class="fas fa-external-link-alt"></i>
+              ${icon('external-link-alt', 'w-5 h-5')}
               ${t('bookNow')}
             </button>
           </div>
@@ -1247,14 +1248,14 @@ export function renderHostelDetail(hostel) {
             ${hostel.phone ? `
               <button onclick="window.open('tel:${hostel.phone}')"
                 class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
-                <i class="fas fa-phone"></i>
+                ${icon('phone', 'w-5 h-5')}
                 Call
               </button>
             ` : ''}
             ${hostel.email ? `
               <button onclick="window.open('mailto:${hostel.email}')"
                 class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
-                <i class="fas fa-envelope"></i>
+                ${icon('envelope', 'w-5 h-5')}
                 Email
               </button>
             ` : ''}
@@ -1262,7 +1263,7 @@ export function renderHostelDetail(hostel) {
 
           <!-- Partner badge -->
           <div class="text-center text-xs text-slate-500 pt-2 border-t border-white/10">
-            <i class="fas fa-check-circle text-primary-400 mr-1"></i>
+            ${icon('check-circle', 'w-5 h-5 text-primary-400 mr-1')}
             ${t('verified')} - ${t('exclusive')}
           </div>
         </div>
@@ -1286,7 +1287,7 @@ export function renderDiscountBanner(discount) {
       <div class="flex items-center gap-3">
         <div class="shrink-0">
           <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-primary-500/30 text-primary-400">
-            <i class="fas fa-percent text-xl"></i>
+            ${icon('percent', 'w-6 h-6')}
           </span>
         </div>
         <div class="flex-1">
@@ -1300,7 +1301,7 @@ export function renderDiscountBanner(discount) {
               <code class="bg-white/5 px-3 py-1 rounded font-mono text-white">${discount.code}</code>
               <button onclick="window.copyHostelCode?.('${discount.code}')"
                 class="text-primary-400 hover:text-primary-300">
-                <i class="fas fa-copy"></i>
+                ${icon('copy', 'w-5 h-5')}
               </button>
             </div>
             ${discount.expiresAt ? `
@@ -1413,13 +1414,13 @@ function renderStars(rating) {
 
   let html = ''
   for (let i = 0; i < fullStars; i++) {
-    html += '<i class="fas fa-star"></i>'
+    html += icon('star', 'w-5 h-5')
   }
   if (hasHalf) {
-    html += '<i class="fas fa-star-half-alt"></i>'
+    html += icon('star-half-alt', 'w-5 h-5')
   }
   for (let i = 0; i < emptyStars; i++) {
-    html += '<i class="far fa-star text-slate-500"></i>'
+    html += icon('star', 'w-5 h-5 text-slate-500')
   }
   return html
 }

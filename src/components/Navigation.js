@@ -4,6 +4,7 @@
  */
 
 import { t } from '../i18n/index.js'
+import { icon } from '../utils/icons.js'
 
 export function renderNavigation(state) {
   const tabs = [
@@ -33,7 +34,7 @@ export function renderNavigation(state) {
               aria-controls="panel-${tab.id}"
               tabindex="${state.activeTab === tab.id ? '0' : '-1'}"
             >
-              <i class="fas ${tab.icon} text-lg" aria-hidden="true"></i>
+              ${icon(tab.icon, 'w-5 h-5')}
               <span class="text-[11px] font-medium leading-tight">${tab.label}</span>
               ${state.activeTab === tab.id ? '<span class="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-6 h-1 rounded-full bg-primary-400"></span>' : ''}
             </button>

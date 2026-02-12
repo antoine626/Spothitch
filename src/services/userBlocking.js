@@ -10,6 +10,7 @@ import { getState, setState } from '../stores/state.js';
 import { Storage } from '../utils/storage.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Storage key for blocked users
 const BLOCKED_USERS_KEY = 'spothitch_blocked_users';
@@ -332,12 +333,12 @@ export function renderBlockedUsersList() {
     >
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-full bg-danger-500/20 flex items-center justify-center">
-          <i class="fas fa-user-slash text-danger-400"></i>
+          ${icon('user-slash', 'w-5 h-5 text-danger-400')}
         </div>
         <div>
           <div class="font-medium text-white">${escapeHTML(user.id)}</div>
           <div class="text-xs text-slate-400 flex items-center gap-2">
-            <i class="fas ${escapeHTML(getReasonIcon(user.reason))}"></i>
+            ${icon(escapeHTML(getReasonIcon(user.reason)), 'w-5 h-5')}
             <span>${escapeHTML(getReasonLabel(user.reason))}</span>
             <span class="text-slate-500">•</span>
             <span>${escapeHTML(formatDate(user.blockedAt))}</span>
@@ -349,7 +350,7 @@ export function renderBlockedUsersList() {
         class="btn btn-sm bg-white/10 hover:bg-white/20 text-white"
         aria-label="${escapeHTML(t('unblockUser') || 'Debloquer')} ${escapeHTML(user.id)}"
       >
-        <i class="fas fa-unlock mr-1"></i>
+        ${icon('unlock', 'w-5 h-5 mr-1')}
         ${escapeHTML(t('unblockUser') || 'Debloquer')}
       </button>
     </div>
@@ -359,7 +360,7 @@ export function renderBlockedUsersList() {
     <div class="blocked-users-list space-y-3" role="list" aria-label="${escapeHTML(t('blockedUsers') || 'Utilisateurs bloques')}">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-semibold text-white">
-          <i class="fas fa-ban mr-2 text-danger-400"></i>
+          ${icon('ban', 'w-5 h-5 mr-2 text-danger-400')}
           ${escapeHTML(t('blockedUsers') || 'Utilisateurs bloques')}
           <span class="text-sm font-normal text-slate-400 ml-2">(${blockedUsers.length})</span>
         </h3>
@@ -398,7 +399,7 @@ export function renderBlockButton(userId, username = '') {
         data-user-id="${escapeHTML(userId)}"
         data-action="unblock"
       >
-        <i class="fas fa-unlock mr-1"></i>
+        ${icon('unlock', 'w-5 h-5 mr-1')}
         ${escapeHTML(t('unblockUser') || 'Debloquer')}
       </button>
     `;
@@ -412,7 +413,7 @@ export function renderBlockButton(userId, username = '') {
       data-user-id="${escapeHTML(userId)}"
       data-action="block"
     >
-      <i class="fas fa-ban mr-1"></i>
+      ${icon('ban', 'w-5 h-5 mr-1')}
       ${escapeHTML(t('blockUser') || 'Bloquer')}
     </button>
   `;
@@ -444,7 +445,7 @@ export function renderBlockModal(userId, username = '') {
           <div class="flex justify-between items-start">
             <div>
               <h2 id="block-modal-title" class="text-xl font-bold text-white">
-                <i class="fas fa-ban mr-2"></i>
+                ${icon('ban', 'w-5 h-5 mr-2')}
                 ${escapeHTML(t('confirmBlock') || 'Bloquer cet utilisateur ?')}
               </h2>
               <p class="text-white/80 text-sm mt-1">${escapeHTML(displayName)}</p>
@@ -454,7 +455,7 @@ export function renderBlockModal(userId, username = '') {
               class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
               aria-label="${escapeHTML(t('close') || 'Fermer')}"
             >
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -494,7 +495,7 @@ export function renderBlockModal(userId, username = '') {
             onclick="confirmBlockUser('${escapeHTML(userId)}')"
             class="btn flex-1 btn-danger"
           >
-            <i class="fas fa-ban mr-2"></i>
+            ${icon('ban', 'w-5 h-5 mr-2')}
             ${escapeHTML(t('blockUser') || 'Bloquer')}
           </button>
         </div>
@@ -528,7 +529,7 @@ export function renderUnblockModal(userId, username = '') {
           <div class="flex justify-between items-start">
             <div>
               <h2 id="unblock-modal-title" class="text-xl font-bold text-white">
-                <i class="fas fa-unlock mr-2"></i>
+                ${icon('unlock', 'w-5 h-5 mr-2')}
                 ${escapeHTML(t('confirmUnblock') || 'Debloquer cet utilisateur ?')}
               </h2>
               <p class="text-white/80 text-sm mt-1">${escapeHTML(displayName)}</p>
@@ -538,7 +539,7 @@ export function renderUnblockModal(userId, username = '') {
               class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
               aria-label="${escapeHTML(t('close') || 'Fermer')}"
             >
-              <i class="fas fa-times"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -562,7 +563,7 @@ export function renderUnblockModal(userId, username = '') {
             onclick="confirmUnblockUser('${escapeHTML(userId)}')"
             class="btn flex-1 btn-primary"
           >
-            <i class="fas fa-unlock mr-2"></i>
+            ${icon('unlock', 'w-5 h-5 mr-2')}
             ${escapeHTML(t('unblockUser') || 'Debloquer')}
           </button>
         </div>

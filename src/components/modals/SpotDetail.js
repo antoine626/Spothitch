@@ -10,6 +10,7 @@ import { renderFreshnessSection, renderFreshnessBadge, getFreshnessLevel, FRESHN
 import { getAvailableNavigationApps, detectPlatform } from '../../utils/navigation.js';
 import { renderFreshnessBadge as renderReliabilityBadge } from '../../services/spotFreshness.js';
 import { renderTranslateButton } from '../../services/autoTranslate.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderSpotDetail(state) {
   const spot = state.selectedSpot;
@@ -40,7 +41,7 @@ export function renderSpotDetail(state) {
           aria-label="${t('closeSpotDetails') || 'Fermer les détails du spot'}"
           type="button"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
 
         <!-- Photo -->
@@ -59,7 +60,7 @@ export function renderSpotDetail(state) {
           <div class="absolute bottom-4 left-4 right-4">
             <h2 id="spotdetail-title" class="text-2xl font-bold">
               ${spot.from && spot.to
-                ? `${escapeHTML(spot.from)} <i class="fas fa-arrow-right text-primary-400 mx-2" aria-hidden="true"></i><span class="sr-only">vers</span> ${escapeHTML(spot.to)}`
+                ? `${escapeHTML(spot.from)} ${icon('arrow-right', 'w-5 h-5 text-primary-400 mx-2')}<span class="sr-only">vers</span> ${escapeHTML(spot.to)}`
                 : spot.direction
                   ? `📍 ${escapeHTML(spot.direction)}`
                   : `📍 ${t('spotLocation') || 'Spot'} #${spot.id}`}
@@ -69,7 +70,7 @@ export function renderSpotDetail(state) {
               ${renderFreshnessBadge(spot.lastCheckin || spot.lastUsed, 'sm')}
               ${renderReliabilityBadge(spot, 'sm')}
               <span class="text-sm text-slate-400">
-                <i class="fas fa-flag mr-1" aria-hidden="true"></i> <span aria-label="Pays: ${escapeHTML(spot.country || 'Monde')}">${escapeHTML(spot.country || 'World')}</span>
+                ${icon('flag', 'w-5 h-5 mr-1')} <span aria-label="Pays: ${escapeHTML(spot.country || 'Monde')}">${escapeHTML(spot.country || 'World')}</span>
               </span>
             </div>
           </div>
@@ -81,7 +82,7 @@ export function renderSpotDetail(state) {
           <div class="grid grid-cols-3 gap-4 mb-5" role="group" aria-label="${t('spotStats') || 'Statistiques du spot'}">
             <div class="card p-3 text-center">
               <div class="text-xl font-bold text-warning-400" aria-label="${t('rating') || 'Note'}: ${spot.globalRating?.toFixed(1) || 'N/A'}/5">
-                <i class="fas fa-star mr-1" aria-hidden="true"></i>${spot.globalRating?.toFixed(1) || 'N/A'}
+                ${icon('star', 'w-5 h-5 mr-1')}${spot.globalRating?.toFixed(1) || 'N/A'}
               </div>
               <div class="text-xs text-slate-400">${spot.totalReviews || 0} ${t('reviews')}</div>
             </div>
@@ -154,7 +155,7 @@ export function renderSpotDetail(state) {
               class="btn btn-primary"
               type="button"
             >
-              <i class="fas fa-map-pin" aria-hidden="true"></i>
+              ${icon('map-pin', 'w-5 h-5')}
               ${t('validate') || 'Valider'}
             </button>
             <button
@@ -162,7 +163,7 @@ export function renderSpotDetail(state) {
               class="btn btn-ghost"
               type="button"
             >
-              <i class="fas fa-comment-dots" aria-hidden="true"></i>
+              ${icon('comment-dots', 'w-5 h-5')}
               ${t('review') || 'Avis'}
             </button>
             <button
@@ -170,7 +171,7 @@ export function renderSpotDetail(state) {
               class="btn btn-ghost"
               type="button"
             >
-              <i class="fas fa-bookmark" aria-hidden="true"></i>
+              ${icon('bookmark', 'w-5 h-5')}
               ${t('save') || 'Sauver'}
             </button>
           </div>
@@ -183,9 +184,9 @@ export function renderSpotDetail(state) {
             type="button"
             aria-label="${t('goThere') || 'Y aller'}"
           >
-            <i class="fas fa-route mr-2" aria-hidden="true"></i>
+            ${icon('route', 'w-5 h-5 mr-2')}
             ${t('goThere') || 'Y aller'}
-            <i class="fas fa-chevron-right ml-2" aria-hidden="true"></i>
+            ${icon('chevron-right', 'w-5 h-5 ml-2')}
           </button>
 
           <!-- Navigation Apps Quick Access -->
@@ -204,7 +205,7 @@ export function renderSpotDetail(state) {
               type="button"
               aria-label="${t('guidedNav') || 'Navigation guidée'}"
             >
-              <i class="fas fa-compass" aria-hidden="true"></i>
+              ${icon('compass', 'w-5 h-5')}
               ${t('guidedNav') || 'Navigation guidée'}
             </button>
             <button
@@ -213,7 +214,7 @@ export function renderSpotDetail(state) {
               type="button"
               aria-label="${t('shareSpot') || 'Partager ce spot'}"
             >
-              <i class="fas fa-share-alt" aria-hidden="true"></i>
+              ${icon('share-alt', 'w-5 h-5')}
               ${t('share') || 'Partager'}
             </button>
           </div>

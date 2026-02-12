@@ -4,6 +4,7 @@
  */
 
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 export function renderAuth(_state) {
   return `
@@ -29,7 +30,7 @@ export function renderAuth(_state) {
           aria-label="${t('close') || 'Close'}"
           type="button"
         >
-          <i class="fas fa-times" aria-hidden="true"></i>
+          ${icon('times', 'w-5 h-5')}
         </button>
         
         <!-- Header -->
@@ -176,7 +177,7 @@ export function renderAuth(_state) {
             type="button"
             aria-label="${t('continueWithFacebook') || 'Sign in with Facebook'}"
           >
-            <i class="fab fa-facebook text-blue-500 text-lg" aria-hidden="true"></i>
+            ${icon('facebook', 'w-5 h-5 text-blue-500')}
             ${t('continueWithFacebook')}
           </button>
 
@@ -187,7 +188,7 @@ export function renderAuth(_state) {
             type="button"
             aria-label="${t('continueWithApple') || 'Sign in with Apple'}"
           >
-            <i class="fab fa-apple text-lg" aria-hidden="true"></i>
+            ${icon('apple', 'w-5 h-5')}
             ${t('continueWithApple')}
           </button>
 
@@ -253,7 +254,7 @@ window.handleAuth = async (event) => {
   // Disable button
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    submitBtn.innerHTML = icon('spinner', 'w-5 h-5 animate-spin');
   }
 
   try {

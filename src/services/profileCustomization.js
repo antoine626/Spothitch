@@ -6,6 +6,7 @@
 import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+import { icon } from '../utils/icons.js'
 
 // Profile frames collection
 export const PROFILE_FRAMES = {
@@ -405,7 +406,7 @@ export function renderCustomizationModal(state) {
               class="p-2 rounded-full hover:bg-white/10 transition-colors"
               aria-label="${t('close') || 'Fermer'}"
             >
-              <i class="fas fa-times" aria-hidden="true"></i>
+              ${icon('times', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -441,11 +442,11 @@ export function renderCustomizationModal(state) {
                     ${!isUnlocked ? 'disabled' : ''}
                   >
                     <div class="w-12 h-12 mx-auto rounded-full ${frame.gradient ? `bg-gradient-to-br ${frame.gradient}` : 'bg-slate-600'} flex items-center justify-center mb-2">
-                      ${isEquipped ? '<i class="fas fa-check text-white"></i>' : ''}
+                      ${isEquipped ? icon('check', 'w-5 h-5 text-white') : ''}
                     </div>
                     <div class="text-xs font-medium truncate">${typeof frame.name === 'function' ? frame.name() : frame.name}</div>
                     <div class="text-[10px] ${rarity.text}">${typeof rarity.label === 'function' ? rarity.label() : rarity.label}</div>
-                    ${!isUnlocked ? `<i class="fas fa-lock absolute top-2 right-2 text-slate-500"></i><div class="text-[10px] text-slate-500 mt-1">${getFrameUnlockText(frame.unlockMethod)}</div>` : ''}
+                    ${!isUnlocked ? `${icon('lock', 'w-5 h-5 absolute top-2 right-2 text-slate-500')}<div class="text-[10px] text-slate-500 mt-1">${getFrameUnlockText(frame.unlockMethod)}</div>` : ''}
                   </button>
                 `;
     })
@@ -475,8 +476,8 @@ export function renderCustomizationModal(state) {
                     ${!isUnlocked ? 'disabled' : ''}
                   >
                     <span class="${title.color} font-medium">${typeof title.name === 'function' ? title.name() : title.name}</span>
-                    ${isEquipped ? '<i class="fas fa-check text-primary-400 ml-auto"></i>' : ''}
-                    ${!isUnlocked ? '<i class="fas fa-lock text-slate-500 ml-auto"></i>' : ''}
+                    ${isEquipped ? icon('check', 'w-5 h-5 text-primary-400 ml-auto') : ''}
+                    ${!isUnlocked ? icon('lock', 'w-5 h-5 text-slate-500 ml-auto') : ''}
                   </button>
                 `;
     })

@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
+import { icon } from '../../utils/icons.js'
 
 // Tutorial rewards
 const TUTORIAL_REWARDS = {
@@ -180,7 +181,7 @@ export function renderTutorial(state) {
         onclick="skipTutorial()"
         class="fixed top-4 right-4 z-[103] px-4 py-2 rounded-full bg-slate-800/90 text-slate-400 text-sm hover:text-white hover:bg-slate-700 transition-all"
       >
-        ${t('skip') || 'Passer'} <i class="fas fa-forward ml-1" aria-hidden="true"></i>
+        ${t('skip') || 'Passer'} ${icon('forward', 'w-5 h-5 ml-1')}
       </button>
 
       <!-- Dark overlay -->
@@ -202,20 +203,20 @@ export function renderTutorial(state) {
         <!-- Action hint -->
         ${step.type === 'click' ? `
           <div class="mt-4 flex items-center gap-2 text-primary-400 text-sm animate-pulse">
-            <i class="fas fa-hand-pointer" aria-hidden="true"></i>
+            ${icon('hand-pointer', 'w-5 h-5')}
             <span>${t('tutClickHighlighted') || 'Clique sur l\'élément mis en surbrillance'}</span>
           </div>
         ` : step.type === 'highlight' ? `
           <div class="mt-4 flex gap-2">
             <button onclick="nextTutorial()" class="flex-1 py-2 px-4 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
-              ${t('understood') || 'Compris !'} <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+              ${t('understood') || 'Compris !'} ${icon('arrow-right', 'w-5 h-5 ml-2')}
             </button>
           </div>
         ` : `
           <div class="mt-4 flex gap-2">
             ${stepIndex > 0 ? `
               <button onclick="prevTutorial()" class="py-2 px-4 rounded-lg bg-slate-700 text-white hover:bg-slate-600 transition-colors">
-                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                ${icon('arrow-left', 'w-5 h-5')}
               </button>
             ` : ''}
             <button onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}" class="flex-1 py-2 px-4 rounded-lg ${isLast ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-primary-500 hover:bg-primary-600'} text-white font-medium transition-colors">
@@ -227,7 +228,7 @@ export function renderTutorial(state) {
         <!-- Step indicator -->
         <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
           <span>${t('step') || 'Étape'} ${stepIndex + 1}/${tutorialSteps.length}</span>
-          <span class="text-amber-400"><i class="fas fa-star mr-1"></i>+${TUTORIAL_REWARDS.perStep} pts</span>
+          <span class="text-amber-400">${icon('star', 'w-5 h-5 mr-1')}+${TUTORIAL_REWARDS.perStep} pts</span>
         </div>
       </div>
     </div>
