@@ -991,7 +991,7 @@ window.deleteSavedTrip = (index) => {
     localStorage.setItem(SAVED_TRIPS_KEY, JSON.stringify(saved))
     window.setState?.({ savedTrips: saved })
     window.showToast?.(t('tripDeleted') || 'Voyage supprimé', 'success')
-  } catch (e) {}
+  } catch (e) { /* localStorage parse error */ }
 }
 
 // Toggle favorite spot

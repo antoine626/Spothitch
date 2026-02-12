@@ -208,7 +208,7 @@ window.searchMapSuggestions = (query) => {
 window.selectSearchSuggestion = (lat, lon, name) => {
   const input = document.getElementById('map-search')
   if (input) input.value = name.split(',')[0]
-  hideSearchSuggestions()
+  window.hideSearchSuggestions()
   if (window.mapInstance) {
     window.mapInstance.setView([parseFloat(lat), parseFloat(lon)], 10)
   }

@@ -156,7 +156,7 @@ export function renderTutorial(state) {
   const step = tutorialSteps[stepIndex];
 
   if (!step) {
-    finishTutorial();
+    window.finishTutorial?.();
     return '';
   }
 
