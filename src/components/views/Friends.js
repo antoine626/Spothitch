@@ -23,7 +23,7 @@ export function renderFriends(state) {
   const offlineFriends = displayFriends.filter(f => !f.online);
 
   return `
-    <div class="friends-view pb-28">
+    <div class="friends-view pb-28 overflow-x-hidden">
       <!-- Header -->
       <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center justify-between p-5">

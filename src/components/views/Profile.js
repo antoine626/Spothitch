@@ -29,7 +29,7 @@ export function renderProfile(state) {
   const allTitles = getAllTitles();
 
   return `
-    <div class="p-5 space-y-5 pb-28">
+    <div class="p-5 space-y-5 pb-28 overflow-x-hidden">
       <!-- Profile Header -->
       <div class="card p-6 text-center">
         <div class="relative inline-block">
@@ -73,30 +73,30 @@ export function renderProfile(state) {
       </div>
 
       <!-- Quick Stats -->
-      <div class="grid grid-cols-4 gap-3">
-        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-xl font-bold text-primary-400">${state.points || 0}</div>
-          <div class="text-xs text-slate-500">${t('points') || 'Points'}</div>
+      <div class="grid grid-cols-4 gap-2">
+        <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all overflow-hidden">
+          <div class="text-lg font-bold text-primary-400">${state.points || 0}</div>
+          <div class="text-[10px] text-slate-500 truncate">${t('points') || 'Points'}</div>
         </button>
-        <button onclick="openTitles()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-xl font-bold" style="color: ${currentTitle.color}">${currentTitle.emoji}</div>
-          <div class="text-xs text-slate-500">${t('level') || 'Niv'}.${state.level || 1}</div>
+        <button onclick="openTitles()" class="card p-3 text-center hover:border-primary-500/50 transition-all overflow-hidden">
+          <div class="text-lg font-bold" style="color: ${currentTitle.color}">${currentTitle.emoji}</div>
+          <div class="text-[10px] text-slate-500 truncate">${t('level') || 'Niv'}.${state.level || 1}</div>
         </button>
-        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-xl font-bold text-amber-400">${currentLeague[0]}</div>
-          <div class="text-xs text-slate-500">${t('league') || 'Ligue'}</div>
+        <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all overflow-hidden">
+          <div class="text-lg font-bold text-amber-400">${currentLeague[0]}</div>
+          <div class="text-[10px] text-slate-500 truncate">${t('league') || 'Ligue'}</div>
         </button>
-        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-xl font-bold text-orange-400">${(state.badges || []).length}</div>
-          <div class="text-xs text-slate-500">${t('badgesEarned') || 'Badges'}</div>
+        <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all overflow-hidden">
+          <div class="text-lg font-bold text-orange-400">${(state.badges || []).length}</div>
+          <div class="text-[10px] text-slate-500 truncate">${t('badgesEarned') || 'Badges'}</div>
         </button>
       </div>
 
       <!-- Level Progress -->
       <div class="card p-5">
         <div class="flex justify-between text-sm mb-3">
-          <span class="font-medium" style="color: ${currentTitle.color}">${currentTitle.emoji} ${currentTitle.name} - ${t('level') || 'Niveau'} ${state.level || 1}</span>
-          <span class="text-slate-400">${pointsToNext} pts → ${t('level') || 'Niveau'} ${(state.level || 1) + 1}</span>
+          <span class="font-medium truncate" style="color: ${currentTitle.color}">${currentTitle.emoji} ${currentTitle.name} - ${t('level') || 'Niv'} ${state.level || 1}</span>
+          <span class="text-slate-400 text-xs shrink-0">${pointsToNext} pts → ${t('level') || 'Niv'} ${(state.level || 1) + 1}</span>
         </div>
         <div class="h-3 bg-white/10 rounded-full overflow-hidden">
           <div

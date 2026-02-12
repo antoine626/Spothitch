@@ -8,7 +8,7 @@ import { t } from '../i18n/index.js'
 
 export function renderLanding() {
   return `
-    <div id="landing-page" class="fixed inset-0 z-[100] bg-dark-primary overflow-y-auto scroll-smooth">
+    <div id="landing-page" class="fixed inset-0 z-[100] bg-dark-primary overflow-y-auto overflow-x-hidden scroll-smooth">
 
       <!-- Hero Section -->
       <section class="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 text-center overflow-hidden">
@@ -30,7 +30,7 @@ export function renderLanding() {
           </div>
 
           <!-- Title -->
-          <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+          <h2 class="text-2xl md:text-5xl font-bold text-white mb-6 leading-tight">
             ${t('landingHeroTitle')}
           </h2>
 

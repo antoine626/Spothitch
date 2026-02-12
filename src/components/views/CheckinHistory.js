@@ -229,7 +229,7 @@ export function renderCheckinHistory(state) {
   const hasMore = sortedCheckins.length > displayLimit
 
   return `
-    <div class="p-4 space-y-4 pb-24">
+    <div class="p-4 space-y-4 pb-24 overflow-x-hidden">
       <!-- Header with back button -->
       <div class="flex items-center gap-3">
         <button

@@ -225,7 +225,7 @@ export function renderFAQ(state) {
   const hasResults = filteredCategories.length > 0;
 
   return `
-    <div class="faq-view pb-24 max-w-4xl mx-auto">
+    <div class="faq-view pb-24 max-w-4xl mx-auto overflow-x-hidden">
       <!-- Header -->
       <div class="sticky top-16 z-30 bg-gradient-to-b from-slate-900 via-slate-900 to-transparent p-4 border-b border-slate-700/50">
         <div class="flex items-center gap-4 mb-4">

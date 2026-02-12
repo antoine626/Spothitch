@@ -29,7 +29,7 @@ export function renderChallengesHub(state) {
   const currentVipLevel = vipLevels.find(v => (state.totalPoints || 0) >= v.minPoints) || vipLevels[0];
 
   return `
-    <div class="p-5 space-y-5 pb-28">
+    <div class="p-5 space-y-5 pb-28 overflow-x-hidden">
       <!-- Header Stats -->
       <div class="grid grid-cols-3 gap-4">
         <div class="card p-4 text-center">

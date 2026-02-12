@@ -169,7 +169,7 @@
 
   /* Cards */
   .card {
-    @apply bg-dark-card/80 backdrop-blur-lg border border-dark-border rounded-2xl transition-all duration-300;
+    @apply bg-dark-card/80 backdrop-blur-lg border border-dark-border rounded-2xl transition-all duration-300 overflow-hidden;
   }
 
   .card:hover {

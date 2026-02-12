@@ -10,12 +10,12 @@ export function renderChat(state) {
   const rooms = [
     { id: 'general', name: t('general'), icon: '💬', active: true },
     { id: 'help', name: t('help'), icon: '❓', active: false },
-    { id: 'meetups', name: 'Rencontres', icon: '🤝', active: false },
-    { id: 'routes', name: 'Itinéraires', icon: '🛣️', active: false },
+    { id: 'meetups', name: t('meetups') || 'Rencontres', icon: '🤝', active: false },
+    { id: 'routes', name: t('routes') || 'Itinéraires', icon: '🛣️', active: false },
   ];
 
   return `
-    <div class="flex flex-col h-[calc(100vh-140px)]" role="tabpanel" id="panel-chat" aria-labelledby="tab-chat">
+    <div class="flex flex-col h-[calc(100vh-140px)] overflow-x-hidden" role="tabpanel" id="panel-chat" aria-labelledby="tab-chat">
       <!-- Room Tabs -->
       <div class="flex gap-3 p-5 overflow-x-auto scrollbar-hide" role="tablist" aria-label="Salons de discussion">
         ${rooms.map(room => `

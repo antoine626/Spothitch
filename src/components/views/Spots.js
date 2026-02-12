@@ -11,7 +11,7 @@ export function renderSpots(state) {
   const filteredSpots = filterSpots(state);
 
   return `
-    <div class="p-4" role="tabpanel" id="panel-spots" aria-labelledby="tab-spots">
+    <div class="p-4 overflow-x-hidden" role="tabpanel" id="panel-spots" aria-labelledby="tab-spots">
       <!-- Search & View Toggle -->
       <div class="flex gap-2 mb-4">
         <div class="flex-1 relative">

@@ -658,7 +658,7 @@ function renderEventDetail(state, event) {
         ` : ''}
       </div>
 
-      <div class="p-5 space-y-5">
+      <div class="p-5 space-y-5 overflow-x-hidden">
         <!-- Event Info Card -->
         <div class="card p-5">
           <div class="flex items-center gap-3 mb-3">

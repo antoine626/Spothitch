@@ -451,6 +451,8 @@ const translations = {
     // Chat
     general: 'Général',
     help: 'Aide',
+    meetups: 'Rencontres',
+    routes: 'Itinéraires',
     typeMessage: 'Écris ton message...',
     send: 'Envoyer',
 
@@ -3015,6 +3017,8 @@ const translations = {
     // Chat
     general: 'General',
     help: 'Help',
+    meetups: 'Meetups',
+    routes: 'Routes',
     typeMessage: 'Type message...',
     send: 'Send',
 
@@ -6084,6 +6088,8 @@ const translations = {
     beFirst: 'Se el primero!',
     general: 'General',
     help: 'Ayuda',
+    meetups: 'Encuentros',
+    routes: 'Rutas',
     typeMessage: 'Escribe tu mensaje...',
     send: 'Enviar',
     myData: 'Mis datos',
@@ -8139,6 +8145,8 @@ const translations = {
     // Chat
     general: 'Allgemein',
     help: 'Hilfe',
+    meetups: 'Treffen',
+    routes: 'Routen',
     typeMessage: 'Nachricht eingeben...',
     send: 'Senden',
 

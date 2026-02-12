@@ -25,7 +25,7 @@ export function renderLegalPage(page = 'cgu') {
   };
 
   return `
-    <div class="legal-page pb-24">
+    <div class="legal-page pb-24 overflow-x-hidden">
       <!-- Header -->
       <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center gap-3 p-4">

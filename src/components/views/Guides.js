@@ -28,7 +28,7 @@ export function renderGuides(state) {
   const easiest = getEasiestCountries(3);
 
   return `
-    <div class="guides-view pb-24">
+    <div class="guides-view pb-24 overflow-x-hidden">
       <!-- Header -->
       <div class="p-4 border-b border-white/10">
         <h1 class="text-xl font-bold text-white mb-1">Guides Pays</h1>
