@@ -186,7 +186,7 @@ function renderPodiumPlace(user, position) {
     return `
       <div class="flex flex-col items-center ${position === 1 ? 'order-2' : position === 2 ? 'order-1' : 'order-3'}">
         <div class="text-3xl mb-2 opacity-30">?</div>
-        <div class="text-gray-600 font-medium text-sm">${t('empty') || 'Empty'}</div>
+        <div class="text-slate-600 font-medium text-sm">${t('empty') || 'Empty'}</div>
         <div class="mt-2 w-20 ${position === 1 ? 'h-28' : position === 2 ? 'h-24' : 'h-20'} rounded-t-lg bg-white/5/50 border-2 border-white/10/50 flex items-start justify-center pt-2">
           <span class="text-2xl opacity-30">${position === 1 ? '🥇' : position === 2 ? '🥈' : '🥉'}</span>
         </div>
@@ -196,7 +196,7 @@ function renderPodiumPlace(user, position) {
 
   const podiumStyles = {
     1: { height: 'h-28', medal: '🥇', bg: 'from-amber-500/40 to-amber-600/40', border: 'border-amber-500/70', glow: 'shadow-lg shadow-amber-500/30' },
-    2: { height: 'h-24', medal: '🥈', bg: 'from-gray-400/40 to-gray-500/40', border: 'border-gray-400/70', glow: 'shadow-lg shadow-gray-400/20' },
+    2: { height: 'h-24', medal: '🥈', bg: 'from-slate-400/40 to-slate-500/40', border: 'border-slate-400/70', glow: 'shadow-lg shadow-slate-400/20' },
     3: { height: 'h-20', medal: '🥉', bg: 'from-orange-600/40 to-orange-700/40', border: 'border-orange-600/70', glow: 'shadow-lg shadow-orange-500/20' },
   };
 
@@ -266,7 +266,7 @@ function renderRewardsTab() {
           ${rewards.map(reward => `
             <div class="p-4 rounded-xl bg-gradient-to-r ${
   reward.rank === 1 ? 'from-amber-500/20 to-amber-600/20 border border-amber-500/30' :
-    reward.rank === 3 ? 'from-gray-400/20 to-gray-500/20 border border-gray-400/30' :
+    reward.rank === 3 ? 'from-slate-400/20 to-slate-500/20 border border-slate-400/30' :
       'from-orange-600/20 to-orange-700/20 border border-orange-600/30'
 }">
               <div class="flex items-center gap-3 mb-3">

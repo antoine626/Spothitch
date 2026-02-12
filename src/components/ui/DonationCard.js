@@ -318,7 +318,7 @@ export function renderDonationModal(state) {
         </div>
 
         <!-- Footer -->
-        <div class="p-4 border-t border-gray-800 flex justify-center">
+        <div class="p-4 border-t border-white/10 flex justify-center">
           <button
             onclick="closeDonation()"
             class="text-slate-400 hover:text-white transition-colors text-sm"

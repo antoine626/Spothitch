@@ -18,17 +18,17 @@ export function renderPlanner(state) {
       <!-- Header -->
       <div class="p-4 border-b border-white/10">
         <h1 class="text-xl font-bold text-white mb-1">${t('planTrip')}</h1>
-        <p class="text-gray-400 text-sm">${t('planNextTrip') || 'Planifie ton prochain voyage en autostop'}</p>
+        <p class="text-slate-400 text-sm">${t('planNextTrip') || 'Planifie ton prochain voyage en autostop'}</p>
       </div>
 
       <!-- Trip Steps -->
       <div class="p-4 space-y-3">
-        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide">${t('steps') || 'Étapes'}</h2>
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">${t('steps') || 'Étapes'}</h2>
 
         <div id="trip-steps" class="space-y-2">
           ${tripSteps.length === 0
     ? `
-              <div class="text-center py-8 text-gray-500">
+              <div class="text-center py-8 text-slate-500">
                 <span class="text-4xl">🗺️</span>
                 <p class="mt-2">${t('addStartCity') || 'Ajoute une ville de départ'}</p>
               </div>
@@ -44,7 +44,7 @@ export function renderPlanner(state) {
             id="step-input"
             placeholder="${t('addCity') || 'Ajouter une ville...'}"
             class="w-full bg-dark-secondary border border-white/10 rounded-xl px-4 py-3 text-white
-                   placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                   placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             oninput="searchTripCity(this.value)"
             onkeydown="if(event.key==='Enter')addFirstSuggestion()"
           />
@@ -65,7 +65,7 @@ export function renderPlanner(state) {
         ${tripSteps.length > 0 ? `
           <button
             onclick="clearTripSteps()"
-            class="w-full py-2 text-gray-400 hover:text-white text-sm"
+            class="w-full py-2 text-slate-400 hover:text-white text-sm"
           >
             ${t('clearAll') || 'Effacer tout'}
           </button>
@@ -84,13 +84,13 @@ export function renderPlanner(state) {
 
       <!-- Saved Trips Section -->
       <div class="p-4 border-t border-white/10">
-        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
           ${t('myTrips')} (${savedTrips.length})
         </h2>
 
         ${savedTrips.length === 0
     ? `
-            <div class="text-center py-6 text-gray-500">
+            <div class="text-center py-6 text-slate-500">
               <span class="text-3xl">📋</span>
               <p class="mt-2 text-sm">${t('noTrips')}</p>
             </div>
@@ -118,29 +118,29 @@ function renderTripStep(step, index, totalSteps) {
       <!-- Step indicator -->
       <div class="flex flex-col items-center">
         <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
-                    ${isFirst ? 'bg-green-500 text-white' : isLast ? 'bg-red-500 text-white' : 'bg-gray-600 text-gray-300'}">
+                    ${isFirst ? 'bg-green-500 text-white' : isLast ? 'bg-red-500 text-white' : 'bg-dark-secondary text-slate-300'}">
           ${isFirst ? '🚀' : isLast ? '🏁' : index}
         </div>
-        ${!isLast ? '<div class="w-0.5 h-4 bg-gray-600 mt-1"></div>' : ''}
+        ${!isLast ? '<div class="w-0.5 h-4 bg-dark-secondary mt-1"></div>' : ''}
       </div>
 
       <!-- Step info -->
       <div class="flex-1 min-w-0">
         <div class="text-white font-medium truncate">${step.name}</div>
-        <div class="text-gray-500 text-xs truncate">${step.fullName || ''}</div>
+        <div class="text-slate-500 text-xs truncate">${step.fullName || ''}</div>
       </div>
 
       <!-- Actions -->
       <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         ${index > 0 ? `
           <button onclick="moveTripStep(${index}, ${index - 1})"
-                  class="p-1.5 text-gray-400 hover:text-white rounded">
+                  class="p-1.5 text-slate-400 hover:text-white rounded">
             ↑
           </button>
         ` : ''}
         ${index < totalSteps - 1 ? `
           <button onclick="moveTripStep(${index}, ${index + 1})"
-                  class="p-1.5 text-gray-400 hover:text-white rounded">
+                  class="p-1.5 text-slate-400 hover:text-white rounded">
             ↓
           </button>
         ` : ''}
@@ -169,25 +169,25 @@ function renderActiveTripDetails(trip) {
       <div class="grid grid-cols-3 gap-3 mb-4">
         <div class="text-center">
           <div class="text-2xl font-bold text-white">${formatDistance(trip.totalDistance)}</div>
-          <div class="text-xs text-gray-500">Distance</div>
+          <div class="text-xs text-slate-500">Distance</div>
         </div>
         <div class="text-center">
           <div class="text-2xl font-bold text-white">${formatDuration(trip.totalDuration)}</div>
-          <div class="text-xs text-gray-500">En voiture</div>
+          <div class="text-xs text-slate-500">En voiture</div>
         </div>
         <div class="text-center">
           <div class="text-2xl font-bold text-white">${trip.estimatedDays}j</div>
-          <div class="text-xs text-gray-500">Estimé stop</div>
+          <div class="text-xs text-slate-500">Estimé stop</div>
         </div>
       </div>
 
       <!-- Spots by leg -->
       ${trip.spotsByLeg ? `
         <div class="space-y-3">
-          <h4 class="text-sm font-semibold text-gray-400">Spots recommandés</h4>
+          <h4 class="text-sm font-semibold text-slate-400">Spots recommandés</h4>
           ${trip.spotsByLeg.map(leg => `
             <div class="bg-dark-secondary/50 rounded-lg p-3">
-              <div class="text-sm text-gray-300 mb-2">${leg.from} → ${leg.to}</div>
+              <div class="text-sm text-slate-300 mb-2">${leg.from} → ${leg.to}</div>
               ${leg.spots.length > 0
     ? `<div class="flex flex-wrap gap-2">
                     ${leg.spots.slice(0, 3).map(spot => `
@@ -197,7 +197,7 @@ function renderActiveTripDetails(trip) {
                       </span>
                     `).join('')}
                   </div>`
-    : '<p class="text-gray-500 text-xs">Pas de spots connus sur ce tronçon</p>'
+    : '<p class="text-slate-500 text-xs">Pas de spots connus sur ce tronçon</p>'
 }
             </div>
           `).join('')}
@@ -218,7 +218,7 @@ function renderSavedTripCard(trip) {
 
   return `
     <div class="saved-trip p-3 bg-dark-secondary rounded-xl flex items-center gap-3 cursor-pointer
-                hover:bg-gray-750 transition-colors"
+                hover:bg-white/10 transition-colors"
          onclick="loadSavedTrip('${trip.id}')">
       <div class="w-10 h-10 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-lg
                   flex items-center justify-center text-white text-lg">
@@ -226,13 +226,13 @@ function renderSavedTripCard(trip) {
       </div>
       <div class="flex-1 min-w-0">
         <div class="text-white font-medium truncate">${route}</div>
-        <div class="text-gray-500 text-xs">
+        <div class="text-slate-500 text-xs">
           ${formatDistance(trip.totalDistance)} • ${trip.steps.length} étapes •
           ${new Date(trip.createdAt).toLocaleDateString()}
         </div>
       </div>
       <button onclick="event.stopPropagation(); deleteSavedTrip('${trip.id}')"
-              class="p-2 text-gray-500 hover:text-red-400">
+              class="p-2 text-slate-500 hover:text-red-400">
         🗑️
       </button>
     </div>
@@ -247,7 +247,7 @@ export function renderSavedTripDetail(tripId) {
 
   if (!trip) {
     return `
-      <div class="text-center py-20 text-gray-500">
+      <div class="text-center py-20 text-slate-500">
         <span class="text-4xl">❌</span>
         <p class="mt-4">Voyage non trouvé</p>
         <button onclick="changeTab('planner')" class="mt-4 text-sky-400 hover:text-sky-300">
@@ -267,7 +267,7 @@ export function renderSavedTripDetail(tripId) {
           </button>
           <div class="flex-1">
             <h1 class="text-lg font-bold text-white">Détails du voyage</h1>
-            <p class="text-gray-500 text-xs">Créé le ${new Date(trip.createdAt).toLocaleDateString()}</p>
+            <p class="text-slate-500 text-xs">Créé le ${new Date(trip.createdAt).toLocaleDateString()}</p>
           </div>
           <button onclick="deleteSavedTrip('${trip.id}')" class="p-2 text-red-400 hover:bg-dark-secondary rounded-full">
             🗑️
@@ -282,31 +282,31 @@ export function renderSavedTripDetail(tripId) {
       <div class="p-4 grid grid-cols-3 gap-4 border-b border-white/10">
         <div class="text-center">
           <div class="text-xl font-bold text-white">${formatDistance(trip.totalDistance)}</div>
-          <div class="text-xs text-gray-500">Distance totale</div>
+          <div class="text-xs text-slate-500">Distance totale</div>
         </div>
         <div class="text-center">
           <div class="text-xl font-bold text-white">${trip.steps.length}</div>
-          <div class="text-xs text-gray-500">Étapes</div>
+          <div class="text-xs text-slate-500">Étapes</div>
         </div>
         <div class="text-center">
           <div class="text-xl font-bold text-white">${trip.estimatedDays}j</div>
-          <div class="text-xs text-gray-500">Durée estimée</div>
+          <div class="text-xs text-slate-500">Durée estimée</div>
         </div>
       </div>
 
       <!-- Steps List -->
       <div class="p-4">
-        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">Étapes</h2>
+        <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">Étapes</h2>
         <div class="space-y-2">
           ${trip.steps.map((step, i) => `
             <div class="flex items-center gap-3 p-3 bg-dark-secondary rounded-xl">
               <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
-                          ${i === 0 ? 'bg-green-500' : i === trip.steps.length - 1 ? 'bg-red-500' : 'bg-gray-600'}">
+                          ${i === 0 ? 'bg-green-500' : i === trip.steps.length - 1 ? 'bg-red-500' : 'bg-dark-secondary'}">
                 ${i === 0 ? '🚀' : i === trip.steps.length - 1 ? '🏁' : i}
               </div>
               <div class="flex-1">
                 <div class="text-white font-medium">${step.name}</div>
-                <div class="text-gray-500 text-xs">${step.fullName || ''}</div>
+                <div class="text-slate-500 text-xs">${step.fullName || ''}</div>
               </div>
             </div>
           `).join('')}
@@ -316,22 +316,22 @@ export function renderSavedTripDetail(tripId) {
       <!-- Recommended Spots -->
       ${trip.spotsByLeg ? `
         <div class="p-4 border-t border-white/10">
-          <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">
+          <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
             Spots recommandés
           </h2>
           <div class="space-y-4">
             ${trip.spotsByLeg.map(leg => `
               <div>
-                <div class="text-sm text-gray-400 mb-2">${leg.from} → ${leg.to}</div>
+                <div class="text-sm text-slate-400 mb-2">${leg.from} → ${leg.to}</div>
                 <div class="grid grid-cols-1 gap-2">
                   ${leg.spots.slice(0, 3).map(spot => `
                     <div class="flex items-center gap-3 p-2 bg-dark-secondary rounded-lg cursor-pointer
-                                hover:bg-gray-750"
+                                hover:bg-white/10"
                          onclick="selectSpot(${spot.id})">
                       <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
                       <div class="flex-1">
                         <div class="text-white text-sm">${spot.from}</div>
-                        <div class="text-gray-500 text-xs">⭐${spot.globalRating?.toFixed(1)} • ${spot.avgWaitTime}min</div>
+                        <div class="text-slate-500 text-xs">⭐${spot.globalRating?.toFixed(1)} • ${spot.avgWaitTime}min</div>
                       </div>
                     </div>
                   `).join('')}

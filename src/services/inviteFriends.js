@@ -430,7 +430,7 @@ export function renderInviteCard() {
             <span>${t('nextMilestone')}: ${stats.nextMilestone} ${t('invites')}</span>
             <span>+${stats.milestoneReward} pts</span>
           </div>
-          <div class="bg-dark-600 rounded-full h-2 overflow-hidden">
+          <div class="bg-white/5 rounded-full h-2 overflow-hidden">
             <div class="bg-primary h-full transition-all" style="width: ${((stats.totalInvites / stats.nextMilestone) * 100).toFixed(0)}%"></div>
           </div>
           <p class="text-xs text-slate-400 mt-1">${stats.invitesUntilMilestone} ${t('invitesUntilBonus')}</p>
@@ -457,7 +457,7 @@ export function renderInviteCard() {
           <i class="fab fa-telegram"></i>
         </button>
         <button onclick="window.shareInvite('sms')"
-          class="flex-1 min-w-[70px] bg-gray-600 hover:bg-white/10 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 min-w-[70px] bg-dark-secondary hover:bg-white/10 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} SMS">
           <i class="fas fa-sms"></i>
         </button>
@@ -519,7 +519,7 @@ export function renderInviteModal() {
               <div class="flex gap-2 mt-1">
                 ${rewards.milestones.map(m => `
                   <span class="text-xs px-2 py-1 rounded-full ${
-                    stats.totalInvites >= m.count ? 'bg-green-500/20 text-green-400' : 'bg-dark-600 text-slate-400'
+                    stats.totalInvites >= m.count ? 'bg-green-500/20 text-green-400' : 'bg-white/5 text-slate-400'
                   }">
                     ${m.count} = +${m.reward}
                   </span>
@@ -532,7 +532,7 @@ export function renderInviteModal() {
           <div class="bg-dark-700 rounded-xl p-4">
             <p class="text-sm text-slate-400 mb-2">${t('yourInviteCode')}</p>
             <div class="flex items-center gap-3">
-              <div class="flex-1 bg-dark-600 rounded-lg px-4 py-3 font-mono text-xl text-center text-white tracking-widest">
+              <div class="flex-1 bg-white/5 rounded-lg px-4 py-3 font-mono text-xl text-center text-white tracking-widest">
                 ${stats.inviteCode}
               </div>
               <button onclick="window.copyInviteCode()"
@@ -550,10 +550,10 @@ export function renderInviteModal() {
               <input type="text"
                 value="${stats.inviteLink}"
                 readonly
-                class="flex-1 bg-dark-600 rounded-lg px-3 py-2 text-sm text-slate-300 truncate"
+                class="flex-1 bg-white/5 rounded-lg px-3 py-2 text-sm text-slate-300 truncate"
                 aria-label="${t('inviteLink')}" />
               <button onclick="window.copyInviteLink()"
-                class="bg-dark-600 hover:bg-dark-500 text-white p-2 rounded-lg"
+                class="bg-white/5 hover:bg-dark-500 text-white p-2 rounded-lg"
                 aria-label="${t('copyLink')}">
                 <i class="fas fa-link"></i>
               </button>
@@ -577,7 +577,7 @@ export function renderInviteModal() {
                 <span class="text-xs">Telegram</span>
               </button>
               <button onclick="window.shareInvite('sms')"
-                class="flex flex-col items-center gap-1 p-3 bg-gray-600/20 hover:bg-gray-600/30 rounded-xl text-slate-300"
+                class="flex flex-col items-center gap-1 p-3 bg-dark-secondary/20 hover:bg-dark-secondary/30 rounded-xl text-slate-300"
                 aria-label="SMS">
                 <i class="fas fa-sms text-2xl"></i>
                 <span class="text-xs">SMS</span>
@@ -635,7 +635,7 @@ export function renderInviteModal() {
             </div>
           ` : `
             <div class="text-center py-4">
-              <i class="fas fa-users text-4xl text-gray-600 mb-2"></i>
+              <i class="fas fa-users text-4xl text-slate-600 mb-2"></i>
               <p class="text-slate-400">${t('noInvitedFriendsYet')}</p>
               <p class="text-sm text-slate-500">${t('startInviting')}</p>
             </div>

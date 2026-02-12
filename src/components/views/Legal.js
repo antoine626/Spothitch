@@ -41,19 +41,19 @@ export function renderLegalPage(page = 'cgu') {
       <!-- Tabs -->
       <div class="flex border-b border-white/10 overflow-x-auto">
         <button onclick="showLegalPage('cgu')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-slate-500'}">
           ${t('legalTabTerms') || 'CGU'}
         </button>
         <button onclick="showLegalPage('privacy')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'privacy' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'privacy' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-slate-500'}">
           ${t('legalTabPrivacy') || 'Confidentialité'}
         </button>
         <button onclick="showLegalPage('cookies')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cookies' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cookies' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-slate-500'}">
           ${t('legalTabCookies') || 'Cookies'}
         </button>
         <button onclick="showLegalPage('legal')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-slate-500'}">
           ${t('legalTabNotice') || 'Mentions'}
         </button>
       </div>
@@ -73,7 +73,7 @@ export function renderCGU() {
   return `
     <div class="legal-content">
       <h2>Conditions Générales d'Utilisation</h2>
-      <p class="text-gray-400 text-sm">Dernière mise à jour : Décembre 2024</p>
+      <p class="text-slate-400 text-sm">Dernière mise à jour : Décembre 2024</p>
 
       <h3>1. Objet</h3>
       <p>
@@ -154,7 +154,7 @@ export function renderPrivacyPolicy() {
   return `
     <div class="legal-content">
       <h2>Politique de Confidentialité</h2>
-      <p class="text-gray-400 text-sm">Dernière mise à jour : Décembre 2024</p>
+      <p class="text-slate-400 text-sm">Dernière mise à jour : Décembre 2024</p>
 
       <h3>1. Collecte des données</h3>
       <p>Nous collectons les données suivantes :</p>
@@ -234,7 +234,7 @@ export function renderCookiePolicy() {
   return `
     <div class="legal-content">
       <h2>Politique des Cookies</h2>
-      <p class="text-gray-400 text-sm">Dernière mise à jour : Février 2026</p>
+      <p class="text-slate-400 text-sm">Dernière mise à jour : Février 2026</p>
 
       <h3>1. Qu'est-ce qu'un cookie ?</h3>
       <p>
@@ -421,7 +421,7 @@ export function renderCookiePolicy() {
 
       <!-- Bouton pour modifier les préférences -->
       <div class="mt-6 p-4 bg-dark-secondary rounded-lg text-center">
-        <p class="text-sm text-gray-400 mb-3">${t('manageCookiePrefs') || 'Gérer vos préférences de cookies'}</p>
+        <p class="text-sm text-slate-400 mb-3">${t('manageCookiePrefs') || 'Gérer vos préférences de cookies'}</p>
         <button onclick="showCookieCustomize()" class="btn bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg">
           <i class="fas fa-cog mr-2"></i>
           ${t('modifyMyChoices') || 'Modifier mes choix'}
@@ -438,7 +438,7 @@ export function renderLegalNotice() {
   return `
     <div class="legal-content">
       <h2>Mentions Légales</h2>
-      <p class="text-gray-400 text-sm">Dernière mise à jour : Décembre 2024</p>
+      <p class="text-slate-400 text-sm">Dernière mise à jour : Décembre 2024</p>
 
       <h3>Éditeur</h3>
       <p>

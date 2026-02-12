@@ -329,7 +329,7 @@ export function renderRatingStars(rating, interactive = false, size = 'md') {
         ${[1, 2, 3, 4, 5].map(i => `
           <button onclick="setRating(${i})"
                   class="star-btn hover:scale-110 transition-transform
-                         ${i <= rating ? 'text-amber-400' : 'text-gray-600'}"
+                         ${i <= rating ? 'text-amber-400' : 'text-slate-600'}"
                   type="button"
                   aria-label="${i} etoile${i > 1 ? 's' : ''}"
                   aria-pressed="${i <= rating ? 'true' : 'false'}">

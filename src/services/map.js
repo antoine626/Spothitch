@@ -376,8 +376,8 @@ function createSpotPopup(spot) {
   return `
     <div class="spot-popup p-2 min-w-[200px]">
       ${spot.photoUrl ? `<img src="${spot.photoUrl}" alt="${spot.from}" class="w-full h-24 object-cover rounded-lg mb-2" />` : ''}
-      <h3 class="font-bold text-gray-900">${spot.from} → ${spot.to}</h3>
-      <div class="flex items-center gap-2 mt-1 text-sm text-gray-600">
+      <h3 class="font-bold text-white">${spot.from} → ${spot.to}</h3>
+      <div class="flex items-center gap-2 mt-1 text-sm text-slate-600">
         <span>⭐ ${spot.globalRating?.toFixed(1) || 'N/A'}</span>
         <span>⏱️ ${spot.avgWaitTime || '?'} min</span>
       </div>

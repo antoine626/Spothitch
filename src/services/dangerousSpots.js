@@ -884,7 +884,7 @@ export function renderDangerReportModal(spotId) {
         </div>
 
         <!-- Actions -->
-        <div class="p-4 border-t border-gray-800 flex gap-3">
+        <div class="p-4 border-t border-white/10 flex gap-3">
           <button
             onclick="closeDangerReportModal()"
             class="btn flex-1 bg-white/10 hover:bg-white/20 text-white"

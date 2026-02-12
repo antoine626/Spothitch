@@ -315,7 +315,7 @@ export function renderReportModal(state) {
         </div>
 
         <!-- Submit button -->
-        <div class="p-4 border-t border-gray-800">
+        <div class="p-4 border-t border-white/10">
           <button
             onclick="submitCurrentReport()"
             class="btn btn-danger w-full"

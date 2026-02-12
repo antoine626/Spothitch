@@ -45,7 +45,7 @@ export function renderGuides(state) {
           value="${searchGuideQuery}"
           oninput="setState({searchGuideQuery: this.value})"
           class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white
-                 placeholder-gray-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                 placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
         />
       </div>
 
@@ -116,7 +116,7 @@ function renderGuideCard(guide, lang = 'fr') {
 
   return `
     <div class="guide-card flex items-center gap-3 p-3 bg-white/5 rounded-xl cursor-pointer
-                hover:bg-gray-750 transition-colors"
+                hover:bg-white/10 transition-colors"
          onclick="showCountryDetail('${guide.code}')">
       <div class="text-3xl">${guide.flag}</div>
       <div class="flex-1 min-w-0">
@@ -416,7 +416,7 @@ export function renderSafety() {
               <label class="flex items-center gap-3 p-3 bg-white/5 rounded-xl cursor-pointer" for="checklist-item-${index}">
                 <input type="checkbox"
                        id="checklist-item-${index}"
-                       class="w-5 h-5 rounded bg-white/10 border-gray-600
+                       class="w-5 h-5 rounded bg-white/10 border-white/10
                               text-sky-500 focus:ring-sky-500">
                 <span class="text-slate-300">${item}</span>
               </label>
