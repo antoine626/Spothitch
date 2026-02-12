@@ -89,7 +89,7 @@ export function renderStatsModal() {
               <!-- Avg Wait Time -->
               <div class="bg-white/10 rounded-xl p-4 text-center">
                 <div class="text-3xl mb-1">⚡</div>
-                <div class="text-3xl font-bold text-sky-400">
+                <div class="text-3xl font-bold text-primary-400">
                   ${travelStats.avgWaitTimeMinutes} min
                 </div>
                 <div class="text-sm text-slate-400">${t('avgWait') || 'Attente moyenne'}</div>
@@ -205,7 +205,7 @@ export function renderStatsModal() {
               <!-- Level -->
               <div class="bg-gray-800 rounded-xl p-4">
                 <div class="flex items-center gap-3 mb-3">
-                  <div class="w-12 h-12 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-full
+                  <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full
                               flex items-center justify-center text-white text-xl font-bold">
                     ${summary.level}
                   </div>
@@ -215,7 +215,7 @@ export function renderStatsModal() {
                   </div>
                 </div>
                 <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
-                  <div class="h-full bg-gradient-to-r from-sky-500 to-cyan-500"
+                  <div class="h-full bg-gradient-to-r from-primary-500 to-primary-600"
                        style="width: ${(summary.points % 100)}%"></div>
                 </div>
               </div>

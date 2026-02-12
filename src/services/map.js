@@ -266,7 +266,7 @@ export async function initSavedTripMap(tripId) {
         icon: L.default.divIcon({
           className: 'custom-marker',
           html: `<div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-                            ${isFirst ? 'bg-green-500' : isLast ? 'bg-red-500' : 'bg-sky-500'} text-white">
+                            ${isFirst ? 'bg-green-500' : isLast ? 'bg-red-500' : 'bg-primary-500'} text-white">
                    ${isFirst ? '🚀' : isLast ? '🏁' : index}
                  </div>`,
         }),
@@ -383,7 +383,7 @@ function createSpotPopup(spot) {
       </div>
       <p class="text-xs text-gray-500 mt-1 line-clamp-2">${spot.description || ''}</p>
       <button onclick="selectSpot(${typeof spot.id === 'string' ? `'${spot.id}'` : spot.id})"
-              class="mt-2 w-full px-3 py-1.5 bg-sky-500 text-white rounded-lg text-sm">
+              class="mt-2 w-full px-3 py-1.5 bg-primary-500 text-white rounded-lg text-sm">
         Voir détails
       </button>
     </div>

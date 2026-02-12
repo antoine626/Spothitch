@@ -43,7 +43,7 @@ export function renderSideMenu() {
         <div class="p-6 border-b border-gray-700">
           ${isLoggedIn ? `
             <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-cyan-500
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-primary-600
                           flex items-center justify-center text-2xl" aria-hidden="true">
                 ${state.avatar || '🤙'}
               </div>
@@ -54,7 +54,7 @@ export function renderSideMenu() {
             </div>
           ` : `
             <button onclick="closeSideMenu(); openAuth()"
-                    class="w-full py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-white
+                    class="w-full py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white
                            font-bold rounded-xl"
                     type="button">
               ${t('login') || 'Login'}
@@ -68,7 +68,7 @@ export function renderSideMenu() {
             <button onclick="closeSideMenu(); changeTab('${item.id}')"
                     class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left
                            ${state.activeTab === item.id
-    ? 'bg-sky-500/20 text-sky-400'
+    ? 'bg-primary-500/20 text-primary-400'
     : 'text-gray-300 hover:bg-gray-800'}"
                     type="button"
                     aria-current="${state.activeTab === item.id ? 'page' : 'false'}">
@@ -117,7 +117,7 @@ export function renderFAB() {
   return `
     <button onclick="openAddSpot()"
             class="fab fixed right-4 bottom-20 w-14 h-14 rounded-full
-                   bg-gradient-to-r from-sky-500 to-cyan-500 shadow-lg
+                   bg-gradient-to-r from-primary-500 to-primary-600 shadow-lg
                    flex items-center justify-center text-white text-2xl
                    hover:scale-110 transition-transform z-30"
             aria-label="${t('addSpot')}"
@@ -181,8 +181,8 @@ export function renderEmptyState(type = 'spots') {
       <p class="text-gray-500 mb-6">${state.description}</p>
       ${state.action ? `
         <button onclick="${state.action.onclick}"
-                class="px-6 py-3 bg-sky-500 text-white font-semibold rounded-xl
-                       hover:bg-sky-600 transition-colors">
+                class="px-6 py-3 bg-primary-500 text-white font-semibold rounded-xl
+                       hover:bg-primary-600 transition-colors">
           ${state.action.label}
         </button>
       ` : ''}
@@ -232,7 +232,7 @@ export function renderSpinner(size = 'md', text = '') {
 
   return `
     <div class="spinner flex flex-col items-center justify-center gap-3">
-      <div class="${sizes[size]} border-2 border-gray-700 border-t-sky-500 rounded-full animate-spin"></div>
+      <div class="${sizes[size]} border-2 border-gray-700 border-t-primary-500 rounded-full animate-spin"></div>
       ${text ? `<div class="text-gray-500 text-sm">${text}</div>` : ''}
     </div>
   `;
@@ -246,7 +246,7 @@ export function renderToast(message, type = 'info', duration = 3000) {
     success: 'bg-green-500',
     error: 'bg-red-500',
     warning: 'bg-amber-500',
-    info: 'bg-sky-500',
+    info: 'bg-primary-500',
   };
 
   const icons = {
@@ -353,7 +353,7 @@ export function renderRatingStars(rating, interactive = false, size = 'md') {
 export function renderBadge(text, type = 'default') {
   const typeStyles = {
     default: 'bg-gray-700 text-gray-300',
-    primary: 'bg-sky-500/20 text-sky-400',
+    primary: 'bg-primary-500/20 text-primary-400',
     success: 'bg-green-500/20 text-green-400',
     warning: 'bg-amber-500/20 text-amber-400',
     danger: 'bg-red-500/20 text-red-400',
@@ -369,9 +369,9 @@ export function renderBadge(text, type = 'default') {
 /**
  * Render progress bar
  */
-export function renderProgressBar(progress, color = 'sky') {
+export function renderProgressBar(progress, color = 'primary') {
   const colors = {
-    sky: 'from-sky-500 to-cyan-500',
+    primary: 'from-primary-500 to-primary-600',
     purple: 'from-purple-500 to-pink-500',
     amber: 'from-amber-500 to-orange-500',
     green: 'from-green-500 to-emerald-500',

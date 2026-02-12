@@ -60,7 +60,7 @@ export function renderChallengesModal() {
         <!-- Tabs -->
         <div class="flex border-b border-gray-700">
           <button onclick="setChallengeTab('daily')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'daily' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-gray-500 hover:text-gray-300'}">
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'daily' ? 'text-primary-400 border-b-2 border-primary-400' : 'text-gray-500 hover:text-gray-300'}">
             Quotidien
           </button>
           <button onclick="setChallengeTab('weekly')"
@@ -136,7 +136,7 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
   const isCompleted = challenge.completed;
 
   const typeColors = {
-    daily: 'from-sky-500 to-cyan-500',
+    daily: 'from-primary-500 to-primary-600',
     weekly: 'from-purple-500 to-pink-500',
     longterm: 'from-amber-500 to-orange-500',
   };

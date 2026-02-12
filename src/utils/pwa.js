@@ -151,7 +151,7 @@ export function renderInstallBanner() {
   if (!showInstallBanner) return '';
 
   return `
-    <div class="install-banner fixed bottom-20 left-4 right-4 bg-gradient-to-r from-sky-500 to-cyan-500
+    <div class="install-banner fixed bottom-20 left-4 right-4 bg-gradient-to-r from-primary-500 to-primary-600
                 rounded-2xl p-4 shadow-xl z-40 animate-slide-up">
       <div class="flex items-center gap-4">
         <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
@@ -170,8 +170,8 @@ export function renderInstallBanner() {
           </button>
           <button
             onclick="installPWA()"
-            class="px-4 py-2 bg-white text-sky-600 rounded-lg text-sm font-semibold
-                   hover:bg-sky-50 transition-colors"
+            class="px-4 py-2 bg-white text-primary-600 rounded-lg text-sm font-semibold
+                   hover:bg-primary-50 transition-colors"
           >
             ${t('install') || 'Installer'}
           </button>

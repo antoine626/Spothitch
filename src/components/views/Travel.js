@@ -325,7 +325,7 @@ function renderAmenityItem(poi) {
     ? (t('travel_fuel_station') || 'Station-service')
     : (t('travel_rest_area') || 'Aire de repos')
   const name = poi.name || typeLabel
-  const colorClass = poi.type === 'fuel' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-sky-500/20 text-sky-400'
+  const colorClass = poi.type === 'fuel' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'
 
   return `
     <div class="card p-3 flex items-center gap-3">

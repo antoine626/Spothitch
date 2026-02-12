@@ -109,20 +109,20 @@
 @layer components {
   /* Glass Effect */
   .glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/10;
   }
 
   .glass-dark {
-    @apply bg-slate-900/70 backdrop-blur-xl border-b border-white/10;
+    @apply bg-dark-primary/60 backdrop-blur-xl border-b border-white/5;
   }
 
   .light-theme .glass-dark {
-    @apply bg-white/95 border-slate-200;
+    @apply bg-white/90 backdrop-blur-xl border-slate-200;
   }
 
   /* Cards */
   .card {
-    @apply bg-dark-card border border-dark-border rounded-2xl transition-all duration-300;
+    @apply bg-dark-card/80 backdrop-blur-lg border border-dark-border rounded-2xl transition-all duration-300;
   }
 
   .card:hover {
@@ -130,7 +130,16 @@
   }
 
   .light-theme .card {
-    @apply bg-white border-light-border shadow-xs;
+    @apply bg-white/90 backdrop-blur-lg border-light-border shadow-xs;
+  }
+
+  /* Modal panel (glass morphism) */
+  .modal-panel {
+    @apply bg-dark-primary/80 backdrop-blur-2xl border border-white/10 rounded-t-3xl shadow-2xl shadow-black/40;
+  }
+
+  .light-theme .modal-panel {
+    @apply bg-white/95 backdrop-blur-2xl border-slate-200 shadow-2xl shadow-slate-400/20;
   }
 
   /* Buttons */

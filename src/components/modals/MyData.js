@@ -190,7 +190,7 @@ export function renderMyDataModal() {
                 <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis donnés'}</div>
               </div>
               <div class="p-3 rounded-lg bg-white/5 text-center">
-                <div class="text-2xl font-bold text-sky-400">${activityData.friendsCount}</div>
+                <div class="text-2xl font-bold text-primary-400">${activityData.friendsCount}</div>
                 <div class="text-xs text-slate-400">${t('friends') || 'Amis'}</div>
               </div>
             </div>
