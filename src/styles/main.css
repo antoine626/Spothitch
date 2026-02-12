@@ -1374,16 +1374,16 @@ textarea.input-field {
 }
 
 /* Light theme - Modals */
-.light-theme .bg-gray-900,
+.light-theme .bg-dark-secondary,
 .light-theme .bg-dark-primary {
   @apply bg-white;
 }
 
-.light-theme .bg-gray-800 {
+.light-theme .bg-white\/5 {
   @apply bg-slate-50;
 }
 
-.light-theme .border-gray-700 {
+.light-theme .border-white\/10 {
   @apply border-slate-200;
 }
 
@@ -1967,7 +1967,7 @@ textarea.input-field {
 }
 
 .photo-gallery-empty {
-  @apply bg-gray-800 rounded-xl p-8 text-center;
+  @apply bg-white/5 rounded-xl p-8 text-center;
   display: flex;
   flex-direction: column;
   align-items: center;
