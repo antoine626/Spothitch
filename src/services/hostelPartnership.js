@@ -1020,8 +1020,8 @@ export function renderHostelCard(hostel) {
   const ratingInfo = getHostelRating(hostel.id)
 
   const amenityIcons = hostel.amenities.slice(0, 4).map((a) => {
-    const icon = getAmenityIcon(a)
-    return `<i class="fas ${icon}" title="${t(a)}"></i>`
+    const amenityName = getAmenityIcon(a)
+    return icon(amenityName, 'w-4 h-4')
   }).join(' ')
 
   return `
@@ -1388,20 +1388,20 @@ function toRad(deg) {
  */
 function getAmenityIcon(amenity) {
   const icons = {
-    wifi: 'fa-wifi',
-    kitchen: 'fa-utensils',
-    lounge: 'fa-couch',
-    lockers: 'fa-lock',
-    laundry: 'fa-tshirt',
-    bar: 'fa-glass-martini-alt',
-    terrace: 'fa-sun',
-    bikes: 'fa-bicycle',
-    breakfast: 'fa-coffee',
-    events: 'fa-calendar-alt',
-    tours: 'fa-map',
-    surfboards: 'fa-water',
+    wifi: 'wifi',
+    kitchen: 'utensils',
+    lounge: 'couch',
+    lockers: 'lock',
+    laundry: 'tshirt',
+    bar: 'glass-martini-alt',
+    terrace: 'sun',
+    bikes: 'bicycle',
+    breakfast: 'coffee',
+    events: 'calendar-alt',
+    tours: 'map',
+    surfboards: 'water',
   }
-  return icons[amenity] || 'fa-check'
+  return icons[amenity] || 'check'
 }
 
 /**

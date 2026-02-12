@@ -286,9 +286,9 @@ export function renderFreshnessBadge(date, size = 'md') {
   };
 
   const iconSizes = {
-    sm: 'text-[8px]',
-    md: 'text-[10px]',
-    lg: 'text-xs'
+    sm: 'w-2 h-2',
+    md: 'w-2.5 h-2.5',
+    lg: 'w-3 h-3'
   };
 
   return `
@@ -297,7 +297,7 @@ export function renderFreshnessBadge(date, size = 'md') {
       title="${badge.description}"
       aria-label="Statut: ${badge.label} - ${badge.description}"
     >
-      <i class="fas fa-${badge.icon} ${badge.iconColor} ${iconSizes[size]}" aria-hidden="true"></i>
+      ${icon(badge.icon, `${badge.iconColor} ${iconSizes[size]}`)}
       <span class="${badge.textColor} font-medium">${badge.label}</span>
     </span>
   `;

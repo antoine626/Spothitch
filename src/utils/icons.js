@@ -422,13 +422,19 @@ function buildSvg(iconNode, cls, size) {
 
 // ── Main helper ──────────────────────────────────────────────────────
 export function icon(name, cls = '', size = 20) {
-  const key = name.replace(/^fa-/, '')
+  // Handle combined names like 'fa-arrow-up rotate-45' or 'fa-code-fork fa-flip-horizontal'
+  const parts = name.replace(/^fa-/, '').split(' ')
+  const key = parts[0]
+  // Extra classes from the name string (e.g. rotate-45, fa-flip-horizontal → flip-horizontal)
+  const extraCls = parts.slice(1).map(p => p.replace(/^fa-/, '')).join(' ')
+  const finalCls = [cls, extraCls].filter(Boolean).join(' ')
+
   const iconNode = FA_MAP[key]
   if (!iconNode) {
-    if (BRANDS[key]) return brandIcon(key, cls, size)
+    if (BRANDS[key]) return brandIcon(key, finalCls, size)
     return ''
   }
-  return buildSvg(iconNode, cls, size)
+  return buildSvg(iconNode, finalCls, size)
 }
 
 // ── Brand icon helper ────────────────────────────────────────────────

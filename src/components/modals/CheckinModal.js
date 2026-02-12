@@ -125,7 +125,7 @@ export function renderCheckinModal(state) {
                     onchange="toggleCheckinChar('${char.id}')"
                     ${state.checkinChars?.[char.id] ? 'checked' : ''}
                   />
-                  <i class="fas fa-${char.icon} text-${char.color}-400"></i>
+                  ${icon(char.icon, `w-5 h-5 text-${char.color}-400`)}
                   <span>${char.label}</span>
                 </label>
               `).join('')}

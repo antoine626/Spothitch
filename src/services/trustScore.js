@@ -245,7 +245,7 @@ export function renderMiniTrustBadge(score) {
 
   return `
     <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full ${tier.bg} ${tier.color} flex items-center justify-center text-xs border-2 border-dark-primary" title="${tier.label} (${score})">
-      <i class="fas ${tier.icon}" style="font-size: 8px;"></i>
+      ${icon(tier.icon, 'w-2 h-2')}
     </div>
   `;
 }

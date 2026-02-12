@@ -206,7 +206,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
 /**
  * Render a verification step item
  */
-function renderVerificationStep(level, isComplete, title, description, icon, color, lang) {
+function renderVerificationStep(level, isComplete, title, description, iconName, color, lang) {
   const levelInfo = verificationLevels[level];
   const currentLevel = getVerificationProgress().currentLevel;
   const isActive = currentLevel === level - 1;
@@ -222,8 +222,8 @@ function renderVerificationStep(level, isComplete, title, description, icon, col
         style="background: ${isComplete ? color : 'rgba(255,255,255,0.1)'}20;"
       >
         ${isComplete
-          ? `<i class="fas fa-check text-xl" style="color: ${color};"></i>`
-          : `<i class="fas fa-${icon} text-xl ${isPending ? 'text-slate-500' : 'text-white'}"></i>`
+          ? `<span style="color: ${color};">${icon('check', 'w-6 h-6')}</span>`
+          : icon(iconName, `w-6 h-6 ${isPending ? 'text-slate-500' : 'text-white'}`)
         }
       </div>
       <div class="grow">
@@ -582,7 +582,7 @@ function renderSelfieIdStep(lang) {
         ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-${current.color}-500/20 flex items-center justify-center">
-        <i class="fas fa-${current.icon} text-2xl text-${current.color}-400" aria-hidden="true"></i>
+        ${icon(current.icon, `w-7 h-7 text-${current.color}-400`)}
       </div>
       <h3 class="text-xl font-bold text-white">${lang === 'en' ? current.titleEn : current.title}</h3>
       <p class="text-slate-400 text-sm mt-2">${lang === 'en' ? current.descEn : current.desc}</p>
@@ -629,7 +629,7 @@ function renderSelfieIdStep(lang) {
             class="block w-full h-64 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-primary-500/50 transition-colors flex flex-col items-center justify-center gap-4"
           >
             <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
-              <i class="fas fa-${current.icon} text-2xl text-slate-400"></i>
+              ${icon(current.icon, 'w-7 h-7 text-slate-400')}
             </div>
             <div class="text-center px-4">
               <p class="text-white font-medium">${lang === 'en' ? 'Take or upload photo' : 'Prendre ou telecharger une photo'}</p>
@@ -738,7 +738,7 @@ export function renderVerificationBadgeUI(level = null, size = 'md') {
       title="${levelInfo.name}"
       aria-label="${levelInfo.name}"
     >
-      <i class="fas fa-shield-alt" style="color: ${levelInfo.color};"></i>
+      <span style="color: ${levelInfo.color};">${icon('shield-alt', 'w-4 h-4')}</span>
     </span>
   `;
 }

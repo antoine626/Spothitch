@@ -220,7 +220,7 @@ export function renderTutorial(state) {
               </button>
             ` : ''}
             <button onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}" class="flex-1 py-2 px-4 rounded-lg ${isLast ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-primary-500 hover:bg-primary-600'} text-white font-medium transition-colors">
-              ${isLast ? t('letsStart') || 'Commencer !' : t('next') || 'Suivant'} <i class="fas fa-${isLast ? 'rocket' : 'arrow-right'} ml-2" aria-hidden="true"></i>
+              ${isLast ? t('letsStart') || 'Commencer !' : t('next') || 'Suivant'} ${icon(isLast ? 'rocket' : 'arrow-right', 'w-5 h-5 ml-2 inline-block')}
             </button>
           </div>
         `}

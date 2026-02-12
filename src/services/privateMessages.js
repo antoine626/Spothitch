@@ -11,6 +11,7 @@ import { Storage } from '../utils/storage.js'
 import { showToast } from './notifications.js'
 import { t } from '../i18n/index.js'
 import { isUserBlocked, canInteractWith } from './userBlocking.js'
+import { icon } from '../utils/icons.js'
 
 // Storage keys
 const CONVERSATIONS_KEY = 'spothitch_conversations'
@@ -843,7 +844,7 @@ export function renderConversationItem(conversation) {
       : ''
 
   const mutedIcon = conversation.isMuted
-    ? `<i class="fas fa-bell-slash text-slate-500 ml-2" aria-label="${t('muted') || 'Sourdine'}"></i>`
+    ? `<span class="text-slate-500 ml-2" aria-label="${t('muted') || 'Sourdine'}">${icon('bell-slash', 'w-4 h-4')}</span>`
     : ''
 
   const lastMessage = conversation.lastMessage

@@ -4,6 +4,7 @@
  */
 
 import { getState } from '../stores/state.js'
+import { icon } from '../utils/icons.js'
 
 /**
  * Get spot freshness/reliability status
@@ -118,14 +119,14 @@ export function renderFreshnessBadge(spot, size = 'md') {
   }
 
   const iconSizes = {
-    sm: 'text-[10px]',
-    md: 'text-xs',
-    lg: 'text-sm'
+    sm: 'w-2.5 h-2.5',
+    md: 'w-3 h-3',
+    lg: 'w-4 h-4'
   }
 
   return `
     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${sizes[size]} font-medium ${freshness.bgClass} ${freshness.textClass} border ${freshness.borderClass}">
-      <i class="fas fa-${freshness.icon} ${iconSizes[size]}" aria-hidden="true"></i>
+      ${icon(freshness.icon, `${iconSizes[size]}`)}
       <span>${label}</span>
     </span>
   `
