@@ -75,6 +75,13 @@ export const countryGuides = [
     borderCrossingsEn: [
       'To Spain: La Jonquera (Mediterranean) and Oyarzun/Irun (Atlantic) are excellent truck stops',
     ],
+    events: [
+      { name: 'Fete de la Musique', nameEn: 'Music Festival', date: '21 juin', dateEn: 'June 21', description: 'Concerts gratuits partout en France, beaucoup de monde sur les routes', descriptionEn: 'Free concerts across France, lots of road traffic', type: 'festival' },
+      { name: 'Fete nationale', nameEn: 'Bastille Day', date: '14 juillet', dateEn: 'July 14', description: 'Feux d\'artifice partout, trafic tres charge la veille et le jour meme', descriptionEn: 'Fireworks everywhere, heavy traffic the day before and on the day', type: 'holiday' },
+      { name: 'Tour de France', nameEn: 'Tour de France', date: 'Juillet', dateEn: 'July', description: 'Routes fermees sur le parcours, mais ambiance incroyable pour rencontrer des gens', descriptionEn: 'Road closures on the route, but amazing atmosphere to meet people', type: 'festival' },
+      { name: 'Assomption', nameEn: 'Assumption Day', date: '15 aout', dateEn: 'August 15', description: 'Jour ferie, chassez-croise des vacances = trafic maximal sur autoroutes', descriptionEn: 'Public holiday, vacation crossover = maximum traffic on motorways', type: 'holiday' },
+      { name: 'Toussaint', nameEn: 'All Saints Day', date: '1er novembre', dateEn: 'November 1', description: 'Vacances scolaires, beaucoup de families sur les routes', descriptionEn: 'School holidays, many families on the roads', type: 'holiday' },
+    ],
   },
   {
     code: 'DE',
@@ -145,6 +152,12 @@ export const countryGuides = [
     borderCrossingsEn: [
       'From Passau east (toward Linz/Vienna) or from Salzburg south (toward Italy)',
       'German police often check near Czech border',
+    ],
+    events: [
+      { name: 'Karneval', nameEn: 'Carnival', date: 'Fevrier', dateEn: 'February', description: 'Cologne, Dusseldorf, Mainz : fete geante, transports bondes mais ambiance folle', descriptionEn: 'Cologne, Dusseldorf, Mainz: huge party, packed transport but crazy atmosphere', type: 'festival' },
+      { name: 'Oktoberfest', nameEn: 'Oktoberfest', date: 'Sept-Oct', dateEn: 'Sept-Oct', description: 'Munich : 6 millions de visiteurs, ideal pour rencontrer des gens mais logement rare', descriptionEn: 'Munich: 6 million visitors, great for meeting people but accommodation scarce', type: 'festival' },
+      { name: 'Tag der Deutschen Einheit', nameEn: 'German Unity Day', date: '3 octobre', dateEn: 'October 3', description: 'Fete nationale, celebrations dans la ville hote tournante', descriptionEn: 'National holiday, celebrations in the rotating host city', type: 'holiday' },
+      { name: 'Weihnachtsmarkte', nameEn: 'Christmas Markets', date: 'Nov-Dec', dateEn: 'Nov-Dec', description: 'Marchés de Noel partout, bonne periode pour voyager entre villes', descriptionEn: 'Christmas markets everywhere, good time to travel between cities', type: 'festival' },
     ],
   },
   {
@@ -217,6 +230,12 @@ export const countryGuides = [
       'From France: La Jonquera (Mediterranean side) and Irun (Atlantic side)',
       'To Portugal: many open border crossings along the full border',
     ],
+    events: [
+      { name: 'San Fermin', nameEn: 'Running of the Bulls', date: '6-14 juillet', dateEn: 'July 6-14', description: 'Pampelune : trafic intense vers le nord, beaucoup de routards', descriptionEn: 'Pamplona: heavy traffic northbound, lots of backpackers', type: 'festival' },
+      { name: 'La Tomatina', nameEn: 'La Tomatina', date: 'Dernier mercredi d\'aout', dateEn: 'Last Wednesday of August', description: 'Bunol (Valencia) : bataille de tomates, facile de trouver des lifts festifs', descriptionEn: 'Bunol (Valencia): tomato fight, easy to find festive rides', type: 'festival' },
+      { name: 'Semana Santa', nameEn: 'Holy Week', date: 'Mars-Avril', dateEn: 'March-April', description: 'Processions dans toute l\'Espagne, trafic dense vers le sud (Seville, Malaga)', descriptionEn: 'Processions across Spain, heavy traffic southbound (Seville, Malaga)', type: 'holiday' },
+      { name: 'Dia de la Hispanidad', nameEn: 'Hispanic Day', date: '12 octobre', dateEn: 'October 12', description: 'Fete nationale, beaucoup de deplacements interregionaux', descriptionEn: 'National holiday, lots of inter-regional travel', type: 'holiday' },
+    ],
   },
   {
     code: 'IT',
@@ -286,6 +305,11 @@ export const countryGuides = [
       'To Austria: A22 via Brennero or A23',
       'Caution with trucks at border: police may ask you to get out',
     ],
+    events: [
+      { name: 'Carnevale di Venezia', nameEn: 'Venice Carnival', date: 'Fevrier', dateEn: 'February', description: 'Venise : masques et costumes, trafic intense vers le nord-est', descriptionEn: 'Venice: masks and costumes, heavy traffic toward northeast', type: 'festival' },
+      { name: 'Ferragosto', nameEn: 'Ferragosto', date: '15 aout', dateEn: 'August 15', description: 'Tout le pays en vacances, autoroutes bondees vers les cotes', descriptionEn: 'Whole country on holiday, motorways packed toward coasts', type: 'holiday' },
+      { name: 'Palio di Siena', nameEn: 'Palio di Siena', date: '2 juillet & 16 aout', dateEn: 'July 2 & August 16', description: 'Course de chevaux historique a Sienne, ambiance medievale', descriptionEn: 'Historic horse race in Siena, medieval atmosphere', type: 'festival' },
+    ],
   },
   {
     code: 'NL',
@@ -337,6 +361,11 @@ export const countryGuides = [
     culturalNotesEn: 'The Netherlands is one of the best countries in Europe for hitchhiking. Everyone speaks English. Distances are short and the country is very safe.',
     emergencyNumbers: { police: '112', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Amsterdam A2 Utrecht'],
+    events: [
+      { name: 'Koningsdag', nameEn: 'King\'s Day', date: '27 avril', dateEn: 'April 27', description: 'Tout le pays en orange, fete geante a Amsterdam, transports bondes', descriptionEn: 'Whole country in orange, huge party in Amsterdam, packed transport', type: 'holiday' },
+      { name: 'Amsterdam Pride', nameEn: 'Amsterdam Pride', date: 'Aout', dateEn: 'August', description: 'Canal Parade legendaire, beaucoup de visiteurs internationaux', descriptionEn: 'Legendary Canal Parade, many international visitors', type: 'festival' },
+      { name: 'Bevrijdingsdag', nameEn: 'Liberation Day', date: '5 mai', dateEn: 'May 5', description: 'Fete de la liberation, festivals gratuits dans toutes les villes', descriptionEn: 'Liberation Day, free festivals in every city', type: 'holiday' },
+    ],
   },
   {
     code: 'BE',
@@ -377,6 +406,10 @@ export const countryGuides = [
     culturalNotesEn: 'Belgium is easy thanks to its dense road network and strong international traffic. The country is small so journeys are quick.',
     emergencyNumbers: { police: '101', ambulance: '112', fire: '112', universal: '112' },
     bestSpots: ['Brussels E19 Nord'],
+    events: [
+      { name: 'Tomorrowland', nameEn: 'Tomorrowland', date: 'Juillet', dateEn: 'July', description: 'Boom : plus grand festival electro du monde, enormement de trafic international', descriptionEn: 'Boom: world\'s biggest electronic music festival, massive international traffic', type: 'festival' },
+      { name: 'Fete nationale belge', nameEn: 'Belgian National Day', date: '21 juillet', dateEn: 'July 21', description: 'Bruxelles : defile militaire et feux d\'artifice', descriptionEn: 'Brussels: military parade and fireworks', type: 'holiday' },
+    ],
   },
   {
     code: 'PL',
@@ -418,6 +451,10 @@ export const countryGuides = [
     culturalNotesEn: 'Poland has a hitchhiking tradition organized by the National Tourist Board from 1958 to 1990s. This cultural legacy persists and drivers are generous toward hitchhikers.',
     emergencyNumbers: { police: '997', ambulance: '999', fire: '998', universal: '112' },
     bestSpots: ['Warsaw Orlen Sud'],
+    events: [
+      { name: 'Wielka Orkiestra Swiatecznej Pomocy', nameEn: 'Great Orchestra of Christmas Charity', date: 'Janvier', dateEn: 'January', description: 'Plus grande collecte de charite au monde, tout le pays participe', descriptionEn: 'World\'s biggest charity collection, whole country participates', type: 'festival' },
+      { name: 'Pol\'and\'Rock Festival', nameEn: 'Pol\'and\'Rock Festival', date: 'Aout', dateEn: 'August', description: 'Festival gratuit pres de Kostrzyn, ideal pour rencontrer des auto-stoppeurs', descriptionEn: 'Free festival near Kostrzyn, ideal for meeting fellow hitchhikers', type: 'gathering' },
+    ],
   },
   {
     code: 'CZ',

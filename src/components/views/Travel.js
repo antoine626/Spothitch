@@ -502,7 +502,7 @@ function renderGuideDetail(guide) {
             ${guide.difficultyText}
           </span>
           <span class="px-3 py-1 rounded-full text-sm bg-white/10 text-slate-300">
-            ~${guide.avgWaitTime} min d'attente
+            ~${guide.avgWaitTime} ${t('minWait') || "min d'attente"}
           </span>
         </div>
       </div>
@@ -587,6 +587,39 @@ function renderGuideDetail(guide) {
           </div>
         </div>
       </div>
+
+      ${guide.events && guide.events.length > 0 ? `
+        <div class="card p-4">
+          <h3 class="font-bold mb-3 flex items-center gap-2">
+            <i class="fas fa-calendar-alt text-pink-400" aria-hidden="true"></i>
+            ${t('eventsAndFestivals') || 'Evenements & festivals'}
+          </h3>
+          <div class="space-y-3">
+            ${guide.events.map(event => {
+              const lang = window.getState?.()?.lang || 'fr'
+              const isEn = lang === 'en'
+              const eventName = (isEn && event.nameEn) ? event.nameEn : event.name
+              const eventDate = (isEn && event.dateEn) ? event.dateEn : event.date
+              const eventDesc = (isEn && event.descriptionEn) ? event.descriptionEn : event.description
+              const typeIcon = event.type === 'festival' ? 'fa-music' : event.type === 'gathering' ? 'fa-users' : 'fa-flag'
+              const typeColor = event.type === 'festival' ? 'text-pink-400 bg-pink-500/20' : event.type === 'gathering' ? 'text-cyan-400 bg-cyan-500/20' : 'text-amber-400 bg-amber-500/20'
+              return `
+              <div class="flex items-start gap-3 p-3 rounded-xl bg-white/5">
+                <div class="flex-shrink-0 w-9 h-9 rounded-full ${typeColor} flex items-center justify-center">
+                  <i class="fas ${typeIcon} text-sm" aria-hidden="true"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span class="font-medium text-sm">${eventName}</span>
+                    <span class="text-xs text-slate-500">${eventDate}</span>
+                  </div>
+                  <p class="text-xs text-slate-400 mt-0.5">${eventDesc}</p>
+                </div>
+              </div>
+            `}).join('')}
+          </div>
+        </div>
+      ` : ''}
 
       ${renderCommunityTips(guide.code)}
     </div>
