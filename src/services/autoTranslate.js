@@ -457,7 +457,7 @@ export function renderShowOriginalButton(elementId) {
   return `
     <button
       type="button"
-      class="show-original-btn inline-flex items-center gap-1 text-xs text-gray-400 hover:text-gray-300 transition-colors mt-1"
+      class="show-original-btn inline-flex items-center gap-1 text-xs text-slate-400 hover:text-slate-300 transition-colors mt-1"
       onclick="window.showOriginal('${escapeHtml(elementId)}')"
       aria-label="${buttonLabel[userLang] || 'Show original'}"
       data-element-id="${escapeHtml(elementId)}"

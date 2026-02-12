@@ -549,7 +549,7 @@ export function renderDeviceList() {
 
   if (devices.length === 0) {
     return `
-      <div class="text-center text-gray-500 py-8">
+      <div class="text-center text-slate-500 py-8">
         <p>Aucun appareil enregistre</p>
       </div>
     `
@@ -584,10 +584,10 @@ export function renderDeviceList() {
                   ${device.name}
                   ${isCurrent ? '<span class="text-xs text-primary-400 ml-2">(Cet appareil)</span>' : ''}
                 </div>
-                <div class="text-sm text-gray-400">
+                <div class="text-sm text-slate-400">
                   ${device.os} - ${device.screenResolution}
                 </div>
-                <div class="text-xs text-gray-500">
+                <div class="text-xs text-slate-500">
                   Derniere connexion: ${lastSeenDate}
                 </div>
               </div>

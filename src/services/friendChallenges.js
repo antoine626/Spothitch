@@ -436,9 +436,9 @@ export function renderChallengeCard(challenge) {
     [ChallengeStatus.PENDING]: 'bg-yellow-500/20 text-yellow-400',
     [ChallengeStatus.ACTIVE]: 'bg-green-500/20 text-green-400',
     [ChallengeStatus.COMPLETED]: 'bg-blue-500/20 text-blue-400',
-    [ChallengeStatus.EXPIRED]: 'bg-gray-500/20 text-gray-400',
+    [ChallengeStatus.EXPIRED]: 'bg-slate-500/20 text-slate-400',
     [ChallengeStatus.DECLINED]: 'bg-red-500/20 text-red-400',
-    [ChallengeStatus.CANCELLED]: 'bg-gray-500/20 text-gray-400',
+    [ChallengeStatus.CANCELLED]: 'bg-slate-500/20 text-slate-400',
   };
 
   const statusLabels = {
@@ -457,7 +457,7 @@ export function renderChallengeCard(challenge) {
           <span class="text-2xl">${challengeType?.icon || '🎯'}</span>
           <div>
             <h4 class="font-semibold text-white">${challengeType?.name || challenge.type}</h4>
-            <p class="text-xs text-gray-400">vs ${opponentName}</p>
+            <p class="text-xs text-slate-400">vs ${opponentName}</p>
           </div>
         </div>
         <span class="px-2 py-1 rounded-full text-xs ${statusColors[challenge.status]}">
@@ -468,21 +468,21 @@ export function renderChallengeCard(challenge) {
       ${challenge.status === ChallengeStatus.ACTIVE ? `
         <div class="space-y-2 mb-3">
           <div class="flex items-center gap-2">
-            <span class="text-xs text-gray-400 w-12">${t('you') || 'Toi'}</span>
+            <span class="text-xs text-slate-400 w-12">${t('you') || 'Toi'}</span>
             <div class="flex-1 bg-dark-600 rounded-full h-2 overflow-hidden">
               <div class="bg-primary h-full transition-all" style="width: ${progressPercent}%"></div>
             </div>
             <span class="text-xs text-white w-10 text-right">${myProgress}/${challenge.target}</span>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-xs text-gray-400 w-12 truncate">${opponentName.substring(0, 5)}</span>
+            <span class="text-xs text-slate-400 w-12 truncate">${opponentName.substring(0, 5)}</span>
             <div class="flex-1 bg-dark-600 rounded-full h-2 overflow-hidden">
               <div class="bg-red-500 h-full transition-all" style="width: ${opponentPercent}%"></div>
             </div>
             <span class="text-xs text-white w-10 text-right">${opponentProgress}/${challenge.target}</span>
           </div>
         </div>
-        <p class="text-xs text-gray-400">
+        <p class="text-xs text-slate-400">
           ${(t('friendChallengeExpiresOn') || 'Expire le {date}').replace('{date}', new Date(challenge.expiresAt).toLocaleDateString())}
         </p>
       ` : ''}
@@ -494,7 +494,7 @@ export function renderChallengeCard(challenge) {
             ${t('accept') || 'Accepter'}
           </button>
           <button onclick="window.declineFriendChallenge('${challenge.id}')"
-            class="flex-1 bg-dark-600 text-gray-300 py-2 rounded-lg text-sm hover:bg-dark-500">
+            class="flex-1 bg-dark-600 text-slate-300 py-2 rounded-lg text-sm hover:bg-dark-500">
             ${t('decline') || 'Decliner'}
           </button>
         </div>
@@ -503,7 +503,7 @@ export function renderChallengeCard(challenge) {
       ${challenge.status === ChallengeStatus.PENDING && isCreator ? `
         <div class="mt-3">
           <button onclick="window.cancelFriendChallenge('${challenge.id}')"
-            class="w-full bg-dark-600 text-gray-300 py-2 rounded-lg text-sm hover:bg-dark-500">
+            class="w-full bg-dark-600 text-slate-300 py-2 rounded-lg text-sm hover:bg-dark-500">
             ${t('cancel') || 'Annuler'}
           </button>
         </div>

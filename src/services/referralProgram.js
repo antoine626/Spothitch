@@ -497,18 +497,18 @@ export function renderReferralCard() {
         </div>
         <div>
           <h3 class="font-bold text-white">${t('referralProgramTitle')}</h3>
-          <p class="text-sm text-gray-400">${t('referralProgramSubtitle')}</p>
+          <p class="text-sm text-slate-400">${t('referralProgramSubtitle')}</p>
         </div>
       </div>
 
       <!-- Level Badge -->
       <div class="flex items-center justify-between mb-4 p-3 bg-dark-700/50 rounded-lg">
         <div>
-          <p class="text-xs text-gray-400">${t('referralLevel')}</p>
+          <p class="text-xs text-slate-400">${t('referralLevel')}</p>
           <p class="font-bold text-${levelColor}-400 capitalize">${stats.level !== 'none' ? stats.level : t('referralLevelNone')}</p>
         </div>
         <div class="text-right">
-          <p class="text-xs text-gray-400">${t('bonusPerReferral')}</p>
+          <p class="text-xs text-slate-400">${t('bonusPerReferral')}</p>
           <p class="font-bold text-green-400">+${referralRewards.referrer + levelInfo.bonus} pts</p>
         </div>
       </div>
@@ -517,22 +517,22 @@ export function renderReferralCard() {
       <div class="grid grid-cols-3 gap-2 mb-4">
         <div class="bg-dark-700/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-white">${stats.totalReferrals}</p>
-          <p class="text-xs text-gray-400">${t('referralsCompleted')}</p>
+          <p class="text-xs text-slate-400">${t('referralsCompleted')}</p>
         </div>
         <div class="bg-dark-700/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-primary">${stats.totalPointsEarned}</p>
-          <p class="text-xs text-gray-400">${t('pointsEarned')}</p>
+          <p class="text-xs text-slate-400">${t('pointsEarned')}</p>
         </div>
         <div class="bg-dark-700/50 rounded-lg p-2 text-center">
           <p class="text-xl font-bold text-yellow-400">${stats.pendingReferrals}</p>
-          <p class="text-xs text-gray-400">${t('pending')}</p>
+          <p class="text-xs text-slate-400">${t('pending')}</p>
         </div>
       </div>
 
       <!-- Progress to next level -->
       ${stats.nextLevel ? `
         <div class="mb-4">
-          <div class="flex justify-between text-xs text-gray-400 mb-1">
+          <div class="flex justify-between text-xs text-slate-400 mb-1">
             <span>${t('nextLevel')}: ${stats.nextLevel.charAt(0).toUpperCase() + stats.nextLevel.slice(1)}</span>
             <span>${stats.referralsToNextLevel} ${t('referralsToGo')}</span>
           </div>
@@ -549,7 +549,7 @@ export function renderReferralCard() {
 
       <!-- Referral Code -->
       <div class="bg-dark-700 rounded-lg p-3 mb-4">
-        <p class="text-xs text-gray-400 mb-1">${t('yourReferralCode')}</p>
+        <p class="text-xs text-slate-400 mb-1">${t('yourReferralCode')}</p>
         <div class="flex items-center justify-between">
           <span class="font-mono text-lg font-bold text-white tracking-wider">${stats.referralCode}</span>
           <button onclick="window.copyReferralCode()" class="text-primary hover:text-primary/80" aria-label="${t('copyCode')}">

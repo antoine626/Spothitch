@@ -1175,22 +1175,22 @@ export function renderGuildCard(guild) {
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2">
             <h3 class="font-semibold text-white truncate">${escapeHTML(guild.name)}</h3>
-            ${!guild.isPublic ? '<span class="text-xs text-gray-400"></span>' : ''}
+            ${!guild.isPublic ? '<span class="text-xs text-slate-400"></span>' : ''}
             ${isMyGuild ? `<span class="text-xs text-primary">${roleIcons[myRole] || ''}</span>` : ''}
           </div>
-          <p class="text-xs text-gray-400">${escapeHTML(guild.leaderName)}</p>
+          <p class="text-xs text-slate-400">${escapeHTML(guild.leaderName)}</p>
         </div>
         <div class="text-right">
           <div class="text-sm font-bold text-primary">#${stats.rank}</div>
-          <div class="text-xs text-gray-400">${stats.totalMembers}/50</div>
+          <div class="text-xs text-slate-400">${stats.totalMembers}/50</div>
         </div>
       </div>
 
       ${guild.description ? `
-        <p class="text-sm text-gray-300 mb-3 line-clamp-2">${escapeHTML(guild.description)}</p>
+        <p class="text-sm text-slate-300 mb-3 line-clamp-2">${escapeHTML(guild.description)}</p>
       ` : ''}
 
-      <div class="flex items-center gap-4 text-xs text-gray-400 mb-3">
+      <div class="flex items-center gap-4 text-xs text-slate-400 mb-3">
         <span class="flex items-center gap-1">
           <span>XP</span>
           <span class="text-white font-medium">${stats.totalXp.toLocaleString()}</span>
@@ -1241,7 +1241,7 @@ export function renderGuildList(guilds) {
     return `
       <div class="text-center py-12">
         <div class="text-4xl mb-4">&#127979;</div>
-        <p class="text-gray-400">${t('noGuildsFound')}</p>
+        <p class="text-slate-400">${t('noGuildsFound')}</p>
         <button onclick="window.showCreateGuild()"
                 class="mt-4 bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors">
           ${t('createGuildButton')}
@@ -1278,7 +1278,7 @@ export function renderMemberList(members, guildId) {
   const roleColors = {
     [GuildRole.LEADER]: 'text-yellow-400',
     [GuildRole.OFFICER]: 'text-blue-400',
-    [GuildRole.MEMBER]: 'text-gray-400',
+    [GuildRole.MEMBER]: 'text-slate-400',
   };
 
   return members.map(member => `
@@ -1291,7 +1291,7 @@ export function renderMemberList(members, guildId) {
           <span class="font-medium text-white truncate">${escapeHTML(member.name)}</span>
           <span class="text-xs ${roleColors[member.role]}">${roleLabels[member.role]}</span>
         </div>
-        <div class="text-xs text-gray-400">
+        <div class="text-xs text-slate-400">
           ${(member.xpContributed || 0).toLocaleString()} XP
         </div>
       </div>
@@ -1314,7 +1314,7 @@ export function renderMemberList(members, guildId) {
       ${isLeader && member.role === GuildRole.OFFICER && member.id !== (state.user?.uid || 'local') ? `
         <div class="flex gap-1">
           <button onclick="window.demoteToMember('${escapeHTML(guildId)}', '${escapeHTML(member.id)}')"
-                  class="p-2 text-gray-400 hover:bg-dark-600 rounded"
+                  class="p-2 text-slate-400 hover:bg-dark-600 rounded"
                   title="${t('demote')}">
             &#11015;
           </button>

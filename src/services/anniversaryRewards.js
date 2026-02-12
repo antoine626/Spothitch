@@ -456,7 +456,7 @@ export function renderAnniversaryModal(years, reward) {
         <div class="relative p-6 text-center ${rarityBg[reward.badge.rarity] || 'bg-blue-500/20'}">
           <button
             onclick="window.closeAnniversaryModal()"
-            class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
             aria-label="${t('close')}"
           >
             <i class="fas fa-times text-xl"></i>
@@ -466,7 +466,7 @@ export function renderAnniversaryModal(years, reward) {
           <h2 id="anniversary-title" class="text-2xl font-bold text-white mb-2">
             ${t('anniversaryTitle', { years })}
           </h2>
-          <p class="text-gray-300">${reward.description}</p>
+          <p class="text-slate-300">${reward.description}</p>
         </div>
 
         <!-- Rewards -->
@@ -478,7 +478,7 @@ export function renderAnniversaryModal(years, reward) {
             <div class="text-2xl">💰</div>
             <div class="flex-1">
               <div class="font-medium text-white">+${reward.points} ${t('points')}</div>
-              <div class="text-sm text-gray-400">${t('anniversaryBonusPoints')}</div>
+              <div class="text-sm text-slate-400">${t('anniversaryBonusPoints')}</div>
             </div>
           </div>
 
@@ -487,7 +487,7 @@ export function renderAnniversaryModal(years, reward) {
             <div class="text-2xl">${reward.badge.icon}</div>
             <div class="flex-1">
               <div class="font-medium text-white">${reward.badge.name}</div>
-              <div class="text-sm ${rarityColors[reward.badge.rarity] || 'text-gray-400'}">${t('badgeRarity_' + reward.badge.rarity)}</div>
+              <div class="text-sm ${rarityColors[reward.badge.rarity] || 'text-slate-400'}">${t('badgeRarity_' + reward.badge.rarity)}</div>
             </div>
           </div>
 
@@ -496,7 +496,7 @@ export function renderAnniversaryModal(years, reward) {
             <div class="text-2xl">✨</div>
             <div class="flex-1">
               <div class="font-medium text-white">${reward.cosmetic.name}</div>
-              <div class="text-sm text-gray-400">${t('anniversaryExclusiveCosmetic')}</div>
+              <div class="text-sm text-slate-400">${t('anniversaryExclusiveCosmetic')}</div>
             </div>
           </div>
 
@@ -505,7 +505,7 @@ export function renderAnniversaryModal(years, reward) {
             <div class="text-2xl">📛</div>
             <div class="flex-1">
               <div class="font-medium text-white">${reward.title}</div>
-              <div class="text-sm text-gray-400">${t('anniversaryExclusiveTitle')}</div>
+              <div class="text-sm text-slate-400">${t('anniversaryExclusiveTitle')}</div>
             </div>
           </div>
         </div>
