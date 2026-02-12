@@ -89,10 +89,6 @@ export function renderAdminPanel(state) {
               <i class="fas fa-users-cog text-orange-400" aria-hidden="true"></i>
               ${t('teamChallenges') || 'Défis Équipe'}
             </button>
-            <button onclick="openSkillTree(); closeAdminPanel();" class="admin-btn">
-              <i class="fas fa-tree text-emerald-400" aria-hidden="true"></i>
-              ${t('skillTree') || 'Skill Tree'}
-            </button>
             <button onclick="openQuiz(); closeAdminPanel();" class="admin-btn">
               <i class="fas fa-brain text-sky-400" aria-hidden="true"></i>
               ${t('quiz') || 'Quiz'}

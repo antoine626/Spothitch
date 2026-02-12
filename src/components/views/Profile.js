@@ -87,32 +87,10 @@ export function renderProfile(state) {
           <div class="text-xs text-slate-500">${t('league') || 'Ligue'}</div>
         </button>
         <button onclick="openStats()" class="card p-3 text-center hover:border-primary-500/50 transition-all">
-          <div class="text-xl font-bold text-orange-400">${state.streak || 0}</div>
-          <div class="text-xs text-slate-500">${t('streak') || 'Série'}</div>
+          <div class="text-xl font-bold text-orange-400">${(state.badges || []).length}</div>
+          <div class="text-xs text-slate-500">${t('badgesEarned') || 'Badges'}</div>
         </button>
       </div>
-
-      <!-- Skills Section (moved up for visibility) -->
-      <button
-        onclick="openSkillTree()"
-        class="card p-4 w-full text-left hover:border-purple-500/50 transition-all"
-      >
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/30 to-pink-500/30 flex items-center justify-center">
-              <i class="fas fa-tree text-purple-400 text-xl" aria-hidden="true"></i>
-            </div>
-            <div>
-              <div class="font-semibold">${t('skillTree') || 'Arbre de compétences'}</div>
-              <div class="text-sm text-slate-400">${state.skillPoints || 0} ${t('skillPointsAvailable') || 'points disponibles'}</div>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-sm text-purple-400">${(state.unlockedSkills || []).length} ${t('skills') || 'skills'}</span>
-            <i class="fas fa-chevron-right text-slate-500" aria-hidden="true"></i>
-          </div>
-        </div>
-      </button>
 
       <!-- Level Progress -->
       <div class="card p-4">

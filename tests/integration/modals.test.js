@@ -30,7 +30,6 @@ import { renderShopModal, renderMyRewardsModal } from '../../src/components/moda
 import { renderQuiz } from '../../src/components/modals/Quiz.js'
 import { renderLeaderboardModal } from '../../src/components/modals/Leaderboard.js'
 import { renderMyDataModal } from '../../src/components/modals/MyData.js'
-import { renderSkillTree } from '../../src/services/skillTree.js'
 import { renderTravelGroupDetail } from '../../src/services/travelGroups.js'
 import { renderNearbyFriendsList } from '../../src/services/nearbyFriends.js'
 import { renderCustomizationModal } from '../../src/services/profileCustomization.js'
@@ -678,28 +677,7 @@ describe('Integration: MyData Modal', () => {
 })
 
 // ===============================================================
-// 22. SkillTree
-// ===============================================================
-describe('Integration: SkillTree', () => {
-  it('renders skill tree', () => {
-    const html = renderSkillTree({ ...baseState, showSkillTree: true })
-    expect(html).toBeTruthy()
-    expect(html).toContain('Arbre')
-  })
-
-  it('shows available points', () => {
-    const html = renderSkillTree({ ...baseState, skillPoints: 10 })
-    expect(html).toContain('10')
-  })
-
-  it('has unlock buttons', () => {
-    const html = renderSkillTree(baseState)
-    expect(html).toContain('unlockSkillAction')
-  })
-})
-
-// ===============================================================
-// 23. ProfileCustomization Modal
+// 22. ProfileCustomization Modal (was 23)
 // ===============================================================
 describe('Integration: ProfileCustomization Modal', () => {
   it('renders customization options', () => {
@@ -841,7 +819,7 @@ describe('Integration: State flag toggles', () => {
   const flags = [
     'showSOS', 'showAuth', 'showAddSpot', 'showFilters', 'showStats',
     'showBadges', 'showChallenges', 'showShop', 'showMyRewards', 'showQuiz',
-    'showLeaderboard', 'showTitles', 'showSkillTree', 'showTeamChallenges',
+    'showLeaderboard', 'showTitles', 'showTeamChallenges',
     'showCreateTravelGroup', 'showFriendProfile', 'showAdminPanel',
     'showMyData', 'showDonation', 'showNearbyFriends', 'showAccessibilityHelp',
     'showProfileCustomization', 'showReport', 'showTravelGroupDetail',

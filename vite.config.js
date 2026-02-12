@@ -138,7 +138,6 @@ export default defineConfig({
           'vendor-utils': ['dompurify'],
           'gamification': [
             './src/services/gamification.js',
-            './src/services/skillTree.js',
             './src/services/quiz.js',
             './src/services/teamChallenges.js',
             './src/services/friendChallenges.js',

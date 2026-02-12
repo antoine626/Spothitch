@@ -52,7 +52,6 @@ import { renderNavigationOverlay } from './ui/NavigationOverlay.js';
 import { renderDonationModal } from './ui/DonationCard.js';
 
 // New Feature Modals
-import { renderSkillTree } from '../services/skillTree.js';
 import { renderTravelGroupDetail } from '../services/travelGroups.js';
 import { renderNearbyFriendsWidget, renderNearbyFriendsList } from '../services/nearbyFriends.js';
 import { renderCustomizationModal } from '../services/profileCustomization.js';
@@ -124,7 +123,6 @@ export function renderApp(state) {
     ${state.showDonation ? renderDonationModal(state) : ''}
 
     <!-- New Feature Modals -->
-    ${state.showSkillTree ? renderSkillTree(state) : ''}
     ${state.showProfileCustomization ? renderCustomizationModal(state) : ''}
     ${state.showNearbyFriends ? renderNearbyFriendsList(state) : ''}
     ${state.showReport ? renderReportModal(state) : ''}

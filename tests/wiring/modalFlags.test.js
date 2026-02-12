@@ -35,7 +35,6 @@ import { renderMyDataModal } from '../../src/components/modals/MyData.js'
 import { renderLanding } from '../../src/components/Landing.js'
 
 // Service modals
-import { renderSkillTree } from '../../src/services/skillTree.js'
 import { renderTravelGroupDetail } from '../../src/services/travelGroups.js'
 import { renderNearbyFriendsList } from '../../src/services/nearbyFriends.js'
 import { renderCustomizationModal } from '../../src/services/profileCustomization.js'
@@ -246,13 +245,6 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
   test('showMyData flag renders MyData modal', () => {
     setState({ showMyData: true, ...mockState })
     const html = renderMyDataModal()
-    expect(html).toBeTruthy()
-    expect(html.length).toBeGreaterThan(100)
-  })
-
-  test('showSkillTree flag renders SkillTree modal', () => {
-    const state = { ...mockState, showSkillTree: true }
-    const html = renderSkillTree(state)
     expect(html).toBeTruthy()
     expect(html.length).toBeGreaterThan(100)
   })

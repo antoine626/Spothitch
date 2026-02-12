@@ -90,8 +90,6 @@ const MAIN_JS_HANDLERS = [
   'centerOnUser',
   // Titles
   'openTitles', 'closeTitles',
-  // Skill tree
-  'openSkillTree', 'closeSkillTree', 'unlockSkillAction', 'awardSkillPoints',
   // Team challenges
   'openTeamChallenges', 'closeTeamChallenges',
   'openCreateTeam', 'closeCreateTeam',
@@ -272,7 +270,6 @@ const mockState = {
   showTutorial: false,
   showLeaderboard: false,
   showDonation: false,
-  showSkillTree: false,
   showProfileCustomization: false,
   showNearbyFriends: false,
   showReport: false,
@@ -358,7 +355,6 @@ import { renderAdminPanel } from '../../src/components/modals/AdminPanel.js'
 import { renderMyDataModal } from '../../src/components/modals/MyData.js'
 
 // Services with render
-import { renderSkillTree } from '../../src/services/skillTree.js'
 import { renderTravelGroupDetail } from '../../src/services/travelGroups.js'
 import { renderNearbyFriendsList } from '../../src/services/nearbyFriends.js'
 import { renderCustomizationModal } from '../../src/services/profileCustomization.js'
@@ -457,7 +453,6 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
   testHandlers('MyData modal', () => renderMyDataModal())
 
   // --- Service renders ---
-  testHandlers('SkillTree', renderSkillTree)
   testHandlers('TravelGroupDetail', renderTravelGroupDetail, {
     showTravelGroupDetail: true,
     selectedTravelGroupId: 'group1',

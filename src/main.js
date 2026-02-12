@@ -35,7 +35,6 @@ import {
   recordCheckin,
   recordSpotCreated,
   recordReview,
-  updateStreak,
   recordCountryVisit,
   checkBadges,
   getGamificationSummary,
@@ -153,13 +152,6 @@ import {
 } from './services/webShare.js'; // Native Web Share API
 
 // New services
-import {
-  renderSkillTree,
-  renderSkillSummary,
-  unlockSkill,
-  awardSkillPoints,
-  getSkillTreeProgress,
-} from './services/skillTree.js';
 import {
   createTeam,
   joinTeam,
@@ -297,9 +289,6 @@ async function init() {
       onAuthChange((user) => {
         actions.setUser(user);
         setSentryUser(user);
-        if (user) {
-          updateStreak(); // Update daily streak on login
-        }
       });
     } catch (e) {
       console.warn('Firebase init skipped:', e.message);
@@ -1470,12 +1459,6 @@ window.centerOnUser = centerOnUser;
 // Titles modal handler
 window.openTitles = () => setState({ showTitles: true });
 window.closeTitles = () => setState({ showTitles: false });
-
-// Skill tree handlers
-window.openSkillTree = () => setState({ showSkillTree: true });
-window.closeSkillTree = () => setState({ showSkillTree: false });
-window.unlockSkillAction = unlockSkill;
-window.awardSkillPoints = awardSkillPoints;
 
 // Team challenges handlers
 window.openTeamChallenges = () => setState({ showTeamChallenges: true });

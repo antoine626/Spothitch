@@ -133,12 +133,6 @@ registerPlugin('guides', {
   autoInit: false,
 })
 
-registerPlugin('skillTree', {
-  loader: () => import('../services/skillTree.js'),
-  description: 'Arbre de competences',
-  dependencies: ['gamification'],
-})
-
 registerPlugin('teamChallenges', {
   loader: () => import('../services/teamChallenges.js'),
   description: 'Defis en equipe',
