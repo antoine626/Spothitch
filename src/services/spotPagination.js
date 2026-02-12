@@ -93,7 +93,7 @@ export function paginateSpots(spots, page = 0, pageSize = CONFIG.pageSize) {
 
 /**
  * Handle map bounds change
- * @param {Object} map - Leaflet map instance
+ * @param {Object} map - MapLibre GL map instance
  */
 export function onMapBoundsChange(map) {
   if (!map) return;
@@ -110,7 +110,7 @@ export function onMapBoundsChange(map) {
 
 /**
  * Update visible spots based on map bounds
- * @param {Object} map - Leaflet map instance
+ * @param {Object} map - MapLibre GL map instance
  */
 export function updateVisibleSpots(map) {
   if (!map || loadingBounds) return;

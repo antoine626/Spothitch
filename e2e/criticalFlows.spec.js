@@ -219,9 +219,9 @@ test.describe('Map Persistence', () => {
 
     // Map should still be visible (not blank/broken)
     await expect(page.locator('#main-map').first()).toBeVisible({ timeout: 10000 })
-    // Leaflet tiles should be loaded
-    const tiles = page.locator('.leaflet-tile-loaded')
-    await expect(tiles.first()).toBeVisible({ timeout: 10000 })
+    // MapLibre canvas should be loaded
+    const canvas = page.locator('.maplibregl-canvas')
+    await expect(canvas.first()).toBeVisible({ timeout: 10000 })
   })
 
   test('should keep map functional after multiple tab switches', async ({ page }) => {
@@ -550,8 +550,8 @@ test.describe('Visual Snapshots', () => {
     await skipOnboarding(page)
     await navigateToTab(page, 'map')
     await page.waitForSelector('#main-map', { timeout: 10000 })
-    // Wait for tiles to load
-    await page.waitForSelector('.leaflet-tile-loaded', { timeout: 10000 }).catch(() => {})
+    // Wait for MapLibre canvas to load
+    await page.waitForSelector('.maplibregl-canvas', { timeout: 10000 }).catch(() => {})
     await expect(page).toHaveScreenshot('map-view.png', {
       maxDiffPixelRatio: 0.1,
       timeout: 15000,

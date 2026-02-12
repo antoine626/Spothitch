@@ -600,7 +600,7 @@ function render(state) {
     saveScrollPosition(previousTab);
   }
 
-  // Preserve map container across re-renders to avoid destroying Leaflet
+  // Preserve map container across re-renders to avoid destroying MapLibre
   const isMapTab = ['map', 'home', 'fullmap', 'travel', 'planner'].includes(state.activeTab)
   const homeMapContainer = document.getElementById('home-map')
   const hasHomeMap = homeMapContainer && window.homeMapInstance
@@ -1571,7 +1571,7 @@ window.openHelpCenter = () => {
   showToast(t('helpCenterOpen') || 'Centre d\'aide ouvert', 'info');
 };
 window.openChangelog = () => {
-  showToast(t('changelog') || 'Changelog - Version 2.0\n\n✨ Nouvelle interface avec Vite\n🎮 Gamification améliorée\n🗺️ Carte interactive Leaflet\n📱 PWA complète\n🌍 Support multilingue', 'info');
+  showToast(t('changelog') || 'Changelog - Version 2.0\n\n✨ Nouvelle interface avec Vite\n🎮 Gamification améliorée\n🗺️ Carte interactive MapLibre GL\n📱 PWA complète\n🌍 Support multilingue', 'info');
 };
 window.openRoadmap = () => {
   showToast(t('roadmap') || 'Roadmap SpotHitch 2026\n\n✅ Chat temps réel\n✅ Messages privés\n✅ Vérification identité\n🔄 Guerres de guildes\n🔄 Événements saisonniers\n🔄 Intégration natives (iOS/Android)', 'info');

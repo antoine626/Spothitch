@@ -82,12 +82,12 @@ test.describe('Map - Zoom Controls', () => {
     await expect(zoomInBtn).toBeVisible({ timeout: 5000 })
 
     // Get initial zoom
-    const initialZoom = await page.evaluate(() => window._leafletMap?.getZoom?.() ?? 0)
+    const initialZoom = await page.evaluate(() => window.homeMapInstance?.getZoom?.() ?? window.mapInstance?.getZoom?.() ?? 0)
 
     await zoomInBtn.click()
     // Wait for zoom animation
     await page.waitForFunction(
-      (prev) => (window._leafletMap?.getZoom?.() ?? 0) > prev,
+      (prev) => (window.homeMapInstance?.getZoom?.() ?? window.mapInstance?.getZoom?.() ?? 0) > prev,
       initialZoom,
       { timeout: 3000 }
     ).catch(() => {})
@@ -101,12 +101,12 @@ test.describe('Map - Zoom Controls', () => {
     await expect(zoomOutBtn).toBeVisible({ timeout: 5000 })
 
     // Get initial zoom
-    const initialZoom = await page.evaluate(() => window._leafletMap?.getZoom?.() ?? 0)
+    const initialZoom = await page.evaluate(() => window.homeMapInstance?.getZoom?.() ?? window.mapInstance?.getZoom?.() ?? 0)
 
     await zoomOutBtn.click()
     // Wait for zoom animation
     await page.waitForFunction(
-      (prev) => (window._leafletMap?.getZoom?.() ?? 0) < prev,
+      (prev) => (window.homeMapInstance?.getZoom?.() ?? window.mapInstance?.getZoom?.() ?? 0) < prev,
       initialZoom,
       { timeout: 3000 }
     ).catch(() => {})

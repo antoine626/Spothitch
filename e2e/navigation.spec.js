@@ -46,7 +46,7 @@ test.describe('Map View', () => {
   })
 
   test('should display map', async ({ page }) => {
-    const mapContainer = page.locator('#main-map, .leaflet-container')
+    const mapContainer = page.locator('#main-map, .maplibregl-map')
     await expect(mapContainer.first()).toBeVisible({ timeout: 10000 })
   })
 
