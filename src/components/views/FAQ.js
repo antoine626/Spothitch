@@ -310,7 +310,7 @@ export function renderFAQ(state) {
                         aria-controls="faq-answer-${item.id}"
                       >
                         <span class="font-medium flex-1">${item.q}</span>
-                        <i class="fas fa-chevron-down text-slate-400 transition-transform flex-shrink-0" aria-hidden="true"></i>
+                        <i class="fas fa-chevron-down text-slate-400 transition-transform shrink-0" aria-hidden="true"></i>
                       </button>
                       <div id="faq-answer-${item.id}" class="faq-answer hidden" role="region" aria-hidden="true">
                         <div class="px-4 pb-4 text-slate-300 border-t border-slate-700/50">

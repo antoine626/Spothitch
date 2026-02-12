@@ -75,7 +75,7 @@ export function renderGuides(state) {
           </h2>
           <div class="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
             ${easiest.map(guide => `
-              <div class="flex-shrink-0 w-32 bg-gradient-to-br from-green-500/20 to-green-600/20
+              <div class="shrink-0 w-32 bg-gradient-to-br from-green-500/20 to-green-600/20
                           border border-green-500/30 rounded-xl p-3 cursor-pointer"
                    onclick="showCountryDetail('${guide.code}')">
                 <div class="text-3xl mb-2">${guide.flag}</div>
@@ -185,7 +185,7 @@ export function renderCountryDetail(countryCode) {
       <!-- Disclaimer Banner -->
       <div class="p-4">
         <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-xs text-amber-300 flex items-start gap-2">
-          <i class="fas fa-info-circle mt-0.5 flex-shrink-0"></i>
+          <i class="fas fa-info-circle mt-0.5 shrink-0"></i>
           <span>Ces conseils sont basés sur des retours de voyageurs. Vérifiez toujours les lois locales avant de partir.</span>
         </div>
       </div>

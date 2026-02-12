@@ -192,7 +192,7 @@ export function renderTutorial(state) {
       <!-- Tutorial card -->
       <div class="tutorial-card ${getPositionClass(step.position)}" id="tutorial-card">
         <div class="flex items-start gap-4">
-          <div class="text-4xl flex-shrink-0">${step.icon}</div>
+          <div class="text-4xl shrink-0">${step.icon}</div>
           <div class="flex-1 min-w-0">
             <h3 class="text-lg font-bold text-white mb-2">${step.title}</h3>
             <p class="text-slate-300 text-sm leading-relaxed">${step.desc}</p>

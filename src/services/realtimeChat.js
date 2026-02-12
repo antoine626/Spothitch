@@ -745,7 +745,7 @@ export function renderMessage(message) {
       data-user-id="${escapeHTML(message.userId)}"
     >
       <div class="flex items-start gap-2 ${isOwn ? 'flex-row-reverse' : ''}">
-        <div class="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-lg flex-shrink-0">
+        <div class="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-lg shrink-0">
           ${escapeHTML(message.userAvatar)}
         </div>
         <div class="${isOwn ? 'bg-primary-500' : 'bg-white/10'} rounded-2xl px-4 py-2">

@@ -258,7 +258,7 @@ export function renderTripHistory(limit = 50) {
       html += `
         <div class="flex gap-3 items-start">
           <!-- Timeline dot -->
-          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center text-xl border border-primary-500/30">
+          <div class="shrink-0 w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center text-xl border border-primary-500/30">
             ${eventType.icon}
           </div>
 

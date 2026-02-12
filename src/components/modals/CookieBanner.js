@@ -187,13 +187,13 @@ export function renderCookieBanner() {
       aria-labelledby="cookie-banner-title"
       aria-describedby="cookie-banner-desc"
     >
-      <div class="max-w-lg mx-auto bg-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-white/10">
+      <div class="max-w-lg mx-auto bg-dark-secondary rounded-3xl shadow-2xl overflow-hidden border border-white/10">
         <div class="px-4 py-3 flex items-center gap-3">
-          <i class="fas fa-cookie-bite text-primary-400 flex-shrink-0" aria-hidden="true"></i>
+          <i class="fas fa-cookie-bite text-primary-400 shrink-0" aria-hidden="true"></i>
           <p id="cookie-banner-title" class="text-sm text-slate-300 flex-1">
             ${t('cookieShortDesc') || t('cookieTitle') || 'Respect de votre vie privee'}
           </p>
-          <div class="flex gap-2 flex-shrink-0">
+          <div class="flex gap-2 shrink-0">
             <button
               onclick="acceptAllCookies()"
               class="px-3 py-1.5 rounded-lg bg-primary-500 text-white text-xs font-medium hover:bg-primary-600 transition-colors"
@@ -251,7 +251,7 @@ export function renderCookieBanner() {
         <div class="p-6 space-y-6">
           <!-- Necessary Cookies (Always On) -->
           <div class="flex items-start gap-4 p-4 bg-white/5 rounded-xl">
-            <div class="flex-shrink-0 mt-0.5">
+            <div class="shrink-0 mt-0.5">
               <input
                 type="checkbox"
                 id="cookie-necessary"
@@ -276,7 +276,7 @@ export function renderCookieBanner() {
 
           <!-- Analytics Cookies -->
           <div class="flex items-start gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
-            <div class="flex-shrink-0 mt-0.5">
+            <div class="shrink-0 mt-0.5">
               <input
                 type="checkbox"
                 id="cookie-analytics"
@@ -297,7 +297,7 @@ export function renderCookieBanner() {
 
           <!-- Marketing Cookies -->
           <div class="flex items-start gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
-            <div class="flex-shrink-0 mt-0.5">
+            <div class="shrink-0 mt-0.5">
               <input
                 type="checkbox"
                 id="cookie-marketing"
@@ -318,7 +318,7 @@ export function renderCookieBanner() {
 
           <!-- Personalization Cookies -->
           <div class="flex items-start gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
-            <div class="flex-shrink-0 mt-0.5">
+            <div class="shrink-0 mt-0.5">
               <input
                 type="checkbox"
                 id="cookie-personalization"

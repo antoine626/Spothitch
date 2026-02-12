@@ -273,7 +273,7 @@ function renderPrivateMessage(message, friend) {
     <div class="flex ${isOwn ? 'justify-end' : 'justify-start'}">
       <div class="flex items-end gap-2 max-w-[80%]">
         ${!isOwn ? `
-          <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-sm flex-shrink-0">
+          <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-sm shrink-0">
             ${friend.avatar || '🤙'}
           </div>
         ` : ''}

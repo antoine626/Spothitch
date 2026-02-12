@@ -285,7 +285,7 @@ export function renderSponsoredBanner(content) {
          aria-label="Contenu sponsorisé: ${content.name}"
          onclick="window.trackSponsorClick?.('${content.id}')">
       <div class="flex items-start gap-3">
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
           <span class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-accent-500/20 text-accent-400">
             <i class="fas fa-handshake text-sm"></i>
           </span>

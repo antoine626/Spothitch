@@ -1114,18 +1114,25 @@ export function renderAdminDashboard() {
       <!-- Alerts -->
       ${alerts.length > 0 ? `
         <div class="space-y-2">
-          ${alerts.map(alert => `
-            <div class="p-4 rounded-xl bg-${alert.type === 'danger' ? 'red' : alert.type === 'warning' ? 'amber' : 'sky'}-500/20 border border-${alert.type === 'danger' ? 'red' : alert.type === 'warning' ? 'amber' : 'sky'}-500/30">
+          ${alerts.map(alert => {
+            const alertClasses = {
+              danger: { bg: 'bg-red-500/20', border: 'border-red-500/30', text: 'text-red-400', badge: 'bg-red-500/30' },
+              warning: { bg: 'bg-amber-500/20', border: 'border-amber-500/30', text: 'text-amber-400', badge: 'bg-amber-500/30' },
+              info: { bg: 'bg-sky-500/20', border: 'border-sky-500/30', text: 'text-sky-400', badge: 'bg-sky-500/30' },
+            };
+            const cls = alertClasses[alert.type] || alertClasses.info;
+            return `
+            <div class="p-4 rounded-xl ${cls.bg} border ${cls.border}">
               <div class="flex items-center gap-3">
-                <i class="fas ${alert.icon} text-${alert.type === 'danger' ? 'red' : alert.type === 'warning' ? 'amber' : 'sky'}-400"></i>
+                <i class="fas ${alert.icon} ${cls.text}"></i>
                 <div class="flex-1">
-                  <div class="font-medium text-${alert.type === 'danger' ? 'red' : alert.type === 'warning' ? 'amber' : 'sky'}-400">${alert.title}</div>
+                  <div class="font-medium ${cls.text}">${alert.title}</div>
                   <div class="text-sm text-slate-400">${alert.message}</div>
                 </div>
-                <span class="px-2 py-1 rounded-full bg-${alert.type === 'danger' ? 'red' : alert.type === 'warning' ? 'amber' : 'sky'}-500/30 text-sm">${alert.count}</span>
+                <span class="px-2 py-1 rounded-full ${cls.badge} text-sm">${alert.count}</span>
               </div>
             </div>
-          `).join('')}
+          `}).join('')}
         </div>
       ` : ''}
 
@@ -1257,11 +1264,13 @@ export function renderModerationQueue(options = {}) {
         </div>
       ` : `
         <div class="space-y-3">
-          ${reports.map(report => `
-            <div class="bg-white/5 rounded-xl p-4 border-l-4 border-${getPriorityColor(report.severity)}-500">
+          ${reports.map(report => {
+            const pCls = getPriorityClasses(report.severity);
+            return `
+            <div class="bg-white/5 rounded-xl p-4 border-l-4 ${pCls.border}">
               <div class="flex justify-between items-start mb-2">
                 <div class="flex items-center gap-2">
-                  <span class="px-2 py-1 rounded-full text-xs bg-${getPriorityColor(report.severity)}-500/20 text-${getPriorityColor(report.severity)}-400">
+                  <span class="px-2 py-1 rounded-full text-xs ${pCls.bg} ${pCls.text}">
                     ${report.severity?.toUpperCase() || 'N/A'}
                   </span>
                   <span class="text-sm text-slate-400">${report.type}</span>
@@ -1288,7 +1297,7 @@ export function renderModerationQueue(options = {}) {
                 </button>
               </div>
             </div>
-          `).join('')}
+          `}).join('')}
         </div>
 
         ${hasMore ? `
@@ -1305,14 +1314,14 @@ export function renderModerationQueue(options = {}) {
 // HELPER FUNCTIONS
 // ============================================
 
-function getPriorityColor(severity) {
-  const colors = {
-    critical: 'red',
-    high: 'orange',
-    medium: 'amber',
-    low: 'slate',
+function getPriorityClasses(severity) {
+  const classes = {
+    critical: { border: 'border-red-500', bg: 'bg-red-500/20', text: 'text-red-400' },
+    high: { border: 'border-orange-500', bg: 'bg-orange-500/20', text: 'text-orange-400' },
+    medium: { border: 'border-amber-500', bg: 'bg-amber-500/20', text: 'text-amber-400' },
+    low: { border: 'border-slate-500', bg: 'bg-slate-500/20', text: 'text-slate-400' },
   };
-  return colors[severity] || 'slate';
+  return classes[severity] || classes.low;
 }
 
 function formatTimeAgo(timestamp) {
@@ -1472,18 +1481,19 @@ export function renderSanctionsHistory(userId) {
   const history = getUserSanctionsHistory(userId);
 
   const riskColors = {
-    none: 'green',
-    low: 'slate',
-    medium: 'amber',
-    high: 'orange',
-    critical: 'red',
+    none: { bg: 'bg-green-500/20', text: 'text-green-400' },
+    low: { bg: 'bg-slate-500/20', text: 'text-slate-400' },
+    medium: { bg: 'bg-amber-500/20', text: 'text-amber-400' },
+    high: { bg: 'bg-orange-500/20', text: 'text-orange-400' },
+    critical: { bg: 'bg-red-500/20', text: 'text-red-400' },
   };
+  const riskCls = riskColors[history.riskLevel] || riskColors.low;
 
   return `
     <div class="sanctions-history p-4 space-y-4">
       <div class="flex justify-between items-center">
         <h3 class="text-lg font-bold">${t('adminSanctionsHistory')}</h3>
-        <span class="px-3 py-1 rounded-full text-sm bg-${riskColors[history.riskLevel]}-500/20 text-${riskColors[history.riskLevel]}-400">
+        <span class="px-3 py-1 rounded-full text-sm ${riskCls.bg} ${riskCls.text}">
           ${t('adminRiskLevel')}: ${history.riskLevel.toUpperCase()}
         </span>
       </div>
@@ -1511,7 +1521,7 @@ export function renderSanctionsHistory(userId) {
           </span>
         </div>
         <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
-          <div class="h-full bg-${history.activeWarningPoints >= 8 ? 'red' : history.activeWarningPoints >= 5 ? 'orange' : 'amber'}-500 transition-all"
+          <div class="${history.activeWarningPoints >= 8 ? 'bg-red-500' : history.activeWarningPoints >= 5 ? 'bg-orange-500' : 'bg-amber-500'} h-full transition-all"
                style="width: ${Math.min(100, (history.activeWarningPoints / MAX_WARNING_POINTS) * 100)}%"></div>
         </div>
       </div>
@@ -2298,11 +2308,12 @@ export function renderForbiddenWordsPanel() {
   const words = getForbiddenWords();
 
   const severityLabels = {
-    1: { label: 'Mineur', color: 'slate' },
-    2: { label: 'Modere', color: 'amber' },
-    3: { label: 'Severe', color: 'orange' },
-    4: { label: 'Critique', color: 'red' },
+    1: { label: 'Mineur', bg: 'bg-slate-500/20', text: 'text-slate-400' },
+    2: { label: 'Modere', bg: 'bg-amber-500/20', text: 'text-amber-400' },
+    3: { label: 'Severe', bg: 'bg-orange-500/20', text: 'text-orange-400' },
+    4: { label: 'Critique', bg: 'bg-red-500/20', text: 'text-red-400' },
   };
+  const defaultSeverity = { label: 'N/A', bg: 'bg-slate-500/20', text: 'text-slate-400' };
 
   return `
     <div class="forbidden-words-panel p-4 space-y-4">
@@ -2316,12 +2327,14 @@ export function renderForbiddenWordsPanel() {
       <div class="text-sm text-slate-400">${words.length} ${t('adminWordsTotal')}</div>
 
       <div class="space-y-2 max-h-96 overflow-y-auto">
-        ${words.map(entry => `
+        ${words.map(entry => {
+          const sevCls = severityLabels[entry.severity] || defaultSeverity;
+          return `
           <div class="flex justify-between items-center p-3 rounded-lg bg-white/5">
             <div>
               <span class="font-mono text-sm">${entry.word}</span>
-              <span class="ml-2 px-2 py-0.5 rounded-full text-xs bg-${severityLabels[entry.severity]?.color || 'slate'}-500/20 text-${severityLabels[entry.severity]?.color || 'slate'}-400">
-                ${severityLabels[entry.severity]?.label || 'N/A'}
+              <span class="ml-2 px-2 py-0.5 rounded-full text-xs ${sevCls.bg} ${sevCls.text}">
+                ${sevCls.label}
               </span>
               <span class="ml-2 text-xs text-slate-500">${entry.action}</span>
             </div>
@@ -2329,7 +2342,7 @@ export function renderForbiddenWordsPanel() {
               <i class="fas fa-trash"></i>
             </button>
           </div>
-        `).join('')}
+        `}).join('')}
       </div>
     </div>
   `;

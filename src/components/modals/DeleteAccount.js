@@ -51,19 +51,19 @@ export function renderDeleteAccountModal(state) {
             </h3>
             <ul class="text-sm text-slate-300 space-y-2">
               <li class="flex items-start gap-2">
-                <i class="fas fa-times-circle text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
+                <i class="fas fa-times-circle text-red-400 mt-0.5 shrink-0" aria-hidden="true"></i>
                 <span>${t('allSpotsDeleted') || 'Tous vos spots partagés seront supprimés'}</span>
               </li>
               <li class="flex items-start gap-2">
-                <i class="fas fa-times-circle text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
+                <i class="fas fa-times-circle text-red-400 mt-0.5 shrink-0" aria-hidden="true"></i>
                 <span>${t('pointsBadgesLost') || `Vos ${state.points || 0} points et ${state.badges?.length || 0} badges seront perdus`}</span>
               </li>
               <li class="flex items-start gap-2">
-                <i class="fas fa-times-circle text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
+                <i class="fas fa-times-circle text-red-400 mt-0.5 shrink-0" aria-hidden="true"></i>
                 <span>${t('checkinHistoryErased') || 'Votre historique de check-ins sera effacé'}</span>
               </li>
               <li class="flex items-start gap-2">
-                <i class="fas fa-times-circle text-red-400 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
+                <i class="fas fa-times-circle text-red-400 mt-0.5 shrink-0" aria-hidden="true"></i>
                 <span>${t('friendsNoContact') || 'Vos amis ne pourront plus vous contacter'}</span>
               </li>
             </ul>

@@ -57,7 +57,7 @@ export function renderShopModal() {
         <div class="flex gap-2 p-3 overflow-x-auto scrollbar-hide bg-dark-secondary/50">
           ${rewardCategories.map(cat => `
             <button onclick="setShopCategory('${cat.id}')"
-                    class="flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap
+                    class="shrink-0 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap
                            ${shopCategory === cat.id
     ? 'bg-primary-500 text-white'
     : 'bg-white/5 text-slate-400 hover:bg-white/10'}">
@@ -106,7 +106,7 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
     <div class="card p-4 ${isRedeemed ? 'opacity-60' : ''} ${canBuy ? 'hover:border-primary-500/50' : ''}">
       <div class="flex gap-4">
         <!-- Partner Logo -->
-        <div class="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center text-3xl flex-shrink-0">
+        <div class="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center text-3xl shrink-0">
           ${reward.partnerLogo}
         </div>
 
@@ -117,7 +117,7 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
               <h4 class="font-bold text-white">${name}</h4>
               <p class="text-xs text-slate-400">${reward.partner}</p>
             </div>
-            <div class="text-right flex-shrink-0">
+            <div class="text-right shrink-0">
               <div class="text-lg font-bold ${canBuy ? 'text-amber-400' : 'text-slate-500'}">
                 ${reward.discount}
               </div>

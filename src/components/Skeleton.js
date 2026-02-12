@@ -44,7 +44,7 @@ export function renderSkeletonList(count = 3) {
 export function renderSkeletonCompactCard() {
   return `
     <article class="card p-3 flex gap-3 animate-pulse">
-      <div class="w-16 h-16 rounded-xl bg-white/10 flex-shrink-0"></div>
+      <div class="w-16 h-16 rounded-xl bg-white/10 shrink-0"></div>
       <div class="flex-1">
         <div class="h-5 bg-white/10 rounded w-3/4 mb-2"></div>
         <div class="h-4 bg-white/10 rounded w-1/2"></div>
@@ -79,7 +79,7 @@ export function renderSkeletonMessages(count = 5) {
     const isOwn = i % 3 === 0;
     return `
       <div class="flex gap-3 ${isOwn ? 'flex-row-reverse' : ''} animate-pulse">
-        <div class="w-8 h-8 rounded-full bg-white/10 flex-shrink-0"></div>
+        <div class="w-8 h-8 rounded-full bg-white/10 shrink-0"></div>
         <div class="${isOwn ? 'items-end' : 'items-start'} flex flex-col">
           <div class="h-3 bg-white/10 rounded w-16 mb-1"></div>
           <div class="p-3 rounded-xl bg-white/10 ${isOwn ? 'rounded-tr-none' : 'rounded-tl-none'}">
@@ -156,7 +156,7 @@ export function renderSkeletonReward() {
   return `
     <div class="card p-4 animate-pulse">
       <div class="flex gap-4">
-        <div class="w-16 h-16 rounded-xl bg-white/10 flex-shrink-0"></div>
+        <div class="w-16 h-16 rounded-xl bg-white/10 shrink-0"></div>
         <div class="flex-1">
           <div class="h-5 bg-white/10 rounded w-3/4 mb-2"></div>
           <div class="h-3 bg-white/10 rounded w-1/2 mb-2"></div>

@@ -1132,7 +1132,7 @@ export function renderTravelGroupDetail(state) {
               <div class="space-y-3 max-h-60 overflow-y-auto mb-3">
                 ${group.chat?.length > 0 ? group.chat.map((msg) => `
                   <div class="flex gap-2">
-                    <div class="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-sm flex-shrink-0">${msg.avatar || '👤'}</div>
+                    <div class="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-sm shrink-0">${msg.avatar || '👤'}</div>
                     <div class="flex-1">
                       <div class="text-sm font-medium">${msg.username}</div>
                       <div class="text-sm text-slate-400">${msg.message}</div>

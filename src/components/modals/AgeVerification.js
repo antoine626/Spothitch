@@ -112,7 +112,7 @@ export function renderAgeVerification(state) {
 
           <!-- Important note -->
           <div class="flex items-start gap-3 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-            <i class="fas fa-info-circle text-blue-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+            <i class="fas fa-info-circle text-blue-400 mt-1 shrink-0" aria-hidden="true"></i>
             <p class="text-blue-300 text-sm">
               ${t('ageVerificationNote')}
             </p>
@@ -143,7 +143,7 @@ export function renderAgeVerification(state) {
               class="hidden flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
               role="alert"
             >
-              <i class="fas fa-exclamation-circle text-red-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+              <i class="fas fa-exclamation-circle text-red-400 mt-1 shrink-0" aria-hidden="true"></i>
               <div>
                 <p id="age-error-text" class="text-red-300 text-sm"></p>
               </div>
@@ -169,7 +169,7 @@ export function renderAgeVerification(state) {
           <!-- Too young message (hidden by default) -->
           <div id="too-young-message" class="hidden space-y-4">
             <div class="flex items-start gap-3 p-4 bg-orange-500/10 border border-orange-500/20 rounded-xl">
-              <i class="fas fa-heart text-orange-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+              <i class="fas fa-heart text-orange-400 mt-1 shrink-0" aria-hidden="true"></i>
               <div>
                 <p class="text-orange-300 text-sm font-medium">${t('ageTooYoungTitle')}</p>
                 <p class="text-orange-200 text-xs mt-1">${t('ageTooYoungMessage')}</p>

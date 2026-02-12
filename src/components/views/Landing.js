@@ -280,7 +280,7 @@ export function renderLanding(state) {
               </h2>
               <ul class="space-y-4">
                 <li class="flex items-start gap-3">
-                  <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
                     <i class="fas fa-check text-emerald-400" aria-hidden="true"></i>
                   </div>
                   <div>
@@ -289,7 +289,7 @@ export function renderLanding(state) {
                   </div>
                 </li>
                 <li class="flex items-start gap-3">
-                  <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
                     <i class="fas fa-check text-emerald-400" aria-hidden="true"></i>
                   </div>
                   <div>
@@ -298,7 +298,7 @@ export function renderLanding(state) {
                   </div>
                 </li>
                 <li class="flex items-start gap-3">
-                  <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
                     <i class="fas fa-check text-emerald-400" aria-hidden="true"></i>
                   </div>
                   <div>
@@ -307,7 +307,7 @@ export function renderLanding(state) {
                   </div>
                 </li>
                 <li class="flex items-start gap-3">
-                  <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
                     <i class="fas fa-check text-emerald-400" aria-hidden="true"></i>
                   </div>
                   <div>

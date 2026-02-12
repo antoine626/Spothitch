@@ -128,7 +128,7 @@ function renderMessages(state) {
           onclick="openConversation('${conv.recipientId}')"
           class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-all border-b border-white/5"
         >
-          <div class="relative flex-shrink-0">
+          <div class="relative shrink-0">
             <span class="text-3xl">${conv.recipientAvatar || '🤙'}</span>
             ${conv.online ? `
               <span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-dark-primary bg-emerald-500"></span>
@@ -137,7 +137,7 @@ function renderMessages(state) {
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between">
               <div class="font-medium truncate">${conv.recipientName}</div>
-              <time class="text-xs text-slate-500 flex-shrink-0 ml-2">
+              <time class="text-xs text-slate-500 shrink-0 ml-2">
                 ${formatRelativeTime(conv.lastMessageTime)}
               </time>
             </div>
@@ -146,7 +146,7 @@ function renderMessages(state) {
                 ${conv.lastMessageSenderId === (state.user?.uid || 'local-user') ? `${t('you')}: ` : ''}${conv.lastMessage}
               </p>
               ${conv.unreadCount > 0 ? `
-                <span class="w-5 h-5 rounded-full bg-primary-500 text-white text-xs flex items-center justify-center flex-shrink-0 ml-2">
+                <span class="w-5 h-5 rounded-full bg-primary-500 text-white text-xs flex items-center justify-center shrink-0 ml-2">
                   ${conv.unreadCount}
                 </span>
               ` : ''}
@@ -572,14 +572,14 @@ function renderEventCard(event, state) {
       class="card p-4 w-full text-left hover:border-primary-500/50 transition-all"
     >
       <div class="flex items-start gap-3">
-        <div class="w-12 h-12 rounded-xl ${typeInfo.bg} flex items-center justify-center flex-shrink-0">
+        <div class="w-12 h-12 rounded-xl ${typeInfo.bg} flex items-center justify-center shrink-0">
           <span class="text-2xl">${typeInfo.icon}</span>
         </div>
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2 mb-1">
             <div class="font-bold truncate">${event.title}</div>
             ${isParticipant ? `
-              <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs flex-shrink-0">${t('joined')}</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs shrink-0">${t('joined')}</span>
             ` : ''}
           </div>
           <div class="flex items-center gap-3 text-sm text-slate-400">
@@ -790,7 +790,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
   return `
     <div class="bg-white/5 rounded-xl p-3">
       <div class="flex items-start gap-2">
-        <span class="text-xl flex-shrink-0">${comment.userAvatar || '🤙'}</span>
+        <span class="text-xl shrink-0">${comment.userAvatar || '🤙'}</span>
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2">
             <span class="font-medium text-sm">${comment.userName}</span>
@@ -833,7 +833,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
             <div class="mt-2 pl-3 border-l-2 border-white/10 space-y-2">
               ${commentReplies.map(reply => `
                 <div class="flex items-start gap-2">
-                  <span class="text-sm flex-shrink-0">${reply.userAvatar || '🤙'}</span>
+                  <span class="text-sm shrink-0">${reply.userAvatar || '🤙'}</span>
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2">
                       <span class="font-medium text-xs">${reply.userName}</span>

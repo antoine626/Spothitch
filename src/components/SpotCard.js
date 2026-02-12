@@ -145,7 +145,7 @@ function renderCompactCard(spot) {
       aria-label="${t('hitchSpot') || 'Spot'}: ${safeFrom} → ${safeTo}. ${ratingText}."
     >
       <!-- Photo with freshness indicator -->
-      <div class="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+      <div class="relative w-16 h-16 rounded-xl overflow-hidden shrink-0">
         ${safePhotoUrl ? `<img
           src="${safePhotoUrl}"
           alt="${t('spotPhoto') || 'Photo du spot'}: ${safeFrom}"

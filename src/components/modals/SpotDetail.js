@@ -44,7 +44,7 @@ export function renderSpotDetail(state) {
         </button>
 
         <!-- Photo -->
-        <div class="relative h-40 sm:h-56 overflow-hidden flex-shrink-0">
+        <div class="relative h-40 sm:h-56 overflow-hidden shrink-0">
           ${spot.photoUrl ? `<img
             src="${escapeHTML(spot.photoUrl)}"
             alt="${t('spotPhoto') || 'Photo du spot'}: ${escapeHTML(spot.from || '')} → ${escapeHTML(spot.to || '')}"

@@ -329,7 +329,7 @@ function renderAmenityItem(poi) {
 
   return `
     <div class="card p-3 flex items-center gap-3">
-      <div class="flex-shrink-0 w-8 h-8 rounded-full ${colorClass} flex items-center justify-center text-sm">
+      <div class="shrink-0 w-8 h-8 rounded-full ${colorClass} flex items-center justify-center text-sm">
         ${icon}
       </div>
       <div class="flex-1 min-w-0">
@@ -351,7 +351,7 @@ function renderTripSpot(spot, index) {
 
   return `
     <div class="card p-3 flex items-center gap-3 ${isFav ? 'border-amber-500/30' : ''}">
-      <div class="flex-shrink-0 w-8 h-8 rounded-full ${isFav ? 'bg-amber-500/20' : 'bg-primary-500/20'} flex items-center justify-center text-sm font-bold ${isFav ? 'text-amber-400' : 'text-primary-400'}">
+      <div class="shrink-0 w-8 h-8 rounded-full ${isFav ? 'bg-amber-500/20' : 'bg-primary-500/20'} flex items-center justify-center text-sm font-bold ${isFav ? 'text-amber-400' : 'text-primary-400'}">
         ${isFav ? '<i class="fas fa-star text-xs"></i>' : (index + 1)}
       </div>
       <button onclick="openSpotDetail('${spot.id}')" class="flex-1 min-w-0 text-left">
@@ -364,7 +364,7 @@ function renderTripSpot(spot, index) {
       </button>
       <button
         onclick="toggleFavorite('${spot.id}')"
-        class="flex-shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center ${isFav ? 'text-amber-400' : 'text-slate-500 hover:text-amber-400'} hover:bg-amber-500/10 transition-all"
+        class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center ${isFav ? 'text-amber-400' : 'text-slate-500 hover:text-amber-400'} hover:bg-amber-500/10 transition-all"
         aria-label="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
         title="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
       >
@@ -372,7 +372,7 @@ function renderTripSpot(spot, index) {
       </button>
       <button
         onclick="removeSpotFromTrip(${index})"
-        class="flex-shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
+        class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
         aria-label="${t('remove') || 'Retirer'}"
       >
         <i class="fas fa-times text-xs" aria-hidden="true"></i>
@@ -407,7 +407,7 @@ function renderTripMapView(results) {
       <div class="absolute bottom-3 left-3 right-3 z-[1000] px-4 py-3 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10">
         <div class="flex items-center justify-between text-sm">
           <span class="font-medium truncate">${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}</span>
-          <span class="text-slate-400 flex-shrink-0 ml-2">${results.distance} km • ~${results.estimatedTime}</span>
+          <span class="text-slate-400 shrink-0 ml-2">${results.distance} km • ~${results.estimatedTime}</span>
         </div>
       </div>
     </div>
@@ -436,7 +436,7 @@ function renderSavedTrips(savedTrips) {
         <div class="card p-4">
           <div class="flex items-center justify-between">
             <button onclick="loadSavedTrip(${index})" class="flex-1 text-left flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center flex-shrink-0">
+              <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center shrink-0">
                 <i class="fas fa-route text-primary-400" aria-hidden="true"></i>
               </div>
               <div class="min-w-0">
@@ -446,7 +446,7 @@ function renderSavedTrips(savedTrips) {
             </button>
             <button
               onclick="deleteSavedTrip(${index})"
-              class="flex-shrink-0 w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all ml-2"
+              class="shrink-0 w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all ml-2"
               aria-label="${t('delete') || 'Supprimer'}"
             >
               <i class="fas fa-trash text-xs" aria-hidden="true"></i>
@@ -648,7 +648,7 @@ function renderGuideDetail(guide) {
               const typeColor = event.type === 'festival' ? 'text-pink-400 bg-pink-500/20' : event.type === 'gathering' ? 'text-cyan-400 bg-cyan-500/20' : 'text-amber-400 bg-amber-500/20'
               return `
               <div class="flex items-start gap-3 p-3 rounded-xl bg-white/5">
-                <div class="flex-shrink-0 w-9 h-9 rounded-full ${typeColor} flex items-center justify-center">
+                <div class="shrink-0 w-9 h-9 rounded-full ${typeColor} flex items-center justify-center">
                   <i class="fas ${typeIcon} text-sm" aria-hidden="true"></i>
                 </div>
                 <div class="flex-1 min-w-0">

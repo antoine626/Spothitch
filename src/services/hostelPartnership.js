@@ -1031,7 +1031,7 @@ export function renderHostelCard(hostel) {
          aria-label="${t('partnerHostel')}: ${hostel.name}">
       <div class="flex items-start gap-4">
         <!-- Photo -->
-        <div class="w-24 h-24 rounded-lg bg-dark-600 overflow-hidden flex-shrink-0">
+        <div class="w-24 h-24 rounded-lg bg-dark-600 overflow-hidden shrink-0">
           ${hostel.photos && hostel.photos[0]
             ? `<img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover">`
             : `<div class="w-full h-full flex items-center justify-center text-3xl">🏨</div>`
@@ -1284,7 +1284,7 @@ export function renderDiscountBanner(discount) {
          role="banner"
          aria-label="${t('discountLabel')}">
       <div class="flex items-center gap-3">
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
           <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-primary-500/30 text-primary-400">
             <i class="fas fa-percent text-xl"></i>
           </span>

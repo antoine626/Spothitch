@@ -228,7 +228,7 @@ function renderDeviceItem(device, isCurrent) {
         <button
           type="button"
           onclick="confirmRemoveDevice('${deviceId}')"
-          class="flex-shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center hover:bg-red-500/20 transition-colors text-red-400"
+          class="shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center hover:bg-red-500/20 transition-colors text-red-400"
           aria-label="${t('removeDevice')} ${deviceName}"
         >
           <i class="fas fa-trash-alt" aria-hidden="true"></i>

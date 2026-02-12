@@ -87,7 +87,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
           ${photos.map((photo, index) => `
             <button
               onclick="goToPhoto('${galleryId}', ${index})"
-              class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all
+              class="shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all
                 ${index === 0 ? 'border-primary-500' : 'border-transparent hover:border-white/30'}"
               data-thumb-index="${index}"
               aria-label="Photo ${index + 1}"

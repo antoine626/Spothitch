@@ -176,7 +176,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
 
       <!-- Privacy Note -->
       <div class="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
-        <i class="fas fa-lock text-green-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+        <i class="fas fa-lock text-green-400 mt-1 shrink-0" aria-hidden="true"></i>
         <p class="text-green-300 text-sm">
           ${reasons.privacyNote}
         </p>
@@ -217,7 +217,7 @@ function renderVerificationStep(level, isComplete, title, description, icon, col
       role="listitem"
     >
       <div
-        class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+        class="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
         style="background: ${isComplete ? color : 'rgba(255,255,255,0.1)'}20;"
       >
         ${isComplete
@@ -225,7 +225,7 @@ function renderVerificationStep(level, isComplete, title, description, icon, col
           : `<i class="fas fa-${icon} text-xl ${isPending ? 'text-slate-500' : 'text-white'}"></i>`
         }
       </div>
-      <div class="flex-grow">
+      <div class="grow">
         <div class="flex items-center gap-2">
           <span class="font-medium text-white">${title}</span>
           ${isComplete ? `<span class="px-2 py-0.5 rounded-full text-xs font-medium" style="background: ${color}20; color: ${color};">${t('verified')}</span>` : ''}
@@ -303,7 +303,7 @@ function renderPhoneStep(lang) {
           <input
             type="tel"
             id="phone-input"
-            class="input-modern flex-grow"
+            class="input-modern grow"
             placeholder="612345678"
             value="${modalState.phoneNumber || ''}"
             oninput="updatePhoneNumber(this.value)"
@@ -671,7 +671,7 @@ function renderSelfieIdStep(lang) {
 
       <!-- Privacy Notice -->
       <div class="flex items-start gap-3 p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
-        <i class="fas fa-lock text-green-400 mt-1 flex-shrink-0" aria-hidden="true"></i>
+        <i class="fas fa-lock text-green-400 mt-1 shrink-0" aria-hidden="true"></i>
         <p class="text-green-300 text-sm">
           ${lang === 'en' ? 'Your photos are encrypted and only seen by moderators. They are deleted after verification.' : 'Tes photos sont chiffrees et vues uniquement par les moderateurs. Elles sont supprimees apres verification.'}
         </p>

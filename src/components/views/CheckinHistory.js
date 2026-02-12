@@ -150,7 +150,7 @@ function renderCheckinItem(checkin) {
     >
       <div class="flex gap-3">
         <!-- Photo or placeholder -->
-        <div class="w-16 h-16 rounded-xl overflow-hidden bg-white/5 flex-shrink-0">
+        <div class="w-16 h-16 rounded-xl overflow-hidden bg-white/5 shrink-0">
           ${hasPhoto
     ? `<img src="${checkin.photoUrl}" alt="Photo du check-in" class="w-full h-full object-cover" loading="lazy" />`
     : `<div class="w-full h-full flex items-center justify-center text-2xl">

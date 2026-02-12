@@ -98,7 +98,7 @@ export function renderApp(state) {
 
     <!-- Active Trip Bar (like Spotify "Now Playing") -->
     ${state.tripResults ? `
-      <div class="fixed bottom-20 left-4 right-4 z-30 px-4 py-2.5 rounded-xl bg-primary-500/90 backdrop-blur-xl border border-primary-400/30 shadow-lg shadow-primary-500/20 cursor-pointer" onclick="openActiveTrip()">
+      <div class="fixed bottom-[4.5rem] left-4 right-4 z-30 px-4 py-2.5 rounded-xl bg-primary-500/90 backdrop-blur-xl border border-primary-400/30 shadow-lg shadow-primary-500/20 cursor-pointer" onclick="openActiveTrip()">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3 min-w-0">
             <i class="fas fa-route text-white/80" aria-hidden="true"></i>

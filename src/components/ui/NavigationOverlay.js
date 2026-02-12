@@ -31,7 +31,7 @@ export function renderNavigationOverlay(state) {
         <div class="bg-primary-600 rounded-2xl shadow-2xl overflow-hidden">
           <!-- Main instruction -->
           <div class="p-4 flex items-center gap-4">
-            <div class="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+            <div class="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
               <i class="fas ${currentInstruction ? getDirectionIcon(currentInstruction.maneuver?.type, currentInstruction.maneuver?.modifier) : 'fa-arrow-up'} text-3xl text-white"></i>
             </div>
             <div class="flex-1 min-w-0">
@@ -48,7 +48,7 @@ export function renderNavigationOverlay(state) {
           <!-- Next instruction preview -->
           ${nextInstruction ? `
             <div class="px-4 py-3 bg-black/20 flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+              <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
                 <i class="fas ${getDirectionIcon(nextInstruction.maneuver?.type, nextInstruction.maneuver?.modifier)} text-white/70"></i>
               </div>
               <div class="flex-1 text-white/70 text-sm truncate">
@@ -86,7 +86,7 @@ export function renderNavigationOverlay(state) {
             </div>
 
             <!-- Destination -->
-            <div class="text-right flex-shrink-0 max-w-[40%]">
+            <div class="text-right shrink-0 max-w-[40%]">
               <div class="text-sm text-white truncate">
                 ${navigationDestination?.name || 'Destination'}
               </div>

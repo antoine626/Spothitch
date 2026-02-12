@@ -167,6 +167,19 @@
     background: linear-gradient(135deg, #ef4444, #dc2626);
   }
 
+  .btn-warning {
+    @apply text-white shadow-lg shadow-warning-500/30;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+
+  .btn-sm {
+    @apply text-sm px-4 py-2 rounded-lg min-h-[36px];
+  }
+
+  .btn-lg {
+    @apply text-lg px-8 py-4 rounded-2xl min-h-[56px];
+  }
+
   .btn-ghost {
     @apply bg-white/5 text-white;
   }
@@ -464,6 +477,20 @@
 
 /* ===== UTILITIES ===== */
 @layer utilities {
+  /* Scrollbar hidden */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Safe area inset for notched devices (iPhone X+) */
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
   /* Fade Animations */
   .fade-in {
     animation: fadeIn 0.4s ease-out forwards;
@@ -2007,7 +2034,7 @@ textarea.input-field {
 
 /* Thumbnail Buttons */
 .photo-gallery [data-thumb-index] {
-  @apply flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden;
+  @apply shrink-0 w-16 h-16 rounded-lg overflow-hidden;
   @apply border-2 transition-all duration-200;
   border-color: transparent;
 }

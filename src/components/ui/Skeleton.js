@@ -32,7 +32,7 @@ export function renderSkeletonSpotCard() {
     <div class="card p-4 animate-pulse">
       <div class="flex gap-4">
         <!-- Image placeholder -->
-        <div class="skeleton w-24 h-24 rounded-xl flex-shrink-0"></div>
+        <div class="skeleton w-24 h-24 rounded-xl shrink-0"></div>
 
         <div class="flex-1 space-y-3">
           <!-- Title -->
@@ -103,7 +103,7 @@ export function renderSkeletonChallengeCard() {
   return `
     <div class="card p-4 animate-pulse">
       <div class="flex items-center gap-4">
-        <div class="skeleton w-12 h-12 rounded-xl flex-shrink-0"></div>
+        <div class="skeleton w-12 h-12 rounded-xl shrink-0"></div>
         <div class="flex-1 space-y-2">
           <div class="skeleton h-5 w-3/4 rounded"></div>
           <div class="skeleton h-3 w-full rounded"></div>
@@ -122,7 +122,7 @@ export function renderSkeletonChallengeCard() {
 export function renderSkeletonChatMessage(isOwn = false) {
   return `
     <div class="flex gap-3 ${isOwn ? 'flex-row-reverse' : ''} animate-pulse">
-      <div class="skeleton w-10 h-10 rounded-full flex-shrink-0"></div>
+      <div class="skeleton w-10 h-10 rounded-full shrink-0"></div>
       <div class="space-y-2 ${isOwn ? 'items-end' : 'items-start'}">
         <div class="skeleton h-4 w-20 rounded"></div>
         <div class="skeleton h-16 w-48 rounded-2xl"></div>
@@ -242,7 +242,7 @@ export function renderSkeletonGuideCard() {
   return `
     <div class="card p-4 animate-pulse">
       <div class="flex gap-4">
-        <div class="skeleton w-16 h-12 rounded-lg flex-shrink-0"></div>
+        <div class="skeleton w-16 h-12 rounded-lg shrink-0"></div>
         <div class="flex-1 space-y-2">
           <div class="skeleton h-5 w-24 rounded"></div>
           <div class="skeleton h-4 w-full rounded"></div>

@@ -44,7 +44,7 @@ export function renderLocationPermission(_state) {
           <!-- Reasons list -->
           <div class="space-y-3">
             <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
-              <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center flex-shrink-0">
+              <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center shrink-0">
                 <i class="fas fa-search-location text-primary-400" aria-hidden="true"></i>
               </div>
               <div>
@@ -54,7 +54,7 @@ export function renderLocationPermission(_state) {
             </div>
 
             <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
-              <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+              <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center shrink-0">
                 <i class="fas fa-map text-cyan-400" aria-hidden="true"></i>
               </div>
               <div>
@@ -64,7 +64,7 @@ export function renderLocationPermission(_state) {
             </div>
 
             <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
-              <div class="w-10 h-10 rounded-full bg-success-500/20 flex items-center justify-center flex-shrink-0">
+              <div class="w-10 h-10 rounded-full bg-success-500/20 flex items-center justify-center shrink-0">
                 <i class="fas fa-route text-success-400" aria-hidden="true"></i>
               </div>
               <div>

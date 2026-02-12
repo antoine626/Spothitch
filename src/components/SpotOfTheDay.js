@@ -48,7 +48,7 @@ export function renderSpotOfTheDay(state) {
       <!-- Content -->
       <div class="flex gap-3 p-3">
         <!-- Photo -->
-        <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 relative">
+        <div class="w-20 h-20 rounded-xl overflow-hidden shrink-0 relative">
           ${safePhotoUrl ? `
             <img
               src="${safePhotoUrl}"
@@ -148,7 +148,7 @@ export function renderSpotOfTheDayCompact(state) {
       <span class="text-xl" aria-hidden="true">&#11088;</span>
 
       <!-- Photo thumbnail -->
-      <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+      <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0">
         ${safePhotoUrl ? `
           <img
             src="${safePhotoUrl}"

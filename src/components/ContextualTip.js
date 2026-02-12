@@ -50,7 +50,7 @@ export function renderContextualTip() {
       <div class="bg-gradient-to-r ${gradientClass} backdrop-blur-xl border rounded-2xl p-4 shadow-2xl">
         <div class="flex items-start gap-3">
           <!-- Lightbulb Icon -->
-          <div class="flex-shrink-0 w-10 h-10 rounded-xl ${iconClass} flex items-center justify-center">
+          <div class="shrink-0 w-10 h-10 rounded-xl ${iconClass} flex items-center justify-center">
             <i class="fas fa-lightbulb text-lg" aria-hidden="true"></i>
           </div>
 
@@ -65,7 +65,7 @@ export function renderContextualTip() {
           <!-- Dismiss Button -->
           <button
             onclick="window.dismissContextualTip()"
-            class="flex-shrink-0 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-400 hover:text-white transition-all"
+            class="shrink-0 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-400 hover:text-white transition-all"
             aria-label="${t('closeTip') || 'Close tip'}"
             type="button"
           >
