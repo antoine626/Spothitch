@@ -36,6 +36,9 @@ const initialState = {
   favoritesSort: 'date',
   showFavoritesOnMap: false,
 
+  // Map layout
+  splitView: false,
+
   // Modals
   showAddSpot: false,
   showRating: false,

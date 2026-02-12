@@ -42,8 +42,8 @@ const MAIN_JS_HANDLERS = [
   'startTutorial', 'nextTutorial', 'prevTutorial', 'skipTutorial', 'finishTutorial',
   // Chat
   'setChatRoom', 'sendMessage',
-  // Filters
-  'setFilter', 'handleSearch', 'openFilters', 'closeFilters',
+  // Filters / Map layout
+  'setFilter', 'handleSearch', 'openFilters', 'closeFilters', 'toggleSplitView',
   'setFilterCountry', 'setFilterMinRating', 'setFilterMaxWait',
   'toggleVerifiedFilter', 'setSortBy', 'applyFilters', 'resetFilters',
   // Quiz

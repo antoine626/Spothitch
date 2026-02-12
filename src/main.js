@@ -1227,6 +1227,10 @@ window.setFilter = (filter) => actions.setFilter(filter);
 window.handleSearch = (query) => debounce('search', () => actions.setSearchQuery(query), 250);
 window.openFilters = () => setState({ showFilters: true });
 window.closeFilters = () => setState({ showFilters: false });
+window.toggleSplitView = () => {
+  const s = getState()
+  setState({ splitView: !s.splitView })
+};
 window.setFilterCountry = (country) => setState({ filterCountry: country });
 window.setFilterMinRating = (rating) => setState({ filterMinRating: rating });
 window.setFilterMaxWait = (wait) => setState({ filterMaxWait: wait });
