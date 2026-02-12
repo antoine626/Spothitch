@@ -219,10 +219,12 @@ import {
 let currentVersion = null
 
 function startVersionCheck() {
-  const CHECK_INTERVAL = 60_000 // 60 seconds
+  const CHECK_INTERVAL = 300_000 // 5 minutes
   const BASE = import.meta.env.BASE_URL || '/'
 
   async function check() {
+    // Only check when app is in background or hidden
+    if (document.visibilityState === 'visible') return
     try {
       const res = await fetch(`${BASE}version.json?t=${Date.now()}`, { cache: 'no-store' })
       if (!res.ok) return
@@ -232,12 +234,23 @@ function startVersionCheck() {
         return
       }
       if (data.version !== currentVersion) {
+        currentVersion = data.version
         window.location.reload()
       }
     } catch { /* offline or file missing — ignore */ }
   }
 
-  check()
+  // Initial check to store current version (always run)
+  ;(async () => {
+    try {
+      const res = await fetch(`${BASE}version.json?t=${Date.now()}`, { cache: 'no-store' })
+      if (res.ok) {
+        const data = await res.json()
+        currentVersion = data.version
+      }
+    } catch { /* ignore */ }
+  })()
+
   setInterval(check, CHECK_INTERVAL)
 }
 

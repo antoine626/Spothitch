@@ -94,7 +94,7 @@ export function renderMap(state) {
       </div>
 
       <!-- Map Controls (Zoom + Location) -->
-      <div class="absolute left-4 bottom-32 z-20 flex flex-col gap-2">
+      <div class="absolute left-4 bottom-36 z-30 flex flex-col gap-2">
         <button
           onclick="mapZoomIn()"
           class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"

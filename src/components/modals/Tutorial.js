@@ -489,7 +489,7 @@ if (typeof window.skipTutorial === 'undefined') {
   window.skipTutorial = () => {
     cleanupTutorialTargets();
     setState({ showTutorial: false, tutorialStep: 0 });
-    window.showToast?.(t('skipTutorial') || 'Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
+    // No toast on skip — silent close
   };
 }
 
@@ -508,7 +508,7 @@ if (typeof window.finishTutorial === 'undefined') {
       totalPoints: (state.totalPoints || 0) + totalPoints,
     });
 
-    window.showToast?.(t('finishTutorial', { points: totalPoints }) || `Tutoriel terminé ! +${totalPoints} points gagnés`, 'success');
+    // No toast on finish — silent completion
   };
 }
 

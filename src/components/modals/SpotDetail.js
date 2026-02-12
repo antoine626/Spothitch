@@ -44,7 +44,7 @@ export function renderSpotDetail(state) {
         </button>
 
         <!-- Photo -->
-        <div class="relative h-56 overflow-hidden">
+        <div class="relative h-40 sm:h-56 overflow-hidden flex-shrink-0">
           ${spot.photoUrl ? `<img
             src="${escapeHTML(spot.photoUrl)}"
             alt="${t('spotPhoto') || 'Photo du spot'}: ${escapeHTML(spot.from || '')} → ${escapeHTML(spot.to || '')}"
@@ -76,7 +76,7 @@ export function renderSpotDetail(state) {
         </div>
         
         <!-- Content -->
-        <div class="p-4 overflow-y-auto max-h-[calc(90vh-14rem)]">
+        <div class="p-4 overflow-y-auto max-h-[calc(90vh-10rem)]">
           <!-- Stats -->
           <div class="grid grid-cols-3 gap-3 mb-4" role="group" aria-label="${t('spotStats') || 'Statistiques du spot'}">
             <div class="card p-3 text-center">
@@ -148,7 +148,7 @@ export function renderSpotDetail(state) {
           </div>
 
           <!-- Actions -->
-          <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="grid grid-cols-3 gap-2 mb-4">
             <button
               onclick="openCheckinModal(${spot.id})"
               class="btn btn-primary"
@@ -162,8 +162,16 @@ export function renderSpotDetail(state) {
               class="btn btn-ghost"
               type="button"
             >
-              <i class="fas fa-star" aria-hidden="true"></i>
-              ${t('rate')}
+              <i class="fas fa-comment-dots" aria-hidden="true"></i>
+              ${t('review') || 'Avis'}
+            </button>
+            <button
+              onclick="toggleFavorite('${spot.id}')"
+              class="btn btn-ghost"
+              type="button"
+            >
+              <i class="fas fa-bookmark" aria-hidden="true"></i>
+              ${t('save') || 'Sauver'}
             </button>
           </div>
 

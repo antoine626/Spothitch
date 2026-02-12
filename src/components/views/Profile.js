@@ -254,21 +254,31 @@ export function renderProfile(state) {
         </div>
 
         <!-- Language -->
-        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
-          <div class="flex items-center gap-3">
+        <div class="p-3 rounded-lg bg-white/5">
+          <div class="flex items-center gap-3 mb-3">
             <i class="fas fa-globe text-emerald-400" aria-hidden="true"></i>
             <span>${t('language') || 'Langue'}</span>
           </div>
-          <select
-            class="bg-transparent border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:border-primary-500 outline-none"
-            onchange="setLanguage(this.value)"
-            aria-label="${t('chooseLanguage') || 'Choisir la langue'}"
-          >
-            <option value="fr" ${state.lang === 'fr' ? 'selected' : ''}>🇫🇷 Français</option>
-            <option value="en" ${state.lang === 'en' ? 'selected' : ''}>🇬🇧 English</option>
-            <option value="es" ${state.lang === 'es' ? 'selected' : ''}>🇪🇸 Español</option>
-            <option value="de" ${state.lang === 'de' ? 'selected' : ''}>🇩🇪 Deutsch</option>
-          </select>
+          <div class="grid grid-cols-4 gap-2" role="radiogroup" aria-label="${t('chooseLanguage') || 'Choisir la langue'}">
+            ${[
+              { code: 'fr', flag: '\uD83C\uDDEB\uD83C\uDDF7', name: 'FR' },
+              { code: 'en', flag: '\uD83C\uDDEC\uD83C\uDDE7', name: 'EN' },
+              { code: 'es', flag: '\uD83C\uDDEA\uD83C\uDDF8', name: 'ES' },
+              { code: 'de', flag: '\uD83C\uDDE9\uD83C\uDDEA', name: 'DE' },
+            ].map(lang => `
+              <button
+                onclick="setLanguage('${lang.code}')"
+                class="flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${state.lang === lang.code ? 'bg-primary-500/20 border-2 border-primary-500 ring-1 ring-primary-500/30' : 'bg-white/5 border-2 border-transparent hover:bg-white/10'}"
+                role="radio"
+                aria-checked="${state.lang === lang.code}"
+                aria-label="${lang.name}"
+                type="button"
+              >
+                <span class="text-2xl">${lang.flag}</span>
+                <span class="text-xs font-medium ${state.lang === lang.code ? 'text-primary-400' : 'text-slate-400'}">${lang.name}</span>
+              </button>
+            `).join('')}
+          </div>
         </div>
 
         <!-- Notifications -->

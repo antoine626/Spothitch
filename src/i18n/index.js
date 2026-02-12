@@ -225,6 +225,7 @@ const translations = {
 
     // Ratings
     rate: 'Évaluer',
+    review: 'Avis',
     rateSpot: 'Évalue ce spot',
     waitTime: "Temps d'attente",
     accessibility: 'Accessibilité',
@@ -446,6 +447,7 @@ const translations = {
 
     // Cookie Banner (RGPD)
     cookieTitle: 'Respect de votre vie privée',
+    cookieShortDesc: 'Ce site utilise des cookies pour fonctionner.',
     cookieDescription: 'Nous utilisons des cookies pour améliorer votre expérience, analyser le trafic et personnaliser le contenu. Les cookies nécessaires sont toujours actifs pour le bon fonctionnement du site.',
     cookieAccept: 'Accepter',
     cookieRefuse: 'Refuser',
@@ -2758,6 +2760,7 @@ const translations = {
 
     // Ratings
     rate: 'Rate',
+    review: 'Review',
     rateSpot: 'Rate this spot',
     waitTime: 'Wait time',
     accessibility: 'Accessibility',
@@ -2979,6 +2982,7 @@ const translations = {
 
     // Cookie Banner (GDPR)
     cookieTitle: 'Your Privacy Matters',
+    cookieShortDesc: 'This site uses cookies to function properly.',
     cookieDescription: 'We use cookies to improve your experience, analyze traffic, and personalize content. Necessary cookies are always active for the proper functioning of the site.',
     cookieAccept: 'Accept',
     cookieRefuse: 'Decline',
@@ -5297,6 +5301,7 @@ const translations = {
 
     // Cookie Banner (RGPD)
     cookieTitle: 'Respeto a tu privacidad',
+    cookieShortDesc: 'Este sitio usa cookies para funcionar.',
     cookieDescription: 'Usamos cookies para mejorar tu experiencia, analizar el trafico y personalizar el contenido. Las cookies necesarias siempre estan activas.',
     cookieAccept: 'Aceptar',
     cookieRefuse: 'Rechazar',
@@ -5847,6 +5852,7 @@ const translations = {
     checkinValidated: '¡Check-in validado!',
     checkinError: 'Error durante el check-in',
     rate: 'Valorar',
+    review: 'Opinión',
     rateSpot: 'Valora este spot',
     waitTime: 'Tiempo de espera',
     accessibility: 'Accesibilidad',
@@ -7820,6 +7826,7 @@ const translations = {
 
     // Ratings
     rate: 'Bewerten',
+    review: 'Bewertung',
     rateSpot: 'Diesen Spot bewerten',
     waitTime: 'Wartezeit',
     accessibility: 'Erreichbarkeit',
@@ -8041,6 +8048,7 @@ const translations = {
 
     // Cookie Banner (DSGVO)
     cookieTitle: 'Datenschutz',
+    cookieShortDesc: 'Diese Seite verwendet Cookies.',
     cookieDescription: 'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern, den Datenverkehr zu analysieren und Inhalte zu personalisieren. Notwendige Cookies sind immer aktiv.',
     cookieAccept: 'Akzeptieren',
     cookieRefuse: 'Ablehnen',

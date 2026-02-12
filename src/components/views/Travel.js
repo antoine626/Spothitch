@@ -210,13 +210,14 @@ function renderTripResults(results) {
       </div>
 
       <!-- Action buttons -->
-      <div class="flex gap-2">
-        <button onclick="viewTripOnMap()" class="btn-primary flex-1 py-2.5">
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="viewTripOnMap()" class="btn-primary py-3">
           <i class="fas fa-map mr-2" aria-hidden="true"></i>
           ${t('viewOnMap') || 'Voir sur la carte'}
         </button>
-        <button onclick="saveTripWithSpots()" class="btn-secondary py-2.5 px-4" aria-label="${t('save') || 'Sauvegarder'}">
-          <i class="fas fa-bookmark"></i>
+        <button onclick="saveTripWithSpots()" class="btn-secondary py-3 font-bold">
+          <i class="fas fa-bookmark mr-2" aria-hidden="true"></i>
+          ${t('saveTrip') || 'Sauvegarder ce trajet'}
         </button>
       </div>
 

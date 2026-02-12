@@ -188,65 +188,37 @@ export function renderCookieBanner() {
       aria-labelledby="cookie-banner-title"
       aria-describedby="cookie-banner-desc"
     >
-      <div class="max-w-4xl mx-auto bg-dark-card border border-dark-border rounded-2xl shadow-2xl overflow-hidden">
-        <!-- Header with icon -->
-        <div class="p-6 pb-4">
-          <div class="flex items-start gap-4">
-            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center">
-              <i class="fas fa-cookie-bite text-2xl text-primary-400" aria-hidden="true"></i>
-            </div>
-            <div class="flex-1">
-              <h2 id="cookie-banner-title" class="text-lg font-semibold text-white mb-2">
-                ${t('cookieTitle') || 'Respect de votre vie privee'}
-              </h2>
-              <p id="cookie-banner-desc" class="text-sm text-slate-400 leading-relaxed">
-                ${t('cookieDescription') || 'Nous utilisons des cookies pour ameliorer votre experience, analyser le trafic et personnaliser le contenu. Les cookies necessaires sont toujours actifs pour le bon fonctionnement du site.'}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Actions -->
-        <div class="px-6 pb-6 flex flex-wrap gap-3 items-center">
-          <button
-            onclick="acceptAllCookies()"
-            class="btn btn-primary flex-1 sm:flex-none min-w-[140px]"
-            type="button"
-          >
-            <i class="fas fa-check mr-2" aria-hidden="true"></i>
-            ${t('cookieAccept') || 'Accepter'}
-          </button>
-          <button
-            onclick="refuseOptionalCookies()"
-            class="btn btn-ghost flex-1 sm:flex-none min-w-[140px]"
-            type="button"
-          >
-            <i class="fas fa-times mr-2" aria-hidden="true"></i>
-            ${t('cookieRefuse') || 'Refuser'}
-          </button>
-          <button
-            onclick="showCookieCustomize()"
-            class="btn btn-ghost text-primary-400 flex-1 sm:flex-none min-w-[140px]"
-            type="button"
-            aria-haspopup="dialog"
-          >
-            <i class="fas fa-sliders-h mr-2" aria-hidden="true"></i>
-            ${t('cookieCustomize') || 'Personnaliser'}
-          </button>
-        </div>
-
-        <!-- Legal links -->
-        <div class="px-6 pb-4 pt-2 border-t border-white/10">
-          <p class="text-xs text-slate-500">
-            ${t('cookieLegalText') || 'En continuant, vous acceptez notre'}
-            <a href="#" onclick="showLegalPage('privacy')" class="text-primary-400 hover:text-primary-300 underline">
-              ${t('privacyPolicy') || 'Politique de confidentialite'}
-            </a>
-            ${t('and') || 'et'}
-            <a href="#" onclick="showLegalPage('cgu')" class="text-primary-400 hover:text-primary-300 underline">
-              ${t('termsOfService') || 'CGU'}
-            </a>.
+      <div class="max-w-lg mx-auto bg-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-white/10">
+        <div class="px-4 py-3 flex items-center gap-3">
+          <i class="fas fa-cookie-bite text-primary-400 flex-shrink-0" aria-hidden="true"></i>
+          <p id="cookie-banner-title" class="text-sm text-slate-300 flex-1">
+            ${t('cookieShortDesc') || t('cookieTitle') || 'Respect de votre vie privee'}
           </p>
+          <div class="flex gap-2 flex-shrink-0">
+            <button
+              onclick="acceptAllCookies()"
+              class="px-3 py-1.5 rounded-lg bg-primary-500 text-white text-xs font-medium hover:bg-primary-600 transition-colors"
+              type="button"
+            >
+              ${t('cookieAccept') || 'Accepter'}
+            </button>
+            <button
+              onclick="refuseOptionalCookies()"
+              class="px-3 py-1.5 rounded-lg bg-white/10 text-slate-300 text-xs font-medium hover:bg-white/20 transition-colors"
+              type="button"
+            >
+              ${t('cookieRefuse') || 'Refuser'}
+            </button>
+            <button
+              onclick="showCookieCustomize()"
+              class="px-2 py-1.5 rounded-lg bg-white/5 text-primary-400 text-xs hover:bg-white/10 transition-colors"
+              type="button"
+              aria-haspopup="dialog"
+              aria-label="${t('cookieCustomize') || 'Personnaliser'}"
+            >
+              <i class="fas fa-sliders-h" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>

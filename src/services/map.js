@@ -104,7 +104,7 @@ export async function initMap(containerId = 'map') {
 
     mainMap = L.default.map(containerId, {
       center,
-      zoom: state.userLocation ? 10 : DEFAULT_ZOOM,
+      zoom: state.userLocation ? 13 : DEFAULT_ZOOM,
       zoomControl: false,
       attributionControl: true,
     });
@@ -348,10 +348,10 @@ function createSpotIcon(L, spot) {
   if (spot.source === 'hitchwiki') {
     return L.divIcon({
       className: 'spot-marker-small',
-      html: `<div class="w-4 h-4 rounded-full border-2 border-white/70 shadow-md" style="background-color: ${color}"></div>`,
-      iconSize: [16, 16],
-      iconAnchor: [8, 8],
-      popupAnchor: [0, -8],
+      html: `<div class="flex items-center justify-center" style="width:44px;height:44px"><div class="rounded-full border-2 border-white/70 shadow-md" style="width:10px;height:10px;background-color:${color}"></div></div>`,
+      iconSize: [44, 44],
+      iconAnchor: [22, 22],
+      popupAnchor: [0, -22],
     });
   }
 
