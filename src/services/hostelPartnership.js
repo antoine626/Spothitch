@@ -1024,14 +1024,14 @@ export function renderHostelCard(hostel) {
   }).join(' ')
 
   return `
-    <div class="hostel-card rounded-xl p-4 bg-dark-700 border border-dark-600 hover:border-primary-500 transition-all cursor-pointer"
+    <div class="hostel-card rounded-xl p-4 bg-dark-primary border border-white/10 hover:border-primary-500 transition-all cursor-pointer"
          data-hostel-id="${hostel.id}"
          onclick="window.openHostelDetail?.('${hostel.id}')"
          role="article"
          aria-label="${t('partnerHostel')}: ${hostel.name}">
       <div class="flex items-start gap-4">
         <!-- Photo -->
-        <div class="w-24 h-24 rounded-lg bg-dark-600 overflow-hidden shrink-0">
+        <div class="w-24 h-24 rounded-lg bg-white/5 overflow-hidden shrink-0">
           ${hostel.photos && hostel.photos[0]
             ? `<img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover">`
             : `<div class="w-full h-full flex items-center justify-center text-3xl">🏨</div>`
@@ -1043,7 +1043,7 @@ export function renderHostelCard(hostel) {
           <div class="flex items-start justify-between">
             <div>
               <h3 class="font-semibold text-white text-lg truncate">${hostel.name}</h3>
-              <p class="text-sm text-gray-400">${hostel.city}, ${hostel.country}</p>
+              <p class="text-sm text-slate-400">${hostel.city}, ${hostel.country}</p>
             </div>
             <span class="bg-primary-500/20 text-primary-400 px-2 py-1 rounded-lg text-sm font-medium whitespace-nowrap">
               -${hostel.discount}%
@@ -1056,30 +1056,30 @@ export function renderHostelCard(hostel) {
               <i class="fas fa-star"></i>
               <span class="ml-1 text-white">${ratingInfo.average}</span>
             </div>
-            <span class="text-xs text-gray-500">(${ratingInfo.count} ${t('reviews')})</span>
+            <span class="text-xs text-slate-500">(${ratingInfo.count} ${t('reviews')})</span>
           </div>
 
           <!-- Amenities -->
-          <div class="flex items-center gap-3 mt-2 text-gray-400 text-sm">
+          <div class="flex items-center gap-3 mt-2 text-slate-400 text-sm">
             ${amenityIcons}
           </div>
 
           <!-- Price -->
           <div class="mt-2 text-sm">
-            <span class="text-gray-400">${t('fromPrice')}</span>
+            <span class="text-slate-400">${t('fromPrice')}</span>
             <span class="text-white font-semibold ml-1">${hostel.priceRange.min}${hostel.priceRange.currency === 'EUR' ? '€' : hostel.priceRange.currency}</span>
-            <span class="text-gray-400">${t('perNight')}</span>
+            <span class="text-slate-400">${t('perNight')}</span>
           </div>
         </div>
       </div>
 
       <!-- Partner badge -->
-      <div class="flex items-center justify-between mt-3 pt-3 border-t border-dark-600 text-xs">
+      <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/10 text-xs">
         <span class="text-primary-400 flex items-center gap-1">
           <i class="fas fa-check-circle"></i>
           ${t('verified')}
         </span>
-        <span class="text-gray-500">${t('seeDetails')} →</span>
+        <span class="text-slate-500">${t('seeDetails')} →</span>
       </div>
     </div>
   `
@@ -1093,7 +1093,7 @@ export function renderHostelCard(hostel) {
 export function renderHostelList(hostels) {
   if (!hostels || hostels.length === 0) {
     return `
-      <div class="text-center py-8 text-gray-400">
+      <div class="text-center py-8 text-slate-400">
         <i class="fas fa-hotel text-4xl mb-3"></i>
         <p>${t('noHostelsFound')}</p>
       </div>
@@ -1131,12 +1131,12 @@ export function renderHostelDetail(hostel) {
          role="dialog"
          aria-modal="true"
          aria-labelledby="hostel-modal-title">
-      <div class="bg-dark-800 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div class="bg-white/5 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <!-- Header -->
-        <div class="sticky top-0 bg-dark-800 p-4 border-b border-dark-600 flex items-center justify-between z-10">
+        <div class="sticky top-0 bg-white/5 p-4 border-b border-white/10 flex items-center justify-between z-10">
           <h2 id="hostel-modal-title" class="text-xl font-bold text-white">${hostel.name}</h2>
           <button onclick="window.closeHostelDetail?.()"
-            class="text-gray-400 hover:text-white w-8 h-8 flex items-center justify-center"
+            class="text-slate-400 hover:text-white w-8 h-8 flex items-center justify-center"
             aria-label="Close">
             <i class="fas fa-times text-xl"></i>
           </button>
@@ -1144,7 +1144,7 @@ export function renderHostelDetail(hostel) {
 
         <!-- Photo gallery -->
         ${hostel.photos && hostel.photos.length > 0 ? `
-          <div class="relative h-48 bg-dark-700">
+          <div class="relative h-48 bg-dark-primary">
             <img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover">
             <div class="absolute top-2 right-2 bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-bold">
               -${hostel.discount}% SpotHitch
@@ -1154,7 +1154,7 @@ export function renderHostelDetail(hostel) {
 
         <div class="p-4 space-y-4">
           <!-- Location -->
-          <div class="flex items-center gap-2 text-gray-400">
+          <div class="flex items-center gap-2 text-slate-400">
             <i class="fas fa-map-marker-alt"></i>
             <span>${hostel.address}</span>
           </div>
@@ -1165,17 +1165,17 @@ export function renderHostelDetail(hostel) {
               ${renderStars(ratingInfo.average)}
             </div>
             <span class="text-white font-semibold">${ratingInfo.average}</span>
-            <span class="text-gray-400">(${ratingInfo.count} ${t('reviews')})</span>
+            <span class="text-slate-400">(${ratingInfo.count} ${t('reviews')})</span>
           </div>
 
           <!-- Description -->
-          <p class="text-gray-300">${description}</p>
+          <p class="text-slate-300">${description}</p>
 
           <!-- Price -->
-          <div class="bg-dark-700 rounded-lg p-3">
-            <span class="text-gray-400 text-sm">${t('fromPrice')}</span>
+          <div class="bg-dark-primary rounded-lg p-3">
+            <span class="text-slate-400 text-sm">${t('fromPrice')}</span>
             <span class="text-2xl font-bold text-white ml-2">${hostel.priceRange.min}€</span>
-            <span class="text-gray-400">${t('perNight')}</span>
+            <span class="text-slate-400">${t('perNight')}</span>
             <div class="text-primary-400 text-sm mt-1">
               <i class="fas fa-tag mr-1"></i>
               ${t('discountBanner', { discount: hostel.discount })}
@@ -1187,7 +1187,7 @@ export function renderHostelDetail(hostel) {
             <h3 class="font-semibold text-white mb-2">${t('amenities')}</h3>
             <div class="flex flex-wrap gap-2">
               ${amenities.map((a) => `
-                <span class="flex items-center gap-1 bg-dark-600 px-3 py-1 rounded-full text-sm text-gray-300">
+                <span class="flex items-center gap-1 bg-white/5 px-3 py-1 rounded-full text-sm text-slate-300">
                   <i class="fas ${a.icon}"></i>
                   ${a.label}
                 </span>
@@ -1197,12 +1197,12 @@ export function renderHostelDetail(hostel) {
 
           <!-- Check-in/out -->
           <div class="grid grid-cols-2 gap-4">
-            <div class="bg-dark-700 rounded-lg p-3">
-              <span class="text-gray-400 text-sm">${t('checkIn')}</span>
+            <div class="bg-dark-primary rounded-lg p-3">
+              <span class="text-slate-400 text-sm">${t('checkIn')}</span>
               <p class="text-white font-semibold">${hostel.checkIn}</p>
             </div>
-            <div class="bg-dark-700 rounded-lg p-3">
-              <span class="text-gray-400 text-sm">${t('checkOut')}</span>
+            <div class="bg-dark-primary rounded-lg p-3">
+              <span class="text-slate-400 text-sm">${t('checkOut')}</span>
               <p class="text-white font-semibold">${hostel.checkOut}</p>
             </div>
           </div>
@@ -1213,7 +1213,7 @@ export function renderHostelDetail(hostel) {
               <h3 class="font-semibold text-white mb-2">${t('reviews')} SpotHitch</h3>
               <div class="space-y-2">
                 ${reviews.slice(0, 3).map((review) => `
-                  <div class="bg-dark-700 rounded-lg p-3">
+                  <div class="bg-dark-primary rounded-lg p-3">
                     <div class="flex items-center gap-2 mb-1">
                       <span class="text-lg">${review.avatar || '🤙'}</span>
                       <span class="text-white text-sm">${review.username}</span>
@@ -1221,7 +1221,7 @@ export function renderHostelDetail(hostel) {
                         ${renderStars(review.rating)}
                       </div>
                     </div>
-                    ${review.comment ? `<p class="text-gray-400 text-sm">${review.comment}</p>` : ''}
+                    ${review.comment ? `<p class="text-slate-400 text-sm">${review.comment}</p>` : ''}
                   </div>
                 `).join('')}
               </div>
@@ -1231,7 +1231,7 @@ export function renderHostelDetail(hostel) {
           <!-- Action buttons -->
           <div class="flex gap-3 pt-2">
             <button onclick="window.generateHostelCode?.('${hostel.id}')"
-              class="flex-1 bg-dark-600 hover:bg-dark-500 text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2">
+              class="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2">
               <i class="fas fa-ticket-alt"></i>
               ${t('generateCode')}
             </button>
@@ -1246,14 +1246,14 @@ export function renderHostelDetail(hostel) {
           <div class="flex gap-2 pt-2">
             ${hostel.phone ? `
               <button onclick="window.open('tel:${hostel.phone}')"
-                class="flex-1 bg-dark-600 hover:bg-dark-500 text-gray-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
+                class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
                 <i class="fas fa-phone"></i>
                 Call
               </button>
             ` : ''}
             ${hostel.email ? `
               <button onclick="window.open('mailto:${hostel.email}')"
-                class="flex-1 bg-dark-600 hover:bg-dark-500 text-gray-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
+                class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
                 <i class="fas fa-envelope"></i>
                 Email
               </button>
@@ -1261,7 +1261,7 @@ export function renderHostelDetail(hostel) {
           </div>
 
           <!-- Partner badge -->
-          <div class="text-center text-xs text-gray-500 pt-2 border-t border-dark-600">
+          <div class="text-center text-xs text-slate-500 pt-2 border-t border-white/10">
             <i class="fas fa-check-circle text-primary-400 mr-1"></i>
             ${t('verified')} - ${t('exclusive')}
           </div>
@@ -1297,14 +1297,14 @@ export function renderDiscountBanner(discount) {
           </p>
           ${discount.code ? `
             <div class="mt-2 flex items-center gap-2">
-              <code class="bg-dark-800 px-3 py-1 rounded font-mono text-white">${discount.code}</code>
+              <code class="bg-white/5 px-3 py-1 rounded font-mono text-white">${discount.code}</code>
               <button onclick="window.copyHostelCode?.('${discount.code}')"
                 class="text-primary-400 hover:text-primary-300">
                 <i class="fas fa-copy"></i>
               </button>
             </div>
             ${discount.expiresAt ? `
-              <p class="text-xs text-gray-500 mt-1">
+              <p class="text-xs text-slate-500 mt-1">
                 ${t('codeExpires')} ${new Date(discount.expiresAt).toLocaleDateString()}
               </p>
             ` : ''}
@@ -1419,7 +1419,7 @@ function renderStars(rating) {
     html += '<i class="fas fa-star-half-alt"></i>'
   }
   for (let i = 0; i < emptyStars; i++) {
-    html += '<i class="far fa-star text-gray-500"></i>'
+    html += '<i class="far fa-star text-slate-500"></i>'
   }
   return html
 }

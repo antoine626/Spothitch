@@ -607,8 +607,8 @@ export function renderZoneCard(zone) {
     <div class="offline-zone-card bg-white dark:bg-dark-secondary rounded-xl shadow-lg p-4 mb-4" data-zone-id="${zone.id}">
       <div class="flex justify-between items-start mb-3">
         <div>
-          <h3 class="font-bold text-lg text-gray-900 dark:text-white">${escapeHTML(zone.name)}</h3>
-          <p class="text-sm text-gray-500 dark:text-gray-400">${date}</p>
+          <h3 class="font-bold text-lg text-white">${escapeHTML(zone.name)}</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">${date}</p>
         </div>
         <span class="px-2 py-1 rounded-full text-xs font-medium ${
           zone.status === 'complete'
@@ -620,7 +620,7 @@ export function renderZoneCard(zone) {
           ${statusEmoji} ${statusText}
         </span>
       </div>
-      <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300 mb-3">
+      <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-300 mb-3">
         <span><i class="fas fa-map-marker-alt mr-1"></i> ${zone.spotsCount} spots</span>
         <span><i class="fas fa-th mr-1"></i> ${zone.downloadedTiles} tuiles</span>
         <span><i class="fas fa-database mr-1"></i> ${sizeMB} MB</span>

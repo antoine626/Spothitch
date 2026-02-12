@@ -887,14 +887,14 @@ export function renderSeasonRewardsContent() {
     ? isCurrentTier
       ? 'border-primary-500 bg-primary-500/10'
       : 'border-green-500/50 bg-green-500/10'
-    : 'border-dark-600 bg-dark-700 opacity-60'
+    : 'border-white/10 bg-dark-primary opacity-60'
 }">
             <div class="flex items-center justify-between mb-2">
               <div class="flex items-center gap-2">
                 <span class="text-2xl">${tier.icon}</span>
                 <div>
-                  <h4 class="font-semibold ${tier.isUnlocked ? 'text-white' : 'text-gray-400'}">${tierName}</h4>
-                  <span class="text-xs text-gray-400">${tier.minPoints.toLocaleString()} pts</span>
+                  <h4 class="font-semibold ${tier.isUnlocked ? 'text-white' : 'text-slate-400'}">${tierName}</h4>
+                  <span class="text-xs text-slate-400">${tier.minPoints.toLocaleString()} pts</span>
                 </div>
               </div>
               ${tier.isUnlocked ? `
@@ -909,12 +909,12 @@ export function renderSeasonRewardsContent() {
                   </button>
                 `}
               ` : `
-                <span class="text-gray-500"><i class="fas fa-lock"></i></span>
+                <span class="text-slate-500"><i class="fas fa-lock"></i></span>
               `}
             </div>
             <div class="flex flex-wrap gap-2 mt-2">
               ${tier.rewards.map(reward => `
-                <span class="px-2 py-1 bg-dark-600 rounded text-xs ${tier.isUnlocked ? 'text-gray-300' : 'text-gray-500'}">
+                <span class="px-2 py-1 bg-white/5 rounded text-xs ${tier.isUnlocked ? 'text-slate-300' : 'text-slate-500'}">
                   ${reward.type === 'points' ? `+${reward.amount} pts` : `${getRewardIcon(reward.type)} ${reward.name}`}
                 </span>
               `).join('')}

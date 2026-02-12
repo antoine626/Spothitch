@@ -873,7 +873,7 @@ export function getTrustBadge(level = null) {
   }
 
   const badgeStyles = {
-    1: 'bg-gray-500/20 border-gray-500 text-gray-300',
+    1: 'bg-slate-500/20 border-slate-500 text-slate-300',
     2: 'bg-blue-500/20 border-blue-500 text-blue-300',
     3: 'bg-yellow-500/20 border-yellow-500 text-yellow-300',
     4: 'bg-green-500/20 border-green-500 text-green-300',

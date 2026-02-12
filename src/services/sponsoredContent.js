@@ -295,18 +295,18 @@ export function renderSponsoredBanner(content) {
             <p class="text-sm font-semibold text-white">${content.name}</p>
             <span class="text-xs text-accent-400">${categoryLabel}</span>
           </div>
-          <p class="text-sm text-gray-300 mt-1">
+          <p class="text-sm text-slate-300 mt-1">
             ${content.description}
           </p>
-          <div class="flex items-center gap-2 mt-2 text-xs text-gray-400 flex-wrap">
+          <div class="flex items-center gap-2 mt-2 text-xs text-slate-400 flex-wrap">
             ${benefitsHtml}
             ${content.distance ? `<span class="ml-auto text-accent-400 font-medium">${content.distance}m</span>` : ''}
           </div>
         </div>
       </div>
       <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/5">
-        <span class="text-xs text-gray-500">🤝 Partenaire vérifié</span>
-        <span class="text-xs text-gray-400">Tap pour en savoir plus</span>
+        <span class="text-xs text-slate-500">🤝 Partenaire vérifié</span>
+        <span class="text-xs text-slate-400">Tap pour en savoir plus</span>
       </div>
     </div>
   `
