@@ -23,12 +23,12 @@ describe('Image Utilities', () => {
       const mockUnobserve = vi.fn();
       const mockDisconnect = vi.fn();
 
-      global.IntersectionObserver = vi.fn((callback) => ({
+      global.IntersectionObserver = vi.fn(function (callback) { return {
         observe: mockObserve,
         unobserve: mockUnobserve,
         disconnect: mockDisconnect,
         callback,
-      }));
+      }});
     });
 
     afterEach(() => {
@@ -212,7 +212,7 @@ describe('Image Utilities', () => {
       originalImage = global.Image;
 
       // Mock Image constructor
-      global.Image = vi.fn().mockImplementation(() => {
+      global.Image = vi.fn().mockImplementation(function () {
         const img = {
           onload: null,
           onerror: null,
@@ -250,7 +250,7 @@ describe('Image Utilities', () => {
 
     it('should reject when an image fails to load', async () => {
       // Override mock to fail
-      global.Image = vi.fn().mockImplementation(() => {
+      global.Image = vi.fn().mockImplementation(function () {
         const img = {
           onload: null,
           onerror: null,
