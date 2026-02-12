@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpotHitch - Choix couleurs</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#0a0a0a;color:#fff;padding:1rem}
+h1{text-align:center;font-size:1.3rem;margin-bottom:.3rem}
+p{text-align:center;color:#888;font-size:.85rem;margin-bottom:1.5rem}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;max-width:1400px;margin:0 auto}
+@media(max-width:400px){.g{grid-template-columns:1fr}}
+.c{border-radius:16px;overflow:hidden;border:2px solid transparent;transition:.3s}
+.c:hover{transform:translateY(-3px);border-color:#fff3}
+.lb{padding:.6rem .8rem;display:flex;justify-content:space-between;align-items:center;font-size:.9rem;font-weight:600}
+.lb span{font-size:.7rem;opacity:.6}
+/* Mini phone */
+.ph{aspect-ratio:9/16;position:relative;display:flex;flex-direction:column;overflow:hidden;font-size:.75rem}
+.hd{padding:8px 12px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:.85rem}
+.mp{flex:1;position:relative;margin:0 8px;border-radius:10px;overflow:hidden}
+.dt{position:absolute;border-radius:50%}
+.bs{padding:8px;border-radius:12px 12px 0 0;margin-top:-12px;position:relative;z-index:2}
+.bs .pill{width:28px;height:3px;border-radius:2px;margin:4px auto 6px}
+.sc{display:flex;gap:6px;overflow:hidden}
+.sc>div{min-width:100px;border-radius:8px;padding:8px}
+.sc .t{font-size:.65rem;font-weight:600;margin-top:4px}
+.sc .s{font-size:.55rem;opacity:.6}
+.tl{padding:6px 10px}
+.tl .pt{display:flex;gap:8px;margin-bottom:6px;align-items:center}
+.tl .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tl .ln{flex:1;border-radius:6px;padding:6px 8px;font-size:.65rem}
+.nv{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-around;padding:6px 0 10px;font-size:.5rem;text-align:center}
+</style>
+</head>
+<body>
+<h1>Choisis ta palette</h1>
+<p>Meme layout (celui que tu aimes) — juste les couleurs changent</p>
+<div class="g">
+
+<!-- 1. ORIGINAL #17 : Navy + Amber -->
+<div class="c" style="background:#0f1520">
+<div class="lb" style="background:#1a2030;color:#f59e0b">1. Navy + Ambre (actuel #17)<span>Ton choix de base</span></div>
+<div class="ph" style="background:#0f1520;color:#e2e8f0">
+  <div class="hd" style="color:#f59e0b">SpotHitch <span style="font-weight:400;font-size:.7rem;color:#64748b">14 669</span></div>
+  <div class="mp" style="background:#1a2535">
+    <div class="dt" style="width:8px;height:8px;background:#22c55e;top:15px;left:30px;box-shadow:0 0 8px #22c55e80"></div>
+    <div class="dt" style="width:10px;height:10px;background:#f59e0b;top:35px;left:80px;box-shadow:0 0 10px #f59e0b80"></div>
+    <div class="dt" style="width:7px;height:7px;background:#ef4444;top:50px;left:55px"></div>
+  </div>
+  <div class="bs" style="background:#111827">
+    <div class="pill" style="background:#374151"></div>
+    <div class="sc">
+      <div style="background:#1f2937"><div style="height:25px;background:#1a2535;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Sortie A6</div><div class="s" style="color:#9ca3af">4.2★ 2.3km</div></div>
+      <div style="background:#1f2937"><div style="height:25px;background:#1a2535;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Station Total</div><div class="s" style="color:#9ca3af">3.8★ 4.1km</div></div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="pt"><div class="dot" style="background:#22c55e"></div><div class="ln" style="background:#1a2535;color:#9ca3af">Depart Paris</div></div>
+    <div class="pt"><div class="dot" style="background:#f59e0b;box-shadow:0 0 8px #f59e0b80"></div><div class="ln" style="background:#f59e0b15;border:1px solid #f59e0b30;color:#fbbf24">En route...</div></div>
+  </div>
+  <div class="nv" style="background:#0f1520;border-top:1px solid #1a2535;color:#f59e0b">
+    <div>Carte</div><div style="opacity:.4">Trajet</div><div style="opacity:.4">Social</div><div style="opacity:.4">Profil</div>
+  </div>
+</div></div>
+
+<!-- 2. Slate + Cyan -->
+<div class="c" style="background:#0f1419">
+<div class="lb" style="background:#15202b;color:#22d3ee">2. Slate + Cyan<span>Plus froid, tech</span></div>
+<div class="ph" style="background:#0f1419;color:#e2e8f0">
+  <div class="hd" style="color:#22d3ee">SpotHitch <span style="font-weight:400;font-size:.7rem;color:#64748b">14 669</span></div>
+  <div class="mp" style="background:#15202b">
+    <div class="dt" style="width:8px;height:8px;background:#22d3ee;top:15px;left:30px;box-shadow:0 0 8px #22d3ee80"></div>
+    <div class="dt" style="width:10px;height:10px;background:#2dd4bf;top:35px;left:80px;box-shadow:0 0 10px #2dd4bf80"></div>
+    <div class="dt" style="width:7px;height:7px;background:#f472b6;top:50px;left:55px"></div>
+  </div>
+  <div class="bs" style="background:#0d1620">
+    <div class="pill" style="background:#1e3a4a"></div>
+    <div class="sc">
+      <div style="background:#15202b"><div style="height:25px;background:#1a2a38;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Sortie A6</div><div class="s" style="color:#64748b">4.2★ 2.3km</div></div>
+      <div style="background:#15202b"><div style="height:25px;background:#1a2a38;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Station Total</div><div class="s" style="color:#64748b">3.8★ 4.1km</div></div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="pt"><div class="dot" style="background:#2dd4bf"></div><div class="ln" style="background:#15202b;color:#64748b">Depart Paris</div></div>
+    <div class="pt"><div class="dot" style="background:#22d3ee;box-shadow:0 0 8px #22d3ee80"></div><div class="ln" style="background:#22d3ee10;border:1px solid #22d3ee30;color:#22d3ee">En route...</div></div>
+  </div>
+  <div class="nv" style="background:#0f1419;border-top:1px solid #15202b;color:#22d3ee">
+    <div>Carte</div><div style="opacity:.4">Trajet</div><div style="opacity:.4">Social</div><div style="opacity:.4">Profil</div>
+  </div>
+</div></div>
+
+<!-- 3. Deep Purple + Indigo -->
+<div class="c" style="background:#0c0c18">
+<div class="lb" style="background:#141425;color:#818cf8">3. Purple + Indigo<span>Moderne, premium</span></div>
+<div class="ph" style="background:#0c0c18;color:#e2e8f0">
+  <div class="hd" style="color:#818cf8">SpotHitch <span style="font-weight:400;font-size:.7rem;color:#64748b">14 669</span></div>
+  <div class="mp" style="background:#141425">
+    <div class="dt" style="width:8px;height:8px;background:#818cf8;top:15px;left:30px;box-shadow:0 0 8px #818cf880"></div>
+    <div class="dt" style="width:10px;height:10px;background:#a78bfa;top:35px;left:80px;box-shadow:0 0 10px #a78bfa80"></div>
+    <div class="dt" style="width:7px;height:7px;background:#f472b6;top:50px;left:55px"></div>
+  </div>
+  <div class="bs" style="background:#10101e">
+    <div class="pill" style="background:#2a2a40"></div>
+    <div class="sc">
+      <div style="background:#1a1a30"><div style="height:25px;background:#141425;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Sortie A6</div><div class="s" style="color:#64748b">4.2★ 2.3km</div></div>
+      <div style="background:#1a1a30"><div style="height:25px;background:#141425;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Station Total</div><div class="s" style="color:#64748b">3.8★ 4.1km</div></div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="pt"><div class="dot" style="background:#34d399"></div><div class="ln" style="background:#141425;color:#64748b">Depart Paris</div></div>
+    <div class="pt"><div class="dot" style="background:#818cf8;box-shadow:0 0 8px #818cf880"></div><div class="ln" style="background:#818cf810;border:1px solid #818cf830;color:#a5b4fc">En route...</div></div>
+  </div>
+  <div class="nv" style="background:#0c0c18;border-top:1px solid #1a1a30;color:#818cf8">
+    <div>Carte</div><div style="opacity:.4">Trajet</div><div style="opacity:.4">Social</div><div style="opacity:.4">Profil</div>
+  </div>
+</div></div>
+
+<!-- 4. Charcoal + Emerald -->
+<div class="c" style="background:#0f1210">
+<div class="lb" style="background:#171e18;color:#34d399">4. Charcoal + Emeraude<span>Nature, confiance</span></div>
+<div class="ph" style="background:#0f1210;color:#e2e8f0">
+  <div class="hd" style="color:#34d399">SpotHitch <span style="font-weight:400;font-size:.7rem;color:#64748b">14 669</span></div>
+  <div class="mp" style="background:#171e18">
+    <div class="dt" style="width:8px;height:8px;background:#34d399;top:15px;left:30px;box-shadow:0 0 8px #34d39980"></div>
+    <div class="dt" style="width:10px;height:10px;background:#6ee7b7;top:35px;left:80px;box-shadow:0 0 10px #6ee7b780"></div>
+    <div class="dt" style="width:7px;height:7px;background:#fbbf24;top:50px;left:55px"></div>
+  </div>
+  <div class="bs" style="background:#111815">
+    <div class="pill" style="background:#2a3a2e"></div>
+    <div class="sc">
+      <div style="background:#182018"><div style="height:25px;background:#1a2a1e;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Sortie A6</div><div class="s" style="color:#64748b">4.2★ 2.3km</div></div>
+      <div style="background:#182018"><div style="height:25px;background:#1a2a1e;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Station Total</div><div class="s" style="color:#64748b">3.8★ 4.1km</div></div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="pt"><div class="dot" style="background:#6ee7b7"></div><div class="ln" style="background:#182018;color:#64748b">Depart Paris</div></div>
+    <div class="pt"><div class="dot" style="background:#34d399;box-shadow:0 0 8px #34d39980"></div><div class="ln" style="background:#34d39910;border:1px solid #34d39930;color:#6ee7b7">En route...</div></div>
+  </div>
+  <div class="nv" style="background:#0f1210;border-top:1px solid #1a2a1e;color:#34d399">
+    <div>Carte</div><div style="opacity:.4">Trajet</div><div style="opacity:.4">Social</div><div style="opacity:.4">Profil</div>
+  </div>
+</div></div>
+
+<!-- 5. Midnight + Rose -->
+<div class="c" style="background:#100c14">
+<div class="lb" style="background:#1a1420;color:#f472b6">5. Midnight + Rose<span>Elegant, doux</span></div>
+<div class="ph" style="background:#100c14;color:#e2e8f0">
+  <div class="hd" style="color:#f472b6">SpotHitch <span style="font-weight:400;font-size:.7rem;color:#64748b">14 669</span></div>
+  <div class="mp" style="background:#1a1420">
+    <div class="dt" style="width:8px;height:8px;background:#f472b6;top:15px;left:30px;box-shadow:0 0 8px #f472b680"></div>
+    <div class="dt" style="width:10px;height:10px;background:#fb923c;top:35px;left:80px;box-shadow:0 0 10px #fb923c80"></div>
+    <div class="dt" style="width:7px;height:7px;background:#a78bfa;top:50px;left:55px"></div>
+  </div>
+  <div class="bs" style="background:#120e18">
+    <div class="pill" style="background:#2a1a30"></div>
+    <div class="sc">
+      <div style="background:#1e1525"><div style="height:25px;background:#1a1420;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Sortie A6</div><div class="s" style="color:#64748b">4.2★ 2.3km</div></div>
+      <div style="background:#1e1525"><div style="height:25px;background:#1a1420;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Station Total</div><div class="s" style="color:#64748b">3.8★ 4.1km</div></div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="pt"><div class="dot" style="background:#a78bfa"></div><div class="ln" style="background:#1a1420;color:#64748b">Depart Paris</div></div>
+    <div class="pt"><div class="dot" style="background:#f472b6;box-shadow:0 0 8px #f472b680"></div><div class="ln" style="background:#f472b610;border:1px solid #f472b630;color:#f9a8d4">En route...</div></div>
+  </div>
+  <div class="nv" style="background:#100c14;border-top:1px solid #1a1420;color:#f472b6">
+    <div>Carte</div><div style="opacity:.4">Trajet</div><div style="opacity:.4">Social</div><div style="opacity:.4">Profil</div>
+  </div>
+</div></div>
+
+<!-- 6. True Black + Blue -->
+<div class="c" style="background:#000">
+<div class="lb" style="background:#0a0a0a;color:#3b82f6">6. Noir pur + Bleu<span>OLED, batterie</span></div>
+<div class="ph" style="background:#000;color:#e2e8f0">
+  <div class="hd" style="color:#3b82f6">SpotHitch <span style="font-weight:400;font-size:.7rem;color:#64748b">14 669</span></div>
+  <div class="mp" style="background:#0a0a12">
+    <div class="dt" style="width:8px;height:8px;background:#3b82f6;top:15px;left:30px;box-shadow:0 0 8px #3b82f680"></div>
+    <div class="dt" style="width:10px;height:10px;background:#22c55e;top:35px;left:80px;box-shadow:0 0 10px #22c55e80"></div>
+    <div class="dt" style="width:7px;height:7px;background:#ef4444;top:50px;left:55px"></div>
+  </div>
+  <div class="bs" style="background:#050508">
+    <div class="pill" style="background:#1a1a2a"></div>
+    <div class="sc">
+      <div style="background:#0a0a14"><div style="height:25px;background:#0f0f1a;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Sortie A6</div><div class="s" style="color:#64748b">4.2★ 2.3km</div></div>
+      <div style="background:#0a0a14"><div style="height:25px;background:#0f0f1a;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Station Total</div><div class="s" style="color:#64748b">3.8★ 4.1km</div></div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="pt"><div class="dot" style="background:#22c55e"></div><div class="ln" style="background:#0a0a14;color:#64748b">Depart Paris</div></div>
+    <div class="pt"><div class="dot" style="background:#3b82f6;box-shadow:0 0 8px #3b82f680"></div><div class="ln" style="background:#3b82f610;border:1px solid #3b82f630;color:#60a5fa">En route...</div></div>
+  </div>
+  <div class="nv" style="background:#000;border-top:1px solid #111;color:#3b82f6">
+    <div>Carte</div><div style="opacity:.4">Trajet</div><div style="opacity:.4">Social</div><div style="opacity:.4">Profil</div>
+  </div>
+</div></div>
+
+<!-- 7. Navy + Teal/Amber duo -->
+<div class="c" style="background:#0c1018">
+<div class="lb" style="background:#121a25;color:#2dd4bf">7. Navy + Teal & Ambre<span>Bicolore, equilibre</span></div>
+<div class="ph" style="background:#0c1018;color:#e2e8f0">
+  <div class="hd" style="color:#2dd4bf">SpotHitch <span style="font-weight:400;font-size:.7rem;color:#64748b">14 669</span></div>
+  <div class="mp" style="background:#121a25">
+    <div class="dt" style="width:8px;height:8px;background:#2dd4bf;top:15px;left:30px;box-shadow:0 0 8px #2dd4bf80"></div>
+    <div class="dt" style="width:10px;height:10px;background:#fbbf24;top:35px;left:80px;box-shadow:0 0 10px #fbbf2480"></div>
+    <div class="dt" style="width:7px;height:7px;background:#ef4444;top:50px;left:55px"></div>
+  </div>
+  <div class="bs" style="background:#0e1520">
+    <div class="pill" style="background:#1a2a35"></div>
+    <div class="sc">
+      <div style="background:#142028"><div style="height:25px;background:#1a2830;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Sortie A6</div><div class="s" style="color:#64748b">4.2★ 2.3km</div></div>
+      <div style="background:#142028"><div style="height:25px;background:#1a2830;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Station Total</div><div class="s" style="color:#64748b">3.8★ 4.1km</div></div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="pt"><div class="dot" style="background:#fbbf24"></div><div class="ln" style="background:#121a25;color:#64748b">Depart Paris</div></div>
+    <div class="pt"><div class="dot" style="background:#2dd4bf;box-shadow:0 0 8px #2dd4bf80"></div><div class="ln" style="background:#2dd4bf10;border:1px solid #2dd4bf30;color:#5eead4">En route...</div></div>
+  </div>
+  <div class="nv" style="background:#0c1018;border-top:1px solid #1a2535;color:#2dd4bf">
+    <div>Carte</div><div style="opacity:.4">Trajet</div><div style="opacity:.4">Social</div><div style="opacity:.4">Profil</div>
+  </div>
+</div></div>
+
+<!-- 8. Warm Dark + Orange/Red -->
+<div class="c" style="background:#120e0a">
+<div class="lb" style="background:#1a1410;color:#fb923c">8. Warm Dark + Orange<span>Chaleureux, aventure</span></div>
+<div class="ph" style="background:#120e0a;color:#e2e8f0">
+  <div class="hd" style="color:#fb923c">SpotHitch <span style="font-weight:400;font-size:.7rem;color:#64748b">14 669</span></div>
+  <div class="mp" style="background:#1a1610">
+    <div class="dt" style="width:8px;height:8px;background:#fb923c;top:15px;left:30px;box-shadow:0 0 8px #fb923c80"></div>
+    <div class="dt" style="width:10px;height:10px;background:#fbbf24;top:35px;left:80px;box-shadow:0 0 10px #fbbf2480"></div>
+    <div class="dt" style="width:7px;height:7px;background:#ef4444;top:50px;left:55px"></div>
+  </div>
+  <div class="bs" style="background:#141008">
+    <div class="pill" style="background:#2a2418"></div>
+    <div class="sc">
+      <div style="background:#1e1810"><div style="height:25px;background:#2a2018;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Sortie A6</div><div class="s" style="color:#64748b">4.2★ 2.3km</div></div>
+      <div style="background:#1e1810"><div style="height:25px;background:#2a2018;border-radius:4px"></div><div class="t" style="color:#e2e8f0">Station Total</div><div class="s" style="color:#64748b">3.8★ 4.1km</div></div>
+    </div>
+  </div>
+  <div class="tl">
+    <div class="pt"><div class="dot" style="background:#fbbf24"></div><div class="ln" style="background:#1a1610;color:#64748b">Depart Paris</div></div>
+    <div class="pt"><div class="dot" style="background:#fb923c;box-shadow:0 0 8px #fb923c80"></div><div class="ln" style="background:#fb923c10;border:1px solid #fb923c30;color:#fdba74">En route...</div></div>
+  </div>
+  <div class="nv" style="background:#120e0a;border-top:1px solid #2a2018;color:#fb923c">
+    <div>Carte</div><div style="opacity:.4">Trajet</div><div style="opacity:.4">Social</div><div style="opacity:.4">Profil</div>
+  </div>
+</div></div>
+
+</div>
+<p style="text-align:center;padding:2rem;color:#666">Dis-moi le numero et j'implemente tout !</p>
+</body>
+</html>
