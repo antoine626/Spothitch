@@ -117,7 +117,7 @@ VITE_SENTRY_DSN (optionnel)
 
 ## TODO actuel
 
-- [ ] HTTPS : cocher "Enforce HTTPS" dans GitHub Settings > Pages (attendre certificat SSL)
+- [x] ~~HTTPS~~ : Certificat SSL actif, HTTPS forcé (2026-02-12)
 - [ ] Sentry : créer compte sentry.io → DSN → GitHub Secret `VITE_SENTRY_DSN`
 - [ ] Affiliés : s'inscrire Hostelworld + Booking (action user manuelle)
 
@@ -144,7 +144,7 @@ Voir `/memory/decisions.md` pour l'historique complet.
 
 | Problème | Statut |
 |----------|--------|
-| HTTPS pas encore actif | Certificat SSL en cours (24-48h) |
+| ~~HTTPS pas encore actif~~ | RÉSOLU — HTTPS actif + forcé (cert expire 2026-05-13) |
 | Firebase non configuré | Config GitHub Secrets nécessaire |
 
 ---
