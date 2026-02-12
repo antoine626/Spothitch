@@ -43,7 +43,7 @@ const MAIN_JS_HANDLERS = [
   // Chat
   'setChatRoom', 'sendMessage',
   // Filters / Map layout
-  'setFilter', 'handleSearch', 'openFilters', 'closeFilters', 'toggleSplitView',
+  'setFilter', 'handleSearch', 'openFilters', 'closeFilters', 'toggleSplitView', 'openActiveTrip',
   'setFilterCountry', 'setFilterMinRating', 'setFilterMaxWait',
   'toggleVerifiedFilter', 'setSortBy', 'applyFilters', 'resetFilters',
   // Quiz

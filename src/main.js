@@ -1231,6 +1231,9 @@ window.toggleSplitView = () => {
   const s = getState()
   setState({ splitView: !s.splitView })
 };
+window.openActiveTrip = () => {
+  setState({ showTripPlanner: true })
+};
 window.setFilterCountry = (country) => setState({ filterCountry: country });
 window.setFilterMinRating = (rating) => setState({ filterMinRating: rating });
 window.setFilterMaxWait = (wait) => setState({ filterMaxWait: wait });

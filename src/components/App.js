@@ -96,6 +96,27 @@ export function renderApp(state) {
 
     ${renderNavigation(state)}
 
+    <!-- Active Trip Bar (like Spotify "Now Playing") -->
+    ${state.tripResults ? `
+      <div class="fixed bottom-20 left-4 right-4 z-30 px-4 py-2.5 rounded-xl bg-primary-500/90 backdrop-blur-xl border border-primary-400/30 shadow-lg shadow-primary-500/20 cursor-pointer" onclick="openActiveTrip()">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3 min-w-0">
+            <i class="fas fa-route text-white/80" aria-hidden="true"></i>
+            <div class="min-w-0">
+              <div class="text-xs text-white/70">${t('tripInProgress')}</div>
+              <div class="text-sm font-semibold text-white truncate">
+                ${state.tripResults.from?.split(',')[0] || '?'} → ${state.tripResults.to?.split(',')[0] || '?'}
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-white/70">${state.tripResults.spots?.length || 0} spots</span>
+            <i class="fas fa-chevron-up text-white/60 text-xs" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
     <!-- Modals -->
     ${state.showAgeVerification ? renderAgeVerification(state) : ''}
     ${state.showIdentityVerification ? renderIdentityVerification() : ''}

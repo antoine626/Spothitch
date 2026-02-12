@@ -258,10 +258,53 @@ function renderTripResults(results) {
         </div>
       ` : ''}
 
-      <!-- Spots list -->
+      <!-- Trip Timeline -->
       ${spots.length > 0 ? `
-        <div class="space-y-2 max-h-80 overflow-y-auto">
-          ${spots.map((spot, i) => renderTripSpot(spot, i)).join('')}
+        <div class="relative pl-6 space-y-0 max-h-96 overflow-y-auto">
+          <!-- Vertical line -->
+          <div class="absolute left-[11px] top-3 bottom-3 w-0.5 bg-white/10"></div>
+
+          <!-- Departure -->
+          <div class="relative flex items-start gap-3 pb-4">
+            <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-emerald-500 border-2 border-dark-primary flex items-center justify-center z-10">
+              <i class="fas fa-flag text-[8px] text-white" aria-hidden="true"></i>
+            </div>
+            <div class="pt-0.5">
+              <div class="text-sm font-semibold">${results.from?.split(',')[0] || '?'}</div>
+              <div class="text-xs text-slate-500">${t('departure') || 'Depart'}</div>
+            </div>
+          </div>
+
+          <!-- Spots as timeline nodes -->
+          ${spots.map((spot, i) => `
+            <div class="relative flex items-start gap-3 pb-4 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-lg transition-colors" onclick="selectSpot(${spot.id})">
+              <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-primary-500/80 border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg shadow-primary-500/20">
+                <span class="text-[9px] font-bold text-white">${i + 1}</span>
+              </div>
+              <div class="pt-0.5 flex-1 min-w-0">
+                <div class="text-sm font-medium truncate">${spot.from || ''} → ${spot.to || ''}</div>
+                <div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+                  ${spot.type ? `<span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">${spot.type}</span>` : ''}
+                  ${spot.globalRating ? `<span class="text-primary-400">★ ${spot.globalRating.toFixed(1)}</span>` : ''}
+                  ${spot.avgWait ? `<span><i class="fas fa-clock mr-0.5" aria-hidden="true"></i>${spot.avgWait} min</span>` : ''}
+                </div>
+              </div>
+              <button onclick="event.stopPropagation();removeSpotFromTrip(${spot.id})" class="text-slate-600 hover:text-danger-400 transition-colors mt-1" aria-label="${t('remove') || 'Retirer'}">
+                <i class="fas fa-times text-xs" aria-hidden="true"></i>
+              </button>
+            </div>
+          `).join('')}
+
+          <!-- Arrival -->
+          <div class="relative flex items-start gap-3">
+            <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-primary-500 border-2 border-dark-primary flex items-center justify-center z-10">
+              <i class="fas fa-map-marker-alt text-[8px] text-white" aria-hidden="true"></i>
+            </div>
+            <div class="pt-0.5">
+              <div class="text-sm font-semibold">${results.to?.split(',')[0] || '?'}</div>
+              <div class="text-xs text-slate-500">${t('arrival') || 'Arrivee'}</div>
+            </div>
+          </div>
         </div>
       ` : `
         <div class="text-center py-4">
