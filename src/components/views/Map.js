@@ -292,9 +292,9 @@ window.openCountryGuide = (countryCode) => {
   if (window.setState) {
     window.setState({
       selectedCountryGuide: countryCode,
-      activeSubTab: 'guides'
+      activeSubTab: 'guides',
+      showGuidesOverlay: true,
     });
-    window.changeTab?.('travel');
   }
 };
 

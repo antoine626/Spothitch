@@ -80,6 +80,8 @@ const MAIN_JS_HANDLERS = [
   'getChallengeStats', 'getChallengeTypes',
   // Legal
   'showLegalPage',
+  // Overlays
+  'openGuidesOverlay', 'closeGuidesOverlay',
   // Side menu
   'openSideMenu', 'closeSideMenu',
   // Accessibility

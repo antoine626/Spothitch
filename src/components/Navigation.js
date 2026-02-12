@@ -1,6 +1,6 @@
 /**
  * Bottom Navigation Component
- * New structure: Carte, Voyage, Défis, Social, Profil
+ * 4 tabs: Carte, Activités, Social, Profil
  */
 
 import { t } from '../i18n/index.js';
@@ -8,7 +8,6 @@ import { t } from '../i18n/index.js';
 export function renderNavigation(state) {
   const tabs = [
     { id: 'map', icon: 'fa-map-marked-alt', label: t('navMap') || 'Carte' },
-    { id: 'travel', icon: 'fa-route', label: t('navTravel') || 'Voyage' },
     { id: 'challenges', icon: 'fa-compass', label: t('navActivities') || 'Activités' },
     { id: 'social', icon: 'fa-users', label: t('navSocial') || 'Social' },
     { id: 'profile', icon: 'fa-user', label: t('navProfile') || 'Profil' },

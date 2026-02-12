@@ -40,6 +40,9 @@ export const closeMyRewards = () => setState({ showMyRewards: false });
 export const openTripPlanner = () => setState({ showTripPlanner: true });
 export const closeTripPlanner = () => setState({ showTripPlanner: false });
 
+export const openGuidesOverlay = () => setState({ showGuidesOverlay: true });
+export const closeGuidesOverlay = () => setState({ showGuidesOverlay: false });
+
 export const openSideMenu = () => setState({ showSideMenu: true });
 export const closeSideMenu = () => setState({ showSideMenu: false });
 
@@ -59,6 +62,7 @@ export function closeAllModals() {
     showShop: false,
     showMyRewards: false,
     showTripPlanner: false,
+    showGuidesOverlay: false,
     showSideMenu: false,
     showRating: false,
     showAuth: false,
@@ -91,6 +95,8 @@ export function registerModalsHandlers() {
   window.closeMyRewards = closeMyRewards;
   window.openTripPlanner = openTripPlanner;
   window.closeTripPlanner = closeTripPlanner;
+  window.openGuidesOverlay = openGuidesOverlay;
+  window.closeGuidesOverlay = closeGuidesOverlay;
   window.openSideMenu = openSideMenu;
   window.closeSideMenu = closeSideMenu;
   window.closeAllModals = closeAllModals;

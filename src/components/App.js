@@ -2,10 +2,9 @@
  * Main App Component
  * Orchestrates all views and modals
  *
- * New Structure:
- * - Map (Carte): Full map with search, scores, add spot button
- * - Travel (Voyage): Planner + Country Guides
- * - Challenges (Défis): Gamification hub
+ * Structure:
+ * - Map (Carte): Full map with search, trip planner, guides, add spot
+ * - Activities (Activités): Gamification hub
  * - Social: Chat + Friends
  * - Profile: User info + Settings
  */
@@ -185,6 +184,36 @@ export function renderApp(state) {
     ` : ''}
 
 
+    <!-- Trip Planner Overlay -->
+    ${state.showTripPlanner ? `
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripPlanner()">
+        <div class="min-h-screen pb-20">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+            <h2 class="text-lg font-bold"><i class="fas fa-route mr-2 text-primary-400"></i>${t('planTrip') || 'Planifier un trajet'}</h2>
+            <button onclick="closeTripPlanner()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          ${renderTravel({ ...state, activeSubTab: 'planner' })}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Country Guides Overlay -->
+    ${state.showGuidesOverlay ? `
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeGuidesOverlay()">
+        <div class="min-h-screen pb-20">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/95 backdrop-blur border-b border-white/10">
+            <h2 class="text-lg font-bold"><i class="fas fa-book-atlas mr-2 text-emerald-400"></i>${t('countryGuides') || 'Guides pays'}</h2>
+            <button onclick="closeGuidesOverlay()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          ${renderTravel({ ...state, activeSubTab: 'guides' })}
+        </div>
+      </div>
+    ` : ''}
+
     <!-- Cookie Banner (RGPD) - hidden during tutorial/welcome -->
     ${!state.showTutorial && !state.showWelcome ? renderCookieBanner() : ''}
   `;
@@ -195,30 +224,22 @@ export function renderApp(state) {
  */
 function renderActiveView(state) {
   switch (state.activeTab) {
-    // New structure
     case 'map':
-      return renderHome(state);
     case 'fullmap':
-      return renderMap(state);
+    case 'home':
+      return renderHome(state);
     case 'travel':
-      return renderTravel(state);
+    case 'planner':
+      return renderHome(state); // Travel merged into map — redirect
     case 'challenges':
       return renderChallengesHub(state);
     case 'social':
+    case 'chat':
       return renderSocial(state);
     case 'profile':
       return renderProfile(state);
-
-    // Old structure (backward compatibility)
-    case 'home':
-      return renderHome(state);
     case 'spots':
       return renderSpots(state);
-    case 'planner':
-      return renderTravel(state); // Redirect to new travel
-    case 'chat':
-      return renderSocial(state); // Redirect to new social
-
     default:
       return renderHome(state);
   }
@@ -228,13 +249,11 @@ function renderActiveView(state) {
  * Post-render hook to initialize map
  */
 export function afterRender(state) {
-  if (state.activeTab === 'fullmap') {
-    setTimeout(() => initMainMap(state), 100)
-  }
-  if (state.activeTab === 'map' || state.activeTab === 'home') {
+  const isMapTab = ['map', 'fullmap', 'home', 'travel', 'planner'].includes(state.activeTab)
+  if (isMapTab) {
     setTimeout(() => initHomeMap(state), 100)
   }
-  if (state.activeTab === 'travel' && state.showTripMap) {
+  if (isMapTab && state.showTripMap) {
     setTimeout(() => initTripMap(state), 100)
   }
 }

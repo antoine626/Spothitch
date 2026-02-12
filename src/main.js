@@ -585,23 +585,15 @@ function render(state) {
     saveScrollPosition(previousTab);
   }
 
-  // Preserve map containers across re-renders to avoid destroying Leaflet
-  const isMapTab = state.activeTab === 'map' || state.activeTab === 'home'
-  const isFullMapTab = state.activeTab === 'fullmap'
-  const mainMapContainer = document.getElementById('main-map')
+  // Preserve map container across re-renders to avoid destroying Leaflet
+  const isMapTab = ['map', 'home', 'fullmap', 'travel', 'planner'].includes(state.activeTab)
   const homeMapContainer = document.getElementById('home-map')
-  const hasMainMap = mainMapContainer && window.mapInstance
   const hasHomeMap = homeMapContainer && window.homeMapInstance
-  const savedMainMap = hasMainMap ? mainMapContainer : null
   const savedHomeMap = hasHomeMap ? homeMapContainer : null
 
   app.innerHTML = renderApp(state);
 
-  // Re-insert preserved map containers
-  if (savedMainMap && isFullMapTab) {
-    const slot = document.getElementById('main-map')
-    if (slot) slot.replaceWith(savedMainMap)
-  }
+  // Re-insert preserved map container
   if (savedHomeMap && isMapTab) {
     const slot = document.getElementById('home-map')
     if (slot) slot.replaceWith(savedHomeMap)
@@ -625,11 +617,8 @@ function render(state) {
   }
   previousTab = state.activeTab;
 
-  // Initialize maps based on view
+  // Initialize map service for spots view
   if (state.activeTab === 'spots' && state.viewMode === 'map') {
-    initMapService();
-  }
-  if (state.activeTab === 'fullmap') {
     initMapService();
   }
 }

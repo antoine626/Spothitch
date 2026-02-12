@@ -288,6 +288,7 @@ const translations = {
     // Travel tab
     plan: 'Planifier',
     guides: 'Guides',
+    countryGuides: 'Guides pays',
     newTrip: 'Nouveau voyage',
     departure: 'Depart',
     destination: 'Destination',
@@ -2824,6 +2825,7 @@ const translations = {
     // Travel tab
     plan: 'Plan',
     guides: 'Guides',
+    countryGuides: 'Country guides',
     newTrip: 'New trip',
     departure: 'Departure',
     destination: 'Destination',
@@ -5916,6 +5918,7 @@ const translations = {
     // Travel tab
     plan: 'Planificar',
     guides: 'Guias',
+    countryGuides: 'Guias de paises',
     newTrip: 'Nuevo viaje',
     departure: 'Salida',
     destination: 'Destino',
@@ -7892,6 +7895,7 @@ const translations = {
     // Travel tab
     plan: 'Planen',
     guides: 'Reisefuhrer',
+    countryGuides: 'Laenderreisefuhrer',
     newTrip: 'Neue Reise',
     departure: 'Abfahrt',
     destination: 'Ziel',
