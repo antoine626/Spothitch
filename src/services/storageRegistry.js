@@ -104,6 +104,7 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_anniversary_last_claimed', category: DataCategory.GAMIFICATION, description: 'Last anniversary reward claimed' },
   { key: 'spothitch_gamification_ui', category: DataCategory.GAMIFICATION, description: 'Gamification UI level' },
   { key: 'spothitch_roadmap_votes', category: DataCategory.GAMIFICATION, description: 'Roadmap votes' },
+  { key: 'spothitch_country_quiz_scores', category: DataCategory.GAMIFICATION, description: 'Country quiz scores by country' },
 
   // === SETTINGS ===
   { key: 'spothitch_notification_prefs', category: DataCategory.SETTINGS, description: 'Notification preferences' },
