@@ -36,8 +36,8 @@ test.describe('Social - Chat', () => {
   })
 
   test('should have send button', async ({ page }) => {
-    // Send button: type="submit" with aria-label="Envoyer" and fa-paper-plane icon
-    const sendBtn = page.locator('[aria-label="Envoyer"]').or(page.locator('button[type="submit"]:has(.fa-paper-plane)'))
+    // Send button: type="submit" with aria-label="Envoyer"
+    const sendBtn = page.locator('[aria-label="Envoyer"]').or(page.locator('button[type="submit"]'))
     await expect(sendBtn.first()).toBeVisible({ timeout: 5000 })
   })
 

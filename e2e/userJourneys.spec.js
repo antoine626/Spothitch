@@ -72,7 +72,7 @@ test.describe('Journey: Map Exploration', () => {
     await expect(page.locator('#map-search').first()).toBeVisible()
 
     // Zoom controls
-    await expect(page.locator('[onclick*="mapZoomIn"], button:has(i.fa-plus)').first()).toBeVisible()
+    await expect(page.locator('[onclick*="mapZoomIn"], button[aria-label*="Zoom"]').first()).toBeVisible()
 
     // Add spot FAB
     await expect(page.locator('button[aria-label*="Ajouter un nouveau spot"]').first()).toBeVisible()

@@ -11,18 +11,18 @@ test.describe('Admin Panel', () => {
   })
 
   test('should have admin button visible', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await expect(adminBtn.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should open admin panel', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
     await expect(page.locator('text=Panneau Admin').first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should close admin panel', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
     await expect(page.locator('text=Panneau Admin').first()).toBeVisible()
 
@@ -32,14 +32,14 @@ test.describe('Admin Panel', () => {
   })
 
   test('should have resource buttons', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
     await expect(page.locator('[onclick*="adminAddPoints(100)"]').first()).toBeVisible()
     await expect(page.locator('text=MAX ALL').first()).toBeVisible()
   })
 
   test('should add points when clicking +100', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
 
     // Get points before
@@ -60,7 +60,7 @@ test.describe('Admin Panel', () => {
   })
 
   test('should have gamification section', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
     await expect(page.locator('text=Gamification').first()).toBeVisible()
     await expect(page.locator('text=Badges').first()).toBeVisible()
@@ -68,20 +68,20 @@ test.describe('Admin Panel', () => {
   })
 
   test('should have social section', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
     await expect(page.locator('text=Social').first()).toBeVisible()
   })
 
   test('should have system section', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
     await expect(page.locator('text=Système').first()).toBeVisible()
     await expect(page.locator('text=Export').first()).toBeVisible()
   })
 
   test('should open chat from admin social section', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
     // Admin has a "Chat" button in Social section
     const chatBtn = page.locator('.admin-btn:has-text("Chat"), button:has-text("Chat")')
@@ -94,7 +94,7 @@ test.describe('Admin Panel', () => {
   })
 
   test('should open badges from admin', async ({ page }) => {
-    const adminBtn = page.locator('[aria-label*="Admin"], button:has(.fa-shield-alt), button:has(.fa-shield)')
+    const adminBtn = page.locator('[aria-label*="Admin"], button[aria-label*="Admin"]')
     await adminBtn.first().click()
     const badgesBtn = page.locator('.admin-btn:has-text("Badges"), button:has-text("Badges")')
     await badgesBtn.first().click()

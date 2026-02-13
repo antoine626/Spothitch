@@ -51,8 +51,8 @@ test.describe('Map View', () => {
   })
 
   test('should have zoom controls', async ({ page }) => {
-    const zoomIn = page.locator('[onclick*="mapZoomIn"], button:has(i.fa-plus)')
-    const zoomOut = page.locator('[onclick*="mapZoomOut"], button:has(i.fa-minus)')
+    const zoomIn = page.locator('[onclick*="mapZoomIn"], button[aria-label*="Zoom"]')
+    const zoomOut = page.locator('[onclick*="mapZoomOut"], button[aria-label*="Zoom"]')
     await expect(zoomIn.first()).toBeVisible()
     await expect(zoomOut.first()).toBeVisible()
   })
@@ -117,7 +117,7 @@ test.describe('SOS Mode', () => {
   test('should have SOS button accessible', async ({ page }) => {
     await skipOnboarding(page)
 
-    const sosButton = page.locator('[data-action="sos"], button:has-text("SOS"), .sos-btn, button:has(i.fa-exclamation-triangle)')
+    const sosButton = page.locator('[data-action="sos"], button:has-text("SOS"), .sos-btn, button[aria-label*="SOS"]')
     if (await sosButton.count() > 0) {
       await expect(sosButton.first()).toBeVisible()
     }

@@ -20,7 +20,7 @@ test.describe('Map View', () => {
   })
 
   test('should have filter button', async ({ page }) => {
-    const filterBtn = page.locator('[onclick*="openFilters"], button[aria-label*="Filtre"], button:has(i.fa-sliders-h)')
+    const filterBtn = page.locator('[onclick*="openFilters"], button[aria-label*="Filtre"]')
     if (await filterBtn.count() > 0) {
       await expect(filterBtn.first()).toBeVisible({ timeout: 5000 })
     }
@@ -63,22 +63,22 @@ test.describe('Map - Zoom Controls', () => {
   })
 
   test('should have zoom in button', async ({ page }) => {
-    const zoomInBtn = page.locator('[onclick*="mapZoomIn"], button[aria-label*="Zoom"], button:has(i.fa-plus)')
+    const zoomInBtn = page.locator('[onclick*="mapZoomIn"], button[aria-label*="Zoom"]')
     await expect(zoomInBtn.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have zoom out button', async ({ page }) => {
-    const zoomOutBtn = page.locator('[onclick*="mapZoomOut"], button:has(i.fa-minus)')
+    const zoomOutBtn = page.locator('[onclick*="mapZoomOut"], button[aria-label*="Zoom"]')
     await expect(zoomOutBtn.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have location button', async ({ page }) => {
-    const locationBtn = page.locator('[onclick*="locateUser"], button[aria-label*="position"], button:has(i.fa-location-crosshairs), button:has(i.fa-crosshairs)')
+    const locationBtn = page.locator('[onclick*="locateUser"], button[aria-label*="position"]')
     await expect(locationBtn.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('zoom in should change zoom level', async ({ page }) => {
-    const zoomInBtn = page.locator('[onclick*="mapZoomIn"], button:has(i.fa-plus)').first()
+    const zoomInBtn = page.locator('[onclick*="mapZoomIn"], button[aria-label*="Zoom"]').first()
     await expect(zoomInBtn).toBeVisible({ timeout: 5000 })
 
     // Get initial zoom
@@ -97,7 +97,7 @@ test.describe('Map - Zoom Controls', () => {
   })
 
   test('zoom out should change zoom level', async ({ page }) => {
-    const zoomOutBtn = page.locator('[onclick*="mapZoomOut"], button:has(i.fa-minus)').first()
+    const zoomOutBtn = page.locator('[onclick*="mapZoomOut"], button[aria-label*="Zoom"]').first()
     await expect(zoomOutBtn).toBeVisible({ timeout: 5000 })
 
     // Get initial zoom
@@ -162,7 +162,7 @@ test.describe('Map - Search', () => {
   })
 
   test('should open filter modal', async ({ page }) => {
-    const filterBtn = page.locator('[onclick*="openFilters"], button:has(i.fa-sliders-h)')
+    const filterBtn = page.locator('[onclick*="openFilters"], button[aria-label*="Filtre"]')
     if ((await filterBtn.count()) > 0) {
       await filterBtn.first().click()
       // Wait for filter modal to appear

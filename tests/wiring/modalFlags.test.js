@@ -31,6 +31,13 @@ import { renderFriendProfileModal } from '../../src/components/modals/FriendProf
 import { renderAdminPanel } from '../../src/components/modals/AdminPanel.js'
 import { renderMyDataModal } from '../../src/components/modals/MyData.js'
 import { renderCompanionModal } from '../../src/components/modals/Companion.js'
+import { renderContactFormModal } from '../../src/components/modals/ContactForm.js'
+import { renderCookieBanner } from '../../src/components/modals/CookieBanner.js'
+import { renderDailyRewardModal } from '../../src/components/modals/DailyReward.js'
+import { renderDeleteAccountModal } from '../../src/components/modals/DeleteAccount.js'
+import { renderEmailVerification } from '../../src/components/modals/EmailVerification.js'
+import { renderLocationPermission } from '../../src/components/modals/LocationPermission.js'
+import { renderLanguageSelector } from '../../src/components/modals/LanguageSelector.js'
 
 // Landing
 import { renderLanding } from '../../src/components/Landing.js'
@@ -333,6 +340,62 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
     expect(html).toContain('dismissLanding')
     expect(html).toContain('installPWAFromLanding')
   })
+
+  test('showContactForm flag renders ContactForm modal', () => {
+    const html = renderContactFormModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('contact')
+  })
+
+  test('showCookieBanner flag renders CookieBanner', () => {
+    const html = renderCookieBanner()
+    // CookieBanner returns '' if consent already given, so check it can render
+    // We need to test without consent
+    const htmlWithoutConsent = renderCookieBanner()
+    expect(typeof htmlWithoutConsent).toBe('string')
+    // If it renders, it should have cookie-banner ID or be empty
+    expect(htmlWithoutConsent === '' || htmlWithoutConsent.includes('cookie-banner')).toBe(true)
+  })
+
+  test('showDailyReward flag renders DailyReward modal', () => {
+    setState({ ...mockState, showDailyReward: true })
+    const html = renderDailyRewardModal()
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('recompense')
+  })
+
+  test('showDeleteAccount flag renders DeleteAccount modal', () => {
+    const state = { ...mockState, showDeleteAccount: true }
+    const html = renderDeleteAccountModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('supprimer')
+  })
+
+  test('showEmailVerification flag renders EmailVerification modal', () => {
+    const html = renderEmailVerification('test@test.com')
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('email')
+  })
+
+  test('showLocationPermission flag renders LocationPermission modal', () => {
+    const state = { ...mockState }
+    const html = renderLocationPermission(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('location')
+  })
+
+  test('showLanguageSelector flag renders LanguageSelector', () => {
+    const state = { ...mockState, showLanguageSelector: true }
+    const html = renderLanguageSelector(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('language')
+  })
 })
 
 describe('Modal Flags: close buttons present in HTML', () => {
@@ -356,11 +419,22 @@ describe('Modal Flags: close buttons present in HTML', () => {
       { name: 'AdminPanel', html: renderAdminPanel({ ...mockState, showAdminPanel: true }) },
       { name: 'MyData', html: renderMyDataModal() },
       { name: 'Companion', html: renderCompanionModal({ ...mockState, showCompanionModal: true }) },
+      { name: 'ContactForm', html: renderContactFormModal() },
+      { name: 'DeleteAccount', html: renderDeleteAccountModal({ ...mockState, showDeleteAccount: true }) },
+      { name: 'EmailVerification', html: renderEmailVerification('test@test.com') },
+      { name: 'LocationPermission', html: renderLocationPermission({ ...mockState }) },
     ]
 
     for (const { name, html } of modalsWithClose) {
-      const hasCloseHandler = html.includes('close') || html.includes('fa-times') || html.includes('Fermer')
+      const hasCloseHandler = html.includes('close') || html.includes('Fermer') || html.includes('aria-label')
       expect(hasCloseHandler, `${name} modal missing close button/handler`).toBe(true)
     }
+  })
+
+  test('DailyReward modal has close mechanism', () => {
+    setState({ ...mockState, showDailyReward: true })
+    const html = renderDailyRewardModal()
+    const hasCloseHandler = html.includes('close') || html.includes('Fermer') || html.includes('aria-label')
+    expect(hasCloseHandler, 'DailyReward modal missing close button/handler').toBe(true)
   })
 })

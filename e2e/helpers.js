@@ -19,7 +19,7 @@ export async function dismissOverlays(page) {
     await page.waitForTimeout(300)
   }
 
-  const modalClose = page.locator('.modal-overlay button[aria-label="Fermer"], .modal-overlay button:has(.fa-times)').first()
+  const modalClose = page.locator('.modal-overlay button[aria-label="Fermer"], .modal-overlay button:has(svg)').first()
   if (await modalClose.isVisible({ timeout: 500 }).catch(() => false)) {
     await modalClose.click()
     await page.waitForTimeout(300)

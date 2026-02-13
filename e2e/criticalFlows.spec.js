@@ -379,7 +379,7 @@ test.describe('Social Chat - Deep Functional', () => {
     const chatInput = page.locator('#chat-input')
     await expect(chatInput).toBeVisible({ timeout: 10000 })
 
-    const sendBtn = page.locator('[onclick*="sendMessage"], button:has(.fa-paper-plane)')
+    const sendBtn = page.locator('[onclick*="sendMessage"], button[type="submit"][aria-label*="Envoyer"]')
     await expect(sendBtn.first()).toBeVisible({ timeout: 5000 })
   })
 

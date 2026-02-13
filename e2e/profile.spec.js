@@ -22,8 +22,8 @@ test.describe('Profile View', () => {
   })
 
   test('should display activity section', async ({ page }) => {
-    // Activity header with fa-chart-bar icon, text "Activité"
-    const activity = page.locator('text=Activité').or(page.locator('text=Spots partagés')).or(page.locator('i.fa-chart-bar'))
+    // Activity header with text "Activité"
+    const activity = page.locator('text=Activité').or(page.locator('text=Spots partagés'))
     await expect(activity.first()).toBeVisible({ timeout: 5000 })
   })
 
