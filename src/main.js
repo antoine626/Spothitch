@@ -382,6 +382,14 @@ async function init() {
       console.warn('WASM geo init skipped:', e.message);
     }
 
+    // Initialize Umami Cloud analytics (privacy-friendly, cookie-free)
+    try {
+      const { initUmami } = await import('./services/analytics.js')
+      initUmami()
+    } catch (e) {
+      console.warn('Umami init skipped:', e.message)
+    }
+
     // Initialize PostHog analytics (only if consent given + key configured)
     try {
       const { initPostHog } = await import('./utils/posthog.js');
