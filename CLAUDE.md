@@ -73,7 +73,7 @@
 Site : **spothitch.com** (GitHub Pages, auto-deploy via GitHub Actions)
 
 ### Stack Technique
-Vite 5.x | JavaScript ES Modules | Tailwind CSS 3.4 | Leaflet + MarkerCluster | Firebase (Auth, Firestore) | Vitest | Playwright | Sentry | vite-plugin-pwa | GitHub Actions | ESLint + Prettier
+Vite 5.x | JavaScript ES Modules | Tailwind CSS 4 | MapLibre GL JS + OpenFreeMap | Firebase (Auth, Firestore) | Vitest | Playwright | Sentry | vite-plugin-pwa | GitHub Actions | ESLint + Prettier
 
 ### Structure
 ```
