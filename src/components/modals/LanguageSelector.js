@@ -3,8 +3,8 @@
  * Shown on first launch for language selection
  */
 
-import {
 import { icon } from '../../utils/icons.js'
+import {
   getAvailableLanguages,
   setLanguage,
   detectLanguage,
