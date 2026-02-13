@@ -964,7 +964,7 @@ export function renderResponseCard(response, isOwner = false) {
           </div>
           <div class="text-xs text-slate-400 mb-2">
             ${t('level') || 'Niveau'} ${response.userLevel || 1}
-            ${response.verificationLevel > 0 ? ' ${icon('check-circle', 'w-5 h-5 text-emerald-400')}' : ''}
+            ${response.verificationLevel > 0 ? ` ${icon('check-circle', 'w-5 h-5 text-emerald-400')}` : ''}
           </div>
           <p class="text-sm text-slate-300">${escapeHTML(response.message)}</p>
 

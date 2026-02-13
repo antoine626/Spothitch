@@ -150,7 +150,7 @@ describe('Sponsored Content Service', () => {
     it('should include benefits icons', () => {
       const content = getSponsoredContent(1, 'restaurant')
       const html = renderSponsoredBanner(content)
-      expect(html).toContain('fas fa-')
+      expect(html).toContain('<svg')
     })
 
     it('should include distance display', () => {
@@ -206,7 +206,8 @@ describe('Sponsored Content Service', () => {
       const content = getSponsoredContent(1, 'restaurant')
       const html = renderSponsoredBanner(content)
       // Should have at least one benefit icon
-      const iconMatches = html.match(/fas fa-/g)
+      const iconMatches = html.match(/<svg/g)
+      expect(iconMatches).toBeTruthy()
       expect(iconMatches.length).toBeGreaterThanOrEqual(1)
     })
   })

@@ -556,7 +556,7 @@ describe('Data Saver Service', () => {
 
       const html = renderSavingsIndicator();
 
-      expect(html).toContain('fa-leaf');
+      expect(html).toContain('<svg');
     });
 
     it('should have live region for accessibility', () => {

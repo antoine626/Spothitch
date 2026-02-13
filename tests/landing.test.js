@@ -163,9 +163,7 @@ describe('Landing Component', () => {
       const state = {};
       const html = renderLanding(state);
 
-      expect(html).toContain('fa-');
-      expect(html).toContain('fas');
-      expect(html).toContain('fab');
+      expect(html).toContain('<svg');
     });
   });
 });

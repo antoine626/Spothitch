@@ -702,15 +702,15 @@ export function renderDangerAlert(spot) {
   };
 
   const levelIcons = {
-    critical: 'fa-skull-crossbones',
-    dangerous: 'fa-exclamation-triangle',
-    warning: 'fa-exclamation-circle',
-    caution: 'fa-info-circle',
+    critical: 'skull',
+    dangerous: 'alert-triangle',
+    warning: 'alert-circle',
+    caution: 'info',
   };
 
   const colorClass = levelColors[dangerLevel.level] || 'bg-yellow-500 border-yellow-600';
   const label = levelLabels[dangerLevel.level] || 'ATTENTION';
-  const icon = levelIcons[dangerLevel.level] || 'fa-exclamation-circle';
+  const levelIcon = levelIcons[dangerLevel.level] || 'exclamation-circle';
 
   const proposal = getDeletionProposal(spot.id);
   const deletionSection = proposal ? `
@@ -750,7 +750,7 @@ export function renderDangerAlert(spot) {
     >
       <div class="flex items-start gap-3">
         <div class="text-2xl">
-          ${icon(icon, 'w-5 h-5 text-white')}
+          ${icon(levelIcon, 'w-5 h-5 text-white')}
         </div>
         <div class="flex-1">
           <h3 class="font-bold text-white text-lg">${escapeHTML(label)}</h3>
@@ -928,14 +928,14 @@ export function renderDangerBadge(spotId) {
   };
 
   const badgeIcons = {
-    critical: 'fa-skull-crossbones',
-    dangerous: 'fa-exclamation-triangle',
-    warning: 'fa-exclamation-circle',
-    caution: 'fa-info-circle',
+    critical: 'skull',
+    dangerous: 'alert-triangle',
+    warning: 'alert-circle',
+    caution: 'info',
   };
 
   const colorClass = badgeColors[dangerLevel.level] || 'bg-yellow-500 text-black';
-  const icon = badgeIcons[dangerLevel.level] || 'fa-exclamation-circle';
+  const badgeIcon = badgeIcons[dangerLevel.level] || 'alert-circle';
 
   return `
     <span
@@ -943,7 +943,7 @@ export function renderDangerBadge(spotId) {
       aria-label="${escapeHTML(t('dangerBadge') || 'Spot signale comme dangereux')}"
       data-danger-level="${escapeHTML(dangerLevel.level)}"
     >
-      ${icon(icon, 'w-5 h-5')}
+      ${icon(badgeIcon, 'w-5 h-5')}
       <span class="sr-only">${escapeHTML(dangerLevel.level)}</span>
     </span>
   `;

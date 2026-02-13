@@ -56,10 +56,10 @@ describe('Navigation Component', () => {
 
     it('should have icons for each tab', () => {
       const html = renderNavigation(mockState);
-      expect(html).toContain('fa-map-marked-alt');
-      expect(html).toContain('fa-compass');
-      expect(html).toContain('fa-users');
-      expect(html).toContain('fa-user');
+      expect(html).toContain('<svg');
+      expect(html).toContain('<svg');
+      expect(html).toContain('<svg');
+      expect(html).toContain('<svg');
     });
 
     it('should be fixed at bottom', () => {

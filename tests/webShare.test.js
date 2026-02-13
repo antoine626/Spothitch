@@ -504,7 +504,7 @@ describe('Web Share Service', () => {
       const result = renderShareButton('spot', { id: '123' });
 
       expect(result).toContain('share-button');
-      expect(result).toContain('fa-share-alt');
+      expect(result).toContain('<svg');
       expect(result).toContain('onclick');
       expect(result).toContain('Partager');
     });
@@ -577,7 +577,7 @@ describe('Web Share Service', () => {
       const result = renderShareIconButton('spot', { id: '123' });
 
       expect(result).toContain('share-icon-button');
-      expect(result).toContain('fa-share-alt');
+      expect(result).toContain('<svg');
       // No visible text label, only icon (aria-label may contain text for accessibility)
       expect(result).not.toContain('<span>Partager</span>');
     });

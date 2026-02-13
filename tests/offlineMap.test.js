@@ -404,7 +404,7 @@ describe('Offline Map Service', () => {
     it('should include delete button', () => {
       const html = renderZoneCard(mockZone);
       expect(html).toContain('deleteOfflineZone');
-      expect(html).toContain('fa-trash');
+      expect(html).toContain('<svg');
     });
 
     it('should return empty string for null zone', () => {

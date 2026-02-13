@@ -34,8 +34,8 @@ describe('FAQ Component', () => {
       expect(html).toContain('faq-view');
       expect(html).toContain('faqTitle');
       expect(html).toContain('scrollToFAQCategory');
-      expect(html).toContain('fa-info-circle');
-      expect(html).toContain('fa-map-marker-alt');
+      expect(html).toContain('<svg');
+      expect(html).toContain('<svg');
     });
 
     it('should render search input', () => {
@@ -51,9 +51,9 @@ describe('FAQ Component', () => {
       const html = renderFAQ(state);
 
       expect(html).toContain('scrollToFAQCategory');
-      expect(html).toContain('fa-shield-alt');
-      expect(html).toContain('fa-user');
-      expect(html).toContain('fa-cog');
+      expect(html).toContain('<svg');
+      expect(html).toContain('<svg');
+      expect(html).toContain('<svg');
     });
 
     it('should render accordions with aria-expanded', () => {

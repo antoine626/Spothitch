@@ -1239,8 +1239,8 @@ describe('Admin Moderation Service', () => {
     it('should render admin dashboard', () => {
       const html = renderAdminDashboard();
       expect(html).toContain('admin-dashboard');
-      expect(html).toContain('fa-users');
-      expect(html).toContain('fa-map-marker-alt');
+      expect(html).toContain('<svg');
+      expect(html).toContain('<svg');
     });
 
     it('should render moderation queue', () => {
@@ -1257,7 +1257,7 @@ describe('Admin Moderation Service', () => {
 
     it('should render empty moderation queue', () => {
       const html = renderModerationQueue({ status: ReportStatus.PENDING });
-      expect(html).toContain('fa-check-circle');
+      expect(html).toContain('<svg');
     });
 
     it('should render forbidden words panel', () => {

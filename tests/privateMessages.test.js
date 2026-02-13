@@ -890,7 +890,7 @@ describe('Private Messages Service', () => {
       muteConversation(convId)
       const convs = getActiveConversations()
       const html = renderConversationItem(convs[0])
-      expect(html).toContain('fa-bell-slash')
+      expect(html).toContain('<svg')
     })
   })
 

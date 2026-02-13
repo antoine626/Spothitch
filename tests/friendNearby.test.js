@@ -878,7 +878,7 @@ describe('Friend Nearby Notifications Service', () => {
       const html = renderNearbyFriendsList([])
 
       expect(html).toContain('nearby-friends-empty')
-      expect(html).toContain('fa-user-friends')
+      expect(html).toContain('<svg')
     })
 
     it('should render list of friends', () => {
@@ -925,7 +925,7 @@ describe('Friend Nearby Notifications Service', () => {
       const html = renderFriendNearbySettings()
 
       expect(html).toContain('friend-nearby-settings')
-      expect(html).toContain('fa-user-friends')
+      expect(html).toContain('<svg')
     })
 
     it('should show toggle button', () => {

@@ -705,18 +705,18 @@ describe('Detailed Reviews Service', () => {
   describe('renderStarRating', () => {
     it('should render 5 stars', () => {
       const html = renderStarRating(5);
-      expect(html).toContain('fa-star');
-      expect(html).not.toContain('fa-star-half-alt');
+      expect(html).toContain('<svg');
+      expect(html).toContain('star-rating');
     });
 
     it('should render half stars', () => {
       const html = renderStarRating(3.5);
-      expect(html).toContain('fa-star-half-alt');
+      expect(html).toContain('<svg');
     });
 
     it('should render empty stars', () => {
       const html = renderStarRating(2);
-      expect(html).toContain('far fa-star');
+      expect(html).toContain('<svg');
     });
 
     it('should be interactive when specified', () => {

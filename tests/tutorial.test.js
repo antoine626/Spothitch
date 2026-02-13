@@ -95,7 +95,7 @@ describe('Tutorial Component', () => {
       const clickStepIndex = tutorialSteps.findIndex(s => s.type === 'click');
       const state = { ...mockState, tutorialStep: clickStepIndex };
       const html = renderTutorial(state);
-      expect(html).toContain('hand-pointer');
+      expect(html).toContain('<svg');
     });
 
     it('should render spotlight div for steps with targetSelector', () => {

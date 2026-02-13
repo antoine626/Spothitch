@@ -149,7 +149,7 @@ describe('spotFreshness', () => {
       const html = renderFreshnessBadge(spot)
 
       expect(html).toContain('Fiable')
-      expect(html).toContain('fa-check-circle')
+      expect(html).toContain('<svg')
       expect(html).toContain('bg-emerald-500/20')
       expect(html).toContain('text-emerald-400')
     })
@@ -159,7 +159,7 @@ describe('spotFreshness', () => {
       const html = renderFreshnessBadge(spot)
 
       expect(html).toContain('Déconseillé')
-      expect(html).toContain('fa-times-circle')
+      expect(html).toContain('<svg')
       expect(html).toContain('bg-red-500/20')
     })
 

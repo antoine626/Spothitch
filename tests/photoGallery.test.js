@@ -29,7 +29,7 @@ describe('PhotoGallery Component', () => {
       const html = renderPhotoGallery([], 1)
       expect(html).toContain('photo-gallery-empty')
       expect(html).toContain('Aucune photo pour ce spot')
-      expect(html).toContain('fas fa-camera')
+      expect(html).toContain('<svg')
     })
 
     it('should render empty state when photos is null', () => {
@@ -57,8 +57,8 @@ describe('PhotoGallery Component', () => {
 
     it('should not show navigation arrows for single photo', () => {
       const html = renderPhotoGallery([mockPhotos[0]], 1)
-      expect(html).not.toContain('fa-chevron-left')
-      expect(html).not.toContain('fa-chevron-right')
+      expect(html).not.toContain('gallery-prev')
+      expect(html).not.toContain('gallery-next')
     })
 
     it('should not show counter for single photo', () => {
@@ -76,8 +76,8 @@ describe('PhotoGallery Component', () => {
 
     it('should show navigation arrows for multiple photos', () => {
       const html = renderPhotoGallery(mockPhotos, 1)
-      expect(html).toContain('fa-chevron-left')
-      expect(html).toContain('fa-chevron-right')
+      expect(html).toContain('<svg')
+      expect(html).toContain('<svg')
       expect(html).toContain('prevPhoto')
       expect(html).toContain('nextPhoto')
     })
@@ -99,7 +99,7 @@ describe('PhotoGallery Component', () => {
     it('should render fullscreen button', () => {
       const html = renderPhotoGallery(mockPhotos, 1)
       expect(html).toContain('openPhotoFullscreen')
-      expect(html).toContain('fa-expand')
+      expect(html).toContain('<svg')
     })
 
     it('should render add photo button', () => {
@@ -170,7 +170,7 @@ describe('PhotoGallery Component', () => {
     it('should render close button', () => {
       const html = renderPhotoFullscreen(mockPhotos, 0, 'gallery-1')
       expect(html).toContain('closePhotoFullscreen')
-      expect(html).toContain('fa-times')
+      expect(html).toContain('<svg')
       expect(html).toContain('Fermer')
     })
 

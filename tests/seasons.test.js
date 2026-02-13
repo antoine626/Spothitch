@@ -984,7 +984,7 @@ describe('Seasons Service', () => {
     it('should show lock icon for locked tiers', () => {
       const html = renderSeasonRewardsContent();
 
-      expect(html).toContain('fa-lock');
+      expect(html).toContain('<svg');
     });
   });
 

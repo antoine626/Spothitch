@@ -5,8 +5,8 @@
  */
 
 import { t } from '../i18n/index.js'
-import {
 import { icon } from '../utils/icons.js'
+import {
   getKnownDevices,
   removeDevice,
   removeAllOtherDevices,
@@ -191,7 +191,7 @@ function renderCurrentDevice(device) {
  * @returns {string} HTML for device item
  */
 function renderDeviceItem(device, isCurrent) {
-  const icon = getDeviceIcon(device.type)
+  const deviceEmoji = getDeviceIcon(device.type)
   const deviceName = escapeHTML(device.name)
   const deviceOS = escapeHTML(device.os)
   const deviceId = escapeHTML(device.fingerprint || device.id)
@@ -206,7 +206,7 @@ function renderDeviceItem(device, isCurrent) {
       aria-label="${deviceName} - ${deviceOS}"
     >
       <div class="flex items-center gap-4">
-        <span class="text-3xl" aria-hidden="true">${icon}</span>
+        <span class="text-3xl" aria-hidden="true">${deviceEmoji}</span>
         <div class="min-w-0">
           <div class="flex items-center gap-2">
             <span class="font-medium text-white truncate">${deviceName}</span>

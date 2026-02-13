@@ -12,7 +12,7 @@ describe('EmptyState Component', () => {
 
       expect(result).toContain('Même les meilleurs routards ont besoin de compagnons')
       expect(result).toContain('Trouver des compagnons')
-      expect(result).toContain('fa-user-friends')
+      expect(result).toContain('<svg')
       expect(result).toContain("changeTab('social')")
     })
 
@@ -21,7 +21,7 @@ describe('EmptyState Component', () => {
 
       expect(result).toContain("Ton pouce n'a pas encore travaillé")
       expect(result).toContain('Voir la carte')
-      expect(result).toContain('fa-map-marked-alt')
+      expect(result).toContain('<svg')
       expect(result).toContain("changeTab('map')")
     })
 
@@ -30,7 +30,7 @@ describe('EmptyState Component', () => {
 
       expect(result).toContain("Ta liste de favoris est plus vide qu'une aire d'autoroute à 3h du mat'")
       expect(result).toContain('Découvrir des spots')
-      expect(result).toContain('fa-search-location')
+      expect(result).toContain('<svg')
       expect(result).toContain("changeTab('spots')")
     })
 
@@ -39,7 +39,7 @@ describe('EmptyState Component', () => {
 
       expect(result).toContain("Aucun voyage prévu ? La route t'appelle")
       expect(result).toContain('Planifier un voyage')
-      expect(result).toContain('fa-route')
+      expect(result).toContain('<svg')
       expect(result).toContain("changeTab('planner')")
     })
 
@@ -48,7 +48,7 @@ describe('EmptyState Component', () => {
 
       expect(result).toContain("C'est calme ici... Trop calme")
       expect(result).toContain('Aller au chat')
-      expect(result).toContain('fa-comments')
+      expect(result).toContain('<svg')
       expect(result).toContain("changeTab('social')")
     })
 
@@ -57,7 +57,7 @@ describe('EmptyState Component', () => {
 
       expect(result).toContain("Zéro badge ? Même mon grand-père en a plus que toi")
       expect(result).toContain('Voir les défis')
-      expect(result).toContain('fa-medal')
+      expect(result).toContain('<svg')
       expect(result).toContain("changeTab('challenges')")
     })
 

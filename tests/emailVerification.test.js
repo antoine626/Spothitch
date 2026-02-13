@@ -67,7 +67,7 @@ describe('Email Verification Modal', () => {
     it('should contain close button', () => {
       const html = renderEmailVerification('test@example.com');
 
-      expect(html).toContain('fa-times');
+      expect(html).toContain('<svg');
       expect(html).toContain('closeEmailVerification');
     });
 

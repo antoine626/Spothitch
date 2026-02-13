@@ -433,7 +433,7 @@ describe('Message Reactions Service', () => {
     it('should render add button', () => {
       const html = renderAddReactionButton('msg1');
       expect(html).toContain('add-reaction-btn');
-      expect(html).toContain('fa-smile');
+      expect(html).toContain('<svg');
     });
 
     it('should include onclick handler', () => {

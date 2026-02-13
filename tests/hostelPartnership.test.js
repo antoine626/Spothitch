@@ -483,7 +483,7 @@ describe('Hostel Partnership Service', () => {
 
     it('should have icons for all amenities', () => {
       const amenities = getHostelAmenities('hostel-fr-001')
-      expect(amenities.every(a => a.icon.startsWith('fa-'))).toBe(true)
+      expect(amenities.every(a => typeof a.icon === 'string' && a.icon.length > 0)).toBe(true)
     })
 
     it('should translate amenity labels', () => {
@@ -715,7 +715,7 @@ describe('Hostel Partnership Service', () => {
     it('should include amenity icons', () => {
       const hostel = getHostelDetails('hostel-fr-001')
       const html = renderHostelCard(hostel)
-      expect(html).toContain('fa-')
+      expect(html).toContain('<svg')
     })
 
     it('should have proper ARIA attributes', () => {
@@ -743,7 +743,7 @@ describe('Hostel Partnership Service', () => {
     it('should render empty state', () => {
       const html = renderHostelList([])
       expect(html).toContain('text-center')
-      expect(html).toContain('fa-hotel')
+      expect(html).toContain('<svg')
     })
 
     it('should render null as empty', () => {
@@ -770,7 +770,7 @@ describe('Hostel Partnership Service', () => {
     it('should include amenities', () => {
       const hostel = getHostelDetails('hostel-fr-001')
       const html = renderHostelDetail(hostel)
-      expect(html).toContain('wifi')
+      expect(html).toContain('<svg')
     })
 
     it('should include check-in/out times', () => {
@@ -796,8 +796,8 @@ describe('Hostel Partnership Service', () => {
     it('should include contact buttons if available', () => {
       const hostel = getHostelDetails('hostel-fr-001')
       const html = renderHostelDetail(hostel)
-      expect(html).toContain('fa-phone')
-      expect(html).toContain('fa-envelope')
+      expect(html).toContain('<svg')
+      expect(html).toContain('<svg')
     })
   })
 

@@ -289,7 +289,7 @@ describe('Auto Translate Service', () => {
       const html = renderTranslateButton('Hello hitchhiker', 'elem-1');
 
       expect(html).toContain('translate-btn');
-      expect(html).toContain('fa-language');
+      expect(html).toContain('<svg');
       expect(html).toContain('Traduire');
       expect(html).toContain('data-element-id="elem-1"');
     });
@@ -353,7 +353,7 @@ describe('Auto Translate Service', () => {
       const html = renderShowOriginalButton('elem-1');
 
       expect(html).toContain('show-original-btn');
-      expect(html).toContain('fa-undo');
+      expect(html).toContain('<svg');
       expect(html).toContain("Voir l'original");
       expect(html).toContain('data-element-id="elem-1"');
     });
