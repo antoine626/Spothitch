@@ -1224,6 +1224,7 @@ window.acceptGroupInvitation = acceptGroupInvitation;
 window.declineGroupInvitation = declineGroupInvitation;
 window.addItineraryStop = addItineraryStop;
 window.removeItineraryStop = removeItineraryStop;
+window.openEditTravelGroup = () => setState({ editingTravelGroup: true });
 
 export default {
   // Constants

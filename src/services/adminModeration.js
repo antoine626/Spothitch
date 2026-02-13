@@ -1378,6 +1378,12 @@ window.filterModerationQueue = (priority) => {
   setState({ moderationQueueFilter: priority || null });
 };
 
+window.loadMoreReports = () => {
+  const state = getState()
+  const currentPage = state.moderationReportsPage || 1
+  setState({ moderationReportsPage: currentPage + 1 })
+};
+
 window.quickReportAction = async (reportId, action) => {
   await quickReportAction(reportId, action);
 };

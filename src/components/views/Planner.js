@@ -353,6 +353,26 @@ export function renderSavedTripDetail(tripId) {
   `;
 }
 
+// Global handlers
+window.saveCurrentTrip = async () => {
+  try {
+    const { saveTrip } = await import('../../services/planner.js')
+    await saveTrip()
+    window.showToast?.(window.t?.('tripSaved') || 'Trajet sauvegardé !', 'success')
+  } catch {
+    window.showToast?.(window.t?.('error') || 'Erreur', 'error')
+  }
+}
+
+window.shareTrip = async (tripId) => {
+  try {
+    const { shareTrip: shareTripFn } = await import('../../services/planner.js')
+    await shareTripFn(tripId)
+  } catch {
+    window.showToast?.(window.t?.('shareError') || 'Erreur de partage', 'error')
+  }
+}
+
 export default {
   renderPlanner,
   renderSavedTripDetail,

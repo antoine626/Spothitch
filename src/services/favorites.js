@@ -396,6 +396,17 @@ function renderFavoriteItem(spot) {
   `;
 }
 
+// Global handlers
+window.showFavoritesOnMap = () => {
+  const ids = getFavoriteIds()
+  if (ids.length === 0) {
+    window.showToast?.(window.t?.('noFavorites') || 'Aucun favori', 'info')
+    return
+  }
+  window.changeTab?.('map')
+  window.setState?.({ filterFavorites: true })
+}
+
 export default {
   addFavorite,
   removeFavorite,

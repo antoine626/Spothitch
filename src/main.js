@@ -1297,6 +1297,12 @@ window.clearTripSteps = async () => {
   clearTripSteps()
 }
 
+// Trip Planner & Guides overlays
+window.openTripPlanner = () => setState({ showTripPlanner: true })
+window.closeTripPlanner = () => setState({ showTripPlanner: false })
+window.openGuidesOverlay = () => setState({ showGuidesOverlay: true })
+window.closeGuidesOverlay = () => setState({ showGuidesOverlay: false })
+
 // Guides handlers
 window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: null, showSafety: false });
 window.showCountryDetail = (code) => setState({ selectedCountryCode: code });

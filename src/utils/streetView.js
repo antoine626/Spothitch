@@ -160,6 +160,9 @@ export function renderStreetViewPreview(lat, lng, options = {}) {
   `;
 }
 
+// Global handler
+window.openStreetViewWindow = (lat, lng) => openStreetView(lat, lng)
+
 export default {
   getStreetViewUrl,
   getStreetViewImageUrl,

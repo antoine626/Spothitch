@@ -942,6 +942,29 @@ window.showReviewForm = (spotId) => {
   setState({ showReviewForm: true, reviewSpotId: spotId });
 };
 
+window.openReviewPhoto = (photoUrl) => {
+  if (!photoUrl) return
+  window.open(photoUrl, '_blank', 'noopener,noreferrer')
+}
+
+window.editReviewModal = (reviewId) => {
+  const review = getReviewById(reviewId)
+  if (!review) return
+  setState({ showReviewForm: true, reviewSpotId: review.spotId, editingReviewId: reviewId })
+}
+
+window.deleteReviewConfirm = (reviewId) => {
+  const { t: translate } = window
+  if (confirm(translate?.('confirmDeleteReview') || 'Supprimer cet avis ?')) {
+    deleteReview(reviewId)
+    setState({}) // trigger re-render
+  }
+}
+
+window.openReplyModal = (reviewId) => {
+  setState({ showReplyModal: true, replyToReviewId: reviewId })
+}
+
 // Export default with all functions
 export default {
   ReviewCriteria,
