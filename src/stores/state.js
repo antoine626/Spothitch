@@ -55,6 +55,7 @@ const initialState = {
   showMyRewards: false,
   showSideMenu: false,
   showIdentityVerification: false,
+  showCompanionModal: false,
 
   // Checkin Modal
   checkinSpot: null,

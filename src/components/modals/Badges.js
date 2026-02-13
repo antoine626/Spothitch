@@ -157,7 +157,7 @@ export function renderBadgePopup() {
 
           <div class="relative">
             ${newBadge.image
-    ? `<img src="${newBadge.image}" alt="${newBadge.name}" class="w-20 h-20 mx-auto mb-4 animate-bounce" />`
+    ? `<img src="${newBadge.image}" alt="${newBadge.name}" class="w-20 h-20 mx-auto mb-4 animate-bounce" loading="lazy" />`
     : `<div class="text-6xl mb-4 animate-bounce">${newBadge.icon}</div>`
 }
             <h2 class="text-xl font-bold text-white">Nouveau Badge !</h2>
@@ -199,7 +199,7 @@ export function renderBadgeDetail(badgeId) {
            onclick="event.stopPropagation()">
         <div class="bg-gradient-to-r from-amber-500/20 to-orange-500/20 p-8 text-center">
           ${badge.image
-    ? `<img src="${badge.image}" alt="${badge.name}" class="w-20 h-20 mx-auto" />`
+    ? `<img src="${badge.image}" alt="${badge.name}" class="w-20 h-20 mx-auto" loading="lazy" />`
     : `<div class="text-6xl">${badge.icon}</div>`
 }
         </div>

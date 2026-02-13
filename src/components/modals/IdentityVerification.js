@@ -461,7 +461,7 @@ function renderPhotoStep(lang) {
       <div class="relative">
         ${modalState.photoPreview ? `
           <div class="relative rounded-xl overflow-hidden">
-            <img src="${modalState.photoPreview}" alt="Photo preview" class="w-full h-64 object-cover" />
+            <img src="${modalState.photoPreview}" alt="Photo preview" class="w-full h-64 object-cover" loading="lazy" />
             <button
               onclick="clearPhotoPreview()"
               class="absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center"
@@ -613,7 +613,7 @@ function renderSelfieIdStep(lang) {
       <div class="relative">
         ${current.photo ? `
           <div class="relative rounded-xl overflow-hidden">
-            <img src="${current.photo}" alt="${current.title}" class="w-full h-64 object-cover" />
+            <img src="${current.photo}" alt="${current.title}" class="w-full h-64 object-cover" loading="lazy" />
             <button
               onclick="clearSelfieIdPhoto(${step})"
               class="absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center"

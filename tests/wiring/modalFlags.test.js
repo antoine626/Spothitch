@@ -30,6 +30,7 @@ import { renderCreateTravelGroupModal } from '../../src/components/modals/Create
 import { renderFriendProfileModal } from '../../src/components/modals/FriendProfile.js'
 import { renderAdminPanel } from '../../src/components/modals/AdminPanel.js'
 import { renderMyDataModal } from '../../src/components/modals/MyData.js'
+import { renderCompanionModal } from '../../src/components/modals/Companion.js'
 
 // Landing
 import { renderLanding } from '../../src/components/Landing.js'
@@ -316,6 +317,14 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
     expect(html.length).toBeGreaterThan(100)
   })
 
+  test('showCompanionModal flag renders Companion modal', () => {
+    const state = { ...mockState, showCompanionModal: true }
+    const html = renderCompanionModal(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html.toLowerCase()).toContain('companion')
+  })
+
   test('showLanding flag renders Landing page', () => {
     const html = renderLanding()
     expect(html).toBeTruthy()
@@ -346,6 +355,7 @@ describe('Modal Flags: close buttons present in HTML', () => {
       { name: 'FriendProfile', html: renderFriendProfileModal({ ...mockState, showFriendProfile: true, selectedFriendProfileId: 'friend1' }) },
       { name: 'AdminPanel', html: renderAdminPanel({ ...mockState, showAdminPanel: true }) },
       { name: 'MyData', html: renderMyDataModal() },
+      { name: 'Companion', html: renderCompanionModal({ ...mockState, showCompanionModal: true }) },
     ]
 
     for (const { name, html } of modalsWithClose) {

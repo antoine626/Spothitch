@@ -1034,7 +1034,7 @@ export function renderHostelCard(hostel) {
         <!-- Photo -->
         <div class="w-24 h-24 rounded-lg bg-white/5 overflow-hidden shrink-0">
           ${hostel.photos && hostel.photos[0]
-            ? `<img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover">`
+            ? `<img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover" loading="lazy">`
             : `<div class="w-full h-full flex items-center justify-center text-3xl">🏨</div>`
           }
         </div>
@@ -1146,7 +1146,7 @@ export function renderHostelDetail(hostel) {
         <!-- Photo gallery -->
         ${hostel.photos && hostel.photos.length > 0 ? `
           <div class="relative h-48 bg-dark-primary">
-            <img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover">
+            <img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover" loading="lazy">
             <div class="absolute top-2 right-2 bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-bold">
               -${hostel.discount}% SpotHitch
             </div>

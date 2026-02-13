@@ -30,48 +30,9 @@ import { initSentry, setupGlobalErrorHandlers, setUser as setSentryUser } from '
 import { initNotifications, showToast, showFriendlyError } from './services/notifications.js';
 import { initOfflineHandler } from './services/offline.js';
 import { initMap as initMapService, initMapService as initMainMapService, initPlannerMap, initSavedTripMap, centerOnSpot, centerOnUser, destroyMaps } from './services/map.js';
-import {
-  addPoints,
-  addSeasonPoints,
-  recordCheckin,
-  recordSpotCreated,
-  recordReview,
-  recordCountryVisit,
-  checkBadges,
-  getGamificationSummary,
-} from './services/gamification.js';
-import {
-  startQuiz,
-  answerQuestion as answerQuizQuestion,
-  nextQuizQuestion,
-  finishQuiz,
-  getQuizState,
-} from './services/quiz.js';
-import {
-  createTrip,
-  saveTrip,
-  deleteTrip,
-  getSavedTrips,
-  getTripById,
-  searchTripLocation,
-  addTripStep,
-  removeTripStep,
-  reorderTripSteps,
-  clearTripSteps,
-} from './services/planner.js';
+// Heavy modules — lazy-loaded via dynamic import() to reduce initial bundle
+// gamification.js, quiz.js, planner.js, friendChallenges.js loaded on demand
 import { searchLocation, reverseGeocode, formatDistance, formatDuration } from './services/osrm.js';
-import {
-  createChallenge,
-  acceptChallenge,
-  declineChallenge,
-  cancelChallenge,
-  updateChallengeProgress,
-  getActiveChallenges as getActiveFriendChallenges,
-  getPendingChallenges,
-  getChallengeStats,
-  getChallengeTypes,
-  syncChallengeProgress,
-} from './services/friendChallenges.js';
 
 // i18n
 import { t, detectLanguage, setLanguage, getAvailableLanguages } from './i18n/index.js';
@@ -106,11 +67,8 @@ import { sanitize, sanitizeInput, escapeHTML } from './utils/sanitize.js';
 import { runAllCleanup, registerCleanup } from './utils/cleanup.js';
 import { initDeepLinkListener, handleDeepLink, shareLink } from './utils/deeplink.js';
 import { setupGlobalErrorHandlers as setupErrorHandlers, withErrorBoundary } from './utils/errorBoundary.js';
-import { showSuccessAnimation, showErrorAnimation, showBadgeUnlockAnimation, showLevelUpAnimation, showPointsAnimation, playSound } from './utils/animations.js';
-import { shareSpot, shareBadge, shareStats, shareApp } from './utils/share.js';
-import { launchConfetti, launchConfettiBurst } from './utils/confetti.js';
+// animations.js, share.js, confetti.js — lazy-loaded (only triggered by user actions)
 import { getErrorMessage, getFormattedError, isRecoverableError } from './utils/errorMessages.js';
-import { showShareModal } from './services/shareCard.js';
 import { initAutoOfflineSync } from './services/autoOfflineSync.js';
 import { getFilteredSpots, resetFilters as resetFiltersUtil } from './components/modals/Filters.js';
 import { redeemReward } from './components/modals/Shop.js';
@@ -126,80 +84,28 @@ import {
   announceError,
   renderAccessibilityHelp,
 } from './services/screenReader.js'; // Accessibility
-import {
-  initProximityAlerts,
-  stopProximityAlerts,
-  setProximityRadius,
-  toggleProximityAlerts,
-  isProximityAlertsEnabled,
-} from './services/proximityAlerts.js'; // Proximity alerts
-import {
-  logTripEvent,
-  getTripHistory,
-  clearTripHistory,
-  renderTripHistory,
-  getTripStats,
-} from './services/tripHistory.js'; // Trip history
-import {
-  isWebShareSupported,
-  canShareFiles,
-  shareSpot as shareSpotNative,
-  shareTrip as shareTripNative,
-  shareProfile as shareProfileNative,
-  shareAchievement,
-  shareCustom,
-  shareWithFiles,
-  renderShareButton,
-  renderShareIconButton,
-} from './services/webShare.js'; // Native Web Share API
+// proximityAlerts.js — lazy-loaded (init in init(), handlers use dynamic import)
+// tripHistory.js, webShare.js — lazy-loaded (only used on specific actions)
 
-// New services
-import {
-  createTeam,
-  joinTeam,
-  leaveTeam,
-  startTeamChallenge,
-  renderTeamDashboard,
-  getTeamLeaderboard,
-} from './services/teamChallenges.js';
-import {
-  createTravelGroup,
-  joinTravelGroup,
-  leaveTravelGroup,
-  renderTravelGroupsList,
-  renderTravelGroupDetail,
-} from './services/travelGroups.js';
-import {
-  initNearbyFriendsTracking,
-  toggleNearbyFriends,
-  renderNearbyFriendsWidget,
-  renderNearbyFriendsList,
-} from './services/nearbyFriends.js';
-import {
-  equipFrame,
-  equipTitle,
-  renderCustomizationModal,
-  renderAvatarWithFrame,
-  checkUnlocks as checkProfileUnlocks,
-} from './services/profileCustomization.js';
-import {
-  getSpotsInBounds,
-  paginateSpots,
-  onMapBoundsChange,
-  renderPagination,
-} from './services/spotPagination.js';
-import {
-  compressImage,
-  generateThumbnail,
-  validateImage,
-} from './utils/imageOptimizer.js';
+// Heavy services — lazy-loaded via dynamic import() to reduce initial bundle
+// teamChallenges.js, travelGroups.js, nearbyFriends.js, profileCustomization.js
+// spotPagination.js, imageOptimizer.js, dataExport.js loaded on demand
 import {
   loadModal,
   preloadModals,
   preloadOnIdle,
 } from './utils/lazyLoad.js';
-import { exportUserData, getExportSummary } from './utils/dataExport.js';
 import { icon } from './utils/icons.js'
+import {
+  startCompanionMode,
+  stopCompanionMode,
+  checkIn as companionCheckInFn,
+  sendAlert as companionSendAlertFn,
+  getSMSLink as companionGetSMSLink,
+  isCompanionActive,
+  restoreCompanionMode,
+  onOverdue as onCompanionOverdue,
+} from './services/companion.js'
 import {
   showLoading,
   hideLoading,
@@ -344,16 +250,18 @@ async function init() {
       console.warn('Screen reader support skipped:', e.message);
     }
 
-    // Initialize nearby friends tracking
+    // Initialize nearby friends tracking (lazy)
     try {
-      initNearbyFriendsTracking();
+      const { initNearbyFriendsTracking } = await import('./services/nearbyFriends.js')
+      initNearbyFriendsTracking()
     } catch (e) {
       console.warn('Nearby friends tracking skipped:', e.message);
     }
 
-    // Initialize proximity alerts
+    // Initialize proximity alerts (lazy)
     try {
-      initProximityAlerts();
+      const { initProximityAlerts } = await import('./services/proximityAlerts.js')
+      initProximityAlerts()
     } catch (e) {
       console.warn('Proximity alerts skipped:', e.message);
     }
@@ -464,6 +372,18 @@ async function init() {
       initPushNotifications()
     } catch (e) {
       console.warn('Push notifications skipped:', e.message)
+    }
+
+    // Restore companion mode if it was active
+    try {
+      const wasActive = restoreCompanionMode()
+      if (wasActive) {
+        onCompanionOverdue(() => {
+          setState({ showCompanionModal: true })
+        })
+      }
+    } catch (e) {
+      console.warn('Companion mode restore skipped:', e.message)
     }
 
     // Register cleanup on page unload
@@ -712,6 +632,7 @@ function setupKeyboardShortcuts() {
         showSideMenu: false,
         showLeaderboard: false,
         showDonation: false,
+        showCompanionModal: false,
         selectedSpot: null,
       });
     }
@@ -848,35 +769,41 @@ window.triggerPhotoUpload = () => {
   const input = document.getElementById('spot-photo-input');
   if (input) input.click();
 };
-window.doCheckin = (spotId) => {
-  recordCheckin();
-  saveValidationToFirebase(spotId, getState().user?.uid);
-  showToast(t('checkinSuccess'), 'success');
-  announceAction('checkin', true);
+window.doCheckin = async (spotId) => {
+  const { recordCheckin } = await import('./services/gamification.js')
+  recordCheckin()
+  saveValidationToFirebase(spotId, getState().user?.uid)
+  showToast(t('checkinSuccess'), 'success')
+  announceAction('checkin', true)
 
   // Show share card after checkin
-  const { spots } = getState();
-  const spot = spots.find(s => s.id == spotId);
+  const { spots } = getState()
+  const spot = spots.find(s => s.id == spotId)
   if (spot) {
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
-        showShareModal(spot);
+        const { showShareModal } = await import('./services/shareCard.js')
+        showShareModal(spot)
       } catch (err) {
-        console.warn('Failed to show share modal:', err);
+        console.warn('Failed to show share modal:', err)
       }
-    }, 500);
+    }, 500)
   }
   // Log to trip history
-  logTripEvent('checkin', { spotId });
+  try {
+    const { logTripEvent } = await import('./services/tripHistory.js')
+    logTripEvent('checkin', { spotId })
+  } catch (e) { /* trip history optional */ }
 };
 window.submitReview = async (spotId) => {
-  const comment = document.getElementById('review-comment')?.value;
-  const rating = getState().currentRating || 4;
+  const comment = document.getElementById('review-comment')?.value
+  const rating = getState().currentRating || 4
   if (comment) {
-    await saveCommentToFirebase({ spotId, text: comment, rating });
-    recordReview();
-    showToast(t('reviewPublished') || 'Avis publié !', 'success');
-    setState({ showRating: false });
+    await saveCommentToFirebase({ spotId, text: comment, rating })
+    const { recordReview } = await import('./services/gamification.js')
+    recordReview()
+    showToast(t('reviewPublished') || 'Avis publié !', 'success')
+    setState({ showRating: false })
   }
 };
 window.setRating = (rating) => setState({ currentRating: rating });
@@ -1186,29 +1113,30 @@ window.skipTutorial = () => {
   actions.changeTab('map');
   showToast(t('tutorialSkipped') || 'Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
 };
-window.finishTutorial = () => {
-  const state = getState();
-  const tutorialCompleted = state.tutorialCompleted;
+window.finishTutorial = async () => {
+  const state = getState()
+  const tutorialCompleted = state.tutorialCompleted
 
   // Clean up tutorial targets
   import('./components/modals/Tutorial.js').then(({ cleanupTutorialTargets }) => {
-    cleanupTutorialTargets();
-  });
+    cleanupTutorialTargets()
+  })
 
-  setState({ showTutorial: false, tutorialStep: 0, tutorialCompleted: true });
-  actions.changeTab('map');
+  setState({ showTutorial: false, tutorialStep: 0, tutorialCompleted: true })
+  actions.changeTab('map')
 
   // Award rewards if first time completing
   if (!tutorialCompleted) {
-    addPoints(100, 'tutorial_complete');
-    addSeasonPoints(20);
-    showToast(t('tutorialCompleted') || 'Tutoriel termine ! +100 points bonus !', 'success');
+    const { addPoints, addSeasonPoints } = await import('./services/gamification.js')
+    addPoints(100, 'tutorial_complete')
+    addSeasonPoints(20)
+    showToast(t('tutorialCompleted') || 'Tutoriel termine ! +100 points bonus !', 'success')
     // Trigger confetti
     if (window.launchConfetti) {
-      window.launchConfetti();
+      window.launchConfetti()
     }
   } else {
-    showToast(t('tutorialReviewed') || 'Tutoriel revu ! Bonne route !', 'success');
+    showToast(t('tutorialReviewed') || 'Tutoriel revu ! Bonne route !', 'success')
   }
 };
 
@@ -1251,24 +1179,29 @@ window.applyFilters = () => {
 };
 window.resetFilters = () => resetFiltersUtil();
 
-// Quiz handlers
-window.openQuiz = () => setState({ showQuiz: true });
-window.closeQuiz = () => setState({ showQuiz: false, quizActive: false, quizResult: null, quizCountryCode: null, quizShowExplanation: false });
-window.startQuizGame = () => {
-  startQuiz();
-};
-window.startCountryQuiz = (countryCode) => {
-  startQuiz(countryCode);
-};
-window.answerQuizQuestion = (answerIndex) => {
-  answerQuizQuestion(answerIndex);
-};
-window.nextQuizQuestion = () => {
-  nextQuizQuestion();
-};
-window.retryQuiz = () => {
-  startQuiz();
-};
+// Quiz handlers (lazy-loaded)
+window.openQuiz = () => setState({ showQuiz: true })
+window.closeQuiz = () => setState({ showQuiz: false, quizActive: false, quizResult: null, quizCountryCode: null, quizShowExplanation: false })
+window.startQuizGame = async () => {
+  const { startQuiz } = await import('./services/quiz.js')
+  startQuiz()
+}
+window.startCountryQuiz = async (countryCode) => {
+  const { startQuiz } = await import('./services/quiz.js')
+  startQuiz(countryCode)
+}
+window.answerQuizQuestion = async (answerIndex) => {
+  const { answerQuestion } = await import('./services/quiz.js')
+  answerQuestion(answerIndex)
+}
+window.nextQuizQuestion = async () => {
+  const { nextQuizQuestion } = await import('./services/quiz.js')
+  nextQuizQuestion()
+}
+window.retryQuiz = async () => {
+  const { startQuiz } = await import('./services/quiz.js')
+  startQuiz()
+}
 window.showCountryQuizSelection = () => {
   setState({ quizActive: false, quizResult: null, quizCountryCode: null, quizShowExplanation: false });
 };
@@ -1318,14 +1251,15 @@ window.closeStats = () => setState({ showStats: false });
 // Only keep backward-compatible aliases for old planner step-based mode
 window.searchTripCity = (query) => {
   if (query.length < 3) {
-    document.getElementById('city-suggestions')?.classList.add('hidden');
-    return;
+    document.getElementById('city-suggestions')?.classList.add('hidden')
+    return
   }
   debounce('tripCity', async () => {
-    const results = await searchTripLocation(query);
-    const container = document.getElementById('city-suggestions');
+    const { searchTripLocation } = await import('./services/planner.js')
+    const results = await searchTripLocation(query)
+    const container = document.getElementById('city-suggestions')
     if (container && results.length > 0) {
-      container.classList.remove('hidden');
+      container.classList.remove('hidden')
       container.innerHTML = `
         <div class="bg-white/5 rounded-xl shadow-xl border border-white/10 overflow-hidden">
           ${results.map(r => `
@@ -1336,22 +1270,32 @@ window.searchTripCity = (query) => {
             </button>
           `).join('')}
         </div>
-      `;
+      `
     }
-  }, 400);
-};
-window.addTripStepFromSearch = (name, lat, lng, fullName) => {
-  addTripStep({ name, lat, lng, fullName });
-  document.getElementById('step-input').value = '';
-  document.getElementById('city-suggestions')?.classList.add('hidden');
-};
+  }, 400)
+}
+window.addTripStepFromSearch = async (name, lat, lng, fullName) => {
+  const { addTripStep } = await import('./services/planner.js')
+  addTripStep({ name, lat, lng, fullName })
+  document.getElementById('step-input').value = ''
+  document.getElementById('city-suggestions')?.classList.add('hidden')
+}
 window.addFirstSuggestion = () => {
-  const firstBtn = document.querySelector('#city-suggestions button');
-  if (firstBtn) firstBtn.click();
-};
-window.removeTripStep = (index) => removeTripStep(index);
-window.moveTripStep = (from, to) => reorderTripSteps(from, to);
-window.clearTripSteps = () => clearTripSteps();
+  const firstBtn = document.querySelector('#city-suggestions button')
+  if (firstBtn) firstBtn.click()
+}
+window.removeTripStep = async (index) => {
+  const { removeTripStep } = await import('./services/planner.js')
+  removeTripStep(index)
+}
+window.moveTripStep = async (from, to) => {
+  const { reorderTripSteps } = await import('./services/planner.js')
+  reorderTripSteps(from, to)
+}
+window.clearTripSteps = async () => {
+  const { clearTripSteps } = await import('./services/planner.js')
+  clearTripSteps()
+}
 
 // Guides handlers
 window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: null, showSafety: false });
@@ -1390,21 +1334,57 @@ window.reportGuideError = async (countryCode) => {
 window.showFriends = () => setState({ activeTab: 'friends', selectedFriendId: null });
 window.openFriendsChat = (friendId) => setState({ selectedFriendId: friendId });
 
-// Animation handlers (global)
-window.showSuccessAnimation = showSuccessAnimation;
-window.showErrorAnimation = showErrorAnimation;
-window.showBadgeUnlock = showBadgeUnlockAnimation;
-window.showLevelUp = showLevelUpAnimation;
-window.showPoints = showPointsAnimation;
-window.playSound = playSound;
-window.launchConfetti = launchConfetti;
-window.launchConfettiBurst = launchConfettiBurst;
+// Animation handlers (global) — lazy-loaded
+window.showSuccessAnimation = async (...args) => {
+  const { showSuccessAnimation } = await import('./utils/animations.js')
+  showSuccessAnimation(...args)
+}
+window.showErrorAnimation = async (...args) => {
+  const { showErrorAnimation } = await import('./utils/animations.js')
+  showErrorAnimation(...args)
+}
+window.showBadgeUnlock = async (...args) => {
+  const { showBadgeUnlockAnimation } = await import('./utils/animations.js')
+  showBadgeUnlockAnimation(...args)
+}
+window.showLevelUp = async (...args) => {
+  const { showLevelUpAnimation } = await import('./utils/animations.js')
+  showLevelUpAnimation(...args)
+}
+window.showPoints = async (...args) => {
+  const { showPointsAnimation } = await import('./utils/animations.js')
+  showPointsAnimation(...args)
+}
+window.playSound = async (...args) => {
+  const { playSound } = await import('./utils/animations.js')
+  playSound(...args)
+}
+window.launchConfetti = async (...args) => {
+  const { launchConfetti } = await import('./utils/confetti.js')
+  launchConfetti(...args)
+}
+window.launchConfettiBurst = async (...args) => {
+  const { launchConfettiBurst } = await import('./utils/confetti.js')
+  launchConfettiBurst(...args)
+}
 
-// Sharing handlers (global)
-window.shareSpot = shareSpot;
-window.shareBadge = shareBadge;
-window.shareStats = shareStats;
-window.shareApp = shareApp;
+// Sharing handlers (global) — lazy-loaded
+window.shareSpot = async (...args) => {
+  const { shareSpot } = await import('./utils/share.js')
+  shareSpot(...args)
+}
+window.shareBadge = async (...args) => {
+  const { shareBadge } = await import('./utils/share.js')
+  shareBadge(...args)
+}
+window.shareStats = async (...args) => {
+  const { shareStats } = await import('./utils/share.js')
+  shareStats(...args)
+}
+window.shareApp = async (...args) => {
+  const { shareApp } = await import('./utils/share.js')
+  shareApp(...args)
+}
 window.showAddFriend = () => setState({ showAddFriend: true });
 window.closeAddFriend = () => setState({ showAddFriend: false });
 window.acceptFriendRequest = (requestId) => {
@@ -1426,47 +1406,64 @@ window.copyFriendLink = () => {
   showToast(t('linkCopied') || 'Lien copié !', 'success');
 };
 
-// Friend Challenges handlers (#157)
-window.createFriendChallenge = (friendId, typeId, target = null, durationDays = 7) => {
-  const challenge = createChallenge(friendId, typeId, target, durationDays);
+// Friend Challenges handlers (#157) — lazy-loaded
+window.createFriendChallenge = async (friendId, typeId, target = null, durationDays = 7) => {
+  const { createChallenge } = await import('./services/friendChallenges.js')
+  const challenge = createChallenge(friendId, typeId, target, durationDays)
   if (challenge) {
-    trackPageView('/action/challenge_created');
+    trackPageView('/action/challenge_created')
   }
-};
+}
 
-window.acceptFriendChallenge = (challengeId) => {
-  const success = acceptChallenge(challengeId);
+window.acceptFriendChallenge = async (challengeId) => {
+  const { acceptChallenge } = await import('./services/friendChallenges.js')
+  const success = acceptChallenge(challengeId)
   if (success) {
-    trackPageView('/action/challenge_accepted');
+    trackPageView('/action/challenge_accepted')
   }
-  renderApp();
-};
+  renderApp()
+}
 
-window.declineFriendChallenge = (challengeId) => {
-  const success = declineChallenge(challengeId);
+window.declineFriendChallenge = async (challengeId) => {
+  const { declineChallenge } = await import('./services/friendChallenges.js')
+  const success = declineChallenge(challengeId)
   if (success) {
-    trackPageView('/action/challenge_declined');
+    trackPageView('/action/challenge_declined')
   }
-  renderApp();
-};
+  renderApp()
+}
 
-window.cancelFriendChallenge = (challengeId) => {
-  const success = cancelChallenge(challengeId);
+window.cancelFriendChallenge = async (challengeId) => {
+  const { cancelChallenge } = await import('./services/friendChallenges.js')
+  const success = cancelChallenge(challengeId)
   if (success) {
-    trackPageView('/action/challenge_cancelled');
+    trackPageView('/action/challenge_cancelled')
   }
-  renderApp();
-};
+  renderApp()
+}
 
-window.syncFriendChallenges = () => {
-  syncChallengeProgress();
-  renderApp();
-};
+window.syncFriendChallenges = async () => {
+  const { syncChallengeProgress } = await import('./services/friendChallenges.js')
+  syncChallengeProgress()
+  renderApp()
+}
 
-window.getActiveFriendChallenges = getActiveFriendChallenges;
-window.getPendingFriendChallenges = getPendingChallenges;
-window.getChallengeStats = getChallengeStats;
-window.getChallengeTypes = getChallengeTypes;
+window.getActiveFriendChallenges = async () => {
+  const { getActiveChallenges } = await import('./services/friendChallenges.js')
+  return getActiveChallenges()
+}
+window.getPendingFriendChallenges = async () => {
+  const { getPendingChallenges } = await import('./services/friendChallenges.js')
+  return getPendingChallenges()
+}
+window.getChallengeStats = async () => {
+  const { getChallengeStats } = await import('./services/friendChallenges.js')
+  return getChallengeStats()
+}
+window.getChallengeTypes = async () => {
+  const { getChallengeTypes } = await import('./services/friendChallenges.js')
+  return getChallengeTypes()
+}
 
 // Legal handlers
 window.showLegalPage = (page = 'cgu') => setState({ activeTab: 'legal', legalPage: page });
@@ -1492,55 +1489,101 @@ window.centerOnUser = centerOnUser;
 window.openTitles = () => setState({ showTitles: true });
 window.closeTitles = () => setState({ showTitles: false });
 
-// Team challenges handlers
-window.openTeamChallenges = () => setState({ showTeamChallenges: true });
-window.closeTeamChallenges = () => setState({ showTeamChallenges: false });
-window.openCreateTeam = () => setState({ showCreateTeam: true });
-window.closeCreateTeam = () => setState({ showCreateTeam: false });
-window.createTeamAction = createTeam;
-window.joinTeamAction = joinTeam;
-window.leaveTeamAction = leaveTeam;
-window.startTeamChallengeAction = startTeamChallenge;
+// Team challenges handlers — lazy-loaded
+window.openTeamChallenges = () => setState({ showTeamChallenges: true })
+window.closeTeamChallenges = () => setState({ showTeamChallenges: false })
+window.openCreateTeam = () => setState({ showCreateTeam: true })
+window.closeCreateTeam = () => setState({ showCreateTeam: false })
+window.createTeamAction = async (...args) => {
+  const { createTeam } = await import('./services/teamChallenges.js')
+  return createTeam(...args)
+}
+window.joinTeamAction = async (...args) => {
+  const { joinTeam } = await import('./services/teamChallenges.js')
+  return joinTeam(...args)
+}
+window.leaveTeamAction = async (...args) => {
+  const { leaveTeam } = await import('./services/teamChallenges.js')
+  return leaveTeam(...args)
+}
+window.startTeamChallengeAction = async (...args) => {
+  const { startTeamChallenge } = await import('./services/teamChallenges.js')
+  return startTeamChallenge(...args)
+}
 
-// Travel groups handlers
-window.openTravelGroups = () => setState({ activeTab: 'travel-groups' });
-window.openCreateTravelGroup = () => setState({ showCreateTravelGroup: true });
-window.closeCreateTravelGroup = () => setState({ showCreateTravelGroup: false });
-window.openTravelGroupDetail = (groupId) => setState({ showTravelGroupDetail: true, selectedTravelGroupId: groupId });
-window.closeTravelGroupDetail = () => setState({ showTravelGroupDetail: false, selectedTravelGroupId: null });
-window.createTravelGroupAction = createTravelGroup;
-window.joinTravelGroupAction = joinTravelGroup;
-window.leaveTravelGroupAction = leaveTravelGroup;
+// Travel groups handlers — lazy-loaded
+window.openTravelGroups = () => setState({ activeTab: 'travel-groups' })
+window.openCreateTravelGroup = () => setState({ showCreateTravelGroup: true })
+window.closeCreateTravelGroup = () => setState({ showCreateTravelGroup: false })
+window.openTravelGroupDetail = (groupId) => setState({ showTravelGroupDetail: true, selectedTravelGroupId: groupId })
+window.closeTravelGroupDetail = () => setState({ showTravelGroupDetail: false, selectedTravelGroupId: null })
+window.createTravelGroupAction = async (...args) => {
+  const { createTravelGroup } = await import('./services/travelGroups.js')
+  return createTravelGroup(...args)
+}
+window.joinTravelGroupAction = async (...args) => {
+  const { joinTravelGroup } = await import('./services/travelGroups.js')
+  return joinTravelGroup(...args)
+}
+window.leaveTravelGroupAction = async (...args) => {
+  const { leaveTravelGroup } = await import('./services/travelGroups.js')
+  return leaveTravelGroup(...args)
+}
 
-// Nearby friends handlers
-window.toggleNearbyFriends = toggleNearbyFriends;
-window.openNearbyFriends = () => setState({ showNearbyFriends: true });
-window.closeNearbyFriends = () => setState({ showNearbyFriends: false });
+// Nearby friends handlers — lazy-loaded
+window.toggleNearbyFriends = async (...args) => {
+  const { toggleNearbyFriends } = await import('./services/nearbyFriends.js')
+  return toggleNearbyFriends(...args)
+}
+window.openNearbyFriends = () => setState({ showNearbyFriends: true })
+window.closeNearbyFriends = () => setState({ showNearbyFriends: false })
 
-// Profile customization handlers
-window.openProfileCustomization = () => setState({ showProfileCustomization: true });
-window.closeProfileCustomization = () => setState({ showProfileCustomization: false });
-window.equipFrameAction = equipFrame;
-window.equipTitleAction = equipTitle;
+// Profile customization handlers — lazy-loaded
+window.openProfileCustomization = () => setState({ showProfileCustomization: true })
+window.closeProfileCustomization = () => setState({ showProfileCustomization: false })
+window.equipFrameAction = async (...args) => {
+  const { equipFrame } = await import('./services/profileCustomization.js')
+  return equipFrame(...args)
+}
+window.equipTitleAction = async (...args) => {
+  const { equipTitle } = await import('./services/profileCustomization.js')
+  return equipTitle(...args)
+}
 
-// Proximity alerts handlers
-window.toggleProximityAlerts = toggleProximityAlerts;
-window.setProximityRadius = setProximityRadius;
+// Proximity alerts handlers — lazy-loaded
+window.toggleProximityAlerts = async (...args) => {
+  const { toggleProximityAlerts } = await import('./services/proximityAlerts.js')
+  return toggleProximityAlerts(...args)
+}
+window.setProximityRadius = async (...args) => {
+  const { setProximityRadius } = await import('./services/proximityAlerts.js')
+  return setProximityRadius(...args)
+}
 
-// Trip history handlers
-window.openTripHistory = () => setState({ showTripHistory: true });
-window.closeTripHistory = () => setState({ showTripHistory: false });
-window.clearTripHistory = () => {
+// Trip history handlers — lazy-loaded
+window.openTripHistory = () => setState({ showTripHistory: true })
+window.closeTripHistory = () => setState({ showTripHistory: false })
+window.clearTripHistory = async () => {
   if (confirm(t('clearTripHistory') || 'Effacer tout l\'historique de voyage ?')) {
-    clearTripHistory();
-    setState({ showTripHistory: false });
+    const { clearTripHistory } = await import('./services/tripHistory.js')
+    clearTripHistory()
+    setState({ showTripHistory: false })
   }
-};
+}
 
-// Image handlers
-window.compressImage = compressImage;
-window.generateThumbnail = generateThumbnail;
-window.validateImage = validateImage;
+// Image handlers — lazy-loaded
+window.compressImage = async (...args) => {
+  const { compressImage } = await import('./utils/imageOptimizer.js')
+  return compressImage(...args)
+}
+window.generateThumbnail = async (...args) => {
+  const { generateThumbnail } = await import('./utils/imageOptimizer.js')
+  return generateThumbnail(...args)
+}
+window.validateImage = async (...args) => {
+  const { validateImage } = await import('./utils/imageOptimizer.js')
+  return validateImage(...args)
+}
 
 // Landing page dismiss handler
 window.dismissLanding = () => {
@@ -1586,6 +1629,55 @@ window.submitContactForm = async (event) => {
   const { handleContactFormSubmit } = await import('./components/modals/ContactForm.js');
   handleContactFormSubmit(event);
 };
+
+// Companion Mode handlers
+window.showCompanionModal = () => setState({ showCompanionModal: true })
+window.closeCompanionModal = () => setState({ showCompanionModal: false })
+window.startCompanion = () => {
+  const nameEl = document.getElementById('companion-guardian-name')
+  const phoneEl = document.getElementById('companion-guardian-phone')
+  const intervalEl = document.getElementById('companion-interval')
+  const name = nameEl?.value?.trim()
+  const phone = phoneEl?.value?.trim()
+  const interval = parseInt(intervalEl?.value || '30', 10)
+
+  if (!name || !phone) {
+    showToast(t('guardianRequired') || 'Remplis le nom et le numéro de ton gardien.', 'warning')
+    return
+  }
+
+  startCompanionMode({ name, phone }, interval)
+  onCompanionOverdue(() => {
+    setState({ showCompanionModal: true })
+  })
+  showToast(t('companionStarted') || 'Mode compagnon activé !', 'success')
+  // Re-render to show active view
+  scheduleRender(() => render(getState()))
+}
+window.stopCompanion = () => {
+  stopCompanionMode()
+  showToast(t('companionStopped') || 'Mode compagnon désactivé.', 'info')
+  setState({ showCompanionModal: false })
+}
+window.companionCheckIn = () => {
+  companionCheckInFn()
+  showToast(t('companionCheckedIn') || 'Check-in enregistré !', 'success')
+  // Re-render to update timer
+  scheduleRender(() => render(getState()))
+}
+window.companionSendAlert = () => {
+  const url = companionSendAlertFn()
+  if (url) {
+    showToast(t('companionAlertOpening') || 'Ouverture de WhatsApp...', 'info')
+    window.open(url, '_blank')
+  } else {
+    // Fallback to SMS
+    const smsUrl = companionGetSMSLink()
+    if (smsUrl) {
+      window.open(smsUrl, '_blank')
+    }
+  }
+}
 
 // Lazy load handlers
 window.loadModal = loadModal;

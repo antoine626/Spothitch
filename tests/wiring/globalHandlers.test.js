@@ -198,6 +198,10 @@ const MAIN_JS_HANDLERS = [
   'downloadCountryOffline', 'deleteOfflineCountry',
   // Push notifications
   'togglePushNotifications',
+  // Companion Mode
+  'showCompanionModal', 'closeCompanionModal',
+  'startCompanion', 'stopCompanion',
+  'companionCheckIn', 'companionSendAlert',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))
@@ -286,6 +290,7 @@ const mockState = {
   showTitles: false,
   showIdentityVerification: false,
   showAgeVerification: false,
+  showCompanionModal: false,
   checkinSpot: null,
   newBadge: null,
   navigationActive: false,
@@ -356,6 +361,7 @@ import { renderCreateTravelGroupModal } from '../../src/components/modals/Create
 import { renderFriendProfileModal } from '../../src/components/modals/FriendProfile.js'
 import { renderAdminPanel } from '../../src/components/modals/AdminPanel.js'
 import { renderMyDataModal } from '../../src/components/modals/MyData.js'
+import { renderCompanionModal } from '../../src/components/modals/Companion.js'
 
 // Services with render
 import { renderTravelGroupDetail } from '../../src/services/travelGroups.js'
@@ -443,6 +449,9 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
     checkinSpot: mockState.spots[0],
   })
   testHandlers('DonationModal', renderDonationModal)
+  testHandlers('Companion modal', renderCompanionModal, {
+    showCompanionModal: true,
+  })
 
   // --- Modals (no param, use global state) ---
   testHandlers('Filters modal', () => renderFiltersModal())

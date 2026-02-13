@@ -20,6 +20,7 @@ export function renderFriendProfileModal(state) {
       onclick="closeFriendProfile()"
       role="dialog"
       aria-modal="true"
+      aria-labelledby="friend-profile-title"
     >
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
       <div
@@ -35,7 +36,7 @@ export function renderFriendProfileModal(state) {
           <!-- Name + Trust Badge -->
           <div>
             <div class="flex items-center justify-center gap-2">
-              <h2 class="text-xl font-bold">${friend.name}</h2>
+              <h2 id="friend-profile-title" class="text-xl font-bold">${friend.name}</h2>
               ${getTrustBadge(friend.verificationLevel || 0)}
             </div>
             <div class="flex items-center justify-center gap-2 mt-1">

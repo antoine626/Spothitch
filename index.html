@@ -44,9 +44,12 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     
-    <!-- Preconnect -->
+    <!-- Preconnect & Preload -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <link rel="dns-prefetch" href="https://router.project-osrm.org">
+    <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+    <link rel="preload" href="/fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/SpaceGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Critical CSS for First Paint -->
     <style>
@@ -65,15 +68,55 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
+        "@type": "WebSite",
         "name": "SpotHitch",
-        "alternateName": "La communauté des autostoppeurs",
+        "alternateName": "La communaute des autostoppeurs",
         "url": "https://spothitch.com/",
-        "description": "Trouvez les meilleurs spots d'auto-stop dans le monde. 37 000+ spots dans 170 pays.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://spothitch.com/?search={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        },
+        "inLanguage": ["fr", "en", "es", "de"]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "SpotHitch",
+        "url": "https://spothitch.com/",
+        "logo": "https://spothitch.com/icon-512.png",
+        "description": "Communaute mondiale des autostoppeurs. Trouvez et partagez les meilleurs spots d'auto-stop.",
+        "sameAs": []
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "SpotHitch",
+        "alternateName": "La communaute des autostoppeurs",
+        "url": "https://spothitch.com/",
+        "description": "Trouvez les meilleurs spots d'auto-stop dans le monde. 14 000+ spots dans 137 pays.",
         "applicationCategory": "TravelApplication",
         "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
-        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.5", "ratingCount": "100" }
+        "browserRequirements": "Requires JavaScript",
+        "softwareVersion": "2.0",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.5",
+            "ratingCount": "100"
+        },
+        "featureList": "Hitchhiking spot map, Country guides, Trip planner, Community reviews, Offline mode, SOS emergency"
     }
     </script>
 </head>

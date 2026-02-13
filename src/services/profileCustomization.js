@@ -395,12 +395,13 @@ export function renderCustomizationModal(state) {
       onclick="if(event.target===this)closeProfileCustomization()"
       role="dialog"
       aria-modal="true"
+      aria-labelledby="profile-customization-title"
     >
       <div class="bg-dark-card w-full sm:max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-2xl overflow-hidden">
         <!-- Header -->
         <div class="p-6 border-b border-white/10">
           <div class="flex justify-between items-center">
-            <h2 class="text-xl font-bold">${t('profileCustomization') || 'Personnalisation'}</h2>
+            <h2 id="profile-customization-title" class="text-xl font-bold">${t('profileCustomization') || 'Personnalisation'}</h2>
             <button
               onclick="closeProfileCustomization()"
               class="p-2 rounded-full hover:bg-white/10 transition-colors"

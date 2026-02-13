@@ -5,8 +5,10 @@
 
 import { t } from '../i18n/index.js'
 import { icon } from '../utils/icons.js'
+import { isCompanionActive } from '../services/companion.js'
 
 export function renderNavigation(state) {
+  const companionActive = isCompanionActive()
   const tabs = [
     { id: 'map', icon: 'fa-map-marked-alt', label: t('navMap') || 'Carte' },
     { id: 'challenges', icon: 'fa-compass', label: t('navActivities') || 'Activités' },
@@ -16,6 +18,12 @@ export function renderNavigation(state) {
 
   return `
     <nav class="fixed bottom-4 left-4 right-4 z-40 px-4 py-2 rounded-2xl bg-dark-primary/80 backdrop-blur-xl border border-white/10 shadow-lg shadow-black/30 safe-area-inset-bottom" role="navigation" aria-label="${t('mainNavigation') || 'Navigation principale'}">
+      ${companionActive ? `
+        <div class="absolute -top-1.5 right-6 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/90 text-white text-[10px] font-semibold shadow-lg cursor-pointer" onclick="showCompanionModal()" aria-label="${t('companionActive') || 'Mode compagnon actif'}">
+          <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+          ${t('companionSafe') || 'Safe'}
+        </div>
+      ` : ''}
       <ul class="flex items-center justify-around list-none m-0 p-0" role="tablist" aria-label="${t('mainNavigation') || 'Navigation principale'}">
         ${tabs.map(tab => `
           <li role="presentation" class="flex-1">

@@ -263,16 +263,17 @@ export function renderReportModal(state) {
       onclick="if(event.target===this)closeReport()"
       role="dialog"
       aria-modal="true"
+      aria-labelledby="report-modal-title"
     >
       <div class="modal-panel w-full sm:max-w-md max-h-[90vh] sm:rounded-2xl overflow-hidden">
         <!-- Header -->
         <div class="bg-gradient-to-r from-orange-500 to-red-500 p-6">
           <div class="flex justify-between items-start">
             <div>
-              <h2 class="text-xl font-bold text-white">${t('reportTitle') || 'Signaler'}</h2>
+              <h2 id="report-modal-title" class="text-xl font-bold text-white">${t('reportTitle') || 'Signaler'}</h2>
               <p class="text-white/80 text-sm">${t('reportSubtitle') || 'Aide-nous à garder la communauté sûre'}</p>
             </div>
-            <button onclick="closeReport()" class="p-2 bg-white/20 rounded-full text-white">
+            <button onclick="closeReport()" class="p-2 bg-white/20 rounded-full text-white" aria-label="${t('close') || 'Fermer'}">
               ${icon('times', 'w-5 h-5')}
             </button>
           </div>

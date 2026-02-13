@@ -65,6 +65,7 @@ import { renderTitlesModal } from './modals/TitlesModal.js';
 import { renderCreateTravelGroupModal } from './modals/CreateTravelGroup.js';
 import { renderFriendProfileModal } from './modals/FriendProfile.js';
 import { renderContactFormModal } from './modals/ContactForm.js';
+import { renderCompanionModal } from './modals/Companion.js';
 import { renderTripHistory } from '../services/tripHistory.js';
 import { icon } from '../utils/icons.js'
 
@@ -182,6 +183,9 @@ export function renderApp(state) {
 
     <!-- Contact Form Modal -->
     ${state.showContactForm ? renderContactFormModal() : ''}
+
+    <!-- Companion Mode Modal -->
+    ${state.showCompanionModal ? renderCompanionModal(state) : ''}
 
     <!-- Trip History Modal -->
     ${state.showTripHistory ? `

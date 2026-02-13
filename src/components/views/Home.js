@@ -6,12 +6,14 @@
 import { t } from '../../i18n/index.js'
 import { getGuideByCode } from '../../data/guides.js'
 import { icon } from '../../utils/icons.js'
+import { isCompanionActive, getTimeUntilNextCheckIn, isCheckInOverdue } from '../../services/companion.js'
 
 export function renderHome(state) {
   const hasGPS = !!state.userLocation
   const searchLabel = state.homeSearchLabel || ''
   const spotCount = (state.homeFilteredSpots || state.spots || []).length
   const isSplit = !!state.splitView
+  const companionActive = isCompanionActive()
 
   // Country guide indicator
   const currentCountry = state.searchCountry || null
@@ -25,8 +27,33 @@ export function renderHome(state) {
         <div id="home-map" class="w-full h-full"></div>
       </div>
 
+      <!-- Companion Mode floating bar -->
+      ${companionActive ? (() => {
+        const secs = getTimeUntilNextCheckIn()
+        const overdue = secs < 0
+        const absSecs = Math.abs(secs)
+        const mins = Math.floor(absSecs / 60)
+        const sec = absSecs % 60
+        return `
+        <div class="absolute top-4 left-4 right-4 z-40" onclick="showCompanionModal()">
+          <div class="flex items-center justify-between px-4 py-2.5 rounded-xl ${overdue ? 'bg-red-500/90 border-red-400/30' : 'bg-emerald-500/90 border-emerald-400/30'} backdrop-blur-xl border shadow-lg cursor-pointer">
+            <div class="flex items-center gap-2">
+              ${icon('shield-alt', 'w-4 h-4 text-white/80')}
+              <span class="text-sm font-medium text-white">${t('companionMode') || 'Compagnon'}</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-sm font-bold text-white">${overdue ? '-' : ''}${String(mins).padStart(2, '0')}:${String(sec).padStart(2, '0')}</span>
+              <button onclick="event.stopPropagation();companionCheckIn()" class="px-3 py-1.5 rounded-lg bg-white/20 text-white text-xs font-semibold hover:bg-white/30 transition-all active:scale-95" aria-label="${t('imSafe') || 'Je vais bien'}">
+                ${icon('check', 'w-3 h-3')} ${t('imSafe') || 'OK'}
+              </button>
+            </div>
+          </div>
+        </div>
+        `
+      })() : ''}
+
       <!-- Floating search bar (translucent, top) -->
-      <div class="absolute top-4 left-4 right-4 z-30">
+      <div class="absolute ${companionActive ? 'top-[4.5rem]' : 'top-4'} left-4 right-4 z-30">
         <div class="flex gap-3">
           <div class="flex-1 relative">
             <input
@@ -75,14 +102,14 @@ export function renderHome(state) {
 
       <!-- Spot count badge (below search) -->
       ${spotCount > 0 ? `
-        <div class="absolute top-[5.5rem] left-4 z-20 px-4 py-2 rounded-full bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-sm shadow-lg">
+        <div class="absolute ${companionActive ? 'top-[9rem]' : 'top-[5.5rem]'} left-4 z-20 px-4 py-2 rounded-full bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-sm shadow-lg">
           <span class="text-primary-400 font-semibold">${spotCount}</span>
           <span class="text-slate-400 ml-1">${t('spotsAvailable') || 'spots'}</span>
         </div>
       ` : ''}
 
       <!-- Zoom + location + split controls (right side) -->
-      <div class="absolute top-[5.5rem] right-4 z-20 flex flex-col gap-2">
+      <div class="absolute ${companionActive ? 'top-[9rem]' : 'top-[5.5rem]'} right-4 z-20 flex flex-col gap-2">
         <button
           onclick="homeZoomIn()"
           class="w-10 h-10 rounded-lg bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-all text-lg font-bold shadow-lg"
