@@ -17,8 +17,6 @@
 const PLAUSIBLE_DOMAIN = import.meta.env.VITE_PLAUSIBLE_DOMAIN || 'spothitch.app'
 const MIXPANEL_TOKEN = import.meta.env.VITE_MIXPANEL_TOKEN || ''
 const ANALYTICS_PROVIDER = import.meta.env.VITE_ANALYTICS_PROVIDER || 'plausible' // 'plausible' | 'mixpanel' | 'none'
-const UMAMI_ID = import.meta.env.VITE_UMAMI_ID || ''
-
 // State
 let isInitialized = false
 let mixpanel = null
@@ -109,36 +107,6 @@ function initPlausible() {
 }
 
 /**
- * Initialize Umami Cloud analytics
- * Dynamically injects the script only when VITE_UMAMI_ID is set.
- * Privacy-friendly, cookie-free, GDPR compliant.
- */
-export function initUmami() {
-  if (!UMAMI_ID) return
-  if (typeof document === 'undefined') return
-
-  // Avoid injecting twice
-  if (document.querySelector('script[data-website-id]')) return
-
-  const script = document.createElement('script')
-  script.defer = true
-  script.src = 'https://cloud.umami.is/script.js'
-  script.setAttribute('data-website-id', UMAMI_ID)
-  document.head.appendChild(script)
-}
-
-/**
- * Track an event via Umami (convenience wrapper)
- * @param {string} name - Event name
- * @param {Object} [data] - Optional event data
- */
-export function trackUmamiEvent(name, data) {
-  if (typeof window !== 'undefined' && window.umami) {
-    window.umami.track(name, data)
-  }
-}
-
-/**
  * Track an event
  * @param {string} eventName - Event name
  * @param {Object} properties - Event properties
@@ -184,11 +152,6 @@ export function trackEvent(eventName, properties = {}) {
     mixpanel.track(eventName, enrichedProps)
   } else if (ANALYTICS_PROVIDER === 'plausible' && window.plausible) {
     window.plausible(eventName, { props: enrichedProps })
-  }
-
-  // Also send to Umami if available (runs alongside any provider)
-  if (UMAMI_ID && window.umami) {
-    window.umami.track(eventName, enrichedProps)
   }
 
   // Store for local reporting
@@ -805,9 +768,7 @@ export function trackOnce(eventKey, trackFn, data = {}) {
 
 export default {
   initAnalytics,
-  initUmami,
   trackEvent,
-  trackUmamiEvent,
   trackPageView,
   identifyUser,
   resetUser,
