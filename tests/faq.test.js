@@ -121,8 +121,7 @@ describe('FAQ Component', () => {
       answer.className = 'faq-answer hidden';
       answer.setAttribute('aria-hidden', 'true');
 
-      const icon = document.createElement('i');
-      icon.className = 'fas fa-chevron-down';
+      const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
       button.appendChild(icon);
       const item = document.createElement('div');
@@ -145,7 +144,7 @@ describe('FAQ Component', () => {
       const answer = document.createElement('div');
       answer.className = 'faq-answer hidden';
 
-      const icon = document.createElement('i');
+      const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       icon.style.transform = '';
 
       button.appendChild(icon);
