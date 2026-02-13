@@ -281,121 +281,71 @@ export function afterRender(state) {
 }
 
 /**
- * Get tile URL based on app language (FR/DE have localized labels)
- */
-function getMapTileConfig(lang) {
-  // Use localized tile servers where available
-  // FR/DE tiles show city names in French/German for European cities
-  // Standard OSM for EN/ES (shows local language names which are mostly readable)
-  switch (lang) {
-    case 'fr': return {
-      url: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
-      options: { maxZoom: 19 }
-    }
-    case 'de': return {
-      url: 'https://tile.openstreetmap.de/{z}/{x}/{y}.png',
-      options: { maxZoom: 18 }
-    }
-    default: return {
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      options: { maxZoom: 19 }
-    }
-  }
-}
-
-/**
- * Initialize the home map (full-size, shows spots in visible area)
+ * Initialize the home map (full-size MapLibre GL, shows spots in visible area)
  */
 function initHomeMap(state) {
   const container = document.getElementById('home-map')
   if (!container || container.dataset.initialized === 'true') return
 
-  import('leaflet').then(async (leafletModule) => {
+  import('maplibre-gl').then(async (maplibreModule) => {
     if (container.dataset.initialized === 'true') return
     container.dataset.initialized = 'true'
 
-    const L = leafletModule.default || leafletModule
-    // Expose L globally so plugins (markercluster) can attach to it
-    window.L = L
+    const maplibregl = maplibreModule.default || maplibreModule
+    const { getFreshnessColor } = await import('../services/spotFreshness.js')
 
     const center = state.userLocation
-      ? [state.userLocation.lat, state.userLocation.lng]
-      : [30, 0] // World center fallback
+      ? [state.userLocation.lng, state.userLocation.lat]
+      : [0, 30] // World center [lng, lat]
 
     const zoom = state.userLocation ? 13 : 3
 
-    const map = L.map(container, {
+    const map = new maplibregl.Map({
+      container,
+      style: 'https://tiles.openfreemap.org/styles/dark',
       center,
       zoom,
-      zoomControl: false,
       attributionControl: false,
-      preferCanvas: true,
     })
 
-    const tileConfig = getMapTileConfig(getState().lang || 'en')
-    L.tileLayer(tileConfig.url, {
-      ...tileConfig.options,
-      updateWhenZooming: false,  // Don't load tiles during zoom animation (prevents pixelation)
-      updateWhenIdle: true,      // Load tiles only when map stops moving
-      keepBuffer: 4,             // Keep more tiles around viewport cached
-    }).addTo(map)
+    // Compat methods for external callers (Map.js, main.js)
+    map.setView = function (latLng, z) {
+      const lat = Array.isArray(latLng) ? latLng[0] : latLng.lat
+      const lng = Array.isArray(latLng) ? latLng[1] : latLng.lng
+      this.flyTo({ center: [lng, lat], zoom: z, duration: 800 })
+    }
+    map.invalidateSize = function () { this.resize() }
 
     window.homeMapInstance = map
-    window.homeLeaflet = L
-    window.homeSpotMarkers = []
+    window.mapInstance = map
 
     // User position marker
     if (state.userLocation) {
-      L.circleMarker([state.userLocation.lat, state.userLocation.lng], {
-        radius: 10,
-        fillColor: '#f59e0b',
-        color: '#fff',
-        weight: 3,
-        fillOpacity: 1,
-      }).addTo(map).bindTooltip(t('myPosition') || 'Ma position', { permanent: false })
+      const el = document.createElement('div')
+      el.innerHTML = `
+        <div class="relative">
+          <div class="w-4 h-4 bg-amber-400 rounded-full border-2 border-white shadow-lg"></div>
+          <div class="absolute inset-0 bg-amber-400 rounded-full animate-ping opacity-50"></div>
+        </div>
+      `
+      new maplibregl.Marker({ element: el })
+        .setLngLat([state.userLocation.lng, state.userLocation.lat])
+        .addTo(map)
     }
 
     // spotLoader module reference (loaded once, reused)
     let spotLoader = null
     import('../services/spotLoader.js').then(mod => { spotLoader = mod }).catch(() => {})
 
-    // MarkerCluster group - await to ensure it's ready
-    let clusterGroup = null
-    try {
-      await import('leaflet.markercluster')
-      clusterGroup = L.markerClusterGroup({
-        maxClusterRadius: 50,
-        spiderfyOnMaxZoom: true,
-        showCoverageOnHover: false,
-        chunkedLoading: true,
-        disableClusteringAtZoom: 15,
-        iconCreateFunction: (cluster) => {
-          const count = cluster.getChildCount()
-          let px = 36
-          if (count > 100) px = 48
-          else if (count > 20) px = 42
-          return L.divIcon({
-            html: `<div style="background:rgba(245,158,11,0.85);color:#fff;border-radius:50%;width:${px}px;height:${px}px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${count > 100 ? 14 : 12}px;border:2px solid rgba(255,255,255,0.6);box-shadow:0 2px 8px rgba(0,0,0,0.3)">${count}</div>`,
-            className: '',
-            iconSize: L.point(px, px),
-          })
-        },
-      })
-      map.addLayer(clusterGroup)
-    } catch (e) {
-      console.warn('MarkerCluster failed to load:', e)
-    }
-
-    // Track which spot IDs are already in the cluster to avoid duplicates
+    // Track which spot IDs are already added to avoid duplicates
     const addedSpotIds = new Set()
 
-    // Add NEW spots to cluster (never clear, only append)
-    const addSpotsToCluster = (spots) => {
+    // Helper: convert spots array to GeoJSON
+    const spotsToGeoJSON = (spots) => {
       let favIds = []
       try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) { /* no-op */ }
       const favSet = new Set(favIds)
-
-      const newMarkers = []
+      const features = []
       spots.forEach(spot => {
         if (addedSpotIds.has(spot.id)) return
         const lat = spot.coordinates?.lat || spot.lat
@@ -403,45 +353,126 @@ function initHomeMap(state) {
         if (!lat || !lng) return
         addedSpotIds.add(spot.id)
         const isFav = favSet.has(spot.id)
+        features.push({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [lng, lat] },
+          properties: {
+            id: spot.id,
+            isFav: isFav ? 1 : 0,
+            color: isFav ? '#f59e0b' : (getFreshnessColor(spot) || '#22c55e'),
+            strokeColor: isFav ? '#fbbf24' : '#ffffff',
+            radius: isFav ? 8 : 5,
+            strokeWidth: isFav ? 2 : 1,
+          },
+        })
+      })
+      return { type: 'FeatureCollection', features }
+    }
 
-        const marker = L.circleMarker([lat, lng], {
-          radius: isFav ? 8 : 5,
-          fillColor: isFav ? '#f59e0b' : '#22c55e',
-          color: isFav ? '#fbbf24' : '#fff',
-          weight: isFav ? 2 : 1,
-          fillOpacity: 0.85,
-        }).on('click', () => window.selectSpot?.(spot.id))
+    // Add spots layers once map is loaded
+    let spotsSourceAdded = false
 
-        newMarkers.push(marker)
+    const addSpotsSource = (geojson) => {
+      if (spotsSourceAdded) {
+        // Update existing source data
+        const source = map.getSource('home-spots')
+        if (source) source.setData(geojson)
+        return
+      }
+      spotsSourceAdded = true
+
+      map.addSource('home-spots', {
+        type: 'geojson',
+        data: geojson,
+        cluster: true,
+        clusterMaxZoom: 14,
+        clusterRadius: 50,
       })
 
-      if (newMarkers.length === 0) return
+      // Cluster circles (amber)
+      map.addLayer({
+        id: 'home-clusters',
+        type: 'circle',
+        source: 'home-spots',
+        filter: ['has', 'point_count'],
+        paint: {
+          'circle-color': 'rgba(245, 158, 11, 0.85)',
+          'circle-radius': ['step', ['get', 'point_count'], 18, 20, 21, 100, 24],
+          'circle-stroke-color': 'rgba(255, 255, 255, 0.6)',
+          'circle-stroke-width': 2,
+        },
+      })
 
-      if (clusterGroup) {
-        clusterGroup.addLayers(newMarkers)
-      } else {
-        newMarkers.forEach(m => m.addTo(map))
-        window.homeSpotMarkers.push(...newMarkers)
-      }
+      // Cluster count labels
+      map.addLayer({
+        id: 'home-cluster-count',
+        type: 'symbol',
+        source: 'home-spots',
+        filter: ['has', 'point_count'],
+        layout: {
+          'text-field': ['get', 'point_count_abbreviated'],
+          'text-size': 12,
+          'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+        },
+        paint: { 'text-color': '#ffffff' },
+      })
+
+      // Individual spot dots
+      map.addLayer({
+        id: 'home-spot-points',
+        type: 'circle',
+        source: 'home-spots',
+        filter: ['!', ['has', 'point_count']],
+        paint: {
+          'circle-color': ['get', 'color'],
+          'circle-radius': ['get', 'radius'],
+          'circle-stroke-color': ['get', 'strokeColor'],
+          'circle-stroke-width': ['get', 'strokeWidth'],
+          'circle-opacity': 0.85,
+        },
+      })
+
+      // Click handlers
+      map.on('click', 'home-spot-points', (e) => {
+        if (e.features?.length > 0) window.selectSpot?.(e.features[0].properties.id)
+      })
+      map.on('click', 'home-clusters', (e) => {
+        const features = map.queryRenderedFeatures(e.point, { layers: ['home-clusters'] })
+        if (!features.length) return
+        const clusterId = features[0].properties.cluster_id
+        map.getSource('home-spots').getClusterExpansionZoom(clusterId, (err, z) => {
+          if (err) return
+          map.easeTo({ center: features[0].geometry.coordinates, zoom: z })
+        })
+      })
+      map.on('mouseenter', 'home-spot-points', () => { map.getCanvas().style.cursor = 'pointer' })
+      map.on('mouseleave', 'home-spot-points', () => { map.getCanvas().style.cursor = '' })
+      map.on('mouseenter', 'home-clusters', () => { map.getCanvas().style.cursor = 'pointer' })
+      map.on('mouseleave', 'home-clusters', () => { map.getCanvas().style.cursor = '' })
+    }
+
+    // Gather all spots and push to source
+    const updateSpotsOnMap = (spots) => {
+      const geojson = spotsToGeoJSON(spots)
+      if (geojson.features.length === 0 && spotsSourceAdded) return
+      addSpotsSource(geojson)
 
       // Update badge count
       const badge = document.querySelector('#home-map-container .text-primary-400.font-semibold')
       if (badge) badge.textContent = addedSpotIds.size
     }
 
-    // Load spots for visible area and add new ones
+    // Load spots for visible area
     let isLoadingSpots = false
     const loadSpotsForView = async () => {
-      // Add already-loaded spots first
       const currentState = getState()
       const stateSpots = currentState.spots || []
       const existing = spotLoader ? spotLoader.getAllLoadedSpots() : []
       const spotsMap = new Map()
       stateSpots.forEach(s => spotsMap.set(s.id, s))
       existing.forEach(s => spotsMap.set(s.id, s))
-      addSpotsToCluster(Array.from(spotsMap.values()))
+      updateSpotsOnMap(Array.from(spotsMap.values()))
 
-      // Then load new spots for visible bounds
       if (!spotLoader || isLoadingSpots) return
       isLoadingSpots = true
       try {
@@ -452,157 +483,198 @@ function initHomeMap(state) {
           east: bounds.getEast(),
           west: bounds.getWest(),
         })
-        // Add only the newly loaded spots
         const allLoaded = spotLoader.getAllLoadedSpots()
-        addSpotsToCluster(allLoaded)
+        updateSpotsOnMap(allLoaded)
       } catch (e) {
-        console.warn('Spot loading failed:', e)
+        // silently fail
       } finally {
         isLoadingSpots = false
       }
     }
 
-    // Debounce spot loading on map move (500ms) — no instant rebuild
+    map.on('load', () => {
+      loadSpotsForView()
+    })
+
+    // Debounce spot loading on map move
     let moveTimer = null
     map.on('moveend', () => {
       clearTimeout(moveTimer)
       moveTimer = setTimeout(loadSpotsForView, 500)
     })
 
-    // Initial load
-    setTimeout(loadSpotsForView, 300)
-
-    // Fix map size (container may have changed)
-    setTimeout(() => map.invalidateSize(), 200)
+    // Resize
+    setTimeout(() => map.resize(), 200)
   }).catch((err) => {
     console.warn('Home map init failed:', err)
   })
 }
 
 /**
- * Initialize trip map (shows only trip spots along route)
+ * Initialize trip map (MapLibre GL — shows only trip spots along route)
  */
 function initTripMap(state) {
   const container = document.getElementById('trip-map')
   if (!container || container.dataset.initialized === 'true') return
   if (!state.tripResults) return
 
-  import('leaflet').then((L) => {
+  import('maplibre-gl').then((maplibreModule) => {
     if (container.dataset.initialized === 'true') return
     container.dataset.initialized = 'true'
+
+    const maplibregl = maplibreModule.default || maplibreModule
 
     const results = state.tripResults
     const from = results.fromCoords // [lat, lng]
     const to = results.toCoords     // [lat, lng]
     if (!from || !to) return
 
-    const tileConfig = getMapTileConfig(getState().lang || 'en')
-    const map = L.map(container, {
-      zoomControl: false,
+    const map = new maplibregl.Map({
+      container,
+      style: 'https://tiles.openfreemap.org/styles/dark',
+      center: [from[1], from[0]], // [lng, lat]
+      zoom: 7,
       attributionControl: false,
-    }).setView(from, 7)
-    L.tileLayer(tileConfig.url, {
-      ...tileConfig.options,
-      attribution: '',
-      updateWhenZooming: false,
-      updateWhenIdle: true,
-      keepBuffer: 4,
-    }).addTo(map)
-
-    // Route line from OSRM geometry
-    if (results.routeGeometry && results.routeGeometry.length > 0) {
-      const routeLatLngs = results.routeGeometry.map(([lng, lat]) => [lat, lng])
-      L.polyline(routeLatLngs, {
-        color: '#f59e0b', weight: 4, opacity: 0.8
-      }).addTo(map)
-    } else {
-      L.polyline([from, to], {
-        color: '#f59e0b', weight: 3, opacity: 0.6, dashArray: '8, 8'
-      }).addTo(map)
-    }
-
-    // Route endpoints shown via the route line itself (no separate markers)
-
-    // Trip spot markers (ONLY trip spots, not all)
-    // Check favorites from localStorage
-    let favIds = []
-    try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) { /* no-op */ }
-    const favSet = new Set(favIds)
-
-    const spots = results.spots || []
-    spots.forEach(spot => {
-      const lat = spot.coordinates?.lat || spot.lat
-      const lng = spot.coordinates?.lng || spot.lng
-      if (!lat || !lng) return
-      const isFav = favSet.has(spot.id)
-      L.circleMarker([lat, lng], {
-        radius: isFav ? 9 : 7,
-        fillColor: isFav ? '#f59e0b' : '#22c55e',
-        color: isFav ? '#fbbf24' : '#fff',
-        weight: isFav ? 3 : 2,
-        fillOpacity: 0.9
-      }).addTo(map).on('click', () => window.selectSpot?.(spot.id))
     })
 
-    // Amenity markers (gas stations / rest areas)
-    if (state.showRouteAmenities && state.routeAmenities?.length > 0) {
-      state.routeAmenities.forEach(poi => {
-        if (!poi.lat || !poi.lng) return
-        const isFuel = poi.type === 'fuel'
-        const fillColor = isFuel ? '#10b981' : '#f59e0b'
-        const label = isFuel ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
-        const tooltipText = poi.name || (isFuel ? (t('gasStation') || 'Station-service') : (t('restArea') || 'Aire de repos'))
+    // Compat
+    map.setView = function (latLng, z) {
+      const lat = Array.isArray(latLng) ? latLng[0] : latLng.lat
+      const lng = Array.isArray(latLng) ? latLng[1] : latLng.lng
+      this.flyTo({ center: [lng, lat], zoom: z, duration: 800 })
+    }
+    map.invalidateSize = function () { this.resize() }
 
-        // Use a div icon for emoji markers
-        const icon = L.divIcon({
-          html: `<div style="font-size:18px;text-align:center;line-height:1">${label}</div>`,
-          className: 'amenity-marker',
-          iconSize: [24, 24],
-          iconAnchor: [12, 12],
+    map.on('load', () => {
+      // Route line from OSRM geometry
+      if (results.routeGeometry && results.routeGeometry.length > 0) {
+        map.addSource('trip-route', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry: { type: 'LineString', coordinates: results.routeGeometry },
+          },
         })
+        map.addLayer({
+          id: 'trip-route-line',
+          type: 'line',
+          source: 'trip-route',
+          paint: { 'line-color': '#f59e0b', 'line-width': 4, 'line-opacity': 0.8 },
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+        })
+      } else {
+        // Dashed fallback line
+        map.addSource('trip-route', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry: { type: 'LineString', coordinates: [[from[1], from[0]], [to[1], to[0]]] },
+          },
+        })
+        map.addLayer({
+          id: 'trip-route-line',
+          type: 'line',
+          source: 'trip-route',
+          paint: { 'line-color': '#f59e0b', 'line-width': 3, 'line-opacity': 0.6, 'line-dasharray': [2, 2] },
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+        })
+      }
 
-        L.marker([poi.lat, poi.lng], { icon })
-          .addTo(map)
-          .bindTooltip(tooltipText, { direction: 'top', offset: [0, -12] })
+      // Trip spot dots
+      let favIds = []
+      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) { /* no-op */ }
+      const favSet = new Set(favIds)
+
+      const spots = results.spots || []
+      const spotFeatures = []
+      spots.forEach(spot => {
+        const lat = spot.coordinates?.lat || spot.lat
+        const lng = spot.coordinates?.lng || spot.lng
+        if (!lat || !lng) return
+        const isFav = favSet.has(spot.id)
+        spotFeatures.push({
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [lng, lat] },
+          properties: {
+            id: spot.id,
+            color: isFav ? '#f59e0b' : '#22c55e',
+            strokeColor: isFav ? '#fbbf24' : '#ffffff',
+            radius: isFav ? 9 : 7,
+            strokeWidth: isFav ? 3 : 2,
+          },
+        })
       })
 
-      // Map legend
-      const legendHtml = `
-        <div style="background:rgba(15,23,42,0.9);padding:8px 12px;border-radius:8px;font-size:11px;color:#cbd5e1;border:1px solid rgba(255,255,255,0.1)">
-          <div style="margin-bottom:4px"><span style="color:#22c55e">\u25CF</span> Spots</div>
-          <div style="margin-bottom:4px">\u26FD ${t('gasStation') || 'Station-service'}</div>
-          <div>\uD83C\uDD7F\uFE0F ${t('restArea') || 'Aire de repos'}</div>
-        </div>
-      `
-      const LegendControl = L.Control.extend({
-        onAdd() {
-          const div = L.DomUtil.create('div')
-          div.innerHTML = legendHtml
-          return div
-        },
-      })
-      new LegendControl({ position: 'bottomleft' }).addTo(map)
-    }
+      if (spotFeatures.length > 0) {
+        map.addSource('trip-spots', {
+          type: 'geojson',
+          data: { type: 'FeatureCollection', features: spotFeatures },
+        })
+        map.addLayer({
+          id: 'trip-spot-points',
+          type: 'circle',
+          source: 'trip-spots',
+          paint: {
+            'circle-color': ['get', 'color'],
+            'circle-radius': ['get', 'radius'],
+            'circle-stroke-color': ['get', 'strokeColor'],
+            'circle-stroke-width': ['get', 'strokeWidth'],
+            'circle-opacity': 0.9,
+          },
+        })
+        map.on('click', 'trip-spot-points', (e) => {
+          if (e.features?.length > 0) window.selectSpot?.(e.features[0].properties.id)
+        })
+        map.on('mouseenter', 'trip-spot-points', () => { map.getCanvas().style.cursor = 'pointer' })
+        map.on('mouseleave', 'trip-spot-points', () => { map.getCanvas().style.cursor = '' })
+      }
 
-    // Fit bounds to show everything
-    const allPoints = [from, to]
-    spots.forEach(s => {
-      const lat = s.coordinates?.lat || s.lat
-      const lng = s.coordinates?.lng || s.lng
-      if (lat && lng) allPoints.push([lat, lng])
+      // Amenity markers (gas stations / rest areas)
+      if (state.showRouteAmenities && state.routeAmenities?.length > 0) {
+        state.routeAmenities.forEach(poi => {
+          if (!poi.lat || !poi.lng) return
+          const isFuel = poi.type === 'fuel'
+          const label = isFuel ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
+          const tooltipText = poi.name || (isFuel ? (t('gasStation') || 'Station-service') : (t('restArea') || 'Aire de repos'))
+
+          const el = document.createElement('div')
+          el.style.cssText = 'font-size:18px;text-align:center;line-height:1;cursor:pointer'
+          el.textContent = label
+          el.title = tooltipText
+
+          new maplibregl.Marker({ element: el })
+            .setLngLat([poi.lng, poi.lat])
+            .addTo(map)
+        })
+      }
+
+      // Fit bounds to show everything — collect all [lng, lat] coords
+      const allCoords = [
+        [from[1], from[0]],
+        [to[1], to[0]],
+      ]
+      spots.forEach(s => {
+        const lat = s.coordinates?.lat || s.lat
+        const lng = s.coordinates?.lng || s.lng
+        if (lat && lng) allCoords.push([lng, lat])
+      })
+      if (state.routeAmenities?.length > 0) {
+        state.routeAmenities.forEach(poi => {
+          if (poi.lat && poi.lng) allCoords.push([poi.lng, poi.lat])
+        })
+      }
+
+      if (allCoords.length >= 2) {
+        const bounds = allCoords.reduce(
+          (b, c) => b.extend(c),
+          new maplibregl.LngLatBounds(allCoords[0], allCoords[0])
+        )
+        map.fitBounds(bounds, { padding: 40 })
+      }
     })
-    if (state.routeAmenities?.length > 0) {
-      state.routeAmenities.forEach(poi => {
-        if (poi.lat && poi.lng) allPoints.push([poi.lat, poi.lng])
-      })
-    }
 
-    if (allPoints.length >= 2) {
-      map.fitBounds(allPoints, { padding: [40, 40] })
-    }
-    // Multiple invalidateSize calls to handle timing issues
-    setTimeout(() => { map.invalidateSize(); map.fitBounds(allPoints, { padding: [40, 40] }) }, 100)
-    setTimeout(() => map.invalidateSize(), 500)
+    setTimeout(() => map.resize(), 200)
+    setTimeout(() => map.resize(), 500)
   }).catch(err => {
     console.warn('Trip map init failed:', err)
   })

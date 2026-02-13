@@ -30,9 +30,8 @@
     "dompurify": "^3.0.6",
     "firebase": "^12.7.0",
     "globals": "^17.3.0",
-    "leaflet": "^1.9.4",
-    "leaflet.markercluster": "^1.5.3",
-    "lucide": "^0.563.0"
+    "lucide": "^0.563.0",
+    "maplibre-gl": "^5.18.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",

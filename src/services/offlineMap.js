@@ -564,8 +564,10 @@ export async function clearAllOfflineMaps() {
 }
 
 /**
- * Create a Leaflet tile layer that uses offline tiles when available
- * @returns {Object} Leaflet tile layer options
+ * Create offline tile layer configuration.
+ * For raster fallback when offline — vector tiles (MapLibre) require
+ * a service worker approach for full offline support.
+ * @returns {Object} Tile layer options with getTileUrl helper
  */
 export function createOfflineTileLayer() {
   return {

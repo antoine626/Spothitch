@@ -73,11 +73,11 @@ export default defineConfig({
         navigateFallbackDenylist: [/^\/design-/, /^\/debug-/],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/.*\.tile\.openstreetmap\.(org|fr|de)\/.*/i,
+            urlPattern: /^https:\/\/tiles\.openfreemap\.org\/.*/i,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'osm-tiles',
-              expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 30 }
+              cacheName: 'openfreemap-tiles',
+              expiration: { maxEntries: 1000, maxAgeSeconds: 60 * 60 * 24 * 30 }
             }
           },
           {
@@ -138,7 +138,7 @@ export default defineConfig({
       external: ['mixpanel-browser'],
       output: {
         manualChunks: {
-          'vendor-leaflet': ['leaflet', 'leaflet.markercluster'],
+          'vendor-maplibre': ['maplibre-gl'],
           'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage'],
           'vendor-utils': ['dompurify'],
           'gamification': [
@@ -187,6 +187,6 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    include: ['leaflet', 'firebase/app', 'dompurify', 'lucide']
+    include: ['maplibre-gl', 'firebase/app', 'dompurify', 'lucide']
   }
 });

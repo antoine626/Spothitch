@@ -122,10 +122,8 @@
   }
 }
 
-/* Leaflet CSS (must be after @theme) */
-@import 'leaflet/dist/leaflet.css';
-@import 'leaflet.markercluster/dist/MarkerCluster.css';
-@import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+/* MapLibre GL CSS (must be after @theme) */
+@import 'maplibre-gl/dist/maplibre-gl.css';
 
 /* ===== BASE STYLES ===== */
 @layer base {
@@ -619,9 +617,9 @@
   }
 }
 
-/* ===== LEAFLET OVERRIDES ===== */
-.leaflet-container {
-  @apply bg-dark-secondary rounded-2xl;
+/* ===== MAPLIBRE GL OVERRIDES ===== */
+.maplibregl-map {
+  @apply bg-dark-secondary;
   width: 100% !important;
   height: 100% !important;
   z-index: 1;
@@ -632,24 +630,49 @@
   min-height: 400px;
 }
 
-.leaflet-popup-content-wrapper {
-  @apply bg-dark-primary/95 text-white rounded-2xl border border-white/10;
+.maplibregl-popup-content {
+  @apply bg-dark-primary/95 text-white rounded-2xl border border-white/10 p-3;
 }
 
-.leaflet-popup-tip {
-  @apply bg-dark-primary/95;
+.maplibregl-popup-tip {
+  border-top-color: rgba(15, 21, 32, 0.95) !important;
 }
 
-.leaflet-popup-content {
-  @apply m-3;
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: rgba(15, 21, 32, 0.95) !important;
 }
 
-.light-theme .leaflet-popup-content-wrapper {
+.maplibregl-popup-close-button {
+  @apply text-white text-lg p-1;
+}
+
+.light-theme .maplibregl-popup-content {
   @apply bg-white text-slate-800 border-slate-200;
 }
 
-.light-theme .leaflet-popup-tip {
-  @apply bg-white;
+.light-theme .maplibregl-popup-tip {
+  border-top-color: white !important;
+}
+
+.light-theme .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: white !important;
+}
+
+/* Hide default MapLibre controls (we use custom controls) */
+.maplibregl-ctrl-attrib {
+  @apply bg-dark-primary/70 text-xs;
+}
+
+.maplibregl-ctrl-attrib a {
+  @apply text-slate-400;
+}
+
+.light-theme .maplibregl-ctrl-attrib {
+  @apply bg-white/70;
+}
+
+.light-theme .maplibregl-ctrl-attrib a {
+  @apply text-slate-600;
 }
 
 /* ===== SCROLLBAR ===== */
@@ -1484,11 +1507,11 @@ textarea.input-field {
 }
 
 /* Light theme - Map controls */
-.light-theme .leaflet-control-zoom a {
+.light-theme .maplibregl-ctrl button {
   @apply bg-white text-slate-700 border-slate-200;
 }
 
-.light-theme .leaflet-control-zoom a:hover {
+.light-theme .maplibregl-ctrl button:hover {
   @apply bg-slate-100;
 }
 

@@ -1,195 +1,164 @@
 /**
  * Heatmap Service
  * Display popular hitchhiking zones on the map
+ * Uses MapLibre GL native heatmap layer
  */
 
-import { getState } from '../stores/state.js';
+import { getState } from '../stores/state.js'
 
 // Heatmap configuration
 const HEATMAP_CONFIG = {
-  radius: 25,
-  blur: 15,
   maxZoom: 17,
   minOpacity: 0.3,
-  gradient: {
-    0.0: '#00ff00',  // Green - low activity
-    0.25: '#7fff00',
-    0.5: '#ffff00', // Yellow - medium
-    0.75: '#ff7f00', // Orange - high
-    1.0: '#ff0000',  // Red - hot spot
-  },
-};
+}
 
-// Store heatmap layer reference
-let heatmapLayer = null;
+// Track heatmap state
+let heatmapVisible = false
 
 /**
- * Generate heatmap data from spots
+ * Generate heatmap GeoJSON from spots
  * @param {Array} spots - Array of spot objects
- * @returns {Array} Array of [lat, lng, intensity] points
+ * @returns {Object} GeoJSON FeatureCollection
  */
 export function generateHeatmapData(spots) {
-  if (!spots || !spots.length) return [];
+  if (!spots || !spots.length) return { type: 'FeatureCollection', features: [] }
 
-  const points = [];
+  const features = []
 
   for (const spot of spots) {
-    if (!spot.coordinates?.lat || !spot.coordinates?.lng) continue;
+    if (!spot.coordinates?.lat || !spot.coordinates?.lng) continue
 
-    // Calculate intensity based on multiple factors
-    const intensity = calculateSpotIntensity(spot);
+    const intensity = calculateSpotIntensity(spot)
 
-    points.push([
-      spot.coordinates.lat,
-      spot.coordinates.lng,
-      intensity,
-    ]);
+    features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [spot.coordinates.lng, spot.coordinates.lat],
+      },
+      properties: {
+        intensity,
+      },
+    })
   }
 
-  return points;
+  return { type: 'FeatureCollection', features }
 }
 
 /**
  * Calculate spot intensity for heatmap
- * Higher intensity = more popular/active spot
  */
 function calculateSpotIntensity(spot) {
-  let intensity = 0.3; // Base intensity
+  let intensity = 0.3
 
-  // Rating contributes to intensity (max 0.3)
   if (spot.globalRating) {
-    intensity += (spot.globalRating / 5) * 0.3;
+    intensity += (spot.globalRating / 5) * 0.3
   }
 
-  // Check-ins contribute (max 0.2)
   if (spot.checkins) {
-    intensity += Math.min(spot.checkins / 100, 0.2);
+    intensity += Math.min(spot.checkins / 100, 0.2)
   }
 
-  // Reviews contribute (max 0.1)
   if (spot.totalReviews) {
-    intensity += Math.min(spot.totalReviews / 50, 0.1);
+    intensity += Math.min(spot.totalReviews / 50, 0.1)
   }
 
-  // Recent activity bonus (max 0.1)
   if (spot.lastUsed) {
-    const daysSinceUse = (Date.now() - new Date(spot.lastUsed).getTime()) / (1000 * 60 * 60 * 24);
+    const daysSinceUse = (Date.now() - new Date(spot.lastUsed).getTime()) / (1000 * 60 * 60 * 24)
     if (daysSinceUse < 7) {
-      intensity += 0.1;
+      intensity += 0.1
     } else if (daysSinceUse < 30) {
-      intensity += 0.05;
+      intensity += 0.05
     }
   }
 
-  return Math.min(intensity, 1.0);
+  return Math.min(intensity, 1.0)
 }
 
 /**
- * Initialize heatmap on a Leaflet map
- * @param {Object} map - Leaflet map instance
+ * Initialize heatmap on a MapLibre map
+ * @param {Object} map - MapLibre map instance
  * @param {Array} spots - Spots data
  */
 export function initHeatmap(map, spots) {
-  if (!map || !window.L) return null;
+  if (!map) return null
 
-  // Check if Leaflet.heat is available
-  if (!window.L.heatLayer) {
-    console.warn('Leaflet.heat not available, using fallback circles');
-    return initFallbackHeatmap(map, spots);
-  }
+  // Remove existing heatmap layers/sources
+  removeHeatmap(map)
 
-  // Remove existing heatmap
-  if (heatmapLayer) {
-    map.removeLayer(heatmapLayer);
-  }
+  const geojson = generateHeatmapData(spots)
+  if (geojson.features.length === 0) return null
 
-  // Generate data
-  const heatData = generateHeatmapData(spots);
+  // Add heatmap source
+  map.addSource('heatmap-source', {
+    type: 'geojson',
+    data: geojson,
+  })
 
-  if (heatData.length === 0) return null;
+  // Add native heatmap layer
+  map.addLayer({
+    id: 'heatmap-layer',
+    type: 'heatmap',
+    source: 'heatmap-source',
+    maxzoom: HEATMAP_CONFIG.maxZoom,
+    paint: {
+      // Weight based on intensity property
+      'heatmap-weight': ['get', 'intensity'],
+      // Increase intensity as zoom level increases
+      'heatmap-intensity': [
+        'interpolate', ['linear'], ['zoom'],
+        0, 1,
+        9, 3,
+      ],
+      // Color ramp for heatmap
+      'heatmap-color': [
+        'interpolate', ['linear'], ['heatmap-density'],
+        0, 'rgba(0, 255, 0, 0)',
+        0.25, 'rgba(127, 255, 0, 0.6)',
+        0.5, 'rgba(255, 255, 0, 0.7)',
+        0.75, 'rgba(255, 127, 0, 0.8)',
+        1, 'rgba(255, 0, 0, 0.9)',
+      ],
+      // Radius increases with zoom
+      'heatmap-radius': [
+        'interpolate', ['linear'], ['zoom'],
+        0, 2,
+        9, 20,
+        14, 30,
+      ],
+      // Opacity
+      'heatmap-opacity': HEATMAP_CONFIG.minOpacity,
+    },
+  })
 
-  // Create heatmap layer
-  heatmapLayer = window.L.heatLayer(heatData, {
-    radius: HEATMAP_CONFIG.radius,
-    blur: HEATMAP_CONFIG.blur,
-    maxZoom: HEATMAP_CONFIG.maxZoom,
-    minOpacity: HEATMAP_CONFIG.minOpacity,
-    gradient: HEATMAP_CONFIG.gradient,
-  });
-
-  heatmapLayer.addTo(map);
-
-  return heatmapLayer;
-}
-
-/**
- * Fallback heatmap using circles (when Leaflet.heat is not available)
- */
-function initFallbackHeatmap(map, spots) {
-  if (!map || !spots) return null;
-
-  const circleGroup = window.L.layerGroup();
-
-  for (const spot of spots) {
-    if (!spot.coordinates?.lat || !spot.coordinates?.lng) continue;
-
-    const intensity = calculateSpotIntensity(spot);
-    const color = getColorForIntensity(intensity);
-
-    const circle = window.L.circle([spot.coordinates.lat, spot.coordinates.lng], {
-      radius: 500 + (intensity * 1500), // 500-2000m radius
-      fillColor: color,
-      fillOpacity: 0.3,
-      stroke: false,
-      className: 'heatmap-circle',
-    });
-
-    circleGroup.addLayer(circle);
-  }
-
-  circleGroup.addTo(map);
-  heatmapLayer = circleGroup;
-
-  return circleGroup;
-}
-
-/**
- * Get color for intensity value
- */
-function getColorForIntensity(intensity) {
-  if (intensity < 0.25) return '#00ff00';
-  if (intensity < 0.5) return '#7fff00';
-  if (intensity < 0.75) return '#ffff00';
-  if (intensity < 0.9) return '#ff7f00';
-  return '#ff0000';
+  heatmapVisible = true
+  return true
 }
 
 /**
  * Update heatmap with new data
  */
 export function updateHeatmap(map, spots) {
-  if (!map) return;
-
-  // Remove existing
-  if (heatmapLayer) {
-    map.removeLayer(heatmapLayer);
-    heatmapLayer = null;
-  }
-
-  // Reinitialize
-  initHeatmap(map, spots);
+  if (!map) return
+  removeHeatmap(map)
+  initHeatmap(map, spots)
 }
 
 /**
  * Toggle heatmap visibility
  */
 export function toggleHeatmap(map, visible) {
-  if (!map || !heatmapLayer) return;
+  if (!map) return
 
-  if (visible) {
-    map.addLayer(heatmapLayer);
-  } else {
-    map.removeLayer(heatmapLayer);
+  if (map.getLayer('heatmap-layer')) {
+    map.setLayoutProperty('heatmap-layer', 'visibility', visible ? 'visible' : 'none')
+    heatmapVisible = visible
+  } else if (visible) {
+    // Heatmap not yet created, initialize it
+    const state = getState()
+    if (state.spots?.length) {
+      initHeatmap(map, state.spots)
+    }
   }
 }
 
@@ -197,28 +166,25 @@ export function toggleHeatmap(map, visible) {
  * Remove heatmap from map
  */
 export function removeHeatmap(map) {
-  if (map && heatmapLayer) {
-    map.removeLayer(heatmapLayer);
-    heatmapLayer = null;
-  }
+  if (!map) return
+  if (map.getLayer('heatmap-layer')) map.removeLayer('heatmap-layer')
+  if (map.getSource('heatmap-source')) map.removeSource('heatmap-source')
+  heatmapVisible = false
 }
 
 /**
  * Get hotspot zones (areas with high concentration)
- * @param {Array} spots
- * @returns {Array} Array of hotspot zones
  */
 export function getHotspotZones(spots) {
-  if (!spots || spots.length < 5) return [];
+  if (!spots || spots.length < 5) return []
 
-  // Group spots by approximate region (0.5 degree grid)
-  const grid = {};
-  const gridSize = 0.5;
+  const grid = {}
+  const gridSize = 0.5
 
   for (const spot of spots) {
-    if (!spot.coordinates?.lat || !spot.coordinates?.lng) continue;
+    if (!spot.coordinates?.lat || !spot.coordinates?.lng) continue
 
-    const gridKey = `${Math.floor(spot.coordinates.lat / gridSize)}_${Math.floor(spot.coordinates.lng / gridSize)}`;
+    const gridKey = `${Math.floor(spot.coordinates.lat / gridSize)}_${Math.floor(spot.coordinates.lng / gridSize)}`
 
     if (!grid[gridKey]) {
       grid[gridKey] = {
@@ -226,21 +192,19 @@ export function getHotspotZones(spots) {
         center: { lat: 0, lng: 0 },
         totalRating: 0,
         totalCheckins: 0,
-      };
+      }
     }
 
-    grid[gridKey].spots.push(spot);
-    grid[gridKey].totalRating += spot.globalRating || 0;
-    grid[gridKey].totalCheckins += spot.checkins || 0;
+    grid[gridKey].spots.push(spot)
+    grid[gridKey].totalRating += spot.globalRating || 0
+    grid[gridKey].totalCheckins += spot.checkins || 0
   }
 
-  // Convert to hotspot zones
   const zones = Object.entries(grid)
-    .filter(([, data]) => data.spots.length >= 3) // At least 3 spots
+    .filter(([, data]) => data.spots.length >= 3)
     .map(([key, data]) => {
-      // Calculate center
-      const lats = data.spots.map(s => s.coordinates.lat);
-      const lngs = data.spots.map(s => s.coordinates.lng);
+      const lats = data.spots.map(s => s.coordinates.lat)
+      const lngs = data.spots.map(s => s.coordinates.lng)
 
       return {
         id: key,
@@ -252,11 +216,11 @@ export function getHotspotZones(spots) {
         avgRating: data.totalRating / data.spots.length,
         totalCheckins: data.totalCheckins,
         intensity: Math.min(data.spots.length / 10, 1),
-      };
+      }
     })
-    .sort((a, b) => b.spotCount - a.spotCount);
+    .sort((a, b) => b.spotCount - a.spotCount)
 
-  return zones.slice(0, 10); // Top 10 hotspots
+  return zones.slice(0, 10)
 }
 
 /**
@@ -278,16 +242,15 @@ export function renderHeatmapLegend() {
         <span>Élevée</span>
       </div>
     </div>
-  `;
+  `
 }
 
 // Global handlers
 window.toggleHeatmap = (visible) => {
-  const state = getState();
   if (window.mainMap) {
-    toggleHeatmap(window.mainMap, visible);
+    toggleHeatmap(window.mainMap, visible)
   }
-};
+}
 
 export default {
   generateHeatmapData,
@@ -297,4 +260,4 @@ export default {
   removeHeatmap,
   getHotspotZones,
   renderHeatmapLegend,
-};
+}
