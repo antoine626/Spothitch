@@ -96,7 +96,7 @@ export function renderFiltersModal() {
                 <button onclick="setFilterCountry('${opt.code}')"
                         class="p-2 rounded-xl text-center transition-colors
                                ${filterCountry === opt.code
-    ? 'bg-sky-500 text-white'
+    ? 'bg-amber-500 text-white'
     : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
                   <span class="text-lg">${opt.flag}</span>
                   <span class="block text-xs mt-1 truncate">${opt.code === 'all' ? (t('all') || 'All') : opt.code}</span>
@@ -115,7 +115,7 @@ export function renderFiltersModal() {
                 <button onclick="setFilterMinRating(${opt.value})"
                         class="px-4 py-2.5 rounded-xl transition-colors
                                ${filterMinRating === opt.value
-    ? 'bg-sky-500 text-white'
+    ? 'bg-amber-500 text-white'
     : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
                   ${opt.label}
                 </button>
@@ -133,7 +133,7 @@ export function renderFiltersModal() {
                 <button onclick="setFilterMaxWait(${opt.value})"
                         class="px-4 py-2.5 rounded-xl transition-colors
                                ${filterMaxWait === opt.value
-    ? 'bg-sky-500 text-white'
+    ? 'bg-amber-500 text-white'
     : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
                   ${opt.label}
                 </button>
@@ -150,7 +150,7 @@ export function renderFiltersModal() {
               </div>
               <button onclick="toggleVerifiedFilter()"
                       class="w-12 h-7 rounded-full transition-colors relative
-                             ${filterVerifiedOnly ? 'bg-sky-500' : 'bg-white/10'}">
+                             ${filterVerifiedOnly ? 'bg-amber-500' : 'bg-white/10'}">
                 <span class="absolute w-5 h-5 bg-white rounded-full top-1 transition-transform
                              ${filterVerifiedOnly ? 'translate-x-6' : 'translate-x-1'}"></span>
               </button>
@@ -172,7 +172,7 @@ export function renderFiltersModal() {
                 <button onclick="setSortBy('${opt.value}')"
                         class="p-3 rounded-xl text-left transition-colors flex items-center gap-2
                                ${state.sortBy === opt.value
-    ? 'bg-sky-500 text-white'
+    ? 'bg-amber-500 text-white'
     : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
                   <span>${opt.icon}</span>
                   <span>${opt.label}</span>
@@ -185,8 +185,8 @@ export function renderFiltersModal() {
         <!-- Footer -->
         <div class="p-5 border-t border-white/10">
           <button onclick="applyFilters()"
-                  class="w-full py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-white
-                         font-bold rounded-xl hover:from-sky-600 hover:to-cyan-600">
+                  class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white
+                         font-bold rounded-xl hover:from-amber-600 hover:to-orange-600">
             ${t('applyFilters')}
           </button>
         </div>

@@ -37,7 +37,7 @@ export function renderAdminPanel(state) {
               <div class="text-xs text-slate-400">${t('skillPoints') || 'Skill Pts'}</div>
             </div>
             <div>
-              <div class="font-bold text-sky-400">${state.thumbs || 0}</div>
+              <div class="font-bold text-amber-400">${state.thumbs || 0}</div>
               <div class="text-xs text-slate-400">${t('thumbs') || 'Pouces'}</div>
             </div>
           </div>
@@ -91,7 +91,7 @@ export function renderAdminPanel(state) {
               ${t('teamChallenges') || 'Défis Équipe'}
             </button>
             <button onclick="openQuiz(); closeAdminPanel();" class="admin-btn">
-              ${icon('brain', 'w-5 h-5 text-sky-400')}
+              ${icon('brain', 'w-5 h-5 text-amber-400')}
               ${t('quiz') || 'Quiz'}
             </button>
             <button onclick="openLeaderboard(); closeAdminPanel();" class="admin-btn">
@@ -121,7 +121,7 @@ export function renderAdminPanel(state) {
               ${t('customization') || 'Personnalisation'}
             </button>
             <button onclick="openStats(); closeAdminPanel();" class="admin-btn">
-              ${icon('chart-bar', 'w-5 h-5 text-sky-400')}
+              ${icon('chart-bar', 'w-5 h-5 text-amber-400')}
               ${t('stats') || 'Statistiques'}
             </button>
           </div>
@@ -129,7 +129,7 @@ export function renderAdminPanel(state) {
 
         <!-- Social -->
         <div class="card p-4 mb-4">
-          <h3 class="font-bold text-sm mb-3 text-sky-400">
+          <h3 class="font-bold text-sm mb-3 text-amber-400">
             ${icon('users', 'w-5 h-5 mr-2')}
             ${t('social') || 'Social'}
           </h3>
@@ -143,7 +143,7 @@ export function renderAdminPanel(state) {
               ${t('travelGroups') || 'Groupes Voyage'}
             </button>
             <button onclick="changeTab('social'); closeAdminPanel();" class="admin-btn">
-              ${icon('comments', 'w-5 h-5 text-sky-400')}
+              ${icon('comments', 'w-5 h-5 text-amber-400')}
               ${t('chat') || 'Chat'}
             </button>
             <button onclick="openReport(); closeAdminPanel();" class="admin-btn">
@@ -195,7 +195,7 @@ export function renderAdminPanel(state) {
               ${t('tutorial') || 'Tutoriel'}
             </button>
             <button onclick="openAccessibilityHelp(); closeAdminPanel();" class="admin-btn">
-              ${icon('universal-access', 'w-5 h-5 text-sky-400')}
+              ${icon('universal-access', 'w-5 h-5 text-amber-400')}
               ${t('accessibility') || 'Accessibilité'}
             </button>
             <button onclick="openDonation(); closeAdminPanel();" class="admin-btn">
@@ -229,7 +229,7 @@ export function renderAdminPanel(state) {
             <button onclick="changeTab('challenges'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-purple-500/20 text-purple-400 text-sm hover:bg-purple-500/30">
               ${t('challenges') || 'Défis'}
             </button>
-            <button onclick="changeTab('social'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-sky-500/20 text-sky-400 text-sm hover:bg-sky-500/30">
+            <button onclick="changeTab('social'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-400 text-sm hover:bg-amber-500/30">
               ${t('social') || 'Social'}
             </button>
             <button onclick="changeTab('profile'); closeAdminPanel();" class="px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-sm hover:bg-emerald-500/30">

@@ -40,9 +40,9 @@ describe('Landing Component', () => {
       const state = {};
       const html = renderLanding(state);
 
-      expect(html).toContain('37000+');
+      expect(html).toContain('14000+');
       expect(html).toContain('Spots verifies');
-      expect(html).toContain('170');
+      expect(html).toContain('137');
       expect(html).toContain('Pays couverts');
       expect(html).toContain('1500+');
       expect(html).toContain('Autostoppeurs');

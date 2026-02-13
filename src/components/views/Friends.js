@@ -32,7 +32,7 @@ export function renderFriends(state) {
             <p class="text-slate-500 text-sm">${friends.length} ami(s)</p>
           </div>
           <button onclick="showAddFriend()"
-                  class="p-2 bg-sky-500 text-white rounded-full"
+                  class="p-2 bg-amber-500 text-white rounded-full"
                   type="button"
                   aria-label="${t('addFriend') || 'Ajouter un ami'}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -52,7 +52,7 @@ export function renderFriends(state) {
             value="${searchFriendQuery}"
             oninput="setState({searchFriendQuery: this.value})"
             class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white
-                   placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                   placeholder-slate-500 focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
           />
         </div>
       </div>
@@ -65,8 +65,8 @@ export function renderFriends(state) {
           </h2>
           <div class="space-y-3">
             ${friendRequests.map(request => `
-              <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-sky-500/20 to-cyan-500/20
-                          border border-sky-500/30 rounded-xl">
+              <div class="flex items-center gap-3 p-4 bg-gradient-to-r from-amber-500/20 to-orange-500/20
+                          border border-amber-500/30 rounded-xl">
                 <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-xl">
                   ${request.avatar || '🤙'}
                 </div>
@@ -75,7 +75,7 @@ export function renderFriends(state) {
                   <div class="text-slate-500 text-xs">${t('wantsToBeFriend') || 'Veut devenir ton ami'}</div>
                 </div>
                 <button onclick="acceptFriendRequest('${request.id}')"
-                        class="px-4 py-2.5 bg-sky-500 text-white text-sm rounded-lg">
+                        class="px-4 py-2.5 bg-amber-500 text-white text-sm rounded-lg">
                   ${t('accept') || 'Accepter'}
                 </button>
                 <button onclick="rejectFriendRequest('${request.id}')"
@@ -121,7 +121,7 @@ export function renderFriends(state) {
             ${t('addFriendsToTravel') || 'Ajoute des amis pour discuter et voyager ensemble !'}
           </p>
           <button onclick="showAddFriend()"
-                  class="px-6 py-3 bg-sky-500 text-white font-semibold rounded-xl">
+                  class="px-6 py-3 bg-amber-500 text-white font-semibold rounded-xl">
             ${t('addFriend') || 'Ajouter un ami'}
           </button>
         </div>
@@ -152,7 +152,7 @@ function renderFriendCard(friend, isOnline) {
         </div>
       </div>
       ${friend.unreadCount > 0 ? `
-        <div class="w-6 h-6 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+        <div class="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
           ${friend.unreadCount}
         </div>
       ` : ''}
@@ -190,7 +190,7 @@ export function renderFriendsChat(friendId) {
       <div class="text-center py-20 text-slate-500">
         <span class="text-4xl">❌</span>
         <p class="mt-4">${t('friendNotFound') || 'Ami non trouvé'}</p>
-        <button onclick="showFriends()" class="mt-4 text-sky-400 hover:text-sky-300">
+        <button onclick="showFriends()" class="mt-4 text-amber-400 hover:text-amber-300">
           ${t('backToFriends') || 'Retour aux amis'}
         </button>
       </div>
@@ -246,11 +246,11 @@ export function renderFriendsChat(friendId) {
             id="private-chat-input"
             placeholder="Message..."
             class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white
-                   placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                   placeholder-slate-500 focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
             onkeydown="if(event.key==='Enter')sendPrivateMessage('${friend.id}')"
           />
           <button onclick="sendPrivateMessage('${friend.id}')"
-                  class="px-4 py-2.5 bg-sky-500 text-white rounded-xl hover:bg-sky-600">
+                  class="px-4 py-2.5 bg-amber-500 text-white rounded-xl hover:bg-amber-600">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -277,10 +277,10 @@ function renderPrivateMessage(message, friend) {
             ${friend.avatar || '🤙'}
           </div>
         ` : ''}
-        <div class="${isOwn ? 'bg-sky-500 text-white' : 'bg-white/5 text-slate-100'}
+        <div class="${isOwn ? 'bg-amber-500 text-white' : 'bg-white/5 text-slate-100'}
                     px-4 py-2.5 rounded-2xl ${isOwn ? 'rounded-br-md' : 'rounded-bl-md'}">
           <p class="text-sm">${message.text}</p>
-          <p class="text-xs mt-1 ${isOwn ? 'text-sky-200' : 'text-slate-500'}">
+          <p class="text-xs mt-1 ${isOwn ? 'text-amber-200' : 'text-slate-500'}">
             ${new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </p>
         </div>
@@ -313,7 +313,7 @@ export function renderAddFriendModal() {
               id="friend-search"
               placeholder="${t('searchUsername') || 'Rechercher un pseudo...'}"
               class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white
-                     placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                     placeholder-slate-500 focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
               oninput="searchUsers(this.value)"
             />
             <div id="user-search-results" class="absolute top-full left-0 right-0 mt-1 hidden"></div>

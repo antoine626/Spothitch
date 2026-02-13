@@ -44,7 +44,7 @@ export function renderPlanner(state) {
             id="step-input"
             placeholder="${t('addCity') || 'Ajouter une ville...'}"
             class="w-full bg-dark-secondary border border-white/10 rounded-xl px-4 py-3 text-white
-                   placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                   placeholder-slate-500 focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
             oninput="searchTripCity(this.value)"
             onkeydown="if(event.key==='Enter')addFirstSuggestion()"
           />
@@ -55,8 +55,8 @@ export function renderPlanner(state) {
           <!-- Calculate Route Button -->
           <button
             onclick="calculateTrip()"
-            class="w-full py-3 bg-gradient-to-r from-sky-500 to-cyan-500 text-white
-                   font-semibold rounded-xl hover:from-sky-600 hover:to-cyan-600 transition-all"
+            class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white
+                   font-semibold rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all"
           >
             ${t('calculateRoute') || 'Calculer l\'itinéraire'}
           </button>
@@ -161,7 +161,7 @@ function renderActiveTripDetails(trip) {
     <div class="active-trip mx-5 mb-5 p-5 bg-gradient-to-br from-dark-secondary to-dark-primary rounded-xl border border-white/10">
       <div class="flex justify-between items-start mb-3">
         <h3 class="text-lg font-bold text-white">Itinéraire calculé</h3>
-        <button onclick="saveCurrentTrip()" class="text-sky-400 hover:text-sky-300 text-sm">
+        <button onclick="saveCurrentTrip()" class="text-amber-400 hover:text-amber-300 text-sm">
           💾 Sauvegarder
         </button>
       </div>
@@ -191,7 +191,7 @@ function renderActiveTripDetails(trip) {
               ${leg.spots.length > 0
     ? `<div class="flex flex-wrap gap-2">
                     ${leg.spots.slice(0, 3).map(spot => `
-                      <span class="px-2 py-1 bg-sky-500/20 text-sky-400 text-xs rounded-full cursor-pointer"
+                      <span class="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-full cursor-pointer"
                             onclick="selectSpot(${spot.id})">
                         ⭐${spot.globalRating?.toFixed(1) || 'N/A'} ${spot.from}
                       </span>
@@ -220,7 +220,7 @@ function renderSavedTripCard(trip) {
     <div class="saved-trip p-3 bg-dark-secondary rounded-xl flex items-center gap-3 cursor-pointer
                 hover:bg-white/10 transition-colors"
          onclick="loadSavedTrip('${trip.id}')">
-      <div class="w-10 h-10 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-lg
+      <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg
                   flex items-center justify-center text-white text-lg">
         🗺️
       </div>
@@ -250,7 +250,7 @@ export function renderSavedTripDetail(tripId) {
       <div class="text-center py-20 text-slate-500">
         <span class="text-4xl">❌</span>
         <p class="mt-4">Voyage non trouvé</p>
-        <button onclick="changeTab('planner')" class="mt-4 text-sky-400 hover:text-sky-300">
+        <button onclick="changeTab('planner')" class="mt-4 text-amber-400 hover:text-amber-300">
           Retour au planificateur
         </button>
       </div>
@@ -345,7 +345,7 @@ export function renderSavedTripDetail(tripId) {
       <!-- Actions -->
       <div class="p-4">
         <button onclick="shareTrip('${trip.id}')"
-                class="w-full py-3 bg-sky-500 text-white font-semibold rounded-xl hover:bg-sky-600">
+                class="w-full py-3 bg-amber-500 text-white font-semibold rounded-xl hover:bg-amber-600">
           Partager ce voyage
         </button>
       </div>

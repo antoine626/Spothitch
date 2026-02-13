@@ -46,7 +46,7 @@ export function renderGuides(state) {
           value="${searchGuideQuery}"
           oninput="setState({searchGuideQuery: this.value})"
           class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white
-                 placeholder-slate-500 focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                 placeholder-slate-500 focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
         />
       </div>
 
@@ -107,7 +107,7 @@ export function renderGuides(state) {
 function renderGuideCard(guide, lang = 'fr') {
   const difficultyColors = {
     1: 'text-green-400 bg-green-500/20',
-    2: 'text-sky-400 bg-sky-500/20',
+    2: 'text-amber-400 bg-amber-500/20',
     3: 'text-amber-400 bg-amber-500/20',
     4: 'text-orange-400 bg-orange-500/20',
     5: 'text-red-400 bg-red-500/20',
@@ -146,7 +146,7 @@ export function renderCountryDetail(countryCode) {
       <div class="text-center py-20 text-slate-500">
         <span class="text-4xl">❌</span>
         <p class="mt-4">Pays non trouvé</p>
-        <button onclick="showGuides()" class="mt-4 text-sky-400 hover:text-sky-300">
+        <button onclick="showGuides()" class="mt-4 text-amber-400 hover:text-amber-300">
           Retour aux guides
         </button>
       </div>
@@ -160,7 +160,7 @@ export function renderCountryDetail(countryCode) {
 
   const difficultyColors = {
     1: 'from-green-500 to-green-600',
-    2: 'from-sky-500 to-cyan-500',
+    2: 'from-amber-500 to-orange-500',
     3: 'from-amber-500 to-orange-500',
     4: 'from-orange-500 to-red-500',
     5: 'from-red-500 to-red-600',
@@ -221,7 +221,7 @@ export function renderCountryDetail(countryCode) {
         <div class="bg-white/5 rounded-xl p-4 space-y-3">
           ${tips.map(tip => `
             <div class="flex gap-3">
-              <span class="text-sky-400">💡</span>
+              <span class="text-amber-400">💡</span>
               <p class="text-slate-300 text-sm">${tip}</p>
             </div>
           `).join('')}
@@ -418,7 +418,7 @@ export function renderSafety() {
                 <input type="checkbox"
                        id="checklist-item-${index}"
                        class="w-5 h-5 rounded bg-white/10 border-white/10
-                              text-sky-500 focus:ring-sky-500">
+                              text-amber-500 focus:ring-amber-500">
                 <span class="text-slate-300">${item}</span>
               </label>
             `).join('')}

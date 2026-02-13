@@ -286,12 +286,13 @@ window.setSpotRating = (criterion, value) => {
   const buttons = document.querySelectorAll(`button[data-criterion="${criterion}"]`)
   buttons.forEach((btn) => {
     const star = parseInt(btn.dataset.star, 10)
-    const icon = btn.querySelector('i')
+    const svg = btn.querySelector('svg')
+    if (svg) {
+      svg.setAttribute('fill', star <= value ? 'currentColor' : 'none')
+    }
     if (star <= value) {
-      icon.className = 'fas fa-star text-yellow-400'
       btn.className = 'spot-star-btn text-2xl text-yellow-400 hover:text-yellow-300 transition-colors'
     } else {
-      icon.className = 'far fa-star'
       btn.className = 'spot-star-btn text-2xl text-slate-500 hover:text-yellow-400 transition-colors'
     }
   })

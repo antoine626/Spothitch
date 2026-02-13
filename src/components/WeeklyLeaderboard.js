@@ -5,8 +5,8 @@
 
 import { getState, setState } from '../stores/state.js';
 import { t } from '../i18n/index.js';
-import {
 import { icon } from '../utils/icons.js'
+import {
   getWeeklyLeaderboard,
   getUserWeeklyRank,
   formatTimeRemaining,

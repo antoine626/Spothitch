@@ -51,7 +51,7 @@ export function renderSpotDetail(state) {
             alt="${t('spotPhoto') || 'Photo du spot'}: ${escapeHTML(spot.from || '')} → ${escapeHTML(spot.to || '')}"
             class="w-full h-full object-cover"
             loading="lazy"
-          />` : `<div class="w-full h-full bg-gradient-to-br from-sky-900 to-slate-800 flex items-center justify-center">
+          />` : `<div class="w-full h-full bg-gradient-to-br from-navy-900 to-slate-800 flex items-center justify-center">
             <span class="text-6xl">📍</span>
           </div>`}
           <div class="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
@@ -105,7 +105,7 @@ export function renderSpotDetail(state) {
           <div class="mb-5">
             <div class="flex flex-wrap gap-3">
               ${spot.spotType && spot.spotType !== 'custom' ? `
-                <span class="badge bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                <span class="badge bg-amber-500/20 text-amber-300 border border-amber-500/30">
                   ${spot.spotType === 'city_exit' ? '🏙️ ' + (t('spotTypeCityExit') || 'Sortie de ville')
                     : spot.spotType === 'gas_station' ? '⛽ ' + (t('spotTypeGasStation') || 'Station-service')
                     : spot.spotType === 'highway' ? '🛣️ ' + (t('spotTypeHighway') || 'Autoroute')
@@ -261,10 +261,10 @@ function renderNavigationAppButtons(lat, lng, name) {
 
   return apps.map(app => {
     // Determine which icon to use (brand vs fallback)
-    const iconClass = app.id === 'google-maps' ? 'fab fa-google'
-      : app.id === 'waze' ? 'fab fa-waze'
-      : app.id === 'apple-maps' ? 'fab fa-apple'
-      : 'fas ' + app.iconFallback;
+    const iconName = app.id === 'google-maps' ? 'google'
+      : app.id === 'waze' ? 'navigation'
+      : app.id === 'apple-maps' ? 'apple'
+      : app.iconFallback || 'map-pin';
 
     return `
       <button
@@ -275,7 +275,7 @@ function renderNavigationAppButtons(lat, lng, name) {
         aria-label="${t('openIn') || 'Ouvrir dans'} ${app.name}"
         title="${app.name}"
       >
-        <i class="${iconClass} text-xl" style="color: ${app.color};" aria-hidden="true"></i>
+        <span style="color: ${app.color};" aria-hidden="true">${icon(iconName, 'w-5 h-5')}</span>
         <span class="text-xs font-medium" style="color: ${app.color};">${app.name}</span>
       </button>
     `;

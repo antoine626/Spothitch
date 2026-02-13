@@ -185,12 +185,12 @@ export function renderTrustScoreCard() {
       <div class="space-y-2">
         <h4 class="text-xs font-medium text-slate-500 uppercase tracking-wider">Détail du score</h4>
 
-        ${renderScoreFactor('Ancienneté', breakdown.accountAge, SCORE_FACTORS.accountAge.max, 'fa-calendar')}
-        ${renderScoreFactor('Spots créés', breakdown.spotsCreated, SCORE_FACTORS.spotsCreated.max, 'fa-map-marker-alt')}
-        ${renderScoreFactor('Spots vérifiés', breakdown.verifiedSpots, SCORE_FACTORS.verifiedSpots.max, 'fa-check-circle')}
-        ${renderScoreFactor('Avis utiles', breakdown.helpfulReviews, SCORE_FACTORS.helpfulReviews.max, 'fa-star')}
-        ${renderScoreFactor('Vérification identité', breakdown.identityVerification, SCORE_FACTORS.identityVerification.max, 'fa-id-card')}
-        ${renderScoreFactor('Votes positifs', breakdown.communityVotes, SCORE_FACTORS.communityVotes.max, 'fa-thumbs-up')}
+        ${renderScoreFactor('Ancienneté', breakdown.accountAge, SCORE_FACTORS.accountAge.max, 'calendar')}
+        ${renderScoreFactor('Spots créés', breakdown.spotsCreated, SCORE_FACTORS.spotsCreated.max, 'map-pin')}
+        ${renderScoreFactor('Spots vérifiés', breakdown.verifiedSpots, SCORE_FACTORS.verifiedSpots.max, 'check-circle')}
+        ${renderScoreFactor('Avis utiles', breakdown.helpfulReviews, SCORE_FACTORS.helpfulReviews.max, 'star')}
+        ${renderScoreFactor('Vérification identité', breakdown.identityVerification, SCORE_FACTORS.identityVerification.max, 'id-card')}
+        ${renderScoreFactor('Votes positifs', breakdown.communityVotes, SCORE_FACTORS.communityVotes.max, 'thumbs-up')}
       </div>
 
       <!-- Tips to improve -->
@@ -215,14 +215,14 @@ export function renderTrustScoreCard() {
 /**
  * Render individual score factor
  */
-function renderScoreFactor(label, value, max, icon) {
+function renderScoreFactor(label, value, max, iconName) {
   const percentage = (value / max) * 100;
   const color = percentage >= 80 ? 'bg-emerald-500' : percentage >= 50 ? 'bg-amber-500' : 'bg-slate-500';
 
   return `
     <div class="flex items-center gap-3">
       <div class="w-6 text-center">
-        ${icon(icon, 'w-4 h-4 text-slate-400')}
+        ${icon(iconName, 'w-4 h-4 text-slate-400')}
       </div>
       <div class="flex-1 min-w-0">
         <div class="flex justify-between text-xs mb-1">

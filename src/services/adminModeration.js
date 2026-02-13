@@ -1119,7 +1119,7 @@ export function renderAdminDashboard() {
             const alertClasses = {
               danger: { bg: 'bg-red-500/20', border: 'border-red-500/30', text: 'text-red-400', badge: 'bg-red-500/30' },
               warning: { bg: 'bg-amber-500/20', border: 'border-amber-500/30', text: 'text-amber-400', badge: 'bg-amber-500/30' },
-              info: { bg: 'bg-sky-500/20', border: 'border-sky-500/30', text: 'text-sky-400', badge: 'bg-sky-500/30' },
+              info: { bg: 'bg-amber-500/20', border: 'border-amber-500/30', text: 'text-amber-400', badge: 'bg-amber-500/30' },
             };
             const cls = alertClasses[alert.type] || alertClasses.info;
             return `

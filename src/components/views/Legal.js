@@ -42,19 +42,19 @@ export function renderLegalPage(page = 'cgu') {
       <!-- Tabs -->
       <div class="flex border-b border-white/10 overflow-x-auto">
         <button onclick="showLegalPage('cgu')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-slate-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500'}">
           ${t('legalTabTerms') || 'CGU'}
         </button>
         <button onclick="showLegalPage('privacy')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'privacy' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-slate-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'privacy' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500'}">
           ${t('legalTabPrivacy') || 'Confidentialité'}
         </button>
         <button onclick="showLegalPage('cookies')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cookies' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-slate-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cookies' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500'}">
           ${t('legalTabCookies') || 'Cookies'}
         </button>
         <button onclick="showLegalPage('legal')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-sky-400 border-b-2 border-sky-400' : 'text-slate-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500'}">
           ${t('legalTabNotice') || 'Mentions'}
         </button>
       </div>
@@ -246,7 +246,7 @@ export function renderCookiePolicy() {
 
       <h3>2. Les cookies que nous utilisons</h3>
 
-      <h4 class="text-sky-400 mt-4">🔒 Cookies strictement nécessaires</h4>
+      <h4 class="text-amber-400 mt-4">🔒 Cookies strictement nécessaires</h4>
       <p>Ces cookies sont essentiels au fonctionnement de l'application :</p>
       <table class="w-full text-sm mt-2 mb-4">
         <thead>
@@ -285,7 +285,7 @@ export function renderCookiePolicy() {
         </tbody>
       </table>
 
-      <h4 class="text-sky-400 mt-4">📊 Cookies analytiques (optionnels)</h4>
+      <h4 class="text-amber-400 mt-4">📊 Cookies analytiques (optionnels)</h4>
       <p>Ces cookies nous aident à comprendre comment vous utilisez l'application :</p>
       <table class="w-full text-sm mt-2 mb-4">
         <thead>
@@ -309,7 +309,7 @@ export function renderCookiePolicy() {
         </tbody>
       </table>
 
-      <h4 class="text-sky-400 mt-4">🎯 Cookies de marketing (optionnels)</h4>
+      <h4 class="text-amber-400 mt-4">🎯 Cookies de marketing (optionnels)</h4>
       <p>Ces cookies permettent d'afficher des contenus pertinents :</p>
       <table class="w-full text-sm mt-2 mb-4">
         <thead>
@@ -328,7 +328,7 @@ export function renderCookiePolicy() {
         </tbody>
       </table>
 
-      <h4 class="text-sky-400 mt-4">✨ Cookies de personnalisation (optionnels)</h4>
+      <h4 class="text-amber-400 mt-4">✨ Cookies de personnalisation (optionnels)</h4>
       <p>Ces cookies améliorent votre expérience :</p>
       <table class="w-full text-sm mt-2 mb-4">
         <thead>
@@ -374,19 +374,19 @@ export function renderCookiePolicy() {
 
       <h3>4. Comment gérer vos cookies ?</h3>
 
-      <h4 class="text-sky-400 mt-4">Via notre application</h4>
+      <h4 class="text-amber-400 mt-4">Via notre application</h4>
       <p>
         Vous pouvez modifier vos préférences à tout moment dans
         <strong>Profil → Mes données → Préférences cookies</strong>.
       </p>
 
-      <h4 class="text-sky-400 mt-4">Via votre navigateur</h4>
+      <h4 class="text-amber-400 mt-4">Via votre navigateur</h4>
       <p>Vous pouvez également gérer les cookies via les paramètres de votre navigateur :</p>
       <ul>
-        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" class="text-sky-400">Chrome</a></li>
-        <li><a href="https://support.mozilla.org/fr/kb/cookies-informations-sites-enregistrent" target="_blank" class="text-sky-400">Firefox</a></li>
-        <li><a href="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac" target="_blank" class="text-sky-400">Safari</a></li>
-        <li><a href="https://support.microsoft.com/fr-fr/windows/supprimer-et-g%C3%A9rer-les-cookies" target="_blank" class="text-sky-400">Edge</a></li>
+        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" class="text-amber-400">Chrome</a></li>
+        <li><a href="https://support.mozilla.org/fr/kb/cookies-informations-sites-enregistrent" target="_blank" class="text-amber-400">Firefox</a></li>
+        <li><a href="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac" target="_blank" class="text-amber-400">Safari</a></li>
+        <li><a href="https://support.microsoft.com/fr-fr/windows/supprimer-et-g%C3%A9rer-les-cookies" target="_blank" class="text-amber-400">Edge</a></li>
       </ul>
 
       <h3>5. Que se passe-t-il si vous refusez les cookies ?</h3>
@@ -417,13 +417,13 @@ export function renderCookiePolicy() {
 
       <h3>8. Contact</h3>
       <p>
-        Pour toute question sur les cookies : <a href="mailto:privacy@spothitch.app" class="text-sky-400">privacy@spothitch.app</a>
+        Pour toute question sur les cookies : <a href="mailto:privacy@spothitch.app" class="text-amber-400">privacy@spothitch.app</a>
       </p>
 
       <!-- Bouton pour modifier les préférences -->
       <div class="mt-6 p-4 bg-dark-secondary rounded-lg text-center">
         <p class="text-sm text-slate-400 mb-3">${t('manageCookiePrefs') || 'Gérer vos préférences de cookies'}</p>
-        <button onclick="showCookieCustomize()" class="btn bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg">
+        <button onclick="showCookieCustomize()" class="btn bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg">
           ${icon('cog', 'w-5 h-5 mr-2')}
           ${t('modifyMyChoices') || 'Modifier mes choix'}
         </button>
@@ -445,7 +445,7 @@ export function renderLegalNotice() {
       <p>
         SpotHitch est un projet open source<br>
         Hébergement : GitHub Pages<br>
-        Code source : <a href="https://github.com/antoine626/Spothitch" class="text-sky-400">GitHub</a>
+        Code source : <a href="https://github.com/antoine626/Spothitch" class="text-amber-400">GitHub</a>
       </p>
 
       <h3>Hébergement</h3>
@@ -483,7 +483,7 @@ export function renderLegalNotice() {
       <h3>Contact</h3>
       <p>
         Email : contact@spothitch.app<br>
-        GitHub Issues : <a href="https://github.com/antoine626/Spothitch/issues" class="text-sky-400">Signaler un problème</a>
+        GitHub Issues : <a href="https://github.com/antoine626/Spothitch/issues" class="text-amber-400">Signaler un problème</a>
       </p>
     </div>
   `;

@@ -368,7 +368,7 @@ export function toggleFAQItem(button) {
   if (!item) return;
 
   const answer = item.querySelector('.faq-answer');
-  const icon = button.querySelector('i');
+  const chevron = button.querySelector('svg');
   const isExpanded = button.getAttribute('aria-expanded') === 'true';
 
   // Update ARIA attributes
@@ -379,8 +379,8 @@ export function toggleFAQItem(button) {
   }
 
   // Rotate icon
-  if (icon) {
-    icon.style.transform = isExpanded ? '' : 'rotate(180deg)';
+  if (chevron) {
+    chevron.style.transform = isExpanded ? '' : 'rotate(180deg)';
   }
 }
 

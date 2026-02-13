@@ -888,11 +888,9 @@ window.setReviewRating = (criterionId, rating) => {
   // Update visual
   const buttons = criterion.querySelectorAll('.star-btn');
   buttons.forEach((btn, idx) => {
-    const icon = btn.querySelector('i');
-    if (idx < rating) {
-      icon.className = 'fas fa-star text-yellow-400';
-    } else {
-      icon.className = 'far fa-star';
+    const svg = btn.querySelector('svg');
+    if (svg) {
+      svg.setAttribute('fill', idx < rating ? 'currentColor' : 'none');
     }
     btn.className = `star-btn text-2xl ${idx < rating ? 'text-yellow-400' : 'text-slate-500'} hover:text-yellow-400 transition-colors`;
   });
