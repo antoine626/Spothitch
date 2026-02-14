@@ -145,7 +145,8 @@ const MAIN_JS_HANDLERS = [
   // Travel view (defined in Travel.js)
   'syncTripFieldsAndCalculate', 'toggleRouteAmenities',
   // Social view (defined in Social.js)
-  'setSocialTab',
+  'setSocialTab', 'setChatSubTab', 'setGroupSubTab', 'setEventSubTab',
+  'postCompanionRequest', 'addFriendByName',
   // Direct Messages (defined in directMessages.js)
   'openConversation', 'closeConversation', 'sendDM',
   'shareDMSpot', 'shareDMPosition', 'deleteDMConversation',
