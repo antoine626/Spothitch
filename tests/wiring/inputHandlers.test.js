@@ -197,13 +197,13 @@ describe('Input Handlers: critical inputs have event handlers', () => {
     expect(hasNameInput, 'Welcome should have name input').toBe(true)
   })
 
-  it('Filters modal: country select and rating options exist', () => {
+  it('Filters modal: rating options and apply/reset exist', () => {
     const html = renderFiltersModal()
     expect(html).toBeTruthy()
 
-    // Should have country filter
-    const hasCountryFilter = html.includes('setFilterCountry') || html.includes('filterCountry') || html.includes('country')
-    expect(hasCountryFilter, 'Filters should have country filter').toBe(true)
+    // Should have rating filter
+    const hasRatingFilter = html.includes('setFilterMinRating') || html.includes('filterMinRating')
+    expect(hasRatingFilter, 'Filters should have rating filter').toBe(true)
 
     // Should have apply/reset buttons
     expect(html.includes('applyFilters') || html.includes('resetFilters')).toBe(true)

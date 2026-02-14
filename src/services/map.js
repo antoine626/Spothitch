@@ -21,8 +21,8 @@ const DEFAULT_CENTER = [10, 30]
 const DEFAULT_ZOOM = 3
 
 // OpenFreeMap style URLs (free, no API key)
-const STYLE_DARK = 'https://tiles.openfreemap.org/styles/dark'
-const STYLE_LIGHT = 'https://tiles.openfreemap.org/styles/bright'
+const STYLE_DARK = 'https://tiles.openfreemap.org/styles/liberty'
+const STYLE_LIGHT = 'https://tiles.openfreemap.org/styles/liberty'
 
 /**
  * Get map style URL based on theme

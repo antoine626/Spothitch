@@ -210,35 +210,39 @@ export function renderApp(state) {
     ` : ''}
 
 
-    <!-- Trip Planner Overlay -->
-    ${state.showTripPlanner ? `
-      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripPlanner()">
+    <!-- Trip Planner / Guides Overlay (unified with tabs) -->
+    ${state.showTripPlanner || state.showGuidesOverlay ? (() => {
+      const activeOverlayTab = state.showTripPlanner ? 'planner' : 'guides'
+      return `
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this){closeTripPlanner();closeGuidesOverlay()}">
         <div class="min-h-screen pb-20">
-          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
-            <h2 class="text-lg font-bold">${icon('route', 'w-5 h-5 mr-2 text-primary-400')}${t('planTrip') || 'Planifier un trajet'}</h2>
-            <button onclick="closeTripPlanner()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-              ${icon('times', 'w-5 h-5')}
-            </button>
+          <!-- Header with tabs -->
+          <div class="sticky top-0 z-10 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
+            <div class="flex items-center justify-between p-4">
+              <div class="flex items-center gap-2">
+                <button
+                  onclick="openTripPlanner();setState({showGuidesOverlay:false})"
+                  class="px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeOverlayTab === 'planner' ? 'bg-primary-500 text-white' : 'bg-white/10 text-slate-400 hover:text-white'}"
+                >
+                  ${icon('route', 'w-4 h-4 mr-1.5')}${t('planTrip') || 'Itinéraire'}
+                </button>
+                <button
+                  onclick="openGuidesOverlay();setState({showTripPlanner:false})"
+                  class="px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeOverlayTab === 'guides' ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400 hover:text-white'}"
+                >
+                  ${icon('book-atlas', 'w-4 h-4 mr-1.5')}${t('guides') || 'Guides'}
+                </button>
+              </div>
+              <button onclick="closeTripPlanner();closeGuidesOverlay()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
+                ${icon('times', 'w-5 h-5')}
+              </button>
+            </div>
           </div>
-          ${renderTravel({ ...state, activeSubTab: 'planner' })}
+          ${renderTravel({ ...state, activeSubTab: activeOverlayTab })}
         </div>
       </div>
-    ` : ''}
-
-    <!-- Country Guides Overlay -->
-    ${state.showGuidesOverlay ? `
-      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeGuidesOverlay()">
-        <div class="min-h-screen pb-20">
-          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
-            <h2 class="text-lg font-bold">${icon('book-atlas', 'w-5 h-5 mr-2 text-emerald-400')}${t('countryGuides') || 'Guides pays'}</h2>
-            <button onclick="closeGuidesOverlay()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-              ${icon('times', 'w-5 h-5')}
-            </button>
-          </div>
-          ${renderTravel({ ...state, activeSubTab: 'guides' })}
-        </div>
-      </div>
-    ` : ''}
+      `
+    })() : ''}
 
     <!-- Cookie Banner (RGPD) - hidden during tutorial/welcome -->
     ${!state.showTutorial && !state.showWelcome ? renderCookieBanner() : ''}
@@ -300,13 +304,13 @@ function initHomeMap(state) {
 
     const center = state.userLocation
       ? [state.userLocation.lng, state.userLocation.lat]
-      : [0, 30] // World center [lng, lat]
+      : [2.3, 46.6] // France center as fallback [lng, lat]
 
-    const zoom = state.userLocation ? 13 : 3
+    const zoom = state.userLocation ? 15 : 5
 
     const map = new maplibregl.Map({
       container,
-      style: 'https://tiles.openfreemap.org/styles/dark',
+      style: 'https://tiles.openfreemap.org/styles/liberty',
       center,
       zoom,
       attributionControl: false,
@@ -365,8 +369,8 @@ function initHomeMap(state) {
             isFav: isFav ? 1 : 0,
             color: isFav ? '#f59e0b' : (getFreshnessColor(spot) || '#22c55e'),
             strokeColor: isFav ? '#fbbf24' : '#ffffff',
-            radius: isFav ? 8 : 5,
-            strokeWidth: isFav ? 2 : 1,
+            radius: isFav ? 10 : 7,
+            strokeWidth: isFav ? 2 : 1.5,
           },
         })
       })
@@ -500,11 +504,20 @@ function initHomeMap(state) {
       loadSpotsForView()
     })
 
-    // Debounce spot loading on map move
+    // Debounce spot loading on map move (1500ms to avoid excessive re-renders)
     let moveTimer = null
+    let lastBounds = null
     map.on('moveend', () => {
       clearTimeout(moveTimer)
-      moveTimer = setTimeout(loadSpotsForView, 500)
+      // Skip reload if bounds barely changed
+      const bounds = map.getBounds()
+      if (lastBounds) {
+        const dLat = Math.abs(bounds.getNorth() - lastBounds.getNorth())
+        const dLng = Math.abs(bounds.getEast() - lastBounds.getEast())
+        if (dLat < 0.01 && dLng < 0.01) return // ignore micro-movements
+      }
+      lastBounds = bounds
+      moveTimer = setTimeout(loadSpotsForView, 1500)
     })
 
     // Resize
@@ -535,7 +548,7 @@ function initTripMap(state) {
 
     const map = new maplibregl.Map({
       container,
-      style: 'https://tiles.openfreemap.org/styles/dark',
+      style: 'https://tiles.openfreemap.org/styles/liberty',
       center: [from[1], from[0]], // [lng, lat]
       zoom: 7,
       attributionControl: false,
@@ -563,7 +576,7 @@ function initTripMap(state) {
           id: 'trip-route-line',
           type: 'line',
           source: 'trip-route',
-          paint: { 'line-color': '#f59e0b', 'line-width': 4, 'line-opacity': 0.8 },
+          paint: { 'line-color': '#f59e0b', 'line-width': 6, 'line-opacity': 0.9 },
           layout: { 'line-cap': 'round', 'line-join': 'round' },
         })
       } else {
@@ -579,7 +592,7 @@ function initTripMap(state) {
           id: 'trip-route-line',
           type: 'line',
           source: 'trip-route',
-          paint: { 'line-color': '#f59e0b', 'line-width': 3, 'line-opacity': 0.6, 'line-dasharray': [2, 2] },
+          paint: { 'line-color': '#f59e0b', 'line-width': 5, 'line-opacity': 0.7, 'line-dasharray': [2, 2] },
           layout: { 'line-cap': 'round', 'line-join': 'round' },
         })
       }
@@ -603,7 +616,7 @@ function initTripMap(state) {
             id: spot.id,
             color: isFav ? '#f59e0b' : '#22c55e',
             strokeColor: isFav ? '#fbbf24' : '#ffffff',
-            radius: isFav ? 9 : 7,
+            radius: isFav ? 12 : 10,
             strokeWidth: isFav ? 3 : 2,
           },
         })

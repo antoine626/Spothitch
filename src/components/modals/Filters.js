@@ -12,36 +12,9 @@ import { t } from '../../i18n/index.js';
  */
 export function renderFiltersModal() {
   const state = getState();
-  const { showFilters, filterCountry = 'all', filterMinRating = 0, filterMaxWait = 999, filterVerifiedOnly = false } = state;
+  const { showFilters, filterMinRating = 0, filterMaxWait = 999, filterVerifiedOnly = false } = state;
 
   if (!showFilters) return '';
-
-  // Available filter options
-  const countryOptions = [
-    { code: 'all', name: t('allCountries') || 'All countries', flag: '🌍' },
-    { code: 'FR', name: 'France', flag: '🇫🇷' },
-    { code: 'DE', name: 'Deutschland', flag: '🇩🇪' },
-    { code: 'ES', name: 'España', flag: '🇪🇸' },
-    { code: 'IT', name: 'Italia', flag: '🇮🇹' },
-    { code: 'NL', name: 'Nederland', flag: '🇳🇱' },
-    { code: 'BE', name: 'Belgique', flag: '🇧🇪' },
-    { code: 'PL', name: 'Polska', flag: '🇵🇱' },
-    { code: 'CZ', name: 'Česko', flag: '🇨🇿' },
-    { code: 'AT', name: 'Österreich', flag: '🇦🇹' },
-    { code: 'CH', name: 'Schweiz', flag: '🇨🇭' },
-    { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
-    { code: 'IE', name: 'Ireland', flag: '🇮🇪' },
-    { code: 'GB', name: 'UK', flag: '🇬🇧' },
-    { code: 'SE', name: 'Sverige', flag: '🇸🇪' },
-    { code: 'NO', name: 'Norge', flag: '🇳🇴' },
-    { code: 'MA', name: 'Morocco', flag: '🇲🇦' },
-    { code: 'TR', name: 'Türkiye', flag: '🇹🇷' },
-    { code: 'US', name: 'USA', flag: '🇺🇸' },
-    { code: 'NZ', name: 'NZ', flag: '🇳🇿' },
-    { code: 'AU', name: 'Australia', flag: '🇦🇺' },
-    { code: 'GE', name: 'Georgia', flag: '🇬🇪' },
-    { code: 'IL', name: 'Israel', flag: '🇮🇱' },
-  ];
 
   const ratingOptions = [
     { value: 0, label: t('all') || 'Tous' },
@@ -86,25 +59,6 @@ export function renderFiltersModal() {
 
         <!-- Content -->
         <div class="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
-          <!-- Country Filter -->
-          <section>
-            <label class="block text-sm font-medium text-slate-400 mb-4">
-              ${t('country') || 'Pays'}
-            </label>
-            <div class="grid grid-cols-3 gap-3">
-              ${countryOptions.map(opt => `
-                <button onclick="setFilterCountry('${opt.code}')"
-                        class="p-2 rounded-xl text-center transition-colors
-                               ${filterCountry === opt.code
-    ? 'bg-amber-500 text-white'
-    : 'bg-white/5 text-slate-300 hover:bg-white/10'}">
-                  <span class="text-lg">${opt.flag}</span>
-                  <span class="block text-xs mt-1 truncate">${opt.code === 'all' ? (t('all') || 'All') : opt.code}</span>
-                </button>
-              `).join('')}
-            </div>
-          </section>
-
           <!-- Rating Filter -->
           <section>
             <label class="block text-sm font-medium text-slate-400 mb-4">
@@ -208,7 +162,6 @@ export function applyFilters() {
  */
 export function resetFilters() {
   setState({
-    filterCountry: 'all',
     filterMinRating: 0,
     filterMaxWait: 999,
     filterVerifiedOnly: false,
