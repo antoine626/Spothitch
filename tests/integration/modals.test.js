@@ -204,10 +204,10 @@ describe('Integration: Filters Modal', () => {
     expect(html.length).toBeGreaterThan(100)
   })
 
-  it('has country filter options', () => {
+  it('has rating filter options', () => {
     const html = renderFiltersModal()
-    expect(html).toContain('FR')
-    expect(html).toContain('setFilterCountry')
+    expect(html).toContain('setFilterMinRating')
+    expect(html).toContain('setFilterMaxWait')
   })
 
   it('has apply and reset buttons', () => {
