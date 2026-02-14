@@ -460,6 +460,98 @@ function initHomeMap(state) {
       map.on('mouseleave', 'home-clusters', () => { map.getCanvas().style.cursor = '' })
     }
 
+    // Haversine distance in km
+    const haversineKm = (lat1, lng1, lat2, lng2) => {
+      const R = 6371
+      const dLat = (lat2 - lat1) * Math.PI / 180
+      const dLng = (lng2 - lng1) * Math.PI / 180
+      const a = Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLng / 2) ** 2
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    }
+
+    // Populate bottom sheet with nearest spots + distances
+    const populateNearbySheet = async (allSpots) => {
+      const scrollEl = document.getElementById('nearby-spots-scroll')
+      const splitEl = document.getElementById('split-spots-list')
+      if (!scrollEl && !splitEl) return
+
+      const currentState = getState()
+      const userLoc = currentState.userLocation
+      const bounds = map.getBounds()
+
+      // Filter visible spots only
+      const visibleSpots = allSpots.filter(s => {
+        const lat = s.coordinates?.lat || s.lat
+        const lng = s.coordinates?.lng || s.lng
+        if (!lat || !lng) return false
+        return bounds.contains([lng, lat])
+      })
+
+      // Calculate distances if GPS available, then sort
+      const spotsWithDist = visibleSpots.map(s => {
+        const lat = s.coordinates?.lat || s.lat
+        const lng = s.coordinates?.lng || s.lng
+        const dist = userLoc ? haversineKm(userLoc.lat, userLoc.lng, lat, lng) : null
+        return { ...s, _dist: dist }
+      })
+
+      if (userLoc) {
+        spotsWithDist.sort((a, b) => (a._dist || 999) - (b._dist || 999))
+      }
+
+      const nearest = spotsWithDist.slice(0, 15)
+      if (nearest.length === 0) return
+
+      // Format distance
+      const fmtDist = (km) => {
+        if (km === null || km === undefined) return ''
+        if (km < 1) return `${Math.round(km * 1000)} m`
+        return `${km.toFixed(1)} km`
+      }
+
+      // Horizontal cards for bottom sheet
+      if (scrollEl) {
+        const { icon: iconFn } = await import('../utils/icons.js')
+        scrollEl.innerHTML = nearest.map(s => {
+          const rating = s.globalRating?.toFixed(1) || '—'
+          const distLabel = s._dist !== null ? fmtDist(s._dist) : ''
+          const dir = s.to || s.from || ''
+          return `
+            <button onclick="selectSpot(${typeof s.id === 'string' ? "'" + s.id + "'" : s.id})"
+              class="shrink-0 w-44 snap-start bg-dark-card border border-dark-border rounded-xl p-3 text-left hover:border-primary-500/50 transition-all">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-amber-400 text-xs font-bold">${iconFn ? iconFn('star', 'w-3 h-3 mr-0.5') : '⭐'}${rating}</span>
+                ${distLabel ? `<span class="text-xs text-primary-400 font-medium">${distLabel}</span>` : ''}
+              </div>
+              <div class="text-white text-sm font-medium truncate">${dir || 'Spot'}</div>
+              <div class="text-slate-500 text-xs truncate mt-0.5">${s.from || ''}</div>
+            </button>`
+        }).join('')
+      }
+
+      // List cards for split view
+      if (splitEl) {
+        const { icon: iconFn } = await import('../utils/icons.js')
+        splitEl.innerHTML = nearest.slice(0, 20).map(s => {
+          const rating = s.globalRating?.toFixed(1) || '—'
+          const distLabel = s._dist !== null ? fmtDist(s._dist) : ''
+          const dir = s.to || s.from || ''
+          return `
+            <button onclick="selectSpot(${typeof s.id === 'string' ? "'" + s.id + "'" : s.id})"
+              class="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all">
+              <div class="text-amber-400 text-sm font-bold shrink-0">${rating}</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-white text-sm font-medium truncate">${dir || 'Spot'}</div>
+                <div class="text-slate-500 text-xs truncate">${s.from || ''}</div>
+              </div>
+              ${distLabel ? `<span class="text-xs text-primary-400 font-medium shrink-0">${distLabel}</span>` : ''}
+            </button>`
+        }).join('')
+      }
+    }
+
     // Gather all spots and push to source
     const updateSpotsOnMap = (spots) => {
       const geojson = spotsToGeoJSON(spots)
@@ -469,6 +561,9 @@ function initHomeMap(state) {
       // Update badge count
       const badge = document.querySelector('#home-map-container .text-primary-400.font-semibold')
       if (badge) badge.textContent = addedSpotIds.size
+
+      // Populate bottom sheet with nearest spots
+      populateNearbySheet(spots)
     }
 
     // Load spots for visible area

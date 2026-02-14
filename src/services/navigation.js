@@ -291,22 +291,11 @@ function arrivedAtDestination() {
 }
 
 /**
- * Announce instruction (using speech synthesis if available)
+ * Announce instruction (toast only — no voice guidance)
  */
 function announceInstruction(step) {
-  if (!step) return;
-
-  // Try speech synthesis
-  if ('speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(step.instruction);
-    const langMap = { fr: 'fr-FR', en: 'en-US', es: 'es-ES', de: 'de-DE' }
-    utterance.lang = langMap[getState().lang] || 'fr-FR';
-    utterance.rate = 1.1;
-    speechSynthesis.speak(utterance);
-  }
-
-  // Also show toast
-  showToast(step.instruction, 'info');
+  if (!step) return
+  showToast(step.instruction, 'info')
 }
 
 /**
@@ -356,22 +345,22 @@ export function formatDuration(seconds) {
 }
 
 /**
- * Get direction icon for maneuver type
+ * Get direction icon name (Lucide) for maneuver type
  */
 export function getDirectionIcon(maneuverType, modifier) {
   const icons = {
-    'turn': modifier?.includes('left') ? 'fa-turn-left' : 'fa-turn-right',
-    'continue': 'fa-arrow-up',
-    'merge': 'fa-code-merge',
-    'fork': modifier?.includes('left') ? 'fa-code-fork fa-flip-horizontal' : 'fa-code-fork',
-    'roundabout': 'fa-rotate-right',
-    'rotary': 'fa-rotate-right',
-    'depart': 'fa-location-dot',
-    'arrive': 'fa-flag-checkered',
-    'end of road': 'fa-road',
-  };
+    'turn': modifier?.includes('left') ? 'corner-up-left' : 'corner-up-right',
+    'continue': 'arrow-up',
+    'merge': 'git-merge',
+    'fork': modifier?.includes('left') ? 'git-fork' : 'git-fork',
+    'roundabout': 'rotate-cw',
+    'rotary': 'rotate-cw',
+    'depart': 'map-pin',
+    'arrive': 'flag',
+    'end of road': 'move-horizontal',
+  }
 
-  return icons[maneuverType] || 'fa-arrow-up';
+  return icons[maneuverType] || 'arrow-up'
 }
 
 /**

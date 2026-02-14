@@ -146,6 +146,10 @@ const initialState = {
   identityVerifiedAt: null,
   selfieIdVerifiedAt: null,
 
+  // GPS Navigation
+  gasStations: [],
+  showGasStationsOnMap: false,
+
   // Loading states
   isLoading: false,
   isLoadingSpots: false,

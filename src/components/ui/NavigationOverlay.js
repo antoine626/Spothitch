@@ -1,10 +1,11 @@
 /**
  * Navigation Overlay Component
  * Shows turn-by-turn directions on top of the map
+ * No ETA, no voice guidance — simple and clean
  */
 
-import { formatDistance, formatDuration, getDirectionIcon } from '../../services/navigation.js';
-import { t } from '../../i18n/index.js';
+import { formatDistance, getDirectionIcon } from '../../services/navigation.js'
+import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
 
 /**
@@ -12,18 +13,20 @@ import { icon } from '../../utils/icons.js'
  * @param {Object} state - App state
  */
 export function renderNavigationOverlay(state) {
-  if (!state.navigationActive) return '';
+  if (!state.navigationActive) return ''
 
   const {
     navigationDestination,
     navigationDistance,
-    navigationDuration,
     navigationInstructions,
     navigationCurrentStep,
-  } = state;
+    gasStations,
+    showGasStationsOnMap,
+  } = state
 
-  const currentInstruction = navigationInstructions?.[navigationCurrentStep];
-  const nextInstruction = navigationInstructions?.[navigationCurrentStep + 1];
+  const currentInstruction = navigationInstructions?.[navigationCurrentStep]
+  const nextInstruction = navigationInstructions?.[navigationCurrentStep + 1]
+  const gasCount = (gasStations || []).length
 
   return `
     <div class="navigation-overlay fixed inset-x-0 top-16 z-40 pointer-events-none">
@@ -32,30 +35,30 @@ export function renderNavigationOverlay(state) {
         <div class="bg-primary-600 rounded-2xl shadow-2xl overflow-hidden">
           <!-- Main instruction -->
           <div class="p-4 flex items-center gap-4">
-            <div class="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-              ${icon(currentInstruction ? getDirectionIcon(currentInstruction.maneuver?.type, currentInstruction.maneuver?.modifier) : 'fa-arrow-up', 'w-8 h-8 text-white')}
+            <div class="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+              ${icon(currentInstruction ? getDirectionIcon(currentInstruction.maneuver?.type, currentInstruction.maneuver?.modifier) : 'arrow-up', 'w-7 h-7 text-white')}
             </div>
             <div class="flex-1 min-w-0">
-              <div class="text-white font-bold text-lg leading-tight">
-                ${currentInstruction?.instruction || t('calculatingRoute') || 'Calculer itinéraire...'}
+              <div class="text-white font-bold text-base leading-tight">
+                ${currentInstruction?.instruction || t('calculatingRoute') || 'Calcul...'}
               </div>
               <div class="text-white/70 text-sm mt-1">
                 ${currentInstruction?.distance ? formatDistance(currentInstruction.distance) : ''}
-                ${currentInstruction?.name ? ` - ${currentInstruction.name}` : ''}
+                ${currentInstruction?.name ? ` — ${currentInstruction.name}` : ''}
               </div>
             </div>
           </div>
 
           <!-- Next instruction preview -->
           ${nextInstruction ? `
-            <div class="px-4 py-3 bg-black/20 flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                ${icon(getDirectionIcon(nextInstruction.maneuver?.type, nextInstruction.maneuver?.modifier), 'w-5 h-5 text-white/70')}
+            <div class="px-4 py-2.5 bg-black/20 flex items-center gap-3">
+              <div class="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                ${icon(getDirectionIcon(nextInstruction.maneuver?.type, nextInstruction.maneuver?.modifier), 'w-4 h-4 text-white/70')}
               </div>
               <div class="flex-1 text-white/70 text-sm truncate">
                 ${t('then') || 'Puis'}: ${nextInstruction.instruction}
               </div>
-              <div class="text-white/50 text-xs">
+              <div class="text-white/50 text-xs shrink-0">
                 ${formatDistance(nextInstruction.distance)}
               </div>
             </div>
@@ -67,32 +70,19 @@ export function renderNavigationOverlay(state) {
       <div class="fixed inset-x-0 bottom-20 mx-4 pointer-events-auto">
         <div class="bg-dark-card border border-dark-border rounded-2xl shadow-2xl p-4">
           <div class="flex items-center justify-between">
-            <!-- ETA & Distance -->
-            <div class="flex-1">
-              <div class="flex items-center gap-6">
-                <div>
-                  <div class="text-2xl font-bold text-white">
-                    ${navigationDuration ? formatDuration(navigationDuration) : '--'}
-                  </div>
-                  <div class="text-xs text-slate-400">${t('remainingTime') || 'Temps restant'}</div>
-                </div>
-                <div class="w-px h-10 bg-white/10"></div>
-                <div>
-                  <div class="text-2xl font-bold text-primary-400">
-                    ${navigationDistance ? formatDistance(navigationDistance) : '--'}
-                  </div>
-                  <div class="text-xs text-slate-400">${t('distance') || 'Distance'}</div>
-                </div>
+            <!-- Distance remaining -->
+            <div>
+              <div class="text-2xl font-bold text-primary-400">
+                ${navigationDistance ? formatDistance(navigationDistance) : '--'}
               </div>
+              <div class="text-xs text-slate-400">${t('remaining') || 'Restant'}</div>
             </div>
 
             <!-- Destination -->
-            <div class="text-right shrink-0 max-w-[40%]">
-              <div class="text-sm text-white truncate">
+            <div class="text-right shrink-0 max-w-[50%]">
+              <div class="text-sm text-white font-medium truncate">
+                ${icon('map-pin', 'w-4 h-4 text-primary-400 mr-1')}
                 ${navigationDestination?.name || 'Destination'}
-              </div>
-              <div class="text-xs text-slate-400">
-                ${getETA(navigationDuration)}
               </div>
             </div>
           </div>
@@ -106,53 +96,51 @@ export function renderNavigationOverlay(state) {
           </div>
 
           <!-- Actions -->
-          <div class="mt-4 flex gap-3">
+          <div class="mt-4 flex gap-2">
             <button
               onclick="stopNavigation()"
-              class="flex-1 py-3 px-4 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all"
+              class="flex-1 py-3 px-3 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all text-sm"
             >
-              ${icon('times', 'w-5 h-5 mr-2')}
+              ${icon('times', 'w-4 h-4 mr-1')}
               ${t('stop') || 'Arrêter'}
             </button>
             <button
-              onclick="openExternalNavigation(${navigationDestination?.lat}, ${navigationDestination?.lng}, '${navigationDestination?.name?.replace(/'/g, "\\'")}')"
-              class="flex-1 py-3 px-4 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-all"
+              onclick="toggleGasStations()"
+              class="py-3 px-3 rounded-xl ${showGasStationsOnMap ? 'bg-amber-500/20 text-amber-400' : 'bg-white/10 text-slate-400'} font-medium hover:bg-white/20 transition-all text-sm"
+              aria-label="${t('gasStations') || 'Stations-service'}"
+              title="${t('gasStations') || 'Stations-service'}${gasCount ? ` (${gasCount})` : ''}"
             >
-              ${icon('external-link-alt', 'w-5 h-5 mr-2')}
-              ${t('externalGPS') || 'GPS externe'}
+              ${icon('fuel', 'w-4 h-4')}
+            </button>
+            <button
+              onclick="openExternalNavigation(${navigationDestination?.lat}, ${navigationDestination?.lng}, '${navigationDestination?.name?.replace(/'/g, "\\'")}')"
+              class="flex-1 py-3 px-3 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-all text-sm"
+            >
+              ${icon('external-link', 'w-4 h-4 mr-1')}
+              ${t('externalGPS') || 'GPS'}
             </button>
           </div>
         </div>
       </div>
     </div>
-  `;
+  `
 }
 
 /**
  * Calculate progress percentage
  */
 function getProgressPercent(instructions, currentStep) {
-  if (!instructions?.length) return 0;
-  return Math.round((currentStep / (instructions.length - 1)) * 100);
-}
-
-/**
- * Get estimated time of arrival
- */
-function getETA(durationSeconds) {
-  if (!durationSeconds) return '';
-
-  const eta = new Date(Date.now() + durationSeconds * 1000);
-  return `${t('arrivalAt') || 'Arrivée ~'}${eta.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`;
+  if (!instructions?.length) return 0
+  return Math.round((currentStep / (instructions.length - 1)) * 100)
 }
 
 /**
  * Render compact navigation widget (for when not in full navigation mode)
  */
 export function renderNavigationWidget(state) {
-  if (!state.navigationActive) return '';
+  if (!state.navigationActive) return ''
 
-  const { navigationDestination, navigationDistance, navigationDuration } = state;
+  const { navigationDestination, navigationDistance } = state
 
   return `
     <div class="navigation-widget fixed bottom-24 left-4 right-4 z-30 pointer-events-auto">
@@ -161,24 +149,23 @@ export function renderNavigationWidget(state) {
         class="w-full bg-primary-600 rounded-xl p-3 shadow-lg flex items-center gap-3 hover:bg-primary-500 transition-all"
       >
         <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-          ${icon('route', 'w-5 h-5 text-white')}
+          ${icon('navigation', 'w-5 h-5 text-white')}
         </div>
         <div class="flex-1 text-left">
           <div class="text-white font-medium text-sm truncate">
-            ${navigationDestination?.name || 'Navigation active'}
+            ${navigationDestination?.name || t('navigationActive') || 'Navigation active'}
           </div>
           <div class="text-white/70 text-xs">
-            ${navigationDistance ? formatDistance(navigationDistance) : ''} •
-            ${navigationDuration ? formatDuration(navigationDuration) : ''}
+            ${navigationDistance ? formatDistance(navigationDistance) : ''}
           </div>
         </div>
         ${icon('chevron-up', 'w-5 h-5 text-white/70')}
       </button>
     </div>
-  `;
+  `
 }
 
 export default {
   renderNavigationOverlay,
   renderNavigationWidget,
-};
+}

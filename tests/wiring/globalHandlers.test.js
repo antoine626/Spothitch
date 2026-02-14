@@ -204,6 +204,8 @@ const MAIN_JS_HANDLERS = [
   'showCompanionModal', 'closeCompanionModal',
   'startCompanion', 'stopCompanion',
   'companionCheckIn', 'companionSendAlert',
+  // Gas Stations (navigation)
+  'toggleGasStations',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

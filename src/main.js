@@ -75,6 +75,7 @@ import { redeemReward } from './components/modals/Shop.js';
 import './components/modals/Leaderboard.js'; // Register global handlers
 import { registerCheckinHandlers } from './components/modals/CheckinModal.js'; // Checkin modal handlers
 import { startNavigation, stopNavigation, openExternalNavigation } from './services/navigation.js'; // GPS navigation
+import './services/gasStations.js'; // Gas stations (registers window.toggleGasStations)
 import {
   initScreenReaderSupport,
   announce as srAnnounce,
