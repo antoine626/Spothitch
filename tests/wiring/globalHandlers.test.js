@@ -71,6 +71,7 @@ const MAIN_JS_HANDLERS = [
   'removeTripStep', 'moveTripStep', 'clearTripSteps',
   // Guides
   'showGuides', 'showCountryDetail', 'showSafetyPage',
+  'setGuideSection', 'selectGuide', 'filterGuides',
   // Friends
   'showFriends', 'openFriendsChat', 'showAddFriend', 'closeAddFriend',
   'acceptFriendRequest', 'rejectFriendRequest', 'sendPrivateMessage', 'copyFriendLink',
@@ -336,6 +337,7 @@ const mockState = {
 import { renderMap } from '../../src/components/views/Map.js'
 import { renderTravel } from '../../src/components/views/Travel.js'
 import { renderChallengesHub } from '../../src/components/views/ChallengesHub.js'
+import { renderGuides } from '../../src/components/views/Guides.js'
 import { renderSocial } from '../../src/components/views/Social.js'
 import { renderProfile } from '../../src/components/views/Profile.js'
 
@@ -425,6 +427,7 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
   testHandlers('ChallengesHub view', renderChallengesHub)
   testHandlers('Social view', renderSocial)
   testHandlers('Profile view', renderProfile)
+  testHandlers('Guides view', renderGuides)
 
   // --- Modals (with state param) ---
   testHandlers('SOS modal', renderSOS)

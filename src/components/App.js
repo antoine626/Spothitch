@@ -18,6 +18,7 @@ import { t } from '../i18n/index.js';
 import { renderHome } from './views/Home.js';
 import { renderMap, initMainMap } from './views/Map.js';
 import { renderTravel } from './views/Travel.js';
+import { renderGuides as renderGuidesView } from './views/Guides.js';
 import { renderChallengesHub } from './views/ChallengesHub.js';
 import { renderSocial } from './views/Social.js';
 import { renderProfile } from './views/Profile.js';
@@ -238,7 +239,7 @@ export function renderApp(state) {
               </button>
             </div>
           </div>
-          ${renderTravel({ ...state, activeSubTab: activeOverlayTab })}
+          ${activeOverlayTab === 'guides' ? renderGuidesView(state) : renderTravel({ ...state, activeSubTab: activeOverlayTab })}
         </div>
       </div>
       `

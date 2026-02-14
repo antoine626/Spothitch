@@ -108,6 +108,23 @@ export function renderProfile(state) {
         ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
       </button>
 
+      <!-- Guides -->
+      <button
+        onclick="openGuidesOverlay()"
+        class="card p-5 w-full text-left hover:border-blue-500/50 transition-all flex items-center justify-between"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+            ${icon('book-open', 'w-5 h-5 text-blue-400')}
+          </div>
+          <div>
+            <div class="font-medium">${t('guides') || 'Guides'}</div>
+            <div class="text-sm text-slate-400">${t('guidesSubtitle') || 'Conseils, sécurité, légalité par pays'}</div>
+          </div>
+        </div>
+        ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+      </button>
+
       <!-- Settings -->
       <div class="card p-5 space-y-4">
         <h3 class="font-bold flex items-center gap-2">

@@ -56,6 +56,8 @@ const initialState = {
   showSideMenu: false,
   showIdentityVerification: false,
   showCompanionModal: false,
+  showGuidesOverlay: false,
+  guideSection: 'start',
 
   // Checkin Modal
   checkinSpot: null,
