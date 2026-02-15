@@ -1560,7 +1560,7 @@ export function renderSanctionsHistory(userId) {
               <div class="flex justify-between items-center p-2 rounded-lg bg-amber-500/10 ${warning.removedAt ? 'opacity-50' : ''}">
                 <div>
                   <div class="text-sm font-medium">${warning.reasonLabel} ${warning.removedAt ? '(Removed)' : ''}</div>
-                  <div class="text-xs text-slate-400">+${warning.points} points - ${warning.severityLabel}</div>
+                  <div class="text-xs text-slate-400">+${warning.points} 👍 - ${warning.severityLabel}</div>
                 </div>
                 <div class="text-xs text-slate-500">${new Date(warning.timestamp).toLocaleDateString()}</div>
               </div>

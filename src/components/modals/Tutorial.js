@@ -178,7 +178,7 @@ if (typeof window.finishTutorial === 'undefined') {
       points: (state.points || 0) + TUTORIAL_REWARDS.completeAll.points,
       totalPoints: (state.totalPoints || 0) + TUTORIAL_REWARDS.completeAll.points,
     })
-    window.showToast?.(t('tutorialComplete') || 'Tutoriel terminé ! +50 points', 'success')
+    window.showToast?.(t('tutorialComplete') || 'Tutoriel terminé ! +50 👍', 'success')
   }
 }
 

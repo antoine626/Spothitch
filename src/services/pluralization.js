@@ -55,10 +55,10 @@ const wordDictionary = {
     de: { singular: 'Abzeichen', plural: 'Abzeichen' }
   },
   point: {
-    fr: { singular: 'point', plural: 'points' },
-    en: { singular: 'point', plural: 'points' },
-    es: { singular: 'punto', plural: 'puntos' },
-    de: { singular: 'Punkt', plural: 'Punkte' }
+    fr: { singular: 'pouce', plural: 'pouces' },
+    en: { singular: 'thumb', plural: 'thumbs' },
+    es: { singular: 'pulgar', plural: 'pulgares' },
+    de: { singular: 'Daumen', plural: 'Daumen' }
   },
   jour: {
     fr: { singular: 'jour', plural: 'jours' },

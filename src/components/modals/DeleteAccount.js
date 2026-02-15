@@ -57,7 +57,7 @@ export function renderDeleteAccountModal(state) {
               </li>
               <li class="flex items-start gap-2">
                 ${icon('times-circle', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
-                <span>${t('pointsBadgesLost') || `Vos ${state.points || 0} points et ${state.badges?.length || 0} badges seront perdus`}</span>
+                <span>${t('pointsBadgesLost') || `Vos ${state.points || 0} pouces et ${state.badges?.length || 0} badges seront perdus`}</span>
               </li>
               <li class="flex items-start gap-2">
                 ${icon('times-circle', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}

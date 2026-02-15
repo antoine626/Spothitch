@@ -597,7 +597,7 @@ export function notifyLevelUp(newLevel, rewards = {}) {
   let body = t('notifLevelUpBody') || 'Felicitations ! Continue comme ca !';
 
   if (rewards.points) {
-    body += ` ${(t('notifLevelUpBonus') || '+{n} points bonus !').replace('{n}', rewards.points)}`;
+    body += ` ${(t('notifLevelUpBonus') || '+{n} 👍 bonus !').replace('{n}', rewards.points)}`;
   }
   if (rewards.title) {
     body = (t('notifLevelUpTitle2') || 'Nouveau titre: {name} !').replace('{name}', rewards.title.name);

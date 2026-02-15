@@ -40,7 +40,7 @@ export function renderLanding(state) {
     {
       icon: 'fa-trophy',
       title: 'Gamification',
-      description: 'Gagnez des points, debloquez des badges et montez dans le classement.',
+      description: 'Gagnez des pouces, debloquez des badges et montez dans le classement.',
       color: 'purple'
     },
     {

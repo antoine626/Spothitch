@@ -405,6 +405,12 @@ export const actions = {
       userLocation: location,
       gpsEnabled: !!location,
     });
+    // Record in location history for proximity verification
+    if (location?.lat && location?.lng) {
+      import('../services/proximityVerification.js').then(({ recordLocation }) => {
+        recordLocation(location)
+      }).catch(() => {})
+    }
   },
 
   // Online status

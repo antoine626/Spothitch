@@ -22,7 +22,7 @@ export const TIPS = {
   // First spot created tip
   FIRST_SPOT_CREATED: {
     id: 'first_spot_created',
-    message: 'Bravo ! Ton spot aide la communaute. Tu gagnes 20 points !',
+    message: 'Bravo ! Ton spot aide la communaute. Tu gagnes 20 👍 !',
     icon: 'fa-plus-circle',
     color: 'primary',
   },

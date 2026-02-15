@@ -323,7 +323,7 @@ export function renderVoteButtons(spotId) {
 
       <p class="text-xs text-slate-500 text-center">
         ${icon('info-circle', 'w-5 h-5 mr-1')}
-        ${t('earnPointsByVerifying') || 'Gagne des points en vérifiant les spots !'}
+        ${t('earnPointsByVerifying') || 'Gagne des pouces en vérifiant les spots !'}
       </p>
     </div>
   `;

@@ -72,7 +72,7 @@ const faqData = {
       {
         id: 'spots-5',
         q: t('faqQ10', "Qu'est-ce qu'un check-in et à quoi ça sert ?"),
-        a: t('faqA10', "Un check-in signifie que vous confirmez être passé par ce spot. Cela met à jour la fraîcheur des données et vous fait gagner des points. Plus il y a de check-ins récents, plus le spot est pertinent !")
+        a: t('faqA10', "Un check-in signifie que vous confirmez être passé par ce spot. Cela met à jour la fraîcheur des données et vous fait gagner des pouces. Plus il y a de check-ins récents, plus le spot est pertinent !")
       }
     ]
   },
@@ -130,8 +130,8 @@ const faqData = {
       },
       {
         id: 'account-4',
-        q: t('faqQ19', "Comment gagner des points ?"),
-        a: t('faqA19', "Vous gagnez des points en : ajoutant des spots (+50), faisant des check-ins (+10), laissant des avis (+15), et en complétant des défis (variable).")
+        q: t('faqQ19', "Comment gagner des pouces ?"),
+        a: t('faqA19', "Vous gagnez des pouces en : ajoutant des spots (+50), faisant des check-ins (+10), laissant des avis (+15), et en complétant des défis (variable).")
       },
       {
         id: 'account-5',

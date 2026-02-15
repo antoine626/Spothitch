@@ -800,6 +800,18 @@ window.submitReview = async (spotId) => {
   const comment = document.getElementById('review-comment')?.value
   const rating = getState().currentRating || 4
   if (comment) {
+    // Proximity check for reviews
+    const spot = getState().selectedSpot
+    const spotLat = spot?.coordinates?.lat || spot?.lat
+    const spotLng = spot?.coordinates?.lng || spot?.lng
+    if (spotLat && spotLng) {
+      const { checkProximity } = await import('./services/proximityVerification.js')
+      const proximity = checkProximity(spotLat, spotLng, getState().userLocation)
+      if (!proximity.allowed) {
+        showToast(t('proximityRequired') || `Tu dois être passé à moins de 5 km de ce spot dans les dernières 24h (${proximity.distanceKm} km)`, 'error')
+        return
+      }
+    }
     await saveCommentToFirebase({ spotId, text: comment, rating })
     const { recordReview } = await import('./services/gamification.js')
     recordReview()
@@ -1131,7 +1143,7 @@ window.finishTutorial = async () => {
     const { addPoints, addSeasonPoints } = await import('./services/gamification.js')
     addPoints(100, 'tutorial_complete')
     addSeasonPoints(20)
-    showToast(t('tutorialCompleted') || 'Tutoriel termine ! +100 points bonus !', 'success')
+    showToast(t('tutorialCompleted') || 'Tutoriel termine ! +100 👍 bonus !', 'success')
     // Trigger confetti
     if (window.launchConfetti) {
       window.launchConfetti()

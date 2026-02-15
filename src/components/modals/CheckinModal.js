@@ -246,6 +246,19 @@ export function registerCheckinHandlers() {
     const spot = state.checkinSpot;
     if (!spot) return;
 
+    // Proximity check: user must be near the spot
+    const spotLat = spot.coordinates?.lat || spot.lat
+    const spotLng = spot.coordinates?.lng || spot.lng
+    if (spotLat && spotLng) {
+      const { checkProximity } = await import('../../services/proximityVerification.js')
+      const proximity = checkProximity(spotLat, spotLng, state.userLocation)
+      if (!proximity.allowed) {
+        const { showToast: toast } = await import('../../services/notifications.js')
+        toast(t('proximityRequired') || `Tu dois être à moins de 5 km de ce spot (${proximity.distanceKm} km)`, 'error')
+        return
+      }
+    }
+
     const { showToast } = await import('../../services/notifications.js');
     const { recordCheckin, addPoints } = await import('../../services/gamification.js');
     const { saveValidationToFirebase, uploadPhotoToFirebase } = await import('../../services/firebase.js');

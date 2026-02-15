@@ -384,7 +384,7 @@ function completeTeamChallenge(team, challengeIndex) {
   });
 
   showToast(
-    (t('teamChallengeCompleted') || '🎉 Défi d\'équipe "{name}" terminé ! +{points} points')
+    (t('teamChallengeCompleted') || '🎉 Défi d\'équipe "{name}" terminé ! +{points} 👍')
       .replace('{name}', challenge.name)
       .replace('{points}', pointsPerMember),
     'success'
@@ -615,7 +615,7 @@ function renderNoTeam(state) {
                   <div class="text-sm text-slate-400">${challenge.description}</div>
                   <div class="text-xs text-primary-400 mt-1">
                     ${icon('gift', 'w-5 h-5 mr-1')}
-                    ${challenge.rewards.points} ${t('points') || 'points'}
+                    ${challenge.rewards.points} ${t('points') || 'pouces'}
                   </div>
                 </div>
               </div>

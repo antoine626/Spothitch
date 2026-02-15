@@ -225,13 +225,13 @@ function distributeWeeklyReward(rank) {
     if (!badges.includes('weekly_champion')) {
       setState({ badges: [...badges, 'weekly_champion'] });
     }
-    message = 'Champion de la semaine ! +500 points + Badge !';
+    message = 'Champion de la semaine ! +500 👍 + Badge !';
   } else if (rank <= 3) {
     bonusPoints = 200;
-    message = `Top 3 de la semaine ! +200 points !`;
+    message = `Top 3 de la semaine ! +200 👍 !`;
   } else if (rank <= 10) {
     bonusPoints = 100;
-    message = `Top 10 de la semaine ! +100 points !`;
+    message = `Top 10 de la semaine ! +100 👍 !`;
   }
 
   if (bonusPoints > 0) {
@@ -371,10 +371,10 @@ function generateMockPlayers() {
 export function getWeeklyRules() {
   return [
     { icon: '📅', text: 'Le classement se reinitialise chaque lundi a minuit' },
-    { icon: '⭐', text: 'Gagnez des points en faisant des check-ins, ajoutant des spots, etc.' },
-    { icon: '🥇', text: 'Top 1 : 500 points bonus + badge "Champion de la semaine"' },
-    { icon: '🥈', text: 'Top 3 : 200 points bonus' },
-    { icon: '🔟', text: 'Top 10 : 100 points bonus' },
+    { icon: '⭐', text: 'Gagnez des 👍 en faisant des check-ins, ajoutant des spots, etc.' },
+    { icon: '🥇', text: 'Top 1 : 500 👍 bonus + badge "Champion de la semaine"' },
+    { icon: '🥈', text: 'Top 3 : 200 👍 bonus' },
+    { icon: '🔟', text: 'Top 10 : 100 👍 bonus' },
     { icon: '📊', text: 'L\'historique des semaines precedentes est conserve' },
   ];
 }
@@ -390,7 +390,7 @@ export function getWeeklyRewards() {
       icon: '🥇',
       label: 'Top 1',
       rewards: [
-        { icon: '💰', text: '+500 points' },
+        { icon: '💰', text: '+500 👍' },
         { icon: '🏆', text: 'Badge "Champion de la semaine"' },
       ],
       color: 'amber',
@@ -400,7 +400,7 @@ export function getWeeklyRewards() {
       icon: '🥈',
       label: 'Top 2-3',
       rewards: [
-        { icon: '💰', text: '+200 points' },
+        { icon: '💰', text: '+200 👍' },
       ],
       color: 'gray',
     },
@@ -409,7 +409,7 @@ export function getWeeklyRewards() {
       icon: '🔟',
       label: 'Top 4-10',
       rewards: [
-        { icon: '💰', text: '+100 points' },
+        { icon: '💰', text: '+100 👍' },
       ],
       color: 'orange',
     },

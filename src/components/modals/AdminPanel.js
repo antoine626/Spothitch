@@ -26,7 +26,7 @@ export function renderAdminPanel(state) {
           <div class="grid grid-cols-4 gap-2 text-center text-sm">
             <div>
               <div class="font-bold text-amber-400">${state.points || 0}</div>
-              <div class="text-xs text-slate-400">${t('points') || 'Points'}</div>
+              <div class="text-xs text-slate-400">${t('points') || 'Pouces'}</div>
             </div>
             <div>
               <div class="font-bold text-emerald-400">${state.level || 1}</div>
@@ -34,7 +34,7 @@ export function renderAdminPanel(state) {
             </div>
             <div>
               <div class="font-bold text-purple-400">${state.skillPoints || 0}</div>
-              <div class="text-xs text-slate-400">${t('skillPoints') || 'Skill Pts'}</div>
+              <div class="text-xs text-slate-400">${t('skillPoints') || 'Skill 👍'}</div>
             </div>
             <div>
               <div class="font-bold text-amber-400">${state.thumbs || 0}</div>
@@ -51,13 +51,13 @@ export function renderAdminPanel(state) {
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="adminAddPoints(100)" class="btn-secondary text-sm py-2">
-              +100 Points
+              +100 👍
             </button>
             <button onclick="adminAddPoints(1000)" class="btn-secondary text-sm py-2">
-              +1000 Points
+              +1000 👍
             </button>
             <button onclick="adminAddSkillPoints(5)" class="btn-secondary text-sm py-2">
-              +5 Skill Points
+              +5 Skill 👍
             </button>
             <button onclick="adminAddThumbs(50)" class="btn-secondary text-sm py-2">
               +50 Pouces
@@ -252,13 +252,13 @@ window.adminAddPoints = (amount) => {
     points: (state.points || 0) + amount,
     totalPoints: (state.totalPoints || 0) + amount
   });
-  window.showToast?.(t('pointsAdded')?.replace('{amount}', amount) || `+${amount} points ajoutés`, 'success');
+  window.showToast?.(t('pointsAdded')?.replace('{amount}', amount) || `+${amount} 👍 ajoutés`, 'success');
 };
 
 window.adminAddSkillPoints = (amount) => {
   const state = getState();
   setState({ skillPoints: (state.skillPoints || 0) + amount });
-  window.showToast?.(t('skillPointsAdded')?.replace('{amount}', amount) || `+${amount} skill points ajoutés`, 'success');
+  window.showToast?.(t('skillPointsAdded')?.replace('{amount}', amount) || `+${amount} skill 👍 ajoutés`, 'success');
 };
 
 window.adminAddThumbs = (amount) => {

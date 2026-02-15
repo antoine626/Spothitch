@@ -169,7 +169,7 @@ export function showBadgeUnlockAnimation(badge) {
         color: #f59e0b;
         font-weight: bold;
       ">
-        +${badge.points} points
+        +${badge.points} 👍
       </div>
     </div>
   `;

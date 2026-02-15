@@ -271,7 +271,7 @@ export function updateChallengeProgress(challengeId, participantId, progress) {
 
     if (isWinner) {
       addPoints(challenge.rewardPoints, 'friend_challenge_won');
-      showToast((t('friendChallengeWon') || 'Tu as gagne le defi ! +{points} points').replace('{points}', challenge.rewardPoints), 'success');
+      showToast((t('friendChallengeWon') || 'Tu as gagne le defi ! +{points} 👍').replace('{points}', challenge.rewardPoints), 'success');
     } else {
       showToast(t('friendChallengeLost') || 'Ton ami a gagne le defi !', 'info');
     }
@@ -511,7 +511,7 @@ export function renderChallengeCard(challenge) {
 
       ${challenge.status === ChallengeStatus.COMPLETED && challenge.winnerId === userId ? `
         <p class="text-center text-green-400 font-medium mt-2">
-          +${challenge.rewardPoints} ${(t('pointsEarned') || 'points gagnes !')}
+          +${challenge.rewardPoints} ${(t('pointsEarned') || 'pouces gagnes !')}
         </p>
       ` : ''}
     </div>

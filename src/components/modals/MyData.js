@@ -220,7 +220,7 @@ export function renderMyDataModal() {
           </h3>
           <div class="card p-4 space-y-2 text-sm">
             <div class="flex justify-between">
-              <span class="text-slate-400">${t('totalPoints') || 'Points totaux'}</span>
+              <span class="text-slate-400">${t('totalPoints') || 'Pouces totaux'}</span>
               <span class="font-medium text-primary-400">${gamificationData.totalPoints || gamificationData.points}</span>
             </div>
             <div class="flex justify-between">
@@ -228,11 +228,11 @@ export function renderMyDataModal() {
               <span class="font-medium">${gamificationData.level}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-400">${t('seasonPoints') || 'Points de saison'}</span>
+              <span class="text-slate-400">${t('seasonPoints') || 'Pouces de saison'}</span>
               <span class="font-medium">${gamificationData.seasonPoints}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-400">${t('skillPoints') || 'Points de compétence'}</span>
+              <span class="text-slate-400">${t('skillPoints') || 'Pouces de compétence'}</span>
               <span class="font-medium">${gamificationData.skillPoints}</span>
             </div>
             <div class="flex justify-between">
