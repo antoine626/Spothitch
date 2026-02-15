@@ -328,8 +328,10 @@ function initHomeMap(state) {
     window.homeMapInstance = map
     window.mapInstance = map
 
-    // User position marker
-    if (state.userLocation) {
+    // User position marker + GPS centering
+    let userMarker = null
+    const showUserPosition = (lat, lng) => {
+      if (userMarker) userMarker.remove()
       const el = document.createElement('div')
       el.innerHTML = `
         <div class="relative">
@@ -337,9 +339,26 @@ function initHomeMap(state) {
           <div class="absolute inset-0 bg-amber-400 rounded-full animate-ping opacity-50"></div>
         </div>
       `
-      new maplibregl.Marker({ element: el })
-        .setLngLat([state.userLocation.lng, state.userLocation.lat])
+      userMarker = new maplibregl.Marker({ element: el })
+        .setLngLat([lng, lat])
         .addTo(map)
+    }
+
+    if (state.userLocation) {
+      showUserPosition(state.userLocation.lat, state.userLocation.lng)
+    } else if (navigator.geolocation) {
+      // Request GPS and center map when available
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords
+          showUserPosition(latitude, longitude)
+          map.flyTo({ center: [longitude, latitude], zoom: 13, duration: 1200 })
+          // Update global state
+          if (window.setState) window.setState({ userLocation: { lat: latitude, lng: longitude }, gpsEnabled: true })
+        },
+        () => { /* silently fail — user denied GPS */ },
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+      )
     }
 
     // spotLoader module reference (loaded once, reused)
