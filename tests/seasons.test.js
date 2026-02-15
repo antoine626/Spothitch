@@ -923,7 +923,7 @@ describe('Seasons Service', () => {
       addSeasonPoints(500);
       const html = renderSeasonBanner();
 
-      expect(html).toContain('pts');
+      expect(html).toContain('pouces');
     });
 
     it('should include rewards button', () => {

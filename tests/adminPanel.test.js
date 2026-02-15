@@ -29,8 +29,8 @@ describe('Admin Panel', () => {
 
     it('should have resource buttons', () => {
       const html = renderAdminPanel(mockState);
-      expect(html).toContain('+100 Points');
-      expect(html).toContain('+1000 Points');
+      expect(html).toContain('+100');
+      expect(html).toContain('+1000');
       expect(html).toContain('MAX ALL');
     });
 

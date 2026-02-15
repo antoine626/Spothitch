@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpotHitch Social - 20 Designs</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#0f1520;color:#fff;padding:20px;max-width:480px;margin:0 auto}
+h1{font-size:1.4rem;text-align:center;margin-bottom:8px;background:linear-gradient(135deg,#f59e0b,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{text-align:center;color:#94a3b8;font-size:.8rem;margin-bottom:24px}
+.card{background:#1a2332;border:1px solid rgba(255,255,255,.1);border-radius:16px;margin-bottom:16px;overflow:hidden;cursor:pointer;transition:all .2s}
+.card:hover{border-color:#f59e0b50}
+.card-head{display:flex;align-items:center;gap:12px;padding:16px}
+.num{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:#fff;flex-shrink:0}
+.card-head h2{font-size:1rem;flex:1}
+.card-head .tag{font-size:.65rem;padding:3px 8px;border-radius:99px;font-weight:600;flex-shrink:0}
+.phone{background:#0a0f18;border-radius:24px;margin:0 16px 16px;border:2px solid #2a3544;overflow:hidden}
+.phone-bar{background:#1a2332;padding:6px 12px;display:flex;gap:6px;border-bottom:1px solid #2a3544}
+.phone-bar span{font-size:.6rem;padding:3px 10px;border-radius:8px;font-weight:600}
+.phone-bar .active{background:#f59e0b;color:#000}
+.phone-bar .inactive{background:#ffffff0d;color:#94a3b8}
+.phone-body{padding:10px;min-height:200px;font-size:.7rem;color:#cbd5e1}
+.row{display:flex;align-items:center;gap:8px;padding:6px 8px;background:#ffffff08;border-radius:8px;margin-bottom:6px}
+.row .av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+.row-text{flex:1;min-width:0}
+.row-text b{font-size:.7rem;display:block}
+.row-text small{color:#64748b;font-size:.6rem}
+.actions{display:flex;gap:4px;margin-top:4px}
+.actions span{font-size:.55rem;color:#94a3b8}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.grid2 .box{background:#ffffff08;border-radius:8px;padding:10px;text-align:center;font-size:.65rem}
+.box em{font-size:1.2rem;display:block;margin-bottom:4px;font-style:normal}
+.photo-placeholder{background:linear-gradient(135deg,#1a2332,#2a3544);border-radius:8px;height:60px;display:flex;align-items:center;justify-content:center;color:#475569;font-size:.6rem;margin-bottom:6px}
+.swipe-card{background:#ffffff0d;border-radius:12px;padding:12px;text-align:center;margin-bottom:8px}
+.swipe-btns{display:flex;justify-content:center;gap:24px;margin-top:8px}
+.swipe-btns span{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.map-mock{background:linear-gradient(135deg,#0a1628,#162033);border-radius:8px;height:100px;position:relative;margin-bottom:6px;overflow:hidden}
+.map-mock::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,#f59e0b22,transparent 50%),radial-gradient(circle at 70% 60%,#10b98122,transparent 50%)}
+.map-dot{position:absolute;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;z-index:1}
+.desc{padding:0 16px 16px;color:#94a3b8;font-size:.75rem;line-height:1.5}
+.vote-bar{display:flex;gap:8px;padding:16px;justify-content:center;flex-wrap:wrap}
+.vote-btn{padding:6px 14px;border-radius:99px;border:1px solid #f59e0b40;background:transparent;color:#f59e0b;font-size:.7rem;cursor:pointer;font-weight:600;transition:all .2s}
+.vote-btn:hover{background:#f59e0b;color:#000}
+.section-title{color:#f59e0b;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 8px;margin-bottom:4px}
+.timeline-item{display:flex;gap:8px;padding:4px 8px;margin-bottom:6px}
+.timeline-dot{width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-top:4px;flex-shrink:0}
+.timeline-text{font-size:.65rem;color:#cbd5e1}
+.timeline-text small{color:#64748b;display:block}
+.masonry{columns:2;gap:6px}
+.masonry .mitem{break-inside:avoid;margin-bottom:6px;border-radius:8px;overflow:hidden}
+.mitem img-placeholder{display:block;background:linear-gradient(135deg,#1e3a5f,#2a3544);border-radius:8px}
+.voice-room{display:flex;align-items:center;gap:8px;background:#ffffff08;border-radius:10px;padding:8px;margin-bottom:6px}
+.voice-room .live{width:8px;height:8px;border-radius:50%;background:#10b981;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.trust-bar{height:8px;background:#ffffff10;border-radius:4px;overflow:hidden;margin:4px 0}
+.trust-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#10b981);border-radius:4px}
+.wiki-cat{display:flex;align-items:center;gap:8px;padding:6px 8px;background:#ffffff08;border-radius:8px;margin-bottom:4px;font-size:.7rem}
+.fab-mock{position:absolute;bottom:8px;right:8px;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#fff;box-shadow:0 4px 12px #10b98140}
+footer{text-align:center;padding:32px 0;color:#475569;font-size:.75rem}
+</style>
+</head>
+<body>
+
+<h1>SpotHitch Social - 20 Designs</h1>
+<p class="sub">Clique sur celui qui te plait le plus. Tu peux en choisir plusieurs.</p>
+
+<!-- 1 -->
+<div class="card" id="d1">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">1</div>
+<h2>Streamlined Messenger</h2>
+<span class="tag" style="background:#3b82f620;color:#60a5fa">Simple</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Conversations</span><span class="inactive">Contacts</span></div>
+<div class="phone-body">
+<div class="row"><div class="av" style="background:#f59e0b30">M</div><div class="row-text"><b>Marie L. <small>10:32</small></b><small>"On se retrouve a la station?"</small></div></div>
+<div class="row"><div class="av" style="background:#3b82f630">🌍</div><div class="row-text"><b>Europe Zone Chat <small>09:15</small></b><small>Pedro: "Anyone near Lyon?"</small></div></div>
+<div class="row"><div class="av" style="background:#10b98130">🎒</div><div class="row-text"><b>Groupe Berlin Trip <small>Hier</small></b><small>3 nouveaux messages</small></div></div>
+<div class="row"><div class="av" style="background:#8b5cf630">T</div><div class="row-text"><b>Tom R. <small>Lun</small></b><small>Toi: "Bon voyage !"</small></div></div>
+</div></div>
+<p class="desc">WhatsApp-like. Toutes les conversations (DMs + groupes + zones) dans une seule inbox triee par date.</p>
+</div>
+
+<!-- 2 -->
+<div class="card" id="d2">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#ec4899,#be185d)">2</div>
+<h2>Social Feed</h2>
+<span class="tag" style="background:#ec489920;color:#f472b6">Populaire</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Feed</span><span class="inactive">Suivis</span><span class="inactive">Tendance</span></div>
+<div class="phone-body">
+<div class="row" style="flex-direction:column;align-items:stretch">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="av" style="background:#ec489930">M</div><b style="font-size:.7rem">Marie L.</b><small style="color:#64748b;margin-left:auto">2h</small></div>
+<div class="photo-placeholder">🌅 Photo sunset on highway</div>
+<div style="font-size:.7rem;margin-bottom:4px">"Best spot in Croatia! Ride in 5 min at 7am."</div>
+<div class="actions"><span>❤️ 23</span><span>💬 5</span><span>↗️</span></div>
+</div>
+<div class="row" style="flex-direction:column;align-items:stretch;margin-top:6px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="av" style="background:#3b82f630">P</div><b style="font-size:.7rem">Pedro S.</b><small style="color:#64748b;margin-left:auto">4h</small></div>
+<div style="background:#f59e0b15;border-radius:8px;padding:8px;font-size:.65rem;text-align:center">🏆 Paris → Berlin<br>890 km · 3 rides · 12h</div>
+<div class="actions" style="margin-top:6px"><span>❤️ 45</span><span>💬 12</span><span>↗️</span></div>
+</div>
+</div></div>
+<p class="desc">Style Instagram/Twitter. Posts, photos, trajets completes, conseils. La communaute en live.</p>
+</div>
+
+<!-- 3 -->
+<div class="card" id="d3">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#10b981,#059669)">3</div>
+<h2>Live Map Social</h2>
+<span class="tag" style="background:#10b98120;color:#34d399">Innovant</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Carte</span><span class="inactive">Proches</span></div>
+<div class="phone-body">
+<div class="map-mock">
+<div class="map-dot" style="left:25%;top:30%;background:#f59e0b40">M</div>
+<div class="map-dot" style="left:55%;top:55%;background:#3b82f640">P</div>
+<div class="map-dot" style="left:70%;top:25%;background:#8b5cf640">T</div>
+</div>
+<div class="section-title">Autostoppeurs proches</div>
+<div class="row"><div class="av" style="background:#f59e0b30">M</div><div class="row-text"><b>Marie · 1.2 km</b><small>→ Berlin</small></div><span style="font-size:.6rem;color:#f59e0b">💬</span></div>
+<div class="row"><div class="av" style="background:#3b82f630">P</div><div class="row-text"><b>Pedro · 3.0 km</b><small>En attente</small></div><span style="font-size:.6rem;color:#f59e0b">💬</span></div>
+</div></div>
+<p class="desc">Carte temps reel avec les positions des amis et autostoppeurs a proximite. Tap pour envoyer un message.</p>
+</div>
+
+<!-- 4 -->
+<div class="card" id="d4">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#f59e0b,#d97706)">4</div>
+<h2>Carnet de Route</h2>
+<span class="tag" style="background:#f59e0b20;color:#fbbf24">Creatif</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Mon carnet</span><span class="inactive">Explorer</span><span class="inactive">Favoris</span></div>
+<div class="phone-body">
+<div style="background:#f59e0b15;border-radius:8px;padding:8px;margin-bottom:8px">
+<div style="font-size:.65rem;color:#fbbf24;font-weight:700">14 juin 2026 — Jour 3</div>
+<div style="font-size:.6rem;color:#94a3b8">Split, Croatie · ☀️ 28°C · 😊</div>
+</div>
+<div style="display:flex;gap:4px;margin-bottom:6px">
+<div class="photo-placeholder" style="flex:1;height:40px;font-size:.5rem">📷 1</div>
+<div class="photo-placeholder" style="flex:1;height:40px;font-size:.5rem">📷 2</div>
+<div class="photo-placeholder" style="flex:1;height:40px;font-size:.5rem">📷 3</div>
+</div>
+<div style="font-size:.65rem;margin-bottom:6px">"Reveil a l'auberge, marche vers l'autoroute. Pris en stop par une famille en 20 min..."</div>
+<div style="font-size:.6rem;color:#64748b">Rides: 2 · Distance: 180 km</div>
+<div class="actions"><span>❤️ 12</span><span>💬 3</span></div>
+</div></div>
+<p class="desc">Journal de voyage avec photos, humeur, meteo. Les autres suivent ton aventure jour par jour.</p>
+</div>
+
+<!-- 5 -->
+<div class="card" id="d5">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#ef4444,#dc2626)">5</div>
+<h2>Partner Matching</h2>
+<span class="tag" style="background:#ef444420;color:#f87171">Fun</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Decouvrir</span><span class="inactive">Matchs (3)</span><span class="inactive">Ma fiche</span></div>
+<div class="phone-body" style="text-align:center">
+<div class="swipe-card">
+<div style="font-size:2rem;margin-bottom:4px">👩</div>
+<div style="font-weight:700;font-size:.8rem">Marie, 24</div>
+<div style="font-size:.6rem;color:#10b981;margin:2px 0">✓ Verifiee · 12 000 km</div>
+<div style="font-size:.65rem;margin:4px 0">Lyon → Istanbul</div>
+<div style="font-size:.6rem;color:#64748b">20 juin - 5 juil · FR, EN, ES</div>
+<div style="margin-top:6px;display:flex;gap:4px;justify-content:center;flex-wrap:wrap">
+<span style="font-size:.55rem;background:#ffffff10;padding:2px 6px;border-radius:4px">#earlybird</span>
+<span style="font-size:.55rem;background:#ffffff10;padding:2px 6px;border-radius:4px">#slowtravel</span>
+</div>
+</div>
+<div class="swipe-btns">
+<span style="background:#ef444430;color:#ef4444">✕</span>
+<span style="background:#10b98130;color:#10b981">♥</span>
+</div>
+</div></div>
+<p class="desc">Style Tinder. Swipe pour trouver un compagnon de voyage. Match = chat ouvert. Securite: profils verifies.</p>
+</div>
+
+<!-- 6 -->
+<div class="card" id="d6">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">6</div>
+<h2>Forum</h2>
+<span class="tag" style="background:#8b5cf620;color:#a78bfa">Classique</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Hot</span><span class="inactive">Nouveau</span><span class="inactive">Categories</span></div>
+<div class="phone-body">
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;background:#10b98130;color:#34d399;padding:1px 6px;border-radius:4px;width:fit-content">TIP</span><b style="font-size:.7rem;margin-top:2px">Sortir de Paris en stop</b><small style="font-size:.55rem;color:#64748b">@Marie · 2h · 23 ↑ · 15 reponses</small></div>
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;background:#3b82f630;color:#60a5fa;padding:1px 6px;border-radius:4px;width:fit-content">QUESTION</span><b style="font-size:.7rem;margin-top:2px">Roumanie safe en solo F ?</b><small style="font-size:.55rem;color:#64748b">@Ana · 5h · 45 ↑ · 28 reponses</small></div>
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;background:#f59e0b30;color:#fbbf24;padding:1px 6px;border-radius:4px;width:fit-content">STORY</span><b style="font-size:.7rem;margin-top:2px">30 jours, 12 pays, 0 euros</b><small style="font-size:.55rem;color:#64748b">@Pedro · 1j · 128 ↑ · 42 reponses</small></div>
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;background:#ef444430;color:#f87171;padding:1px 6px;border-radius:4px;width:fit-content">ALERTE</span><b style="font-size:.7rem;margin-top:2px">Evitez aire A7 pres de Lyon</b><small style="font-size:.55rem;color:#64748b">@Tom · 2j · 67 ↑ · 9 reponses</small></div>
+</div></div>
+<p class="desc">Style Reddit. Discussions permanentes, recherchables. Parfait pour "comment sortir de X en stop".</p>
+</div>
+
+<!-- 7 -->
+<div class="card" id="d7">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#ef4444,#991b1b)">7</div>
+<h2>Safety Network</h2>
+<span class="tag" style="background:#ef444420;color:#f87171">Securite</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Dashboard</span><span class="inactive">Alertes</span><span class="inactive">Compagnons</span></div>
+<div class="phone-body">
+<div style="background:#10b98115;border-radius:8px;padding:8px;margin-bottom:8px;text-align:center">
+<div style="font-size:.7rem;color:#34d399;font-weight:700">✓ En securite</div>
+<div style="font-size:.55rem;color:#64748b">Dernier check-in: il y a 12 min</div>
+</div>
+<div class="section-title">Contacts de confiance (3/5)</div>
+<div style="display:flex;gap:6px;margin-bottom:8px">
+<div class="av" style="background:#f59e0b30;width:32px;height:32px;font-size:.7rem">M</div>
+<div class="av" style="background:#3b82f630;width:32px;height:32px;font-size:.7rem">P</div>
+<div class="av" style="background:#ec489930;width:32px;height:32px;font-size:.7rem">👩</div>
+<div class="av" style="background:#ffffff10;width:32px;height:32px;font-size:.8rem;color:#475569">+</div>
+</div>
+<div class="grid2">
+<div class="box" style="background:#ef444420"><em>🚨</em>SOS Alerte</div>
+<div class="box"><em>🚗</em>Logger trajet</div>
+<div class="box"><em>📡</em>Partager live</div>
+<div class="box"><em>⏱️</em>Timer check-in</div>
+</div>
+</div></div>
+<p class="desc">Tout tourne autour de la securite. SOS, contacts de confiance, timer check-in, partage live du trajet.</p>
+</div>
+
+<!-- 8 -->
+<div class="card" id="d8">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">8</div>
+<h2>Tableau d'Annonces</h2>
+<span class="tag" style="background:#06b6d420;color:#22d3ee">Local</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Zagreb, HR</span><span class="inactive">Poster</span></div>
+<div class="phone-body">
+<div style="font-size:.6rem;color:#64748b;margin-bottom:6px">12 annonces actives</div>
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;color:#f59e0b">🤝 COMPAGNON · 0.5 km</span><div style="font-size:.65rem;margin:2px 0">"Direction Split demain matin, quelqu'un ?"</div><small style="font-size:.55rem;color:#64748b">@Marie · 3h · Expire dans 21h</small></div>
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;color:#10b981">🚗 TRAJET · 1.2 km</span><div style="font-size:.65rem;margin:2px 0">"Je conduis vers Budapest demain 8h, 2 places"</div><small style="font-size:.55rem;color:#64748b">@LocalDriver · 6h</small></div>
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;color:#60a5fa">💡 CONSEIL · Proche</span><div style="font-size:.65rem;margin:2px 0">"La station E65 est top pour aller au sud"</div><small style="font-size:.55rem;color:#64748b">@Pedro · 12h</small></div>
+</div></div>
+<p class="desc">Annonces locales qui changent quand tu bouges. Cherche compagnon, offre de trajet, conseils du coin. Expire apres 48h.</p>
+</div>
+
+<!-- 9 -->
+<div class="card" id="d9">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#f97316,#ea580c)">9</div>
+<h2>Galerie Photos</h2>
+<span class="tag" style="background:#f9731620;color:#fb923c">Visuel</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Galerie</span><span class="inactive">Collections</span><span class="inactive">Mes photos</span></div>
+<div class="phone-body">
+<div class="section-title">📸 Photo de la semaine</div>
+<div class="photo-placeholder" style="height:70px">🏞️ "Highway E65, Croatie" par Marie<br>❤️ 234 · 💬 18</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+<div class="photo-placeholder" style="height:50px;margin:0">🇪🇸 Espagne<br>❤️ 12</div>
+<div class="photo-placeholder" style="height:70px;margin:0">🇳🇴 Norvege<br>❤️ 45</div>
+<div class="photo-placeholder" style="height:65px;margin:0">🇩🇪 Allemagne<br>❤️ 8</div>
+<div class="photo-placeholder" style="height:50px;margin:0">🇵🇹 Portugal<br>❤️ 31</div>
+</div>
+</div></div>
+<p class="desc">Style Pinterest. Grille de photos des spots et routes. Inspirant pour les nouveaux autostoppeurs.</p>
+</div>
+
+<!-- 10 -->
+<div class="card" id="d10">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#64748b,#475569)">10</div>
+<h2>Timeline Activite</h2>
+<span class="tag" style="background:#64748b20;color:#94a3b8">Fil</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Tout</span><span class="inactive">Amis</span><span class="inactive">Exploits</span></div>
+<div class="phone-body">
+<div class="section-title">Maintenant</div>
+<div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-text">@Marie a evalue un spot a Zagreb ⭐⭐⭐⭐⭐<small>il y a 5 min</small></div></div>
+<div class="section-title">Il y a 1h</div>
+<div class="timeline-item"><div class="timeline-dot" style="background:#10b981"></div><div class="timeline-text">@Pedro a termine Paris → Berlin 🏆<small>890 km · 3 rides · 12h</small></div></div>
+<div class="section-title">Il y a 3h</div>
+<div class="timeline-item"><div class="timeline-dot" style="background:#ec4899"></div><div class="timeline-text">Evenement pres de toi : Meetup autostoppeurs Ljubljana<small>20 juin · Voir →</small></div></div>
+<div class="timeline-item"><div class="timeline-dot" style="background:#8b5cf6"></div><div class="timeline-text">@Ana a debloque le badge "10 pays" 🏅<small>Feliciter →</small></div></div>
+</div></div>
+<p class="desc">Fil d'activite communautaire. Toujours quelque chose de nouveau a voir.</p>
+</div>
+
+<!-- 11 -->
+<div class="card" id="d11">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#14b8a6,#0d9488)">11</div>
+<h2>Voyage en Groupe</h2>
+<span class="tag" style="background:#14b8a620;color:#2dd4bf">Collab</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Mes voyages (2)</span><span class="inactive">Invitations</span></div>
+<div class="phone-body">
+<div style="background:#14b8a615;border-radius:8px;padding:8px;margin-bottom:6px">
+<b style="font-size:.75rem">🏖️ Balkans Ete</b>
+<div style="font-size:.6rem;color:#64748b">4 membres · 15 juin - 10 juil</div>
+</div>
+<div class="map-mock" style="height:50px"></div>
+<div style="font-size:.6rem;margin-bottom:4px">Lyon → Zagreb → Split → Dubrovnik</div>
+<div style="background:#ffffff08;border-radius:6px;padding:6px;font-size:.6rem;margin-bottom:4px">
+<b>Jour 5: Zagreb</b><br>
+🗳️ Plage ou montagne ? <span style="color:#14b8a6">Plage: 3</span> vs Montagne: 1
+</div>
+<div style="background:#ffffff08;border-radius:6px;padding:6px;font-size:.6rem">
+<b>Bagages:</b><br>
+☑️ Tente (Pedro) · ☑️ Rechaud (Marie) · ⬜ Pharmacie (?)
+</div>
+</div></div>
+<p class="desc">Planification collaborative. Carte partagee, vote sur les destinations, checklist bagages, budget commun.</p>
+</div>
+
+<!-- 12 -->
+<div class="card" id="d12">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#a855f7,#9333ea)">12</div>
+<h2>Stories</h2>
+<span class="tag" style="background:#a855f720;color:#c084fc">Ephemere</span>
+</div>
+<div class="phone">
+<div class="phone-body" style="padding:0">
+<div style="display:flex;gap:8px;padding:8px;overflow-x:auto">
+<div style="text-align:center;flex-shrink:0"><div class="av" style="background:#f59e0b30;border:2px solid #f59e0b;width:40px;height:40px">+</div><div style="font-size:.5rem;margin-top:2px">Toi</div></div>
+<div style="text-align:center;flex-shrink:0"><div class="av" style="background:#ec489930;border:2px solid #ec4899;width:40px;height:40px">M</div><div style="font-size:.5rem;margin-top:2px">Marie</div></div>
+<div style="text-align:center;flex-shrink:0"><div class="av" style="background:#3b82f630;border:2px solid #3b82f6;width:40px;height:40px">P</div><div style="font-size:.5rem;margin-top:2px">Pedro</div></div>
+<div style="text-align:center;flex-shrink:0"><div class="av" style="background:#10b98130;border:2px solid #10b981;width:40px;height:40px">A</div><div style="font-size:.5rem;margin-top:2px">Ana</div></div>
+</div>
+<div style="background:linear-gradient(135deg,#1a2332,#0a1628);padding:16px;text-align:center;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+<div class="photo-placeholder" style="width:100%;height:90px;margin-bottom:8px">🌅 E65, Croatie</div>
+<div style="font-size:.7rem">"Jour 3 commence !"</div>
+<div style="font-size:.55rem;color:#64748b;margin-top:4px">━━━━━━━━━━━━━━━━━━</div>
+</div>
+<div style="display:flex;gap:8px;padding:8px;align-items:center">
+<span style="font-size:.7rem">😍 😂 👍</span>
+<input style="flex:1;background:#ffffff10;border:none;border-radius:8px;padding:6px;color:#fff;font-size:.65rem" placeholder="Repondre...">
+</div>
+</div></div>
+<p class="desc">Stories 24h style Instagram. Moments rapides depuis la route. Reactions et reponses.</p>
+</div>
+
+<!-- 13 -->
+<div class="card" id="d13">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#22c55e,#16a34a)">13</div>
+<h2>Voice / Radio</h2>
+<span class="tag" style="background:#22c55e20;color:#4ade80">Audio</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Salons</span><span class="inactive">Texte</span><span class="inactive">Programme</span></div>
+<div class="phone-body">
+<div class="section-title">🔴 En direct</div>
+<div class="voice-room"><div class="live"></div><div style="flex:1"><b style="font-size:.7rem">General Hangout</b><div style="font-size:.55rem;color:#64748b">Marie, Pedro, Tom · 12 a l'ecoute</div></div><span style="font-size:.6rem;color:#22c55e">Rejoindre</span></div>
+<div class="voice-room"><div class="live"></div><div style="flex:1"><b style="font-size:.7rem">Europe Chat</b><div style="font-size:.55rem;color:#64748b">Ana, Lucas · 5 a l'ecoute</div></div><span style="font-size:.6rem;color:#22c55e">Rejoindre</span></div>
+<div class="voice-room"><div class="live"></div><div style="flex:1"><b style="font-size:.7rem">Story Time 🎙️</b><div style="font-size:.55rem;color:#64748b">Pedro raconte... · 8 a l'ecoute</div></div><span style="font-size:.6rem;color:#22c55e">Rejoindre</span></div>
+<div class="section-title" style="margin-top:8px">Programme</div>
+<div class="row"><div class="row-text"><b>Soiree autostoppeurs</b><small>Ven 20h CET · 14 interesses</small></div></div>
+</div></div>
+<p class="desc">Style Discord. Salons vocaux pour discuter pendant l'attente. Fonctionne en 2G/3G.</p>
+</div>
+
+<!-- 14 -->
+<div class="card" id="d14">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">14</div>
+<h2>Wiki Autostop</h2>
+<span class="tag" style="background:#0ea5e920;color:#38bdf8">Savoir</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Parcourir</span><span class="inactive">Recents</span><span class="inactive">Mes edits</span></div>
+<div class="phone-body">
+<div style="background:#ffffff10;border-radius:8px;padding:6px;margin-bottom:8px;font-size:.65rem;color:#94a3b8">🔍 Chercher dans le wiki...</div>
+<div class="section-title">Categories</div>
+<div class="wiki-cat">🗺️ <span>Routes (234 pages)</span></div>
+<div class="wiki-cat">🏙️ <span>Villes (512 pages)</span></div>
+<div class="wiki-cat">🛂 <span>Frontieres (89 pages)</span></div>
+<div class="wiki-cat">📖 <span>Techniques (45 pages)</span></div>
+<div class="wiki-cat">⚖️ <span>Lois par pays (52 pages)</span></div>
+<div class="section-title" style="margin-top:6px">Populaire</div>
+<div class="row"><div class="row-text"><b>"Paris → Berlin - Guide complet"</b><small>Maj il y a 2j · Qualite: 95%</small></div></div>
+</div></div>
+<p class="desc">Style Wikipedia. Base de connaissances collaborative. Chaque route et ville a sa page editable.</p>
+</div>
+
+<!-- 15 -->
+<div class="card" id="d15">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#eab308,#ca8a04)">15</div>
+<h2>Reseau de Confiance</h2>
+<span class="tag" style="background:#eab30820;color:#facc15">Trust</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Mon profil</span><span class="inactive">Avis</span><span class="inactive">Verifier</span></div>
+<div class="phone-body" style="text-align:center">
+<div style="font-size:2rem;margin-bottom:4px">👩</div>
+<div style="font-weight:700;font-size:.8rem">Marie L.</div>
+<div style="font-size:.7rem;color:#fbbf24;margin:4px 0">Score de confiance: 87/100</div>
+<div class="trust-bar"><div class="trust-fill" style="width:87%"></div></div>
+<div style="text-align:left;margin-top:8px">
+<div class="section-title">Verifications</div>
+<div style="font-size:.65rem;margin-bottom:2px">☑️ Email verifie</div>
+<div style="font-size:.65rem;margin-bottom:2px">☑️ Telephone verifie</div>
+<div style="font-size:.65rem;margin-bottom:2px">☑️ Piece d'identite</div>
+<div style="font-size:.65rem;color:#64748b">⬜ Reseaux sociaux (0/3)</div>
+</div>
+<div style="text-align:left;margin-top:8px">
+<div class="section-title">Stats</div>
+<div style="font-size:.65rem">14 compagnons · 4.8⭐ moyenne · 23 voyages</div>
+</div>
+</div></div>
+<p class="desc">Profil de confiance visible. Score base sur verifications, avis des compagnons, historique. La confiance se merite.</p>
+</div>
+
+<!-- 16 -->
+<div class="card" id="d16">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#78716c,#57534e)">16</div>
+<h2>Ride Board</h2>
+<span class="tag" style="background:#78716c20;color:#a8a29e">Annonces</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Trajets</span><span class="inactive">Demandes</span><span class="inactive">Poster</span></div>
+<div class="phone-body">
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;color:#10b981">🚗 OFFRE</span><b style="font-size:.7rem">Lyon → Barcelone</b><div style="font-size:.6rem;color:#64748b">Demain 8h · 2 places · @Lucas</div></div>
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;color:#3b82f6">🙋 DEMANDE</span><b style="font-size:.7rem">Berlin → Prague</b><div style="font-size:.6rem;color:#64748b">23 juin · Flexible · @Ana</div></div>
+<div class="row" style="flex-direction:column;align-items:stretch"><span style="font-size:.55rem;color:#10b981">🚗 OFFRE</span><b style="font-size:.7rem">Amsterdam → Bruxelles</b><div style="font-size:.6rem;color:#64748b">Aujourd'hui 14h · 3 places · @Tom</div></div>
+</div></div>
+<p class="desc">Petites annonces de trajets. Offres et demandes. Comme BlaBlaCar mais gratuit et pour autostoppeurs.</p>
+</div>
+
+<!-- 17 -->
+<div class="card" id="d17">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#f97316,#c2410c)">17</div>
+<h2>Campfire</h2>
+<span class="tag" style="background:#f9731620;color:#fb923c">Chill</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Feux de camp</span><span class="inactive">Mes invites</span></div>
+<div class="phone-body" style="text-align:center">
+<div style="font-size:2rem;margin-bottom:8px">🔥</div>
+<div style="font-weight:700;font-size:.8rem;margin-bottom:4px">Feu de camp du soir</div>
+<div style="font-size:.6rem;color:#64748b;margin-bottom:8px">Theme: "Votre meilleur souvenir de stop"</div>
+<div style="text-align:left">
+<div class="row"><div class="av" style="background:#f59e0b30;width:24px;height:24px;font-size:.6rem">M</div><div class="row-text"><b style="font-size:.65rem">Marie</b><small>"En Turquie, un camionneur m'a invite a diner chez sa famille..."</small></div></div>
+<div class="row"><div class="av" style="background:#3b82f630;width:24px;height:24px;font-size:.6rem">P</div><div class="row-text"><b style="font-size:.65rem">Pedro</b><small>"3 jours colles en Islande, on a fini par marcher 20km..."</small></div></div>
+</div>
+</div></div>
+<p class="desc">Rassemblements asynchrones autour de themes. Comme un feu de camp ou chacun partage son histoire.</p>
+</div>
+
+<!-- 18 -->
+<div class="card" id="d18">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#06b6d4,#0e7490)">18</div>
+<h2>Radar Proximite</h2>
+<span class="tag" style="background:#06b6d420;color:#22d3ee">Temps reel</span>
+</div>
+<div class="phone">
+<div class="phone-body" style="text-align:center">
+<div style="width:150px;height:150px;border-radius:50%;border:2px solid #06b6d430;margin:0 auto;position:relative;display:flex;align-items:center;justify-content:center">
+<div style="width:100px;height:100px;border-radius:50%;border:1px solid #06b6d420;position:absolute"></div>
+<div style="width:50px;height:50px;border-radius:50%;border:1px solid #06b6d415;position:absolute"></div>
+<div style="font-size:1.2rem">📍</div>
+<div class="map-dot" style="background:#f59e0b40;top:20%;left:60%;width:16px;height:16px;font-size:.5rem">M</div>
+<div class="map-dot" style="background:#10b98140;bottom:25%;left:15%;width:16px;height:16px;font-size:.5rem">P</div>
+</div>
+<div style="font-size:.6rem;color:#64748b;margin-top:8px">2 autostoppeurs dans un rayon de 5 km</div>
+<div style="text-align:left;margin-top:8px">
+<div class="row"><div class="av" style="background:#f59e0b30;width:24px;height:24px;font-size:.6rem">M</div><div class="row-text"><b style="font-size:.65rem">Marie · 1.2 km</b><small>→ Berlin</small></div></div>
+<div class="row"><div class="av" style="background:#10b98130;width:24px;height:24px;font-size:.6rem">P</div><div class="row-text"><b style="font-size:.65rem">Pedro · 3.0 km</b><small>En attente</small></div></div>
+</div>
+</div></div>
+<p class="desc">Radar style sonar. Voit les autostoppeurs proches en temps reel. Envoie un message en un tap.</p>
+</div>
+
+<!-- 19 -->
+<div class="card" id="d19">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#84cc16,#65a30d)">19</div>
+<h2>Mentorat</h2>
+<span class="tag" style="background:#84cc1620;color:#a3e635">Entraide</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Trouver mentor</span><span class="inactive">Mes sessions</span></div>
+<div class="phone-body">
+<div class="section-title">Mentors disponibles</div>
+<div class="row"><div class="av" style="background:#84cc1630;width:32px;height:32px">👨</div><div class="row-text"><b>Pedro · 50 000 km</b><small>Expert Balkans · ⭐ 4.9 · FR/EN/ES</small></div></div>
+<div class="row"><div class="av" style="background:#f59e0b30;width:32px;height:32px">👩</div><div class="row-text"><b>Marie · 30 000 km</b><small>Experte solo F · ⭐ 4.8 · FR/EN</small></div></div>
+<div class="row"><div class="av" style="background:#3b82f630;width:32px;height:32px">👨</div><div class="row-text"><b>Tom · 80 000 km</b><small>Expert long-courrier · ⭐ 5.0 · EN/DE</small></div></div>
+<div style="margin-top:8px;font-size:.6rem;color:#64748b;text-align:center">Un mentor t'aide a preparer ton premier voyage, repond a tes questions et te rassure.</div>
+</div></div>
+<p class="desc">Les autostoppeurs experimentes guident les debutants. Sessions de conseil, Q&A, preparation de voyage.</p>
+</div>
+
+<!-- 20 -->
+<div class="card" id="d20">
+<div class="card-head">
+<div class="num" style="background:linear-gradient(135deg,#f59e0b,#10b981)">20</div>
+<h2>Hybrid Hub ⭐</h2>
+<span class="tag" style="background:#f59e0b20;color:#fbbf24">Recommande</span>
+</div>
+<div class="phone">
+<div class="phone-bar"><span class="active">Feed</span><span class="inactive">Messages</span><span class="inactive">Proches</span><span class="inactive">Securite</span></div>
+<div class="phone-body">
+<div style="display:flex;gap:8px;margin-bottom:8px;overflow-x:auto">
+<div style="text-align:center;flex-shrink:0"><div class="av" style="background:#f59e0b30;border:2px solid #f59e0b;width:32px;height:32px;font-size:.6rem">+</div><div style="font-size:.45rem">Story</div></div>
+<div style="text-align:center;flex-shrink:0"><div class="av" style="background:#ec489930;border:2px solid #ec4899;width:32px;height:32px;font-size:.6rem">M</div><div style="font-size:.45rem">Marie</div></div>
+<div style="text-align:center;flex-shrink:0"><div class="av" style="background:#3b82f630;border:2px solid #3b82f6;width:32px;height:32px;font-size:.6rem">P</div><div style="font-size:.45rem">Pedro</div></div>
+</div>
+<div class="row" style="flex-direction:column;align-items:stretch">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><div class="av" style="background:#ec489930;width:22px;height:22px;font-size:.55rem">M</div><b style="font-size:.65rem">Marie</b><small style="color:#64748b;margin-left:auto;font-size:.55rem">2h</small></div>
+<div class="photo-placeholder" style="height:40px;font-size:.5rem">🌅 Photo route</div>
+<div class="actions"><span>❤️ 23</span><span>💬 5</span></div>
+</div>
+<div style="background:#10b98115;border-radius:8px;padding:6px;font-size:.6rem;display:flex;align-items:center;gap:6px;margin-top:4px">
+<span style="font-size:.8rem">📍</span>
+<div><b>2 autostoppeurs proches</b><br><span style="color:#64748b">Marie 1.2km · Pedro 3km</span></div>
+</div>
+</div></div>
+<p class="desc">Le meilleur de tout : feed + messages + radar proximite + securite. 4 onglets, tout est la. <b>C'est ma recommandation.</b></p>
+</div>
+
+<footer>
+SpotHitch 2026 — Choisis ton/tes design(s) prefere(s) et dis-le moi !
+</footer>
+
+</body>
+</html>

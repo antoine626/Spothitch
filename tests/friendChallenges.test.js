@@ -512,7 +512,8 @@ describe('Friend Challenges Service', () => {
       const html = renderChallengeCard(updated);
 
       expect(html).toContain('Gagne');
-      expect(html).toContain('Points gagnés');
+      expect(html).toContain('Pouces');
+
     });
 
     it('should include challenge icon and name', () => {

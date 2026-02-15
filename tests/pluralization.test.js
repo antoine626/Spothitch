@@ -206,8 +206,8 @@ describe('Pluralization Service', () => {
     })
 
     it('should format count with point', () => {
-      expect(formatCount(100, 'point', 'fr')).toBe('100 points')
-      expect(formatCount(1, 'point', 'de')).toBe('1 Punkt')
+      expect(formatCount(100, 'point', 'fr')).toBe('100 pouces')
+      expect(formatCount(1, 'point', 'de')).toBe('1 Daumen')
     })
 
     it('should format count with jour/day', () => {
@@ -414,7 +414,7 @@ describe('Pluralization Service', () => {
         { count: 2, key: 'badge' }
       ]
       const result = formatCounts(items, 'en', ' | ')
-      expect(result).toBe('10 points | 2 badges')
+      expect(result).toBe('10 thumbs | 2 badges')
     })
 
     it('should return empty string for empty array', () => {
@@ -506,7 +506,7 @@ describe('Pluralization Service', () => {
     })
 
     it('should handle very large numbers', () => {
-      expect(formatCount(999999, 'point', 'fr')).toBe('999999 points')
+      expect(formatCount(999999, 'point', 'fr')).toBe('999999 pouces')
     })
 
     it('should handle zero with different languages', () => {
