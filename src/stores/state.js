@@ -82,6 +82,11 @@ const initialState = {
   tripFrom: '',
   tripTo: '',
   tripResults: null,
+  showTripMap: false,
+  tripLoading: false,
+  showRouteAmenities: false,
+  routeAmenities: [],
+  loadingRouteAmenities: false,
   searchCountry: null,
 
   // Gamification

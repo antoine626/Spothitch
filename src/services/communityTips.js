@@ -5,6 +5,7 @@
 
 import { Storage } from '../utils/storage.js'
 import { icon } from '../utils/icons.js'
+import { t } from '../i18n/index.js'
 
 const TIPS_KEY = 'spothitch_community_tips'
 
@@ -62,7 +63,7 @@ export function renderCommunityTips(countryCode) {
     <div class="card p-4 space-y-3">
       <h3 class="font-bold flex items-center gap-2">
         ${icon('users', 'w-5 h-5 text-primary-400')}
-        Conseils de la communaute
+        ${t('communityTipsTitle') || 'Conseils de la communaute'}
       </h3>
 
       <!-- Add tip form -->
@@ -71,7 +72,7 @@ export function renderCommunityTips(countryCode) {
           type="text"
           id="community-tip-input"
           class="input-field flex-1"
-          placeholder="Partage un conseil..."
+          placeholder="${t('communityTipsPlaceholder') || 'Partage un conseil...'}"
           onkeydown="if(event.key==='Enter') submitCommunityTip('${countryCode}')"
         />
         <button
@@ -102,7 +103,7 @@ export function renderCommunityTips(countryCode) {
           `).join('')}
         </div>
       ` : `
-        <p class="text-sm text-slate-500 text-center py-2">Aucun conseil pour ce pays. Sois le premier !</p>
+        <p class="text-sm text-slate-500 text-center py-2">${t('communityTipsEmpty') || 'Aucun conseil pour ce pays. Sois le premier !'}</p>
       `}
     </div>
   `
@@ -116,7 +117,7 @@ window.submitCommunityTip = (countryCode) => {
 
   addTip(countryCode, text)
   input.value = ''
-  window.showToast?.('Conseil ajoute !', 'success')
+  window.showToast?.(t('communityTipsAdded') || 'Conseil ajoute !', 'success')
 
   // Re-render the guide detail
   window.setState?.({ selectedCountryGuide: countryCode })
@@ -125,12 +126,12 @@ window.submitCommunityTip = (countryCode) => {
 window.voteCommunityTip = (tipId, direction) => {
   const success = voteTip(tipId, direction)
   if (success) {
-    window.showToast?.('Vote enregistre !', 'success')
+    window.showToast?.(t('communityTipsVoteAdded') || 'Vote enregistre !', 'success')
     // Force re-render
     const state = window.getState?.() || {}
     window.setState?.({ selectedCountryGuide: state.selectedCountryGuide })
   } else {
-    window.showToast?.('Deja vote', 'info')
+    window.showToast?.(t('communityTipsAlreadyVoted') || 'Deja vote', 'info')
   }
 }
 

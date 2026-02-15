@@ -206,6 +206,8 @@ const MAIN_JS_HANDLERS = [
   'companionCheckIn', 'companionSendAlert',
   // Gas Stations (navigation)
   'toggleGasStations',
+  // Community Tips (defined in communityTips.js)
+  'submitCommunityTip', 'voteCommunityTip',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

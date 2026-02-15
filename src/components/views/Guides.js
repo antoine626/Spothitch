@@ -7,6 +7,7 @@
 import { t } from '../../i18n/index.js'
 import { countryGuides, getGuideByCode } from '../../data/guides.js'
 import { icon } from '../../utils/icons.js'
+import { renderCommunityTips } from '../../services/communityTips.js'
 
 const GUIDE_SECTIONS = [
   { id: 'start', icon: 'compass', color: 'amber', labelKey: 'guideStart', fallback: 'Débuter' },
@@ -577,6 +578,9 @@ export function renderCountryDetail(guideOrCode) {
           <p class="text-slate-300 text-sm leading-relaxed">${isEn && guide.culturalNotesEn ? guide.culturalNotesEn : guide.culturalNotes}</p>
         </div>
       ` : ''}
+
+      <!-- Community Tips -->
+      ${renderCommunityTips(guide.code)}
     </div>
   `
 }

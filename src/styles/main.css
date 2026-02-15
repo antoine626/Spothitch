@@ -165,6 +165,10 @@
     @apply bg-dark-primary/60 backdrop-blur-xl border-b border-white/5;
   }
 
+  .light-theme .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-slate-200 shadow-sm shadow-slate-300/10;
+  }
+
   .light-theme .glass-dark {
     @apply bg-white/90 backdrop-blur-xl border-slate-200;
   }
@@ -255,6 +259,10 @@
 
   .admin-btn:hover {
     @apply bg-white/15;
+  }
+
+  .light-theme .admin-btn {
+    @apply bg-slate-100 text-slate-700 hover:bg-slate-200;
   }
 
   /* Light theme buttons */
@@ -481,6 +489,14 @@
 
   .photo-upload:hover {
     @apply border-primary-500 bg-primary-500/10;
+  }
+
+  .light-theme .photo-upload {
+    @apply border-slate-300 bg-slate-50;
+  }
+
+  .light-theme .photo-upload:hover {
+    @apply border-orange-500 bg-orange-50;
   }
 
   .photo-upload.has-photo {
@@ -1327,7 +1343,15 @@ textarea[aria-invalid="true"] {
   --color-border: #e2e8f0;
 }
 
-/* Light theme - Navigation */
+/* Light theme - Navigation bar */
+.light-theme nav[role="navigation"] {
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  border-color: rgb(226 232 240);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Light theme - Navigation buttons */
 .light-theme .nav-btn {
   @apply text-slate-600;
 }
@@ -1344,6 +1368,11 @@ textarea[aria-invalid="true"] {
 .light-theme header {
   background-color: rgba(255, 255, 255, 0.9);
   border-color: rgb(226 232 240);
+}
+
+/* Light theme - Side menu */
+.light-theme .bg-dark-secondary\/95 {
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 /* Light theme - Cards and containers */
@@ -1373,6 +1402,22 @@ textarea[aria-invalid="true"] {
 
 .light-theme .bg-white\/20 {
   @apply bg-slate-200;
+}
+
+.light-theme .border-white\/20 {
+  @apply border-slate-200;
+}
+
+.light-theme .bg-black\/70 {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.light-theme .bg-black\/60 {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.light-theme .shadow-black\/30 {
+  --tw-shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Dark theme - Inputs (base) */
