@@ -87,7 +87,7 @@ export function renderWeeklyLeaderboardModal() {
               <div class="flex-1">
                 <div class="font-bold text-white">${currentUser.username}</div>
                 <div class="text-white/70 text-sm">
-                  ${currentUser.weeklyPoints.toLocaleString()} ${t('ptsThisWeek') || 'pts this week'}
+                  ${currentUser.weeklyPoints.toLocaleString()} 👍
                 </div>
               </div>
               <div class="text-right">
@@ -96,7 +96,7 @@ export function renderWeeklyLeaderboardModal() {
                   <div class="text-white/70 text-xs">${t('yourRank') || 'Your rank'}</div>
                 ` : `
                   <div class="text-white/70 text-sm">${t('notRanked') || 'Not ranked'}</div>
-                  <div class="text-white/50 text-xs">${t('earnPoints') || 'Earn points!'}</div>
+                  <div class="text-white/50 text-xs">${t('earnPoints') || 'Earn thumbs!'}</div>
                 `}
               </div>
             </div>
@@ -211,7 +211,7 @@ function renderPodiumPlace(user, position) {
         ${position === 1 ? '<div class="absolute -top-2 left-1/2 -translate-x-1/2 text-lg animate-pulse">👑</div>' : ''}
       </div>
       <div class="text-white font-medium text-sm truncate max-w-20">${user.username}</div>
-      <div class="text-emerald-400 text-xs font-bold">${user.weeklyPoints.toLocaleString()} pts</div>
+      <div class="text-emerald-400 text-xs font-bold">${user.weeklyPoints.toLocaleString()} 👍</div>
       <div class="mt-2 w-20 ${style.height} rounded-t-lg bg-gradient-to-b ${style.bg} border-2 ${style.border} ${style.glow} flex items-start justify-center pt-2 transition-all hover:scale-105">
         <span class="text-2xl">${style.medal}</span>
       </div>
@@ -242,7 +242,7 @@ function renderLeaderboardRow(user, rank, currentUserRank) {
       </div>
       <div class="text-right">
         <div class="text-emerald-400 font-bold">${user.weeklyPoints.toLocaleString()}</div>
-        <div class="text-slate-500 text-xs">${t('points') || 'points'}</div>
+        <div class="text-slate-500 text-xs">👍</div>
       </div>
     </div>
   `;
@@ -307,27 +307,27 @@ function renderRewardsTab() {
       <div>
         <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
           <span>⚡</span>
-          ${t('howToEarnPoints') || 'How to earn points?'}
+          ${t('howToEarnPoints') || 'How to earn thumbs?'}
         </h3>
         <div class="grid grid-cols-2 gap-3">
           <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">📍</div>
-            <div class="text-emerald-400 font-bold">+5 pts</div>
+            <div class="text-emerald-400 font-bold">+5 👍</div>
             <div class="text-slate-500 text-xs">Check-in</div>
           </div>
           <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">➕</div>
-            <div class="text-emerald-400 font-bold">+20 pts</div>
+            <div class="text-emerald-400 font-bold">+20 👍</div>
             <div class="text-slate-500 text-xs">${t('addSpot') || 'New spot'}</div>
           </div>
           <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">⭐</div>
-            <div class="text-emerald-400 font-bold">+10 pts</div>
+            <div class="text-emerald-400 font-bold">+10 👍</div>
             <div class="text-slate-500 text-xs">${t('reviewLabel') || 'Review'}</div>
           </div>
           <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">🧠</div>
-            <div class="text-emerald-400 font-bold">+50 pts</div>
+            <div class="text-emerald-400 font-bold">+50 👍</div>
             <div class="text-slate-500 text-xs">${t('perfectQuiz') || 'Perfect quiz'}</div>
           </div>
         </div>
@@ -366,7 +366,7 @@ function renderHistoryTab() {
                 <span class="text-lg">${index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}</span>
                 <span class="text-xl">${player.avatar}</span>
                 <span class="text-white flex-1">${player.username}</span>
-                <span class="text-emerald-400 font-bold">${player.weeklyPoints.toLocaleString()} pts</span>
+                <span class="text-emerald-400 font-bold">${player.weeklyPoints.toLocaleString()} 👍</span>
               </div>
             `).join('')}
           </div>
@@ -429,7 +429,7 @@ export function renderWeeklyLeaderboardWidget(state) {
             <span class="text-xl">${player.avatar}</span>
             <div class="hidden sm:block">
               <div class="text-white text-sm truncate max-w-16">${player.username}</div>
-              <div class="text-emerald-400 text-xs">${player.weeklyPoints} pts</div>
+              <div class="text-emerald-400 text-xs">${player.weeklyPoints} 👍</div>
             </div>
           </div>
         `).join('')}

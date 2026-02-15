@@ -52,7 +52,7 @@ export function renderMap(state) {
           >
             <span class="text-amber-400">🏆</span>
             <span class="font-bold text-white">${state.points || 0}</span>
-            <span class="text-slate-400 text-xs">pts</span>
+            <span class="text-slate-400 text-xs">👍</span>
           </button>
           <button
             onclick="openStats()"

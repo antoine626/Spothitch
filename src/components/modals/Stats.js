@@ -211,7 +211,7 @@ export function renderStatsModal() {
                   </div>
                   <div>
                     <div class="text-white font-bold">${t('level') || 'Niveau'} ${summary.level}</div>
-                    <div class="text-slate-500 text-xs">${summary.points} pts</div>
+                    <div class="text-slate-500 text-xs">${summary.points} 👍</div>
                   </div>
                 </div>
                 <div class="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -233,7 +233,7 @@ export function renderStatsModal() {
                   <div>
                     <div class="text-white font-bold">${summary.vipLevel.name}</div>
                     <div class="text-slate-500 text-xs">
-                      ${summary.nextVip ? `${summary.pointsToNextVip} pts ${t('toNext') || 'au suivant'}` : (t('maxReached') || 'Max atteint')}
+                      ${summary.nextVip ? `${summary.pointsToNextVip} 👍 ${t('toNext') || 'au suivant'}` : (t('maxReached') || 'Max atteint')}
                     </div>
                   </div>
                 </div>
@@ -259,7 +259,7 @@ export function renderStatsModal() {
 }
                   <div>
                     <div class="text-white font-bold">${summary.league.name}</div>
-                    <div class="text-slate-500 text-xs">${state.seasonPoints || 0} pts ${t('season') || 'saison'}</div>
+                    <div class="text-slate-500 text-xs">${state.seasonPoints || 0} 👍 ${t('season') || 'saison'}</div>
                   </div>
                 </div>
                 ${leagueProgress.next ? `
@@ -314,7 +314,7 @@ export function renderStatsModal() {
                     <div class="text-white text-sm">${achievement.title}</div>
                     <div class="text-slate-500 text-xs">${formatDate(achievement.date)}</div>
                   </div>
-                  <span class="text-amber-400 text-sm">+${achievement.points}</span>
+                  <span class="text-amber-400 text-sm">+${achievement.points} 👍</span>
                 </div>
               `).join('') || `
                 <div class="text-center py-4 text-slate-500 text-sm">

@@ -200,10 +200,10 @@ function renderRewardResult(result) {
         <div class="p-6 space-y-4">
           <!-- Points -->
           <div class="bg-amber-500/20 rounded-xl p-4">
-            <div class="text-amber-400 text-sm mb-1">Points gagnes</div>
+            <div class="text-amber-400 text-sm mb-1">Pouces gagnes</div>
             <div class="text-4xl font-bold text-white flex items-center justify-center gap-2">
               <span>+${result.points}</span>
-              <span class="text-amber-400">pts</span>
+              <span class="text-amber-400">👍</span>
             </div>
           </div>
 

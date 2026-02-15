@@ -429,7 +429,7 @@ export function renderInviteCard() {
         <div class="mb-4">
           <div class="flex justify-between text-xs text-slate-400 mb-1">
             <span>${t('nextMilestone')}: ${stats.nextMilestone} ${t('invites')}</span>
-            <span>+${stats.milestoneReward} pts</span>
+            <span>+${stats.milestoneReward} 👍</span>
           </div>
           <div class="bg-white/5 rounded-full h-2 overflow-hidden">
             <div class="bg-primary h-full transition-all" style="width: ${((stats.totalInvites / stats.nextMilestone) * 100).toFixed(0)}%"></div>
@@ -508,11 +508,11 @@ export function renderInviteModal() {
             <div class="space-y-2 text-sm">
               <div class="flex justify-between text-slate-300">
                 <span>${t('youGet')}</span>
-                <span class="text-primary font-bold">+${rewards.inviterReward} pts</span>
+                <span class="text-primary font-bold">+${rewards.inviterReward} 👍</span>
               </div>
               <div class="flex justify-between text-slate-300">
                 <span>${t('friendGets')}</span>
-                <span class="text-green-400 font-bold">+${rewards.inviteeReward} pts</span>
+                <span class="text-green-400 font-bold">+${rewards.inviteeReward} 👍</span>
               </div>
             </div>
             <div class="mt-3 pt-3 border-t border-white/10">

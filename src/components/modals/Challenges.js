@@ -1,6 +1,6 @@
 /**
  * Challenges Modal Component
- * Daily, weekly, and long-term challenges
+ * Weekly, monthly, and annual challenges
  */
 
 import { getState } from '../../stores/state.js';
@@ -12,7 +12,7 @@ import { getActiveChallenges } from '../../data/challenges.js';
  */
 export function renderChallengesModal() {
   const state = getState();
-  const { showChallenges, lang = 'fr', challengeTab = 'daily' } = state;
+  const { showChallenges, lang = 'fr', challengeTab = 'weekly' } = state;
 
   if (!showChallenges) return '';
 
@@ -46,7 +46,7 @@ export function renderChallengesModal() {
           <div class="flex justify-between items-start">
             <div>
               <h2 id="challenges-title" class="text-2xl font-bold text-white">Defis</h2>
-              <p class="text-white/80">Complete des defis pour gagner des points !</p>
+              <p class="text-white/80">Complete des defis pour gagner des pouces !</p>
             </div>
             <button onclick="closeChallenges()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
@@ -59,39 +59,22 @@ export function renderChallengesModal() {
 
         <!-- Tabs -->
         <div class="flex border-b border-white/10">
-          <button onclick="setChallengeTab('daily')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'daily' ? 'text-primary-400 border-b-2 border-primary-400' : 'text-slate-500 hover:text-slate-300'}">
-            Quotidien
-          </button>
           <button onclick="setChallengeTab('weekly')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'weekly' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-slate-500 hover:text-slate-300'}">
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'weekly' ? 'text-primary-400 border-b-2 border-primary-400' : 'text-slate-500 hover:text-slate-300'}">
             Hebdo
           </button>
-          <button onclick="setChallengeTab('longterm')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'longterm' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
-            Long terme
+          <button onclick="setChallengeTab('monthly')"
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'monthly' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-slate-500 hover:text-slate-300'}">
+            Mensuel
+          </button>
+          <button onclick="setChallengeTab('annual')"
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'annual' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
+            Annuel
           </button>
         </div>
 
         <!-- Content -->
         <div class="flex-1 overflow-y-auto p-5">
-          ${challengeTab === 'daily' ? `
-            <!-- Daily Challenges -->
-            <section>
-              <div class="flex items-center justify-between mb-3">
-                <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">
-                  Défis du jour
-                </h3>
-                <span class="text-xs text-slate-500">
-                  Renouvellement dans ${getTimeUntilMidnight()}
-                </span>
-              </div>
-              <div class="space-y-4">
-                ${challenges.daily.map(c => renderChallengeCard(c, lang, 'daily')).join('')}
-              </div>
-            </section>
-          ` : ''}
-
           ${challengeTab === 'weekly' ? `
             <!-- Weekly Challenges -->
             <section>
@@ -109,14 +92,31 @@ export function renderChallengesModal() {
             </section>
           ` : ''}
 
-          ${challengeTab === 'longterm' ? `
-            <!-- Long-term Challenges -->
+          ${challengeTab === 'monthly' ? `
+            <!-- Monthly Challenges -->
+            <section>
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">
+                  Défis du mois
+                </h3>
+                <span class="text-xs text-slate-500">
+                  ${getDaysUntilEndOfMonth()} jours restants
+                </span>
+              </div>
+              <div class="space-y-4">
+                ${challenges.monthly.map(c => renderChallengeCard(c, lang, 'monthly')).join('')}
+              </div>
+            </section>
+          ` : ''}
+
+          ${challengeTab === 'annual' ? `
+            <!-- Annual Challenges -->
             <section>
               <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
-                Objectifs long terme
+                Objectifs annuels
               </h3>
               <div class="space-y-4">
-                ${challenges.longterm.map(c => renderChallengeCard(c, lang, 'longterm')).join('')}
+                ${challenges.annual.map(c => renderChallengeCard(c, lang, 'annual')).join('')}
               </div>
             </section>
           ` : ''}
@@ -129,16 +129,16 @@ export function renderChallengesModal() {
 /**
  * Render a single challenge card
  */
-export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
+export function renderChallengeCard(challenge, lang = 'fr', type = 'weekly') {
   const name = lang === 'en' && challenge.nameEn ? challenge.nameEn : challenge.name;
   const description = lang === 'en' && challenge.descriptionEn ? challenge.descriptionEn : challenge.description;
   const progressPercent = Math.min(challenge.progress * 100, 100);
   const isCompleted = challenge.completed;
 
   const typeColors = {
-    daily: 'from-primary-500 to-primary-600',
-    weekly: 'from-purple-500 to-pink-500',
-    longterm: 'from-amber-500 to-orange-500',
+    weekly: 'from-primary-500 to-primary-600',
+    monthly: 'from-purple-500 to-pink-500',
+    annual: 'from-amber-500 to-orange-500',
   };
 
   return `
@@ -176,7 +176,7 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
 
           <!-- Reward -->
           <div class="flex items-center gap-3 mt-2 text-xs">
-            <span class="text-amber-400">+${challenge.points} pts</span>
+            <span class="text-amber-400">+${challenge.points} 👍</span>
             <span class="text-purple-400">+${challenge.xp} XP</span>
           </div>
         </div>
@@ -186,18 +186,12 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'daily') {
 }
 
 /**
- * Get time until midnight
+ * Get days until end of month
  */
-function getTimeUntilMidnight() {
+function getDaysUntilEndOfMonth() {
   const now = new Date();
-  const midnight = new Date(now);
-  midnight.setHours(24, 0, 0, 0);
-
-  const diff = midnight - now;
-  const hours = Math.floor(diff / 3600000);
-  const minutes = Math.floor((diff % 3600000) / 60000);
-
-  return `${hours}h ${minutes}min`;
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  return lastDay - now.getDate();
 }
 
 /**

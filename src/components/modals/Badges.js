@@ -81,7 +81,7 @@ export function renderBadgesModal() {
     : `<div class="text-3xl mb-2 grayscale">${badge.icon}</div>`
 }
                     <div class="text-white text-xs font-medium">${badge.name}</div>
-                    <div class="text-slate-500 text-xs mt-1">+${badge.points} pts</div>
+                    <div class="text-slate-500 text-xs mt-1">+${badge.points} 👍</div>
                   </div>
                 `).join('')}
               </div>
@@ -170,7 +170,7 @@ export function renderBadgePopup() {
 
           <div class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 rounded-full text-amber-400 mb-6">
             <span>+${newBadge.points}</span>
-            <span>points</span>
+            <span>👍</span>
           </div>
 
           <button onclick="dismissBadgePopup()"
@@ -211,7 +211,7 @@ export function renderBadgeDetail(badgeId) {
           <div class="flex justify-center gap-4 text-sm">
             <div class="text-center">
               <div class="text-amber-400 font-bold">${badge.points}</div>
-              <div class="text-slate-500">Points</div>
+              <div class="text-slate-500">👍</div>
             </div>
             <div class="text-center">
               <div class="text-purple-400 font-bold">${badge.category}</div>

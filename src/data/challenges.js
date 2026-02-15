@@ -1,48 +1,9 @@
 /**
  * Challenge Definitions
- * Daily, weekly, and long-term challenges
+ * Weekly, monthly, and annual challenges
  */
 
 export const allChallenges = {
-  daily: [
-    {
-      id: 'daily_checkin',
-      name: 'Check-in du jour',
-      nameEn: 'Daily Check-in',
-      description: 'Fais un check-in aujourd\'hui',
-      descriptionEn: 'Do a check-in today',
-      icon: '📍',
-      target: 1,
-      type: 'checkins',
-      points: 10,
-      xp: 25,
-    },
-    {
-      id: 'daily_review',
-      name: 'Avis quotidien',
-      nameEn: 'Daily Review',
-      description: 'Laisse un avis sur un spot',
-      descriptionEn: 'Leave a review on a spot',
-      icon: '⭐',
-      target: 1,
-      type: 'reviews',
-      points: 15,
-      xp: 30,
-    },
-{
-      id: 'daily_explore',
-      name: 'Découverte',
-      nameEn: 'Discovery',
-      description: 'Consulte 5 spots différents',
-      descriptionEn: 'View 5 different spots',
-      icon: '🔍',
-      target: 5,
-      type: 'spotsViewed',
-      points: 10,
-      xp: 15,
-    },
-  ],
-
   weekly: [
     {
       id: 'weekly_spots',
@@ -94,7 +55,58 @@ export const allChallenges = {
     },
   ],
 
-  longterm: [
+  monthly: [
+    {
+      id: 'monthly_spots',
+      name: 'Grand Cartographe',
+      nameEn: 'Great Cartographer',
+      description: 'Ajoute 10 nouveaux spots ce mois',
+      descriptionEn: 'Add 10 new spots this month',
+      icon: '🗺️',
+      target: 10,
+      type: 'spotsCreated',
+      points: 200,
+      xp: 400,
+    },
+    {
+      id: 'monthly_reviews',
+      name: 'Critique Expert',
+      nameEn: 'Expert Critic',
+      description: 'Laisse 20 avis ce mois',
+      descriptionEn: 'Leave 20 reviews this month',
+      icon: '📝',
+      target: 20,
+      type: 'reviews',
+      points: 150,
+      xp: 300,
+    },
+    {
+      id: 'monthly_checkins',
+      name: 'Infatigable',
+      nameEn: 'Tireless',
+      description: 'Fais 30 check-ins ce mois',
+      descriptionEn: 'Do 30 check-ins this month',
+      icon: '🎯',
+      target: 30,
+      type: 'checkins',
+      points: 250,
+      xp: 500,
+    },
+    {
+      id: 'monthly_countries',
+      name: 'Globe-trotter',
+      nameEn: 'Globe-trotter',
+      description: 'Visite des spots dans 3 pays différents ce mois',
+      descriptionEn: 'Visit spots in 3 different countries this month',
+      icon: '🌍',
+      target: 3,
+      type: 'countriesVisited',
+      points: 180,
+      xp: 360,
+    },
+  ],
+
+  annual: [
     {
       id: 'lt_europe',
       name: 'Tour d\'Europe',
@@ -159,23 +171,6 @@ export const allChallenges = {
 };
 
 /**
- * Get daily challenges
- */
-export function getDailyChallenges() {
-  // Rotate based on day of year
-  const dayOfYear = Math.floor(
-    (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000
-  );
-  const challenges = [...allChallenges.daily];
-  const start = dayOfYear % challenges.length;
-  return [
-    challenges[start],
-    challenges[(start + 1) % challenges.length],
-    challenges[(start + 2) % challenges.length],
-  ];
-}
-
-/**
  * Get weekly challenges
  */
 export function getWeeklyChallenges() {
@@ -193,10 +188,25 @@ export function getWeeklyChallenges() {
 }
 
 /**
- * Get all long-term challenges
+ * Get monthly challenges
  */
-export function getLongtermChallenges() {
-  return allChallenges.longterm;
+export function getMonthlyChallenges() {
+  // Rotate based on month of year
+  const monthOfYear = new Date().getMonth();
+  const challenges = [...allChallenges.monthly];
+  const start = monthOfYear % challenges.length;
+  return [
+    challenges[start],
+    challenges[(start + 1) % challenges.length],
+    challenges[(start + 2) % challenges.length],
+  ];
+}
+
+/**
+ * Get all annual challenges
+ */
+export function getAnnualChallenges() {
+  return allChallenges.annual;
 }
 
 /**
@@ -219,17 +229,17 @@ export function getChallengeProgress(challenge, userStats) {
  */
 export function getActiveChallenges(userStats) {
   return {
-    daily: getDailyChallenges().map(c => getChallengeProgress(c, userStats)),
     weekly: getWeeklyChallenges().map(c => getChallengeProgress(c, userStats)),
-    longterm: getLongtermChallenges().map(c => getChallengeProgress(c, userStats)),
+    monthly: getMonthlyChallenges().map(c => getChallengeProgress(c, userStats)),
+    annual: getAnnualChallenges().map(c => getChallengeProgress(c, userStats)),
   };
 }
 
 export default {
   allChallenges,
-  getDailyChallenges,
   getWeeklyChallenges,
-  getLongtermChallenges,
+  getMonthlyChallenges,
+  getAnnualChallenges,
   getChallengeProgress,
   getActiveChallenges,
 };

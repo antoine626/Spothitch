@@ -77,7 +77,7 @@ export const SEASON_REWARD_TIERS = [
     minPoints: 0,
     icon: '🥉',
     rewards: [
-      { type: 'points', amount: 100, name: 'Bonus points' },
+      { type: 'points', amount: 100, name: 'Bonus 👍' },
     ],
   },
   {
@@ -87,7 +87,7 @@ export const SEASON_REWARD_TIERS = [
     minPoints: 500,
     icon: '🥈',
     rewards: [
-      { type: 'points', amount: 300, name: 'Bonus points' },
+      { type: 'points', amount: 300, name: 'Bonus 👍' },
       { type: 'badge', id: 'season_explorer', name: 'Explorateur saisonnier' },
     ],
   },
@@ -98,7 +98,7 @@ export const SEASON_REWARD_TIERS = [
     minPoints: 1500,
     icon: '🥇',
     rewards: [
-      { type: 'points', amount: 500, name: 'Bonus points' },
+      { type: 'points', amount: 500, name: 'Bonus 👍' },
       { type: 'badge', id: 'season_adventurer', name: 'Aventurier saisonnier' },
       { type: 'title', id: 'season_warrior', name: 'Guerrier saisonnier' },
     ],
@@ -110,7 +110,7 @@ export const SEASON_REWARD_TIERS = [
     minPoints: 3000,
     icon: '🏆',
     rewards: [
-      { type: 'points', amount: 1000, name: 'Bonus points' },
+      { type: 'points', amount: 1000, name: 'Bonus 👍' },
       { type: 'badge', id: 'season_champion', name: 'Champion saisonnier' },
       { type: 'frame', id: 'season_frame', name: 'Cadre saisonnier' },
       { type: 'skin', id: 'season_skin', name: 'Skin exclusif' },
@@ -123,7 +123,7 @@ export const SEASON_REWARD_TIERS = [
     minPoints: 5000,
     icon: '👑',
     rewards: [
-      { type: 'points', amount: 2000, name: 'Bonus points' },
+      { type: 'points', amount: 2000, name: 'Bonus 👍' },
       { type: 'badge', id: 'season_legend', name: 'Legende saisonniere' },
       { type: 'frame', id: 'season_legendary_frame', name: 'Cadre legendaire' },
       { type: 'skin', id: 'season_legendary_skin', name: 'Skin legendaire' },
@@ -834,8 +834,8 @@ export function renderSeasonBanner() {
 
       <div class="bg-white/20 rounded-lg p-3">
         <div class="flex justify-between items-center mb-2">
-          <span class="text-sm">${lang === 'fr' ? 'Tes points' : 'Your points'}</span>
-          <span class="font-bold">${progress.seasonPoints.toLocaleString()} pts</span>
+          <span class="text-sm">${lang === 'fr' ? 'Tes pouces' : 'Your thumbs'}</span>
+          <span class="font-bold">${progress.seasonPoints.toLocaleString()} 👍</span>
         </div>
         <div class="flex justify-between items-center mb-2">
           <span class="text-sm">${lang === 'fr' ? 'Niveau actuel' : 'Current tier'}</span>
@@ -845,7 +845,7 @@ export function renderSeasonBanner() {
           <div class="mt-3">
             <div class="flex justify-between text-xs mb-1">
               <span>${lang === 'fr' ? 'Prochain niveau' : 'Next tier'}: ${lang === 'fr' ? progress.nextTier.name : progress.nextTier.nameEn}</span>
-              <span>${progress.pointsToNextTier} pts</span>
+              <span>${progress.pointsToNextTier} 👍</span>
             </div>
             <div class="bg-white/30 rounded-full h-2 overflow-hidden">
               <div class="bg-white h-full transition-all" style="width: ${Math.round(progress.progressToNextTier * 100)}%"></div>
@@ -895,7 +895,7 @@ export function renderSeasonRewardsContent() {
                 <span class="text-2xl">${tier.icon}</span>
                 <div>
                   <h4 class="font-semibold ${tier.isUnlocked ? 'text-white' : 'text-slate-400'}">${tierName}</h4>
-                  <span class="text-xs text-slate-400">${tier.minPoints.toLocaleString()} pts</span>
+                  <span class="text-xs text-slate-400">${tier.minPoints.toLocaleString()} 👍</span>
                 </div>
               </div>
               ${tier.isUnlocked ? `
@@ -916,7 +916,7 @@ export function renderSeasonRewardsContent() {
             <div class="flex flex-wrap gap-2 mt-2">
               ${tier.rewards.map(reward => `
                 <span class="px-2 py-1 bg-white/5 rounded text-xs ${tier.isUnlocked ? 'text-slate-300' : 'text-slate-500'}">
-                  ${reward.type === 'points' ? `+${reward.amount} pts` : `${getRewardIcon(reward.type)} ${reward.name}`}
+                  ${reward.type === 'points' ? `+${reward.amount} 👍` : `${getRewardIcon(reward.type)} ${reward.name}`}
                 </span>
               `).join('')}
             </div>

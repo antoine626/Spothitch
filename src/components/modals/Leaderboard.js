@@ -97,7 +97,7 @@ export function renderLeaderboardModal() {
               <div class="text-4xl">${currentUser.avatar}</div>
               <div class="flex-1">
                 <div class="font-bold text-white">${currentUser.username}</div>
-                <div class="text-white/70 text-sm">Niveau ${currentUser.level} • ${currentUser.points.toLocaleString()} pts</div>
+                <div class="text-white/70 text-sm">Niveau ${currentUser.level} • ${currentUser.points.toLocaleString()} 👍</div>
               </div>
               <div class="text-right">
                 <div class="text-3xl font-bold text-white">#${currentUser.rank}</div>
@@ -146,7 +146,7 @@ export function renderLeaderboardModal() {
           <div class="flex justify-around text-center">
             <div>
               <div class="text-2xl font-bold text-amber-400">${leaderboardData.reduce((sum, u) => sum + u.points, 0).toLocaleString()}</div>
-              <div class="text-xs text-slate-500">Points totaux</div>
+              <div class="text-xs text-slate-500">${t('totalPoints') || 'Pouces totaux'}</div>
             </div>
             <div>
               <div class="text-2xl font-bold text-emerald-400">${leaderboardData.length * 10}+</div>
@@ -181,7 +181,7 @@ function renderPodiumPlace(user, position) {
     <div class="flex flex-col items-center ${position === 1 ? 'order-2' : position === 2 ? 'order-1' : 'order-3'}">
       <div class="text-3xl mb-2">${user.avatar}</div>
       <div class="text-white font-medium text-sm truncate max-w-20">${user.username}</div>
-      <div class="text-slate-400 text-xs">${user.points.toLocaleString()} pts</div>
+      <div class="text-slate-400 text-xs">${user.points.toLocaleString()} 👍</div>
       <div class="mt-2 w-20 ${style.height} rounded-t-lg bg-gradient-to-b ${style.bg} border-2 ${style.border} flex items-start justify-center pt-2">
         <span class="text-2xl">${style.medal}</span>
       </div>
@@ -208,7 +208,7 @@ function renderLeaderboardRow(user, rank) {
       </div>
       <div class="text-right">
         <div class="text-amber-400 font-bold">${user.points.toLocaleString()}</div>
-        <div class="text-slate-500 text-xs">points</div>
+        <div class="text-slate-500 text-xs">👍</div>
       </div>
     </div>
   `;

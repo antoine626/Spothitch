@@ -33,8 +33,8 @@ export function renderShopModal() {
         <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-8">
           <div class="flex justify-between items-start">
             <div>
-              <h2 id="shop-title" class="text-2xl font-bold text-white">Récompenses</h2>
-              <p class="text-white/80">Échange tes pouces contre des réductions</p>
+              <h2 id="shop-title" class="text-2xl font-bold text-white">${t('rewards') || 'Récompenses'}</h2>
+              <p class="text-white/80">${t('exchangeThumbsForDiscounts') || 'Échange tes pouces contre des réductions'}</p>
             </div>
             <button onclick="closeShop()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
@@ -49,7 +49,7 @@ export function renderShopModal() {
             <div class="text-center">
               <div class="text-4xl mb-1">👍</div>
               <div class="text-3xl font-bold text-white">${userThumbs.toLocaleString()}</div>
-              <div class="text-white/70 text-sm">Pouces disponibles</div>
+              <div class="text-white/70 text-sm">${t('thumbsAvailable') || 'Pouces disponibles'}</div>
             </div>
           </div>
         </div>
@@ -60,8 +60,8 @@ export function renderShopModal() {
             <button onclick="setShopCategory('${cat.id}')"
                     class="shrink-0 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap
                            ${shopCategory === cat.id
-    ? 'bg-primary-500 text-white'
-    : 'bg-white/5 text-slate-400 hover:bg-white/10'}">
+    ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
+    : 'bg-white/10 text-slate-200 border border-white/20 hover:bg-white/15 hover:border-primary-500/30'}">
               ${cat.icon} ${cat.name}
             </button>
           `).join('')}
@@ -76,7 +76,7 @@ export function renderShopModal() {
           ${categoryRewards.length === 0 ? `
             <div class="text-center py-10 text-slate-500">
               <span class="text-4xl">🎁</span>
-              <p class="mt-2">Aucune offre dans cette catégorie</p>
+              <p class="mt-2">${t('noOffersInCategory') || 'Aucune offre dans cette catégorie'}</p>
             </div>
           ` : ''}
         </div>
@@ -86,7 +86,7 @@ export function renderShopModal() {
           <button onclick="showMyRewards()"
                   class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all">
             ${icon('ticket-alt', 'w-5 h-5 mr-2')}
-            Mes codes promo (${redeemedCodes?.length || 0})
+            ${t('myPromoCodes') || 'Mes codes promo'} (${redeemedCodes?.length || 0})
           </button>
         </div>
       </div>
@@ -131,22 +131,22 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
             <div class="flex items-center gap-1 text-sm ${canBuy ? 'text-amber-400' : 'text-slate-500'}">
               <span>👍</span>
               <span class="font-bold">${reward.cost}</span>
-              <span class="text-slate-500">pouces</span>
+              <span class="text-slate-500">${t('thumbsUnit') || 'pouces'}</span>
             </div>
 
             ${isRedeemed ? `
               <span class="text-emerald-400 text-sm font-medium">
                 ${icon('check', 'w-5 h-5 mr-1')}
-                Obtenu
+                ${t('obtained') || 'Obtenu'}
               </span>
             ` : canBuy ? `
               <button onclick="redeemReward('${reward.id}')"
                       class="px-4 py-2.5 rounded-lg bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-all">
-                Échanger
+                ${t('exchange') || 'Échanger'}
               </button>
             ` : `
               <span class="text-slate-500 text-sm">
-                ${userThumbs < reward.cost ? `Il te manque ${reward.cost - userThumbs} 👍` : ''}
+                ${userThumbs < reward.cost ? `${t('youNeed') || 'Il te manque'} ${reward.cost - userThumbs} 👍` : ''}
               </span>
             `}
           </div>
@@ -179,8 +179,8 @@ export function renderMyRewardsModal() {
         <div class="bg-gradient-to-r from-emerald-500 to-teal-500 p-8">
           <div class="flex justify-between items-start">
             <div>
-              <h2 id="myrewards-title" class="text-2xl font-bold text-white">Mes Codes Promo</h2>
-              <p class="text-white/80">${redeemedRewards.length} code(s) disponible(s)</p>
+              <h2 id="myrewards-title" class="text-2xl font-bold text-white">${t('myPromoCodes') || 'Mes Codes Promo'}</h2>
+              <p class="text-white/80">${redeemedRewards.length} ${t('codesAvailable') || 'code(s) disponible(s)'}</p>
             </div>
             <button onclick="closeMyRewards()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
@@ -196,11 +196,11 @@ export function renderMyRewardsModal() {
           ${redeemedRewards.length === 0 ? `
             <div class="text-center py-10 text-slate-500">
               <span class="text-5xl mb-4 block">🎫</span>
-              <p class="font-medium">Aucun code promo</p>
-              <p class="text-sm mt-1">Échange tes pouces contre des réductions !</p>
+              <p class="font-medium">${t('noPromoCode') || 'Aucun code promo'}</p>
+              <p class="text-sm mt-1">${t('exchangeThumbsForDiscounts') || 'Échange tes pouces contre des réductions !'}</p>
               <button onclick="closeMyRewards(); openShop()"
                       class="mt-4 px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600">
-                Voir les offres
+                ${t('viewOffers') || 'Voir les offres'}
               </button>
             </div>
           ` : `
@@ -234,7 +234,7 @@ export function renderMyRewardsModal() {
                       <a href="${reward.url}" target="_blank" rel="noopener"
                          class="mt-3 flex items-center justify-center gap-2 w-full py-2 bg-white/5 rounded-lg text-slate-400 hover:bg-white/10 transition-all">
                         ${icon('external-link-alt', 'w-5 h-5')}
-                        Utiliser sur ${reward.partner}
+                        ${t('useOn') || 'Utiliser sur'} ${reward.partner}
                       </a>
 
                       <p class="text-xs text-slate-500 mt-2">

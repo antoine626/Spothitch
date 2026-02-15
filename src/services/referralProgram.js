@@ -510,7 +510,7 @@ export function renderReferralCard() {
         </div>
         <div class="text-right">
           <p class="text-xs text-slate-400">${t('bonusPerReferral')}</p>
-          <p class="font-bold text-green-400">+${referralRewards.referrer + levelInfo.bonus} pts</p>
+          <p class="font-bold text-green-400">+${referralRewards.referrer + levelInfo.bonus} 👍</p>
         </div>
       </div>
 

@@ -15,10 +15,10 @@ export function renderChallengesHub(state) {
   const earnedBadgesCount = userBadges.length
   const totalBadges = allBadges.length
 
-  // Get active challenges (combine daily and weekly)
+  // Get active challenges (combine weekly and monthly)
   const activeChallenges = [
-    ...(allChallenges.daily || []).slice(0, 2).map(c => ({ ...c, challengeType: 'daily' })),
-    ...(allChallenges.weekly || []).slice(0, 1).map(c => ({ ...c, challengeType: 'weekly' })),
+    ...(allChallenges.weekly || []).slice(0, 2).map(c => ({ ...c, challengeType: 'weekly' })),
+    ...(allChallenges.monthly || []).slice(0, 1).map(c => ({ ...c, challengeType: 'monthly' })),
   ]
 
   return `
@@ -27,7 +27,7 @@ export function renderChallengesHub(state) {
       <div class="grid grid-cols-3 gap-3">
         <div class="card p-4 text-center">
           <div class="text-2xl font-bold text-amber-400">${state.points || 0}</div>
-          <div class="text-xs text-slate-400">${t('points') || 'Points'}</div>
+          <div class="text-xs text-slate-400">${t('points') || 'Pouces'}</div>
         </div>
         <div class="card p-4 text-center">
           <div class="text-2xl font-bold text-emerald-400">${earnedBadgesCount}</div>
@@ -43,7 +43,7 @@ export function renderChallengesHub(state) {
       <div class="card p-4">
         <div class="flex items-center gap-2 mb-3">
           ${icon('sparkles', 'w-5 h-5 text-amber-400')}
-          <span class="font-medium text-sm">${t('howToEarnPoints') || 'Comment gagner des points ?'}</span>
+          <span class="font-medium text-sm">${t('howToEarnPoints') || 'Comment gagner des pouces ?'}</span>
         </div>
         <div class="grid grid-cols-3 gap-2 text-center">
           <div class="p-2 rounded-lg bg-emerald-500/10">
@@ -98,7 +98,7 @@ export function renderChallengesHub(state) {
           </div>
           <div class="flex gap-1">
             ${activeChallenges.map(c => `
-              <span class="w-2 h-2 rounded-full ${c.challengeType === 'daily' ? 'bg-emerald-400' : 'bg-purple-400'}"></span>
+              <span class="w-2 h-2 rounded-full ${c.challengeType === 'weekly' ? 'bg-emerald-400' : 'bg-purple-400'}"></span>
             `).join('')}
           </div>
         </button>
@@ -114,7 +114,7 @@ export function renderChallengesHub(state) {
             </div>
             <div>
               <div class="font-bold text-white">${t('quiz') || 'Quiz'}</div>
-              <div class="text-sm text-slate-400">${t('quizDailyPoints') || '+50 pts/jour'}</div>
+              <div class="text-sm text-slate-400">${t('quizDailyPoints') || '+50 👍/jour'}</div>
             </div>
           </div>
         </button>
@@ -159,8 +159,8 @@ export function renderChallengesHub(state) {
                     <span class="font-medium text-sm truncate">${challenge.name || challenge.title || (t('challenge') || 'Challenge')}</span>
                   </div>
                   <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 ${
-  challenge.challengeType === 'daily' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'
-}">${challenge.challengeType === 'daily' ? (t('daily') || 'Quotidien') : (t('weekly') || 'Hebdo')}</span>
+  challenge.challengeType === 'weekly' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'
+}">${challenge.challengeType === 'weekly' ? (t('weekly') || 'Hebdo') : (t('monthly') || 'Mensuel')}</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
