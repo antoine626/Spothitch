@@ -287,7 +287,7 @@ const translations = {
     noSavedTrips: 'Aucun voyage sauvegarde',
     planFirstTrip: 'Planifiez votre premier voyage !',
     searchCountry: 'Rechercher un pays...',
-    veryEasy: 'Tres facile',
+    veryEasy: 'Très facile',
     easy: 'Facile',
     medium: 'Moyen',
     backToGuides: 'Retour aux guides',
@@ -734,7 +734,7 @@ const translations = {
     cannotCancelOthersReport: 'Tu ne peux pas annuler ce signalement',
     cancelWindowExpired: 'Le delai d\'annulation est depasse (24h)',
     cannotCancelProcessedReport: 'Ce signalement a deja ete traite',
-    remaining: 'restant',
+    remaining: 'Restant',
     characters: 'caracteres',
     reportStatusPending: 'En attente',
     reportStatusReviewed: 'En cours d\'examen',
@@ -1582,7 +1582,7 @@ const translations = {
     noMyEventsDesc: 'Tu n\'as rejoint aucun événement pour le moment.',
     addFriendsToChat: 'Ajoute des amis pour discuter !',
     noChatMessages: 'Pas encore de messages',
-    noConversationsYet: 'Pas encore de messages',
+    noConversationsYet: 'Pas encore de conversations',
     friendAccepted: 'Ami accepté !',
     locationEnabled: 'Localisation activée !',
     locationFailed: 'Impossible d\'obtenir la localisation',
@@ -1760,7 +1760,6 @@ const translations = {
     // Map & Spots
     gasStation: 'Station-service',
     gasStations: 'Stations-service',
-    remaining: 'Restant',
     navigationActive: 'Navigation active',
     hitchSpot: 'Spot',
     spotPhoto: 'Photo du spot',
@@ -1867,14 +1866,11 @@ const translations = {
     tutFeatureSOS: "Bouton SOS + numéros d'urgence",
     tutFeatureGuides: 'Guides par pays',
     tutorialComplete: 'Tutoriel terminé ! +50 pouces',
-    letsGo: "C'est parti !",
     // Progression
     howToEarnPoints: 'Comment gagner des pouces ?',
     validateSpots: 'Valider des spots',
     leaveComments: 'Commentaires',
-    addPhotos: 'Ajouter des photos',
     weeklyChallenge: 'Défi de la semaine',
-    rewards: 'Récompenses',
     contributions: 'Contributions',
     noChallengesActive: 'Aucun défi en cours',
     // Guides
@@ -1937,8 +1933,6 @@ const translations = {
     legalityMostlyLegal: 'Quasi légal',
     legalityGray: 'Zone grise',
     legalityRestricted: 'Restreint',
-    veryEasy: 'Très facile',
-    backToGuides: 'Retour aux guides',
 
     // Navigation service
     gpsNotAvailable: 'GPS non disponible sur cet appareil',
@@ -2569,7 +2563,6 @@ const translations = {
 
     // Social - Messages tab
     messagesTab: 'Messages',
-    noConversationsYet: 'Pas encore de conversations',
     findFriendsToChat: 'Trouver des amis',
     sharePosition: 'Partager ma position',
     sharedPosition: 'Position partagée',
@@ -3438,7 +3431,7 @@ const translations = {
     cannotCancelOthersReport: 'You cannot cancel this report',
     cancelWindowExpired: 'Cancellation window has expired (24h)',
     cannotCancelProcessedReport: 'This report has already been processed',
-    remaining: 'remaining',
+    remaining: 'Remaining',
     characters: 'characters',
     reportStatusPending: 'Pending',
     reportStatusReviewed: 'Under review',
@@ -4286,7 +4279,7 @@ const translations = {
     noMyEventsDesc: 'You haven\'t joined any events yet.',
     addFriendsToChat: 'Add friends to start chatting!',
     noChatMessages: 'No messages yet',
-    noConversationsYet: 'No messages yet',
+    noConversationsYet: 'No conversations yet',
     friendAccepted: 'Friend accepted!',
     locationEnabled: 'Location enabled!',
     locationFailed: 'Unable to get location',
@@ -4464,7 +4457,6 @@ const translations = {
     // Map & Spots
     gasStation: 'Gas station',
     gasStations: 'Gas stations',
-    remaining: 'Remaining',
     navigationActive: 'Navigation active',
     hitchSpot: 'Spot',
     spotPhoto: 'Spot photo',
@@ -4571,14 +4563,11 @@ const translations = {
     tutFeatureSOS: 'SOS button + emergency numbers',
     tutFeatureGuides: 'Country guides',
     tutorialComplete: 'Tutorial complete! +50 thumbs',
-    letsGo: "Let's go!",
     // Progression
     howToEarnPoints: 'How to earn thumbs?',
     validateSpots: 'Validate spots',
     leaveComments: 'Comments',
-    addPhotos: 'Add photos',
     weeklyChallenge: 'Weekly challenge',
-    rewards: 'Rewards',
     contributions: 'Contributions',
     noChallengesActive: 'No active challenges',
     // Guides
@@ -4641,8 +4630,6 @@ const translations = {
     legalityMostlyLegal: 'Mostly legal',
     legalityGray: 'Gray area',
     legalityRestricted: 'Restricted',
-    veryEasy: 'Very easy',
-    backToGuides: 'Back to guides',
 
     // Navigation service
     gpsNotAvailable: 'GPS not available on this device',
@@ -5273,7 +5260,6 @@ const translations = {
 
     // Social - Messages tab
     messagesTab: 'Messages',
-    noConversationsYet: 'No conversations yet',
     findFriendsToChat: 'Find friends',
     sharePosition: 'Share my position',
     sharedPosition: 'Shared position',
@@ -6254,10 +6240,10 @@ const translations = {
     noSavedTrips: 'No hay viajes guardados',
     planFirstTrip: 'Planifica tu primer viaje!',
     searchCountry: 'Buscar un pais...',
-    veryEasy: 'Muy facil',
+    veryEasy: 'Muy fácil',
     easy: 'Facil',
     medium: 'Medio',
-    backToGuides: 'Volver a las guias',
+    backToGuides: 'Volver a las guías',
     legality: 'Legalidad',
     tips: 'Consejos',
     bestMonths: 'Mejores meses',
@@ -6877,7 +6863,7 @@ const translations = {
     writeReview: 'Escribir una opinion',
     reviewComment: 'Comentario',
     reviewCommentPlaceholder: 'Comparte tu experiencia...',
-    addPhotos: 'Anadir fotos',
+    addPhotos: 'Añadir fotos',
     addPhoto: 'Anadir foto',
     maxPhotos: 'Maximo de fotos alcanzado',
     submitReview: 'Publicar opinion',
@@ -6994,7 +6980,7 @@ const translations = {
     noMyEventsDesc: 'Aún no te has unido a ningún evento.',
     addFriendsToChat: '¡Agrega amigos para chatear!',
     noChatMessages: 'Aún sin mensajes',
-    noConversationsYet: 'Aún sin mensajes',
+    noConversationsYet: 'Aún no hay conversaciones',
     friendAccepted: '¡Amigo aceptado!',
     locationEnabled: '¡Ubicación activada!',
     locationFailed: 'No se puede obtener la ubicación',
@@ -7171,7 +7157,6 @@ const translations = {
     season: 'temporada',
     gasStation: 'Gasolinera',
     gasStations: 'Gasolineras',
-    remaining: 'Restante',
     navigationActive: 'Navegación activa',
     hitchSpot: 'Spot',
     spotPhoto: 'Foto del spot',
@@ -7272,14 +7257,11 @@ const translations = {
     tutFeatureSOS: 'Botón SOS + números de emergencia',
     tutFeatureGuides: 'Guías por país',
     tutorialComplete: '¡Tutorial completado! +50 pulgares',
-    letsGo: '¡Vamos!',
     // Progression
     howToEarnPoints: '¿Cómo ganar pulgares?',
     validateSpots: 'Validar spots',
     leaveComments: 'Comentarios',
-    addPhotos: 'Añadir fotos',
     weeklyChallenge: 'Desafío de la semana',
-    rewards: 'Recompensas',
     contributions: 'Contribuciones',
     noChallengesActive: 'Sin desafíos activos',
     // Guides
@@ -7342,8 +7324,6 @@ const translations = {
     legalityMostlyLegal: 'Casi legal',
     legalityGray: 'Zona gris',
     legalityRestricted: 'Restringido',
-    veryEasy: 'Muy fácil',
-    backToGuides: 'Volver a las guías',
 
     // Navigation service
     gpsNotAvailable: 'GPS no disponible en este dispositivo',
@@ -7974,7 +7954,6 @@ const translations = {
 
     // Social - Messages tab
     messagesTab: 'Mensajes',
-    noConversationsYet: 'Aún no hay conversaciones',
     findFriendsToChat: 'Buscar amigos',
     sharePosition: 'Compartir mi posición',
     sharedPosition: 'Posición compartida',
@@ -8266,7 +8245,7 @@ const translations = {
     welcomeDesc: 'Tritt der Tramper-Community bei',
     yourUsername: 'Dein Benutzername',
     chooseAvatar: 'Avatar wahlen',
-    letsGo: 'Los gehts!',
+    letsGo: 'Los geht\'s!',
     chooseLanguage: 'Wahle deine Sprache',
     continueWithoutAccount: 'Ohne Konto fortfahren',
 
@@ -8399,7 +8378,7 @@ const translations = {
     veryEasy: 'Sehr einfach',
     easy: 'Einfach',
     medium: 'Mittel',
-    backToGuides: 'Zuruck zu den Reisefuhrern',
+    backToGuides: 'Zurück zu den Guides',
     legality: 'Rechtslage',
     tips: 'Tipps',
     bestMonths: 'Beste Monate',
@@ -9578,7 +9557,7 @@ const translations = {
     writeReview: 'Bewertung schreiben',
     reviewComment: 'Kommentar',
     reviewCommentPlaceholder: 'Teile deine Erfahrung...',
-    addPhotos: 'Fotos hinzufugen',
+    addPhotos: 'Fotos hinzufügen',
     addPhoto: 'Foto hinzufugen',
     maxPhotos: 'Maximum an Fotos erreicht',
     submitReview: 'Bewertung absenden',
@@ -9695,7 +9674,7 @@ const translations = {
     noMyEventsDesc: 'Du hast noch an keinem Event teilgenommen.',
     addFriendsToChat: 'Füge Freunde hinzu, um zu chatten!',
     noChatMessages: 'Noch keine Nachrichten',
-    noConversationsYet: 'Noch keine Nachrichten',
+    noConversationsYet: 'Noch keine Unterhaltungen',
     friendAccepted: 'Freund akzeptiert!',
     locationEnabled: 'Standort aktiviert!',
     locationFailed: 'Standort konnte nicht ermittelt werden',
@@ -9872,7 +9851,6 @@ const translations = {
     season: 'Saison',
     gasStation: 'Tankstelle',
     gasStations: 'Tankstellen',
-    remaining: 'Verbleibend',
     navigationActive: 'Navigation aktiv',
     hitchSpot: 'Spot',
     spotPhoto: 'Spot-Foto',
@@ -9973,14 +9951,11 @@ const translations = {
     tutFeatureSOS: 'SOS-Button + Notrufnummern',
     tutFeatureGuides: 'Länderführer',
     tutorialComplete: 'Tutorial abgeschlossen! +50 Daumen',
-    letsGo: 'Los geht\'s!',
     // Progression
     howToEarnPoints: 'Wie sammelt man Daumen?',
     validateSpots: 'Spots validieren',
     leaveComments: 'Kommentare',
-    addPhotos: 'Fotos hinzufügen',
     weeklyChallenge: 'Wochenaufgabe',
-    rewards: 'Belohnungen',
     contributions: 'Beiträge',
     noChallengesActive: 'Keine aktiven Herausforderungen',
     // Guides
@@ -10043,8 +10018,6 @@ const translations = {
     legalityMostlyLegal: 'Meistens legal',
     legalityGray: 'Grauzone',
     legalityRestricted: 'Eingeschränkt',
-    veryEasy: 'Sehr einfach',
-    backToGuides: 'Zurück zu den Guides',
 
     // Navigation service
     gpsNotAvailable: 'GPS auf diesem Gerät nicht verfügbar',
@@ -10675,7 +10648,6 @@ const translations = {
 
     // Social - Messages tab
     messagesTab: 'Nachrichten',
-    noConversationsYet: 'Noch keine Unterhaltungen',
     findFriendsToChat: 'Freunde finden',
     sharePosition: 'Meine Position teilen',
     sharedPosition: 'Geteilte Position',
