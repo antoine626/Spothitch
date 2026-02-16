@@ -896,7 +896,9 @@ window.calculateTrip = async () => {
       routeDistance = route.distance  // meters
       routeDuration = route.duration  // seconds
     } catch (e) {
-      // OSRM route failed, using straight line fallback
+      console.warn('OSRM route failed, using straight line fallback:', e.message)
+      // Build a simple straight line geometry as fallback
+      routeGeometry = [[from.lng, from.lat], [to.lng, to.lat]]
     }
 
     // 3. Load spots along the route via spotLoader
@@ -940,8 +942,8 @@ window.calculateTrip = async () => {
         return false
       })
     } else {
-      // Fallback: bounding box with tighter margins
-      const bboxPad = 0.5
+      // Fallback: bounding box with wider margins
+      const bboxPad = 2
       routeSpots = allSpots.filter(spot => {
         const lat = spot.coordinates?.lat || spot.lat
         const lng = spot.coordinates?.lng || spot.lng

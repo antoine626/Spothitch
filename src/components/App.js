@@ -667,12 +667,13 @@ function initHomeMap(state) {
       // Initial bubble data
       refreshBubbles()
 
-      // Click on country bubble → popup
-      map.on('click', 'country-bubble-circles', (e) => {
-        if (!e.features?.length) return
+      // Click on country bubble → popup (use generic click + queryRenderedFeatures)
+      map.on('click', (e) => {
+        if (map.getZoom() >= 7) return // bubbles hidden at zoom >= 7
+        const features = map.queryRenderedFeatures(e.point, { layers: ['country-bubble-circles'] })
+        if (!features?.length) return
         if (activePopup) { activePopup.remove(); activePopup = null }
-        const feature = e.features[0]
-        activePopup = createBubblePopup(maplibregl, feature, e.lngLat)
+        activePopup = createBubblePopup(maplibregl, features[0], e.lngLat)
         activePopup.addTo(map)
       })
       map.on('mouseenter', 'country-bubble-circles', () => { map.getCanvas().style.cursor = 'pointer' })
