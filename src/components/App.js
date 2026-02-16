@@ -16,7 +16,7 @@ import { t } from '../i18n/index.js';
 
 // Views
 import { renderHome } from './views/Home.js';
-import { renderMap, initMainMap } from './views/Map.js';
+// renderMap and initMainMap available in Map.js but not used directly here
 import { renderTravel } from './views/Travel.js';
 import { renderGuides as renderGuidesView } from './views/Guides.js';
 import { renderChallengesHub } from './views/ChallengesHub.js';
@@ -565,7 +565,6 @@ function initHomeMap(state) {
 
       // List cards for split view
       if (splitEl) {
-        const { icon: iconFn } = await import('../utils/icons.js')
         splitEl.innerHTML = nearest.slice(0, 20).map(s => {
           const rating = s.globalRating?.toFixed(1) || '—'
           const distLabel = s._dist !== null ? fmtDist(s._dist) : ''
@@ -706,7 +705,6 @@ function initHomeMap(state) {
       updateLayerVisibility()
       clearTimeout(moveTimer)
 
-      const z = map.getZoom()
       // Refresh bubbles at any zoom
       refreshBubbles()
 

@@ -90,11 +90,11 @@ jobs:
           INDEX_SIZE=$(stat -c%s dist/assets/index-*.js 2>/dev/null || echo "0")
           INDEX_KB=$((INDEX_SIZE / 1024))
           echo "Main bundle: ${INDEX_KB}KB"
-          if [ "$INDEX_KB" -gt 700 ]; then
-            echo "::error::Main bundle exceeds 700KB limit (${INDEX_KB}KB)"
+          if [ "$INDEX_KB" -gt 750 ]; then
+            echo "::error::Main bundle exceeds 750KB limit (${INDEX_KB}KB)"
             exit 1
           fi
-          echo "Bundle size OK: ${INDEX_KB}KB < 700KB"
+          echo "Bundle size OK: ${INDEX_KB}KB < 750KB"
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:

@@ -78,7 +78,7 @@ export function validateBirthDate(birthDate) {
  * @param {Object} state - Application state
  * @returns {string} HTML string
  */
-export function renderAgeVerification(state) {
+export function renderAgeVerification(_state) {
   return `
     <div
       class="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -198,7 +198,6 @@ window.handleAgeVerification = async (event) => {
 
   const birthDateInput = document.getElementById('birth-date');
   const errorMessage = document.getElementById('age-error-message');
-  const errorText = document.getElementById('age-error-text');
   const ageDisplay = document.getElementById('age-display');
   const ageValue = document.getElementById('age-value');
   const submitBtn = document.getElementById('age-submit-btn');

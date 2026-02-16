@@ -146,7 +146,7 @@ export function renderBadgePopup() {
         <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-8 text-center relative overflow-hidden">
           <!-- Animated sparkles -->
           <div class="absolute inset-0 opacity-30">
-            ${Array(10).fill(0).map((_, i) => `
+            ${Array(10).fill(0).map((_v, _i) => `
               <span class="absolute animate-pulse" style="
                 top: ${Math.random() * 100}%;
                 left: ${Math.random() * 100}%;

@@ -6,7 +6,7 @@
 import { t } from '../i18n/index.js';
 import { escapeHTML } from '../utils/sanitize.js';
 import { getStatusBadge, getSpotVerification } from '../services/verification.js';
-import { renderFreshnessIndicator, getFreshnessLevel, getFreshnessBadge, getTimeAgo, FRESHNESS_LEVELS } from '../utils/dateHelpers.js';
+import { renderFreshnessIndicator, getFreshnessLevel, getFreshnessBadge, getTimeAgo } from '../utils/dateHelpers.js';
 import { renderFreshnessBadge as renderReliabilityBadge } from '../services/spotFreshness.js';
 import { icon } from '../utils/icons.js'
 

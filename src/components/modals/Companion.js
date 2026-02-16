@@ -8,7 +8,6 @@ import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
 import {
   getCompanionState,
-  isCompanionActive,
   getTimeUntilNextCheckIn,
   isCheckInOverdue,
 } from '../../services/companion.js'
@@ -16,7 +15,7 @@ import {
 /**
  * Render the Companion Mode modal
  */
-export function renderCompanionModal(state) {
+export function renderCompanionModal(_state) {
   const companion = getCompanionState()
   const active = companion.active
 
