@@ -23,7 +23,7 @@ const CONFIG = {
 // ==================== STATE ====================
 
 let watchId = null
-let alertedSpots = new Set()
+const alertedSpots = new Set()
 let proximityRadius = CONFIG.defaultRadius
 let isEnabled = false
 

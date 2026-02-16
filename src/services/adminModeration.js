@@ -1674,7 +1674,7 @@ export function getPendingSpots(options = {}) {
 
   const { status = 'pending', limit = 50, offset = 0 } = options;
 
-  let filtered = spots.filter(s => {
+  const filtered = spots.filter(s => {
     if (status === 'pending') return s.status === 'pending' || s.underReview;
     if (status === 'flagged') return s.underReview;
     if (status === 'rejected') return s.status === 'rejected';

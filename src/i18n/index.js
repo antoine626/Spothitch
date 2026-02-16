@@ -1368,7 +1368,7 @@ const translations = {
     hostelAlreadyExists: 'Cette auberge a déjà été recommandée',
     hostelAlreadyUpvoted: 'Vous avez déjà voté pour cette auberge',
     hostelErrorMissing: 'Veuillez remplir tous les champs',
-  
+
 
     // === Code-referenced translations ===
     mainNavigation: 'Navigation principale',
@@ -4372,7 +4372,7 @@ const translations = {
     hostelAlreadyExists: 'This hostel has already been recommended',
     hostelAlreadyUpvoted: 'You have already voted for this hostel',
     hostelErrorMissing: 'Please fill in all fields',
-  
+
 
     // === Code-referenced translations ===
     mainNavigation: 'Main navigation',
@@ -7380,7 +7380,7 @@ const translations = {
     // Hostel Partnerships
 
     // Admin Moderation
-  
+
 
     // === Code-referenced translations ===
     mainNavigation: 'Navegacion principal',
@@ -10381,7 +10381,7 @@ const translations = {
     // Hostel Partnerships
 
     // Admin Moderation
-  
+
 
     // === Code-referenced translations ===
     mainNavigation: 'Hauptnavigation',

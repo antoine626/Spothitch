@@ -11,9 +11,7 @@ import { renderFeed } from './social/Feed.js'
 import { renderConversations } from './social/Conversations.js'
 import { renderFriends } from './social/Friends.js'
 import { renderSkeletonChatList } from '../ui/Skeleton.js'
-import { getTrustBadge } from '../../services/identityVerification.js'
-import { getConversationsList, getConversationMessages } from '../../services/directMessages.js'
-import { getUpcomingEvents, getEventComments, EVENT_TYPES } from '../../services/events.js'
+import { getEventComments, EVENT_TYPES } from '../../services/events.js'
 
 // ==================== MAIN RENDER ====================
 
@@ -635,7 +633,7 @@ window.sendPrivateMessage = async (friendId) => {
   }, 50)
 }
 
-window.acceptFriendRequest = async (requestId) => {
+window.acceptFriendRequest = async (_requestId) => {
   window.showSuccess?.(t('friendAdded'))
   try {
     const { triggerFriendAddedTip } = await import('../../services/contextualTips.js')

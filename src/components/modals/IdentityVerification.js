@@ -13,10 +13,6 @@ import {
   getVerificationLevel,
   getNextVerificationLevel,
   getVerificationProgress,
-  isEmailVerified,
-  isPhoneVerified,
-  isPhotoVerified,
-  isIdentityVerified,
   sendPhoneVerification,
   confirmPhoneVerification,
   uploadVerificationPhoto,
@@ -206,8 +202,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
 /**
  * Render a verification step item
  */
-function renderVerificationStep(level, isComplete, title, description, iconName, color, lang) {
-  const levelInfo = verificationLevels[level];
+function renderVerificationStep(level, isComplete, title, description, iconName, color, _lang) {
   const currentLevel = getVerificationProgress().currentLevel;
   const isActive = currentLevel === level - 1;
   const isPending = level > currentLevel + 1;
@@ -815,7 +810,7 @@ window.updatePhoneNumber = (value) => {
 /**
  * Update phone country code
  */
-window.updatePhoneCountryCode = (code) => {
+window.updatePhoneCountryCode = (_code) => {
   // Store country code separately if needed
 };
 

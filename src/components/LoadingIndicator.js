@@ -27,7 +27,7 @@ function getLoadingMessages() {
 }
 
 // État du loader
-let loaderState = {
+const loaderState = {
   isVisible: false,
   mode: 'spinner', // 'bar' ou 'spinner'
   message: null,

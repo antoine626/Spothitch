@@ -4,9 +4,9 @@
  */
 
 import { getState, setState } from '../stores/state.js';
-import { allBadges, getEarnedBadges, getBadgeById } from '../data/badges.js';
-import { vipLevels, leagues, getVipLevel, getNextVipLevel, getLeague, getNextLeague } from '../data/vip-levels.js';
-import { getTitleForLevel, checkTitleChange, getNextTitle, getTitleProgress, getUnlockedTitles, getLockedTitles, getAllTitles } from '../data/titles.js';
+import { allBadges, getBadgeById } from '../data/badges.js';
+import { leagues, getVipLevel, getNextVipLevel } from '../data/vip-levels.js';
+import { getTitleForLevel, checkTitleChange, getTitleProgress, getUnlockedTitles, getLockedTitles, getAllTitles } from '../data/titles.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
 
@@ -15,7 +15,7 @@ import { t } from '../i18n/index.js';
  * @param {number} pts - Points to add
  * @param {string} reason - Reason for points (for logging)
  */
-export function addPoints(pts, reason = '') {
+export function addPoints(pts, _reason = '') {
   const state = getState();
   const vipLevel = getVipLevel(state.points);
   const multipliedPts = Math.floor(pts * vipLevel.xpMultiplier);
@@ -224,7 +224,6 @@ function showBadgePopup(badge) {
   }
 
   // Store for modal display
-  const state = getState();
   setState({
     newBadge: badge,
     showBadgePopup: true,

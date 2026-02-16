@@ -5,9 +5,9 @@
 
 import { t } from '../../i18n/index.js';
 import { escapeHTML } from '../../utils/sanitize.js';
-import { renderVerificationBadge, renderVoteButtons, getSpotVerification } from '../../services/verification.js';
-import { renderFreshnessSection, renderFreshnessBadge, getFreshnessLevel, FRESHNESS_LEVELS } from '../../utils/dateHelpers.js';
-import { getAvailableNavigationApps, detectPlatform } from '../../utils/navigation.js';
+import { renderVerificationBadge, renderVoteButtons } from '../../services/verification.js';
+import { renderFreshnessSection, renderFreshnessBadge } from '../../utils/dateHelpers.js';
+import { getAvailableNavigationApps } from '../../utils/navigation.js';
 import { renderFreshnessBadge as renderReliabilityBadge } from '../../services/spotFreshness.js';
 import { renderTranslateButton } from '../../services/autoTranslate.js';
 import { icon } from '../../utils/icons.js'

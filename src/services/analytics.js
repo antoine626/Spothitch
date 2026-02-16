@@ -293,7 +293,7 @@ export function getFunnelStatus() {
  * Get cohort week (ISO week of first visit)
  */
 function getCohortWeek() {
-  let storedCohort = localStorage.getItem('spothitch_cohort_week')
+  const storedCohort = localStorage.getItem('spothitch_cohort_week')
   if (storedCohort) {
     return storedCohort
   }

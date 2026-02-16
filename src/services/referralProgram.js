@@ -303,7 +303,7 @@ export function recordReferralSuccess(refereeId, refereeName, referrerCode = nul
   })
 
   // Check for level up
-  let levelUpReward = 0
+  const levelUpReward = 0
   let newBadge = null
   if (levelAfter !== levelBefore && levelAfter !== ReferrerLevel.NONE) {
     newBadge = referralRewards.badges[levelAfter]

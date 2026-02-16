@@ -10,7 +10,7 @@
  * Performance: ~5-20x faster than JS for batch operations (10K+ points)
  */
 
-let wasmInstance = null
+const wasmInstance = null
 let wasmReady = false
 
 // ==================== WASM MODULE (WAT) ====================

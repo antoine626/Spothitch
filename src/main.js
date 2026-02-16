@@ -16,15 +16,15 @@ async function getFirebase() {
   return _firebase
 }
 // Sentry — lazy-loaded (non-critical for FCP)
-import { initNotifications, showToast, showFriendlyError } from './services/notifications.js';
+import { initNotifications, showToast } from './services/notifications.js';
 import { initOfflineHandler } from './services/offline.js';
-import { initMap as initMapService, initMapService as initMainMapService, initPlannerMap, initSavedTripMap, centerOnSpot, centerOnUser, destroyMaps } from './services/map.js';
+import { initMap as initMapService, centerOnSpot, centerOnUser, destroyMaps } from './services/map.js';
 // Heavy modules — lazy-loaded via dynamic import() to reduce initial bundle
 // gamification.js, quiz.js, planner.js, friendChallenges.js loaded on demand
-import { searchLocation, reverseGeocode, formatDistance, formatDuration } from './services/osrm.js';
+import { searchLocation } from './services/osrm.js';
 
 // i18n
-import { t, detectLanguage, setLanguage, getAvailableLanguages } from './i18n/index.js';
+import { t, detectLanguage, setLanguage } from './i18n/index.js';
 
 // Components
 import { renderApp, afterRender } from './components/App.js';
@@ -32,34 +32,28 @@ import { initSplashScreen, hideSplashScreen } from './components/SplashScreen.js
 
 // Data
 import { sampleSpots } from './data/spots.js';
-import { allBadges, getBadgeById } from './data/badges.js';
-import { getActiveChallenges } from './data/challenges.js';
-import { shopRewards, getRewardById, canAfford } from './data/rewards.js';
-import { getVipLevel, getLeague, vipLevels, leagues, applyVipDiscount } from './data/vip-levels.js';
 // guides.js loaded dynamically to reduce main bundle size
 
 // Utils
 import { initSEO, trackPageView } from './utils/seo.js';
-import { announce, announceAction, prefersReducedMotion } from './utils/a11y.js';
+import { announceAction, prefersReducedMotion } from './utils/a11y.js';
 import { initPWA, showInstallBanner, dismissInstallBanner, installPWA } from './utils/pwa.js';
-import { initNetworkMonitor, updateNetworkStatus, cleanupOldData } from './utils/network.js';
-import { scheduleRender, debouncedRender } from './utils/render.js';
+import { initNetworkMonitor, cleanupOldData } from './utils/network.js';
+import { scheduleRender } from './utils/render.js';
 import { debounce } from './utils/performance.js';
 import { observeAllLazyImages } from './utils/lazyImages.js';
 import { initWebVitals } from './utils/webVitals.js';
 import { initHoverPrefetch, prefetchNextTab } from './utils/prefetch.js';
-import { trackTabChange, trackModalOpen, trackAction } from './utils/analytics.js';
-import { getAdaptiveConfig } from './utils/adaptiveLoading.js';
+import { trackTabChange } from './utils/analytics.js';
 import { cleanupDrafts } from './utils/formPersistence.js';
 import { initWasm } from './utils/wasmGeo.js';
-import { sanitize, sanitizeInput, escapeHTML } from './utils/sanitize.js';
-import { runAllCleanup, registerCleanup } from './utils/cleanup.js';
-import { initDeepLinkListener, handleDeepLink, shareLink } from './utils/deeplink.js';
-import { setupGlobalErrorHandlers as setupErrorHandlers, withErrorBoundary } from './utils/errorBoundary.js';
+import { escapeHTML } from './utils/sanitize.js';
+import { runAllCleanup } from './utils/cleanup.js';
+import { initDeepLinkListener } from './utils/deeplink.js';
+import { setupGlobalErrorHandlers as setupErrorHandlers } from './utils/errorBoundary.js';
 // animations.js, share.js, confetti.js — lazy-loaded (only triggered by user actions)
-import { getErrorMessage, getFormattedError, isRecoverableError } from './utils/errorMessages.js';
 import { initAutoOfflineSync } from './services/autoOfflineSync.js';
-import { getFilteredSpots, resetFilters as resetFiltersUtil } from './components/modals/Filters.js';
+import { resetFilters as resetFiltersUtil } from './components/modals/Filters.js';
 import { redeemReward } from './components/modals/Shop.js';
 import './components/modals/Leaderboard.js'; // Register global handlers
 import { registerCheckinHandlers } from './components/modals/CheckinModal.js'; // Checkin modal handlers
@@ -69,10 +63,6 @@ import {
   initScreenReaderSupport,
   announce as srAnnounce,
   announceViewChange,
-  announceListUpdate,
-  announceLoading,
-  announceError,
-  renderAccessibilityHelp,
 } from './services/screenReader.js'; // Accessibility
 // proximityAlerts.js — lazy-loaded (init in init(), handlers use dynamic import)
 // tripHistory.js, webShare.js — lazy-loaded (only used on specific actions)
@@ -92,7 +82,6 @@ import {
   checkIn as companionCheckInFn,
   sendAlert as companionSendAlertFn,
   getSMSLink as companionGetSMSLink,
-  isCompanionActive,
   restoreCompanionMode,
   onOverdue as onCompanionOverdue,
 } from './services/companion.js'
@@ -785,7 +774,7 @@ window.doCheckin = async (spotId) => {
 
   // Show share card after checkin
   const { spots } = getState()
-  const spot = spots.find(s => s.id == spotId)
+  const spot = spots.find(s => s.id === spotId)
   if (spot) {
     setTimeout(async () => {
       try {
@@ -1129,7 +1118,7 @@ window.nextTutorial = () => {
   const newStep = (tutorialStep || 0) + 1;
 
   // Import tutorial to check step count and execute action
-  import('./components/modals/Tutorial.js').then(({ tutorialSteps, executeStepAction, cleanupTutorialTargets }) => {
+  import('./components/modals/Tutorial.js').then(({ tutorialSteps, executeStepAction }) => {
     if (newStep >= tutorialSteps.length) {
       window.finishTutorial();
     } else {
@@ -1224,7 +1213,9 @@ window.resetFilters = () => resetFiltersUtil();
 
 // Quiz handlers (lazy-loaded)
 window.openQuiz = () => setState({ showQuiz: true })
-window.closeQuiz = () => setState({ showQuiz: false, quizActive: false, quizResult: null, quizCountryCode: null, quizShowExplanation: false })
+window.closeQuiz = () => setState({
+  showQuiz: false, quizActive: false, quizResult: null, quizCountryCode: null, quizShowExplanation: false
+})
 window.startQuizGame = async () => {
   const { startQuiz } = await import('./services/quiz.js')
   startQuiz()
@@ -1281,7 +1272,7 @@ window.equipTitle = (title) => {
   setState({ profileTitle: title });
   showToast(t('titleEquipped') || 'Titre équipé !', 'success');
 };
-window.activateBooster = (boosterId) => {
+window.activateBooster = (_boosterId) => {
   // Activate booster logic
   showToast(t('boosterActivated') || 'Booster activé !', 'success');
 };
@@ -1436,14 +1427,14 @@ window.shareApp = async (...args) => {
 }
 window.showAddFriend = () => setState({ showAddFriend: true });
 window.closeAddFriend = () => setState({ showAddFriend: false });
-window.acceptFriendRequest = (requestId) => {
+window.acceptFriendRequest = (_requestId) => {
   // Accept friend logic
   showToast(t('friendAccepted') || 'Ami accepté !', 'success');
 };
-window.rejectFriendRequest = (requestId) => {
+window.rejectFriendRequest = (_requestId) => {
   // Reject friend logic
 };
-window.sendPrivateMessage = (friendId) => {
+window.sendPrivateMessage = (_friendId) => {
   const input = document.getElementById('private-chat-input');
   const text = input?.value?.trim();
   if (!text) return;
@@ -1995,7 +1986,8 @@ window.homeZoomOut = () => {
   if (window.homeMapInstance) window.homeMapInstance.zoomOut()
 }
 
-// Simple haversine for distance calculations
+// Simple haversine for distance calculations (currently unused but may be needed)
+// eslint-disable-next-line no-unused-vars
 function haversineSimple(lat1, lng1, lat2, lng2) {
   const R = 6371
   const dLat = (lat2 - lat1) * Math.PI / 180

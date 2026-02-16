@@ -50,8 +50,8 @@ export const RoomType = {
 // In-memory stores for realtime data
 let typingIndicators = {}
 let onlineUsers = {}
-let roomSubscriptions = new Map()
-let typingTimeouts = new Map()
+const roomSubscriptions = new Map()
+const typingTimeouts = new Map()
 let onlineCheckInterval = null
 
 /**

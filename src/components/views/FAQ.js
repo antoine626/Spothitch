@@ -208,7 +208,7 @@ export function renderFAQ(state) {
   const searchQuery = state.faqSearchQuery || '';
 
   // Filter questions based on search
-  let filteredCategories = categories.map(([key, category]) => {
+  const filteredCategories = categories.map(([key, category]) => {
     if (!searchQuery.trim()) {
       return [key, category];
     }
