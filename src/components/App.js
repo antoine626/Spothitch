@@ -399,12 +399,6 @@ function initHomeMap(state) {
     let countryCenters = null
     let activePopup = null
 
-    import('../services/spotLoader.js').then(async (mod) => {
-      spotLoader = mod
-      spotIndex = await mod.loadSpotIndex()
-      countryCenters = mod.getCountryCenters()
-    }).catch(() => {})
-
     // Track which spot IDs are already added to avoid duplicates
     const addedSpotIds = new Set()
 
@@ -530,11 +524,10 @@ function initHomeMap(state) {
       return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     }
 
-    // Populate bottom sheet with nearest spots + distances
-    const populateNearbySheet = async (allSpots) => {
-      const scrollEl = document.getElementById('nearby-spots-scroll')
+    // Populate split view with nearest spots + distances
+    const populateSplitView = async (allSpots) => {
       const splitEl = document.getElementById('split-spots-list')
-      if (!scrollEl && !splitEl) return
+      if (!splitEl) return
 
       const currentState = getState()
       const userLoc = currentState.userLocation
@@ -570,26 +563,6 @@ function initHomeMap(state) {
         return `${km.toFixed(1)} km`
       }
 
-      // Horizontal cards for bottom sheet
-      if (scrollEl) {
-        const { icon: iconFn } = await import('../utils/icons.js')
-        scrollEl.innerHTML = nearest.map(s => {
-          const rating = s.globalRating?.toFixed(1) || '—'
-          const distLabel = s._dist !== null ? fmtDist(s._dist) : ''
-          const dir = s.to || s.from || ''
-          return `
-            <button onclick="selectSpot(${typeof s.id === 'string' ? "'" + s.id + "'" : s.id})"
-              class="shrink-0 w-44 snap-start bg-dark-card border border-dark-border rounded-xl p-3 text-left hover:border-primary-500/50 transition-all">
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-amber-400 text-xs font-bold">${iconFn ? iconFn('star', 'w-3 h-3 mr-0.5') : '⭐'}${rating}</span>
-                ${distLabel ? `<span class="text-xs text-primary-400 font-medium">${distLabel}</span>` : ''}
-              </div>
-              <div class="text-white text-sm font-medium truncate">${dir || 'Spot'}</div>
-              <div class="text-slate-400 text-xs truncate mt-0.5">${s.from || ''}</div>
-            </button>`
-        }).join('')
-      }
-
       // List cards for split view
       if (splitEl) {
         const { icon: iconFn } = await import('../utils/icons.js')
@@ -622,7 +595,7 @@ function initHomeMap(state) {
       if (badge) badge.textContent = addedSpotIds.size
 
       // Populate bottom sheet with nearest spots
-      populateNearbySheet(spots)
+      populateSplitView(spots)
     }
 
     // Load spots for visible area
@@ -683,12 +656,13 @@ function initHomeMap(state) {
       // Add country bubble layers
       addCountryBubbleLayers(map)
 
-      // Wait for spotLoader to be ready
-      const waitForLoader = () => new Promise(resolve => {
-        const check = () => { if (spotIndex && countryCenters) resolve(); else setTimeout(check, 100) }
-        check()
-      })
-      await waitForLoader()
+      // Load spotLoader + index
+      try {
+        const mod = await import('../services/spotLoader.js')
+        spotLoader = mod
+        spotIndex = await mod.loadSpotIndex()
+        countryCenters = mod.getCountryCenters()
+      } catch { /* no-op */ }
 
       // Initial bubble data
       refreshBubbles()
@@ -706,19 +680,20 @@ function initHomeMap(state) {
 
       // Initial load strategy
       const currentZoom = map.getZoom()
-      if (currentZoom >= 7) {
-        // GPS available or zoomed in — load spots
-        if (hasGps && spotLoader) {
-          const radiusSpots = await spotLoader.loadSpotsInRadius(
-            state.userLocation.lat, state.userLocation.lng, 50
-          )
-          updateSpotsOnMap(radiusSpots)
-          refreshBubbles()
-        } else {
-          loadSpotsForView()
-        }
+      if (hasGps && spotLoader) {
+        // GPS: load spots in 50km radius
+        const radiusSpots = await spotLoader.loadSpotsInRadius(
+          state.userLocation.lat, state.userLocation.lng, 50
+        )
+        updateSpotsOnMap(radiusSpots)
+        refreshBubbles()
+      } else if (currentZoom >= 7) {
+        loadSpotsForView()
+      } else {
+        // No GPS, zoomed out: load spots for visible area anyway
+        // so the map isn't empty while bubbles also show
+        loadSpotsForView()
       }
-      // If zoom < 7, bubbles are already visible, no spots to load
 
       updateLayerVisibility()
     })
@@ -731,8 +706,8 @@ function initHomeMap(state) {
       clearTimeout(moveTimer)
 
       const z = map.getZoom()
-      // Don't load spots when zoomed out — bubbles handle it
-      if (z < 7) return
+      // Refresh bubbles at any zoom
+      refreshBubbles()
 
       // Skip reload if bounds barely changed
       const bounds = map.getBounds()

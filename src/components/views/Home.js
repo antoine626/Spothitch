@@ -167,15 +167,7 @@ export function renderHome(state) {
         </div>
       ` : ''}
 
-      <!-- Bottom Sheet: nearby spots (horizontal scroll) -->
-      <div id="nearby-spots-sheet" class="absolute ${isSplit ? 'hidden' : ''} bottom-20 left-0 right-0 z-20">
-        <div class="bg-gradient-to-t from-dark-primary/95 via-dark-primary/80 to-transparent pt-8 pb-2 px-4">
-          <!-- Horizontal scroll of mini spot cards -->
-          <div id="nearby-spots-scroll" class="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-none">
-            <!-- Populated dynamically by afterRender -->
-          </div>
-        </div>
-      </div>
+      <!-- Bottom sheet removed — country bubbles handle discovery at low zoom -->
 
       <!-- Split View: spot list (bottom half) -->
       ${isSplit ? `
