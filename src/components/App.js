@@ -371,7 +371,7 @@ function initHomeMap(state) {
     // Helper: convert spots array to GeoJSON
     const spotsToGeoJSON = (spots) => {
       let favIds = []
-      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) { /* no-op */ }
+      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch { /* no-op */ }
       const favSet = new Set(favIds)
       const features = []
       spots.forEach(spot => {
@@ -715,7 +715,7 @@ function initTripMap(state) {
 
       // Trip spot dots
       let favIds = []
-      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch (e) { /* no-op */ }
+      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch { /* no-op */ }
       const favSet = new Set(favIds)
 
       const spots = results.spots || []

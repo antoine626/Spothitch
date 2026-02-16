@@ -53,7 +53,7 @@ export function renderTitlesModal(state) {
                       ${title.name}
                     </div>
                     <div class="text-xs text-slate-400">
-                      ${isUnlocked ? title.description : `${t('unlockAtLevel')} ${title.minLevel}`}
+                      ${isUnlocked ? title.description : t('unlockAtLevel', { level: title.minLevel })}
                     </div>
                   </div>
                   <div class="text-right text-xs">
