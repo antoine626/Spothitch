@@ -161,7 +161,7 @@ export function renderTrustScoreCard() {
           </div>
         </div>
         <div class="text-right shrink-0">
-          <div class="text-2xl font-bold ${tier.color}">${score}<span class="text-xs text-slate-500 font-normal">/100</span></div>
+          <div class="text-2xl font-bold ${tier.color}">${score}<span class="text-xs text-slate-400 font-normal">/100</span></div>
         </div>
       </div>
 
@@ -183,7 +183,7 @@ export function renderTrustScoreCard() {
 
       <!-- Breakdown -->
       <div class="space-y-2">
-        <h4 class="text-xs font-medium text-slate-500 uppercase tracking-wider">Détail du score</h4>
+        <h4 class="text-xs font-medium text-slate-400 uppercase tracking-wider">Détail du score</h4>
 
         ${renderScoreFactor('Ancienneté', breakdown.accountAge, SCORE_FACTORS.accountAge.max, 'calendar')}
         ${renderScoreFactor('Spots créés', breakdown.spotsCreated, SCORE_FACTORS.spotsCreated.max, 'map-pin')}
@@ -227,7 +227,7 @@ function renderScoreFactor(label, value, max, iconName) {
       <div class="flex-1 min-w-0">
         <div class="flex justify-between text-xs mb-1">
           <span class="text-slate-300">${label}</span>
-          <span class="text-slate-500">${Math.round(value)}/${max}</span>
+          <span class="text-slate-400">${Math.round(value)}/${max}</span>
         </div>
         <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
           <div class="h-full ${color} rounded-full transition-all" style="width: ${percentage}%"></div>

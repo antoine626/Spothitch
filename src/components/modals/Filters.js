@@ -100,7 +100,7 @@ export function renderFiltersModal() {
             <label class="flex items-center justify-between p-5 bg-white/5 rounded-xl cursor-pointer">
               <div>
                 <span class="text-white font-medium">${t('verifiedOnly') || 'Spots vérifiés uniquement'}</span>
-                <p class="text-slate-500 text-sm">${t('verifiedOnlyDesc') || "N'afficher que les spots avec ✓"}</p>
+                <p class="text-slate-400 text-sm">${t('verifiedOnlyDesc') || "N'afficher que les spots avec ✓"}</p>
               </div>
               <button onclick="toggleVerifiedFilter()"
                       class="w-12 h-7 rounded-full transition-colors relative

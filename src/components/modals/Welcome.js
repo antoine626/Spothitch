@@ -93,7 +93,7 @@ export function renderWelcome(state) {
         <!-- Skip -->
         <button
           onclick="skipWelcome()"
-          class="text-slate-500 text-sm mt-4 hover:text-slate-300 transition-colors"
+          class="text-slate-400 text-sm mt-4 hover:text-slate-300 transition-colors"
           type="button"
         >
           ${t('continueWithoutAccount')}

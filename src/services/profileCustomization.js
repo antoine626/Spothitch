@@ -447,7 +447,7 @@ export function renderCustomizationModal(state) {
                     </div>
                     <div class="text-xs font-medium truncate">${typeof frame.name === 'function' ? frame.name() : frame.name}</div>
                     <div class="text-[10px] ${rarity.text}">${typeof rarity.label === 'function' ? rarity.label() : rarity.label}</div>
-                    ${!isUnlocked ? `${icon('lock', 'w-5 h-5 absolute top-2 right-2 text-slate-500')}<div class="text-[10px] text-slate-500 mt-1">${getFrameUnlockText(frame.unlockMethod)}</div>` : ''}
+                    ${!isUnlocked ? `${icon('lock', 'w-5 h-5 absolute top-2 right-2 text-slate-400')}<div class="text-[10px] text-slate-400 mt-1">${getFrameUnlockText(frame.unlockMethod)}</div>` : ''}
                   </button>
                 `;
     })
@@ -478,7 +478,7 @@ export function renderCustomizationModal(state) {
                   >
                     <span class="${title.color} font-medium">${typeof title.name === 'function' ? title.name() : title.name}</span>
                     ${isEquipped ? icon('check', 'w-5 h-5 text-primary-400 ml-auto') : ''}
-                    ${!isUnlocked ? icon('lock', 'w-5 h-5 text-slate-500 ml-auto') : ''}
+                    ${!isUnlocked ? icon('lock', 'w-5 h-5 text-slate-400 ml-auto') : ''}
                   </button>
                 `;
     })

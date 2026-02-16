@@ -33,15 +33,15 @@ export function renderProfile(state) {
       <div class="grid grid-cols-3 gap-3">
         <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
           <div class="text-2xl font-bold text-emerald-400">${state.spotsCreated || 0}</div>
-          <div class="text-xs text-slate-500">${t('spotsShared') || 'Spots'}</div>
+          <div class="text-xs text-slate-400">${t('spotsShared') || 'Spots'}</div>
         </button>
         <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
           <div class="text-2xl font-bold text-purple-400">${state.checkins || 0}</div>
-          <div class="text-xs text-slate-500">Check-ins</div>
+          <div class="text-xs text-slate-400">Check-ins</div>
         </button>
         <button onclick="openBadges()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
           <div class="text-2xl font-bold text-amber-400">${(state.badges || []).length}</div>
-          <div class="text-xs text-slate-500">${t('badgesEarned') || 'Badges'}</div>
+          <div class="text-xs text-slate-400">${t('badgesEarned') || 'Badges'}</div>
         </button>
       </div>
 
@@ -88,7 +88,7 @@ export function renderProfile(state) {
             <div class="text-sm text-slate-400">${(state.friends || []).length} ${t('friendsCount') || 'amis'}</div>
           </div>
         </div>
-        ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+        ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
       </button>
 
       <!-- Trip History -->
@@ -105,7 +105,7 @@ export function renderProfile(state) {
             <div class="text-sm text-slate-400">${t('privateTravelJournal') || 'Journal de voyage privé'}</div>
           </div>
         </div>
-        ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+        ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
       </button>
 
       <!-- Guides -->
@@ -122,7 +122,7 @@ export function renderProfile(state) {
             <div class="text-sm text-slate-400">${t('guidesSubtitle') || 'Conseils, sécurité, légalité par pays'}</div>
           </div>
         </div>
-        ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+        ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
       </button>
 
       <!-- Settings -->
@@ -203,7 +203,7 @@ export function renderProfile(state) {
             ${icon('question-circle', 'w-5 h-5 text-primary-400')}
             <span>${t('reviewTutorial') || 'Revoir le tutoriel'}</span>
           </div>
-          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+          ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
         </button>
 
         <!-- GDPR My Data -->
@@ -215,7 +215,7 @@ export function renderProfile(state) {
             ${icon('database', 'w-5 h-5 text-blue-400')}
             <span>${t('myData') || 'Mes donnees'} (RGPD)</span>
           </div>
-          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+          ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
         </button>
       </div>
 
@@ -242,7 +242,7 @@ export function renderProfile(state) {
       ${renderDonationCard({ variant: 'full' })}
 
       <!-- Version & Reset -->
-      <div class="flex items-center justify-between text-xs text-slate-500 pt-4">
+      <div class="flex items-center justify-between text-xs text-slate-400 pt-4">
         <span>SpotHitch v2.0.0</span>
         <button
           onclick="resetApp()"

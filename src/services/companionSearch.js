@@ -877,7 +877,7 @@ export function renderTravelPlanCard(plan) {
         ${hasScore ? `
           <div class="text-right">
             <div class="${scoreColor} font-bold text-lg">${plan.compatibilityScore}%</div>
-            <div class="text-xs text-slate-500">${t('compatibility') || 'compatibilite'}</div>
+            <div class="text-xs text-slate-400">${t('compatibility') || 'compatibilite'}</div>
           </div>
         ` : ''}
       </div>

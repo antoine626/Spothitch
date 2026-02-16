@@ -555,9 +555,9 @@ export function renderStarRating(rating, interactive = false, criterionId = '') 
   // Empty stars
   for (let i = 0; i < emptyStars; i++) {
     if (interactive) {
-      html += `<button type="button" onclick="setReviewRating('${escapeHTML(criterionId)}', ${fullStars + (hasHalfStar ? 1 : 0) + i + 1})" class="text-slate-500 hover:text-yellow-300 transition-colors" aria-label="${fullStars + (hasHalfStar ? 1 : 0) + i + 1} etoiles">${icon('star', 'w-5 h-5')}</button>`;
+      html += `<button type="button" onclick="setReviewRating('${escapeHTML(criterionId)}', ${fullStars + (hasHalfStar ? 1 : 0) + i + 1})" class="text-slate-400 hover:text-yellow-300 transition-colors" aria-label="${fullStars + (hasHalfStar ? 1 : 0) + i + 1} etoiles">${icon('star', 'w-5 h-5')}</button>`;
     } else {
-      html += icon('star', 'w-5 h-5 text-slate-500');
+      html += icon('star', 'w-5 h-5 text-slate-400');
     }
   }
 
@@ -603,7 +603,7 @@ export function renderReviewForm(spotId) {
                 <button
                   type="button"
                   onclick="setReviewRating('${escapeHTML(criterion.id)}', ${star})"
-                  class="star-btn text-2xl text-slate-500 hover:text-yellow-400 transition-colors"
+                  class="star-btn text-2xl text-slate-400 hover:text-yellow-400 transition-colors"
                   data-star="${star}"
                   aria-label="${star} etoile${star > 1 ? 's' : ''}"
                 >
@@ -628,7 +628,7 @@ export function renderReviewForm(spotId) {
           maxlength="1000"
           placeholder="${escapeHTML(t('reviewCommentPlaceholder') || 'Partage ton experience sur ce spot...')}"
         ></textarea>
-        <p class="text-xs text-slate-500 mt-1">
+        <p class="text-xs text-slate-400 mt-1">
           <span id="review-chars-count">0</span>/1000 ${escapeHTML(t('characters') || 'caracteres')}
         </p>
       </div>
@@ -648,7 +648,7 @@ export function renderReviewForm(spotId) {
           ${escapeHTML(t('addPhoto') || 'Ajouter une photo')}
         </button>
         <input type="file" id="review-photo-input" class="hidden" accept="image/*" multiple>
-        <p class="text-xs text-slate-500 mt-1">${escapeHTML(t('maxPhotos') || 'Maximum 5 photos')}</p>
+        <p class="text-xs text-slate-400 mt-1">${escapeHTML(t('maxPhotos') || 'Maximum 5 photos')}</p>
       </div>
 
       <!-- Submit -->
@@ -892,7 +892,7 @@ window.setReviewRating = (criterionId, rating) => {
     if (svg) {
       svg.setAttribute('fill', idx < rating ? 'currentColor' : 'none');
     }
-    btn.className = `star-btn text-2xl ${idx < rating ? 'text-yellow-400' : 'text-slate-500'} hover:text-yellow-400 transition-colors`;
+    btn.className = `star-btn text-2xl ${idx < rating ? 'text-yellow-400' : 'text-slate-400'} hover:text-yellow-400 transition-colors`;
   });
 
   // Update value display

@@ -112,7 +112,7 @@ export function renderSOS(state) {
                       </div>
                       <button
                         onclick="removeEmergencyContact(${i})"
-                        class="text-slate-500 hover:text-danger-400"
+                        class="text-slate-400 hover:text-danger-400"
                         type="button"
                         aria-label="${t('deleteContact') || 'Supprimer le contact'} ${contact.name}"
                       >

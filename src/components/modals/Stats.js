@@ -191,7 +191,7 @@ export function renderStatsModal() {
                 <div class="flex items-end justify-between h-24 gap-2">
                   ${renderMiniChart(progressionData)}
                 </div>
-                <div class="flex justify-between mt-2 text-xs text-slate-500">
+                <div class="flex justify-between mt-2 text-xs text-slate-400">
                   ${progressionData.map(d => `<span>${d.month}</span>`).join('')}
                 </div>
               </div>
@@ -211,7 +211,7 @@ export function renderStatsModal() {
                   </div>
                   <div>
                     <div class="text-white font-bold">${t('level') || 'Niveau'} ${summary.level}</div>
-                    <div class="text-slate-500 text-xs">${summary.points} 👍</div>
+                    <div class="text-slate-400 text-xs">${summary.points} 👍</div>
                   </div>
                 </div>
                 <div class="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -232,7 +232,7 @@ export function renderStatsModal() {
                   </div>
                   <div>
                     <div class="text-white font-bold">${summary.vipLevel.name}</div>
-                    <div class="text-slate-500 text-xs">
+                    <div class="text-slate-400 text-xs">
                       ${summary.nextVip ? `${summary.pointsToNextVip} 👍 ${t('toNext') || 'au suivant'}` : (t('maxReached') || 'Max atteint')}
                     </div>
                   </div>
@@ -259,12 +259,12 @@ export function renderStatsModal() {
 }
                   <div>
                     <div class="text-white font-bold">${summary.league.name}</div>
-                    <div class="text-slate-500 text-xs">${state.seasonPoints || 0} 👍 ${t('season') || 'saison'}</div>
+                    <div class="text-slate-400 text-xs">${state.seasonPoints || 0} 👍 ${t('season') || 'saison'}</div>
                   </div>
                 </div>
                 ${leagueProgress.next ? `
                   <div class="text-right">
-                    <div class="text-slate-500 text-xs">${t('next') || 'Prochain'}</div>
+                    <div class="text-slate-400 text-xs">${t('next') || 'Prochain'}</div>
                     <div class="text-white flex items-center gap-1 justify-end">
                       ${leagueProgress.next.image
     ? `<img src="${leagueProgress.next.image}" alt="${leagueProgress.next.name}" class="w-5 h-5 object-contain" loading="lazy" />`
@@ -295,7 +295,7 @@ export function renderStatsModal() {
                 <div class="bg-white/5 rounded-xl p-3 text-center">
                   <div class="text-xl mb-1">${stat.icon}</div>
                   <div class="text-xl font-bold text-white">${stat.value}</div>
-                  <div class="text-slate-500 text-xs">${stat.label}</div>
+                  <div class="text-slate-400 text-xs">${stat.label}</div>
                 </div>
               `).join('')}
             </div>
@@ -312,12 +312,12 @@ export function renderStatsModal() {
                   <span class="text-xl">${achievement.icon}</span>
                   <div class="flex-1">
                     <div class="text-white text-sm">${achievement.title}</div>
-                    <div class="text-slate-500 text-xs">${formatDate(achievement.date)}</div>
+                    <div class="text-slate-400 text-xs">${formatDate(achievement.date)}</div>
                   </div>
                   <span class="text-amber-400 text-sm">+${achievement.points} 👍</span>
                 </div>
               `).join('') || `
-                <div class="text-center py-4 text-slate-500 text-sm">
+                <div class="text-center py-4 text-slate-400 text-sm">
                   ${t('noRecentAchievements') || 'Aucune réussite récente'}
                 </div>
               `}

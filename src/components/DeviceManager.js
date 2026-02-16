@@ -219,7 +219,7 @@ function renderDeviceItem(device, isCurrent) {
           <div class="text-sm text-slate-400">
             ${deviceOS}${screenRes ? ` - ${screenRes}` : ''}
           </div>
-          <div class="text-xs text-slate-500 flex items-center gap-1 mt-1">
+          <div class="text-xs text-slate-400 flex items-center gap-1 mt-1">
             ${icon('clock', 'w-5 h-5')}
             <span>${t('lastConnection')}: ${lastSeen}</span>
           </div>

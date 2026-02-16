@@ -557,7 +557,7 @@ export function renderFriendCard(friend) {
             ${icon('calendar-alt', 'w-5 h-5')}
             <span>${t('friendsSince') || 'Amis depuis'} ${escapeHTML(friendsSince)}</span>
             ${lastSeen ? `
-              <span class="text-slate-500">|</span>
+              <span class="text-slate-400">|</span>
               ${icon('clock', 'w-5 h-5')}
               <span>${escapeHTML(lastSeen)}</span>
             ` : ''}

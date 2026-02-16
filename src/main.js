@@ -1298,7 +1298,7 @@ window.searchTripCity = (query) => {
             <button onclick="addTripStepFromSearch('${escapeHTML(r.name).replace(/'/g, '&#39;')}', ${Number(r.lat)}, ${Number(r.lng)}, '${escapeHTML(r.fullName).replace(/'/g, '&#39;')}')"
                     class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/10 last:border-0">
               <div class="font-medium">${escapeHTML(r.name)}</div>
-              <div class="text-xs text-slate-500 truncate">${escapeHTML(r.fullName)}</div>
+              <div class="text-xs text-slate-400 truncate">${escapeHTML(r.fullName)}</div>
             </button>
           `).join('')}
         </div>

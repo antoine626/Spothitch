@@ -336,10 +336,10 @@ export function renderLanding(state) {
                   </div>
                   <div class="flex justify-around mt-4 pt-2 border-t border-slate-700">
                     ${icon('map', 'w-5 h-5 text-primary-400')}
-                    ${icon('compass', 'w-5 h-5 text-slate-500')}
-                    ${icon('trophy', 'w-5 h-5 text-slate-500')}
-                    ${icon('comments', 'w-5 h-5 text-slate-500')}
-                    ${icon('user', 'w-5 h-5 text-slate-500')}
+                    ${icon('compass', 'w-5 h-5 text-slate-400')}
+                    ${icon('trophy', 'w-5 h-5 text-slate-400')}
+                    ${icon('comments', 'w-5 h-5 text-slate-400')}
+                    ${icon('user', 'w-5 h-5 text-slate-400')}
                   </div>
                 </div>
               </div>
@@ -432,7 +432,7 @@ export function renderLanding(state) {
           </div>
 
           <div class="pt-8 border-t border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-slate-500 text-sm">
+            <p class="text-slate-400 text-sm">
               &copy; 2026 SpotHitch. Fait avec coeur pour les routards du monde entier.
             </p>
             <div class="flex gap-4">

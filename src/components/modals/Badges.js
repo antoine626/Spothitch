@@ -81,7 +81,7 @@ export function renderBadgesModal() {
     : `<div class="text-3xl mb-2 grayscale">${badge.icon}</div>`
 }
                     <div class="text-white text-xs font-medium">${badge.name}</div>
-                    <div class="text-slate-500 text-xs mt-1">+${badge.points} 👍</div>
+                    <div class="text-slate-400 text-xs mt-1">+${badge.points} 👍</div>
                   </div>
                 `).join('')}
               </div>
@@ -97,7 +97,7 @@ export function renderBadgesModal() {
               <section class="mb-6">
                 <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3 flex items-center gap-2">
                   ${category.icon} ${category.name}
-                  <span class="text-xs text-slate-500">(${earned.length}/${categoryBadges.length})</span>
+                  <span class="text-xs text-slate-400">(${earned.length}/${categoryBadges.length})</span>
                 </h3>
                 <div class="grid grid-cols-3 gap-4">
                   ${categoryBadges.map(badge => {
@@ -113,7 +113,7 @@ export function renderBadgesModal() {
                         <div class="text-white text-xs font-medium truncate">${badge.name}</div>
                         ${isEarned
     ? '<div class="text-green-400 text-xs mt-1">✓ Débloqué</div>'
-    : '<div class="text-slate-500 text-xs mt-1">🔒</div>'
+    : '<div class="text-slate-400 text-xs mt-1">🔒</div>'
 }
                       </div>
                     `;
@@ -211,11 +211,11 @@ export function renderBadgeDetail(badgeId) {
           <div class="flex justify-center gap-4 text-sm">
             <div class="text-center">
               <div class="text-amber-400 font-bold">${badge.points}</div>
-              <div class="text-slate-500">👍</div>
+              <div class="text-slate-400">👍</div>
             </div>
             <div class="text-center">
               <div class="text-purple-400 font-bold">${badge.category}</div>
-              <div class="text-slate-500">Catégorie</div>
+              <div class="text-slate-400">Catégorie</div>
             </div>
           </div>
 

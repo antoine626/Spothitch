@@ -181,7 +181,7 @@ export function renderAgeVerification(state) {
 
         <!-- Footer with GDPR note -->
         <div class="p-4 bg-white/5 border-t border-white/10 text-center">
-          <p class="text-xs text-slate-500">
+          <p class="text-xs text-slate-400">
             ${t('ageGDPRNote')}
           </p>
         </div>

@@ -89,7 +89,7 @@ export function renderCommunityTips(countryCode) {
             <div class="p-3 rounded-lg bg-white/5">
               <p class="text-sm text-slate-300">${tip.text}</p>
               <div class="flex items-center justify-between mt-2">
-                <span class="text-xs text-slate-500">${tip.author} - ${new Date(tip.createdAt).toLocaleDateString('fr-FR')}</span>
+                <span class="text-xs text-slate-400">${tip.author} - ${new Date(tip.createdAt).toLocaleDateString('fr-FR')}</span>
                 <div class="flex items-center gap-2">
                   <button onclick="voteCommunityTip('${tip.id}', 'up')" class="text-xs px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20">
                     👍 ${tip.upvotes || 0}
@@ -103,7 +103,7 @@ export function renderCommunityTips(countryCode) {
           `).join('')}
         </div>
       ` : `
-        <p class="text-sm text-slate-500 text-center py-2">${t('communityTipsEmpty') || 'Aucun conseil pour ce pays. Sois le premier !'}</p>
+        <p class="text-sm text-slate-400 text-center py-2">${t('communityTipsEmpty') || 'Aucun conseil pour ce pays. Sois le premier !'}</p>
       `}
     </div>
   `

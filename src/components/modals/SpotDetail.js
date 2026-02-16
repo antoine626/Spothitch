@@ -120,7 +120,7 @@ export function renderSpotDetail(state) {
                   🏙️ ${t('fromCityLabel') || 'Depuis'}: ${escapeHTML(spot.fromCity)}
                 </span>` : ''}
               ${spot.roadNumber ? `
-                <span class="badge bg-slate-500/20 text-slate-300 border border-slate-500/30">
+                <span class="badge bg-slate-500/20 text-slate-300 border border-slate-400/30">
                   🛤️ ${escapeHTML(spot.roadNumber)}
                 </span>` : ''}
             </div>
@@ -226,7 +226,7 @@ export function renderSpotDetail(state) {
 
           <!-- Source -->
           ${spot.source ? `
-            <div class="text-center text-xs text-slate-500 mt-4">
+            <div class="text-center text-xs text-slate-400 mt-4">
               Source: ${escapeHTML(spot.source)} • ${t('createdBy') || 'Créé par'} ${escapeHTML(spot.creator || (t('anonymous') || 'Anonyme'))}
             </div>
           ` : ''}

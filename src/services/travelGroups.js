@@ -1140,7 +1140,7 @@ export function renderTravelGroupDetail(state) {
                     </div>
                   </div>
                 `).join('') : `
-                  <p class="text-slate-500 text-center py-4">Aucun message</p>
+                  <p class="text-slate-400 text-center py-4">Aucun message</p>
                 `}
               </div>
               <div class="flex gap-2">

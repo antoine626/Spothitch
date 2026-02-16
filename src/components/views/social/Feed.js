@@ -85,7 +85,7 @@ function renderFeedFilter(id, active, label) {
       class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
     active === id
       ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
-      : 'text-slate-500 hover:text-slate-300 hover:bg-white/5'
+      : 'text-slate-400 hover:text-slate-300 hover:bg-white/5'
   }"
     >
       ${label}
@@ -159,12 +159,12 @@ function renderActivityCard(activity) {
             <span class="text-slate-400"> ${escapeHTML(activity.description || '')}</span>
           </p>
           ${activity.spotName ? `
-            <div class="flex items-center gap-1 mt-1 text-xs text-slate-500">
+            <div class="flex items-center gap-1 mt-1 text-xs text-slate-400">
               ${icon('map-pin', 'w-3 h-3')}
               <span>${escapeHTML(activity.spotName)}</span>
             </div>
           ` : ''}
-          <time class="text-xs text-slate-500 mt-1 block">${formatRelativeTime(activity.timestamp)}</time>
+          <time class="text-xs text-slate-400 mt-1 block">${formatRelativeTime(activity.timestamp)}</time>
         </div>
       </div>
     </div>
@@ -182,7 +182,7 @@ function renderEventFeedCard(event, state) {
       onclick="openEventDetail('${event.id}')"
       class="card p-4 w-full text-left hover:border-primary-500/50 transition-all"
     >
-      <div class="flex items-center gap-1 mb-2 text-xs text-slate-500">
+      <div class="flex items-center gap-1 mb-2 text-xs text-slate-400">
         ${icon('calendar', 'w-3 h-3')}
         <span>${t('feedEvents')}</span>
       </div>
@@ -199,7 +199,7 @@ function renderEventFeedCard(event, state) {
             ${formatEventDate(event.date)}${event.time ? ` ${t('at')} ${event.time}` : ''}
             ${event.location ? ` — ${escapeHTML(event.location)}` : ''}
           </div>
-          <div class="text-xs text-slate-500 mt-1">
+          <div class="text-xs text-slate-400 mt-1">
             ${icon('user', 'w-3 h-3')} ${participantCount} ${t('participants')}
           </div>
         </div>

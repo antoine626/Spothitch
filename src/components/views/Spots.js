@@ -113,7 +113,7 @@ function renderSpotsList(spots) {
       ${spots.map(spot => renderSpotCard(spot)).join('')}
     </div>
 
-    <div class="text-center text-slate-500 text-sm mt-6" id="search-results-count" role="status" aria-live="polite">
+    <div class="text-center text-slate-400 text-sm mt-6" id="search-results-count" role="status" aria-live="polite">
       ${spots.length} spot${spots.length > 1 ? 's' : ''} affiche${spots.length > 1 ? 's' : ''}
     </div>
   `;

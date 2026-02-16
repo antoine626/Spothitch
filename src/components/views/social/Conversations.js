@@ -95,7 +95,7 @@ function renderConversationList(state) {
               <div class="font-medium text-sm">${t('zoneChatRooms')}</div>
               <div class="text-xs text-slate-400">${t('zoneChatRoomsDesc')}</div>
             </div>
-            ${icon('chevron-right', 'w-4 h-4 text-slate-500')}
+            ${icon('chevron-right', 'w-4 h-4 text-slate-400')}
           </div>
         </button>
       </div>
@@ -121,7 +121,7 @@ function renderConversationList(state) {
                   <span class="font-medium text-sm truncate">${escapeHTML(conv.name)}</span>
                   ${conv.isGroup ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-400">${t('group')}</span>` : ''}
                 </div>
-                <time class="text-xs text-slate-500 shrink-0 ml-2">${formatRelativeTime(conv.lastMessageTime)}</time>
+                <time class="text-xs text-slate-400 shrink-0 ml-2">${formatRelativeTime(conv.lastMessageTime)}</time>
               </div>
               <div class="flex items-center justify-between mt-0.5">
                 <p class="text-xs text-slate-400 truncate">${escapeHTML(conv.lastMessage || '')}</p>
@@ -262,7 +262,7 @@ function renderDMMessage(msg, state) {
           </div>
         ` : ''}
         ${content}
-        <time class="text-xs text-slate-500 mt-1 block ${isSent ? 'text-right' : ''}">
+        <time class="text-xs text-slate-400 mt-1 block ${isSent ? 'text-right' : ''}">
           ${formatTime(msg.createdAt)}
         </time>
       </div>
@@ -347,7 +347,7 @@ function renderGroupMessage(msg, state) {
           </div>
         ` : ''}
         <p class="text-sm text-white">${escapeHTML(msg.text || '')}</p>
-        <time class="text-xs text-slate-500 mt-1 block ${isSent ? 'text-right' : ''}">
+        <time class="text-xs text-slate-400 mt-1 block ${isSent ? 'text-right' : ''}">
           ${formatTime(msg.createdAt)}
         </time>
       </div>

@@ -237,7 +237,7 @@ function renderSafetySection() {
     t('guideCheckItem6') || 'Copie des documents d\'identité',
   ].map(item => `
             <div class="flex items-center gap-2 text-sm">
-              ${icon('square', 'w-4 h-4 text-slate-500 shrink-0')}
+              ${icon('square', 'w-4 h-4 text-slate-400 shrink-0')}
               <span class="text-slate-400">${item}</span>
             </div>
           `).join('')}
@@ -267,7 +267,7 @@ function renderPhrasesSection() {
             ${guide.phrases.map(p => `
               <div class="p-2.5 rounded-lg bg-white/5">
                 <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
-                <div class="text-xs text-slate-500 mt-1">${p.meaning}</div>
+                <div class="text-xs text-slate-400 mt-1">${p.meaning}</div>
               </div>
             `).join('')}
           </div>
@@ -309,7 +309,7 @@ function renderEventsSection() {
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-2">
                     <span class="font-medium text-sm">${eventName}</span>
-                    <span class="text-xs text-slate-500">${eventDate}</span>
+                    <span class="text-xs text-slate-400">${eventDate}</span>
                   </div>
                   <p class="text-xs text-slate-400 mt-0.5">${eventDesc}</p>
                 </div>
@@ -365,7 +365,7 @@ function renderLegalitySection() {
               <span class="text-2xl">${guide.flag}</span>
               <div>
                 <div class="font-medium">${guide.name}</div>
-                <div class="text-xs text-slate-500 mt-0.5 line-clamp-1">${guide.legalityText}</div>
+                <div class="text-xs text-slate-400 mt-0.5 line-clamp-1">${guide.legalityText}</div>
               </div>
             </div>
             <span class="px-2 py-1 rounded-full text-xs font-medium shrink-0 ${legalityColors[guide.legality] || legalityColors.gray}">
@@ -474,7 +474,7 @@ export function renderCountryDetail(guideOrCode) {
             ${guide.phrases.map(p => `
               <div class="p-2.5 rounded-lg bg-white/5">
                 <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
-                <div class="text-xs text-slate-500 mt-1">${p.meaning}</div>
+                <div class="text-xs text-slate-400 mt-1">${p.meaning}</div>
               </div>
             `).join('')}
           </div>
@@ -492,7 +492,7 @@ export function renderCountryDetail(guideOrCode) {
             <span class="px-3 py-1 rounded-full text-sm ${
   guide.bestMonths.includes(i + 1)
     ? 'bg-emerald-500/20 text-emerald-400'
-    : 'bg-white/5 text-slate-500'
+    : 'bg-white/5 text-slate-400'
 }">${month}</span>
           `).join('')}
         </div>
@@ -558,7 +558,7 @@ export function renderCountryDetail(guideOrCode) {
               <div class="p-2.5 rounded-lg bg-white/5">
                 <div class="flex items-center gap-2">
                   <span class="font-medium text-sm">${eventName}</span>
-                  <span class="text-xs text-slate-500">${eventDate}</span>
+                  <span class="text-xs text-slate-400">${eventDate}</span>
                 </div>
                 <p class="text-xs text-slate-400 mt-0.5">${eventDesc}</p>
               </div>

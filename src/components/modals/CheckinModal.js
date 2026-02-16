@@ -67,7 +67,7 @@ export function renderCheckinModal(state) {
               onclick="triggerCheckinPhoto()"
             >
               <div id="checkin-photo-placeholder" class="text-center">
-                ${icon('cloud-upload-alt', 'w-8 h-8 text-slate-500 mb-2')}
+                ${icon('cloud-upload-alt', 'w-8 h-8 text-slate-400 mb-2')}
                 <p class="text-sm text-slate-400">${t('clickToAddPhoto') || 'Cliquer pour ajouter une photo'}</p>
               </div>
               <img id="checkin-photo-img" class="hidden w-full h-full object-cover rounded-xl" alt="Photo du spot" loading="lazy"/>

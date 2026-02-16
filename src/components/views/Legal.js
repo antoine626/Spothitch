@@ -42,19 +42,19 @@ export function renderLegalPage(page = 'cgu') {
       <!-- Tabs -->
       <div class="flex border-b border-white/10 overflow-x-auto">
         <button onclick="showLegalPage('cgu')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cgu' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400'}">
           ${t('legalTabTerms') || 'CGU'}
         </button>
         <button onclick="showLegalPage('privacy')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'privacy' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'privacy' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400'}">
           ${t('legalTabPrivacy') || 'Confidentialité'}
         </button>
         <button onclick="showLegalPage('cookies')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cookies' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'cookies' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400'}">
           ${t('legalTabCookies') || 'Cookies'}
         </button>
         <button onclick="showLegalPage('legal')"
-                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500'}">
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400'}">
           ${t('legalTabNotice') || 'Mentions'}
         </button>
       </div>

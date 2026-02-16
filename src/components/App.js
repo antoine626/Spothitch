@@ -545,7 +545,7 @@ function initHomeMap(state) {
                 ${distLabel ? `<span class="text-xs text-primary-400 font-medium">${distLabel}</span>` : ''}
               </div>
               <div class="text-white text-sm font-medium truncate">${dir || 'Spot'}</div>
-              <div class="text-slate-500 text-xs truncate mt-0.5">${s.from || ''}</div>
+              <div class="text-slate-400 text-xs truncate mt-0.5">${s.from || ''}</div>
             </button>`
         }).join('')
       }
@@ -563,7 +563,7 @@ function initHomeMap(state) {
               <div class="text-amber-400 text-sm font-bold shrink-0">${rating}</div>
               <div class="flex-1 min-w-0">
                 <div class="text-white text-sm font-medium truncate">${dir || 'Spot'}</div>
-                <div class="text-slate-500 text-xs truncate">${s.from || ''}</div>
+                <div class="text-slate-400 text-xs truncate">${s.from || ''}</div>
               </div>
               ${distLabel ? `<span class="text-xs text-primary-400 font-medium shrink-0">${distLabel}</span>` : ''}
             </button>`

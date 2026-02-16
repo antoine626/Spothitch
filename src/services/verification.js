@@ -263,7 +263,7 @@ export function renderVoteButtons(spotId) {
       <div class="text-center p-4 bg-white/5 rounded-xl">
         ${icon('check-circle', 'w-5 h-5 text-emerald-400 mb-2')}
         <p class="text-sm text-slate-400">${t('alreadyVotedToday') || 'Tu as déjà voté aujourd\'hui'}</p>
-        <p class="text-xs text-slate-500 mt-1">${t('comeBackTomorrow') || 'Reviens demain pour voter à nouveau'}</p>
+        <p class="text-xs text-slate-400 mt-1">${t('comeBackTomorrow') || 'Reviens demain pour voter à nouveau'}</p>
       </div>
     `;
   }
@@ -321,7 +321,7 @@ export function renderVoteButtons(spotId) {
         </button>
       </div>
 
-      <p class="text-xs text-slate-500 text-center">
+      <p class="text-xs text-slate-400 text-center">
         ${icon('info-circle', 'w-5 h-5 mr-1')}
         ${t('earnPointsByVerifying') || 'Gagne des pouces en vérifiant les spots !'}
       </p>

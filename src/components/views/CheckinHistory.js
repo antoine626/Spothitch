@@ -174,7 +174,7 @@ function renderCheckinItem(checkin) {
 
           <!-- Date and badges -->
           <div class="flex flex-wrap items-center gap-2 mt-1">
-            <span class="text-xs text-slate-500">
+            <span class="text-xs text-slate-400">
               ${formatCheckinDate(checkin.timestamp)}
             </span>
             ${renderWaitTimeBadge(checkin.waitTime)}
@@ -198,7 +198,7 @@ function renderCheckinItem(checkin) {
         </div>
 
         <!-- Arrow -->
-        <div class="flex items-center text-slate-500">
+        <div class="flex items-center text-slate-400">
           ${icon('chevron-right', 'w-5 h-5')}
         </div>
       </div>
@@ -309,7 +309,7 @@ export function renderCheckinHistory(state) {
                     ${icon('calendar', 'w-5 h-5 text-primary-400')}
                   </div>
                   <h3 class="font-semibold text-slate-300 capitalize">${group.label}</h3>
-                  <span class="text-sm text-slate-500">(${group.checkins.length})</span>
+                  <span class="text-sm text-slate-400">(${group.checkins.length})</span>
                 </div>
 
                 <!-- Check-ins in this month -->

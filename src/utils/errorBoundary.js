@@ -80,7 +80,7 @@ function renderErrorFallback(componentName, error) {
       <p class="text-sm text-slate-400 mt-1">Le composant "${componentName}" n'a pas pu se charger.</p>
       ${isDev ? `
         <details class="mt-3 text-left">
-          <summary class="text-xs text-slate-500 cursor-pointer">Détails (dev only)</summary>
+          <summary class="text-xs text-slate-400 cursor-pointer">Détails (dev only)</summary>
           <pre class="mt-2 p-2 bg-black/30 rounded text-xs text-red-400 overflow-auto max-h-32">${escapeForHtml(error.stack || error.message)}</pre>
         </details>
       ` : ''}

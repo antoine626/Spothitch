@@ -74,7 +74,7 @@ export function renderShopModal() {
           </div>
 
           ${categoryRewards.length === 0 ? `
-            <div class="text-center py-10 text-slate-500">
+            <div class="text-center py-10 text-slate-400">
               <span class="text-4xl">🎁</span>
               <p class="mt-2">${t('noOffersInCategory') || 'Aucune offre dans cette catégorie'}</p>
             </div>
@@ -119,7 +119,7 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
               <p class="text-xs text-slate-400">${reward.partner}</p>
             </div>
             <div class="text-right shrink-0">
-              <div class="text-lg font-bold ${canBuy ? 'text-amber-400' : 'text-slate-500'}">
+              <div class="text-lg font-bold ${canBuy ? 'text-amber-400' : 'text-slate-400'}">
                 ${reward.discount}
               </div>
             </div>
@@ -128,10 +128,10 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
           <p class="text-sm text-slate-400 mt-1">${description}</p>
 
           <div class="flex items-center justify-between mt-3">
-            <div class="flex items-center gap-1 text-sm ${canBuy ? 'text-amber-400' : 'text-slate-500'}">
+            <div class="flex items-center gap-1 text-sm ${canBuy ? 'text-amber-400' : 'text-slate-400'}">
               <span>👍</span>
               <span class="font-bold">${reward.cost}</span>
-              <span class="text-slate-500">${t('thumbsUnit') || 'pouces'}</span>
+              <span class="text-slate-400">${t('thumbsUnit') || 'pouces'}</span>
             </div>
 
             ${isRedeemed ? `
@@ -145,7 +145,7 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
                 ${t('exchange') || 'Échanger'}
               </button>
             ` : `
-              <span class="text-slate-500 text-sm">
+              <span class="text-slate-400 text-sm">
                 ${userThumbs < reward.cost ? `${t('youNeed') || 'Il te manque'} ${reward.cost - userThumbs} 👍` : ''}
               </span>
             `}
@@ -194,7 +194,7 @@ export function renderMyRewardsModal() {
         <!-- Content -->
         <div class="flex-1 overflow-y-auto p-5">
           ${redeemedRewards.length === 0 ? `
-            <div class="text-center py-10 text-slate-500">
+            <div class="text-center py-10 text-slate-400">
               <span class="text-5xl mb-4 block">🎫</span>
               <p class="font-medium">${t('noPromoCode') || 'Aucun code promo'}</p>
               <p class="text-sm mt-1">${t('exchangeThumbsForDiscounts') || 'Échange tes pouces contre des réductions !'}</p>
@@ -237,7 +237,7 @@ export function renderMyRewardsModal() {
                         ${t('useOn') || 'Utiliser sur'} ${reward.partner}
                       </a>
 
-                      <p class="text-xs text-slate-500 mt-2">
+                      <p class="text-xs text-slate-400 mt-2">
                         ${icon('info-circle', 'w-5 h-5 mr-1')}
                         ${reward.conditions}
                       </p>

@@ -84,13 +84,13 @@ export function renderSpotOfTheDay(state) {
               ${icon('star', 'w-5 h-5')}
               <span class="font-bold">${spot.globalRating?.toFixed(1) || 'N/A'}</span>
             </span>
-            <span class="text-slate-500" aria-hidden="true">&#8226;</span>
+            <span class="text-slate-400" aria-hidden="true">&#8226;</span>
             <span class="text-slate-400" aria-label="Temps d'attente: environ ${spot.avgWaitTime || 'inconnu'} minutes">
               ${icon('clock', 'w-5 h-5 mr-1')}
               ~${spot.avgWaitTime || '?'} min
             </span>
             ${spot.checkins ? `
-              <span class="text-slate-500" aria-hidden="true">&#8226;</span>
+              <span class="text-slate-400" aria-hidden="true">&#8226;</span>
               <span class="text-emerald-400" aria-label="${spot.checkins} check-ins">
                 ${icon('check-circle', 'w-5 h-5 mr-1')}
                 ${spot.checkins}
@@ -101,7 +101,7 @@ export function renderSpotOfTheDay(state) {
 
         <!-- Arrow -->
         <div class="flex items-center" aria-hidden="true">
-          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+          ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
         </div>
       </div>
 

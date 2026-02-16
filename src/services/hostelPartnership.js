@@ -9,6 +9,7 @@
 import { getState, setState } from '../stores/state.js'
 import { trackEvent } from './analytics.js'
 import { icon } from '../utils/icons.js'
+import { escapeHTML } from '../utils/sanitize.js'
 
 // Storage key for discount codes
 const STORAGE_KEY = 'spothitch_hostel_codes'
@@ -1029,12 +1030,12 @@ export function renderHostelCard(hostel) {
          data-hostel-id="${hostel.id}"
          onclick="window.openHostelDetail?.('${hostel.id}')"
          role="article"
-         aria-label="${t('partnerHostel')}: ${hostel.name}">
+         aria-label="${t('partnerHostel')}: ${escapeHTML(hostel.name)}">
       <div class="flex items-start gap-4">
         <!-- Photo -->
         <div class="w-24 h-24 rounded-lg bg-white/5 overflow-hidden shrink-0">
           ${hostel.photos && hostel.photos[0]
-            ? `<img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover" loading="lazy">`
+            ? `<img src="${escapeHTML(hostel.photos[0])}" alt="${escapeHTML(hostel.name)}" class="w-full h-full object-cover" loading="lazy">`
             : `<div class="w-full h-full flex items-center justify-center text-3xl">🏨</div>`
           }
         </div>
@@ -1043,8 +1044,8 @@ export function renderHostelCard(hostel) {
         <div class="flex-1 min-w-0">
           <div class="flex items-start justify-between">
             <div>
-              <h3 class="font-semibold text-white text-lg truncate">${hostel.name}</h3>
-              <p class="text-sm text-slate-400">${hostel.city}, ${hostel.country}</p>
+              <h3 class="font-semibold text-white text-lg truncate">${escapeHTML(hostel.name)}</h3>
+              <p class="text-sm text-slate-400">${escapeHTML(hostel.city)}, ${escapeHTML(hostel.country)}</p>
             </div>
             <span class="bg-primary-500/20 text-primary-400 px-2 py-1 rounded-lg text-sm font-medium whitespace-nowrap">
               -${hostel.discount}%
@@ -1057,7 +1058,7 @@ export function renderHostelCard(hostel) {
               ${icon('star', 'w-5 h-5')}
               <span class="ml-1 text-white">${ratingInfo.average}</span>
             </div>
-            <span class="text-xs text-slate-500">(${ratingInfo.count} ${t('reviews')})</span>
+            <span class="text-xs text-slate-400">(${ratingInfo.count} ${t('reviews')})</span>
           </div>
 
           <!-- Amenities -->
@@ -1080,7 +1081,7 @@ export function renderHostelCard(hostel) {
           ${icon('check-circle', 'w-5 h-5')}
           ${t('verified')}
         </span>
-        <span class="text-slate-500">${t('seeDetails')} →</span>
+        <span class="text-slate-400">${t('seeDetails')} →</span>
       </div>
     </div>
   `
@@ -1135,7 +1136,7 @@ export function renderHostelDetail(hostel) {
       <div class="bg-white/5 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <!-- Header -->
         <div class="sticky top-0 bg-white/5 p-4 border-b border-white/10 flex items-center justify-between z-10">
-          <h2 id="hostel-modal-title" class="text-xl font-bold text-white">${hostel.name}</h2>
+          <h2 id="hostel-modal-title" class="text-xl font-bold text-white">${escapeHTML(hostel.name)}</h2>
           <button onclick="window.closeHostelDetail?.()"
             class="text-slate-400 hover:text-white w-8 h-8 flex items-center justify-center"
             aria-label="Close">
@@ -1146,7 +1147,7 @@ export function renderHostelDetail(hostel) {
         <!-- Photo gallery -->
         ${hostel.photos && hostel.photos.length > 0 ? `
           <div class="relative h-48 bg-dark-primary">
-            <img src="${hostel.photos[0]}" alt="${hostel.name}" class="w-full h-full object-cover" loading="lazy">
+            <img src="${escapeHTML(hostel.photos[0])}" alt="${escapeHTML(hostel.name)}" class="w-full h-full object-cover" loading="lazy">
             <div class="absolute top-2 right-2 bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-bold">
               -${hostel.discount}% SpotHitch
             </div>
@@ -1157,7 +1158,7 @@ export function renderHostelDetail(hostel) {
           <!-- Location -->
           <div class="flex items-center gap-2 text-slate-400">
             ${icon('map-marker-alt', 'w-5 h-5')}
-            <span>${hostel.address}</span>
+            <span>${escapeHTML(hostel.address)}</span>
           </div>
 
           <!-- Rating -->
@@ -1170,7 +1171,7 @@ export function renderHostelDetail(hostel) {
           </div>
 
           <!-- Description -->
-          <p class="text-slate-300">${description}</p>
+          <p class="text-slate-300">${escapeHTML(description)}</p>
 
           <!-- Price -->
           <div class="bg-dark-primary rounded-lg p-3">
@@ -1262,7 +1263,7 @@ export function renderHostelDetail(hostel) {
           </div>
 
           <!-- Partner badge -->
-          <div class="text-center text-xs text-slate-500 pt-2 border-t border-white/10">
+          <div class="text-center text-xs text-slate-400 pt-2 border-t border-white/10">
             ${icon('check-circle', 'w-5 h-5 text-primary-400 mr-1')}
             ${t('verified')} - ${t('exclusive')}
           </div>
@@ -1305,7 +1306,7 @@ export function renderDiscountBanner(discount) {
               </button>
             </div>
             ${discount.expiresAt ? `
-              <p class="text-xs text-slate-500 mt-1">
+              <p class="text-xs text-slate-400 mt-1">
                 ${t('codeExpires')} ${new Date(discount.expiresAt).toLocaleDateString()}
               </p>
             ` : ''}
@@ -1420,7 +1421,7 @@ function renderStars(rating) {
     html += icon('star-half-alt', 'w-5 h-5')
   }
   for (let i = 0; i < emptyStars; i++) {
-    html += icon('star', 'w-5 h-5 text-slate-500')
+    html += icon('star', 'w-5 h-5 text-slate-400')
   }
   return html
 }

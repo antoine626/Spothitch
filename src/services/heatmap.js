@@ -237,7 +237,7 @@ export function renderHeatmapLegend() {
         <div class="w-4 h-4 rounded" style="background: #ff7f00;"></div>
         <div class="w-4 h-4 rounded" style="background: #ff0000;"></div>
       </div>
-      <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+      <div class="flex justify-between text-[10px] text-slate-400 mt-1">
         <span>Faible</span>
         <span>Élevée</span>
       </div>

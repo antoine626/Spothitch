@@ -306,7 +306,7 @@ export function renderSponsoredBanner(content) {
         </div>
       </div>
       <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/5">
-        <span class="text-xs text-slate-500">🤝 Partenaire vérifié</span>
+        <span class="text-xs text-slate-400">🤝 Partenaire vérifié</span>
         <span class="text-xs text-slate-400">Tap pour en savoir plus</span>
       </div>
     </div>

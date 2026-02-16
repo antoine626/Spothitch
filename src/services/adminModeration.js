@@ -1276,7 +1276,7 @@ export function renderModerationQueue(options = {}) {
                   </span>
                   <span class="text-sm text-slate-400">${report.type}</span>
                 </div>
-                <div class="text-xs text-slate-500">${formatTimeAgo(report.timestamp)}</div>
+                <div class="text-xs text-slate-400">${formatTimeAgo(report.timestamp)}</div>
               </div>
 
               <div class="mb-3">
@@ -1320,7 +1320,7 @@ function getPriorityClasses(severity) {
     critical: { border: 'border-red-500', bg: 'bg-red-500/20', text: 'text-red-400' },
     high: { border: 'border-orange-500', bg: 'bg-orange-500/20', text: 'text-orange-400' },
     medium: { border: 'border-amber-500', bg: 'bg-amber-500/20', text: 'text-amber-400' },
-    low: { border: 'border-slate-500', bg: 'bg-slate-500/20', text: 'text-slate-400' },
+    low: { border: 'border-slate-400', bg: 'bg-slate-500/20', text: 'text-slate-400' },
   };
   return classes[severity] || classes.low;
 }
@@ -1544,7 +1544,7 @@ export function renderSanctionsHistory(userId) {
                   <div class="text-sm font-medium">${ban.permanent ? t('adminPermanentBan') : ban.durationLabel}</div>
                   <div class="text-xs text-slate-400">${ban.reason}</div>
                 </div>
-                <div class="text-xs text-slate-500">${new Date(ban.bannedAt).toLocaleDateString()}</div>
+                <div class="text-xs text-slate-400">${new Date(ban.bannedAt).toLocaleDateString()}</div>
               </div>
             `).join('')}
           </div>
@@ -1562,7 +1562,7 @@ export function renderSanctionsHistory(userId) {
                   <div class="text-sm font-medium">${warning.reasonLabel} ${warning.removedAt ? '(Removed)' : ''}</div>
                   <div class="text-xs text-slate-400">+${warning.points} 👍 - ${warning.severityLabel}</div>
                 </div>
-                <div class="text-xs text-slate-500">${new Date(warning.timestamp).toLocaleDateString()}</div>
+                <div class="text-xs text-slate-400">${new Date(warning.timestamp).toLocaleDateString()}</div>
               </div>
             `).join('')}
           </div>
@@ -2343,7 +2343,7 @@ export function renderForbiddenWordsPanel() {
               <span class="ml-2 px-2 py-0.5 rounded-full text-xs ${sevCls.bg} ${sevCls.text}">
                 ${sevCls.label}
               </span>
-              <span class="ml-2 text-xs text-slate-500">${entry.action}</span>
+              <span class="ml-2 text-xs text-slate-400">${entry.action}</span>
             </div>
             <button onclick="removeForbiddenWord('${entry.word}')" class="text-red-400 hover:text-red-300">
               ${icon('trash', 'w-5 h-5')}

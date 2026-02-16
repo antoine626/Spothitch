@@ -147,7 +147,7 @@ function renderFullDonation() {
         <!-- Supporter badge info -->
         ${!isSupporter ? `
           <div class="pt-4 border-t border-white/10">
-            <p class="text-xs text-slate-500 flex items-center justify-center gap-2">
+            <p class="text-xs text-slate-400 flex items-center justify-center gap-2">
               ${icon('star', 'w-5 h-5 text-amber-400')}
               Recois le badge <strong class="text-amber-400">Supporter</strong> sur ton profil !
             </p>
@@ -307,7 +307,7 @@ export function renderDonationModal(state) {
 
           <!-- Info notice -->
           <div class="mt-6 text-center space-y-2">
-            <p class="text-xs text-slate-500 flex items-center justify-center gap-2">
+            <p class="text-xs text-slate-400 flex items-center justify-center gap-2">
               ${icon('lock', 'w-5 h-5')}
               Paiement securise via les plateformes officielles
             </p>

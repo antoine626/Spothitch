@@ -28,7 +28,7 @@ export function renderPlanner(state) {
         <div id="trip-steps" class="space-y-2">
           ${tripSteps.length === 0
     ? `
-              <div class="text-center py-8 text-slate-500">
+              <div class="text-center py-8 text-slate-400">
                 <span class="text-4xl">🗺️</span>
                 <p class="mt-2">${t('addStartCity') || 'Ajoute une ville de départ'}</p>
               </div>
@@ -90,7 +90,7 @@ export function renderPlanner(state) {
 
         ${savedTrips.length === 0
     ? `
-            <div class="text-center py-6 text-slate-500">
+            <div class="text-center py-6 text-slate-400">
               <span class="text-3xl">📋</span>
               <p class="mt-2 text-sm">${t('noTrips')}</p>
             </div>
@@ -127,7 +127,7 @@ function renderTripStep(step, index, totalSteps) {
       <!-- Step info -->
       <div class="flex-1 min-w-0">
         <div class="text-white font-medium truncate">${step.name}</div>
-        <div class="text-slate-500 text-xs truncate">${step.fullName || ''}</div>
+        <div class="text-slate-400 text-xs truncate">${step.fullName || ''}</div>
       </div>
 
       <!-- Actions -->
@@ -169,15 +169,15 @@ function renderActiveTripDetails(trip) {
       <div class="grid grid-cols-3 gap-4 mb-5">
         <div class="text-center">
           <div class="text-2xl font-bold text-white">${formatDistance(trip.totalDistance)}</div>
-          <div class="text-xs text-slate-500">Distance</div>
+          <div class="text-xs text-slate-400">Distance</div>
         </div>
         <div class="text-center">
           <div class="text-2xl font-bold text-white">${formatDuration(trip.totalDuration)}</div>
-          <div class="text-xs text-slate-500">En voiture</div>
+          <div class="text-xs text-slate-400">En voiture</div>
         </div>
         <div class="text-center">
           <div class="text-2xl font-bold text-white">${trip.estimatedDays}j</div>
-          <div class="text-xs text-slate-500">Estimé stop</div>
+          <div class="text-xs text-slate-400">Estimé stop</div>
         </div>
       </div>
 
@@ -197,7 +197,7 @@ function renderActiveTripDetails(trip) {
                       </span>
                     `).join('')}
                   </div>`
-    : '<p class="text-slate-500 text-xs">Pas de spots connus sur ce tronçon</p>'
+    : '<p class="text-slate-400 text-xs">Pas de spots connus sur ce tronçon</p>'
 }
             </div>
           `).join('')}
@@ -226,13 +226,13 @@ function renderSavedTripCard(trip) {
       </div>
       <div class="flex-1 min-w-0">
         <div class="text-white font-medium truncate">${route}</div>
-        <div class="text-slate-500 text-xs">
+        <div class="text-slate-400 text-xs">
           ${formatDistance(trip.totalDistance)} • ${trip.steps.length} étapes •
           ${new Date(trip.createdAt).toLocaleDateString()}
         </div>
       </div>
       <button onclick="event.stopPropagation(); deleteSavedTrip('${trip.id}')"
-              class="p-2 text-slate-500 hover:text-red-400">
+              class="p-2 text-slate-400 hover:text-red-400">
         🗑️
       </button>
     </div>
@@ -247,7 +247,7 @@ export function renderSavedTripDetail(tripId) {
 
   if (!trip) {
     return `
-      <div class="text-center py-20 text-slate-500">
+      <div class="text-center py-20 text-slate-400">
         <span class="text-4xl">❌</span>
         <p class="mt-4">Voyage non trouvé</p>
         <button onclick="changeTab('planner')" class="mt-4 text-amber-400 hover:text-amber-300">
@@ -267,7 +267,7 @@ export function renderSavedTripDetail(tripId) {
           </button>
           <div class="flex-1">
             <h1 class="text-lg font-bold text-white">Détails du voyage</h1>
-            <p class="text-slate-500 text-xs">Créé le ${new Date(trip.createdAt).toLocaleDateString()}</p>
+            <p class="text-slate-400 text-xs">Créé le ${new Date(trip.createdAt).toLocaleDateString()}</p>
           </div>
           <button onclick="deleteSavedTrip('${trip.id}')" class="p-2 text-red-400 hover:bg-dark-secondary rounded-full">
             🗑️
@@ -282,15 +282,15 @@ export function renderSavedTripDetail(tripId) {
       <div class="p-5 grid grid-cols-3 gap-4 border-b border-white/10">
         <div class="text-center">
           <div class="text-xl font-bold text-white">${formatDistance(trip.totalDistance)}</div>
-          <div class="text-xs text-slate-500">Distance totale</div>
+          <div class="text-xs text-slate-400">Distance totale</div>
         </div>
         <div class="text-center">
           <div class="text-xl font-bold text-white">${trip.steps.length}</div>
-          <div class="text-xs text-slate-500">Étapes</div>
+          <div class="text-xs text-slate-400">Étapes</div>
         </div>
         <div class="text-center">
           <div class="text-xl font-bold text-white">${trip.estimatedDays}j</div>
-          <div class="text-xs text-slate-500">Durée estimée</div>
+          <div class="text-xs text-slate-400">Durée estimée</div>
         </div>
       </div>
 
@@ -306,7 +306,7 @@ export function renderSavedTripDetail(tripId) {
               </div>
               <div class="flex-1">
                 <div class="text-white font-medium">${step.name}</div>
-                <div class="text-slate-500 text-xs">${step.fullName || ''}</div>
+                <div class="text-slate-400 text-xs">${step.fullName || ''}</div>
               </div>
             </div>
           `).join('')}
@@ -331,7 +331,7 @@ export function renderSavedTripDetail(tripId) {
                       <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
                       <div class="flex-1">
                         <div class="text-white text-sm">${spot.from}</div>
-                        <div class="text-slate-500 text-xs">⭐${spot.globalRating?.toFixed(1)} • ${spot.avgWaitTime}min</div>
+                        <div class="text-slate-400 text-xs">⭐${spot.globalRating?.toFixed(1)} • ${spot.avgWaitTime}min</div>
                       </div>
                     </div>
                   `).join('')}

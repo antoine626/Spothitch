@@ -32,7 +32,7 @@ export function renderNavigation(state) {
               class="nav-btn relative w-full flex flex-col items-center gap-1 px-2 py-2.5 rounded-xl transition-all duration-300 ${
   state.activeTab === tab.id
     ? 'text-primary-400'
-    : 'text-slate-500 hover:text-white'
+    : 'text-slate-400 hover:text-white'
 }"
               role="tab"
               id="tab-${tab.id}"

@@ -76,7 +76,7 @@ export function renderFriends(state) {
               <div class="font-medium text-sm">${t('lookingForCompanion')}</div>
               <div class="text-xs text-slate-400">${t('companionDesc')}</div>
             </div>
-            ${icon('chevron-right', 'w-4 h-4 text-slate-500')}
+            ${icon('chevron-right', 'w-4 h-4 text-slate-400')}
           </div>
         </button>
       </div>
@@ -84,7 +84,7 @@ export function renderFriends(state) {
       <!-- Friends list -->
       ${friends.length > 0 ? `
         <div class="px-4 pb-3">
-          <h4 class="text-xs text-slate-500 font-medium mb-2">${t('myFriends')} (${friends.length})</h4>
+          <h4 class="text-xs text-slate-400 font-medium mb-2">${t('myFriends')} (${friends.length})</h4>
           <div class="space-y-1">
             ${friends.map(friend => `
               <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-all">
@@ -97,7 +97,7 @@ export function renderFriends(state) {
                     <span class="text-sm font-medium truncate">${escapeHTML(friend.name)}</span>
                     ${getTrustBadge(friend.verificationLevel || 0)}
                   </div>
-                  <span class="text-xs text-slate-500">${friend.online ? t('online') : t('offline')}</span>
+                  <span class="text-xs text-slate-400">${friend.online ? t('online') : t('offline')}</span>
                 </div>
                 <button onclick="openConversation('${friend.id}')" class="w-8 h-8 rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center" aria-label="${t('sendMessage')}">
                   ${icon('comment', 'w-4 h-4')}
@@ -119,7 +119,7 @@ export function renderFriends(state) {
 
       <!-- Ambassadors section -->
       <div class="px-4 py-3 border-t border-white/5">
-        <h4 class="text-xs text-slate-500 font-medium mb-3 flex items-center gap-1">
+        <h4 class="text-xs text-slate-400 font-medium mb-3 flex items-center gap-1">
           ${icon('shield', 'w-4 h-4 text-amber-400')}
           ${t('ambassadors')}
         </h4>

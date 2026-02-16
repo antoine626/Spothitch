@@ -223,7 +223,7 @@ function renderVerificationStep(level, isComplete, title, description, iconName,
       >
         ${isComplete
           ? `<span style="color: ${color};">${icon('check', 'w-6 h-6')}</span>`
-          : icon(iconName, `w-6 h-6 ${isPending ? 'text-slate-500' : 'text-white'}`)
+          : icon(iconName, `w-6 h-6 ${isPending ? 'text-slate-400' : 'text-white'}`)
         }
       </div>
       <div class="grow">
@@ -311,7 +311,7 @@ function renderPhoneStep(lang) {
             aria-describedby="phone-hint"
           />
         </div>
-        <span id="phone-hint" class="text-xs text-slate-500 mt-1 block">
+        <span id="phone-hint" class="text-xs text-slate-400 mt-1 block">
           ${t('phoneHint')}
         </span>
       </div>
@@ -390,7 +390,7 @@ function renderPhoneCodeStep(lang) {
           autocomplete="one-time-code"
           aria-describedby="code-hint"
         />
-        <span id="code-hint" class="text-xs text-slate-500 mt-1 block text-center">
+        <span id="code-hint" class="text-xs text-slate-400 mt-1 block text-center">
           ${t('codeHint')}
         </span>
       </div>
@@ -416,7 +416,7 @@ function renderPhoneCodeStep(lang) {
         ${t('resendCode')}
       </button>
 
-      <div class="text-center text-xs text-slate-500">
+      <div class="text-center text-xs text-slate-400">
         ${icon('info-circle', 'w-5 h-5 mr-1')}
         ${t('demoCodeHint')}
       </div>
@@ -601,7 +601,7 @@ function renderSelfieIdStep(lang) {
       <div class="flex items-center justify-center gap-3 mb-6">
         ${[1, 2, 3].map(s => `
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${s === step ? 'bg-primary-500 text-white' : s < step || stepInfo[s].photo ? 'bg-green-500 text-white' : 'bg-white/10 text-slate-500'}">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${s === step ? 'bg-primary-500 text-white' : s < step || stepInfo[s].photo ? 'bg-green-500 text-white' : 'bg-white/10 text-slate-400'}">
               ${stepInfo[s].photo ? icon('check', 'w-5 h-5') : s}
             </div>
             ${s < 3 ? '<div class="w-8 h-0.5 bg-white/20"></div>' : ''}

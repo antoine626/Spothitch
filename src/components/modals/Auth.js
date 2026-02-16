@@ -155,7 +155,7 @@ export function renderAuth(_state) {
           <!-- Divider -->
           <div class="flex items-center gap-4 my-6">
             <div class="flex-1 h-px bg-white/10"></div>
-            <span class="text-slate-500 text-sm">${t('orDivider') || 'or'}</span>
+            <span class="text-slate-400 text-sm">${t('orDivider') || 'or'}</span>
             <div class="flex-1 h-px bg-white/10"></div>
           </div>
 

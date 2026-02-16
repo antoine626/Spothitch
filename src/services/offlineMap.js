@@ -611,7 +611,7 @@ export function renderZoneCard(zone) {
       <div class="flex justify-between items-start mb-3">
         <div>
           <h3 class="font-bold text-lg text-white">${escapeHTML(zone.name)}</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">${date}</p>
+          <p class="text-sm text-slate-400 dark:text-slate-400">${date}</p>
         </div>
         <span class="px-2 py-1 rounded-full text-xs font-medium ${
           zone.status === 'complete'

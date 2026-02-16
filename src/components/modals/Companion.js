@@ -250,11 +250,11 @@ function renderActiveView(companion) {
               ${icon('map-pin', 'w-4 h-4 text-emerald-400')}
               <span class="text-sm text-slate-300">${t('lastPosition') || 'Dernière position'}</span>
             </div>
-            <span class="text-xs text-slate-500">
+            <span class="text-xs text-slate-400">
               ${new Date(lastPos.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
-          <div class="text-xs text-slate-500 mt-1">
+          <div class="text-xs text-slate-400 mt-1">
             ${lastPos.lat.toFixed(4)}, ${lastPos.lng.toFixed(4)}
           </div>
         </div>

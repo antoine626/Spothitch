@@ -107,19 +107,19 @@ export function renderWeeklyLeaderboardModal() {
         <div class="flex border-b border-white/10 bg-white/5/50">
           <button onclick="setWeeklyLeaderboardTab('ranking')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
-                         ${weeklyLeaderboardTab === 'ranking' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
+                         ${weeklyLeaderboardTab === 'ranking' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-400 hover:text-slate-300'}">
             ${icon('trophy', 'w-5 h-5')}
             ${t('ranking') || 'Ranking'}
           </button>
           <button onclick="setWeeklyLeaderboardTab('rewards')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
-                         ${weeklyLeaderboardTab === 'rewards' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
+                         ${weeklyLeaderboardTab === 'rewards' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-400 hover:text-slate-300'}">
             ${icon('gift', 'w-5 h-5')}
             ${t('rewards') || 'Rewards'}
           </button>
           <button onclick="setWeeklyLeaderboardTab('history')"
                   class="flex-1 py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2
-                         ${weeklyLeaderboardTab === 'history' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-300'}">
+                         ${weeklyLeaderboardTab === 'history' ? 'text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-400 hover:text-slate-300'}">
             ${icon('history', 'w-5 h-5')}
             ${t('history') || 'History'}
           </button>
@@ -171,7 +171,7 @@ function renderRankingTab(leaderboard, currentUser) {
 
       <!-- Show more indicator -->
       ${leaderboard.length > 10 ? `
-        <div class="text-center mt-4 text-slate-500 text-sm">
+        <div class="text-center mt-4 text-slate-400 text-sm">
           + ${leaderboard.length - 10} ${t('otherParticipants') || 'other participants'}
         </div>
       ` : ''}
@@ -229,7 +229,7 @@ function renderLeaderboardRow(user, rank, currentUserRank) {
     <div class="flex items-center gap-3 p-3 rounded-xl transition-all animate-fade-in
                 ${isCurrentUser ? 'bg-emerald-500/20 border border-emerald-500/50' : 'bg-white/5 hover:bg-white/10'}"
          style="animation-delay: ${(rank - 4) * 50}ms">
-      <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-emerald-400' : 'text-slate-500'}">
+      <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-emerald-400' : 'text-slate-400'}">
         ${rank}
       </div>
       <div class="text-2xl">${user.avatar}</div>
@@ -238,11 +238,11 @@ function renderLeaderboardRow(user, rank, currentUserRank) {
           <span class="text-white font-medium truncate">${user.username}</span>
           ${isCurrentUser ? `<span class="text-xs bg-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded-full">${t('you') || 'You'}</span>` : ''}
         </div>
-        <div class="text-slate-500 text-xs">${t('levelPrefix') || 'Lvl.'} ${user.level}</div>
+        <div class="text-slate-400 text-xs">${t('levelPrefix') || 'Lvl.'} ${user.level}</div>
       </div>
       <div class="text-right">
         <div class="text-emerald-400 font-bold">${user.weeklyPoints.toLocaleString()}</div>
-        <div class="text-slate-500 text-xs">👍</div>
+        <div class="text-slate-400 text-xs">👍</div>
       </div>
     </div>
   `;
@@ -313,22 +313,22 @@ function renderRewardsTab() {
           <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">📍</div>
             <div class="text-emerald-400 font-bold">+5 👍</div>
-            <div class="text-slate-500 text-xs">Check-in</div>
+            <div class="text-slate-400 text-xs">Check-in</div>
           </div>
           <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">➕</div>
             <div class="text-emerald-400 font-bold">+20 👍</div>
-            <div class="text-slate-500 text-xs">${t('addSpot') || 'New spot'}</div>
+            <div class="text-slate-400 text-xs">${t('addSpot') || 'New spot'}</div>
           </div>
           <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">⭐</div>
             <div class="text-emerald-400 font-bold">+10 👍</div>
-            <div class="text-slate-500 text-xs">${t('reviewLabel') || 'Review'}</div>
+            <div class="text-slate-400 text-xs">${t('reviewLabel') || 'Review'}</div>
           </div>
           <div class="p-3 bg-white/5 rounded-lg text-center">
             <div class="text-2xl mb-1">🧠</div>
             <div class="text-emerald-400 font-bold">+50 👍</div>
-            <div class="text-slate-500 text-xs">${t('perfectQuiz') || 'Perfect quiz'}</div>
+            <div class="text-slate-400 text-xs">${t('perfectQuiz') || 'Perfect quiz'}</div>
           </div>
         </div>
       </div>
@@ -347,7 +347,7 @@ function renderHistoryTab() {
       <div class="p-8 text-center">
         <div class="text-5xl mb-4 opacity-50">📅</div>
         <div class="text-slate-400 text-lg mb-2">${t('noHistoryYet') || 'No history yet'}</div>
-        <div class="text-slate-500 text-sm">${t('historyAfterFirstWeek') || 'History will appear after the first complete week'}</div>
+        <div class="text-slate-400 text-sm">${t('historyAfterFirstWeek') || 'History will appear after the first complete week'}</div>
       </div>
     `;
   }
@@ -358,7 +358,7 @@ function renderHistoryTab() {
         <div class="card p-4">
           <div class="flex items-center justify-between mb-3">
             <div class="font-bold text-white">${t('weekNumber') || 'Week'} ${week.weekId.split('-W')[1]}</div>
-            <div class="text-slate-500 text-sm">${formatWeekDate(week.weekStart)}</div>
+            <div class="text-slate-400 text-sm">${formatWeekDate(week.weekStart)}</div>
           </div>
           <div class="space-y-2">
             ${week.topPlayers.slice(0, 3).map((player, index) => `
@@ -417,7 +417,7 @@ export function renderWeeklyLeaderboardWidget(state) {
               #${userRank.rank}
             </span>
           ` : ''}
-          ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+          ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
         </div>
       </div>
 

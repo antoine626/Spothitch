@@ -340,7 +340,7 @@ export function renderBlockedUsersList() {
           <div class="text-xs text-slate-400 flex items-center gap-2">
             ${icon(escapeHTML(getReasonIcon(user.reason)), 'w-5 h-5')}
             <span>${escapeHTML(getReasonLabel(user.reason))}</span>
-            <span class="text-slate-500">•</span>
+            <span class="text-slate-400">•</span>
             <span>${escapeHTML(formatDate(user.blockedAt))}</span>
           </div>
         </div>

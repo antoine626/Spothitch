@@ -49,7 +49,7 @@ export function renderSideMenu() {
               </div>
               <div>
                 <div class="text-white font-bold">${user?.displayName || state.username || (t('you') || 'Traveler')}</div>
-                <div class="text-slate-500 text-sm">${t('levelPrefix') || 'Lvl.'} ${state.level || 1}</div>
+                <div class="text-slate-400 text-sm">${t('levelPrefix') || 'Lvl.'} ${state.level || 1}</div>
               </div>
             </div>
           ` : `
@@ -96,7 +96,7 @@ export function renderSideMenu() {
 
         <!-- Footer -->
         <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
-          <div class="text-center text-slate-500 text-xs">
+          <div class="text-center text-slate-400 text-xs">
             SpotHitch v2.0 - Open Source
           </div>
         </div>
@@ -178,7 +178,7 @@ export function renderEmptyState(type = 'spots') {
     <div class="empty-state py-16 px-8 text-center">
       <div class="text-6xl mb-4">${state.icon}</div>
       <h3 class="text-xl font-bold text-white mb-2">${state.title}</h3>
-      <p class="text-slate-500 mb-6">${state.description}</p>
+      <p class="text-slate-400 mb-6">${state.description}</p>
       ${state.action ? `
         <button onclick="${state.action.onclick}"
                 class="px-6 py-3 bg-primary-500 text-white font-semibold rounded-xl
@@ -233,7 +233,7 @@ export function renderSpinner(size = 'md', text = '') {
   return `
     <div class="spinner flex flex-col items-center justify-center gap-3">
       <div class="${sizes[size]} border-2 border-white/10 border-t-primary-500 rounded-full animate-spin"></div>
-      ${text ? `<div class="text-slate-500 text-sm">${text}</div>` : ''}
+      ${text ? `<div class="text-slate-400 text-sm">${text}</div>` : ''}
     </div>
   `;
 }

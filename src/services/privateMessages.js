@@ -804,7 +804,7 @@ export function renderPrivateMessage(message) {
   const state = getState()
   const isOwn = message.senderId === state.user?.uid
 
-  const editedLabel = message.edited ? `<span class="text-xs text-slate-500 ml-1">(modifie)</span>` : ''
+  const editedLabel = message.edited ? `<span class="text-xs text-slate-400 ml-1">(modifie)</span>` : ''
 
   return `
     <div
@@ -817,7 +817,7 @@ export function renderPrivateMessage(message) {
         </div>
         <div class="${isOwn ? 'bg-primary-500' : 'bg-white/10'} rounded-2xl px-4 py-2">
           <div class="text-white text-sm">${escapeHTML(message.content)}${editedLabel}</div>
-          <div class="text-xs ${isOwn ? 'text-primary-200' : 'text-slate-500'} mt-1 text-right">
+          <div class="text-xs ${isOwn ? 'text-primary-200' : 'text-slate-400'} mt-1 text-right">
             ${formatTime(message.timestamp)}
           </div>
         </div>
@@ -844,7 +844,7 @@ export function renderConversationItem(conversation) {
       : ''
 
   const mutedIcon = conversation.isMuted
-    ? `<span class="text-slate-500 ml-2" aria-label="${t('muted') || 'Sourdine'}">${icon('bell-slash', 'w-4 h-4')}</span>`
+    ? `<span class="text-slate-400 ml-2" aria-label="${t('muted') || 'Sourdine'}">${icon('bell-slash', 'w-4 h-4')}</span>`
     : ''
 
   const lastMessage = conversation.lastMessage
@@ -873,7 +873,7 @@ export function renderConversationItem(conversation) {
         </div>
         <div class="text-sm text-slate-400 truncate">${lastMessage}</div>
       </div>
-      <div class="text-xs text-slate-500">
+      <div class="text-xs text-slate-400">
         ${formatTime(conversation.updatedAt)}
       </div>
     </div>

@@ -910,12 +910,12 @@ export function renderSeasonRewardsContent() {
                   </button>
                 `}
               ` : `
-                <span class="text-slate-500">${icon('lock', 'w-5 h-5')}</span>
+                <span class="text-slate-400">${icon('lock', 'w-5 h-5')}</span>
               `}
             </div>
             <div class="flex flex-wrap gap-2 mt-2">
               ${tier.rewards.map(reward => `
-                <span class="px-2 py-1 bg-white/5 rounded text-xs ${tier.isUnlocked ? 'text-slate-300' : 'text-slate-500'}">
+                <span class="px-2 py-1 bg-white/5 rounded text-xs ${tier.isUnlocked ? 'text-slate-300' : 'text-slate-400'}">
                   ${reward.type === 'points' ? `+${reward.amount} 👍` : `${getRewardIcon(reward.type)} ${reward.name}`}
                 </span>
               `).join('')}

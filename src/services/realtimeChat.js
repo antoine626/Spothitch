@@ -736,7 +736,7 @@ export function renderMessage(message) {
   const state = getState()
   const isOwn = message.userId === state.user?.uid
 
-  const editedLabel = message.edited ? `<span class="text-xs text-slate-500 ml-1">(modifie)</span>` : ''
+  const editedLabel = message.edited ? `<span class="text-xs text-slate-400 ml-1">(modifie)</span>` : ''
 
   return `
     <div
@@ -753,7 +753,7 @@ export function renderMessage(message) {
             ${escapeHTML(message.userName)}
           </div>
           <div class="text-white text-sm">${escapeHTML(message.content)}${editedLabel}</div>
-          <div class="text-xs ${isOwn ? 'text-primary-200' : 'text-slate-500'} mt-1 text-right">
+          <div class="text-xs ${isOwn ? 'text-primary-200' : 'text-slate-400'} mt-1 text-right">
             ${formatTime(message.timestamp)}
           </div>
         </div>

@@ -66,7 +66,7 @@ export function renderFriendProfileModal(state) {
             <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
               <div class="h-full bg-${trustColor}-500 rounded-full transition-all" style="width: ${trustScore}%"></div>
             </div>
-            <div class="flex items-center gap-1 mt-2 text-xs text-slate-500">
+            <div class="flex items-center gap-1 mt-2 text-xs text-slate-400">
               ${icon('shield', 'w-3 h-3')}
               <span>${getVerificationLevelName(verLevel)}</span>
             </div>
@@ -76,19 +76,19 @@ export function renderFriendProfileModal(state) {
           <div class="grid grid-cols-4 gap-2">
             <div class="card p-2 text-center">
               <div class="text-base font-bold text-primary-400">${friend.level || 1}</div>
-              <div class="text-[10px] text-slate-500">${t('level')}</div>
+              <div class="text-[10px] text-slate-400">${t('level')}</div>
             </div>
             <div class="card p-2 text-center">
               <div class="text-base font-bold text-amber-400">${friend.spotsCreated || 0}</div>
-              <div class="text-[10px] text-slate-500">${t('spots')}</div>
+              <div class="text-[10px] text-slate-400">${t('spots')}</div>
             </div>
             <div class="card p-2 text-center">
               <div class="text-base font-bold text-emerald-400">${friend.checkins || 0}</div>
-              <div class="text-[10px] text-slate-500">${t('checkins')}</div>
+              <div class="text-[10px] text-slate-400">${t('checkins')}</div>
             </div>
             <div class="card p-2 text-center">
               <div class="text-base font-bold text-purple-400">${friend.countriesVisited || 0}</div>
-              <div class="text-[10px] text-slate-500">${t('countriesShort')}</div>
+              <div class="text-[10px] text-slate-400">${t('countriesShort')}</div>
             </div>
           </div>
 

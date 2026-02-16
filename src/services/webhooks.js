@@ -219,7 +219,7 @@ export function renderWebhookSettings() {
         <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3">
           <div class="flex-1">
             <div class="text-sm font-medium text-white">${w.name}</div>
-            <div class="text-xs text-slate-500">${w.type} - ${w.events.length} evenements</div>
+            <div class="text-xs text-slate-400">${w.type} - ${w.events.length} evenements</div>
           </div>
           <button onclick="window.toggleWebhookAction('${w.id}')"
                   class="px-2 py-1 text-xs rounded ${w.enabled ? 'bg-green-500/20 text-green-400' : 'bg-slate-500/20 text-slate-400'}">

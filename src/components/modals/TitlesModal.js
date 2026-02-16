@@ -34,7 +34,7 @@ export function renderTitlesModal(state) {
             ${currentTitle.name}
           </h2>
           <p class="text-slate-400 text-sm mt-1">${t('level')} ${level} - ${currentTitle.description}</p>
-          <p class="text-xs text-slate-500 mt-2">${unlocked.length}/${all.length} ${t('titlesUnlocked')}</p>
+          <p class="text-xs text-slate-400 mt-2">${unlocked.length}/${all.length} ${t('titlesUnlocked')}</p>
         </div>
 
         <!-- Titles List -->
@@ -49,7 +49,7 @@ export function renderTitlesModal(state) {
                     ${isUnlocked ? title.emoji : '🔒'}
                   </div>
                   <div class="flex-1">
-                    <div class="font-bold ${isUnlocked ? '' : 'text-slate-500'}" ${isUnlocked ? `style="color: ${title.color}"` : ''}>
+                    <div class="font-bold ${isUnlocked ? '' : 'text-slate-400'}" ${isUnlocked ? `style="color: ${title.color}"` : ''}>
                       ${title.name}
                     </div>
                     <div class="text-xs text-slate-400">
@@ -57,7 +57,7 @@ export function renderTitlesModal(state) {
                     </div>
                   </div>
                   <div class="text-right text-xs">
-                    <div class="${isUnlocked ? 'text-emerald-400' : 'text-slate-500'}">
+                    <div class="${isUnlocked ? 'text-emerald-400' : 'text-slate-400'}">
                       ${t('levelShort')} ${title.minLevel}${title.maxLevel < Infinity ? `-${title.maxLevel}` : '+'}
                     </div>
                     ${isCurrent ? `<div class="text-primary-400 font-bold mt-1">${t('current')}</div>` : ''}

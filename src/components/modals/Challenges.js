@@ -60,15 +60,15 @@ export function renderChallengesModal() {
         <!-- Tabs -->
         <div class="flex border-b border-white/10">
           <button onclick="setChallengeTab('weekly')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'weekly' ? 'text-primary-400 border-b-2 border-primary-400' : 'text-slate-500 hover:text-slate-300'}">
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'weekly' ? 'text-primary-400 border-b-2 border-primary-400' : 'text-slate-400 hover:text-slate-300'}">
             Hebdo
           </button>
           <button onclick="setChallengeTab('monthly')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'monthly' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-slate-500 hover:text-slate-300'}">
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'monthly' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-slate-400 hover:text-slate-300'}">
             Mensuel
           </button>
           <button onclick="setChallengeTab('annual')"
-                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'annual' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
+                  class="flex-1 py-3 text-sm font-medium ${challengeTab === 'annual' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-300'}">
             Annuel
           </button>
         </div>
@@ -82,7 +82,7 @@ export function renderChallengesModal() {
                 <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Défis de la semaine
                 </h3>
-                <span class="text-xs text-slate-500">
+                <span class="text-xs text-slate-400">
                   ${getDaysUntilSunday()} jours restants
                 </span>
               </div>
@@ -99,7 +99,7 @@ export function renderChallengesModal() {
                 <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">
                   Défis du mois
                 </h3>
-                <span class="text-xs text-slate-500">
+                <span class="text-xs text-slate-400">
                   ${getDaysUntilEndOfMonth()} jours restants
                 </span>
               </div>
@@ -155,7 +155,7 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'weekly') {
           <div class="flex items-start justify-between">
             <div>
               <h4 class="text-white font-semibold">${name}</h4>
-              <p class="text-slate-500 text-sm">${description}</p>
+              <p class="text-slate-400 text-sm">${description}</p>
             </div>
             ${isCompleted ? `
               <span class="text-green-400 text-xl">✓</span>

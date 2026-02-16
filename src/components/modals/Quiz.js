@@ -337,15 +337,15 @@ function renderQuizResult(result) {
           <div class="grid grid-cols-3 gap-4 mb-6">
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${percentage}%</div>
-              <div class="text-xs text-slate-500">${t('score')}</div>
+              <div class="text-xs text-slate-400">${t('score')}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${correctAnswers}/${totalQuestions}</div>
-              <div class="text-xs text-slate-500">${t('correct')}</div>
+              <div class="text-xs text-slate-400">${t('correct')}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl font-bold text-white">${timeTaken}s</div>
-              <div class="text-xs text-slate-500">${t('time')}</div>
+              <div class="text-xs text-slate-400">${t('time')}</div>
             </div>
           </div>
 

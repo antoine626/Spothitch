@@ -714,7 +714,7 @@
 }
 
 /* Fix slate-500 text contrast */
-.text-slate-500 {
+.text-slate-400 {
   color: #94a3b8 !important; /* slate-400: 4.64:1 contrast on dark bg */
 }
 
@@ -729,7 +729,7 @@
   color: #475569 !important; /* slate-600: 5.91:1 contrast on light bg */
 }
 
-.light-theme .text-slate-500 {
+.light-theme .text-slate-400 {
   color: #334155 !important; /* slate-700: 8.59:1 contrast on light bg */
 }
 
@@ -1234,7 +1234,7 @@ img[data-error="true"] {
 
 img[data-error="true"]::after {
   content: 'Image unavailable';
-  @apply text-slate-500 text-xs;
+  @apply text-slate-400 text-xs;
 }
 
 /* ===== ADDITIONAL ACCESSIBILITY STYLES ===== */

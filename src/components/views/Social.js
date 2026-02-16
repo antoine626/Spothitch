@@ -179,7 +179,7 @@ function renderZoneMessage(msg, state) {
           </div>
         ` : ''}
         <p class="text-sm text-white">${escapeHTML(msg.text || '')}</p>
-        <time class="text-xs text-slate-500 mt-1 block ${isSent ? 'text-right' : ''}">
+        <time class="text-xs text-slate-400 mt-1 block ${isSent ? 'text-right' : ''}">
           ${formatTime(msg.createdAt)}
         </time>
       </div>
@@ -346,7 +346,7 @@ function renderEventDetail(state, event) {
             <div class="space-y-3">
               ${topComments.length > 0
     ? topComments.map(c => renderEventComment(c, replies, event.id, userId)).join('')
-    : `<p class="text-slate-500 text-sm text-center py-4">${t('noCommentsYet')}</p>`}
+    : `<p class="text-slate-400 text-sm text-center py-4">${t('noCommentsYet')}</p>`}
             </div>
           </div>
         </div>
@@ -375,9 +375,9 @@ function renderEventComment(comment, allReplies, eventId, userId) {
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2">
             <span class="font-medium text-sm">${escapeHTML(comment.userName || '')}</span>
-            <time class="text-xs text-slate-500">${formatRelativeTime(comment.createdAt)}</time>
+            <time class="text-xs text-slate-400">${formatRelativeTime(comment.createdAt)}</time>
             ${isAuthor ? `
-              <button onclick="deleteEventCommentAction('${eventId}', '${comment.id}')" class="text-xs text-slate-500 hover:text-danger-400 ml-auto" aria-label="${t('deleteComment')}">
+              <button onclick="deleteEventCommentAction('${eventId}', '${comment.id}')" class="text-xs text-slate-400 hover:text-danger-400 ml-auto" aria-label="${t('deleteComment')}">
                 ${icon('trash-alt', 'w-4 h-4')}
               </button>
             ` : ''}
@@ -386,7 +386,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
           <div class="flex items-center gap-1 mt-2 flex-wrap">
             ${reactionDisplay}
             ${reactionEmojis.map(emoji => `
-              <button onclick="reactToEventComment('${eventId}', '${comment.id}', '${emoji}')" class="px-1.5 py-0.5 rounded-full text-xs bg-white/5 text-slate-500 hover:bg-white/10 transition-all" title="${emoji}">
+              <button onclick="reactToEventComment('${eventId}', '${comment.id}', '${emoji}')" class="px-1.5 py-0.5 rounded-full text-xs bg-white/5 text-slate-400 hover:bg-white/10 transition-all" title="${emoji}">
                 ${emoji}
               </button>
             `).join('')}
@@ -402,7 +402,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2">
                       <span class="font-medium text-xs">${escapeHTML(reply.userName || '')}</span>
-                      <time class="text-xs text-slate-500">${formatRelativeTime(reply.createdAt)}</time>
+                      <time class="text-xs text-slate-400">${formatRelativeTime(reply.createdAt)}</time>
                     </div>
                     <p class="text-xs text-slate-300 mt-0.5">${escapeHTML(reply.text || '')}</p>
                   </div>

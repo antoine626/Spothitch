@@ -116,7 +116,7 @@ function renderDefaultCard(spot) {
 
         <!-- Last Check-in Info -->
         ${lastCheckinTime ? `
-          <div class="flex items-center gap-2 mt-2 pt-2 border-t border-white/5 text-xs text-slate-500">
+          <div class="flex items-center gap-2 mt-2 pt-2 border-t border-white/5 text-xs text-slate-400">
             ${renderFreshnessIndicator(spot.lastCheckin || spot.lastUsed)}
             <span>Check-in: ${lastCheckinTime}</span>
           </div>
@@ -185,7 +185,7 @@ function renderCompactCard(spot) {
 
       <!-- Arrow -->
       <div class="flex items-center" aria-hidden="true">
-        ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+        ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
       </div>
     </article>
   `;

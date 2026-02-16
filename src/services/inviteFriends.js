@@ -638,7 +638,7 @@ export function renderInviteModal() {
             <div class="text-center py-4">
               ${icon('users', 'w-10 h-10 text-slate-600 mb-2')}
               <p class="text-slate-400">${t('noInvitedFriendsYet')}</p>
-              <p class="text-sm text-slate-500">${t('startInviting')}</p>
+              <p class="text-sm text-slate-400">${t('startInviting')}</p>
             </div>
           `}
         </div>

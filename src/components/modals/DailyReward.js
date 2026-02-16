@@ -106,7 +106,7 @@ export function renderDailyRewardModal() {
                 ${icon('check-circle', 'w-5 h-5 text-emerald-400 mr-2')}
                 Recompense recuperee aujourd'hui !
               </div>
-              <p class="text-xs text-slate-500 mt-2">
+              <p class="text-xs text-slate-400 mt-2">
                 Reviens demain pour le jour ${(info.currentDay % 7) + 1}
               </p>
             </div>
@@ -114,7 +114,7 @@ export function renderDailyRewardModal() {
         </div>
 
         <!-- Info Footer -->
-        <div class="px-4 pb-4 text-center text-xs text-slate-500">
+        <div class="px-4 pb-4 text-center text-xs text-slate-400">
           ${icon('info-circle', 'w-5 h-5 mr-1')}
           Connecte-toi chaque jour pour maximiser tes recompenses !
         </div>

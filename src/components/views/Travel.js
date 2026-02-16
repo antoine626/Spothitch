@@ -103,7 +103,7 @@ function renderPlanner(state) {
 
         <div class="space-y-3">
           <div class="relative">
-            <label for="trip-from" class="block text-xs text-slate-500 mb-1 uppercase tracking-wider">${t('departure') || 'Départ'}</label>
+            <label for="trip-from" class="block text-xs text-slate-400 mb-1 uppercase tracking-wider">${t('departure') || 'Départ'}</label>
             <div class="relative">
               <input
                 type="text"
@@ -130,7 +130,7 @@ function renderPlanner(state) {
           </div>
 
           <div class="relative">
-            <label for="trip-to" class="block text-xs text-slate-500 mb-1 uppercase tracking-wider">${t('destination') || 'Destination'}</label>
+            <label for="trip-to" class="block text-xs text-slate-400 mb-1 uppercase tracking-wider">${t('destination') || 'Destination'}</label>
             <div class="relative">
               <input
                 type="text"
@@ -255,7 +255,7 @@ function renderTripResults(results) {
       ` : ''}
       ${showAmenities && !loadingAmenities && amenities.length === 0 && !loadingAmenities ? `
         <div class="text-center py-2">
-          <p class="text-slate-500 text-xs">${t('travel_no_stations') || 'Aucune station trouvee le long du trajet'}</p>
+          <p class="text-slate-400 text-xs">${t('travel_no_stations') || 'Aucune station trouvee le long du trajet'}</p>
         </div>
       ` : ''}
 
@@ -272,7 +272,7 @@ function renderTripResults(results) {
             </div>
             <div class="pt-0.5">
               <div class="text-sm font-semibold">${results.from?.split(',')[0] || '?'}</div>
-              <div class="text-xs text-slate-500">${t('departure') || 'Depart'}</div>
+              <div class="text-xs text-slate-400">${t('departure') || 'Depart'}</div>
             </div>
           </div>
 
@@ -290,7 +290,7 @@ function renderTripResults(results) {
               </div>
               <div class="pt-0.5 flex-1 min-w-0">
                 <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.description?.slice(0, 40) || t('hitchhikingSpot')}</div>
-                <div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+                <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
                   ${distFromStart !== null ? `<span class="text-slate-400">${distFromStart} km</span>` : ''}
                   ${spot.type ? `<span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">${spot.type}</span>` : ''}
                   ${spot.globalRating ? `<span class="text-primary-400">★ ${spot.globalRating.toFixed(1)}</span>` : ''}
@@ -310,7 +310,7 @@ function renderTripResults(results) {
             </div>
             <div class="pt-0.5">
               <div class="text-sm font-semibold">${results.to?.split(',')[0] || '?'}</div>
-              <div class="text-xs text-slate-500">${t('arrival') || 'Arrivee'}</div>
+              <div class="text-xs text-slate-400">${t('arrival') || 'Arrivee'}</div>
             </div>
           </div>
         </div>
@@ -342,7 +342,7 @@ function renderAmenityItem(poi) {
       </div>
       <div class="flex-1 min-w-0">
         <div class="text-sm font-medium truncate">${name}</div>
-        <div class="text-xs text-slate-500">${typeLabel}${poi.brand ? ` \u2022 ${poi.brand}` : ''}</div>
+        <div class="text-xs text-slate-400">${typeLabel}${poi.brand ? ` \u2022 ${poi.brand}` : ''}</div>
       </div>
     </div>
   `
@@ -366,13 +366,13 @@ function renderTripSpot(spot, index) {
         <div class="flex items-center gap-2">
           <span class="text-sm">${flag}</span>
           ${rating !== '?' ? `<span class="flex items-center gap-1 text-xs text-amber-400">${icon('star', 'w-5 h-5')}${rating}</span>` : ''}
-          ${wait ? `<span class="text-xs text-slate-500">${wait}</span>` : ''}
+          ${wait ? `<span class="text-xs text-slate-400">${wait}</span>` : ''}
         </div>
         <div class="text-sm text-slate-300 truncate mt-0.5">${desc || t('hitchhikingSpot') || 'Spot d\'autostop'}</div>
       </button>
       <button
         onclick="toggleFavorite('${spot.id}')"
-        class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center ${isFav ? 'text-amber-400' : 'text-slate-500 hover:text-amber-400'} hover:bg-amber-500/10 transition-all"
+        class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center ${isFav ? 'text-amber-400' : 'text-slate-400 hover:text-amber-400'} hover:bg-amber-500/10 transition-all"
         aria-label="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
         title="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
       >
@@ -380,7 +380,7 @@ function renderTripSpot(spot, index) {
       </button>
       <button
         onclick="removeSpotFromTrip(${index})"
-        class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
+        class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
         aria-label="${t('remove') || 'Retirer'}"
       >
         ${icon('times', 'w-3 h-3')}
@@ -438,7 +438,7 @@ function renderSavedTrips(savedTrips) {
       <div class="card p-6 text-center">
         ${icon('route', 'w-10 h-10 text-slate-600 mb-3')}
         <p class="text-slate-400">${t('noSavedTrips') || 'Aucun voyage sauvegardé'}</p>
-        <p class="text-sm text-slate-500 mt-1">${t('planFirstTrip') || 'Planifiez votre premier voyage !'}</p>
+        <p class="text-sm text-slate-400 mt-1">${t('planFirstTrip') || 'Planifiez votre premier voyage !'}</p>
       </div>
     `
   }
@@ -464,7 +464,7 @@ function renderSavedTrips(savedTrips) {
             </button>
             <button
               onclick="deleteSavedTrip(${index})"
-              class="shrink-0 w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all ml-2"
+              class="shrink-0 w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all ml-2"
               aria-label="${t('delete') || 'Supprimer'}"
             >
               ${icon('trash', 'w-3 h-3')}
@@ -601,7 +601,7 @@ function renderGuideDetail(guide) {
             <span class="px-3 py-1 rounded-full text-sm ${
   guide.bestMonths.includes(i + 1)
     ? 'bg-emerald-500/20 text-emerald-400'
-    : 'bg-white/5 text-slate-500'
+    : 'bg-white/5 text-slate-400'
 }">${month}</span>
           `).join('')}
         </div>
@@ -672,7 +672,7 @@ function renderGuideDetail(guide) {
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-2">
                     <span class="font-medium text-sm">${eventName}</span>
-                    <span class="text-xs text-slate-500">${eventDate}</span>
+                    <span class="text-xs text-slate-400">${eventDate}</span>
                   </div>
                   <p class="text-xs text-slate-400 mt-0.5">${eventDesc}</p>
                 </div>
@@ -1139,7 +1139,7 @@ window.toggleFavorite = (spotId) => {
     const btn = document.querySelector(`[onclick="toggleFavorite('${spotId}')"]`)
     if (btn) {
       const isFav = favs.includes(spotId)
-      btn.className = btn.className.replace(/text-(amber|slate)-\d+/g, isFav ? 'text-amber-400' : 'text-slate-500')
+      btn.className = btn.className.replace(/text-(amber|slate)-\d+/g, isFav ? 'text-amber-400' : 'text-slate-400')
     }
   } catch (e) {
     console.error('toggleFavorite failed:', e)

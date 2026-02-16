@@ -404,7 +404,7 @@ export function renderDataSaverToggle(options = {}) {
           />
           <div class="w-11 h-6 bg-white/10 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-dark-primary peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-white/10 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-white/10 peer-checked:bg-primary-500"></div>
         </label>
-        <span class="text-sm ${settings.enabled ? 'text-primary-500' : 'text-slate-500'}">
+        <span class="text-sm ${settings.enabled ? 'text-primary-500' : 'text-slate-400'}">
           ${icon('leaf', 'w-5 h-5 mr-1')}
           ${settings.enabled ? 'Actif' : 'Inactif'}
         </span>
@@ -421,7 +421,7 @@ export function renderDataSaverToggle(options = {}) {
           </div>
           <div>
             <h3 class="font-semibold text-white dark:text-white">Mode economie de donnees</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400">Reduisez votre consommation</p>
+            <p class="text-sm text-slate-400 dark:text-slate-400">Reduisez votre consommation</p>
           </div>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
@@ -514,7 +514,7 @@ export function renderDataSaverToggle(options = {}) {
               <div class="text-xs text-blue-700 dark:text-blue-300">Par mois (estime)</div>
             </div>
           </div>
-          <div class="mt-3 text-xs text-slate-500 dark:text-slate-400 text-center">
+          <div class="mt-3 text-xs text-slate-400 dark:text-slate-400 text-center">
             ${savings.imagesOptimized} images optimisees - ${savings.preloadsBlocked} prechargements bloques
           </div>
         </div>

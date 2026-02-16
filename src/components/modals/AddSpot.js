@@ -18,7 +18,7 @@ function renderStarInput(criterion, label) {
           <button
             type="button"
             onclick="setSpotRating('${criterion}', ${star})"
-            class="spot-star-btn text-2xl text-slate-500 hover:text-yellow-400 transition-colors"
+            class="spot-star-btn text-2xl text-slate-400 hover:text-yellow-400 transition-colors"
             data-criterion="${criterion}"
             data-star="${star}"
             aria-label="${star}/5"
@@ -28,7 +28,7 @@ function renderStarInput(criterion, label) {
         `).join('')}
         <span class="ml-2 text-sm text-white font-medium" id="spot-rating-value-${criterion}">-</span>
       </div>
-      <p class="text-xs text-slate-500 mt-1 min-h-[1.25rem]" id="spot-rating-desc-${criterion}" aria-live="polite"></p>
+      <p class="text-xs text-slate-400 mt-1 min-h-[1.25rem]" id="spot-rating-desc-${criterion}" aria-live="polite"></p>
     </div>
   `
 }
@@ -91,9 +91,9 @@ export function renderAddSpot(_state) {
                   aria-describedby="photo-help"
                 />
                 <div id="photo-preview">
-                  ${icon('camera', 'w-10 h-10 text-slate-500 mb-2')}
+                  ${icon('camera', 'w-10 h-10 text-slate-400 mb-2')}
                   <p class="text-slate-400">${t('takePhoto')}</p>
-                  <p class="text-slate-500 text-sm" id="photo-help">${t('chooseFromGallery')}</p>
+                  <p class="text-slate-400 text-sm" id="photo-help">${t('chooseFromGallery')}</p>
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@ export function renderAddSpot(_state) {
                 maxlength="500"
                 aria-describedby="desc-counter"
               ></textarea>
-              <div class="text-right text-xs text-slate-500 mt-1" id="desc-counter" aria-live="polite">
+              <div class="text-right text-xs text-slate-400 mt-1" id="desc-counter" aria-live="polite">
                 <span id="desc-count">0</span>/500 <span class="sr-only">caracteres</span>
               </div>
             </div>
@@ -293,7 +293,7 @@ window.setSpotRating = (criterion, value) => {
     if (star <= value) {
       btn.className = 'spot-star-btn text-2xl text-yellow-400 hover:text-yellow-300 transition-colors'
     } else {
-      btn.className = 'spot-star-btn text-2xl text-slate-500 hover:text-yellow-400 transition-colors'
+      btn.className = 'spot-star-btn text-2xl text-slate-400 hover:text-yellow-400 transition-colors'
     }
   })
 

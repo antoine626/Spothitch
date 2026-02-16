@@ -111,17 +111,17 @@ export function renderLeaderboardModal() {
         <div class="flex border-b border-white/10">
           <button onclick="setLeaderboardTab('weekly')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
-                         ${leaderboardTab === 'weekly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
+                         ${leaderboardTab === 'weekly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-300'}">
             Cette semaine
           </button>
           <button onclick="setLeaderboardTab('monthly')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
-                         ${leaderboardTab === 'monthly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
+                         ${leaderboardTab === 'monthly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-300'}">
             Ce mois
           </button>
           <button onclick="setLeaderboardTab('allTime')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
-                         ${leaderboardTab === 'allTime' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-500 hover:text-slate-300'}">
+                         ${leaderboardTab === 'allTime' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-300'}">
             All-time
           </button>
         </div>
@@ -146,15 +146,15 @@ export function renderLeaderboardModal() {
           <div class="flex justify-around text-center">
             <div>
               <div class="text-2xl font-bold text-amber-400">${leaderboardData.reduce((sum, u) => sum + u.points, 0).toLocaleString()}</div>
-              <div class="text-xs text-slate-500">${t('totalPoints') || 'Pouces totaux'}</div>
+              <div class="text-xs text-slate-400">${t('totalPoints') || 'Pouces totaux'}</div>
             </div>
             <div>
               <div class="text-2xl font-bold text-emerald-400">${leaderboardData.length * 10}+</div>
-              <div class="text-xs text-slate-500">Participants</div>
+              <div class="text-xs text-slate-400">Participants</div>
             </div>
             <div>
               <div class="text-2xl font-bold text-purple-400">${Math.max(...leaderboardData.map(u => u.level))}</div>
-              <div class="text-xs text-slate-500">Meilleur niveau</div>
+              <div class="text-xs text-slate-400">Meilleur niveau</div>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@ function renderPodiumPlace(user, position) {
 function renderLeaderboardRow(user, rank) {
   return `
     <div class="flex items-center gap-3 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
-      <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-amber-400' : 'text-slate-500'}">
+      <div class="w-8 text-center font-bold ${rank <= 10 ? 'text-amber-400' : 'text-slate-400'}">
         ${rank}
       </div>
       <div class="text-2xl">${user.avatar}</div>
@@ -204,11 +204,11 @@ function renderLeaderboardRow(user, rank) {
           <span class="text-white font-medium truncate">${user.username}</span>
           <span class="text-sm">${countryFlags[user.country] || '🌍'}</span>
         </div>
-        <div class="text-slate-500 text-xs">Niv. ${user.level}</div>
+        <div class="text-slate-400 text-xs">Niv. ${user.level}</div>
       </div>
       <div class="text-right">
         <div class="text-amber-400 font-bold">${user.points.toLocaleString()}</div>
-        <div class="text-slate-500 text-xs">👍</div>
+        <div class="text-slate-400 text-xs">👍</div>
       </div>
     </div>
   `;

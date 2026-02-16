@@ -171,7 +171,7 @@ export function renderChallengesHub(state) {
               </div>
             `
   }).join('') : `
-            <div class="text-center text-slate-500 py-4">
+            <div class="text-center text-slate-400 py-4">
               ${t('noChallengesActive') || 'Aucun défi en cours'}
             </div>
           `}

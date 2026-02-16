@@ -17,7 +17,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
   if (!photos || photos.length === 0) {
     return `
       <div class="photo-gallery-empty bg-white/5 rounded-xl p-8 text-center">
-        ${icon('camera', 'w-10 h-10 text-slate-500 mb-3')}
+        ${icon('camera', 'w-10 h-10 text-slate-400 mb-3')}
         <p class="text-slate-400 text-sm">${t('noPhotosForSpot') || 'No photos for this spot'}</p>
         <button
           onclick="openPhotoUpload(${spotId})"

@@ -270,7 +270,7 @@ export function renderTripHistory(limit = 50) {
             </div>
             <div class="text-sm text-slate-400">${locationText}</div>
             ${event.details && typeof event.details === 'object' && Object.keys(event.details).length > 0 ? `
-              <div class="text-xs text-slate-500 mt-1">
+              <div class="text-xs text-slate-400 mt-1">
                 ${JSON.stringify(event.details)}
               </div>
             ` : ''}

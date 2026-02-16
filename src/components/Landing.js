@@ -51,7 +51,7 @@ export function renderLanding() {
           </button>
 
           <!-- Scroll hint -->
-          <div class="mt-16 text-slate-500 animate-bounce">
+          <div class="mt-16 text-slate-400 animate-bounce">
             ${icon('chevron-down', 'w-7 h-7')}
           </div>
         </div>
@@ -168,7 +168,7 @@ export function renderLanding() {
 
       <!-- Footer -->
       <footer class="px-6 py-8 border-t border-white/5 text-center">
-        <p class="text-slate-500 text-sm">
+        <p class="text-slate-400 text-sm">
           ${t('landingFooter')}
         </p>
       </footer>
@@ -221,7 +221,7 @@ function renderStepCard(number, title, desc, iconName) {
       <div class="w-12 h-12 rounded-full bg-primary-500 text-white font-bold text-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-500/30">
         ${number}
       </div>
-      ${icon(iconName, 'w-7 h-7 text-slate-500 mb-3')}
+      ${icon(iconName, 'w-7 h-7 text-slate-400 mb-3')}
       <h4 class="text-lg font-bold text-white mb-2">${title}</h4>
       <p class="text-slate-400 text-sm leading-relaxed">${desc}</p>
     </div>

@@ -263,7 +263,7 @@ export function renderMyDataModal() {
               <span class="text-slate-400">${t('positionHistory') || 'Historique des positions'}</span>
               <span class="font-medium">${locationData.locationHistoryCount} ${t('entries') || 'entrées'}</span>
             </div>
-            <p class="text-xs text-slate-500 mt-2">
+            <p class="text-xs text-slate-400 mt-2">
               ${icon('info-circle', 'w-5 h-5 mr-1')}
               ${t('gpsDisclaimer') || "La position n'est collectée que lorsque vous utilisez activement l'application avec GPS activé."}
             </p>
@@ -281,7 +281,7 @@ export function renderMyDataModal() {
             <div class="flex justify-between items-start">
               <div>
                 <div class="font-medium">Cookies</div>
-                ${cookiesConsent.date ? `<div class="text-xs text-slate-500">${cookiesConsent.date}</div>` : ''}
+                ${cookiesConsent.date ? `<div class="text-xs text-slate-400">${cookiesConsent.date}</div>` : ''}
               </div>
               <span class="font-medium ${cookiesConsent.class}">${cookiesConsent.status}</span>
             </div>
@@ -290,7 +290,7 @@ export function renderMyDataModal() {
             <div class="flex justify-between items-start">
               <div>
                 <div class="font-medium">${t('geolocation') || 'Géolocalisation'}</div>
-                ${geoConsent.date ? `<div class="text-xs text-slate-500">${geoConsent.date}</div>` : ''}
+                ${geoConsent.date ? `<div class="text-xs text-slate-400">${geoConsent.date}</div>` : ''}
               </div>
               <span class="font-medium ${geoConsent.class}">${geoConsent.status}</span>
             </div>
@@ -299,7 +299,7 @@ export function renderMyDataModal() {
             <div class="flex justify-between items-start">
               <div>
                 <div class="font-medium">Notifications</div>
-                ${notifConsent.date ? `<div class="text-xs text-slate-500">${notifConsent.date}</div>` : ''}
+                ${notifConsent.date ? `<div class="text-xs text-slate-400">${notifConsent.date}</div>` : ''}
               </div>
               <span class="font-medium ${notifConsent.class}">${notifConsent.status}</span>
             </div>
@@ -335,7 +335,7 @@ export function renderMyDataModal() {
                   <div class="text-xs text-slate-400">${t('completeJsonExport') || 'Export JSON complet'}</div>
                 </div>
               </div>
-              ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+              ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
             </button>
 
             <!-- Delete Account -->
@@ -352,14 +352,14 @@ export function renderMyDataModal() {
                   <div class="text-xs text-slate-400">${t('irreversibleAction') || 'Action irréversible'}</div>
                 </div>
               </div>
-              ${icon('chevron-right', 'w-5 h-5 text-slate-500')}
+              ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
             </button>
           </div>
         </section>
 
         <!-- Footer Info -->
         <div class="mt-6 pt-4 border-t border-white/10 text-center">
-          <p class="text-xs text-slate-500">
+          <p class="text-xs text-slate-400">
             ${t('gdprFooter') || 'Conformément au RGPD (Règlement Général sur la Protection des Données), vous avez le droit d\'accéder, de rectifier et de supprimer vos données personnelles.'}
           </p>
           <a
