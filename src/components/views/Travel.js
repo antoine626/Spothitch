@@ -923,7 +923,7 @@ window.calculateTrip = async () => {
     const allSpots = Array.from(spotsMap.values())
 
     // 4. Filter spots near the route (5km corridor)
-    const corridorKm = 5
+    const corridorKm = 1
     let routeSpots = []
 
     if (routeGeometry && routeGeometry.length > 0) {
