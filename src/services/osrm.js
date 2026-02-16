@@ -233,6 +233,102 @@ export async function reverseGeocode(lat, lng) {
 }
 
 /**
+ * Search cities with optional country filter
+ * @param {string} query - Search query
+ * @param {Object} options - Options
+ * @param {string} [options.countryCode] - ISO country code to filter (e.g. 'FR')
+ * @returns {Promise<Array>} City suggestions
+ */
+export async function searchCities(query, { countryCode } = {}) {
+  if (!query || query.length < 2) return []
+
+  let lang = 'fr'
+  try { lang = (await import('../stores/state.js')).getState().lang || 'fr' } catch { /* no-op */ }
+
+  let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=8&accept-language=${lang}&featuretype=city&addressdetails=1`
+  if (countryCode) {
+    url += `&countrycodes=${countryCode.toLowerCase()}`
+  }
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'SpotHitch/2.0 (https://spothitch.com)',
+        'Accept-Language': lang,
+      },
+    })
+
+    if (!response.ok) throw new Error(`Nominatim error: ${response.status}`)
+
+    const data = await response.json()
+    data.sort((a, b) => (parseFloat(b.importance) || 0) - (parseFloat(a.importance) || 0))
+
+    const results = data.map(item => {
+      const addr = item.address || {}
+      const city = addr.city || addr.town || addr.village || item.display_name.split(',')[0]
+      const country = addr.country || ''
+      const countryCodeResult = (addr.country_code || '').toUpperCase()
+      return {
+        name: city,
+        fullName: country ? `${city}, ${country}` : city,
+        lat: parseFloat(item.lat),
+        lng: parseFloat(item.lon),
+        countryCode: countryCodeResult,
+        countryName: country,
+        importance: parseFloat(item.importance) || 0,
+      }
+    })
+
+    const seen = new Set()
+    return results.filter(r => {
+      const key = `${r.name.toLowerCase()}|${r.lat.toFixed(1)},${r.lng.toFixed(1)}`
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    }).slice(0, 5)
+  } catch (error) {
+    console.error('City search failed:', error)
+    return []
+  }
+}
+
+/**
+ * Search countries by name
+ * @param {string} query - Country name query
+ * @returns {Promise<Array>} Country suggestions
+ */
+export async function searchCountries(query) {
+  if (!query || query.length < 2) return []
+
+  let lang = 'fr'
+  try { lang = (await import('../stores/state.js')).getState().lang || 'fr' } catch { /* no-op */ }
+
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&accept-language=${lang}&featuretype=country&addressdetails=1`
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'SpotHitch/2.0 (https://spothitch.com)',
+        'Accept-Language': lang,
+      },
+    })
+
+    if (!response.ok) throw new Error(`Nominatim error: ${response.status}`)
+
+    const data = await response.json()
+    return data.map(item => ({
+      name: item.address?.country || item.display_name.split(',')[0],
+      code: (item.address?.country_code || '').toUpperCase(),
+      lat: parseFloat(item.lat),
+      lng: parseFloat(item.lon),
+    })).filter(c => c.code)
+  } catch (error) {
+    console.error('Country search failed:', error)
+    return []
+  }
+}
+
+/**
  * Clear route cache
  */
 export function clearCache() {
@@ -245,6 +341,8 @@ export default {
   formatDistance,
   formatDuration,
   searchLocation,
+  searchCities,
+  searchCountries,
   reverseGeocode,
   clearCache,
 };

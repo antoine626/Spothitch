@@ -184,6 +184,11 @@ const MAIN_JS_HANDLERS = [
   'removeFriend', 'shareProfile',
   // AddSpot (defined in AddSpot.js)
   'handlePhotoSelect', 'setSpotRating', 'onSpotTypeChange',
+  // AddSpot 3-step form (defined in main.js)
+  'addSpotNextStep', 'addSpotPrevStep', 'useGPSForSpot',
+  'toggleSpotMapPicker', 'spotMapPickLocation',
+  'autoDetectStation', 'autoDetectRoad',
+  'saveSpotAsDraft', 'openSpotDraft', 'deleteSpotDraft',
   // Map (defined in Map.js)
   'searchMapSuggestions',
   // TravelGroups (defined in travelGroups.js)
@@ -397,6 +402,8 @@ const mockState = {
   filterMaxWait: 999,
   filterVerifiedOnly: false,
   favorites: [],
+  addSpotStep: 1,
+  addSpotType: null,
   showAddSpot: false,
   showRating: false,
   showSOS: false,

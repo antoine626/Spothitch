@@ -1007,6 +1007,97 @@ a:not(.btn):not(.nav-btn):hover {
   }
 }
 
+/* Select dropdown options (fix white-on-white) */
+select.input-modern option {
+  background-color: var(--color-dark-secondary);
+  color: white;
+}
+
+.light-theme select.input-modern option {
+  background-color: white;
+  color: rgb(30 41 59);
+}
+
+/* Autocomplete dropdown */
+.autocomplete-dropdown {
+  @apply absolute z-50 w-full mt-1 rounded-xl overflow-hidden shadow-xl;
+  @apply bg-dark-secondary/95 backdrop-blur-lg border border-white/10;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.light-theme .autocomplete-dropdown {
+  @apply bg-white/95 border-slate-200;
+}
+
+.autocomplete-item {
+  @apply px-4 py-3 cursor-pointer text-white border-b border-white/5 last:border-0 transition-colors;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+  @apply bg-white/10;
+}
+
+.light-theme .autocomplete-item {
+  @apply text-slate-800;
+}
+
+.light-theme .autocomplete-item:hover,
+.light-theme .autocomplete-item.active {
+  @apply bg-slate-100;
+}
+
+/* Mini map picker for AddSpot */
+.spot-map-picker {
+  @apply w-full h-48 rounded-xl overflow-hidden border-2 border-white/10;
+}
+
+.spot-map-picker .maplibregl-map {
+  border-radius: inherit;
+}
+
+/* Step progress bar */
+.step-progress {
+  @apply flex items-center gap-2;
+}
+
+.step-dot {
+  @apply w-3 h-3 rounded-full transition-all duration-300;
+}
+
+.step-dot.completed {
+  @apply bg-primary-500;
+}
+
+.step-dot.current {
+  @apply bg-primary-400 ring-2 ring-primary-400/50;
+}
+
+.step-dot.pending {
+  @apply bg-white/20;
+}
+
+.step-line {
+  @apply flex-1 h-0.5 transition-all duration-300;
+}
+
+.step-line.completed {
+  @apply bg-primary-500;
+}
+
+.step-line.pending {
+  @apply bg-white/10;
+}
+
+.light-theme .step-dot.pending {
+  @apply bg-slate-200;
+}
+
+.light-theme .step-line.pending {
+  @apply bg-slate-200;
+}
+
 /* Print Styles */
 @media print {
   .no-print {

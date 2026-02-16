@@ -202,6 +202,10 @@ const initialState = {
   showAddFriend: false,
   showSafety: false,
 
+  // AddSpot wizard
+  addSpotStep: 1,
+  addSpotType: null,
+
   // Additional data keys
   addSpotPreview: false,
   ratingSpotId: null,

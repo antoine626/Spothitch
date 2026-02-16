@@ -191,6 +191,9 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_hostel_upvotes', category: DataCategory.MONETIZATION, description: 'Hostel recommendation upvotes' },
   { key: 'spothitch_roadmap_items', category: DataCategory.MONETIZATION, description: 'Roadmap items' },
 
+  // === DRAFTS ===
+  { key: 'spothitch_spot_drafts', category: DataCategory.ACTIVITY, description: 'Spot drafts saved offline' },
+
   // === UX ===
   { key: 'spothitch_landing_seen', category: DataCategory.SETTINGS, description: 'Landing page dismissed flag' },
 
