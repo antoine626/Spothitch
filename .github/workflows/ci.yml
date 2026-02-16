@@ -6,11 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-# NO cancel-in-progress — each run completes fully
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   lint:
     name: Lint
