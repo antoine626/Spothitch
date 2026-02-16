@@ -218,6 +218,124 @@ const MAIN_JS_HANDLERS = [
   'toggleGasStations',
   // Community Tips (defined in communityTips.js)
   'submitCommunityTip', 'voteCommunityTip',
+  // main.js — missing handlers
+  'showToast', 'openSpotDetail',
+  'acceptLocationPermission', 'declineLocationPermission',
+  'showFriendOptions', 'showFullNavigation',
+  'startIdentityVerification', 'submitVerificationPhotos',
+  'getTrustLevel', 'getTrustBadge',
+  'openTripPlanner', 'closeTripPlanner',
+  'reportGuideError',
+  'closeContactForm', 'submitContactForm',
+  // Hostel recommendations (defined in main.js)
+  'openAddHostel', 'closeAddHostel', 'setHostelCategory',
+  'submitHostelRec', 'upvoteHostel', 'switchHostelCategory',
+  // Webhooks (defined in main.js)
+  'openAddWebhook', 'toggleWebhookAction', 'removeWebhookAction',
+  // Form persistence (defined in main.js)
+  'clearFormDraft',
+  // DeviceManager (defined in DeviceManager.js)
+  'openDeviceManager', 'closeDeviceManager',
+  'confirmRemoveDevice', 'cancelRemoveDevice', 'executeRemoveDevice',
+  'confirmRemoveAllDevices', 'cancelRemoveAllDevices', 'executeRemoveAllDevices',
+  // PhotoGallery (defined in PhotoGallery.js)
+  'getCurrentPhotoIndex', 'goToPhoto', 'nextPhoto', 'prevPhoto',
+  'openPhotoFullscreen', 'closePhotoFullscreen',
+  'nextPhotoFullscreen', 'prevPhotoFullscreen', 'goToPhotoFullscreen',
+  'openPhotoUpload',
+  // DailyReward (defined in DailyReward.js)
+  'handleClaimDailyReward', 'closeDailyReward', 'closeDailyRewardResult',
+  // Shop extras (defined in Shop.js)
+  'copyCode',
+  // AgeVerification extras (defined in AgeVerification.js)
+  'handleAgeVerification',
+  // IdentityVerification extras (defined in IdentityVerification.js)
+  'setVerificationStep', 'updatePhoneNumber', 'updatePhoneCountryCode',
+  'sendPhoneVerificationCode', 'updateVerificationCode',
+  'confirmPhoneCode', 'resendPhoneCode',
+  'handlePhotoUpload', 'clearPhotoPreview', 'submitPhotoVerification',
+  'setDocumentType', 'handleDocumentUpload', 'clearDocumentPreview',
+  'submitIdentityDocument',
+  'handleSelfieIdPhotoUpload', 'clearSelfieIdPhoto',
+  'goToNextSelfieIdStep', 'goToPreviousSelfieIdStep', 'submitSelfieIdVerification',
+  // EmailVerification (defined in EmailVerification.js)
+  'initEmailVerification', 'checkEmailVerified',
+  'resendVerificationEmail', 'closeEmailVerification',
+  // LanguageSelector (defined in LanguageSelector.js)
+  'selectLanguageOption', 'confirmLanguageSelection',
+  // DeleteAccount (defined in DeleteAccount.js)
+  'openDeleteAccount', 'closeDeleteAccount',
+  'confirmDeleteAccount', 'confirmDeleteAccountGoogle',
+  // DonationCard extras (defined in DonationCard.js)
+  'handleDonationClick', 'processDonation',
+  // Planner (defined in Planner.js)
+  'saveCurrentTrip', 'shareTrip',
+  // CookieBanner (defined in CookieBanner.js)
+  'acceptAllCookies', 'refuseOptionalCookies',
+  'showCookieCustomize', 'hideCookieCustomize', 'saveCustomCookiePreferences',
+  // Profile extras (defined in Profile.js)
+  'editAvatar',
+  // Map extras (defined in Map.js)
+  'searchLocation',
+  // Chat extras (defined in Chat.js)
+  'handleChatKeypress',
+  // FAQ (defined in FAQ.js)
+  'toggleFAQItem', 'scrollToFAQCategory', 'filterFAQ', 'clearFAQSearch',
+  'closeFAQ', 'searchFAQ', 'getFAQQuestionById',
+  // AddSpot extras (defined in AddSpot.js)
+  'handleAddSpot',
+  // Favorites (defined in favorites.js)
+  'showFavoritesOnMap',
+  // User Blocking (defined in userBlocking.js)
+  'unblockUserById', 'openBlockModal', 'closeBlockModal', 'confirmBlockUser',
+  'openUnblockModal', 'closeUnblockModal', 'confirmUnblockUser',
+  // Contextual Tips (defined in contextualTips.js)
+  'dismissContextualTip',
+  // TeamChallenges extras (defined in teamChallenges.js)
+  'openTeamSettings', 'openTeamChallengesList', 'inviteToTeam',
+  // SOS Tracking (defined in sosTracking.js)
+  'startSOSTracking', 'stopSOSTracking', 'shareSOSLink', 'callEmergency',
+  // FriendsList (defined in friendsList.js)
+  'acceptFriendRequestHandler', 'declineFriendRequestHandler',
+  'cancelFriendRequestHandler', 'confirmRemoveFriend',
+  'openFindFriends', 'sendFriendRequestHandler',
+  // Admin Moderation (defined in adminModeration.js)
+  'openAdminModerationDashboard', 'closeAdminModeration',
+  'refreshAdminDashboard', 'openModerationQueue',
+  'openBanManagement', 'openWarningManagement', 'openModerationLogs',
+  'filterModerationQueue', 'loadMoreReports',
+  'quickReportAction', 'banUserPermanent', 'banUserTemporary',
+  'unbanUser', 'warnUser', 'removeWarning', 'acknowledgeWarning',
+  'openAddForbiddenWordModal', 'addForbiddenWord', 'removeForbiddenWord',
+  'moderateSpot', 'moderatePhoto', 'moderateChatMessage',
+  // Detailed Reviews (defined in detailedReviews.js)
+  'setReviewRating', 'submitDetailedReview', 'toggleReviewHelpful',
+  'triggerReviewPhotoUpload', 'updateReviewCharsCount',
+  'showReviewForm', 'openReviewPhoto', 'editReviewModal',
+  'deleteReviewConfirm', 'openReplyModal',
+  // Realtime Chat (defined in realtimeChat.js)
+  'joinChatRoom', 'sendChatMessage', 'setTyping',
+  // Trust Score (defined in trustScore.js)
+  'getUserTrustScore', 'showTrustDetails',
+  // Companion Search (defined in companionSearch.js)
+  'openTravelPlanDetail', 'closeTravelPlanDetail',
+  'acceptPlanResponse', 'declinePlanResponse',
+  'postTravelPlanHandler', 'searchCompanionsHandler',
+  // Dangerous Spots (defined in dangerousSpots.js)
+  'reportSpotDanger', 'closeDangerReportModal', 'submitDangerReport',
+  'confirmSpotDanger', 'voteDeletion',
+  // TravelGroups extras (defined in travelGroups.js)
+  'createGroup', 'acceptGroupInvitation', 'declineGroupInvitation',
+  'addItineraryStop', 'removeItineraryStop',
+  'joinTravelGroup', 'leaveTravelGroup', 'createTravelGroup',
+  // Private Messages (defined in privateMessages.js)
+  'sendPrivateMessageTo', 'muteConvo', 'unmuteConvo',
+  'archiveConvo', 'deleteConvo',
+  // Nearby Friends extras (defined in nearbyFriends.js)
+  'setNotificationRadius', 'toggleNearbyFriendsList',
+  'closeNearbyFriendsList', 'toggleLocationSharing', 'showFriendOnMap',
+  // Heatmap (defined in heatmap.js)
+  'toggleHeatmap',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))
@@ -538,8 +656,8 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
 // SECTION: Handler existence sanity check
 // ============================================================
 describe('Wiring: KNOWN_HANDLERS list is consistent', () => {
-  it('has at least 90 known handlers (sanity check)', () => {
-    expect(KNOWN_HANDLERS.size).toBeGreaterThanOrEqual(90)
+  it('has at least 300 known handlers (sanity check)', () => {
+    expect(KNOWN_HANDLERS.size).toBeGreaterThanOrEqual(300)
   })
 
   it('no duplicates in MAIN_JS_HANDLERS array', () => {
