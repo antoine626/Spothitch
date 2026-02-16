@@ -290,6 +290,10 @@ async function init() {
       console.warn('Hover prefetch skipped:', e.message);
     }
 
+    // Prefetch MapLibre GL when idle (before user opens map)
+    const idleCb = window.requestIdleCallback || ((cb) => setTimeout(cb, 2000))
+    idleCb(() => { import('maplibre-gl').catch(() => {}) })
+
     // Cleanup expired form drafts
     try {
       cleanupDrafts();

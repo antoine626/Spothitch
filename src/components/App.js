@@ -385,6 +385,8 @@ function initHomeMap(state) {
               const radiusSpots = await spotLoader.loadSpotsInRadius(latitude, longitude, 50)
               updateSpotsOnMap(radiusSpots)
               if (window._refreshCountryBubbles) window._refreshCountryBubbles()
+              // Prefetch nearby countries in background for faster browsing
+              spotLoader.prefetchNearbyCountries(latitude, longitude, 800)
             } catch { /* no-op */ }
           }
         },

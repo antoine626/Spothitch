@@ -313,6 +313,29 @@ export async function getSpotStats() {
 }
 
 /**
+ * Prefetch nearby countries in background (for faster subsequent loads)
+ * @param {number} lat - User latitude
+ * @param {number} lng - User longitude
+ * @param {number} radiusKm - Prefetch radius (default 800km)
+ */
+export function prefetchNearbyCountries(lat, lng, radiusKm = 800) {
+  const countryCenters = getCountryCenters()
+  const nearby = Object.entries(countryCenters)
+    .filter(([code, center]) => !loadedCountries.has(code) && haversineKm(lat, lng, center.lat, center.lon) < radiusKm)
+    .map(([code]) => code)
+
+  // Load one at a time with idle callback to avoid blocking
+  const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 100))
+  let i = 0
+  function loadNext() {
+    if (i >= nearby.length) return
+    const code = nearby[i++]
+    loadCountrySpots(code).then(() => idle(loadNext)).catch(() => idle(loadNext))
+  }
+  idle(loadNext)
+}
+
+/**
  * Clear cache (for memory management)
  */
 export function clearSpotCache() {
@@ -333,4 +356,5 @@ export default {
   isCountryLoaded,
   getSpotStats,
   clearSpotCache,
+  prefetchNearbyCountries,
 }

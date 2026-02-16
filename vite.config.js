@@ -112,6 +112,22 @@ export default defineConfig({
               cacheName: 'unsplash-images',
               expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 7 }
             }
+          },
+          {
+            urlPattern: /\/data\/spots\/.*\.json$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'spot-data',
+              expiration: { maxEntries: 150, maxAgeSeconds: 60 * 60 * 24 * 7 }
+            }
+          },
+          {
+            urlPattern: /\/data\/spots\/index\.json$/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'spot-index',
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }
+            }
           }
         ]
       }
