@@ -7,11 +7,15 @@
  * with their last known position.
  */
 
+import { sendLocalNotification } from './notifications.js'
+import { t } from '../i18n/index.js'
+
 const STORAGE_KEY = 'spothitch_companion'
 const CHECK_INTERVAL_MS = 10_000 // check every 10 seconds
 
 let timerInterval = null
 let overdueCallback = null
+let overdueNotified = false
 
 /**
  * Default companion state
@@ -134,6 +138,7 @@ export function checkIn() {
 
   state.lastCheckIn = Date.now()
   state.alertSent = false
+  overdueNotified = false
 
   // Update position on check-in
   if (navigator.geolocation) {
@@ -296,6 +301,8 @@ export function onOverdue(callback) {
 export function startTimer() {
   stopTimer()
 
+  overdueNotified = false
+
   timerInterval = setInterval(() => {
     const state = loadState()
     if (!state.active) {
@@ -311,6 +318,19 @@ export function startTimer() {
         }
       } catch {
         // vibration not supported
+      }
+
+      // Send push notification (works even when tab not focused)
+      if (!overdueNotified) {
+        overdueNotified = true
+        const title = t('companionOverdueTitle') || 'Check-in overdue!'
+        const body = t('companionOverdueBody') || 'Your check-in timer has expired. Are you safe?'
+        sendLocalNotification(title, body, {
+          type: 'companion_overdue',
+          tag: 'companion-checkin',
+          requireInteraction: true,
+          url: '/?companion=true',
+        })
       }
 
       // Notify via callback

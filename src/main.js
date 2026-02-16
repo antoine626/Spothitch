@@ -382,6 +382,17 @@ async function init() {
       console.warn('Companion mode restore skipped:', e.message)
     }
 
+    // Listen for service worker messages (push notification actions)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data?.type === 'COMPANION_CHECKIN') {
+          window.companionCheckIn?.()
+        } else if (event.data?.type === 'COMPANION_ALERT') {
+          window.companionSendAlert?.()
+        }
+      })
+    }
+
     // Register cleanup on page unload
     window.addEventListener('beforeunload', runAllCleanup);
 

@@ -4,7 +4,7 @@
  * Enhanced with social, gamification, and proximity notifications
  */
 
-import { requestNotificationPermission, onForegroundMessage } from './firebase.js';
+import { requestNotificationPermission, onForegroundMessage, saveFCMToken } from './firebase.js';
 import { escapeHTML } from '../utils/sanitize.js';
 import { getErrorMessage, getFormattedError } from '../utils/errorMessages.js';
 import { getState, setState, subscribe } from '../stores/state.js';
@@ -84,10 +84,12 @@ export async function initNotifications() {
 }
 
 /**
- * Save notification token to backend
+ * Save notification token to Firestore
  */
 async function saveNotificationToken(token) {
-  /* no-op */
+  if (token) {
+    await saveFCMToken(token)
+  }
 }
 
 /**
@@ -196,28 +198,61 @@ export function announce(message, priority = 'polite') {
  */
 export function sendLocalNotification(title, body, data = {}) {
   if (!('Notification' in window)) {
-    showToast(body, 'info');
-    return;
+    showToast(body, 'info')
+    return
   }
 
   if (Notification.permission === 'granted') {
-    const notification = new Notification(title, {
-      body,
-      icon: '/icon-192.png',
-      badge: '/icon-96.png',
-      data,
-      vibrate: [100, 50, 100],
-    });
-
-    notification.onclick = () => {
-      window.focus();
-      notification.close();
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    };
+    // Use service worker registration for persistent notifications
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(title, {
+          body,
+          icon: '/icon-192.png',
+          badge: '/icon-96.png',
+          data,
+          vibrate: data.type === 'companion_overdue'
+            ? [500, 200, 500, 200, 500, 200, 500]
+            : [100, 50, 100],
+          tag: data.tag || 'spothitch-notification',
+          requireInteraction: data.requireInteraction || false,
+          actions: data.type === 'companion_overdue'
+            ? [
+              { action: 'checkin', title: t('imSafe') || "I'm safe" },
+              { action: 'alert', title: t('sendAlert') || 'Send alert' },
+            ]
+            : [],
+        })
+      }).catch(() => {
+        // Fallback to basic notification
+        showBasicNotification(title, body, data)
+      })
+    } else {
+      showBasicNotification(title, body, data)
+    }
   } else {
-    showToast(body, 'info');
+    showToast(body, 'info')
+  }
+}
+
+/**
+ * Fallback notification without service worker
+ */
+function showBasicNotification(title, body, data = {}) {
+  const notification = new Notification(title, {
+    body,
+    icon: '/icon-192.png',
+    badge: '/icon-96.png',
+    data,
+    vibrate: [100, 50, 100],
+  })
+
+  notification.onclick = () => {
+    window.focus()
+    notification.close()
+    if (data.url) {
+      window.location.href = data.url
+    }
   }
 }
 

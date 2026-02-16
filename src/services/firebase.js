@@ -34,7 +34,9 @@ import {
   where,
   onSnapshot,
   serverTimestamp,
-  writeBatch
+  writeBatch,
+  setDoc,
+  getDoc
 } from 'firebase/firestore';
 import {
   getStorage,
@@ -42,7 +44,7 @@ import {
   uploadString,
   getDownloadURL
 } from 'firebase/storage';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getMessaging, getToken, onMessage, deleteToken } from 'firebase/messaging';
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -139,10 +141,12 @@ export async function signInWithFacebook() {
  */
 export async function logOut() {
   try {
-    await signOut(auth);
-    return { success: true };
+    // Clean up FCM tokens before signing out
+    await deleteFCMTokens()
+    await signOut(auth)
+    return { success: true }
   } catch (error) {
-    return { success: false, error: error.code };
+    return { success: false, error: error.code }
   }
 }
 
@@ -319,37 +323,120 @@ export async function uploadImage(base64Data, path) {
 
 // ==================== PUSH NOTIFICATIONS ====================
 
+const VAPID_KEY = 'BI4zCgg_GlFWZy93j7G7zv_ewoai_NIYZahiYsIjhL-LYGdxpN9wOBOtvvmakAYNBSqC12F9w_A-Ykhhp1SxWmc'
+
 /**
  * Request notification permission and get FCM token
  */
 export async function requestNotificationPermission() {
   try {
     if (!messaging) {
-      return null;
+      return null
     }
 
-    const permission = await Notification.requestPermission();
+    const permission = await Notification.requestPermission()
     if (permission !== 'granted') {
-      return null;
+      return null
     }
 
-    const token = await getToken(messaging, {
-      vapidKey: 'BI4zCgg_GlFWZy93j7G7zv_ewoai_NIYZahiYsIjhL-LYGdxpN9wOBOtvvmakAYNBSqC12F9w_A-Ykhhp1SxWmc'
-    });
-
-    return token;
+    const token = await getToken(messaging, { vapidKey: VAPID_KEY })
+    return token
   } catch (error) {
-    console.error('Error getting FCM token:', error);
-    return null;
+    console.error('Error getting FCM token:', error)
+    return null
   }
+}
+
+/**
+ * Save FCM token to Firestore for the current user
+ * Stored at users/{uid}/fcmTokens/{tokenHash}
+ * @param {string} token - FCM token
+ */
+export async function saveFCMToken(token) {
+  try {
+    const user = getCurrentUser()
+    if (!user || !token || !db) return false
+
+    const tokenHash = await hashToken(token)
+    const tokenRef = doc(db, 'users', user.uid, 'fcmTokens', tokenHash)
+
+    await setDoc(tokenRef, {
+      token,
+      createdAt: serverTimestamp(),
+      lastRefresh: serverTimestamp(),
+      userAgent: navigator.userAgent,
+      platform: navigator.platform || 'unknown',
+    })
+
+    return true
+  } catch (error) {
+    console.error('Error saving FCM token:', error)
+    return false
+  }
+}
+
+/**
+ * Delete all FCM tokens for the current user (on logout)
+ */
+export async function deleteFCMTokens() {
+  try {
+    const user = getCurrentUser()
+    if (!user || !db) return false
+
+    // Delete the current device token from FCM
+    if (messaging) {
+      try {
+        await deleteToken(messaging)
+      } catch {
+        // Token may already be invalid
+      }
+    }
+
+    // Delete all tokens from Firestore
+    const tokensRef = collection(db, 'users', user.uid, 'fcmTokens')
+    const snapshot = await getDocs(tokensRef)
+    if (!snapshot.empty) {
+      const batch = writeBatch(db)
+      snapshot.docs.forEach((d) => batch.delete(d.ref))
+      await batch.commit()
+    }
+
+    return true
+  } catch (error) {
+    console.error('Error deleting FCM tokens:', error)
+    return false
+  }
+}
+
+/**
+ * Hash a token string to use as document ID
+ * @param {string} token - FCM token
+ * @returns {string} hex hash
+ */
+async function hashToken(token) {
+  if (crypto.subtle) {
+    const data = new TextEncoder().encode(token)
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+    return Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('')
+      .slice(0, 32)
+  }
+  // Fallback: simple hash
+  let hash = 0
+  for (let i = 0; i < token.length; i++) {
+    hash = ((hash << 5) - hash) + token.charCodeAt(i)
+    hash |= 0
+  }
+  return Math.abs(hash).toString(16).padStart(8, '0')
 }
 
 /**
  * Listen for foreground messages
  */
 export function onForegroundMessage(callback) {
-  if (!messaging) return () => {};
-  return onMessage(messaging, callback);
+  if (!messaging) return () => {}
+  return onMessage(messaging, callback)
 }
 
 // ==================== ENHANCED SPOT OPERATIONS ====================

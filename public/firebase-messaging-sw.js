@@ -18,12 +18,85 @@ firebase.initializeApp({
 const messaging = firebase.messaging()
 
 messaging.onBackgroundMessage((payload) => {
-  const { title, body, icon } = payload.notification || {}
+  const notification = payload.notification || {}
+  const data = payload.data || {}
 
-  self.registration.showNotification(title || 'SpotHitch', {
-    body: body || '',
-    icon: icon || '/icon-192.png',
+  const title = notification.title || 'SpotHitch'
+  const options = {
+    body: notification.body || '',
+    icon: notification.icon || '/icon-192.png',
     badge: '/icon-96.png',
-    tag: 'spothitch-notification',
-  })
+    tag: data.tag || 'spothitch-notification',
+    data: { url: data.url || '/', ...data },
+    vibrate: data.type === 'companion_overdue'
+      ? [500, 200, 500, 200, 500, 200, 500]
+      : [100, 50, 100],
+    requireInteraction: data.type === 'companion_overdue',
+  }
+
+  // Add action buttons for companion overdue alerts
+  if (data.type === 'companion_overdue') {
+    options.actions = [
+      { action: 'checkin', title: "I'm safe" },
+      { action: 'alert', title: 'Send alert' },
+    ]
+  }
+
+  self.registration.showNotification(title, options)
+})
+
+// Handle notification click
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+
+  const data = event.notification.data || {}
+  const action = event.action
+
+  // Handle companion mode actions
+  if (action === 'checkin') {
+    // Open app with check-in action
+    event.waitUntil(
+      self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+        const appClient = clients.find((c) => c.url.includes(self.location.origin))
+        if (appClient) {
+          appClient.focus()
+          appClient.postMessage({ type: 'COMPANION_CHECKIN' })
+        } else {
+          self.clients.openWindow('/?companion=checkin')
+        }
+      })
+    )
+    return
+  }
+
+  if (action === 'alert') {
+    event.waitUntil(
+      self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+        const appClient = clients.find((c) => c.url.includes(self.location.origin))
+        if (appClient) {
+          appClient.focus()
+          appClient.postMessage({ type: 'COMPANION_ALERT' })
+        } else {
+          self.clients.openWindow('/?companion=alert')
+        }
+      })
+    )
+    return
+  }
+
+  // Default: open the URL from data
+  const urlToOpen = data.url || '/'
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+      const appClient = clients.find((c) => c.url.includes(self.location.origin))
+      if (appClient) {
+        appClient.focus()
+        if (urlToOpen !== '/') {
+          appClient.navigate(urlToOpen)
+        }
+      } else {
+        self.clients.openWindow(urlToOpen)
+      }
+    })
+  )
 })
