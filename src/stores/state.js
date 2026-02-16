@@ -20,10 +20,14 @@ const initialState = {
   theme: 'dark',
   lang: 'fr',
   activeSubTab: 'planner',
-  socialSubTab: 'chat',
+  socialSubTab: 'feed',
   chatSubTab: 'zones',
   groupSubTab: 'mine',
   eventSubTab: 'upcoming',
+  feedFilter: 'all',
+  activeGroupChat: null,
+  showZoneChat: false,
+  ambassadorSearchQuery: '',
   companionRequests: [],
 
   // Spots

@@ -74,7 +74,9 @@ const MAIN_JS_HANDLERS = [
   'setGuideSection', 'selectGuide', 'filterGuides',
   // Friends
   'showFriends', 'openFriendsChat', 'showAddFriend', 'closeAddFriend',
-  'acceptFriendRequest', 'rejectFriendRequest', 'sendPrivateMessage', 'copyFriendLink',
+  'acceptFriendRequest', 'rejectFriendRequest', 'declineFriendRequest',
+  'sendPrivateMessage', 'copyFriendLink',
+  'openFriendChat', 'closeFriendChat', 'showFriendProfile',
   // Friend Challenges
   'createFriendChallenge', 'acceptFriendChallenge', 'declineFriendChallenge',
   'cancelFriendChallenge', 'syncFriendChallenges',
@@ -144,9 +146,17 @@ const MAIN_JS_HANDLERS = [
   'openCountryGuide', 'mapZoomIn', 'mapZoomOut',
   // Travel view (defined in Travel.js)
   'syncTripFieldsAndCalculate', 'toggleRouteAmenities',
-  // Social view (defined in Social.js)
-  'setSocialTab', 'setChatSubTab', 'setGroupSubTab', 'setEventSubTab',
-  'postCompanionRequest', 'addFriendByName',
+  // Social view (defined in Social.js + sub-components)
+  'setSocialTab', 'postCompanionRequest', 'addFriendByName',
+  // Feed (defined in Feed.js)
+  'setFeedFilter', 'toggleFeedVisibility', 'setSocialSubTab',
+  // Conversations (defined in Conversations.js)
+  'openGroupChat', 'closeGroupChat', 'openZoneChat', 'closeZoneChat',
+  // Friends (defined in Friends.js)
+  'searchAmbassadorsByCity',
+  // Ambassadors (defined in ambassadors.js)
+  'searchAmbassadors', 'registerAmbassador', 'contactAmbassador',
+  'unregisterAmbassador', 'updateAmbassadorAvailability',
   // Direct Messages (defined in directMessages.js)
   'openConversation', 'closeConversation', 'sendDM',
   'shareDMSpot', 'shareDMPosition', 'deleteDMConversation',
@@ -242,7 +252,7 @@ const mockState = {
   theme: 'dark',
   lang: 'fr',
   activeSubTab: 'planner',
-  socialSubTab: 'general',
+  socialSubTab: 'feed',
   spots: [
     {
       id: 1,
@@ -430,7 +440,9 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
   testHandlers('Map view', renderMap)
   testHandlers('Travel view', renderTravel)
   testHandlers('ChallengesHub view', renderChallengesHub)
-  testHandlers('Social view', renderSocial)
+  testHandlers('Social view (feed)', renderSocial, { socialSubTab: 'feed' })
+  testHandlers('Social view (conversations)', renderSocial, { socialSubTab: 'conversations' })
+  testHandlers('Social view (friends)', renderSocial, { socialSubTab: 'friends' })
   testHandlers('Profile view', renderProfile)
   testHandlers('Guides view', renderGuides)
 
@@ -495,7 +507,9 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
       () => renderAuth(mockState),
       () => renderAddSpot(mockState),
       () => renderTravel(mockState),
-      () => renderSocial(mockState),
+      () => renderSocial({ ...mockState, socialSubTab: 'feed' }),
+      () => renderSocial({ ...mockState, socialSubTab: 'conversations' }),
+      () => renderSocial({ ...mockState, socialSubTab: 'friends' }),
       () => renderProfile(mockState),
       () => renderCreateTravelGroupModal(mockState),
       () => renderFiltersModal(),
