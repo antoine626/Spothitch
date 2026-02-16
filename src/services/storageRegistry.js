@@ -154,6 +154,7 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_online_users', category: DataCategory.CACHE, description: 'Online users cache' },
   { key: 'spothitch_messages_cache', category: DataCategory.CACHE, description: 'Messages cache' },
   { key: 'spothitch_offline_queue', category: DataCategory.CACHE, description: 'Offline action queue' },
+  { key: 'spothitch_offline_countries', category: DataCategory.CACHE, description: 'Downloaded countries for offline use' },
   { key: 'spothitch_cache_timestamp', category: DataCategory.CACHE, description: 'Cache timestamps' },
   { key: 'spothitch_badge_count', category: DataCategory.CACHE, description: 'Notification badge count' },
   { key: 'spothitch_notification_badge_count', category: DataCategory.CACHE, description: 'Badge count display' },
