@@ -94,7 +94,7 @@ describe('Detailed Reviews Service', () => {
       const ease = ReviewCriteria.EASE;
       expect(ease.id).toBe('ease');
       expect(ease.label).toBe('Facilite');
-      expect(ease.icon).toBe('fa-thumbs-up');
+      expect(ease.icon).toBe('thumbs-up');
       expect(ease.weight).toBe(0.25);
       expect(ease.maxRating).toBe(5);
     });

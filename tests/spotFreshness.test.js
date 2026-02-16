@@ -19,7 +19,7 @@ describe('spotFreshness', () => {
       expect(result.color).toBe('red')
       expect(result.label).toBe('Déconseillé')
       expect(result.labelEn).toBe('Not recommended')
-      expect(result.icon).toBe('times-circle')
+      expect(result.icon).toBe('circle-x')
     })
 
     it('should return RED for reported spots', () => {
@@ -52,7 +52,7 @@ describe('spotFreshness', () => {
       expect(result.color).toBe('emerald')
       expect(result.label).toBe('Fiable')
       expect(result.labelEn).toBe('Reliable')
-      expect(result.icon).toBe('check-circle')
+      expect(result.icon).toBe('circle-check')
     })
 
     it('should return GREEN for high rating (>= 3.5) regardless of date', () => {
@@ -94,7 +94,7 @@ describe('spotFreshness', () => {
       expect(result.color).toBe('amber')
       expect(result.label).toBe('À vérifier')
       expect(result.labelEn).toBe('Needs verification')
-      expect(result.icon).toBe('exclamation-circle')
+      expect(result.icon).toBe('circle-alert')
     })
 
     it('should return YELLOW for spots with no date', () => {
@@ -110,7 +110,7 @@ describe('spotFreshness', () => {
 
       expect(result.color).toBe('amber')
       expect(result.labelEn).toBe('Unknown')
-      expect(result.icon).toBe('question-circle')
+      expect(result.icon).toBe('info')
     })
 
     it('should check lastReview and lastCheckin fields', () => {
