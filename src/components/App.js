@@ -69,6 +69,10 @@ import { renderContactFormModal } from './modals/ContactForm.js';
 import { renderCompanionModal } from './modals/Companion.js';
 import { renderTripHistory } from '../services/tripHistory.js';
 import { icon } from '../utils/icons.js'
+import { trapFocus } from '../utils/a11y.js'
+
+// Store active focus trap cleanup function
+let _activeFocusTrapCleanup = null
 
 /**
  * Render the complete application
@@ -277,7 +281,7 @@ function renderActiveView(state) {
 }
 
 /**
- * Post-render hook to initialize map
+ * Post-render hook to initialize map and focus traps
  */
 export function afterRender(state) {
   const isMapTab = ['map', 'fullmap', 'home', 'travel', 'planner'].includes(state.activeTab)
@@ -287,6 +291,21 @@ export function afterRender(state) {
   if (isMapTab && state.showTripMap) {
     setTimeout(() => initTripMap(state), 100)
   }
+
+  // Focus trap: clean up previous trap
+  if (_activeFocusTrapCleanup) {
+    _activeFocusTrapCleanup()
+    _activeFocusTrapCleanup = null
+  }
+
+  // Activate focus trap on the topmost open modal (role="dialog")
+  requestAnimationFrame(() => {
+    const dialogs = document.querySelectorAll('[role="dialog"], [role="alertdialog"]')
+    if (dialogs.length > 0) {
+      const topModal = dialogs[dialogs.length - 1]
+      _activeFocusTrapCleanup = trapFocus(topModal)
+    }
+  })
 }
 
 /**
