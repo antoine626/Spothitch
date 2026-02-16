@@ -206,6 +206,8 @@ const MAIN_JS_HANDLERS = [
   'tripSearchSuggestions', 'tripSelectSuggestion', 'tripSelectFirst',
   // Map search (defined in Map.js)
   'selectSearchSuggestion', 'hideSearchSuggestions',
+  // Country bubbles
+  'loadCountryOnMap', 'downloadCountryFromBubble',
   // Offline download
   'downloadCountryOffline', 'deleteOfflineCountry',
   // Push notifications

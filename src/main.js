@@ -1853,6 +1853,57 @@ window.togglePushNotifications = async () => {
   scheduleRender(() => render(getState()))
 }
 
+// ==================== COUNTRY BUBBLE HANDLERS ====================
+
+window.loadCountryOnMap = async (code) => {
+  try {
+    const { loadCountrySpots, getAllLoadedSpots } = await import('./services/spotLoader.js')
+    await loadCountrySpots(code)
+    showToast(`${t('countryLoaded') || 'Pays chargé'} (${code})`, 'success')
+    // Refresh map spots source if map is active
+    if (window.homeMapInstance) {
+      const source = window.homeMapInstance.getSource('home-spots')
+      if (source) {
+        // Trigger a moveend to reload spots on map
+        window.homeMapInstance.fire('moveend')
+      }
+    }
+    if (window._refreshCountryBubbles) window._refreshCountryBubbles()
+    // Close any open popup
+    const popups = document.querySelectorAll('.maplibregl-popup')
+    popups.forEach(p => p.remove())
+  } catch (e) {
+    showToast(t('downloadFailed') || 'Échec du chargement', 'error')
+  }
+}
+
+window.downloadCountryFromBubble = async (code, name) => {
+  const btn = document.getElementById(`bubble-download-${code}`)
+  if (btn) {
+    btn.disabled = true
+    btn.innerHTML = `${icon('loader-circle', 'w-4 h-4 animate-spin')} ${t('downloadingCountry') || 'Téléchargement...'}`
+  }
+  try {
+    const { downloadCountrySpots } = await import('./services/offlineDownload.js')
+    const result = await downloadCountrySpots(code, (progress) => {
+      if (btn) btn.innerHTML = `${icon('loader-circle', 'w-4 h-4 animate-spin')} ${progress}%`
+    })
+    if (result.success) {
+      showToast(`${name}: ${result.count} ${t('countryDownloaded') || 'Téléchargé'}`, 'success')
+      if (window._refreshCountryBubbles) window._refreshCountryBubbles()
+      // Close popup
+      const popups = document.querySelectorAll('.maplibregl-popup')
+      popups.forEach(p => p.remove())
+    } else {
+      showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
+      if (btn) { btn.disabled = false; btn.innerHTML = `${icon('download', 'w-4 h-4')} ${t('downloadOffline') || 'Télécharger'}` }
+    }
+  } catch (e) {
+    showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
+    if (btn) { btn.disabled = false; btn.innerHTML = `${icon('download', 'w-4 h-4')} ${t('downloadOffline') || 'Télécharger'}` }
+  }
+}
+
 // ==================== OFFLINE DOWNLOAD HANDLERS ====================
 
 window.downloadCountryOffline = async (code, name) => {

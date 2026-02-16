@@ -321,12 +321,17 @@ function initHomeMap(state) {
 
     const maplibregl = maplibreModule.default || maplibreModule
     const { getFreshnessColor } = await import('../services/spotFreshness.js')
+    const {
+      addCountryBubbleLayers, updateCountryBubbleData,
+      createBubblePopup, setBubbleLayersVisibility, setSpotLayersVisibility,
+    } = await import('../services/countryBubbles.js')
 
-    const center = state.userLocation
+    const hasGps = !!state.userLocation
+    const center = hasGps
       ? [state.userLocation.lng, state.userLocation.lat]
       : [2.3, 46.6] // France center as fallback [lng, lat]
 
-    const zoom = state.userLocation ? 15 : 5
+    const zoom = hasGps ? 13 : 5
 
     const map = new maplibregl.Map({
       container,
@@ -368,12 +373,20 @@ function initHomeMap(state) {
     } else if (navigator.geolocation) {
       // Request GPS and center map when available
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
+        async (pos) => {
           const { latitude, longitude } = pos.coords
           showUserPosition(latitude, longitude)
           map.flyTo({ center: [longitude, latitude], zoom: 13, duration: 1200 })
           // Update global state
           if (window.setState) window.setState({ userLocation: { lat: latitude, lng: longitude }, gpsEnabled: true })
+          // Load spots in 50km radius once GPS is acquired
+          if (spotLoader) {
+            try {
+              const radiusSpots = await spotLoader.loadSpotsInRadius(latitude, longitude, 50)
+              updateSpotsOnMap(radiusSpots)
+              if (window._refreshCountryBubbles) window._refreshCountryBubbles()
+            } catch { /* no-op */ }
+          }
         },
         () => { /* silently fail — user denied GPS */ },
         { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
@@ -382,7 +395,15 @@ function initHomeMap(state) {
 
     // spotLoader module reference (loaded once, reused)
     let spotLoader = null
-    import('../services/spotLoader.js').then(mod => { spotLoader = mod }).catch(() => {})
+    let spotIndex = null
+    let countryCenters = null
+    let activePopup = null
+
+    import('../services/spotLoader.js').then(async (mod) => {
+      spotLoader = mod
+      spotIndex = await mod.loadSpotIndex()
+      countryCenters = mod.getCountryCenters()
+    }).catch(() => {})
 
     // Track which spot IDs are already added to avoid duplicates
     const addedSpotIds = new Set()
@@ -634,15 +655,85 @@ function initHomeMap(state) {
       }
     }
 
-    map.on('load', () => {
-      loadSpotsForView()
+    // Update layer visibility based on zoom level
+    const updateLayerVisibility = () => {
+      const z = map.getZoom()
+      if (z < 7) {
+        setBubbleLayersVisibility(map, true)
+        setSpotLayersVisibility(map, false)
+      } else {
+        setBubbleLayersVisibility(map, false)
+        setSpotLayersVisibility(map, true)
+      }
+    }
+
+    // Refresh bubble data (downloaded/loaded states)
+    const refreshBubbles = () => {
+      if (!spotIndex || !countryCenters) return
+      let downloadedCodes = new Set()
+      try {
+        const dl = JSON.parse(localStorage.getItem('spothitch_offline_countries') || '[]')
+        downloadedCodes = new Set(dl.map(c => c.code))
+      } catch { /* no-op */ }
+      const loadedCodes = spotLoader ? spotLoader.getLoadedCountryCodes() : new Set()
+      updateCountryBubbleData(map, spotIndex, countryCenters, loadedCodes, downloadedCodes)
+    }
+
+    map.on('load', async () => {
+      // Add country bubble layers
+      addCountryBubbleLayers(map)
+
+      // Wait for spotLoader to be ready
+      const waitForLoader = () => new Promise(resolve => {
+        const check = () => { if (spotIndex && countryCenters) resolve(); else setTimeout(check, 100) }
+        check()
+      })
+      await waitForLoader()
+
+      // Initial bubble data
+      refreshBubbles()
+
+      // Click on country bubble → popup
+      map.on('click', 'country-bubble-circles', (e) => {
+        if (!e.features?.length) return
+        if (activePopup) { activePopup.remove(); activePopup = null }
+        const feature = e.features[0]
+        activePopup = createBubblePopup(maplibregl, feature, e.lngLat)
+        activePopup.addTo(map)
+      })
+      map.on('mouseenter', 'country-bubble-circles', () => { map.getCanvas().style.cursor = 'pointer' })
+      map.on('mouseleave', 'country-bubble-circles', () => { map.getCanvas().style.cursor = '' })
+
+      // Initial load strategy
+      const currentZoom = map.getZoom()
+      if (currentZoom >= 7) {
+        // GPS available or zoomed in — load spots
+        if (hasGps && spotLoader) {
+          const radiusSpots = await spotLoader.loadSpotsInRadius(
+            state.userLocation.lat, state.userLocation.lng, 50
+          )
+          updateSpotsOnMap(radiusSpots)
+          refreshBubbles()
+        } else {
+          loadSpotsForView()
+        }
+      }
+      // If zoom < 7, bubbles are already visible, no spots to load
+
+      updateLayerVisibility()
     })
 
     // Debounce spot loading on map move (1500ms to avoid excessive re-renders)
     let moveTimer = null
     let lastBounds = null
     map.on('moveend', () => {
+      updateLayerVisibility()
       clearTimeout(moveTimer)
+
+      const z = map.getZoom()
+      // Don't load spots when zoomed out — bubbles handle it
+      if (z < 7) return
+
       // Skip reload if bounds barely changed
       const bounds = map.getBounds()
       if (lastBounds) {
@@ -653,6 +744,9 @@ function initHomeMap(state) {
       lastBounds = bounds
       moveTimer = setTimeout(loadSpotsForView, 1500)
     })
+
+    // Expose refreshBubbles for main.js handlers
+    window._refreshCountryBubbles = refreshBubbles
 
     // Resize
     setTimeout(() => map.resize(), 200)

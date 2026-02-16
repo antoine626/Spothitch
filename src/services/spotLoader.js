@@ -112,8 +112,90 @@ export async function loadSpotsInBounds(bounds) {
   if (!index) return []
 
   // Determine which countries might be visible
-  // Use a simple center-point heuristic based on known country centers
-  const countryCenters = {
+  const countryCenters = getCountryCenters()
+  const expandedBounds = {
+    north: bounds.north + 2,
+    south: bounds.south - 2,
+    east: bounds.east + 2,
+    west: bounds.west - 2,
+  }
+
+  const visibleCountries = Object.entries(countryCenters)
+    .filter(([, center]) =>
+      center.lat >= expandedBounds.south &&
+      center.lat <= expandedBounds.north &&
+      center.lon >= expandedBounds.west &&
+      center.lon <= expandedBounds.east
+    )
+    .map(([code]) => code)
+
+  // Load countries in parallel
+  const promises = visibleCountries.map(code => loadCountrySpots(code))
+  const results = await Promise.all(promises)
+
+  return results.flat()
+}
+
+/**
+ * Load spots within a radius from a GPS point
+ * @param {number} lat - latitude
+ * @param {number} lng - longitude
+ * @param {number} radiusKm - radius in kilometers
+ * @returns {Array} filtered spots
+ */
+export async function loadSpotsInRadius(lat, lng, radiusKm = 50) {
+  const index = await loadSpotIndex()
+  if (!index) return []
+
+  const countryCenters = getCountryCenters()
+
+  // Find countries whose center is within 500km (to catch border spots)
+  const nearbyCountries = Object.entries(countryCenters)
+    .filter(([, center]) => haversineKm(lat, lng, center.lat, center.lon) < 500)
+    .map(([code]) => code)
+
+  // Load those countries
+  const promises = nearbyCountries.map(code => loadCountrySpots(code))
+  const results = await Promise.all(promises)
+  const allSpots = results.flat()
+
+  // Filter to radius
+  return allSpots.filter(s => {
+    const sLat = s.coordinates?.lat || s.lat
+    const sLng = s.coordinates?.lng || s.lng
+    if (!sLat || !sLng) return false
+    return haversineKm(lat, lng, sLat, sLng) <= radiusKm
+  })
+}
+
+/**
+ * Get list of loaded country codes
+ */
+export function getLoadedCountryCodes() {
+  return new Set(loadedCountries.keys())
+}
+
+/**
+ * Haversine distance in km
+ */
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371
+  const dLat = (lat2 - lat1) * Math.PI / 180
+  const dLng = (lng2 - lng1) * Math.PI / 180
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+/**
+ * Country center coordinates (exported for countryBubbles)
+ */
+export function getCountryCenters() {
+  return _countryCenters
+}
+
+const _countryCenters = {
     // Europe
     FR: { lat: 46.6, lon: 2.2 }, DE: { lat: 51.2, lon: 10.4 },
     ES: { lat: 40.0, lon: -3.7 }, IT: { lat: 42.5, lon: 12.5 },
@@ -195,30 +277,6 @@ export async function loadSpotsInBounds(bounds) {
     XZ: { lat: 29.7, lon: 91.1 }, ZM: { lat: -13.1, lon: 27.8 },
   }
 
-  // Expand bounds by 10 degrees to preload nearby countries
-  const expandedBounds = {
-    north: bounds.north + 10,
-    south: bounds.south - 10,
-    east: bounds.east + 10,
-    west: bounds.west - 10,
-  }
-
-  const visibleCountries = Object.entries(countryCenters)
-    .filter(([, center]) =>
-      center.lat >= expandedBounds.south &&
-      center.lat <= expandedBounds.north &&
-      center.lon >= expandedBounds.west &&
-      center.lon <= expandedBounds.east
-    )
-    .map(([code]) => code)
-
-  // Load countries in parallel
-  const promises = visibleCountries.map(code => loadCountrySpots(code))
-  const results = await Promise.all(promises)
-
-  return results.flat()
-}
-
 /**
  * Get all currently loaded spots
  */
@@ -267,8 +325,11 @@ export default {
   loadSpotIndex,
   loadCountrySpots,
   loadSpotsInBounds,
+  loadSpotsInRadius,
   getAllLoadedSpots,
   getLoadedCountries,
+  getLoadedCountryCodes,
+  getCountryCenters,
   isCountryLoaded,
   getSpotStats,
   clearSpotCache,
