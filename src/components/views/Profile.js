@@ -29,8 +29,8 @@ export function renderProfile(state) {
         <p class="text-slate-400 text-sm">${state.user?.email || t('notConnected') || 'Non connecté'}</p>
       </div>
 
-      <!-- Quick Stats -->
-      <div class="grid grid-cols-3 gap-3">
+      <!-- Stats -->
+      <div class="grid grid-cols-4 gap-3">
         <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
           <div class="text-2xl font-bold text-emerald-400">${state.spotsCreated || 0}</div>
           <div class="text-xs text-slate-400">${t('spotsShared') || 'Spots'}</div>
@@ -39,36 +39,14 @@ export function renderProfile(state) {
           <div class="text-2xl font-bold text-purple-400">${state.checkins || 0}</div>
           <div class="text-xs text-slate-400">Check-ins</div>
         </button>
+        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
+          <div class="text-2xl font-bold text-amber-400">${state.reviewsGiven || 0}</div>
+          <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis'}</div>
+        </button>
         <button onclick="openBadges()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
-          <div class="text-2xl font-bold text-amber-400">${(state.badges || []).length}</div>
+          <div class="text-2xl font-bold text-primary-400">${(state.badges || []).length}</div>
           <div class="text-xs text-slate-400">${t('badgesEarned') || 'Badges'}</div>
         </button>
-      </div>
-
-      <!-- Activity Stats -->
-      <div class="card p-5">
-        <h3 class="font-bold mb-5 flex items-center gap-2">
-          ${icon('chart-bar', 'w-5 h-5 text-primary-400')}
-          ${t('activity') || 'Activité'}
-        </h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="p-4 rounded-lg bg-white/5 text-center">
-            <div class="text-2xl font-bold text-emerald-400">${state.spotsCreated || 0}</div>
-            <div class="text-xs text-slate-400">${t('spotsShared') || 'Spots partagés'}</div>
-          </div>
-          <div class="p-4 rounded-lg bg-white/5 text-center">
-            <div class="text-2xl font-bold text-purple-400">${state.checkins || 0}</div>
-            <div class="text-xs text-slate-400">${t('checkinsCount') || 'Check-ins'}</div>
-          </div>
-          <div class="p-4 rounded-lg bg-white/5 text-center">
-            <div class="text-2xl font-bold text-amber-400">${state.reviewsGiven || 0}</div>
-            <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis donnés'}</div>
-          </div>
-          <div class="p-4 rounded-lg bg-white/5 text-center">
-            <div class="text-2xl font-bold text-primary-400">${state.badges?.length || 0}</div>
-            <div class="text-xs text-slate-400">${t('badgesEarned') || 'Badges'}</div>
-          </div>
-        </div>
       </div>
 
       <!-- Trust Score -->
