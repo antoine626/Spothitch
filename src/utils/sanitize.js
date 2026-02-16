@@ -23,12 +23,13 @@ const config = {
     'aria-expanded', 'aria-controls', 'aria-selected', 'aria-modal', 'aria-live',
     'aria-atomic', 'aria-busy', 'aria-current', 'aria-invalid', 'aria-required',
     'tabindex', 'autofocus', 'autocomplete',
-    'data-*', 'onclick', 'onchange', 'onsubmit', 'oninput', 'onfocus', 'onblur',
+    'data-*',
     'target', 'rel', 'download',
     'width', 'height', 'viewBox', 'fill', 'stroke', 'stroke-width', 'd', 'cx', 'cy', 'r',
+    'loading', 'decoding',
   ],
   ALLOW_DATA_ATTR: true,
-  ADD_ATTR: ['onclick', 'onchange', 'onsubmit', 'oninput'],
+  FORBID_ATTR: ['onclick', 'onchange', 'onsubmit', 'oninput', 'onfocus', 'onblur', 'onerror', 'onload', 'onmouseover'],
 };
 
 /**

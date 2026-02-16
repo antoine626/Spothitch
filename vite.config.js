@@ -69,7 +69,8 @@ export default defineConfig({
         skipWaiting: true,
         clientsClaim: true,
         cleanupOutdatedCaches: true,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        globPatterns: ['index.html', 'assets/index-*.js', 'assets/vendor-utils-*.js', 'assets/*.css', 'fonts/*.woff2', 'icon-*.png', 'favicon.png'],
+      globIgnores: ['**/*.map', '**/*legacy*', '**/gamification-*', '**/vendor-maplibre-*', '**/vendor-firebase-*', '**/social-*', '**/guides-*', '**/admin-*'],
         navigateFallbackDenylist: [/^\/design-/, /^\/debug-/],
         runtimeCaching: [
           {

@@ -9,24 +9,13 @@ import './styles/main.css';
 // State & Store
 import { getState, setState, subscribe, actions } from './stores/state.js';
 
-// Services
-import {
-  initializeFirebase,
-  onAuthChange,
-  signIn,
-  signUp,
-  signInWithGoogle,
-  signInWithFacebook,
-  logOut,
-  resetPassword,
-  sendChatMessage,
-  saveSpotToFirebase,
-  uploadPhotoToFirebase,
-  saveValidationToFirebase,
-  saveCommentToFirebase,
-  reportSpot,
-} from './services/firebase.js';
-import { initSentry, setupGlobalErrorHandlers, setUser as setSentryUser } from './services/sentry.js';
+// Firebase — lazy-loaded to save 115KB gzip on initial load
+let _firebase = null
+async function getFirebase() {
+  if (!_firebase) _firebase = await import('./services/firebase.js')
+  return _firebase
+}
+// Sentry — lazy-loaded (non-critical for FCP)
 import { initNotifications, showToast, showFriendlyError } from './services/notifications.js';
 import { initOfflineHandler } from './services/offline.js';
 import { initMap as initMapService, initMapService as initMainMapService, initPlannerMap, initSavedTripMap, centerOnSpot, centerOnUser, destroyMaps } from './services/map.js';
@@ -196,22 +185,28 @@ async function init() {
       document.documentElement.classList.add('reduce-motion');
     }
 
-    // Initialize error tracking (optional - won't break app if fails)
+    // Initialize error tracking (lazy — non-critical for FCP)
     try {
+      const { initSentry, setupGlobalErrorHandlers } = await import('./services/sentry.js')
       await initSentry();
       setupGlobalErrorHandlers();
     } catch (e) {
       console.warn('Sentry init skipped:', e.message);
     }
 
-    // Initialize Firebase (optional - won't break app if fails)
+    // Initialize Firebase (lazy — only if user has a saved session)
     try {
-      initializeFirebase();
-      // Listen to auth state changes
-      onAuthChange((user) => {
-        actions.setUser(user);
-        setSentryUser(user);
-      });
+      const hasSession = localStorage.getItem('spothitch_user') || localStorage.getItem('spothitch_firebase_token')
+      if (hasSession) {
+        const fb = await getFirebase()
+        fb.initializeFirebase()
+        fb.onAuthChange((user) => {
+          actions.setUser(user)
+          try {
+            import('./services/sentry.js').then(m => m.setUser(user))
+          } catch (_e) { /* sentry optional */ }
+        })
+      }
     } catch (e) {
       console.warn('Firebase init skipped:', e.message);
     }
@@ -773,7 +768,7 @@ window.triggerPhotoUpload = () => {
 window.doCheckin = async (spotId) => {
   const { recordCheckin } = await import('./services/gamification.js')
   recordCheckin()
-  saveValidationToFirebase(spotId, getState().user?.uid)
+  getFirebase().then(fb => fb.saveValidationToFirebase(spotId, getState().user?.uid))
   showToast(t('checkinSuccess'), 'success')
   announceAction('checkin', true)
 
@@ -812,7 +807,8 @@ window.submitReview = async (spotId) => {
         return
       }
     }
-    await saveCommentToFirebase({ spotId, text: comment, rating })
+    const fb1 = await getFirebase()
+    await fb1.saveCommentToFirebase({ spotId, text: comment, rating })
     const { recordReview } = await import('./services/gamification.js')
     recordReview()
     showToast(t('reviewPublished') || 'Avis publié !', 'success')
@@ -823,7 +819,8 @@ window.setRating = (rating) => setState({ currentRating: rating });
 window.reportSpotAction = async (spotId) => {
   const reason = prompt(t('reportReason') || 'Raison du signalement ?');
   if (reason) {
-    await reportSpot(spotId, reason);
+    const fb2 = await getFirebase()
+    await fb2.reportSpot(spotId, reason);
     showToast(t('reportSent') || 'Signalement envoyé', 'success');
   }
 };
@@ -916,8 +913,14 @@ window.handleLogin = async (e) => {
     showToast(t('fillAllFields') || 'Veuillez remplir tous les champs', 'error');
     return;
   }
-  const result = await signIn(email, password);
+  const fb = await getFirebase()
+  fb.initializeFirebase()
+  const result = await fb.signIn(email, password);
   if (result.success) {
+    fb.onAuthChange((user) => {
+      actions.setUser(user)
+      import('./services/sentry.js').then(m => m.setUser(user)).catch(() => {})
+    })
     setState({ showAuth: false });
     showToast(t('loginSuccess') || 'Connexion réussie !', 'success');
   } else {
@@ -935,8 +938,14 @@ window.handleSignup = async (e) => {
     showToast(t('fillAllFields') || 'Veuillez remplir tous les champs', 'error');
     return;
   }
-  const result = await signUp(email, password, name || t('defaultUser') || 'Utilisateur');
+  const fb = await getFirebase()
+  fb.initializeFirebase()
+  const result = await fb.signUp(email, password, name || t('defaultUser') || 'Utilisateur');
   if (result.success) {
+    fb.onAuthChange((user) => {
+      actions.setUser(user)
+      import('./services/sentry.js').then(m => m.setUser(user)).catch(() => {})
+    })
     setState({ showAuth: false });
     showToast(t('accountCreated') || 'Compte créé !', 'success');
   } else {
@@ -944,8 +953,11 @@ window.handleSignup = async (e) => {
   }
 };
 window.handleGoogleSignIn = async () => {
-  const result = await signInWithGoogle();
+  const fb = await getFirebase()
+  fb.initializeFirebase()
+  const result = await fb.signInWithGoogle();
   if (result.success) {
+    fb.onAuthChange((user) => actions.setUser(user))
     setState({ showAuth: false });
     showToast(t('googleLoginSuccess') || 'Connexion Google réussie !', 'success');
   } else {
@@ -953,8 +965,11 @@ window.handleGoogleSignIn = async () => {
   }
 };
 window.handleFacebookSignIn = async () => {
-  const result = await signInWithFacebook();
+  const fb = await getFirebase()
+  fb.initializeFirebase()
+  const result = await fb.signInWithFacebook();
   if (result.success) {
+    fb.onAuthChange((user) => actions.setUser(user))
     setState({ showAuth: false });
     showToast(t('facebookLoginSuccess') || 'Connexion Facebook réussie !', 'success');
   } else {
@@ -970,7 +985,9 @@ window.handleForgotPassword = async () => {
     showToast(t('enterEmailFirst') || 'Entrez votre email d\'abord', 'warning');
     return;
   }
-  const result = await resetPassword(email);
+  const fb = await getFirebase()
+  fb.initializeFirebase()
+  const result = await fb.resetPassword(email);
   if (result.success) {
     showToast(t('resetEmailSent') || 'Email de réinitialisation envoyé !', 'success');
   } else {
@@ -978,7 +995,8 @@ window.handleForgotPassword = async () => {
   }
 };
 window.handleLogout = async () => {
-  await logOut();
+  const fb = await getFirebase()
+  await fb.logOut();
   actions.setUser(null);
   showToast(t('logoutSuccess') || 'Déconnexion réussie', 'success');
 };
@@ -1160,7 +1178,8 @@ window.sendMessage = async () => {
   const text = input?.value?.trim();
   if (!text) return;
   const { chatRoom } = getState();
-  await sendChatMessage(chatRoom || 'general', text);
+  const fbChat = await getFirebase()
+  await fbChat.sendChatMessage(chatRoom || 'general', text);
   if (input) input.value = '';
 };
 
