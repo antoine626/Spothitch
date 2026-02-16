@@ -16,7 +16,6 @@ import { isUserBlocked, canInteractWith } from './userBlocking.js'
 const CHAT_ROOMS_KEY = 'spothitch_chat_rooms'
 const TYPING_INDICATORS_KEY = 'spothitch_typing_indicators'
 const ONLINE_USERS_KEY = 'spothitch_online_users'
-const MESSAGES_CACHE_KEY = 'spothitch_messages_cache'
 
 // Constants
 export const MESSAGE_MAX_LENGTH = 2000
@@ -88,7 +87,7 @@ export function initRealtimeChat() {
  */
 export function destroyRealtimeChat() {
   // Clear all subscriptions
-  roomSubscriptions.forEach((unsub, roomId) => {
+  roomSubscriptions.forEach((unsub, _roomId) => {
     if (typeof unsub === 'function') unsub()
   })
   roomSubscriptions.clear()
@@ -589,7 +588,7 @@ export function getOnlineUsers() {
  * @param {string} roomId - ID of the room (optional, for future room-specific tracking)
  * @returns {number} Number of online users
  */
-export function getOnlineUserCount(roomId = null) {
+export function getOnlineUserCount(_roomId = null) {
   return getOnlineUsers().length
 }
 

@@ -5,7 +5,7 @@
 
 import { getState, setState } from '../stores/state.js';
 import { allBadges, getBadgeById } from '../data/badges.js';
-import { leagues, getVipLevel, getNextVipLevel } from '../data/vip-levels.js';
+import { leagues, getLeague, getVipLevel, getNextVipLevel } from '../data/vip-levels.js';
 import { getTitleForLevel, checkTitleChange, getTitleProgress, getUnlockedTitles, getLockedTitles, getAllTitles } from '../data/titles.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
