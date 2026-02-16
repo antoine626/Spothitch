@@ -181,7 +181,7 @@ const MAIN_JS_HANDLERS = [
   // CreateTravelGroup (defined in CreateTravelGroup.js)
   'submitCreateTravelGroup',
   // FriendProfile (defined in FriendProfile.js / friendsList)
-  'removeFriend',
+  'removeFriend', 'shareProfile',
   // AddSpot (defined in AddSpot.js)
   'handlePhotoSelect', 'setSpotRating', 'onSpotTypeChange',
   // Map (defined in Map.js)

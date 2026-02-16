@@ -209,6 +209,17 @@ export function getVerificationLevel() {
  * Get next verification level
  * @returns {Object|null} Next level info or null if max
  */
+/**
+ * Get verification level name for a given level
+ * @param {number} level - Verification level (0-5)
+ * @returns {string} Level name
+ */
+export function getVerificationLevelName(level = 0) {
+  const { lang } = getState()
+  const info = verificationLevels[level] || verificationLevels[0]
+  return lang === 'en' ? (info.nameEn || info.name) : info.name
+}
+
 export function getNextVerificationLevel() {
   const state = getState();
   const currentLevel = state.verificationLevel || 0;

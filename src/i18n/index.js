@@ -1005,6 +1005,7 @@ const translations = {
     // Geographic Achievements (#169)
     achievementUnlocked: 'Succes debloque',
     countriesVisited: 'pays visites',
+    countriesShort: 'Pays',
     regionComplete: 'Region completee !',
     distanceTraveled: 'Distance parcourue',
     bordersCrossed: 'Frontieres traversees',
@@ -3849,6 +3850,7 @@ const translations = {
     // Geographic Achievements (#169)
     achievementUnlocked: 'Achievement unlocked',
     countriesVisited: 'countries visited',
+    countriesShort: 'Countries',
     regionComplete: 'Region complete!',
     distanceTraveled: 'Distance traveled',
     bordersCrossed: 'Borders crossed',
@@ -6032,6 +6034,7 @@ const translations = {
     // Geographic Achievements (#169)
     achievementUnlocked: 'Logro desbloqueado',
     countriesVisited: 'paises visitados',
+    countriesShort: 'Países',
     regionComplete: 'Region completada!',
     remaining: 'Restantes',
     distanceTraveled: 'Distancia recorrida',
@@ -9018,6 +9021,7 @@ const translations = {
     // Geographic Achievements (#169)
     achievementUnlocked: 'Erfolg freigeschaltet',
     countriesVisited: 'Lander besucht',
+    countriesShort: 'Länder',
     regionComplete: 'Region vollstandig!',
     remaining: 'Verbleibend',
     distanceTraveled: 'Zuruckgelegte Strecke',

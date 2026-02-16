@@ -229,6 +229,13 @@ export async function initMap(containerId = 'map') {
       addSpotLayers(mainMap, geojson)
       filteredSpots.forEach(s => loadedSpotIds.add(s.id))
 
+      // Add friend location layer
+      addFriendLayers(mainMap)
+      const friendsLocs = state.friendsLocations || []
+      if (friendsLocs.length > 0) {
+        updateFriendMarkers(friendsLocs)
+      }
+
       // Load dynamic spots
       loadDynamicSpots(mainMap)
 
@@ -477,6 +484,83 @@ async function loadDynamicSpots(map) {
 }
 
 /**
+ * Add friend location markers layer to the map
+ */
+function addFriendLayers(map) {
+  map.addSource('friends', {
+    type: 'geojson',
+    data: { type: 'FeatureCollection', features: [] },
+  })
+
+  map.addLayer({
+    id: 'friend-markers',
+    type: 'circle',
+    source: 'friends',
+    paint: {
+      'circle-color': '#10b981',
+      'circle-radius': 12,
+      'circle-stroke-color': '#ffffff',
+      'circle-stroke-width': 2,
+      'circle-opacity': 0.9,
+    },
+  })
+
+  map.addLayer({
+    id: 'friend-labels',
+    type: 'symbol',
+    source: 'friends',
+    layout: {
+      'text-field': ['get', 'avatar'],
+      'text-size': 16,
+      'text-offset': [0, 0],
+      'text-allow-overlap': true,
+    },
+  })
+
+  map.on('click', 'friend-markers', (e) => {
+    if (!e.features?.length) return
+    const userId = e.features[0].properties.userId
+    window.showFriendProfile?.(userId)
+  })
+
+  map.on('mouseenter', 'friend-markers', () => { map.getCanvas().style.cursor = 'pointer' })
+  map.on('mouseleave', 'friend-markers', () => { map.getCanvas().style.cursor = '' })
+}
+
+/**
+ * Update friends GeoJSON data on the map
+ */
+export function updateFriendMarkers(friendsLocations) {
+  if (!mainMap) return
+  const source = mainMap.getSource('friends')
+  if (!source) return
+
+  const features = (friendsLocations || [])
+    .filter(f => f.lat && f.lng)
+    .map(f => ({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [f.lng, f.lat] },
+      properties: {
+        userId: f.userId,
+        username: f.username || '',
+        avatar: f.avatar || '🤙',
+      },
+    }))
+
+  source.setData({ type: 'FeatureCollection', features })
+}
+
+/**
+ * Toggle friends visibility on the map
+ */
+export function toggleFriendsOnMap(visible) {
+  if (!mainMap) return
+  const v = visible ? 'visible' : 'none'
+  if (mainMap.getLayer('friend-markers')) mainMap.setLayoutProperty('friend-markers', 'visibility', v)
+  if (mainMap.getLayer('friend-labels')) mainMap.setLayoutProperty('friend-labels', 'visibility', v)
+}
+
+/**
  * Display fallback spots (when map fails to load)
  */
 export function displayFallbackSpots(container) {
@@ -508,11 +592,16 @@ export async function updateMapTheme(theme) {
   if (!mainMap) return
   mainMap.setStyle(getMapStyleUrl(theme))
 
-  // Re-add spots after style change (style change removes all layers)
+  // Re-add layers after style change (style change removes all layers)
   mainMap.once('style.load', () => {
     const allSpots = getAllLoadedSpots()
     if (allSpots.length > 0) {
       addSpotLayers(mainMap, spotsToGeoJSON(allSpots))
+    }
+    addFriendLayers(mainMap)
+    const friendsLocs = getState().friendsLocations || []
+    if (friendsLocs.length > 0) {
+      updateFriendMarkers(friendsLocs)
     }
   })
 }
@@ -599,4 +688,6 @@ export default {
   centerOnUser,
   centerOnSpot,
   destroyMaps,
+  updateFriendMarkers,
+  toggleFriendsOnMap,
 }

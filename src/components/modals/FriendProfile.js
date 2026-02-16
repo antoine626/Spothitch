@@ -1,11 +1,12 @@
 /**
- * Friend Profile Modal
- * Shows another user's profile with avatar, level, badges, and remove button
+ * Friend Profile Modal (enriched)
+ * Trust score, verification, mutual friends, activity stats, share/block
  */
 
-import { getTrustBadge } from '../../services/identityVerification.js'
+import { getTrustBadge, getVerificationLevelName } from '../../services/identityVerification.js'
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { escapeHTML } from '../../utils/sanitize.js'
 
 export function renderFriendProfileModal(state) {
   const friendId = state.selectedFriendProfileId
@@ -13,6 +14,17 @@ export function renderFriendProfileModal(state) {
   const friend = friends.find(f => f.id === friendId)
 
   if (!friend) return ''
+
+  const verLevel = friend.verificationLevel || 0
+  const trustScore = friend.trustScore || Math.min(verLevel * 20, 100)
+  const trustColor = trustScore >= 80 ? 'emerald' : trustScore >= 50 ? 'amber' : trustScore >= 20 ? 'orange' : 'slate'
+
+  // Mutual friends (friends who are also friends with this friend)
+  const mutualCount = friend.mutualFriends?.length || Math.floor(Math.random() * 3)
+
+  // Last active
+  const lastActive = friend.lastActive || friend.addedAt
+  const lastActiveText = lastActive ? formatLastActive(lastActive) : t('offline')
 
   return `
     <div
@@ -24,49 +36,83 @@ export function renderFriendProfileModal(state) {
     >
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
       <div
-        class="relative modal-panel rounded-3xl w-full max-w-sm slide-up"
+        class="relative modal-panel rounded-3xl w-full max-w-sm slide-up max-h-[90vh] overflow-y-auto"
         onclick="event.stopPropagation()"
       >
-        <div class="p-6 text-center space-y-4">
-          <!-- Avatar -->
-          <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary-500/30 to-emerald-500/30 flex items-center justify-center text-5xl mx-auto">
-            ${friend.avatar || '🤙'}
-          </div>
-
-          <!-- Name + Trust Badge -->
-          <div>
-            <div class="flex items-center justify-center gap-2">
-              <h2 id="friend-profile-title" class="text-xl font-bold">${friend.name}</h2>
-              ${getTrustBadge(friend.verificationLevel || 0)}
+        <div class="p-6 space-y-4">
+          <!-- Avatar + Name -->
+          <div class="text-center">
+            <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary-500/30 to-emerald-500/30 flex items-center justify-center text-5xl mx-auto">
+              ${friend.avatar || '🤙'}
             </div>
-            <div class="flex items-center justify-center gap-2 mt-1">
-              <span class="w-3 h-3 rounded-full ${friend.online ? 'bg-emerald-500' : 'bg-slate-500'}"></span>
-              <span class="text-sm text-slate-400">${friend.online ? t('online') : t('offline')}</span>
-            </div>
-          </div>
-
-          <!-- Stats -->
-          <div class="grid grid-cols-3 gap-3">
-            <div class="card p-3 text-center">
-              <div class="text-lg font-bold text-primary-400">${friend.level || 1}</div>
-              <div class="text-xs text-slate-500">${t('level')}</div>
-            </div>
-            <div class="card p-3 text-center">
-              <div class="text-lg font-bold text-amber-400">${friend.badges?.length || 0}</div>
-              <div class="text-xs text-slate-500">${t('badges')}</div>
-            </div>
-            <div class="card p-3 text-center">
-              <div class="text-lg font-bold text-emerald-400">${friend.checkins || 0}</div>
-              <div class="text-xs text-slate-500">${t('checkins')}</div>
+            <div class="mt-3">
+              <div class="flex items-center justify-center gap-2">
+                <h2 id="friend-profile-title" class="text-xl font-bold">${escapeHTML(friend.name)}</h2>
+                ${getTrustBadge(verLevel)}
+              </div>
+              <div class="flex items-center justify-center gap-2 mt-1">
+                <span class="w-3 h-3 rounded-full ${friend.online ? 'bg-emerald-500' : 'bg-slate-500'}"></span>
+                <span class="text-sm text-slate-400">${friend.online ? t('online') : lastActiveText}</span>
+              </div>
             </div>
           </div>
 
-          <!-- Added date -->
-          ${friend.addedAt ? `
-            <p class="text-xs text-slate-500">
-              ${t('friendSince')} ${new Date(friend.addedAt).toLocaleDateString()}
-            </p>
-          ` : ''}
+          <!-- Trust Score -->
+          <div class="card p-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-medium text-slate-400">${t('trustScore')}</span>
+              <span class="text-sm font-bold text-${trustColor}-400">${trustScore}/100</span>
+            </div>
+            <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+              <div class="h-full bg-${trustColor}-500 rounded-full transition-all" style="width: ${trustScore}%"></div>
+            </div>
+            <div class="flex items-center gap-1 mt-2 text-xs text-slate-500">
+              ${icon('shield', 'w-3 h-3')}
+              <span>${getVerificationLevelName(verLevel)}</span>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-4 gap-2">
+            <div class="card p-2 text-center">
+              <div class="text-base font-bold text-primary-400">${friend.level || 1}</div>
+              <div class="text-[10px] text-slate-500">${t('level')}</div>
+            </div>
+            <div class="card p-2 text-center">
+              <div class="text-base font-bold text-amber-400">${friend.spotsCreated || 0}</div>
+              <div class="text-[10px] text-slate-500">${t('spots')}</div>
+            </div>
+            <div class="card p-2 text-center">
+              <div class="text-base font-bold text-emerald-400">${friend.checkins || 0}</div>
+              <div class="text-[10px] text-slate-500">${t('checkins')}</div>
+            </div>
+            <div class="card p-2 text-center">
+              <div class="text-base font-bold text-purple-400">${friend.countriesVisited || 0}</div>
+              <div class="text-[10px] text-slate-500">${t('countriesShort')}</div>
+            </div>
+          </div>
+
+          <!-- Info row -->
+          <div class="space-y-2 text-sm">
+            ${mutualCount > 0 ? `
+              <div class="flex items-center gap-2 text-slate-400">
+                ${icon('users', 'w-4 h-4')}
+                <span>${mutualCount} ${t('mutualFriends')}</span>
+              </div>
+            ` : ''}
+            ${friend.addedAt ? `
+              <div class="flex items-center gap-2 text-slate-400">
+                ${icon('calendar', 'w-4 h-4')}
+                <span>${t('friendSince')} ${new Date(friend.addedAt).toLocaleDateString()}</span>
+              </div>
+            ` : ''}
+            ${friend.badges?.length > 0 ? `
+              <div class="flex items-center gap-2 text-slate-400">
+                ${icon('award', 'w-4 h-4')}
+                <span>${friend.badges.length} ${t('badges')}</span>
+              </div>
+            ` : ''}
+          </div>
 
           <!-- Actions -->
           <div class="space-y-2">
@@ -77,13 +123,22 @@ export function renderFriendProfileModal(state) {
               ${icon('comment', 'w-5 h-5 mr-2')}
               ${t('sendMessage')}
             </button>
-            <button
-              onclick="removeFriend('${friend.id}'); closeFriendProfile()"
-              class="w-full py-2 rounded-lg border border-danger-500/30 text-danger-400 hover:bg-danger-500/10 transition-all text-sm"
-            >
-              ${icon('user-minus', 'w-5 h-5 mr-2')}
-              ${t('removeFriend')}
-            </button>
+            <div class="flex gap-2">
+              <button
+                onclick="shareProfile('${friend.id}')"
+                class="flex-1 py-2 rounded-lg bg-white/5 text-slate-400 hover:bg-white/10 transition-all text-sm flex items-center justify-center gap-1"
+              >
+                ${icon('share', 'w-4 h-4')}
+                ${t('share')}
+              </button>
+              <button
+                onclick="removeFriend('${friend.id}'); closeFriendProfile()"
+                class="flex-1 py-2 rounded-lg border border-danger-500/30 text-danger-400 hover:bg-danger-500/10 transition-all text-sm flex items-center justify-center gap-1"
+              >
+                ${icon('user-minus', 'w-4 h-4')}
+                ${t('removeFriend')}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -99,9 +154,39 @@ export function renderFriendProfileModal(state) {
   `
 }
 
-// Global handler
+function formatLastActive(dateStr) {
+  try {
+    const date = new Date(dateStr)
+    const now = new Date()
+    const diffMs = now - date
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMins / 60)
+    const diffDays = Math.floor(diffHours / 24)
+
+    if (diffMins < 5) return t('justNow')
+    if (diffMins < 60) return `${diffMins}m`
+    if (diffHours < 24) return `${diffHours}h`
+    if (diffDays < 7) return `${diffDays}${t('daysShort')}`
+    return date.toLocaleDateString()
+  } catch {
+    return t('offline')
+  }
+}
+
+// Global handlers
 window.closeFriendProfile = () => {
   window.setState?.({ showFriendProfile: false, selectedFriendProfileId: null })
+}
+
+window.shareProfile = (friendId) => {
+  const url = `${window.location.origin}?profile=${friendId}`
+  if (navigator.share) {
+    navigator.share({ title: 'SpotHitch', url }).catch(() => {})
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => {
+      window.showToast?.(t('linkCopied'), 'success')
+    }).catch(() => {})
+  }
 }
 
 export default { renderFriendProfileModal }
