@@ -277,24 +277,31 @@ function renderTripResults(results) {
           </div>
 
           <!-- Spots as timeline nodes -->
-          ${spots.map((spot, i) => `
+          ${spots.map((spot, i) => {
+            const sLat = spot.coordinates?.lat || spot.lat
+            const sLng = spot.coordinates?.lng || spot.lng
+            const distFromStart = (sLat && sLng && results.fromCoords)
+              ? Math.round(haversine(results.fromCoords[0], results.fromCoords[1], sLat, sLng))
+              : null
+            return `
             <div class="relative flex items-start gap-3 pb-4 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-lg transition-colors" onclick="selectSpot(${spot.id})">
               <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-primary-500/80 border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg shadow-primary-500/20">
                 <span class="text-[9px] font-bold text-white">${i + 1}</span>
               </div>
               <div class="pt-0.5 flex-1 min-w-0">
-                <div class="text-sm font-medium truncate">${spot.from || ''} → ${spot.to || ''}</div>
+                <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.description?.slice(0, 40) || t('hitchhikingSpot')}</div>
                 <div class="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+                  ${distFromStart !== null ? `<span class="text-slate-400">${distFromStart} km</span>` : ''}
                   ${spot.type ? `<span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">${spot.type}</span>` : ''}
                   ${spot.globalRating ? `<span class="text-primary-400">★ ${spot.globalRating.toFixed(1)}</span>` : ''}
-                  ${spot.avgWait ? `<span>${icon('clock', 'w-5 h-5 mr-0.5')}${spot.avgWait} min</span>` : ''}
+                  ${spot.avgWait ? `<span>${icon('clock', 'w-3 h-3 mr-0.5')}${spot.avgWait} min</span>` : ''}
                 </div>
               </div>
               <button onclick="event.stopPropagation();removeSpotFromTrip(${spot.id})" class="text-slate-600 hover:text-danger-400 transition-colors mt-1" aria-label="${t('remove') || 'Retirer'}">
                 ${icon('times', 'w-3 h-3')}
               </button>
             </div>
-          `).join('')}
+          `}).join('')}
 
           <!-- Arrival -->
           <div class="relative flex items-start gap-3">
@@ -398,10 +405,20 @@ function renderTripMapView(results) {
         <span>${t('back') || 'Retour'}</span>
       </button>
 
-      <!-- Spot count badge -->
-      <div class="absolute top-3 right-3 z-[1000] px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm">
-        <span class="text-primary-400 font-semibold">${spots.length}</span>
-        <span class="text-slate-400 ml-1">${t('spotsOnRoute') || 'spots'}</span>
+      <!-- Spot count badge + GPS button -->
+      <div class="absolute top-3 right-3 z-[1000] flex items-center gap-2">
+        <button
+          onclick="centerTripMapOnGps()"
+          class="w-10 h-10 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-blue-400 hover:text-blue-300 transition-colors"
+          aria-label="${t('myPosition') || 'Ma position'}"
+          title="${t('myPosition') || 'Ma position'}"
+        >
+          ${icon('crosshairs', 'w-5 h-5')}
+        </button>
+        <div class="px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm">
+          <span class="text-primary-400 font-semibold">${spots.length}</span>
+          <span class="text-slate-400 ml-1">${t('spotsOnRoute') || 'spots'}</span>
+        </div>
       </div>
 
       <!-- Route info bar -->
@@ -936,8 +953,16 @@ window.calculateTrip = async () => {
       })
     }
 
-    // Sort by rating
-    routeSpots.sort((a, b) => (b.globalRating || 0) - (a.globalRating || 0))
+    // Sort by distance from departure (along route order)
+    routeSpots.sort((a, b) => {
+      const aLat = a.coordinates?.lat || a.lat
+      const aLng = a.coordinates?.lng || a.lng
+      const bLat = b.coordinates?.lat || b.lat
+      const bLng = b.coordinates?.lng || b.lng
+      const aDist = haversine(from.lat, from.lng, aLat, aLng)
+      const bDist = haversine(from.lat, from.lng, bLat, bLng)
+      return aDist - bDist
+    })
 
     // 5. Format results
     const distanceKm = routeDistance
@@ -987,11 +1012,35 @@ window.viewTripOnMap = () => {
   window.setState?.({ showTripMap: true })
 }
 
+// Center trip map on user's GPS position
+window.centerTripMapOnGps = () => {
+  if (!navigator.geolocation) {
+    window.showToast?.(t('gpsNotAvailable') || 'GPS non disponible', 'warning')
+    return
+  }
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const lng = pos.coords.longitude
+      const lat = pos.coords.latitude
+      // Use the exposed tripMapInstance via a flyTo
+      if (window._tripMapFlyTo) {
+        window._tripMapFlyTo(lng, lat)
+      }
+    },
+    () => {
+      window.showToast?.(t('gpsError') || 'Impossible d\'obtenir la position', 'error')
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  )
+}
+
 window.closeTripMap = () => {
+  window._tripMapCleanup?.()
   window.setState?.({ showTripMap: false })
 }
 
 window.clearTripResults = () => {
+  window._tripMapCleanup?.()
   window.setState?.({ tripResults: null, showTripMap: false })
 }
 
@@ -1111,9 +1160,8 @@ window.toggleRouteAmenities = async () => {
   const newValue = !state.showRouteAmenities
 
   if (!newValue) {
-    // Turning off - clear amenities and reset trip map
-    const tripMapEl = document.getElementById('trip-map')
-    if (tripMapEl) tripMapEl.dataset.initialized = ''
+    // Turning off - remove markers dynamically (no map re-init)
+    window._tripMapRemoveAmenities?.()
     window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
     return
   }
@@ -1133,9 +1181,8 @@ window.toggleRouteAmenities = async () => {
       2,
       { showFuel: true, showRestAreas: true }
     )
-    // Reset trip map so it re-initializes with amenity markers
-    const tripMapEl = document.getElementById('trip-map')
-    if (tripMapEl) tripMapEl.dataset.initialized = ''
+    // Add markers dynamically to existing map (no re-init needed)
+    window._tripMapAddAmenities?.(amenities)
     window.setState?.({ routeAmenities: amenities, loadingRouteAmenities: false })
   } catch (error) {
     console.error('Failed to fetch route amenities:', error)

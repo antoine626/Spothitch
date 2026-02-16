@@ -145,7 +145,7 @@ const MAIN_JS_HANDLERS = [
   // Map view (defined in Map.js / views)
   'openCountryGuide', 'mapZoomIn', 'mapZoomOut',
   // Travel view (defined in Travel.js)
-  'syncTripFieldsAndCalculate', 'toggleRouteAmenities',
+  'syncTripFieldsAndCalculate', 'toggleRouteAmenities', 'centerTripMapOnGps',
   // Social view (defined in Social.js + sub-components)
   'setSocialTab', 'postCompanionRequest', 'addFriendByName',
   // Feed (defined in Feed.js)

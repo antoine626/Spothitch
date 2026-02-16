@@ -1975,6 +1975,7 @@ const translations = {
 
     // Navigation service
     gpsNotAvailable: 'GPS non disponible sur cet appareil',
+    gpsError: 'Impossible d\'obtenir la position GPS',
     routeCalculationFailed: "Impossible de calculer l'itinéraire",
     navigationStarted: 'Navigation démarrée',
     navigationStopped: 'Navigation arrêtée',
@@ -4711,6 +4712,7 @@ const translations = {
 
     // Navigation service
     gpsNotAvailable: 'GPS not available on this device',
+    gpsError: 'Unable to get GPS position',
     routeCalculationFailed: 'Unable to calculate route',
     navigationStarted: 'Navigation started',
     navigationStopped: 'Navigation stopped',
@@ -7444,6 +7446,7 @@ const translations = {
 
     // Navigation service
     gpsNotAvailable: 'GPS no disponible en este dispositivo',
+    gpsError: 'Imposible obtener la posición GPS',
     routeCalculationFailed: 'No se puede calcular la ruta',
     navigationStarted: 'Navegación iniciada',
     navigationStopped: 'Navegación detenida',
@@ -10177,6 +10180,7 @@ const translations = {
 
     // Navigation service
     gpsNotAvailable: 'GPS auf diesem Gerät nicht verfügbar',
+    gpsError: 'GPS-Position konnte nicht ermittelt werden',
     routeCalculationFailed: 'Route konnte nicht berechnet werden',
     navigationStarted: 'Navigation gestartet',
     navigationStopped: 'Navigation gestoppt',

@@ -645,6 +645,13 @@ function initHomeMap(state) {
 /**
  * Initialize trip map (MapLibre GL — shows only trip spots along route)
  */
+// Trip map instance + state (module-level for dynamic updates)
+let tripMapInstance = null
+let tripMaplibregl = null
+let tripAmenityMarkers = []
+let tripGpsMarker = null
+let tripGpsWatchId = null
+
 function initTripMap(state) {
   const container = document.getElementById('trip-map')
   if (!container || container.dataset.initialized === 'true') return
@@ -655,6 +662,7 @@ function initTripMap(state) {
     container.dataset.initialized = 'true'
 
     const maplibregl = maplibreModule.default || maplibreModule
+    tripMaplibregl = maplibregl
 
     const results = state.tripResults
     const from = results.fromCoords // [lat, lng]
@@ -668,14 +676,7 @@ function initTripMap(state) {
       zoom: 7,
       attributionControl: false,
     })
-
-    // Compat
-    map.setView = function (latLng, z) {
-      const lat = Array.isArray(latLng) ? latLng[0] : latLng.lat
-      const lng = Array.isArray(latLng) ? latLng[1] : latLng.lng
-      this.flyTo({ center: [lng, lat], zoom: z, duration: 800 })
-    }
-    map.invalidateSize = function () { this.resize() }
+    tripMapInstance = map
 
     map.on('load', () => {
       // Route line from OSRM geometry
@@ -719,7 +720,7 @@ function initTripMap(state) {
 
       const spots = results.spots || []
       const spotFeatures = []
-      spots.forEach(spot => {
+      spots.forEach((spot, i) => {
         const lat = spot.coordinates?.lat || spot.lat
         const lng = spot.coordinates?.lng || spot.lng
         if (!lat || !lng) return
@@ -729,6 +730,7 @@ function initTripMap(state) {
           geometry: { type: 'Point', coordinates: [lng, lat] },
           properties: {
             id: spot.id,
+            index: i + 1,
             color: isFav ? '#f59e0b' : '#22c55e',
             strokeColor: isFav ? '#fbbf24' : '#ffffff',
             radius: isFav ? 12 : 10,
@@ -754,6 +756,19 @@ function initTripMap(state) {
             'circle-opacity': 0.9,
           },
         })
+        // Spot number labels
+        map.addLayer({
+          id: 'trip-spot-labels',
+          type: 'symbol',
+          source: 'trip-spots',
+          layout: {
+            'text-field': ['to-string', ['get', 'index']],
+            'text-size': 10,
+            'text-font': ['Open Sans Bold'],
+            'text-allow-overlap': true,
+          },
+          paint: { 'text-color': '#ffffff' },
+        })
         map.on('click', 'trip-spot-points', (e) => {
           if (e.features?.length > 0) window.selectSpot?.(e.features[0].properties.id)
         })
@@ -761,48 +776,40 @@ function initTripMap(state) {
         map.on('mouseleave', 'trip-spot-points', () => { map.getCanvas().style.cursor = '' })
       }
 
-      // Amenity markers (gas stations / rest areas)
+      // Start/End markers
+      const startEl = document.createElement('div')
+      startEl.style.cssText = 'width:28px;height:28px;border-radius:50%;background:#22c55e;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3)'
+      startEl.textContent = 'A'
+      new maplibregl.Marker({ element: startEl }).setLngLat([from[1], from[0]]).addTo(map)
+
+      const endEl = document.createElement('div')
+      endEl.style.cssText = 'width:28px;height:28px;border-radius:50%;background:#f59e0b;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3)'
+      endEl.textContent = 'B'
+      new maplibregl.Marker({ element: endEl }).setLngLat([to[1], to[0]]).addTo(map)
+
+      // Amenity markers if already loaded
       if (state.showRouteAmenities && state.routeAmenities?.length > 0) {
-        state.routeAmenities.forEach(poi => {
-          if (!poi.lat || !poi.lng) return
-          const isFuel = poi.type === 'fuel'
-          const label = isFuel ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
-          const tooltipText = poi.name || (isFuel ? (t('gasStation') || 'Station-service') : (t('restArea') || 'Aire de repos'))
-
-          const el = document.createElement('div')
-          el.style.cssText = 'font-size:18px;text-align:center;line-height:1;cursor:pointer'
-          el.textContent = label
-          el.title = tooltipText
-
-          new maplibregl.Marker({ element: el })
-            .setLngLat([poi.lng, poi.lat])
-            .addTo(map)
-        })
+        addAmenityMarkers(state.routeAmenities)
       }
 
-      // Fit bounds to show everything — collect all [lng, lat] coords
-      const allCoords = [
-        [from[1], from[0]],
-        [to[1], to[0]],
-      ]
+      // Fit bounds to show everything
+      const allCoords = [[from[1], from[0]], [to[1], to[0]]]
       spots.forEach(s => {
         const lat = s.coordinates?.lat || s.lat
         const lng = s.coordinates?.lng || s.lng
         if (lat && lng) allCoords.push([lng, lat])
       })
-      if (state.routeAmenities?.length > 0) {
-        state.routeAmenities.forEach(poi => {
-          if (poi.lat && poi.lng) allCoords.push([poi.lng, poi.lat])
-        })
-      }
 
       if (allCoords.length >= 2) {
         const bounds = allCoords.reduce(
           (b, c) => b.extend(c),
           new maplibregl.LngLatBounds(allCoords[0], allCoords[0])
         )
-        map.fitBounds(bounds, { padding: 40 })
+        map.fitBounds(bounds, { padding: 50 })
       }
+
+      // Start GPS tracking
+      startTripGpsTracking()
     })
 
     setTimeout(() => map.resize(), 200)
@@ -810,6 +817,84 @@ function initTripMap(state) {
   }).catch(err => {
     console.warn('Trip map init failed:', err)
   })
+}
+
+// Add amenity markers dynamically to the existing trip map
+function addAmenityMarkers(amenities) {
+  if (!tripMapInstance || !tripMaplibregl) return
+  // Remove old markers first
+  removeAmenityMarkers()
+  amenities.forEach(poi => {
+    if (!poi.lat || !poi.lng) return
+    const isFuel = poi.type === 'fuel'
+    const label = isFuel ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
+    const tooltipText = poi.name || (isFuel ? (t('gasStation') || 'Station-service') : (t('restArea') || 'Aire de repos'))
+
+    const el = document.createElement('div')
+    el.style.cssText = 'font-size:20px;text-align:center;line-height:1;cursor:pointer;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5))'
+    el.textContent = label
+    el.title = tooltipText
+
+    const marker = new tripMaplibregl.Marker({ element: el })
+      .setLngLat([poi.lng, poi.lat])
+      .addTo(tripMapInstance)
+    tripAmenityMarkers.push(marker)
+  })
+}
+
+// Remove all amenity markers from trip map
+function removeAmenityMarkers() {
+  tripAmenityMarkers.forEach(m => m.remove())
+  tripAmenityMarkers = []
+}
+
+// GPS tracking on trip map
+function startTripGpsTracking() {
+  if (!tripMapInstance || !tripMaplibregl || !navigator.geolocation) return
+  // Remove previous watch
+  stopTripGpsTracking()
+
+  tripGpsWatchId = navigator.geolocation.watchPosition(
+    (pos) => {
+      const lng = pos.coords.longitude
+      const lat = pos.coords.latitude
+      if (tripGpsMarker) {
+        tripGpsMarker.setLngLat([lng, lat])
+      } else {
+        const el = document.createElement('div')
+        el.style.cssText = 'width:18px;height:18px;border-radius:50%;background:#3b82f6;border:3px solid #fff;box-shadow:0 0 10px rgba(59,130,246,0.6)'
+        tripGpsMarker = new tripMaplibregl.Marker({ element: el })
+          .setLngLat([lng, lat])
+          .addTo(tripMapInstance)
+      }
+    },
+    () => { /* geolocation error — silent */ },
+    { enableHighAccuracy: true, maximumAge: 10000 }
+  )
+}
+
+function stopTripGpsTracking() {
+  if (tripGpsWatchId !== null) {
+    navigator.geolocation.clearWatch(tripGpsWatchId)
+    tripGpsWatchId = null
+  }
+  if (tripGpsMarker) {
+    tripGpsMarker.remove()
+    tripGpsMarker = null
+  }
+}
+
+// Expose for Travel.js to call dynamically
+window._tripMapAddAmenities = addAmenityMarkers
+window._tripMapRemoveAmenities = removeAmenityMarkers
+window._tripMapFlyTo = (lng, lat) => {
+  if (tripMapInstance) tripMapInstance.flyTo({ center: [lng, lat], zoom: 13, duration: 800 })
+}
+window._tripMapCleanup = () => {
+  stopTripGpsTracking()
+  removeAmenityMarkers()
+  tripMapInstance = null
+  tripMaplibregl = null
 }
 
 export default { renderApp, afterRender };
