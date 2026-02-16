@@ -74,7 +74,7 @@ export function renderTitlesModal(state) {
           class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
           aria-label="${t('close') || 'Close'}"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
       </div>
     </div>

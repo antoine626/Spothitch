@@ -60,7 +60,7 @@ export function renderChat(state) {
             class="btn btn-primary px-4"
             aria-label="${t('send')}"
           >
-            ${icon('paper-plane', 'w-5 h-5')}
+            ${icon('send', 'w-5 h-5')}
           </button>
         </form>
       </div>
@@ -91,7 +91,7 @@ function renderMessage(msg, state) {
 function renderEmptyChat() {
   return `
     <div class="text-center py-12" role="status">
-      ${icon('comments', 'w-5 h-5 text-5xl text-slate-600 mb-4')}
+      ${icon('messages-square', 'w-5 h-5 text-5xl text-slate-600 mb-4')}
       <h3 class="text-lg font-bold mb-2">Pas encore de messages</h3>
       <p class="text-slate-400">Sois le premier a ecrire !</p>
     </div>

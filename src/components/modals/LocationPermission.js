@@ -29,7 +29,7 @@ export function renderLocationPermission(_state) {
         <!-- Header with icon -->
         <div class="p-6 text-center border-b border-white/10">
           <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary-500 to-cyan-500 flex items-center justify-center">
-            ${icon('map-marker-alt', 'w-8 h-8 text-white')}
+            ${icon('map-pin', 'w-8 h-8 text-white')}
           </div>
           <h2 id="location-modal-title" class="text-2xl font-bold text-white">
             ${t('locationPermissionTitle')}
@@ -46,7 +46,7 @@ export function renderLocationPermission(_state) {
           <div class="space-y-3">
             <div class="flex items-start gap-3 p-3 bg-white/5 rounded-xl">
               <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center shrink-0">
-                ${icon('search-location', 'w-5 h-5 text-primary-400')}
+                ${icon('search', 'w-5 h-5 text-primary-400')}
               </div>
               <div>
                 <p class="text-white font-medium">${t('locationReason1Title')}</p>
@@ -77,7 +77,7 @@ export function renderLocationPermission(_state) {
 
           <!-- Privacy assurance -->
           <div class="flex items-center gap-2 p-3 bg-success-500/10 border border-success-500/20 rounded-xl mt-4">
-            ${icon('shield-alt', 'w-5 h-5 text-success-400')}
+            ${icon('shield', 'w-5 h-5 text-success-400')}
             <p class="text-success-400 text-sm font-medium">
               ${t('locationPrivacyAssurance')}
             </p>

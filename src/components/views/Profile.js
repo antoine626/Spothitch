@@ -81,7 +81,7 @@ export function renderProfile(state) {
       >
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center">
-            ${icon('user-friends', 'w-5 h-5 text-primary-400')}
+            ${icon('users', 'w-5 h-5 text-primary-400')}
           </div>
           <div>
             <div class="font-medium">${t('myFriends') || 'Mes amis'}</div>
@@ -128,7 +128,7 @@ export function renderProfile(state) {
       <!-- Settings -->
       <div class="card p-5 space-y-4">
         <h3 class="font-bold flex items-center gap-2">
-          ${icon('cog', 'w-5 h-5 text-slate-400')}
+          ${icon('settings', 'w-5 h-5 text-slate-400')}
           ${t('settings') || 'Paramètres'}
         </h3>
 
@@ -200,7 +200,7 @@ export function renderProfile(state) {
           class="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
         >
           <div class="flex items-center gap-3">
-            ${icon('question-circle', 'w-5 h-5 text-primary-400')}
+            ${icon('info', 'w-5 h-5 text-primary-400')}
             <span>${t('reviewTutorial') || 'Revoir le tutoriel'}</span>
           </div>
           ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
@@ -225,7 +225,7 @@ export function renderProfile(state) {
           onclick="handleLogout()"
           class="card p-5 w-full flex items-center gap-3 text-left text-danger-400 hover:border-danger-500/50 transition-all"
         >
-          ${icon('sign-out-alt', 'w-5 h-5')}
+          ${icon('log-out', 'w-5 h-5')}
           <span>${t('logout') || 'Se déconnecter'}</span>
         </button>
       ` : `
@@ -233,7 +233,7 @@ export function renderProfile(state) {
           onclick="openAuth()"
           class="btn-primary w-full py-4"
         >
-          ${icon('sign-in-alt', 'w-5 h-5 mr-2')}
+          ${icon('log-in', 'w-5 h-5 mr-2')}
           ${t('login') || 'Se connecter'}
         </button>
       `}

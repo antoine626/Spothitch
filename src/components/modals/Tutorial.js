@@ -21,7 +21,7 @@ const tutorialSteps = [
     features: [
       { icon: 'map-pin', text: t('tutFeatureSpots') || '14 000+ spots vérifiés' },
       { icon: 'route', text: t('tutFeaturePlanner') || 'Planifie ton itinéraire' },
-      { icon: 'filter', text: t('tutFeatureFilter') || 'Filtre par note et attente' },
+      { icon: 'funnel', text: t('tutFeatureFilter') || 'Filtre par note et attente' },
     ],
     color: 'amber',
   },

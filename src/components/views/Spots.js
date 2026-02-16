@@ -58,7 +58,7 @@ export function renderSpots(state) {
           onclick="openFilters()"
           class="badge bg-white/5 text-slate-400 whitespace-nowrap hover:bg-white/10"
         >
-          ${icon('sliders-h', 'w-5 h-5')}
+          ${icon('sliders-horizontal', 'w-5 h-5')}
           Plus
         </button>
       </div>
@@ -74,10 +74,10 @@ export function renderSpots(state) {
 
 function renderFilterButtons(state) {
   const filters = [
-    { id: 'all', label: t('filterAll'), icon: 'fa-globe' },
-    { id: 'top', label: t('filterTop'), icon: 'fa-star' },
-    { id: 'recent', label: t('filterRecent'), icon: 'fa-clock' },
-    { id: 'nearby', label: t('filterNearby'), icon: 'fa-location-arrow' },
+    { id: 'all', label: t('filterAll'), icon: 'globe' },
+    { id: 'top', label: t('filterTop'), icon: 'star' },
+    { id: 'recent', label: t('filterRecent'), icon: 'clock' },
+    { id: 'nearby', label: t('filterNearby'), icon: 'navigation' },
   ];
 
   return filters.map(filter => `
@@ -97,7 +97,7 @@ function renderSpotsList(spots) {
   if (spots.length === 0) {
     return `
       <div class="text-center py-12" role="status">
-        ${icon('map-marker-alt', 'w-5 h-5 text-5xl text-slate-600 mb-4')}
+        ${icon('map-pin', 'w-5 h-5 text-5xl text-slate-600 mb-4')}
         <h3 class="text-lg font-bold mb-2">${t('noSpots')}</h3>
         <p class="text-slate-400 mb-4">${t('beFirst')}</p>
         <button onclick="openAddSpot()" class="btn btn-primary" type="button">
@@ -129,7 +129,7 @@ function renderSpotsMap() {
     >
       <div class="flex items-center justify-center h-full bg-slate-800">
         <div class="text-center">
-          ${icon('spinner', 'w-8 h-8 animate-spin text-primary-400 mb-3')}
+          ${icon('loader-circle', 'w-8 h-8 animate-spin text-primary-400 mb-3')}
           <p class="text-slate-400">${t('mapLoading') || 'Chargement de la carte...'}</p>
         </div>
       </div>

@@ -55,7 +55,7 @@ export function renderLanguageSelector(state) {
 
         <!-- Detected language hint -->
         <p class="text-xs text-slate-400 mb-6">
-          ${icon('magic', 'w-5 h-5 mr-1')}
+          ${icon('wand-sparkles', 'w-5 h-5 mr-1')}
           Auto-detected: ${languages.find(l => l.code === detectedLang)?.nativeName || 'English'}
         </p>
 

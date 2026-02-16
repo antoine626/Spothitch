@@ -53,7 +53,7 @@ export function renderFriends(state) {
                     ${icon('check', 'w-4 h-4')}
                   </button>
                   <button onclick="declineFriendRequest('${req.id}')" class="w-7 h-7 rounded-full bg-danger-500/20 text-danger-400 flex items-center justify-center" aria-label="${t('decline')}">
-                    ${icon('times', 'w-4 h-4')}
+                    ${icon('x', 'w-4 h-4')}
                   </button>
                 </div>
               </div>
@@ -100,7 +100,7 @@ export function renderFriends(state) {
                   <span class="text-xs text-slate-400">${friend.online ? t('online') : t('offline')}</span>
                 </div>
                 <button onclick="openConversation('${friend.id}')" class="w-8 h-8 rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center" aria-label="${t('sendMessage')}">
-                  ${icon('comment', 'w-4 h-4')}
+                  ${icon('message-circle', 'w-4 h-4')}
                 </button>
                 <button onclick="showFriendProfile('${friend.id}')" class="w-8 h-8 rounded-full bg-white/5 text-slate-400 flex items-center justify-center" aria-label="${t('viewProfile')}">
                   ${icon('user', 'w-4 h-4')}
@@ -181,7 +181,7 @@ function renderAmbassadorList(state) {
                 onclick="contactAmbassador('${amb.userId}')"
                 class="shrink-0 px-3 py-1.5 rounded-lg bg-primary-500/20 text-primary-400 text-xs font-medium hover:bg-primary-500/30 transition-all"
               >
-                ${icon('comment', 'w-3.5 h-3.5 mr-1')}
+                ${icon('message-circle', 'w-3.5 h-3.5 mr-1')}
                 ${t('contact')}
               </button>
             </div>

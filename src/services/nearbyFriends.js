@@ -13,9 +13,9 @@ const CONFIG = {
   defaultRadius: 50, // km
   updateInterval: 5 * 60 * 1000, // 5 minutes
   proximityThresholds: [
-    { distance: 5, label: () => t('nearbyFriendsVeryClose') || 'très proche', priority: 'high', icon: 'fa-location-arrow' },
-    { distance: 20, label: () => t('nearbyFriendsClose') || 'proche', priority: 'medium', icon: 'fa-map-marker-alt' },
-    { distance: 50, label: () => t('nearbyFriendsNearby') || 'dans les environs', priority: 'low', icon: 'fa-map-pin' },
+    { distance: 5, label: () => t('nearbyFriendsVeryClose') || 'très proche', priority: 'high', icon: 'navigation' },
+    { distance: 20, label: () => t('nearbyFriendsClose') || 'proche', priority: 'medium', icon: 'map-pin' },
+    { distance: 50, label: () => t('nearbyFriendsNearby') || 'dans les environs', priority: 'low', icon: 'map-pin' },
   ],
 };
 
@@ -326,7 +326,7 @@ export function renderNearbyFriendsWidget(state) {
         class="relative p-3 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-all"
         aria-label="${t('nearbyFriendsLabel') || 'Amis proches'} (${nearbyFriends.length})"
       >
-        ${icon('user-friends', 'w-5 h-5')}
+        ${icon('users', 'w-5 h-5')}
         <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 text-xs flex items-center justify-center font-bold">
           ${nearbyFriends.length}
         </span>
@@ -362,7 +362,7 @@ export function renderNearbyFriendsList(state) {
             class="p-2 rounded-full hover:bg-white/10 transition-colors"
             aria-label="${t('close') || 'Fermer'}"
           >
-            ${icon('times', 'w-5 h-5')}
+            ${icon('x', 'w-5 h-5')}
           </button>
         </div>
 
@@ -393,14 +393,14 @@ export function renderNearbyFriendsList(state) {
                         class="p-2 rounded-lg bg-primary-500/20 text-primary-400 hover:bg-primary-500/30 transition-colors"
                         aria-label="${t('sendMessage') || 'Envoyer un message'}"
                       >
-                        ${icon('comment', 'w-5 h-5')}
+                        ${icon('message-circle', 'w-5 h-5')}
                       </button>
                       <button
                         onclick="showFriendOnMap('${friend.userId}')"
                         class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
                         aria-label="${t('showOnMap') || 'Voir sur la carte'}"
                       >
-                        ${icon('map-marker-alt', 'w-5 h-5')}
+                        ${icon('map-pin', 'w-5 h-5')}
                       </button>
                     </div>
                   </div>
@@ -409,7 +409,7 @@ export function renderNearbyFriendsList(state) {
             </div>
           ` : `
             <div class="p-8 text-center text-slate-400">
-              ${icon('user-friends', 'w-8 h-8 mb-2')}
+              ${icon('users', 'w-8 h-8 mb-2')}
               <p>${t('nearbyFriendsEmpty') || 'Aucun ami à proximité'}</p>
             </div>
           `}
@@ -454,7 +454,7 @@ export function renderNearbyFriendsSettings(state) {
     <div class="bg-dark-card rounded-xl p-4">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
-          ${icon('user-friends', 'w-5 h-5 text-primary-400')}
+          ${icon('users', 'w-5 h-5 text-primary-400')}
         </div>
         <div>
           <h3 class="font-semibold">Amis proches</h3>

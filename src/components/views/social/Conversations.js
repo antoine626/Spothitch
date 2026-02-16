@@ -187,7 +187,7 @@ function renderDMChat(state, recipientId) {
         ${icon('map-pin', 'w-4 h-4')}
       </button>
       <button onclick="shareDMPosition('${recipientId}')" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white" aria-label="${t('sharePosition')}" title="${t('sharePosition')}">
-        ${icon('location-crosshairs', 'w-4 h-4')}
+        ${icon('locate', 'w-4 h-4')}
       </button>
     </div>
 
@@ -215,7 +215,7 @@ function renderDMChat(state, recipientId) {
           aria-label="${t('writeMessage')}"
         />
         <button type="submit" class="btn-primary px-4" aria-label="${t('send')}">
-          ${icon('paper-plane', 'w-5 h-5')}
+          ${icon('send', 'w-5 h-5')}
         </button>
       </form>
     </div>
@@ -244,7 +244,7 @@ function renderDMMessage(msg, state) {
     content = `
       <div class="bg-white/10 rounded-lg p-2 mb-1">
         <div class="flex items-center gap-2">
-          ${icon('location-crosshairs', 'w-4 h-4 text-emerald-400')}
+          ${icon('locate', 'w-4 h-4 text-emerald-400')}
           <div class="text-sm text-white">${escapeHTML(msg.location.address || t('sharedPosition'))}</div>
         </div>
       </div>
@@ -327,7 +327,7 @@ function renderGroupChat(state, groupId) {
           aria-label="${t('typeMessage')}"
         />
         <button type="submit" class="btn-primary px-4" aria-label="${t('send')}">
-          ${icon('paper-plane', 'w-5 h-5')}
+          ${icon('send', 'w-5 h-5')}
         </button>
       </form>
     </div>

@@ -30,13 +30,13 @@ export function renderDeleteAccountModal(state) {
           aria-label="${t('close') || 'Close'}"
           type="button"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
 
         <!-- Header with danger indication -->
         <div class="p-6 text-center bg-gradient-to-b from-red-500/20 to-transparent border-b border-red-500/30">
           <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
-            ${icon('exclamation-triangle', 'w-8 h-8 text-red-500')}
+            ${icon('triangle-alert', 'w-8 h-8 text-red-500')}
           </div>
           <h2 id="delete-account-title" class="text-2xl font-bold text-red-400">${t('deleteMyAccount') || 'Supprimer mon compte'}</h2>
           <p class="text-slate-400 text-sm mt-2">${t('thisActionIrreversible') || 'Cette action est irréversible'}</p>
@@ -47,24 +47,24 @@ export function renderDeleteAccountModal(state) {
           <!-- Warning box -->
           <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4">
             <h3 class="font-semibold text-red-400 mb-3 flex items-center gap-2">
-              ${icon('exclamation-circle', 'w-5 h-5')}
+              ${icon('circle-alert', 'w-5 h-5')}
               ${t('warning') || 'Attention'}
             </h3>
             <ul class="text-sm text-slate-300 space-y-2">
               <li class="flex items-start gap-2">
-                ${icon('times-circle', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
+                ${icon('circle-x', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
                 <span>${t('allSpotsDeleted') || 'Tous vos spots partagés seront supprimés'}</span>
               </li>
               <li class="flex items-start gap-2">
-                ${icon('times-circle', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
+                ${icon('circle-x', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
                 <span>${t('pointsBadgesLost') || `Vos ${state.points || 0} pouces et ${state.badges?.length || 0} badges seront perdus`}</span>
               </li>
               <li class="flex items-start gap-2">
-                ${icon('times-circle', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
+                ${icon('circle-x', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
                 <span>${t('checkinHistoryErased') || 'Votre historique de check-ins sera effacé'}</span>
               </li>
               <li class="flex items-start gap-2">
-                ${icon('times-circle', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
+                ${icon('circle-x', 'w-5 h-5 text-red-400 mt-0.5 shrink-0')}
                 <span>${t('friendsNoContact') || 'Vos amis ne pourront plus vous contacter'}</span>
               </li>
             </ul>
@@ -106,7 +106,7 @@ export function renderDeleteAccountModal(state) {
                 id="delete-submit-btn"
                 class="flex-1 py-3 px-4 rounded-xl bg-red-500 hover:bg-red-600 text-white transition-all font-medium flex items-center justify-center gap-2"
               >
-                ${icon('trash-alt', 'w-5 h-5')}
+                ${icon('trash', 'w-5 h-5')}
                 ${t('delete') || 'Supprimer'}
               </button>
             </div>
@@ -168,7 +168,7 @@ window.confirmDeleteAccount = async (event) => {
   // Disable button and show loading
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin')} ${t('deleting') || 'Suppression...'}`;
+    submitBtn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin')} ${t('deleting') || 'Suppression...'}`;
   }
 
   try {
@@ -215,7 +215,7 @@ window.confirmDeleteAccount = async (event) => {
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = `${icon('trash-alt', 'w-5 h-5')} ${t('delete') || 'Supprimer'}`;
+      submitBtn.innerHTML = `${icon('trash', 'w-5 h-5')} ${t('delete') || 'Supprimer'}`;
     }
   }
 };
@@ -232,7 +232,7 @@ window.confirmDeleteAccountGoogle = async () => {
   // Disable button and show loading
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin')} ${t('deleting') || 'Suppression...'}`;
+    submitBtn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin')} ${t('deleting') || 'Suppression...'}`;
   }
 
   try {
@@ -278,7 +278,7 @@ window.confirmDeleteAccountGoogle = async () => {
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = `${icon('trash-alt', 'w-5 h-5')} ${t('delete') || 'Supprimer'}`;
+      submitBtn.innerHTML = `${icon('trash', 'w-5 h-5')} ${t('delete') || 'Supprimer'}`;
     }
   }
 };

@@ -38,7 +38,7 @@ export function renderHome(state) {
         <div class="absolute top-4 left-4 right-4 z-40" onclick="showCompanionModal()">
           <div class="flex items-center justify-between px-4 py-2.5 rounded-xl ${overdue ? 'bg-red-500/90 border-red-400/30' : 'bg-emerald-500/90 border-emerald-400/30'} backdrop-blur-xl border shadow-lg cursor-pointer">
             <div class="flex items-center gap-2">
-              ${icon('shield-alt', 'w-4 h-4 text-white/80')}
+              ${icon('shield', 'w-4 h-4 text-white/80')}
               <span class="text-sm font-medium text-white">${t('companionMode') || 'Compagnon'}</span>
             </div>
             <div class="flex items-center gap-3">
@@ -74,7 +74,7 @@ export function renderHome(state) {
                 class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
                 aria-label="${t('clear') || 'Effacer'}"
               >
-                ${icon('times', 'w-5 h-5')}
+                ${icon('x', 'w-5 h-5')}
               </button>
             ` : ''}
             <div id="home-dest-suggestions" class="absolute top-full left-0 right-0 mt-1 z-[60] hidden"></div>
@@ -86,7 +86,7 @@ export function renderHome(state) {
             aria-label="${t('filterSpots') || 'Filtrer les spots'}"
             title="${t('filters') || 'Filtres'}"
           >
-            ${icon('sliders-h', 'w-5 h-5')}
+            ${icon('sliders-horizontal', 'w-5 h-5')}
           </button>
           <!-- Trip planner button -->
           <button
@@ -126,7 +126,7 @@ export function renderHome(state) {
             class="w-10 h-10 rounded-lg bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-all shadow-lg"
             aria-label="${t('myLocation') || 'Ma position'}"
           >
-            ${icon('location-crosshairs', 'w-5 h-5')}
+            ${icon('locate', 'w-5 h-5')}
           </button>
         ` : ''}
         <!-- Split view toggle -->
@@ -136,7 +136,7 @@ export function renderHome(state) {
           aria-label="${t('splitView') || 'Vue partagée'}"
           title="${t('splitView') || 'Vue partagée'}"
         >
-          ${icon('columns', 'w-5 h-5')}
+          ${icon('columns-2', 'w-5 h-5')}
         </button>
       </div>
 
@@ -161,7 +161,7 @@ export function renderHome(state) {
             class="flex items-center gap-2 px-3 py-2 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-emerald-500/50 transition-all text-sm shadow-lg"
             aria-label="${t('countryGuides') || 'Guides pays'}"
           >
-            ${icon('book-atlas', 'w-5 h-5')}
+            ${icon('book-open', 'w-5 h-5')}
             <span>${t('guides') || 'Guides'}</span>
           </button>
         </div>

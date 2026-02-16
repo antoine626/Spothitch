@@ -20,39 +20,39 @@ export function renderLanding(state) {
 
   const features = [
     {
-      icon: 'fa-map-marked-alt',
-      title: 'Carte interactive',
-      description: 'Trouvez les meilleurs spots d\'autostop pres de vous avec notre carte detaillee.',
+      icon: 'map-pinned',
+      title: t('landingFeatureMapTitle'),
+      description: t('landingFeatureMapDesc'),
       color: 'primary'
     },
     {
-      icon: 'fa-users',
-      title: 'Communaute active',
-      description: 'Rejoignez des milliers d\'autostoppeurs qui partagent leurs experiences.',
+      icon: 'users',
+      title: t('landingFeatureCommunityTitle'),
+      description: t('landingFeatureCommunityDesc'),
       color: 'emerald'
     },
     {
-      icon: 'fa-route',
-      title: 'Planificateur de voyage',
-      description: 'Planifiez vos itineraires et trouvez les spots sur votre route.',
+      icon: 'route',
+      title: t('landingFeaturePlannerTitle'),
+      description: t('landingFeaturePlannerDesc'),
       color: 'amber'
     },
     {
-      icon: 'fa-trophy',
-      title: 'Gamification',
-      description: 'Gagnez des pouces, debloquez des badges et montez dans le classement.',
+      icon: 'trophy',
+      title: t('landingFeatureGamificationTitle'),
+      description: t('landingFeatureGamificationDesc'),
       color: 'purple'
     },
     {
-      icon: 'fa-shield-alt',
-      title: 'Mode SOS',
-      description: 'Partagez votre position en cas d\'urgence avec vos contacts.',
+      icon: 'shield',
+      title: t('landingFeatureSOSTitle'),
+      description: t('landingFeatureSOSDesc'),
       color: 'rose'
     },
     {
-      icon: 'fa-mobile-alt',
-      title: 'Application PWA',
-      description: 'Installez l\'app sur votre telephone et utilisez-la hors-ligne.',
+      icon: 'smartphone',
+      title: t('landingFeaturePWATitle'),
+      description: t('landingFeaturePWADesc'),
       color: 'sky'
     }
   ];
@@ -60,23 +60,23 @@ export function renderLanding(state) {
   const testimonials = [
     {
       name: 'Marie L.',
-      location: 'France',
-      avatar: '🇫🇷',
-      text: 'Grace a SpotHitch, j\'ai traverse l\'Europe en autostop ! Les spots sont precis et les conseils de la communaute sont precieux.',
+      location: t('landingTestimonialLocation1'),
+      avatar: '\uD83C\uDDEB\uD83C\uDDF7',
+      text: t('landingTestimonial1'),
       rating: 5
     },
     {
       name: 'Thomas K.',
-      location: 'Allemagne',
-      avatar: '🇩🇪',
-      text: 'Die beste App fur Tramper! La carte est super pratique et le mode SOS m\'a rassure lors de mes premiers voyages.',
+      location: t('landingTestimonialLocation2'),
+      avatar: '\uD83C\uDDE9\uD83C\uDDEA',
+      text: t('landingTestimonial2'),
       rating: 5
     },
     {
       name: 'Elena S.',
-      location: 'Espagne',
-      avatar: '🇪🇸',
-      text: 'J\'adore la gamification ! Ca motive vraiment a partager ses spots et a aider les autres autostoppeurs.',
+      location: t('landingTestimonialLocation3'),
+      avatar: '\uD83C\uDDEA\uD83C\uDDF8',
+      text: t('landingTestimonial3'),
       rating: 5
     }
   ];
@@ -84,27 +84,27 @@ export function renderLanding(state) {
   const howItWorks = [
     {
       step: 1,
-      title: 'Inscrivez-vous',
-      description: 'Creez votre compte en 30 secondes',
-      icon: 'fa-user-plus'
+      title: t('landingStep1Title'),
+      description: t('landingStep1Desc'),
+      icon: 'user-plus'
     },
     {
       step: 2,
-      title: 'Explorez la carte',
-      description: 'Trouvez les spots pres de vous',
-      icon: 'fa-search-location'
+      title: t('landingStep2Title'),
+      description: t('landingStep2Desc'),
+      icon: 'search'
     },
     {
       step: 3,
-      title: 'Partagez vos spots',
-      description: 'Aidez la communaute a grandir',
-      icon: 'fa-share-alt'
+      title: t('landingStep3Title'),
+      description: t('landingStep3Desc'),
+      icon: 'share-2'
     },
     {
       step: 4,
-      title: 'Partez a l\'aventure',
-      description: 'Voyagez en toute confiance',
-      icon: 'fa-thumbs-up'
+      title: t('landingStep4Title'),
+      description: t('landingStep4Desc'),
+      icon: 'thumbs-up'
     }
   ];
 
@@ -122,7 +122,7 @@ export function renderLanding(state) {
         <!-- Hero Content -->
         <div class="relative z-10 text-center px-4 py-20 max-w-4xl mx-auto">
           <div class="mb-8 animate-bounce-slow">
-            <span class="text-8xl">🤙</span>
+            <span class="text-8xl">\uD83E\uDD19</span>
           </div>
 
           <h1 class="text-4xl md:text-6xl font-bold mb-6 gradient-text">
@@ -130,12 +130,11 @@ export function renderLanding(state) {
           </h1>
 
           <p class="text-xl md:text-2xl text-slate-300 mb-4">
-            La communaute des autostoppeurs
+            ${t('tagline')}
           </p>
 
           <p class="text-lg text-slate-400 mb-8 max-w-2xl mx-auto">
-            Trouvez les meilleurs spots d'auto-stop dans le monde, partagez vos experiences
-            et planifiez vos voyages avec la plus grande communaute de routards.
+            ${t('landingHeroDesc')}
           </p>
 
           <!-- CTA Buttons -->
@@ -145,14 +144,14 @@ export function renderLanding(state) {
               class="btn-primary text-lg px-8 py-4"
             >
               ${icon('rocket', 'w-5 h-5 mr-2')}
-              Commencer gratuitement
+              ${t('landingCtaStart')}
             </button>
             <button
               onclick="skipWelcome()"
               class="btn-ghost text-lg px-8 py-4"
             >
               ${icon('map', 'w-5 h-5 mr-2')}
-              Explorer la carte
+              ${t('landingCtaExplore')}
             </button>
           </div>
 
@@ -160,15 +159,15 @@ export function renderLanding(state) {
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
             <div class="text-center">
               <div class="text-3xl md:text-4xl font-bold text-primary-400">${stats.spots}+</div>
-              <div class="text-sm text-slate-400">Spots verifies</div>
+              <div class="text-sm text-slate-400">${t('landingStatsSpots')}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl md:text-4xl font-bold text-emerald-400">${stats.countries}</div>
-              <div class="text-sm text-slate-400">Pays couverts</div>
+              <div class="text-sm text-slate-400">${t('landingStatsCountries')}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl md:text-4xl font-bold text-amber-400">${stats.users}+</div>
-              <div class="text-sm text-slate-400">Autostoppeurs</div>
+              <div class="text-sm text-slate-400">${t('landingStatsUsers')}</div>
             </div>
             <div class="text-center">
               <div class="text-3xl md:text-4xl font-bold text-purple-400">${stats.checkins}+</div>
@@ -187,10 +186,10 @@ export function renderLanding(state) {
       <section class="py-20 px-4 bg-slate-800/50">
         <div class="max-w-6xl mx-auto">
           <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
-            Tout ce dont tu as besoin
+            ${t('landingFeaturesHeading')}
           </h2>
           <p class="text-slate-400 text-center mb-12 max-w-2xl mx-auto">
-            SpotHitch reunit tous les outils essentiels pour l'autostoppeur moderne.
+            ${t('landingFeaturesSubheading')}
           </p>
 
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -211,10 +210,10 @@ export function renderLanding(state) {
       <section class="py-20 px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
-            Comment ca marche ?
+            ${t('landingHowItWorks')}
           </h2>
           <p class="text-slate-400 text-center mb-12">
-            En 4 etapes simples, vous etes pret a partir !
+            ${t('landingHowItWorksDesc')}
           </p>
 
           <div class="relative">
@@ -243,10 +242,10 @@ export function renderLanding(state) {
       <section class="py-20 px-4 bg-slate-800/50">
         <div class="max-w-6xl mx-auto">
           <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
-            Ils nous font confiance
+            ${t('landingTestimonialsHeading')}
           </h2>
           <p class="text-slate-400 text-center mb-12">
-            Decouvrez ce que nos utilisateurs pensent de SpotHitch.
+            ${t('landingTestimonialsSubheading')}
           </p>
 
           <div class="grid md:grid-cols-3 gap-6">
@@ -277,7 +276,7 @@ export function renderLanding(state) {
           <div class="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 class="text-3xl md:text-4xl font-bold mb-6">
-                Une application pensee pour la route
+                ${t('landingAppPreviewHeading')}
               </h2>
               <ul class="space-y-4">
                 <li class="flex items-start gap-3">
@@ -285,8 +284,8 @@ export function renderLanding(state) {
                     ${icon('check', 'w-5 h-5 text-emerald-400')}
                   </div>
                   <div>
-                    <div class="font-semibold">Mode hors-ligne</div>
-                    <div class="text-slate-400 text-sm">Consultez les spots sans connexion internet</div>
+                    <div class="font-semibold">${t('landingOfflineTitle')}</div>
+                    <div class="text-slate-400 text-sm">${t('landingOfflineDesc')}</div>
                   </div>
                 </li>
                 <li class="flex items-start gap-3">
@@ -294,8 +293,8 @@ export function renderLanding(state) {
                     ${icon('check', 'w-5 h-5 text-emerald-400')}
                   </div>
                   <div>
-                    <div class="font-semibold">GPS integre</div>
-                    <div class="text-slate-400 text-sm">Naviguez vers les spots facilement</div>
+                    <div class="font-semibold">${t('landingGPSTitle')}</div>
+                    <div class="text-slate-400 text-sm">${t('landingGPSDesc')}</div>
                   </div>
                 </li>
                 <li class="flex items-start gap-3">
@@ -303,8 +302,8 @@ export function renderLanding(state) {
                     ${icon('check', 'w-5 h-5 text-emerald-400')}
                   </div>
                   <div>
-                    <div class="font-semibold">100% gratuit</div>
-                    <div class="text-slate-400 text-sm">Aucun abonnement, aucune publicite intrusive</div>
+                    <div class="font-semibold">${t('landingFreeTitle')}</div>
+                    <div class="text-slate-400 text-sm">${t('landingFreeDesc')}</div>
                   </div>
                 </li>
                 <li class="flex items-start gap-3">
@@ -312,8 +311,8 @@ export function renderLanding(state) {
                     ${icon('check', 'w-5 h-5 text-emerald-400')}
                   </div>
                   <div>
-                    <div class="font-semibold">Multilingue</div>
-                    <div class="text-slate-400 text-sm">Disponible en francais, anglais, espagnol et allemand</div>
+                    <div class="font-semibold">${t('landingMultilingualTitle')}</div>
+                    <div class="text-slate-400 text-sm">${t('landingMultilingualDesc')}</div>
                   </div>
                 </li>
               </ul>
@@ -323,7 +322,7 @@ export function renderLanding(state) {
                 class="mt-8 btn-primary"
               >
                 ${icon('download', 'w-5 h-5 mr-2')}
-                Installer l'application
+                ${t('landingInstallApp')}
               </button>
             </div>
 
@@ -332,13 +331,13 @@ export function renderLanding(state) {
                 <div class="h-full bg-gradient-to-b from-slate-900 to-slate-800 p-4 flex flex-col">
                   <div class="text-center text-primary-400 font-bold text-lg mb-4">SpotHitch</div>
                   <div class="flex-1 rounded-2xl bg-emerald-900/30 flex items-center justify-center">
-                    ${icon('map-marked-alt', 'w-5 h-5 text-6xl text-emerald-400/50')}
+                    ${icon('map-pinned', 'w-5 h-5 text-6xl text-emerald-400/50')}
                   </div>
                   <div class="flex justify-around mt-4 pt-2 border-t border-slate-700">
                     ${icon('map', 'w-5 h-5 text-primary-400')}
                     ${icon('compass', 'w-5 h-5 text-slate-400')}
                     ${icon('trophy', 'w-5 h-5 text-slate-400')}
-                    ${icon('comments', 'w-5 h-5 text-slate-400')}
+                    ${icon('messages-square', 'w-5 h-5 text-slate-400')}
                     ${icon('user', 'w-5 h-5 text-slate-400')}
                   </div>
                 </div>
@@ -355,10 +354,10 @@ export function renderLanding(state) {
       <section class="py-20 px-4 bg-gradient-to-br from-primary-900/50 to-emerald-900/50">
         <div class="max-w-3xl mx-auto text-center">
           <h2 class="text-3xl md:text-4xl font-bold mb-6">
-            Pret a prendre la route ?
+            ${t('landingCtaHeading')}
           </h2>
           <p class="text-xl text-slate-300 mb-8">
-            Rejoignez la communaute SpotHitch et decouvrez l'autostop autrement.
+            ${t('landingCtaSubheading')}
           </p>
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -367,22 +366,22 @@ export function renderLanding(state) {
               class="btn-primary text-lg px-8 py-4"
             >
               ${icon('user-plus', 'w-5 h-5 mr-2')}
-              Creer un compte gratuit
+              ${t('landingCtaCreateAccount')}
             </button>
             <button
               onclick="openAuth(); setAuthMode('login')"
               class="btn-ghost text-lg px-8 py-4"
             >
-              ${icon('sign-in-alt', 'w-5 h-5 mr-2')}
-              Se connecter
+              ${icon('log-in', 'w-5 h-5 mr-2')}
+              ${t('landingCtaLogin')}
             </button>
           </div>
 
           <p class="mt-8 text-sm text-slate-400">
-            En vous inscrivant, vous acceptez nos
-            <a href="#" onclick="showLegalPage('cgu')" class="text-primary-400 hover:underline">CGU</a>
-            et notre
-            <a href="#" onclick="showLegalPage('privacy')" class="text-primary-400 hover:underline">Politique de confidentialite</a>.
+            ${t('landingLegalNotice')}
+            <a href="#" onclick="showLegalPage('cgu')" class="text-primary-400 hover:underline">${t('termsOfService')}</a>
+            ${t('and')}
+            <a href="#" onclick="showLegalPage('privacy')" class="text-primary-400 hover:underline">${t('privacyPolicy')}</a>.
           </p>
         </div>
       </section>
@@ -393,39 +392,39 @@ export function renderLanding(state) {
           <div class="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div class="flex items-center gap-2 mb-4">
-                <span class="text-2xl">🤙</span>
+                <span class="text-2xl">\uD83E\uDD19</span>
                 <span class="font-bold text-lg">SpotHitch</span>
               </div>
               <p class="text-slate-400 text-sm">
-                La communaute des autostoppeurs. Trouvez, partagez et explorez les meilleurs spots du monde.
+                ${t('landingFooterDesc')}
               </p>
             </div>
 
             <div>
-              <h4 class="font-semibold mb-4">Application</h4>
+              <h4 class="font-semibold mb-4">${t('landingFooterApp')}</h4>
               <ul class="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" onclick="skipWelcome()" class="hover:text-white">Carte des spots</a></li>
-                <li><a href="#" onclick="changeTab('travel')" class="hover:text-white">Planificateur</a></li>
-                <li><a href="#" onclick="changeTab('challenges')" class="hover:text-white">Defis</a></li>
-                <li><a href="#" onclick="changeTab('social')" class="hover:text-white">Communaute</a></li>
+                <li><a href="#" onclick="skipWelcome()" class="hover:text-white">${t('landingFooterSpotMap')}</a></li>
+                <li><a href="#" onclick="changeTab('travel')" class="hover:text-white">${t('planner')}</a></li>
+                <li><a href="#" onclick="changeTab('challenges')" class="hover:text-white">${t('landingFooterChallenges')}</a></li>
+                <li><a href="#" onclick="changeTab('social')" class="hover:text-white">${t('landingFooterCommunity')}</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 class="font-semibold mb-4">Ressources</h4>
+              <h4 class="font-semibold mb-4">${t('landingFooterResources')}</h4>
               <ul class="space-y-2 text-slate-400 text-sm">
                 <li><a href="#" onclick="openFAQ()" class="hover:text-white">FAQ</a></li>
-                <li><a href="#" onclick="openHelpCenter()" class="hover:text-white">Centre d'aide</a></li>
+                <li><a href="#" onclick="openHelpCenter()" class="hover:text-white">${t('landingFooterHelpCenter')}</a></li>
                 <li><a href="#" onclick="openChangelog()" class="hover:text-white">Changelog</a></li>
                 <li><a href="#" onclick="openRoadmap()" class="hover:text-white">Roadmap</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 class="font-semibold mb-4">Legal</h4>
+              <h4 class="font-semibold mb-4">${t('landingFooterLegal')}</h4>
               <ul class="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" onclick="showLegalPage('cgu')" class="hover:text-white">CGU</a></li>
-                <li><a href="#" onclick="showLegalPage('privacy')" class="hover:text-white">Confidentialite</a></li>
+                <li><a href="#" onclick="showLegalPage('cgu')" class="hover:text-white">${t('termsOfService')}</a></li>
+                <li><a href="#" onclick="showLegalPage('privacy')" class="hover:text-white">${t('privacyPolicy')}</a></li>
                 <li><a href="#" onclick="openContactForm()" class="hover:text-white">Contact</a></li>
               </ul>
             </div>
@@ -433,7 +432,7 @@ export function renderLanding(state) {
 
           <div class="pt-8 border-t border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4">
             <p class="text-slate-400 text-sm">
-              &copy; 2026 SpotHitch. Fait avec coeur pour les routards du monde entier.
+              &copy; 2026 SpotHitch. ${t('landingFooterCopyright')}
             </p>
             <div class="flex gap-4">
               <a href="https://github.com/antoine626/Spothitch" target="_blank" rel="noopener" class="text-slate-400 hover:text-white">

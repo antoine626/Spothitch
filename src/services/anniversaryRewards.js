@@ -460,7 +460,7 @@ export function renderAnniversaryModal(years, reward) {
             class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
             aria-label="${t('close')}"
           >
-            ${icon('times', 'w-6 h-6')}
+            ${icon('x', 'w-6 h-6')}
           </button>
 
           <div class="text-6xl mb-4 animate-bounce-slow">${reward.badge.icon}</div>

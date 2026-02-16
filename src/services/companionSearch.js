@@ -869,7 +869,7 @@ export function renderTravelPlanCard(plan) {
             <div class="text-xs text-slate-400 flex items-center gap-2">
               <span>${t('level') || 'Niveau'} ${plan.userLevel || 1}</span>
               ${plan.verificationLevel > 0 ? `
-                <span class="text-emerald-400">${icon('check-circle', 'w-5 h-5')}</span>
+                <span class="text-emerald-400">${icon('circle-check', 'w-5 h-5')}</span>
               ` : ''}
             </div>
           </div>
@@ -964,7 +964,7 @@ export function renderResponseCard(response, isOwner = false) {
           </div>
           <div class="text-xs text-slate-400 mb-2">
             ${t('level') || 'Niveau'} ${response.userLevel || 1}
-            ${response.verificationLevel > 0 ? ` ${icon('check-circle', 'w-5 h-5 text-emerald-400')}` : ''}
+            ${response.verificationLevel > 0 ? ` ${icon('circle-check', 'w-5 h-5 text-emerald-400')}` : ''}
           </div>
           <p class="text-sm text-slate-300">${escapeHTML(response.message)}</p>
 
@@ -981,7 +981,7 @@ export function renderResponseCard(response, isOwner = false) {
                 onclick="event.stopPropagation(); declinePlanResponse('${escapeHTML(response.planId)}', '${escapeHTML(response.id)}')"
                 class="btn btn-sm bg-white/10 hover:bg-white/20"
               >
-                ${icon('times', 'w-5 h-5 mr-1')}
+                ${icon('x', 'w-5 h-5 mr-1')}
                 ${t('decline') || 'Refuser'}
               </button>
             </div>

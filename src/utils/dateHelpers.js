@@ -365,7 +365,7 @@ export function renderFreshnessSection(lastCheckinDate) {
       </div>
       ${warning ? `
         <div class="mt-3 flex items-start gap-2 p-2 rounded-lg bg-red-500/10 border border-red-500/20">
-          ${icon('exclamation-triangle', 'w-5 h-5 text-red-400 mt-0.5')}
+          ${icon('triangle-alert', 'w-5 h-5 text-red-400 mt-0.5')}
           <p class="text-xs text-red-300">${warning}</p>
         </div>
       ` : ''}

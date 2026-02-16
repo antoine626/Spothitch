@@ -5,6 +5,7 @@
 
 import { Storage } from '../utils/storage.js';
 import { icon } from '../utils/icons.js'
+import { t } from '../i18n/index.js'
 
 // Storage key for data saver settings
 const DATA_SAVER_KEY = 'dataSaver';
@@ -400,28 +401,28 @@ export function renderDataSaverToggle(options = {}) {
             class="sr-only peer"
             ${settings.enabled ? 'checked' : ''}
             onchange="window.toggleDataSaver()"
-            aria-label="Mode economie de donnees"
+            aria-label="${t('dataSaverMode')}"
           />
           <div class="w-11 h-6 bg-white/10 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-dark-primary peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-white/10 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-white/10 peer-checked:bg-primary-500"></div>
         </label>
         <span class="text-sm ${settings.enabled ? 'text-primary-500' : 'text-slate-400'}">
           ${icon('leaf', 'w-5 h-5 mr-1')}
-          ${settings.enabled ? 'Actif' : 'Inactif'}
+          ${settings.enabled ? t('dataSaverActive') : t('dataSaverInactive')}
         </span>
       </div>
     `;
   }
 
   return `
-    <div class="data-saver-toggle bg-white dark:bg-dark-secondary rounded-lg p-4 shadow-md" role="region" aria-label="Parametres economie de donnees">
+    <div class="data-saver-toggle bg-white dark:bg-dark-secondary rounded-lg p-4 shadow-md" role="region" aria-label="${t('dataSaverSettings')}">
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
             ${icon('leaf', 'w-5 h-5 text-green-600 dark:text-green-400')}
           </div>
           <div>
-            <h3 class="font-semibold text-white dark:text-white">Mode economie de donnees</h3>
-            <p class="text-sm text-slate-400 dark:text-slate-400">Reduisez votre consommation</p>
+            <h3 class="font-semibold text-white dark:text-white">${t('dataSaverMode')}</h3>
+            <p class="text-sm text-slate-400 dark:text-slate-400">${t('dataSaverReduceConsumption')}</p>
           </div>
         </div>
         <label class="relative inline-flex items-center cursor-pointer">
@@ -430,7 +431,7 @@ export function renderDataSaverToggle(options = {}) {
             class="sr-only peer"
             ${settings.enabled ? 'checked' : ''}
             onchange="window.toggleDataSaver()"
-            aria-label="Activer le mode economie de donnees"
+            aria-label="${t('dataSaverEnableMode')}"
           />
           <div class="w-14 h-7 bg-white/10 peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-dark-primary peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-white/10 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-white/10 peer-checked:bg-primary-500"></div>
         </label>
@@ -439,21 +440,21 @@ export function renderDataSaverToggle(options = {}) {
       ${settings.enabled ? `
         <div class="space-y-3 border-t border-white/10 dark:border-white/10 pt-4">
           <div class="flex items-center justify-between text-sm">
-            <span class="text-slate-600 dark:text-slate-400">Qualite des images</span>
+            <span class="text-slate-600 dark:text-slate-400">${t('dataSaverImageQuality')}</span>
             <select
               class="bg-white/10 dark:bg-dark-primary rounded px-2 py-1 text-sm"
               onchange="window.setDataSaverImageQuality(this.value)"
-              aria-label="Qualite des images"
+              aria-label="${t('dataSaverImageQuality')}"
             >
-              <option value="high" ${settings.imageQuality === 'high' ? 'selected' : ''}>Haute</option>
-              <option value="medium" ${settings.imageQuality === 'medium' ? 'selected' : ''}>Moyenne</option>
-              <option value="low" ${settings.imageQuality === 'low' ? 'selected' : ''}>Basse</option>
-              <option value="off" ${settings.imageQuality === 'off' ? 'selected' : ''}>Desactivees</option>
+              <option value="high" ${settings.imageQuality === 'high' ? 'selected' : ''}>${t('dataSaverHigh')}</option>
+              <option value="medium" ${settings.imageQuality === 'medium' ? 'selected' : ''}>${t('dataSaverMedium')}</option>
+              <option value="low" ${settings.imageQuality === 'low' ? 'selected' : ''}>${t('dataSaverLow')}</option>
+              <option value="off" ${settings.imageQuality === 'off' ? 'selected' : ''}>${t('dataSaverOff')}</option>
             </select>
           </div>
 
           <label class="flex items-center justify-between text-sm cursor-pointer">
-            <span class="text-slate-600 dark:text-slate-400">Limiter le prechargement</span>
+            <span class="text-slate-600 dark:text-slate-400">${t('dataSaverLimitPreload')}</span>
             <input
               type="checkbox"
               class="rounded text-primary-500 focus:ring-primary-500"
@@ -463,7 +464,7 @@ export function renderDataSaverToggle(options = {}) {
           </label>
 
           <label class="flex items-center justify-between text-sm cursor-pointer">
-            <span class="text-slate-600 dark:text-slate-400">Compresser les requetes</span>
+            <span class="text-slate-600 dark:text-slate-400">${t('dataSaverCompressRequests')}</span>
             <input
               type="checkbox"
               class="rounded text-primary-500 focus:ring-primary-500"
@@ -473,7 +474,7 @@ export function renderDataSaverToggle(options = {}) {
           </label>
 
           <label class="flex items-center justify-between text-sm cursor-pointer">
-            <span class="text-slate-600 dark:text-slate-400">Desactiver les animations</span>
+            <span class="text-slate-600 dark:text-slate-400">${t('dataSaverDisableAnimations')}</span>
             <input
               type="checkbox"
               class="rounded text-primary-500 focus:ring-primary-500"
@@ -483,7 +484,7 @@ export function renderDataSaverToggle(options = {}) {
           </label>
 
           <label class="flex items-center justify-between text-sm cursor-pointer">
-            <span class="text-slate-600 dark:text-slate-400">Reduire la frequence de rafraichissement</span>
+            <span class="text-slate-600 dark:text-slate-400">${t('dataSaverReduceRefresh')}</span>
             <input
               type="checkbox"
               class="rounded text-primary-500 focus:ring-primary-500"
@@ -498,24 +499,24 @@ export function renderDataSaverToggle(options = {}) {
         <div class="mt-4 pt-4 border-t border-white/10 dark:border-white/10">
           <div class="flex items-center gap-2 mb-3">
             ${icon('chart-line', 'w-5 h-5 text-primary-500')}
-            <span class="font-medium text-white dark:text-white">Economies estimees</span>
+            <span class="font-medium text-white dark:text-white">${t('dataSaverEstimatedSavings')}</span>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 text-center">
               <div class="text-2xl font-bold text-green-600 dark:text-green-400">
-                ${savings.totalSavedMB} Mo
+                ${savings.totalSavedMB} ${t('dataSaverMB')}
               </div>
-              <div class="text-xs text-green-700 dark:text-green-300">Cette session</div>
+              <div class="text-xs text-green-700 dark:text-green-300">${t('dataSaverThisSession')}</div>
             </div>
             <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 text-center">
               <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                ~${savings.estimatedMonthlySavingsMB} Mo
+                ~${savings.estimatedMonthlySavingsMB} ${t('dataSaverMB')}
               </div>
-              <div class="text-xs text-blue-700 dark:text-blue-300">Par mois (estime)</div>
+              <div class="text-xs text-blue-700 dark:text-blue-300">${t('dataSaverPerMonth')}</div>
             </div>
           </div>
           <div class="mt-3 text-xs text-slate-400 dark:text-slate-400 text-center">
-            ${savings.imagesOptimized} images optimisees - ${savings.preloadsBlocked} prechargements bloques
+            ${savings.imagesOptimized} ${t('dataSaverImagesOptimized')} - ${savings.preloadsBlocked} ${t('dataSaverPreloadsBlocked')}
           </div>
         </div>
       ` : ''}
@@ -538,7 +539,7 @@ export function renderSavingsIndicator() {
   return `
     <div class="data-saver-indicator fixed bottom-20 right-4 bg-green-500 text-white rounded-full px-3 py-1 text-sm shadow-lg flex items-center gap-2 z-50" role="status" aria-live="polite">
       ${icon('leaf', 'w-5 h-5')}
-      <span>${savings.totalSavedMB} Mo economises</span>
+      <span>${savings.totalSavedMB} ${t('dataSaverMBSaved')}</span>
     </div>
   `;
 }
@@ -635,10 +636,10 @@ export function autoEnableBasedOnNetwork() {
  */
 export function getImageQualityLevels() {
   return [
-    { id: 'high', label: 'Haute qualite', description: 'Images en pleine resolution', icon: 'fa-image' },
-    { id: 'medium', label: 'Qualite moyenne', description: 'Images optimisees (~50% donnees)', icon: 'fa-compress' },
-    { id: 'low', label: 'Basse qualite', description: 'Images tres compressees (~25% donnees)', icon: 'fa-compress-alt' },
-    { id: 'off', label: 'Images desactivees', description: 'Aucune image chargee', icon: 'fa-ban' },
+    { id: 'high', label: t('dataSaverQualityHighLabel'), description: t('dataSaverQualityHighDesc'), icon: 'image' },
+    { id: 'medium', label: t('dataSaverQualityMediumLabel'), description: t('dataSaverQualityMediumDesc'), icon: 'shrink' },
+    { id: 'low', label: t('dataSaverQualityLowLabel'), description: t('dataSaverQualityLowDesc'), icon: 'minimize' },
+    { id: 'off', label: t('dataSaverQualityOffLabel'), description: t('dataSaverQualityOffDesc'), icon: 'ban' },
   ];
 }
 

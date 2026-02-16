@@ -143,7 +143,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
           flex items-center justify-center text-white hover:bg-white/20 transition-colors"
         aria-label="${t('close') || 'Close'}"
       >
-        ${icon('times', 'w-6 h-6')}
+        ${icon('x', 'w-6 h-6')}
       </button>
 
       <!-- Main Image Container -->

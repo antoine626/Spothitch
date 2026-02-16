@@ -212,7 +212,7 @@ function renderSafetySection() {
       <button onclick="openSOS()" class="card p-4 w-full text-left bg-danger-500/10 border-danger-500/30 hover:bg-danger-500/20 transition-all">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-danger-500/30 flex items-center justify-center">
-            ${icon('alert-triangle', 'w-5 h-5 text-danger-400')}
+            ${icon('triangle-alert', 'w-5 h-5 text-danger-400')}
           </div>
           <div>
             <div class="font-medium text-danger-400">${t('guideSafetySOS') || 'En cas d\'urgence'}</div>

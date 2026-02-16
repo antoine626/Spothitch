@@ -19,7 +19,7 @@ export function getSpotFreshness(spot) {
       labelEn: 'Unknown',
       labelEs: 'Desconocido',
       labelDe: 'Unbekannt',
-      icon: 'question-circle',
+      icon: 'info',
       bgClass: 'bg-amber-500/20',
       textClass: 'text-amber-400',
       borderClass: 'border-amber-500/30'
@@ -34,7 +34,7 @@ export function getSpotFreshness(spot) {
       labelEn: 'Not recommended',
       labelEs: 'No recomendado',
       labelDe: 'Nicht empfohlen',
-      icon: 'times-circle',
+      icon: 'circle-x',
       bgClass: 'bg-red-500/20',
       textClass: 'text-red-400',
       borderClass: 'border-red-500/30'
@@ -56,7 +56,7 @@ export function getSpotFreshness(spot) {
       labelEn: 'Reliable',
       labelEs: 'Confiable',
       labelDe: 'Zuverlässig',
-      icon: 'check-circle',
+      icon: 'circle-check',
       bgClass: 'bg-emerald-500/20',
       textClass: 'text-emerald-400',
       borderClass: 'border-emerald-500/30'
@@ -88,7 +88,7 @@ export function getSpotFreshness(spot) {
     labelEn: 'Needs verification',
     labelEs: 'Necesita verificación',
     labelDe: 'Überprüfung erforderlich',
-    icon: 'exclamation-circle',
+    icon: 'circle-alert',
     bgClass: 'bg-amber-500/20',
     textClass: 'text-amber-400',
     borderClass: 'border-amber-500/30'

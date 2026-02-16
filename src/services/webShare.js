@@ -297,7 +297,7 @@ export function renderShareButton(type, data) {
       onclick="window.handleShare('${type}', '${dataAttr}')"
       aria-label="${ariaLabel}"
     >
-      ${icon('share-alt', 'w-5 h-5')}
+      ${icon('share-2', 'w-5 h-5')}
       <span>${buttonLabel}</span>
     </button>
   `;
@@ -327,7 +327,7 @@ export function renderShareIconButton(type, data) {
       onclick="window.handleShare('${type}', '${dataAttr}')"
       aria-label="${ariaLabel}"
     >
-      ${icon('share-alt', 'w-5 h-5')}
+      ${icon('share-2', 'w-5 h-5')}
     </button>
   `;
 }

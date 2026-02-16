@@ -1078,7 +1078,7 @@ export function renderHostelCard(hostel) {
       <!-- Partner badge -->
       <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/10 text-xs">
         <span class="text-primary-400 flex items-center gap-1">
-          ${icon('check-circle', 'w-5 h-5')}
+          ${icon('circle-check', 'w-5 h-5')}
           ${t('verified')}
         </span>
         <span class="text-slate-400">${t('seeDetails')} →</span>
@@ -1140,7 +1140,7 @@ export function renderHostelDetail(hostel) {
           <button onclick="window.closeHostelDetail?.()"
             class="text-slate-400 hover:text-white w-8 h-8 flex items-center justify-center"
             aria-label="Close">
-            ${icon('times', 'w-6 h-6')}
+            ${icon('x', 'w-6 h-6')}
           </button>
         </div>
 
@@ -1157,7 +1157,7 @@ export function renderHostelDetail(hostel) {
         <div class="p-4 space-y-4">
           <!-- Location -->
           <div class="flex items-center gap-2 text-slate-400">
-            ${icon('map-marker-alt', 'w-5 h-5')}
+            ${icon('map-pin', 'w-5 h-5')}
             <span>${escapeHTML(hostel.address)}</span>
           </div>
 
@@ -1234,12 +1234,12 @@ export function renderHostelDetail(hostel) {
           <div class="flex gap-3 pt-2">
             <button onclick="window.generateHostelCode?.('${hostel.id}')"
               class="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2">
-              ${icon('ticket-alt', 'w-5 h-5')}
+              ${icon('ticket', 'w-5 h-5')}
               ${t('generateCode')}
             </button>
             <button onclick="window.bookHostelNow?.('${hostel.id}')"
               class="flex-1 bg-primary hover:bg-primary/80 text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2 font-semibold">
-              ${icon('external-link-alt', 'w-5 h-5')}
+              ${icon('external-link', 'w-5 h-5')}
               ${t('bookNow')}
             </button>
           </div>
@@ -1256,7 +1256,7 @@ export function renderHostelDetail(hostel) {
             ${hostel.email ? `
               <button onclick="window.open('mailto:${hostel.email}')"
                 class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
-                ${icon('envelope', 'w-5 h-5')}
+                ${icon('mail', 'w-5 h-5')}
                 Email
               </button>
             ` : ''}
@@ -1264,7 +1264,7 @@ export function renderHostelDetail(hostel) {
 
           <!-- Partner badge -->
           <div class="text-center text-xs text-slate-400 pt-2 border-t border-white/10">
-            ${icon('check-circle', 'w-5 h-5 text-primary-400 mr-1')}
+            ${icon('circle-check', 'w-5 h-5 text-primary-400 mr-1')}
             ${t('verified')} - ${t('exclusive')}
           </div>
         </div>
@@ -1418,7 +1418,7 @@ function renderStars(rating) {
     html += icon('star', 'w-5 h-5')
   }
   if (hasHalf) {
-    html += icon('star-half-alt', 'w-5 h-5')
+    html += icon('star-half', 'w-5 h-5')
   }
   for (let i = 0; i < emptyStars; i++) {
     html += icon('star', 'w-5 h-5 text-slate-400')

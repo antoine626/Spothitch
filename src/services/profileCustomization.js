@@ -407,7 +407,7 @@ export function renderCustomizationModal(state) {
               class="p-2 rounded-full hover:bg-white/10 transition-colors"
               aria-label="${t('close') || 'Fermer'}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         </div>

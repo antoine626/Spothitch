@@ -82,7 +82,7 @@ export function renderIdentityVerification() {
           aria-label="${t('close')}"
           type="button"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
 
         <!-- Scrollable Content -->
@@ -106,7 +106,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
     <!-- Header -->
     <div class="p-6 text-center border-b border-white/10 bg-gradient-to-b from-purple-500/10 to-transparent">
       <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-        ${icon('shield-alt', 'w-8 h-8 text-white')}
+        ${icon('shield', 'w-8 h-8 text-white')}
       </div>
       <h2 id="identity-verification-title" class="text-2xl font-bold text-white mb-2">
         ${t('identityVerificationTitle')}
@@ -162,7 +162,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
       <!-- Why Verify Section -->
       <div class="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
         <h3 class="font-bold text-blue-300 mb-3 flex items-center gap-2">
-          ${icon('info-circle', 'w-5 h-5')}
+          ${icon('info', 'w-5 h-5')}
           ${reasons.title}
         </h3>
         <ul class="space-y-2 text-sm text-slate-300">
@@ -265,7 +265,7 @@ function renderPhoneStep(lang) {
         ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
-        ${icon('mobile-alt', 'w-7 h-7 text-green-400')}
+        ${icon('smartphone', 'w-7 h-7 text-green-400')}
       </div>
       <h3 class="text-xl font-bold text-white">${t('phoneVerificationTitle')}</h3>
       <p class="text-slate-400 text-sm mt-2">${t('phoneVerificationDesc')}</p>
@@ -275,7 +275,7 @@ function renderPhoneStep(lang) {
     <div class="p-6 space-y-4">
       ${modalState.error ? `
         <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
-          ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1')}
+          ${icon('circle-alert', 'w-5 h-5 text-red-400 mt-1')}
           <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
         </div>
       ` : ''}
@@ -323,8 +323,8 @@ function renderPhoneStep(lang) {
         ${modalState.isLoading ? 'disabled' : ''}
       >
         ${modalState.isLoading
-          ? icon('spinner', 'w-5 h-5 animate-spin mr-2')
-          : icon('paper-plane', 'w-5 h-5 mr-2')
+          ? icon('loader-circle', 'w-5 h-5 animate-spin mr-2')
+          : icon('send', 'w-5 h-5 mr-2')
         }
         ${t('sendVerificationCode')}
       </button>
@@ -360,7 +360,7 @@ function renderPhoneCodeStep(lang) {
         ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
-        ${icon('sms', 'w-7 h-7 text-green-400')}
+        ${icon('message-square', 'w-7 h-7 text-green-400')}
       </div>
       <h3 class="text-xl font-bold text-white">${t('enterVerificationCode')}</h3>
       <p class="text-slate-400 text-sm mt-2">${t('codeSentTo')} <strong class="text-white">${modalState.phoneNumber}</strong></p>
@@ -370,7 +370,7 @@ function renderPhoneCodeStep(lang) {
     <div class="p-6 space-y-4">
       ${modalState.error ? `
         <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
-          ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1')}
+          ${icon('circle-alert', 'w-5 h-5 text-red-400 mt-1')}
           <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
         </div>
       ` : ''}
@@ -402,7 +402,7 @@ function renderPhoneCodeStep(lang) {
         ${modalState.isLoading ? 'disabled' : ''}
       >
         ${modalState.isLoading
-          ? icon('spinner', 'w-5 h-5 animate-spin mr-2')
+          ? icon('loader-circle', 'w-5 h-5 animate-spin mr-2')
           : icon('check', 'w-5 h-5 mr-2')
         }
         ${t('verifyCode')}
@@ -417,7 +417,7 @@ function renderPhoneCodeStep(lang) {
       </button>
 
       <div class="text-center text-xs text-slate-400">
-        ${icon('info-circle', 'w-5 h-5 mr-1')}
+        ${icon('info', 'w-5 h-5 mr-1')}
         ${t('demoCodeHint')}
       </div>
     </div>
@@ -452,7 +452,7 @@ function renderPhotoStep(lang) {
     <div class="p-6 space-y-4">
       ${modalState.error ? `
         <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
-          ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1')}
+          ${icon('circle-alert', 'w-5 h-5 text-red-400 mt-1')}
           <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
         </div>
       ` : ''}
@@ -468,7 +468,7 @@ function renderPhotoStep(lang) {
               type="button"
               aria-label="${t('removePhoto')}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         ` : `
@@ -502,7 +502,7 @@ function renderPhotoStep(lang) {
           <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('photoGuideline1')}</li>
           <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('photoGuideline2')}</li>
           <li>${icon('check', 'w-5 h-5 text-green-400 mr-2')}${t('photoGuideline3')}</li>
-          <li>${icon('times', 'w-5 h-5 text-red-400 mr-2')}${t('photoGuideline4')}</li>
+          <li>${icon('x', 'w-5 h-5 text-red-400 mr-2')}${t('photoGuideline4')}</li>
         </ul>
       </div>
 
@@ -514,7 +514,7 @@ function renderPhotoStep(lang) {
           ${modalState.isLoading ? 'disabled' : ''}
         >
           ${modalState.isLoading
-            ? icon('spinner', 'w-5 h-5 animate-spin mr-2')
+            ? icon('loader-circle', 'w-5 h-5 animate-spin mr-2')
             : icon('upload', 'w-5 h-5 mr-2')
           }
           ${t('submitPhoto')}
@@ -592,7 +592,7 @@ function renderSelfieIdStep(lang) {
     <div class="p-6 space-y-4">
       ${modalState.error ? `
         <div class="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
-          ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1')}
+          ${icon('circle-alert', 'w-5 h-5 text-red-400 mt-1')}
           <p class="text-red-300 text-sm">${getVerificationErrorMessage(modalState.error, lang)}</p>
         </div>
       ` : ''}
@@ -620,7 +620,7 @@ function renderSelfieIdStep(lang) {
               type="button"
               aria-label="${t('removePhoto')}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         ` : `
@@ -698,8 +698,8 @@ function renderSelfieIdStep(lang) {
               ${modalState.isLoading ? 'disabled' : ''}
             >
               ${modalState.isLoading
-                ? icon('spinner', 'w-5 h-5 animate-spin mr-2')
-                : icon('paper-plane', 'w-5 h-5 mr-2')
+                ? icon('loader-circle', 'w-5 h-5 animate-spin mr-2')
+                : icon('send', 'w-5 h-5 mr-2')
               }
               ${lang === 'en' ? 'Submit for verification' : 'Envoyer pour verification'}
             </button>
@@ -738,7 +738,7 @@ export function renderVerificationBadgeUI(level = null, size = 'md') {
       title="${levelInfo.name}"
       aria-label="${levelInfo.name}"
     >
-      <span style="color: ${levelInfo.color};">${icon('shield-alt', 'w-4 h-4')}</span>
+      <span style="color: ${levelInfo.color};">${icon('shield', 'w-4 h-4')}</span>
     </span>
   `;
 }

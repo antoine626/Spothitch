@@ -11,42 +11,42 @@ const emptyStates = {
     message: 'Même les meilleurs routards ont besoin de compagnons !',
     buttonText: 'Trouver des compagnons',
     buttonAction: "changeTab('social'); setSocialTab('friends');",
-    buttonIcon: 'fa-user-friends'
+    buttonIcon: 'users'
   },
   checkins: {
     emoji: '👍',
     message: "Ton pouce n'a pas encore travaillé... C'est le moment !",
     buttonText: 'Voir la carte',
     buttonAction: "changeTab('map')",
-    buttonIcon: 'fa-map-marked-alt'
+    buttonIcon: 'map-pinned'
   },
   favorites: {
     emoji: '⭐',
     message: "Ta liste de favoris est plus vide qu'une aire d'autoroute à 3h du mat'",
     buttonText: 'Découvrir des spots',
     buttonAction: "changeTab('spots')",
-    buttonIcon: 'fa-search-location'
+    buttonIcon: 'search'
   },
   trips: {
     emoji: '🗺️',
     message: "Aucun voyage prévu ? La route t'appelle !",
     buttonText: 'Planifier un voyage',
     buttonAction: "changeTab('planner')",
-    buttonIcon: 'fa-route'
+    buttonIcon: 'route'
   },
   messages: {
     emoji: '💬',
     message: "C'est calme ici... Trop calme. Dis bonjour à quelqu'un !",
     buttonText: 'Aller au chat',
     buttonAction: "changeTab('social')",
-    buttonIcon: 'fa-comments'
+    buttonIcon: 'messages-square'
   },
   badges: {
     emoji: '🏆',
     message: "Zéro badge ? Même mon grand-père en a plus que toi !",
     buttonText: 'Voir les défis',
     buttonAction: "changeTab('challenges')",
-    buttonIcon: 'fa-medal'
+    buttonIcon: 'medal'
   }
 }
 

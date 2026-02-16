@@ -97,7 +97,7 @@ function renderPlanner(state) {
       <!-- New Trip Form -->
       <div class="card p-4 space-y-4">
         <h3 class="font-bold text-lg flex items-center gap-2">
-          ${icon('map-signs', 'w-5 h-5 text-primary-400')}
+          ${icon('signpost', 'w-5 h-5 text-primary-400')}
           ${t('newTrip') || 'Nouveau voyage'}
         </h3>
 
@@ -125,7 +125,7 @@ function renderPlanner(state) {
               class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
               aria-label="${t('swap') || 'Inverser'}"
             >
-              ${icon('exchange-alt', 'w-5 h-5 rotate-90')}
+              ${icon('arrow-right-left', 'w-5 h-5 rotate-90')}
             </button>
           </div>
 
@@ -153,7 +153,7 @@ function renderPlanner(state) {
           ${state.tripLoading ? 'disabled' : ''}
         >
           ${state.tripLoading
-            ? icon('spinner', 'w-5 h-5 animate-spin mr-2') + (t('calculating') || 'Calcul en cours...')
+            ? icon('loader-circle', 'w-5 h-5 animate-spin mr-2') + (t('calculating') || 'Calcul en cours...')
             : icon('route', 'w-5 h-5 mr-2') + (t('findSpotsOnRoute') || 'Trouver les spots sur le trajet')
           }
         </button>
@@ -190,14 +190,14 @@ function renderTripResults(results) {
           ${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}
         </h4>
         <button onclick="clearTripResults()" class="text-slate-400 hover:text-white transition-colors" aria-label="${t('close') || 'Fermer'}">
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
       </div>
 
       <!-- Stats -->
       <div class="flex gap-4 text-sm">
         <div class="flex items-center gap-2">
-          ${icon('road', 'w-5 h-5 text-slate-400')}
+          ${icon('milestone', 'w-5 h-5 text-slate-400')}
           <span>${results.distance || '?'} km</span>
         </div>
         <div class="flex items-center gap-2">
@@ -239,7 +239,7 @@ function renderTripResults(results) {
       <!-- Loading amenities indicator -->
       ${loadingAmenities ? `
         <div class="flex items-center gap-2 text-sm text-slate-400 px-1">
-          ${icon('spinner', 'w-5 h-5 animate-spin')}
+          ${icon('loader-circle', 'w-5 h-5 animate-spin')}
           <span>${t('travel_loading_stations') || 'Chargement des stations...'}</span>
         </div>
       ` : ''}
@@ -298,7 +298,7 @@ function renderTripResults(results) {
                 </div>
               </div>
               <button onclick="event.stopPropagation();removeSpotFromTrip(${spot.id})" class="text-slate-600 hover:text-danger-400 transition-colors mt-1" aria-label="${t('remove') || 'Retirer'}">
-                ${icon('times', 'w-3 h-3')}
+                ${icon('x', 'w-3 h-3')}
               </button>
             </div>
           `}).join('')}
@@ -306,7 +306,7 @@ function renderTripResults(results) {
           <!-- Arrival -->
           <div class="relative flex items-start gap-3">
             <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-primary-500 border-2 border-dark-primary flex items-center justify-center z-10">
-              ${icon('map-marker-alt', 'w-5 h-5 text-[8px] text-white')}
+              ${icon('map-pin', 'w-5 h-5 text-[8px] text-white')}
             </div>
             <div class="pt-0.5">
               <div class="text-sm font-semibold">${results.to?.split(',')[0] || '?'}</div>
@@ -383,7 +383,7 @@ function renderTripSpot(spot, index) {
         class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
         aria-label="${t('remove') || 'Retirer'}"
       >
-        ${icon('times', 'w-3 h-3')}
+        ${icon('x', 'w-3 h-3')}
       </button>
     </div>
   `
@@ -413,7 +413,7 @@ function renderTripMapView(results) {
           aria-label="${t('myPosition') || 'Ma position'}"
           title="${t('myPosition') || 'Ma position'}"
         >
-          ${icon('crosshairs', 'w-5 h-5')}
+          ${icon('crosshair', 'w-5 h-5')}
         </button>
         <div class="px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm">
           <span class="text-primary-400 font-semibold">${spots.length}</span>
@@ -570,7 +570,7 @@ function renderGuideDetail(guide) {
 
       <div class="card p-4">
         <h3 class="font-bold mb-2 flex items-center gap-2">
-          ${icon('gavel', 'w-5 h-5 text-primary-400')}
+          ${icon('scale', 'w-5 h-5 text-primary-400')}
           ${t('legality') || 'Légalité'}
         </h3>
         <p class="text-slate-300">${guide.legalityText}</p>
@@ -610,7 +610,7 @@ function renderGuideDetail(guide) {
       ${guide.bestSpots && guide.bestSpots.length > 0 ? `
         <div class="card p-4">
           <h3 class="font-bold mb-3 flex items-center gap-2">
-            ${icon('map-marker-alt', 'w-5 h-5 text-danger-400')}
+            ${icon('map-pin', 'w-5 h-5 text-danger-400')}
             ${t('bestSpots') || 'Meilleurs spots'}
           </h3>
           <div class="space-y-2">
@@ -626,7 +626,7 @@ function renderGuideDetail(guide) {
 
       <div class="card p-4 border-danger-500/30">
         <h3 class="font-bold mb-3 flex items-center gap-2 text-danger-400">
-          ${icon('phone-alt', 'w-5 h-5')}
+          ${icon('phone', 'w-5 h-5')}
           ${t('emergencyNumbers') || "Numéros d'urgence"}
         </h3>
         <div class="grid grid-cols-2 gap-3">
@@ -652,7 +652,7 @@ function renderGuideDetail(guide) {
       ${guide.events && guide.events.length > 0 ? `
         <div class="card p-4">
           <h3 class="font-bold mb-3 flex items-center gap-2">
-            ${icon('calendar-alt', 'w-5 h-5 text-pink-400')}
+            ${icon('calendar-days', 'w-5 h-5 text-pink-400')}
             ${t('eventsAndFestivals') || 'Evenements & festivals'}
           </h3>
           <div class="space-y-3">
@@ -662,7 +662,7 @@ function renderGuideDetail(guide) {
               const eventName = (isEn && event.nameEn) ? event.nameEn : event.name
               const eventDate = (isEn && event.dateEn) ? event.dateEn : event.date
               const eventDesc = (isEn && event.descriptionEn) ? event.descriptionEn : event.description
-              const typeIcon = event.type === 'festival' ? 'fa-music' : event.type === 'gathering' ? 'fa-users' : 'fa-flag'
+              const typeIcon = event.type === 'festival' ? 'music' : event.type === 'gathering' ? 'users' : 'flag'
               const typeColor = event.type === 'festival' ? 'text-pink-400 bg-pink-500/20' : event.type === 'gathering' ? 'text-cyan-400 bg-cyan-500/20' : 'text-amber-400 bg-amber-500/20'
               return `
               <div class="flex items-start gap-3 p-3 rounded-xl bg-white/5">

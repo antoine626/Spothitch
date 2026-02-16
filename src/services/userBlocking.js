@@ -20,14 +20,14 @@ const BLOCKED_BY_KEY = 'spothitch_blocked_by';
  * Block reasons enum
  */
 export const BlockReasons = {
-  HARASSMENT: { id: 'harassment', label: 'Harcelement', icon: 'fa-user-slash' },
-  SPAM: { id: 'spam', label: 'Spam', icon: 'fa-ad' },
-  INAPPROPRIATE: { id: 'inappropriate', label: 'Contenu inapproprie', icon: 'fa-ban' },
-  FAKE_PROFILE: { id: 'fake_profile', label: 'Faux profil', icon: 'fa-user-secret' },
-  SCAM: { id: 'scam', label: 'Arnaque', icon: 'fa-hand-holding-usd' },
-  DANGEROUS: { id: 'dangerous', label: 'Comportement dangereux', icon: 'fa-exclamation-triangle' },
-  PERSONAL: { id: 'personal', label: 'Raison personnelle', icon: 'fa-user-times' },
-  OTHER: { id: 'other', label: 'Autre', icon: 'fa-question-circle' },
+  HARASSMENT: { id: 'harassment', label: 'Harcelement', icon: 'user-x' },
+  SPAM: { id: 'spam', label: 'Spam', icon: 'megaphone' },
+  INAPPROPRIATE: { id: 'inappropriate', label: 'Contenu inapproprie', icon: 'ban' },
+  FAKE_PROFILE: { id: 'fake_profile', label: 'Faux profil', icon: 'scan-eye' },
+  SCAM: { id: 'scam', label: 'Arnaque', icon: 'hand-coins' },
+  DANGEROUS: { id: 'dangerous', label: 'Comportement dangereux', icon: 'triangle-alert' },
+  PERSONAL: { id: 'personal', label: 'Raison personnelle', icon: 'user-x' },
+  OTHER: { id: 'other', label: 'Autre', icon: 'info' },
 };
 
 /**
@@ -303,9 +303,9 @@ function getReasonLabel(reasonId) {
  * @returns {string} FontAwesome icon class
  */
 function getReasonIcon(reasonId) {
-  if (!reasonId) return 'fa-question';
+  if (!reasonId) return 'info';
   const reason = Object.values(BlockReasons).find(r => r.id === reasonId);
-  return reason ? reason.icon : 'fa-question-circle';
+  return reason ? reason.icon : 'info';
 }
 
 /**
@@ -333,7 +333,7 @@ export function renderBlockedUsersList() {
     >
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-full bg-danger-500/20 flex items-center justify-center">
-          ${icon('user-slash', 'w-5 h-5 text-danger-400')}
+          ${icon('user-x', 'w-5 h-5 text-danger-400')}
         </div>
         <div>
           <div class="font-medium text-white">${escapeHTML(user.id)}</div>
@@ -455,7 +455,7 @@ export function renderBlockModal(userId, username = '') {
               class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
               aria-label="${escapeHTML(t('close') || 'Fermer')}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -539,7 +539,7 @@ export function renderUnblockModal(userId, username = '') {
               class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
               aria-label="${escapeHTML(t('close') || 'Fermer')}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         </div>

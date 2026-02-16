@@ -24,7 +24,7 @@ export function renderHeader(state) {
             aria-label="${t('adminPanel') || 'Panneau Admin'}"
             title="${t('adminPanel') || 'Panneau Admin'}"
           >
-            ${icon('shield-alt', 'w-5 h-5')}
+            ${icon('shield', 'w-5 h-5')}
           </button>
           <!-- SOS Button - Always visible, prominent -->
           <button
@@ -33,7 +33,7 @@ export function renderHeader(state) {
             aria-label="Mode urgence SOS - Partager ma position"
             title="Mode urgence SOS"
           >
-            ${icon('exclamation-triangle', 'w-5 h-5')}
+            ${icon('triangle-alert', 'w-5 h-5')}
             <span>SOS</span>
           </button>
         </div>
@@ -42,7 +42,7 @@ export function renderHeader(state) {
       <!-- Online/Offline indicator -->
       ${!state.isOnline ? `
         <div class="absolute bottom-0 left-0 right-0 bg-warning-500/20 text-warning-400 text-xs text-center py-1" role="status" aria-live="polite">
-          ${icon('wifi-slash', 'w-5 h-5 mr-1')}
+          ${icon('wifi-off', 'w-5 h-5 mr-1')}
           <span>${t('offlineMode') || 'Mode hors-ligne'}</span>
         </div>
       ` : ''}

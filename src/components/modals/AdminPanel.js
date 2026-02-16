@@ -13,11 +13,11 @@ export function renderAdminPanel(state) {
       <div class="modal-content max-w-lg max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-bold flex items-center gap-2">
-            ${icon('shield-alt', 'w-5 h-5 text-amber-400')}
+            ${icon('shield', 'w-5 h-5 text-amber-400')}
             ${t('adminPanel') || 'Panneau Admin'}
           </h2>
           <button onclick="closeAdminPanel()" class="text-slate-400 hover:text-white">
-            ${icon('times', 'w-6 h-6')}
+            ${icon('x', 'w-6 h-6')}
           </button>
         </div>
 
@@ -83,11 +83,11 @@ export function renderAdminPanel(state) {
               ${t('badges') || 'Badges'}
             </button>
             <button onclick="openChallenges(); closeAdminPanel();" class="admin-btn">
-              ${icon('bullseye', 'w-5 h-5 text-purple-400')}
+              ${icon('crosshair', 'w-5 h-5 text-purple-400')}
               ${t('challenges') || 'Défis'}
             </button>
             <button onclick="openTeamChallenges(); closeAdminPanel();" class="admin-btn">
-              ${icon('users-cog', 'w-5 h-5 text-orange-400')}
+              ${icon('user-cog', 'w-5 h-5 text-orange-400')}
               ${t('teamChallenges') || 'Défis Équipe'}
             </button>
             <button onclick="openQuiz(); closeAdminPanel();" class="admin-btn">
@@ -135,7 +135,7 @@ export function renderAdminPanel(state) {
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openNearbyFriends(); closeAdminPanel();" class="admin-btn">
-              ${icon('location-dot', 'w-5 h-5 text-emerald-400')}
+              ${icon('map-pin', 'w-5 h-5 text-emerald-400')}
               ${t('nearbyFriends') || 'Amis Proches'}
             </button>
             <button onclick="openCreateTravelGroup(); closeAdminPanel();" class="admin-btn">
@@ -143,7 +143,7 @@ export function renderAdminPanel(state) {
               ${t('travelGroups') || 'Groupes Voyage'}
             </button>
             <button onclick="changeTab('social'); closeAdminPanel();" class="admin-btn">
-              ${icon('comments', 'w-5 h-5 text-amber-400')}
+              ${icon('messages-square', 'w-5 h-5 text-amber-400')}
               ${t('chat') || 'Chat'}
             </button>
             <button onclick="openReport(); closeAdminPanel();" class="admin-btn">
@@ -156,16 +156,16 @@ export function renderAdminPanel(state) {
         <!-- Map & Spots -->
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-primary-400">
-            ${icon('map-marked-alt', 'w-5 h-5 mr-2')}
+            ${icon('map-pinned', 'w-5 h-5 mr-2')}
             ${t('mapSpots') || 'Carte & Spots'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openAddSpot(); closeAdminPanel();" class="admin-btn">
-              ${icon('plus-circle', 'w-5 h-5 text-emerald-400')}
+              ${icon('circle-plus', 'w-5 h-5 text-emerald-400')}
               ${t('addSpot') || 'Ajouter Spot'}
             </button>
             <button onclick="openFilters(); closeAdminPanel();" class="admin-btn">
-              ${icon('filter', 'w-5 h-5 text-purple-400')}
+              ${icon('funnel', 'w-5 h-5 text-purple-400')}
               ${t('filters') || 'Filtres'}
             </button>
             <button onclick="changeTab('travel'); closeAdminPanel();" class="admin-btn">
@@ -173,7 +173,7 @@ export function renderAdminPanel(state) {
               ${t('planner') || 'Planificateur'}
             </button>
             <button onclick="openSOS(); closeAdminPanel();" class="admin-btn">
-              ${icon('exclamation-triangle', 'w-5 h-5 text-red-400')}
+              ${icon('triangle-alert', 'w-5 h-5 text-red-400')}
               ${t('sosMode') || 'Mode SOS'}
             </button>
           </div>
@@ -182,12 +182,12 @@ export function renderAdminPanel(state) {
         <!-- System -->
         <div class="card p-4 mb-4">
           <h3 class="font-bold text-sm mb-3 text-slate-400">
-            ${icon('cog', 'w-5 h-5 mr-2')}
+            ${icon('settings', 'w-5 h-5 mr-2')}
             ${t('system') || 'Système'}
           </h3>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="openAuth(); closeAdminPanel();" class="admin-btn">
-              ${icon('sign-in-alt', 'w-5 h-5 text-primary-400')}
+              ${icon('log-in', 'w-5 h-5 text-primary-400')}
               ${t('login') || 'Connexion'}
             </button>
             <button onclick="startTutorial(); closeAdminPanel();" class="admin-btn">
@@ -195,7 +195,7 @@ export function renderAdminPanel(state) {
               ${t('tutorial') || 'Tutoriel'}
             </button>
             <button onclick="openAccessibilityHelp(); closeAdminPanel();" class="admin-btn">
-              ${icon('universal-access', 'w-5 h-5 text-amber-400')}
+              ${icon('accessibility', 'w-5 h-5 text-amber-400')}
               ${t('accessibility') || 'Accessibilité'}
             </button>
             <button onclick="openDonation(); closeAdminPanel();" class="admin-btn">
@@ -203,7 +203,7 @@ export function renderAdminPanel(state) {
               ${t('donation') || 'Donation'}
             </button>
             <button onclick="adminResetState()" class="admin-btn text-red-400">
-              ${icon('trash-alt', 'w-5 h-5')}
+              ${icon('trash', 'w-5 h-5')}
               ${t('resetState') || 'Reset State'}
             </button>
             <button onclick="adminExportState()" class="admin-btn">

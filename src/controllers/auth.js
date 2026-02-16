@@ -71,7 +71,7 @@ export async function handleAuth(event) {
 
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = icon('spinner', 'w-5 h-5 animate-spin');
+    submitBtn.innerHTML = icon('loader-circle', 'w-5 h-5 animate-spin');
   }
 
   try {

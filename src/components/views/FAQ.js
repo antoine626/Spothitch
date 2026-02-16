@@ -14,7 +14,7 @@ import { icon } from '../../utils/icons.js'
 const faqData = {
   general: {
     title: t('faqGeneral', 'Général'),
-    icon: 'fa-info-circle',
+    icon: 'info',
     color: 'primary',
     questions: [
       {
@@ -46,7 +46,7 @@ const faqData = {
   },
   spots: {
     title: t('faqSpots', 'Spots'),
-    icon: 'fa-map-marker-alt',
+    icon: 'map-pin',
     color: 'emerald',
     questions: [
       {
@@ -78,7 +78,7 @@ const faqData = {
   },
   security: {
     title: t('faqSecurity', 'Sécurité'),
-    icon: 'fa-shield-alt',
+    icon: 'shield',
     color: 'rose',
     questions: [
       {
@@ -110,7 +110,7 @@ const faqData = {
   },
   account: {
     title: t('faqAccount', 'Compte'),
-    icon: 'fa-user',
+    icon: 'user',
     color: 'sky',
     questions: [
       {
@@ -142,7 +142,7 @@ const faqData = {
   },
   technical: {
     title: t('faqTechnical', 'Technique'),
-    icon: 'fa-cog',
+    icon: 'settings',
     color: 'amber',
     questions: [
       {
@@ -263,7 +263,7 @@ export function renderFAQ(state) {
               aria-label="${t('clearSearch', 'Effacer la recherche')}"
               title="${t('clearSearch', 'Effacer la recherche')}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           ` : ''}
         </div>
@@ -334,7 +334,7 @@ export function renderFAQ(state) {
               onclick="clearFAQSearch()"
               class="btn-primary"
             >
-              ${icon('times', 'w-5 h-5 mr-2')}
+              ${icon('x', 'w-5 h-5 mr-2')}
               ${t('clearSearch', 'Effacer la recherche')}
             </button>
           </div>
@@ -350,7 +350,7 @@ export function renderFAQ(state) {
           onclick="openContactForm()"
           class="btn-primary"
         >
-          ${icon('envelope', 'w-5 h-5 mr-2')}
+          ${icon('mail', 'w-5 h-5 mr-2')}
           ${t('contactUs', 'Nous contacter')}
         </button>
       </div>

@@ -11,26 +11,26 @@ import { icon } from '../utils/icons.js'
 // Report types - labels are now translated dynamically
 export const REPORT_TYPES = {
   SPOT: {
-    INACCURATE: { id: 'inaccurate', labelKey: 'reportInaccurate', icon: 'fa-exclamation-circle', severity: 'medium' },
-    DANGEROUS: { id: 'dangerous', labelKey: 'reportDangerous', icon: 'fa-skull-crossbones', severity: 'high' },
-    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'fa-ban', severity: 'high' },
-    DUPLICATE: { id: 'duplicate', labelKey: 'reportDuplicate', icon: 'fa-clone', severity: 'low' },
-    CLOSED: { id: 'closed', labelKey: 'reportClosed', icon: 'fa-lock', severity: 'medium' },
-    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'fa-question-circle', severity: 'low' },
+    INACCURATE: { id: 'inaccurate', labelKey: 'reportInaccurate', icon: 'circle-alert', severity: 'medium' },
+    DANGEROUS: { id: 'dangerous', labelKey: 'reportDangerous', icon: 'skull', severity: 'high' },
+    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'ban', severity: 'high' },
+    DUPLICATE: { id: 'duplicate', labelKey: 'reportDuplicate', icon: 'copy', severity: 'low' },
+    CLOSED: { id: 'closed', labelKey: 'reportClosed', icon: 'lock', severity: 'medium' },
+    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'info', severity: 'low' },
   },
   USER: {
-    SPAM: { id: 'spam', labelKey: 'reportSpam', icon: 'fa-ad', severity: 'medium' },
-    HARASSMENT: { id: 'harassment', labelKey: 'reportHarassment', icon: 'fa-user-slash', severity: 'high' },
-    FAKE: { id: 'fake', labelKey: 'reportFakeProfile', icon: 'fa-user-secret', severity: 'medium' },
-    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'fa-ban', severity: 'high' },
-    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'fa-question-circle', severity: 'low' },
+    SPAM: { id: 'spam', labelKey: 'reportSpam', icon: 'megaphone', severity: 'medium' },
+    HARASSMENT: { id: 'harassment', labelKey: 'reportHarassment', icon: 'user-x', severity: 'high' },
+    FAKE: { id: 'fake', labelKey: 'reportFakeProfile', icon: 'scan-eye', severity: 'medium' },
+    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'ban', severity: 'high' },
+    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'info', severity: 'low' },
   },
   MESSAGE: {
-    SPAM: { id: 'spam', labelKey: 'reportSpam', icon: 'fa-ad', severity: 'medium' },
-    HARASSMENT: { id: 'harassment', labelKey: 'reportHarassment', icon: 'fa-angry', severity: 'high' },
-    HATE: { id: 'hate', labelKey: 'reportHate', icon: 'fa-fire', severity: 'critical' },
-    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'fa-ban', severity: 'high' },
-    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'fa-question-circle', severity: 'low' },
+    SPAM: { id: 'spam', labelKey: 'reportSpam', icon: 'megaphone', severity: 'medium' },
+    HARASSMENT: { id: 'harassment', labelKey: 'reportHarassment', icon: 'frown', severity: 'high' },
+    HATE: { id: 'hate', labelKey: 'reportHate', icon: 'flame', severity: 'critical' },
+    INAPPROPRIATE: { id: 'inappropriate', labelKey: 'reportInappropriate', icon: 'ban', severity: 'high' },
+    OTHER: { id: 'other', labelKey: 'reportOther', icon: 'info', severity: 'low' },
   },
 };
 
@@ -274,7 +274,7 @@ export function renderReportModal(state) {
               <p class="text-white/80 text-sm">${t('reportSubtitle') || 'Aide-nous à garder la communauté sûre'}</p>
             </div>
             <button onclick="closeReport()" class="p-2 bg-white/20 rounded-full text-white" aria-label="${t('close') || 'Fermer'}">
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         </div>

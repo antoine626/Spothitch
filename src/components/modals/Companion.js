@@ -55,7 +55,7 @@ function renderSetupView(companion) {
     <div class="bg-emerald-500/10 p-8 text-center rounded-t-3xl">
       <div class="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center
         text-3xl mx-auto mb-4" aria-hidden="true">
-        ${icon('shield-alt', 'w-8 h-8 text-emerald-400')}
+        ${icon('shield', 'w-8 h-8 text-emerald-400')}
       </div>
       <h2 id="companion-modal-title" class="text-xl font-bold text-white">
         ${t('companionMode') || 'Mode Compagnon'}
@@ -71,7 +71,7 @@ function renderSetupView(companion) {
       class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
       aria-label="${t('close') || 'Fermer'}"
     >
-      ${icon('times', 'w-5 h-5 text-white')}
+      ${icon('x', 'w-5 h-5 text-white')}
     </button>
 
     <!-- Content -->
@@ -173,7 +173,7 @@ function renderActiveView(companion) {
     <!-- Header -->
     <div class="bg-emerald-500/10 p-6 text-center rounded-t-3xl">
       <h2 id="companion-modal-title" class="text-lg font-bold text-white flex items-center justify-center gap-2">
-        ${icon('shield-alt', 'w-5 h-5 text-emerald-400')}
+        ${icon('shield', 'w-5 h-5 text-emerald-400')}
         ${t('companionActive') || 'Mode Compagnon actif'}
       </h2>
       <p class="text-sm text-slate-400 mt-1">
@@ -187,7 +187,7 @@ function renderActiveView(companion) {
       class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
       aria-label="${t('close') || 'Fermer'}"
     >
-      ${icon('times', 'w-5 h-5 text-white')}
+      ${icon('x', 'w-5 h-5 text-white')}
     </button>
 
     <!-- Content -->
@@ -224,7 +224,7 @@ function renderActiveView(companion) {
         class="w-full py-5 rounded-xl ${overdue ? 'bg-red-500 hover:bg-red-600 shadow-red-500/30 animate-pulse' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20'} text-white font-bold text-xl flex items-center justify-center gap-3 transition-all shadow-lg active:scale-95"
         aria-label="${t('imSafe') || 'Je vais bien'}"
       >
-        ${icon('check-circle', 'w-7 h-7')}
+        ${icon('circle-check', 'w-7 h-7')}
         ${t('imSafe') || 'Je vais bien'}
       </button>
 
@@ -266,7 +266,7 @@ function renderActiveView(companion) {
         class="w-full py-3 rounded-xl bg-red-500/20 border border-red-500/30 text-red-400 font-semibold flex items-center justify-center gap-2 hover:bg-red-500/30 transition-all"
         aria-label="SOS"
       >
-        ${icon('exclamation-triangle', 'w-5 h-5')}
+        ${icon('triangle-alert', 'w-5 h-5')}
         SOS — ${t('sendAlertTo') || 'Envoyer alerte à'} ${companion.guardian?.name || '?'}
       </button>
 
@@ -276,7 +276,7 @@ function renderActiveView(companion) {
         class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-slate-400 font-medium flex items-center justify-center gap-2 hover:bg-white/10 transition-all"
         aria-label="${t('stopTrip') || 'Arrêter le trajet'}"
       >
-        ${icon('stop', 'w-4 h-4')}
+        ${icon('circle-stop', 'w-4 h-4')}
         ${t('stopTrip') || 'Arrêter le trajet'}
       </button>
     </div>
@@ -295,7 +295,7 @@ function renderAlertOverlay(companion) {
         <!-- Pulsing icon -->
         <div class="w-24 h-24 rounded-full bg-red-500 flex items-center justify-center
           text-5xl mx-auto mb-6 animate-pulse" aria-hidden="true">
-          ${icon('exclamation-triangle', 'w-12 h-12 text-white')}
+          ${icon('triangle-alert', 'w-12 h-12 text-white')}
         </div>
 
         <h2 id="companion-alert-title" class="text-3xl font-bold text-white mb-3">
@@ -311,7 +311,7 @@ function renderAlertOverlay(companion) {
           class="w-full py-4 rounded-xl bg-emerald-500 text-white font-bold text-lg mb-4 flex items-center justify-center gap-3 active:scale-95 transition-all"
           aria-label="${t('imSafe') || 'Je vais bien'}"
         >
-          ${icon('check-circle', 'w-6 h-6')}
+          ${icon('circle-check', 'w-6 h-6')}
           ${t('imSafe') || 'Je vais bien'}
         </button>
 
@@ -321,7 +321,7 @@ function renderAlertOverlay(companion) {
           class="w-full py-4 rounded-xl bg-red-500 text-white font-bold text-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
           aria-label="${t('sendAlertTo') || 'Envoyer alerte à'} ${companion.guardian?.name || ''}"
         >
-          ${icon('paper-plane', 'w-6 h-6')}
+          ${icon('send', 'w-6 h-6')}
           ${t('sendAlertTo') || 'Envoyer alerte à'} ${companion.guardian?.name || ''}
         </button>
       </div>

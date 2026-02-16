@@ -45,7 +45,7 @@ export function renderCheckinModal(state) {
               class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
               aria-label="${t('close') || 'Fermer'}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -67,7 +67,7 @@ export function renderCheckinModal(state) {
               onclick="triggerCheckinPhoto()"
             >
               <div id="checkin-photo-placeholder" class="text-center">
-                ${icon('cloud-upload-alt', 'w-8 h-8 text-slate-400 mb-2')}
+                ${icon('cloud-upload', 'w-8 h-8 text-slate-400 mb-2')}
                 <p class="text-sm text-slate-400">${t('clickToAddPhoto') || 'Cliquer pour ajouter une photo'}</p>
               </div>
               <img id="checkin-photo-img" class="hidden w-full h-full object-cover rounded-xl" alt="Photo du spot" loading="lazy"/>
@@ -107,12 +107,12 @@ export function renderCheckinModal(state) {
           <!-- Characteristics -->
           <div class="space-y-3">
             <label class="block text-sm font-medium">
-              ${icon('check-circle', 'w-5 h-5 mr-2 text-emerald-400')}
+              ${icon('circle-check', 'w-5 h-5 mr-2 text-emerald-400')}
               ${t('confirmCharacteristics') || 'Confirmer les caractéristiques'}
             </label>
             <div class="space-y-3">
               ${[
-                { id: 'safe', icon: 'shield-alt', label: t('safeSpot') || 'Spot sécurisé', color: 'emerald' },
+                { id: 'safe', icon: 'shield', label: t('safeSpot') || 'Spot sécurisé', color: 'emerald' },
                 { id: 'visible', icon: 'eye', label: t('goodVisibility') || 'Bonne visibilité', color: 'primary' },
                 { id: 'traffic', icon: 'car', label: t('frequentTraffic') || 'Trafic fréquent', color: 'warning' },
                 { id: 'shelter', icon: 'umbrella', label: t('shelterAvailable') || 'Abri disponible', color: 'cyan' },
@@ -135,7 +135,7 @@ export function renderCheckinModal(state) {
           <!-- Comment -->
           <div class="space-y-3">
             <label class="block text-sm font-medium">
-              ${icon('comment', 'w-5 h-5 mr-2 text-primary-400')}
+              ${icon('message-circle', 'w-5 h-5 mr-2 text-primary-400')}
               ${t('commentOptional') || 'Commentaire (optionnel)'}
             </label>
             <textarea
@@ -166,7 +166,7 @@ export function renderCheckinModal(state) {
             onclick="submitCheckin()"
             class="w-full btn btn-primary py-3 font-semibold"
           >
-            ${icon('check-circle', 'w-5 h-5 mr-2')}
+            ${icon('circle-check', 'w-5 h-5 mr-2')}
             ${t('validateMyCheckin') || 'Valider mon passage'}
           </button>
         </div>

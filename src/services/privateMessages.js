@@ -844,7 +844,7 @@ export function renderConversationItem(conversation) {
       : ''
 
   const mutedIcon = conversation.isMuted
-    ? `<span class="text-slate-400 ml-2" aria-label="${t('muted') || 'Sourdine'}">${icon('bell-slash', 'w-4 h-4')}</span>`
+    ? `<span class="text-slate-400 ml-2" aria-label="${t('muted') || 'Sourdine'}">${icon('bell-off', 'w-4 h-4')}</span>`
     : ''
 
   const lastMessage = conversation.lastMessage

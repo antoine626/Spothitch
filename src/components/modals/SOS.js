@@ -46,7 +46,7 @@ export function renderSOS(state) {
             aria-pressed="${state.sosActive ? 'true' : 'false'}"
             aria-describedby="sos-status"
           >
-            ${icon(state.sosActive ? 'fa-stop' : 'fa-broadcast-tower', 'w-5 h-5')}
+            ${icon(state.sosActive ? 'circle-stop' : 'radio-tower', 'w-5 h-5')}
             ${state.sosActive ? t('stopSharing') : t('shareLocation')}
           </button>
 
@@ -116,7 +116,7 @@ export function renderSOS(state) {
                         type="button"
                         aria-label="${t('deleteContact') || 'Supprimer le contact'} ${contact.name}"
                       >
-                        ${icon('times', 'w-5 h-5')}
+                        ${icon('x', 'w-5 h-5')}
                       </button>
                     </li>
                   `).join('')
@@ -136,7 +136,7 @@ export function renderSOS(state) {
             class="btn btn-ghost w-full border border-danger-500/30 text-danger-400"
             aria-label="${t('call112') || 'Appeler le 112, numéro d\'urgence européen'}"
           >
-            ${icon('phone-alt', 'w-5 h-5')}
+            ${icon('phone', 'w-5 h-5')}
             ${t('call112Label') || 'Appeler le 112 (Urgences EU)'}
           </a>
 
@@ -171,7 +171,7 @@ export function renderSOS(state) {
           <!-- Pre-programmed Messages -->
           <div class="card p-5 space-y-4">
             <h3 class="font-semibold flex items-center gap-2">
-              ${icon('comment-dots', 'w-5 h-5 text-emerald-400')}
+              ${icon('message-circle-more', 'w-5 h-5 text-emerald-400')}
               ${t('emergencyMessages') || 'Messages d\'urgence'}
             </h3>
             <div class="space-y-3">
@@ -197,7 +197,7 @@ export function renderSOS(state) {
               class="btn btn-success w-full"
               type="button"
             >
-              ${icon('check-circle', 'w-5 h-5')}
+              ${icon('circle-check', 'w-5 h-5')}
               ${t('iAmSafe')}
             </button>
           ` : ''}
@@ -210,7 +210,7 @@ export function renderSOS(state) {
           aria-label="${t('closeSOSWindow') || 'Fermer la fenêtre SOS'}"
           type="button"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
       </div>
     </div>

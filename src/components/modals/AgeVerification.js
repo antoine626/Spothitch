@@ -98,7 +98,7 @@ export function renderAgeVerification(state) {
         <!-- Header -->
         <div class="p-6 text-center border-b border-white/10">
           <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-            ${icon('birthday-cake', 'w-8 h-8 text-white')}
+            ${icon('cake', 'w-8 h-8 text-white')}
           </div>
           <h2 id="age-verification-title" class="text-2xl font-bold text-white">
             ${t('ageVerificationTitle')}
@@ -113,7 +113,7 @@ export function renderAgeVerification(state) {
 
           <!-- Important note -->
           <div class="flex items-start gap-3 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-            ${icon('info-circle', 'w-5 h-5 text-blue-400 mt-1 shrink-0')}
+            ${icon('info', 'w-5 h-5 text-blue-400 mt-1 shrink-0')}
             <p class="text-blue-300 text-sm">
               ${t('ageVerificationNote')}
             </p>
@@ -144,7 +144,7 @@ export function renderAgeVerification(state) {
               class="hidden flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
               role="alert"
             >
-              ${icon('exclamation-circle', 'w-5 h-5 text-red-400 mt-1 shrink-0')}
+              ${icon('circle-alert', 'w-5 h-5 text-red-400 mt-1 shrink-0')}
               <div>
                 <p id="age-error-text" class="text-red-300 text-sm"></p>
               </div>
@@ -241,7 +241,7 @@ window.handleAgeVerification = async (event) => {
   // Disable submit button during processing
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = icon('spinner', 'w-5 h-5 animate-spin') + ' ' + t('ageVerifying');
+    submitBtn.innerHTML = icon('loader-circle', 'w-5 h-5 animate-spin') + ' ' + t('ageVerifying');
   }
 
   try {

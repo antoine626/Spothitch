@@ -79,7 +79,7 @@ export function renderCommunityTips(countryCode) {
           onclick="submitCommunityTip('${countryCode}')"
           class="btn-primary px-4"
         >
-          ${icon('paper-plane', 'w-5 h-5')}
+          ${icon('send', 'w-5 h-5')}
         </button>
       </div>
 

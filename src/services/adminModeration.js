@@ -213,7 +213,7 @@ export function getAdminAlerts() {
     alerts.push({
       id: 'critical_reports',
       type: 'danger',
-      icon: 'fa-exclamation-triangle',
+      icon: 'triangle-alert',
       title: t('adminAlertCriticalReports'),
       message: `${criticalReports.length} ${t('adminCriticalReportsMessage')}`,
       count: criticalReports.length,
@@ -227,7 +227,7 @@ export function getAdminAlerts() {
     alerts.push({
       id: 'many_pending',
       type: 'warning',
-      icon: 'fa-clock',
+      icon: 'clock',
       title: t('adminAlertManyPending'),
       message: `${pendingReports.length} ${t('adminManyPendingMessage')}`,
       count: pendingReports.length,
@@ -246,7 +246,7 @@ export function getAdminAlerts() {
     alerts.push({
       id: 'expiring_bans',
       type: 'info',
-      icon: 'fa-user-clock',
+      icon: 'user-cog',
       title: t('adminAlertExpiringBans'),
       message: `${expiringBans.length} ${t('adminExpiringBansMessage')}`,
       count: expiringBans.length,
@@ -262,7 +262,7 @@ export function getAdminAlerts() {
     alerts.push({
       id: 'dangerous_spots',
       type: 'danger',
-      icon: 'fa-skull-crossbones',
+      icon: 'skull',
       title: t('adminAlertDangerousSpots'),
       message: `${dangerousSpots.length} ${t('adminDangerousSpotsMessage')}`,
       count: dangerousSpots.length,
@@ -1108,7 +1108,7 @@ export function renderAdminDashboard() {
       <div class="flex justify-between items-center">
         <h2 class="text-2xl font-bold text-white">${t('adminDashboardTitle')}</h2>
         <button onclick="refreshAdminDashboard()" class="btn btn-secondary btn-sm">
-          ${icon('sync-alt', 'w-5 h-5 mr-2')}${t('refresh')}
+          ${icon('refresh-cw', 'w-5 h-5 mr-2')}${t('refresh')}
         </button>
       </div>
 
@@ -1155,7 +1155,7 @@ export function renderAdminDashboard() {
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
             <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
-              ${icon('map-marker-alt', 'w-5 h-5 text-amber-400')}
+              ${icon('map-pin', 'w-5 h-5 text-amber-400')}
             </div>
             <div class="text-2xl font-bold">${stats.spots.total}</div>
           </div>
@@ -1214,13 +1214,13 @@ export function renderAdminDashboard() {
         </button>
 
         <button onclick="openBanManagement()" class="p-4 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition-colors text-left">
-          ${icon('user-slash', 'w-6 h-6 text-red-400 mb-2')}
+          ${icon('user-x', 'w-6 h-6 text-red-400 mb-2')}
           <div class="font-medium">${t('adminBanManagement')}</div>
           <div class="text-sm text-slate-400">${stats.moderation.activeBans} ${t('adminActiveBansLabel')}</div>
         </button>
 
         <button onclick="openWarningManagement()" class="p-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 transition-colors text-left">
-          ${icon('exclamation-circle', 'w-6 h-6 text-amber-400 mb-2')}
+          ${icon('circle-alert', 'w-6 h-6 text-amber-400 mb-2')}
           <div class="font-medium">${t('adminWarnings')}</div>
           <div class="text-sm text-slate-400">${stats.moderation.totalWarnings} ${t('adminTotal')}</div>
         </button>
@@ -1260,7 +1260,7 @@ export function renderModerationQueue(options = {}) {
 
       ${reports.length === 0 ? `
         <div class="text-center py-8 text-slate-400">
-          ${icon('check-circle', 'w-10 h-10 text-green-400 mb-4')}
+          ${icon('circle-check', 'w-10 h-10 text-green-400 mb-4')}
           <div>${t('adminNoReportsToProcess')}</div>
         </div>
       ` : `
@@ -1291,7 +1291,7 @@ export function renderModerationQueue(options = {}) {
                   ${icon('check', 'w-5 h-5 mr-1')}${t('adminResolve')}
                 </button>
                 <button onclick="quickReportAction('${report.id}', 'dismiss')" class="btn btn-secondary btn-sm flex-1">
-                  ${icon('times', 'w-5 h-5 mr-1')}${t('adminDismiss')}
+                  ${icon('x', 'w-5 h-5 mr-1')}${t('adminDismiss')}
                 </button>
                 <button onclick="quickReportAction('${report.id}', 'escalate')" class="btn btn-warning btn-sm">
                   ${icon('arrow-up', 'w-5 h-5')}

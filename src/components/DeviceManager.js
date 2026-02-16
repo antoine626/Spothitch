@@ -113,7 +113,7 @@ export function renderDeviceManager() {
           aria-label="${t('close')}"
           type="button"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
 
         <!-- Header -->
@@ -160,7 +160,7 @@ export function renderDeviceManager() {
               id="remove-all-devices-btn"
               aria-label="${t('disconnectAllOtherDevices')}"
             >
-              ${icon('sign-out-alt', 'w-5 h-5 mr-2')}
+              ${icon('log-out', 'w-5 h-5 mr-2')}
               ${t('disconnectAllOtherDevices')}
             </button>
           </div>
@@ -232,7 +232,7 @@ function renderDeviceItem(device, isCurrent) {
           class="shrink-0 w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center hover:bg-red-500/20 transition-colors text-red-400"
           aria-label="${t('removeDevice')} ${deviceName}"
         >
-          ${icon('trash-alt', 'w-5 h-5')}
+          ${icon('trash', 'w-5 h-5')}
         </button>
       ` : ''}
     </div>
@@ -269,7 +269,7 @@ function renderRemoveConfirmation(deviceId) {
       <div class="relative bg-dark-secondary border border-white/10 rounded-2xl p-6 max-w-sm w-full slide-up" onclick="event.stopPropagation()">
         <div class="text-center">
           <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            ${icon('exclamation-triangle', 'w-7 h-7 text-red-400')}
+            ${icon('triangle-alert', 'w-7 h-7 text-red-400')}
           </div>
           <h3 class="text-lg font-bold text-white mb-2">${t('confirmRemoveDevice')}</h3>
           <p class="text-slate-400 text-sm mb-6">
@@ -312,7 +312,7 @@ function renderRemoveAllConfirmation() {
       <div class="relative bg-dark-secondary border border-white/10 rounded-2xl p-6 max-w-sm w-full slide-up" onclick="event.stopPropagation()">
         <div class="text-center">
           <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            ${icon('sign-out-alt', 'w-7 h-7 text-red-400')}
+            ${icon('log-out', 'w-7 h-7 text-red-400')}
           </div>
           <h3 class="text-lg font-bold text-white mb-2">${t('confirmRemoveAllDevices')}</h3>
           <p class="text-slate-400 text-sm mb-6">

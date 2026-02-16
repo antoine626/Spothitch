@@ -554,7 +554,7 @@ export function renderFriendCard(friend) {
         <div>
           <div class="font-medium text-white">${username}</div>
           <div class="text-xs text-slate-400 flex items-center gap-2">
-            ${icon('calendar-alt', 'w-5 h-5')}
+            ${icon('calendar-days', 'w-5 h-5')}
             <span>${t('friendsSince') || 'Amis depuis'} ${escapeHTML(friendsSince)}</span>
             ${lastSeen ? `
               <span class="text-slate-400">|</span>
@@ -570,7 +570,7 @@ export function renderFriendCard(friend) {
           class="btn btn-sm bg-primary-500/20 hover:bg-primary-500/30 text-primary-400"
           aria-label="${t('sendMessage') || 'Envoyer un message'}"
         >
-          ${icon('comment', 'w-5 h-5')}
+          ${icon('message-circle', 'w-5 h-5')}
         </button>
         <button
           onclick="openFriendProfile('${escapeHTML(friend.id)}')"
@@ -613,12 +613,12 @@ export function renderFriendRequestCard(request, type = 'received') {
       >
         <div class="flex items-center gap-3">
           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-2xl">
-            ${avatar ? escapeHTML(avatar) : icon('user-clock', 'w-5 h-5 text-white')}
+            ${avatar ? escapeHTML(avatar) : icon('user-cog', 'w-5 h-5 text-white')}
           </div>
           <div>
             <div class="font-medium text-white">${username}</div>
             <div class="text-xs text-slate-400 flex items-center gap-2">
-              ${icon('paper-plane', 'w-5 h-5')}
+              ${icon('send', 'w-5 h-5')}
               <span>${t('requestSent') || 'Envoyee'} ${escapeHTML(sentAt)}</span>
             </div>
           </div>
@@ -632,7 +632,7 @@ export function renderFriendRequestCard(request, type = 'received') {
             class="btn btn-sm bg-white/10 hover:bg-white/20 text-white"
             aria-label="${t('cancelRequest') || 'Annuler'}"
           >
-            ${icon('times', 'w-5 h-5')}
+            ${icon('x', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -672,7 +672,7 @@ export function renderFriendRequestCard(request, type = 'received') {
           class="btn btn-sm bg-white/10 hover:bg-white/20 text-white"
           aria-label="${t('declineRequest') || 'Refuser'}"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
       </div>
     </div>
@@ -716,7 +716,7 @@ export function renderFriendsList(options = {}) {
     html += `
       <div class="sent-requests-section mb-6">
         <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-          ${icon('paper-plane', 'w-5 h-5 text-yellow-400')}
+          ${icon('send', 'w-5 h-5 text-yellow-400')}
           ${t('sentRequests') || 'Demandes envoyees'}
           <span class="ml-auto px-2 py-1 text-xs bg-yellow-500/20 text-yellow-400 rounded-full">
             ${sentRequests.length}

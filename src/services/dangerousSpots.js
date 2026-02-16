@@ -50,7 +50,7 @@ export const DangerReasons = {
     id: 'theft',
     label: 'Vol',
     labelEn: 'Theft',
-    icon: 'fa-hand-holding-usd',
+    icon: 'hand-coins',
     emoji: '🦹',
     description: 'Vols frequents, pickpockets, agressions pour voler',
     descriptionEn: 'Frequent thefts, pickpockets, mugging',
@@ -61,7 +61,7 @@ export const DangerReasons = {
     id: 'assault',
     label: 'Agression',
     labelEn: 'Assault',
-    icon: 'fa-fist-raised',
+    icon: 'hand-metal',
     emoji: '👊',
     description: 'Agressions physiques ou verbales signalees',
     descriptionEn: 'Physical or verbal assaults reported',
@@ -72,7 +72,7 @@ export const DangerReasons = {
     id: 'hostile_police',
     label: 'Police hostile',
     labelEn: 'Hostile Police',
-    icon: 'fa-shield-alt',
+    icon: 'shield',
     emoji: '🚔',
     description: 'Forces de l\'ordre hostiles aux autostoppeurs',
     descriptionEn: 'Law enforcement hostile to hitchhikers',
@@ -83,7 +83,7 @@ export const DangerReasons = {
     id: 'dangerous_road',
     label: 'Route dangereuse',
     labelEn: 'Dangerous Road',
-    icon: 'fa-road',
+    icon: 'milestone',
     emoji: '🚧',
     description: 'Circulation dense, manque de visibilite, pas d\'accotement',
     descriptionEn: 'Heavy traffic, poor visibility, no shoulder',
@@ -94,7 +94,7 @@ export const DangerReasons = {
     id: 'wild_animals',
     label: 'Animaux sauvages',
     labelEn: 'Wild Animals',
-    icon: 'fa-paw',
+    icon: 'paw-print',
     emoji: '🐺',
     description: 'Presence d\'animaux sauvages dangereux (ours, loups, sangliers)',
     descriptionEn: 'Presence of dangerous wild animals (bears, wolves, boars)',
@@ -703,20 +703,20 @@ export function renderDangerAlert(spot) {
 
   const levelIcons = {
     critical: 'skull',
-    dangerous: 'alert-triangle',
-    warning: 'alert-circle',
+    dangerous: 'triangle-alert',
+    warning: 'circle-alert',
     caution: 'info',
   };
 
   const colorClass = levelColors[dangerLevel.level] || 'bg-yellow-500 border-yellow-600';
   const label = levelLabels[dangerLevel.level] || 'ATTENTION';
-  const levelIcon = levelIcons[dangerLevel.level] || 'exclamation-circle';
+  const levelIcon = levelIcons[dangerLevel.level] || 'circle-alert';
 
   const proposal = getDeletionProposal(spot.id);
   const deletionSection = proposal ? `
     <div class="mt-3 pt-3 border-t border-white/20">
       <p class="text-white/90 text-sm mb-2">
-        ${icon('trash-alt', 'w-5 h-5 mr-1')}
+        ${icon('trash', 'w-5 h-5 mr-1')}
         ${escapeHTML(t('deletionProposed') || 'Suppression proposee')}
       </p>
       <div class="flex gap-2">
@@ -733,7 +733,7 @@ export function renderDangerAlert(spot) {
           class="btn btn-sm bg-white/20 hover:bg-white/30 text-white flex-1"
           aria-label="${escapeHTML(t('rejectDelete') || 'Rejeter la suppression')}"
         >
-          ${icon('times', 'w-5 h-5 mr-1')}
+          ${icon('x', 'w-5 h-5 mr-1')}
           ${escapeHTML(t('reject') || 'Rejeter')} (${proposal.votes.reject.length})
         </button>
       </div>
@@ -810,7 +810,7 @@ export function renderDangerReportModal(spotId) {
           <div class="flex justify-between items-start">
             <div>
               <h2 id="danger-report-modal-title" class="text-xl font-bold text-white">
-                ${icon('exclamation-triangle', 'w-5 h-5 mr-2')}
+                ${icon('triangle-alert', 'w-5 h-5 mr-2')}
                 ${escapeHTML(t('reportDangerTitle') || 'Signaler un danger')}
               </h2>
               <p class="text-white/80 text-sm mt-1">
@@ -822,7 +822,7 @@ export function renderDangerReportModal(spotId) {
               class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
               aria-label="${escapeHTML(t('close') || 'Fermer')}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -878,7 +878,7 @@ export function renderDangerReportModal(spotId) {
           <!-- Warning -->
           <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
             <p class="text-red-400 text-sm">
-              ${icon('info-circle', 'w-5 h-5 mr-2')}
+              ${icon('info', 'w-5 h-5 mr-2')}
               ${escapeHTML(t('dangerReportWarning') || 'Les faux signalements peuvent entrainer des sanctions. Signale uniquement les vrais dangers.')}
             </p>
           </div>
@@ -897,7 +897,7 @@ export function renderDangerReportModal(spotId) {
             class="btn flex-1 bg-red-500 hover:bg-red-600 text-white"
             id="submit-danger-report-btn"
           >
-            ${icon('exclamation-triangle', 'w-5 h-5 mr-2')}
+            ${icon('triangle-alert', 'w-5 h-5 mr-2')}
             ${escapeHTML(t('submitDangerReport') || 'Signaler le danger')}
           </button>
         </div>
@@ -929,13 +929,13 @@ export function renderDangerBadge(spotId) {
 
   const badgeIcons = {
     critical: 'skull',
-    dangerous: 'alert-triangle',
-    warning: 'alert-circle',
+    dangerous: 'triangle-alert',
+    warning: 'circle-alert',
     caution: 'info',
   };
 
   const colorClass = badgeColors[dangerLevel.level] || 'bg-yellow-500 text-black';
-  const badgeIcon = badgeIcons[dangerLevel.level] || 'alert-circle';
+  const badgeIcon = badgeIcons[dangerLevel.level] || 'circle-alert';
 
   return `
     <span

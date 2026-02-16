@@ -624,8 +624,8 @@ export function renderZoneCard(zone) {
         </span>
       </div>
       <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-300 mb-3">
-        <span>${icon('map-marker-alt', 'w-5 h-5 mr-1')} ${zone.spotsCount} spots</span>
-        <span>${icon('th', 'w-5 h-5 mr-1')} ${zone.downloadedTiles} tuiles</span>
+        <span>${icon('map-pin', 'w-5 h-5 mr-1')} ${zone.spotsCount} spots</span>
+        <span>${icon('grid-2x2', 'w-5 h-5 mr-1')} ${zone.downloadedTiles} tuiles</span>
         <span>${icon('database', 'w-5 h-5 mr-1')} ${sizeMB} MB</span>
       </div>
       <div class="flex gap-2">

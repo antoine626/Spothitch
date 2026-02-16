@@ -140,7 +140,7 @@ export function renderMyDataModal() {
             class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all"
             aria-label="${t('close') || 'Fermer'}"
           >
-            ${icon('times', 'w-5 h-5')}
+            ${icon('x', 'w-5 h-5')}
           </button>
         </div>
 
@@ -245,7 +245,7 @@ export function renderMyDataModal() {
         <!-- Location Data Section -->
         <section class="mb-6" aria-labelledby="section-location">
           <h3 id="section-location" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            ${icon('map-marker-alt', 'w-5 h-5 text-red-400')}
+            ${icon('map-pin', 'w-5 h-5 text-red-400')}
             ${t('locationData') || 'Données de localisation'}
           </h3>
           <div class="card p-4 space-y-3">
@@ -264,7 +264,7 @@ export function renderMyDataModal() {
               <span class="font-medium">${locationData.locationHistoryCount} ${t('entries') || 'entrées'}</span>
             </div>
             <p class="text-xs text-slate-400 mt-2">
-              ${icon('info-circle', 'w-5 h-5 mr-1')}
+              ${icon('info', 'w-5 h-5 mr-1')}
               ${t('gpsDisclaimer') || "La position n'est collectée que lorsque vous utilisez activement l'application avec GPS activé."}
             </p>
           </div>
@@ -273,7 +273,7 @@ export function renderMyDataModal() {
         <!-- Consents Section -->
         <section class="mb-6" aria-labelledby="section-consents">
           <h3 id="section-consents" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            ${icon('shield-alt', 'w-5 h-5 text-purple-400')}
+            ${icon('shield', 'w-5 h-5 text-purple-400')}
             ${t('consents') || 'Consentements'}
           </h3>
           <div class="card p-4 space-y-4">
@@ -308,7 +308,7 @@ export function renderMyDataModal() {
               onclick="openConsentSettings()"
               class="w-full mt-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm"
             >
-              ${icon('cog', 'w-5 h-5 mr-2')}
+              ${icon('settings', 'w-5 h-5 mr-2')}
               ${t('manageConsents') || 'Gérer mes consentements'}
             </button>
           </div>
@@ -317,7 +317,7 @@ export function renderMyDataModal() {
         <!-- Actions Section -->
         <section aria-labelledby="section-actions">
           <h3 id="section-actions" class="text-lg font-semibold mb-3 flex items-center gap-2">
-            ${icon('cogs', 'w-5 h-5 text-slate-400')}
+            ${icon('settings', 'w-5 h-5 text-slate-400')}
             Actions
           </h3>
           <div class="space-y-3">
@@ -345,7 +345,7 @@ export function renderMyDataModal() {
             >
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-                  ${icon('trash-alt', 'w-5 h-5 text-red-400')}
+                  ${icon('trash', 'w-5 h-5 text-red-400')}
                 </div>
                 <div class="text-left">
                   <div class="font-medium text-red-400">${t('deleteAccount') || 'Supprimer mon compte'}</div>

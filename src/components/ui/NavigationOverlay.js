@@ -101,7 +101,7 @@ export function renderNavigationOverlay(state) {
               onclick="stopNavigation()"
               class="flex-1 py-3 px-3 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all text-sm"
             >
-              ${icon('times', 'w-4 h-4 mr-1')}
+              ${icon('x', 'w-4 h-4 mr-1')}
               ${t('stop') || 'Arrêter'}
             </button>
             <button

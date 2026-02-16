@@ -15,7 +15,7 @@ export const TIPS = {
   FIRST_CHECKIN: {
     id: 'first_checkin',
     message: 'Tu peux faire un check-in pour dire que tu es passe ici et aider les autres !',
-    icon: 'fa-map-pin',
+    icon: 'map-pin',
     color: 'emerald',
   },
 
@@ -23,7 +23,7 @@ export const TIPS = {
   FIRST_SPOT_CREATED: {
     id: 'first_spot_created',
     message: 'Bravo ! Ton spot aide la communaute. Tu gagnes 20 👍 !',
-    icon: 'fa-plus-circle',
+    icon: 'circle-plus',
     color: 'primary',
   },
 
@@ -31,7 +31,7 @@ export const TIPS = {
   FIRST_FRIEND_ADDED: {
     id: 'first_friend_added',
     message: 'Les amis peuvent voir ta position quand tu l\'autorises et voyager ensemble',
-    icon: 'fa-user-friends',
+    icon: 'users',
     color: 'purple',
   },
 
@@ -39,7 +39,7 @@ export const TIPS = {
   FIRST_MESSAGE: {
     id: 'first_message',
     message: 'Le chat est un lieu d\'entraide. Pose tes questions !',
-    icon: 'fa-comment',
+    icon: 'message-circle',
     color: 'cyan',
   },
 
@@ -47,7 +47,7 @@ export const TIPS = {
   FIRST_BADGE: {
     id: 'first_badge',
     message: 'Les badges montrent ton experience. Continue pour en debloquer plus !',
-    icon: 'fa-medal',
+    icon: 'medal',
     color: 'amber',
   },
 
@@ -55,7 +55,7 @@ export const TIPS = {
   FIRST_FAVORITE: {
     id: 'first_favorite',
     message: 'Tu retrouveras tes spots favoris ici pour y retourner facilement',
-    icon: 'fa-heart',
+    icon: 'heart',
     color: 'rose',
   },
 
@@ -63,7 +63,7 @@ export const TIPS = {
   FIRST_TRIP: {
     id: 'first_trip',
     message: 'Tu peux sauvegarder tes itineraires et les partager avec tes amis !',
-    icon: 'fa-route',
+    icon: 'route',
     color: 'orange',
   },
 
@@ -71,7 +71,7 @@ export const TIPS = {
   SOS_FEATURE: {
     id: 'sos_feature',
     message: 'En cas d\'urgence, le mode SOS partage ta position avec tes contacts de confiance',
-    icon: 'fa-exclamation-triangle',
+    icon: 'triangle-alert',
     color: 'danger',
   },
 };

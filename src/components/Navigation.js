@@ -10,10 +10,10 @@ import { isCompanionActive } from '../services/companion.js'
 export function renderNavigation(state) {
   const companionActive = isCompanionActive()
   const tabs = [
-    { id: 'map', icon: 'fa-map-marked-alt', label: t('navMap') || 'Carte' },
-    { id: 'challenges', icon: 'fa-compass', label: t('navProgression') || 'Progression' },
-    { id: 'social', icon: 'fa-users', label: t('navSocial') || 'Social' },
-    { id: 'profile', icon: 'fa-user', label: t('navProfile') || 'Profil' },
+    { id: 'map', icon: 'map-pinned', label: t('navMap') || 'Carte' },
+    { id: 'challenges', icon: 'compass', label: t('navProgression') || 'Progression' },
+    { id: 'social', icon: 'users', label: t('navSocial') || 'Social' },
+    { id: 'profile', icon: 'user', label: t('navProfile') || 'Profil' },
   ]
 
   return `

@@ -40,7 +40,7 @@ export function renderShopModal() {
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
                     aria-label="${t('close') || 'Close'}">
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
 
@@ -85,7 +85,7 @@ export function renderShopModal() {
         <div class="p-5 border-t border-white/10">
           <button onclick="showMyRewards()"
                   class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all">
-            ${icon('ticket-alt', 'w-5 h-5 mr-2')}
+            ${icon('ticket', 'w-5 h-5 mr-2')}
             ${t('myPromoCodes') || 'Mes codes promo'} (${redeemedCodes?.length || 0})
           </button>
         </div>
@@ -186,7 +186,7 @@ export function renderMyRewardsModal() {
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
                     type="button"
                     aria-label="${t('close') || 'Close'}">
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -233,12 +233,12 @@ export function renderMyRewardsModal() {
                       <!-- Use Button -->
                       <a href="${reward.url}" target="_blank" rel="noopener"
                          class="mt-3 flex items-center justify-center gap-2 w-full py-2 bg-white/5 rounded-lg text-slate-400 hover:bg-white/10 transition-all">
-                        ${icon('external-link-alt', 'w-5 h-5')}
+                        ${icon('external-link', 'w-5 h-5')}
                         ${t('useOn') || 'Utiliser sur'} ${reward.partner}
                       </a>
 
                       <p class="text-xs text-slate-400 mt-2">
-                        ${icon('info-circle', 'w-5 h-5 mr-1')}
+                        ${icon('info', 'w-5 h-5 mr-1')}
                         ${reward.conditions}
                       </p>
                     </div>

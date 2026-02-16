@@ -120,7 +120,7 @@ export function renderFriendProfileModal(state) {
               onclick="closeFriendProfile(); openFriendChat('${friend.id}')"
               class="btn-primary w-full"
             >
-              ${icon('comment', 'w-5 h-5 mr-2')}
+              ${icon('message-circle', 'w-5 h-5 mr-2')}
               ${t('sendMessage')}
             </button>
             <div class="flex gap-2">
@@ -147,7 +147,7 @@ export function renderFriendProfileModal(state) {
           class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
           aria-label="${t('close') || 'Close'}"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
       </div>
     </div>

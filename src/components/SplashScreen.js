@@ -59,7 +59,7 @@ export function renderSplashScreen() {
           <!-- Person with thumb up -->
           <div class="splash-hitchhiker">
             <div class="hitchhiker-body">
-              ${icon('person', 'w-5 h-5')}
+              ${icon('user', 'w-5 h-5')}
             </div>
             <div class="hitchhiker-thumb">
               ${icon('thumbs-up', 'w-5 h-5')}
@@ -68,7 +68,7 @@ export function renderSplashScreen() {
 
           <!-- Car passing by -->
           <div class="splash-car">
-            ${icon('car-side', 'w-5 h-5')}
+            ${icon('car-front', 'w-5 h-5')}
           </div>
         </div>
 

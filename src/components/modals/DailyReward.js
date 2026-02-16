@@ -66,7 +66,7 @@ export function renderDailyRewardModal() {
                   class="absolute top-4 right-4 p-2 bg-white/20 rounded-full text-white hover:bg-white/30 z-20"
                   type="button"
                   aria-label="${t('close') || 'Close'}">
-            ${icon('times', 'w-5 h-5')}
+            ${icon('x', 'w-5 h-5')}
           </button>
         </div>
 
@@ -103,7 +103,7 @@ export function renderDailyRewardModal() {
           ` : `
             <div class="text-center">
               <div class="py-4 px-6 rounded-xl bg-white/5 text-slate-400">
-                ${icon('check-circle', 'w-5 h-5 text-emerald-400 mr-2')}
+                ${icon('circle-check', 'w-5 h-5 text-emerald-400 mr-2')}
                 Recompense recuperee aujourd'hui !
               </div>
               <p class="text-xs text-slate-400 mt-2">
@@ -115,7 +115,7 @@ export function renderDailyRewardModal() {
 
         <!-- Info Footer -->
         <div class="px-4 pb-4 text-center text-xs text-slate-400">
-          ${icon('info-circle', 'w-5 h-5 mr-1')}
+          ${icon('info', 'w-5 h-5 mr-1')}
           Connecte-toi chaque jour pour maximiser tes recompenses !
         </div>
       </div>

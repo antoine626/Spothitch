@@ -159,7 +159,7 @@ function renderZoneChatOverlay(state) {
             aria-label="${t('typeMessage')}"
           />
           <button type="submit" class="btn-primary px-4" aria-label="${t('send')}">
-            ${icon('paper-plane', 'w-5 h-5')}
+            ${icon('send', 'w-5 h-5')}
           </button>
         </form>
       </div>
@@ -210,7 +210,7 @@ function renderCompanionSearch(state) {
           <div class="flex gap-2">
             <input type="date" id="companion-date" class="input-field flex-1" min="${new Date().toISOString().split('T')[0]}" />
             <button onclick="postCompanionRequest()" class="btn-primary px-4">
-              ${icon('paper-plane', 'w-5 h-5 mr-1')}
+              ${icon('send', 'w-5 h-5 mr-1')}
               ${t('publish')}
             </button>
           </div>
@@ -257,7 +257,7 @@ function renderCompanionRequests(state) {
             </div>
           ` : ''}
           <button onclick="openConversation('${req.userId}')" class="mt-3 w-full btn-primary text-sm py-2">
-            ${icon('comment', 'w-4 h-4 mr-1')}
+            ${icon('message-circle', 'w-4 h-4 mr-1')}
             ${t('contactTraveler')}
           </button>
         </div>
@@ -287,7 +287,7 @@ function renderEventDetail(state, event) {
           </button>
           <div class="flex-1"><div class="font-medium text-sm">${t('eventDetail')}</div></div>
           <button onclick="shareEvent('${event.id}')" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white" aria-label="${t('share')}">
-            ${icon('share-alt', 'w-5 h-5')}
+            ${icon('share-2', 'w-5 h-5')}
           </button>
           ${isCreator ? `
             <button onclick="deleteEventAction('${event.id}')" class="w-9 h-9 rounded-full bg-danger-500/10 flex items-center justify-center text-danger-400 hover:bg-danger-500/20" aria-label="${t('deleteEvent')}">
@@ -309,7 +309,7 @@ function renderEventDetail(state, event) {
             </div>
             <div class="space-y-2 text-sm">
               <div class="flex items-center gap-2 text-slate-300">${icon('calendar', 'w-5 h-5 text-slate-400')} ${formatEventDate(event.date)}${event.time ? ` ${t('at')} ${event.time}` : ''}</div>
-              ${event.location ? `<div class="flex items-center gap-2 text-slate-300">${icon('map-marker-alt', 'w-5 h-5 text-slate-400')} ${escapeHTML(event.location)}</div>` : ''}
+              ${event.location ? `<div class="flex items-center gap-2 text-slate-300">${icon('map-pin', 'w-5 h-5 text-slate-400')} ${escapeHTML(event.location)}</div>` : ''}
               <div class="flex items-center gap-2 text-slate-300">${icon('users', 'w-5 h-5 text-slate-400')} ${participantCount} ${t('participants')}</div>
               <div class="flex items-center gap-2 text-slate-300">${icon('user', 'w-5 h-5 text-slate-400')} ${t('createdBy')} ${event.creatorAvatar || '🤙'} ${escapeHTML(event.creatorName || '')}</div>
             </div>
@@ -319,7 +319,7 @@ function renderEventDetail(state, event) {
           <div>
             ${isParticipant && !isCreator ? `
               <button onclick="leaveEvent('${event.id}')" class="w-full py-3 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all">
-                ${icon('sign-out-alt', 'w-5 h-5 mr-2')} ${t('leaveEvent')}
+                ${icon('log-out', 'w-5 h-5 mr-2')} ${t('leaveEvent')}
               </button>
             ` : !isParticipant ? `
               <button onclick="joinEvent('${event.id}')" class="w-full py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-all">
@@ -334,13 +334,13 @@ function renderEventDetail(state, event) {
 
           <div class="card p-5">
             <h3 class="font-bold text-sm mb-4 flex items-center gap-2">
-              ${icon('comments', 'w-5 h-5 text-primary-400')}
+              ${icon('messages-square', 'w-5 h-5 text-primary-400')}
               ${t('commentWall')} (${comments.length})
             </h3>
             <div class="flex gap-2 mb-4">
               <input type="text" class="input-field flex-1" placeholder="${t('writeComment')}" id="event-comment-input" autocomplete="off" onkeydown="if(event.key==='Enter') postEventComment('${event.id}')" />
               <button onclick="postEventComment('${event.id}')" class="btn-primary px-4" aria-label="${t('send')}">
-                ${icon('paper-plane', 'w-5 h-5')}
+                ${icon('send', 'w-5 h-5')}
               </button>
             </div>
             <div class="space-y-3">
@@ -378,7 +378,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
             <time class="text-xs text-slate-400">${formatRelativeTime(comment.createdAt)}</time>
             ${isAuthor ? `
               <button onclick="deleteEventCommentAction('${eventId}', '${comment.id}')" class="text-xs text-slate-400 hover:text-danger-400 ml-auto" aria-label="${t('deleteComment')}">
-                ${icon('trash-alt', 'w-4 h-4')}
+                ${icon('trash', 'w-4 h-4')}
               </button>
             ` : ''}
           </div>

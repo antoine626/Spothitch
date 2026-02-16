@@ -314,7 +314,7 @@ export function renderSOSTrackingWidget(state) {
           onclick="shareSOSLink()"
           class="flex-1 py-2 rounded-lg bg-white/20 text-white text-sm font-medium hover:bg-white/30 transition-all"
         >
-          ${icon('share-alt', 'w-5 h-5 mr-2')}
+          ${icon('share-2', 'w-5 h-5 mr-2')}
           ${t('shareLink') || 'Partager le lien'}
         </button>
         <button

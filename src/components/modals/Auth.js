@@ -30,7 +30,7 @@ export function renderAuth(_state) {
           aria-label="${t('close') || 'Close'}"
           type="button"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
         
         <!-- Header -->
@@ -254,7 +254,7 @@ window.handleAuth = async (event) => {
   // Disable button
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerHTML = icon('spinner', 'w-5 h-5 animate-spin');
+    submitBtn.innerHTML = icon('loader-circle', 'w-5 h-5 animate-spin');
   }
 
   try {

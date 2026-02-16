@@ -224,13 +224,13 @@ export function getSpotVerification(spotId) {
  */
 export function getStatusBadge(status) {
   const badges = {
-    unverified: { label: t('statusUnverified') || 'Non vérifié', color: 'text-slate-400', bg: 'bg-slate-500/20', icon: 'fa-question' },
-    verified: { label: t('statusVerified') || 'Vérifié', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: 'fa-check-circle' },
-    excellent: { label: t('statusExcellent') || 'Excellent', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'fa-star' },
-    needs_update: { label: t('statusNeedsUpdate') || 'À vérifier', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'fa-exclamation-circle' },
-    disputed: { label: t('statusDisputed') || 'Contesté', color: 'text-orange-400', bg: 'bg-orange-500/20', icon: 'fa-exclamation-triangle' },
-    dangerous: { label: t('statusDangerous') || 'Dangereux', color: 'text-danger-400', bg: 'bg-danger-500/20', icon: 'fa-skull-crossbones' },
-    mixed: { label: t('statusMixed') || 'Avis mitigés', color: 'text-purple-400', bg: 'bg-purple-500/20', icon: 'fa-balance-scale' },
+    unverified: { label: t('statusUnverified') || 'Non vérifié', color: 'text-slate-400', bg: 'bg-slate-500/20', icon: 'info' },
+    verified: { label: t('statusVerified') || 'Vérifié', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: 'circle-check' },
+    excellent: { label: t('statusExcellent') || 'Excellent', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'star' },
+    needs_update: { label: t('statusNeedsUpdate') || 'À vérifier', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'circle-alert' },
+    disputed: { label: t('statusDisputed') || 'Contesté', color: 'text-orange-400', bg: 'bg-orange-500/20', icon: 'triangle-alert' },
+    dangerous: { label: t('statusDangerous') || 'Dangereux', color: 'text-danger-400', bg: 'bg-danger-500/20', icon: 'skull' },
+    mixed: { label: t('statusMixed') || 'Avis mitigés', color: 'text-purple-400', bg: 'bg-purple-500/20', icon: 'scale' },
   };
 
   return badges[status] || badges.unverified;
@@ -261,7 +261,7 @@ export function renderVoteButtons(spotId) {
   if (!verification.canVote) {
     return `
       <div class="text-center p-4 bg-white/5 rounded-xl">
-        ${icon('check-circle', 'w-5 h-5 text-emerald-400 mb-2')}
+        ${icon('circle-check', 'w-5 h-5 text-emerald-400 mb-2')}
         <p class="text-sm text-slate-400">${t('alreadyVotedToday') || 'Tu as déjà voté aujourd\'hui'}</p>
         <p class="text-xs text-slate-400 mt-1">${t('comeBackTomorrow') || 'Reviens demain pour voter à nouveau'}</p>
       </div>
@@ -314,7 +314,7 @@ export function renderVoteButtons(spotId) {
           class="vote-btn p-3 rounded-xl bg-danger-500/10 border border-danger-500/30 hover:bg-danger-500/20 transition-all text-left"
         >
           <div class="flex items-center gap-2 mb-1">
-            ${icon('exclamation-triangle', 'w-5 h-5 text-danger-400')}
+            ${icon('triangle-alert', 'w-5 h-5 text-danger-400')}
             <span class="font-medium text-sm">${t('dangerous') || 'Dangereux'}</span>
           </div>
           <span class="text-xs text-slate-400">${verification.votes.dangerous} votes</span>
@@ -322,7 +322,7 @@ export function renderVoteButtons(spotId) {
       </div>
 
       <p class="text-xs text-slate-400 text-center">
-        ${icon('info-circle', 'w-5 h-5 mr-1')}
+        ${icon('info', 'w-5 h-5 mr-1')}
         ${t('earnPointsByVerifying') || 'Gagne des pouces en vérifiant les spots !'}
       </p>
     </div>

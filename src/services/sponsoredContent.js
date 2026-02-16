@@ -255,14 +255,14 @@ export function renderSponsoredBanner(content) {
 
   const benefitIcons = {
     wifi: icon('wifi', 'w-5 h-5'),
-    showers: icon('shower', 'w-5 h-5'),
+    showers: icon('shower-head', 'w-5 h-5'),
     food: icon('utensils', 'w-5 h-5'),
-    toilets: icon('restroom', 'w-5 h-5'),
-    rest_area: icon('couch', 'w-5 h-5'),
+    toilets: icon('bath', 'w-5 h-5'),
+    rest_area: icon('sofa', 'w-5 h-5'),
     charging: icon('plug', 'w-5 h-5'),
     supplies: icon('shopping-basket', 'w-5 h-5'),
     accommodation: icon('bed', 'w-5 h-5'),
-    parking: icon('parking', 'w-5 h-5'),
+    parking: icon('square-parking', 'w-5 h-5'),
   }
 
   const categoryLabels = {

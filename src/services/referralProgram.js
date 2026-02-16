@@ -480,11 +480,11 @@ export function renderReferralCard() {
   }
 
   const levelIcons = {
-    [ReferrerLevel.NONE]: 'fa-user',
-    [ReferrerLevel.BRONZE]: 'fa-medal',
-    [ReferrerLevel.SILVER]: 'fa-award',
-    [ReferrerLevel.GOLD]: 'fa-crown',
-    [ReferrerLevel.PLATINUM]: 'fa-gem',
+    [ReferrerLevel.NONE]: 'user',
+    [ReferrerLevel.BRONZE]: 'medal',
+    [ReferrerLevel.SILVER]: 'award',
+    [ReferrerLevel.GOLD]: 'crown',
+    [ReferrerLevel.PLATINUM]: 'gem',
   }
 
   const levelColor = levelColors[stats.level]

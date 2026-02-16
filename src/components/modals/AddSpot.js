@@ -61,7 +61,7 @@ export function renderAddSpot(_state) {
             aria-label="${t('close') || 'Fermer'}"
             type="button"
           >
-            ${icon('times', 'w-5 h-5')}
+            ${icon('x', 'w-5 h-5')}
           </button>
         </div>
 
@@ -195,7 +195,7 @@ export function renderAddSpot(_state) {
                 class="btn btn-ghost w-full"
                 aria-describedby="location-display"
               >
-                ${icon('crosshairs', 'w-5 h-5')}
+                ${icon('crosshair', 'w-5 h-5')}
                 ${t('useMyPosition') || 'Utiliser ma position actuelle'}
               </button>
               <div id="location-display" class="text-sm text-slate-400 mt-2 text-center" aria-live="polite" role="status"></div>
@@ -371,7 +371,7 @@ window.getSpotLocation = () => {
     return
   }
 
-  if (display) display.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin')} ${t('locating') || 'Localisation...'}`
+  if (display) display.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin')} ${t('locating') || 'Localisation...'}`
 
   navigator.geolocation.getCurrentPosition(
     async (position) => {
@@ -385,14 +385,14 @@ window.getSpotLocation = () => {
 
         if (display) {
           display.innerHTML = `
-            ${icon('check-circle', 'w-5 h-5 text-success-400')}
+            ${icon('circle-check', 'w-5 h-5 text-success-400')}
             ${location?.city || 'Position'} (${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)})
           `
         }
       } catch {
         if (display) {
           display.innerHTML = `
-            ${icon('check-circle', 'w-5 h-5 text-success-400')}
+            ${icon('circle-check', 'w-5 h-5 text-success-400')}
             ${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}
           `
         }
@@ -457,7 +457,7 @@ window.handleAddSpot = async (event) => {
   // Disable button
   if (submitBtn) {
     submitBtn.disabled = true
-    submitBtn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin')} ${t('sending') || 'Envoi...'}`
+    submitBtn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin')} ${t('sending') || 'Envoi...'}`
   }
 
   const ratings = window.spotFormData.ratings || { safety: 0, traffic: 0, accessibility: 0 }

@@ -41,7 +41,7 @@ export function renderSpotDetail(state) {
           aria-label="${t('closeSpotDetails') || 'Fermer les détails du spot'}"
           type="button"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
 
         <!-- Photo -->
@@ -163,7 +163,7 @@ export function renderSpotDetail(state) {
               class="btn btn-ghost"
               type="button"
             >
-              ${icon('comment-dots', 'w-5 h-5')}
+              ${icon('message-circle-more', 'w-5 h-5')}
               ${t('review') || 'Avis'}
             </button>
             <button
@@ -214,7 +214,7 @@ export function renderSpotDetail(state) {
               type="button"
               aria-label="${t('shareSpot') || 'Partager ce spot'}"
             >
-              ${icon('share-alt', 'w-5 h-5')}
+              ${icon('share-2', 'w-5 h-5')}
               ${t('share') || 'Partager'}
             </button>
           </div>

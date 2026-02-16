@@ -1857,12 +1857,12 @@ window.downloadCountryOffline = async (code, name) => {
   const btn = document.getElementById(`offline-download-${code}`)
   if (btn) {
     btn.disabled = true
-    btn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin mr-2')}${t('downloading') || 'Téléchargement...'}`
+    btn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin mr-2')}${t('downloading') || 'Téléchargement...'}`
   }
   try {
     const { downloadCountrySpots } = await import('./services/offlineDownload.js')
     const result = await downloadCountrySpots(code, (progress) => {
-      if (btn) btn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin mr-2')}${progress}%`
+      if (btn) btn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin mr-2')}${progress}%`
     })
     if (result.success) {
       showToast(`${name}: ${result.count} ${t('spotsDownloaded') || 'spots téléchargés pour offline'}`, 'success')

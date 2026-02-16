@@ -190,7 +190,7 @@ export function renderCookieBanner() {
     >
       <div class="max-w-lg mx-auto bg-dark-secondary rounded-3xl shadow-2xl overflow-hidden border border-white/10">
         <div class="px-4 py-3 flex items-center gap-3">
-          ${icon('cookie-bite', 'w-5 h-5 text-primary-400 shrink-0')}
+          ${icon('cookie', 'w-5 h-5 text-primary-400 shrink-0')}
           <p id="cookie-banner-title" class="text-sm text-slate-300 flex-1">
             ${t('cookieShortDesc') || t('cookieTitle') || 'Respect de votre vie privee'}
           </p>
@@ -216,7 +216,7 @@ export function renderCookieBanner() {
               aria-haspopup="dialog"
               aria-label="${t('cookieCustomize') || 'Personnaliser'}"
             >
-              ${icon('sliders-h', 'w-5 h-5')}
+              ${icon('sliders-horizontal', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -235,7 +235,7 @@ export function renderCookieBanner() {
         <!-- Modal Header -->
         <div class="p-6 border-b border-white/10 flex items-center justify-between">
           <h3 id="cookie-customize-title" class="text-lg font-semibold text-white">
-            ${icon('cog', 'w-5 h-5 mr-2 text-primary-400')}
+            ${icon('settings', 'w-5 h-5 mr-2 text-primary-400')}
             ${t('cookiePreferences') || 'Preferences des cookies'}
           </h3>
           <button
@@ -244,7 +244,7 @@ export function renderCookieBanner() {
             aria-label="${t('close') || 'Fermer'}"
             type="button"
           >
-            ${icon('times', 'w-5 h-5 text-white')}
+            ${icon('x', 'w-5 h-5 text-white')}
           </button>
         </div>
 

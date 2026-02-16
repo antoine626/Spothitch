@@ -32,13 +32,13 @@ export function renderContactFormModal() {
           aria-label="${t('close') || 'Fermer'}"
           type="button"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
 
         <!-- Header -->
         <div class="p-8 text-center bg-gradient-to-b from-primary-500/20 to-transparent border-b border-white/10">
           <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-500/20 flex items-center justify-center">
-            ${icon('envelope', 'w-8 h-8 text-primary-400')}
+            ${icon('mail', 'w-8 h-8 text-primary-400')}
           </div>
           <h2 id="contact-form-title" class="text-2xl font-bold">${t('contactFormTitle')}</h2>
           <p class="text-slate-400 text-sm mt-2">${t('contactFormSubtitle')}</p>
@@ -115,7 +115,7 @@ export function renderContactFormModal() {
             id="contact-submit-btn"
             class="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
           >
-            ${icon('paper-plane', 'w-5 h-5')}
+            ${icon('send', 'w-5 h-5')}
             ${t('contactFormSend')}
           </button>
         </form>
@@ -148,7 +148,7 @@ export async function handleContactFormSubmit(event) {
 
   // Disable button during submission
   btn.disabled = true
-  btn.innerHTML = `${icon('spinner', 'w-5 h-5 animate-spin')} ${t('contactFormSending')}`
+  btn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin')} ${t('contactFormSending')}`
 
   try {
     const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -180,7 +180,7 @@ export async function handleContactFormSubmit(event) {
   } catch (e) {
     // Re-enable button on error
     btn.disabled = false
-    btn.innerHTML = `${icon('paper-plane', 'w-5 h-5')} ${t('contactFormSend')}`
+    btn.innerHTML = `${icon('send', 'w-5 h-5')} ${t('contactFormSend')}`
 
     // Show error below button
     const existingError = form.querySelector('.contact-error')

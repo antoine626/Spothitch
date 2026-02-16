@@ -47,7 +47,7 @@ export function renderEmailVerification(email) {
           aria-label="${t('close') || 'Close'}"
           type="button"
         >
-          ${icon('times', 'w-5 h-5')}
+          ${icon('x', 'w-5 h-5')}
         </button>
 
         <!-- Header -->
@@ -151,7 +151,7 @@ window.checkEmailVerified = async () => {
   try {
     window.emailVerificationState.checkingEmail = true;
     verifyBtn.disabled = true;
-    if (verifyBtnText) verifyBtnText.innerHTML = icon('spinner', 'w-5 h-5 animate-spin');
+    if (verifyBtnText) verifyBtnText.innerHTML = icon('loader-circle', 'w-5 h-5 animate-spin');
 
     const { getCurrentUser } = await import('../../services/firebase.js');
     const { showSuccess, showError } = await import('../../services/notifications.js');
@@ -172,7 +172,7 @@ window.checkEmailVerified = async () => {
       if (statusEl) {
         statusEl.innerHTML = `
           <div class="text-green-400 flex items-center justify-center gap-2">
-            ${icon('check-circle', 'w-5 h-5')}
+            ${icon('circle-check', 'w-5 h-5')}
             <span>${t('emailVerified')}</span>
           </div>
         `;
@@ -188,7 +188,7 @@ window.checkEmailVerified = async () => {
       if (statusEl) {
         statusEl.innerHTML = `
           <p class="text-yellow-400">
-            ${icon('info-circle', 'w-5 h-5')}
+            ${icon('info', 'w-5 h-5')}
             ${t('emailVerificationPending')}
           </p>
         `;
@@ -217,7 +217,7 @@ window.resendVerificationEmail = async () => {
 
   try {
     resendBtn.disabled = true;
-    if (resendBtnText) resendBtnText.innerHTML = icon('spinner', 'w-5 h-5 animate-spin');
+    if (resendBtnText) resendBtnText.innerHTML = icon('loader-circle', 'w-5 h-5 animate-spin');
 
     const { getCurrentUser } = await import('../../services/firebase.js');
     const { showSuccess, showError } = await import('../../services/notifications.js');

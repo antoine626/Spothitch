@@ -140,7 +140,7 @@ export function renderChallengesHub(state) {
       <div class="card p-5">
         <div class="flex items-center justify-between mb-5">
           <h3 class="font-bold flex items-center gap-2">
-            ${icon('fire', 'w-5 h-5 text-orange-400')}
+            ${icon('flame', 'w-5 h-5 text-orange-400')}
             ${t('activeChallenges') || 'Défis en cours'}
           </h3>
           <button onclick="openChallenges()" class="text-sm text-primary-400">

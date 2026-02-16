@@ -72,25 +72,25 @@ export function renderLanding() {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           ${renderFeatureCard(
-            'fa-map-marked-alt',
+            'map-pinned',
             'primary',
             t('landingFeatureMapTitle'),
             t('landingFeatureMapDesc')
           )}
           ${renderFeatureCard(
-            'fa-route',
+            'route',
             'emerald',
             t('landingFeatureRouteTitle'),
             t('landingFeatureRouteDesc')
           )}
           ${renderFeatureCard(
-            'fa-users',
+            'users',
             'violet',
             t('landingFeatureCommunityTitle'),
             t('landingFeatureCommunityDesc')
           )}
           ${renderFeatureCard(
-            'fa-trophy',
+            'trophy',
             'amber',
             t('landingFeatureGamificationTitle'),
             t('landingFeatureGamificationDesc')
@@ -106,10 +106,10 @@ export function renderLanding() {
             ${t('landingStatsTitle')}
           </h3>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            ${renderStatCard('37,000+', t('landingStatsSpots'), 'fa-map-pin', 'primary')}
-            ${renderStatCard('170', t('landingStatsCountries'), 'fa-globe-americas', 'emerald')}
-            ${renderStatCard('71,000+', t('landingStatsReviews'), 'fa-star', 'amber')}
-            ${renderStatCard('4', t('landingStatsLanguages'), 'fa-language', 'violet')}
+            ${renderStatCard('37,000+', t('landingStatsSpots'), 'map-pin', 'primary')}
+            ${renderStatCard('170', t('landingStatsCountries'), 'globe', 'emerald')}
+            ${renderStatCard('71,000+', t('landingStatsReviews'), 'star', 'amber')}
+            ${renderStatCard('4', t('landingStatsLanguages'), 'language', 'violet')}
           </div>
         </div>
       </section>
@@ -124,9 +124,9 @@ export function renderLanding() {
         </p>
 
         <div class="flex flex-col md:flex-row gap-8 items-stretch">
-          ${renderStepCard('1', t('landingStep1Title'), t('landingStep1Desc'), 'fa-search-location')}
-          ${renderStepCard('2', t('landingStep2Title'), t('landingStep2Desc'), 'fa-clipboard-check')}
-          ${renderStepCard('3', t('landingStep3Title'), t('landingStep3Desc'), 'fa-share-alt')}
+          ${renderStepCard('1', t('landingStep1Title'), t('landingStep1Desc'), 'search')}
+          ${renderStepCard('2', t('landingStep2Title'), t('landingStep2Desc'), 'clipboard-check')}
+          ${renderStepCard('3', t('landingStep3Title'), t('landingStep3Desc'), 'share-2')}
         </div>
       </section>
 
@@ -159,7 +159,7 @@ export function renderLanding() {
               id="landing-install-btn"
               class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-primary-400 font-bold text-lg border-2 border-primary-500/30 hover:border-primary-500/60 hover:bg-primary-500/10 hover:scale-105 transition-all duration-300"
             >
-              ${icon('mobile-alt', 'w-5 h-5')}
+              ${icon('smartphone', 'w-5 h-5')}
               ${t('landingInstallApp')}
             </button>
           </div>

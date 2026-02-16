@@ -1016,7 +1016,7 @@ export function renderTravelGroupsList(state) {
           </div>
         ` : `
           <div class="text-center py-8 text-slate-400">
-            ${icon('users-slash', 'w-8 h-8 mb-2')}
+            ${icon('users', 'w-8 h-8 mb-2')}
             <p>Aucun groupe disponible pour le moment</p>
             <button onclick="openCreateTravelGroup()" class="btn btn-ghost mt-4">
               Crée le premier !
@@ -1060,7 +1060,7 @@ export function renderTravelGroupDetail(state) {
               class="absolute top-4 right-4 p-2 bg-black/20 rounded-full text-white"
               aria-label="Modifier"
             >
-              ${icon('edit', 'w-5 h-5')}
+              ${icon('pencil', 'w-5 h-5')}
             </button>
           ` : ''}
           <div class="absolute bottom-4 left-4 right-4">
@@ -1152,7 +1152,7 @@ export function renderTravelGroupDetail(state) {
                   onkeypress="if(event.key==='Enter')sendGroupChatMessage('${group.id}')"
                 />
                 <button onclick="sendGroupChatMessage('${group.id}')" class="btn btn-primary">
-                  ${icon('paper-plane', 'w-5 h-5')}
+                  ${icon('send', 'w-5 h-5')}
                 </button>
               </div>
             </div>
@@ -1168,7 +1168,7 @@ export function renderTravelGroupDetail(state) {
             ` : ''}
             ${isMember && !isCreator ? `
               <button onclick="leaveTravelGroup('${group.id}')" class="btn btn-danger flex-1">
-                ${icon('sign-out-alt', 'w-5 h-5 mr-2')}
+                ${icon('log-out', 'w-5 h-5 mr-2')}
                 Quitter
               </button>
             ` : ''}

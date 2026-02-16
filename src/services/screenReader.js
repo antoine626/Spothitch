@@ -467,7 +467,7 @@ export function renderAccessibilityHelp(state) {
         <div class="p-6 border-b border-white/10">
           <div class="flex justify-between items-center">
             <h2 id="a11y-help-title" class="text-xl font-bold">
-              ${icon('universal-access', 'w-5 h-5 mr-2 text-primary-400')}
+              ${icon('accessibility', 'w-5 h-5 mr-2 text-primary-400')}
               ${t('sr.keyboardShortcuts') || 'Raccourcis clavier'}
             </h2>
             <button
@@ -475,7 +475,7 @@ export function renderAccessibilityHelp(state) {
               class="p-2 rounded-full hover:bg-white/10 transition-colors"
               aria-label="${t('sr.closeHelp') || 'Fermer l\'aide'}"
             >
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
         </div>
@@ -545,7 +545,7 @@ export function renderAccessibilityHelp(state) {
 
           <section class="p-4 bg-primary-500/10 rounded-xl">
             <h3 class="font-semibold text-primary-400 mb-2">
-              ${icon('info-circle', 'w-5 h-5 mr-1')}
+              ${icon('info', 'w-5 h-5 mr-1')}
               ${t('sr.tips') || 'Conseils'}
             </h3>
             <ul class="text-sm text-slate-300 space-y-1" role="list">

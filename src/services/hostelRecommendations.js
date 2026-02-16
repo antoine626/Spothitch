@@ -437,7 +437,7 @@ export function renderAddHostelForm(cityName) {
             ${t('hostelRecommend') || 'Recommander une auberge'}
           </h3>
           <button onclick="closeAddHostel()" class="text-slate-400 hover:text-white">
-            ${icon('times', 'w-5 h-5')}
+            ${icon('x', 'w-5 h-5')}
           </button>
         </div>
 

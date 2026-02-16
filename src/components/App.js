@@ -161,7 +161,7 @@ export function renderApp(state) {
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold">${icon('users', 'w-5 h-5 mr-2 text-orange-400')}${t('teamChallenges') || "Défis d'équipe"}</h2>
             <button onclick="closeTeamChallenges()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-              ${icon('times', 'w-5 h-5')}
+              ${icon('x', 'w-5 h-5')}
             </button>
           </div>
           ${renderTeamDashboard(state)}
@@ -203,7 +203,7 @@ export function renderApp(state) {
                 ${icon('trash', 'w-5 h-5 mr-1')}${t('clear') || 'Effacer'}
               </button>
               <button onclick="closeTripHistory()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-                ${icon('times', 'w-5 h-5')}
+                ${icon('x', 'w-5 h-5')}
               </button>
             </div>
           </div>
@@ -235,11 +235,11 @@ export function renderApp(state) {
                   onclick="openGuidesOverlay();setState({showTripPlanner:false})"
                   class="px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeOverlayTab === 'guides' ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400 hover:text-white'}"
                 >
-                  ${icon('book-atlas', 'w-4 h-4 mr-1.5')}${t('guides') || 'Guides'}
+                  ${icon('book-open', 'w-4 h-4 mr-1.5')}${t('guides') || 'Guides'}
                 </button>
               </div>
               <button onclick="closeTripPlanner();closeGuidesOverlay()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-                ${icon('times', 'w-5 h-5')}
+                ${icon('x', 'w-5 h-5')}
               </button>
             </div>
           </div>

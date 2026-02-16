@@ -126,16 +126,16 @@ export function getAvailableNavigationApps() {
     {
       id: 'google-maps',
       name: 'Google Maps',
-      icon: 'fa-google',
-      iconFallback: 'fa-map-location-dot',
+      icon: 'google',
+      iconFallback: 'map-pinned',
       color: '#4285F4',
       bgClass: 'bg-blue-600 hover:bg-blue-700',
     },
     {
       id: 'waze',
       name: 'Waze',
-      icon: 'fa-waze',
-      iconFallback: 'fa-car',
+      icon: 'waze',
+      iconFallback: 'car',
       color: '#33CCFF',
       bgClass: 'bg-cyan-500 hover:bg-cyan-600',
     },
@@ -146,8 +146,8 @@ export function getAvailableNavigationApps() {
     apps.push({
       id: 'apple-maps',
       name: 'Plans',
-      icon: 'fa-apple',
-      iconFallback: 'fa-location-dot',
+      icon: 'apple',
+      iconFallback: 'map-pin',
       color: '#000000',
       bgClass: 'bg-slate-700 hover:bg-slate-800',
     });

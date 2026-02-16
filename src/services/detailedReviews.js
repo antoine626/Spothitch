@@ -22,7 +22,7 @@ export const ReviewCriteria = {
   EASE: {
     id: 'ease',
     label: 'Facilite',
-    icon: 'fa-thumbs-up',
+    icon: 'thumbs-up',
     description: 'Facilite pour obtenir un lift',
     weight: 0.25,
     maxRating: 5,
@@ -30,7 +30,7 @@ export const ReviewCriteria = {
   SAFETY: {
     id: 'safety',
     label: 'Securite',
-    icon: 'fa-shield-alt',
+    icon: 'shield',
     description: 'Securite du spot (eclairage, visibilite)',
     weight: 0.30,
     maxRating: 5,
@@ -38,7 +38,7 @@ export const ReviewCriteria = {
   WAIT_TIME: {
     id: 'waitTime',
     label: 'Temps d\'attente',
-    icon: 'fa-clock',
+    icon: 'clock',
     description: 'Temps d\'attente moyen',
     weight: 0.25,
     maxRating: 5,
@@ -46,7 +46,7 @@ export const ReviewCriteria = {
   LOCATION_QUALITY: {
     id: 'locationQuality',
     label: 'Qualite de l\'emplacement',
-    icon: 'fa-map-marker-alt',
+    icon: 'map-pin',
     description: 'Qualite generale de l\'emplacement',
     weight: 0.20,
     maxRating: 5,
@@ -549,7 +549,7 @@ export function renderStarRating(rating, interactive = false, criterionId = '') 
 
   // Half star
   if (hasHalfStar) {
-    html += icon('star-half-alt', 'w-5 h-5 text-yellow-400');
+    html += icon('star-half', 'w-5 h-5 text-yellow-400');
   }
 
   // Empty stars
@@ -657,7 +657,7 @@ export function renderReviewForm(spotId) {
         class="btn w-full bg-primary-500 hover:bg-primary-600 text-white"
         id="submit-review-btn"
       >
-        ${icon('paper-plane', 'w-5 h-5 mr-2')}
+        ${icon('send', 'w-5 h-5 mr-2')}
         ${escapeHTML(t('submitReview') || 'Publier mon avis')}
       </button>
     </div>
@@ -760,7 +760,7 @@ export function renderReviewCard(review) {
               onclick="editReviewModal('${escapeHTML(review.id)}')"
               class="text-sm text-blue-400 hover:text-blue-300"
             >
-              ${icon('edit', 'w-5 h-5 mr-1')}
+              ${icon('pencil', 'w-5 h-5 mr-1')}
               ${escapeHTML(t('edit') || 'Modifier')}
             </button>
             <button

@@ -250,7 +250,7 @@ export function renderModalError(message = 'Une erreur est survenue') {
   return `
     <div class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
       <div class="bg-dark-card rounded-2xl p-6 max-w-sm text-center">
-        ${icon('exclamation-triangle', 'w-10 h-10 text-danger-400 mb-4')}
+        ${icon('triangle-alert', 'w-10 h-10 text-danger-400 mb-4')}
         <p class="text-white mb-4">${message}</p>
         <button onclick="this.closest('.fixed').remove()" class="btn btn-ghost">
           Fermer

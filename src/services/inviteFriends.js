@@ -460,12 +460,12 @@ export function renderInviteCard() {
         <button onclick="window.shareInvite('sms')"
           class="flex-1 min-w-[70px] bg-dark-secondary hover:bg-white/10 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} SMS">
-          ${icon('sms', 'w-5 h-5')}
+          ${icon('message-square', 'w-5 h-5')}
         </button>
         <button onclick="window.openInviteModal()"
           class="flex-1 min-w-[70px] bg-primary hover:bg-primary/80 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
           aria-label="${t('moreOptions')}">
-          ${icon('share-alt', 'w-5 h-5')}
+          ${icon('share-2', 'w-5 h-5')}
         </button>
       </div>
     </div>
@@ -497,7 +497,7 @@ export function renderInviteModal() {
           <button onclick="window.closeInviteModal()"
             class="text-slate-400 hover:text-white"
             aria-label="${t('close')}">
-            ${icon('times', 'w-6 h-6')}
+            ${icon('x', 'w-6 h-6')}
           </button>
         </div>
 
@@ -580,13 +580,13 @@ export function renderInviteModal() {
               <button onclick="window.shareInvite('sms')"
                 class="flex flex-col items-center gap-1 p-3 bg-dark-secondary/20 hover:bg-dark-secondary/30 rounded-xl text-slate-300"
                 aria-label="SMS">
-                ${icon('sms', 'w-7 h-7')}
+                ${icon('message-square', 'w-7 h-7')}
                 <span class="text-xs">SMS</span>
               </button>
               <button onclick="window.shareInvite('email')"
                 class="flex flex-col items-center gap-1 p-3 bg-red-500/20 hover:bg-red-500/30 rounded-xl text-red-400"
                 aria-label="Email">
-                ${icon('envelope', 'w-7 h-7')}
+                ${icon('mail', 'w-7 h-7')}
                 <span class="text-xs">Email</span>
               </button>
               <button onclick="window.shareInvite('facebook')"
@@ -604,7 +604,7 @@ export function renderInviteModal() {
               <button onclick="window.shareInvite('native')"
                 class="flex flex-col items-center gap-1 p-3 bg-primary/20 hover:bg-primary/30 rounded-xl text-primary"
                 aria-label="${t('nativeShare')}">
-                ${icon('share-alt', 'w-7 h-7')}
+                ${icon('share-2', 'w-7 h-7')}
                 <span class="text-xs">${t('more')}</span>
               </button>
               <button onclick="window.shareInvite('copy')"

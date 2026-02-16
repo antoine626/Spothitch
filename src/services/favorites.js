@@ -294,7 +294,7 @@ export function renderFavoritesSection(sortBy = 'date') {
           ${t('favoritesNoneDesc') || 'Ajoutez vos spots preferes en cliquant sur le coeur'}
         </p>
         <button onclick="changeTab('spots')" class="btn btn-primary">
-          ${icon('map-marker-alt', 'w-5 h-5 mr-2')}
+          ${icon('map-pin', 'w-5 h-5 mr-2')}
           ${t('favoritesExplore') || 'Explorer les spots'}
         </button>
       </div>

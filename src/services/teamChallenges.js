@@ -15,35 +15,35 @@ export const TEAM_CHALLENGE_TYPES = {
     id: 'collective_distance',
     name: t('teamChallengeCollectiveDistanceName') || 'Distance collective',
     description: t('teamChallengeCollectiveDistanceDesc') || 'Parcourez ensemble une distance',
-    icon: 'fa-road',
+    icon: 'milestone',
     color: 'from-blue-500 to-cyan-400',
   },
   SPOT_VALIDATION: {
     id: 'spot_validation',
     name: t('teamChallengeSpotValidationName') || 'Validation communautaire',
     description: t('teamChallengeSpotValidationDesc') || 'Validez des spots ensemble',
-    icon: 'fa-check-double',
+    icon: 'check-check',
     color: 'from-emerald-500 to-green-400',
   },
   COUNTRY_EXPLORATION: {
     id: 'country_exploration',
     name: t('teamChallengeCountryExplorationName') || 'Exploration de pays',
     description: t('teamChallengeCountryExplorationDesc') || 'Explorez de nouveaux pays',
-    icon: 'fa-globe',
+    icon: 'globe',
     color: 'from-purple-500 to-pink-400',
   },
   PHOTO_CHALLENGE: {
     id: 'photo_challenge',
     name: t('teamChallengePhotoChallengeName') || 'Défi photo',
     description: t('teamChallengePhotoChallengeDesc') || 'Partagez des photos de spots',
-    icon: 'fa-camera',
+    icon: 'camera',
     color: 'from-amber-500 to-orange-400',
   },
   REVIEW_MARATHON: {
     id: 'review_marathon',
     name: t('teamChallengeReviewMarathonName') || 'Marathon d\'avis',
     description: t('teamChallengeReviewMarathonDesc') || 'Laissez des avis détaillés',
-    icon: 'fa-star',
+    icon: 'star',
     color: 'from-yellow-500 to-amber-400',
   },
 };
@@ -447,7 +447,7 @@ export function renderTeamDashboard(state) {
             class="p-2 rounded-lg bg-white/20 text-white hover:bg-white/30 transition-colors"
             aria-label="${t('teamSettingsLabel') || 'Paramètres de l\'équipe'}"
           >
-            ${icon('cog', 'w-5 h-5')}
+            ${icon('settings', 'w-5 h-5')}
           </button>
         </div>
       </div>
@@ -499,7 +499,7 @@ export function renderTeamDashboard(state) {
                 <div class="bg-dark-card rounded-xl p-4">
                   <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 rounded-lg bg-gradient-to-br ${type.color || 'from-slate-500 to-slate-600'} flex items-center justify-center text-white">
-                      ${icon(type.icon || 'fa-flag', 'w-5 h-5')}
+                      ${icon(type.icon || 'flag', 'w-5 h-5')}
                     </div>
                     <div class="flex-1">
                       <div class="font-medium">${challenge.name}</div>
@@ -608,7 +608,7 @@ function renderNoTeam(state) {
             <div class="bg-dark-card rounded-xl p-4">
               <div class="flex items-center gap-3">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${type.color || 'from-slate-500 to-slate-600'} flex items-center justify-center text-white text-xl">
-                  ${icon(type.icon || 'fa-flag', 'w-5 h-5')}
+                  ${icon(type.icon || 'flag', 'w-5 h-5')}
                 </div>
                 <div class="flex-1">
                   <div class="font-medium">${challenge.name}</div>

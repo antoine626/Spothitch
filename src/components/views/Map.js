@@ -38,7 +38,7 @@ export function renderMap(state) {
           aria-label="${t('filterSpots') || 'Filter spots'}"
           title="${t('filters') || 'Filters'}"
         >
-          ${icon('sliders-h', 'w-5 h-5')}
+          ${icon('sliders-horizontal', 'w-5 h-5')}
         </button>
       </div>
 
@@ -108,7 +108,7 @@ export function renderMap(state) {
           aria-label="${t('myLocation') || 'My location'}"
           title="${t('myLocation') || 'My location'}"
         >
-          ${icon('location-crosshairs', 'w-5 h-5')}
+          ${icon('locate', 'w-5 h-5')}
         </button>
       </div>
 
@@ -147,7 +147,7 @@ export function initMainMap(state) {
     mapContainer.innerHTML = `
       <div class="h-full flex items-center justify-center">
         <div class="text-center text-slate-400">
-          ${icon('map-marked-alt', 'w-5 h-5 text-5xl mb-4 text-primary-400')}
+          ${icon('map-pinned', 'w-5 h-5 text-5xl mb-4 text-primary-400')}
           <p>Carte en chargement...</p>
         </div>
       </div>
