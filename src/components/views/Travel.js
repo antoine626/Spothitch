@@ -293,7 +293,7 @@ function renderTripResults(results) {
                 <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
                   ${distFromStart !== null ? `<span class="text-slate-400">${distFromStart} km</span>` : ''}
                   ${spot.type ? `<span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">${spot.type}</span>` : ''}
-                  ${spot.globalRating ? `<span class="text-primary-400">★ ${spot.globalRating.toFixed(1)}</span>` : ''}
+                  ${spot.userValidations ? `<span class="text-emerald-400">${icon('circle-check', 'w-3 h-3 mr-0.5')}${spot.userValidations}</span>` : ''}
                   ${spot.avgWait ? `<span>${icon('clock', 'w-3 h-3 mr-0.5')}${spot.avgWait} min</span>` : ''}
                 </div>
               </div>
@@ -328,7 +328,7 @@ function renderTripResults(results) {
 }
 
 function renderAmenityItem(poi) {
-  const icon = poi.type === 'fuel' ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
+  const poiIcon = poi.type === 'fuel' ? '\u26FD' : '\uD83C\uDD7F\uFE0F'
   const typeLabel = poi.type === 'fuel'
     ? (t('travel_fuel_station') || 'Station-service')
     : (t('travel_rest_area') || 'Aire de repos')
@@ -338,7 +338,7 @@ function renderAmenityItem(poi) {
   return `
     <div class="card p-3 flex items-center gap-3">
       <div class="shrink-0 w-8 h-8 rounded-full ${colorClass} flex items-center justify-center text-sm">
-        ${icon}
+        ${poiIcon}
       </div>
       <div class="flex-1 min-w-0">
         <div class="text-sm font-medium truncate">${name}</div>
@@ -349,7 +349,7 @@ function renderAmenityItem(poi) {
 }
 
 function renderTripSpot(spot, index) {
-  const rating = spot.globalRating?.toFixed?.(1) || spot.rating?.toFixed?.(1) || '?'
+  const validations = spot.userValidations || 0
   const wait = spot.avgWaitTime ? `~${spot.avgWaitTime}min` : ''
   const desc = (spot.description || '').slice(0, 60) + ((spot.description?.length > 60) ? '...' : '')
   const country = spot.country || ''
@@ -365,7 +365,7 @@ function renderTripSpot(spot, index) {
       <button onclick="openSpotDetail('${spot.id}')" class="flex-1 min-w-0 text-left">
         <div class="flex items-center gap-2">
           <span class="text-sm">${flag}</span>
-          ${rating !== '?' ? `<span class="flex items-center gap-1 text-xs text-amber-400">${icon('star', 'w-5 h-5')}${rating}</span>` : ''}
+          ${validations > 0 ? `<span class="flex items-center gap-1 text-xs text-emerald-400">${icon('circle-check', 'w-3 h-3')}${validations}</span>` : ''}
           ${wait ? `<span class="text-xs text-slate-400">${wait}</span>` : ''}
         </div>
         <div class="text-sm text-slate-300 truncate mt-0.5">${desc || t('hitchhikingSpot') || 'Spot d\'autostop'}</div>
@@ -995,7 +995,7 @@ window.calculateTrip = async () => {
         distance: distanceKm,
         estimatedTime,
       },
-      showTripMap: true,  // Show map directly with route
+      showTripMap: false,  // Show results first, user clicks "view on map"
       tripLoading: false,
     })
 
@@ -1046,12 +1046,11 @@ window.clearTripResults = () => {
   window.setState?.({ tripResults: null, showTripMap: false })
 }
 
-// Remove a spot from trip results
-window.removeSpotFromTrip = (index) => {
+// Remove a spot from trip results (by spot ID)
+window.removeSpotFromTrip = (spotId) => {
   const state = window.getState?.() || {}
   if (!state.tripResults?.spots) return
-  const newSpots = [...state.tripResults.spots]
-  newSpots.splice(index, 1)
+  const newSpots = state.tripResults.spots.filter(s => s.id !== spotId)
   window.setState?.({
     tripResults: { ...state.tripResults, spots: newSpots }
   })
@@ -1075,7 +1074,7 @@ window.saveTripWithSpots = () => {
       coordinates: s.coordinates,
       lat: s.lat,
       lng: s.lng,
-      globalRating: s.globalRating,
+      userValidations: s.userValidations || 0,
       country: s.country,
       description: (s.description || '').slice(0, 80),
       avgWaitTime: s.avgWaitTime,

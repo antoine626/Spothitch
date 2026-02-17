@@ -193,7 +193,7 @@ function renderActiveTripDetails(trip) {
                     ${leg.spots.slice(0, 3).map(spot => `
                       <span class="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-full cursor-pointer"
                             onclick="selectSpot(${spot.id})">
-                        ⭐${spot.globalRating?.toFixed(1) || 'N/A'} ${spot.from}
+                        ✓${spot.userValidations || 0} ${spot.from}
                       </span>
                     `).join('')}
                   </div>`
@@ -331,7 +331,7 @@ export function renderSavedTripDetail(tripId) {
                       <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
                       <div class="flex-1">
                         <div class="text-white text-sm">${spot.from}</div>
-                        <div class="text-slate-400 text-xs">⭐${spot.globalRating?.toFixed(1)} • ${spot.avgWaitTime}min</div>
+                        <div class="text-slate-400 text-xs">✓${spot.userValidations || 0} • ${spot.avgWaitTime}min</div>
                       </div>
                     </div>
                   `).join('')}
