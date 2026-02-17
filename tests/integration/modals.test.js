@@ -249,8 +249,8 @@ describe('Integration: AddSpot Modal', () => {
   })
 
   it('has location button', () => {
-    const html = renderAddSpot({ ...baseState, showAddSpot: true })
-    expect(html).toContain('getSpotLocation')
+    const html = renderAddSpot({ ...baseState, showAddSpot: true, addSpotStep: 2 })
+    expect(html).toContain('toggleSpotMapPicker')
   })
 
   it('has close button', () => {
