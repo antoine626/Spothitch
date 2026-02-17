@@ -153,7 +153,7 @@ const MAIN_JS_HANDLERS = [
   // Conversations (defined in Conversations.js)
   'openGroupChat', 'closeGroupChat', 'openZoneChat', 'closeZoneChat',
   // Friends (defined in Friends.js)
-  'searchAmbassadorsByCity',
+  'searchAmbassadorsByCity', 'searchFriendSuggestions', 'selectFriendSuggestion',
   // Ambassadors (defined in ambassadors.js)
   'searchAmbassadors', 'registerAmbassador', 'contactAmbassador',
   'unregisterAmbassador', 'updateAmbassadorAvailability',
@@ -167,7 +167,7 @@ const MAIN_JS_HANDLERS = [
   'postEventComment', 'replyEventComment', 'toggleReplyInput',
   'reactToEventComment', 'shareEvent', 'deleteEventCommentAction',
   // Profile view (defined in Profile.js)
-  'toggleNotifications',
+  'toggleNotifications', 'openLegalPage',
   // SOS (defined in SOS.js)
   'sendSOSTemplate',
   // Auth (defined in Auth.js)

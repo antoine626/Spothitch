@@ -228,6 +228,9 @@ export function renderSpotDetail(state) {
             ${renderVoteButtons(spot.id)}
           </div>
 
+          <!-- User Reviews -->
+          ${renderSpotReviews(spot)}
+
           <!-- Source -->
           ${spot.source ? `
             <div class="text-center text-xs text-slate-400 mt-4">
@@ -284,6 +287,77 @@ function renderNavigationAppButtons(lat, lng, name) {
       </button>
     `;
   }).join('');
+}
+
+/**
+ * Render user reviews section
+ */
+function renderSpotReviews(spot) {
+  const reviews = spot.reviews || spot._reviews || []
+
+  // Generate simulated reviews from HitchWiki data if available
+  const displayReviews = reviews.length > 0
+    ? reviews.slice(0, 5)
+    : generatePlaceholderReviews(spot)
+
+  if (displayReviews.length === 0) return ''
+
+  return `
+    <div class="mt-4 pt-4 border-t border-white/10">
+      <h3 class="font-semibold mb-3 flex items-center gap-2">
+        ${icon('message-circle', 'w-5 h-5 text-primary-400')}
+        ${t('userReviews') || 'Avis de la communauté'} (${displayReviews.length})
+      </h3>
+      <div class="space-y-3">
+        ${displayReviews.map(review => `
+          <div class="p-3 rounded-xl bg-white/5">
+            <div class="flex items-center gap-2 mb-2">
+              <button
+                onclick="showFriendProfile('${escapeHTML(review.userId || 'user_' + Math.random().toString(36).slice(2))}')"
+                class="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              >
+                <span class="text-lg">${review.avatar || '🤙'}</span>
+                <span class="text-sm font-medium text-primary-400">${escapeHTML(review.userName || t('traveler'))}</span>
+              </button>
+              <time class="text-xs text-slate-500 ml-auto">${review.date ? formatReviewDate(review.date) : ''}</time>
+            </div>
+            ${review.waitTime ? `
+              <div class="flex items-center gap-1 text-xs text-slate-400 mb-1">
+                ${icon('clock', 'w-3 h-3')}
+                <span>${review.waitTime} min ${t('waitTime') || 'attente'}</span>
+              </div>
+            ` : ''}
+            <p class="text-sm text-slate-300">${escapeHTML(review.text || '')}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `
+}
+
+function generatePlaceholderReviews(spot) {
+  if (!spot.description && !spot.totalReviews) return []
+
+  const reviews = []
+  if (spot.description) {
+    reviews.push({
+      userName: spot.creator || 'HitchWiki',
+      avatar: '📝',
+      text: spot.description,
+      date: spot.lastUsed || spot.createdAt,
+      waitTime: spot.avgWaitTime || null,
+    })
+  }
+  return reviews
+}
+
+function formatReviewDate(dateStr) {
+  if (!dateStr) return ''
+  try {
+    const d = new Date(dateStr)
+    if (isNaN(d.getTime())) return ''
+    return d.toLocaleDateString(undefined, { month: 'short', year: 'numeric' })
+  } catch { return '' }
 }
 
 // Global handlers
