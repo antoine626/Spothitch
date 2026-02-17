@@ -288,8 +288,13 @@ export function afterRender(state) {
   if (isMapTab) {
     setTimeout(() => initHomeMap(state), 100)
   }
-  if (isMapTab && state.showTripMap) {
-    setTimeout(() => initTripMap(state), 100)
+  // Trip map can be in overlay (showTripPlanner) regardless of activeTab
+  if (state.showTripMap && (isMapTab || state.showTripPlanner)) {
+    // Only init if not already preserved from previous render
+    const tripContainer = document.getElementById('trip-map')
+    if (tripContainer && tripContainer.dataset.initialized !== 'true') {
+      setTimeout(() => initTripMap(state), 100)
+    }
   }
 
   // Focus trap: clean up previous trap
@@ -982,6 +987,11 @@ window._tripMapFlyTo = (lng, lat) => {
 window._tripMapCleanup = () => {
   stopTripGpsTracking()
   removeAmenityMarkers()
+  if (tripMapInstance) {
+    try { tripMapInstance.remove() } catch { /* ignore */ }
+  }
+  const container = document.getElementById('trip-map')
+  if (container) container.dataset.initialized = ''
   tripMapInstance = null
   tripMaplibregl = null
 }

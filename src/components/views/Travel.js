@@ -923,7 +923,7 @@ window.calculateTrip = async () => {
     const allSpots = Array.from(spotsMap.values())
 
     // 4. Filter spots near the route (5km corridor)
-    const corridorKm = 1
+    const corridorKm = 5
     let routeSpots = []
 
     if (routeGeometry && routeGeometry.length > 0) {
@@ -1038,12 +1038,12 @@ window.centerTripMapOnGps = () => {
 
 window.closeTripMap = () => {
   window._tripMapCleanup?.()
-  window.setState?.({ showTripMap: false })
+  window.setState?.({ showTripMap: false, showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
 }
 
 window.clearTripResults = () => {
   window._tripMapCleanup?.()
-  window.setState?.({ tripResults: null, showTripMap: false })
+  window.setState?.({ tripResults: null, showTripMap: false, showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
 }
 
 // Remove a spot from trip results (by spot ID)
@@ -1163,7 +1163,13 @@ window.toggleRouteAmenities = async () => {
   if (!newValue) {
     // Turning off - remove markers dynamically (no map re-init)
     window._tripMapRemoveAmenities?.()
-    window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
+    // Only if NOT showing the trip map (avoid re-render that destroys map)
+    if (!state.showTripMap) {
+      window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
+    } else {
+      // Update state silently — map is preserved
+      window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
+    }
     return
   }
 

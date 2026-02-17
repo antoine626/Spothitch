@@ -520,18 +520,27 @@ function render(state) {
     saveScrollPosition(previousTab);
   }
 
-  // Preserve map container across re-renders to avoid destroying MapLibre
+  // Preserve map containers across re-renders to avoid destroying MapLibre
   const isMapTab = ['map', 'home', 'fullmap', 'travel', 'planner'].includes(state.activeTab)
   const homeMapContainer = document.getElementById('home-map')
   const hasHomeMap = homeMapContainer && window.homeMapInstance
   const savedHomeMap = hasHomeMap ? homeMapContainer : null
 
+  // Preserve trip map container (avoids white flash on every state change)
+  const tripMapContainer = document.getElementById('trip-map')
+  const hasTripMap = tripMapContainer && tripMapContainer.dataset.initialized === 'true'
+  const savedTripMap = hasTripMap ? tripMapContainer : null
+
   app.innerHTML = renderApp(state);
 
-  // Re-insert preserved map container
+  // Re-insert preserved map containers
   if (savedHomeMap && isMapTab) {
     const slot = document.getElementById('home-map')
     if (slot) slot.replaceWith(savedHomeMap)
+  }
+  if (savedTripMap && state.showTripMap) {
+    const slot = document.getElementById('trip-map')
+    if (slot) slot.replaceWith(savedTripMap)
   }
 
   // Call afterRender hook
