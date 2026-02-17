@@ -16,45 +16,38 @@ const BASE_URL = 'https://spothitch.com'
 // Popular countries for cross-linking (top traffic)
 const POPULAR_COUNTRIES = ['FR', 'DE', 'ES', 'IT', 'NL', 'PL', 'GB', 'US', 'AU', 'TR']
 
-// Extract guide data from source
+// Extract guide data by parsing each block between { code: ... }
 function extractGuides() {
   const content = readFileSync(GUIDES_PATH, 'utf-8')
   const guides = []
 
-  const codeRegex = /code:\s*'([^']+)'/g
-  const nameRegex = /name:\s*'([^']+)'/g
-  const nameEnRegex = /nameEn:\s*'([^']+)'/g
-  const flagRegex = /flag:\s*'([^']+)'/g
-  const legalityTextEnRegex = /legalityTextEn:\s*'([^']+)'/g
-  const difficultyTextEnRegex = /difficultyTextEn:\s*'([^']+)'/g
-
+  // Split by top-level objects: find each "code: 'XX'" and extract the block
+  const blockRegex = /\{\s*\n\s*code:\s*'([A-Z]{2})'/g
   let match
-  const codes = []
-  while ((match = codeRegex.exec(content)) !== null) codes.push(match[1])
+  const starts = []
+  while ((match = blockRegex.exec(content)) !== null) {
+    starts.push({ index: match.index, code: match[1] })
+  }
 
-  const names = []
-  while ((match = nameRegex.exec(content)) !== null) names.push(match[1])
+  for (let i = 0; i < starts.length; i++) {
+    const start = starts[i].index
+    const end = i + 1 < starts.length ? starts[i + 1].index : content.length
+    const block = content.slice(start, end)
 
-  const namesEn = []
-  while ((match = nameEnRegex.exec(content)) !== null) namesEn.push(match[1])
+    // Extract only top-level fields (indented with 4 spaces, not deeper)
+    const getField = (field) => {
+      const re = new RegExp(`^\\s{4}${field}:\\s*'([^']+)'`, 'm')
+      const m = block.match(re)
+      return m ? m[1] : ''
+    }
 
-  const flags = []
-  while ((match = flagRegex.exec(content)) !== null) flags.push(match[1])
-
-  const legalityEn = []
-  while ((match = legalityTextEnRegex.exec(content)) !== null) legalityEn.push(match[1])
-
-  const difficultyEn = []
-  while ((match = difficultyTextEnRegex.exec(content)) !== null) difficultyEn.push(match[1])
-
-  for (let i = 0; i < codes.length; i++) {
     guides.push({
-      code: codes[i],
-      name: names[i] || codes[i],
-      nameEn: namesEn[i] || names[i],
-      flag: flags[i] || '',
-      legalityTextEn: legalityEn[i] || '',
-      difficultyTextEn: difficultyEn[i] || '',
+      code: starts[i].code,
+      name: getField('name'),
+      nameEn: getField('nameEn'),
+      flag: getField('flag'),
+      legalityTextEn: getField('legalityTextEn'),
+      difficultyTextEn: getField('difficultyTextEn'),
     })
   }
 
@@ -81,7 +74,7 @@ function generateGuideHTML(guide, allGuides) {
   const spotText = spotCount > 0 ? `${spotCount} hitchhiking spots available on SpotHitch.` : ''
   const codeLower = guide.code.toLowerCase()
 
-  // Pick 5 other popular guides for cross-linking (exclude current)
+  // Pick 6 other popular guides for cross-linking (exclude current)
   const crossLinks = allGuides
     .filter(g => g.code !== guide.code && POPULAR_COUNTRIES.includes(g.code))
     .slice(0, 6)
@@ -160,6 +153,13 @@ ${urls.join('\n')}
 // Main
 const guides = extractGuides()
 console.log(`Generating pre-rendered pages for ${guides.length} country guides...`)
+
+// Verify extraction
+for (const g of guides) {
+  if (!g.nameEn || !g.flag) {
+    console.warn(`  WARNING: ${g.code} missing nameEn="${g.nameEn}" flag="${g.flag}"`)
+  }
+}
 
 // Create guides directory
 const guidesDir = join(DIST_PATH, 'guides')
