@@ -2180,6 +2180,95 @@ export function getEmergencyNumbers(countryCode) {
   return guide?.emergencyNumbers || { universal: '112' }
 }
 
+/**
+ * Country code → primary language mapping
+ */
+const COUNTRY_LANG = {
+  FR: 'fr', BE: 'fr', LU: 'fr', CH: 'fr', // French-speaking
+  DE: 'de', AT: 'de', // German-speaking
+  ES: 'es', // Spanish
+  IT: 'it', // Italian
+  NL: 'nl', // Dutch
+  PT: 'pt', // Portuguese
+  PL: 'pl', CZ: 'cs', SK: 'sk',
+  HU: 'hu', RO: 'ro', BG: 'bg', GR: 'el',
+  HR: 'hr', SI: 'sl', BA: 'bs', RS: 'sr', ME: 'sr', MK: 'mk', AL: 'sq', XK: 'sq',
+  SE: 'sv', NO: 'no', DK: 'da', FI: 'fi', IS: 'is',
+  IE: 'en', GB: 'en', US: 'en', CA: 'en', AU: 'en', NZ: 'en',
+  LT: 'lt', LV: 'lv', EE: 'et', UA: 'uk', MD: 'ro',
+  TR: 'tr', IL: 'he', MA: 'ar', IR: 'fa',
+  GE: 'ka', AM: 'hy',
+  TH: 'th', IN: 'hi', JP: 'ja', KR: 'ko',
+  AR: 'es', CL: 'es', CO: 'es', MX: 'es', PE: 'es',
+  BR: 'pt', ZA: 'en',
+}
+
+/**
+ * 5 universal hitchhiking phrases in ~40 languages
+ * Format: { hello, hitchhiking, goingTo, thanks, dropOff }
+ */
+const UNIVERSAL_PHRASES = {
+  fr: { hello: 'Bonjour !', hitchhiking: 'Je fais de l\'auto-stop', goingTo: 'Vous allez vers [ville] ?', thanks: 'Merci beaucoup, bon voyage !', dropOff: 'Vous pouvez me déposer ici, s\'il vous plaît ?' },
+  en: { hello: 'Hello!', hitchhiking: 'I\'m hitchhiking', goingTo: 'Are you going to [city]?', thanks: 'Thank you so much, safe travels!', dropOff: 'Can you drop me off here, please?' },
+  de: { hello: 'Hallo!', hitchhiking: 'Ich trampe', goingTo: 'Fahren Sie Richtung [Stadt]?', thanks: 'Vielen Dank, gute Fahrt!', dropOff: 'Können Sie mich hier rauslassen, bitte?' },
+  es: { hello: '¡Hola!', hitchhiking: 'Hago autostop', goingTo: '¿Vas hacia [ciudad]?', thanks: '¡Muchas gracias, buen viaje!', dropOff: '¿Me puedes dejar aquí, por favor?' },
+  it: { hello: 'Ciao!', hitchhiking: 'Faccio autostop', goingTo: 'Va verso [città]?', thanks: 'Grazie mille, buon viaggio!', dropOff: 'Mi può lasciare qui, per favore?' },
+  nl: { hello: 'Hallo!', hitchhiking: 'Ik lift', goingTo: 'Gaat u richting [stad]?', thanks: 'Heel erg bedankt, goede reis!', dropOff: 'Kunt u me hier afzetten, alstublieft?' },
+  pt: { hello: 'Olá!', hitchhiking: 'Estou a fazer boleia', goingTo: 'Vai para [cidade]?', thanks: 'Muito obrigado, boa viagem!', dropOff: 'Pode me deixar aqui, por favor?' },
+  pl: { hello: 'Cześć!', hitchhiking: 'Jadę autostopem', goingTo: 'Jedzie Pan/Pani w stronę [miasto]?', thanks: 'Dziękuję bardzo, szczęśliwej drogi!', dropOff: 'Może mnie Pan/Pani wysadzić tutaj?' },
+  cs: { hello: 'Ahoj!', hitchhiking: 'Stopuji', goingTo: 'Jedete směrem na [město]?', thanks: 'Moc děkuji, šťastnou cestu!', dropOff: 'Můžete mě tady vysadit, prosím?' },
+  sk: { hello: 'Ahoj!', hitchhiking: 'Stopujem', goingTo: 'Idete smerom na [mesto]?', thanks: 'Ďakujem veľmi pekne, šťastnú cestu!', dropOff: 'Môžete ma tu vysadiť, prosím?' },
+  hu: { hello: 'Szia!', hitchhiking: 'Stoppolok', goingTo: '[Város] felé megy?', thanks: 'Köszönöm szépen, jó utat!', dropOff: 'Le tudna tenni itt, kérem?' },
+  ro: { hello: 'Bună!', hitchhiking: 'Fac autostopul', goingTo: 'Mergeți spre [oraș]?', thanks: 'Mulțumesc foarte mult, drum bun!', dropOff: 'Mă puteți lăsa aici, vă rog?' },
+  bg: { hello: 'Здравейте!', hitchhiking: 'Пътувам на автостоп', goingTo: 'Пътувате ли към [град]?', thanks: 'Благодаря много, лек път!', dropOff: 'Можете ли да ме оставите тук, моля?' },
+  el: { hello: 'Γεια σας!', hitchhiking: 'Κάνω ωτοστόπ', goingTo: 'Πηγαίνετε προς [πόλη];', thanks: 'Ευχαριστώ πολύ, καλό ταξίδι!', dropOff: 'Μπορείτε να με αφήσετε εδώ, παρακαλώ;' },
+  hr: { hello: 'Bok!', hitchhiking: 'Stopiram', goingTo: 'Idete li prema [gradu]?', thanks: 'Hvala puno, sretan put!', dropOff: 'Možete li me ostaviti ovdje, molim?' },
+  sl: { hello: 'Živjo!', hitchhiking: 'Štopal/a sem', goingTo: 'Ali greste proti [mestu]?', thanks: 'Hvala lepa, srečno pot!', dropOff: 'Me lahko spustite tukaj, prosim?' },
+  bs: { hello: 'Zdravo!', hitchhiking: 'Stopiram', goingTo: 'Idete li prema [gradu]?', thanks: 'Hvala puno, sretan put!', dropOff: 'Možete li me ostaviti ovdje, molim?' },
+  sr: { hello: 'Zdravo!', hitchhiking: 'Stopiram', goingTo: 'Idete li ka [gradu]?', thanks: 'Hvala puno, srećan put!', dropOff: 'Možete li da me ostavite ovde, molim?' },
+  mk: { hello: 'Здраво!', hitchhiking: 'Стопирам', goingTo: 'Одите ли кон [град]?', thanks: 'Благодарам многу, среќен пат!', dropOff: 'Можете ли да ме оставите тука, ве молам?' },
+  sq: { hello: 'Përshëndetje!', hitchhiking: 'Po bëj autostop', goingTo: 'A shkoni drejt [qytetit]?', thanks: 'Faleminderit shumë, rrugë të mbarë!', dropOff: 'A mund të më lini këtu, ju lutem?' },
+  sv: { hello: 'Hej!', hitchhiking: 'Jag liftar', goingTo: 'Åker du mot [stad]?', thanks: 'Tack så mycket, trevlig resa!', dropOff: 'Kan du släppa av mig här, tack?' },
+  no: { hello: 'Hei!', hitchhiking: 'Jeg haiker', goingTo: 'Kjører du mot [by]?', thanks: 'Tusen takk, god tur!', dropOff: 'Kan du slippe meg av her, vær så snill?' },
+  da: { hello: 'Hej!', hitchhiking: 'Jeg blaffer', goingTo: 'Kører du mod [by]?', thanks: 'Tusind tak, god tur!', dropOff: 'Kan du sætte mig af her, tak?' },
+  fi: { hello: 'Hei!', hitchhiking: 'Liftaan', goingTo: 'Menetkö kohti [kaupunkia]?', thanks: 'Kiitos paljon, hyvää matkaa!', dropOff: 'Voisitko jättää minut tähän, kiitos?' },
+  is: { hello: 'Hæ!', hitchhiking: 'Ég er að pútta', goingTo: 'Ertu á leið til [borg]?', thanks: 'Takk kærlega, góða ferð!', dropOff: 'Geturðu sleppt mér hér, vinsamlegast?' },
+  lt: { hello: 'Labas!', hitchhiking: 'Keliauju autostopu', goingTo: 'Ar važiuojate link [miesto]?', thanks: 'Labai ačiū, gero kelio!', dropOff: 'Ar galite mane čia išleisti, prašau?' },
+  lv: { hello: 'Sveiki!', hitchhiking: 'Es stopēju', goingTo: 'Vai jūs braucat uz [pilsētas] pusi?', thanks: 'Liels paldies, labu ceļu!', dropOff: 'Vai varat mani izlaist šeit, lūdzu?' },
+  et: { hello: 'Tere!', hitchhiking: 'Ma hääletasin', goingTo: 'Kas te sõidate [linna] suunas?', thanks: 'Suur tänu, head teed!', dropOff: 'Kas saate mind siin maha lasta, palun?' },
+  uk: { hello: 'Привіт!', hitchhiking: 'Я їду автостопом', goingTo: 'Ви їдете в бік [місто]?', thanks: 'Дуже дякую, щасливої дороги!', dropOff: 'Ви можете висадити мене тут, будь ласка?' },
+  tr: { hello: 'Merhaba!', hitchhiking: 'Otostop yapıyorum', goingTo: '[Şehir] yönüne mi gidiyorsunuz?', thanks: 'Çok teşekkürler, iyi yolculuklar!', dropOff: 'Beni burada bırakabilir misiniz, lütfen?' },
+  he: { hello: '!שלום', hitchhiking: 'אני עושה טרמפ', goingTo: '?אתה נוסע לכיוון [עיר]', thanks: '!תודה רבה, נסיעה טובה', dropOff: '?אפשר להוריד אותי פה, בבקשה' },
+  ar: { hello: '!مرحبا', hitchhiking: 'أنا أسافر بالتوقف', goingTo: 'هل تذهب باتجاه [مدينة]؟', thanks: '!شكرا جزيلا، رحلة سعيدة', dropOff: 'هل يمكنك إنزالي هنا، من فضلك؟' },
+  fa: { hello: '!سلام', hitchhiking: 'من اتواستاپ می‌کنم', goingTo: 'آیا به سمت [شهر] می‌روید؟', thanks: '!خیلی ممنون، سفر خوبی داشته باشید', dropOff: 'می‌توانید مرا اینجا پیاده کنید، لطفاً؟' },
+  ka: { hello: 'გამარჯობა!', hitchhiking: 'ავტოსტოპით ვმოგზაურობ', goingTo: '[ქალაქის] მიმართულებით მიდიხართ?', thanks: 'დიდი მადლობა, კარგ მგზავრობას!', dropOff: 'შეგიძლიათ აქ ჩამომსვათ, გთხოვთ?' },
+  hy: { hello: 'Barev!', hitchhiking: 'Yes autostop em anum', goingTo: '[city] gnumek?', thanks: 'Shnorhakalutyun, bari janapar!', dropOff: 'Karogh ek intz aystex thoghnel?' },
+  th: { hello: 'สวัสดี!', hitchhiking: 'ฉันโบกรถ', goingTo: 'คุณไป [เมือง] ไหม?', thanks: 'ขอบคุณมาก เดินทางปลอดภัย!', dropOff: 'ช่วยจอดตรงนี้ได้ไหมครับ/คะ?' },
+  hi: { hello: 'नमस्ते!', hitchhiking: 'मैं हिचहाइकिंग कर रहा/रही हूँ', goingTo: 'क्या आप [शहर] की तरफ जा रहे हैं?', thanks: 'बहुत धन्यवाद, शुभ यात्रा!', dropOff: 'क्या आप मुझे यहाँ उतार सकते हैं, कृपया?' },
+  ja: { hello: 'こんにちは！', hitchhiking: 'ヒッチハイクしています', goingTo: '[都市]の方に行きますか？', thanks: 'ありがとうございます、良い旅を！', dropOff: 'ここで降ろしてもらえますか？' },
+  ko: { hello: '안녕하세요!', hitchhiking: '히치하이킹 중이에요', goingTo: '[도시] 방향으로 가시나요?', thanks: '정말 감사합니다, 좋은 여행 되세요!', dropOff: '여기서 내려주실 수 있나요?' },
+}
+
+/**
+ * Get 5 universal phrases for a country
+ * @param {string} countryCode - ISO country code
+ * @returns {Array<{local: string, meaning: string, meaningEn: string}>}
+ */
+export function getUniversalPhrases(countryCode) {
+  const lang = COUNTRY_LANG[countryCode] || 'en'
+  const phrases = UNIVERSAL_PHRASES[lang] || UNIVERSAL_PHRASES.en
+  const fr = UNIVERSAL_PHRASES.fr
+  const en = UNIVERSAL_PHRASES.en
+
+  return [
+    { local: phrases.hello, meaning: fr.hello, meaningEn: en.hello },
+    { local: phrases.hitchhiking, meaning: fr.hitchhiking, meaningEn: en.hitchhiking },
+    { local: phrases.goingTo, meaning: fr.goingTo, meaningEn: en.goingTo },
+    { local: phrases.thanks, meaning: fr.thanks, meaningEn: en.thanks },
+    { local: phrases.dropOff, meaning: fr.dropOff, meaningEn: en.dropOff },
+  ]
+}
+
 export default {
   countryGuides,
   getGuideByCode,

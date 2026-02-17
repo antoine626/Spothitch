@@ -5,7 +5,7 @@
  */
 
 import { t } from '../../i18n/index.js'
-import { countryGuides, getGuideByCode } from '../../data/guides.js'
+import { countryGuides, getGuideByCode, getUniversalPhrases } from '../../data/guides.js'
 import { icon } from '../../utils/icons.js'
 import { renderCommunityTips } from '../../services/communityTips.js'
 
@@ -249,30 +249,33 @@ function renderSafetySection() {
 
 // ==================== PHRASES UTILES ====================
 function renderPhrasesSection() {
-  const countriesWithPhrases = countryGuides.filter(g => g.phrases && g.phrases.length > 0)
+  const lang = window.getState?.()?.lang || 'fr'
+  const isEn = lang === 'en'
 
   return `
     <div class="space-y-3">
       <div class="card p-4 bg-purple-500/10 border-purple-500/20">
         <h3 class="font-bold text-lg mb-1">${t('guidePhrasesTitle') || 'Phrases utiles'}</h3>
-        <p class="text-sm text-slate-400">${t('guidePhrasesIntro') || 'Les phrases essentielles pour l\'auto-stop dans chaque pays.'}</p>
+        <p class="text-sm text-slate-400">${t('guidePhrasesIntro') || '5 phrases essentielles pour l\'auto-stop, traduites dans chaque langue.'}</p>
       </div>
-      ${countriesWithPhrases.map(guide => `
+      ${countryGuides.map(guide => {
+        const phrases = getUniversalPhrases(guide.code)
+        return `
         <div class="card p-4">
           <div class="flex items-center gap-2 mb-3">
             <span class="text-2xl">${guide.flag}</span>
             <span class="font-bold">${guide.name}</span>
           </div>
           <div class="space-y-2">
-            ${guide.phrases.map(p => `
+            ${phrases.map(p => `
               <div class="p-2.5 rounded-lg bg-white/5">
                 <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
-                <div class="text-xs text-slate-400 mt-1">${p.meaning}</div>
+                <div class="text-xs text-slate-400 mt-1">${isEn ? p.meaningEn : p.meaning}</div>
               </div>
             `).join('')}
           </div>
         </div>
-      `).join('')}
+      `}).join('')}
     </div>
   `
 }
@@ -463,23 +466,21 @@ export function renderCountryDetail(guideOrCode) {
         </div>
       ` : ''}
 
-      <!-- Phrases -->
-      ${guide.phrases && guide.phrases.length > 0 ? `
-        <div class="card p-4">
-          <h3 class="font-bold mb-3 flex items-center gap-2">
-            ${icon('message-circle', 'w-5 h-5 text-purple-400')}
-            ${t('usefulPhrases') || 'Phrases utiles'}
-          </h3>
-          <div class="space-y-2">
-            ${guide.phrases.map(p => `
-              <div class="p-2.5 rounded-lg bg-white/5">
-                <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
-                <div class="text-xs text-slate-400 mt-1">${p.meaning}</div>
-              </div>
-            `).join('')}
-          </div>
+      <!-- Phrases (5 universal phrases) -->
+      <div class="card p-4">
+        <h3 class="font-bold mb-3 flex items-center gap-2">
+          ${icon('message-circle', 'w-5 h-5 text-purple-400')}
+          ${t('usefulPhrases') || 'Phrases utiles'}
+        </h3>
+        <div class="space-y-2">
+          ${getUniversalPhrases(guide.code).map(p => `
+            <div class="p-2.5 rounded-lg bg-white/5">
+              <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
+              <div class="text-xs text-slate-400 mt-1">${isEn ? p.meaningEn : p.meaning}</div>
+            </div>
+          `).join('')}
         </div>
-      ` : ''}
+      </div>
 
       <!-- Best months -->
       <div class="card p-4">
@@ -579,8 +580,24 @@ export function renderCountryDetail(guideOrCode) {
         </div>
       ` : ''}
 
+      <!-- Recommendations -->
+      <div class="card p-4 bg-primary-500/10 border-primary-500/20">
+        <h3 class="font-bold mb-3 flex items-center gap-2">
+          ${icon('thumbs-up', 'w-5 h-5 text-primary-400')}
+          ${t('recommendations') || 'Recommandations'}
+        </h3>
+        <div class="space-y-2 text-sm text-slate-300">
+          <p>${t('guideRecommendation1') || 'Consultez les spots vérifiés par la communauté sur la carte avant de partir.'}</p>
+          <p>${t('guideRecommendation2') || 'Activez le mode compagnon pour partager votre trajet en temps réel.'}</p>
+          <p>${t('guideRecommendation3') || 'Après chaque trajet, validez les spots que vous avez utilisés pour aider les prochains voyageurs.'}</p>
+        </div>
+      </div>
+
       <!-- Community Tips -->
       ${renderCommunityTips(guide.code)}
+
+      <!-- Bottom padding for scroll -->
+      <div class="h-8"></div>
     </div>
   `
 }
