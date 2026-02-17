@@ -547,24 +547,12 @@ export async function translateElement(elementId) {
   }
 
   const state = getState() || {};
-  const targetLang = state.lang || 'fr';
+  const targetLang = state.lang || 'en';
 
-  const result = await translateText(original, targetLang);
-
-  // Update DOM
-  const element = document.getElementById(elementId);
-  if (element) {
-    element.textContent = result.translated;
-  }
-
-  // Update button
-  const container = document.querySelector(`.translatable-content[data-element-id="${elementId}"]`);
-  if (container) {
-    const controlsContainer = container.querySelector('.translation-controls');
-    if (controlsContainer) {
-      controlsContainer.innerHTML = renderShowOriginalButton(elementId);
-    }
-  }
+  // Use Google Translate — opens in new tab with full translation
+  const encodedText = encodeURIComponent(original);
+  const googleTranslateUrl = `https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodedText}&op=translate`;
+  window.open(googleTranslateUrl, '_blank');
 }
 
 /**

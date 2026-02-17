@@ -36,9 +36,9 @@ export function openInGoogleMaps(lat, lng, name = '') {
   let url;
   if (isAndroid) {
     // Try to open Google Maps app directly on Android
-    url = `geo:${lat},${lng}?q=${lat},${lng}(${encodeURIComponent(name || 'Destination')})`;
-    // Fallback to Google Maps intent
-    const intentUrl = `intent://maps.google.com/maps?daddr=${lat},${lng}&mode=d#Intent;package=com.google.android.apps.maps;scheme=https;end`;
+    url = `geo:${lat},${lng}?q=${lat},${lng}(${encodeURIComponent(name || 'Spot')})`;
+    // Fallback to Google Maps intent (show location, not route)
+    const intentUrl = `intent://maps.google.com/maps?q=${lat},${lng}#Intent;package=com.google.android.apps.maps;scheme=https;end`;
 
     // Try intent first, fallback to geo
     try {
@@ -50,8 +50,8 @@ export function openInGoogleMaps(lat, lng, name = '') {
     }
   }
 
-  // Universal Google Maps URL (works on web and opens app if installed)
-  url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+  // Universal Google Maps URL — show location only, no route
+  url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
   window.open(url, '_blank');
   return true;
 }
@@ -67,8 +67,8 @@ export function openInWaze(lat, lng) {
     return false;
   }
 
-  // Waze universal link - works on all platforms
-  const url = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+  // Waze universal link — show location only, no navigation
+  const url = `https://waze.com/ul?ll=${lat},${lng}&navigate=no`;
   window.open(url, '_blank');
   return true;
 }

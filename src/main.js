@@ -100,13 +100,18 @@ let currentVersion = null
 let isReloading = false
 
 function startVersionCheck() {
-  const CHECK_INTERVAL = 300_000 // 5 minutes
+  const CHECK_INTERVAL = 600_000 // 10 minutes
   const BASE = import.meta.env.BASE_URL || '/'
+  let lastCheck = 0
 
   async function checkVersion() {
     if (isReloading) return
+    // Debounce: don't check more than once per 30 seconds
+    const now = Date.now()
+    if (now - lastCheck < 30_000) return
+    lastCheck = now
     try {
-      const res = await fetch(`${BASE}version.json?t=${Date.now()}`, { cache: 'no-store' })
+      const res = await fetch(`${BASE}version.json?t=${now}`, { cache: 'no-store' })
       if (!res.ok) return
       const data = await res.json()
       if (!currentVersion) {
@@ -115,8 +120,12 @@ function startVersionCheck() {
       }
       if (data.version !== currentVersion) {
         currentVersion = data.version
-        isReloading = true
-        window.location.reload()
+        // Don't reload immediately — wait until user is idle
+        if (document.visibilityState === 'hidden') {
+          isReloading = true
+          window.location.reload()
+        }
+        // Otherwise, reload on next visibility change
       }
     } catch { /* offline or file missing — ignore */ }
   }
@@ -124,26 +133,17 @@ function startVersionCheck() {
   // Initial check to store current version (always run)
   checkVersion()
 
-  // Check every 5 minutes in background
+  // Check every 10 minutes in background
   setInterval(() => {
     if (document.visibilityState !== 'visible') checkVersion()
   }, CHECK_INTERVAL)
 
-  // Check immediately when user comes back from background
+  // Check when user comes back from background (debounced)
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      setTimeout(checkVersion, 1000)
+      setTimeout(checkVersion, 3000)
     }
   })
-
-  // Auto-reload when Service Worker updates and takes control
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (isReloading) return
-      isReloading = true
-      window.location.reload()
-    })
-  }
 }
 
 // ==================== INITIALIZATION ====================
@@ -559,7 +559,8 @@ function render(state) {
 }
 
 /**
- * Register service worker with aggressive auto-update
+ * Register service worker — non-aggressive update strategy
+ * New SW activates on next natural page load, no forced reloads
  */
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return
@@ -567,8 +568,8 @@ async function registerServiceWorker() {
   try {
     const registration = await navigator.serviceWorker.register('/sw.js')
 
-    // Check for updates every 2 minutes
-    setInterval(() => registration.update(), 2 * 60 * 1000)
+    // Check for updates every 10 minutes (not 2)
+    setInterval(() => registration.update(), 10 * 60 * 1000)
 
     // Check for updates when user returns to the app
     document.addEventListener('visibilitychange', () => {
@@ -580,30 +581,8 @@ async function registerServiceWorker() {
     // Check on online recovery
     window.addEventListener('online', () => registration.update())
 
-    // Auto-reload when new SW takes control
-    let refreshing = false
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!refreshing) {
-        refreshing = true
-        window.location.reload()
-      }
-    })
-
-    // Force activate new SW immediately when found
-    registration.addEventListener('updatefound', () => {
-      const newWorker = registration.installing
-      if (!newWorker) return
-      newWorker.addEventListener('statechange', () => {
-        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-          newWorker.postMessage({ type: 'SKIP_WAITING' })
-        }
-      })
-    })
-
-    // If a waiting worker already exists (e.g. from previous visit), activate it now
-    if (registration.waiting) {
-      registration.waiting.postMessage({ type: 'SKIP_WAITING' })
-    }
+    // Don't force reload on controllerchange — let version.json handle it
+    // Don't SKIP_WAITING — new SW will activate on next natural navigation
   } catch (error) {
     console.error('Service Worker registration failed:', error)
   }

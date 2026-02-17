@@ -286,8 +286,8 @@ function renderNavigationAppButtons(lat, lng, name) {
 window.openNavigation = (lat, lng) => {
   if (!lat || !lng) return;
 
-  // Try Google Maps first, fallback to OpenStreetMap
-  const googleUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  // Open Google Maps at the spot location (no route, just the pin)
+  const googleUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
   window.open(googleUrl, '_blank');
 };
 
