@@ -197,7 +197,7 @@ function renderActiveTripDetails(trip) {
                       </span>
                     `).join('')}
                   </div>`
-    : '<p class="text-slate-400 text-xs">Pas de spots connus sur ce tronçon</p>'
+    : `<p class="text-slate-400 text-xs">${t('noKnownSpots') || 'No known spots on this section'}</p>`
 }
             </div>
           `).join('')}

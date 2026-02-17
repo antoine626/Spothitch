@@ -97,7 +97,7 @@ describe('FAQ Component', () => {
       const html = renderFAQ(state);
 
       expect(html).toContain('openContactForm');
-      expect(html).toContain('contactUs');
+      expect(html).toContain('contacter');
     });
 
     it('should be accessible with proper ARIA attributes', () => {

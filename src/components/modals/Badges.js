@@ -46,7 +46,7 @@ export function renderBadgesModal() {
           <div class="flex justify-between items-start">
             <div>
               <h2 id="badges-title" class="text-2xl font-bold text-white">Mes Badges</h2>
-              <p class="text-white/80">${earnedBadges.length}/${allBadges.length} debloques</p>
+              <p class="text-white/80">${earnedBadges.length}/${allBadges.length} ${t('unlocked') || 'unlocked'}</p>
             </div>
             <button onclick="closeBadges()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
@@ -71,7 +71,7 @@ export function renderBadgesModal() {
           ${nextBadges.length > 0 ? `
             <section class="mb-6">
               <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
-                Prochains badges
+                ${t('nextBadges') || 'Next badges'}
               </h3>
               <div class="grid grid-cols-3 gap-4">
                 ${nextBadges.map(badge => `
@@ -112,7 +112,7 @@ export function renderBadgesModal() {
 }
                         <div class="text-white text-xs font-medium truncate">${badge.name}</div>
                         ${isEarned
-    ? '<div class="text-green-400 text-xs mt-1">✓ Débloqué</div>'
+    ? `<div class="text-green-400 text-xs mt-1">✓ ${t('unlocked') || 'Unlocked'}</div>`
     : '<div class="text-slate-400 text-xs mt-1">🔒</div>'
 }
                       </div>
