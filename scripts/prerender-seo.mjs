@@ -10,7 +10,11 @@ import { join } from 'path'
 
 const DIST_PATH = join(import.meta.dirname, '..', 'dist')
 const GUIDES_PATH = join(import.meta.dirname, '..', 'src', 'data', 'guides.js')
+const SPOTS_PATH = join(import.meta.dirname, '..', 'public', 'data', 'spots')
 const BASE_URL = 'https://spothitch.com'
+
+// Popular countries for cross-linking (top traffic)
+const POPULAR_COUNTRIES = ['FR', 'DE', 'ES', 'IT', 'NL', 'PL', 'GB', 'US', 'AU', 'TR']
 
 // Extract guide data from source
 function extractGuides() {
@@ -21,8 +25,8 @@ function extractGuides() {
   const nameRegex = /name:\s*'([^']+)'/g
   const nameEnRegex = /nameEn:\s*'([^']+)'/g
   const flagRegex = /flag:\s*'([^']+)'/g
-  const legalityTextRegex = /legalityText:\s*'([^']+)'/g
-  const difficultyTextRegex = /difficultyText:\s*'([^']+)'/g
+  const legalityTextEnRegex = /legalityTextEn:\s*'([^']+)'/g
+  const difficultyTextEnRegex = /difficultyTextEn:\s*'([^']+)'/g
 
   let match
   const codes = []
@@ -37,11 +41,11 @@ function extractGuides() {
   const flags = []
   while ((match = flagRegex.exec(content)) !== null) flags.push(match[1])
 
-  const legality = []
-  while ((match = legalityTextRegex.exec(content)) !== null) legality.push(match[1])
+  const legalityEn = []
+  while ((match = legalityTextEnRegex.exec(content)) !== null) legalityEn.push(match[1])
 
-  const difficulty = []
-  while ((match = difficultyTextRegex.exec(content)) !== null) difficulty.push(match[1])
+  const difficultyEn = []
+  while ((match = difficultyTextEnRegex.exec(content)) !== null) difficultyEn.push(match[1])
 
   for (let i = 0; i < codes.length; i++) {
     guides.push({
@@ -49,49 +53,91 @@ function extractGuides() {
       name: names[i] || codes[i],
       nameEn: namesEn[i] || names[i],
       flag: flags[i] || '',
-      legalityText: legality[i] || '',
-      difficultyText: difficulty[i] || '',
+      legalityTextEn: legalityEn[i] || '',
+      difficultyTextEn: difficultyEn[i] || '',
     })
   }
 
   return guides
 }
 
-function generateGuideHTML(guide) {
+// Count spots for a country
+function countSpots(code) {
+  const filePath = join(SPOTS_PATH, `${code.toLowerCase()}.json`)
+  if (!existsSync(filePath)) return 0
+  try {
+    const data = JSON.parse(readFileSync(filePath, 'utf-8'))
+    if (Array.isArray(data)) return data.length
+    if (data.spots && Array.isArray(data.spots)) return data.spots.length
+    if (data.totalSpots) return data.totalSpots
+    return 0
+  } catch {
+    return 0
+  }
+}
+
+function generateGuideHTML(guide, allGuides) {
+  const spotCount = countSpots(guide.code)
+  const spotText = spotCount > 0 ? `${spotCount} hitchhiking spots available on SpotHitch.` : ''
+  const codeLower = guide.code.toLowerCase()
+
+  // Pick 5 other popular guides for cross-linking (exclude current)
+  const crossLinks = allGuides
+    .filter(g => g.code !== guide.code && POPULAR_COUNTRIES.includes(g.code))
+    .slice(0, 6)
+    .map(g => `    <li><a href="${BASE_URL}/guides/${g.code.toLowerCase()}">${g.flag} Hitchhiking in ${g.nameEn}</a></li>`)
+    .join('\n')
+
   return `<!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auto-stop ${guide.name} ${guide.flag} - Guide SpotHitch</title>
-  <meta name="description" content="Guide auto-stop ${guide.name}: ${guide.legalityText}. ${guide.difficultyText}. Spots, lois, numeros d'urgence et conseils pour faire du stop en ${guide.name}.">
+  <title>Hitchhiking in ${guide.nameEn} ${guide.flag}${spotCount > 0 ? ` - ${spotCount} spots` : ''} | SpotHitch</title>
+  <meta name="description" content="Hitchhiking guide for ${guide.nameEn}: ${guide.legalityTextEn}. Difficulty: ${guide.difficultyTextEn}.${spotCount > 0 ? ` ${spotCount} spots available.` : ''}">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="${BASE_URL}/guides/${guide.code.toLowerCase()}">
-  <meta property="og:title" content="Auto-stop ${guide.name} ${guide.flag} - SpotHitch">
-  <meta property="og:description" content="Guide complet: ${guide.legalityText}">
-  <meta property="og:url" content="${BASE_URL}/guides/${guide.code.toLowerCase()}">
+  <link rel="canonical" href="${BASE_URL}/guides/${codeLower}">
+  <meta property="og:title" content="Hitchhiking in ${guide.nameEn} ${guide.flag} | SpotHitch">
+  <meta property="og:description" content="${guide.legalityTextEn}">
+  <meta property="og:url" content="${BASE_URL}/guides/${codeLower}">
   <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "name": "Guide auto-stop ${guide.name}",
-    "description": "${guide.legalityText}",
-    "url": "${BASE_URL}/guides/${guide.code.toLowerCase()}",
+    "name": "Hitchhiking in ${guide.nameEn}",
+    "description": "${guide.legalityTextEn}",
+    "url": "${BASE_URL}/guides/${codeLower}",
     "publisher": { "@type": "Organization", "name": "SpotHitch" }
   }
   </script>
-  <meta http-equiv="refresh" content="0;url=${BASE_URL}/?guide=${guide.code}">
+  <style>
+    body{font-family:system-ui,-apple-system,sans-serif;background:#0f1520;color:#e2e8f0;margin:0;padding:20px}
+    a{color:#f59e0b;text-decoration:none}a:hover{text-decoration:underline}
+    .container{max-width:800px;margin:0 auto;padding:20px}
+    h1{color:#fff;font-size:2em;margin-bottom:0.5em}
+    h2{color:#f59e0b;font-size:1.3em;margin-top:1.5em}
+    .info{background:#1a2332;padding:16px;border-radius:8px;margin:12px 0}
+    ul{padding-left:20px}li{margin:6px 0}
+  </style>
 </head>
 <body>
-  <h1>${guide.flag} Auto-stop en ${guide.name}</h1>
-  <p>${guide.legalityText}</p>
-  <p>Difficulte: ${guide.difficultyText}</p>
-  <p><a href="${BASE_URL}">Voir tous les guides sur SpotHitch</a></p>
-  <p><a href="${BASE_URL}/?guide=${guide.code}">Ouvrir le guide complet</a></p>
-  <noscript>
-    <p>SpotHitch - La communaute des autostoppeurs. 37 000+ spots dans 170 pays.</p>
-  </noscript>
+  <div class="container">
+    <p><a href="${BASE_URL}">&larr; Back to SpotHitch</a></p>
+    <h1>${guide.flag} Hitchhiking in ${guide.nameEn}</h1>
+    <div class="info">
+      <p><strong>Legality:</strong> ${guide.legalityTextEn}</p>
+      <p><strong>Difficulty:</strong> ${guide.difficultyTextEn}</p>
+      ${spotText ? `<p><strong>${spotCount} spots</strong> available on SpotHitch.</p>` : ''}
+    </div>
+    <p><a href="${BASE_URL}/?guide=${guide.code}">Open full interactive guide &rarr;</a></p>
+    <h2>More Country Guides</h2>
+    <ul>
+${crossLinks}
+    </ul>
+    <p style="margin-top:2em"><a href="${BASE_URL}">&larr; Back to SpotHitch - The Hitchhiking Community</a></p>
+  </div>
 </body>
 </html>`
 }
@@ -106,7 +152,7 @@ function generateSitemap(guides) {
   ]
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemapindex.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.join('\n')}
 </urlset>`
 }
@@ -123,16 +169,10 @@ if (!existsSync(guidesDir)) mkdirSync(guidesDir, { recursive: true })
 for (const guide of guides) {
   const dir = join(guidesDir, guide.code.toLowerCase())
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
-  writeFileSync(join(dir, 'index.html'), generateGuideHTML(guide))
+  writeFileSync(join(dir, 'index.html'), generateGuideHTML(guide, guides))
 }
 
-// Generate sitemap
+// Generate sitemap (robots.txt comes from public/, not generated here)
 writeFileSync(join(DIST_PATH, 'sitemap.xml'), generateSitemap(guides))
 
-// Generate robots.txt
-writeFileSync(join(DIST_PATH, 'robots.txt'), `User-agent: *
-Allow: /
-Sitemap: ${BASE_URL}/sitemap.xml
-`)
-
-console.log(`Generated ${guides.length} guide pages + sitemap.xml + robots.txt`)
+console.log(`Generated ${guides.length} guide pages + sitemap.xml`)

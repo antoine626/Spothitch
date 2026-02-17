@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,11 +11,11 @@
     <meta name="application-name" content="SpotHitch">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
+
     <!-- SEO -->
-    <title>SpotHitch - La communauté des autostoppeurs | Trouvez les meilleurs spots</title>
-    <meta name="description" content="SpotHitch - Trouvez les meilleurs spots d'auto-stop dans le monde. Plus de 14 000 spots dans 137 pays, guides par pays, planificateur de voyage et communauté active.">
-    <meta name="keywords" content="autostop, hitchhiking, spots, voyage, backpacking, auto-stop, pouce, routard, aventure, worldwide">
+    <title>SpotHitch - The Hitchhiking Community | Find the Best Spots</title>
+    <meta name="description" content="Find the best hitchhiking spots worldwide. 14,000+ spots in 137 countries, country guides, trip planner and active community.">
+    <meta name="keywords" content="hitchhiking, hitchhike, spots, travel, backpacking, thumbing, ride sharing, adventure, worldwide, autostop">
     <meta name="author" content="SpotHitch">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://spothitch.com">
@@ -24,19 +24,19 @@
     <link rel="alternate" hreflang="es" href="https://spothitch.com/?lang=es">
     <link rel="alternate" hreflang="de" href="https://spothitch.com/?lang=de">
     <link rel="alternate" hreflang="x-default" href="https://spothitch.com">
-    
+
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://spothitch.com">
-    <meta property="og:title" content="SpotHitch - La communauté des autostoppeurs">
-    <meta property="og:description" content="Trouvez les meilleurs spots d'auto-stop dans le monde. 14 000+ spots dans 137 pays. Partagez vos expériences et planifiez vos voyages.">
+    <meta property="og:title" content="SpotHitch - The Hitchhiking Community">
+    <meta property="og:description" content="Find the best hitchhiking spots worldwide. 14,000+ spots in 137 countries. Share your experiences and plan your trips.">
     <meta property="og:image" content="https://spothitch.com/og-image.png">
-    <meta property="og:locale" content="fr_FR">
-    
+    <meta property="og:locale" content="en_US">
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SpotHitch - La communauté des autostoppeurs">
-    <meta name="twitter:description" content="14 000+ spots d'auto-stop dans 137 pays. Guides, planificateur et communauté.">
+    <meta name="twitter:title" content="SpotHitch - The Hitchhiking Community">
+    <meta name="twitter:description" content="14,000+ hitchhiking spots in 137 countries. Guides, trip planner and community.">
     <meta name="twitter:image" content="https://spothitch.com/screenshot-mobile.png">
     
     <!-- PWA -->
@@ -70,7 +70,7 @@
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "SpotHitch",
-        "alternateName": "La communaute des autostoppeurs",
+        "alternateName": "The Hitchhiking Community",
         "url": "https://spothitch.com/",
         "potentialAction": {
             "@type": "SearchAction",
@@ -80,7 +80,7 @@
             },
             "query-input": "required name=search_term_string"
         },
-        "inLanguage": ["fr", "en", "es", "de"]
+        "inLanguage": ["en", "fr", "es", "de"]
     }
     </script>
     <script type="application/ld+json">
@@ -90,7 +90,7 @@
         "name": "SpotHitch",
         "url": "https://spothitch.com/",
         "logo": "https://spothitch.com/icon-512.png",
-        "description": "Communaute mondiale des autostoppeurs. Trouvez et partagez les meilleurs spots d'auto-stop.",
+        "description": "The worldwide hitchhiking community. Find and share the best hitchhiking spots.",
         "sameAs": []
     }
     </script>
@@ -99,9 +99,9 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "SpotHitch",
-        "alternateName": "La communaute des autostoppeurs",
+        "alternateName": "The Hitchhiking Community",
         "url": "https://spothitch.com/",
-        "description": "Trouvez les meilleurs spots d'auto-stop dans le monde. 14 000+ spots dans 137 pays.",
+        "description": "Find the best hitchhiking spots worldwide. 14,000+ spots in 137 countries.",
         "applicationCategory": "TravelApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript",
@@ -109,7 +109,7 @@
         "offers": {
             "@type": "Offer",
             "price": "0",
-            "priceCurrency": "EUR"
+            "priceCurrency": "USD"
         },
         "featureList": "Hitchhiking spot map, Country guides, Trip planner, Community reviews, Offline mode, SOS emergency"
     }
@@ -118,14 +118,14 @@
 <body>
     <!-- Skip to content link -->
     <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-amber-500 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
-        Aller au contenu principal
+        Skip to main content
     </a>
     
     <!-- App Loader -->
     <div id="app-loader">
         <div style="text-align:center">
             <div class="loader-spinner" style="margin:0 auto 16px"></div>
-            <div style="color:#94a3b8;font-size:14px" id="loader-text">Chargement de SpotHitch...</div>
+            <div style="color:#94a3b8;font-size:14px" id="loader-text">Loading SpotHitch...</div>
         </div>
     </div>
 
@@ -136,15 +136,29 @@
             var app = document.getElementById('app');
             if (loader && !loader.classList.contains('hidden') && (!app || !app.innerHTML)) {
                 document.getElementById('loader-text').innerHTML =
-                    'Chargement lent...<br><small style="color:#64748b">Vérifiez votre connexion</small>';
+                    'Slow loading...<br><small style="color:#64748b">Check your connection</small>';
             }
         }, 8000);
     </script>
 
     <noscript>
-        <div style="text-align:center;padding:40px;color:#fff">
-            <h1>JavaScript requis</h1>
-            <p>Activez JavaScript pour utiliser SpotHitch</p>
+        <div style="max-width:800px;margin:0 auto;padding:40px 20px;color:#fff;font-family:system-ui,-apple-system,sans-serif">
+            <h1>SpotHitch - The Hitchhiking Community</h1>
+            <p>Find the best hitchhiking spots worldwide. 14,000+ spots in 137 countries, country guides, trip planner and active community.</p>
+            <h2>Popular Country Guides</h2>
+            <ul>
+                <li><a href="/guides/fr" style="color:#f59e0b">Hitchhiking in France</a></li>
+                <li><a href="/guides/de" style="color:#f59e0b">Hitchhiking in Germany</a></li>
+                <li><a href="/guides/es" style="color:#f59e0b">Hitchhiking in Spain</a></li>
+                <li><a href="/guides/it" style="color:#f59e0b">Hitchhiking in Italy</a></li>
+                <li><a href="/guides/nl" style="color:#f59e0b">Hitchhiking in Netherlands</a></li>
+                <li><a href="/guides/pl" style="color:#f59e0b">Hitchhiking in Poland</a></li>
+                <li><a href="/guides/gb" style="color:#f59e0b">Hitchhiking in United Kingdom</a></li>
+                <li><a href="/guides/us" style="color:#f59e0b">Hitchhiking in United States</a></li>
+                <li><a href="/guides/au" style="color:#f59e0b">Hitchhiking in Australia</a></li>
+                <li><a href="/guides/tr" style="color:#f59e0b">Hitchhiking in Turkey</a></li>
+            </ul>
+            <p>Enable JavaScript to use the interactive map and all features.</p>
         </div>
     </noscript>
     

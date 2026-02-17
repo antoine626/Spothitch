@@ -1,11 +1,4 @@
-# SpotHitch - PWA d'autostop
-# https://spothitch.com/
-
 User-agent: *
 Allow: /
 
-# Sitemap
 Sitemap: https://spothitch.com/sitemap.xml
-
-# Crawl-delay pour être gentil avec les serveurs
-Crawl-delay: 1

@@ -10,6 +10,14 @@
 /index.html
   Cache-Control: no-cache, must-revalidate
 
+/robots.txt
+  Cache-Control: public, max-age=3600
+  Content-Type: text/plain
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+  Content-Type: application/xml
+
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
