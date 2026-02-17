@@ -1,154 +1,178 @@
 /**
  * Tests for Spot Freshness/Reliability Service
+ * New system: user validations (not HitchWiki globalRating)
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { getSpotFreshness, renderFreshnessBadge, getFreshnessColor } from '../src/services/spotFreshness.js'
-import { getState, setState } from '../src/stores/state.js'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { getSpotFreshness, getSpotAge, renderFreshnessBadge, renderAgeBadge, getFreshnessColor } from '../src/services/spotFreshness.js'
+import { setState } from '../src/stores/state.js'
 
 describe('spotFreshness', () => {
   beforeEach(() => {
     setState({ lang: 'fr' })
   })
 
-  describe('getSpotFreshness', () => {
-    it('should return RED for dangerous spots', () => {
-      const spot = { dangerous: true, globalRating: 4.0 }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('red')
-      expect(result.label).toBe('Déconseillé')
-      expect(result.labelEn).toBe('Not recommended')
-      expect(result.icon).toBe('circle-x')
+  describe('getSpotFreshness — reliability by user validations', () => {
+    it('should return SLATE for null spot', () => {
+      const result = getSpotFreshness(null)
+      expect(result.color).toBe('slate')
+      expect(result.labelKey).toBe('unverifiedSpot')
+      expect(result.icon).toBe('help-circle')
     })
 
-    it('should return RED for reported spots', () => {
-      const spot = { reported: true, globalRating: 4.0 }
+    it('should return SLATE for unverified spot (0 validations)', () => {
+      const spot = { userValidations: 0 }
       const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('red')
-      expect(result.label).toBe('Déconseillé')
+      expect(result.color).toBe('slate')
+      expect(result.labelKey).toBe('unverifiedSpot')
     })
 
-    it('should return RED for very low rating (< 2.5)', () => {
-      const spot = { globalRating: 2.3, lastUsed: '2024-12-01' }
+    it('should return SLATE for spot with no userValidations field', () => {
+      const spot = { globalRating: 4.5 }
       const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('red')
-      expect(result.label).toBe('Déconseillé')
+      expect(result.color).toBe('slate')
     })
 
-    it('should return GREEN for recent review (< 6 months)', () => {
-      const now = new Date()
-      const threeMonthsAgo = new Date(now)
-      threeMonthsAgo.setMonth(now.getMonth() - 3)
-
-      const spot = {
-        globalRating: 3.0,
-        lastUsed: threeMonthsAgo.toISOString().split('T')[0]
-      }
+    it('should return AMBER for 1 validation', () => {
+      const spot = { userValidations: 1 }
       const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('emerald')
-      expect(result.label).toBe('Fiable')
-      expect(result.labelEn).toBe('Reliable')
-      expect(result.icon).toBe('circle-check')
-    })
-
-    it('should return GREEN for high rating (>= 3.5) regardless of date', () => {
-      const spot = { globalRating: 4.5, lastUsed: '2022-01-01' }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('emerald')
-      expect(result.label).toBe('Fiable')
-    })
-
-    it('should return ORANGE for old spot (18+ months)', () => {
-      const now = new Date()
-      const twentyMonthsAgo = new Date(now)
-      twentyMonthsAgo.setMonth(now.getMonth() - 20)
-
-      const spot = {
-        globalRating: 2.8,
-        lastUsed: twentyMonthsAgo.toISOString().split('T')[0]
-      }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('orange')
-      expect(result.label).toBe('Ancien')
-      expect(result.labelEn).toBe('Outdated')
-      expect(result.icon).toBe('clock')
-    })
-
-    it('should return YELLOW for spots between 6-18 months', () => {
-      const now = new Date()
-      const tenMonthsAgo = new Date(now)
-      tenMonthsAgo.setMonth(now.getMonth() - 10)
-
-      const spot = {
-        globalRating: 3.0,
-        lastUsed: tenMonthsAgo.toISOString().split('T')[0]
-      }
-      const result = getSpotFreshness(spot)
-
       expect(result.color).toBe('amber')
-      expect(result.label).toBe('À vérifier')
-      expect(result.labelEn).toBe('Needs verification')
+      expect(result.labelKey).toBe('partiallyVerified')
       expect(result.icon).toBe('circle-alert')
     })
 
-    it('should return YELLOW for spots with no date', () => {
-      const spot = { globalRating: 3.0 }
+    it('should return AMBER for 2 validations', () => {
+      const spot = { userValidations: 2 }
       const result = getSpotFreshness(spot)
-
       expect(result.color).toBe('amber')
-      expect(result.label).toBe('À vérifier')
     })
 
-    it('should handle null spot gracefully', () => {
-      const result = getSpotFreshness(null)
-
-      expect(result.color).toBe('amber')
-      expect(result.labelEn).toBe('Unknown')
-      expect(result.icon).toBe('info')
+    it('should return EMERALD for 3 validations', () => {
+      const spot = { userValidations: 3 }
+      const result = getSpotFreshness(spot)
+      expect(result.color).toBe('emerald')
+      expect(result.labelKey).toBe('reliableSpot')
+      expect(result.icon).toBe('circle-check')
     })
 
-    it('should check lastReview and lastCheckin fields', () => {
-      const now = new Date()
-      const twoMonthsAgo = new Date(now)
-      twoMonthsAgo.setMonth(now.getMonth() - 2)
+    it('should return EMERALD for 4 validations', () => {
+      const spot = { userValidations: 4 }
+      const result = getSpotFreshness(spot)
+      expect(result.color).toBe('emerald')
+    })
 
-      const spot1 = {
-        globalRating: 3.0,
-        lastReview: twoMonthsAgo.toISOString().split('T')[0]
-      }
-      const result1 = getSpotFreshness(spot1)
-      expect(result1.color).toBe('emerald')
+    it('should return BLUE for 5 validations (very reliable)', () => {
+      const spot = { userValidations: 5 }
+      const result = getSpotFreshness(spot)
+      expect(result.color).toBe('blue')
+      expect(result.labelKey).toBe('veryReliableSpot')
+      expect(result.icon).toBe('shield-check')
+    })
 
-      const spot2 = {
-        globalRating: 3.0,
-        lastCheckin: twoMonthsAgo.toISOString().split('T')[0]
-      }
-      const result2 = getSpotFreshness(spot2)
-      expect(result2.color).toBe('emerald')
+    it('should return BLUE for 10+ validations', () => {
+      const spot = { userValidations: 10 }
+      const result = getSpotFreshness(spot)
+      expect(result.color).toBe('blue')
+    })
+
+    it('should return RED for dangerous spot', () => {
+      const spot = { dangerous: true, userValidations: 5 }
+      const result = getSpotFreshness(spot)
+      expect(result.color).toBe('red')
+      expect(result.labelKey).toBe('dangerousSpot')
+      expect(result.icon).toBe('triangle-alert')
+    })
+
+    it('should return RED for reported spot', () => {
+      const spot = { reported: true, userValidations: 3 }
+      const result = getSpotFreshness(spot)
+      expect(result.color).toBe('red')
+    })
+
+    it('should return PURPLE for ambassador-verified spot', () => {
+      const spot = { ambassadorVerified: true, userValidations: 2 }
+      const result = getSpotFreshness(spot)
+      expect(result.color).toBe('purple')
+      expect(result.labelKey).toBe('ambassadorVerified')
+      expect(result.icon).toBe('badge-check')
     })
 
     it('should include all CSS classes', () => {
-      const spot = { globalRating: 4.0 }
+      const spot = { userValidations: 3 }
       const result = getSpotFreshness(spot)
-
       expect(result.bgClass).toBeDefined()
       expect(result.textClass).toBeDefined()
       expect(result.borderClass).toBeDefined()
     })
   })
 
+  describe('Priority rules', () => {
+    it('RED overrides BLUE even with 10 validations', () => {
+      const spot = { dangerous: true, userValidations: 10 }
+      expect(getSpotFreshness(spot).color).toBe('red')
+    })
+
+    it('RED overrides PURPLE', () => {
+      const spot = { dangerous: true, ambassadorVerified: true, userValidations: 5 }
+      expect(getSpotFreshness(spot).color).toBe('red')
+    })
+
+    it('PURPLE overrides BLUE', () => {
+      const spot = { ambassadorVerified: true, userValidations: 10 }
+      expect(getSpotFreshness(spot).color).toBe('purple')
+    })
+
+    it('Both dangerous and reported gives RED', () => {
+      const spot = { dangerous: true, reported: true }
+      expect(getSpotFreshness(spot).color).toBe('red')
+    })
+  })
+
+  describe('getSpotAge — freshness by date', () => {
+    it('should return unknownAge for spot with no dates', () => {
+      const spot = {}
+      const age = getSpotAge(spot)
+      expect(age.labelKey).toBe('unknownAge')
+    })
+
+    it('should return recentSpot for spot < 1 year old', () => {
+      const threeMonthsAgo = new Date()
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+      const spot = { lastCheckin: threeMonthsAgo.toISOString() }
+      const age = getSpotAge(spot)
+      expect(age.labelKey).toBe('recentSpot')
+      expect(age.icon).toBe('sparkles')
+    })
+
+    it('should return oldSpot for spot 1-3 years old', () => {
+      const twoYearsAgo = new Date()
+      twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2)
+      const spot = { lastUsed: twoYearsAgo.toISOString() }
+      const age = getSpotAge(spot)
+      expect(age.labelKey).toBe('oldSpot')
+    })
+
+    it('should return historicSpot for spot 3-5 years old', () => {
+      const fourYearsAgo = new Date()
+      fourYearsAgo.setFullYear(fourYearsAgo.getFullYear() - 4)
+      const spot = { lastUsed: fourYearsAgo.toISOString() }
+      const age = getSpotAge(spot)
+      expect(age.labelKey).toBe('historicSpot')
+    })
+
+    it('should use createdAt as fallback', () => {
+      const sixMonthsAgo = new Date()
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
+      const spot = { createdAt: sixMonthsAgo.toISOString() }
+      const age = getSpotAge(spot)
+      expect(age.labelKey).toBe('recentSpot')
+    })
+  })
+
   describe('renderFreshnessBadge', () => {
     it('should render HTML badge for reliable spot', () => {
-      const spot = { globalRating: 4.0 }
+      const spot = { userValidations: 3 }
       const html = renderFreshnessBadge(spot)
-
-      expect(html).toContain('Fiable')
       expect(html).toContain('<svg')
       expect(html).toContain('bg-emerald-500/20')
       expect(html).toContain('text-emerald-400')
@@ -157,39 +181,30 @@ describe('spotFreshness', () => {
     it('should render HTML badge for dangerous spot', () => {
       const spot = { dangerous: true }
       const html = renderFreshnessBadge(spot)
-
-      expect(html).toContain('Déconseillé')
       expect(html).toContain('<svg')
       expect(html).toContain('bg-red-500/20')
     })
 
-    it('should respect language setting', () => {
-      setState({ lang: 'en' })
-      const spot = { globalRating: 4.0 }
+    it('should render badge for unverified spot', () => {
+      const spot = { userValidations: 0 }
       const html = renderFreshnessBadge(spot)
-
-      expect(html).toContain('Reliable')
-      expect(html).not.toContain('Fiable')
+      expect(html).toContain('bg-slate-500/20')
     })
 
-    it('should support Spanish language', () => {
-      setState({ lang: 'es' })
-      const spot = { dangerous: true }
+    it('should show validation count in badge', () => {
+      const spot = { userValidations: 7 }
       const html = renderFreshnessBadge(spot)
-
-      expect(html).toContain('No recomendado')
+      expect(html).toContain('(7)')
     })
 
-    it('should support German language', () => {
-      setState({ lang: 'de' })
-      const spot = { globalRating: 4.0 }
+    it('should not show count for 0 validations', () => {
+      const spot = { userValidations: 0 }
       const html = renderFreshnessBadge(spot)
-
-      expect(html).toContain('Zuverlässig')
+      expect(html).not.toContain('(0)')
     })
 
     it('should support different sizes', () => {
-      const spot = { globalRating: 4.0 }
+      const spot = { userValidations: 3 }
 
       const htmlSm = renderFreshnessBadge(spot, 'sm')
       const htmlMd = renderFreshnessBadge(spot, 'md')
@@ -201,137 +216,58 @@ describe('spotFreshness', () => {
     })
 
     it('should default to md size', () => {
-      const spot = { globalRating: 4.0 }
+      const spot = { userValidations: 3 }
       const html = renderFreshnessBadge(spot)
-
       expect(html).toContain('text-xs px-2 py-1')
     })
   })
 
-  describe('getFreshnessColor', () => {
-    it('should return emerald hex for reliable spots', () => {
-      const spot = { globalRating: 4.0 }
-      const color = getFreshnessColor(spot)
+  describe('renderAgeBadge', () => {
+    it('should render age badge', () => {
+      const threeMonthsAgo = new Date()
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+      const spot = { lastCheckin: threeMonthsAgo.toISOString() }
+      const html = renderAgeBadge(spot)
+      expect(html).toContain('<svg')
+      expect(html).toContain('bg-emerald-500/20')
+    })
 
-      expect(color).toBe('#10b981')
+    it('should default to sm size', () => {
+      const spot = { lastCheckin: new Date().toISOString() }
+      const html = renderAgeBadge(spot)
+      expect(html).toContain('text-xs px-1.5 py-0.5')
+    })
+  })
+
+  describe('getFreshnessColor — hex colors for markers', () => {
+    it('should return slate hex for unverified spots', () => {
+      const spot = { userValidations: 0 }
+      expect(getFreshnessColor(spot)).toBe('#94a3b8')
+    })
+
+    it('should return amber hex for partially verified spots', () => {
+      const spot = { userValidations: 1 }
+      expect(getFreshnessColor(spot)).toBe('#f59e0b')
+    })
+
+    it('should return emerald hex for reliable spots', () => {
+      const spot = { userValidations: 3 }
+      expect(getFreshnessColor(spot)).toBe('#10b981')
+    })
+
+    it('should return blue hex for very reliable spots', () => {
+      const spot = { userValidations: 5 }
+      expect(getFreshnessColor(spot)).toBe('#3b82f6')
+    })
+
+    it('should return purple hex for ambassador-verified spots', () => {
+      const spot = { ambassadorVerified: true }
+      expect(getFreshnessColor(spot)).toBe('#a855f7')
     })
 
     it('should return red hex for dangerous spots', () => {
       const spot = { dangerous: true }
-      const color = getFreshnessColor(spot)
-
-      expect(color).toBe('#ef4444')
-    })
-
-    it('should return orange hex for outdated spots', () => {
-      const now = new Date()
-      const twentyMonthsAgo = new Date(now)
-      twentyMonthsAgo.setMonth(now.getMonth() - 20)
-
-      const spot = {
-        globalRating: 2.8,
-        lastUsed: twentyMonthsAgo.toISOString().split('T')[0]
-      }
-      const color = getFreshnessColor(spot)
-
-      expect(color).toBe('#f97316')
-    })
-
-    it('should return amber hex for needs-verification spots', () => {
-      const spot = { globalRating: 3.0 }
-      const color = getFreshnessColor(spot)
-
-      expect(color).toBe('#f59e0b')
-    })
-  })
-
-  describe('Priority rules', () => {
-    it('RED should override GREEN even with recent review', () => {
-      const now = new Date()
-      const oneMonthAgo = new Date(now)
-      oneMonthAgo.setMonth(now.getMonth() - 1)
-
-      const spot = {
-        dangerous: true,
-        globalRating: 4.5,
-        lastUsed: oneMonthAgo.toISOString().split('T')[0]
-      }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('red')
-    })
-
-    it('Recent review should make spot GREEN even with low rating (>= 2.5)', () => {
-      const now = new Date()
-      const oneMonthAgo = new Date(now)
-      oneMonthAgo.setMonth(now.getMonth() - 1)
-
-      const spot = {
-        globalRating: 2.8,
-        lastUsed: oneMonthAgo.toISOString().split('T')[0]
-      }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('emerald')
-    })
-
-    it('Good rating should override old date', () => {
-      const spot = {
-        globalRating: 4.5,
-        lastUsed: '2020-01-01'
-      }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('emerald')
-    })
-  })
-
-  describe('Edge cases', () => {
-    it('should handle rating exactly 2.5 (not red)', () => {
-      const spot = { globalRating: 2.5 }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).not.toBe('red')
-      expect(result.color).toBe('amber')
-    })
-
-    it('should handle rating exactly 3.5 (green)', () => {
-      const spot = { globalRating: 3.5 }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('emerald')
-    })
-
-    it('should handle date exactly 6 months ago (green)', () => {
-      const now = new Date()
-      const sixMonthsAgo = new Date(now)
-      sixMonthsAgo.setMonth(now.getMonth() - 6)
-      sixMonthsAgo.setDate(sixMonthsAgo.getDate() + 1) // Just under 6 months
-
-      const spot = {
-        globalRating: 3.0,
-        lastUsed: sixMonthsAgo.toISOString().split('T')[0]
-      }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('emerald')
-    })
-
-    it('should handle invalid date format gracefully', () => {
-      const spot = {
-        globalRating: 3.0,
-        lastUsed: 'invalid-date'
-      }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('amber')
-    })
-
-    it('should handle both dangerous and reported flags', () => {
-      const spot = { dangerous: true, reported: true }
-      const result = getSpotFreshness(spot)
-
-      expect(result.color).toBe('red')
+      expect(getFreshnessColor(spot)).toBe('#ef4444')
     })
   })
 })

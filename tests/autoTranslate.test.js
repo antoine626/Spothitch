@@ -493,22 +493,30 @@ describe('Auto Translate Service', () => {
       storeOriginalText('elem-1', 'Hello driver');
     });
 
-    it('should translate element content', async () => {
+    it('should open Google Translate with correct URL', async () => {
       getState.mockReturnValue({ lang: 'fr' });
+      const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
 
       await translateElement('elem-1');
 
-      const element = document.getElementById('elem-1');
-      expect(element.textContent).toContain('conducteur');
+      expect(openSpy).toHaveBeenCalledOnce();
+      const url = openSpy.mock.calls[0][0];
+      expect(url).toContain('translate.google.com');
+      expect(url).toContain('tl=fr');
+      expect(url).toContain('Hello%20driver');
+
+      openSpy.mockRestore();
     });
 
-    it('should update button to show original button', async () => {
+    it('should open in new tab', async () => {
       getState.mockReturnValue({ lang: 'fr' });
+      const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
 
       await translateElement('elem-1');
 
-      const controls = document.querySelector('.translation-controls');
-      expect(controls.innerHTML).toContain('show-original-btn');
+      expect(openSpy.mock.calls[0][1]).toBe('_blank');
+
+      openSpy.mockRestore();
     });
 
     it('should warn if no elementId provided', async () => {
@@ -636,52 +644,50 @@ describe('Auto Translate Service', () => {
   });
 
   describe('Integration scenarios', () => {
-    it('should handle full translate/show original cycle', async () => {
+    it('translateElement should open Google Translate with correct URL', async () => {
       getState.mockReturnValue({ lang: 'fr' });
 
-      // Setup
+      // Mock window.open
+      const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+
+      storeOriginalText('elem-1', 'Hello driver');
+      await translateElement('elem-1');
+
+      expect(openSpy).toHaveBeenCalledOnce();
+      const url = openSpy.mock.calls[0][0];
+      expect(url).toContain('translate.google.com');
+      expect(url).toContain('tl=fr');
+      expect(url).toContain('Hello%20driver');
+      expect(openSpy.mock.calls[0][1]).toBe('_blank');
+
+      openSpy.mockRestore();
+    });
+
+    it('translateElement should warn if no original text stored', async () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      await translateElement('nonexistent');
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('No original text'),
+        expect.anything()
+      );
+
+      warnSpy.mockRestore();
+    });
+
+    it('showOriginal should restore original text in DOM', () => {
       document.body.innerHTML = `
         <div class="translatable-content" data-element-id="elem-1">
-          <div class="translatable-text" id="elem-1">Hello driver</div>
+          <div class="translatable-text" id="elem-1">Modified text</div>
           <div class="translation-controls"></div>
         </div>
       `;
       storeOriginalText('elem-1', 'Hello driver');
 
-      // Translate
-      await translateElement('elem-1');
-      let element = document.getElementById('elem-1');
-      expect(element.textContent).toContain('conducteur');
-
-      // Show original
       showOriginal('elem-1');
-      element = document.getElementById('elem-1');
+      const element = document.getElementById('elem-1');
       expect(element.textContent).toBe('Hello driver');
-    });
-
-    it('should work with multiple elements', async () => {
-      getState.mockReturnValue({ lang: 'fr' });
-
-      // Setup multiple elements
-      document.body.innerHTML = `
-        <div class="translatable-content" data-element-id="elem-1">
-          <div class="translatable-text" id="elem-1">car</div>
-          <div class="translation-controls"></div>
-        </div>
-        <div class="translatable-content" data-element-id="elem-2">
-          <div class="translatable-text" id="elem-2">driver</div>
-          <div class="translation-controls"></div>
-        </div>
-      `;
-      storeOriginalText('elem-1', 'car');
-      storeOriginalText('elem-2', 'driver');
-
-      // Translate both
-      await translateElement('elem-1');
-      await translateElement('elem-2');
-
-      expect(document.getElementById('elem-1').textContent).toContain('voiture');
-      expect(document.getElementById('elem-2').textContent).toContain('conducteur');
     });
 
     it('should detect and translate from auto-detected language', async () => {
