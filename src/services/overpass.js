@@ -36,7 +36,9 @@ function sampleRoute(geometry) {
 }
 
 /**
- * Build Overpass QL query for amenities along sampled route points
+ * Build Overpass QL query for amenities along sampled route points.
+ * Uses a bounding box approach (faster + simpler) instead of per-point around
+ * which can produce invalid queries when too many coordinates are used.
  * @param {Array<{lat: number, lng: number}>} points - Sampled points
  * @param {number} radiusMeters - Search radius in meters
  * @param {Object} options - { showFuel, showRestAreas }
@@ -45,20 +47,29 @@ function sampleRoute(geometry) {
 function buildQuery(points, radiusMeters, options) {
   const { showFuel = true, showRestAreas = true } = options
   if (!showFuel && !showRestAreas) return null
+  if (points.length === 0) return null
 
-  // Build coordinate list for around filter: lat1,lng1,lat2,lng2,...
-  const coords = points.map(p => `${p.lat},${p.lng}`).join(',')
+  // Compute bounding box from route points + padding
+  const pad = radiusMeters / 111000 // rough degrees per meter
+  let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity
+  for (const p of points) {
+    if (p.lat < minLat) minLat = p.lat
+    if (p.lat > maxLat) maxLat = p.lat
+    if (p.lng < minLng) minLng = p.lng
+    if (p.lng > maxLng) maxLng = p.lng
+  }
+  const bbox = `${(minLat - pad).toFixed(4)},${(minLng - pad).toFixed(4)},${(maxLat + pad).toFixed(4)},${(maxLng + pad).toFixed(4)}`
 
   const filters = []
   if (showFuel) {
-    filters.push(`node["amenity"="fuel"](around:${radiusMeters},${coords});`)
+    filters.push(`node["amenity"="fuel"](${bbox});`)
   }
   if (showRestAreas) {
-    filters.push(`node["highway"="rest_area"](around:${radiusMeters},${coords});`)
-    filters.push(`node["highway"="services"](around:${radiusMeters},${coords});`)
+    filters.push(`node["highway"="rest_area"](${bbox});`)
+    filters.push(`node["highway"="services"](${bbox});`)
   }
 
-  return `[out:json][timeout:15];(${filters.join('')});out body;`
+  return `[out:json][timeout:25];(${filters.join('')});out body;`
 }
 
 /**
@@ -172,9 +183,19 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
       .filter(el => el.type === 'node' && el.lat && el.lon)
       .map(normalizeElement)
 
+    // Filter by proximity to actual route (bbox may include distant POIs)
+    const corridorPois = allPois.filter(poi => {
+      for (const pt of sampledPoints) {
+        const dLat = (poi.lat - pt.lat) * 111
+        const dLng = (poi.lng - pt.lng) * 111 * Math.cos(pt.lat * Math.PI / 180)
+        if (Math.sqrt(dLat * dLat + dLng * dLng) <= corridorKm) return true
+      }
+      return false
+    })
+
     // Deduplicate by position (some stations appear twice)
     const seen = new Set()
-    const uniquePois = allPois.filter(poi => {
+    const uniquePois = corridorPois.filter(poi => {
       const key = `${poi.lat.toFixed(5)},${poi.lng.toFixed(5)}`
       if (seen.has(key)) return false
       seen.add(key)
