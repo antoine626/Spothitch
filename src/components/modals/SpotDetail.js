@@ -8,7 +8,7 @@ import { escapeHTML } from '../../utils/sanitize.js';
 import { renderVerificationBadge, renderVoteButtons } from '../../services/verification.js';
 import { renderFreshnessSection, renderFreshnessBadge } from '../../utils/dateHelpers.js';
 import { getAvailableNavigationApps } from '../../utils/navigation.js';
-import { renderFreshnessBadge as renderReliabilityBadge } from '../../services/spotFreshness.js';
+import { renderFreshnessBadge as renderReliabilityBadge, renderAgeBadge } from '../../services/spotFreshness.js';
 import { renderTranslateButton } from '../../services/autoTranslate.js';
 import { icon } from '../../utils/icons.js'
 
@@ -81,10 +81,10 @@ export function renderSpotDetail(state) {
           <!-- Stats -->
           <div class="grid grid-cols-3 gap-4 mb-5" role="group" aria-label="${t('spotStats') || 'Statistiques du spot'}">
             <div class="card p-3 text-center">
-              <div class="text-xl font-bold text-warning-400" aria-label="${t('rating') || 'Note'}: ${spot.globalRating?.toFixed(1) || 'N/A'}/5">
-                ${icon('star', 'w-5 h-5 mr-1')}${spot.globalRating?.toFixed(1) || 'N/A'}
+              <div class="text-xl font-bold text-emerald-400" aria-label="${t('validations') || 'Validations'}: ${spot.userValidations || 0}">
+                ${icon('circle-check', 'w-5 h-5 mr-1')}${spot.userValidations || 0}
               </div>
-              <div class="text-xs text-slate-400">${spot.totalReviews || 0} ${t('reviews')}</div>
+              <div class="text-xs text-slate-400">${t('validations') || 'Validations'}</div>
             </div>
             <div class="card p-3 text-center">
               <div class="text-xl font-bold text-primary-400" aria-label="${t('avgWait') || 'Attente moyenne'}: ${spot.avgWaitTime || '?'} min">
@@ -93,7 +93,7 @@ export function renderSpotDetail(state) {
               <div class="text-xs text-slate-400">min ${t('estimatedWait')}</div>
             </div>
             <div class="card p-3 text-center">
-              <div class="text-xl font-bold text-emerald-400" aria-label="${spot.checkins || 0} check-ins">
+              <div class="text-xl font-bold text-blue-400" aria-label="${spot.checkins || 0} check-ins">
                 ${spot.checkins || 0}
               </div>
               <div class="text-xs text-slate-400">check-ins</div>
@@ -138,14 +138,18 @@ export function renderSpotDetail(state) {
           <!-- Freshness Section - VERY VISIBLE -->
           ${renderFreshnessSection(spot.lastCheckin || spot.lastUsed)}
 
-          <!-- Ratings Breakdown -->
+          <!-- Reliability & Age -->
           <div class="mb-5">
-            <h3 class="font-semibold mb-4"><span aria-hidden="true">⭐</span> ${t('detailedRatings') || 'Évaluations détaillées'}</h3>
-            <div class="space-y-3" role="list" aria-label="${t('detailedRatings') || 'Notes détaillées'}">
-              ${renderRatingBar(t('safetyRating'), spot.ratings?.safety)}
-              ${renderRatingBar(t('traffic'), spot.ratings?.traffic)}
-              ${renderRatingBar(t('accessibility'), spot.ratings?.accessibility)}
+            <h3 class="font-semibold mb-4"><span aria-hidden="true">🛡️</span> ${t('reliability') || 'Fiabilité'}</h3>
+            <div class="flex flex-wrap gap-2">
+              ${renderReliabilityBadge(spot, 'lg')}
+              ${renderAgeBadge(spot, 'lg')}
             </div>
+            ${spot.source === 'hitchwiki' ? `
+              <p class="text-xs text-slate-500 mt-2">
+                ${icon('info', 'w-3 h-3 mr-1')}${t('hitchwikiImport') || 'Importé de Hitchwiki — validez ce spot pour améliorer sa fiabilité !'}
+              </p>
+            ` : ''}
           </div>
 
           <!-- Actions -->

@@ -20,7 +20,8 @@ export function renderSpotCard(spot, variant = 'default') {
 function renderDefaultCard(spot) {
   const typeClass = getSpotTypeClass(spot);
   const typeLabel = getSpotTypeLabel(spot);
-  const ratingText = spot.globalRating ? `${t('rating') || 'Note'}: ${spot.globalRating.toFixed(1)}/5` : (t('unrated') || 'Non noté');
+  const validations = spot.userValidations || 0;
+  const ratingText = validations > 0 ? `${t('validations') || 'Validations'}: ${validations}` : (t('unverifiedSpot') || 'Non vérifié');
   const waitText = spot.avgWaitTime ? `${t('avgWait') || 'Attente moyenne'}: ${spot.avgWaitTime} min` : '';
   const freshnessLevel = getFreshnessLevel(spot.lastCheckin || spot.lastUsed);
   const freshnessBadge = getFreshnessBadge(freshnessLevel);
@@ -94,12 +95,12 @@ function renderDefaultCard(spot) {
         <!-- Stats -->
         <div class="flex items-center justify-between text-sm">
           <div class="flex items-center gap-3">
-            <span class="flex items-center gap-1 text-warning-400" aria-label="${t('rating') || 'Note'}: ${spot.globalRating?.toFixed(1) || 'N/A'}/5">
-              ${icon('star', 'w-5 h-5')}
-              <span>${spot.globalRating?.toFixed(1) || 'N/A'}</span>
+            <span class="flex items-center gap-1 text-emerald-400" aria-label="${t('validations') || 'Validations'}: ${validations}">
+              ${icon('circle-check', 'w-5 h-5')}
+              <span>${validations}</span>
             </span>
             <span class="text-slate-400">
-              ${spot.totalReviews || 0} ${t('reviews')}
+              ${t('validations') || 'Validations'}
             </span>
           </div>
 
@@ -127,7 +128,8 @@ function renderDefaultCard(spot) {
 }
 
 function renderCompactCard(spot) {
-  const ratingText = spot.globalRating ? `${t('rating') || 'Note'}: ${spot.globalRating.toFixed(1)}/5` : (t('unrated') || 'Non noté');
+  const compactValidations = spot.userValidations || 0;
+  const ratingText = compactValidations > 0 ? `${t('validations') || 'Validations'}: ${compactValidations}` : (t('unverifiedSpot') || 'Non vérifié');
   const freshnessLevel = getFreshnessLevel(spot.lastCheckin || spot.lastUsed);
   const freshnessBadge = getFreshnessBadge(freshnessLevel);
 
@@ -171,9 +173,9 @@ function renderCompactCard(spot) {
               : `📍 ${t('spotLocation') || 'Spot'} #${spot.id}`}
         </h3>
         <div class="flex items-center gap-2 mt-1 text-xs text-slate-400">
-          <span class="flex items-center gap-1 text-warning-400" aria-label="${ratingText}">
-            ${icon('star', 'w-5 h-5')}
-            <span>${spot.globalRating?.toFixed(1) || 'N/A'}</span>
+          <span class="flex items-center gap-1 text-emerald-400" aria-label="${ratingText}">
+            ${icon('circle-check', 'w-5 h-5')}
+            <span>${compactValidations}</span>
           </span>
           <span aria-hidden="true">•</span>
           <span aria-label="${t('waitTime') || 'Attente'}: ${spot.avgWaitTime || '?'} min">~${spot.avgWaitTime || '?'} min</span>
@@ -192,17 +194,21 @@ function renderCompactCard(spot) {
 }
 
 function getSpotTypeClass(spot) {
-  if (spot.globalRating >= 4.5) return 'badge-danger'; // Top spot (red)
-  if (spot.globalRating >= 4.0) return 'badge-success'; // Good spot (green)
-  if (isRecent(spot.createdAt)) return 'badge-warning'; // New spot (orange)
-  return 'bg-slate-600 text-slate-300'; // Old spot
+  const v = spot.userValidations || 0
+  if (v >= 5) return 'bg-blue-600 text-blue-100'; // Very reliable
+  if (v >= 3) return 'badge-success'; // Reliable
+  if (v >= 1) return 'badge-warning'; // Some activity
+  if (isRecent(spot.createdAt)) return 'badge-warning'; // New spot
+  return 'bg-slate-600 text-slate-300'; // Unverified
 }
 
 function getSpotTypeLabel(spot) {
-  if (spot.globalRating >= 4.5) return t('topSpot');
-  if (spot.globalRating >= 4.0) return t('goodSpot');
-  if (isRecent(spot.createdAt)) return t('newSpot');
-  return t('oldSpot');
+  const v = spot.userValidations || 0
+  if (v >= 5) return t('veryReliableSpot')
+  if (v >= 3) return t('reliableSpot')
+  if (v >= 1) return t('partiallyVerified')
+  if (isRecent(spot.createdAt)) return t('newSpot')
+  return t('unverifiedSpot')
 }
 
 function isRecent(dateStr) {

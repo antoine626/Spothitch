@@ -62,45 +62,72 @@ export async function loadCountrySpots(countryCode) {
 }
 
 /**
+ * Check if a spot should be excluded
+ * Filters out: "not recommended", bus-only spots, very old (>5yr)
+ */
+function shouldExcludeSpot(s) {
+  // Filter spots older than 5 years without recent activity
+  if (s.lastUsed) {
+    const diffYears = (Date.now() - new Date(s.lastUsed).getTime()) / (1000 * 60 * 60 * 24 * 365.25)
+    if (diffYears > 5) return true
+  }
+
+  // Filter very low rating (< 2) — likely "not recommended" on HitchWiki
+  if (s.rating && s.rating < 2) return true
+
+  // Filter bus-only spots (description mentions bus but NOT "take bus to spot")
+  const allText = (s.comments || []).map(c => c.text || '').join(' ').toLowerCase()
+  const isBusSpot = /\b(bus stop|bus station|take the bus|prendre le bus)\b/i.test(allText)
+  const isBusToSpot = /\b(bus .{0,20} (to|vers|zum|hacia) .{0,20} (spot|hitchhik|autostop))\b/i.test(allText)
+  if (isBusSpot && !isBusToSpot && !allText.includes('hitchhik') && !allText.includes('autostop')) return true
+
+  return false
+}
+
+/**
  * Convert Hitchmap format to app spot format
+ * HitchWiki ratings are NOT used — all imported spots start as unverified (grey)
  */
 function convertToAppFormat(rawSpots, countryCode) {
-  // Data already cleaned at build time (inactive/low-rating/duplicates removed)
-  return rawSpots.map(s => {
-    const id = nextId++
-    const bestComment = s.comments?.[0]?.text || ''
+  return rawSpots
+    .filter(s => !shouldExcludeSpot(s))
+    .map(s => {
+      const id = nextId++
+      const bestComment = s.comments?.[0]?.text || ''
 
-    return {
-      id,
-      from: '',
-      to: '',
-      description: bestComment,
-      photoUrl: null,
-      creator: 'Hitchwiki',
-      creatorAvatar: '🗺️',
-      coordinates: { lat: s.lat, lng: s.lon },
-      ratings: {
-        accessibility: Math.min(5, s.rating),
-        safety: Math.min(5, s.rating),
-        traffic: Math.min(5, s.rating),
-      },
-      globalRating: s.rating,
-      spotType: 'custom',
-      direction: '',
-      fromCity: '',
-      stationName: '',
-      roadNumber: '',
-      totalReviews: s.reviews || 0,
-      avgWaitTime: s.wait,
-      lastUsed: s.lastUsed,
-      checkins: s.reviews || 0,
-      verified: s.reviews >= 3 && s.rating >= 4,
-      source: 'hitchwiki',
-      country: countryCode,
-      signal: s.signal,
-      comments: s.comments || [],
-    }
-  })
+      return {
+        id,
+        from: '',
+        to: '',
+        description: bestComment,
+        photoUrl: null,
+        creator: 'Hitchwiki',
+        creatorAvatar: '🗺️',
+        coordinates: { lat: s.lat, lng: s.lon },
+        // No ratings from HitchWiki — user validations only
+        ratings: { accessibility: 0, safety: 0, traffic: 0 },
+        globalRating: 0,
+        spotType: 'custom',
+        direction: '',
+        fromCity: '',
+        stationName: '',
+        roadNumber: '',
+        totalReviews: 0,
+        avgWaitTime: s.wait,
+        lastUsed: s.lastUsed,
+        checkins: 0,
+        userValidations: 0,
+        verified: false,
+        ambassadorVerified: false,
+        source: 'hitchwiki',
+        country: countryCode,
+        signal: s.signal,
+        comments: s.comments || [],
+        // Keep original HitchWiki data for reference (not displayed)
+        _hitchwikiRating: s.rating,
+        _hitchwikiReviews: s.reviews || 0,
+      }
+    })
 }
 
 /**
