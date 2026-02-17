@@ -13,13 +13,13 @@ const RATE_LIMIT = { max: 1, windowMs: 1500 } // 1 req per 1.5s (conservative)
 const cache = new Map()
 
 /**
- * Sample a route geometry to ~25 points
+ * Sample a route geometry to ~40 evenly-spaced points
  * @param {Array<[number,number]>} geometry - Array of [lng, lat] from OSRM
  * @returns {Array<{lat: number, lng: number}>} Sampled points (lat, lng)
  */
 function sampleRoute(geometry) {
   if (!geometry || geometry.length === 0) return []
-  const target = 25
+  const target = 40
   const step = Math.max(1, Math.floor(geometry.length / target))
   const sampled = []
   for (let i = 0; i < geometry.length; i += step) {
@@ -31,14 +31,13 @@ function sampleRoute(geometry) {
   if (sampled.length === 0 || sampled[sampled.length - 1].lat !== lastLat || sampled[sampled.length - 1].lng !== lastLng) {
     sampled.push({ lat: lastLat, lng: lastLng })
   }
-  // Cap at 30 points max
-  return sampled.slice(0, 30)
+  return sampled.slice(0, 50)
 }
 
 /**
- * Build Overpass QL query for amenities along sampled route points.
- * Uses a bounding box approach (faster + simpler) instead of per-point around
- * which can produce invalid queries when too many coordinates are used.
+ * Build Overpass QL query using multiple small bounding boxes along the route.
+ * Each segment of ~5 consecutive points gets its own bbox, then they're unioned.
+ * This avoids a single giant bbox that would timeout on long routes.
  * @param {Array<{lat: number, lng: number}>} points - Sampled points
  * @param {number} radiusMeters - Search radius in meters
  * @param {Object} options - { showFuel, showRestAreas }
@@ -49,24 +48,33 @@ function buildQuery(points, radiusMeters, options) {
   if (!showFuel && !showRestAreas) return null
   if (points.length === 0) return null
 
-  // Compute bounding box from route points + padding
   const pad = radiusMeters / 111000 // rough degrees per meter
-  let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity
-  for (const p of points) {
-    if (p.lat < minLat) minLat = p.lat
-    if (p.lat > maxLat) maxLat = p.lat
-    if (p.lng < minLng) minLng = p.lng
-    if (p.lng > maxLng) maxLng = p.lng
-  }
-  const bbox = `${(minLat - pad).toFixed(4)},${(minLng - pad).toFixed(4)},${(maxLat + pad).toFixed(4)},${(maxLng + pad).toFixed(4)}`
 
-  const filters = []
-  if (showFuel) {
-    filters.push(`node["amenity"="fuel"](${bbox});`)
+  // Split points into segments of 5 and compute a bbox per segment
+  const segmentSize = 5
+  const bboxes = []
+  for (let i = 0; i < points.length; i += segmentSize) {
+    const segment = points.slice(i, i + segmentSize)
+    let minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity
+    for (const p of segment) {
+      if (p.lat < minLat) minLat = p.lat
+      if (p.lat > maxLat) maxLat = p.lat
+      if (p.lng < minLng) minLng = p.lng
+      if (p.lng > maxLng) maxLng = p.lng
+    }
+    bboxes.push(`${(minLat - pad).toFixed(4)},${(minLng - pad).toFixed(4)},${(maxLat + pad).toFixed(4)},${(maxLng + pad).toFixed(4)}`)
   }
-  if (showRestAreas) {
-    filters.push(`node["highway"="rest_area"](${bbox});`)
-    filters.push(`node["highway"="services"](${bbox});`)
+
+  // Build union of queries for each bbox
+  const filters = []
+  for (const bbox of bboxes) {
+    if (showFuel) {
+      filters.push(`node["amenity"="fuel"](${bbox});`)
+    }
+    if (showRestAreas) {
+      filters.push(`node["highway"="rest_area"](${bbox});`)
+      filters.push(`node["highway"="services"](${bbox});`)
+    }
   }
 
   return `[out:json][timeout:25];(${filters.join('')});out body;`
@@ -136,7 +144,7 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
     })
   }
 
-  // Sample the route to ~25 points
+  // Sample the route to ~40 points
   const sampledPoints = sampleRoute(routeGeometry)
   if (sampledPoints.length === 0) return []
 
@@ -159,7 +167,7 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
 
   try {
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 20000) // 20s timeout
+    const timeout = setTimeout(() => controller.abort(), 30000) // 30s timeout
 
     const response = await fetch(OVERPASS_ENDPOINT, {
       method: 'POST',
@@ -183,7 +191,7 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
       .filter(el => el.type === 'node' && el.lat && el.lon)
       .map(normalizeElement)
 
-    // Filter by proximity to actual route (bbox may include distant POIs)
+    // Filter by proximity to actual route (small bboxes may still include distant POIs)
     const corridorPois = allPois.filter(poi => {
       for (const pt of sampledPoints) {
         const dLat = (poi.lat - pt.lat) * 111
