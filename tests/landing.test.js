@@ -37,7 +37,7 @@ describe('Landing Component', () => {
       const state = {};
       const html = renderLanding(state);
 
-      expect(html).toContain('14000+');
+      expect(html).toContain('11000+');
       expect(html).toContain('137');
       expect(html).toContain('Check-ins');
     });

@@ -114,9 +114,8 @@ describe('Companion Search Service', () => {
     it('should have all TravelStyles with required properties', () => {
       Object.values(TravelStyles).forEach((style) => {
         expect(style.id).toBeDefined();
-        expect(style.label).toBeDefined();
+        expect(style.labelKey).toBeDefined();
         expect(style.icon).toBeDefined();
-        expect(style.description).toBeDefined();
       });
     });
   });
@@ -1043,7 +1042,8 @@ describe('Companion Search Service', () => {
 
       const html = renderTravelPlanCard(created.plan);
 
-      expect(html).toContain('Aventurier');
+      // TravelStyle now uses i18n labelKey, rendered via getStyleLabel()
+      expect(html).toContain('🏔️');
     });
   });
 

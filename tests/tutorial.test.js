@@ -1,5 +1,5 @@
 /**
- * Tests for tutorial component (3-screen version)
+ * Tests for tutorial component (3-screen lightweight version)
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
@@ -16,15 +16,16 @@ describe('Tutorial Component', () => {
       tutorialSteps.forEach((step) => {
         expect(step.id).toBeDefined()
         expect(step.title).toBeDefined()
+        expect(typeof step.title).toBe('function')
         expect(step.desc).toBeDefined()
-        expect(step.emoji).toBeDefined()
-        expect(step.features).toBeDefined()
+        expect(typeof step.desc).toBe('function')
+        expect(step.icon).toBeDefined()
         expect(step.color).toBeDefined()
       })
     })
 
-    it('should start with discover step', () => {
-      expect(tutorialSteps[0].id).toBe('discover')
+    it('should start with spots step', () => {
+      expect(tutorialSteps[0].id).toBe('spots')
     })
 
     it('should end with safety step', () => {
@@ -32,13 +33,18 @@ describe('Tutorial Component', () => {
       expect(lastStep.id).toBe('safety')
     })
 
-    it('each step should have 3 features', () => {
+    it('should have contribute as middle step', () => {
+      expect(tutorialSteps[1].id).toBe('contribute')
+    })
+
+    it('each step title and desc should return strings', () => {
       tutorialSteps.forEach((step) => {
-        expect(step.features.length).toBe(3)
-        step.features.forEach(f => {
-          expect(f.icon).toBeDefined()
-          expect(f.text).toBeDefined()
-        })
+        const title = step.title()
+        const desc = step.desc()
+        expect(typeof title).toBe('string')
+        expect(title.length).toBeGreaterThan(0)
+        expect(typeof desc).toBe('string')
+        expect(desc.length).toBeGreaterThan(0)
       })
     })
   })
@@ -56,31 +62,27 @@ describe('Tutorial Component', () => {
       expect(html).toContain('tutorial-overlay')
     })
 
-    it('should show skip/passer button on first screen', () => {
+    it('should show skip button on first screen', () => {
       const html = renderTutorial(mockState)
-      expect(html).toContain('skipTutorial')
+      expect(html).toContain('skipTutorial()')
     })
 
-    it('should show current step title', () => {
+    it('should show current step title as rendered string', () => {
       const html = renderTutorial(mockState)
-      expect(html).toContain(tutorialSteps[0].title)
+      const title = tutorialSteps[0].title()
+      expect(html).toContain(title)
     })
 
-    it('should show current step description', () => {
+    it('should show current step description as rendered string', () => {
       const html = renderTutorial(mockState)
-      expect(html).toContain(tutorialSteps[0].desc)
+      const desc = tutorialSteps[0].desc()
+      expect(html).toContain(desc)
     })
 
-    it('should show step emoji', () => {
+    it('should show step icon', () => {
       const html = renderTutorial(mockState)
-      expect(html).toContain(tutorialSteps[0].emoji)
-    })
-
-    it('should show features list', () => {
-      const html = renderTutorial(mockState)
-      tutorialSteps[0].features.forEach(f => {
-        expect(html).toContain(f.text)
-      })
+      // Icon is rendered as SVG via icon() utility
+      expect(html).toContain('<svg')
     })
 
     it('should show next button on non-last step', () => {
@@ -94,16 +96,23 @@ describe('Tutorial Component', () => {
       expect(html).toContain('finishTutorial()')
     })
 
-    it('should show back button on non-first step', () => {
+    it('should not have prev button (simplified 3-step design)', () => {
       const state = { ...mockState, tutorialStep: 1 }
       const html = renderTutorial(state)
-      expect(html).toContain('prevTutorial()')
+      // New lightweight tutorial has skip + next, no prev
+      expect(html).not.toContain('prevTutorial()')
     })
 
     it('should show step dots', () => {
       const html = renderTutorial(mockState)
       // 3 dots for 3 screens
       expect(html).toContain('rounded-full')
+    })
+
+    it('should render bottom card layout', () => {
+      const html = renderTutorial(mockState)
+      expect(html).toContain('bottom-24')
+      expect(html).toContain('max-w-sm')
     })
   })
 

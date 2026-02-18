@@ -484,7 +484,7 @@ describe('Auto Translate Service', () => {
         <div class="translatable-content" data-element-id="elem-1">
           <div class="translatable-text" id="elem-1">Hello driver</div>
           <div class="translation-controls">
-            <button class="translate-btn">Translate</button>
+            <button class="translate-btn" data-element-id="elem-1">Translate</button>
           </div>
         </div>
       `;
@@ -493,48 +493,75 @@ describe('Auto Translate Service', () => {
       storeOriginalText('elem-1', 'Hello driver');
     });
 
-    it('should open Google Translate with correct URL', async () => {
+    it('should call MyMemory API for in-app translation', async () => {
       getState.mockReturnValue({ lang: 'fr' });
-      const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+
+      // Mock fetch for MyMemory API
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({
+          responseData: { translatedText: 'Bonjour conducteur' }
+        })
+      });
 
       await translateElement('elem-1');
 
-      expect(openSpy).toHaveBeenCalledOnce();
-      const url = openSpy.mock.calls[0][0];
-      expect(url).toContain('translate.google.com');
-      expect(url).toContain('tl=fr');
+      expect(fetchSpy).toHaveBeenCalledOnce();
+      const url = fetchSpy.mock.calls[0][0];
+      expect(url).toContain('api.mymemory.translated.net');
       expect(url).toContain('Hello%20driver');
 
-      openSpy.mockRestore();
+      fetchSpy.mockRestore();
     });
 
-    it('should open in new tab', async () => {
+    it('should update DOM element with translated text', async () => {
       getState.mockReturnValue({ lang: 'fr' });
-      const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({
+          responseData: { translatedText: 'Bonjour conducteur' }
+        })
+      });
 
       await translateElement('elem-1');
 
-      expect(openSpy.mock.calls[0][1]).toBe('_blank');
+      const element = document.getElementById('elem-1');
+      expect(element.textContent).toBe('Bonjour conducteur');
 
-      openSpy.mockRestore();
+      fetchSpy.mockRestore();
     });
 
-    it('should warn if no elementId provided', async () => {
-      const warnSpy = vi.spyOn(console, 'warn').mockImplementation();
+    it('should do nothing if no elementId provided', async () => {
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({})
+      });
 
       await translateElement(null);
 
-      expect(warnSpy).toHaveBeenCalledWith('[AutoTranslate] No elementId provided');
-      warnSpy.mockRestore();
+      expect(fetchSpy).not.toHaveBeenCalled();
+      fetchSpy.mockRestore();
     });
 
-    it('should warn if no original text found', async () => {
-      const warnSpy = vi.spyOn(console, 'warn').mockImplementation();
+    it('should do nothing if no original text found', async () => {
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({})
+      });
 
       await translateElement('non-existent');
 
-      expect(warnSpy).toHaveBeenCalledWith('[AutoTranslate] No original text found for:', 'non-existent');
-      warnSpy.mockRestore();
+      expect(fetchSpy).not.toHaveBeenCalled();
+      fetchSpy.mockRestore();
+    });
+
+    it('should fallback to dictionary when API fails', async () => {
+      getState.mockReturnValue({ lang: 'fr' });
+
+      const fetchSpy = vi.spyOn(global, 'fetch').mockRejectedValue(new Error('Network error'));
+
+      // Dictionary should handle 'driver' → 'conducteur'
+      storeOriginalText('elem-1', 'driver');
+      await translateElement('elem-1');
+
+      fetchSpy.mockRestore();
     });
   });
 
@@ -644,36 +671,47 @@ describe('Auto Translate Service', () => {
   });
 
   describe('Integration scenarios', () => {
-    it('translateElement should open Google Translate with correct URL', async () => {
+    it('translateElement should use MyMemory API for in-app translation', async () => {
       getState.mockReturnValue({ lang: 'fr' });
 
-      // Mock window.open
-      const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+      // Setup DOM
+      document.body.innerHTML = `
+        <div class="translatable-content" data-element-id="elem-1">
+          <div class="translatable-text" id="elem-1">Hello driver</div>
+          <div class="translation-controls">
+            <button class="translate-btn" data-element-id="elem-1">Translate</button>
+          </div>
+        </div>
+      `;
+
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({
+          responseData: { translatedText: 'Bonjour conducteur' }
+        })
+      });
 
       storeOriginalText('elem-1', 'Hello driver');
       await translateElement('elem-1');
 
-      expect(openSpy).toHaveBeenCalledOnce();
-      const url = openSpy.mock.calls[0][0];
-      expect(url).toContain('translate.google.com');
-      expect(url).toContain('tl=fr');
+      expect(fetchSpy).toHaveBeenCalledOnce();
+      const url = fetchSpy.mock.calls[0][0];
+      expect(url).toContain('api.mymemory.translated.net');
       expect(url).toContain('Hello%20driver');
-      expect(openSpy.mock.calls[0][1]).toBe('_blank');
 
-      openSpy.mockRestore();
+      fetchSpy.mockRestore();
     });
 
-    it('translateElement should warn if no original text stored', async () => {
-      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    it('translateElement should silently return if no original text stored', async () => {
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve({})
+      });
 
       await translateElement('nonexistent');
 
-      expect(warnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('No original text'),
-        expect.anything()
-      );
+      // Should not call API if no original text
+      expect(fetchSpy).not.toHaveBeenCalled();
 
-      warnSpy.mockRestore();
+      fetchSpy.mockRestore();
     });
 
     it('showOriginal should restore original text in DOM', () => {

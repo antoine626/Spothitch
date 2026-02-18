@@ -135,29 +135,29 @@ describe('spotFreshness', () => {
       expect(age.labelKey).toBe('unknownAge')
     })
 
-    it('should return recentSpot for spot < 1 year old', () => {
+    it('should return freshSpot for spot < 1 year old', () => {
       const threeMonthsAgo = new Date()
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
       const spot = { lastCheckin: threeMonthsAgo.toISOString() }
       const age = getSpotAge(spot)
-      expect(age.labelKey).toBe('recentSpot')
+      expect(age.labelKey).toBe('freshSpot')
       expect(age.icon).toBe('sparkles')
     })
 
-    it('should return oldSpot for spot 1-3 years old', () => {
+    it('should return agingSpot for spot 1-3 years old', () => {
       const twoYearsAgo = new Date()
       twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2)
       const spot = { lastUsed: twoYearsAgo.toISOString() }
       const age = getSpotAge(spot)
-      expect(age.labelKey).toBe('oldSpot')
+      expect(age.labelKey).toBe('agingSpot')
     })
 
-    it('should return historicSpot for spot 3-5 years old', () => {
+    it('should return oldSpot for spot 3-5 years old', () => {
       const fourYearsAgo = new Date()
       fourYearsAgo.setFullYear(fourYearsAgo.getFullYear() - 4)
       const spot = { lastUsed: fourYearsAgo.toISOString() }
       const age = getSpotAge(spot)
-      expect(age.labelKey).toBe('historicSpot')
+      expect(age.labelKey).toBe('oldSpot')
     })
 
     it('should use createdAt as fallback', () => {
@@ -165,7 +165,7 @@ describe('spotFreshness', () => {
       sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
       const spot = { createdAt: sixMonthsAgo.toISOString() }
       const age = getSpotAge(spot)
-      expect(age.labelKey).toBe('recentSpot')
+      expect(age.labelKey).toBe('freshSpot')
     })
   })
 
