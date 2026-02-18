@@ -1174,7 +1174,6 @@ window.handleAddSpot = async (event) => {
       spotType,
       fromCity: from,
       stationName,
-      roadNumber: roadName,
       tags: window.spotFormData.tags || { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false },
     }
 
