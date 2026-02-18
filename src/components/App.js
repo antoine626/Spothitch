@@ -67,6 +67,8 @@ import { renderCreateTravelGroupModal } from './modals/CreateTravelGroup.js';
 import { renderFriendProfileModal } from './modals/FriendProfile.js';
 import { renderContactFormModal } from './modals/ContactForm.js';
 import { renderCompanionModal } from './modals/Companion.js';
+import { renderValidateSpot } from './modals/ValidateSpot.js';
+import { renderDraftBanner } from '../services/spotDrafts.js';
 import { renderTripHistory } from '../services/tripHistory.js';
 import { icon } from '../utils/icons.js'
 import { trapFocus } from '../utils/a11y.js'
@@ -131,6 +133,9 @@ export function renderApp(state) {
       </div>
     ` : ''}
 
+    <!-- Draft Banner -->
+    ${state.spotDraftsBannerVisible ? renderDraftBanner() : ''}
+
     <!-- City Panel -->
     ${state.selectedCity ? renderCityPanel(state) : ''}
 
@@ -139,6 +144,7 @@ export function renderApp(state) {
     ${state.showIdentityVerification ? renderIdentityVerification() : ''}
     ${state.selectedSpot ? renderSpotDetail(state) : ''}
     ${state.showAddSpot ? renderAddSpot(state) : ''}
+    ${state.showValidateSpot ? renderValidateSpot(state) : ''}
     ${state.showSOS ? renderSOS(state) : ''}
     ${state.showAuth ? renderAuth(state) : ''}
     ${state.showTutorial ? renderTutorial(state) : ''}

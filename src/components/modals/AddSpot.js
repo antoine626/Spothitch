@@ -1,10 +1,35 @@
 /**
  * AddSpot Modal Component
- * 3-step form to add a new hitchhiking spot with autocomplete
+ * 3-step form to add a new hitchhiking spot with structured data collection
+ *
+ * Step 1: Photo + Type + GPS position + departure city
+ * Step 2: Destination + Experience (wait time, method, group, time of day)
+ * Step 3: Details (ratings, amenities, description) + Submit
+ *
+ * All data is structured for city pages, SEO, and future API export.
  */
 
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+
+// Wait time slider steps (minutes)
+const WAIT_STEPS = [1, 2, 3, 5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 180]
+
+/**
+ * Detect current season from date
+ */
+function detectSeason() {
+  const month = new Date().getMonth() // 0-11
+  if (month >= 2 && month <= 4) return 'spring'
+  if (month >= 5 && month <= 7) return 'summer'
+  if (month >= 8 && month <= 10) return 'autumn'
+  return 'winter'
+}
+
+function seasonLabel(season) {
+  const labels = { spring: 'seasonSpring', summer: 'seasonSummer', autumn: 'seasonAutumn', winter: 'seasonWinter' }
+  return t(labels[season]) || season
+}
 
 /**
  * Render interactive star rating for a criterion
@@ -39,9 +64,9 @@ function renderStarInput(criterion, label) {
 function renderStepProgress(currentStep) {
   const steps = [1, 2, 3]
   const labels = [
-    t('step1of3') || 'Étape 1/3',
-    t('step2of3') || 'Étape 2/3',
-    t('step3of3') || 'Étape 3/3',
+    t('stepPhotoType') || 'Photo & Type',
+    t('stepExperience') || 'Experience',
+    t('stepDetails') || 'Details',
   ]
   return `
     <div class="flex items-center justify-center gap-1 mb-4">
@@ -59,106 +84,94 @@ function renderStepProgress(currentStep) {
 }
 
 /**
- * Render Step 1: Photo + Type
+ * Render Step 1: Photo + Type + Position + Departure City
  */
 function renderStep1(state) {
   const spotType = state.addSpotType || ''
   return `
-    <!-- Photo -->
-    <div>
-      <label for="spot-photo" class="text-sm text-slate-400 block mb-2">${t('photoRequired')}</label>
-      <div
-        id="photo-upload"
-        class="photo-upload"
-        onclick="triggerPhotoUpload()"
-        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();triggerPhotoUpload();}"
-        role="button"
-        tabindex="0"
-        aria-label="${t('clickToAddPhoto') || 'Cliquez pour ajouter une photo'}"
-      >
-        <input
-          type="file"
-          id="spot-photo"
-          name="photo"
-          accept="image/*"
-          capture="environment"
-          class="hidden"
-          onchange="handlePhotoSelect(event)"
-          aria-describedby="photo-help"
-        />
-        <div id="photo-preview">
-          ${icon('camera', 'w-10 h-10 text-slate-400 mb-2')}
-          <p class="text-slate-400">${t('takePhoto')}</p>
-          <p class="text-slate-400 text-sm" id="photo-help">${t('chooseFromGallery')}</p>
+    <div class="step-transition">
+      <!-- Photo -->
+      <div>
+        <label for="spot-photo" class="text-sm text-slate-400 block mb-2">${t('photoRequired')}</label>
+        <div
+          id="photo-upload"
+          class="photo-upload"
+          onclick="triggerPhotoUpload()"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();triggerPhotoUpload();}"
+          role="button"
+          tabindex="0"
+          aria-label="${t('clickToAddPhoto') || 'Cliquez pour ajouter une photo'}"
+        >
+          <input
+            type="file"
+            id="spot-photo"
+            name="photo"
+            accept="image/*"
+            capture="environment"
+            class="hidden"
+            onchange="handlePhotoSelect(event)"
+            aria-describedby="photo-help"
+          />
+          <div id="photo-preview">
+            ${icon('camera', 'w-10 h-10 text-slate-400 mb-2')}
+            <p class="text-slate-400">${t('takePhoto')}</p>
+            <p class="text-slate-400 text-sm" id="photo-help">${t('chooseFromGallery')}</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Spot Type -->
-    <div>
-      <label for="spot-type" class="text-sm text-slate-400 block mb-2">${t('spotTypeLabel')} <span aria-label="obligatoire">*</span></label>
-      <select
-        id="spot-type"
-        name="spotType"
-        class="input-modern w-full"
-        onchange="onSpotTypeChange(this.value)"
-        required
-        aria-required="true"
-      >
-        <option value="" disabled ${!spotType ? 'selected' : ''}>${t('selectSpotType')}</option>
-        <option value="city_exit" ${spotType === 'city_exit' ? 'selected' : ''}>${t('spotTypeCityExit')}</option>
-        <option value="gas_station" ${spotType === 'gas_station' ? 'selected' : ''}>${t('spotTypeGasStation')}</option>
-        <option value="highway" ${spotType === 'highway' ? 'selected' : ''}>${t('spotTypeHighway')}</option>
-        <option value="custom" ${spotType === 'custom' ? 'selected' : ''}>${t('spotTypeCustom')}</option>
-      </select>
-    </div>
+      <!-- Spot Type - Big visual buttons -->
+      <div>
+        <label class="text-sm text-slate-400 block mb-2">${t('spotTypeLabel')} <span aria-label="obligatoire">*</span></label>
+        <div class="spot-type-grid">
+          <button type="button" onclick="selectSpotType('city_exit')"
+            class="spot-type-btn ${spotType === 'city_exit' ? 'active' : ''}">
+            <span class="text-2xl">🏙️</span>
+            <span class="text-xs font-medium">${t('spotTypeCityExit')}</span>
+          </button>
+          <button type="button" onclick="selectSpotType('gas_station')"
+            class="spot-type-btn ${spotType === 'gas_station' ? 'active' : ''}">
+            <span class="text-2xl">⛽</span>
+            <span class="text-xs font-medium">${t('spotTypeGasStation')}</span>
+          </button>
+          <button type="button" onclick="selectSpotType('highway')"
+            class="spot-type-btn ${spotType === 'highway' ? 'active' : ''}">
+            <span class="text-2xl">🛣️</span>
+            <span class="text-xs font-medium">${t('spotTypeHighway')}</span>
+          </button>
+          <button type="button" onclick="selectSpotType('custom')"
+            class="spot-type-btn ${spotType === 'custom' ? 'active' : ''}">
+            <span class="text-2xl">📍</span>
+            <span class="text-xs font-medium">${t('spotTypeCustom')}</span>
+          </button>
+        </div>
+      </div>
 
-    <!-- Continue button -->
-    <button
-      type="button"
-      onclick="addSpotNextStep()"
-      class="btn btn-primary w-full text-lg"
-    >
-      ${t('continue') || 'Continuer'}
-      ${icon('arrow-right', 'w-5 h-5')}
-    </button>
-  `
-}
+      <!-- GPS Position -->
+      ${renderPositionBlock()}
 
-/**
- * Render Step 2: Location (varies by spot type)
- */
-function renderStep2(state) {
-  const spotType = state.addSpotType || 'custom'
-  let locationFields = ''
+      <!-- Departure City (autocomplete forced) -->
+      <div class="relative">
+        <label for="spot-departure-city" class="text-sm text-slate-400 block mb-2">
+          ${t('departureCity') || 'Ville de départ'} <span aria-label="obligatoire">*</span>
+        </label>
+        <input
+          type="text"
+          id="spot-departure-city"
+          name="departureCity"
+          class="input-modern"
+          placeholder="${t('departureCity') || 'Ville de départ'}"
+          required
+          aria-required="true"
+        />
+        <p class="text-xs text-slate-500 mt-1">${t('selectFromList') || 'Sélectionne dans la liste'}</p>
+      </div>
 
-  if (spotType === 'city_exit') {
-    locationFields = renderCityExitLocation()
-  } else if (spotType === 'gas_station') {
-    locationFields = renderGasStationLocation()
-  } else if (spotType === 'highway') {
-    locationFields = renderHighwayLocation()
-  } else {
-    locationFields = renderCustomLocation()
-  }
-
-  return `
-    ${locationFields}
-
-    <!-- Navigation buttons -->
-    <div class="flex gap-3">
-      <button
-        type="button"
-        onclick="addSpotPrevStep()"
-        class="btn btn-ghost flex-1"
-      >
-        ${icon('arrow-left', 'w-5 h-5')}
-        ${t('back') || 'Retour'}
-      </button>
+      <!-- Continue button -->
       <button
         type="button"
         onclick="addSpotNextStep()"
-        class="btn btn-primary flex-1"
+        class="btn btn-primary w-full text-lg"
       >
         ${t('continue') || 'Continuer'}
         ${icon('arrow-right', 'w-5 h-5')}
@@ -167,165 +180,254 @@ function renderStep2(state) {
   `
 }
 
-function renderCityExitLocation() {
+/**
+ * Render Step 2: Destination + Experience
+ */
+function renderStep2(state) {
+  const waitIdx = state.addSpotWaitTime != null
+    ? WAIT_STEPS.indexOf(state.addSpotWaitTime)
+    : -1
+  const currentWait = waitIdx >= 0 ? WAIT_STEPS[waitIdx] : null
+  const method = state.addSpotMethod || ''
+  const groupSize = state.addSpotGroupSize || ''
+  const timeOfDay = state.addSpotTimeOfDay || ''
+
   return `
-    <!-- Country -->
-    <div class="relative">
-      <label for="spot-country" class="text-sm text-slate-400 block mb-2">${t('country') || 'Pays'}</label>
-      <input
-        type="text"
-        id="spot-country"
-        name="country"
-        class="input-modern"
-        placeholder="${t('selectCountry') || 'Choisir un pays'}"
-        aria-required="true"
-      />
-    </div>
+    <div class="step-transition">
+      <h3 class="text-sm font-semibold text-slate-300 mb-4">
+        ${icon('compass', 'w-4 h-4 mr-1 text-primary-400')}
+        ${t('experienceSection') || 'Ton expérience'}
+      </h3>
 
-    <!-- Departure City -->
-    <div class="relative">
-      <label for="spot-departure-city" class="text-sm text-slate-400 block mb-2">${t('departureCity') || 'Ville de départ'} <span aria-label="obligatoire">*</span></label>
-      <input
-        type="text"
-        id="spot-departure-city"
-        name="departureCity"
-        class="input-modern"
-        placeholder="${t('departureCity') || 'Ville de départ'}"
-        required
-        aria-required="true"
-      />
-    </div>
+      <!-- Direction City (autocomplete forced) -->
+      <div class="relative mb-4">
+        <label for="spot-direction-city" class="text-sm text-slate-400 block mb-2">
+          ${t('destinationCity') || 'Direction'} <span aria-label="obligatoire">*</span>
+        </label>
+        <input
+          type="text"
+          id="spot-direction-city"
+          name="directionCity"
+          class="input-modern"
+          placeholder="${t('destinationCity') || 'Direction'}"
+          required
+          aria-required="true"
+        />
+        <p class="text-xs text-slate-500 mt-1">${t('selectFromList') || 'Sélectionne dans la liste'}</p>
+      </div>
 
-    <!-- Direction City -->
-    <div class="relative">
-      <label for="spot-direction-city" class="text-sm text-slate-400 block mb-2">${t('directionCity') || 'Direction'} <span aria-label="obligatoire">*</span></label>
-      <input
-        type="text"
-        id="spot-direction-city"
-        name="directionCity"
-        class="input-modern"
-        placeholder="${t('directionCity') || 'Direction'}"
-        required
-        aria-required="true"
-      />
-    </div>
+      <!-- Wait Time Slider -->
+      <div class="mb-4">
+        <label class="text-sm text-slate-400 block mb-2">
+          ${icon('clock', 'w-4 h-4 mr-1')}
+          ${t('waitTimeLabel') || "Temps d'attente"}
+        </label>
+        <input
+          type="range"
+          min="0"
+          max="${WAIT_STEPS.length - 1}"
+          value="${waitIdx >= 0 ? waitIdx : 4}"
+          class="wait-slider w-full"
+          oninput="setWaitTime(this.value)"
+          aria-label="${t('waitTimeSliderDesc') || 'Combien de temps as-tu attendu ?'}"
+        />
+        <div class="wait-slider-labels">
+          <span>1 min</span>
+          <span>15</span>
+          <span>45</span>
+          <span>2h</span>
+          <span>3h+</span>
+        </div>
+        <div class="text-center text-lg font-bold text-primary-400 mt-2" id="wait-time-display">
+          ${currentWait ? (currentWait >= 180 ? '3h+' : currentWait + ' min') : '10 min'}
+        </div>
+      </div>
 
-    <!-- Position -->
-    ${renderPositionBlock()}
+      <!-- Method (3 radio buttons) -->
+      <div class="mb-4">
+        <label class="text-sm text-slate-400 block mb-2">
+          ${icon('hand', 'w-4 h-4 mr-1')}
+          ${t('practicalTips') || 'Méthode'}
+        </label>
+        <div class="radio-group">
+          <button type="button" onclick="setMethod('sign')"
+            class="radio-btn ${method === 'sign' ? 'active' : ''}">
+            ${icon('file-text', 'w-4 h-4 mr-1')} ${t('methodSign') || 'Panneau'}
+          </button>
+          <button type="button" onclick="setMethod('thumb')"
+            class="radio-btn ${method === 'thumb' ? 'active' : ''}">
+            ${icon('hand', 'w-4 h-4 mr-1')} ${t('methodThumb') || 'Pouce'}
+          </button>
+          <button type="button" onclick="setMethod('asking')"
+            class="radio-btn ${method === 'asking' ? 'active' : ''}">
+            ${icon('message-circle', 'w-4 h-4 mr-1')} ${t('methodAsking') || 'En demandant'}
+          </button>
+        </div>
+      </div>
+
+      <!-- Group Size (3 radio buttons) -->
+      <div class="mb-4">
+        <label class="text-sm text-slate-400 block mb-2">
+          ${icon('users', 'w-4 h-4 mr-1')}
+          ${t('groupSizeLabel') || 'Combien étiez-vous ?'}
+        </label>
+        <div class="radio-group">
+          <button type="button" onclick="setGroupSize('solo')"
+            class="radio-btn ${groupSize === 'solo' ? 'active' : ''}">
+            ${t('groupSolo') || 'Solo'}
+          </button>
+          <button type="button" onclick="setGroupSize('duo')"
+            class="radio-btn ${groupSize === 'duo' ? 'active' : ''}">
+            ${t('groupDuo') || 'Duo'}
+          </button>
+          <button type="button" onclick="setGroupSize('group')"
+            class="radio-btn ${groupSize === 'group' ? 'active' : ''}">
+            ${t('groupTrioPlus') || 'Groupe 3+'}
+          </button>
+        </div>
+      </div>
+
+      <!-- Time of Day (4 radio buttons) -->
+      <div class="mb-4">
+        <label class="text-sm text-slate-400 block mb-2">
+          ${icon('sun', 'w-4 h-4 mr-1')}
+          ${t('timeOfDayLabel') || 'Moment de la journée'}
+        </label>
+        <div class="radio-group">
+          <button type="button" onclick="setTimeOfDay('morning')"
+            class="radio-btn ${timeOfDay === 'morning' ? 'active' : ''}">
+            🌅 ${t('timeMorning') || 'Matin'}
+          </button>
+          <button type="button" onclick="setTimeOfDay('afternoon')"
+            class="radio-btn ${timeOfDay === 'afternoon' ? 'active' : ''}">
+            ☀️ ${t('timeAfternoon') || 'Après-midi'}
+          </button>
+          <button type="button" onclick="setTimeOfDay('evening')"
+            class="radio-btn ${timeOfDay === 'evening' ? 'active' : ''}">
+            🌆 ${t('timeEvening') || 'Soir'}
+          </button>
+          <button type="button" onclick="setTimeOfDay('night')"
+            class="radio-btn ${timeOfDay === 'night' ? 'active' : ''}">
+            🌙 ${t('timeNight') || 'Nuit'}
+          </button>
+        </div>
+      </div>
+
+      <!-- Season (auto-detected, shown as info) -->
+      <div class="mb-4 text-sm text-slate-500 flex items-center gap-2">
+        ${icon('calendar', 'w-4 h-4')}
+        ${t('seasonLabel') || 'Saison'}: <span class="text-slate-300 font-medium">${seasonLabel(detectSeason())}</span>
+      </div>
+
+      <!-- Navigation buttons -->
+      <div class="flex gap-3">
+        <button type="button" onclick="addSpotPrevStep()" class="btn btn-ghost flex-1">
+          ${icon('arrow-left', 'w-5 h-5')} ${t('back') || 'Retour'}
+        </button>
+        <button type="button" onclick="addSpotNextStep()" class="btn btn-primary flex-1">
+          ${t('continue') || 'Continuer'} ${icon('arrow-right', 'w-5 h-5')}
+        </button>
+      </div>
+    </div>
   `
 }
 
-function renderGasStationLocation() {
+/**
+ * Render Step 3: Details (ratings + amenities + description) + Submit
+ */
+function renderStep3(state) {
+  const isPreview = state.addSpotPreview === true
+  const tags = window.spotFormData.tags || {}
   return `
-    <!-- Position (first for gas stations) -->
-    ${renderPositionBlock()}
+    <div class="step-transition">
+      <!-- Ratings -->
+      <div class="mb-5">
+        <h3 class="text-sm font-semibold text-slate-300 mb-3">
+          ${icon('star', 'w-4 h-4 mr-1 text-yellow-400')}
+          ${t('detailedRatings')}
+        </h3>
+        ${renderStarInput('safety', t('safetyRating'))}
+        ${renderStarInput('traffic', t('traffic'))}
+        ${renderStarInput('accessibility', t('accessibility'))}
+      </div>
 
-    <!-- Station Name -->
-    <div>
-      <label for="spot-station-name" class="text-sm text-slate-400 block mb-2">${t('stationName') || 'Nom de la station'}</label>
-      <input
-        type="text"
-        id="spot-station-name"
-        name="stationName"
-        class="input-modern"
-        placeholder="${t('stationName') || 'Nom de la station'}"
-      />
-      <button
-        type="button"
-        onclick="autoDetectStation()"
-        class="btn btn-ghost btn-sm mt-2 w-full"
-      >
-        ${icon('search', 'w-4 h-4')}
-        ${t('detecting') || 'Détection...'}
+      <!-- Amenities -->
+      <div class="mb-5">
+        <label class="text-sm text-slate-400 block mb-2">
+          ${icon('map-pin', 'w-4 h-4 mr-1 text-emerald-400')}
+          ${t('amenitiesLabel') || 'Équipements à proximité'}
+        </label>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" onclick="toggleAmenity('shelter')"
+            class="amenity-chip ${tags.shelter ? 'active' : ''}">
+            ${icon('umbrella', 'w-4 h-4 mr-1')} ${t('amenityShelter') || 'Abri pluie'}
+          </button>
+          <button type="button" onclick="toggleAmenity('waterFood')"
+            class="amenity-chip ${tags.waterFood ? 'active' : ''}">
+            ${icon('droplets', 'w-4 h-4 mr-1')} ${t('amenityWaterFood') || 'Eau/nourriture'}
+          </button>
+          <button type="button" onclick="toggleAmenity('toilets')"
+            class="amenity-chip ${tags.toilets ? 'active' : ''}">
+            🚻 ${t('amenityToilets') || 'Toilettes'}
+          </button>
+          <button type="button" onclick="toggleAmenity('visibility')"
+            class="amenity-chip ${tags.visibility ? 'active' : ''}">
+            ${icon('eye', 'w-4 h-4 mr-1')} ${t('goodVisibilityTag') || 'Visible de loin'}
+          </button>
+          <button type="button" onclick="toggleAmenity('stoppingSpace')"
+            class="amenity-chip ${tags.stoppingSpace ? 'active' : ''}">
+            ${icon('square-parking', 'w-4 h-4 mr-1')} ${t('stoppingSpaceTag') || "Place pour s'arrêter"}
+          </button>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-5">
+        <label for="spot-description" class="text-sm text-slate-400 block mb-2">${t('description')}</label>
+        <textarea
+          id="spot-description"
+          name="description"
+          class="input-modern min-h-[100px] resize-none"
+          placeholder="${t('spotDescPlaceholder') || 'Décris le spot, comment y accéder, conseils...'}"
+          maxlength="500"
+          aria-describedby="desc-counter"
+        ></textarea>
+        <div class="text-right text-xs text-slate-400 mt-1" id="desc-counter" aria-live="polite">
+          <span id="desc-count">0</span>/500 <span class="sr-only">caractères</span>
+        </div>
+      </div>
+
+      <!-- Navigation + Submit -->
+      <div class="flex gap-3">
+        <button type="button" onclick="addSpotPrevStep()" class="btn btn-ghost flex-1">
+          ${icon('arrow-left', 'w-5 h-5')} ${t('back') || 'Retour'}
+        </button>
+        ${isPreview ? `
+        <button type="button" onclick="closeAddSpot()"
+          class="btn flex-1 text-lg bg-amber-500/20 text-amber-400 border border-amber-500/30" id="submit-spot-btn">
+          ${icon('eye', 'w-5 h-5')} ${t('previewModeClose')}
+        </button>
+        ` : `
+        <button type="submit" class="btn btn-primary flex-1 text-lg" id="submit-spot-btn">
+          ${icon('share', 'w-5 h-5')} ${t('shareThisSpot') || t('create')}
+        </button>
+        `}
+      </div>
+    </div>
+  `
+}
+
+/**
+ * Render offline draft button
+ */
+function renderOfflineDraftButton() {
+  if (navigator.onLine) return ''
+  return `
+    <div class="mt-3 p-3 rounded-xl bg-warning-500/10 border border-warning-500/20">
+      <p class="text-sm text-warning-400 mb-2">${t('offlineMode') || 'Mode hors-ligne'}</p>
+      <button type="button" onclick="saveDraftAndClose()" class="btn btn-warning btn-sm w-full">
+        ${icon('save', 'w-4 h-4')} ${t('saveDraft') || 'Sauvegarder le brouillon'}
       </button>
-    </div>
-
-    <!-- Direction City -->
-    <div class="relative">
-      <label for="spot-direction-city" class="text-sm text-slate-400 block mb-2">${t('directionCity') || 'Direction'} <span aria-label="obligatoire">*</span></label>
-      <input
-        type="text"
-        id="spot-direction-city"
-        name="directionCity"
-        class="input-modern"
-        placeholder="${t('directionCity') || 'Direction'}"
-        required
-        aria-required="true"
-      />
-    </div>
-  `
-}
-
-function renderHighwayLocation() {
-  return `
-    <!-- Position -->
-    ${renderPositionBlock()}
-
-    <!-- Road Name/Number -->
-    <div>
-      <label for="spot-road-name" class="text-sm text-slate-400 block mb-2">${t('roadName') || 'Nom/numéro de route'}</label>
-      <input
-        type="text"
-        id="spot-road-name"
-        name="roadName"
-        class="input-modern"
-        placeholder="${t('roadName') || 'Nom/numéro de route'}"
-      />
-      <button
-        type="button"
-        onclick="autoDetectRoad()"
-        class="btn btn-ghost btn-sm mt-2 w-full"
-      >
-        ${icon('search', 'w-4 h-4')}
-        ${t('detecting') || 'Détection...'}
-      </button>
-    </div>
-
-    <!-- Direction City -->
-    <div class="relative">
-      <label for="spot-direction-city" class="text-sm text-slate-400 block mb-2">${t('directionCity') || 'Direction'} <span aria-label="obligatoire">*</span></label>
-      <input
-        type="text"
-        id="spot-direction-city"
-        name="directionCity"
-        class="input-modern"
-        placeholder="${t('directionCity') || 'Direction'}"
-        required
-        aria-required="true"
-      />
-    </div>
-  `
-}
-
-function renderCustomLocation() {
-  return `
-    <!-- Position -->
-    ${renderPositionBlock()}
-
-    <!-- Location Description -->
-    <div>
-      <label for="spot-location-desc" class="text-sm text-slate-400 block mb-2">${t('locationDesc') || 'Description du lieu'}</label>
-      <input
-        type="text"
-        id="spot-location-desc"
-        name="locationDesc"
-        class="input-modern"
-        placeholder="${t('locationDesc') || 'Description du lieu'}"
-      />
-    </div>
-
-    <!-- Direction City -->
-    <div class="relative">
-      <label for="spot-direction-city" class="text-sm text-slate-400 block mb-2">${t('directionCity') || 'Direction'} <span aria-label="obligatoire">*</span></label>
-      <input
-        type="text"
-        id="spot-direction-city"
-        name="directionCity"
-        class="input-modern"
-        placeholder="${t('directionCity') || 'Direction'}"
-        required
-        aria-required="true"
-      />
     </div>
   `
 }
@@ -335,22 +437,11 @@ function renderPositionBlock() {
     <div>
       <span class="text-sm text-slate-400 block mb-2" id="location-label">${t('position') || 'Position'} <span aria-label="obligatoire">*</span></span>
       <div class="flex gap-2">
-        <button
-          type="button"
-          onclick="useGPSForSpot()"
-          class="btn btn-ghost flex-1"
-          aria-describedby="location-display"
-        >
-          ${icon('crosshair', 'w-5 h-5')}
-          ${t('useMyPosition') || 'Ma position GPS'}
+        <button type="button" onclick="useGPSForSpot()" class="btn btn-ghost flex-1" aria-describedby="location-display">
+          ${icon('crosshair', 'w-5 h-5')} ${t('useMyPosition') || 'Ma position GPS'}
         </button>
-        <button
-          type="button"
-          onclick="toggleSpotMapPicker()"
-          class="btn btn-ghost flex-1"
-        >
-          ${icon('map-pin', 'w-5 h-5')}
-          ${t('pickOnMap') || 'Pointer sur la carte'}
+        <button type="button" onclick="toggleSpotMapPicker()" class="btn btn-ghost flex-1">
+          ${icon('map-pin', 'w-5 h-5')} ${t('pickOnMap') || 'Pointer sur la carte'}
         </button>
       </div>
       <div id="location-display" class="text-sm text-slate-400 mt-2 text-center" aria-live="polite" role="status"></div>
@@ -358,167 +449,6 @@ function renderPositionBlock() {
         <p class="text-xs text-center text-slate-400 mb-2">${t('tapToPlacePin') || 'Toucher pour placer'}</p>
         <div id="spot-mini-map" class="spot-map-picker"></div>
       </div>
-    </div>
-  `
-}
-
-/**
- * Render Step 3: Details (description + ratings)
- */
-function renderStep3(state) {
-  const isPreview = state.addSpotPreview === true
-  const tags = window.spotFormData.tags || { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false }
-  return `
-    <!-- Practical Tags -->
-    <div>
-      <label class="text-sm text-slate-400 block mb-2">
-        ${icon('tag', 'w-4 h-4 mr-1 text-primary-400')}
-        ${t('practicalTips') || 'Practical tips'}
-      </label>
-      <div class="flex flex-wrap gap-2">
-        <button
-          type="button"
-          onclick="setSpotTag('signMethod', 'sign')"
-          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
-            ${tags.signMethod === 'sign'
-              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
-              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
-        >
-          ${icon('file-text', 'w-4 h-4 mr-1')}
-          ${t('signMethod') || 'Sign'}
-        </button>
-        <button
-          type="button"
-          onclick="setSpotTag('signMethod', 'thumb')"
-          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
-            ${tags.signMethod === 'thumb'
-              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
-              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
-        >
-          ${icon('hand', 'w-4 h-4 mr-1')}
-          ${t('thumbMethod') || 'Thumb'}
-        </button>
-        <button
-          type="button"
-          onclick="setSpotTag('hasShelter', ${!tags.hasShelter})"
-          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
-            ${tags.hasShelter
-              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
-              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
-        >
-          ${icon('umbrella', 'w-4 h-4 mr-1')}
-          ${t('hasShelter') || 'Rain shelter'}
-        </button>
-        <button
-          type="button"
-          onclick="setSpotTag('visibility', ${!tags.visibility})"
-          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
-            ${tags.visibility
-              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
-              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
-        >
-          ${icon('eye', 'w-4 h-4 mr-1')}
-          ${t('goodVisibilityTag') || 'Visible from far'}
-        </button>
-        <button
-          type="button"
-          onclick="setSpotTag('stoppingSpace', ${!tags.stoppingSpace})"
-          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
-            ${tags.stoppingSpace
-              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
-              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
-        >
-          ${icon('square-parking', 'w-4 h-4 mr-1')}
-          ${t('stoppingSpaceTag') || 'Cars can stop'}
-        </button>
-        <button
-          type="button"
-          onclick="setSpotTag('amenities', ${!tags.amenities})"
-          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
-            ${tags.amenities
-              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
-              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
-        >
-          ${icon('droplets', 'w-4 h-4 mr-1')}
-          ${t('nearbyAmenities') || 'Water/food nearby'}
-        </button>
-      </div>
-    </div>
-
-    <!-- Description -->
-    <div>
-      <label for="spot-description" class="text-sm text-slate-400 block mb-2">${t('description')}</label>
-      <textarea
-        id="spot-description"
-        name="description"
-        class="input-modern min-h-[100px] resize-none"
-        placeholder="${t('spotDescPlaceholder') || 'Decris le spot, comment y acceder, conseils...'}"
-        maxlength="500"
-        aria-describedby="desc-counter"
-      ></textarea>
-      <div class="text-right text-xs text-slate-400 mt-1" id="desc-counter" aria-live="polite">
-        <span id="desc-count">0</span>/500 <span class="sr-only">caracteres</span>
-      </div>
-    </div>
-
-    <!-- Ratings -->
-    <div class="border-t border-white/10 pt-4">
-      <h3 class="text-sm font-semibold text-slate-300 mb-3">${t('detailedRatings')}</h3>
-      ${renderStarInput('safety', t('safetyRating'))}
-      ${renderStarInput('traffic', t('traffic'))}
-      ${renderStarInput('accessibility', t('accessibility'))}
-    </div>
-
-    <!-- Navigation + Submit -->
-    <div class="flex gap-3">
-      <button
-        type="button"
-        onclick="addSpotPrevStep()"
-        class="btn btn-ghost flex-1"
-      >
-        ${icon('arrow-left', 'w-5 h-5')}
-        ${t('back') || 'Retour'}
-      </button>
-      ${isPreview ? `
-      <button
-        type="button"
-        onclick="closeAddSpot()"
-        class="btn flex-1 text-lg bg-amber-500/20 text-amber-400 border border-amber-500/30"
-        id="submit-spot-btn"
-      >
-        ${icon('eye', 'w-5 h-5')}
-        ${t('previewModeClose')}
-      </button>
-      ` : `
-      <button
-        type="submit"
-        class="btn btn-primary flex-1 text-lg"
-        id="submit-spot-btn"
-      >
-        ${icon('share', 'w-5 h-5')}
-        ${t('createSpot') || t('create')}
-      </button>
-      `}
-    </div>
-  `
-}
-
-/**
- * Render offline draft button (shown when offline at step 2)
- */
-function renderOfflineDraftButton() {
-  if (navigator.onLine) return ''
-  return `
-    <div class="mt-3 p-3 rounded-xl bg-warning-500/10 border border-warning-500/20">
-      <p class="text-sm text-warning-400 mb-2">${t('offlineMode') || 'Mode hors-ligne'}</p>
-      <button
-        type="button"
-        onclick="saveSpotAsDraft()"
-        class="btn btn-warning btn-sm w-full"
-      >
-        ${icon('save', 'w-4 h-4')}
-        ${t('saveDraft') || 'Sauvegarder le brouillon'}
-      </button>
     </div>
   `
 }
@@ -561,11 +491,11 @@ export function renderAddSpot(_state) {
         <div class="p-6 overflow-y-auto max-h-[calc(90vh-8rem)]">
           ${renderStepProgress(currentStep)}
 
-          <form id="add-spot-form" onsubmit="handleAddSpot(event)" class="space-y-5" aria-label="${t('addSpotForm') || 'Formulaire d\'ajout de spot'}">
+          <form id="add-spot-form" onsubmit="handleAddSpot(event)" class="space-y-5" aria-label="${t('addSpotForm') || "Formulaire d'ajout de spot"}">
             ${currentStep === 1 ? renderStep1(_state) : ''}
             ${currentStep === 2 ? renderStep2(_state) : ''}
             ${currentStep === 3 ? renderStep3(_state) : ''}
-            ${currentStep === 2 ? renderOfflineDraftButton() : ''}
+            ${currentStep >= 2 ? renderOfflineDraftButton() : ''}
           </form>
         </div>
       </div>
@@ -573,21 +503,19 @@ export function renderAddSpot(_state) {
   `
 }
 
-// Form state
+// Form state — ALL data structured for export/analysis
 window.spotFormData = window.spotFormData || {
   photo: null,
   lat: null,
   lng: null,
-  ratings: {
-    safety: 0,
-    traffic: 0,
-    accessibility: 0,
-  },
+  ratings: { safety: 0, traffic: 0, accessibility: 0 },
   tags: {
-    signMethod: null,
-    hasShelter: false,
+    shelter: false,
+    waterFood: false,
+    toilets: false,
+    visibility: false,
+    stoppingSpace: false,
   },
-  // New structured fields
   country: null,
   countryName: null,
   departureCity: null,
@@ -597,6 +525,11 @@ window.spotFormData = window.spotFormData || {
   locationName: null,
   roadNumber: null,
   positionSource: null,
+  method: null,       // 'sign' | 'thumb' | 'asking'
+  groupSize: null,    // 'solo' | 'duo' | 'group'
+  timeOfDay: null,    // 'morning' | 'afternoon' | 'evening' | 'night'
+  waitTime: null,     // minutes (number)
+  season: null,       // auto-detected
 }
 
 // Star rating descriptions map
@@ -662,17 +595,70 @@ window.setSpotRating = (criterion, value) => {
   }
 }
 
+// Spot type selection (big buttons)
+window.selectSpotType = (type) => {
+  window.spotFormData.spotType = type
+  import('../../stores/state.js').then(({ setState }) => {
+    setState({ addSpotType: type })
+  })
+}
+
+// Wait time slider
+window.setWaitTime = (sliderIndex) => {
+  const idx = parseInt(sliderIndex, 10)
+  const minutes = WAIT_STEPS[idx] || 10
+  window.spotFormData.waitTime = minutes
+  import('../../stores/state.js').then(({ setState }) => {
+    setState({ addSpotWaitTime: minutes })
+  })
+  const display = document.getElementById('wait-time-display')
+  if (display) {
+    display.textContent = minutes >= 180 ? '3h+' : minutes + ' min'
+  }
+}
+
+// Method selection
+window.setMethod = (method) => {
+  window.spotFormData.method = method
+  import('../../stores/state.js').then(({ setState }) => {
+    setState({ addSpotMethod: method })
+  })
+}
+
+// Group size selection
+window.setGroupSize = (size) => {
+  window.spotFormData.groupSize = size
+  import('../../stores/state.js').then(({ setState }) => {
+    setState({ addSpotGroupSize: size })
+  })
+}
+
+// Time of day selection
+window.setTimeOfDay = (time) => {
+  window.spotFormData.timeOfDay = time
+  import('../../stores/state.js').then(({ setState }) => {
+    setState({ addSpotTimeOfDay: time })
+  })
+}
+
+// Toggle amenity chip
+window.toggleAmenity = (name) => {
+  window.spotFormData.tags = window.spotFormData.tags || {}
+  window.spotFormData.tags[name] = !window.spotFormData.tags[name]
+  import('../../stores/state.js').then(({ setState }) => {
+    setState({ _tagRefresh: Date.now() })
+  })
+}
+
+// Keep backward compat for setSpotTag
 window.setSpotTag = (tagName, value) => {
-  window.spotFormData.tags = window.spotFormData.tags || { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false }
+  window.spotFormData.tags = window.spotFormData.tags || {}
   if (tagName === 'signMethod') {
-    // Radio-style: toggle off if same value clicked
     window.spotFormData.tags.signMethod = window.spotFormData.tags.signMethod === value ? null : value
   } else {
-    // Boolean toggle tags (hasShelter, visibility, stoppingSpace, amenities)
     window.spotFormData.tags[tagName] = value === true || value === 'true'
   }
-  // Re-render to update button states
-  import('../../stores/state.js').then(({ getState, setState }) => {
+  import('../../stores/state.js').then(({ setState }) => {
     setState({ _tagRefresh: Date.now() })
   })
 }
@@ -691,39 +677,33 @@ window.addSpotNextStep = async () => {
   const currentStep = state.addSpotStep || 1
 
   if (currentStep === 1) {
-    // Validate photo + type
+    // Validate photo + type + position + departure city
     if (!window.spotFormData.photo) {
       showError(t('photoRequired') || 'Une photo est requise')
       return
     }
-    const spotType = state.addSpotType || document.getElementById('spot-type')?.value
+    const spotType = state.addSpotType || window.spotFormData.spotType
     if (!spotType) {
       showError(t('selectSpotType') || 'Choisis un type de spot')
       return
     }
-    setState({ addSpotStep: 2, addSpotType: spotType })
-  } else if (currentStep === 2) {
-    // Validate location fields based on type
-    const spotType = state.addSpotType
-
-    // Position is always required
     if (!window.spotFormData.lat || !window.spotFormData.lng) {
       showError(t('positionRequired') || 'Position obligatoire')
       return
     }
-
-    // Direction is always required
+    if (!window.spotFormData.departureCity) {
+      showError(t('departureRequired') || 'Ville de départ obligatoire')
+      return
+    }
+    setState({ addSpotStep: 2, addSpotType: spotType })
+  } else if (currentStep === 2) {
+    // Validate direction
     if (!window.spotFormData.directionCity) {
-      showError(t('directionRequired') || 'Direction obligatoire')
+      showError(t('destinationRequired') || 'Destination obligatoire')
       return
     }
-
-    // City exit needs departure city
-    if (spotType === 'city_exit' && !window.spotFormData.departureCity) {
-      showError(t('departureCityRequired') || 'Ville de départ obligatoire')
-      return
-    }
-
+    // Auto-detect season
+    window.spotFormData.season = detectSeason()
     setState({ addSpotStep: 3 })
   }
 }
@@ -742,7 +722,7 @@ window.useGPSForSpot = () => {
   const display = document.getElementById('location-display')
 
   if (!navigator.geolocation) {
-    if (display) display.textContent = t('geoNotSupported') || 'Geolocalisation non supportee'
+    if (display) display.textContent = t('geoNotSupported') || 'Géolocalisation non supportée'
     return
   }
 
@@ -759,15 +739,10 @@ window.useGPSForSpot = () => {
         const location = await reverseGeocode(position.coords.latitude, position.coords.longitude)
 
         if (location) {
-          // Auto-fill country
           if (location.countryCode) {
             window.spotFormData.country = location.countryCode
             window.spotFormData.countryName = location.country
-            const countryInput = document.getElementById('spot-country')
-            if (countryInput) countryInput.value = location.country || ''
           }
-
-          // Auto-fill departure city for city_exit
           if (location.city) {
             const departureCityInput = document.getElementById('spot-departure-city')
             if (departureCityInput && !departureCityInput.value) {
@@ -779,7 +754,6 @@ window.useGPSForSpot = () => {
               }
             }
           }
-
           if (display) {
             display.innerHTML = `
               ${icon('circle-check', 'w-5 h-5 text-success-400')}
@@ -819,7 +793,6 @@ window.toggleSpotMapPicker = async () => {
 
   container.classList.remove('hidden')
 
-  // Lazy-load MapLibre
   try {
     const maplibregl = await import('maplibre-gl')
     const mapDiv = document.getElementById('spot-mini-map')
@@ -838,7 +811,6 @@ window.toggleSpotMapPicker = async () => {
 
     let marker = null
 
-    // If position already set, show marker
     if (window.spotFormData.lat) {
       marker = new maplibregl.default.Marker({ color: '#f59e0b' })
         .setLngLat([window.spotFormData.lng, window.spotFormData.lat])
@@ -861,15 +833,12 @@ window.toggleSpotMapPicker = async () => {
         display.innerHTML = `${icon('circle-check', 'w-5 h-5 text-success-400')} ${lat.toFixed(4)}, ${lng.toFixed(4)}`
       }
 
-      // Reverse geocode to fill fields
       try {
         const { reverseGeocode } = await import('../../services/osrm.js')
         const location = await reverseGeocode(lat, lng)
         if (location?.countryCode) {
           window.spotFormData.country = location.countryCode
           window.spotFormData.countryName = location.country
-          const countryInput = document.getElementById('spot-country')
-          if (countryInput) countryInput.value = location.country || ''
         }
         if (location?.city) {
           const departureCityInput = document.getElementById('spot-departure-city')
@@ -901,65 +870,52 @@ window.autoDetectStation = async () => {
     showError(t('positionRequired') || 'Position obligatoire')
     return
   }
-
   try {
     const { reverseGeocode } = await import('../../services/osrm.js')
     const location = await reverseGeocode(window.spotFormData.lat, window.spotFormData.lng)
-    const nameInput = document.getElementById('spot-station-name')
-    if (location?.name && nameInput) {
-      // Extract station/amenity name from display_name
+    if (location?.name) {
       const parts = location.name.split(',')
-      nameInput.value = parts[0].trim()
       window.spotFormData.locationName = parts[0].trim()
-    } else {
-      const { showInfo } = await import('../../services/notifications.js')
-      showInfo(t('noStationFound') || 'Aucune station trouvée')
     }
-  } catch {
-    const { showInfo } = await import('../../services/notifications.js')
-    showInfo(t('noStationFound') || 'Aucune station trouvée')
-  }
+  } catch { /* no-op */ }
 }
 
 // Auto-detect road
 window.autoDetectRoad = async () => {
-  if (!window.spotFormData.lat || !window.spotFormData.lng) {
-    const { showError } = await import('../../services/notifications.js')
-    showError(t('positionRequired') || 'Position obligatoire')
-    return
-  }
-
+  if (!window.spotFormData.lat || !window.spotFormData.lng) return
   try {
     const { reverseGeocode } = await import('../../services/osrm.js')
     const location = await reverseGeocode(window.spotFormData.lat, window.spotFormData.lng)
-    const nameInput = document.getElementById('spot-road-name')
-    if (location?.name && nameInput) {
+    if (location?.name) {
       const parts = location.name.split(',')
-      nameInput.value = parts[0].trim()
       window.spotFormData.roadNumber = parts[0].trim()
     }
   } catch { /* no-op */ }
 }
 
-// Draft saving
-window.saveSpotAsDraft = async () => {
+// Draft saving — saves ALL form data
+window.saveDraftAndClose = async () => {
   const { saveSpotDraft } = await import('../../services/spotDrafts.js')
-  const { setState } = await import('../../stores/state.js')
+  const { setState, getState } = await import('../../stores/state.js')
   const { showSuccess } = await import('../../services/notifications.js')
+  const state = getState()
 
   saveSpotDraft({
-    photo: window.spotFormData.photo,
-    spotType: (await import('../../stores/state.js')).getState().addSpotType,
-    lat: window.spotFormData.lat,
-    lng: window.spotFormData.lng,
-    country: window.spotFormData.country,
-    countryName: window.spotFormData.countryName,
-    positionSource: window.spotFormData.positionSource,
+    ...window.spotFormData,
+    spotType: state.addSpotType,
+    addSpotStep: state.addSpotStep,
+    addSpotMethod: state.addSpotMethod,
+    addSpotGroupSize: state.addSpotGroupSize,
+    addSpotTimeOfDay: state.addSpotTimeOfDay,
+    addSpotWaitTime: state.addSpotWaitTime,
   })
 
   showSuccess(t('draftSaved') || 'Brouillon sauvegardé !')
   setState({ showAddSpot: false })
 }
+
+// Keep backward compat
+window.saveSpotAsDraft = window.saveDraftAndClose
 
 window.openSpotDraft = async (draftId) => {
   const { getSpotDrafts } = await import('../../services/spotDrafts.js')
@@ -968,18 +924,38 @@ window.openSpotDraft = async (draftId) => {
   const draft = drafts.find(d => d.id === draftId)
   if (!draft) return
 
-  // Restore form data
-  window.spotFormData.photo = draft.photo
-  window.spotFormData.lat = draft.lat
-  window.spotFormData.lng = draft.lng
-  window.spotFormData.country = draft.country
-  window.spotFormData.countryName = draft.countryName
-  window.spotFormData.positionSource = draft.positionSource
+  // Restore ALL form data
+  window.spotFormData = {
+    photo: draft.photo,
+    lat: draft.lat,
+    lng: draft.lng,
+    ratings: draft.ratings || { safety: 0, traffic: 0, accessibility: 0 },
+    tags: draft.tags || {},
+    country: draft.country,
+    countryName: draft.countryName,
+    departureCity: draft.departureCity,
+    departureCityCoords: draft.departureCityCoords,
+    directionCity: draft.directionCity,
+    directionCityCoords: draft.directionCityCoords,
+    locationName: draft.locationName,
+    roadNumber: draft.roadNumber,
+    positionSource: draft.positionSource,
+    method: draft.method,
+    groupSize: draft.groupSize,
+    timeOfDay: draft.timeOfDay,
+    waitTime: draft.waitTime,
+    season: draft.season,
+  }
 
   setState({
     showAddSpot: true,
-    addSpotStep: 2,
+    addSpotStep: draft.addSpotStep || 2,
     addSpotType: draft.spotType,
+    addSpotMethod: draft.addSpotMethod || draft.method,
+    addSpotGroupSize: draft.addSpotGroupSize || draft.groupSize,
+    addSpotTimeOfDay: draft.addSpotTimeOfDay || draft.timeOfDay,
+    addSpotWaitTime: draft.addSpotWaitTime || draft.waitTime,
+    spotDraftsBannerVisible: false,
   })
 }
 
@@ -988,65 +964,37 @@ window.deleteSpotDraft = async (draftId) => {
   deleteSpotDraft(draftId)
   const { showToast } = await import('../../services/notifications.js')
   showToast(t('deleteDraft') || 'Brouillon supprimé', 'info')
+  import('../../stores/state.js').then(({ setState }) => {
+    setState({ spotDraftsBannerVisible: false })
+  })
 }
 
-// Initialize autocomplete fields when step 2 renders
+// Initialize autocomplete fields when step renders
 let autocompleteCleanups = []
 
-function initStep2Autocomplete() {
-  // Clean up previous instances
-  autocompleteCleanups.forEach(c => c.destroy())
-  autocompleteCleanups = []
-
-  // Only init if we're online
+function initStep1Autocomplete() {
+  cleanupAutocompletes()
   if (!navigator.onLine) return
 
   import('../../utils/autocomplete.js').then(({ initAutocomplete }) => {
-    import('../../services/osrm.js').then(({ searchCities, searchCountries }) => {
-      // Country autocomplete
-      const countryInput = document.getElementById('spot-country')
-      if (countryInput) {
-        const ac = initAutocomplete({
-          inputId: 'spot-country',
-          searchFn: (q) => searchCountries(q),
-          onSelect: (item) => {
-            window.spotFormData.country = item.code
-            window.spotFormData.countryName = item.name
-          },
-          renderItem: (item) => `<div class="font-medium text-sm">${item.name} (${item.code})</div>`,
-        })
-        autocompleteCleanups.push(ac)
-      }
-
-      // Departure city autocomplete (filtered by country)
+    import('../../services/osrm.js').then(({ searchCities }) => {
       const depInput = document.getElementById('spot-departure-city')
       if (depInput) {
         const ac = initAutocomplete({
           inputId: 'spot-departure-city',
           searchFn: (q) => searchCities(q, { countryCode: window.spotFormData.country }),
+          forceSelection: true,
           onSelect: (item) => {
             window.spotFormData.departureCity = item.name
             window.spotFormData.departureCityCoords = { lat: item.lat, lng: item.lng }
             if (item.countryCode && !window.spotFormData.country) {
               window.spotFormData.country = item.countryCode
               window.spotFormData.countryName = item.countryName
-              const countryEl = document.getElementById('spot-country')
-              if (countryEl) countryEl.value = item.countryName || ''
             }
           },
-        })
-        autocompleteCleanups.push(ac)
-      }
-
-      // Direction city autocomplete
-      const dirInput = document.getElementById('spot-direction-city')
-      if (dirInput) {
-        const ac = initAutocomplete({
-          inputId: 'spot-direction-city',
-          searchFn: (q) => searchCities(q, {}),
-          onSelect: (item) => {
-            window.spotFormData.directionCity = item.name
-            window.spotFormData.directionCityCoords = { lat: item.lat, lng: item.lng }
+          onClear: () => {
+            window.spotFormData.departureCity = null
+            window.spotFormData.departureCityCoords = null
           },
         })
         autocompleteCleanups.push(ac)
@@ -1055,9 +1003,44 @@ function initStep2Autocomplete() {
   })
 }
 
+function initStep2Autocomplete() {
+  cleanupAutocompletes()
+  if (!navigator.onLine) return
+
+  import('../../utils/autocomplete.js').then(({ initAutocomplete }) => {
+    import('../../services/osrm.js').then(({ searchCities }) => {
+      const dirInput = document.getElementById('spot-direction-city')
+      if (dirInput) {
+        const ac = initAutocomplete({
+          inputId: 'spot-direction-city',
+          searchFn: (q) => searchCities(q, {}),
+          forceSelection: true,
+          onSelect: (item) => {
+            window.spotFormData.directionCity = item.name
+            window.spotFormData.directionCityCoords = { lat: item.lat, lng: item.lng }
+          },
+          onClear: () => {
+            window.spotFormData.directionCity = null
+            window.spotFormData.directionCityCoords = null
+          },
+        })
+        autocompleteCleanups.push(ac)
+      }
+    })
+  })
+}
+
+function cleanupAutocompletes() {
+  autocompleteCleanups.forEach(c => c.destroy())
+  autocompleteCleanups = []
+}
+
 // Watch for DOM changes to init autocomplete
 const observer = new MutationObserver(() => {
-  if (document.getElementById('spot-departure-city') || document.getElementById('spot-direction-city')) {
+  if (document.getElementById('spot-departure-city') && !document.getElementById('spot-direction-city')) {
+    initStep1Autocomplete()
+  }
+  if (document.getElementById('spot-direction-city')) {
     initStep2Autocomplete()
   }
 })
@@ -1075,12 +1058,7 @@ window.handleAddSpot = async (event) => {
   const description = document.getElementById('spot-description')?.value.trim()
   const submitBtn = document.getElementById('submit-spot-btn')
 
-  // Gather location-specific fields
-  const stationName = document.getElementById('spot-station-name')?.value?.trim() || ''
-  const roadName = document.getElementById('spot-road-name')?.value?.trim() || ''
-  const locationDesc = document.getElementById('spot-location-desc')?.value?.trim() || ''
-
-  // Build legacy fields for backward compatibility
+  // Build fields
   const from = window.spotFormData.departureCity || ''
   const to = window.spotFormData.directionCity || ''
   const direction = window.spotFormData.directionCity || ''
@@ -1122,7 +1100,7 @@ window.handleAddSpot = async (event) => {
   // Disable button
   if (submitBtn) {
     submitBtn.disabled = true
-    submitBtn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin')} ${t('sending') || 'Envoi...'}`
+    submitBtn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin')} ${t('submittingSpot') || 'Envoi...'}`
   }
 
   const ratings = window.spotFormData.ratings || { safety: 0, traffic: 0, accessibility: 0 }
@@ -1140,22 +1118,30 @@ window.handleAddSpot = async (event) => {
       throw new Error('Photo upload failed')
     }
 
+    // Build complete spot data — ALL fields structured
     const spotData = {
-      // New structured fields
+      // Structured fields (unique data!)
       country: window.spotFormData.country || '',
       countryName: window.spotFormData.countryName || '',
       departureCity: window.spotFormData.departureCity || '',
       departureCityCoords: window.spotFormData.departureCityCoords || null,
       directionCity: window.spotFormData.directionCity || '',
       directionCityCoords: window.spotFormData.directionCityCoords || null,
-      locationName: stationName || roadName || locationDesc || '',
-      roadNumber: roadName || '',
+      locationName: window.spotFormData.locationName || '',
+      roadNumber: window.spotFormData.roadNumber || '',
       positionSource: window.spotFormData.positionSource || 'gps',
 
+      // Experience data (unique!)
+      method: window.spotFormData.method || null,
+      groupSize: window.spotFormData.groupSize || null,
+      timeOfDay: window.spotFormData.timeOfDay || null,
+      waitTime: window.spotFormData.waitTime || null,
+      season: window.spotFormData.season || detectSeason(),
+
       // Legacy fields (backward compat)
-      from: from || window.spotFormData.departureCity || '',
-      to: to || window.spotFormData.directionCity || '',
-      direction: direction || '',
+      from: from,
+      to: to,
+      direction: direction,
 
       // Standard fields
       description,
@@ -1170,11 +1156,12 @@ window.handleAddSpot = async (event) => {
         accessibility: ratings.accessibility || 0,
       },
       globalRating,
-      avgWaitTime: 30,
+      avgWaitTime: window.spotFormData.waitTime || 30,
       spotType,
       fromCity: from,
-      stationName,
-      tags: window.spotFormData.tags || { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false },
+      tags: window.spotFormData.tags || {},
+      dataSource: 'community',
+      createdAt: new Date().toISOString(),
     }
 
     const result = await addSpot(spotData)
@@ -1183,19 +1170,28 @@ window.handleAddSpot = async (event) => {
       const { showSuccess } = await import('../../services/notifications.js')
       const { actions, setState: setStateFn } = await import('../../stores/state.js')
 
-      showSuccess(t('spotAdded') || 'Spot ajoute avec succes !')
+      showSuccess(t('spotShared') || 'Spot partagé avec succès !')
       actions.incrementSpotsCreated()
-      setStateFn({ showAddSpot: false, addSpotStep: 1, addSpotType: null })
+      setStateFn({
+        showAddSpot: false,
+        addSpotStep: 1,
+        addSpotType: null,
+        addSpotMethod: null,
+        addSpotGroupSize: null,
+        addSpotTimeOfDay: null,
+        addSpotWaitTime: null,
+      })
 
       // Reset form data
       window.spotFormData = {
         photo: null, lat: null, lng: null,
         ratings: { safety: 0, traffic: 0, accessibility: 0 },
-        tags: { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false },
+        tags: { shelter: false, waterFood: false, toilets: false, visibility: false, stoppingSpace: false },
         country: null, countryName: null,
         departureCity: null, departureCityCoords: null,
         directionCity: null, directionCityCoords: null,
         locationName: null, roadNumber: null, positionSource: null,
+        method: null, groupSize: null, timeOfDay: null, waitTime: null, season: null,
       }
 
       // Show contextual tip for first spot created
@@ -1213,7 +1209,7 @@ window.handleAddSpot = async (event) => {
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false
-      submitBtn.innerHTML = `${icon('share', 'w-5 h-5')} ${t('createSpot') || t('create')}`
+      submitBtn.innerHTML = `${icon('share', 'w-5 h-5')} ${t('shareThisSpot') || t('create')}`
     }
   }
 }

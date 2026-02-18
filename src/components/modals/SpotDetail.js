@@ -176,8 +176,40 @@ export function renderSpotDetail(state) {
             ` : ''}
           </div>
 
+          <!-- Data Source Badge -->
+          <div class="mb-4 flex items-center gap-2">
+            ${spot.dataSource === 'community' || (!spot.dataSource && !spot.source) ? `
+              <span class="badge bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs">
+                ${icon('users', 'w-3 h-3 mr-1')} ${t('spotSourceCommunity') || 'Community data'}
+              </span>
+            ` : `
+              <span class="badge bg-slate-500/20 text-slate-300 border border-slate-400/30 text-xs">
+                ${icon('database', 'w-3 h-3 mr-1')} ${t('spotSourceHitchmap') || 'Hitchmap data'}
+              </span>
+            `}
+          </div>
+
           <!-- Actions -->
-          <div class="grid grid-cols-3 gap-3 mb-5">
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <button
+              onclick="openValidateSpot(${typeof spot.id === 'string' ? "'" + spot.id + "'" : spot.id})"
+              class="btn text-white font-semibold py-3"
+              style="background: linear-gradient(135deg, #10b981, #059669);"
+              type="button"
+            >
+              ${icon('circle-check', 'w-5 h-5')}
+              ${t('iTestedThisSpot') || "J'ai testé ce spot"}
+            </button>
+            <button
+              onclick="toggleFavorite('${spot.id}')"
+              class="btn btn-ghost py-3"
+              type="button"
+            >
+              ${icon('bookmark', 'w-5 h-5')}
+              ${t('save') || 'Sauver'}
+            </button>
+          </div>
+          <div class="grid grid-cols-2 gap-3 mb-5">
             <button
               onclick="openCheckinModal(${spot.id})"
               class="btn btn-primary"
@@ -193,14 +225,6 @@ export function renderSpotDetail(state) {
             >
               ${icon('message-circle-more', 'w-5 h-5')}
               ${t('review') || 'Avis'}
-            </button>
-            <button
-              onclick="toggleFavorite('${spot.id}')"
-              class="btn btn-ghost"
-              type="button"
-            >
-              ${icon('bookmark', 'w-5 h-5')}
-              ${t('save') || 'Sauver'}
             </button>
           </div>
 

@@ -207,6 +207,17 @@ const initialState = {
   // AddSpot wizard
   addSpotStep: 1,
   addSpotType: null,
+  addSpotWaitTime: null,
+  addSpotMethod: null,
+  addSpotGroupSize: null,
+  addSpotTimeOfDay: null,
+
+  // ValidateSpot
+  showValidateSpot: false,
+  validateSpotId: null,
+
+  // Drafts
+  spotDraftsBannerVisible: false,
 
   // Additional data keys
   addSpotPreview: false,

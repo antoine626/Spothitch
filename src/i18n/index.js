@@ -3260,6 +3260,86 @@ const translations = {
     stoppingSpaceTag: "Place pour s'arrêter",
     nearbyAmenities: "Eau/nourriture à proximité",
 
+    // AddSpot v2 - Methods
+    methodAsking: "En demandant",
+    methodSign: "Panneau",
+    methodThumb: "Pouce",
+
+    // AddSpot v2 - Group size
+    groupSolo: "Solo",
+    groupDuo: "Duo",
+    groupTrioPlus: "Groupe 3+",
+    groupSizeLabel: "Combien étiez-vous ?",
+
+    // AddSpot v2 - Time of day
+    timeMorning: "Matin",
+    timeAfternoon: "Après-midi",
+    timeEvening: "Soir",
+    timeNight: "Nuit",
+    timeOfDayLabel: "Moment de la journée",
+
+    // AddSpot v2 - Wait time slider
+    waitTimeLabel: "Temps d'attente",
+    waitTimeSliderDesc: "Combien de temps as-tu attendu ?",
+
+    // AddSpot v2 - Destination
+    destinationCity: "Direction (ville de destination)",
+    destinationRequired: "Destination obligatoire",
+    departureRequired: "Ville de départ obligatoire",
+    selectFromList: "Sélectionne dans la liste",
+
+    // AddSpot v2 - Experience section
+    experienceSection: "Ton expérience",
+    detailsSection: "Détails du spot",
+
+    // AddSpot v2 - Step labels
+    stepPhotoType: "Photo & Type",
+    stepExperience: "Expérience",
+    stepDetails: "Détails",
+
+    // AddSpot v2 - Amenities
+    amenityToilets: "Toilettes",
+    amenityShelter: "Abri pluie",
+    amenityWaterFood: "Eau/nourriture",
+    amenitiesLabel: "Équipements à proximité",
+
+    // AddSpot v2 - Submit
+    shareThisSpot: "Partager ce spot",
+    submittingSpot: "Envoi du spot...",
+    spotShared: "Spot partagé avec succès !",
+
+    // ValidateSpot
+    iTestedThisSpot: "J'ai testé ce spot",
+    validateSpotTitle: "Valider ce spot",
+    validateExperience: "Ton expérience",
+    submitValidation: "Envoyer ma validation",
+    validationSubmitted: "Validation envoyée ! Merci",
+    validationError: "Erreur lors de la validation",
+    yourDirection: "Ta direction",
+    addComment: "Ajouter un commentaire",
+    optionalPhoto: "Photo (optionnel)",
+    commentPlaceholder: "Conseils, avertissements, infos utiles...",
+
+    // Spot source
+    spotSourceHitchmap: "Données Hitchmap",
+    spotSourceCommunity: "Données communauté",
+    spotSourceLabel: "Source des données",
+
+    // Draft banner
+    draftBannerTitle: "Brouillon en attente",
+    draftBannerDesc: "Tu as un spot à terminer",
+    draftBannerResume: "Reprendre",
+    draftBannerDiscard: "Supprimer",
+    draftReminderTitle: "Spot à compléter",
+    draftReminderBody: "Tu as un brouillon de spot en attente",
+
+    // Season auto-detect
+    seasonSpring: "Printemps",
+    seasonSummer: "Été",
+    seasonAutumn: "Automne",
+    seasonWinter: "Hiver",
+    seasonLabel: "Saison",
+
     // Freshness Badges
     freshSpot: "Récent",
     agingSpot: "À vérifier",
@@ -6400,6 +6480,86 @@ const translations = {
     stoppingSpaceTag: "Cars can stop",
     nearbyAmenities: "Water/food nearby",
 
+    // AddSpot v2 - Methods
+    methodAsking: "By asking",
+    methodSign: "Sign",
+    methodThumb: "Thumb",
+
+    // AddSpot v2 - Group size
+    groupSolo: "Solo",
+    groupDuo: "Duo",
+    groupTrioPlus: "Group 3+",
+    groupSizeLabel: "How many were you?",
+
+    // AddSpot v2 - Time of day
+    timeMorning: "Morning",
+    timeAfternoon: "Afternoon",
+    timeEvening: "Evening",
+    timeNight: "Night",
+    timeOfDayLabel: "Time of day",
+
+    // AddSpot v2 - Wait time slider
+    waitTimeLabel: "Wait time",
+    waitTimeSliderDesc: "How long did you wait?",
+
+    // AddSpot v2 - Destination
+    destinationCity: "Direction (destination city)",
+    destinationRequired: "Destination required",
+    departureRequired: "Departure city required",
+    selectFromList: "Select from list",
+
+    // AddSpot v2 - Experience section
+    experienceSection: "Your experience",
+    detailsSection: "Spot details",
+
+    // AddSpot v2 - Step labels
+    stepPhotoType: "Photo & Type",
+    stepExperience: "Experience",
+    stepDetails: "Details",
+
+    // AddSpot v2 - Amenities
+    amenityToilets: "Toilets",
+    amenityShelter: "Rain shelter",
+    amenityWaterFood: "Water/food",
+    amenitiesLabel: "Nearby amenities",
+
+    // AddSpot v2 - Submit
+    shareThisSpot: "Share this spot",
+    submittingSpot: "Submitting spot...",
+    spotShared: "Spot shared successfully!",
+
+    // ValidateSpot
+    iTestedThisSpot: "I tested this spot",
+    validateSpotTitle: "Validate this spot",
+    validateExperience: "Your experience",
+    submitValidation: "Submit my validation",
+    validationSubmitted: "Validation submitted! Thank you",
+    validationError: "Error submitting validation",
+    yourDirection: "Your direction",
+    addComment: "Add a comment",
+    optionalPhoto: "Photo (optional)",
+    commentPlaceholder: "Tips, warnings, useful info...",
+
+    // Spot source
+    spotSourceHitchmap: "Hitchmap data",
+    spotSourceCommunity: "Community data",
+    spotSourceLabel: "Data source",
+
+    // Draft banner
+    draftBannerTitle: "Pending draft",
+    draftBannerDesc: "You have a spot to finish",
+    draftBannerResume: "Resume",
+    draftBannerDiscard: "Discard",
+    draftReminderTitle: "Spot to complete",
+    draftReminderBody: "You have a pending spot draft",
+
+    // Season auto-detect
+    seasonSpring: "Spring",
+    seasonSummer: "Summer",
+    seasonAutumn: "Autumn",
+    seasonWinter: "Winter",
+    seasonLabel: "Season",
+
     // Freshness Badges
     freshSpot: "Recent",
     agingSpot: "To verify",
@@ -9537,6 +9697,86 @@ const translations = {
     stoppingSpaceTag: "Espacio para parar",
     nearbyAmenities: "Agua/comida cerca",
 
+    // AddSpot v2 - Methods
+    methodAsking: "Preguntando",
+    methodSign: "Cartel",
+    methodThumb: "Dedo",
+
+    // AddSpot v2 - Group size
+    groupSolo: "Solo",
+    groupDuo: "Dúo",
+    groupTrioPlus: "Grupo 3+",
+    groupSizeLabel: "¿Cuántos erais?",
+
+    // AddSpot v2 - Time of day
+    timeMorning: "Mañana",
+    timeAfternoon: "Tarde",
+    timeEvening: "Noche temprana",
+    timeNight: "Noche",
+    timeOfDayLabel: "Momento del día",
+
+    // AddSpot v2 - Wait time slider
+    waitTimeLabel: "Tiempo de espera",
+    waitTimeSliderDesc: "¿Cuánto tiempo esperaste?",
+
+    // AddSpot v2 - Destination
+    destinationCity: "Dirección (ciudad destino)",
+    destinationRequired: "Destino obligatorio",
+    departureRequired: "Ciudad de salida obligatoria",
+    selectFromList: "Selecciona de la lista",
+
+    // AddSpot v2 - Experience section
+    experienceSection: "Tu experiencia",
+    detailsSection: "Detalles del spot",
+
+    // AddSpot v2 - Step labels
+    stepPhotoType: "Foto y Tipo",
+    stepExperience: "Experiencia",
+    stepDetails: "Detalles",
+
+    // AddSpot v2 - Amenities
+    amenityToilets: "Baños",
+    amenityShelter: "Refugio lluvia",
+    amenityWaterFood: "Agua/comida",
+    amenitiesLabel: "Servicios cercanos",
+
+    // AddSpot v2 - Submit
+    shareThisSpot: "Compartir este spot",
+    submittingSpot: "Enviando spot...",
+    spotShared: "¡Spot compartido con éxito!",
+
+    // ValidateSpot
+    iTestedThisSpot: "He probado este spot",
+    validateSpotTitle: "Validar este spot",
+    validateExperience: "Tu experiencia",
+    submitValidation: "Enviar mi validación",
+    validationSubmitted: "¡Validación enviada! Gracias",
+    validationError: "Error al enviar la validación",
+    yourDirection: "Tu dirección",
+    addComment: "Añadir un comentario",
+    optionalPhoto: "Foto (opcional)",
+    commentPlaceholder: "Consejos, advertencias, info útil...",
+
+    // Spot source
+    spotSourceHitchmap: "Datos Hitchmap",
+    spotSourceCommunity: "Datos comunidad",
+    spotSourceLabel: "Fuente de datos",
+
+    // Draft banner
+    draftBannerTitle: "Borrador pendiente",
+    draftBannerDesc: "Tienes un spot por terminar",
+    draftBannerResume: "Continuar",
+    draftBannerDiscard: "Descartar",
+    draftReminderTitle: "Spot por completar",
+    draftReminderBody: "Tienes un borrador de spot pendiente",
+
+    // Season auto-detect
+    seasonSpring: "Primavera",
+    seasonSummer: "Verano",
+    seasonAutumn: "Otoño",
+    seasonWinter: "Invierno",
+    seasonLabel: "Temporada",
+
     // Freshness Badges
     freshSpot: "Reciente",
     agingSpot: "A verificar",
@@ -12673,6 +12913,86 @@ const translations = {
     goodVisibilityTag: "Von weitem sichtbar",
     stoppingSpaceTag: "Autos können anhalten",
     nearbyAmenities: "Wasser/Essen in der Nähe",
+
+    // AddSpot v2 - Methods
+    methodAsking: "Fragen",
+    methodSign: "Schild",
+    methodThumb: "Daumen",
+
+    // AddSpot v2 - Group size
+    groupSolo: "Allein",
+    groupDuo: "Zu zweit",
+    groupTrioPlus: "Gruppe 3+",
+    groupSizeLabel: "Wie viele wart ihr?",
+
+    // AddSpot v2 - Time of day
+    timeMorning: "Morgens",
+    timeAfternoon: "Nachmittags",
+    timeEvening: "Abends",
+    timeNight: "Nachts",
+    timeOfDayLabel: "Tageszeit",
+
+    // AddSpot v2 - Wait time slider
+    waitTimeLabel: "Wartezeit",
+    waitTimeSliderDesc: "Wie lange hast du gewartet?",
+
+    // AddSpot v2 - Destination
+    destinationCity: "Richtung (Zielstadt)",
+    destinationRequired: "Ziel erforderlich",
+    departureRequired: "Abfahrtsstadt erforderlich",
+    selectFromList: "Aus Liste wählen",
+
+    // AddSpot v2 - Experience section
+    experienceSection: "Deine Erfahrung",
+    detailsSection: "Spot-Details",
+
+    // AddSpot v2 - Step labels
+    stepPhotoType: "Foto & Typ",
+    stepExperience: "Erfahrung",
+    stepDetails: "Details",
+
+    // AddSpot v2 - Amenities
+    amenityToilets: "Toiletten",
+    amenityShelter: "Regenschutz",
+    amenityWaterFood: "Wasser/Essen",
+    amenitiesLabel: "Einrichtungen in der Nähe",
+
+    // AddSpot v2 - Submit
+    shareThisSpot: "Diesen Spot teilen",
+    submittingSpot: "Spot wird gesendet...",
+    spotShared: "Spot erfolgreich geteilt!",
+
+    // ValidateSpot
+    iTestedThisSpot: "Ich habe diesen Spot getestet",
+    validateSpotTitle: "Diesen Spot validieren",
+    validateExperience: "Deine Erfahrung",
+    submitValidation: "Meine Validierung senden",
+    validationSubmitted: "Validierung gesendet! Danke",
+    validationError: "Fehler beim Senden der Validierung",
+    yourDirection: "Deine Richtung",
+    addComment: "Kommentar hinzufügen",
+    optionalPhoto: "Foto (optional)",
+    commentPlaceholder: "Tipps, Warnungen, nützliche Infos...",
+
+    // Spot source
+    spotSourceHitchmap: "Hitchmap-Daten",
+    spotSourceCommunity: "Community-Daten",
+    spotSourceLabel: "Datenquelle",
+
+    // Draft banner
+    draftBannerTitle: "Ausstehender Entwurf",
+    draftBannerDesc: "Du hast einen Spot zu beenden",
+    draftBannerResume: "Fortsetzen",
+    draftBannerDiscard: "Verwerfen",
+    draftReminderTitle: "Spot zu vervollständigen",
+    draftReminderBody: "Du hast einen ausstehenden Spot-Entwurf",
+
+    // Season auto-detect
+    seasonSpring: "Frühling",
+    seasonSummer: "Sommer",
+    seasonAutumn: "Herbst",
+    seasonWinter: "Winter",
+    seasonLabel: "Jahreszeit",
 
     // Freshness Badges
     freshSpot: "Aktuell",

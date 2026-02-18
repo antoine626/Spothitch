@@ -32,6 +32,7 @@ import { renderAdminPanel } from '../../src/components/modals/AdminPanel.js'
 import { renderMyDataModal } from '../../src/components/modals/MyData.js'
 import { renderCompanionModal } from '../../src/components/modals/Companion.js'
 import { renderContactFormModal } from '../../src/components/modals/ContactForm.js'
+import { renderValidateSpot } from '../../src/components/modals/ValidateSpot.js'
 import { renderCookieBanner } from '../../src/components/modals/CookieBanner.js'
 import { renderDailyRewardModal } from '../../src/components/modals/DailyReward.js'
 import { renderDeleteAccountModal } from '../../src/components/modals/DeleteAccount.js'
@@ -396,6 +397,19 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
     expect(html.length).toBeGreaterThan(100)
     expect(html.toLowerCase()).toContain('language')
   })
+
+  test('showValidateSpot flag renders ValidateSpot modal', () => {
+    const state = {
+      ...mockState,
+      showValidateSpot: true,
+      validateSpotId: 1,
+    }
+    const html = renderValidateSpot(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html).toContain('closeValidateSpot')
+    expect(html).toContain('submitValidation')
+  })
 })
 
 describe('Modal Flags: close buttons present in HTML', () => {
@@ -420,6 +434,7 @@ describe('Modal Flags: close buttons present in HTML', () => {
       { name: 'MyData', html: renderMyDataModal() },
       { name: 'Companion', html: renderCompanionModal({ ...mockState, showCompanionModal: true }) },
       { name: 'ContactForm', html: renderContactFormModal() },
+      { name: 'ValidateSpot', html: renderValidateSpot({ ...mockState, showValidateSpot: true, validateSpotId: 1 }) },
       { name: 'DeleteAccount', html: renderDeleteAccountModal({ ...mockState, showDeleteAccount: true }) },
       { name: 'EmailVerification', html: renderEmailVerification('test@test.com') },
       { name: 'LocationPermission', html: renderLocationPermission({ ...mockState }) },

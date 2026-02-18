@@ -292,6 +292,16 @@ const MAIN_JS_HANDLERS = [
   'closeFAQ', 'searchFAQ', 'getFAQQuestionById',
   // AddSpot extras (defined in AddSpot.js)
   'handleAddSpot', 'setSpotTag',
+  // AddSpot v2 (defined in AddSpot.js)
+  'selectSpotType', 'setWaitTime', 'setMethod',
+  'setGroupSize', 'setTimeOfDay', 'toggleAmenity',
+  'saveDraftAndClose',
+  // ValidateSpot (defined in ValidateSpot.js)
+  'openValidateSpot', 'closeValidateSpot', 'submitValidation',
+  'setValidationWaitTime', 'setValidationRideResult',
+  'setValidationMethod', 'setValidationGroupSize',
+  'setValidationTimeOfDay', 'setValidationRating',
+  'handleValidationPhoto',
   // Favorites (defined in favorites.js)
   'showFavoritesOnMap',
   // User Blocking (defined in userBlocking.js)

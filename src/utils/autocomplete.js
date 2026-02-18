@@ -16,7 +16,9 @@ import { icon } from './icons.js'
  * @param {string} [options.dropdownId] - Custom dropdown container ID
  * @param {number} [options.debounceMs=200] - Debounce delay
  * @param {number} [options.minChars=2] - Min chars before searching
- * @returns {{ destroy: Function }} Cleanup handle
+ * @param {boolean} [options.forceSelection=false] - If true, input is invalid unless item selected from list
+ * @param {Function} [options.onClear] - Callback when user clears their selection
+ * @returns {{ destroy: Function, isValid: Function }} Cleanup handle + validation
  */
 export function initAutocomplete({
   inputId,
@@ -26,14 +28,17 @@ export function initAutocomplete({
   dropdownId,
   debounceMs = 200,
   minChars = 2,
+  forceSelection = false,
+  onClear,
 }) {
   const input = document.getElementById(inputId)
-  if (!input) return { destroy() {} }
+  if (!input) return { destroy() {}, isValid() { return true } }
 
   let timer = null
   let activeIndex = -1
   let results = []
   let dropdown = null
+  let selectedItem = null // Track if user picked from list
 
   // Create dropdown container
   function getDropdown() {
@@ -95,7 +100,10 @@ export function initAutocomplete({
     if (index >= 0 && index < results.length) {
       const item = results[index]
       input.value = item.name || item.fullName || ''
+      selectedItem = item
       hideDropdown()
+      // Remove invalid state
+      input.classList.remove('border-red-500')
       onSelect(item)
     }
   }
@@ -126,6 +134,21 @@ export function initAutocomplete({
   function onInput() {
     const query = input.value.trim()
     clearTimeout(timer)
+
+    // If forceSelection and user types (modifying selected value), invalidate
+    if (forceSelection && selectedItem) {
+      const selectedName = selectedItem.name || selectedItem.fullName || ''
+      if (query !== selectedName) {
+        selectedItem = null
+        if (onClear) onClear()
+      }
+    }
+
+    // If field is cleared
+    if (!query && forceSelection) {
+      selectedItem = null
+      if (onClear) onClear()
+    }
 
     if (query.length < minChars) {
       hideDropdown()
@@ -174,7 +197,13 @@ export function initAutocomplete({
 
   function onBlur() {
     // Delay to allow click on dropdown items
-    setTimeout(hideDropdown, 200)
+    setTimeout(() => {
+      hideDropdown()
+      // If forceSelection and nothing was selected, mark invalid
+      if (forceSelection && !selectedItem && input.value.trim()) {
+        input.classList.add('border-red-500')
+      }
+    }, 200)
   }
 
   // Attach events
@@ -192,6 +221,20 @@ export function initAutocomplete({
       input.removeEventListener('keydown', onKeydown)
       input.removeEventListener('blur', onBlur)
       if (dropdown) dropdown.remove()
+    },
+    isValid() {
+      if (!forceSelection) return true
+      return !!selectedItem
+    },
+    getSelectedItem() {
+      return selectedItem
+    },
+    setSelectedItem(item) {
+      selectedItem = item
+      if (item) {
+        input.value = item.name || item.fullName || ''
+        input.classList.remove('border-red-500')
+      }
     },
   }
 }

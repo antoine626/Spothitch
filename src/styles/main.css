@@ -1098,6 +1098,94 @@ select.input-modern option {
   @apply bg-slate-200;
 }
 
+/* Wait Time Slider */
+.wait-slider {
+  @apply w-full h-2 rounded-full appearance-none cursor-pointer;
+  background: linear-gradient(to right, #10b981, #f59e0b, #ef4444);
+}
+.wait-slider::-webkit-slider-thumb {
+  @apply appearance-none w-6 h-6 rounded-full bg-white shadow-lg border-2 border-primary-500 cursor-pointer;
+}
+.wait-slider::-moz-range-thumb {
+  @apply w-6 h-6 rounded-full bg-white shadow-lg border-2 border-primary-500 cursor-pointer border-solid;
+}
+.wait-slider-labels {
+  @apply flex justify-between text-xs text-slate-400 mt-1 px-1;
+}
+
+/* Radio Group (visual radio buttons) */
+.radio-group {
+  @apply flex flex-wrap gap-2;
+}
+.radio-group .radio-btn {
+  @apply px-4 py-2.5 rounded-xl text-sm font-medium border transition-all cursor-pointer
+    bg-white/5 border-white/10 text-slate-300;
+}
+.radio-group .radio-btn:hover {
+  @apply border-white/30;
+}
+.radio-group .radio-btn.active {
+  @apply bg-primary-500/20 border-primary-500 text-primary-400;
+}
+.light-theme .radio-group .radio-btn {
+  @apply bg-slate-100 border-slate-200 text-slate-700;
+}
+.light-theme .radio-group .radio-btn.active {
+  @apply bg-primary-100 border-primary-500 text-primary-700;
+}
+
+/* Spot Type Big Buttons */
+.spot-type-grid {
+  @apply grid grid-cols-2 gap-3;
+}
+.spot-type-btn {
+  @apply flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all cursor-pointer
+    bg-white/5 border-white/10 text-slate-300;
+}
+.spot-type-btn:hover {
+  @apply border-white/30 bg-white/10;
+}
+.spot-type-btn.active {
+  @apply bg-primary-500/20 border-primary-500 text-primary-400;
+}
+.light-theme .spot-type-btn {
+  @apply bg-white border-slate-200 text-slate-700;
+}
+.light-theme .spot-type-btn.active {
+  @apply bg-primary-50 border-primary-500 text-primary-700;
+}
+
+/* Step Transitions */
+.step-transition {
+  animation: stepSlideIn 0.25s ease-out;
+}
+@keyframes stepSlideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Draft Banner */
+.draft-banner {
+  @apply fixed top-[4.5rem] left-4 right-4 z-40 px-4 py-3 rounded-xl
+    bg-amber-500/90 backdrop-blur-xl border border-amber-400/30
+    shadow-lg shadow-amber-500/20 cursor-pointer;
+}
+.draft-banner:hover {
+  @apply bg-amber-500;
+}
+
+/* Amenity Chips */
+.amenity-chip {
+  @apply px-3 py-2 rounded-full text-sm font-medium border transition-all cursor-pointer
+    bg-white/5 border-white/10 text-slate-300;
+}
+.amenity-chip:hover {
+  @apply border-white/30;
+}
+.amenity-chip.active {
+  @apply bg-emerald-500/20 border-emerald-500 text-emerald-400;
+}
+
 /* Print Styles */
 @media print {
   .no-print {
