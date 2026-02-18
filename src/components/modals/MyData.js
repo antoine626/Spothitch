@@ -152,7 +152,7 @@ export function renderMyDataModal() {
           </h3>
           <div class="card p-4 space-y-3">
             <div class="flex justify-between items-center">
-              <span class="text-slate-400">Email</span>
+              <span class="text-slate-400">${t('email') || 'Email'}</span>
               <span class="font-medium">${personalInfo.email}</span>
             </div>
             <div class="flex justify-between items-center">
@@ -180,7 +180,7 @@ export function renderMyDataModal() {
             <div class="grid grid-cols-2 gap-3">
               <div class="p-3 rounded-xl bg-white/5 text-center">
                 <div class="text-2xl font-bold text-purple-400">${activityData.checkins}</div>
-                <div class="text-xs text-slate-400">Check-ins</div>
+                <div class="text-xs text-slate-400">${t('checkins') || 'Check-ins'}</div>
               </div>
               <div class="p-3 rounded-xl bg-white/5 text-center">
                 <div class="text-2xl font-bold text-emerald-400">${activityData.spotsCreated}</div>

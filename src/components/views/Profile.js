@@ -37,7 +37,7 @@ export function renderProfile(state) {
         </button>
         <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
           <div class="text-2xl font-bold text-purple-400">${state.checkins || 0}</div>
-          <div class="text-xs text-slate-400">Check-ins</div>
+          <div class="text-xs text-slate-400">${t('checkins') || 'Check-ins'}</div>
         </button>
         <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
           <div class="text-2xl font-bold text-amber-400">${state.reviewsGiven || 0}</div>
@@ -79,7 +79,7 @@ export function renderProfile(state) {
             ${icon('clipboard-list', 'w-5 h-5 text-emerald-400')}
           </div>
           <div>
-            <div class="font-medium">📋 ${t('history') || 'Historique'}</div>
+            <div class="font-medium">${t('history') || 'Historique'}</div>
             <div class="text-sm text-slate-400">${t('privateTravelJournal') || 'Journal de voyage privé'}</div>
           </div>
         </div>

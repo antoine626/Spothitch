@@ -134,7 +134,7 @@ export function renderStatsModal() {
                   ${travelStats.bestMonth ? travelStats.bestMonth.month : '-'}
                 </div>
                 <div class="text-xs text-slate-400">
-                  ${travelStats.bestMonth ? `${travelStats.bestMonth.count} check-ins` : (t('bestMonth') || 'Meilleur mois')}
+                  ${travelStats.bestMonth ? `${travelStats.bestMonth.count} ${t('checkins') || 'check-ins'}` : (t('bestMonth') || 'Meilleur mois')}
                 </div>
               </div>
             </div>
@@ -287,10 +287,10 @@ export function renderStatsModal() {
             <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">${t('activity') || 'Activité'}</h3>
             <div class="grid grid-cols-3 gap-4">
               ${[
-    { label: 'Check-ins', value: summary.checkins, icon: '📍' },
+    { label: t('checkins') || 'Check-ins', value: summary.checkins, icon: '📍' },
     { label: t('spotsCreated') || 'Spots créés', value: summary.spotsCreated, icon: '🗺️' },
     { label: t('reviewsGivenLabel') || 'Avis donnés', value: summary.reviewsGiven, icon: '⭐' },
-    { label: 'Badges', value: `${summary.badgesCount}/${summary.totalBadges}`, icon: '🎖️' },
+    { label: t('badgesEarned') || 'Badges', value: `${summary.badgesCount}/${summary.totalBadges}`, icon: '🎖️' },
   ].map(stat => `
                 <div class="bg-white/5 rounded-xl p-3 text-center">
                   <div class="text-xl mb-1">${stat.icon}</div>
