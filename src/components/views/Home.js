@@ -101,12 +101,16 @@ export function renderHome(state) {
       </div>
 
       <!-- Spot count badge (below search) -->
-      ${spotCount > 0 ? `
-        <div class="absolute ${companionActive ? 'top-[9rem]' : 'top-[5.5rem]'} left-4 z-20 px-4 py-2 rounded-full bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-sm shadow-lg">
+      <div class="absolute ${companionActive ? 'top-[9rem]' : 'top-[5.5rem]'} left-4 z-20 px-4 py-2 rounded-full bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-sm shadow-lg">
+        <span id="home-spots-loading" class="hidden items-center gap-2">
+          <span class="w-3 h-3 border-2 border-primary-400 border-t-transparent rounded-full animate-spin"></span>
+          <span class="text-slate-400">${t('loadingSpots') || 'Loading spots...'}</span>
+        </span>
+        <span id="home-spots-count" ${spotCount > 0 ? '' : 'class="hidden"'}>
           <span class="text-primary-400 font-semibold">${spotCount}</span>
           <span class="text-slate-400 ml-1">${t('spotsAvailable') || 'spots'}</span>
-        </div>
-      ` : ''}
+        </span>
+      </div>
 
       <!-- Zoom + location + split controls (right side) -->
       <div class="absolute ${companionActive ? 'top-[9rem]' : 'top-[5.5rem]'} right-4 z-20 flex flex-col gap-2">

@@ -7,6 +7,35 @@ import { t } from '../../i18n/index.js';
 import { countryGuides, getGuideByCode } from '../../data/guides.js';
 import { icon } from '../../utils/icons.js'
 
+// Build reverse lookup: country name (EN + local variants) → code
+const _countryNameMap = {}
+countryGuides.forEach(g => {
+  const code = g.code.toLowerCase()
+  if (g.nameEn) _countryNameMap[g.nameEn] = code
+  if (g.name && g.name !== g.nameEn) _countryNameMap[g.name] = code
+})
+// Common Nominatim variants not in guides
+Object.assign(_countryNameMap, {
+  'Deutschland': 'de', 'España': 'es', 'Italia': 'it',
+  'Nederland': 'nl', 'Belgique': 'be', 'België': 'be',
+  'Österreich': 'at', 'Schweiz': 'ch', 'Suisse': 'ch',
+  'Polska': 'pl', 'Česko': 'cz', 'Czechia': 'cz',
+  'Magyarország': 'hu', 'Hrvatska': 'hr', 'România': 'ro',
+  'Ελλάδα': 'gr', 'България': 'bg', 'Slovensko': 'sk',
+  'Slovenija': 'si', 'Ísland': 'is', 'Srbija': 'rs',
+  'Україна': 'ua', 'Беларусь': 'by', 'Eesti': 'ee',
+  'Lietuva': 'lt', 'Latvija': 'lv', 'Საქართველო': 'ge',
+  'ישראל': 'il', 'المغرب': 'ma', 'Türkiye': 'tr',
+  'ایران': 'ir', 'UK': 'gb', 'United Kingdom': 'gb',
+  'New Zealand': 'nz', 'Aotearoa': 'nz',
+  'South Africa': 'za', 'Suid-Afrika': 'za',
+})
+
+function countryNameToCode(name) {
+  if (!name) return null
+  return _countryNameMap[name] || null
+}
+
 export function renderMap(state) {
   // Get current country from search or map center
   const currentCountry = state.searchCountry || null;
@@ -122,11 +151,17 @@ export function renderMap(state) {
         ${icon('plus', 'w-5 h-5')}
       </button>
 
-      <!-- Spots count -->
+      <!-- Spots count + loading indicator -->
       <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
         <div class="px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm" aria-live="polite">
-          <span class="text-primary-400 font-bold">${state.spots?.length || 0}</span>
-          <span class="text-slate-400"> ${t('spotsAvailable') || 'spots available'}</span>
+          <span id="map-spots-loading" class="hidden items-center gap-2">
+            <span class="w-3 h-3 border-2 border-primary-400 border-t-transparent rounded-full animate-spin"></span>
+            <span class="text-slate-400">${t('loadingSpots') || 'Loading spots...'}</span>
+          </span>
+          <span id="map-spots-count">
+            <span class="text-primary-400 font-bold">${state.spots?.length || 0}</span>
+            <span class="text-slate-400"> ${t('spotsAvailable') || 'spots available'}</span>
+          </span>
         </div>
       </div>
     </div>
@@ -256,17 +291,9 @@ window.searchLocation = async (query) => {
       const countryMatch = display_name.match(/,\s*([^,]+)$/);
       const countryName = countryMatch ? countryMatch[1].trim() : null;
 
-      // Map country name to code
-      const countryMap = {
-        'France': 'fr', 'Germany': 'de', 'Deutschland': 'de', 'Spain': 'es', 'España': 'es',
-        'Italy': 'it', 'Italia': 'it', 'Netherlands': 'nl', 'Nederland': 'nl',
-        'Belgium': 'be', 'Belgique': 'be', 'België': 'be', 'Portugal': 'pt',
-        'Austria': 'at', 'Österreich': 'at', 'Switzerland': 'ch', 'Schweiz': 'ch', 'Suisse': 'ch',
-        'Ireland': 'ie', 'Poland': 'pl', 'Polska': 'pl', 'Czech Republic': 'cz', 'Czechia': 'cz',
-        'United Kingdom': 'uk', 'UK': 'uk'
-      };
+      // Build country map from guides data (covers all 53 guide countries)
+      const countryCode = countryNameToCode(countryName);
 
-      const countryCode = countryMap[countryName] || null;
 
       // Update state with search country
       if (window.setState) {

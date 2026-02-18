@@ -627,6 +627,24 @@ function initHomeMap(state) {
       populateSplitView(spots)
     }
 
+    // Loading indicator helpers (works for both Map.js and Home.js)
+    const showSpotsLoading = () => {
+      for (const prefix of ['map', 'home']) {
+        const el = document.getElementById(`${prefix}-spots-loading`)
+        const ct = document.getElementById(`${prefix}-spots-count`)
+        if (el) { el.classList.remove('hidden'); el.classList.add('inline-flex') }
+        if (ct) ct.classList.add('hidden')
+      }
+    }
+    const hideSpotsLoading = () => {
+      for (const prefix of ['map', 'home']) {
+        const el = document.getElementById(`${prefix}-spots-loading`)
+        const ct = document.getElementById(`${prefix}-spots-count`)
+        if (el) { el.classList.add('hidden'); el.classList.remove('inline-flex') }
+        if (ct) ct.classList.remove('hidden')
+      }
+    }
+
     // Load spots for visible area
     let isLoadingSpots = false
     const loadSpotsForView = async () => {
@@ -640,6 +658,7 @@ function initHomeMap(state) {
 
       if (!spotLoader || isLoadingSpots) return
       isLoadingSpots = true
+      showSpotsLoading()
       try {
         const bounds = map.getBounds()
         await spotLoader.loadSpotsInBounds({
@@ -654,6 +673,7 @@ function initHomeMap(state) {
         // silently fail
       } finally {
         isLoadingSpots = false
+        hideSpotsLoading()
       }
     }
 
