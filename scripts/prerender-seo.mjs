@@ -359,7 +359,18 @@ function haversineKm(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
-function loadAllSpots() {
+// ==================== DATA SOURCES ====================
+// HITCHMAP_ENABLED: set to false to stop loading Hitchmap data entirely
+const HITCHMAP_ENABLED = process.env.HITCHMAP_ENABLED !== 'false'
+
+/**
+ * Load Hitchmap spots from static JSON files
+ */
+function loadHitchmapSpots() {
+  if (!HITCHMAP_ENABLED) {
+    console.log('  Hitchmap data DISABLED (HITCHMAP_ENABLED=false)')
+    return []
+  }
   const files = readdirSync(SPOTS_PATH).filter(f => f.endsWith('.json'))
   const allSpots = []
   for (const file of files) {
@@ -368,11 +379,113 @@ function loadAllSpots() {
       const country = file.replace('.json', '').toUpperCase()
       const spots = data.spots || (Array.isArray(data) ? data : [])
       for (const s of spots) {
-        allSpots.push({ ...s, country })
+        allSpots.push({ ...s, country, dataSource: 'hitchmap' })
       }
     } catch { /* skip broken files */ }
   }
+  console.log(`  Hitchmap: ${allSpots.length} spots loaded`)
   return allSpots
+}
+
+/**
+ * Load community spots from Firebase Firestore via REST API
+ * Uses the Firestore REST API (no firebase-admin dependency needed)
+ */
+async function loadFirebaseSpots() {
+  const projectId = process.env.VITE_FIREBASE_PROJECT_ID
+  const apiKey = process.env.VITE_FIREBASE_API_KEY
+  if (!projectId || !apiKey) {
+    console.log('  Firebase: skipped (no VITE_FIREBASE_PROJECT_ID or VITE_FIREBASE_API_KEY)')
+    return []
+  }
+
+  try {
+    // Firestore REST API - list all documents in 'spots' collection
+    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/spots?key=${apiKey}&pageSize=5000`
+    const response = await fetch(url)
+    if (!response.ok) {
+      console.warn(`  Firebase: HTTP ${response.status} — ${await response.text().catch(() => '')}`)
+      return []
+    }
+
+    const data = await response.json()
+    const documents = data.documents || []
+    const spots = []
+
+    for (const doc of documents) {
+      try {
+        const fields = doc.fields || {}
+        const spot = firestoreFieldsToObject(fields)
+        // Normalize to match Hitchmap format
+        spots.push({
+          lat: spot.coordinates?.lat || spot.lat || null,
+          lon: spot.coordinates?.lng || spot.lng || null,
+          wait: spot.waitTime || spot.avgWaitTime || 0,
+          rating: spot.globalRating || 0,
+          destLat: spot.directionCityCoords?.lat || null,
+          destLon: spot.directionCityCoords?.lng || null,
+          country: (spot.country || '').toUpperCase(),
+          comments: spot.description ? [{ text: spot.description }] : [],
+          dataSource: 'community',
+          // Rich community fields
+          departureCity: spot.departureCity || null,
+          directionCity: spot.directionCity || null,
+          method: spot.method || null,
+          groupSize: spot.groupSize || null,
+          timeOfDay: spot.timeOfDay || null,
+          season: spot.season || null,
+          tags: spot.tags || {},
+          ratings: spot.ratings || {},
+          spotType: spot.spotType || null,
+          createdAt: spot.createdAt || null,
+        })
+      } catch { /* skip malformed docs */ }
+    }
+
+    console.log(`  Firebase: ${spots.length} community spots loaded`)
+    return spots
+  } catch (error) {
+    console.warn(`  Firebase: failed to load — ${error.message}`)
+    return []
+  }
+}
+
+/**
+ * Convert Firestore REST API field format to plain object
+ * Firestore fields look like: { stringValue: "x" }, { integerValue: "1" }, { mapValue: { fields: {...} } }
+ */
+function firestoreFieldsToObject(fields) {
+  const result = {}
+  for (const [key, val] of Object.entries(fields)) {
+    result[key] = firestoreValueToJS(val)
+  }
+  return result
+}
+
+function firestoreValueToJS(val) {
+  if (!val) return null
+  if ('stringValue' in val) return val.stringValue
+  if ('integerValue' in val) return Number(val.integerValue)
+  if ('doubleValue' in val) return val.doubleValue
+  if ('booleanValue' in val) return val.booleanValue
+  if ('nullValue' in val) return null
+  if ('timestampValue' in val) return val.timestampValue
+  if ('arrayValue' in val) return (val.arrayValue.values || []).map(firestoreValueToJS)
+  if ('mapValue' in val) return firestoreFieldsToObject(val.mapValue.fields || {})
+  return null
+}
+
+/**
+ * Load ALL spots from both sources (Hitchmap + Firebase community)
+ */
+async function loadAllSpots() {
+  const [hitchmap, firebase] = await Promise.all([
+    Promise.resolve(loadHitchmapSpots()),
+    loadFirebaseSpots(),
+  ])
+  const all = [...hitchmap, ...firebase]
+  console.log(`  Total: ${all.length} spots (${hitchmap.length} Hitchmap + ${firebase.length} community)`)
+  return all
 }
 
 /**
@@ -436,6 +549,62 @@ function discoverCitiesFromSpots(allSpots) {
   }
 
   return discovered
+}
+
+/**
+ * Build rich stats from community spots for city pages
+ */
+function buildCommunityStats(communitySpots) {
+  if (communitySpots.length === 0) return null
+
+  const stats = {
+    count: communitySpots.length,
+    methods: {},      // { sign: 5, thumb: 12, asking: 3 }
+    groupSizes: {},   // { solo: 8, duo: 5, group: 2 }
+    timesOfDay: {},   // { morning: 3, afternoon: 7, evening: 4, night: 1 }
+    seasons: {},      // { spring: 2, summer: 8, autumn: 3, winter: 2 }
+    spotTypes: {},    // { city_exit: 5, gas_station: 3, ... }
+    waitTimes: [],    // raw array for percentile calculations
+    avgSafety: 0,
+    avgTraffic: 0,
+    avgAccessibility: 0,
+  }
+
+  let safetySum = 0, safetyCount = 0
+  let trafficSum = 0, trafficCount = 0
+  let accessSum = 0, accessCount = 0
+
+  for (const s of communitySpots) {
+    if (s.method) stats.methods[s.method] = (stats.methods[s.method] || 0) + 1
+    if (s.groupSize) stats.groupSizes[s.groupSize] = (stats.groupSizes[s.groupSize] || 0) + 1
+    if (s.timeOfDay) stats.timesOfDay[s.timeOfDay] = (stats.timesOfDay[s.timeOfDay] || 0) + 1
+    if (s.season) stats.seasons[s.season] = (stats.seasons[s.season] || 0) + 1
+    if (s.spotType) stats.spotTypes[s.spotType] = (stats.spotTypes[s.spotType] || 0) + 1
+    if (s.wait > 0) stats.waitTimes.push(s.wait)
+    if (s.ratings?.safety > 0) { safetySum += s.ratings.safety; safetyCount++ }
+    if (s.ratings?.traffic > 0) { trafficSum += s.ratings.traffic; trafficCount++ }
+    if (s.ratings?.accessibility > 0) { accessSum += s.ratings.accessibility; accessCount++ }
+  }
+
+  stats.avgSafety = safetyCount > 0 ? Math.round(safetySum / safetyCount * 10) / 10 : 0
+  stats.avgTraffic = trafficCount > 0 ? Math.round(trafficSum / trafficCount * 10) / 10 : 0
+  stats.avgAccessibility = accessCount > 0 ? Math.round(accessSum / accessCount * 10) / 10 : 0
+
+  // Best method (most used)
+  const methodEntries = Object.entries(stats.methods).sort((a, b) => b[1] - a[1])
+  stats.bestMethod = methodEntries.length > 0 ? methodEntries[0][0] : null
+
+  // Best time of day
+  const timeEntries = Object.entries(stats.timesOfDay).sort((a, b) => b[1] - a[1])
+  stats.bestTimeOfDay = timeEntries.length > 0 ? timeEntries[0][0] : null
+
+  // Median wait time
+  if (stats.waitTimes.length > 0) {
+    const sorted = [...stats.waitTimes].sort((a, b) => a - b)
+    stats.medianWait = sorted[Math.floor(sorted.length / 2)]
+  }
+
+  return stats
 }
 
 function buildCitySEOData(allSpots) {
@@ -502,6 +671,10 @@ function buildCitySEOData(allSpots) {
       .filter(r => r.spotCount >= 1)
       .sort((a, b) => b.spotCount - a.spotCount)
 
+    // Community-only stats (rich data)
+    const communitySpots = nearby.filter(s => s.dataSource === 'community')
+    const communityStats = buildCommunityStats(communitySpots)
+
     cities.push({
       name: city.name,
       slug: slugify(city.name),
@@ -510,13 +683,91 @@ function buildCitySEOData(allSpots) {
       country: city.country,
       countryName: COUNTRY_NAMES[city.country] || city.country,
       spotCount: nearby.length,
+      communitySpotCount: communitySpots.length,
       avgWait,
       avgRating,
       routesList,
+      communityStats,
     })
   }
 
   return cities
+}
+
+/**
+ * Render community stats as HTML for city SEO pages
+ */
+function renderCommunityStatsHTML(stats) {
+  if (!stats || stats.count === 0) return ''
+
+  const METHOD_LABELS = { sign: 'Sign/Cardboard', thumb: 'Thumb', asking: 'Asking directly' }
+  const TIME_LABELS = { morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening', night: 'Night' }
+  const SEASON_LABELS = { spring: 'Spring', summer: 'Summer', autumn: 'Autumn', winter: 'Winter' }
+  const TYPE_LABELS = { city_exit: 'City exit', gas_station: 'Gas station', roadside: 'Roadside', other: 'Other' }
+
+  const sections = []
+
+  // Summary stats
+  const summaryParts = []
+  if (stats.medianWait) summaryParts.push(`<strong>~${stats.medianWait} min</strong> median wait`)
+  if (stats.bestMethod) summaryParts.push(`Most effective: <strong>${METHOD_LABELS[stats.bestMethod] || stats.bestMethod}</strong>`)
+  if (stats.bestTimeOfDay) summaryParts.push(`Best time: <strong>${TIME_LABELS[stats.bestTimeOfDay] || stats.bestTimeOfDay}</strong>`)
+  if (summaryParts.length > 0) {
+    sections.push(`    <div class="info">
+      <p>Based on <strong>${stats.count}</strong> community reports:</p>
+      <p>${summaryParts.join(' &middot; ')}</p>
+    </div>`)
+  }
+
+  // Ratings
+  if (stats.avgSafety > 0 || stats.avgTraffic > 0 || stats.avgAccessibility > 0) {
+    const ratingParts = []
+    if (stats.avgSafety > 0) ratingParts.push(`Safety: <strong>${stats.avgSafety}/5</strong>`)
+    if (stats.avgTraffic > 0) ratingParts.push(`Traffic: <strong>${stats.avgTraffic}/5</strong>`)
+    if (stats.avgAccessibility > 0) ratingParts.push(`Accessibility: <strong>${stats.avgAccessibility}/5</strong>`)
+    sections.push(`    <h2>Community Ratings</h2>
+    <p>${ratingParts.join(' &middot; ')}</p>`)
+  }
+
+  // Method distribution
+  const methodEntries = Object.entries(stats.methods).sort((a, b) => b[1] - a[1])
+  if (methodEntries.length > 0) {
+    const total = methodEntries.reduce((s, e) => s + e[1], 0)
+    sections.push(`    <h2>Hitchhiking Methods</h2>
+    <ul>${methodEntries.map(([k, v]) => `\n      <li>${METHOD_LABELS[k] || k}: ${v} report${v > 1 ? 's' : ''} (${Math.round(v / total * 100)}%)</li>`).join('')}
+    </ul>`)
+  }
+
+  // Spot types
+  const typeEntries = Object.entries(stats.spotTypes).sort((a, b) => b[1] - a[1])
+  if (typeEntries.length > 0) {
+    sections.push(`    <h2>Spot Types</h2>
+    <ul>${typeEntries.map(([k, v]) => `\n      <li>${TYPE_LABELS[k] || k}: ${v} spot${v > 1 ? 's' : ''}</li>`).join('')}
+    </ul>`)
+  }
+
+  // Best seasons
+  const seasonEntries = Object.entries(stats.seasons).sort((a, b) => b[1] - a[1])
+  if (seasonEntries.length > 0) {
+    sections.push(`    <h2>Best Seasons</h2>
+    <ul>${seasonEntries.map(([k, v]) => `\n      <li>${SEASON_LABELS[k] || k}: ${v} report${v > 1 ? 's' : ''}</li>`).join('')}
+    </ul>`)
+  }
+
+  // Group sizes
+  const groupEntries = Object.entries(stats.groupSizes).sort((a, b) => b[1] - a[1])
+  if (groupEntries.length > 0) {
+    const GROUP_LABELS = { solo: 'Solo', duo: 'Duo (2 people)', group: 'Group (3+)' }
+    sections.push(`    <h2>Group Sizes</h2>
+    <ul>${groupEntries.map(([k, v]) => `\n      <li>${GROUP_LABELS[k] || k}: ${v} report${v > 1 ? 's' : ''}</li>`).join('')}
+    </ul>`)
+  }
+
+  if (sections.length === 0) return ''
+
+  return `
+    <h2>Community Insights</h2>
+${sections.join('\n')}`
 }
 
 function generateCityHTML(city) {
@@ -595,6 +846,7 @@ function generateCityHTML(city) {
       <p>Country: <a href="${BASE_URL}/guides/${city.country.toLowerCase()}">${city.countryName}</a></p>
     </div>
     <p><a href="${BASE_URL}/?city=${city.slug}&lat=${city.lat}&lon=${city.lon}">Open in SpotHitch App &rarr;</a></p>
+    ${city.communityStats && city.communityStats.count > 0 ? renderCommunityStatsHTML(city.communityStats) : ''}
     ${city.routesList.length > 0 ? `
     <h2>Popular departure directions</h2>
     <ul>
@@ -634,8 +886,7 @@ for (const guide of guides) {
 
 // ==================== CITY PAGES ====================
 console.log('Loading all spots for city pages...')
-const allSpots = loadAllSpots()
-console.log(`Loaded ${allSpots.length} spots total`)
+const allSpots = await loadAllSpots()
 
 const cities = buildCitySEOData(allSpots)
 console.log(`Building city pages for ${cities.length} cities with 2+ spots...`)
