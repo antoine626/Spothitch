@@ -344,6 +344,8 @@ const MAIN_JS_HANDLERS = [
   'closeNearbyFriendsList', 'toggleLocationSharing', 'showFriendOnMap',
   // Heatmap (defined in heatmap.js)
   'toggleHeatmap',
+  // Proximity Notify (defined in proximityNotify.js)
+  'quickValidateSpot', 'quickReportSpot', 'dismissProximityAlert', 'initProximityNotify',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

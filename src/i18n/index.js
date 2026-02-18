@@ -2458,6 +2458,9 @@ const translations = {
     proximityAlertsRadius: 'Rayon de proximite',
     proximityAlertsEnabled: 'Alertes de proximite activees',
     proximityAlertsDisabled: 'Alertes de proximite desactivees',
+    spotNearby: 'Spot a proximite !',
+    isSpotStillGood: 'Ce spot est toujours bon ?',
+    thanksForValidation: "Merci d'avoir valide !",
 
     // hostelRecommendations
     hostelInvalidCategory: 'Categorie invalide',
@@ -5602,6 +5605,9 @@ const translations = {
     proximityAlertsRadius: 'Proximity radius',
     proximityAlertsEnabled: 'Proximity alerts enabled',
     proximityAlertsDisabled: 'Proximity alerts disabled',
+    spotNearby: 'Spot nearby!',
+    isSpotStillGood: 'Is this spot still good?',
+    thanksForValidation: 'Thanks for validating!',
 
     // hostelRecommendations
     hostelInvalidCategory: 'Invalid category',
@@ -8743,6 +8749,9 @@ const translations = {
     proximityAlertsRadius: 'Radio de proximidad',
     proximityAlertsEnabled: 'Alertas de proximidad activadas',
     proximityAlertsDisabled: 'Alertas de proximidad desactivadas',
+    spotNearby: 'Spot cercano!',
+    isSpotStillGood: 'Este spot sigue siendo bueno?',
+    thanksForValidation: 'Gracias por validar!',
 
     // hostelRecommendations
     hostelInvalidCategory: 'Categoria invalida',
@@ -11884,6 +11893,9 @@ const translations = {
     proximityAlertsRadius: 'Naeheradius',
     proximityAlertsEnabled: 'Naehe-Benachrichtigungen aktiviert',
     proximityAlertsDisabled: 'Naehe-Benachrichtigungen deaktiviert',
+    spotNearby: 'Spot in der Naehe!',
+    isSpotStillGood: 'Ist dieser Spot noch gut?',
+    thanksForValidation: 'Danke fuers Bestaetigen!',
 
     // hostelRecommendations
     hostelInvalidCategory: 'Ungueltige Kategorie',

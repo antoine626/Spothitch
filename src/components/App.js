@@ -56,6 +56,7 @@ import { renderCustomizationModal } from '../services/profileCustomization.js';
 import { renderAccessibilityHelp } from '../services/screenReader.js';
 import { renderReportModal } from '../services/moderation.js';
 import { renderSOSTrackingWidget } from '../services/sosTracking.js';
+import { renderProximityAlert } from '../services/proximityNotify.js';
 // renderTeamDashboard lazy-loaded below
 import { renderAdminPanel } from './modals/AdminPanel.js';
 import { renderCookieBanner } from './modals/CookieBanner.js';
@@ -179,6 +180,7 @@ export function renderApp(state) {
     <!-- Floating Widgets -->
     ${renderNearbyFriendsWidget(state)}
     ${renderSOSTrackingWidget(state)}
+    ${state.proximityAlertSpot ? renderProximityAlert(state.proximityAlertSpot) : ''}
 
     <!-- Admin Panel -->
     ${state.showAdminPanel ? renderAdminPanel(state) : ''}

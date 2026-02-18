@@ -268,6 +268,14 @@ async function init() {
       console.warn('Proximity alerts skipped:', e.message);
     }
 
+    // Initialize proximity notifications (lazy)
+    try {
+      const { initProximityNotify } = await import('./services/proximityNotify.js')
+      initProximityNotify()
+    } catch (e) {
+      console.warn('Proximity notify skipped:', e.message);
+    }
+
     // Preload common modals on idle
     try {
       preloadOnIdle();

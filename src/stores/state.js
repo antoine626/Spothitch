@@ -258,6 +258,7 @@ const initialState = {
   legalPage: null,
   notifications: true,
   proximityAlerts: true,
+  proximityAlertSpot: null,
 
   // Loading states
   isLoading: false,
