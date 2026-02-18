@@ -7,6 +7,7 @@
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
 import { escapeHTML } from '../../utils/sanitize.js'
+import { formatTime, formatRelativeTime, formatEventDate } from '../../utils/formatters.js'
 import { renderFeed } from './social/Feed.js'
 import { renderConversations } from './social/Conversations.js'
 import { renderFriends } from './social/Friends.js'
@@ -479,49 +480,7 @@ function renderCreateEventForm() {
   `
 }
 
-// ==================== UTILITIES ====================
-
-function formatTime(timestamp) {
-  if (!timestamp) return ''
-  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-  return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-}
-
-function formatRelativeTime(dateStr) {
-  if (!dateStr) return ''
-  try {
-    const date = new Date(dateStr)
-    const now = new Date()
-    const diffMs = now - date
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMins / 60)
-    const diffDays = Math.floor(diffHours / 24)
-
-    if (diffMins < 1) return t('justNow')
-    if (diffMins < 60) return `${diffMins}m`
-    if (diffHours < 24) return `${diffHours}h`
-    if (diffDays < 7) return `${diffDays}${t('daysShort')}`
-    return date.toLocaleDateString()
-  } catch {
-    return ''
-  }
-}
-
-function formatEventDate(dateStr) {
-  if (!dateStr) return ''
-  try {
-    const date = new Date(dateStr + 'T00:00:00')
-    return date.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })
-  } catch {
-    return dateStr
-  }
-}
-
 // ==================== GLOBAL HANDLERS ====================
-
-window.setSocialTab = (tab) => {
-  window.setState?.({ socialSubTab: tab })
-}
 
 window.postCompanionRequest = async () => {
   const from = document.getElementById('companion-from')?.value?.trim()
@@ -613,7 +572,7 @@ window.sendPrivateMessage = async (friendId) => {
   const newMsg = {
     id: Date.now().toString(),
     text,
-    userName: state.username || 'Moi',
+    userName: state.username || t('me'),
     userAvatar: state.avatar || '🤙',
     userId: state.user?.uid || 'local-user',
     createdAt: new Date().toISOString(),

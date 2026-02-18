@@ -65,7 +65,7 @@ export function renderFriends(state) {
       <!-- Companion search -->
       <div class="px-4 pb-3">
         <button
-          onclick="setSocialSubTab('companion')"
+          onclick="setSocialTab('companion')"
           class="card p-3 w-full text-left bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40 transition-all"
         >
           <div class="flex items-center gap-3">

@@ -6,6 +6,7 @@
 import { t } from '../../../i18n/index.js'
 import { icon } from '../../../utils/icons.js'
 import { escapeHTML } from '../../../utils/sanitize.js'
+import { formatTime, formatRelativeTime } from '../../../utils/formatters.js'
 import { renderSkeletonChatList } from '../../ui/Skeleton.js'
 import { getConversationsList, getConversationMessages } from '../../../services/directMessages.js'
 import { getTrustBadge } from '../../../services/identityVerification.js'
@@ -353,32 +354,6 @@ function renderGroupMessage(msg, state) {
       </div>
     </div>
   `
-}
-
-function formatTime(timestamp) {
-  if (!timestamp) return ''
-  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-  return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-}
-
-function formatRelativeTime(dateStr) {
-  if (!dateStr) return ''
-  try {
-    const date = new Date(dateStr)
-    const now = new Date()
-    const diffMs = now - date
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMins / 60)
-    const diffDays = Math.floor(diffHours / 24)
-
-    if (diffMins < 1) return t('justNow')
-    if (diffMins < 60) return `${diffMins}m`
-    if (diffHours < 24) return `${diffHours}h`
-    if (diffDays < 7) return `${diffDays}${t('daysShort')}`
-    return date.toLocaleDateString()
-  } catch {
-    return ''
-  }
 }
 
 // Global handlers

@@ -271,8 +271,4 @@ window.editAvatar = () => {
   window.setState?.({ showWelcome: true });
 };
 
-window.setSocialTab = (tab) => {
-  window.setState?.({ socialSubTab: tab });
-};
-
 export default { renderProfile };

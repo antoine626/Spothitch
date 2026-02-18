@@ -6,6 +6,7 @@
 import { t } from '../../../i18n/index.js'
 import { icon } from '../../../utils/icons.js'
 import { escapeHTML } from '../../../utils/sanitize.js'
+import { formatRelativeTime, formatEventDate } from '../../../utils/formatters.js'
 import { getActivityFeed } from '../../../services/activityFeed.js'
 import { getUpcomingEvents, EVENT_TYPES } from '../../../services/events.js'
 
@@ -123,7 +124,7 @@ function renderFeedContent(state, filter) {
         <span class="text-5xl mb-4 block">📰</span>
         <h3 class="text-lg font-bold mb-2">${t('noFeedActivity')}</h3>
         <p class="text-slate-400 text-sm mb-4">${t('noFeedActivityDesc')}</p>
-        <button onclick="setSocialSubTab('friends')" class="btn-primary">
+        <button onclick="setSocialTab('friends')" class="btn-primary">
           ${icon('user-plus', 'w-5 h-5 mr-1')}
           ${t('addFriend')}
         </button>
@@ -208,36 +209,6 @@ function renderEventFeedCard(event, state) {
   `
 }
 
-function formatRelativeTime(dateStr) {
-  if (!dateStr) return ''
-  try {
-    const date = new Date(dateStr)
-    const now = new Date()
-    const diffMs = now - date
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMins / 60)
-    const diffDays = Math.floor(diffHours / 24)
-
-    if (diffMins < 1) return t('justNow')
-    if (diffMins < 60) return `${diffMins}m`
-    if (diffHours < 24) return `${diffHours}h`
-    if (diffDays < 7) return `${diffDays}${t('daysShort')}`
-    return date.toLocaleDateString()
-  } catch {
-    return ''
-  }
-}
-
-function formatEventDate(dateStr) {
-  if (!dateStr) return ''
-  try {
-    const date = new Date(dateStr + 'T00:00:00')
-    return date.toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
-  } catch {
-    return dateStr
-  }
-}
-
 // Global handlers
 window.setFeedFilter = (filter) => {
   window.setState?.({ feedFilter: filter })
@@ -249,13 +220,9 @@ window.toggleFeedVisibility = async () => {
   const newVal = !state.shareLocationWithFriends
   setState({ shareLocationWithFriends: newVal })
   window.showToast?.(
-    newVal ? (t('nowVisible') || 'Tu es maintenant visible') : (t('nowInvisible') || 'Tu es maintenant invisible'),
+    newVal ? t('nowVisible') : t('nowInvisible'),
     'info'
   )
-}
-
-window.setSocialSubTab = (tab) => {
-  window.setState?.({ socialSubTab: tab })
 }
 
 export default { renderFeed }

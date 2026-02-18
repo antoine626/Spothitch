@@ -919,18 +919,7 @@ export function renderUnreadBadge() {
   `
 }
 
-// ==================== GLOBAL HANDLERS ====================
-
-window.openConversation = (conversationId) => {
-  const conv = conversations.find((c) => c.id === conversationId)
-  if (conv) {
-    setState({
-      selectedFriendChat: conversationId,
-      showPrivateChat: true,
-    })
-    markConversationAsRead(conversationId)
-  }
-}
+// Note: openConversation handler is in directMessages.js
 
 window.sendPrivateMessageTo = (userId, content) => {
   return sendPrivateMessage(userId, content)
