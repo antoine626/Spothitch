@@ -101,6 +101,26 @@ async function saveNotificationToken(token) {
  * @param {number} duration - Duration in ms
  */
 export function showToast(message, type = 'info', duration = 4000) {
+  // Ensure toast container exists (may not if initNotifications hasn't run yet)
+  if (!toastContainer) {
+    toastContainer = document.createElement('div')
+    toastContainer.id = 'toast-container'
+    toastContainer.style.cssText = `
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+      max-width: 340px;
+      width: 90%;
+    `
+    document.body.appendChild(toastContainer)
+  }
+
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
   toast.style.pointerEvents = 'auto';
