@@ -12,7 +12,7 @@ import { icon } from '../../utils/icons.js'
  */
 export function renderLanding(state) {
   const stats = {
-    spots: 14000,
+    spots: 11000,
     countries: 137,
     users: 1500,
     checkins: 5000

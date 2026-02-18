@@ -19,7 +19,7 @@ const tutorialSteps = [
     title: t('tutDiscoverTitle') || 'Découvre les spots',
     desc: t('tutDiscoverDesc') || 'SpotHitch recense des milliers de spots d\'auto-stop dans le monde. Explore la carte, filtre par note, et trouve le meilleur endroit pour lever le pouce.',
     features: [
-      { icon: 'map-pin', text: t('tutFeatureSpots') || '14 000+ spots vérifiés' },
+      { icon: 'map-pin', text: t('tutFeatureSpots') || '11 000+ spots vérifiés' },
       { icon: 'route', text: t('tutFeaturePlanner') || 'Planifie ton itinéraire' },
       { icon: 'funnel', text: t('tutFeatureFilter') || 'Filtre par note et attente' },
     ],
