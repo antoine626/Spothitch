@@ -270,10 +270,90 @@ function loadAllSpots() {
   return allSpots
 }
 
+/**
+ * Auto-discover cities by clustering spots geographically.
+ * Groups spots within 15km of each other, names the cluster
+ * after the most common comment mention or coordinates.
+ */
+function discoverCitiesFromSpots(allSpots) {
+  const discovered = []
+  const used = new Set()
+
+  // Sort spots by density (spots with more neighbors first)
+  const withNeighbors = allSpots
+    .filter(s => s.lat && s.lon)
+    .map(s => {
+      const neighbors = allSpots.filter(other =>
+        other !== s && other.lat && other.lon &&
+        haversineKm(s.lat, s.lon, other.lat, other.lon) <= 15
+      ).length
+      return { ...s, neighbors }
+    })
+    .sort((a, b) => b.neighbors - a.neighbors)
+
+  for (const spot of withNeighbors) {
+    const key = `${Math.round(spot.lat * 5)}_${Math.round(spot.lon * 5)}`
+    if (used.has(key)) continue
+
+    // Find all spots in 15km radius
+    const cluster = allSpots.filter(s =>
+      s.lat && s.lon && haversineKm(spot.lat, spot.lon, s.lat, s.lon) <= 15
+    )
+    if (cluster.length < 3) continue // Need 3+ spots to be worth a page
+
+    used.add(key)
+
+    // Try to find a city name from comments
+    let cityName = null
+    for (const s of cluster) {
+      if (s.comments && s.comments.length > 0) {
+        for (const c of s.comments) {
+          // Look for patterns like "from CityName" or "near CityName" in comments
+          const match = c.text?.match(/(?:from|near|in|leaving|quitting|depuis|près de|sortie)\s+([A-Z][a-zéèêëàâîïôùûü]+(?:\s[A-Z][a-zéèêëàâîïôùûü]+)?)/i)
+          if (match) {
+            cityName = match[1].trim()
+            break
+          }
+        }
+        if (cityName) break
+      }
+    }
+
+    // Fallback: use coordinates as name (will be improved when users add real city data)
+    if (!cityName) continue // Skip unnamed clusters for SEO
+
+    discovered.push({
+      name: cityName,
+      lat: spot.lat,
+      lon: spot.lon,
+      country: spot.country || '',
+    })
+  }
+
+  return discovered
+}
+
 function buildCitySEOData(allSpots) {
   const cities = []
+  const processedSlugs = new Set()
 
-  for (const city of KNOWN_CITIES) {
+  // Auto-discover cities from spot clusters (groups of 2+ spots within 15km)
+  const autoCities = discoverCitiesFromSpots(allSpots)
+
+  // Merge: KNOWN_CITIES first (higher quality), then auto-discovered
+  const allCities = [...KNOWN_CITIES]
+  for (const ac of autoCities) {
+    const slug = slugify(ac.name)
+    if (!allCities.some(kc => slugify(kc.name) === slug)) {
+      allCities.push(ac)
+    }
+  }
+
+  for (const city of allCities) {
+    const slug = slugify(city.name)
+    if (processedSlugs.has(slug)) continue
+    processedSlugs.add(slug)
+
     const nearby = allSpots.filter(s => {
       if (!s.lat || !s.lon) return false
       return haversineKm(city.lat, city.lon, s.lat, s.lon) <= 30
