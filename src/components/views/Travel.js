@@ -1168,15 +1168,9 @@ window.toggleRouteAmenities = async () => {
   const newValue = !state.showRouteAmenities
 
   if (!newValue) {
-    // Turning off - remove markers dynamically (no map re-init)
+    // Turning off
     window._tripMapRemoveAmenities?.()
-    // Only if NOT showing the trip map (avoid re-render that destroys map)
-    if (!state.showTripMap) {
-      window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
-    } else {
-      // Update state silently — map is preserved
-      window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
-    }
+    window.setState?.({ showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
     return
   }
 
@@ -1186,24 +1180,30 @@ window.toggleRouteAmenities = async () => {
     return
   }
 
-  window.setState?.({ showRouteAmenities: true, loadingRouteAmenities: true, routeAmenities: [] })
+  // Show toggle ON immediately via DOM (no full re-render)
+  const toggle = document.querySelector('[onclick="toggleRouteAmenities()"]')
+  if (toggle) toggle.classList.add('bg-primary-500')
+
+  // Show loading indicator via DOM manipulation (avoid re-render)
+  window.showToast?.('⏳ ' + (t('travel_loading_stations') || 'Loading stations...'), 'info')
 
   try {
     const { getAmenitiesAlongRoute } = await import('../../services/overpass.js')
     const amenities = await getAmenitiesAlongRoute(
       state.tripResults.routeGeometry,
-      2,
+      3,
       { showFuel: true, showRestAreas: true }
     )
     // Add markers dynamically to existing map (no re-init needed)
     window._tripMapAddAmenities?.(amenities)
-    window.setState?.({ routeAmenities: amenities, loadingRouteAmenities: false })
+    // Single setState at the end (one re-render instead of two)
+    window.setState?.({ showRouteAmenities: true, routeAmenities: amenities, loadingRouteAmenities: false })
     if (amenities.length === 0) {
       window.showToast?.(t('noStationsFound') || 'No stations found, try again', 'info')
     }
   } catch (error) {
     console.error('Failed to fetch route amenities:', error)
-    window.setState?.({ routeAmenities: [], loadingRouteAmenities: false })
+    window.setState?.({ showRouteAmenities: true, routeAmenities: [], loadingRouteAmenities: false })
     window.showToast?.(t('noStationsFound') || 'No stations found, try again', 'info')
   }
 }
