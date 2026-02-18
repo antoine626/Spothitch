@@ -487,9 +487,8 @@ let previousTab = null;
  * Save scroll position for current tab
  */
 function saveScrollPosition(tab) {
-  const mainContent = document.getElementById('main-content');
-  if (mainContent && tab) {
-    scrollPositions.set(tab, mainContent.scrollTop);
+  if (tab) {
+    scrollPositions.set(tab, window.scrollY || document.documentElement.scrollTop || 0);
   }
 }
 
@@ -497,10 +496,9 @@ function saveScrollPosition(tab) {
  * Restore scroll position for tab
  */
 function restoreScrollPosition(tab) {
-  const mainContent = document.getElementById('main-content');
   const saved = scrollPositions.get(tab);
-  if (mainContent && saved !== undefined) {
-    mainContent.scrollTop = saved;
+  if (saved !== undefined) {
+    window.scrollTo(0, saved);
   }
 }
 
@@ -519,8 +517,7 @@ function render(state) {
 
   // Save scroll position before EVERY re-render (not just tab changes)
   const currentTab = state.activeTab || previousTab
-  const mainContentBefore = document.getElementById('main-content')
-  const savedScroll = mainContentBefore ? mainContentBefore.scrollTop : 0
+  const savedScroll = window.scrollY || document.documentElement.scrollTop || 0
   if (previousTab && previousTab !== state.activeTab) {
     saveScrollPosition(previousTab)
   }
@@ -570,9 +567,8 @@ function render(state) {
   } else {
     // Same tab: restore exact scroll position (prevents jump to top)
     requestAnimationFrame(() => {
-      const mainContentAfter = document.getElementById('main-content')
-      if (mainContentAfter && savedScroll > 0) {
-        mainContentAfter.scrollTop = savedScroll
+      if (savedScroll > 0) {
+        window.scrollTo(0, savedScroll)
       }
     })
   }
