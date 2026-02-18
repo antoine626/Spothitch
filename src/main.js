@@ -120,12 +120,14 @@ function startVersionCheck() {
       }
       if (data.version !== currentVersion) {
         currentVersion = data.version
-        // Don't reload immediately — wait until user is idle
+        isReloading = true
+        // Reload to get new code — brief delay if user is active
         if (document.visibilityState === 'hidden') {
-          isReloading = true
           window.location.reload()
+        } else {
+          window.showToast?.('🔄 ' + (window.t?.('updating') || 'Updating...'), 'info')
+          setTimeout(() => window.location.reload(), 2000)
         }
-        // Otherwise, reload on next visibility change
       }
     } catch { /* offline or file missing — ignore */ }
   }
@@ -594,8 +596,13 @@ async function registerServiceWorker() {
     // Check on online recovery
     window.addEventListener('online', () => registration.update())
 
-    // Don't force reload on controllerchange — let version.json handle it
-    // Don't SKIP_WAITING — new SW will activate on next natural navigation
+    // Reload when new SW takes over (skipWaiting + clientsClaim)
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!isReloading) {
+        isReloading = true
+        window.location.reload()
+      }
+    })
   } catch (error) {
     console.error('Service Worker registration failed:', error)
   }

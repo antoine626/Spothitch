@@ -1191,10 +1191,13 @@ window.toggleRouteAmenities = async () => {
     // Add markers dynamically to existing map (no re-init needed)
     window._tripMapAddAmenities?.(amenities)
     window.setState?.({ routeAmenities: amenities, loadingRouteAmenities: false })
+    if (amenities.length === 0) {
+      window.showToast?.(t('noStationsFound') || 'No stations found, try again', 'info')
+    }
   } catch (error) {
     console.error('Failed to fetch route amenities:', error)
     window.setState?.({ routeAmenities: [], loadingRouteAmenities: false })
-    window.showToast?.(t('travel_loading_error') || 'Erreur de chargement des stations', 'error')
+    window.showToast?.(t('noStationsFound') || 'No stations found, try again', 'info')
   }
 }
 

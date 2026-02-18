@@ -324,6 +324,8 @@ const translations = {
     fillDepartureAndDestination: 'Remplis le depart et la destination',
     avgWait: 'attente moyenne',
     travel_loading_error: 'Erreur de chargement des stations',
+    noStationsFound: 'Aucune station trouvée, réessaie',
+    updating: 'Mise à jour...',
     saveError: 'Erreur de sauvegarde',
 
     // Profile
@@ -3406,6 +3408,8 @@ const translations = {
     fillDepartureAndDestination: 'Fill in departure and destination',
     avgWait: 'average wait',
     travel_loading_error: 'Failed to load stations',
+    noStationsFound: 'No stations found, try again',
+    updating: 'Updating...',
     saveError: 'Save error',
 
     // Profile
@@ -7048,6 +7052,8 @@ const translations = {
     fillDepartureAndDestination: 'Rellena la salida y el destino',
     avgWait: 'espera media',
     travel_loading_error: 'Error al cargar estaciones',
+    noStationsFound: 'No se encontraron estaciones, inténtalo de nuevo',
+    updating: 'Actualizando...',
     saveError: 'Error al guardar',
 
     spotsShared: 'Spots',
@@ -9567,6 +9573,8 @@ const translations = {
     fillDepartureAndDestination: 'Abfahrt und Ziel eingeben',
     avgWait: 'Durchschnittliche Wartezeit',
     travel_loading_error: 'Fehler beim Laden der Tankstellen',
+    noStationsFound: 'Keine Tankstellen gefunden, erneut versuchen',
+    updating: 'Aktualisierung...',
     saveError: 'Speicherfehler',
 
     // Profile
