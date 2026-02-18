@@ -520,13 +520,25 @@ function buildCitySEOData(allSpots) {
 }
 
 function generateCityHTML(city) {
-  const routesHTML = city.routesList.slice(0, 15).map((r) => {
+  // Merge routes pointing to same destination city
+  const merged = {}
+  for (const r of city.routesList) {
     const destName = nearestCityName(r.destLat, r.destLon)
-    // Skip routes pointing back to the same city
-    if (destName && destName.toLowerCase() === city.name.toLowerCase()) return null
-    const label = destName ? `Towards ${destName}` : `Direction ${r.destLat.toFixed(1)}°N, ${r.destLon.toFixed(1)}°E`
-    return `      <li><strong>${label}</strong>: ${r.spotCount} spot${r.spotCount > 1 ? 's' : ''}${r.avgWait > 0 ? `, ~${r.avgWait} min average wait` : ''}</li>`
-  }).filter(Boolean).join('\n')
+    if (destName && destName.toLowerCase() === city.name.toLowerCase()) continue
+    const key = destName || `${r.destLat.toFixed(1)}_${r.destLon.toFixed(1)}`
+    if (!merged[key]) {
+      merged[key] = { label: destName ? `Towards ${destName}` : `Direction ${r.destLat.toFixed(1)}°N, ${r.destLon.toFixed(1)}°E`, spots: 0, waits: [] }
+    }
+    merged[key].spots += r.spotCount
+    if (r.avgWait > 0) merged[key].waits.push(r.avgWait)
+  }
+  const routesHTML = Object.values(merged)
+    .sort((a, b) => b.spots - a.spots)
+    .slice(0, 10)
+    .map(r => {
+      const avgW = r.waits.length ? Math.round(r.waits.reduce((a, b) => a + b, 0) / r.waits.length) : 0
+      return `      <li><strong>${r.label}</strong>: ${r.spots} spot${r.spots > 1 ? 's' : ''}${avgW > 0 ? `, ~${avgW} min average wait` : ''}</li>`
+    }).join('\n')
 
   return `<!DOCTYPE html>
 <html lang="en">
