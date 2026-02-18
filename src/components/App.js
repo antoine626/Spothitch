@@ -13,6 +13,7 @@ import { renderHeader } from './Header.js';
 import { renderNavigation } from './Navigation.js';
 import { getState } from '../stores/state.js';
 import { t } from '../i18n/index.js';
+import { haversineKm } from '../utils/geo.js';
 
 // Views
 import { renderHome } from './views/Home.js';
@@ -396,7 +397,7 @@ function initHomeMap(state) {
           }
         },
         () => { /* silently fail — user denied GPS */ },
-        { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
       )
     }
 
@@ -409,13 +410,30 @@ function initHomeMap(state) {
     // Track which spot IDs are already added to avoid duplicates
     const addedSpotIds = new Set()
 
+    // Apply user filters to spots
+    const applySpotFilters = (spots) => {
+      const s = getState()
+      const minRating = s.filterMinRating || 0
+      const maxWait = s.filterMaxWait || 999
+      const verifiedOnly = s.filterVerifiedOnly || false
+      if (minRating === 0 && maxWait >= 999 && !verifiedOnly) return spots
+      return spots.filter(spot => {
+        if (minRating > 0 && (spot.globalRating || 0) < minRating) return false
+        if (maxWait < 999 && (spot.avgWaitTime || 999) > maxWait) return false
+        if (verifiedOnly && !spot.verified) return false
+        return true
+      })
+    }
+
     // Helper: convert spots array to GeoJSON
-    const spotsToGeoJSON = (spots) => {
+    const spotsToGeoJSON = (spots, forceRebuild = false) => {
+      if (forceRebuild) addedSpotIds.clear()
+      const filtered = applySpotFilters(spots)
       let favIds = []
       try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch { /* no-op */ }
       const favSet = new Set(favIds)
       const features = []
-      spots.forEach(spot => {
+      filtered.forEach(spot => {
         if (addedSpotIds.has(spot.id)) return
         const lat = spot.coordinates?.lat || spot.lat
         const lng = spot.coordinates?.lng || spot.lng
@@ -520,16 +538,7 @@ function initHomeMap(state) {
       map.on('mouseleave', 'home-clusters', () => { map.getCanvas().style.cursor = '' })
     }
 
-    // Haversine distance in km
-    const haversineKm = (lat1, lng1, lat2, lng2) => {
-      const R = 6371
-      const dLat = (lat2 - lat1) * Math.PI / 180
-      const dLng = (lng2 - lng1) * Math.PI / 180
-      const a = Math.sin(dLat / 2) ** 2 +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLng / 2) ** 2
-      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    }
+    // haversineKm imported from ../utils/geo.js
 
     // Populate split view with nearest spots + distances
     const populateSplitView = async (allSpots) => {
@@ -728,6 +737,20 @@ function initHomeMap(state) {
 
     // Expose refreshBubbles for main.js handlers
     window._refreshCountryBubbles = refreshBubbles
+
+    // Expose map spot refresh for filter changes
+    window._refreshMapSpots = () => {
+      const existing = spotLoader ? spotLoader.getAllLoadedSpots() : []
+      const currentState = getState()
+      const stateSpots = currentState.spots || []
+      const spotsMap = new Map()
+      stateSpots.forEach(s => spotsMap.set(s.id, s))
+      existing.forEach(s => spotsMap.set(s.id, s))
+      const allSpots = Array.from(spotsMap.values())
+      const geojson = spotsToGeoJSON(allSpots, true)
+      addSpotsSource(geojson)
+      populateSplitView(allSpots)
+    }
 
     // Resize
     setTimeout(() => map.resize(), 200)

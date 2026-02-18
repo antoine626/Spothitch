@@ -5,6 +5,7 @@
 
 import { getState, setState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
+import { haversineKm } from '../../utils/geo.js';
 
 
 /**
@@ -154,7 +155,8 @@ export function renderFiltersModal() {
  */
 export function applyFilters() {
   setState({ showFilters: false });
-  // Filters are applied reactively through state
+  // Refresh map spots with new filter settings
+  if (window._refreshMapSpots) window._refreshMapSpots()
 }
 
 /**
@@ -167,6 +169,8 @@ export function resetFilters() {
     filterVerifiedOnly: false,
     sortBy: 'rating',
   });
+  // Refresh map to show all spots again
+  if (window._refreshMapSpots) window._refreshMapSpots()
 }
 
 /**
@@ -237,18 +241,7 @@ export function getFilteredSpots(spots, state) {
  */
 function getDistance(point1, point2) {
   if (!point1 || !point2) return Infinity;
-
-  const R = 6371; // Earth's radius in km
-  const dLat = ((point2.lat - point1.lat) * Math.PI) / 180;
-  const dLng = ((point2.lng - point1.lng) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos((point1.lat * Math.PI) / 180) *
-      Math.cos((point2.lat * Math.PI) / 180) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
+  return haversineKm(point1.lat, point1.lng, point2.lat, point2.lng);
 }
 
 export default {

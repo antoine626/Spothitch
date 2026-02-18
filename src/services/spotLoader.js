@@ -4,6 +4,8 @@
  * Source: Hitchmap (ODBL license)
  */
 
+import { haversineKm } from '../utils/geo.js'
+
 const BASE = import.meta.env.BASE_URL || '/'
 
 // Cache loaded country data
@@ -202,18 +204,7 @@ export function getLoadedCountryCodes() {
   return new Set(loadedCountries.keys())
 }
 
-/**
- * Haversine distance in km
- */
-function haversineKm(lat1, lng1, lat2, lng2) {
-  const R = 6371
-  const dLat = (lat2 - lat1) * Math.PI / 180
-  const dLng = (lng2 - lng1) * Math.PI / 180
-  const a = Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLng / 2) ** 2
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-}
+// haversineKm imported from ../utils/geo.js
 
 /**
  * Country center coordinates (exported for countryBubbles)
