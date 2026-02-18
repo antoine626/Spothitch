@@ -3267,6 +3267,9 @@ const translations = {
     signMethod: "Panneau",
     thumbMethod: "Pouce",
     hasShelter: "Abri pluie",
+    goodVisibilityTag: "Visible de loin",
+    stoppingSpaceTag: "Place pour s'arrêter",
+    nearbyAmenities: "Eau/nourriture à proximité",
 
     // Freshness Badges
     freshSpot: "Récent",
@@ -6408,6 +6411,9 @@ const translations = {
     signMethod: "Sign",
     thumbMethod: "Thumb",
     hasShelter: "Rain shelter",
+    goodVisibilityTag: "Visible from far",
+    stoppingSpaceTag: "Cars can stop",
+    nearbyAmenities: "Water/food nearby",
 
     // Freshness Badges
     freshSpot: "Recent",
@@ -9546,6 +9552,9 @@ const translations = {
     signMethod: "Cartel",
     thumbMethod: "Dedo",
     hasShelter: "Refugio lluvia",
+    goodVisibilityTag: "Visible desde lejos",
+    stoppingSpaceTag: "Espacio para parar",
+    nearbyAmenities: "Agua/comida cerca",
 
     // Freshness Badges
     freshSpot: "Reciente",
@@ -12684,6 +12693,9 @@ const translations = {
     signMethod: "Schild",
     thumbMethod: "Daumen",
     hasShelter: "Regenschutz",
+    goodVisibilityTag: "Von weitem sichtbar",
+    stoppingSpaceTag: "Autos können anhalten",
+    nearbyAmenities: "Wasser/Essen in der Nähe",
 
     // Freshness Badges
     freshSpot: "Aktuell",

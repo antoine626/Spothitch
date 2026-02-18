@@ -367,7 +367,7 @@ function renderPositionBlock() {
  */
 function renderStep3(state) {
   const isPreview = state.addSpotPreview === true
-  const tags = window.spotFormData.tags || { signMethod: null, hasShelter: false }
+  const tags = window.spotFormData.tags || { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false }
   return `
     <!-- Practical Tags -->
     <div>
@@ -408,6 +408,39 @@ function renderStep3(state) {
         >
           ${icon('umbrella', 'w-4 h-4 mr-1')}
           ${t('hasShelter') || 'Rain shelter'}
+        </button>
+        <button
+          type="button"
+          onclick="setSpotTag('visibility', ${!tags.visibility})"
+          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
+            ${tags.visibility
+              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
+              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
+        >
+          ${icon('eye', 'w-4 h-4 mr-1')}
+          ${t('goodVisibilityTag') || 'Visible from far'}
+        </button>
+        <button
+          type="button"
+          onclick="setSpotTag('stoppingSpace', ${!tags.stoppingSpace})"
+          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
+            ${tags.stoppingSpace
+              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
+              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
+        >
+          ${icon('square-parking', 'w-4 h-4 mr-1')}
+          ${t('stoppingSpaceTag') || 'Cars can stop'}
+        </button>
+        <button
+          type="button"
+          onclick="setSpotTag('amenities', ${!tags.amenities})"
+          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
+            ${tags.amenities
+              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
+              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
+        >
+          ${icon('droplets', 'w-4 h-4 mr-1')}
+          ${t('nearbyAmenities') || 'Water/food nearby'}
         </button>
       </div>
     </div>
@@ -630,12 +663,13 @@ window.setSpotRating = (criterion, value) => {
 }
 
 window.setSpotTag = (tagName, value) => {
-  window.spotFormData.tags = window.spotFormData.tags || { signMethod: null, hasShelter: false }
+  window.spotFormData.tags = window.spotFormData.tags || { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false }
   if (tagName === 'signMethod') {
     // Radio-style: toggle off if same value clicked
     window.spotFormData.tags.signMethod = window.spotFormData.tags.signMethod === value ? null : value
-  } else if (tagName === 'hasShelter') {
-    window.spotFormData.tags.hasShelter = value === true || value === 'true'
+  } else {
+    // Boolean toggle tags (hasShelter, visibility, stoppingSpace, amenities)
+    window.spotFormData.tags[tagName] = value === true || value === 'true'
   }
   // Re-render to update button states
   import('../../stores/state.js').then(({ getState, setState }) => {
@@ -1141,7 +1175,7 @@ window.handleAddSpot = async (event) => {
       fromCity: from,
       stationName,
       roadNumber: roadName,
-      tags: window.spotFormData.tags || { signMethod: null, hasShelter: false },
+      tags: window.spotFormData.tags || { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false },
     }
 
     const result = await addSpot(spotData)
@@ -1158,7 +1192,7 @@ window.handleAddSpot = async (event) => {
       window.spotFormData = {
         photo: null, lat: null, lng: null,
         ratings: { safety: 0, traffic: 0, accessibility: 0 },
-        tags: { signMethod: null, hasShelter: false },
+        tags: { signMethod: null, hasShelter: false, visibility: false, stoppingSpace: false, amenities: false },
         country: null, countryName: null,
         departureCity: null, departureCityCoords: null,
         directionCity: null, directionCityCoords: null,

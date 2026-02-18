@@ -101,7 +101,7 @@ export function renderSpotDetail(state) {
           </div>
           
           <!-- Spot Info (type, direction) -->
-          ${spot.spotType || spot.direction ? `
+          ${spot.spotType || spot.direction || spot.tags ? `
           <div class="mb-5">
             <div class="flex flex-wrap gap-3">
               ${spot.spotType && spot.spotType !== 'custom' ? `
@@ -122,6 +122,30 @@ export function renderSpotDetail(state) {
               ${spot.roadNumber ? `
                 <span class="badge bg-slate-500/20 text-slate-300 border border-slate-400/30">
                   🛤️ ${escapeHTML(spot.roadNumber)}
+                </span>` : ''}
+              ${spot.tags?.signMethod === 'sign' ? `
+                <span class="badge bg-primary-500/20 text-primary-300 border border-primary-500/30">
+                  ${icon('file-text', 'w-3 h-3 mr-1')} ${t('signMethod') || 'Sign'}
+                </span>` : ''}
+              ${spot.tags?.signMethod === 'thumb' ? `
+                <span class="badge bg-primary-500/20 text-primary-300 border border-primary-500/30">
+                  ${icon('hand', 'w-3 h-3 mr-1')} ${t('thumbMethod') || 'Thumb'}
+                </span>` : ''}
+              ${spot.tags?.hasShelter ? `
+                <span class="badge bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                  ${icon('umbrella', 'w-3 h-3 mr-1')} ${t('hasShelter') || 'Shelter'}
+                </span>` : ''}
+              ${spot.tags?.visibility ? `
+                <span class="badge bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  ${icon('eye', 'w-3 h-3 mr-1')} ${t('goodVisibilityTag') || 'Visible'}
+                </span>` : ''}
+              ${spot.tags?.stoppingSpace ? `
+                <span class="badge bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  ${icon('square-parking', 'w-3 h-3 mr-1')} ${t('stoppingSpaceTag') || 'Can stop'}
+                </span>` : ''}
+              ${spot.tags?.amenities ? `
+                <span class="badge bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                  ${icon('droplets', 'w-3 h-3 mr-1')} ${t('nearbyAmenities') || 'Amenities'}
                 </span>` : ''}
             </div>
           </div>` : ''}

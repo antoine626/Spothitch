@@ -322,7 +322,8 @@ export function registerCheckinHandlers() {
       if (state.checkinPhotoData) points += 5; // Bonus for photo
       if (Object.values(state.checkinChars || {}).filter(Boolean).length >= 3) points += 5; // Bonus for details
 
-      // Save validation data
+      // Save validation data with auto temporal info
+      const now = new Date()
       const validationData = {
         spotId: spot.id,
         userId: state.user?.uid,
@@ -331,8 +332,12 @@ export function registerCheckinHandlers() {
         characteristics: state.checkinChars,
         comment: document.getElementById('checkin-comment')?.value || '',
         hasPhoto: !!state.checkinPhotoData,
-        timestamp: new Date().toISOString()
-      };
+        timestamp: now.toISOString(),
+        // Auto-collected temporal data (no user input needed)
+        dayOfWeek: now.getDay(),
+        hourOfDay: now.getHours(),
+        month: now.getMonth() + 1,
+      }
 
       // Upload photo if present
       if (state.checkinPhotoData) {
