@@ -531,28 +531,78 @@ export function showOriginal(elementId) {
 }
 
 /**
- * Translate an element by ID
+ * Translate an element by ID — translates IN-APP (no redirect)
+ * Uses MyMemory free API (no key needed, 5000 words/day)
  * @param {string} elementId - Element ID
  */
 export async function translateElement(elementId) {
-  if (!elementId) {
-    console.warn('[AutoTranslate] No elementId provided');
-    return;
+  if (!elementId) return
+
+  const original = getOriginalText(elementId)
+  if (!original) return
+
+  const state = getState() || {}
+  const targetLang = state.lang || 'en'
+  const sourceLang = detectLanguage(original)
+  const langPair = `${sourceLang === 'unknown' ? 'en' : sourceLang}|${targetLang}`
+
+  // Check cache first
+  const cacheKey = `api|${original}|${langPair}`
+  if (translationCache.has(cacheKey)) {
+    applyTranslation(elementId, translationCache.get(cacheKey))
+    return
   }
 
-  const original = getOriginalText(elementId);
-  if (!original) {
-    console.warn('[AutoTranslate] No original text found for:', elementId);
-    return;
+  // Show loading state on button
+  const btn = document.querySelector(`[data-element-id="${elementId}"].translate-btn`)
+  if (btn) {
+    btn.innerHTML = `${icon('loader-circle', 'w-5 h-5 animate-spin')} <span>...</span>`
+    btn.disabled = true
   }
 
-  const state = getState() || {};
-  const targetLang = state.lang || 'en';
+  try {
+    const res = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(original.slice(0, 500))}&langpair=${langPair}`
+    )
+    const data = await res.json()
+    const translated = data?.responseData?.translatedText
 
-  // Use Google Translate — opens in new tab with full translation
-  const encodedText = encodeURIComponent(original);
-  const googleTranslateUrl = `https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodedText}&op=translate`;
-  window.open(googleTranslateUrl, '_blank');
+    if (translated && translated !== original) {
+      translationCache.set(cacheKey, translated)
+      applyTranslation(elementId, translated)
+    } else {
+      // Fallback: use dictionary translation
+      const dictResult = translateWithDictionary(original, sourceLang === 'unknown' ? 'en' : sourceLang, targetLang)
+      if (dictResult !== original) {
+        applyTranslation(elementId, dictResult)
+      } else if (btn) {
+        btn.innerHTML = `${icon('language', 'w-5 h-5')} <span>—</span>`
+      }
+    }
+  } catch {
+    // Offline or API error — try dictionary fallback
+    const dictResult = translateWithDictionary(original, sourceLang === 'unknown' ? 'en' : sourceLang, targetLang)
+    if (dictResult !== original) {
+      applyTranslation(elementId, dictResult)
+    } else if (btn) {
+      btn.innerHTML = `${icon('language', 'w-5 h-5')} <span>—</span>`
+    }
+  }
+}
+
+/**
+ * Apply translated text to DOM element
+ * @private
+ */
+function applyTranslation(elementId, translated) {
+  const element = document.getElementById(elementId)
+  if (element) element.textContent = translated
+
+  const container = document.querySelector(`.translatable-content[data-element-id="${elementId}"]`)
+  if (container) {
+    const controls = container.querySelector('.translation-controls')
+    if (controls) controls.innerHTML = renderShowOriginalButton(elementId)
+  }
 }
 
 /**
