@@ -77,7 +77,20 @@ function buildQuery(points, radiusMeters, options) {
     }
   }
 
-  return `[out:json][timeout:25];(${filters.join('')});out body;`
+  // Single global bbox for service area ways (sparse, won't overload)
+  let globalMinLat = Infinity, globalMaxLat = -Infinity
+  let globalMinLng = Infinity, globalMaxLng = -Infinity
+  for (const p of points) {
+    if (p.lat < globalMinLat) globalMinLat = p.lat
+    if (p.lat > globalMaxLat) globalMaxLat = p.lat
+    if (p.lng < globalMinLng) globalMinLng = p.lng
+    if (p.lng > globalMaxLng) globalMaxLng = p.lng
+  }
+  const globalBbox = `${(globalMinLat - pad).toFixed(4)},${(globalMinLng - pad).toFixed(4)},${(globalMaxLat + pad).toFixed(4)},${(globalMaxLng + pad).toFixed(4)}`
+  filters.push(`way["highway"="services"](${globalBbox});`)
+  filters.push(`way["highway"="rest_area"](${globalBbox});`)
+
+  return `[out:json][timeout:25];(${filters.join('')});out body center;`
 }
 
 /**
@@ -186,10 +199,35 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
     const data = await response.json()
     const elements = data.elements || []
 
-    // Normalize all results
+    // Extract service area names (ways with highway=services/rest_area)
+    const serviceAreas = elements
+      .filter(el => el.type === 'way' && (el.tags?.highway === 'services' || el.tags?.highway === 'rest_area') && el.tags?.name && el.center)
+      .map(el => ({ name: el.tags.name, lat: el.center.lat, lng: el.center.lon }))
+
+    // Normalize all node results
     const allPois = elements
       .filter(el => el.type === 'node' && el.lat && el.lon)
       .map(normalizeElement)
+
+    // Enrich fuel stations: attach nearby service area name
+    if (serviceAreas.length > 0) {
+      for (const poi of allPois) {
+        if (poi.type !== 'fuel') continue
+        // Find closest service area within 1km
+        let closest = null
+        let closestDist = Infinity
+        for (const area of serviceAreas) {
+          const dLat = (poi.lat - area.lat) * 111
+          const dLng = (poi.lng - area.lng) * 111 * Math.cos(poi.lat * Math.PI / 180)
+          const dist = Math.sqrt(dLat * dLat + dLng * dLng)
+          if (dist < 1 && dist < closestDist) {
+            closest = area
+            closestDist = dist
+          }
+        }
+        if (closest) poi.serviceArea = closest.name
+      }
+    }
 
     // Filter by proximity to actual route (small bboxes may still include distant POIs)
     const corridorPois = allPois.filter(poi => {

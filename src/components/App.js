@@ -927,20 +927,27 @@ function addAmenityMarkers(amenities) {
     if (!poi.lat || !poi.lng) return
     const isFuel = poi.type === 'fuel'
     const label = isFuel ? '⛽' : '🅿️'
-    const displayName = poi.name || poi.brand || (isFuel ? (t('gasStation') || 'Gas station') : (t('restArea') || 'Rest area'))
+    const stationName = poi.name || poi.brand || (isFuel ? (t('gasStation') || 'Gas station') : (t('restArea') || 'Rest area'))
+    const areaName = poi.serviceArea || ''
 
     const el = document.createElement('div')
     el.style.cssText = 'font-size:22px;text-align:center;line-height:1;cursor:pointer;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));transition:transform 0.15s'
     el.textContent = label
-    el.title = displayName
+    el.title = areaName ? `${stationName} — ${areaName}` : stationName
 
     const marker = new tripMaplibregl.Marker({ element: el })
       .setLngLat([poi.lng, poi.lat])
       .addTo(tripMapInstance)
 
-    // Popup on click with station name
-    const popup = new tripMaplibregl.Popup({ offset: 25, closeButton: false, maxWidth: '200px' })
-      .setHTML(`<div style="padding:4px 8px;font-family:system-ui;font-size:13px;font-weight:500;color:#1e293b">${label} ${displayName}</div>`)
+    // Popup on click with station name + service area
+    let popupHTML = `<div style="padding:6px 10px;font-family:system-ui;font-size:13px;color:#1e293b">`
+    popupHTML += `<div style="font-weight:600">${label} ${stationName}</div>`
+    if (areaName) {
+      popupHTML += `<div style="font-size:11px;color:#64748b;margin-top:2px">📍 ${areaName}</div>`
+    }
+    popupHTML += `</div>`
+    const popup = new tripMaplibregl.Popup({ offset: 25, closeButton: false, maxWidth: '220px' })
+      .setHTML(popupHTML)
 
     el.addEventListener('click', (e) => {
       e.stopPropagation()
