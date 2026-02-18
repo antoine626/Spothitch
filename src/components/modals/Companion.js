@@ -6,6 +6,7 @@
 
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { getState } from '../../stores/state.js'
 import {
   getCompanionState,
   getTimeUntilNextCheckIn,
@@ -250,7 +251,7 @@ function renderActiveView(companion) {
               <span class="text-sm text-slate-300">${t('lastPosition') || 'Dernière position'}</span>
             </div>
             <span class="text-xs text-slate-400">
-              ${new Date(lastPos.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              ${new Date(lastPos.timestamp).toLocaleTimeString(getState().lang || 'fr', { hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
           <div class="text-xs text-slate-400 mt-1">

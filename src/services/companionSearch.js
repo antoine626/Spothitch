@@ -12,6 +12,8 @@ import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
 import { Storage } from '../utils/storage.js';
 import { icon } from '../utils/icons.js'
+import { escapeHTML } from '../utils/sanitize.js'
+import { formatEventDate } from '../utils/formatters.js'
 
 // Storage keys
 const TRAVEL_PLANS_KEY = 'spothitch_travel_plans';
@@ -54,12 +56,17 @@ export const COMPATIBILITY_WEIGHTS = {
  * Available travel styles
  */
 export const TravelStyles = {
-  FAST: { id: 'fast', label: 'Rapide', icon: '⚡', description: 'Privilegie la vitesse' },
-  RELAXED: { id: 'relaxed', label: 'Detendu', icon: '🌴', description: 'Prend son temps' },
-  ADVENTUROUS: { id: 'adventurous', label: 'Aventurier', icon: '🏔️', description: 'Aime les detours' },
-  BUDGET: { id: 'budget', label: 'Economique', icon: '💰', description: 'Depenses minimales' },
-  SOCIAL: { id: 'social', label: 'Social', icon: '🎉', description: 'Aime les rencontres' },
+  FAST: { id: 'fast', labelKey: 'travelStyleFast', icon: '⚡' },
+  RELAXED: { id: 'relaxed', labelKey: 'travelStyleRelaxed', icon: '🌴' },
+  ADVENTUROUS: { id: 'adventurous', labelKey: 'travelStyleAdventurous', icon: '🏔️' },
+  BUDGET: { id: 'budget', labelKey: 'travelStyleBudget', icon: '💰' },
+  SOCIAL: { id: 'social', labelKey: 'travelStyleSocial', icon: '🎉' },
 };
+
+// Helper to get translated label
+export function getTravelStyleLabel(style) {
+  return t(style?.labelKey || 'travelStyleRelaxed') || style?.id || 'relaxed'
+}
 
 /**
  * Get travel plans from storage
@@ -113,32 +120,9 @@ function saveResponsesToStorage(responses) {
   }
 }
 
-/**
- * Escape HTML to prevent XSS
- * @param {string} str
- * @returns {string}
- */
-function escapeHTML(str) {
-  if (!str) return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-/**
- * Format date for display
- * @param {string} dateStr
- * @returns {string}
- */
-function formatDate(dateStr) {
-  if (!dateStr) return '';
-  try {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
-  } catch {
-    return '';
-  }
-}
+// escapeHTML imported from utils/sanitize.js
+// formatEventDate imported from utils/formatters.js (renamed to formatDate below)
+const formatDate = formatEventDate
 
 /**
  * Check if two date ranges overlap
@@ -235,7 +219,7 @@ export function postTravelPlan(plan) {
   const newPlan = {
     id: `plan_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
     userId,
-    username: state.username || 'Anonyme',
+    username: state.username || t('traveler'),
     avatar: state.avatar || '🤙',
     userLevel: state.level || 1,
     verificationLevel: state.verificationLevel || 0,
@@ -614,7 +598,7 @@ export function respondToTravelPlan(planId, message) {
     id: `resp_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
     planId,
     userId,
-    username: state.username || 'Anonyme',
+    username: state.username || t('traveler'),
     avatar: state.avatar || '🤙',
     userLevel: state.level || 1,
     verificationLevel: state.verificationLevel || 0,
@@ -865,7 +849,7 @@ export function renderTravelPlanCard(plan) {
             ${escapeHTML(plan.avatar || '🤙')}
           </div>
           <div>
-            <div class="font-medium text-white">${escapeHTML(plan.username || 'Anonyme')}</div>
+            <div class="font-medium text-white">${escapeHTML(plan.username || t('traveler'))}</div>
             <div class="text-xs text-slate-400 flex items-center gap-2">
               <span>${t('level') || 'Niveau'} ${plan.userLevel || 1}</span>
               ${plan.verificationLevel > 0 ? `
@@ -905,7 +889,7 @@ export function renderTravelPlanCard(plan) {
         <div class="flex items-center gap-2">
           <span class="px-2 py-1 bg-white/10 rounded-full text-xs flex items-center gap-1">
             <span>${travelStyle.icon}</span>
-            <span>${travelStyle.label}</span>
+            <span>${getTravelStyleLabel(travelStyle)}</span>
           </span>
           ${(plan.languages || []).slice(0, 2).map((lang) => `
             <span class="px-2 py-1 bg-white/10 rounded-full text-xs uppercase">${escapeHTML(lang)}</span>
@@ -957,7 +941,7 @@ export function renderResponseCard(response, isOwner = false) {
         </div>
         <div class="flex-1">
           <div class="flex items-center justify-between">
-            <div class="font-medium text-white">${escapeHTML(response.username || 'Anonyme')}</div>
+            <div class="font-medium text-white">${escapeHTML(response.username || t('traveler'))}</div>
             <span class="px-2 py-1 rounded-full text-xs ${statusColors[response.status] || statusColors[ResponseStatus.PENDING]}">
               ${statusLabels[response.status] || statusLabels[ResponseStatus.PENDING]}
             </span>

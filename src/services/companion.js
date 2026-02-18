@@ -237,17 +237,24 @@ function getAlertMessage(state) {
     ? formatDurationMs(Date.now() - state.tripStart)
     : ''
 
-  // Multi-language alert message (keep it simple, understandable in any context)
+  // Bilingual alert message (user's language + English fallback for clarity)
+  const guardianName = state.guardian.name ? state.guardian.name + ', ' : ''
+  const alertIntro = t('companionAlertIntro') || "I haven't checked in on SpotHitch."
+  const alertHelp = t('companionAlertHelp') || 'I may need help.'
+  const alertTrip = t('companionAlertTrip') || 'Trip duration'
+  const alertPosition = t('companionAlertPosition') || 'My last known position'
+  const alertFooter = t('companionAlertFooter') || 'Sent automatically by SpotHitch Companion Mode.'
+
   let msg = `🆘 SpotHitch Safety Alert\n\n`
-  msg += `${state.guardian.name ? state.guardian.name + ', ' : ''}I haven't checked in on SpotHitch.\n`
-  msg += `I may need help.\n\n`
+  msg += `${guardianName}${alertIntro}\n`
+  msg += `${alertHelp}\n\n`
   if (tripDuration) {
-    msg += `Trip duration: ${tripDuration}\n`
+    msg += `${alertTrip}: ${tripDuration}\n`
   }
   if (mapLink) {
-    msg += `My last known position:\n${mapLink}\n`
+    msg += `${alertPosition}:\n${mapLink}\n`
   }
-  msg += `\nSent automatically by SpotHitch Companion Mode.`
+  msg += `\n${alertFooter}`
 
   return msg
 }

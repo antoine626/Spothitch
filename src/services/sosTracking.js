@@ -189,6 +189,15 @@ function updateSharedLocation(position, session) {
     updatedAt: new Date().toISOString(),
   };
 
+  // Clean up old SOS sessions (keep only current)
+  try {
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('sos_share_') && key !== `sos_share_${session?.id}`) {
+        localStorage.removeItem(key)
+      }
+    })
+  } catch { /* ignore */ }
+
   localStorage.setItem(`sos_share_${session?.id}`, JSON.stringify(sharedData));
 }
 

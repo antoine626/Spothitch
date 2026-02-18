@@ -5,6 +5,7 @@
 
 import { t } from '../../i18n/index.js';
 import { icon } from '../../utils/icons.js'
+import { escapeHTML } from '../../utils/sanitize.js'
 
 export function renderSOS(state) {
   return `
@@ -82,7 +83,7 @@ export function renderSOS(state) {
                   type="tel"
                   id="emergency-phone"
                   class="input-field flex-1"
-                  placeholder="+33 6 12 34 56 78"
+                  placeholder="${t('phonePlaceholder') || '+33 6 12 34 56 78'}"
                   aria-label="${t('emergencyContactPhone') || 'Téléphone du contact d\'urgence'}"
                   onkeydown="if(event.key==='Enter') addEmergencyContact()"
                 />
@@ -106,8 +107,8 @@ export function renderSOS(state) {
                           👤
                         </div>
                         <div>
-                          <div class="font-medium">${contact.name}</div>
-                          <div class="text-sm text-slate-400">${contact.phone}</div>
+                          <div class="font-medium">${escapeHTML(contact.name)}</div>
+                          <div class="text-sm text-slate-400">${escapeHTML(contact.phone)}</div>
                         </div>
                       </div>
                       <button
@@ -252,7 +253,7 @@ window.shareSOSLocation = async () => {
       if (navigator.share) {
         try {
           await navigator.share({
-            title: '🆘 Position SOS - SpotHitch',
+            title: t('sosShareTitle') || '🆘 SOS Position - SpotHitch',
             text: t('sosShareText') || "Je partage ma position d'urgence",
             url: `https://www.google.com/maps?q=${lat},${lng}`,
           });
@@ -278,6 +279,14 @@ window.addEmergencyContact = async () => {
   if (!name || !phone) {
     const { showToast } = await import('../../services/notifications.js');
     showToast(t('fillNameAndNumber') || 'Remplis le nom et le numéro', 'warning');
+    return;
+  }
+
+  // Validate phone number (must contain at least 6 digits)
+  const digits = phone.replace(/\D/g, '')
+  if (digits.length < 6) {
+    const { showToast } = await import('../../services/notifications.js');
+    showToast(t('invalidPhoneNumber') || 'Numéro de téléphone invalide', 'warning');
     return;
   }
 
