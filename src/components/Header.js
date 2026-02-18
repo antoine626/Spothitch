@@ -17,7 +17,8 @@ export function renderHeader(state) {
 
         <!-- Actions -->
         <div class="flex items-center gap-3">
-          <!-- Admin Button -->
+          <!-- Admin Button (only for admins) -->
+          ${state.isAdmin ? `
           <button
             onclick="openAdminPanel()"
             class="w-11 h-11 rounded-full bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 hover:scale-105 transition-all flex items-center justify-center"
@@ -26,6 +27,7 @@ export function renderHeader(state) {
           >
             ${icon('shield', 'w-5 h-5')}
           </button>
+          ` : ''}
           <!-- SOS Button - Always visible, prominent -->
           <button
             onclick="openSOS()"

@@ -572,7 +572,7 @@ function initHomeMap(state) {
 
       // List cards for split view
       if (splitEl) {
-        splitEl.innerHTML = nearest.slice(0, 20).map(s => {
+        splitEl.innerHTML = nearest.map(s => {
           const rating = s.globalRating?.toFixed(1) || '—'
           const distLabel = s._dist !== null ? fmtDist(s._dist) : ''
           const dir = s.to || s.from || ''

@@ -31,7 +31,7 @@ export function buildCountryBubblesGeoJSON(indexData, countryCenters, downloaded
       geometry: { type: 'Point', coordinates: [center.lon, center.lat] },
       properties: {
         code,
-        name: displayNames.of(code) || code,
+        name: safeDisplayName(displayNames, code),
         spotCount: country.locations || 0,
         isDownloaded: downloadedCodes.has(code) ? 1 : 0,
         isLoaded: loadedCodes.has(code) ? 1 : 0,
@@ -208,6 +208,10 @@ export function setSpotLayersVisibility(map, visible) {
 }
 
 // --- Helpers ---
+
+function safeDisplayName(displayNames, code) {
+  try { return displayNames.of(code) || code } catch { return code }
+}
 
 function getCountryDisplayNames() {
   try {
