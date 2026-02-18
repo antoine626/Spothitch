@@ -95,12 +95,16 @@ import {
 } from './components/LoadingIndicator.js';
 
 // ==================== AUTO-UPDATE ====================
+// Ensures users ALWAYS get the latest code — no manual cache clearing needed.
+// Two mechanisms work together:
+// 1. version.json polling — detects new deployments
+// 2. SW update listener — detects when new Service Worker is ready
 
 let currentVersion = null
 let isReloading = false
 
 function startVersionCheck() {
-  const CHECK_INTERVAL = 600_000 // 10 minutes
+  const CHECK_INTERVAL = 120_000 // 2 minutes (was 10 — faster updates)
   const BASE = import.meta.env.BASE_URL || '/'
   let lastCheck = 0
 
@@ -119,32 +123,38 @@ function startVersionCheck() {
         return
       }
       if (data.version !== currentVersion) {
-        currentVersion = data.version
-        isReloading = true
-        // Reload to get new code — brief delay if user is active
-        if (document.visibilityState === 'hidden') {
-          window.location.reload()
-        } else {
-          window.showToast?.('🔄 ' + (window.t?.('updating') || 'Updating...'), 'info')
-          setTimeout(() => window.location.reload(), 2000)
-        }
+        doReload()
       }
     } catch { /* offline or file missing — ignore */ }
   }
 
-  // Initial check to store current version (always run)
+  function doReload() {
+    if (isReloading) return
+    isReloading = true
+    if (document.visibilityState === 'hidden') {
+      window.location.reload()
+    } else {
+      window.showToast?.('🔄 ' + (window.t?.('updating') || 'Updating...'), 'info')
+      setTimeout(() => window.location.reload(), 2000)
+    }
+  }
+
+  // Initial check to store current version
   checkVersion()
 
-  // Check every 10 minutes in background
-  setInterval(() => {
-    if (document.visibilityState !== 'visible') checkVersion()
-  }, CHECK_INTERVAL)
+  // Check regularly — EVEN when app is visible (user won't notice the fetch)
+  setInterval(checkVersion, CHECK_INTERVAL)
 
-  // Check when user comes back from background (debounced)
+  // Check when user comes back from background
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      setTimeout(checkVersion, 3000)
+      setTimeout(checkVersion, 2000)
     }
+  })
+
+  // Also reload when new Service Worker takes control
+  navigator.serviceWorker?.addEventListener('controllerchange', () => {
+    doReload()
   })
 }
 
@@ -590,8 +600,8 @@ async function registerServiceWorker() {
   try {
     const registration = await navigator.serviceWorker.register('/sw.js')
 
-    // Check for updates every 10 minutes (not 2)
-    setInterval(() => registration.update(), 10 * 60 * 1000)
+    // Check for SW updates every 2 minutes
+    setInterval(() => registration.update(), 2 * 60 * 1000)
 
     // Check for updates when user returns to the app
     document.addEventListener('visibilitychange', () => {
@@ -603,8 +613,8 @@ async function registerServiceWorker() {
     // Check on online recovery
     window.addEventListener('online', () => registration.update())
 
-    // Let version.json handle reload — no aggressive controllerchange reload
-    // (controllerchange can fire while user is actively using the map)
+    // When a new SW is found, it will skipWaiting (configured in vite.config.js)
+    // Then controllerchange fires → handled in startVersionCheck() → auto-reload
   } catch (error) {
     console.error('Service Worker registration failed:', error)
   }

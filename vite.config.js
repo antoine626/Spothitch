@@ -30,7 +30,7 @@ export default defineConfig({
     // PWA Plugin
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.png', 'icon-*.png', 'og-image.png'],
+      includeAssets: ['favicon.png', 'og-image.png'],
       manifest: {
         name: 'SpotHitch - La communauté des autostoppeurs',
         short_name: 'SpotHitch',
@@ -70,7 +70,7 @@ export default defineConfig({
         skipWaiting: true,
         clientsClaim: true,
         cleanupOutdatedCaches: true,
-        globPatterns: ['index.html', 'assets/index-*.js', 'assets/vendor-utils-*.js', 'assets/*.css', 'fonts/*.woff2', 'icon-*.png', 'favicon.png'],
+        globPatterns: ['index.html', 'assets/index-*.js', 'assets/vendor-utils-*.js', 'assets/*.css', 'fonts/*.woff2'],
       globIgnores: ['**/*.map', '**/*legacy*', '**/gamification-*', '**/vendor-maplibre-*', '**/vendor-firebase-*', '**/social-*', '**/guides-*', '**/admin-*'],
         navigateFallbackDenylist: [/^\/design-/, /^\/debug-/],
         runtimeCaching: [
