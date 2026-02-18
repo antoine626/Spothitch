@@ -829,7 +829,7 @@ function initTripMap(state) {
             index: i + 1,
             color: isFav ? '#f59e0b' : '#22c55e',
             strokeColor: isFav ? '#fbbf24' : '#ffffff',
-            radius: isFav ? 12 : 10,
+            radius: isFav ? 14 : 12,
             strokeWidth: isFav ? 3 : 2,
           },
         })

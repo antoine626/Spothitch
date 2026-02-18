@@ -261,13 +261,13 @@ function renderTripResults(results) {
 
       <!-- Trip Timeline -->
       ${spots.length > 0 ? `
-        <div class="relative pl-6 space-y-0 max-h-96 overflow-y-auto">
+        <div class="relative pl-8 space-y-0 max-h-96 overflow-y-auto">
           <!-- Vertical line -->
-          <div class="absolute left-[11px] top-3 bottom-3 w-0.5 bg-white/10"></div>
+          <div class="absolute left-[13px] top-3 bottom-3 w-0.5 bg-white/10"></div>
 
           <!-- Departure -->
           <div class="relative flex items-start gap-3 pb-4">
-            <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-emerald-500 border-2 border-dark-primary flex items-center justify-center z-10">
+            <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-emerald-500 border-2 border-dark-primary flex items-center justify-center z-10">
               ${icon('flag', 'w-5 h-5 text-[8px] text-white')}
             </div>
             <div class="pt-0.5">
@@ -285,7 +285,7 @@ function renderTripResults(results) {
               : null
             return `
             <div class="relative flex items-start gap-3 pb-4 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors" onclick="selectSpot(${spot.id})">
-              <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-primary-500/80 border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg shadow-primary-500/20">
+              <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-primary-500/80 border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg shadow-primary-500/20">
                 <span class="text-[9px] font-bold text-white">${i + 1}</span>
               </div>
               <div class="pt-0.5 flex-1 min-w-0">
@@ -305,7 +305,7 @@ function renderTripResults(results) {
 
           <!-- Arrival -->
           <div class="relative flex items-start gap-3">
-            <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-primary-500 border-2 border-dark-primary flex items-center justify-center z-10">
+            <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-primary-500 border-2 border-dark-primary flex items-center justify-center z-10">
               ${icon('map-pin', 'w-5 h-5 text-[8px] text-white')}
             </div>
             <div class="pt-0.5">
