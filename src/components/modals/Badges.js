@@ -28,9 +28,9 @@ export function renderBadgesModal() {
   const nextBadges = getNextBadges(userStats, earnedBadgeIds, 3);
 
   const categories = [
-    { id: 'beginner', name: 'Débutant', nameEn: 'Beginner', icon: '🌱' },
-    { id: 'progress', name: 'Progression', nameEn: 'Progress', icon: '📈' },
-    { id: 'special', name: 'Spécial', nameEn: 'Special', icon: '⭐' },
+    { id: 'beginner', name: t('beginner') || 'Beginner', icon: '🌱' },
+    { id: 'progress', name: t('progress') || 'Progress', icon: '📈' },
+    { id: 'special', name: t('special') || 'Special', icon: '⭐' },
   ];
 
   return `
@@ -45,7 +45,7 @@ export function renderBadgesModal() {
         <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-8">
           <div class="flex justify-between items-start">
             <div>
-              <h2 id="badges-title" class="text-2xl font-bold text-white">Mes Badges</h2>
+              <h2 id="badges-title" class="text-2xl font-bold text-white">${t('myBadges') || 'My Badges'}</h2>
               <p class="text-white/80">${earnedBadges.length}/${allBadges.length} ${t('unlocked') || 'unlocked'}</p>
             </div>
             <button onclick="closeBadges()"
@@ -160,7 +160,7 @@ export function renderBadgePopup() {
     ? `<img src="${newBadge.image}" alt="${newBadge.name}" class="w-20 h-20 mx-auto mb-4 animate-bounce" loading="lazy" />`
     : `<div class="text-6xl mb-4 animate-bounce">${newBadge.icon}</div>`
 }
-            <h2 class="text-xl font-bold text-white">Nouveau Badge !</h2>
+            <h2 class="text-xl font-bold text-white">${t('newBadgeEarned') || 'New Badge!'}</h2>
           </div>
         </div>
 
@@ -176,7 +176,7 @@ export function renderBadgePopup() {
           <button onclick="dismissBadgePopup()"
                   class="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white
                          font-bold rounded-xl hover:from-amber-600 hover:to-orange-600">
-            Super !
+            ${t('great') || 'Great!'}
           </button>
         </div>
       </div>
@@ -215,13 +215,13 @@ export function renderBadgeDetail(badgeId) {
             </div>
             <div class="text-center">
               <div class="text-purple-400 font-bold">${badge.category}</div>
-              <div class="text-slate-400">Catégorie</div>
+              <div class="text-slate-400">${t('categoryLabel') || 'Category'}</div>
             </div>
           </div>
 
           <button onclick="closeBadgeDetail()"
                   class="mt-6 w-full py-3 bg-white/5 text-white rounded-xl hover:bg-white/10">
-            Fermer
+            ${t('close') || 'Close'}
           </button>
         </div>
       </div>

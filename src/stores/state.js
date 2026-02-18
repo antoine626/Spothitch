@@ -225,6 +225,7 @@ const initialState = {
   quizCountryCode: null,
   quizShowExplanation: false,
   challengeTab: 'active',
+  leaderboardTab: 'weekly',
   shopCategory: 'all',
   profileFrame: null,
   profileTitle: null,

@@ -36,7 +36,7 @@ import { renderTutorial } from './modals/Tutorial.js';
 import { renderAuth } from './modals/Auth.js';
 import { renderFiltersModal } from './modals/Filters.js';
 import { renderStatsModal } from './modals/Stats.js';
-import { renderBadgesModal, renderBadgePopup } from './modals/Badges.js';
+import { renderBadgesModal, renderBadgePopup, renderBadgeDetail } from './modals/Badges.js';
 import { renderChallengesModal } from './modals/Challenges.js';
 import { renderShopModal, renderMyRewardsModal } from './modals/Shop.js';
 import { renderQuiz } from './modals/Quiz.js';
@@ -143,6 +143,7 @@ export function renderApp(state) {
     ${state.showLeaderboard ? renderLeaderboardModal() : ''}
     ${state.checkinSpot ? renderCheckinModal(state) : ''}
     ${state.newBadge ? renderBadgePopup(state.newBadge) : ''}
+    ${state.showBadgeDetail ? renderBadgeDetail(state.selectedBadgeId) : ''}
 
     <!-- Navigation Overlay -->
     ${state.navigationActive ? renderNavigationOverlay(state) : ''}

@@ -80,8 +80,8 @@ export function renderLeaderboardModal() {
         <div class="bg-gradient-to-r from-amber-500 to-orange-500 p-8">
           <div class="flex justify-between items-start">
             <div>
-              <h2 id="leaderboard-title" class="text-2xl font-bold text-white">Classement</h2>
-              <p class="text-white/80">Les meilleurs autostoppeurs</p>
+              <h2 id="leaderboard-title" class="text-2xl font-bold text-white">${t('leaderboardTitle') || 'Leaderboard'}</h2>
+              <p class="text-white/80">${t('leaderboardSubtitle') || 'Top hitchhikers'}</p>
             </div>
             <button onclick="closeLeaderboard()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
@@ -97,11 +97,11 @@ export function renderLeaderboardModal() {
               <div class="text-4xl">${currentUser.avatar}</div>
               <div class="flex-1">
                 <div class="font-bold text-white">${currentUser.username}</div>
-                <div class="text-white/70 text-sm">Niveau ${currentUser.level} • ${currentUser.points.toLocaleString()} 👍</div>
+                <div class="text-white/70 text-sm">${t('levelN') || 'Level'} ${currentUser.level} • ${currentUser.points.toLocaleString()} 👍</div>
               </div>
               <div class="text-right">
                 <div class="text-3xl font-bold text-white">#${currentUser.rank}</div>
-                <div class="text-white/70 text-xs">Votre rang</div>
+                <div class="text-white/70 text-xs">${t('yourRank') || 'Your rank'}</div>
               </div>
             </div>
           </div>
@@ -112,17 +112,17 @@ export function renderLeaderboardModal() {
           <button onclick="setLeaderboardTab('weekly')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
                          ${leaderboardTab === 'weekly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-300'}">
-            Cette semaine
+            ${t('thisWeek') || 'This week'}
           </button>
           <button onclick="setLeaderboardTab('monthly')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
                          ${leaderboardTab === 'monthly' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-300'}">
-            Ce mois
+            ${t('thisMonth') || 'This month'}
           </button>
           <button onclick="setLeaderboardTab('allTime')"
                   class="flex-1 py-3 text-sm font-medium transition-colors
                          ${leaderboardTab === 'allTime' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-300'}">
-            All-time
+            ${t('allTimeTab') || 'All-time'}
           </button>
         </div>
 
@@ -150,11 +150,11 @@ export function renderLeaderboardModal() {
             </div>
             <div>
               <div class="text-2xl font-bold text-emerald-400">${leaderboardData.length * 10}+</div>
-              <div class="text-xs text-slate-400">Participants</div>
+              <div class="text-xs text-slate-400">${t('participants') || 'Participants'}</div>
             </div>
             <div>
               <div class="text-2xl font-bold text-purple-400">${Math.max(...leaderboardData.map(u => u.level))}</div>
-              <div class="text-xs text-slate-400">Meilleur niveau</div>
+              <div class="text-xs text-slate-400">${t('bestLevel') || 'Best level'}</div>
             </div>
           </div>
         </div>
@@ -204,7 +204,7 @@ function renderLeaderboardRow(user, rank) {
           <span class="text-white font-medium truncate">${user.username}</span>
           <span class="text-sm">${countryFlags[user.country] || '🌍'}</span>
         </div>
-        <div class="text-slate-400 text-xs">Niv. ${user.level}</div>
+        <div class="text-slate-400 text-xs">${t('levelShort') || 'Lv.'} ${user.level}</div>
       </div>
       <div class="text-right">
         <div class="text-amber-400 font-bold">${user.points.toLocaleString()}</div>

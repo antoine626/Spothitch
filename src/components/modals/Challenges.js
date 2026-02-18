@@ -45,8 +45,8 @@ export function renderChallengesModal() {
         <div class="bg-gradient-to-r from-purple-500 to-indigo-500 p-8">
           <div class="flex justify-between items-start">
             <div>
-              <h2 id="challenges-title" class="text-2xl font-bold text-white">Defis</h2>
-              <p class="text-white/80">Complete des defis pour gagner des pouces !</p>
+              <h2 id="challenges-title" class="text-2xl font-bold text-white">${t('challengesTitle') || 'Challenges'}</h2>
+              <p class="text-white/80">${t('challengesSubtitle') || 'Complete challenges to earn thumbs!'}</p>
             </div>
             <button onclick="closeChallenges()"
                     class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30"
@@ -61,15 +61,15 @@ export function renderChallengesModal() {
         <div class="flex border-b border-white/10">
           <button onclick="setChallengeTab('weekly')"
                   class="flex-1 py-3 text-sm font-medium ${challengeTab === 'weekly' ? 'text-primary-400 border-b-2 border-primary-400' : 'text-slate-400 hover:text-slate-300'}">
-            Hebdo
+            ${t('weeklyTab') || 'Weekly'}
           </button>
           <button onclick="setChallengeTab('monthly')"
                   class="flex-1 py-3 text-sm font-medium ${challengeTab === 'monthly' ? 'text-purple-400 border-b-2 border-purple-400' : 'text-slate-400 hover:text-slate-300'}">
-            Mensuel
+            ${t('monthlyTab') || 'Monthly'}
           </button>
           <button onclick="setChallengeTab('annual')"
                   class="flex-1 py-3 text-sm font-medium ${challengeTab === 'annual' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400 hover:text-slate-300'}">
-            Annuel
+            ${t('annualTab') || 'Annual'}
           </button>
         </div>
 
@@ -80,10 +80,10 @@ export function renderChallengesModal() {
             <section>
               <div class="flex items-center justify-between mb-3">
                 <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">
-                  Défis de la semaine
+                  ${t('weeklyChallenges') || 'Weekly challenges'}
                 </h3>
                 <span class="text-xs text-slate-400">
-                  ${getDaysUntilSunday()} jours restants
+                  ${getDaysUntilSunday()} ${t('daysLeft') || 'days left'}
                 </span>
               </div>
               <div class="space-y-4">
@@ -97,10 +97,10 @@ export function renderChallengesModal() {
             <section>
               <div class="flex items-center justify-between mb-3">
                 <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide">
-                  Défis du mois
+                  ${t('monthlyChallenges') || 'Monthly challenges'}
                 </h3>
                 <span class="text-xs text-slate-400">
-                  ${getDaysUntilEndOfMonth()} jours restants
+                  ${getDaysUntilEndOfMonth()} ${t('daysLeft') || 'days left'}
                 </span>
               </div>
               <div class="space-y-4">
@@ -113,7 +113,7 @@ export function renderChallengesModal() {
             <!-- Annual Challenges -->
             <section>
               <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3">
-                Objectifs annuels
+                ${t('annualGoals') || 'Annual goals'}
               </h3>
               <div class="space-y-4">
                 ${challenges.annual.map(c => renderChallengeCard(c, lang, 'annual')).join('')}
