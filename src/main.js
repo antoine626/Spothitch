@@ -152,9 +152,14 @@ function startVersionCheck() {
     }
   })
 
-  // Also reload when new Service Worker takes control
+  // Reload when a NEW Service Worker takes control (not on first install)
+  // On first visit, controller is null → skip. On update, controller changes → reload.
+  let hadController = !!navigator.serviceWorker?.controller
   navigator.serviceWorker?.addEventListener('controllerchange', () => {
-    doReload()
+    if (hadController) {
+      doReload()
+    }
+    hadController = true
   })
 }
 
