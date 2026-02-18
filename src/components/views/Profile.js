@@ -86,6 +86,26 @@ export function renderProfile(state) {
         ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
       </button>
 
+      <!-- Companion Mode -->
+      <button
+        onclick="showCompanionModal()"
+        class="card p-5 w-full text-left hover:border-red-500/50 transition-all flex items-center justify-between ${state.companionActive ? 'border-emerald-500/50 bg-emerald-500/5' : ''}"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full ${state.companionActive ? 'bg-emerald-500/20' : 'bg-red-500/20'} flex items-center justify-center">
+            ${icon('shield', `w-5 h-5 ${state.companionActive ? 'text-emerald-400' : 'text-red-400'}`)}
+          </div>
+          <div>
+            <div class="font-medium">${t('companionMode') || 'Mode Compagnon'}</div>
+            <div class="text-sm text-slate-400">${state.companionActive ? (t('companionActiveDesc') || 'Actif — check-in GPS en cours') : (t('companionSafetyDesc') || 'Sécurité : partage ta position avec un proche')}</div>
+          </div>
+        </div>
+        ${state.companionActive
+          ? `<span class="px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">${t('active') || 'Actif'}</span>`
+          : icon('chevron-right', 'w-5 h-5 text-slate-400')
+        }
+      </button>
+
       <!-- Guides -->
       <button
         onclick="openGuidesOverlay()"

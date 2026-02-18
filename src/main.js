@@ -999,13 +999,10 @@ window.openExternalNavigation = openExternalNavigation;
 // SOS handlers
 window.openSOS = async () => {
   setState({ showSOS: true });
-  // Show contextual tip for SOS feature
   try {
     const { triggerSOSTip } = await import('./services/contextualTips.js');
     triggerSOSTip();
-  } catch (e) {
-    // Silently fail if tips service not available
-  }
+  } catch (e) { /* no-op */ }
 };
 window.closeSOS = () => setState({ showSOS: false });
 
@@ -1360,8 +1357,20 @@ window.sendMessage = async () => {
 // Filter handlers
 window.setFilter = (filter) => actions.setFilter(filter);
 window.handleSearch = (query) => debounce('search', () => actions.setSearchQuery(query), 250);
-window.openFilters = () => setState({ showFilters: true });
-window.closeFilters = () => setState({ showFilters: false });
+window.openFilters = async () => {
+  const { renderFiltersModal } = await import('./components/modals/Filters.js')
+  let overlay = document.getElementById('filters-overlay')
+  if (overlay) { overlay.remove(); return }
+  overlay = document.createElement('div')
+  overlay.id = 'filters-overlay'
+  overlay.innerHTML = renderFiltersModal()
+  document.body.appendChild(overlay)
+};
+window.closeFilters = () => {
+  const overlay = document.getElementById('filters-overlay')
+  if (overlay) overlay.remove()
+  setState({ showFilters: false })
+};
 window.toggleSplitView = () => {
   const s = getState()
   setState({ splitView: !s.splitView })
@@ -1378,10 +1387,12 @@ window.toggleVerifiedFilter = () => {
 };
 window.setSortBy = (sortBy) => setState({ sortBy });
 window.applyFilters = () => {
-  setState({ showFilters: false });
-  // Force map re-init with new filters
-  destroyMaps();
-  setTimeout(() => initMapService(), 200);
+  // Close overlay + update state
+  const overlay = document.getElementById('filters-overlay')
+  if (overlay) overlay.remove()
+  setState({ showFilters: false })
+  // Refresh spots on map with new filter settings (no map destroy)
+  if (window._refreshMapSpots) window._refreshMapSpots()
 };
 window.resetFilters = () => resetFiltersUtil();
 
@@ -2168,10 +2179,6 @@ window.deleteOfflineCountry = async (code) => {
 
 // Home search with debounce — search a place, show city panel option, center map
 let homeDestDebounce = null
-const _isCityType = (type, cls) =>
-  ['city', 'town', 'village', 'municipality', 'hamlet', 'suburb'].some(
-    t => (type || '').includes(t) || (cls || '') === 'place'
-  )
 
 window.homeSearchDestination = (query) => {
   clearTimeout(homeDestDebounce)
@@ -2194,7 +2201,6 @@ window.homeSearchDestination = (query) => {
               const cityName = escapeHTML((r.name || '').split(',')[0].trim())
               const countryName = escapeHTML((r.name || '').split(',').pop().trim())
               const cc = (r.countryCode || '').toUpperCase()
-              const isCity = _isCityType(r.type, r.class)
               const slug = cityName.toLowerCase().replace(/[^a-z0-9]+/g, '-')
               return `
               <div class="border-b border-white/5 last:border-0">
@@ -2206,14 +2212,12 @@ window.homeSearchDestination = (query) => {
                   <div class="font-medium text-sm truncate">${shortName}</div>
                   <div class="text-xs text-slate-400 truncate">${fullName}</div>
                 </button>
-                ${isCity ? `
-                  <button
-                    onclick="openCityPanel('${slug}', '${cityName.replace(/'/g, '&#39;')}', ${Number(r.lat)}, ${Number(r.lng)}, '${cc}', '${countryName.replace(/'/g, '&#39;')}')"
-                    class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-all text-xs font-medium border-t border-white/5"
-                  >
-                    📍 ${t('hitchhikingFrom') || 'Hitchhiking from'} ${cityName}
-                  </button>
-                ` : ''}
+                <button
+                  onclick="openCityPanel('${slug}', '${cityName.replace(/'/g, '&#39;')}', ${Number(r.lat)}, ${Number(r.lng)}, '${cc}', '${countryName.replace(/'/g, '&#39;')}')"
+                  class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-all text-xs font-medium border-t border-white/5"
+                >
+                  📍 ${t('hitchhikingFrom') || 'Hitchhiking from'} ${cityName}
+                </button>
               </div>`
             }).join('')}
           </div>

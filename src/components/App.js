@@ -537,14 +537,15 @@ function initHomeMap(state) {
       map.on('click', 'home-spot-points', (e) => {
         if (e.features?.length > 0) window.selectSpot?.(e.features[0].properties.id)
       })
-      map.on('click', 'home-clusters', (e) => {
+      map.on('click', 'home-clusters', async (e) => {
         const features = map.queryRenderedFeatures(e.point, { layers: ['home-clusters'] })
         if (!features.length) return
         const clusterId = features[0].properties.cluster_id
-        map.getSource('home-spots').getClusterExpansionZoom(clusterId, (err, z) => {
-          if (err) return
-          map.easeTo({ center: features[0].geometry.coordinates, zoom: z })
-        })
+        if (clusterId === undefined) return
+        try {
+          const z = await map.getSource('home-spots').getClusterExpansionZoom(clusterId)
+          map.easeTo({ center: features[0].geometry.coordinates, zoom: Math.min(z, 16) })
+        } catch { /* no-op */ }
       })
       map.on('mouseenter', 'home-spot-points', () => { map.getCanvas().style.cursor = 'pointer' })
       map.on('mouseleave', 'home-spot-points', () => { map.getCanvas().style.cursor = '' })

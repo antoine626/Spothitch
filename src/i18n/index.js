@@ -3174,6 +3174,8 @@ const translations = {
 
     // Companion Mode
     companionMode: 'Mode Compagnon',
+    companionActiveDesc: 'Actif — check-in GPS en cours',
+    companionSafetyDesc: 'Sécurité : partage ta position avec un proche',
     companionSetup: 'Configure ta sécurité',
     companionActive: 'Mode Compagnon actif',
     guardianName: 'Nom du gardien',
@@ -6312,6 +6314,8 @@ const translations = {
 
     // Companion Mode
     companionMode: 'Companion Mode',
+    companionActiveDesc: 'Active — GPS check-in in progress',
+    companionSafetyDesc: 'Safety: share your location with someone you trust',
     companionSetup: 'Set up your safety',
     companionActive: 'Companion Mode active',
     guardianName: 'Guardian name',
@@ -9447,6 +9451,8 @@ const translations = {
 
     // Companion Mode
     companionMode: 'Modo Compañero',
+    companionActiveDesc: 'Activo — check-in GPS en curso',
+    companionSafetyDesc: 'Seguridad: comparte tu ubicación con alguien de confianza',
     companionSetup: 'Configura tu seguridad',
     companionActive: 'Modo Compañero activo',
     guardianName: 'Nombre del guardián',
@@ -12582,6 +12588,8 @@ const translations = {
 
     // Companion Mode
     companionMode: 'Begleitmodus',
+    companionActiveDesc: 'Aktiv — GPS-Check-in läuft',
+    companionSafetyDesc: 'Sicherheit: Teile deinen Standort mit einer Vertrauensperson',
     companionSetup: 'Sicherheit einrichten',
     companionActive: 'Begleitmodus aktiv',
     guardianName: 'Name des Begleiters',
