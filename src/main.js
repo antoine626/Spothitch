@@ -724,7 +724,10 @@ window.selectSpot = async (id) => {
 };
 window.openSpotDetail = window.selectSpot; // alias for services that use openSpotDetail
 window.closeSpotDetail = () => actions.selectSpot(null);
-window.openAddSpot = () => setState({ showAddSpot: true, addSpotPreview: false, addSpotStep: 1, addSpotType: null });
+window.openAddSpot = () => {
+  if (!window.requireProfile('addSpot')) return
+  setState({ showAddSpot: true, addSpotPreview: false, addSpotStep: 1, addSpotType: null })
+}
 window.openAddSpotPreview = () => setState({ showAddSpot: true, addSpotPreview: true });
 window.closeAddSpot = () => setState({ showAddSpot: false, addSpotPreview: false, addSpotStep: 1, addSpotType: null });
 
@@ -937,6 +940,7 @@ window.doCheckin = async (spotId) => {
   } catch (e) { /* trip history optional */ }
 };
 window.submitReview = async (spotId) => {
+  if (!window.requireProfile('review')) return
   const comment = document.getElementById('review-comment')?.value
   const rating = getState().currentRating || 4
   if (comment) {
@@ -1217,19 +1221,36 @@ window.getTrustBadge = async (level = null) => {
   return getTrustBadge(level);
 };
 
-// Welcome handlers
-window.selectAvatar = (avatar) => setState({ selectedAvatar: avatar });
+// Welcome / Profile Setup handlers
+window.selectAvatar = (avatar) => {
+  setState({ selectedAvatar: avatar })
+}
 window.completeWelcome = () => {
-  const { selectedAvatar } = getState();
-  const name = document.getElementById('welcome-name')?.value || t('traveler') || 'Voyageur';
-  localStorage.setItem('spothitch_user', JSON.stringify({ name, avatar: selectedAvatar }));
-  setState({ showWelcome: false, userName: name, userAvatar: selectedAvatar });
-  showToast(`${t('welcome') || 'Bienvenue'} ${name} !`, 'success');
-};
+  const usernameInput = document.getElementById('welcome-username')
+  const username = usernameInput?.value.trim() || t('traveler') || 'Traveler'
+  const { selectedAvatar, pendingProfileAction } = getState()
+  setState({
+    username,
+    avatar: selectedAvatar || '🤙',
+    showWelcome: false,
+    pendingProfileAction: null,
+  })
+  showToast(`${t('welcome') || 'Welcome'} ${username} !`, 'success')
+  // Resume the action that required a profile
+  if (pendingProfileAction === 'addSpot') {
+    setTimeout(() => window.openAddSpot?.(), 300)
+  }
+}
 window.skipWelcome = () => {
-  localStorage.setItem('spothitch_welcomed', 'true');
-  setState({ showWelcome: false });
-};
+  setState({ showWelcome: false, pendingProfileAction: null })
+}
+// Require profile before contributing — returns true if profile exists
+window.requireProfile = (action) => {
+  const state = getState()
+  if (state.username) return true
+  setState({ showWelcome: true, pendingProfileAction: action || null })
+  return false
+}
 
 // Settings handlers
 window.openSettings = () => setState({ showSettings: true });
@@ -1770,10 +1791,15 @@ window.validateImage = async (...args) => {
   return validateImage(...args)
 }
 
-// Landing page dismiss handler
+// Landing page dismiss handler — show tutorial after landing
 window.dismissLanding = () => {
   localStorage.setItem('spothitch_landing_seen', '1')
-  setState({ showLanding: false })
+  const { tutorialCompleted } = getState()
+  setState({
+    showLanding: false,
+    showTutorial: !tutorialCompleted,
+    tutorialStep: 0,
+  })
 }
 
 window.installPWAFromLanding = () => {

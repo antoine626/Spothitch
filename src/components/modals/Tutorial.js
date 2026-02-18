@@ -1,6 +1,7 @@
 /**
- * Interactive Tutorial Component
- * 3 clean screens onboarding + contextual tooltips
+ * Lightweight Tutorial Component
+ * 3 quick screens shown as overlay on the map.
+ * Focused on value: spots → contribute → safety.
  */
 
 import { getState, setState } from '../../stores/state.js'
@@ -11,42 +12,27 @@ const TUTORIAL_REWARDS = {
   completeAll: { points: 50, badge: 'tutorial_master' },
 }
 
-// 3 screens only
+// 3 screens — map-oriented, action-focused
 const tutorialSteps = [
   {
-    id: 'discover',
-    emoji: '🗺️',
-    title: t('tutDiscoverTitle') || 'Découvre les spots',
-    desc: t('tutDiscoverDesc') || 'SpotHitch recense des milliers de spots d\'auto-stop dans le monde. Explore la carte, filtre par note, et trouve le meilleur endroit pour lever le pouce.',
-    features: [
-      { icon: 'map-pin', text: t('tutFeatureSpots') || '11 000+ spots vérifiés' },
-      { icon: 'route', text: t('tutFeaturePlanner') || 'Planifie ton itinéraire' },
-      { icon: 'funnel', text: t('tutFeatureFilter') || 'Filtre par note et attente' },
-    ],
+    id: 'spots',
+    icon: 'map-pin',
+    title: () => t('tutSpotsTitle') || 'Hitchhiking spots near you',
+    desc: () => t('tutSpotsDesc') || 'The map shows the best spots to hitchhike. Zoom in to see details, ratings and tips from other travelers.',
     color: 'amber',
   },
   {
-    id: 'community',
-    emoji: '🤝',
-    title: t('tutCommunityTitle') || 'Rejoins la communauté',
-    desc: t('tutCommunityDesc') || 'Discute avec d\'autres autostoppeurs, partage tes expériences, forme des groupes de voyage et participe aux événements.',
-    features: [
-      { icon: 'message-circle', text: t('tutFeatureChat') || 'Chat par région et privé' },
-      { icon: 'users', text: t('tutFeatureGroups') || 'Groupes de voyage' },
-      { icon: 'calendar', text: t('tutFeatureEvents') || 'Événements communautaires' },
-    ],
+    id: 'contribute',
+    icon: 'plus-circle',
+    title: () => t('tutContributeTitle') || 'Share your spots',
+    desc: () => t('tutContributeDesc') || 'Found a great spot? Tap the + button to add it with a photo and tips. Every spot helps the community!',
     color: 'primary',
   },
   {
     id: 'safety',
-    emoji: '🛡️',
-    title: t('tutSafetyTitle') || 'Voyage en sécurité',
-    desc: t('tutSafetyDesc') || 'Le mode compagnon partage ta position en temps réel avec tes proches. Le bouton SOS est toujours accessible en haut de l\'écran.',
-    features: [
-      { icon: 'shield', text: t('tutFeatureCompanion') || 'Mode compagnon temps réel' },
-      { icon: 'phone', text: t('tutFeatureSOS') || 'Bouton SOS + numéros d\'urgence' },
-      { icon: 'book-open', text: t('tutFeatureGuides') || 'Guides par pays' },
-    ],
+    icon: 'shield',
+    title: () => t('tutSafetyTitle') || 'Stay safe',
+    desc: () => t('tutSafetyDesc') || 'Activate Companion Mode to share your location with a trusted contact. The SOS button is always at the top.',
     color: 'emerald',
   },
 ]
@@ -65,53 +51,47 @@ export function renderTutorial(state) {
 
   return `
     <div class="tutorial-overlay" id="tutorial-overlay">
-      <!-- Dark backdrop -->
-      <div class="fixed inset-0 z-[100] bg-black/80" onclick="skipTutorial()"></div>
+      <!-- Transparent backdrop — map visible behind -->
+      <div class="fixed inset-0 z-[100] bg-black/50" onclick="skipTutorial()"></div>
 
-      <!-- Tutorial card -->
-      <div class="fixed inset-0 z-[101] flex items-center justify-center p-5">
-        <div class="w-full max-w-sm bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
-
-          <!-- Top section with emoji -->
-          <div class="pt-8 pb-4 text-center bg-${step.color}-500/10">
-            <div class="text-6xl mb-3">${step.emoji}</div>
-            <!-- Step dots -->
-            <div class="flex items-center justify-center gap-2">
-              ${tutorialSteps.map((_, i) => `
-                <div class="w-2 h-2 rounded-full transition-all ${i === stepIndex ? `bg-${step.color}-400 w-6` : i < stepIndex ? 'bg-white/40' : 'bg-white/15'}"></div>
-              `).join('')}
-            </div>
-          </div>
+      <!-- Bottom card (like a tooltip, not blocking the map) -->
+      <div class="fixed bottom-24 left-0 right-0 z-[101] flex justify-center px-4">
+        <div class="w-full max-w-sm bg-dark-primary/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl overflow-hidden">
 
           <!-- Content -->
-          <div class="p-6">
-            <h2 class="text-xl font-bold text-white mb-2 text-center">${step.title}</h2>
-            <p class="text-slate-400 text-sm text-center mb-5 leading-relaxed">${step.desc}</p>
-
-            <!-- Feature list -->
-            <div class="space-y-3 mb-6">
-              ${step.features.map(f => `
-                <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5">
-                  ${icon(f.icon, `w-5 h-5 text-${step.color}-400 shrink-0`)}
-                  <span class="text-sm text-slate-300">${f.text}</span>
-                </div>
-              `).join('')}
+          <div class="p-5">
+            <!-- Step indicator + icon -->
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-full bg-${step.color}-500/20 flex items-center justify-center shrink-0">
+                ${icon(step.icon, `w-5 h-5 text-${step.color}-400`)}
+              </div>
+              <div class="flex-1">
+                <h2 class="text-base font-bold text-white">${step.title()}</h2>
+              </div>
+              <!-- Step dots -->
+              <div class="flex items-center gap-1.5">
+                ${tutorialSteps.map((_, i) => `
+                  <div class="w-1.5 h-1.5 rounded-full transition-all ${i === stepIndex ? `bg-${step.color}-400 w-4` : i < stepIndex ? 'bg-white/40' : 'bg-white/15'}"></div>
+                `).join('')}
+              </div>
             </div>
 
+            <p class="text-slate-400 text-sm leading-relaxed mb-4">${step.desc()}</p>
+
             <!-- Actions -->
-            <div class="flex gap-3">
-              ${!isFirst ? `
-                <button onclick="prevTutorial()" class="px-4 py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all">
-                  ${icon('arrow-left', 'w-5 h-5')}
-                </button>
-              ` : `
-                <button onclick="skipTutorial()" class="px-4 py-3 rounded-xl bg-white/5 text-slate-400 text-sm hover:bg-white/10 transition-all">
-                  ${t('skip') || 'Passer'}
-                </button>
-              `}
-              <button onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}" class="flex-1 py-3 rounded-xl bg-${step.color}-500 text-white font-medium hover:bg-${step.color}-600 transition-all text-center">
-                ${isLast ? (t('letsGo') || 'C\'est parti !') : (t('next') || 'Suivant')}
-                ${icon(isLast ? 'rocket' : 'arrow-right', 'w-5 h-5 ml-2 inline-block')}
+            <div class="flex gap-2">
+              <button
+                onclick="skipTutorial()"
+                class="px-3 py-2.5 rounded-xl bg-white/5 text-slate-400 text-sm hover:bg-white/10 transition-all"
+              >
+                ${t('skip') || 'Skip'}
+              </button>
+              <button
+                onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}"
+                class="flex-1 py-2.5 rounded-xl bg-${step.color}-500 text-white font-medium hover:bg-${step.color}-600 transition-all text-center text-sm flex items-center justify-center gap-2"
+              >
+                ${isLast ? (t('gotIt') || 'Got it!') : (t('next') || 'Next')}
+                ${icon(isLast ? 'check' : 'arrow-right', 'w-4 h-4')}
               </button>
             </div>
           </div>
@@ -122,10 +102,8 @@ export function renderTutorial(state) {
   `
 }
 
-// Position spotlight — kept for compatibility but simplified
-export function positionSpotlight() {
-  // No spotlight needed in 3-screen tutorial
-}
+// Position spotlight — kept for compatibility
+export function positionSpotlight() {}
 
 export function cleanupTutorialTargets() {
   document.querySelectorAll('[data-tutorial-target]').forEach(el => {
@@ -135,9 +113,7 @@ export function cleanupTutorialTargets() {
   })
 }
 
-export function executeStepAction(stepIndex) {
-  // No step actions needed in 3-screen tutorial
-}
+export function executeStepAction() {}
 
 // Fallback global handlers (main.js has priority)
 if (typeof window.nextTutorial === 'undefined') {
@@ -178,7 +154,7 @@ if (typeof window.finishTutorial === 'undefined') {
       points: (state.points || 0) + TUTORIAL_REWARDS.completeAll.points,
       totalPoints: (state.totalPoints || 0) + TUTORIAL_REWARDS.completeAll.points,
     })
-    window.showToast?.(t('tutorialComplete') || 'Tutoriel terminé ! +50 👍', 'success')
+    window.showToast?.(t('tutorialComplete') || 'Tutorial complete! +50 points', 'success')
   }
 }
 

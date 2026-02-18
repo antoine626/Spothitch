@@ -90,10 +90,8 @@ export function renderApp(state) {
     return renderLanding()
   }
 
-  // Show welcome screen for new users
-  if (state.showWelcome && !state.username) {
-    return renderWelcome(state);
-  }
+  // Welcome/profile setup is now shown on-demand (when user wants to contribute)
+  // No longer blocks access to the map
 
   // Main app content
   return `
@@ -257,8 +255,11 @@ export function renderApp(state) {
       `
     })() : ''}
 
-    <!-- Cookie Banner (RGPD) - hidden during tutorial/welcome -->
-    ${!state.showTutorial && !state.showWelcome ? renderCookieBanner() : ''}
+    <!-- Profile Setup (triggered when user wants to contribute) -->
+    ${state.showWelcome ? renderWelcome(state) : ''}
+
+    <!-- Cookie Banner (RGPD) - hidden during tutorial -->
+    ${!state.showTutorial ? renderCookieBanner() : ''}
   `;
 }
 

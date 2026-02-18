@@ -16,7 +16,7 @@ const initialState = {
   // UI
   activeTab: 'map',
   viewMode: 'list',
-  showWelcome: true,
+  showWelcome: false,
   theme: 'dark',
   lang: 'fr',
   activeSubTab: 'planner',
@@ -218,6 +218,7 @@ const initialState = {
   authMode: 'login',
   currentRating: 0,
   selectedAvatar: null,
+  pendingProfileAction: null,
   userName: '',
   userAvatar: '',
   quizActive: false,
@@ -274,14 +275,12 @@ function loadPersistedState() {
     // Merge persisted state with initial state (to add any new properties)
     state = { ...initialState, ...persisted };
 
-    // For new users who haven't completed the tutorial, show it automatically
-    // But only if they haven't explicitly skipped it (showTutorial would be false in that case)
-    if (!state.tutorialCompleted && state.showWelcome) {
-      state.showTutorial = true;
+    // Migrate old users: showWelcome no longer blocks, disable it
+    if (state.showWelcome) {
+      state.showWelcome = false;
     }
   } else {
-    // Brand new user - show tutorial
-    state.showTutorial = true;
+    // Brand new user — tutorial will be shown after landing page dismissal
   }
 }
 
@@ -292,7 +291,6 @@ function persistState() {
     avatar: state.avatar,
     theme: state.theme,
     lang: state.lang,
-    showWelcome: state.showWelcome,
     showTutorial: state.showTutorial,
     tutorialCompleted: state.tutorialCompleted,
     points: state.points,
@@ -419,7 +417,6 @@ export const actions = {
     setState({
       username: updates.username || state.username,
       avatar: updates.avatar || state.avatar,
-      showWelcome: false,
     });
   },
 
@@ -487,7 +484,7 @@ export const actions = {
 
   // Tutorial
   nextTutorialStep() {
-    if (state.tutorialStep < 7) {
+    if (state.tutorialStep < 2) {
       setState({ tutorialStep: state.tutorialStep + 1 });
     } else {
       setState({ showTutorial: false, tutorialStep: 0 });

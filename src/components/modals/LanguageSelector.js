@@ -118,7 +118,6 @@ window.confirmLanguageSelection = async () => {
     const stored = JSON.parse(localStorage.getItem('spothitch_v4_state') || '{}')
     stored.lang = langCode
     stored.showLanguageSelector = false
-    stored.showWelcome = true
     localStorage.setItem('spothitch_v4_state', JSON.stringify(stored))
   } catch (e) { /* no-op */ }
 
@@ -126,12 +125,11 @@ window.confirmLanguageSelection = async () => {
   setLanguage(langCode);
   markLanguageSelected();
 
-  // Update state and proceed to welcome screen
+  // Update state
   const { setState } = await import('../../stores/state.js');
   setState({
     lang: langCode,
     showLanguageSelector: false,
-    showWelcome: true,
   });
 };
 
