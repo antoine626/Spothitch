@@ -2166,8 +2166,13 @@ window.deleteOfflineCountry = async (code) => {
 
 // ==================== HOME HANDLERS ====================
 
-// Home search with debounce — just search a place and center the map
+// Home search with debounce — search a place, show city panel option, center map
 let homeDestDebounce = null
+const _isCityType = (type, cls) =>
+  ['city', 'town', 'village', 'municipality', 'hamlet', 'suburb'].some(
+    t => (type || '').includes(t) || (cls || '') === 'place'
+  )
+
 window.homeSearchDestination = (query) => {
   clearTimeout(homeDestDebounce)
   const container = document.getElementById('home-dest-suggestions')
@@ -2186,16 +2191,31 @@ window.homeSearchDestination = (query) => {
             ${results.map((r, i) => {
               const shortName = escapeHTML((r.name || '').split(',').slice(0, 2).join(','))
               const fullName = escapeHTML(r.name || '')
+              const cityName = escapeHTML((r.name || '').split(',')[0].trim())
+              const countryName = escapeHTML((r.name || '').split(',').pop().trim())
+              const cc = (r.countryCode || '').toUpperCase()
+              const isCity = _isCityType(r.type, r.class)
+              const slug = cityName.toLowerCase().replace(/[^a-z0-9]+/g, '-')
               return `
-              <button
-                onclick="homeSelectPlace(${Number(r.lat)}, ${Number(r.lng)}, '${shortName.replace(/'/g, '&#39;')}')"
-                class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
-                data-home-suggestion="${i}"
-              >
-                <div class="font-medium text-sm truncate">${shortName}</div>
-                <div class="text-xs text-slate-400 truncate">${fullName}</div>
-              </button>
-            `}).join('')}
+              <div class="border-b border-white/5 last:border-0">
+                <button
+                  onclick="homeSelectPlace(${Number(r.lat)}, ${Number(r.lng)}, '${shortName.replace(/'/g, '&#39;')}')"
+                  class="w-full px-4 py-3 text-left text-white hover:bg-white/10 transition-all"
+                  data-home-suggestion="${i}"
+                >
+                  <div class="font-medium text-sm truncate">${shortName}</div>
+                  <div class="text-xs text-slate-400 truncate">${fullName}</div>
+                </button>
+                ${isCity ? `
+                  <button
+                    onclick="openCityPanel('${slug}', '${cityName.replace(/'/g, '&#39;')}', ${Number(r.lat)}, ${Number(r.lng)}, '${cc}', '${countryName.replace(/'/g, '&#39;')}')"
+                    class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-all text-xs font-medium border-t border-white/5"
+                  >
+                    📍 ${t('hitchhikingFrom') || 'Hitchhiking from'} ${cityName}
+                  </button>
+                ` : ''}
+              </div>`
+            }).join('')}
           </div>
         `
       } else {

@@ -178,6 +178,8 @@ export async function searchLocation(query) {
         lat: parseFloat(item.lat),
         lng: parseFloat(item.lon),
         type: item.type,
+        class: item.class,
+        countryCode: (addr.country_code || '').toUpperCase(),
         importance: parseFloat(item.importance) || 0,
       }
     });
