@@ -517,9 +517,12 @@ function render(state) {
     return
   }
 
-  // Save scroll position before re-render if tab changed
+  // Save scroll position before EVERY re-render (not just tab changes)
+  const currentTab = state.activeTab || previousTab
+  const mainContentBefore = document.getElementById('main-content')
+  const savedScroll = mainContentBefore ? mainContentBefore.scrollTop : 0
   if (previousTab && previousTab !== state.activeTab) {
-    saveScrollPosition(previousTab);
+    saveScrollPosition(previousTab)
   }
 
   // Preserve map containers across re-renders to avoid destroying MapLibre
@@ -563,7 +566,15 @@ function render(state) {
 
   // Restore scroll position after render
   if (previousTab !== state.activeTab) {
-    setTimeout(() => restoreScrollPosition(state.activeTab), 50);
+    setTimeout(() => restoreScrollPosition(state.activeTab), 50)
+  } else {
+    // Same tab: restore exact scroll position (prevents jump to top)
+    requestAnimationFrame(() => {
+      const mainContentAfter = document.getElementById('main-content')
+      if (mainContentAfter && savedScroll > 0) {
+        mainContentAfter.scrollTop = savedScroll
+      }
+    })
   }
   previousTab = state.activeTab;
 

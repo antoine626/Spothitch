@@ -56,7 +56,7 @@ export async function initNotifications() {
     toastContainer.id = 'toast-container';
     toastContainer.style.cssText = `
       position: fixed;
-      top: 80px;
+      bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 9999;
@@ -64,6 +64,8 @@ export async function initNotifications() {
       flex-direction: column;
       gap: 8px;
       pointer-events: none;
+      max-width: 340px;
+      width: 90%;
     `;
     document.body.appendChild(toastContainer);
   }

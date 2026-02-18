@@ -1000,6 +1000,13 @@ window.calculateTrip = async () => {
     })
 
     window.showToast?.(`${routeSpots.length} ${t('spotsFound') || 'spots trouvés !'}`, 'success')
+
+    // Pre-fetch gas stations in background (so they're instant when user toggles)
+    if (storedGeometry?.length > 1) {
+      import('../../services/overpass.js').then(({ getAmenitiesAlongRoute }) => {
+        getAmenitiesAlongRoute(storedGeometry, 2, { showFuel: true, showRestAreas: true })
+      }).catch(() => {})
+    }
   } catch (error) {
     console.error('Trip calculation failed:', error)
     window.setState?.({ tripLoading: false })
