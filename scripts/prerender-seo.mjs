@@ -5,7 +5,7 @@
  * Run after build: node scripts/prerender-seo.mjs
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs'
 import { join } from 'path'
 
 const DIST_PATH = join(import.meta.dirname, '..', 'dist')
@@ -135,19 +135,278 @@ ${crossLinks}
 </html>`
 }
 
-function generateSitemap(guides) {
+function generateSitemap(guides, cities) {
   const today = new Date().toISOString().split('T')[0]
   const urls = [
     `  <url><loc>${BASE_URL}/</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>${today}</lastmod></url>`,
     ...guides.map(g =>
       `  <url><loc>${BASE_URL}/guides/${g.code.toLowerCase()}</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>${today}</lastmod></url>`
-    )
+    ),
+    ...cities.map(c =>
+      `  <url><loc>${BASE_URL}/city/${c.slug}</loc><changefreq>monthly</changefreq><priority>0.6</priority><lastmod>${today}</lastmod></url>`
+    ),
   ]
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.join('\n')}
 </urlset>`
+}
+
+// ==================== CITY PAGES ====================
+
+// Country name mapping (ISO 2-letter code -> English name)
+const COUNTRY_NAMES = {
+  AD: 'Andorra', AF: 'Afghanistan', AL: 'Albania', AM: 'Armenia', AO: 'Angola',
+  AR: 'Argentina', AT: 'Austria', AU: 'Australia', BA: 'Bosnia', BD: 'Bangladesh',
+  BE: 'Belgium', BG: 'Bulgaria', BJ: 'Benin', BN: 'Brunei', BO: 'Bolivia',
+  BR: 'Brazil', BW: 'Botswana', BZ: 'Belize', CA: 'Canada', CH: 'Switzerland',
+  CI: 'Ivory Coast', CL: 'Chile', CM: 'Cameroon', CN: 'China', CO: 'Colombia',
+  CR: 'Costa Rica', CY: 'Cyprus', CZ: 'Czech Republic', DE: 'Germany', DK: 'Denmark',
+  DM: 'Dominica', DO: 'Dominican Republic', DZ: 'Algeria', EC: 'Ecuador', EE: 'Estonia',
+  EG: 'Egypt', ES: 'Spain', FI: 'Finland', FO: 'Faroe Islands', FR: 'France',
+  GB: 'United Kingdom', GD: 'Grenada', GE: 'Georgia', GG: 'Guernsey', GH: 'Ghana',
+  GL: 'Greenland', GR: 'Greece', GT: 'Guatemala', GY: 'Guyana', HN: 'Honduras',
+  HR: 'Croatia', HU: 'Hungary', ID: 'Indonesia', IE: 'Ireland', IL: 'Israel',
+  IM: 'Isle of Man', IN: 'India', IQ: 'Iraq', IR: 'Iran', IS: 'Iceland', IT: 'Italy',
+  JE: 'Jersey', JO: 'Jordan', JP: 'Japan', KE: 'Kenya', KG: 'Kyrgyzstan',
+  KH: 'Cambodia', KR: 'South Korea', KZ: 'Kazakhstan', LA: 'Laos', LI: 'Liechtenstein',
+  LK: 'Sri Lanka', LT: 'Lithuania', LU: 'Luxembourg', LV: 'Latvia', MA: 'Morocco',
+  MC: 'Monaco', MD: 'Moldova', ME: 'Montenegro', MK: 'North Macedonia', MN: 'Mongolia',
+  MR: 'Mauritania', MT: 'Malta', MU: 'Mauritius', MX: 'Mexico', MY: 'Malaysia',
+  MZ: 'Mozambique', NA: 'Namibia', NG: 'Nigeria', NI: 'Nicaragua', NL: 'Netherlands',
+  NO: 'Norway', NP: 'Nepal', NZ: 'New Zealand', OM: 'Oman', PA: 'Panama',
+  PE: 'Peru', PH: 'Philippines', PK: 'Pakistan', PL: 'Poland', PT: 'Portugal',
+  PY: 'Paraguay', RO: 'Romania', RS: 'Serbia', RU: 'Russia', SA: 'Saudi Arabia',
+  SE: 'Sweden', SI: 'Slovenia', SK: 'Slovakia', SM: 'San Marino', SN: 'Senegal',
+  SZ: 'Eswatini', TG: 'Togo', TH: 'Thailand', TL: 'Timor-Leste', TN: 'Tunisia',
+  TO: 'Tonga', TR: 'Turkey', UA: 'Ukraine', UG: 'Uganda', US: 'United States',
+  UY: 'Uruguay', UZ: 'Uzbekistan', VC: 'St. Vincent', VN: 'Vietnam', ZA: 'South Africa',
+  ZM: 'Zambia',
+}
+
+// Well-known cities with coordinates (top hitchhiking cities)
+const KNOWN_CITIES = [
+  { name: 'Paris', lat: 48.8566, lon: 2.3522, country: 'FR' },
+  { name: 'Berlin', lat: 52.5200, lon: 13.4050, country: 'DE' },
+  { name: 'Madrid', lat: 40.4168, lon: -3.7038, country: 'ES' },
+  { name: 'Barcelona', lat: 41.3874, lon: 2.1686, country: 'ES' },
+  { name: 'Amsterdam', lat: 52.3676, lon: 4.9041, country: 'NL' },
+  { name: 'Prague', lat: 50.0755, lon: 14.4378, country: 'CZ' },
+  { name: 'Vienna', lat: 48.2082, lon: 16.3738, country: 'AT' },
+  { name: 'Munich', lat: 48.1351, lon: 11.5820, country: 'DE' },
+  { name: 'Hamburg', lat: 53.5511, lon: 9.9937, country: 'DE' },
+  { name: 'Lyon', lat: 45.7640, lon: 4.8357, country: 'FR' },
+  { name: 'Marseille', lat: 43.2965, lon: 5.3698, country: 'FR' },
+  { name: 'Toulouse', lat: 43.6047, lon: 1.4442, country: 'FR' },
+  { name: 'Bordeaux', lat: 44.8378, lon: -0.5792, country: 'FR' },
+  { name: 'Nantes', lat: 47.2184, lon: -1.5536, country: 'FR' },
+  { name: 'Brussels', lat: 50.8503, lon: 4.3517, country: 'BE' },
+  { name: 'Rome', lat: 41.9028, lon: 12.4964, country: 'IT' },
+  { name: 'Milan', lat: 45.4642, lon: 9.1900, country: 'IT' },
+  { name: 'Lisbon', lat: 38.7223, lon: -9.1393, country: 'PT' },
+  { name: 'Porto', lat: 41.1579, lon: -8.6291, country: 'PT' },
+  { name: 'Warsaw', lat: 52.2297, lon: 21.0122, country: 'PL' },
+  { name: 'Krakow', lat: 50.0647, lon: 19.9450, country: 'PL' },
+  { name: 'Budapest', lat: 47.4979, lon: 19.0402, country: 'HU' },
+  { name: 'Copenhagen', lat: 55.6761, lon: 12.5683, country: 'DK' },
+  { name: 'Stockholm', lat: 59.3293, lon: 18.0686, country: 'SE' },
+  { name: 'Oslo', lat: 59.9139, lon: 10.7522, country: 'NO' },
+  { name: 'Helsinki', lat: 60.1699, lon: 24.9384, country: 'FI' },
+  { name: 'Dublin', lat: 53.3498, lon: -6.2603, country: 'IE' },
+  { name: 'Edinburgh', lat: 55.9533, lon: -3.1883, country: 'GB' },
+  { name: 'London', lat: 51.5074, lon: -0.1278, country: 'GB' },
+  { name: 'Zurich', lat: 47.3769, lon: 8.5417, country: 'CH' },
+  { name: 'Ljubljana', lat: 46.0569, lon: 14.5058, country: 'SI' },
+  { name: 'Zagreb', lat: 45.8150, lon: 15.9819, country: 'HR' },
+  { name: 'Belgrade', lat: 44.7866, lon: 20.4489, country: 'RS' },
+  { name: 'Bucharest', lat: 44.4268, lon: 26.1025, country: 'RO' },
+  { name: 'Sofia', lat: 42.6977, lon: 23.3219, country: 'BG' },
+  { name: 'Istanbul', lat: 41.0082, lon: 28.9784, country: 'TR' },
+  { name: 'Athens', lat: 37.9838, lon: 23.7275, country: 'GR' },
+  { name: 'Bratislava', lat: 48.1486, lon: 17.1077, country: 'SK' },
+  { name: 'Tallinn', lat: 59.4370, lon: 24.7536, country: 'EE' },
+  { name: 'Riga', lat: 56.9496, lon: 24.1052, country: 'LV' },
+  { name: 'Vilnius', lat: 54.6872, lon: 25.2797, country: 'LT' },
+  { name: 'Tbilisi', lat: 41.7151, lon: 44.8271, country: 'GE' },
+  { name: 'Reykjavik', lat: 64.1466, lon: -21.9426, country: 'IS' },
+  { name: 'Marrakech', lat: 31.6295, lon: -7.9811, country: 'MA' },
+  { name: 'Fez', lat: 34.0181, lon: -5.0078, country: 'MA' },
+  { name: 'Strasbourg', lat: 48.5734, lon: 7.7521, country: 'FR' },
+  { name: 'Nice', lat: 43.7102, lon: 7.2620, country: 'FR' },
+  { name: 'Montpellier', lat: 43.6108, lon: 3.8767, country: 'FR' },
+  { name: 'Cologne', lat: 50.9375, lon: 6.9603, country: 'DE' },
+  { name: 'Frankfurt', lat: 50.1109, lon: 8.6821, country: 'DE' },
+]
+
+function slugify(str) {
+  return str.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371
+  const dLat = (lat2 - lat1) * Math.PI / 180
+  const dLon = (lon2 - lon1) * Math.PI / 180
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+function loadAllSpots() {
+  const files = readdirSync(SPOTS_PATH).filter(f => f.endsWith('.json'))
+  const allSpots = []
+  for (const file of files) {
+    try {
+      const data = JSON.parse(readFileSync(join(SPOTS_PATH, file), 'utf-8'))
+      const country = file.replace('.json', '').toUpperCase()
+      const spots = data.spots || (Array.isArray(data) ? data : [])
+      for (const s of spots) {
+        allSpots.push({ ...s, country })
+      }
+    } catch { /* skip broken files */ }
+  }
+  return allSpots
+}
+
+function buildCitySEOData(allSpots) {
+  const cities = []
+
+  for (const city of KNOWN_CITIES) {
+    const nearby = allSpots.filter(s => {
+      if (!s.lat || !s.lon) return false
+      return haversineKm(city.lat, city.lon, s.lat, s.lon) <= 30
+    })
+    if (nearby.length < 2) continue
+
+    const waits = nearby.filter(s => s.wait > 0).map(s => s.wait)
+    const avgWait = waits.length ? Math.round(waits.reduce((a, b) => a + b, 0) / waits.length) : 0
+    const ratings = nearby.filter(s => s.rating > 0).map(s => s.rating)
+    const avgRating = ratings.length ? Math.round(ratings.reduce((a, b) => a + b, 0) / ratings.length * 10) / 10 : 0
+
+    // Group by destination direction
+    const routes = {}
+    for (const spot of nearby) {
+      if (!spot.destLat || !spot.destLon) continue
+      let matched = false
+      for (const key of Object.keys(routes)) {
+        const r = routes[key]
+        if (haversineKm(r.destLat, r.destLon, spot.destLat, spot.destLon) < 30) {
+          r.spots.push(spot)
+          matched = true
+          break
+        }
+      }
+      if (!matched) {
+        const key = `${Math.round(spot.destLat * 10)}_${Math.round(spot.destLon * 10)}`
+        routes[key] = { destLat: spot.destLat, destLon: spot.destLon, spots: [spot] }
+      }
+    }
+
+    const routesList = Object.entries(routes)
+      .map(([key, r]) => ({
+        slug: key,
+        destLat: r.destLat,
+        destLon: r.destLon,
+        spotCount: r.spots.length,
+        avgWait: r.spots.filter(s => s.wait > 0).length > 0
+          ? Math.round(r.spots.filter(s => s.wait > 0).reduce((a, s) => a + s.wait, 0) / r.spots.filter(s => s.wait > 0).length)
+          : 0,
+      }))
+      .filter(r => r.spotCount >= 1)
+      .sort((a, b) => b.spotCount - a.spotCount)
+
+    cities.push({
+      name: city.name,
+      slug: slugify(city.name),
+      lat: city.lat,
+      lon: city.lon,
+      country: city.country,
+      countryName: COUNTRY_NAMES[city.country] || city.country,
+      spotCount: nearby.length,
+      avgWait,
+      avgRating,
+      routesList,
+    })
+  }
+
+  return cities
+}
+
+function generateCityHTML(city) {
+  const routesHTML = city.routesList.slice(0, 15).map((r, i) =>
+    `    <li>Direction ${i + 1}: ${r.spotCount} spots${r.avgWait > 0 ? `, ~${r.avgWait} min average wait` : ''}</li>`
+  ).join('\n')
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hitchhiking from ${city.name}, ${city.countryName} - ${city.spotCount} spots | SpotHitch</title>
+  <meta name="description" content="Best hitchhiking spots leaving ${city.name}, ${city.countryName}. ${city.spotCount} spots${city.avgWait > 0 ? `, average wait ${city.avgWait} min` : ''}. Find the best departure points.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="${BASE_URL}/city/${city.slug}">
+  <meta property="og:title" content="Hitchhiking from ${city.name} | SpotHitch">
+  <meta property="og:description" content="${city.spotCount} hitchhiking spots near ${city.name}${city.avgWait > 0 ? `, ~${city.avgWait} min average wait` : ''}">
+  <meta property="og:url" content="${BASE_URL}/city/${city.slug}">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Place",
+    "name": "Hitchhiking spots near ${city.name}",
+    "description": "${city.spotCount} hitchhiking spots leaving ${city.name}, ${city.countryName}",
+    "url": "${BASE_URL}/city/${city.slug}",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": ${city.lat},
+      "longitude": ${city.lon}
+    },
+    "containedInPlace": {
+      "@type": "Country",
+      "name": "${city.countryName}"
+    }
+  }
+  </script>
+  <style>
+    body{font-family:system-ui,-apple-system,sans-serif;background:#0f1520;color:#e2e8f0;margin:0;padding:20px}
+    a{color:#f59e0b;text-decoration:none}a:hover{text-decoration:underline}
+    .container{max-width:800px;margin:0 auto;padding:20px}
+    h1{color:#fff;font-size:2em;margin-bottom:0.5em}
+    h2{color:#f59e0b;font-size:1.3em;margin-top:1.5em}
+    .info{background:#1a2332;padding:16px;border-radius:8px;margin:12px 0}
+    .stat{display:inline-block;margin-right:16px;font-size:1.1em}
+    .stat strong{color:#f59e0b}
+    ul{padding-left:20px}li{margin:6px 0}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p><a href="${BASE_URL}">&larr; Back to SpotHitch</a></p>
+    <h1>Hitchhiking from ${city.name}</h1>
+    <div class="info">
+      <p class="stat"><strong>${city.spotCount}</strong> spots</p>
+      ${city.avgWait > 0 ? `<p class="stat">Average wait: <strong>~${city.avgWait} min</strong></p>` : ''}
+      ${city.avgRating > 0 ? `<p class="stat">Rating: <strong>${city.avgRating}/5</strong></p>` : ''}
+      <p>Country: <a href="${BASE_URL}/guides/${city.country.toLowerCase()}">${city.countryName}</a></p>
+    </div>
+    <p><a href="${BASE_URL}/?city=${city.slug}&lat=${city.lat}&lon=${city.lon}">Open in SpotHitch App &rarr;</a></p>
+    ${city.routesList.length > 0 ? `
+    <h2>Popular departure directions</h2>
+    <ul>
+${routesHTML}
+    </ul>` : ''}
+    <h2>More cities</h2>
+    <ul>
+      <li><a href="${BASE_URL}/">Find more hitchhiking spots worldwide</a></li>
+    </ul>
+    <p style="margin-top:2em"><a href="${BASE_URL}">&larr; Back to SpotHitch - The Hitchhiking Community</a></p>
+  </div>
+</body>
+</html>`
 }
 
 // Main
@@ -172,7 +431,26 @@ for (const guide of guides) {
   writeFileSync(join(dir, 'index.html'), generateGuideHTML(guide, guides))
 }
 
-// Generate sitemap (robots.txt comes from public/, not generated here)
-writeFileSync(join(DIST_PATH, 'sitemap.xml'), generateSitemap(guides))
+// ==================== CITY PAGES ====================
+console.log('Loading all spots for city pages...')
+const allSpots = loadAllSpots()
+console.log(`Loaded ${allSpots.length} spots total`)
 
-console.log(`Generated ${guides.length} guide pages + sitemap.xml`)
+const cities = buildCitySEOData(allSpots)
+console.log(`Building city pages for ${cities.length} cities with 2+ spots...`)
+
+// Create city directory
+const cityDir = join(DIST_PATH, 'city')
+if (!existsSync(cityDir)) mkdirSync(cityDir, { recursive: true })
+
+// Generate city pages
+for (const city of cities) {
+  const dir = join(cityDir, city.slug)
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+  writeFileSync(join(dir, 'index.html'), generateCityHTML(city))
+}
+
+// Generate sitemap (robots.txt comes from public/, not generated here)
+writeFileSync(join(DIST_PATH, 'sitemap.xml'), generateSitemap(guides, cities))
+
+console.log(`Generated ${guides.length} guide pages + ${cities.length} city pages + sitemap.xml`)

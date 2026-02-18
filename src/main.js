@@ -1898,6 +1898,39 @@ window.companionSendAlert = () => {
   }
 }
 
+// City Panel handlers
+window.openCityPanel = async (citySlug, cityName, lat, lng, countryCode, countryName) => {
+  const { buildCityInfo } = await import('./services/cityRoutes.js')
+  const { spots } = getState()
+  const cityInfo = buildCityInfo(spots, cityName, parseFloat(lat), parseFloat(lng), countryCode, countryName)
+  if (cityInfo) {
+    setState({ selectedCity: citySlug, cityData: cityInfo, selectedRoute: null })
+    if (window.mapInstance) {
+      window.mapInstance.flyTo({ center: [parseFloat(lng), parseFloat(lat)], zoom: 11 })
+    }
+  } else {
+    showToast(t('noSpotsNearby') || 'No spots near this city', 'info')
+  }
+}
+window.closeCityPanel = () => setState({ selectedCity: null, selectedRoute: null, cityData: null })
+window.selectCityRoute = (citySlug, routeSlug) => {
+  setState({ selectedRoute: routeSlug })
+  const { cityData } = getState()
+  if (cityData) {
+    const route = cityData.routesList?.find(r => r.slug === routeSlug)
+    if (route && window.mapInstance) {
+      window.mapInstance.flyTo({ center: [route.destLon, route.destLat], zoom: 12 })
+    }
+  }
+}
+window.viewCitySpotsOnMap = () => {
+  const { cityData } = getState()
+  if (cityData && window.mapInstance) {
+    window.mapInstance.flyTo({ center: [cityData.lng, cityData.lat], zoom: 13 })
+    setState({ selectedCity: null, selectedRoute: null, cityData: null })
+  }
+}
+
 // Lazy load handlers
 window.loadModal = loadModal;
 window.preloadModals = preloadModals;

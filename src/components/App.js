@@ -26,6 +26,7 @@ import { renderProfile } from './views/Profile.js';
 
 // Keep old views for backward compatibility
 import { renderSpots } from './views/Spots.js';
+import { renderCityPanel } from './views/CityPanel.js';
 
 // Modals
 import { renderWelcome } from './modals/Welcome.js';
@@ -129,6 +130,9 @@ export function renderApp(state) {
         </div>
       </div>
     ` : ''}
+
+    <!-- City Panel -->
+    ${state.selectedCity ? renderCityPanel(state) : ''}
 
     <!-- Modals -->
     ${state.showAgeVerification ? renderAgeVerification(state) : ''}

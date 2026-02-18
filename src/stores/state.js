@@ -260,6 +260,11 @@ const initialState = {
   proximityAlerts: true,
   proximityAlertSpot: null,
 
+  // City Panel
+  selectedCity: null,
+  selectedRoute: null,
+  cityData: null,
+
   // Loading states
   isLoading: false,
   isLoadingSpots: false,

@@ -3283,6 +3283,16 @@ const translations = {
     // Proximity Alerts
     proximityAlerts: "Alertes spots proches",
     proximityAlertsDesc: "Être notifié quand tu passes près d'un spot",
+
+    // City Panel
+    hitchhikingFrom: "Autostop depuis",
+    popularRoutes: "Destinations populaires",
+    avgWaitTime: "~{n} min en moyenne",
+    viewOnMap: "Voir sur la carte",
+    openCityGuide: "Guide du pays",
+    direction: "Direction",
+    cityResult: "Ville",
+    noSpotsNearby: "Pas de spots proches de cette ville",
 },
 
   en: {
@@ -6430,6 +6440,16 @@ const translations = {
     // Proximity Alerts
     proximityAlerts: "Nearby spot alerts",
     proximityAlertsDesc: "Get notified when near a spot",
+
+    // City Panel
+    hitchhikingFrom: "Hitchhiking from",
+    popularRoutes: "Popular routes",
+    avgWaitTime: "~{n} min average",
+    viewOnMap: "View on map",
+    openCityGuide: "Country guide",
+    direction: "Direction",
+    cityResult: "City",
+    noSpotsNearby: "No spots near this city",
 },
 
   es: {
@@ -9574,6 +9594,16 @@ const translations = {
     // Proximity Alerts
     proximityAlerts: "Alertas de spots cercanos",
     proximityAlertsDesc: "Recibir notificación cerca de un spot",
+
+    // City Panel
+    hitchhikingFrom: "Autostop desde",
+    popularRoutes: "Destinos populares",
+    avgWaitTime: "~{n} min promedio",
+    viewOnMap: "Ver en el mapa",
+    openCityGuide: "Guía del país",
+    direction: "Dirección",
+    cityResult: "Ciudad",
+    noSpotsNearby: "No hay spots cerca de esta ciudad",
 },
 
   de: {
@@ -12718,6 +12748,16 @@ const translations = {
     // Proximity Alerts
     proximityAlerts: "Spot-Benachrichtigungen",
     proximityAlertsDesc: "Benachrichtigung wenn du in der Nähe eines Spots bist",
+
+    // City Panel
+    hitchhikingFrom: "Trampen ab",
+    popularRoutes: "Beliebte Routen",
+    avgWaitTime: "~{n} min Durchschnitt",
+    viewOnMap: "Auf der Karte anzeigen",
+    openCityGuide: "Länderführer",
+    direction: "Richtung",
+    cityResult: "Stadt",
+    noSpotsNearby: "Keine Spots in der Nähe dieser Stadt",
 },
 };
 

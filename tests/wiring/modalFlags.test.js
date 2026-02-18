@@ -437,4 +437,32 @@ describe('Modal Flags: close buttons present in HTML', () => {
     const hasCloseHandler = html.includes('close') || html.includes('Fermer') || html.includes('aria-label')
     expect(hasCloseHandler, 'DailyReward modal missing close button/handler').toBe(true)
   })
+
+  test('selectedCity flag renders CityPanel', () => {
+    const { renderCityPanel } = require('../../src/components/views/CityPanel.js')
+    const state = {
+      ...mockState,
+      selectedCity: 'paris',
+      cityData: {
+        name: 'Paris',
+        slug: 'paris',
+        lat: 48.8566,
+        lng: 2.3522,
+        country: 'FR',
+        countryName: 'France',
+        spotCount: 5,
+        avgWait: 15,
+        avgRating: 4.2,
+        routesList: [
+          { slug: 'direction-1', destLat: 43.6, destLon: 1.4, spotCount: 3, avgWait: 12 },
+        ],
+        spots: [],
+      },
+    }
+    const html = renderCityPanel(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html).toContain('Paris')
+    expect(html).toContain('closeCityPanel')
+  })
 })

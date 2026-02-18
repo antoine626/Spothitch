@@ -168,23 +168,44 @@ window.searchMapSuggestions = (query) => {
   searchDebounce = setTimeout(async () => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`,
+        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(query)}&limit=5`,
         { headers: { 'User-Agent': 'SpotHitch/2.0' } }
       )
       const results = await response.json()
       if (results && results.length > 0) {
         container.classList.remove('hidden')
+        const isCityType = (r) => ['city', 'town', 'village', 'municipality', 'hamlet', 'suburb'].some(
+          t => (r.type || '').includes(t) || (r.class || '') === 'place'
+        )
         container.innerHTML = `
           <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
-            ${results.map(r => `
-              <button
-                onclick="selectSearchSuggestion(${r.lat}, ${r.lon}, '${r.display_name.replace(/'/g, "\\'")}')"
-                class="w-full px-4 py-3 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
-              >
-                <div class="font-medium text-sm truncate">${r.display_name.split(',').slice(0, 2).join(',')}</div>
-                <div class="text-xs text-slate-400 truncate">${r.display_name}</div>
-              </button>
-            `).join('')}
+            ${results.map(r => {
+              const safeName = r.display_name.replace(/'/g, "\\'")
+              const shortName = r.display_name.split(',').slice(0, 2).join(',')
+              const parts = r.display_name.split(',')
+              const countryName = (parts[parts.length - 1] || '').trim()
+              const cc = (r.address?.country_code || '').toUpperCase()
+              const cityName = (parts[0] || '').trim().replace(/'/g, "\\'")
+              const isCity = isCityType(r)
+              return `
+              <div class="border-b border-white/5 last:border-0">
+                <button
+                  onclick="selectSearchSuggestion(${r.lat}, ${r.lon}, '${safeName}')"
+                  class="w-full px-4 py-3 text-left text-white hover:bg-white/10 transition-all"
+                >
+                  <div class="font-medium text-sm truncate">${shortName}</div>
+                  <div class="text-xs text-slate-400 truncate">${r.display_name}</div>
+                </button>
+                ${isCity ? `
+                  <button
+                    onclick="openCityPanel('${cityName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}', '${cityName}', ${r.lat}, ${r.lon}, '${cc}', '${countryName.replace(/'/g, "\\'")}')"
+                    class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-all text-xs font-medium border-t border-white/5"
+                  >
+                    📍 ${window.t?.('hitchhikingFrom') || 'Hitchhiking from'} ${cityName}
+                  </button>
+                ` : ''}
+              </div>`
+            }).join('')}
           </div>
         `
       } else {

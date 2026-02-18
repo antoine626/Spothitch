@@ -346,6 +346,8 @@ const MAIN_JS_HANDLERS = [
   'toggleHeatmap',
   // Proximity Notify (defined in proximityNotify.js)
   'quickValidateSpot', 'quickReportSpot', 'dismissProximityAlert', 'initProximityNotify',
+  // City Panel (defined in main.js)
+  'openCityPanel', 'closeCityPanel', 'selectCityRoute', 'viewCitySpotsOnMap',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))
