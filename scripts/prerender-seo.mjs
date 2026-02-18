@@ -21,7 +21,6 @@ function extractGuides() {
   const content = readFileSync(GUIDES_PATH, 'utf-8')
   const guides = []
 
-  // Split by top-level objects: find each "code: 'XX'" and extract the block
   const blockRegex = /\{\s*\n\s*code:\s*'([A-Z]{2})'/g
   let match
   const starts = []
@@ -34,11 +33,52 @@ function extractGuides() {
     const end = i + 1 < starts.length ? starts[i + 1].index : content.length
     const block = content.slice(start, end)
 
-    // Extract only top-level fields (indented with 4 spaces, not deeper)
     const getField = (field) => {
-      const re = new RegExp(`^\\s{4}${field}:\\s*'([^']+)'`, 'm')
+      const re = new RegExp(`^\\s{4}${field}:\\s*'([^']*)'`, 'm')
       const m = block.match(re)
-      return m ? m[1] : ''
+      return m ? m[1].replace(/\\'/g, "'") : ''
+    }
+
+    // Extract array of strings (tipsEn, lawsEn, strategiesEn, etc.)
+    const getArray = (field) => {
+      const re = new RegExp(`${field}:\\s*\\[([\\s\\S]*?)\\]`, 'm')
+      const m = block.match(re)
+      if (!m) return []
+      const items = []
+      const itemRe = /'([^']+)'/g
+      let im
+      while ((im = itemRe.exec(m[1])) !== null) {
+        items.push(im[1].replace(/\\'/g, "'"))
+      }
+      return items
+    }
+
+    // Extract phrases array [{local, meaningEn}]
+    const getPhrases = () => {
+      const re = /phrases:\s*\[([\s\S]*?)\]/m
+      const m = block.match(re)
+      if (!m) return []
+      const phrases = []
+      const phraseRe = /local:\s*'([^']+)'[\s\S]*?meaningEn:\s*'([^']+)'/g
+      let pm
+      while ((pm = phraseRe.exec(m[1])) !== null) {
+        phrases.push({ local: pm[1].replace(/\\'/g, "'"), meaning: pm[2].replace(/\\'/g, "'") })
+      }
+      return phrases
+    }
+
+    // Extract events [{nameEn, dateEn, descriptionEn}]
+    const getEvents = () => {
+      const re = /events:\s*\[([\s\S]*?)\]\s*,?\s*\}/m
+      const m = block.match(re)
+      if (!m) return []
+      const events = []
+      const evRe = /nameEn:\s*'([^']+)'[\s\S]*?dateEn:\s*'([^']+)'[\s\S]*?descriptionEn:\s*'([^']+)'/g
+      let em
+      while ((em = evRe.exec(m[1])) !== null) {
+        events.push({ name: em[1], date: em[2], desc: em[3].replace(/\\'/g, "'") })
+      }
+      return events
     }
 
     guides.push({
@@ -48,6 +88,13 @@ function extractGuides() {
       flag: getField('flag'),
       legalityTextEn: getField('legalityTextEn'),
       difficultyTextEn: getField('difficultyTextEn'),
+      culturalNotesEn: getField('culturalNotesEn'),
+      tipsEn: getArray('tipsEn'),
+      lawsEn: getArray('lawsEn'),
+      strategiesEn: getArray('strategiesEn'),
+      borderCrossingsEn: getArray('borderCrossingsEn'),
+      phrases: getPhrases(),
+      events: getEvents(),
     })
   }
 
@@ -69,17 +116,71 @@ function countSpots(code) {
   }
 }
 
+function nearestCityName(lat, lon) {
+  let best = null, bestDist = Infinity
+  for (const c of KNOWN_CITIES) {
+    const d = haversineKm(lat, lon, c.lat, c.lon)
+    if (d < bestDist) { bestDist = d; best = c }
+  }
+  return best && bestDist < 200 ? best.name : null
+}
+
 function generateGuideHTML(guide, allGuides) {
   const spotCount = countSpots(guide.code)
-  const spotText = spotCount > 0 ? `${spotCount} hitchhiking spots available on SpotHitch.` : ''
   const codeLower = guide.code.toLowerCase()
 
-  // Pick 6 other popular guides for cross-linking (exclude current)
+  // Cross-links to popular guides
   const crossLinks = allGuides
     .filter(g => g.code !== guide.code && POPULAR_COUNTRIES.includes(g.code))
     .slice(0, 6)
-    .map(g => `    <li><a href="${BASE_URL}/guides/${g.code.toLowerCase()}">${g.flag} Hitchhiking in ${g.nameEn}</a></li>`)
+    .map(g => `      <li><a href="${BASE_URL}/guides/${g.code.toLowerCase()}">${g.flag} Hitchhiking in ${g.nameEn}</a></li>`)
     .join('\n')
+
+  // Build rich content sections
+  const sections = []
+
+  if (guide.tipsEn.length > 0) {
+    sections.push(`    <h2>Tips for Hitchhiking in ${guide.nameEn}</h2>
+    <ul>${guide.tipsEn.map(t => `\n      <li>${t}</li>`).join('')}
+    </ul>`)
+  }
+
+  if (guide.lawsEn.length > 0) {
+    sections.push(`    <h2>Laws &amp; Regulations</h2>
+    <ul>${guide.lawsEn.map(l => `\n      <li>${l}</li>`).join('')}
+    </ul>`)
+  }
+
+  if (guide.strategiesEn.length > 0) {
+    sections.push(`    <h2>Strategies</h2>
+    <ul>${guide.strategiesEn.map(s => `\n      <li>${s}</li>`).join('')}
+    </ul>`)
+  }
+
+  if (guide.culturalNotesEn) {
+    sections.push(`    <h2>Cultural Notes</h2>
+    <p>${guide.culturalNotesEn}</p>`)
+  }
+
+  if (guide.phrases.length > 0) {
+    sections.push(`    <h2>Useful Phrases</h2>
+    <ul>${guide.phrases.map(p => `\n      <li><strong>${p.local}</strong> — ${p.meaning}</li>`).join('')}
+    </ul>`)
+  }
+
+  if (guide.events.length > 0) {
+    sections.push(`    <h2>Events &amp; Festivals</h2>
+    <ul>${guide.events.map(e => `\n      <li><strong>${e.name}</strong> (${e.date}) — ${e.desc}</li>`).join('')}
+    </ul>`)
+  }
+
+  if (guide.borderCrossingsEn.length > 0) {
+    sections.push(`    <h2>Border Crossings</h2>
+    <ul>${guide.borderCrossingsEn.map(b => `\n      <li>${b}</li>`).join('')}
+    </ul>`)
+  }
+
+  const richContent = sections.join('\n')
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -87,11 +188,11 @@ function generateGuideHTML(guide, allGuides) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hitchhiking in ${guide.nameEn} ${guide.flag}${spotCount > 0 ? ` - ${spotCount} spots` : ''} | SpotHitch</title>
-  <meta name="description" content="Hitchhiking guide for ${guide.nameEn}: ${guide.legalityTextEn}. Difficulty: ${guide.difficultyTextEn}.${spotCount > 0 ? ` ${spotCount} spots available.` : ''}">
+  <meta name="description" content="Complete hitchhiking guide for ${guide.nameEn}: legality, tips, strategies, useful phrases, cultural notes.${spotCount > 0 ? ` ${spotCount} spots available.` : ''}">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="${BASE_URL}/guides/${codeLower}">
   <meta property="og:title" content="Hitchhiking in ${guide.nameEn} ${guide.flag} | SpotHitch">
-  <meta property="og:description" content="${guide.legalityTextEn}">
+  <meta property="og:description" content="Complete hitchhiking guide: legality, tips, strategies, cultural notes for ${guide.nameEn}">
   <meta property="og:url" content="${BASE_URL}/guides/${codeLower}">
   <meta property="og:type" content="article">
   <meta property="og:locale" content="en_US">
@@ -100,19 +201,22 @@ function generateGuideHTML(guide, allGuides) {
     "@context": "https://schema.org",
     "@type": "Article",
     "name": "Hitchhiking in ${guide.nameEn}",
-    "description": "${guide.legalityTextEn}",
+    "description": "Complete hitchhiking guide for ${guide.nameEn}: legality, tips, strategies, useful phrases",
     "url": "${BASE_URL}/guides/${codeLower}",
     "publisher": { "@type": "Organization", "name": "SpotHitch" }
   }
   </script>
   <style>
-    body{font-family:system-ui,-apple-system,sans-serif;background:#0f1520;color:#e2e8f0;margin:0;padding:20px}
+    body{font-family:system-ui,-apple-system,sans-serif;background:#0f1520;color:#e2e8f0;margin:0;padding:20px;line-height:1.6}
     a{color:#f59e0b;text-decoration:none}a:hover{text-decoration:underline}
     .container{max-width:800px;margin:0 auto;padding:20px}
     h1{color:#fff;font-size:2em;margin-bottom:0.5em}
-    h2{color:#f59e0b;font-size:1.3em;margin-top:1.5em}
-    .info{background:#1a2332;padding:16px;border-radius:8px;margin:12px 0}
-    ul{padding-left:20px}li{margin:6px 0}
+    h2{color:#f59e0b;font-size:1.3em;margin-top:1.5em;border-bottom:1px solid #1a2332;padding-bottom:6px}
+    .info{background:#1a2332;padding:16px;border-radius:12px;margin:16px 0}
+    .info p{margin:8px 0}
+    ul{padding-left:20px}li{margin:8px 0}
+    .cta{display:inline-block;background:#f59e0b;color:#0f1520;padding:12px 24px;border-radius:8px;font-weight:bold;margin:16px 0}
+    .cta:hover{background:#d97706;text-decoration:none}
   </style>
 </head>
 <body>
@@ -122,9 +226,10 @@ function generateGuideHTML(guide, allGuides) {
     <div class="info">
       <p><strong>Legality:</strong> ${guide.legalityTextEn}</p>
       <p><strong>Difficulty:</strong> ${guide.difficultyTextEn}</p>
-      ${spotText ? `<p><strong>${spotCount} spots</strong> available on SpotHitch.</p>` : ''}
+      ${spotCount > 0 ? `<p><strong>${spotCount} hitchhiking spots</strong> available on SpotHitch.</p>` : ''}
     </div>
-    <p><a href="${BASE_URL}/?guide=${guide.code}">Open full interactive guide &rarr;</a></p>
+    <a class="cta" href="${BASE_URL}/?guide=${guide.code}">Open Full Interactive Guide &rarr;</a>
+${richContent}
     <h2>More Country Guides</h2>
     <ul>
 ${crossLinks}
@@ -415,9 +520,13 @@ function buildCitySEOData(allSpots) {
 }
 
 function generateCityHTML(city) {
-  const routesHTML = city.routesList.slice(0, 15).map((r, i) =>
-    `    <li>Direction ${i + 1}: ${r.spotCount} spots${r.avgWait > 0 ? `, ~${r.avgWait} min average wait` : ''}</li>`
-  ).join('\n')
+  const routesHTML = city.routesList.slice(0, 15).map((r) => {
+    const destName = nearestCityName(r.destLat, r.destLon)
+    // Skip routes pointing back to the same city
+    if (destName && destName.toLowerCase() === city.name.toLowerCase()) return null
+    const label = destName ? `Towards ${destName}` : `Direction ${r.destLat.toFixed(1)}°N, ${r.destLon.toFixed(1)}°E`
+    return `      <li><strong>${label}</strong>: ${r.spotCount} spot${r.spotCount > 1 ? 's' : ''}${r.avgWait > 0 ? `, ~${r.avgWait} min average wait` : ''}</li>`
+  }).filter(Boolean).join('\n')
 
   return `<!DOCTYPE html>
 <html lang="en">
