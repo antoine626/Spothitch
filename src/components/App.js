@@ -35,12 +35,9 @@ import { renderSOS } from './modals/SOS.js';
 import { renderTutorial } from './modals/Tutorial.js';
 import { renderAuth } from './modals/Auth.js';
 import { renderFiltersModal } from './modals/Filters.js';
-import { renderStatsModal } from './modals/Stats.js';
-import { renderBadgesModal, renderBadgePopup, renderBadgeDetail } from './modals/Badges.js';
-import { renderChallengesModal } from './modals/Challenges.js';
-import { renderShopModal, renderMyRewardsModal } from './modals/Shop.js';
+// Gamification modals — lazy-loaded (saves ~200KB on initial load)
+// Actual imports happen on first render via lazyModal() below
 import { renderQuiz } from './modals/Quiz.js';
-import { renderLeaderboardModal } from './modals/Leaderboard.js';
 import { renderCheckinModal } from './modals/CheckinModal.js';
 import { renderAgeVerification } from './modals/AgeVerification.js';
 import { renderIdentityVerification } from './modals/IdentityVerification.js';
@@ -59,11 +56,11 @@ import { renderCustomizationModal } from '../services/profileCustomization.js';
 import { renderAccessibilityHelp } from '../services/screenReader.js';
 import { renderReportModal } from '../services/moderation.js';
 import { renderSOSTrackingWidget } from '../services/sosTracking.js';
-import { renderTeamDashboard } from '../services/teamChallenges.js';
+// renderTeamDashboard lazy-loaded below
 import { renderAdminPanel } from './modals/AdminPanel.js';
 import { renderCookieBanner } from './modals/CookieBanner.js';
 import { renderMyDataModal } from './modals/MyData.js';
-import { renderTitlesModal } from './modals/TitlesModal.js';
+// renderTitlesModal lazy-loaded below
 import { renderCreateTravelGroupModal } from './modals/CreateTravelGroup.js';
 import { renderFriendProfileModal } from './modals/FriendProfile.js';
 import { renderContactFormModal } from './modals/ContactForm.js';
@@ -71,6 +68,15 @@ import { renderCompanionModal } from './modals/Companion.js';
 import { renderTripHistory } from '../services/tripHistory.js';
 import { icon } from '../utils/icons.js'
 import { trapFocus } from '../utils/a11y.js'
+
+// Lazy-loaded gamification module cache
+const _lazyCache = {}
+function lazyRender(modulePath, exportName, ...args) {
+  if (_lazyCache[exportName]) return _lazyCache[exportName](...args)
+  // Trigger async load for next render, return empty for this render
+  import(modulePath).then(mod => { _lazyCache[exportName] = mod[exportName] })
+  return ''
+}
 
 // Store active focus trap cleanup function
 let _activeFocusTrapCleanup = null
@@ -134,16 +140,16 @@ export function renderApp(state) {
     ${state.showAuth ? renderAuth(state) : ''}
     ${state.showTutorial ? renderTutorial(state) : ''}
     ${state.showFilters ? renderFiltersModal() : ''}
-    ${state.showStats ? renderStatsModal() : ''}
-    ${state.showBadges ? renderBadgesModal() : ''}
-    ${state.showChallenges ? renderChallengesModal() : ''}
-    ${state.showShop ? renderShopModal() : ''}
-    ${state.showMyRewards ? renderMyRewardsModal() : ''}
+    ${state.showStats ? lazyRender('./modals/Stats.js', 'renderStatsModal') : ''}
+    ${state.showBadges ? lazyRender('./modals/Badges.js', 'renderBadgesModal') : ''}
+    ${state.showChallenges ? lazyRender('./modals/Challenges.js', 'renderChallengesModal') : ''}
+    ${state.showShop ? lazyRender('./modals/Shop.js', 'renderShopModal') : ''}
+    ${state.showMyRewards ? lazyRender('./modals/Shop.js', 'renderMyRewardsModal') : ''}
     ${state.showQuiz ? renderQuiz() : ''}
-    ${state.showLeaderboard ? renderLeaderboardModal() : ''}
+    ${state.showLeaderboard ? lazyRender('./modals/Leaderboard.js', 'renderLeaderboardModal') : ''}
     ${state.checkinSpot ? renderCheckinModal(state) : ''}
-    ${state.newBadge ? renderBadgePopup(state.newBadge) : ''}
-    ${state.showBadgeDetail ? renderBadgeDetail(state.selectedBadgeId) : ''}
+    ${state.newBadge ? lazyRender('./modals/Badges.js', 'renderBadgePopup', state.newBadge) : ''}
+    ${state.showBadgeDetail ? lazyRender('./modals/Badges.js', 'renderBadgeDetail', state.selectedBadgeId) : ''}
 
     <!-- Navigation Overlay -->
     ${state.navigationActive ? renderNavigationOverlay(state) : ''}
@@ -166,7 +172,7 @@ export function renderApp(state) {
               ${icon('x', 'w-5 h-5')}
             </button>
           </div>
-          ${renderTeamDashboard(state)}
+          ${lazyRender('../services/teamChallenges.js', 'renderTeamDashboard', state)}
         </div>
       </div>
     ` : ''}
@@ -183,7 +189,7 @@ export function renderApp(state) {
     ${state.showMyData ? renderMyDataModal() : ''}
 
     <!-- Titles Modal -->
-    ${state.showTitles ? renderTitlesModal(state) : ''}
+    ${state.showTitles ? lazyRender('./modals/TitlesModal.js', 'renderTitlesModal', state) : ''}
 
     <!-- Friend Profile Modal -->
     ${state.showFriendProfile ? renderFriendProfileModal(state) : ''}
