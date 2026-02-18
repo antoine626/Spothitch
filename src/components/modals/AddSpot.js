@@ -367,7 +367,51 @@ function renderPositionBlock() {
  */
 function renderStep3(state) {
   const isPreview = state.addSpotPreview === true
+  const tags = window.spotFormData.tags || { signMethod: null, hasShelter: false }
   return `
+    <!-- Practical Tags -->
+    <div>
+      <label class="text-sm text-slate-400 block mb-2">
+        ${icon('tag', 'w-4 h-4 mr-1 text-primary-400')}
+        ${t('practicalTips') || 'Practical tips'}
+      </label>
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onclick="setSpotTag('signMethod', 'sign')"
+          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
+            ${tags.signMethod === 'sign'
+              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
+              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
+        >
+          ${icon('file-text', 'w-4 h-4 mr-1')}
+          ${t('signMethod') || 'Sign'}
+        </button>
+        <button
+          type="button"
+          onclick="setSpotTag('signMethod', 'thumb')"
+          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
+            ${tags.signMethod === 'thumb'
+              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
+              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
+        >
+          ${icon('hand', 'w-4 h-4 mr-1')}
+          ${t('thumbMethod') || 'Thumb'}
+        </button>
+        <button
+          type="button"
+          onclick="setSpotTag('hasShelter', ${!tags.hasShelter})"
+          class="px-4 py-2 rounded-full text-sm font-medium border transition-all
+            ${tags.hasShelter
+              ? 'bg-primary-500/20 border-primary-500 text-primary-400'
+              : 'bg-white/5 border-white/10 hover:border-white/30 text-slate-300'}"
+        >
+          ${icon('umbrella', 'w-4 h-4 mr-1')}
+          ${t('hasShelter') || 'Rain shelter'}
+        </button>
+      </div>
+    </div>
+
     <!-- Description -->
     <div>
       <label for="spot-description" class="text-sm text-slate-400 block mb-2">${t('description')}</label>
@@ -506,6 +550,10 @@ window.spotFormData = window.spotFormData || {
     traffic: 0,
     accessibility: 0,
   },
+  tags: {
+    signMethod: null,
+    hasShelter: false,
+  },
   // New structured fields
   country: null,
   countryName: null,
@@ -579,6 +627,20 @@ window.setSpotRating = (criterion, value) => {
     const descFn = starDescriptions[criterion]
     descEl.textContent = descFn ? descFn(value) : ''
   }
+}
+
+window.setSpotTag = (tagName, value) => {
+  window.spotFormData.tags = window.spotFormData.tags || { signMethod: null, hasShelter: false }
+  if (tagName === 'signMethod') {
+    // Radio-style: toggle off if same value clicked
+    window.spotFormData.tags.signMethod = window.spotFormData.tags.signMethod === value ? null : value
+  } else if (tagName === 'hasShelter') {
+    window.spotFormData.tags.hasShelter = value === true || value === 'true'
+  }
+  // Re-render to update button states
+  import('../../stores/state.js').then(({ getState, setState }) => {
+    setState({ _tagRefresh: Date.now() })
+  })
 }
 
 window.onSpotTypeChange = (spotType) => {
@@ -1079,6 +1141,7 @@ window.handleAddSpot = async (event) => {
       fromCity: from,
       stationName,
       roadNumber: roadName,
+      tags: window.spotFormData.tags || { signMethod: null, hasShelter: false },
     }
 
     const result = await addSpot(spotData)
@@ -1095,6 +1158,7 @@ window.handleAddSpot = async (event) => {
       window.spotFormData = {
         photo: null, lat: null, lng: null,
         ratings: { safety: 0, traffic: 0, accessibility: 0 },
+        tags: { signMethod: null, hasShelter: false },
         country: null, countryName: null,
         departureCity: null, departureCityCoords: null,
         directionCity: null, directionCityCoords: null,

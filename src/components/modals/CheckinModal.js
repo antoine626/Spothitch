@@ -81,24 +81,54 @@ export function renderCheckinModal(state) {
             />
           </div>
 
-          <!-- Wait Time -->
+          <!-- Wait Time Slider -->
           <div class="space-y-3">
             <label class="block text-sm font-medium">
               ${icon('clock', 'w-5 h-5 mr-2 text-warning-400')}
-              ${t('waitTime') || 'Temps d\'attente'}
+              ${t('waitTimeQuestion') || 'How long did you wait?'}
             </label>
-            <div class="grid grid-cols-4 gap-3">
-              ${['< 5 min', '5-15 min', '15-30 min', '> 30 min'].map((time, i) => `
+            <div class="px-2">
+              <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+                <span>1 min</span>
+                <span id="checkin-wait-display" class="text-base font-bold text-warning-400">
+                  ~${state.checkinWaitTime != null ? (state.checkinWaitTime >= 180 ? (t('waitHoursPlus') || '3h+') : (t('waitMinutes') || '{n} min').replace('{n}', state.checkinWaitTime)) : (t('waitMinutes') || '{n} min').replace('{n}', '15')}
+                </span>
+                <span>${t('waitHoursPlus') || '3h+'}</span>
+              </div>
+              <input
+                type="range"
+                id="checkin-wait-slider"
+                min="0"
+                max="13"
+                value="${state.checkinWaitSliderIndex != null ? state.checkinWaitSliderIndex : 5}"
+                class="w-full accent-amber-500"
+                oninput="onCheckinWaitSlider(this.value)"
+              />
+            </div>
+          </div>
+
+          <!-- Got a Ride? -->
+          <div class="space-y-3">
+            <label class="block text-sm font-medium">
+              ${icon('thumbs-up', 'w-5 h-5 mr-2 text-emerald-400')}
+              ${t('gotRideQuestion') || 'Did you get a ride?'}
+            </label>
+            <div class="grid grid-cols-3 gap-3">
+              ${[
+                { value: 'yes', label: t('gotRide') || 'Yes!', emoji: '\u2705', color: 'emerald' },
+                { value: 'no', label: t('noRide') || 'No', emoji: '\u274C', color: 'red' },
+                { value: 'gaveup', label: t('gaveUp') || 'Gave up', emoji: '\uD83D\uDEB6', color: 'amber' },
+              ].map(opt => `
                 <button
                   type="button"
-                  onclick="setCheckinWaitTime(${i})"
-                  class="checkin-wait-btn px-4 py-2.5 rounded-xl text-xs font-medium border transition-all
-                    ${state.checkinWaitTime === i
-                      ? 'bg-warning-500 border-warning-500 text-white'
-                      : 'bg-white/5 border-white/10 hover:border-warning-400'}"
-                  data-wait="${i}"
+                  onclick="setCheckinRideResult('${opt.value}')"
+                  class="px-4 py-3 rounded-xl text-sm font-medium border transition-all text-center
+                    ${state.checkinRideResult === opt.value
+                      ? `bg-${opt.color}-500/20 border-${opt.color}-500 text-${opt.color}-400`
+                      : 'bg-white/5 border-white/10 hover:border-white/30'}"
                 >
-                  ${time}
+                  <span class="text-lg block mb-1">${opt.emoji}</span>
+                  ${opt.label}
                 </button>
               `).join('')}
             </div>
@@ -177,13 +207,18 @@ export function renderCheckinModal(state) {
 
 // Global handlers
 export function registerCheckinHandlers() {
+  // Wait time discrete steps (in minutes)
+  const WAIT_STEPS = [1, 2, 3, 5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 180]
+
   window.openCheckinModal = async (spotId) => {
     const state = getState();
     const spot = state.spots.find(s => s.id === spotId) || state.selectedSpot;
     if (spot) {
       setState({
         checkinSpot: spot,
-        checkinWaitTime: null,
+        checkinWaitTime: 15,
+        checkinWaitSliderIndex: 5,
+        checkinRideResult: null,
         checkinChars: {},
         checkinPhotoData: null
       });
@@ -202,6 +237,8 @@ export function registerCheckinHandlers() {
     setState({
       checkinSpot: null,
       checkinWaitTime: null,
+      checkinWaitSliderIndex: null,
+      checkinRideResult: null,
       checkinChars: {},
       checkinPhotoData: null
     });
@@ -209,6 +246,22 @@ export function registerCheckinHandlers() {
 
   window.setCheckinWaitTime = (time) => {
     setState({ checkinWaitTime: time });
+  };
+
+  window.onCheckinWaitSlider = (index) => {
+    const idx = parseInt(index, 10)
+    const minutes = WAIT_STEPS[idx] || 15
+    setState({ checkinWaitTime: minutes, checkinWaitSliderIndex: idx })
+    const display = document.getElementById('checkin-wait-display')
+    if (display) {
+      display.textContent = minutes >= 180
+        ? `~${t('waitHoursPlus') || '3h+'}`
+        : `~${(t('waitMinutes') || '{n} min').replace('{n}', minutes)}`
+    }
+  };
+
+  window.setCheckinRideResult = (result) => {
+    setState({ checkinRideResult: result });
   };
 
   window.toggleCheckinChar = (charId) => {
@@ -274,6 +327,7 @@ export function registerCheckinHandlers() {
         spotId: spot.id,
         userId: state.user?.uid,
         waitTime: state.checkinWaitTime,
+        rideResult: state.checkinRideResult,
         characteristics: state.checkinChars,
         comment: document.getElementById('checkin-comment')?.value || '',
         hasPhoto: !!state.checkinPhotoData,

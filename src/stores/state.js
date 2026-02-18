@@ -70,6 +70,8 @@ const initialState = {
   // Checkin Modal
   checkinSpot: null,
   checkinWaitTime: null,
+  checkinWaitSliderIndex: null,
+  checkinRideResult: null,
   checkinChars: {},
   checkinPhotoData: null,
 
@@ -255,6 +257,7 @@ const initialState = {
   photoPreview: null,
   legalPage: null,
   notifications: true,
+  proximityAlerts: true,
 
   // Loading states
   isLoading: false,
@@ -314,6 +317,7 @@ function persistState() {
     privateMessages: state.privateMessages || {},
     friends: state.friends || [],
     travelGroups: state.travelGroups || [],
+    proximityAlerts: state.proximityAlerts,
   };
   Storage.set('state', stateToPersist);
 }

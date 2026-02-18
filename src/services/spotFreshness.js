@@ -129,16 +129,16 @@ export function getSpotAge(spot) {
   const diffYears = diffMs / (1000 * 60 * 60 * 24 * 365.25)
 
   if (diffYears < 1) {
-    return { labelKey: 'recentSpot', icon: 'sparkles', bgClass: 'bg-emerald-500/20', textClass: 'text-emerald-400', borderClass: 'border-emerald-500/30' }
+    return { labelKey: 'freshSpot', icon: 'sparkles', bgClass: 'bg-emerald-500/20', textClass: 'text-emerald-400', borderClass: 'border-emerald-500/30' }
   }
   if (diffYears < 3) {
-    return { labelKey: 'oldSpot', icon: 'clock', bgClass: 'bg-amber-500/20', textClass: 'text-amber-400', borderClass: 'border-amber-500/30' }
+    return { labelKey: 'agingSpot', icon: 'clock', bgClass: 'bg-yellow-500/20', textClass: 'text-yellow-400', borderClass: 'border-yellow-500/30' }
   }
   if (diffYears < 5) {
-    return { labelKey: 'historicSpot', icon: 'archive', bgClass: 'bg-orange-500/20', textClass: 'text-orange-400', borderClass: 'border-orange-500/30' }
+    return { labelKey: 'oldSpot', icon: 'archive', bgClass: 'bg-orange-500/20', textClass: 'text-orange-400', borderClass: 'border-orange-500/30' }
   }
   // > 5 years — should have been auto-deleted, but fallback
-  return { labelKey: 'historicSpot', icon: 'archive', bgClass: 'bg-red-500/20', textClass: 'text-red-400', borderClass: 'border-red-500/30' }
+  return { labelKey: 'oldSpot', icon: 'archive', bgClass: 'bg-red-500/20', textClass: 'text-red-400', borderClass: 'border-red-500/30' }
 }
 
 /**

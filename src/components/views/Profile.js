@@ -172,6 +172,28 @@ export function renderProfile(state) {
           </button>
         </div>
 
+        <!-- Proximity Alerts -->
+        <div class="p-3 rounded-xl bg-white/5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              ${icon('map-pin', 'w-5 h-5 text-emerald-400')}
+              <div>
+                <span class="block">${t('proximityAlerts') || 'Nearby spot alerts'}</span>
+                <span class="text-xs text-slate-400">${t('proximityAlertsDesc') || 'Get notified when near a spot'}</span>
+              </div>
+            </div>
+            <button
+              onclick="toggleProximityAlertsSetting()"
+              class="w-14 h-8 rounded-full ${state.proximityAlerts !== false ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
+              role="switch"
+              aria-checked="${state.proximityAlerts !== false}"
+              aria-label="${t('proximityAlerts') || 'Nearby spot alerts'}"
+            >
+              <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${state.proximityAlerts !== false ? 'left-7' : 'left-1'}"></div>
+            </button>
+          </div>
+        </div>
+
         <!-- Tutorial -->
         <button
           onclick="startTutorial()"
@@ -262,6 +284,15 @@ window.toggleNotifications = () => {
   window.setState?.({ notifications: state.notifications === false ? true : false });
   window.showToast?.(
     state.notifications === false ? (t('notificationsEnabled') || 'Notifications activées') : (t('notificationsDisabled') || 'Notifications désactivées'),
+    'info'
+  );
+};
+
+window.toggleProximityAlertsSetting = () => {
+  const state = window.getState?.() || {};
+  window.setState?.({ proximityAlerts: state.proximityAlerts === false ? true : false });
+  window.showToast?.(
+    state.proximityAlerts === false ? (t('notificationsEnabled') || 'Notifications activées') : (t('notificationsDisabled') || 'Notifications désactivées'),
     'info'
   );
 };

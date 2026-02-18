@@ -3252,6 +3252,31 @@ const translations = {
     offlineDraftHint: 'Pas de connexion ? Sauvegarde en brouillon et complète plus tard.',
     autoDetect: 'Détecter automatiquement',
     countryAutoDetected: 'Pays détecté automatiquement',
+
+    // Enhanced Check-in
+    waitTimeQuestion: "Combien de temps as-tu attendu ?",
+    gotRideQuestion: "Tu as trouvé une voiture ?",
+    gotRide: "Oui !",
+    noRide: "Non",
+    gaveUp: "J'ai abandonné",
+    waitMinutes: "{n} min",
+    waitHoursPlus: "3h+",
+
+    // Practical Tags
+    practicalTips: "Conseils pratiques",
+    signMethod: "Panneau",
+    thumbMethod: "Pouce",
+    hasShelter: "Abri pluie",
+
+    // Freshness Badges
+    freshSpot: "Récent",
+    agingSpot: "À vérifier",
+    oldSpot: "Données anciennes",
+    verifiedAgo: "Vérifié il y a {n}",
+
+    // Proximity Alerts
+    proximityAlerts: "Alertes spots proches",
+    proximityAlertsDesc: "Être notifié quand tu passes près d'un spot",
 },
 
   en: {
@@ -6368,6 +6393,31 @@ const translations = {
     offlineDraftHint: 'No connection? Save as draft and complete later.',
     autoDetect: 'Auto-detect',
     countryAutoDetected: 'Country auto-detected',
+
+    // Enhanced Check-in
+    waitTimeQuestion: "How long did you wait?",
+    gotRideQuestion: "Did you get a ride?",
+    gotRide: "Yes!",
+    noRide: "No",
+    gaveUp: "Gave up",
+    waitMinutes: "{n} min",
+    waitHoursPlus: "3h+",
+
+    // Practical Tags
+    practicalTips: "Practical tips",
+    signMethod: "Sign",
+    thumbMethod: "Thumb",
+    hasShelter: "Rain shelter",
+
+    // Freshness Badges
+    freshSpot: "Recent",
+    agingSpot: "To verify",
+    oldSpot: "Old data",
+    verifiedAgo: "Verified {n} ago",
+
+    // Proximity Alerts
+    proximityAlerts: "Nearby spot alerts",
+    proximityAlertsDesc: "Get notified when near a spot",
 },
 
   es: {
@@ -9481,6 +9531,31 @@ const translations = {
     offlineDraftHint: '¿Sin conexión? Guarda como borrador y completa después.',
     autoDetect: 'Detectar automáticamente',
     countryAutoDetected: 'País detectado automáticamente',
+
+    // Enhanced Check-in
+    waitTimeQuestion: "¿Cuánto tiempo esperaste?",
+    gotRideQuestion: "¿Conseguiste un viaje?",
+    gotRide: "¡Sí!",
+    noRide: "No",
+    gaveUp: "Me rendí",
+    waitMinutes: "{n} min",
+    waitHoursPlus: "3h+",
+
+    // Practical Tags
+    practicalTips: "Consejos prácticos",
+    signMethod: "Cartel",
+    thumbMethod: "Dedo",
+    hasShelter: "Refugio lluvia",
+
+    // Freshness Badges
+    freshSpot: "Reciente",
+    agingSpot: "A verificar",
+    oldSpot: "Datos antiguos",
+    verifiedAgo: "Verificado hace {n}",
+
+    // Proximity Alerts
+    proximityAlerts: "Alertas de spots cercanos",
+    proximityAlertsDesc: "Recibir notificación cerca de un spot",
 },
 
   de: {
@@ -12594,6 +12669,31 @@ const translations = {
     offlineDraftHint: 'Kein Internet? Als Entwurf speichern und später vervollständigen.',
     autoDetect: 'Automatisch erkennen',
     countryAutoDetected: 'Land automatisch erkannt',
+
+    // Enhanced Check-in
+    waitTimeQuestion: "Wie lange hast du gewartet?",
+    gotRideQuestion: "Hast du eine Mitfahrt bekommen?",
+    gotRide: "Ja!",
+    noRide: "Nein",
+    gaveUp: "Aufgegeben",
+    waitMinutes: "{n} min",
+    waitHoursPlus: "3h+",
+
+    // Practical Tags
+    practicalTips: "Praktische Tipps",
+    signMethod: "Schild",
+    thumbMethod: "Daumen",
+    hasShelter: "Regenschutz",
+
+    // Freshness Badges
+    freshSpot: "Aktuell",
+    agingSpot: "Zu prüfen",
+    oldSpot: "Alte Daten",
+    verifiedAgo: "Verifiziert vor {n}",
+
+    // Proximity Alerts
+    proximityAlerts: "Spot-Benachrichtigungen",
+    proximityAlertsDesc: "Benachrichtigung wenn du in der Nähe eines Spots bist",
 },
 };
 

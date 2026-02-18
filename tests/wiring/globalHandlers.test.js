@@ -140,6 +140,7 @@ const MAIN_JS_HANDLERS = [
   // CheckinModal
   'openCheckinModal', 'closeCheckinModal', 'submitCheckin',
   'setCheckinWaitTime', 'toggleCheckinChar', 'triggerCheckinPhoto',
+  'onCheckinWaitSlider', 'setCheckinRideResult', 'handleCheckinPhoto',
   // Leaderboard tabs
   'setLeaderboardTab',
   // Map view (defined in Map.js / views)
@@ -281,7 +282,7 @@ const MAIN_JS_HANDLERS = [
   'acceptAllCookies', 'refuseOptionalCookies',
   'showCookieCustomize', 'hideCookieCustomize', 'saveCustomCookiePreferences',
   // Profile extras (defined in Profile.js)
-  'editAvatar',
+  'editAvatar', 'toggleProximityAlertsSetting',
   // Map extras (defined in Map.js)
   'searchLocation',
   // Chat extras (defined in Chat.js)
@@ -290,7 +291,7 @@ const MAIN_JS_HANDLERS = [
   'toggleFAQItem', 'scrollToFAQCategory', 'filterFAQ', 'clearFAQSearch',
   'closeFAQ', 'searchFAQ', 'getFAQQuestionById',
   // AddSpot extras (defined in AddSpot.js)
-  'handleAddSpot',
+  'handleAddSpot', 'setSpotTag',
   // Favorites (defined in favorites.js)
   'showFavoritesOnMap',
   // User Blocking (defined in userBlocking.js)
