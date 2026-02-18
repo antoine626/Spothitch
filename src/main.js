@@ -1357,20 +1357,8 @@ window.sendMessage = async () => {
 // Filter handlers
 window.setFilter = (filter) => actions.setFilter(filter);
 window.handleSearch = (query) => debounce('search', () => actions.setSearchQuery(query), 250);
-window.openFilters = async () => {
-  const { renderFiltersModal } = await import('./components/modals/Filters.js')
-  let overlay = document.getElementById('filters-overlay')
-  if (overlay) { overlay.remove(); return }
-  overlay = document.createElement('div')
-  overlay.id = 'filters-overlay'
-  overlay.innerHTML = renderFiltersModal()
-  document.body.appendChild(overlay)
-};
-window.closeFilters = () => {
-  const overlay = document.getElementById('filters-overlay')
-  if (overlay) overlay.remove()
-  setState({ showFilters: false })
-};
+window.openFilters = () => setState({ showFilters: true });
+window.closeFilters = () => setState({ showFilters: false });
 window.toggleSplitView = () => {
   const s = getState()
   setState({ splitView: !s.splitView })
