@@ -596,13 +596,8 @@ async function registerServiceWorker() {
     // Check on online recovery
     window.addEventListener('online', () => registration.update())
 
-    // Reload when new SW takes over (skipWaiting + clientsClaim)
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (!isReloading) {
-        isReloading = true
-        window.location.reload()
-      }
-    })
+    // Let version.json handle reload — no aggressive controllerchange reload
+    // (controllerchange can fire while user is actively using the map)
   } catch (error) {
     console.error('Service Worker registration failed:', error)
   }
