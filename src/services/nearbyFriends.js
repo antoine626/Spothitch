@@ -390,14 +390,14 @@ export function renderNearbyFriendsList(state) {
                     <div class="flex gap-2">
                       <button
                         onclick="openFriendChat('${friend.userId}')"
-                        class="p-2 rounded-lg bg-primary-500/20 text-primary-400 hover:bg-primary-500/30 transition-colors"
+                        class="p-2 rounded-xl bg-primary-500/20 text-primary-400 hover:bg-primary-500/30 transition-colors"
                         aria-label="${t('sendMessage') || 'Envoyer un message'}"
                       >
                         ${icon('message-circle', 'w-5 h-5')}
                       </button>
                       <button
                         onclick="showFriendOnMap('${friend.userId}')"
-                        class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
+                        class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
                         aria-label="${t('showOnMap') || 'Voir sur la carte'}"
                       >
                         ${icon('map-pin', 'w-5 h-5')}
@@ -421,7 +421,7 @@ export function renderNearbyFriendsList(state) {
             <span class="text-sm text-slate-400">${t('nearbyFriendsRadius') || 'Rayon de notification'}</span>
             <select
               onchange="setNotificationRadius(Number(this.value))"
-              class="bg-white/10 rounded-lg px-3 py-1 text-sm"
+              class="bg-white/10 rounded-xl px-3 py-1 text-sm"
             >
               <option value="10" ${state.nearbyFriendsRadius === 10 ? 'selected' : ''}>10 km</option>
               <option value="25" ${state.nearbyFriendsRadius === 25 ? 'selected' : ''}>25 km</option>
@@ -453,7 +453,7 @@ export function renderNearbyFriendsSettings(state) {
   return `
     <div class="bg-dark-card rounded-xl p-4">
       <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
+        <div class="w-10 h-10 rounded-xl bg-primary-500/20 flex items-center justify-center">
           ${icon('users', 'w-5 h-5 text-primary-400')}
         </div>
         <div>
@@ -474,7 +474,7 @@ export function renderNearbyFriendsSettings(state) {
             <span class="text-sm text-slate-400">Rayon de notification</span>
             <select
               onchange="setNotificationRadius(Number(this.value))"
-              class="bg-white/10 rounded-lg px-3 py-1.5 text-sm"
+              class="bg-white/10 rounded-xl px-3 py-1.5 text-sm"
             >
               <option value="10" ${state.nearbyFriendsRadius === 10 ? 'selected' : ''}>10 km</option>
               <option value="25" ${state.nearbyFriendsRadius === 25 ? 'selected' : ''}>25 km</option>

@@ -88,7 +88,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
           ${photos.map((photo, index) => `
             <button
               onclick="goToPhoto('${galleryId}', ${index})"
-              class="shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all
+              class="shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all
                 ${index === 0 ? 'border-primary-500' : 'border-transparent hover:border-white/30'}"
               data-thumb-index="${index}"
               aria-label="Photo ${index + 1}"
@@ -107,7 +107,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
       <!-- Add Photo Button -->
       <button
         onclick="openPhotoUpload(${spotId})"
-        class="mt-3 w-full py-2 border border-dashed border-slate-600 rounded-lg text-slate-400
+        class="mt-3 w-full py-2 border border-dashed border-slate-600 rounded-xl text-slate-400
           hover:border-primary-500 hover:text-primary-400 transition-colors flex items-center justify-center gap-2"
       >
         ${icon('plus', 'w-5 h-5')}
@@ -183,7 +183,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
 
       <!-- Thumbnails Bar -->
       ${photos.length > 1 ? `
-        <div class="photo-thumbnails-bar flex gap-2 p-2 bg-black/50 rounded-lg">
+        <div class="photo-thumbnails-bar flex gap-2 p-2 bg-black/50 rounded-xl">
           ${photos.map((photo, index) => `
             <button
               onclick="goToPhotoFullscreen(${index}); event.stopPropagation();"

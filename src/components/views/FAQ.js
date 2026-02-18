@@ -250,7 +250,7 @@ export function renderFAQ(state) {
             type="text"
             id="faq-search"
             placeholder="${t('searchFAQ', 'Rechercher dans la FAQ...')}"
-            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-12 py-3 text-white placeholder-slate-500 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-all"
+            class="w-full bg-slate-800 border border-slate-700 rounded-xl px-12 py-3 text-white placeholder-slate-500 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-all"
             oninput="filterFAQ(this.value)"
             value="${searchQuery}"
             aria-label="${t('searchFAQ', 'Rechercher dans la FAQ...')}"
@@ -294,7 +294,7 @@ export function renderFAQ(state) {
             ${filteredCategories.map(([key, category]) => `
               <div id="faq-${key}" class="faq-category">
                 <h2 class="text-lg font-bold mb-4 flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-${category.color}-500/20 flex items-center justify-center">
+                  <div class="w-10 h-10 rounded-xl bg-${category.color}-500/20 flex items-center justify-center">
                     ${icon(category.icon, `w-5 h-5 text-${category.color}-400`)}
                   </div>
                   <span>${category.title}</span>
@@ -303,7 +303,7 @@ export function renderFAQ(state) {
 
                 <div class="space-y-2">
                   ${category.questions.map((item) => `
-                    <div class="faq-item border border-slate-700 rounded-lg overflow-hidden hover:border-slate-600 transition-colors">
+                    <div class="faq-item border border-slate-700 rounded-xl overflow-hidden hover:border-slate-600 transition-colors">
                       <button
                         onclick="toggleFAQItem(this)"
                         class="w-full p-4 text-left flex items-center justify-between gap-4 hover:bg-white/5 transition-all"
@@ -342,7 +342,7 @@ export function renderFAQ(state) {
       </div>
 
       <!-- Still need help? -->
-      <div class="mx-4 mb-4 p-6 rounded-lg bg-gradient-to-br from-primary-500/20 to-emerald-500/20 border border-primary-500/30 text-center">
+      <div class="mx-4 mb-4 p-6 rounded-xl bg-gradient-to-br from-primary-500/20 to-emerald-500/20 border border-primary-500/30 text-center">
         <div class="text-2xl mb-3">💬</div>
         <h3 class="text-lg font-bold mb-2">${t('faqNeedHelp', 'Vous n\'avez pas trouvé votre réponse ?')}</h3>
         <p class="text-slate-300 mb-4">${t('faqHelpMsg', 'Notre équipe est là pour vous aider !')}</p>

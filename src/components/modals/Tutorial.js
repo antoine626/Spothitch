@@ -91,7 +91,7 @@ export function renderTutorial(state) {
             <!-- Feature list -->
             <div class="space-y-3 mb-6">
               ${step.features.map(f => `
-                <div class="flex items-center gap-3 p-2.5 rounded-lg bg-white/5">
+                <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5">
                   ${icon(f.icon, `w-5 h-5 text-${step.color}-400 shrink-0`)}
                   <span class="text-sm text-slate-300">${f.text}</span>
                 </div>

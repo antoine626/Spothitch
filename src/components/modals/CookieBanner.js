@@ -197,21 +197,21 @@ export function renderCookieBanner() {
           <div class="flex gap-2 shrink-0">
             <button
               onclick="acceptAllCookies()"
-              class="px-3 py-1.5 rounded-lg bg-primary-500 text-white text-xs font-medium hover:bg-primary-600 transition-colors"
+              class="px-3 py-1.5 rounded-xl bg-primary-500 text-white text-xs font-medium hover:bg-primary-600 transition-colors"
               type="button"
             >
               ${t('cookieAccept') || 'Accepter'}
             </button>
             <button
               onclick="refuseOptionalCookies()"
-              class="px-3 py-1.5 rounded-lg bg-white/10 text-slate-300 text-xs font-medium hover:bg-white/20 transition-colors"
+              class="px-3 py-1.5 rounded-xl bg-white/10 text-slate-300 text-xs font-medium hover:bg-white/20 transition-colors"
               type="button"
             >
               ${t('cookieRefuse') || 'Refuser'}
             </button>
             <button
               onclick="showCookieCustomize()"
-              class="px-2 py-1.5 rounded-lg bg-white/5 text-primary-400 text-xs hover:bg-white/10 transition-colors"
+              class="px-2 py-1.5 rounded-xl bg-white/5 text-primary-400 text-xs hover:bg-white/10 transition-colors"
               type="button"
               aria-haspopup="dialog"
               aria-label="${t('cookieCustomize') || 'Personnaliser'}"

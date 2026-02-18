@@ -148,19 +148,19 @@ export function renderSOS(state) {
             </h3>
             <div id="country-emergency-numbers">
               <div class="grid grid-cols-2 gap-3 text-sm">
-                <a href="tel:112" class="p-2 rounded-lg bg-danger-500/10 text-center">
+                <a href="tel:112" class="p-2 rounded-xl bg-danger-500/10 text-center">
                   <div class="text-xs text-slate-400">Europe</div>
                   <div class="font-bold text-danger-400">112</div>
                 </a>
-                <a href="tel:911" class="p-2 rounded-lg bg-danger-500/10 text-center">
+                <a href="tel:911" class="p-2 rounded-xl bg-danger-500/10 text-center">
                   <div class="text-xs text-slate-400">USA/Canada</div>
                   <div class="font-bold text-danger-400">911</div>
                 </a>
-                <a href="tel:000" class="p-2 rounded-lg bg-danger-500/10 text-center">
+                <a href="tel:000" class="p-2 rounded-xl bg-danger-500/10 text-center">
                   <div class="text-xs text-slate-400">${t('australia') || 'Australie'}</div>
                   <div class="font-bold text-danger-400">000</div>
                 </a>
-                <a href="tel:111" class="p-2 rounded-lg bg-danger-500/10 text-center">
+                <a href="tel:111" class="p-2 rounded-xl bg-danger-500/10 text-center">
                   <div class="text-xs text-slate-400">${t('newZealand') || 'Nv-Zélande'}</div>
                   <div class="font-bold text-danger-400">111</div>
                 </a>
@@ -175,15 +175,15 @@ export function renderSOS(state) {
               ${t('emergencyMessages') || 'Messages d\'urgence'}
             </h3>
             <div class="space-y-3">
-              <button onclick="sendSOSTemplate('danger')" class="w-full p-3 rounded-lg bg-danger-500/10 text-left text-sm hover:bg-danger-500/20 transition-all">
+              <button onclick="sendSOSTemplate('danger')" class="w-full p-3 rounded-xl bg-danger-500/10 text-left text-sm hover:bg-danger-500/20 transition-all">
                 <div class="font-medium text-danger-400">🚨 ${t('sosInDanger') || 'Je suis en danger'}</div>
                 <div class="text-xs text-slate-400">${t('sosInDangerDesc') || 'Envoie ta position + message d\'alerte'}</div>
               </button>
-              <button onclick="sendSOSTemplate('stuck')" class="w-full p-3 rounded-lg bg-amber-500/10 text-left text-sm hover:bg-amber-500/20 transition-all">
+              <button onclick="sendSOSTemplate('stuck')" class="w-full p-3 rounded-xl bg-amber-500/10 text-left text-sm hover:bg-amber-500/20 transition-all">
                 <div class="font-medium text-amber-400">📍 ${t('sosStuck') || 'Je suis bloqué(e)'}</div>
                 <div class="text-xs text-slate-400">${t('sosStuckDesc') || 'Envoie ta position + demande d\'aide'}</div>
               </button>
-              <button onclick="sendSOSTemplate('help')" class="w-full p-3 rounded-lg bg-primary-500/10 text-left text-sm hover:bg-primary-500/20 transition-all">
+              <button onclick="sendSOSTemplate('help')" class="w-full p-3 rounded-xl bg-primary-500/10 text-left text-sm hover:bg-primary-500/20 transition-all">
                 <div class="font-medium text-primary-400">🆘 ${t('sosNeedHelp') || 'J\'ai besoin d\'aide'}</div>
                 <div class="text-xs text-slate-400">${t('sosNeedHelpDesc') || 'Envoie ta position + description'}</div>
               </button>

@@ -192,7 +192,7 @@ function renderDonationBanner() {
         </div>
         <button
           onclick="openDonation(10, 'pizza')"
-          class="px-4 py-2 rounded-lg bg-gradient-to-r from-rose-500 to-amber-500 text-white text-sm font-medium hover:from-rose-600 hover:to-amber-600 transition-all shadow-lg shadow-rose-500/30"
+          class="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-white text-sm font-medium hover:from-rose-600 hover:to-amber-600 transition-all shadow-lg shadow-rose-500/30"
         >
           ${icon('heart', 'w-5 h-5 mr-1')} ${t('donationSupport')}
         </button>

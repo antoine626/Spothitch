@@ -293,7 +293,7 @@ export function renderShareButton(type, data) {
   return `
     <button
       type="button"
-      class="share-button flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+      class="share-button flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-xl transition-colors focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
       onclick="window.handleShare('${type}', '${dataAttr}')"
       aria-label="${ariaLabel}"
     >

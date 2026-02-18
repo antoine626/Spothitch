@@ -1142,7 +1142,7 @@ export function renderAdminDashboard() {
         <!-- Users -->
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
-            <div class="w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center">
+            <div class="w-10 h-10 rounded-xl bg-primary-500/20 flex items-center justify-center">
               ${icon('users', 'w-5 h-5 text-primary-400')}
             </div>
             <div class="text-2xl font-bold">${stats.users.total}</div>
@@ -1154,7 +1154,7 @@ export function renderAdminDashboard() {
         <!-- Spots -->
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
-            <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center">
               ${icon('map-pin', 'w-5 h-5 text-amber-400')}
             </div>
             <div class="text-2xl font-bold">${stats.spots.total}</div>
@@ -1166,7 +1166,7 @@ export function renderAdminDashboard() {
         <!-- Reports -->
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
-            <div class="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
+            <div class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">
               ${icon('flag', 'w-5 h-5 text-orange-400')}
             </div>
             <div class="text-2xl font-bold">${stats.reports.pending}</div>
@@ -1178,7 +1178,7 @@ export function renderAdminDashboard() {
         <!-- Bans -->
         <div class="bg-white/5 rounded-xl p-4">
           <div class="flex items-center gap-3 mb-2">
-            <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center">
+            <div class="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center">
               ${icon('ban', 'w-5 h-5 text-red-400')}
             </div>
             <div class="text-2xl font-bold">${stats.moderation.activeBans}</div>
@@ -1539,7 +1539,7 @@ export function renderSanctionsHistory(userId) {
           <div class="text-sm text-slate-400 mb-3">${t('adminBansHistory')} (${history.totalBans})</div>
           <div class="space-y-2">
             ${history.bans.slice(0, 5).map(ban => `
-              <div class="flex justify-between items-center p-2 rounded-lg bg-red-500/10">
+              <div class="flex justify-between items-center p-2 rounded-xl bg-red-500/10">
                 <div>
                   <div class="text-sm font-medium">${ban.permanent ? t('adminPermanentBan') : ban.durationLabel}</div>
                   <div class="text-xs text-slate-400">${ban.reason}</div>
@@ -1557,7 +1557,7 @@ export function renderSanctionsHistory(userId) {
           <div class="text-sm text-slate-400 mb-3">${t('adminWarningsHistory')} (${history.totalWarnings})</div>
           <div class="space-y-2">
             ${history.warnings.slice(0, 5).map(warning => `
-              <div class="flex justify-between items-center p-2 rounded-lg bg-amber-500/10 ${warning.removedAt ? 'opacity-50' : ''}">
+              <div class="flex justify-between items-center p-2 rounded-xl bg-amber-500/10 ${warning.removedAt ? 'opacity-50' : ''}">
                 <div>
                   <div class="text-sm font-medium">${warning.reasonLabel} ${warning.removedAt ? '(Removed)' : ''}</div>
                   <div class="text-xs text-slate-400">+${warning.points} 👍 - ${warning.severityLabel}</div>
@@ -2337,7 +2337,7 @@ export function renderForbiddenWordsPanel() {
         ${words.map(entry => {
           const sevCls = severityLabels[entry.severity] || defaultSeverity;
           return `
-          <div class="flex justify-between items-center p-3 rounded-lg bg-white/5">
+          <div class="flex justify-between items-center p-3 rounded-xl bg-white/5">
             <div>
               <span class="font-mono text-sm">${entry.word}</span>
               <span class="ml-2 px-2 py-0.5 rounded-full text-xs ${sevCls.bg} ${sevCls.text}">

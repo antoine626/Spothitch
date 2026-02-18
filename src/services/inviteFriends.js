@@ -399,22 +399,22 @@ export function renderInviteCard() {
 
       <!-- Stats -->
       <div class="grid grid-cols-3 gap-2 mb-4">
-        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-xl p-2 text-center">
           <p class="text-xl font-bold text-white">${stats.totalInvites}</p>
           <p class="text-xs text-slate-400">${t('invitesAccepted')}</p>
         </div>
-        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-xl p-2 text-center">
           <p class="text-xl font-bold text-primary">${stats.pointsEarned}</p>
           <p class="text-xs text-slate-400">${t('pointsEarned')}</p>
         </div>
-        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-xl p-2 text-center">
           <p class="text-xl font-bold text-yellow-400">${rewards.inviterReward}</p>
           <p class="text-xs text-slate-400">${t('perInvite')}</p>
         </div>
       </div>
 
       <!-- Invite Code -->
-      <div class="bg-dark-primary rounded-lg p-3 mb-4">
+      <div class="bg-dark-primary rounded-xl p-3 mb-4">
         <p class="text-xs text-slate-400 mb-1">${t('yourInviteCode')}</p>
         <div class="flex items-center justify-between">
           <span class="font-mono text-lg font-bold text-white tracking-wider">${stats.inviteCode}</span>
@@ -448,22 +448,22 @@ export function renderInviteCard() {
       <!-- Share buttons -->
       <div class="flex gap-2 flex-wrap">
         <button onclick="window.shareInvite('whatsapp')"
-          class="flex-1 min-w-[70px] bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 min-w-[70px] bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-xl text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} WhatsApp">
           ${icon('whatsapp', 'w-5 h-5')}
         </button>
         <button onclick="window.shareInvite('telegram')"
-          class="flex-1 min-w-[70px] bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 min-w-[70px] bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-xl text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} Telegram">
           ${icon('telegram', 'w-5 h-5')}
         </button>
         <button onclick="window.shareInvite('sms')"
-          class="flex-1 min-w-[70px] bg-dark-secondary hover:bg-white/10 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 min-w-[70px] bg-dark-secondary hover:bg-white/10 text-white py-2 px-3 rounded-xl text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} SMS">
           ${icon('message-square', 'w-5 h-5')}
         </button>
         <button onclick="window.openInviteModal()"
-          class="flex-1 min-w-[70px] bg-primary hover:bg-primary/80 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 min-w-[70px] bg-primary hover:bg-primary/80 text-white py-2 px-3 rounded-xl text-sm flex items-center justify-center gap-1"
           aria-label="${t('moreOptions')}">
           ${icon('share-2', 'w-5 h-5')}
         </button>
@@ -533,11 +533,11 @@ export function renderInviteModal() {
           <div class="bg-dark-primary rounded-xl p-4">
             <p class="text-sm text-slate-400 mb-2">${t('yourInviteCode')}</p>
             <div class="flex items-center gap-3">
-              <div class="flex-1 bg-white/5 rounded-lg px-4 py-3 font-mono text-xl text-center text-white tracking-widest">
+              <div class="flex-1 bg-white/5 rounded-xl px-4 py-3 font-mono text-xl text-center text-white tracking-widest">
                 ${stats.inviteCode}
               </div>
               <button onclick="window.copyInviteCode()"
-                class="bg-primary hover:bg-primary/80 text-white p-3 rounded-lg"
+                class="bg-primary hover:bg-primary/80 text-white p-3 rounded-xl"
                 aria-label="${t('copyCode')}">
                 ${icon('copy', 'w-5 h-5')}
               </button>
@@ -551,10 +551,10 @@ export function renderInviteModal() {
               <input type="text"
                 value="${stats.inviteLink}"
                 readonly
-                class="flex-1 bg-white/5 rounded-lg px-3 py-2 text-sm text-slate-300 truncate"
+                class="flex-1 bg-white/5 rounded-xl px-3 py-2 text-sm text-slate-300 truncate"
                 aria-label="${t('inviteLink')}" />
               <button onclick="window.copyInviteLink()"
-                class="bg-white/5 hover:bg-white/10 text-white p-2 rounded-lg"
+                class="bg-white/5 hover:bg-white/10 text-white p-2 rounded-xl"
                 aria-label="${t('copyLink')}">
                 ${icon('link', 'w-5 h-5')}
               </button>
@@ -622,7 +622,7 @@ export function renderInviteModal() {
               <p class="text-sm text-slate-400 mb-3">${t('friendsInvited')} (${invitedUsers.length})</p>
               <div class="space-y-2 max-h-40 overflow-y-auto">
                 ${invitedUsers.map(user => `
-                  <div class="flex items-center justify-between bg-dark-primary rounded-lg p-2">
+                  <div class="flex items-center justify-between bg-dark-primary rounded-xl p-2">
                     <div class="flex items-center gap-2">
                       <div class="w-8 h-8 bg-primary/30 rounded-full flex items-center justify-center text-sm">
                         ${user.name?.charAt(0)?.toUpperCase() || '?'}

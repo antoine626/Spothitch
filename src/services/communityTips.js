@@ -86,7 +86,7 @@ export function renderCommunityTips(countryCode) {
       ${tips.length > 0 ? `
         <div class="space-y-2">
           ${tips.map(tip => `
-            <div class="p-3 rounded-lg bg-white/5">
+            <div class="p-3 rounded-xl bg-white/5">
               <p class="text-sm text-slate-300">${tip.text}</p>
               <div class="flex items-center justify-between mt-2">
                 <span class="text-xs text-slate-400">${tip.author} - ${new Date(tip.createdAt).toLocaleDateString('fr-FR')}</span>

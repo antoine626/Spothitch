@@ -314,7 +314,7 @@ export function renderFavoritesSection(sortBy = 'date') {
         <!-- Sort Dropdown -->
         <select
           onchange="setFavoritesSort(this.value)"
-          class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm focus:border-primary-500 outline-hidden"
+          class="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-sm focus:border-primary-500 outline-hidden"
           aria-label="${t('favoritesSortLabel') || 'Trier les favoris'}"
         >
           <option value="date" ${sortBy === 'date' ? 'selected' : ''}>${t('favoritesSortRecent') || 'Plus recents'}</option>
@@ -359,7 +359,7 @@ function renderFavoriteItem(spot) {
       onclick="selectSpot(${spot.id})"
     >
       <!-- Thumbnail -->
-      <div class="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+      <div class="w-12 h-12 rounded-xl overflow-hidden shrink-0">
         <img
           src="${spot.photoUrl || 'https://via.placeholder.com/48'}"
           alt=""

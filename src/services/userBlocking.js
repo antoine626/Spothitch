@@ -473,7 +473,7 @@ export function renderBlockModal(userId, username = '') {
             </label>
             <select
               id="block-reason-select"
-              class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">${escapeHTML(t('selectReason') || 'Selectionner une raison...')}</option>
               ${reasons.map(r => `

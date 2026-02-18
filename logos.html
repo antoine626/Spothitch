@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpotHitch Logo — 30 Designs</title>
+<script src="https://js.puter.com/v2/"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0e17; color: #fff; font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; }
+  h1 { text-align: center; font-size: 2rem; margin-bottom: 8px; }
+  h1 span { color: #f59e0b; }
+  .subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; font-size: 0.95rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; max-width: 1400px; margin: 0 auto; }
+  .card { background: #1a2332; border-radius: 16px; overflow: hidden; border: 1px solid #ffffff10; transition: transform 0.2s; }
+  .card:hover { transform: scale(1.02); border-color: #f59e0b40; }
+  .card-img { width: 100%; aspect-ratio: 1; background: #0f1520; display: flex; align-items: center; justify-content: center; position: relative; }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; }
+  .card-img .loading { color: #64748b; font-size: 0.85rem; text-align: center; padding: 20px; }
+  .card-info { padding: 12px 16px; }
+  .card-num { display: inline-block; background: #f59e0b; color: #0f1520; font-weight: 700; font-size: 0.75rem; padding: 2px 8px; border-radius: 20px; }
+  .card-source { display: inline-block; background: #ffffff15; color: #94a3b8; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; margin-left: 6px; }
+  .card-desc { margin-top: 6px; color: #cbd5e1; font-size: 0.8rem; line-height: 1.4; }
+  .progress { text-align: center; color: #f59e0b; margin-bottom: 20px; font-size: 0.9rem; }
+  .dl-btn { position: absolute; top: 8px; right: 8px; background: #f59e0b; color: #0f1520; border: none; border-radius: 8px; padding: 4px 10px; font-size: 0.7rem; font-weight: 700; cursor: pointer; opacity: 0; transition: opacity 0.2s; }
+  .card:hover .dl-btn { opacity: 1; }
+</style>
+</head>
+<body>
+
+<h1>&#129305; <span>SpotHitch</span> Logo Designs</h1>
+<p class="subtitle">30 designs par IA — 6 modeles (Flux, Seedream, DALL-E 3, Flux Schnell, Stable Diffusion XL, GPT Image)<br>Couleurs : Navy #0f1520 + Amber #f59e0b</p>
+<div class="progress" id="progress">Chargement : 0/30...</div>
+<div class="grid" id="grid"></div>
+
+<script>
+const NAVY = '#0f1520';
+const AMBER = '#f59e0b';
+
+const designs = [
+  // === POLLINATIONS — FLUX (6) ===
+  { prompt: 'Minimalist logo design for SpotHitch hitchhiking app. A stylized hand with thumb up in amber gold color ' + AMBER + ' on dark navy background ' + NAVY + '. Clean vector style, flat design, app icon. Modern geometric sans-serif typography. Logo only, white space around.', model: 'flux', source: 'Pollinations/Flux', desc: 'Minimal flat — pouce leve' },
+  { prompt: 'Logo for SpotHitch — a bold amber ' + AMBER + ' hitchhiker thumb silhouette inside a map pin location marker on navy ' + NAVY + ' background. Modern tech startup logo. Clean lines, no gradients. Text SpotHitch below.', model: 'flux', source: 'Pollinations/Flux', desc: 'Pin de carte + pouce' },
+  { prompt: 'Circular badge logo SpotHitch with a hitchhiking hand thumb up gesture in amber gold ' + AMBER + '. Dark navy ' + NAVY + ' circle background. Vintage travel badge aesthetic with modern typography.', model: 'flux', source: 'Pollinations/Flux', desc: 'Badge circulaire vintage' },
+  { prompt: 'SpotHitch logo — abstract road highway merging into a raised thumb shape. Amber ' + AMBER + ' on dark ' + NAVY + '. Minimalist one-line drawing style. Clever negative space logo design.', model: 'flux', source: 'Pollinations/Flux', desc: 'Route qui devient un pouce' },
+  { prompt: 'Shield emblem logo for SpotHitch hitchhiking community. Thumb up hand in center, stars around. Colors amber gold ' + AMBER + ' and dark navy ' + NAVY + '. Adventure outdoor badge style.', model: 'flux', source: 'Pollinations/Flux', desc: 'Ecusson aventure' },
+  { prompt: 'App icon logo SpotHitch — rounded square, amber ' + AMBER + ' thumbs up hand emoji style on dark navy ' + NAVY + '. Friendly modern 3D subtle depth. Like iOS app icon.', model: 'flux', source: 'Pollinations/Flux', desc: 'Icone app iOS' },
+
+  // === POLLINATIONS — SEEDREAM (6) ===
+  { prompt: 'Professional brand logo SpotHitch for hitchhiking mobile app. Elegant hand with raised thumb in amber gold ' + AMBER + '. Navy blue-black background ' + NAVY + '. Corporate clean design with SpotHitch text.', model: 'seedream', source: 'Pollinations/Seedream', desc: 'Brand corporate elegant' },
+  { prompt: 'Playful cartoon logo SpotHitch with cute hand doing thumbs up gesture. Bright amber ' + AMBER + ' hand on navy ' + NAVY + '. Rounded friendly typography. Fun travel app branding.', model: 'seedream', source: 'Pollinations/Seedream', desc: 'Cartoon fun et friendly' },
+  { prompt: 'Neon sign style logo SpotHitch — glowing amber ' + AMBER + ' neon thumb up hand on dark navy wall ' + NAVY + '. Retro neon aesthetic, bar sign feel. Night travel vibes.', model: 'seedream', source: 'Pollinations/Seedream', desc: 'Neon retro lumineux' },
+  { prompt: 'Stamp passport style circular logo SpotHitch — thumb up hand worn vintage texture. Amber ink ' + AMBER + ' on navy ' + NAVY + '. Travel journal stamp aesthetic. EST 2025.', model: 'seedream', source: 'Pollinations/Seedream', desc: 'Tampon passeport voyage' },
+  { prompt: 'Geometric low-poly logo SpotHitch — triangulated thumb up hand made of geometric shapes in amber ' + AMBER + ' on dark navy ' + NAVY + '. Modern tech aesthetic. Angular faceted design.', model: 'seedream', source: 'Pollinations/Seedream', desc: 'Low-poly geometrique' },
+  { prompt: 'Compass logo SpotHitch — compass rose with the needle shaped as a thumb pointing up. Amber gold ' + AMBER + ' and navy ' + NAVY + '. Explorer adventure brand identity logo.', model: 'seedream', source: 'Pollinations/Seedream', desc: 'Boussole exploration' },
+
+  // === PUTER — DALL-E 3 (6) ===
+  { prompt: 'Design a modern vector logo for SpotHitch, a hitchhiking community app. Show a stylized hand with thumb up in amber gold ' + AMBER + ' on navy dark background ' + NAVY + '. Minimalist clean logo with text SpotHitch.', model: 'dall-e-3', source: 'Puter/DALL-E 3', desc: 'Vector minimaliste DALL-E' },
+  { prompt: 'Create a logo for SpotHitch hitchhiking app: a road stretching into horizon with a large amber ' + AMBER + ' thumb up hand rising from it. Dark navy ' + NAVY + ' sky. Dramatic inspiring.', model: 'dall-e-3', source: 'Puter/DALL-E 3', desc: 'Route + pouce dramatique' },
+  { prompt: 'Logo SpotHitch — a backpacker silhouette with arm raised thumb up, walking along a road. Amber ' + AMBER + ' figure on navy ' + NAVY + ' background. Adventure spirit freedom travel.', model: 'dall-e-3', source: 'Puter/DALL-E 3', desc: 'Silhouette backpacker' },
+  { prompt: 'Mascot logo for SpotHitch: a friendly smiling anthropomorphic thumb character with a small backpack wearing hiking boots. Amber ' + AMBER + ' colored on navy ' + NAVY + '. Cute and memorable mascot.', model: 'dall-e-3', source: 'Puter/DALL-E 3', desc: 'Mascotte pouce personnage' },
+  { prompt: 'Hexagonal tech logo SpotHitch with a wireframe thumb up hand inside hexagon. Amber gold ' + AMBER + ' lines on dark navy ' + NAVY + '. Futuristic clean digital brand.', model: 'dall-e-3', source: 'Puter/DALL-E 3', desc: 'Hexagone tech futuriste' },
+  { prompt: 'Vintage retro 1970s poster style logo SpotHitch with hitchhiker thumb up on highway. Worn texture amber ' + AMBER + ' and navy ' + NAVY + '. Nostalgic road trip feeling.', model: 'dall-e-3', source: 'Puter/DALL-E 3', desc: 'Poster retro 70s' },
+
+  // === PUTER — FLUX SCHNELL (6) ===
+  { prompt: 'Clean tech startup logo SpotHitch. Golden amber ' + AMBER + ' hand thumb up icon next to modern sans-serif text on navy ' + NAVY + '. Silicon Valley branding. Horizontal logo layout.', model: 'flux-schnell', source: 'Puter/Flux Schnell', desc: 'Startup tech clean' },
+  { prompt: 'Graffiti street art logo SpotHitch — spray painted thumb up hand in amber ' + AMBER + ' on navy ' + NAVY + ' wall. Urban edgy youth culture. Bold dripping letters.', model: 'flux-schnell', source: 'Puter/Flux Schnell', desc: 'Graffiti street art' },
+  { prompt: 'Origami paper folded style logo SpotHitch — origami hand with thumb up in amber ' + AMBER + ' on navy ' + NAVY + '. Minimal paper craft aesthetic. Elegant unique.', model: 'flux-schnell', source: 'Puter/Flux Schnell', desc: 'Origami papier plie' },
+  { prompt: 'Woodcut engraving style logo SpotHitch — hand carved thumb up illustration in amber ' + AMBER + ' on dark navy ' + NAVY + '. Traditional craft meets modern brand. Vintage print.', model: 'flux-schnell', source: 'Puter/Flux Schnell', desc: 'Gravure bois artisanale' },
+  { prompt: 'Space themed logo SpotHitch — astronaut hand giving thumbs up among stars and planets. Amber ' + AMBER + ' and navy space ' + NAVY + '. Cosmic adventure branding logo.', model: 'flux-schnell', source: 'Puter/Flux Schnell', desc: 'Espace cosmique' },
+  { prompt: 'Watercolor splash logo SpotHitch — artistic watercolor thumb up hand in amber gold ' + AMBER + ' with paint splashes on navy ' + NAVY + '. Artistic creative brand identity.', model: 'flux-schnell', source: 'Puter/Flux Schnell', desc: 'Aquarelle artistique' },
+
+  // === PUTER — STABLE DIFFUSION XL (6) ===
+  { prompt: 'Logo SpotHitch hitchhiking app, amber ' + AMBER + ' thumb up hand inside circle on navy ' + NAVY + ' background, flat vector minimal, app icon, clean design', model: 'stablediffusion-xl', source: 'Puter/SDXL', desc: 'Cercle minimal SDXL' },
+  { prompt: 'Die cut sticker logo SpotHitch: cool hand doing thumbs up with sunglasses, amber ' + AMBER + ' on navy ' + NAVY + ', fun youthful sticker branding', model: 'stablediffusion-xl', source: 'Puter/SDXL', desc: 'Sticker cool lunettes' },
+  { prompt: 'Pixel art retro game logo SpotHitch — 8bit pixelated thumb up hand, amber ' + AMBER + ' pixels on navy ' + NAVY + ', retro gaming nostalgia arcade style', model: 'stablediffusion-xl', source: 'Puter/SDXL', desc: 'Pixel art 8-bit retro' },
+  { prompt: 'Luxury gold embossed logo SpotHitch — premium golden amber ' + AMBER + ' thumb hand on deep navy ' + NAVY + ' leather texture, high-end travel brand, metallic finish', model: 'stablediffusion-xl', source: 'Puter/SDXL', desc: 'Luxe or embosse' },
+  { prompt: 'Nature organic logo SpotHitch — thumb up hand shape formed by leaves vines and branches, amber ' + AMBER + ' autumn colors on navy ' + NAVY + ', eco sustainable travel', model: 'stablediffusion-xl', source: 'Puter/SDXL', desc: 'Nature feuilles eco' },
+  { prompt: 'Hand drawn sketch logo SpotHitch — pencil sketch of hitchhiker thumb up hand, amber ' + AMBER + ' ink on navy ' + NAVY + ' background, artistic hand drawn feel, authentic', model: 'stablediffusion-xl', source: 'Puter/SDXL', desc: 'Croquis dessine main' },
+];
+
+const grid = document.getElementById('grid');
+const progress = document.getElementById('progress');
+let loaded = 0;
+
+function updateProgress() {
+  loaded++;
+  progress.textContent = loaded >= 30
+    ? 'Termine ! 30/30 logos generes'
+    : 'Chargement : ' + loaded + '/30...';
+  if (loaded >= 30) progress.style.color = '#22c55e';
+}
+
+// Create all cards
+designs.forEach(function(d, i) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.id = 'card-' + i;
+  const imgDiv = document.createElement('div');
+  imgDiv.className = 'card-img';
+  imgDiv.id = 'img-' + i;
+  imgDiv.innerHTML = '<div class="loading">&#9203; Generation en cours...</div>';
+  const infoDiv = document.createElement('div');
+  infoDiv.className = 'card-info';
+  infoDiv.innerHTML = '<span class="card-num">#' + (i + 1) + '</span>' +
+    '<span class="card-source">' + d.source + '</span>' +
+    '<div class="card-desc">' + d.desc + '</div>';
+  card.appendChild(imgDiv);
+  card.appendChild(infoDiv);
+  grid.appendChild(card);
+});
+
+// Pollinations: direct image URL
+function loadPollinations(index, design) {
+  var container = document.getElementById('img-' + index);
+  var encoded = encodeURIComponent(design.prompt);
+  var seed = index * 42 + 7;
+  var url = 'https://image.pollinations.ai/prompt/' + encoded + '?width=512&height=512&seed=' + seed + '&model=' + design.model + '&nologo=true';
+
+  var img = new Image();
+  img.onload = function() {
+    container.innerHTML = '';
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+    container.appendChild(img);
+    updateProgress();
+  };
+  img.onerror = function() {
+    container.innerHTML = '<div class="loading" style="color:#ef4444">Erreur — <a href="' + url + '" target="_blank" style="color:#f59e0b">ouvrir</a></div>';
+    updateProgress();
+  };
+  img.src = url;
+}
+
+// Puter.js: API call
+function loadPuter(index, design) {
+  var container = document.getElementById('img-' + index);
+  puter.ai.txt2img(design.prompt, { model: design.model })
+    .then(function(img) {
+      container.innerHTML = '';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+      container.appendChild(img);
+      updateProgress();
+    })
+    .catch(function(e) {
+      // Fallback to Pollinations Flux
+      var encoded = encodeURIComponent(design.prompt);
+      var url = 'https://image.pollinations.ai/prompt/' + encoded + '?width=512&height=512&seed=' + (index * 99) + '&nologo=true';
+      var fallback = new Image();
+      fallback.onload = function() {
+        container.innerHTML = '';
+        fallback.style.cssText = 'width:100%;height:100%;object-fit:cover';
+        container.appendChild(fallback);
+        updateProgress();
+      };
+      fallback.onerror = function() {
+        container.innerHTML = '<div class="loading" style="color:#ef4444">Erreur generation</div>';
+        updateProgress();
+      };
+      fallback.src = url;
+    });
+}
+
+// Launch all generations with staggering
+designs.forEach(function(d, i) {
+  if (d.source.startsWith('Pollinations')) {
+    // Pollinations: stagger by 800ms
+    setTimeout(function() { loadPollinations(i, d); }, i * 800);
+  } else {
+    // Puter: stagger by 2.5s (API rate limits)
+    setTimeout(function() { loadPuter(i, d); }, 2000 + (i - 12) * 2500);
+  }
+});
+</script>
+
+</body>
+</html>

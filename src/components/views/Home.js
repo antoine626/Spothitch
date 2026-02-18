@@ -43,7 +43,7 @@ export function renderHome(state) {
             </div>
             <div class="flex items-center gap-3">
               <span class="text-sm font-bold text-white">${overdue ? '-' : ''}${String(mins).padStart(2, '0')}:${String(sec).padStart(2, '0')}</span>
-              <button onclick="event.stopPropagation();companionCheckIn()" class="px-3 py-1.5 rounded-lg bg-white/20 text-white text-xs font-semibold hover:bg-white/30 transition-all active:scale-95" aria-label="${t('imSafe') || 'Je vais bien'}">
+              <button onclick="event.stopPropagation();companionCheckIn()" class="px-3 py-1.5 rounded-xl bg-white/20 text-white text-xs font-semibold hover:bg-white/30 transition-all active:scale-95" aria-label="${t('imSafe') || 'Je vais bien'}">
                 ${icon('check', 'w-3 h-3')} ${t('imSafe') || 'OK'}
               </button>
             </div>
@@ -112,18 +112,18 @@ export function renderHome(state) {
       <div class="absolute ${companionActive ? 'top-[9rem]' : 'top-[5.5rem]'} right-4 z-20 flex flex-col gap-2">
         <button
           onclick="homeZoomIn()"
-          class="w-10 h-10 rounded-lg bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-all text-lg font-bold shadow-lg"
+          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-all text-lg font-bold shadow-lg"
           aria-label="${t('zoomIn') || 'Zoom in'}"
         >+</button>
         <button
           onclick="homeZoomOut()"
-          class="w-10 h-10 rounded-lg bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-all text-lg font-bold shadow-lg"
+          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-all text-lg font-bold shadow-lg"
           aria-label="${t('zoomOut') || 'Zoom out'}"
         >−</button>
         ${hasGPS ? `
           <button
             onclick="homeCenterOnUser()"
-            class="w-10 h-10 rounded-lg bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-all shadow-lg"
+            class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-all shadow-lg"
             aria-label="${t('myLocation') || 'Ma position'}"
           >
             ${icon('locate', 'w-5 h-5')}
@@ -132,7 +132,7 @@ export function renderHome(state) {
         <!-- Split view toggle -->
         <button
           onclick="toggleSplitView()"
-          class="w-10 h-10 rounded-lg ${isSplit ? 'bg-primary-500/80 text-white' : 'bg-dark-primary/60 text-slate-400'} backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 transition-all shadow-lg"
+          class="w-10 h-10 rounded-xl ${isSplit ? 'bg-primary-500/80 text-white' : 'bg-dark-primary/60 text-slate-400'} backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 transition-all shadow-lg"
           aria-label="${t('splitView') || 'Vue partagée'}"
           title="${t('splitView') || 'Vue partagée'}"
         >

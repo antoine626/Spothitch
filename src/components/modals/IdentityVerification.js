@@ -231,7 +231,7 @@ function renderVerificationStep(level, isComplete, title, description, iconName,
       ${!isComplete && isActive ? `
         <button
           onclick="startVerificationStep(${level})"
-          class="px-4 py-2 rounded-lg bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-colors"
+          class="px-4 py-2 rounded-xl bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-colors"
           type="button"
           aria-label="${t('startVerification')}"
         >

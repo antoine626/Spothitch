@@ -1115,7 +1115,7 @@ export function renderTravelGroupDetail(state) {
             <h3 class="font-semibold mb-3">Membres (${group.members.length}/${group.maxMembers})</h3>
             <div class="space-y-2">
               ${group.members.map((memberId) => `
-                <div class="flex items-center gap-3 p-2 rounded-lg bg-white/5">
+                <div class="flex items-center gap-3 p-2 rounded-xl bg-white/5">
                   <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center">👤</div>
                   <div class="flex-1">
                     <div class="font-medium">${memberId === group.creator ? '👑 ' : ''}Membre</div>

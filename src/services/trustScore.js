@@ -195,7 +195,7 @@ export function renderTrustScoreCard() {
 
       <!-- Tips to improve -->
       ${score < 80 ? `
-        <div class="mt-4 p-3 rounded-lg bg-primary-500/10 border border-primary-500/30">
+        <div class="mt-4 p-3 rounded-xl bg-primary-500/10 border border-primary-500/30">
           <h4 class="font-medium text-sm text-primary-400 mb-2">
             ${icon('lightbulb', 'w-5 h-5 mr-1')}
             Améliore ton score

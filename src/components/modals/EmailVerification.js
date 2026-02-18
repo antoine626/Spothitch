@@ -107,7 +107,7 @@ export function renderEmailVerification(email) {
           </div>
 
           <!-- Help Text -->
-          <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-center text-sm text-slate-300">
+          <div class="bg-blue-900/20 border border-blue-500/30 rounded-xl p-4 text-center text-sm text-slate-300">
             <p class="mb-2">💡 ${t('emailVerificationMessage')} <strong>${email}</strong></p>
             <p>${t('emailVerificationSubtitle')}</p>
           </div>

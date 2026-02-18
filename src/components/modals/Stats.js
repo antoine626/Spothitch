@@ -114,21 +114,21 @@ export function renderStatsModal() {
             <!-- Secondary Stats -->
             <div class="grid grid-cols-3 gap-4">
               <!-- Spots Used -->
-              <div class="bg-white/5 rounded-lg p-4 text-center">
+              <div class="bg-white/5 rounded-xl p-4 text-center">
                 <div class="text-xl">📍</div>
                 <div class="text-xl font-bold text-white">${travelStats.spotsUsedCount}</div>
                 <div class="text-xs text-slate-400">${t('spotsUsed') || 'Spots utilisés'}</div>
               </div>
 
               <!-- Total Rides -->
-              <div class="bg-white/5 rounded-lg p-4 text-center">
+              <div class="bg-white/5 rounded-xl p-4 text-center">
                 <div class="text-xl">🚙</div>
                 <div class="text-xl font-bold text-white">${travelStats.totalRides}</div>
                 <div class="text-xs text-slate-400">${t('ridesObtained') || 'Lifts obtenus'}</div>
               </div>
 
               <!-- Best Month -->
-              <div class="bg-white/5 rounded-lg p-4 text-center">
+              <div class="bg-white/5 rounded-xl p-4 text-center">
                 <div class="text-xl">🏆</div>
                 <div class="text-xl font-bold text-white">
                   ${travelStats.bestMonth ? travelStats.bestMonth.month : '-'}
@@ -154,7 +154,7 @@ export function renderStatsModal() {
 
             <!-- Favorite Day -->
             ${travelStats.favoriteDay ? `
-              <div class="mt-4 flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+              <div class="mt-4 flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                 <span class="text-2xl">${travelStats.favoriteDay.emoji}</span>
                 <div>
                   <div class="text-white font-medium">${t('favoriteTravelDay') || 'Ton jour préféré pour voyager'}</div>
@@ -167,7 +167,7 @@ export function renderStatsModal() {
 
             <!-- Most Used Spot -->
             ${travelStats.mostUsedSpot ? `
-              <div class="mt-3 flex items-center gap-3 p-3 bg-white/5 rounded-lg">
+              <div class="mt-3 flex items-center gap-3 p-3 bg-white/5 rounded-xl">
                 <span class="text-2xl">⭐</span>
                 <div class="flex-1 min-w-0">
                   <div class="text-white font-medium truncate">${t('favoriteSpot') || 'Ton spot favori'}</div>

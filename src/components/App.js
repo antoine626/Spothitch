@@ -199,7 +199,7 @@ export function renderApp(state) {
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold">${icon('clipboard-list', 'w-5 h-5 mr-2 text-emerald-400')}${t('tripHistory') || 'Historique de voyage'}</h2>
             <div class="flex items-center gap-2">
-              <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all" aria-label="${t('clearHistory') || "Effacer l'historique"}">
+              <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-xl bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all" aria-label="${t('clearHistory') || "Effacer l'historique"}">
                 ${icon('trash', 'w-5 h-5 mr-1')}${t('clear') || 'Effacer'}
               </button>
               <button onclick="closeTripHistory()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
@@ -578,7 +578,7 @@ function initHomeMap(state) {
           const dir = s.to || s.from || ''
           return `
             <button onclick="selectSpot(${typeof s.id === 'string' ? "'" + s.id + "'" : s.id})"
-              class="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all">
+              class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all">
               <div class="text-amber-400 text-sm font-bold shrink-0">${rating}</div>
               <div class="flex-1 min-w-0">
                 <div class="text-white text-sm font-medium truncate">${dir || 'Spot'}</div>

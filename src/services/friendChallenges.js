@@ -490,11 +490,11 @@ export function renderChallengeCard(challenge) {
       ${challenge.status === ChallengeStatus.PENDING && !isCreator ? `
         <div class="flex gap-2 mt-3">
           <button onclick="window.acceptFriendChallenge('${challenge.id}')"
-            class="flex-1 bg-primary text-white py-2 rounded-lg text-sm hover:bg-primary/80">
+            class="flex-1 bg-primary text-white py-2 rounded-xl text-sm hover:bg-primary/80">
             ${t('accept') || 'Accepter'}
           </button>
           <button onclick="window.declineFriendChallenge('${challenge.id}')"
-            class="flex-1 bg-white/5 text-slate-300 py-2 rounded-lg text-sm hover:bg-white/10">
+            class="flex-1 bg-white/5 text-slate-300 py-2 rounded-xl text-sm hover:bg-white/10">
             ${t('decline') || 'Decliner'}
           </button>
         </div>
@@ -503,7 +503,7 @@ export function renderChallengeCard(challenge) {
       ${challenge.status === ChallengeStatus.PENDING && isCreator ? `
         <div class="mt-3">
           <button onclick="window.cancelFriendChallenge('${challenge.id}')"
-            class="w-full bg-white/5 text-slate-300 py-2 rounded-lg text-sm hover:bg-white/10">
+            class="w-full bg-white/5 text-slate-300 py-2 rounded-xl text-sm hover:bg-white/10">
             ${t('cancel') || 'Annuler'}
           </button>
         </div>

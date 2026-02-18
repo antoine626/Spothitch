@@ -475,7 +475,7 @@ export function renderAnniversaryModal(years, reward) {
           <h3 class="text-lg font-semibold text-white mb-4">${t('anniversaryRewards')}</h3>
 
           <!-- Points -->
-          <div class="flex items-center gap-4 p-3 bg-dark-secondary rounded-lg">
+          <div class="flex items-center gap-4 p-3 bg-dark-secondary rounded-xl">
             <div class="text-2xl">💰</div>
             <div class="flex-1">
               <div class="font-medium text-white">+${reward.points} ${t('points')}</div>
@@ -484,7 +484,7 @@ export function renderAnniversaryModal(years, reward) {
           </div>
 
           <!-- Badge -->
-          <div class="flex items-center gap-4 p-3 bg-dark-secondary rounded-lg">
+          <div class="flex items-center gap-4 p-3 bg-dark-secondary rounded-xl">
             <div class="text-2xl">${reward.badge.icon}</div>
             <div class="flex-1">
               <div class="font-medium text-white">${reward.badge.name}</div>
@@ -493,7 +493,7 @@ export function renderAnniversaryModal(years, reward) {
           </div>
 
           <!-- Cosmetic -->
-          <div class="flex items-center gap-4 p-3 bg-dark-secondary rounded-lg">
+          <div class="flex items-center gap-4 p-3 bg-dark-secondary rounded-xl">
             <div class="text-2xl">✨</div>
             <div class="flex-1">
               <div class="font-medium text-white">${reward.cosmetic.name}</div>
@@ -502,7 +502,7 @@ export function renderAnniversaryModal(years, reward) {
           </div>
 
           <!-- Title -->
-          <div class="flex items-center gap-4 p-3 bg-dark-secondary rounded-lg">
+          <div class="flex items-center gap-4 p-3 bg-dark-secondary rounded-xl">
             <div class="text-2xl">📛</div>
             <div class="flex-1">
               <div class="font-medium text-white">${reward.title}</div>

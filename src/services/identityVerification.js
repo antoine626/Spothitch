@@ -684,7 +684,7 @@ export function renderVerificationStatus() {
       </div>
 
       <!-- Trust score -->
-      <div class="flex items-center justify-between p-3 rounded-lg bg-white/5 mb-4">
+      <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 mb-4">
         <div class="flex items-center gap-2">
           <span class="text-lg"></span>
           <span>Score de confiance</span>
@@ -704,7 +704,7 @@ export function renderVerificationStatus() {
           Passer au niveau ${nextLevel.id} : ${nextLevel.name}
         </button>
       ` : `
-        <div class="text-center p-3 rounded-lg bg-gradient-to-r from-purple-500/20 to-pink-500/20">
+        <div class="text-center p-3 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20">
           <span class="text-lg mr-2"></span>
           <span class="text-purple-300 font-medium">Verification complete ! Tu es 100% verifie.</span>
         </div>

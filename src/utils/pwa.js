@@ -170,7 +170,7 @@ export function renderInstallBanner() {
           </button>
           <button
             onclick="installPWA()"
-            class="px-4 py-2 bg-white text-primary-600 rounded-lg text-sm font-semibold
+            class="px-4 py-2 bg-white text-primary-600 rounded-xl text-sm font-semibold
                    hover:bg-primary-50 transition-colors"
           >
             ${t('install') || 'Installer'}

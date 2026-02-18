@@ -52,7 +52,7 @@ export function renderNavigationOverlay(state) {
           <!-- Next instruction preview -->
           ${nextInstruction ? `
             <div class="px-4 py-2.5 bg-black/20 flex items-center gap-3">
-              <div class="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+              <div class="w-7 h-7 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                 ${icon(getDirectionIcon(nextInstruction.maneuver?.type, nextInstruction.maneuver?.modifier), 'w-4 h-4 text-white/70')}
               </div>
               <div class="flex-1 text-white/70 text-sm truncate">
@@ -148,7 +148,7 @@ export function renderNavigationWidget(state) {
         onclick="showFullNavigation()"
         class="w-full bg-primary-600 rounded-xl p-3 shadow-lg flex items-center gap-3 hover:bg-primary-500 transition-all"
       >
-        <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
+        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
           ${icon('navigation', 'w-5 h-5 text-white')}
         </div>
         <div class="flex-1 text-left">

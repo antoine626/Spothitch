@@ -414,7 +414,7 @@ export function renderDataSaverToggle(options = {}) {
   }
 
   return `
-    <div class="data-saver-toggle bg-white dark:bg-dark-secondary rounded-lg p-4 shadow-md" role="region" aria-label="${t('dataSaverSettings')}">
+    <div class="data-saver-toggle bg-white dark:bg-dark-secondary rounded-xl p-4 shadow-md" role="region" aria-label="${t('dataSaverSettings')}">
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
@@ -502,13 +502,13 @@ export function renderDataSaverToggle(options = {}) {
             <span class="font-medium text-white dark:text-white">${t('dataSaverEstimatedSavings')}</span>
           </div>
           <div class="grid grid-cols-2 gap-3">
-            <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 text-center">
+            <div class="bg-green-50 dark:bg-green-900/20 rounded-xl p-3 text-center">
               <div class="text-2xl font-bold text-green-600 dark:text-green-400">
                 ${savings.totalSavedMB} ${t('dataSaverMB')}
               </div>
               <div class="text-xs text-green-700 dark:text-green-300">${t('dataSaverThisSession')}</div>
             </div>
-            <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 text-center">
+            <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-3 text-center">
               <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
                 ~${savings.estimatedMonthlySavingsMB} ${t('dataSaverMB')}
               </div>

@@ -75,7 +75,7 @@ export function renderFriends(state) {
                   <div class="text-slate-400 text-xs">${t('wantsToBeFriend') || 'Veut devenir ton ami'}</div>
                 </div>
                 <button onclick="acceptFriendRequest('${request.id}')"
-                        class="px-4 py-2.5 bg-amber-500 text-white text-sm rounded-lg">
+                        class="px-4 py-2.5 bg-amber-500 text-white text-sm rounded-xl">
                   ${t('accept') || 'Accepter'}
                 </button>
                 <button onclick="rejectFriendRequest('${request.id}')"
@@ -340,7 +340,7 @@ export function renderAddFriendModal() {
         <!-- QR Code -->
         <div class="text-center py-6 border-t border-white/10 mt-4">
           <p class="text-slate-400 text-sm mb-3">${t('orScanQR') || 'Ou scanne le QR code'}</p>
-          <div class="w-32 h-32 bg-white mx-auto rounded-lg flex items-center justify-center">
+          <div class="w-32 h-32 bg-white mx-auto rounded-xl flex items-center justify-center">
             <span class="text-4xl">📱</span>
           </div>
         </div>

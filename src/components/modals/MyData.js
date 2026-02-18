@@ -178,19 +178,19 @@ export function renderMyDataModal() {
           </h3>
           <div class="card p-4">
             <div class="grid grid-cols-2 gap-3">
-              <div class="p-3 rounded-lg bg-white/5 text-center">
+              <div class="p-3 rounded-xl bg-white/5 text-center">
                 <div class="text-2xl font-bold text-purple-400">${activityData.checkins}</div>
                 <div class="text-xs text-slate-400">Check-ins</div>
               </div>
-              <div class="p-3 rounded-lg bg-white/5 text-center">
+              <div class="p-3 rounded-xl bg-white/5 text-center">
                 <div class="text-2xl font-bold text-emerald-400">${activityData.spotsCreated}</div>
                 <div class="text-xs text-slate-400">${t('spotsCreated') || 'Spots créés'}</div>
               </div>
-              <div class="p-3 rounded-lg bg-white/5 text-center">
+              <div class="p-3 rounded-xl bg-white/5 text-center">
                 <div class="text-2xl font-bold text-amber-400">${activityData.reviewsGiven}</div>
                 <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis donnés'}</div>
               </div>
-              <div class="p-3 rounded-lg bg-white/5 text-center">
+              <div class="p-3 rounded-xl bg-white/5 text-center">
                 <div class="text-2xl font-bold text-primary-400">${activityData.friendsCount}</div>
                 <div class="text-xs text-slate-400">${t('friends') || 'Amis'}</div>
               </div>
@@ -306,7 +306,7 @@ export function renderMyDataModal() {
 
             <button
               onclick="openConsentSettings()"
-              class="w-full mt-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm"
+              class="w-full mt-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all text-sm"
             >
               ${icon('settings', 'w-5 h-5 mr-2')}
               ${t('manageConsents') || 'Gérer mes consentements'}

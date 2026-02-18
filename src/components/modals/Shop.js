@@ -141,7 +141,7 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
               </span>
             ` : canBuy ? `
               <button onclick="redeemReward('${reward.id}')"
-                      class="px-4 py-2.5 rounded-lg bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-all">
+                      class="px-4 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-all">
                 ${t('exchange') || 'Échanger'}
               </button>
             ` : `
@@ -199,7 +199,7 @@ export function renderMyRewardsModal() {
               <p class="font-medium">${t('noPromoCode') || 'Aucun code promo'}</p>
               <p class="text-sm mt-1">${t('exchangeThumbsForDiscounts') || 'Échange tes pouces contre des réductions !'}</p>
               <button onclick="closeMyRewards(); openShop()"
-                      class="mt-4 px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600">
+                      class="mt-4 px-6 py-2 bg-primary-500 text-white rounded-xl hover:bg-primary-600">
                 ${t('viewOffers') || 'Voir les offres'}
               </button>
             </div>
@@ -220,11 +220,11 @@ export function renderMyRewardsModal() {
 
                       <!-- Code Box -->
                       <div class="mt-3 flex items-center gap-2">
-                        <div class="flex-1 px-4 py-2 bg-dark-secondary rounded-lg font-mono text-lg text-center text-white border-2 border-dashed border-emerald-500/50">
+                        <div class="flex-1 px-4 py-2 bg-dark-secondary rounded-xl font-mono text-lg text-center text-white border-2 border-dashed border-emerald-500/50">
                           ${reward.code}
                         </div>
                         <button onclick="copyCode('${reward.code}')"
-                                class="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600"
+                                class="px-4 py-2 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600"
                                 aria-label="${t('copyCode') || 'Copy code'}">
                           ${icon('copy', 'w-5 h-5')}
                         </button>
@@ -232,7 +232,7 @@ export function renderMyRewardsModal() {
 
                       <!-- Use Button -->
                       <a href="${reward.url}" target="_blank" rel="noopener"
-                         class="mt-3 flex items-center justify-center gap-2 w-full py-2 bg-white/5 rounded-lg text-slate-400 hover:bg-white/10 transition-all">
+                         class="mt-3 flex items-center justify-center gap-2 w-full py-2 bg-white/5 rounded-xl text-slate-400 hover:bg-white/10 transition-all">
                         ${icon('external-link', 'w-5 h-5')}
                         ${t('useOn') || 'Utiliser sur'} ${reward.partner}
                       </a>

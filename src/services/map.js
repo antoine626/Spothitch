@@ -573,7 +573,7 @@ export function displayFallbackSpots(container) {
       <p class="text-slate-400 mb-4">Carte non disponible</p>
       <div class="space-y-2 max-h-48 overflow-y-auto">
         ${spots.slice(0, 10).map(spot => `
-          <div class="flex items-center gap-2 p-2 bg-white/10 rounded-lg cursor-pointer"
+          <div class="flex items-center gap-2 p-2 bg-white/10 rounded-xl cursor-pointer"
                onclick="selectSpot(${spot.id})">
             <span>📍</span>
             <span class="text-white text-sm truncate">${spot.from} → ${spot.to}</span>

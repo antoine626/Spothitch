@@ -84,7 +84,7 @@ function renderErrorFallback(componentName, error) {
           <pre class="mt-2 p-2 bg-black/30 rounded text-xs text-red-400 overflow-auto max-h-32">${escapeForHtml(error.stack || error.message)}</pre>
         </details>
       ` : ''}
-      <button onclick="location.reload()" class="mt-3 px-4 py-2 bg-primary-500 text-white rounded-lg text-sm">
+      <button onclick="location.reload()" class="mt-3 px-4 py-2 bg-primary-500 text-white rounded-xl text-sm">
         Recharger la page
       </button>
     </div>

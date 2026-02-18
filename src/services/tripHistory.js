@@ -263,7 +263,7 @@ export function renderTripHistory(limit = 50) {
           </div>
 
           <!-- Event content -->
-          <div class="flex-1 bg-white/5 rounded-lg p-3 border border-white/10">
+          <div class="flex-1 bg-white/5 rounded-xl p-3 border border-white/10">
             <div class="flex items-start justify-between mb-1">
               <div class="font-medium text-white">${eventLabel}</div>
               <div class="text-xs text-slate-400">${timeText}</div>

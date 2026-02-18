@@ -1901,9 +1901,9 @@ window.setHostelCategory = (category) => {
   // Update button styles
   document.querySelectorAll('.category-btn').forEach(btn => {
     if (btn.dataset.category === category) {
-      btn.className = 'category-btn py-3 px-2 rounded-lg text-center transition-all border-2 border-primary-500 bg-primary-500/20';
+      btn.className = 'category-btn py-3 px-2 rounded-xl text-center transition-all border-2 border-primary-500 bg-primary-500/20';
     } else {
-      btn.className = 'category-btn py-3 px-2 rounded-lg text-center transition-all border border-white/10 hover:border-primary-500';
+      btn.className = 'category-btn py-3 px-2 rounded-xl text-center transition-all border border-white/10 hover:border-primary-500';
     }
   });
 };

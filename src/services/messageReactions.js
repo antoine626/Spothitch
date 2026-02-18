@@ -294,7 +294,7 @@ export function renderReactionsPicker(messageId) {
       ${AVAILABLE_REACTIONS.map(r => `
         <button
           type="button"
-          class="reaction-btn p-2 text-xl rounded-lg hover:bg-white/10 transition-all ${myReaction === r.emoji ? 'bg-primary-500/20 ring-2 ring-primary-500' : ''}"
+          class="reaction-btn p-2 text-xl rounded-xl hover:bg-white/10 transition-all ${myReaction === r.emoji ? 'bg-primary-500/20 ring-2 ring-primary-500' : ''}"
           onclick="window.toggleMessageReaction('${escapeHTML(messageId)}', '${r.emoji}')"
           aria-label="${r.label}"
           aria-pressed="${myReaction === r.emoji}"

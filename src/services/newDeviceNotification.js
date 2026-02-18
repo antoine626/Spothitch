@@ -576,7 +576,7 @@ export function renderDeviceList() {
         })
 
         return `
-          <div class="device-item flex items-center justify-between p-3 bg-dark-secondary rounded-lg ${isCurrent ? 'border border-primary-500' : ''}">
+          <div class="device-item flex items-center justify-between p-3 bg-dark-secondary rounded-xl ${isCurrent ? 'border border-primary-500' : ''}">
             <div class="flex items-center gap-3">
               <span class="text-2xl">${icon}</span>
               <div>

@@ -32,7 +32,7 @@ export function renderSpots(state) {
         <div class="flex gap-1 bg-white/5 rounded-xl p-1" role="group" aria-label="Mode d'affichage">
           <button
             onclick="setViewMode('list')"
-            class="p-3 rounded-lg ${state.viewMode === 'list' ? 'bg-primary-500 text-white' : 'text-slate-400'}"
+            class="p-3 rounded-xl ${state.viewMode === 'list' ? 'bg-primary-500 text-white' : 'text-slate-400'}"
             aria-label="Vue liste"
             aria-pressed="${state.viewMode === 'list' ? 'true' : 'false'}"
             type="button"
@@ -41,7 +41,7 @@ export function renderSpots(state) {
           </button>
           <button
             onclick="setViewMode('map')"
-            class="p-3 rounded-lg ${state.viewMode === 'map' ? 'bg-primary-500 text-white' : 'text-slate-400'}"
+            class="p-3 rounded-xl ${state.viewMode === 'map' ? 'bg-primary-500 text-white' : 'text-slate-400'}"
             aria-label="Vue carte"
             aria-pressed="${state.viewMode === 'map' ? 'true' : 'false'}"
             type="button"

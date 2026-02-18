@@ -623,7 +623,7 @@ export function renderReviewForm(spotId) {
         </label>
         <textarea
           id="review-comment"
-          class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
           rows="4"
           maxlength="1000"
           placeholder="${escapeHTML(t('reviewCommentPlaceholder') || 'Partage ton experience sur ce spot...')}"
@@ -735,7 +735,7 @@ export function renderReviewCard(review) {
             <img
               src="${escapeHTML(photo)}"
               alt="${escapeHTML(t('reviewPhoto') || 'Photo de l\'avis')} ${idx + 1}"
-              class="w-16 h-16 rounded-lg object-cover cursor-pointer hover:opacity-80"
+              class="w-16 h-16 rounded-xl object-cover cursor-pointer hover:opacity-80"
               onclick="openReviewPhoto('${escapeHTML(photo)}')"
               loading="lazy"
             >

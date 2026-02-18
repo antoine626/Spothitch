@@ -46,15 +46,15 @@ export function renderChallengesHub(state) {
           <span class="font-medium text-sm">${t('howToEarnPoints') || 'Comment gagner des pouces ?'}</span>
         </div>
         <div class="grid grid-cols-3 gap-2 text-center">
-          <div class="p-2 rounded-lg bg-emerald-500/10">
+          <div class="p-2 rounded-xl bg-emerald-500/10">
             <div class="text-lg mb-1">📍</div>
             <div class="text-[10px] text-slate-400">${t('validateSpots') || 'Valider des spots'}</div>
           </div>
-          <div class="p-2 rounded-lg bg-purple-500/10">
+          <div class="p-2 rounded-xl bg-purple-500/10">
             <div class="text-lg mb-1">💬</div>
             <div class="text-[10px] text-slate-400">${t('leaveComments') || 'Commentaires'}</div>
           </div>
-          <div class="p-2 rounded-lg bg-amber-500/10">
+          <div class="p-2 rounded-xl bg-amber-500/10">
             <div class="text-lg mb-1">📸</div>
             <div class="text-[10px] text-slate-400">${t('addPhotos') || 'Ajouter des photos'}</div>
           </div>
@@ -152,7 +152,7 @@ export function renderChallengesHub(state) {
           ${activeChallenges.length > 0 ? activeChallenges.map(challenge => {
     const progress = Math.min((state[challenge.type] || 0) / challenge.target * 100, 100)
     return `
-              <div class="p-3 rounded-lg bg-white/5">
+              <div class="p-3 rounded-xl bg-white/5">
                 <div class="flex items-center justify-between mb-2 gap-2">
                   <div class="flex items-center gap-2 min-w-0">
                     <span class="text-base shrink-0">${challenge.icon}</span>

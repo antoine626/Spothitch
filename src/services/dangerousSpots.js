@@ -742,7 +742,7 @@ export function renderDangerAlert(spot) {
 
   return `
     <div
-      class="danger-alert ${colorClass} border-l-4 rounded-lg p-4 mb-4"
+      class="danger-alert ${colorClass} border-l-4 rounded-xl p-4 mb-4"
       role="alert"
       aria-live="assertive"
       data-spot-id="${escapeHTML(spot.id)}"
@@ -836,7 +836,7 @@ export function renderDangerReportModal(spotId) {
           <!-- Reason selection -->
           <div class="mb-4 space-y-2">
             ${reasons.map(r => `
-              <label class="flex items-start gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 cursor-pointer transition-colors">
+              <label class="flex items-start gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 cursor-pointer transition-colors">
                 <input
                   type="radio"
                   name="danger-reason"
@@ -868,7 +868,7 @@ export function renderDangerReportModal(spotId) {
             </label>
             <textarea
               id="danger-details"
-              class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
+              class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
               rows="3"
               maxlength="500"
               placeholder="${escapeHTML(t('dangerDetailsPlaceholder') || 'Decris la situation (date, heure, circonstances)...')}"
@@ -876,7 +876,7 @@ export function renderDangerReportModal(spotId) {
           </div>
 
           <!-- Warning -->
-          <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
+          <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-3 mb-4">
             <p class="text-red-400 text-sm">
               ${icon('info', 'w-5 h-5 mr-2')}
               ${escapeHTML(t('dangerReportWarning') || 'Les faux signalements peuvent entrainer des sanctions. Signale uniquement les vrais dangers.')}

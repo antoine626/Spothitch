@@ -216,7 +216,7 @@ export function renderWebhookSettings() {
       <p class="text-sm text-slate-400">Recevez des notifications sur Discord, Telegram ou Slack.</p>
 
       ${webhooks.map(w => `
-        <div class="flex items-center gap-3 bg-white/5 rounded-lg p-3">
+        <div class="flex items-center gap-3 bg-white/5 rounded-xl p-3">
           <div class="flex-1">
             <div class="text-sm font-medium text-white">${w.name}</div>
             <div class="text-xs text-slate-400">${w.type} - ${w.events.length} evenements</div>
@@ -231,7 +231,7 @@ export function renderWebhookSettings() {
         </div>
       `).join('')}
 
-      <button onclick="window.openAddWebhook()" class="w-full py-2 bg-primary-500/20 text-primary-400 rounded-lg text-sm hover:bg-primary-500/30">
+      <button onclick="window.openAddWebhook()" class="w-full py-2 bg-primary-500/20 text-primary-400 rounded-xl text-sm hover:bg-primary-500/30">
         + Ajouter un webhook
       </button>
     </div>

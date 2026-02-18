@@ -1033,7 +1033,7 @@ export function renderHostelCard(hostel) {
          aria-label="${t('partnerHostel')}: ${escapeHTML(hostel.name)}">
       <div class="flex items-start gap-4">
         <!-- Photo -->
-        <div class="w-24 h-24 rounded-lg bg-white/5 overflow-hidden shrink-0">
+        <div class="w-24 h-24 rounded-xl bg-white/5 overflow-hidden shrink-0">
           ${hostel.photos && hostel.photos[0]
             ? `<img src="${escapeHTML(hostel.photos[0])}" alt="${escapeHTML(hostel.name)}" class="w-full h-full object-cover" loading="lazy">`
             : `<div class="w-full h-full flex items-center justify-center text-3xl">🏨</div>`
@@ -1047,7 +1047,7 @@ export function renderHostelCard(hostel) {
               <h3 class="font-semibold text-white text-lg truncate">${escapeHTML(hostel.name)}</h3>
               <p class="text-sm text-slate-400">${escapeHTML(hostel.city)}, ${escapeHTML(hostel.country)}</p>
             </div>
-            <span class="bg-primary-500/20 text-primary-400 px-2 py-1 rounded-lg text-sm font-medium whitespace-nowrap">
+            <span class="bg-primary-500/20 text-primary-400 px-2 py-1 rounded-xl text-sm font-medium whitespace-nowrap">
               -${hostel.discount}%
             </span>
           </div>
@@ -1174,7 +1174,7 @@ export function renderHostelDetail(hostel) {
           <p class="text-slate-300">${escapeHTML(description)}</p>
 
           <!-- Price -->
-          <div class="bg-dark-primary rounded-lg p-3">
+          <div class="bg-dark-primary rounded-xl p-3">
             <span class="text-slate-400 text-sm">${t('fromPrice')}</span>
             <span class="text-2xl font-bold text-white ml-2">${hostel.priceRange.min}€</span>
             <span class="text-slate-400">${t('perNight')}</span>
@@ -1199,11 +1199,11 @@ export function renderHostelDetail(hostel) {
 
           <!-- Check-in/out -->
           <div class="grid grid-cols-2 gap-4">
-            <div class="bg-dark-primary rounded-lg p-3">
+            <div class="bg-dark-primary rounded-xl p-3">
               <span class="text-slate-400 text-sm">${t('checkIn')}</span>
               <p class="text-white font-semibold">${hostel.checkIn}</p>
             </div>
-            <div class="bg-dark-primary rounded-lg p-3">
+            <div class="bg-dark-primary rounded-xl p-3">
               <span class="text-slate-400 text-sm">${t('checkOut')}</span>
               <p class="text-white font-semibold">${hostel.checkOut}</p>
             </div>
@@ -1215,7 +1215,7 @@ export function renderHostelDetail(hostel) {
               <h3 class="font-semibold text-white mb-2">${t('reviews')} SpotHitch</h3>
               <div class="space-y-2">
                 ${reviews.slice(0, 3).map((review) => `
-                  <div class="bg-dark-primary rounded-lg p-3">
+                  <div class="bg-dark-primary rounded-xl p-3">
                     <div class="flex items-center gap-2 mb-1">
                       <span class="text-lg">${review.avatar || '🤙'}</span>
                       <span class="text-white text-sm">${review.username}</span>
@@ -1248,14 +1248,14 @@ export function renderHostelDetail(hostel) {
           <div class="flex gap-2 pt-2">
             ${hostel.phone ? `
               <button onclick="window.open('tel:${hostel.phone}')"
-                class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
+                class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-xl text-sm flex items-center justify-center gap-2">
                 ${icon('phone', 'w-5 h-5')}
                 Call
               </button>
             ` : ''}
             ${hostel.email ? `
               <button onclick="window.open('mailto:${hostel.email}')"
-                class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-lg text-sm flex items-center justify-center gap-2">
+                class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2 px-4 rounded-xl text-sm flex items-center justify-center gap-2">
                 ${icon('mail', 'w-5 h-5')}
                 Email
               </button>
@@ -1282,7 +1282,7 @@ export function renderDiscountBanner(discount) {
   if (!discount) return ''
 
   return `
-    <div class="discount-banner rounded-lg p-4 bg-gradient-to-r from-primary-500/20 to-primary-600/10 border border-primary-500/30"
+    <div class="discount-banner rounded-xl p-4 bg-gradient-to-r from-primary-500/20 to-primary-600/10 border border-primary-500/30"
          role="banner"
          aria-label="${t('discountLabel')}">
       <div class="flex items-center gap-3">

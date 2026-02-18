@@ -109,7 +109,7 @@ export function renderSkeletonChallengeCard() {
           <div class="skeleton h-3 w-full rounded"></div>
           <div class="skeleton h-2 w-full rounded-full"></div>
         </div>
-        <div class="skeleton h-8 w-16 rounded-lg"></div>
+        <div class="skeleton h-8 w-16 rounded-xl"></div>
       </div>
     </div>
   `;
@@ -242,7 +242,7 @@ export function renderSkeletonGuideCard() {
   return `
     <div class="card p-4 animate-pulse">
       <div class="flex gap-4">
-        <div class="skeleton w-16 h-12 rounded-lg shrink-0"></div>
+        <div class="skeleton w-16 h-12 rounded-xl shrink-0"></div>
         <div class="flex-1 space-y-2">
           <div class="skeleton h-5 w-24 rounded"></div>
           <div class="skeleton h-4 w-full rounded"></div>
@@ -262,7 +262,7 @@ export function renderSkeletonRewardCard() {
       <div class="skeleton w-16 h-16 rounded-xl mx-auto mb-3"></div>
       <div class="skeleton h-4 w-20 rounded mx-auto mb-2"></div>
       <div class="skeleton h-3 w-24 rounded mx-auto mb-3"></div>
-      <div class="skeleton h-8 w-full rounded-lg"></div>
+      <div class="skeleton h-8 w-full rounded-xl"></div>
     </div>
   `;
 }

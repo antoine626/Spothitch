@@ -89,7 +89,7 @@ export function renderDeleteAccountModal(state) {
             </div>
 
             <!-- Error message container -->
-            <div id="delete-error" class="hidden text-red-400 text-sm text-center p-2 bg-red-500/10 rounded-lg">
+            <div id="delete-error" class="hidden text-red-400 text-sm text-center p-2 bg-red-500/10 rounded-xl">
             </div>
 
             <!-- Action buttons -->

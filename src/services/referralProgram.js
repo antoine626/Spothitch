@@ -503,7 +503,7 @@ export function renderReferralCard() {
       </div>
 
       <!-- Level Badge -->
-      <div class="flex items-center justify-between mb-4 p-3 bg-dark-primary/50 rounded-lg">
+      <div class="flex items-center justify-between mb-4 p-3 bg-dark-primary/50 rounded-xl">
         <div>
           <p class="text-xs text-slate-400">${t('referralLevel')}</p>
           <p class="font-bold text-${levelColor}-400 capitalize">${stats.level !== 'none' ? stats.level : t('referralLevelNone')}</p>
@@ -516,15 +516,15 @@ export function renderReferralCard() {
 
       <!-- Stats Grid -->
       <div class="grid grid-cols-3 gap-2 mb-4">
-        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-xl p-2 text-center">
           <p class="text-xl font-bold text-white">${stats.totalReferrals}</p>
           <p class="text-xs text-slate-400">${t('referralsCompleted')}</p>
         </div>
-        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-xl p-2 text-center">
           <p class="text-xl font-bold text-primary">${stats.totalPointsEarned}</p>
           <p class="text-xs text-slate-400">${t('pointsEarned')}</p>
         </div>
-        <div class="bg-dark-primary/50 rounded-lg p-2 text-center">
+        <div class="bg-dark-primary/50 rounded-xl p-2 text-center">
           <p class="text-xl font-bold text-yellow-400">${stats.pendingReferrals}</p>
           <p class="text-xs text-slate-400">${t('pending')}</p>
         </div>
@@ -549,7 +549,7 @@ export function renderReferralCard() {
       `}
 
       <!-- Referral Code -->
-      <div class="bg-dark-primary rounded-lg p-3 mb-4">
+      <div class="bg-dark-primary rounded-xl p-3 mb-4">
         <p class="text-xs text-slate-400 mb-1">${t('yourReferralCode')}</p>
         <div class="flex items-center justify-between">
           <span class="font-mono text-lg font-bold text-white tracking-wider">${stats.referralCode}</span>
@@ -562,17 +562,17 @@ export function renderReferralCard() {
       <!-- Share buttons -->
       <div class="flex gap-2">
         <button onclick="window.shareReferralLink('whatsapp')"
-          class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-xl text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} WhatsApp">
           ${icon('whatsapp', 'w-5 h-5')}
         </button>
         <button onclick="window.shareReferralLink('telegram')"
-          class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-xl text-sm flex items-center justify-center gap-1"
           aria-label="${t('shareVia')} Telegram">
           ${icon('telegram', 'w-5 h-5')}
         </button>
         <button onclick="window.shareReferralLink('copy')"
-          class="flex-1 bg-primary hover:bg-primary/80 text-white py-2 px-3 rounded-lg text-sm flex items-center justify-center gap-1"
+          class="flex-1 bg-primary hover:bg-primary/80 text-white py-2 px-3 rounded-xl text-sm flex items-center justify-center gap-1"
           aria-label="${t('copyLink')}">
           ${icon('link', 'w-5 h-5')}
         </button>

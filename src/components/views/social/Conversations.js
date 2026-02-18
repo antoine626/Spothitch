@@ -229,7 +229,7 @@ function renderDMMessage(msg, state) {
 
   if (msg.type === 'spot_share' && msg.spot) {
     content = `
-      <div class="bg-white/10 rounded-lg p-2 mb-1">
+      <div class="bg-white/10 rounded-xl p-2 mb-1">
         <div class="flex items-center gap-2">
           ${icon('map-pin', 'w-4 h-4 text-primary-400')}
           <div>
@@ -242,7 +242,7 @@ function renderDMMessage(msg, state) {
     `
   } else if (msg.type === 'location_share' && msg.location) {
     content = `
-      <div class="bg-white/10 rounded-lg p-2 mb-1">
+      <div class="bg-white/10 rounded-xl p-2 mb-1">
         <div class="flex items-center gap-2">
           ${icon('locate', 'w-4 h-4 text-emerald-400')}
           <div class="text-sm text-white">${escapeHTML(msg.location.address || t('sharedPosition'))}</div>

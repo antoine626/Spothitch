@@ -226,7 +226,7 @@ function showTipUI(tip) {
         <!-- Dismiss Button -->
         <button
           onclick="window.dismissContextualTip()"
-          class="shrink-0 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-400 hover:text-white transition-all"
+          class="shrink-0 w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-400 hover:text-white transition-all"
           aria-label="Fermer l'astuce"
           type="button"
         >

@@ -680,14 +680,14 @@ export function renderNearbyFriendCard(friend, distance) {
       <div class="friend-actions flex gap-2">
         <button
           onclick="showFriendOnMap('${friendId}')"
-          class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
+          class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
           aria-label="${t('viewOnMap')}"
         >
           ${icon('map-pin', 'w-5 h-5')}
         </button>
         <button
           onclick="openFriendChat('${friendId}')"
-          class="p-2 rounded-lg bg-primary-500/20 text-primary-400 hover:bg-primary-500/30 transition-colors"
+          class="p-2 rounded-xl bg-primary-500/20 text-primary-400 hover:bg-primary-500/30 transition-colors"
           aria-label="${t('sendMessage')}"
         >
           ${icon('message-circle', 'w-5 h-5')}
@@ -763,7 +763,7 @@ export function renderFriendNearbySettings() {
   return `
     <div class="friend-nearby-settings bg-dark-card rounded-xl p-4">
       <div class="flex items-center gap-3 mb-4">
-        <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center">
           ${icon('users', 'w-5 h-5 text-emerald-400')}
         </div>
         <div class="flex-1">
@@ -785,7 +785,7 @@ export function renderFriendNearbySettings() {
             <span class="text-sm text-slate-400">${t('radiusSet', { radius: '' }).replace(': ', '')}</span>
             <select
               onchange="setFriendNearbyRadius(Number(this.value))"
-              class="bg-white/10 rounded-lg px-3 py-1.5 text-sm"
+              class="bg-white/10 rounded-xl px-3 py-1.5 text-sm"
             >
               ${radiusOptions}
             </select>
@@ -794,7 +794,7 @@ export function renderFriendNearbySettings() {
             <span class="text-sm text-slate-400">${t('cooldownSet', { minutes: '' }).replace(': ', '')}</span>
             <select
               onchange="setFriendNearbyCooldown(Number(this.value))"
-              class="bg-white/10 rounded-lg px-3 py-1.5 text-sm"
+              class="bg-white/10 rounded-xl px-3 py-1.5 text-sm"
             >
               ${cooldownOptions}
             </select>

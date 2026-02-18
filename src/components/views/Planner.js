@@ -186,7 +186,7 @@ function renderActiveTripDetails(trip) {
         <div class="space-y-3">
           <h4 class="text-sm font-semibold text-slate-400">Spots recommandés</h4>
           ${trip.spotsByLeg.map(leg => `
-            <div class="bg-dark-secondary/50 rounded-lg p-3">
+            <div class="bg-dark-secondary/50 rounded-xl p-3">
               <div class="text-sm text-slate-300 mb-2">${leg.from} → ${leg.to}</div>
               ${leg.spots.length > 0
     ? `<div class="flex flex-wrap gap-2">
@@ -220,7 +220,7 @@ function renderSavedTripCard(trip) {
     <div class="saved-trip p-3 bg-dark-secondary rounded-xl flex items-center gap-3 cursor-pointer
                 hover:bg-white/10 transition-colors"
          onclick="loadSavedTrip('${trip.id}')">
-      <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg
+      <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl
                   flex items-center justify-center text-white text-lg">
         🗺️
       </div>
@@ -325,10 +325,10 @@ export function renderSavedTripDetail(tripId) {
                 <div class="text-sm text-slate-400 mb-2">${leg.from} → ${leg.to}</div>
                 <div class="grid grid-cols-1 gap-2">
                   ${leg.spots.slice(0, 3).map(spot => `
-                    <div class="flex items-center gap-3 p-2 bg-dark-secondary rounded-lg cursor-pointer
+                    <div class="flex items-center gap-3 p-2 bg-dark-secondary rounded-xl cursor-pointer
                                 hover:bg-white/10"
                          onclick="selectSpot(${spot.id})">
-                      <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                      <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-xl object-cover" loading="lazy" />
                       <div class="flex-1">
                         <div class="text-white text-sm">${spot.from}</div>
                         <div class="text-slate-400 text-xs">✓${spot.userValidations || 0} • ${spot.avgWaitTime}min</div>

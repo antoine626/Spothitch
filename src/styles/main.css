@@ -226,7 +226,7 @@
   }
 
   .btn-sm {
-    @apply text-sm px-4 py-2 rounded-lg min-h-[36px];
+    @apply text-sm px-4 py-2 rounded-xl min-h-[36px];
   }
 
   .btn-lg {
@@ -254,7 +254,7 @@
   }
 
   .admin-btn {
-    @apply flex items-center gap-2 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all text-sm text-left;
+    @apply flex items-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-sm text-left;
   }
 
   .admin-btn:hover {
@@ -509,7 +509,7 @@
 
   /* Skeleton Loaders */
   .skeleton {
-    @apply rounded-lg;
+    @apply rounded-xl;
     background: linear-gradient(90deg, #1a2332 0%, #2a3544 50%, #1a2332 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s ease-in-out infinite;
@@ -831,7 +831,7 @@ label {
   clip: auto;
   white-space: normal;
   z-index: 9999;
-  @apply bg-primary-500 text-white rounded-lg font-bold shadow-xl;
+  @apply bg-primary-500 text-white rounded-xl font-bold shadow-xl;
 }
 
 /* Focus Visible - enhanced focus indicators */
@@ -1351,7 +1351,7 @@ img[data-error="true"]::after {
 
 /* SOS header button accessible */
 .sos-header-btn {
-  @apply px-3 py-1.5 rounded-lg bg-danger-500/20 text-danger-400 text-xs font-medium;
+  @apply px-3 py-1.5 rounded-xl bg-danger-500/20 text-danger-400 text-xs font-medium;
   @apply hover:bg-danger-500/30 flex items-center gap-1;
   @apply transition-colors;
 }
@@ -2245,7 +2245,7 @@ textarea.input-field {
 
 /* Thumbnail Buttons */
 .photo-gallery [data-thumb-index] {
-  @apply shrink-0 w-16 h-16 rounded-lg overflow-hidden;
+  @apply shrink-0 w-16 h-16 rounded-xl overflow-hidden;
   @apply border-2 transition-all duration-200;
   border-color: transparent;
 }
@@ -2553,7 +2553,7 @@ textarea.input-field {
 
 /* Enhanced Skeleton Loading */
 .skeleton-shimmer {
-  @apply rounded-lg relative overflow-hidden;
+  @apply rounded-xl relative overflow-hidden;
   background: linear-gradient(90deg, #1a2332 0%, #2a3544 50%, #1a2332 100%);
   background-size: 200% 100%;
   animation: skeletonShimmer 1.5s ease-in-out infinite;

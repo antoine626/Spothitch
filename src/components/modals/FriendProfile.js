@@ -126,14 +126,14 @@ export function renderFriendProfileModal(state) {
             <div class="flex gap-2">
               <button
                 onclick="shareProfile('${friend.id}')"
-                class="flex-1 py-2 rounded-lg bg-white/5 text-slate-400 hover:bg-white/10 transition-all text-sm flex items-center justify-center gap-1"
+                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all text-sm flex items-center justify-center gap-1"
               >
                 ${icon('share', 'w-4 h-4')}
                 ${t('share')}
               </button>
               <button
                 onclick="removeFriend('${friend.id}'); closeFriendProfile()"
-                class="flex-1 py-2 rounded-lg border border-danger-500/30 text-danger-400 hover:bg-danger-500/10 transition-all text-sm flex items-center justify-center gap-1"
+                class="flex-1 py-2 rounded-xl border border-danger-500/30 text-danger-400 hover:bg-danger-500/10 transition-all text-sm flex items-center justify-center gap-1"
               >
                 ${icon('user-minus', 'w-4 h-4')}
                 ${t('removeFriend')}

@@ -832,7 +832,7 @@ export function renderSeasonBanner() {
         </div>
       </div>
 
-      <div class="bg-white/20 rounded-lg p-3">
+      <div class="bg-white/20 rounded-xl p-3">
         <div class="flex justify-between items-center mb-2">
           <span class="text-sm">${lang === 'fr' ? 'Tes pouces' : 'Your thumbs'}</span>
           <span class="font-bold">${progress.seasonPoints.toLocaleString()} 👍</span>
@@ -859,7 +859,7 @@ export function renderSeasonBanner() {
       </div>
 
       <button onclick="window.openSeasonRewards()"
-        class="w-full mt-3 bg-white/20 hover:bg-white/30 text-white py-2 rounded-lg text-sm font-medium transition-colors">
+        class="w-full mt-3 bg-white/20 hover:bg-white/30 text-white py-2 rounded-xl text-sm font-medium transition-colors">
         ${lang === 'fr' ? 'Voir les recompenses' : 'View rewards'}
       </button>
     </div>
@@ -905,7 +905,7 @@ export function renderSeasonRewardsContent() {
                   </span>
                 ` : `
                   <button onclick="window.claimSeasonReward('${tier.id}')"
-                    class="px-3 py-1 bg-primary text-white rounded-lg text-sm hover:bg-primary/80 transition-colors">
+                    class="px-3 py-1 bg-primary text-white rounded-xl text-sm hover:bg-primary/80 transition-colors">
                     ${lang === 'fr' ? 'Reclamer' : 'Claim'}
                   </button>
                 `}

@@ -92,7 +92,7 @@ export function renderCheckinModal(state) {
                 <button
                   type="button"
                   onclick="setCheckinWaitTime(${i})"
-                  class="checkin-wait-btn px-4 py-2.5 rounded-lg text-xs font-medium border transition-all
+                  class="checkin-wait-btn px-4 py-2.5 rounded-xl text-xs font-medium border transition-all
                     ${state.checkinWaitTime === i
                       ? 'bg-warning-500 border-warning-500 text-white'
                       : 'bg-white/5 border-white/10 hover:border-warning-400'}"

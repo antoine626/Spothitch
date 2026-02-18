@@ -289,7 +289,7 @@ export function renderReportModal(state) {
                 onclick="selectReportReason('${reason.id}')"
                 class="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-left flex items-center gap-3 ${state.selectedReportReason === reason.id ? 'ring-2 ring-primary-500 bg-primary-500/10' : ''}"
               >
-                <div class="w-10 h-10 rounded-lg ${SEVERITY_LEVELS[reason.severity].bg} flex items-center justify-center">
+                <div class="w-10 h-10 rounded-xl ${SEVERITY_LEVELS[reason.severity].bg} flex items-center justify-center">
                   ${icon(reason.icon, `w-5 h-5 ${SEVERITY_LEVELS[reason.severity].color}`)}
                 </div>
                 <div class="flex-1">

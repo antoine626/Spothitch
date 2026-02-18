@@ -268,7 +268,7 @@ function renderPhrasesSection() {
           </div>
           <div class="space-y-2">
             ${phrases.map(p => `
-              <div class="p-2.5 rounded-lg bg-white/5">
+              <div class="p-2.5 rounded-xl bg-white/5">
                 <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
                 <div class="text-xs text-slate-400 mt-1">${isEn ? p.meaningEn : p.meaning}</div>
               </div>
@@ -305,7 +305,7 @@ function renderEventsSection() {
     const eventDesc = (isEn && event.descriptionEn) ? event.descriptionEn : event.description
     const typeColor = event.type === 'festival' ? 'text-pink-400 bg-pink-500/20' : event.type === 'gathering' ? 'text-cyan-400 bg-cyan-500/20' : 'text-amber-400 bg-amber-500/20'
     return `
-              <div class="flex items-start gap-3 p-2.5 rounded-lg bg-white/5">
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-white/5">
                 <div class="shrink-0 w-8 h-8 rounded-full ${typeColor} flex items-center justify-center">
                   ${icon(event.type === 'festival' ? 'music' : event.type === 'gathering' ? 'users' : 'flag', 'w-4 h-4')}
                 </div>
@@ -474,7 +474,7 @@ export function renderCountryDetail(guideOrCode) {
         </h3>
         <div class="space-y-2">
           ${getUniversalPhrases(guide.code).map(p => `
-            <div class="p-2.5 rounded-lg bg-white/5">
+            <div class="p-2.5 rounded-xl bg-white/5">
               <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
               <div class="text-xs text-slate-400 mt-1">${isEn ? p.meaningEn : p.meaning}</div>
             </div>
@@ -508,7 +508,7 @@ export function renderCountryDetail(guideOrCode) {
           </h3>
           <div class="space-y-2">
             ${guide.bestSpots.map(spot => `
-              <div class="flex items-center gap-2 p-2 rounded-lg bg-white/5">
+              <div class="flex items-center gap-2 p-2 rounded-xl bg-white/5">
                 ${icon('thumbs-up', 'w-4 h-4 text-primary-400')}
                 <span class="text-slate-300 text-sm">${spot}</span>
               </div>
@@ -524,19 +524,19 @@ export function renderCountryDetail(guideOrCode) {
           ${t('emergencyNumbers') || "Numéros d'urgence"}
         </h3>
         <div class="grid grid-cols-2 gap-3">
-          <div class="text-center p-3 rounded-lg bg-danger-500/10">
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
             <div class="text-xs text-slate-400 mb-1">Police</div>
             <div class="font-bold text-lg">${guide.emergencyNumbers.police}</div>
           </div>
-          <div class="text-center p-3 rounded-lg bg-danger-500/10">
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
             <div class="text-xs text-slate-400 mb-1">Ambulance</div>
             <div class="font-bold text-lg">${guide.emergencyNumbers.ambulance}</div>
           </div>
-          <div class="text-center p-3 rounded-lg bg-danger-500/10">
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
             <div class="text-xs text-slate-400 mb-1">${t('fire') || 'Pompiers'}</div>
             <div class="font-bold text-lg">${guide.emergencyNumbers.fire}</div>
           </div>
-          <div class="text-center p-3 rounded-lg bg-emerald-500/10">
+          <div class="text-center p-3 rounded-xl bg-emerald-500/10">
             <div class="text-xs text-slate-400 mb-1">${t('worldwide') || 'Monde'}</div>
             <div class="font-bold text-lg text-emerald-400">${guide.emergencyNumbers.universal}</div>
           </div>
@@ -556,7 +556,7 @@ export function renderCountryDetail(guideOrCode) {
     const eventDate = (isEn && event.dateEn) ? event.dateEn : event.date
     const eventDesc = (isEn && event.descriptionEn) ? event.descriptionEn : event.description
     return `
-              <div class="p-2.5 rounded-lg bg-white/5">
+              <div class="p-2.5 rounded-xl bg-white/5">
                 <div class="flex items-center gap-2">
                   <span class="font-medium text-sm">${eventName}</span>
                   <span class="text-xs text-slate-400">${eventDate}</span>

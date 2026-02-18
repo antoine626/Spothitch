@@ -1168,7 +1168,7 @@ export function renderGuildCard(guild) {
     <div class="bg-dark-primary rounded-xl p-4 border border-white/10 hover:border-primary/50 transition-colors"
          data-guild-id="${escapeHTML(guild.id)}">
       <div class="flex items-center gap-3 mb-3">
-        <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl"
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
              style="background-color: ${escapeHTML(guild.settings?.color || '#FF6B35')}20">
           ${escapeHTML(guild.settings?.icon || '')}
         </div>
@@ -1209,12 +1209,12 @@ export function renderGuildCard(guild) {
         <div class="flex gap-2">
           ${guild.isPublic ? `
             <button onclick="window.joinGuild('${escapeHTML(guild.id)}')"
-                    class="flex-1 bg-primary text-white py-2 rounded-lg text-sm font-medium hover:bg-primary/80 transition-colors">
+                    class="flex-1 bg-primary text-white py-2 rounded-xl text-sm font-medium hover:bg-primary/80 transition-colors">
               ${t('guildJoinButton')}
             </button>
           ` : `
             <button onclick="window.requestJoinGuild('${escapeHTML(guild.id)}')"
-                    class="flex-1 bg-white/5 text-white py-2 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors">
+                    class="flex-1 bg-white/5 text-white py-2 rounded-xl text-sm font-medium hover:bg-white/10 transition-colors">
               ${t('guildRequestButton')}
             </button>
           `}
@@ -1222,7 +1222,7 @@ export function renderGuildCard(guild) {
       ` : `
         <div class="flex gap-2">
           <button onclick="window.viewGuild('${escapeHTML(guild.id)}')"
-                  class="flex-1 bg-white/5 text-white py-2 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors">
+                  class="flex-1 bg-white/5 text-white py-2 rounded-xl text-sm font-medium hover:bg-white/10 transition-colors">
             ${t('guildViewButton')}
           </button>
         </div>
@@ -1243,7 +1243,7 @@ export function renderGuildList(guilds) {
         <div class="text-4xl mb-4">&#127979;</div>
         <p class="text-slate-400">${t('noGuildsFound')}</p>
         <button onclick="window.showCreateGuild()"
-                class="mt-4 bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/80 transition-colors">
+                class="mt-4 bg-primary text-white px-6 py-2 rounded-xl font-medium hover:bg-primary/80 transition-colors">
           ${t('createGuildButton')}
         </button>
       </div>
@@ -1282,7 +1282,7 @@ export function renderMemberList(members, guildId) {
   };
 
   return members.map(member => `
-    <div class="flex items-center gap-3 p-3 bg-dark-primary rounded-lg">
+    <div class="flex items-center gap-3 p-3 bg-dark-primary rounded-xl">
       <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-lg">
         ${escapeHTML(member.avatar || '')}
       </div>

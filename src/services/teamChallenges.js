@@ -444,7 +444,7 @@ export function renderTeamDashboard(state) {
           </div>
           <button
             onclick="openTeamSettings()"
-            class="p-2 rounded-lg bg-white/20 text-white hover:bg-white/30 transition-colors"
+            class="p-2 rounded-xl bg-white/20 text-white hover:bg-white/30 transition-colors"
             aria-label="${t('teamSettingsLabel') || 'Paramètres de l\'équipe'}"
           >
             ${icon('settings', 'w-5 h-5')}
@@ -498,7 +498,7 @@ export function renderTeamDashboard(state) {
       return `
                 <div class="bg-dark-card rounded-xl p-4">
                   <div class="flex items-center gap-3 mb-3">
-                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br ${type.color || 'from-slate-500 to-slate-600'} flex items-center justify-center text-white">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${type.color || 'from-slate-500 to-slate-600'} flex items-center justify-center text-white">
                       ${icon(type.icon || 'flag', 'w-5 h-5')}
                     </div>
                     <div class="flex-1">

@@ -280,14 +280,14 @@ export function renderSponsoredBanner(content) {
   const categoryLabel = categoryLabels[content.category] || 'Partenaire'
 
   return `
-    <div class="sponsored-banner rounded-lg p-4 mt-4 border border-accent-500/30 bg-gradient-to-r from-accent-900/20 to-accent-800/10 hover:border-accent-500/50 transition-colors cursor-pointer"
+    <div class="sponsored-banner rounded-xl p-4 mt-4 border border-accent-500/30 bg-gradient-to-r from-accent-900/20 to-accent-800/10 hover:border-accent-500/50 transition-colors cursor-pointer"
          data-sponsor-id="${content.id}"
          role="article"
          aria-label="Contenu sponsorisé: ${content.name}"
          onclick="window.trackSponsorClick?.('${content.id}')">
       <div class="flex items-start gap-3">
         <div class="shrink-0">
-          <span class="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-accent-500/20 text-accent-400">
+          <span class="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-accent-500/20 text-accent-400">
             ${icon('handshake', 'w-4 h-4')}
           </span>
         </div>

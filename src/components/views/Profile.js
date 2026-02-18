@@ -111,7 +111,7 @@ export function renderProfile(state) {
         </h3>
 
         <!-- Theme Toggle -->
-        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+        <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
           <div class="flex items-center gap-3">
             ${icon('moon', 'w-5 h-5 text-purple-400')}
             <span>${t('darkMode') || 'Thème sombre'}</span>
@@ -128,7 +128,7 @@ export function renderProfile(state) {
         </div>
 
         <!-- Language -->
-        <div class="p-3 rounded-lg bg-white/5">
+        <div class="p-3 rounded-xl bg-white/5">
           <div class="flex items-center gap-3 mb-3">
             ${icon('globe', 'w-5 h-5 text-emerald-400')}
             <span>${t('language') || 'Langue'}</span>
@@ -156,7 +156,7 @@ export function renderProfile(state) {
         </div>
 
         <!-- Notifications -->
-        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+        <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
           <div class="flex items-center gap-3">
             ${icon('bell', 'w-5 h-5 text-amber-400')}
             <span>${t('notifications') || 'Notifications'}</span>
@@ -175,7 +175,7 @@ export function renderProfile(state) {
         <!-- Tutorial -->
         <button
           onclick="startTutorial()"
-          class="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
+          class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
         >
           <div class="flex items-center gap-3">
             ${icon('info', 'w-5 h-5 text-primary-400')}
@@ -187,7 +187,7 @@ export function renderProfile(state) {
         <!-- GDPR My Data -->
         <button
           onclick="openMyData()"
-          class="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
+          class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
         >
           <div class="flex items-center gap-3">
             ${icon('database', 'w-5 h-5 text-blue-400')}

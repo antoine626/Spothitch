@@ -52,7 +52,7 @@ export function renderTravel(state) {
       <div class="flex gap-2 p-1 bg-dark-secondary rounded-xl">
         <button
           onclick="setSubTab('planner')"
-          class="flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+          class="flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
   activeSubTab === 'planner'
     ? 'bg-primary-500 text-white'
     : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -64,7 +64,7 @@ export function renderTravel(state) {
         </button>
         <button
           onclick="setSubTab('guides')"
-          class="flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+          class="flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
   activeSubTab === 'guides'
     ? 'bg-primary-500 text-white'
     : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -284,7 +284,7 @@ function renderTripResults(results) {
               ? Math.round(haversine(results.fromCoords[0], results.fromCoords[1], sLat, sLng))
               : null
             return `
-            <div class="relative flex items-start gap-3 pb-4 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-lg transition-colors" onclick="selectSpot(${spot.id})">
+            <div class="relative flex items-start gap-3 pb-4 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors" onclick="selectSpot(${spot.id})">
               <div class="absolute left-[-13px] w-6 h-6 rounded-full bg-primary-500/80 border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg shadow-primary-500/20">
                 <span class="text-[9px] font-bold text-white">${i + 1}</span>
               </div>
@@ -615,7 +615,7 @@ function renderGuideDetail(guide) {
           </h3>
           <div class="space-y-2">
             ${guide.bestSpots.map(spot => `
-              <div class="flex items-center gap-2 p-2 rounded-lg bg-white/5">
+              <div class="flex items-center gap-2 p-2 rounded-xl bg-white/5">
                 ${icon('thumbs-up', 'w-5 h-5 text-primary-400')}
                 <span class="text-slate-300">${spot}</span>
               </div>
@@ -630,19 +630,19 @@ function renderGuideDetail(guide) {
           ${t('emergencyNumbers') || "Numéros d'urgence"}
         </h3>
         <div class="grid grid-cols-2 gap-3">
-          <div class="text-center p-3 rounded-lg bg-danger-500/10">
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
             <div class="text-xs text-slate-400 mb-1">Police</div>
             <div class="font-bold text-lg">${guide.emergencyNumbers.police}</div>
           </div>
-          <div class="text-center p-3 rounded-lg bg-danger-500/10">
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
             <div class="text-xs text-slate-400 mb-1">Ambulance</div>
             <div class="font-bold text-lg">${guide.emergencyNumbers.ambulance}</div>
           </div>
-          <div class="text-center p-3 rounded-lg bg-danger-500/10">
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
             <div class="text-xs text-slate-400 mb-1">${t('fire') || 'Pompiers'}</div>
             <div class="font-bold text-lg">${guide.emergencyNumbers.fire}</div>
           </div>
-          <div class="text-center p-3 rounded-lg bg-emerald-500/10">
+          <div class="text-center p-3 rounded-xl bg-emerald-500/10">
             <div class="text-xs text-slate-400 mb-1">${t('worldwide') || 'Monde'}</div>
             <div class="font-bold text-lg text-emerald-400">${guide.emergencyNumbers.universal}</div>
           </div>
