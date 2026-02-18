@@ -145,6 +145,7 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
     return []
   }
 
+  try {
   // Check cache first
   const cacheKey = getCacheKey(routeGeometry)
   if (cacheKey && cache.has(cacheKey)) {
@@ -178,7 +179,7 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
     return []
   }
 
-  try {
+  {
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 30000) // 30s timeout
 
@@ -193,6 +194,13 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
 
     if (!response.ok) {
       console.warn(`[Overpass] HTTP ${response.status}`)
+      return []
+    }
+
+    // Verify response is JSON (Overpass returns HTML when overloaded)
+    const contentType = response.headers.get('content-type') || ''
+    if (!contentType.includes('json')) {
+      console.warn('[Overpass] Non-JSON response, server may be overloaded')
       return []
     }
 
@@ -289,6 +297,7 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
       if (poi.type === 'rest_area' && !showRestAreas) return false
       return true
     })
+  } // end inner block
   } catch (error) {
     if (error.name === 'AbortError') {
       console.warn('[Overpass] Request timed out')
@@ -338,6 +347,8 @@ async function enrichServiceAreasWithAmenities(areas, allPois) {
   clearTimeout(timeout)
 
   if (!response.ok) return
+  const ct = response.headers.get('content-type') || ''
+  if (!ct.includes('json')) return
   const data = await response.json()
   const amenityNodes = data.elements || []
 
