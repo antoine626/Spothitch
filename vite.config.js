@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import legacy from '@vitejs/plugin-legacy';
+// legacy plugin disabled — breaks MapLibre v5 web worker (Ne is not defined)
+// import legacy from '@vitejs/plugin-legacy';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { writeFileSync } from 'fs';
 
@@ -133,10 +134,10 @@ export default defineConfig({
       }
     }),
     
-    // Legacy browser support
-    legacy({
-      targets: ['defaults', 'not IE 11']
-    }),
+    // Legacy browser support — disabled: breaks MapLibre v5 web worker
+    // legacy({
+    //   targets: ['defaults', 'not IE 11']
+    // }),
     
     // Sentry Source Maps (enable in production)
     process.env.SENTRY_AUTH_TOKEN && sentryVitePlugin({

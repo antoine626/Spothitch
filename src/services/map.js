@@ -116,7 +116,7 @@ function addSpotLayers(map, geojson) {
     layout: {
       'text-field': ['get', 'point_count_abbreviated'],
       'text-size': 12,
-      'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+      'text-font': ['Noto Sans Bold'],
     },
     paint: {
       'text-color': '#ffffff',

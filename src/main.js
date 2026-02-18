@@ -540,7 +540,11 @@ function render(state) {
   }
   if (savedTripMap && state.showTripMap) {
     const slot = document.getElementById('trip-map')
-    if (slot) slot.replaceWith(savedTripMap)
+    if (slot) {
+      slot.replaceWith(savedTripMap)
+      // Force MapLibre to repaint after DOM reinsertion
+      requestAnimationFrame(() => window._tripMapResize?.())
+    }
   }
 
   // Call afterRender hook

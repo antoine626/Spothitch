@@ -481,7 +481,7 @@ function initHomeMap(state) {
         layout: {
           'text-field': ['get', 'point_count_abbreviated'],
           'text-size': 12,
-          'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+          'text-font': ['Noto Sans Bold'],
         },
         paint: { 'text-color': '#ffffff' },
       })
@@ -771,8 +771,10 @@ function initTripMap(state) {
       attributionControl: false,
     })
     tripMapInstance = map
+    window._tripMapInstance = map
 
     map.on('load', () => {
+      try {
       // Route line from OSRM geometry
       if (results.routeGeometry && results.routeGeometry.length > 0) {
         map.addSource('trip-route', {
@@ -858,7 +860,7 @@ function initTripMap(state) {
           layout: {
             'text-field': ['to-string', ['get', 'index']],
             'text-size': 10,
-            'text-font': ['Open Sans Bold'],
+            'text-font': ['Noto Sans Bold'],
             'text-allow-overlap': true,
           },
           paint: { 'text-color': '#ffffff' },
@@ -904,6 +906,9 @@ function initTripMap(state) {
 
       // Start GPS tracking
       startTripGpsTracking()
+      } catch (err) {
+        console.error('[TripMap] Error in load callback:', err?.message || err, err?.stack || '')
+      }
     })
 
     setTimeout(() => map.resize(), 200)
@@ -997,6 +1002,12 @@ window._tripMapAddAmenities = addAmenityMarkers
 window._tripMapRemoveAmenities = removeAmenityMarkers
 window._tripMapFlyTo = (lng, lat) => {
   if (tripMapInstance) tripMapInstance.flyTo({ center: [lng, lat], zoom: 13, duration: 800 })
+}
+window._tripMapResize = () => {
+  if (tripMapInstance) {
+    tripMapInstance.resize()
+    tripMapInstance.triggerRepaint()
+  }
 }
 window._tripMapCleanup = () => {
   stopTripGpsTracking()

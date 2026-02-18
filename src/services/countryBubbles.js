@@ -99,7 +99,7 @@ export function addCountryBubbleLayers(map) {
     layout: {
       'text-field': ['get', 'label'],
       'text-size': 12,
-      'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+      'text-font': ['Noto Sans Bold'],
       'text-allow-overlap': true,
     },
     paint: {
