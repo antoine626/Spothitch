@@ -939,14 +939,18 @@ function addAmenityMarkers(amenities) {
       .setLngLat([poi.lng, poi.lat])
       .addTo(tripMapInstance)
 
-    // Popup on click with station name + service area
+    // Popup on click with station name + service area + available services
+    const services = poi.services || []
     let popupHTML = `<div style="padding:6px 10px;font-family:system-ui;font-size:13px;color:#1e293b">`
     popupHTML += `<div style="font-weight:600">${label} ${stationName}</div>`
     if (areaName) {
       popupHTML += `<div style="font-size:11px;color:#64748b;margin-top:2px">📍 ${areaName}</div>`
     }
+    if (services.length > 0) {
+      popupHTML += `<div style="margin-top:4px;font-size:15px;letter-spacing:2px">${services.join(' ')}</div>`
+    }
     popupHTML += `</div>`
-    const popup = new tripMaplibregl.Popup({ offset: 25, closeButton: false, maxWidth: '220px' })
+    const popup = new tripMaplibregl.Popup({ offset: 25, closeButton: false, maxWidth: '240px' })
       .setHTML(popupHTML)
 
     el.addEventListener('click', (e) => {

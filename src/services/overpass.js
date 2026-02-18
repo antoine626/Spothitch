@@ -199,21 +199,30 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
     const data = await response.json()
     const elements = data.elements || []
 
-    // Extract service area names (ways with highway=services/rest_area)
+    // Extract service area ways (for names + tags-based services)
     const serviceAreas = elements
-      .filter(el => el.type === 'way' && (el.tags?.highway === 'services' || el.tags?.highway === 'rest_area') && el.tags?.name && el.center)
-      .map(el => ({ name: el.tags.name, lat: el.center.lat, lng: el.center.lon }))
+      .filter(el => el.type === 'way' && (el.tags?.highway === 'services' || el.tags?.highway === 'rest_area') && el.center)
+      .map(el => {
+        const tags = el.tags || {}
+        const services = new Set()
+        // Read services directly from way tags
+        if (tags.toilets === 'yes') services.add('🚻')
+        if (tags.shower === 'yes') services.add('🚿')
+        if (tags.shop?.includes('convenience') || tags.shop?.includes('supermarket')) services.add('🛒')
+        if (tags.amenity?.includes('restaurant') || tags.amenity?.includes('fast_food')) services.add('🍔')
+        if (tags.amenity?.includes('cafe')) services.add('☕')
+        return { name: tags.name || '', lat: el.center.lat, lng: el.center.lon, services }
+      })
 
-    // Normalize all node results
+    // Normalize all node results (fuel + rest_area nodes only)
     const allPois = elements
       .filter(el => el.type === 'node' && el.lat && el.lon)
       .map(normalizeElement)
 
-    // Enrich fuel stations: attach nearby service area name
+    // Enrich fuel stations: attach nearby service area name + services
     if (serviceAreas.length > 0) {
       for (const poi of allPois) {
         if (poi.type !== 'fuel') continue
-        // Find closest service area within 1km
         let closest = null
         let closestDist = Infinity
         for (const area of serviceAreas) {
@@ -225,8 +234,29 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
             closestDist = dist
           }
         }
-        if (closest) poi.serviceArea = closest.name
+        if (closest) {
+          if (closest.name) poi.serviceArea = closest.name
+          const svc = [...closest.services]
+          if (svc.length > 0) poi.services = svc
+        }
       }
+    }
+
+    // Second pass: fetch amenity nodes near service areas (restaurants, etc.)
+    // Only if we found service areas in the corridor
+    const corridorAreas = serviceAreas.filter(area => {
+      for (const pt of sampledPoints) {
+        const dLat = (area.lat - pt.lat) * 111
+        const dLng = (area.lng - pt.lng) * 111 * Math.cos(pt.lat * Math.PI / 180)
+        if (Math.sqrt(dLat * dLat + dLng * dLng) <= corridorKm) return true
+      }
+      return false
+    })
+
+    if (corridorAreas.length > 0) {
+      try {
+        await enrichServiceAreasWithAmenities(corridorAreas, allPois)
+      } catch { /* non-critical — popup just won't show service icons */ }
     }
 
     // Filter by proximity to actual route (small bboxes may still include distant POIs)
@@ -266,6 +296,84 @@ export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, opti
       console.warn('[Overpass] Request failed:', error.message)
     }
     return []
+  }
+}
+
+/**
+ * Fetch amenity nodes near service areas and enrich fuel POIs
+ * Uses `around` queries centered on each area (lightweight, targeted)
+ */
+async function enrichServiceAreasWithAmenities(areas, allPois) {
+  // Build around queries for each area (500m radius)
+  const aroundFilters = []
+  for (const area of areas.slice(0, 20)) { // cap to avoid huge queries
+    const around = `(around:500,${area.lat.toFixed(5)},${area.lng.toFixed(5)})`
+    aroundFilters.push(`node["amenity"="restaurant"]${around};`)
+    aroundFilters.push(`node["amenity"="fast_food"]${around};`)
+    aroundFilters.push(`node["amenity"="cafe"]${around};`)
+    aroundFilters.push(`node["amenity"="toilets"]${around};`)
+    aroundFilters.push(`node["amenity"="shower"]${around};`)
+    aroundFilters.push(`node["shop"~"convenience|supermarket"]${around};`)
+  }
+
+  if (aroundFilters.length === 0) return
+
+  // Wait for rate limit
+  const waitTime = getWaitTime(RATE_LIMIT_KEY, RATE_LIMIT)
+  if (waitTime > 0) {
+    await new Promise(resolve => setTimeout(resolve, waitTime + 100))
+  }
+  recordRequest(RATE_LIMIT_KEY, RATE_LIMIT)
+
+  const query = `[out:json][timeout:15];(${aroundFilters.join('')});out body;`
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 15000)
+
+  const response = await fetch(OVERPASS_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `data=${encodeURIComponent(query)}`,
+    signal: controller.signal,
+  })
+  clearTimeout(timeout)
+
+  if (!response.ok) return
+  const data = await response.json()
+  const amenityNodes = data.elements || []
+
+  const iconMap = { restaurant: '🍔', fast_food: '🍔', cafe: '☕', toilets: '🚻', shower: '🚿' }
+  const shopMap = { convenience: '🛒', supermarket: '🛒' }
+
+  // Associate each amenity with nearest service area
+  for (const node of amenityNodes) {
+    if (!node.lat || !node.lon) continue
+    const icon = iconMap[node.tags?.amenity] || shopMap[node.tags?.shop] || ''
+    if (!icon) continue
+
+    let closest = null
+    let closestDist = Infinity
+    for (const area of areas) {
+      const dLat = (node.lat - area.lat) * 111
+      const dLng = (node.lon - area.lng) * 111 * Math.cos(node.lat * Math.PI / 180)
+      const dist = Math.sqrt(dLat * dLat + dLng * dLng)
+      if (dist < 0.5 && dist < closestDist) {
+        closest = area
+        closestDist = dist
+      }
+    }
+    if (closest) closest.services.add(icon)
+  }
+
+  // Update fuel POIs with enriched services
+  for (const poi of allPois) {
+    if (poi.type !== 'fuel' || !poi.serviceArea) continue
+    for (const area of areas) {
+      if (area.name && area.name === poi.serviceArea) {
+        const svc = [...area.services]
+        if (svc.length > 0) poi.services = svc
+        break
+      }
+    }
   }
 }
 
