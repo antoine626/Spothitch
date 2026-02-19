@@ -51,7 +51,8 @@ const MAIN_JS_HANDLERS = [
   'openQuiz', 'closeQuiz', 'startQuizGame', 'startCountryQuiz', 'answerQuizQuestion',
   'nextQuizQuestion', 'retryQuiz', 'showCountryQuizSelection',
   // Badges
-  'openBadges', 'closeBadges', 'showBadgeDetail', 'closeBadgeDetail', 'dismissBadgePopup',
+  'openBadges', 'closeBadges', 'showBadgeDetail', 'closeBadgeDetail', 'dismissBadgePopup', 'openBadgePopup',
+  'openDailyReward', 'closeFavoritesOnMap', 'toggleGasStationsOnMap',
   // Challenges
   'openChallenges', 'closeChallenges', 'setChallengeTab',
   // Shop

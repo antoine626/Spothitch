@@ -1489,6 +1489,17 @@ window.closeBadges = () => setState({ showBadges: false });
 window.showBadgeDetail = (badgeId) => setState({ showBadgeDetail: true, selectedBadgeId: badgeId });
 window.closeBadgeDetail = () => setState({ showBadgeDetail: false, selectedBadgeId: null });
 window.dismissBadgePopup = () => setState({ showBadgePopup: false, newBadge: null });
+window.openBadgePopup = (badge) => setState({ showBadgePopup: true, newBadge: badge });
+
+// Daily reward
+window.openDailyReward = () => setState({ showDailyReward: true });
+
+// UI toggles
+window.closeFavoritesOnMap = () => setState({ showFavoritesOnMap: false, filterFavorites: false });
+window.toggleGasStationsOnMap = () => {
+  const s = getState();
+  setState({ showGasStationsOnMap: !s.showGasStationsOnMap });
+};
 
 // Challenge handlers
 window.openChallenges = () => setState({ showChallenges: true });

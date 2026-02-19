@@ -4,9 +4,10 @@
 > 1. `npx vitest run tests/wiring/` pour vérifier les tests
 > 2. `npm run build` pour vérifier la compilation
 > 3. Si échecs → corriger jusqu'à ce que TOUT passe, NE JAMAIS laisser un truc cassé
-> 4. `git add` + `git commit` + `git push origin main` → TOUJOURS, AUTOMATIQUEMENT
+> 4. `git add` (FICHIERS SPÉCIFIQUES UNIQUEMENT — JAMAIS `git add -A` ou `git add .`) + `git commit` + `git push origin main` → TOUJOURS, AUTOMATIQUEMENT
 > 5. NE JAMAIS demander "tu veux que je push ?" — la réponse est TOUJOURS oui
 > 6. Regrouper les modifications liées en un seul push quand c'est possible
+> 7. Avant `git add` → TOUJOURS `git diff --stat` pour vérifier qu'il n'y a PAS de fichiers inattendus (suppressions, fichiers générés, fichiers de données)
 
 > **RÈGLE #2 — JAMAIS DIRE "C'EST BON" SI C'EST PAS PARFAIT** :
 > - Si quelque chose casse → corriger jusqu'à ce que ça marche PARFAITEMENT
@@ -14,6 +15,16 @@
 > - Après chaque deploy → vérifier que le site charge, pas d'erreur console
 > - Si un doute → vérifier encore plutôt que supposer
 > - Si ça marche pas → trouver une solution, pas juste signaler le problème
+
+> **RÈGLE #2b — VÉRIFICATION VISUELLE OBLIGATOIRE** :
+> - Après TOUT changement UI/visuel → prendre un screenshot Playwright AVANT de dire "c'est fait"
+> - Vérifier les screenshots soi-même : le contenu est-il VISIBLE ? Le layout est-il correct ?
+> - Tester avec `localStorage.clear()` pour simuler un nouvel utilisateur
+> - Si un élément est censé apparaître → vérifier qu'il apparaît VRAIMENT (pas juste que le DOM existe)
+> - Commande : `node -e "const {chromium}=require('playwright');..."` avec viewport mobile 390x844
+> - Montrer le screenshot à l'utilisateur AVANT de push
+> - Vérifier au minimum : 1) contenu visible 2) texte lisible 3) boutons cliquables 4) pas de zone vide inexpliquée
+> - Si le fond est sombre → vérifier que le texte n'est PAS invisible (même couleur que le fond)
 
 > **RÈGLE #3 — PARLER SIMPLE** :
 > - L'utilisateur ne code PAS. Tout expliquer simplement.
@@ -63,6 +74,29 @@
 > 4. `npx vitest run tests/wiring/ tests/integration/modals.test.js` → tout passe
 
 > **RÈGLE #8 — i18n** : TOUT en t('key'), 4 langues (FR/EN/ES/DE), jamais de texte hardcodé
+
+> **RÈGLE #9 — SÉCURITÉ GIT** :
+> - JAMAIS `git add -A` ou `git add .` → toujours lister les fichiers un par un
+> - Avant chaque commit → `git diff --stat HEAD` pour vérifier EXACTEMENT ce qui va être commité
+> - Si des fichiers inattendus apparaissent (suppressions de données, fichiers JSON de spots) → S'ARRÊTER et investiguer
+> - JAMAIS exécuter de scripts destructifs (order66, migrations, purge) sans confirmation EXPLICITE de l'utilisateur
+> - Si un `git add -A` a été fait par erreur → `git reset HEAD` immédiatement avant de commiter
+
+> **RÈGLE #10 — CI/CD VÉRIFICATION** :
+> - Après chaque push → attendre 3 min et vérifier `gh run view` pour confirmer que le CI passe
+> - Si un job échoue → le corriger IMMÉDIATEMENT dans la même session, ne pas laisser traîner
+> - Les "cancelled" sont normaux (push suivant trop rapide), les "failure" doivent être investigués
+> - Le E2E peut timeout (non-bloquant), mais tous les autres jobs DOIVENT passer
+
+> **RÈGLE #11 — AUDIT COMPLET AVANT LIVRAISON** :
+> - À la fin de chaque session ou avant une livraison majeure, exécuter EN PARALLÈLE :
+>   1. `npx vitest run` (TOUS les tests, pas juste wiring)
+>   2. `npm run build`
+>   3. `npx eslint src/` (0 erreurs obligatoire)
+>   4. `node scripts/audit-rgpd.mjs`
+>   5. Screenshots Playwright de chaque feature modifiée
+>   6. `gh run view` du dernier CI
+> - NE PAS dire "c'est terminé" tant que les 6 checks ne sont pas verts
 
 ---
 

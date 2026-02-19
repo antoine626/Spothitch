@@ -3461,6 +3461,24 @@ const translations = {
     legalPrivacyCcpaNonDiscrim: "Non-discrimination",
     legalPrivacyCcpaNonDiscrimDesc: "Nous ne vous traiterons pas differemment si vous exercez vos droits de confidentialite.",
     legalPrivacyCcpaContact: "Pour exercer ces droits, utilisez la section \"Mes donnees\" dans votre profil ou ecrivez-nous a privacy@spothitch.app.",
+
+    // Missing keys fix (audit 2026-02-19)
+    groupName: "Nom du groupe",
+    day: "Jour",
+    dailyRewardCycle: "Cycle de recompenses",
+    gotARide: "Tu as eu un lift ?",
+    monthly: "Mensuel",
+    strategies: "Strategies",
+    usefulPhrases: "Phrases utiles",
+    culturalNotes: "Notes culturelles",
+    europe: "Europe",
+    publish: "Publier",
+    countries: "pays",
+    pleaseLoginFirst: "Connecte-toi d'abord",
+    notEligibleForAmbassador: "Tu ne remplis pas encore les conditions pour devenir ambassadeur",
+    allFieldsRequired: "Tous les champs sont obligatoires",
+    confirmUnregisterAmbassador: "Tu veux vraiment quitter le programme ambassadeur ?",
+    sendAlert: "Envoyer une alerte",
 },
 
   en: {
@@ -6786,6 +6804,24 @@ const translations = {
     legalPrivacyCcpaNonDiscrim: "Non-discrimination",
     legalPrivacyCcpaNonDiscrimDesc: "We will not treat you differently for exercising your privacy rights.",
     legalPrivacyCcpaContact: "To exercise these rights, use the \"My Data\" section in your profile or email us at privacy@spothitch.app.",
+
+    // Missing keys fix (audit 2026-02-19)
+    groupName: "Group name",
+    day: "Day",
+    dailyRewardCycle: "Reward cycle",
+    gotARide: "Did you get a ride?",
+    monthly: "Monthly",
+    strategies: "Strategies",
+    usefulPhrases: "Useful phrases",
+    culturalNotes: "Cultural notes",
+    europe: "Europe",
+    publish: "Publish",
+    countries: "countries",
+    pleaseLoginFirst: "Please log in first",
+    notEligibleForAmbassador: "You don't meet the requirements to become an ambassador yet",
+    allFieldsRequired: "All fields are required",
+    confirmUnregisterAmbassador: "Are you sure you want to leave the ambassador program?",
+    sendAlert: "Send alert",
 },
 
   es: {
@@ -10108,6 +10144,24 @@ const translations = {
     legalPrivacyCcpaNonDiscrim: "No discriminacion",
     legalPrivacyCcpaNonDiscrimDesc: "No te trataremos de manera diferente por ejercer tus derechos de privacidad.",
     legalPrivacyCcpaContact: "Para ejercer estos derechos, usa la seccion \"Mis datos\" en tu perfil o escribenos a privacy@spothitch.app.",
+
+    // Missing keys fix (audit 2026-02-19)
+    groupName: "Nombre del grupo",
+    day: "Dia",
+    dailyRewardCycle: "Ciclo de recompensas",
+    gotARide: "Conseguiste un viaje?",
+    monthly: "Mensual",
+    strategies: "Estrategias",
+    usefulPhrases: "Frases utiles",
+    culturalNotes: "Notas culturales",
+    europe: "Europa",
+    publish: "Publicar",
+    countries: "paises",
+    pleaseLoginFirst: "Inicia sesion primero",
+    notEligibleForAmbassador: "Aun no cumples los requisitos para ser embajador",
+    allFieldsRequired: "Todos los campos son obligatorios",
+    confirmUnregisterAmbassador: "Seguro que quieres dejar el programa de embajadores?",
+    sendAlert: "Enviar alerta",
 },
 
   de: {
@@ -13430,6 +13484,24 @@ const translations = {
     legalPrivacyCcpaNonDiscrim: "Nichtdiskriminierung",
     legalPrivacyCcpaNonDiscrimDesc: "Wir werden dich nicht anders behandeln, wenn du deine Datenschutzrechte ausuebst.",
     legalPrivacyCcpaContact: "Um diese Rechte auszuueben, nutze den Bereich \"Meine Daten\" in deinem Profil oder schreibe uns an privacy@spothitch.app.",
+
+    // Missing keys fix (audit 2026-02-19)
+    groupName: "Gruppenname",
+    day: "Tag",
+    dailyRewardCycle: "Belohnungszyklus",
+    gotARide: "Hast du eine Mitfahrt bekommen?",
+    monthly: "Monatlich",
+    strategies: "Strategien",
+    usefulPhrases: "Nuetzliche Saetze",
+    culturalNotes: "Kulturelle Hinweise",
+    europe: "Europa",
+    publish: "Veroeffentlichen",
+    countries: "Laender",
+    pleaseLoginFirst: "Bitte melde dich zuerst an",
+    notEligibleForAmbassador: "Du erfuellst noch nicht die Voraussetzungen fuer das Botschafterprogramm",
+    allFieldsRequired: "Alle Felder sind erforderlich",
+    confirmUnregisterAmbassador: "Willst du das Botschafterprogramm wirklich verlassen?",
+    sendAlert: "Alarm senden",
 },
 };
 
