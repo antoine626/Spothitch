@@ -5,8 +5,9 @@
  * RULE: Every new modal MUST be tested here to ensure flag → HTML works.
  */
 
-import { describe, test, expect, beforeEach } from 'vitest'
+import { describe, test, expect, beforeAll, beforeEach } from 'vitest'
 import { setState, getState } from '../../src/stores/state.js'
+import { initI18n } from '../../src/i18n/index.js'
 
 // Import all modals
 import { renderSOS } from '../../src/components/modals/SOS.js'
@@ -83,6 +84,10 @@ const mockState = {
   skillPoints: 10,
   unlockedSkills: [],
 }
+
+beforeAll(async () => {
+  await initI18n()
+})
 
 beforeEach(() => {
   setState(mockState)

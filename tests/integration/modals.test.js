@@ -7,6 +7,7 @@
 
 import { describe, it, expect, beforeEach, afterEach, beforeAll, vi } from 'vitest'
 import { getState, setState, resetState } from '../../src/stores/state.js'
+import { initI18n } from '../../src/i18n/index.js'
 
 // ---- Modal renders ----
 import { renderSOS } from '../../src/components/modals/SOS.js'
@@ -101,6 +102,10 @@ const baseState = {
   tutorialCompleted: false,
   selectedFriendProfileId: 'friend1',
 }
+
+beforeAll(async () => {
+  await initI18n()
+})
 
 beforeEach(() => {
   setState(baseState)

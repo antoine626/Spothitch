@@ -37,7 +37,7 @@ function preloadMap() {
 import { searchLocation } from './services/osrm.js';
 
 // i18n
-import { t, detectLanguage, setLanguage } from './i18n/index.js';
+import { t, detectLanguage, setLanguage, initI18n } from './i18n/index.js';
 
 // Components
 import { renderApp, afterRender } from './components/App.js';
@@ -197,9 +197,10 @@ async function init() {
   }
 
   try {
-    // Set detected language
-    const lang = detectLanguage();
-    setLanguage(lang);
+    // Load detected language translations (only active language, not all 4)
+    const lang = await initI18n();
+    setState({ lang });
+    document.documentElement.lang = lang;
 
     // Initialize SEO
     initSEO();
@@ -209,166 +210,91 @@ async function init() {
       document.documentElement.classList.add('reduce-motion');
     }
 
-    // Initialize error tracking (lazy — non-critical for FCP)
-    try {
-      const { initSentry, setupGlobalErrorHandlers } = await import('./services/sentry.js')
-      await initSentry();
-      setupGlobalErrorHandlers();
-    } catch (e) {
-      console.warn('Sentry init skipped:', e.message);
-    }
-
-    // Initialize Firebase (lazy — only if user has a saved session)
-    try {
-      const hasSession = localStorage.getItem('spothitch_user') || localStorage.getItem('spothitch_firebase_token')
-      if (hasSession) {
-        const fb = await getFirebase()
-        fb.initializeFirebase()
-        fb.onAuthChange((user) => {
-          actions.setUser(user)
-          if (user) {
-            setState({
-              currentUser: user,
-              userProfile: {
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName,
-                photoURL: user.photoURL,
-              },
-            })
-          } else {
-            setState({ currentUser: null, userProfile: null })
-          }
-          try {
-            import('./services/sentry.js').then(m => m.setUser(user))
-          } catch (_e) { /* sentry optional */ }
-        })
-      }
-    } catch (e) {
-      console.warn('Firebase init skipped:', e.message);
-    }
-
-    // Initialize notifications (optional)
-    try {
-      await initNotifications();
-    } catch (e) {
-      console.warn('Notifications init skipped:', e.message);
-    }
-
-    // Initialize offline handler (optional)
-    try {
-      initOfflineHandler();
-    } catch (e) {
-      console.warn('Offline handler skipped:', e.message);
-    }
-
-    // Initialize network monitor
-    try {
-      initNetworkMonitor();
-    } catch (e) {
-      console.warn('Network monitor skipped:', e.message);
-    }
-
-    // Initialize PWA
-    try {
-      initPWA();
-    } catch (e) {
-      console.warn('PWA init skipped:', e.message);
-    }
-
-    // Initialize screen reader support
-    try {
-      initScreenReaderSupport();
-    } catch (e) {
-      console.warn('Screen reader support skipped:', e.message);
-    }
-
-    // Initialize nearby friends tracking (lazy)
-    try {
-      const { initNearbyFriendsTracking } = await import('./services/nearbyFriends.js')
-      initNearbyFriendsTracking()
-    } catch (e) {
-      console.warn('Nearby friends tracking skipped:', e.message);
-    }
-
-    // Initialize proximity alerts (lazy)
-    try {
-      const { initProximityAlerts } = await import('./services/proximityAlerts.js')
-      initProximityAlerts()
-    } catch (e) {
-      console.warn('Proximity alerts skipped:', e.message);
-    }
-
-    // Initialize proximity notifications (lazy)
-    try {
-      const { initProximityNotify } = await import('./services/proximityNotify.js')
-      initProximityNotify()
-    } catch (e) {
-      console.warn('Proximity notify skipped:', e.message);
-    }
-
-    // Preload common modals on idle
-    try {
-      preloadOnIdle();
-    } catch (e) {
-      console.warn('Modal preload skipped:', e.message);
-    }
-
-    // Cleanup old cached data
-    cleanupOldData();
-
-    // Initialize Web Vitals monitoring
-    try {
-      initWebVitals();
-    } catch (e) {
-      console.warn('Web Vitals init skipped:', e.message);
-    }
-
-    // Initialize WASM geo module (non-blocking, JS fallback)
-    try {
-      initWasm();
-    } catch (e) {
-      console.warn('WASM geo init skipped:', e.message);
-    }
-
-    // Initialize PostHog analytics (only if consent given + key configured)
-    try {
-      const { initPostHog } = await import('./utils/posthog.js');
-      initPostHog();
-    } catch (e) {
-      console.warn('PostHog init skipped:', e.message);
-    }
-
-    // Initialize predictive prefetch on hover
-    try {
-      initHoverPrefetch();
-    } catch (e) {
-      console.warn('Hover prefetch skipped:', e.message);
-    }
-
-    // Prefetch MapLibre GL when idle (before user opens map)
-    const idleCb = window.requestIdleCallback || ((cb) => setTimeout(cb, 2000))
-    idleCb(() => { import('maplibre-gl').catch(() => {}) })
-
-    // Cleanup expired form drafts
-    try {
-      cleanupDrafts();
-    } catch (e) {
-      console.warn('Draft cleanup skipped:', e.message);
-    }
+    // === CRITICAL PATH: render first, init services after ===
 
     // Show landing page for first-time visitors
     if (!localStorage.getItem('spothitch_landing_seen')) {
       setState({ showLanding: true })
     }
 
-    // Subscribe to state changes and render
+    // Initialize offline handler (needed for first render)
+    try { initOfflineHandler() } catch (e) { /* optional */ }
+
+    // Subscribe to state changes and render IMMEDIATELY
     subscribe((state) => {
       scheduleRender(() => render(state));
     });
 
-    // Load initial data (AFTER subscribe so state changes trigger render)
+    // Load initial data (spots) — triggers render via state change
     loadInitialData();
+
+    // === NON-CRITICAL: defer everything else after first paint ===
+    requestAnimationFrame(() => setTimeout(async () => {
+      try {
+        // Screen reader support
+        try { initScreenReaderSupport() } catch (e) { /* optional */ }
+
+        // PWA
+        try { initPWA() } catch (e) { /* optional */ }
+
+        // Network monitor
+        try { initNetworkMonitor() } catch (e) { /* optional */ }
+
+        // Notifications
+        try { await initNotifications() } catch (e) { /* optional */ }
+
+        // Error tracking (Sentry)
+        try {
+          const { initSentry, setupGlobalErrorHandlers } = await import('./services/sentry.js')
+          await initSentry()
+          setupGlobalErrorHandlers()
+        } catch (e) { /* optional */ }
+
+        // Firebase (only if user has a saved session)
+        try {
+          const hasSession = localStorage.getItem('spothitch_user') || localStorage.getItem('spothitch_firebase_token')
+          if (hasSession) {
+            const fb = await getFirebase()
+            fb.initializeFirebase()
+            fb.onAuthChange((user) => {
+              actions.setUser(user)
+              if (user) {
+                setState({
+                  currentUser: user,
+                  userProfile: {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                  },
+                })
+              } else {
+                setState({ currentUser: null, userProfile: null })
+              }
+              try {
+                import('./services/sentry.js').then(m => m.setUser(user))
+              } catch (_e) { /* sentry optional */ }
+            })
+          }
+        } catch (e) { /* optional */ }
+
+        // Lazy background services
+        try { const { initNearbyFriendsTracking } = await import('./services/nearbyFriends.js'); initNearbyFriendsTracking() } catch (e) { /* optional */ }
+        try { const { initProximityAlerts } = await import('./services/proximityAlerts.js'); initProximityAlerts() } catch (e) { /* optional */ }
+        try { const { initProximityNotify } = await import('./services/proximityNotify.js'); initProximityNotify() } catch (e) { /* optional */ }
+        try { const { initPostHog } = await import('./utils/posthog.js'); initPostHog() } catch (e) { /* optional */ }
+
+        // Preload, cleanup, monitoring
+        try { preloadOnIdle() } catch (e) { /* optional */ }
+        try { cleanupOldData() } catch (e) { /* optional */ }
+        try { initWebVitals() } catch (e) { /* optional */ }
+        try { initWasm() } catch (e) { /* optional */ }
+        try { initHoverPrefetch() } catch (e) { /* optional */ }
+        try { cleanupDrafts() } catch (e) { /* optional */ }
+      } catch (e) {
+        console.warn('Non-critical init error:', e.message)
+      }
+    }, 0))
 
     // Trigger initial render
     scheduleRender(() => render(getState()));
@@ -1344,7 +1270,7 @@ window.requireProfile = (action) => {
 // Settings handlers
 window.openSettings = () => setState({ showSettings: true });
 window.closeSettings = () => setState({ showSettings: false });
-window.setLanguage = (lang) => {
+window.setLanguage = async (lang) => {
   // Write lang directly to localStorage BEFORE anything else
   // This ensures it survives the reload regardless of state/render timing
   try {
@@ -1352,8 +1278,8 @@ window.setLanguage = (lang) => {
     stored.lang = lang
     localStorage.setItem('spothitch_v4_state', JSON.stringify(stored))
   } catch (e) { /* no-op */ }
-  // Also set via normal state (for any subscribers that run before reload)
-  setLanguage(lang)
+  // Load new language translations then reload
+  await setLanguage(lang)
   // Force full page reload to apply translations everywhere
   window.location.href = window.location.href.split('#')[0]
 };

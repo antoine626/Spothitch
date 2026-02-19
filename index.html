@@ -44,10 +44,13 @@
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     
-    <!-- Preconnect & Preload -->
+    <!-- Preconnect & Preload — establish early connections to critical origins -->
+    <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <link rel="dns-prefetch" href="https://router.project-osrm.org">
-    <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+    <link rel="dns-prefetch" href="https://identitytoolkit.googleapis.com">
+    <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com">
     <link rel="preload" href="/fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/SpaceGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -121,11 +124,13 @@
         Skip to main content
     </a>
     
-    <!-- App Loader -->
+    <!-- App Loader — shows instantly while JS loads -->
     <div id="app-loader">
         <div style="text-align:center">
-            <div class="loader-spinner" style="margin:0 auto 16px"></div>
-            <div style="color:#94a3b8;font-size:14px" id="loader-text">Loading SpotHitch...</div>
+            <div style="font-size:40px;margin-bottom:12px">🤙</div>
+            <div style="font-family:system-ui;font-weight:700;font-size:22px;color:#f59e0b;margin-bottom:4px">SpotHitch</div>
+            <div class="loader-spinner" style="margin:12px auto 0"></div>
+            <div style="color:#94a3b8;font-size:13px;margin-top:8px" id="loader-text"></div>
         </div>
     </div>
 

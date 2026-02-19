@@ -7,37 +7,17 @@
 import { readFileSync, readdirSync, statSync } from 'fs'
 import { join, extname } from 'path'
 
-const I18N_PATH = join(import.meta.dirname, '..', 'src', 'i18n', 'index.js')
+const LANG_DIR = join(import.meta.dirname, '..', 'src', 'i18n', 'lang')
 const SRC_PATH = join(import.meta.dirname, '..', 'src')
 
-function extractTranslationKeys(content, lang) {
-  // Find "const translations = {" then find the block for this language
-  const transStart = content.indexOf('const translations = {')
-  if (transStart === -1) return new Set()
-
-  const afterTrans = content.substring(transStart)
-
-  // Find the language block start
-  const langPattern = new RegExp(`^  ${lang}: \\{`, 'm')
-  const langMatch = afterTrans.match(langPattern)
-  if (!langMatch) return new Set()
-
-  const blockStart = afterTrans.indexOf(langMatch[0]) + langMatch[0].length
-  let depth = 1
-  let i = blockStart
-  while (depth > 0 && i < afterTrans.length) {
-    if (afterTrans[i] === '{') depth++
-    if (afterTrans[i] === '}') depth--
-    i++
-  }
-
-  const block = afterTrans.substring(blockStart, i - 1)
+function extractTranslationKeys(filePath) {
+  const content = readFileSync(filePath, 'utf-8')
   const keys = new Set()
 
-  // Match key: 'value' or key: "value" patterns
+  // Match key: 'value' or key: "value" patterns (top-level keys in the default export)
   const keyRegex = /^\s+(\w+)\s*:/gm
   let keyMatch
-  while ((keyMatch = keyRegex.exec(block)) !== null) {
+  while ((keyMatch = keyRegex.exec(content)) !== null) {
     keys.add(keyMatch[1])
   }
 
@@ -49,7 +29,7 @@ function findUsedKeys(dir) {
   const files = getAllJsFiles(dir)
 
   for (const file of files) {
-    if (file.includes('i18n/index.js')) continue
+    if (file.includes('i18n/lang/') || file.includes('i18n/index.js')) continue
     const content = readFileSync(file, 'utf-8')
     const regex = /\bt\(\s*['"](\w+)['"]\s*\)/g
     let match
@@ -75,12 +55,11 @@ function getAllJsFiles(dir) {
 }
 
 // Main
-const content = readFileSync(I18N_PATH, 'utf-8')
 const languages = ['fr', 'en', 'es', 'de']
 const keysByLang = {}
 
 for (const lang of languages) {
-  keysByLang[lang] = extractTranslationKeys(content, lang)
+  keysByLang[lang] = extractTranslationKeys(join(LANG_DIR, `${lang}.js`))
 }
 
 const refKeys = keysByLang.fr
