@@ -249,7 +249,7 @@ describe('Integration: AddSpot Modal', () => {
   })
 
   it('has location button', () => {
-    const html = renderAddSpot({ ...baseState, showAddSpot: true, addSpotStep: 2 })
+    const html = renderAddSpot({ ...baseState, showAddSpot: true, addSpotStep: 1 })
     expect(html).toContain('toggleSpotMapPicker')
   })
 
