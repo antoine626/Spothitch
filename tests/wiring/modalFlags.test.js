@@ -311,6 +311,16 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
     expect(html.length).toBeGreaterThan(100)
   })
 
+  test('showBlockedUsers state key exists', () => {
+    const state = getState()
+    expect('showBlockedUsers' in state).toBe(true)
+  })
+
+  test('showBlockModal state key exists', () => {
+    const state = getState()
+    expect('showBlockModal' in state).toBe(true)
+  })
+
   test('showTeamChallenges flag renders TeamDashboard', () => {
     const state = { ...mockState, showTeamChallenges: true }
     const html = renderTeamDashboard(state)

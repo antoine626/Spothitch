@@ -139,6 +139,22 @@ export function renderFriendProfileModal(state) {
                 ${t('removeFriend')}
               </button>
             </div>
+            <div class="flex gap-2 pt-1">
+              <button
+                onclick="openReport('USER', '${friend.id}')"
+                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-500 hover:text-danger-400 hover:bg-danger-500/10 transition-all text-xs flex items-center justify-center gap-1"
+              >
+                ${icon('flag', 'w-3 h-3')}
+                ${t('report') || 'Signaler'}
+              </button>
+              <button
+                onclick="openBlockModal('${friend.id}', '${escapeHTML(friend.name)}')"
+                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-500 hover:text-danger-400 hover:bg-danger-500/10 transition-all text-xs flex items-center justify-center gap-1"
+              >
+                ${icon('ban', 'w-3 h-3')}
+                ${t('blockUser') || 'Bloquer'}
+              </button>
+            </div>
           </div>
         </div>
 

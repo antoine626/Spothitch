@@ -56,6 +56,7 @@ import { renderNearbyFriendsWidget, renderNearbyFriendsList } from '../services/
 import { renderCustomizationModal } from '../services/profileCustomization.js';
 import { renderAccessibilityHelp } from '../services/screenReader.js';
 import { renderReportModal } from '../services/moderation.js';
+import { renderBlockModal, renderBlockedUsersList } from '../services/userBlocking.js';
 import { renderSOSTrackingWidget } from '../services/sosTracking.js';
 import { renderProximityAlert } from '../services/proximityNotify.js';
 // renderTeamDashboard lazy-loaded below
@@ -170,6 +171,23 @@ export function renderApp(state) {
     ${state.showProfileCustomization ? renderCustomizationModal(state) : ''}
     ${state.showNearbyFriends ? renderNearbyFriendsList(state) : ''}
     ${state.showReport ? renderReportModal(state) : ''}
+    ${state.showBlockModal ? renderBlockModal(state.blockTargetId, state.blockTargetName) : ''}
+    ${state.showBlockedUsers ? `
+      <div class="fixed inset-0 z-50 flex items-center justify-center p-4" onclick="closeBlockedUsers()" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
+        <div class="relative modal-panel rounded-3xl w-full max-w-md max-h-[90vh] overflow-y-auto slide-up" onclick="event.stopPropagation()">
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-bold">${t('blockedUsers') || 'Blocked users'}</h2>
+              <button onclick="closeBlockedUsers()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Close'}">
+                ${icon('x', 'w-5 h-5')}
+              </button>
+            </div>
+            ${renderBlockedUsersList()}
+          </div>
+        </div>
+      </div>
+    ` : ''}
     ${state.showAccessibilityHelp ? renderAccessibilityHelp(state) : ''}
     ${state.showTravelGroupDetail ? renderTravelGroupDetail(state) : ''}
     ${state.showTeamChallenges ? `

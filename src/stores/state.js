@@ -207,6 +207,10 @@ const initialState = {
   showDailyReward: false,
   showAddFriend: false,
   showSafety: false,
+  showBlockedUsers: false,
+  showBlockModal: false,
+  blockTargetId: null,
+  blockTargetName: null,
 
   // AddSpot wizard
   addSpotStep: 1,

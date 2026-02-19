@@ -249,8 +249,8 @@ export function renderSpotDetail(state) {
             </div>
           </div>
 
-          <!-- In-App Navigation & Share -->
-          <div class="grid grid-cols-2 gap-3">
+          <!-- In-App Navigation & Share & Report -->
+          <div class="grid grid-cols-3 gap-3">
             <button
               onclick="startSpotNavigation(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeHTML((spot.from + ' - ' + spot.to).replace(/'/g, "\\'"))}')"
               class="btn btn-ghost text-sm py-2"
@@ -268,6 +268,15 @@ export function renderSpotDetail(state) {
             >
               ${icon('share-2', 'w-5 h-5')}
               ${t('share') || 'Partager'}
+            </button>
+            <button
+              onclick="openReport('SPOT', '${spot.id}')"
+              class="btn btn-ghost text-sm py-2 text-slate-400 hover:text-danger-400"
+              type="button"
+              aria-label="${t('reportSpot') || 'Signaler ce spot'}"
+            >
+              ${icon('flag', 'w-5 h-5')}
+              ${t('report') || 'Signaler'}
             </button>
           </div>
           

@@ -8,6 +8,62 @@ import { icon } from '../../utils/icons.js'
 import { escapeHTML } from '../../utils/sanitize.js'
 
 export function renderSOS(state) {
+  // Show disclaimer on first use
+  const disclaimerSeen = typeof localStorage !== 'undefined' && localStorage.getItem('spothitch_sos_disclaimer_seen')
+
+  if (!disclaimerSeen) {
+    return renderSOSDisclaimer()
+  }
+
+  return renderSOSMain(state)
+}
+
+function renderSOSDisclaimer() {
+  return `
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      onclick="closeSOS()"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="sos-disclaimer-title"
+    >
+      <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
+      <div
+        class="relative bg-dark-primary border-2 border-amber-500/50 rounded-3xl w-full max-w-md slide-up"
+        onclick="event.stopPropagation()"
+      >
+        <div class="p-8 text-center">
+          <div class="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center text-3xl mx-auto mb-4">
+            ${icon('triangle-alert', 'w-8 h-8 text-amber-400')}
+          </div>
+          <h2 id="sos-disclaimer-title" class="text-xl font-bold text-amber-400 mb-4">
+            ${t('sosDisclaimerTitle') || 'Important — SOS'}
+          </h2>
+          <div class="text-sm text-slate-300 text-left space-y-3 mb-6">
+            <p>${t('sosDisclaimerText1') || 'SpotHitch does NOT replace emergency services.'}</p>
+            <p>${t('sosDisclaimerText2') || 'The SOS feature helps you share your location with your trusted contacts but cannot guarantee help will arrive.'}</p>
+            <p>${t('sosDisclaimerText3') || 'In case of real emergency, always call your local emergency number (112 in Europe, 911 in USA/Canada).'}</p>
+          </div>
+          <button
+            onclick="acceptSOSDisclaimer()"
+            class="w-full py-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-dark-primary font-bold text-lg transition-all"
+          >
+            ${t('sosDisclaimerAccept') || 'I understand, continue'}
+          </button>
+        </div>
+        <button
+          onclick="closeSOS()"
+          class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
+          aria-label="${t('close') || 'Close'}"
+        >
+          ${icon('x', 'w-5 h-5')}
+        </button>
+      </div>
+    </div>
+  `
+}
+
+function renderSOSMain(state) {
   return `
     <div
       class="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -315,6 +371,12 @@ window.markSafe = async () => {
   actions.toggleSOS();
   showSuccess(t('markedSafe') || 'Super ! Content que tu sois en sécurité');
 };
+
+window.acceptSOSDisclaimer = () => {
+  localStorage.setItem('spothitch_sos_disclaimer_seen', '1')
+  // Re-render to show the real SOS modal
+  window.setState?.({ showSOS: true })
+}
 
 window.sendSOSTemplate = async (type) => {
   const templates = {

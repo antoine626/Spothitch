@@ -15,10 +15,30 @@ import {
 
 /**
  * Render the Companion Mode modal
+ * Includes per-session location consent (legal requirement)
  */
 export function renderCompanionModal(_state) {
   const companion = getCompanionState()
   const active = companion.active
+
+  // Check if location consent was given this session
+  const consentGiven = typeof sessionStorage !== 'undefined' && sessionStorage.getItem('spothitch_companion_consent')
+
+  // Check auto-expiration (8 hours max)
+  if (active && companion.tripStart) {
+    const elapsed = Date.now() - companion.tripStart
+    const maxDuration = 8 * 60 * 60 * 1000 // 8 hours
+    if (elapsed > maxDuration) {
+      // Auto-stop companion mode
+      import('../../services/companion.js').then(m => m.stopCompanion?.())
+      return ''
+    }
+  }
+
+  // Show consent screen if not yet consented this session and not already active
+  if (!active && !consentGiven) {
+    return renderConsentScreen()
+  }
 
   return `
     <div
@@ -42,6 +62,60 @@ export function renderCompanionModal(_state) {
 
       <!-- Overdue Alert Overlay -->
       ${active && isCheckInOverdue() && !companion.alertSent ? renderAlertOverlay(companion) : ''}
+    </div>
+  `
+}
+
+/**
+ * Per-session consent screen for location sharing
+ */
+function renderConsentScreen() {
+  return `
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      onclick="closeCompanionModal()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="companion-consent-title"
+    >
+      <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
+      <div
+        class="relative bg-dark-primary border border-emerald-500/30 rounded-3xl w-full max-w-md slide-up"
+        onclick="event.stopPropagation()"
+      >
+        <div class="p-8 text-center">
+          <div class="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+            ${icon('map-pin', 'w-8 h-8 text-emerald-400')}
+          </div>
+          <h2 id="companion-consent-title" class="text-xl font-bold text-white mb-4">
+            ${t('companionConsentTitle') || 'Location sharing consent'}
+          </h2>
+          <div class="text-sm text-slate-300 text-left space-y-3 mb-6">
+            <p>${t('companionConsentText1') || 'Companion mode will share your real-time GPS position with your chosen guardian contact.'}</p>
+            <p>${t('companionConsentText2') || 'Your location will be shared only during the active trip and will automatically stop after 8 hours maximum.'}</p>
+            <p>${t('companionConsentText3') || 'You can stop sharing at any time. Your location history is never sold or shared with third parties.'}</p>
+          </div>
+          <button
+            onclick="acceptCompanionConsent()"
+            class="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition-all mb-3"
+          >
+            ${t('companionConsentAccept') || 'I agree, continue'}
+          </button>
+          <button
+            onclick="closeCompanionModal()"
+            class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all text-sm"
+          >
+            ${t('cancel') || 'Cancel'}
+          </button>
+        </div>
+        <button
+          onclick="closeCompanionModal()"
+          class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
+          aria-label="${t('close') || 'Close'}"
+        >
+          ${icon('x', 'w-5 h-5')}
+        </button>
+      </div>
     </div>
   `
 }
@@ -327,6 +401,13 @@ function renderAlertOverlay(companion) {
       </div>
     </div>
   `
+}
+
+// Consent handler
+window.acceptCompanionConsent = () => {
+  sessionStorage.setItem('spothitch_companion_consent', '1')
+  // Re-render to show the actual companion setup
+  window.setState?.({ showCompanionModal: true })
 }
 
 export default { renderCompanionModal }

@@ -138,6 +138,9 @@ const MAIN_JS_HANDLERS = [
   'openReport', 'closeReport',
   'closeFriendProfile', 'openFriendProfile',
   'openReportModal', 'closeReportModal',
+  // Legal & Moderation (session 2026-02-19)
+  'acceptSOSDisclaimer', 'acceptCompanionConsent',
+  'openBlockedUsers', 'closeBlockedUsers',
   // CheckinModal
   'openCheckinModal', 'closeCheckinModal', 'submitCheckin',
   'setCheckinWaitTime', 'toggleCheckinChar', 'triggerCheckinPhoto',

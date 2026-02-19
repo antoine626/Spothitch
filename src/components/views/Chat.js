@@ -81,9 +81,21 @@ function renderMessage(msg, state) {
         </div>
       ` : ''}
       <p class="text-sm">${escapeHTML(msg.text)}</p>
-      <time class="text-xs opacity-50 mt-1 block text-right" datetime="${msg.createdAt}">
-        ${formatTime(msg.createdAt)}
-      </time>
+      <div class="flex items-center justify-between mt-1">
+        <time class="text-xs opacity-50" datetime="${msg.createdAt}">
+          ${formatTime(msg.createdAt)}
+        </time>
+        ${!isSent ? `
+          <button
+            onclick="openReport('MESSAGE', '${msg.id || ''}')"
+            class="text-xs opacity-30 hover:opacity-100 hover:text-danger-400 transition-opacity p-1"
+            type="button"
+            aria-label="${t('reportMessage') || 'Signaler ce message'}"
+          >
+            ${icon('flag', 'w-3 h-3')}
+          </button>
+        ` : ''}
+      </div>
     </article>
   `;
 }

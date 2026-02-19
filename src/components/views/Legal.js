@@ -16,6 +16,7 @@ export function renderLegalPage(page = 'cgu') {
     privacy: renderPrivacyPolicy(),
     cookies: renderCookiePolicy(),
     legal: renderLegalNotice(),
+    guidelines: renderCommunityGuidelines(),
   };
 
   const titles = {
@@ -23,6 +24,7 @@ export function renderLegalPage(page = 'cgu') {
     privacy: t('legalPrivacy'),
     cookies: t('legalCookies'),
     legal: t('legalNotice'),
+    guidelines: t('communityGuidelines') || 'Community Guidelines',
   };
 
   return `
@@ -56,6 +58,10 @@ export function renderLegalPage(page = 'cgu') {
         <button onclick="showLegalPage('legal')"
                 class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'legal' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400'}">
           ${t('legalTabNotice')}
+        </button>
+        <button onclick="showLegalPage('guidelines')"
+                class="flex-1 py-3 text-sm font-medium whitespace-nowrap px-2 ${page === 'guidelines' ? 'text-amber-400 border-b-2 border-amber-400' : 'text-slate-400'}">
+          ${t('legalTabGuidelines') || 'Rules'}
         </button>
       </div>
 
@@ -181,6 +187,16 @@ export function renderPrivacyPolicy() {
 
       <h3>${t('legalPrivacy9Title')}</h3>
       <p>${t('legalPrivacy9Text')}</p>
+
+      <h3>${t('legalPrivacyCcpaTitle') || 'California Privacy Rights (CCPA/CPRA)'}</h3>
+      <p>${t('legalPrivacyCcpaIntro') || 'If you are a California resident, you have the following rights under the California Consumer Privacy Act (CCPA) and the California Privacy Rights Act (CPRA):'}</p>
+      <ul>
+        <li><strong>${t('legalPrivacyCcpaKnow') || 'Right to know'}</strong>: ${t('legalPrivacyCcpaKnowDesc') || 'You can request what personal information we collect, use, and share.'}</li>
+        <li><strong>${t('legalPrivacyCcpaDelete') || 'Right to delete'}</strong>: ${t('legalPrivacyCcpaDeleteDesc') || 'You can request deletion of your personal information. Use "My Data" in your profile settings.'}</li>
+        <li><strong>${t('legalPrivacyCcpaOptOut') || 'Right to opt out'}</strong>: ${t('legalPrivacyCcpaOptOutDesc') || 'We do NOT sell your personal information. There is nothing to opt out of.'}</li>
+        <li><strong>${t('legalPrivacyCcpaNonDiscrim') || 'Non-discrimination'}</strong>: ${t('legalPrivacyCcpaNonDiscrimDesc') || 'We will not treat you differently for exercising your privacy rights.'}</li>
+      </ul>
+      <p>${t('legalPrivacyCcpaContact') || 'To exercise these rights, use the "My Data" section in your profile or email us at privacy@spothitch.app.'}</p>
     </div>
   `;
 }
@@ -420,10 +436,60 @@ export function renderLegalNotice() {
   `;
 }
 
+/**
+ * Render Community Guidelines
+ */
+export function renderCommunityGuidelines() {
+  return `
+    <div class="legal-content">
+      <h2>${t('guidelinesTitle') || 'Community Guidelines'}</h2>
+      <p class="text-slate-400 text-sm">${t('legalLastUpdated')} ${t('legalDateFeb2026')}</p>
+
+      <p>${t('guidelinesIntro') || 'SpotHitch is a community of hitchhikers helping each other travel safely. These rules ensure everyone has a positive experience.'}</p>
+
+      <h3>${t('guidelinesRespectTitle') || 'Respect & Safety'}</h3>
+      <ul>
+        <li>${t('guidelinesRespect1') || 'Treat all members with respect regardless of gender, ethnicity, nationality, or experience level.'}</li>
+        <li>${t('guidelinesRespect2') || 'Never share someone else\'s location or travel plans without their explicit consent.'}</li>
+        <li>${t('guidelinesRespect3') || 'Report any behavior that makes you feel unsafe. Reports are reviewed within 24 hours.'}</li>
+      </ul>
+
+      <h3>${t('guidelinesContentTitle') || 'Content Rules'}</h3>
+      <ul>
+        <li>${t('guidelinesContent1') || 'Only share spots you have personally tested or that are based on reliable community data.'}</li>
+        <li>${t('guidelinesContent2') || 'Be honest about wait times, conditions, and safety ratings.'}</li>
+        <li>${t('guidelinesContent3') || 'Do not post spam, advertising, or unrelated content.'}</li>
+        <li>${t('guidelinesContent4') || 'Photos must show the actual spot. No inappropriate or misleading images.'}</li>
+      </ul>
+
+      <h3>${t('guidelinesAccountTitle') || 'Account & Identity'}</h3>
+      <ul>
+        <li>${t('guidelinesAccount1') || 'One account per person. Duplicate accounts will be merged or banned.'}</li>
+        <li>${t('guidelinesAccount2') || 'Do not impersonate other users or public figures.'}</li>
+        <li>${t('guidelinesAccount3') || 'Keep your profile information truthful.'}</li>
+      </ul>
+
+      <h3>${t('guidelinesModTitle') || 'Moderation & Consequences'}</h3>
+      <ul>
+        <li>${t('guidelinesMod1') || 'First violation: warning message.'}</li>
+        <li>${t('guidelinesMod2') || 'Second violation: temporary suspension (7 days).'}</li>
+        <li>${t('guidelinesMod3') || 'Severe or repeated violations: permanent ban.'}</li>
+        <li>${t('guidelinesMod4') || 'Illegal content or threats of violence: immediate ban + report to authorities if needed.'}</li>
+      </ul>
+
+      <h3>${t('guidelinesContactTitle') || 'Contact'}</h3>
+      <p>
+        ${t('guidelinesContactText') || 'If you see a violation, use the report button (flag icon) on any spot, message, or profile. You can also email us at:'} <a href="mailto:contact@spothitch.app" class="text-amber-400">contact@spothitch.app</a>
+      </p>
+    </div>
+  `
+}
+
 export default {
   renderLegalPage,
   renderCGU,
   renderPrivacyPolicy,
   renderCookiePolicy,
   renderLegalNotice,
+  renderCommunityGuidelines,
 };

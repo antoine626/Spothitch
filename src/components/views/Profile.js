@@ -237,6 +237,30 @@ export function renderProfile(state) {
           </div>
           ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
         </button>
+
+        <!-- Blocked Users -->
+        <button
+          onclick="openBlockedUsers()"
+          class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
+        >
+          <div class="flex items-center gap-3">
+            ${icon('ban', 'w-5 h-5 text-slate-400')}
+            <span>${t('blockedUsers') || 'Utilisateurs bloques'}</span>
+          </div>
+          ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
+        </button>
+
+        <!-- Community Guidelines -->
+        <button
+          onclick="showLegalPage('guidelines')"
+          class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
+        >
+          <div class="flex items-center gap-3">
+            ${icon('scroll-text', 'w-5 h-5 text-emerald-400')}
+            <span>${t('communityGuidelines') || 'Regles de la communaute'}</span>
+          </div>
+          ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
+        </button>
       </div>
 
       <!-- Auth -->
@@ -320,6 +344,14 @@ window.toggleProximityAlertsSetting = () => {
 window.editAvatar = () => {
   // Open welcome modal to change avatar
   window.setState?.({ showWelcome: true });
+};
+
+window.openBlockedUsers = () => {
+  window.setState?.({ showBlockedUsers: true });
+};
+
+window.closeBlockedUsers = () => {
+  window.setState?.({ showBlockedUsers: false });
 };
 
 export default { renderProfile };
