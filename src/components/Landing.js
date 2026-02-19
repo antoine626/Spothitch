@@ -15,7 +15,7 @@ export function renderLanding() {
       <div id="landing-track" class="flex h-full transition-transform duration-300 ease-out" style="width:500%">
 
         <!-- Slide 1: Imagine -->
-        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,rgba(10,22,40,0.9),#0f1520 40%)">
+        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,rgba(10,22,40,0.9),#0f1520 40%)">
           <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
             <div class="absolute -top-32 -right-32 w-72 h-72 bg-primary-500/15 rounded-full blur-3xl animate-pulse"></div>
           </div>
@@ -42,7 +42,7 @@ export function renderLanding() {
         </div>
 
         <!-- Slide 2: Avant / Après -->
-        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center">
+        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center">
           <span class="text-4xl mb-4">⚡</span>
           <h2 class="text-2xl font-bold text-white mb-6 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingDayNight')}</h2>
           <div class="flex gap-3 w-full max-w-sm mb-6">
@@ -71,7 +71,7 @@ export function renderLanding() {
         </div>
 
         <!-- Slide 3: Témoignages -->
-        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7">
+        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7">
           <span class="text-4xl mb-3">💬</span>
           <h2 class="text-2xl font-bold text-white mb-6 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingTheyTell')}</h2>
           <div class="w-full max-w-sm flex flex-col gap-3">
@@ -91,7 +91,7 @@ export function renderLanding() {
         </div>
 
         <!-- Slide 4: Sécurité -->
-        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center">
+        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center">
           <div class="w-24 h-24 rounded-full bg-emerald-500/15 border-2 border-emerald-500/20 flex items-center justify-center text-5xl mb-6 animate-pulse">🛡️</div>
           <h2 class="text-2xl font-bold text-white mb-2 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingNeverAloneTitle')}</h2>
           <p class="text-sm text-slate-400 mb-6 max-w-xs">${t('onboardingCompanionDesc')}</p>
@@ -115,7 +115,7 @@ export function renderLanding() {
         </div>
 
         <!-- Slide 5: Communauté + CTA -->
-        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7">
+        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7">
           <span class="text-4xl mb-3">🌍</span>
           <h2 class="text-2xl font-bold text-white mb-5 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingJoinCommunity')}</h2>
           <div class="w-full max-w-sm bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm mb-6">
