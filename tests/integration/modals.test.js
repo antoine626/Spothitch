@@ -5,7 +5,7 @@
  * RULE: Every new modal MUST have its integration test here.
  */
 
-import { describe, it, expect, beforeEach, beforeAll, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, beforeAll, vi } from 'vitest'
 import { getState, setState, resetState } from '../../src/stores/state.js'
 
 // ---- Modal renders ----
@@ -110,6 +110,22 @@ beforeEach(() => {
 // 1. SOS Modal
 // ===============================================================
 describe('Integration: SOS Modal', () => {
+  beforeEach(() => {
+    // Simulate disclaimer already accepted so tests see the real SOS modal
+    localStorage.setItem('spothitch_sos_disclaimer_seen', '1')
+  })
+
+  afterEach(() => {
+    localStorage.removeItem('spothitch_sos_disclaimer_seen')
+  })
+
+  it('shows disclaimer on first use', () => {
+    localStorage.removeItem('spothitch_sos_disclaimer_seen')
+    const html = renderSOS({ ...baseState, showSOS: true })
+    expect(html).toContain('sos-disclaimer-title')
+    expect(html).toContain('acceptSOSDisclaimer')
+  })
+
   it('opens with showSOS flag', () => {
     setState({ showSOS: true })
     const html = renderSOS(getState())

@@ -196,6 +196,7 @@ export const STORAGE_KEYS = [
 
   // === UX ===
   { key: 'spothitch_landing_seen', category: DataCategory.SETTINGS, description: 'Landing page dismissed flag' },
+  { key: 'spothitch_sos_disclaimer_seen', category: DataCategory.SETTINGS, description: 'SOS disclaimer accepted flag' },
 
   // === STATE (via Storage.js with spothitch_v4_ prefix) ===
   { key: 'spothitch_v4_state', category: DataCategory.PERSONAL, description: 'Main app state (via Storage.js)', sensitive: true },
