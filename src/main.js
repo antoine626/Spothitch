@@ -169,8 +169,12 @@ function startVersionCheck() {
  * Initialize the application
  */
 async function init() {
-  // Initialize fun splash screen immediately
-  initSplashScreen();
+  // Initialize splash screen only if user has already seen the landing carousel
+  // (no need for 2 loading screens stacked on each other)
+  const landingSeen = localStorage.getItem('spothitch_landing_seen')
+  if (landingSeen) {
+    initSplashScreen();
+  }
 
   // Check for reset parameter in URL
   if (window.location.search.includes('reset')) {
