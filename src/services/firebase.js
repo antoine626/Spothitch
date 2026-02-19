@@ -543,6 +543,39 @@ export async function saveValidationToFirebase(spotId, userId) {
 }
 
 /**
+ * Add a structured validation (community data) to a spot
+ * Stores complete experience data: waitTime, method, group, timeOfDay, etc.
+ * @param {Object} data - Validation data with spotId
+ */
+export async function addValidation(data) {
+  try {
+    const user = getCurrentUser()
+    const spotId = String(data.spotId)
+    const validationsRef = collection(db, 'spots', spotId, 'validations')
+
+    await addDoc(validationsRef, {
+      ...data,
+      userId: user?.uid || 'anonymous',
+      userName: user?.displayName || 'Anonyme',
+      createdAt: serverTimestamp(),
+    })
+
+    // Update spot stats
+    const spotRef = doc(db, 'spots', spotId)
+    const { increment } = await import('firebase/firestore')
+    await updateDoc(spotRef, {
+      checkins: increment(1),
+      lastUsed: new Date().toISOString().split('T')[0],
+    }).catch(() => {}) // May fail if spot is from Hitchmap (not in Firestore)
+
+    return { success: true }
+  } catch (error) {
+    console.error('Error adding validation:', error)
+    return { success: false, error }
+  }
+}
+
+/**
  * Save a comment to Firebase
  * @param {Object} comment - Comment data {spotId, text, rating}
  */

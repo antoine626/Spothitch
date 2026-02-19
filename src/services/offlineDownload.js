@@ -8,6 +8,7 @@ import { putAll, getByIndex, clear, count, getAll } from '../utils/idb.js'
 
 const STORAGE_KEY = 'spothitch_offline_countries'
 const BASE = import.meta.env.BASE_URL || '/'
+const HITCHMAP_ENABLED = import.meta.env.VITE_HITCHMAP_ENABLED !== 'false'
 
 /**
  * Download spots for a country and save to IndexedDB
@@ -16,6 +17,7 @@ const BASE = import.meta.env.BASE_URL || '/'
  * @returns {Promise<{success: boolean, count: number}>}
  */
 export async function downloadCountrySpots(countryCode, onProgress) {
+  if (!HITCHMAP_ENABLED) return { success: true, count: 0 }
   const code = countryCode.toUpperCase()
 
   try {

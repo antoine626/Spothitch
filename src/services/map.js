@@ -444,7 +444,7 @@ export function drawRoute(map, _unused, routeCoords) {
 }
 
 /**
- * Load dynamic spots from Hitchmap data based on current map bounds
+ * Load dynamic spots from spot data based on current map bounds
  */
 async function loadDynamicSpots(map) {
   if (!map) return
@@ -671,7 +671,7 @@ export function getMapTileUrl(theme) {
 }
 
 export function getMapAttribution() {
-  return '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors | Data from <a href="https://hitchwiki.org">Hitchwiki</a> (ODBL)'
+  return '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors | <a href="https://spothitch.com">SpotHitch</a> Community'
 }
 
 export default {

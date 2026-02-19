@@ -2,11 +2,13 @@
  * Spot Loader Service
  * Dynamically loads hitchhiking spots from JSON files per country
  * Source: Hitchmap (ODBL license)
+ * Set VITE_HITCHMAP_ENABLED=false to disable all Hitchmap data loading
  */
 
 import { haversineKm } from '../utils/geo.js'
 
 const BASE = import.meta.env.BASE_URL || '/'
+const HITCHMAP_ENABLED = import.meta.env.VITE_HITCHMAP_ENABLED !== 'false'
 
 // Cache loaded country data
 const loadedCountries = new Map()
@@ -18,6 +20,7 @@ let nextId = 100000 // Start high to avoid conflicts with sample spots
  * Load country index (list of available countries)
  */
 export async function loadSpotIndex() {
+  if (!HITCHMAP_ENABLED) return null
   if (countryIndex) return countryIndex
 
   try {
@@ -37,6 +40,7 @@ export async function loadSpotIndex() {
  * @returns {Array} spots in app format
  */
 export async function loadCountrySpots(countryCode) {
+  if (!HITCHMAP_ENABLED) return []
   const code = countryCode.toUpperCase()
 
   // Return cached data
@@ -320,6 +324,7 @@ export function isCountryLoaded(countryCode) {
  * Get spot count stats
  */
 export async function getSpotStats() {
+  if (!HITCHMAP_ENABLED) return { totalCountries: 0, totalLocations: 0, totalReviews: 0 }
   const index = await loadSpotIndex()
   if (!index) return { totalCountries: 0, totalLocations: 0, totalReviews: 0 }
 
@@ -337,6 +342,7 @@ export async function getSpotStats() {
  * @param {number} radiusKm - Prefetch radius (default 800km)
  */
 export function prefetchNearbyCountries(lat, lng, radiusKm = 800) {
+  if (!HITCHMAP_ENABLED) return
   const countryCenters = getCountryCenters()
   const nearby = Object.entries(countryCenters)
     .filter(([code, center]) => !loadedCountries.has(code) && haversineKm(lat, lng, center.lat, center.lon) < radiusKm)

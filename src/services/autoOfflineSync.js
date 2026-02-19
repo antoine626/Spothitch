@@ -11,6 +11,7 @@ import { t } from '../i18n/index.js'
 const STORAGE_PREFIX = 'spothitch_offline_'
 const SYNC_INTERVAL = 60 * 60 * 1000 // 1 hour
 const MAX_CACHE_AGE = 7 * 24 * 60 * 60 * 1000 // 7 days
+const HITCHMAP_ENABLED = import.meta.env.VITE_HITCHMAP_ENABLED !== 'false'
 
 let isInitialized = false
 let syncInterval = null
@@ -236,6 +237,7 @@ async function getRelevantCountries() {
  * @returns {Promise<void>}
  */
 async function downloadCountrySpots(countryCode) {
+  if (!HITCHMAP_ENABLED) return
   try {
     // Check if file exists at public/data/spots/{country}.json
     const url = `/data/spots/${countryCode.toLowerCase()}.json`
