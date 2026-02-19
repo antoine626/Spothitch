@@ -32,7 +32,15 @@ const initialState = {
   activeGroupChat: null,
   showZoneChat: false,
   ambassadorSearchQuery: '',
+  userOnline: false,
+  ambassadorSearchResults: [],
+  showAmbassadorSuccess: false,
+  ambassadorError: null,
+  showAmbassadorProfile: false,
+  currentAmbassadorProfile: null,
   companionRequests: [],
+  companionSearchResults: [],
+  sosSession: null,
 
   // Spots
   spots: [],
@@ -105,16 +113,35 @@ const initialState = {
   checkins: 0,
   spotsCreated: 0,
   reviewsGiven: 0,
+  detailedReviews: [],
+  refreshReviews: false,
+  showReviewForm: false,
+  reviewSpotId: null,
+  editingReviewId: null,
+  showReplyModal: false,
+  replyToReviewId: null,
   badges: [],
   rewards: [],
+  skillPoints: 0,
+  thumbs: 0,
+  lastDailyRewardResult: null,
+  dailyRewardProtection: false,
+  equippedFrame: null,
+  equippedTitle: null,
 
   // Chat & Social
   chatRoom: 'general',
   messages: [],
   friends: [],
   friendRequests: [],
+  friendsLocations: [],
   privateMessages: {},
   unreadFriendMessages: 0,
+  dmLastSent: null,
+  typingIn: null,
+  chatMessages: [],
+  forbiddenWords: [],
+  showAddForbiddenWordModal: false,
 
   // Friend Challenges (#157)
   friendChallenges: [],
@@ -128,6 +155,11 @@ const initialState = {
   // Season/Leagues
   seasonPoints: 0,
   totalPoints: 0,
+
+  // Anniversary
+  showAnniversaryModal: false,
+  anniversaryReward: null,
+  lastReactionUpdate: null,
 
   // SOS
   sosActive: false,
@@ -173,12 +205,20 @@ const initialState = {
   showTitles: false,
   showTeamChallenges: false,
   showCreateTeam: false,
+  currentTeam: null,
+  showJoinTeam: false,
+  showTeamSettings: false,
   showCreateTravelGroup: false,
   showTravelGroupDetail: false,
   selectedTravelGroupId: null,
+  currentTravelGroup: null,
+  editingTravelGroup: null,
   showNearbyFriends: false,
   showProfileCustomization: false,
   showTripHistory: false,
+  selectedTravelPlan: null,
+  showTravelPlanDetail: false,
+  showPostTravelPlan: false,
   showContactForm: false,
   showPhotoUpload: false,
   photoUploadSpotId: null,
@@ -203,6 +243,15 @@ const initialState = {
   selectedFriendProfileId: null,
   showCreateEvent: false,
   showAdminPanel: false,
+  dangerousSpotAlerts: [],
+  deletionProposals: [],
+  bans: [],
+  warnings: [],
+  moderationLogs: [],
+  showAdminModeration: false,
+  adminModerationView: 'queue',
+  moderationQueueFilter: 'all',
+  moderationReportsPage: 1,
   showAccessibilityHelp: false,
   showDailyReward: false,
   showAddFriend: false,
@@ -211,6 +260,8 @@ const initialState = {
   showBlockModal: false,
   blockTargetId: null,
   blockTargetName: null,
+  // Consent
+  showConsentSettings: false,
 
   // AddSpot wizard
   addSpotStep: 1,
@@ -236,6 +287,7 @@ const initialState = {
   selfieWithIdPhoto: null,
   travelGroups: [],
   selectedEvent: null,
+  eventsLastUpdate: null,
   authMode: 'login',
   currentRating: 0,
   selectedAvatar: null,
@@ -246,6 +298,7 @@ const initialState = {
   quizResult: null,
   quizCountryCode: null,
   quizShowExplanation: false,
+  quizTimeLeft: 0,
   challengeTab: 'active',
   leaderboardTab: 'weekly',
   shopCategory: 'all',
@@ -258,6 +311,10 @@ const initialState = {
   filterVerifiedOnly: false,
   searchFriendQuery: '',
   referrals: [],
+  inviteCode: null,
+  inviteShareAttempts: 0,
+  invitedUsers: [],
+  inviteMilestones: [],
   isPWAInstalled: false,
   unlockedSkins: [],
   dailyRewardStreak: 0,
@@ -288,6 +345,10 @@ const initialState = {
   isLoading: false,
   isLoadingSpots: false,
   isOnline: navigator.onLine,
+
+  // Internal refresh counters
+  _tagRefresh: 0,
+  _valRefresh: 0,
 };
 
 // State subscribers
