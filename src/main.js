@@ -18,7 +18,20 @@ async function getFirebase() {
 // Sentry — lazy-loaded (non-critical for FCP)
 import { initNotifications, showToast } from './services/notifications.js';
 import { initOfflineHandler } from './services/offline.js';
-import { initMap as initMapService, centerOnSpot, centerOnUser, destroyMaps } from './services/map.js';
+// Map — lazy-loaded (MapLibre is 277KB gzip, defer until map tab)
+let _map = null
+async function getMap() {
+  if (!_map) _map = await import('./services/map.js')
+  return _map
+}
+// Preload map module during idle time (after carousel/onboarding)
+function preloadMap() {
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(() => getMap())
+  } else {
+    setTimeout(() => getMap(), 2000)
+  }
+}
 // Heavy modules — lazy-loaded via dynamic import() to reduce initial bundle
 // gamification.js, quiz.js, planner.js, friendChallenges.js loaded on demand
 import { searchLocation } from './services/osrm.js';
@@ -174,6 +187,7 @@ async function init() {
   const landingSeen = localStorage.getItem('spothitch_landing_seen')
   if (landingSeen) {
     initSplashScreen();
+    preloadMap() // Returning user — preload map during splash
   }
 
   // Check for reset parameter in URL
@@ -616,7 +630,7 @@ function render(state) {
 
   // Initialize map service for spots view
   if (state.activeTab === 'spots' && state.viewMode === 'map') {
-    initMapService();
+    getMap().then(m => m.initMap());
   }
 }
 
@@ -712,7 +726,7 @@ window.openFullMap = () => {
   trackPageView('spots-map');
   // Initialize map after DOM update
   setTimeout(() => {
-    initMapService();
+    getMap().then(m => m.initMap());
   }, 200);
 };
 window.toggleTheme = () => actions.toggleTheme();
@@ -720,7 +734,7 @@ window.setViewMode = (mode) => {
   setState({ viewMode: mode });
   // Initialize map after DOM update
   if (mode === 'map') {
-    setTimeout(() => initMapService(), 100);
+    setTimeout(() => getMap().then(m => m.initMap()), 100);
   }
 };
 window.t = t;
@@ -744,7 +758,7 @@ window.selectSpot = async (id) => {
   }
   if (spot) {
     actions.selectSpot(spot);
-    centerOnSpot(spot);
+    getMap().then(m => m.centerOnSpot(spot));
   }
 };
 window.openSpotDetail = window.selectSpot; // alias for services that use openSpotDetail
@@ -1777,7 +1791,7 @@ window.dismissInstallBanner = dismissInstallBanner;
 window.installPWA = installPWA;
 
 // Map handlers
-window.centerOnUser = centerOnUser;
+window.centerOnUser = () => getMap().then(m => m.centerOnUser());
 
 // Titles modal handler
 window.openTitles = () => setState({ showTitles: true });
@@ -1888,6 +1902,7 @@ window.dismissLanding = () => {
     showTutorial: !tutorialCompleted,
     tutorialStep: 0,
   })
+  preloadMap()
 }
 
 // Landing carousel next slide — overridden by initLandingCarousel()
