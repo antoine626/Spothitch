@@ -675,9 +675,7 @@ const translations = {
     documentSubmitted: 'Document envoye pour verification !',
 
     // User Blocking (#193)
-    blockUser: 'Bloquer',
     unblockUser: 'Debloquer',
-    blockedUsers: 'Utilisateurs bloques',
     blockReason: 'Raison du blocage',
     userBlocked: 'Utilisateur bloque',
     userUnblocked: 'Utilisateur debloque',
@@ -1126,7 +1124,6 @@ const translations = {
 
     // Share Spot in Chat (#185)
     shareSpotInChat: 'Partager dans le chat',
-    spotShared: 'Spot partage !',
     shareSpotTo: 'Partager vers',
     selectChatRoom: 'Choisir un salon',
     selectFriend: 'Choisir un ami',
@@ -1145,7 +1142,6 @@ const translations = {
     groupNotFound: 'Groupe introuvable',
     groupNameRequired: 'Le nom du groupe est obligatoire',
     groupNameTooLong: 'Le nom est trop long (max 50 caracteres)',
-    destinationRequired: 'La destination est obligatoire',
     groupFull: 'Ce groupe est complet',
     groupNotAcceptingMembers: 'Ce groupe n\'accepte plus de membres',
     alreadyInGroup: 'Tu es deja dans ce groupe',
@@ -3164,7 +3160,6 @@ const translations = {
     pushEnabled: 'Notifications activées',
     quiz: 'Quiz',
     quizDailyPoints: '+50 👍/jour',
-    report: 'Signalement',
     resetApp: 'Réinitialiser l\'application',
     about: 'A propos',
     contactUs: 'Nous contacter',
@@ -4005,9 +4000,7 @@ const translations = {
     documentSubmitted: 'Document sent for verification!',
 
     // User Blocking (#193)
-    blockUser: 'Block',
     unblockUser: 'Unblock',
-    blockedUsers: 'Blocked users',
     blockReason: 'Block reason',
     userBlocked: 'User blocked',
     userUnblocked: 'User unblocked',
@@ -4543,7 +4536,6 @@ const translations = {
 
     // Share Spot in Chat (#185)
     shareSpotInChat: 'Share in chat',
-    spotShared: 'Spot shared!',
     shareSpotTo: 'Share to',
     selectChatRoom: 'Select chat room',
     selectFriend: 'Select friend',
@@ -4562,7 +4554,6 @@ const translations = {
     groupNotFound: 'Group not found',
     groupNameRequired: 'Group name is required',
     groupNameTooLong: 'Name is too long (max 50 characters)',
-    destinationRequired: 'Destination is required',
     groupFull: 'This group is full',
     groupNotAcceptingMembers: 'This group is no longer accepting members',
     alreadyInGroup: 'You are already in this group',
@@ -6494,7 +6485,6 @@ const translations = {
     pushEnabled: 'Notifications enabled',
     quiz: 'Quiz',
     quizDailyPoints: '+50 👍/day',
-    report: 'Report',
     resetApp: 'Reset application',
     about: 'About',
     contactUs: 'Contact us',
@@ -6974,9 +6964,7 @@ const translations = {
     documentSubmitted: 'Documento enviado para verificacion!',
 
     // User Blocking (#193)
-    blockUser: 'Bloquear',
     unblockUser: 'Desbloquear',
-    blockedUsers: 'Usuarios bloqueados',
     blockReason: 'Razon del bloqueo',
     userBlocked: 'Usuario bloqueado',
     userUnblocked: 'Usuario desbloqueado',
@@ -7381,7 +7369,6 @@ const translations = {
 
     // Share Spot in Chat (#185)
     shareSpotInChat: 'Compartir en chat',
-    spotShared: 'Spot compartido!',
     shareSpotTo: 'Compartir con',
     selectChatRoom: 'Elegir sala de chat',
     selectFriend: 'Elegir amigo',
@@ -7804,7 +7791,6 @@ const translations = {
     groupNotFound: 'Grupo no encontrado',
     groupNameRequired: 'El nombre del grupo es obligatorio',
     groupNameTooLong: 'El nombre es demasiado largo (max 50 caracteres)',
-    destinationRequired: 'El destino es obligatorio',
     groupFull: 'Este grupo esta completo',
     groupNotAcceptingMembers: 'Este grupo ya no acepta miembros',
     alreadyInGroup: 'Ya estas en este grupo',
@@ -9821,7 +9807,6 @@ const translations = {
     pushEnabled: 'Notificaciones activadas',
     quiz: 'Quiz',
     quizDailyPoints: '+50 👍/día',
-    report: 'Reporte',
     resetApp: 'Reiniciar aplicación',
     about: 'Acerca de',
     contactUs: 'Contáctanos',
@@ -10568,9 +10553,7 @@ const translations = {
     documentSubmitted: 'Dokument zur Verifizierung gesendet!',
 
     // User Blocking (#193)
-    blockUser: 'Blockieren',
     unblockUser: 'Entsperren',
-    blockedUsers: 'Blockierte Benutzer',
     blockReason: 'Sperrgrund',
     userBlocked: 'Benutzer blockiert',
     userUnblocked: 'Benutzer entsperrt',
@@ -10975,7 +10958,6 @@ const translations = {
 
     // Share Spot in Chat (#185)
     shareSpotInChat: 'Im Chat teilen',
-    spotShared: 'Spot geteilt!',
     shareSpotTo: 'Teilen mit',
     selectChatRoom: 'Chatraum wahlen',
     selectFriend: 'Freund wahlen',
@@ -11135,7 +11117,6 @@ const translations = {
     groupNotFound: 'Gruppe nicht gefunden',
     groupNameRequired: 'Gruppenname ist erforderlich',
     groupNameTooLong: 'Name ist zu lang (max 50 Zeichen)',
-    destinationRequired: 'Reiseziel ist erforderlich',
     groupFull: 'Diese Gruppe ist voll',
     groupNotAcceptingMembers: 'Diese Gruppe nimmt keine Mitglieder mehr auf',
     alreadyInGroup: 'Du bist bereits in dieser Gruppe',
@@ -13148,7 +13129,6 @@ const translations = {
     pushEnabled: 'Benachrichtigungen aktiviert',
     quiz: 'Quiz',
     quizDailyPoints: '+50 👍/Tag',
-    report: 'Meldung',
     resetApp: 'App zurücksetzen',
     about: 'Über uns',
     contactUs: 'Kontakt',
