@@ -208,6 +208,19 @@ async function init() {
         fb.initializeFirebase()
         fb.onAuthChange((user) => {
           actions.setUser(user)
+          if (user) {
+            setState({
+              currentUser: user,
+              userProfile: {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+              },
+            })
+          } else {
+            setState({ currentUser: null, userProfile: null })
+          }
           try {
             import('./services/sentry.js').then(m => m.setUser(user))
           } catch (_e) { /* sentry optional */ }
@@ -1054,106 +1067,159 @@ window.removeEmergencyContact = (index) => {
 };
 
 // Auth handlers
-window.openAuth = () => setState({ showAuth: true });
-window.closeAuth = () => setState({ showAuth: false });
-window.setAuthMode = (mode) => setState({ authMode: mode });
+window.openAuth = (reason) => {
+  const updates = { showAuth: true }
+  if (reason) updates.showAuthReason = reason
+  setState(updates)
+}
+window.closeAuth = () => setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+window.setAuthMode = (mode) => setState({ authMode: mode })
 window.handleLogin = async (e) => {
-  e?.preventDefault();
-  const form = document.getElementById('auth-form');
-  if (!form) return;
-  const email = form.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value;
-  const password = form.querySelector('[name="password"]')?.value || document.getElementById('auth-password')?.value;
+  e?.preventDefault()
+  const form = document.getElementById('auth-form')
+  if (!form) return
+  const email = form.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value
+  const password = form.querySelector('[name="password"]')?.value || document.getElementById('auth-password')?.value
   if (!email || !password) {
-    showToast(t('fillAllFields') || 'Veuillez remplir tous les champs', 'error');
-    return;
+    showToast(t('fillAllFields') || 'Please fill all fields', 'error')
+    return
   }
   const fb = await getFirebase()
   fb.initializeFirebase()
-  const result = await fb.signIn(email, password);
+  const result = await fb.signIn(email, password)
   if (result.success) {
+    await fb.createOrUpdateUserProfile(result.user)
     fb.onAuthChange((user) => {
       actions.setUser(user)
+      setState({ currentUser: user, userProfile: { uid: user?.uid, email: user?.email, displayName: user?.displayName, photoURL: user?.photoURL } })
       import('./services/sentry.js').then(m => m.setUser(user)).catch(() => {})
     })
-    setState({ showAuth: false });
-    showToast(t('loginSuccess') || 'Connexion réussie !', 'success');
+    setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+    showToast(t('loginSuccess') || 'Login successful!', 'success')
   } else {
-    showToast(t('loginError') || 'Erreur de connexion', 'error');
+    showToast(t('loginError') || 'Login error', 'error')
   }
-};
+}
 window.handleSignup = async (e) => {
-  e?.preventDefault();
-  const form = document.getElementById('auth-form');
-  if (!form) return;
-  const name = form.querySelector('[name="name"]')?.value || document.getElementById('auth-username')?.value;
-  const email = form.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value;
-  const password = form.querySelector('[name="password"]')?.value || document.getElementById('auth-password')?.value;
+  e?.preventDefault()
+  const form = document.getElementById('auth-form')
+  if (!form) return
+  const name = form.querySelector('[name="name"]')?.value || document.getElementById('auth-username')?.value
+  const email = form.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value
+  const password = form.querySelector('[name="password"]')?.value || document.getElementById('auth-password')?.value
   if (!email || !password) {
-    showToast(t('fillAllFields') || 'Veuillez remplir tous les champs', 'error');
-    return;
+    showToast(t('fillAllFields') || 'Please fill all fields', 'error')
+    return
   }
   const fb = await getFirebase()
   fb.initializeFirebase()
-  const result = await fb.signUp(email, password, name || t('defaultUser') || 'Utilisateur');
+  const result = await fb.signUp(email, password, name || 'Hitchhiker')
   if (result.success) {
+    await fb.createOrUpdateUserProfile(result.user)
     fb.onAuthChange((user) => {
       actions.setUser(user)
+      setState({ currentUser: user, userProfile: { uid: user?.uid, email: user?.email, displayName: user?.displayName, photoURL: user?.photoURL } })
       import('./services/sentry.js').then(m => m.setUser(user)).catch(() => {})
     })
-    setState({ showAuth: false });
-    showToast(t('accountCreated') || 'Compte créé !', 'success');
+    setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+    showToast(t('accountCreated') || 'Account created!', 'success')
   } else {
-    showToast(t('signupError') || 'Erreur lors de l\'inscription', 'error');
+    showToast(t('signupError') || 'Signup error', 'error')
   }
-};
-window.handleGoogleSignIn = async () => {
-  const fb = await getFirebase()
-  fb.initializeFirebase()
-  const result = await fb.signInWithGoogle();
-  if (result.success) {
-    fb.onAuthChange((user) => actions.setUser(user))
-    setState({ showAuth: false });
-    showToast(t('googleLoginSuccess') || 'Connexion Google réussie !', 'success');
-  } else {
-    showToast(t('googleLoginError') || 'Erreur de connexion Google', 'error');
+}
+// Social auth handlers are defined in Auth.js (handleGoogleSignIn, handleAppleSignIn, handleFacebookSignIn)
+// We just need fallback registrations for the ones main.js previously defined
+if (!window.handleGoogleSignIn) {
+  window.handleGoogleSignIn = async () => {
+    const fb = await getFirebase()
+    fb.initializeFirebase()
+    const result = await fb.signInWithGoogle()
+    if (result.success) {
+      await fb.createOrUpdateUserProfile(result.user)
+      fb.onAuthChange((user) => actions.setUser(user))
+      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
+    } else {
+      showToast(t('googleLoginError') || 'Google login error', 'error')
+    }
   }
-};
-window.handleFacebookSignIn = async () => {
-  const fb = await getFirebase()
-  fb.initializeFirebase()
-  const result = await fb.signInWithFacebook();
-  if (result.success) {
-    fb.onAuthChange((user) => actions.setUser(user))
-    setState({ showAuth: false });
-    showToast(t('facebookLoginSuccess') || 'Connexion Facebook réussie !', 'success');
-  } else {
-    showToast(t('facebookLoginError') || 'Erreur de connexion Facebook', 'error');
+}
+if (!window.handleFacebookSignIn) {
+  window.handleFacebookSignIn = async () => {
+    const fb = await getFirebase()
+    fb.initializeFirebase()
+    const result = await fb.signInWithFacebook()
+    if (result.success) {
+      await fb.createOrUpdateUserProfile(result.user)
+      fb.onAuthChange((user) => actions.setUser(user))
+      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      showToast(t('facebookLoginSuccess') || 'Facebook login successful!', 'success')
+    } else {
+      showToast(t('facebookLoginError') || 'Facebook login error', 'error')
+    }
   }
-};
-window.handleAppleLogin = () => {
-  showToast(t('appleLoginComingSoon') || 'Apple Login coming soon', 'info');
-};
+}
+if (!window.handleAppleSignIn) {
+  window.handleAppleSignIn = async () => {
+    const fb = await getFirebase()
+    fb.initializeFirebase()
+    const result = await fb.signInWithApple()
+    if (result.success) {
+      await fb.createOrUpdateUserProfile(result.user)
+      fb.onAuthChange((user) => actions.setUser(user))
+      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      showToast(t('appleLoginSuccess') || 'Apple login successful!', 'success')
+    } else {
+      showToast(t('authError'), 'error')
+    }
+  }
+}
+// Keep handleAppleLogin as alias for backward compat
+window.handleAppleLogin = () => window.handleAppleSignIn?.()
 window.handleForgotPassword = async () => {
-  const email = document.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value;
+  const email = document.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value
   if (!email) {
-    showToast(t('enterEmailFirst') || 'Entrez votre email d\'abord', 'warning');
-    return;
+    showToast(t('enterEmailFirst') || 'Enter your email first', 'warning')
+    return
   }
   const fb = await getFirebase()
   fb.initializeFirebase()
-  const result = await fb.resetPassword(email);
+  const result = await fb.resetPassword(email)
   if (result.success) {
-    showToast(t('resetEmailSent') || 'Email de réinitialisation envoyé !', 'success');
+    showToast(t('resetEmailSent') || 'Password reset email sent!', 'success')
   } else {
-    showToast(t('sendError') || 'Erreur lors de l\'envoi', 'error');
+    showToast(t('sendError') || 'Error sending email', 'error')
   }
-};
+}
 window.handleLogout = async () => {
   const fb = await getFirebase()
-  await fb.logOut();
-  actions.setUser(null);
-  showToast(t('logoutSuccess') || 'Déconnexion réussie', 'success');
-};
+  await fb.logOut()
+  actions.setUser(null)
+  setState({ currentUser: null, userProfile: null })
+  showToast(t('logoutSuccess') || 'Logged out', 'success')
+}
+// Progressive Auth Gate — exposed globally
+window.requireAuth = (actionName) => {
+  const { isLoggedIn } = getState()
+  if (isLoggedIn) return true
+
+  const reasonMap = {
+    addSpot: t('authRequiredAddSpot'),
+    validateSpot: t('authRequiredAddSpot'),
+    saveFavorite: t('authRequiredFavorite'),
+    sos: t('authRequiredSOS'),
+    companion: t('authRequiredCompanion'),
+    social: t('authRequiredSocial'),
+    tripPlanner: t('authRequiredSocial'),
+    checkin: t('authRequiredAddSpot'),
+  }
+  setState({
+    showAuth: true,
+    authPendingAction: actionName,
+    showAuthReason: reasonMap[actionName] || t('loginRequired'),
+  })
+  return false
+}
 
 // Age Verification handlers (RGPD/GDPR)
 window.openAgeVerification = () => {

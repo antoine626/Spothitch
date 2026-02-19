@@ -1,12 +1,15 @@
 /**
  * Auth Modal Component
- * Login and registration
+ * Login and registration with social providers + progressive auth gate
  */
 
-import { t } from '../../i18n/index.js';
+import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
 
-export function renderAuth(_state) {
+export function renderAuth(state) {
+  const reason = state.showAuthReason || null
+  const isSignUp = state.authMode === 'register'
+
   return `
     <div
       class="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -20,65 +23,131 @@ export function renderAuth(_state) {
 
       <!-- Modal -->
       <div
-        class="relative modal-panel rounded-3xl w-full max-w-md overflow-hidden slide-up"
+        class="relative modal-panel rounded-3xl w-full max-w-md overflow-hidden slide-up max-h-[90vh] overflow-y-auto"
         onclick="event.stopPropagation()"
       >
         <!-- Close -->
         <button
           onclick="closeAuth()"
-          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
+          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
           aria-label="${t('close') || 'Close'}"
           type="button"
         >
           ${icon('x', 'w-5 h-5')}
         </button>
-        
+
         <!-- Header -->
-        <div class="p-8 text-center border-b border-white/10">
+        <div class="p-6 pb-4 text-center">
           <div class="text-4xl mb-3" aria-hidden="true">🤙</div>
-          <h2 id="auth-modal-title" class="text-2xl font-bold gradient-text">${t('appName')}</h2>
+          <h2 id="auth-modal-title" class="text-2xl font-bold gradient-text">
+            ${isSignUp ? t('signUpTitle') : t('signInTitle')}
+          </h2>
+          ${reason ? `
+            <p class="mt-2 text-sm text-amber-400/90 bg-amber-500/10 rounded-xl px-4 py-2 inline-block">
+              ${reason}
+            </p>
+          ` : ''}
         </div>
-        
+
+        <!-- Social Login Buttons -->
+        <div class="px-6 space-y-3">
+          <!-- Google -->
+          <button
+            onclick="handleGoogleSignIn()"
+            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white font-medium"
+            type="button"
+            id="auth-google-btn"
+          >
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" class="w-5 h-5" aria-hidden="true" />
+            ${t('continueWithGoogle')}
+          </button>
+
+          <!-- Apple -->
+          <button
+            onclick="handleAppleSignIn()"
+            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white font-medium"
+            type="button"
+            id="auth-apple-btn"
+          >
+            ${icon('apple', 'w-5 h-5')}
+            ${t('continueWithApple')}
+          </button>
+
+          <!-- Facebook -->
+          <button
+            onclick="handleFacebookSignIn()"
+            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white font-medium"
+            type="button"
+            id="auth-facebook-btn"
+          >
+            ${icon('facebook', 'w-5 h-5 text-blue-500')}
+            ${t('continueWithFacebook')}
+          </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-4 px-6 my-5">
+          <div class="flex-1 h-px bg-white/10"></div>
+          <span class="text-slate-400 text-sm">${t('orContinueWithEmail')}</span>
+          <div class="flex-1 h-px bg-white/10"></div>
+        </div>
+
         <!-- Tabs -->
-        <div class="flex border-b border-white/10" role="tablist" aria-label="${t('authMode') || 'Authentication mode'}">
+        <div class="flex mx-6 mb-4 rounded-xl bg-white/5 p-1" role="tablist" aria-label="${t('authMode') || 'Authentication mode'}">
           <button
             onclick="setAuthMode('login')"
-            class="flex-1 py-3 text-center transition-colors auth-tab"
+            class="flex-1 py-2 text-center text-sm rounded-lg transition-all ${!isSignUp ? 'bg-primary-500/20 text-primary-400 font-medium' : 'text-slate-400 hover:text-white'}"
             data-mode="login"
             id="auth-tab-login"
             role="tab"
-            aria-selected="true"
+            aria-selected="${!isSignUp}"
             aria-controls="auth-form"
             type="button"
           >
-            ${t('login')}
+            ${t('signInButton')}
           </button>
           <button
             onclick="setAuthMode('register')"
-            class="flex-1 py-3 text-center transition-colors auth-tab"
+            class="flex-1 py-2 text-center text-sm rounded-lg transition-all ${isSignUp ? 'bg-primary-500/20 text-primary-400 font-medium' : 'text-slate-400 hover:text-white'}"
             data-mode="register"
             id="auth-tab-register"
             role="tab"
-            aria-selected="false"
+            aria-selected="${isSignUp}"
             aria-controls="auth-form"
             type="button"
           >
-            ${t('register')}
+            ${t('signUpButton')}
           </button>
         </div>
-        
+
         <!-- Form -->
-        <div class="p-6" role="tabpanel" id="auth-form-panel">
-          <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-5" aria-label="${t('loginForm') || 'Login form'}">
+        <div class="px-6 pb-4" role="tabpanel" id="auth-form-panel">
+          <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4" aria-label="${t('loginForm') || 'Login form'}">
+            <!-- Display Name (Register only) -->
+            ${isSignUp ? `
+              <div>
+                <label for="auth-username" class="text-sm text-slate-400 block mb-1.5">${t('displayNamePlaceholder')}</label>
+                <input
+                  type="text"
+                  id="auth-username"
+                  name="username"
+                  class="input-modern"
+                  placeholder="${t('displayNamePlaceholder')}"
+                  maxlength="30"
+                  autocomplete="username"
+                />
+              </div>
+            ` : ''}
+
             <!-- Email -->
             <div>
-              <label for="auth-email" class="text-sm text-slate-400 block mb-2">${t('email')}</label>
+              <label for="auth-email" class="text-sm text-slate-400 block mb-1.5">${t('emailPlaceholder')}</label>
               <input
                 type="email"
                 id="auth-email"
                 name="email"
                 class="input-modern"
-                placeholder="email@exemple.com"
+                placeholder="${t('emailPlaceholder')}"
                 required
                 autocomplete="email"
                 aria-required="true"
@@ -87,115 +156,94 @@ export function renderAuth(_state) {
 
             <!-- Password -->
             <div>
-              <label for="auth-password" class="text-sm text-slate-400 block mb-2">${t('password')}</label>
+              <label for="auth-password" class="text-sm text-slate-400 block mb-1.5">${t('passwordPlaceholder')}</label>
               <input
                 type="password"
                 id="auth-password"
                 name="password"
                 class="input-modern"
-                placeholder="••••••••"
+                placeholder="${t('passwordPlaceholder')}"
                 required
                 minlength="6"
-                autocomplete="current-password"
+                autocomplete="${isSignUp ? 'new-password' : 'current-password'}"
                 aria-required="true"
                 aria-describedby="password-hint"
               />
-              <span id="password-hint" class="sr-only">Minimum 6 caracteres</span>
+              <span id="password-hint" class="sr-only">${t('weakPassword')}</span>
             </div>
 
             <!-- Confirm Password (Register only) -->
-            <div id="confirm-password-field" class="hidden">
-              <label for="auth-password-confirm" class="text-sm text-slate-400 block mb-2">${t('confirmPassword')}</label>
-              <input
-                type="password"
-                id="auth-password-confirm"
-                name="password-confirm"
-                class="input-modern"
-                placeholder="••••••••"
-                minlength="6"
-                autocomplete="new-password"
-              />
-            </div>
+            ${isSignUp ? `
+              <div>
+                <label for="auth-password-confirm" class="text-sm text-slate-400 block mb-1.5">${t('confirmPassword')}</label>
+                <input
+                  type="password"
+                  id="auth-password-confirm"
+                  name="password-confirm"
+                  class="input-modern"
+                  placeholder="${t('confirmPassword')}"
+                  minlength="6"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
+            ` : ''}
 
-            <!-- Username (Register only) -->
-            <div id="username-field" class="hidden">
-              <label for="auth-username" class="text-sm text-slate-400 block mb-2">${t('yourUsername')}</label>
-              <input
-                type="text"
-                id="auth-username"
-                name="username"
-                class="input-modern"
-                placeholder="MonPseudo"
-                maxlength="20"
-                autocomplete="username"
-              />
-            </div>
-            
-            <!-- Forgot Password -->
-            <div id="forgot-password-link" class="text-right">
-              <button 
-                type="button"
-                onclick="handleForgotPassword()"
-                class="text-primary-400 text-sm hover:underline"
-              >
-                ${t('forgotPassword')}
-              </button>
-            </div>
-            
+            <!-- Forgot Password (Login only) -->
+            ${!isSignUp ? `
+              <div class="text-right">
+                <button
+                  type="button"
+                  onclick="handleForgotPassword()"
+                  class="text-primary-400 text-sm hover:underline"
+                >
+                  ${t('forgotPassword')}
+                </button>
+              </div>
+            ` : ''}
+
+            <!-- Error message area -->
+            <div id="auth-error-msg" class="hidden text-red-400 text-sm text-center py-2 px-3 bg-red-500/10 rounded-xl"></div>
+
             <!-- Submit -->
-            <button 
+            <button
               type="submit"
               class="btn btn-primary w-full"
               id="auth-submit-btn"
             >
-              <span id="auth-submit-text">${t('login')}</span>
+              <span id="auth-submit-text">${isSignUp ? t('signUpButton') : t('signInButton')}</span>
             </button>
           </form>
-          
-          <!-- Divider -->
-          <div class="flex items-center gap-4 my-6">
-            <div class="flex-1 h-px bg-white/10"></div>
-            <span class="text-slate-400 text-sm">${t('orDivider') || 'or'}</span>
-            <div class="flex-1 h-px bg-white/10"></div>
+
+          <!-- Switch mode text -->
+          <p class="text-center text-sm text-slate-400 mt-4">
+            ${isSignUp ? t('switchToSignIn') : t('switchToSignUp')}
+            <button
+              type="button"
+              onclick="setAuthMode('${isSignUp ? 'login' : 'register'}')"
+              class="text-primary-400 hover:underline ml-1 font-medium"
+            >
+              ${isSignUp ? t('signInButton') : t('signUpButton')}
+            </button>
+          </p>
+
+          <!-- Skip / Continue without account -->
+          <div class="text-center mt-4 pb-2">
+            <button
+              type="button"
+              onclick="closeAuth()"
+              class="text-slate-500 text-sm hover:text-slate-300 transition-colors"
+            >
+              ${t('continueWithoutAccount')}
+            </button>
           </div>
+        </div>
 
-          <!-- Google Sign In -->
-          <button
-            onclick="handleGoogleSignIn()"
-            class="btn btn-ghost w-full"
-            type="button"
-            aria-label="${t('continueWithGoogle') || 'Sign in with Google'}"
-          >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" class="w-5 h-5" aria-hidden="true" />
-            ${t('continueWithGoogle')}
-          </button>
-
-          <!-- Facebook Sign In -->
-          <button
-            onclick="handleFacebookSignIn()"
-            class="btn btn-ghost w-full mt-3"
-            type="button"
-            aria-label="${t('continueWithFacebook') || 'Sign in with Facebook'}"
-          >
-            ${icon('facebook', 'w-5 h-5 text-blue-500')}
-            ${t('continueWithFacebook')}
-          </button>
-
-          <!-- Apple Sign In (coming soon) -->
-          <button
-            onclick="handleAppleLogin()"
-            class="btn w-full mt-3 bg-black hover:bg-slate-900 text-white border border-white/20"
-            type="button"
-            aria-label="${t('continueWithApple') || 'Sign in with Apple'}"
-          >
-            ${icon('apple', 'w-5 h-5')}
-            ${t('continueWithApple')}
-          </button>
-
-          <!-- Demo Admin Login -->
+        <!-- Demo Admin Login (only in dev or for testing) -->
+        <div class="px-6 pb-6">
           <button
             onclick="loginAsAdmin()"
-            class="btn w-full mt-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
+            class="btn w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
             type="button"
             aria-label="${t('demoAdminLogin') || 'Demo admin login'}"
           >
@@ -205,150 +253,220 @@ export function renderAuth(_state) {
         </div>
       </div>
     </div>
-  `;
+  `
 }
 
-// Auth mode state
-window.authMode = 'login';
+// Auth mode state (kept for backward compat with inline handlers in other modals)
+window.authMode = 'login'
 
 window.setAuthMode = (mode) => {
-  window.authMode = mode;
-
-  // Update tabs
-  document.querySelectorAll('.auth-tab').forEach(tab => {
-    const isActive = tab.dataset.mode === mode;
-    tab.classList.toggle('text-primary-400', isActive);
-    tab.classList.toggle('border-b-2', isActive);
-    tab.classList.toggle('border-primary-400', isActive);
-    tab.classList.toggle('text-slate-400', !isActive);
-  });
-
-  // Show/hide fields
-  const confirmField = document.getElementById('confirm-password-field');
-  const usernameField = document.getElementById('username-field');
-  const forgotLink = document.getElementById('forgot-password-link');
-  const submitText = document.getElementById('auth-submit-text');
-
-  if (mode === 'register') {
-    confirmField?.classList.remove('hidden');
-    usernameField?.classList.remove('hidden');
-    forgotLink?.classList.add('hidden');
-    if (submitText) submitText.textContent = t('createAccount');
-  } else {
-    confirmField?.classList.add('hidden');
-    usernameField?.classList.add('hidden');
-    forgotLink?.classList.remove('hidden');
-    if (submitText) submitText.textContent = t('login');
-  }
-};
+  import('../../stores/state.js').then(({ setState }) => {
+    setState({ authMode: mode })
+  })
+}
 
 window.handleAuth = async (event) => {
-  event.preventDefault();
+  event.preventDefault()
 
-  const email = document.getElementById('auth-email')?.value.trim();
-  const password = document.getElementById('auth-password')?.value;
-  const submitBtn = document.getElementById('auth-submit-btn');
+  const email = document.getElementById('auth-email')?.value.trim()
+  const password = document.getElementById('auth-password')?.value
+  const submitBtn = document.getElementById('auth-submit-btn')
+  const errorDiv = document.getElementById('auth-error-msg')
+  const { icon: iconFn } = await import('../../utils/icons.js')
 
-  if (!email || !password) return;
+  if (!email || !password) return
 
-  // Disable button
+  // Hide previous errors
+  if (errorDiv) {
+    errorDiv.classList.add('hidden')
+    errorDiv.textContent = ''
+  }
+
+  // Show loading
   if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = icon('loader-circle', 'w-5 h-5 animate-spin');
+    submitBtn.disabled = true
+    submitBtn.innerHTML = iconFn('loader-circle', 'w-5 h-5 animate-spin')
   }
 
   try {
-    const { signIn, signUp } = await import('../../services/firebase.js');
-    const { showSuccess, showError } = await import('../../services/notifications.js');
-    const { setState } = await import('../../stores/state.js');
+    const fb = await import('../../services/firebase.js')
+    const { showSuccess, showError } = await import('../../services/notifications.js')
+    const { setState, getState } = await import('../../stores/state.js')
 
-    let result;
+    fb.initializeFirebase()
 
-    if (window.authMode === 'register') {
-      const confirmPassword = document.getElementById('auth-password-confirm')?.value;
-      const username = document.getElementById('auth-username')?.value.trim() || 'Voyageur';
+    let result
+    const { authMode } = getState()
+
+    if (authMode === 'register') {
+      const confirmPassword = document.getElementById('auth-password-confirm')?.value
+      const username = document.getElementById('auth-username')?.value.trim() || 'Hitchhiker'
 
       if (password !== confirmPassword) {
-        showError(t('passwordMismatch'));
-        return;
+        if (errorDiv) {
+          errorDiv.textContent = t('passwordMismatch')
+          errorDiv.classList.remove('hidden')
+        }
+        return
       }
 
-      result = await signUp(email, password, username);
+      result = await fb.signUp(email, password, username)
     } else {
-      result = await signIn(email, password);
+      result = await fb.signIn(email, password)
     }
 
     if (result.success) {
-      showSuccess(window.authMode === 'register' ? (t('accountCreated') || 'Compte créé !') : (t('loginSuccess') || 'Connecté !'));
-      setState({ showAuth: false });
+      // Create/update Firestore profile
+      await fb.createOrUpdateUserProfile(result.user)
+
+      // Setup auth listener
+      fb.onAuthChange((user) => {
+        const { actions } = require('../../stores/state.js')
+        if (actions?.setUser) actions.setUser(user)
+        import('../../services/sentry.js').then(m => m.setUser(user)).catch(() => {})
+      })
+
+      showSuccess(authMode === 'register' ? (t('accountCreated') || 'Account created!') : (t('loginSuccess') || 'Login successful!'))
+
+      // Execute pending action if any
+      const { authPendingAction } = getState()
+      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      if (authPendingAction) {
+        executePendingAction(authPendingAction)
+      }
     } else {
-      showError(getAuthErrorMessage(result.error));
+      const msg = getAuthErrorMessage(result.error)
+      if (errorDiv) {
+        errorDiv.textContent = msg
+        errorDiv.classList.remove('hidden')
+      }
+      showError(msg)
     }
   } catch (error) {
-    console.error('Auth error:', error);
-    const { showError } = await import('../../services/notifications.js');
-    showError(t('authError'));
+    console.error('Auth error:', error)
+    const { showError } = await import('../../services/notifications.js')
+    showError(t('authError'))
   } finally {
     if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = `<span id="auth-submit-text">${window.authMode === 'register' ? t('createAccount') : t('login')}</span>`;
+      submitBtn.disabled = false
+      const { getState } = await import('../../stores/state.js')
+      const { authMode } = getState()
+      submitBtn.innerHTML = `<span id="auth-submit-text">${authMode === 'register' ? t('signUpButton') : t('signInButton')}</span>`
     }
   }
-};
+}
 
 window.handleGoogleSignIn = async () => {
   try {
-    const { signInWithGoogle } = await import('../../services/firebase.js');
-    const { showSuccess, showError } = await import('../../services/notifications.js');
-    const { setState } = await import('../../stores/state.js');
+    const fb = await import('../../services/firebase.js')
+    const { showSuccess, showError } = await import('../../services/notifications.js')
+    const { setState, getState } = await import('../../stores/state.js')
 
-    const result = await signInWithGoogle();
+    fb.initializeFirebase()
+    const result = await fb.signInWithGoogle()
 
     if (result.success) {
-      showSuccess(t('googleLoginSuccess') || 'Connecté avec Google !');
-      setState({ showAuth: false });
+      await fb.createOrUpdateUserProfile(result.user)
+      fb.onAuthChange((user) => {
+        import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
+      })
+      showSuccess(t('googleLoginSuccess') || 'Google login successful!')
+
+      const { authPendingAction } = getState()
+      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      if (authPendingAction) {
+        executePendingAction(authPendingAction)
+      }
     } else {
-      showError(t('authError'));
+      showError(t('authError'))
     }
   } catch (error) {
-    console.error('Google sign in error:', error);
+    console.error('Google sign in error:', error)
   }
-};
+}
+
+window.handleAppleSignIn = async () => {
+  try {
+    const fb = await import('../../services/firebase.js')
+    const { showSuccess, showError } = await import('../../services/notifications.js')
+    const { setState, getState } = await import('../../stores/state.js')
+
+    fb.initializeFirebase()
+    const result = await fb.signInWithApple()
+
+    if (result.success) {
+      await fb.createOrUpdateUserProfile(result.user)
+      fb.onAuthChange((user) => {
+        import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
+      })
+      showSuccess(t('appleLoginSuccess') || 'Apple login successful!')
+
+      const { authPendingAction } = getState()
+      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      if (authPendingAction) {
+        executePendingAction(authPendingAction)
+      }
+    } else {
+      showError(t('authError'))
+    }
+  } catch (error) {
+    console.error('Apple sign in error:', error)
+  }
+}
+
+window.handleFacebookSignIn = async () => {
+  try {
+    const fb = await import('../../services/firebase.js')
+    const { showSuccess, showError } = await import('../../services/notifications.js')
+    const { setState, getState } = await import('../../stores/state.js')
+
+    fb.initializeFirebase()
+    const result = await fb.signInWithFacebook()
+
+    if (result.success) {
+      await fb.createOrUpdateUserProfile(result.user)
+      fb.onAuthChange((user) => {
+        import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
+      })
+      showSuccess(t('facebookLoginSuccess') || 'Facebook login successful!')
+
+      const { authPendingAction } = getState()
+      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      if (authPendingAction) {
+        executePendingAction(authPendingAction)
+      }
+    } else {
+      showError(t('authError'))
+    }
+  } catch (error) {
+    console.error('Facebook sign in error:', error)
+  }
+}
 
 window.handleForgotPassword = async () => {
-  const email = document.getElementById('auth-email')?.value.trim();
+  const email = document.getElementById('auth-email')?.value.trim()
 
   if (!email) {
-    const { showError } = await import('../../services/notifications.js');
-    showError(t('enterEmailFirst') || "Entre ton email d'abord");
-    return;
+    const { showError } = await import('../../services/notifications.js')
+    showError(t('enterEmailFirst') || 'Enter your email first')
+    return
   }
 
   try {
-    const { resetPassword } = await import('../../services/firebase.js');
-    const { showSuccess, showError } = await import('../../services/notifications.js');
+    const fb = await import('../../services/firebase.js')
+    const { showSuccess, showError } = await import('../../services/notifications.js')
 
-    const result = await resetPassword(email);
+    fb.initializeFirebase()
+    const result = await fb.resetPassword(email)
 
     if (result.success) {
-      showSuccess(t('passwordResetSent'));
+      showSuccess(t('passwordResetSent'))
     } else {
-      showError(getAuthErrorMessage(result.error));
+      showError(getAuthErrorMessage(result.error))
     }
   } catch (error) {
-    console.error('Password reset error:', error);
+    console.error('Password reset error:', error)
   }
-};
-
-function getAuthErrorMessage(errorCode) {
-  const messages = {
-    'auth/email-already-in-use': t('emailInUse'),
-    'auth/invalid-email': t('invalidEmail'),
-    'auth/user-not-found': t('userNotFound'),
-    'auth/wrong-password': t('wrongPassword'),
-    'auth/weak-password': t('weakPassword'),
-  };
-  return messages[errorCode] || t('authError');
 }
 
 /**
@@ -356,10 +474,11 @@ function getAuthErrorMessage(errorCode) {
  */
 window.loginAsAdmin = async () => {
   try {
-    const { setState } = await import('../../stores/state.js');
-    const { showSuccess } = await import('../../services/notifications.js');
+    const { setState, getState } = await import('../../stores/state.js')
+    const { showSuccess } = await import('../../services/notifications.js')
 
-    // Set admin user state
+    const { authPendingAction } = getState()
+
     setState({
       isLoggedIn: true,
       user: {
@@ -368,6 +487,21 @@ window.loginAsAdmin = async () => {
         displayName: 'Admin SpotHitch',
         photoURL: null,
         isAdmin: true,
+      },
+      currentUser: {
+        uid: 'admin-demo-001',
+        email: 'admin@spothitch.com',
+        displayName: 'Admin SpotHitch',
+        photoURL: null,
+      },
+      userProfile: {
+        uid: 'admin-demo-001',
+        email: 'admin@spothitch.com',
+        displayName: 'Admin SpotHitch',
+        photoURL: null,
+        verifiedPhone: null,
+        verifiedIdentity: true,
+        createdAt: new Date().toISOString(),
       },
       username: 'Admin',
       avatar: '👑',
@@ -390,13 +524,96 @@ window.loginAsAdmin = async () => {
       ownedRewards: ['avatar-legend', 'frame-gold', 'title-legend', 'feature-themes'],
       showAuth: false,
       showWelcome: false,
-    });
+      authPendingAction: null,
+      showAuthReason: null,
+    })
 
-    showSuccess(t('adminLoginSuccess') || "Connecté en tant qu'Admin !");
+    showSuccess(t('adminLoginSuccess') || "Logged in as Admin!")
 
+    if (authPendingAction) {
+      executePendingAction(authPendingAction)
+    }
   } catch (error) {
-    console.error('Admin login error:', error);
+    console.error('Admin login error:', error)
   }
-};
+}
 
-export default { renderAuth };
+/**
+ * Execute a pending action after successful authentication
+ * @param {string} actionName - Name of the action to execute
+ */
+function executePendingAction(actionName) {
+  setTimeout(() => {
+    const actionMap = {
+      addSpot: () => window.openAddSpot?.(),
+      validateSpot: () => window.openValidateSpot?.(),
+      saveFavorite: () => {}, // handled by the calling code
+      sos: () => window.openSOS?.(),
+      companion: () => window.showCompanionModal?.(),
+      social: () => {
+        import('../../stores/state.js').then(({ setState }) => {
+          setState({ activeTab: 'social' })
+        })
+      },
+      tripPlanner: () => window.openTripPlanner?.(),
+      checkin: () => {}, // handled by the calling code
+    }
+    const fn = actionMap[actionName]
+    if (fn) fn()
+  }, 300)
+}
+
+function getAuthErrorMessage(errorCode) {
+  const messages = {
+    'auth/email-already-in-use': t('emailInUse'),
+    'auth/invalid-email': t('invalidEmail'),
+    'auth/user-not-found': t('userNotFound'),
+    'auth/wrong-password': t('wrongPassword'),
+    'auth/weak-password': t('weakPassword'),
+    'auth/invalid-credential': t('authErrorPassword'),
+    'auth/too-many-requests': t('authErrorTooMany'),
+    'auth/popup-closed-by-user': t('authErrorPopupClosed'),
+  }
+  return messages[errorCode] || t('authError')
+}
+
+/**
+ * Progressive Auth Gate
+ * If user is logged in, execute action immediately.
+ * If not, show auth modal with a contextual reason, then execute after auth.
+ * @param {string} actionName - e.g. 'addSpot', 'sos', 'companion'
+ * @param {Function} [callback] - optional immediate callback if logged in
+ */
+export function requireAuth(actionName, callback) {
+  import('../../stores/state.js').then(({ getState, setState }) => {
+    const { isLoggedIn } = getState()
+
+    if (isLoggedIn) {
+      if (callback) callback()
+      return
+    }
+
+    // Map action names to contextual reason messages
+    const reasonMap = {
+      addSpot: t('authRequiredAddSpot'),
+      validateSpot: t('authRequiredAddSpot'),
+      saveFavorite: t('authRequiredFavorite'),
+      sos: t('authRequiredSOS'),
+      companion: t('authRequiredCompanion'),
+      social: t('authRequiredSocial'),
+      tripPlanner: t('authRequiredSocial'),
+      checkin: t('authRequiredAddSpot'),
+    }
+
+    setState({
+      showAuth: true,
+      authPendingAction: actionName,
+      showAuthReason: reasonMap[actionName] || t('loginRequired'),
+    })
+  })
+}
+
+// Expose requireAuth globally
+window.requireAuth = (actionName) => requireAuth(actionName)
+
+export default { renderAuth }

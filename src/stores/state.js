@@ -12,6 +12,10 @@ const initialState = {
   username: '',
   avatar: '🤙',
   isLoggedIn: false,
+  currentUser: null,
+  userProfile: null,
+  authPendingAction: null,
+  showAuthReason: null,
 
   // UI
   activeTab: 'map',

@@ -13,6 +13,7 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   FacebookAuthProvider,
+  OAuthProvider,
   signInWithPopup,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
@@ -133,6 +134,68 @@ export async function signInWithFacebook() {
     return { success: true, user: result.user }
   } catch (error) {
     return { success: false, error: error.code }
+  }
+}
+
+/**
+ * Sign in with Apple
+ */
+export async function signInWithApple() {
+  try {
+    const provider = new OAuthProvider('apple.com')
+    provider.addScope('email')
+    provider.addScope('name')
+    const result = await signInWithPopup(auth, provider)
+    return { success: true, user: result.user }
+  } catch (error) {
+    return { success: false, error: error.code }
+  }
+}
+
+/**
+ * Create or update user profile in Firestore on sign-in
+ * Called after every successful auth (social or email)
+ * @param {Object} user - Firebase Auth user object
+ */
+export async function createOrUpdateUserProfile(user) {
+  if (!user || !db) return { success: false }
+  try {
+    const userDocRef = doc(db, 'users', user.uid)
+    const snapshot = await getDoc(userDocRef)
+
+    if (snapshot.exists()) {
+      // Existing user — update last login
+      await updateDoc(userDocRef, {
+        lastLoginAt: serverTimestamp(),
+        displayName: user.displayName || snapshot.data().displayName,
+        photoURL: user.photoURL || snapshot.data().photoURL,
+      })
+      return { success: true, profile: snapshot.data(), isNew: false }
+    } else {
+      // New user — create profile
+      const profile = {
+        uid: user.uid,
+        email: user.email || null,
+        displayName: user.displayName || 'Hitchhiker',
+        photoURL: user.photoURL || null,
+        verifiedPhone: null,
+        verifiedIdentity: false,
+        createdAt: serverTimestamp(),
+        lastLoginAt: serverTimestamp(),
+        points: 0,
+        level: 1,
+        badges: [],
+        rewards: [],
+        spotsCreated: 0,
+        checkins: 0,
+        reviewsGiven: 0,
+      }
+      await setDoc(userDocRef, profile)
+      return { success: true, profile, isNew: true }
+    }
+  } catch (error) {
+    console.error('Error creating/updating user profile:', error)
+    return { success: false, error }
   }
 }
 
