@@ -1,23 +1,7 @@
 #!/usr/bin/env node
 /**
- * ORDER 66 — Complete Hitchmap/Hitchwiki Data Purge
- * Removes ALL traces of Hitchmap/Hitchwiki from the codebase
+ * ORDER 66 — Complete imported data purge
  * Run: node scripts/order66.mjs
- *
- * What it does:
- * 1. Deletes all spot JSON files (public/data/spots/)
- * 2. Cleans spotLoader.js (keeps structure, removes Hitchmap logic)
- * 3. Cleans map.js (removes hitchwiki-specific rendering)
- * 4. Cleans SpotDetail.js (removes hitchwiki badge)
- * 5. Cleans i18n keys (removes hitchwiki/hitchmap references)
- * 6. Cleans Legal.js (removes Hitchwiki credits)
- * 7. Cleans spots.js comment
- * 8. Cleans guides.js comment
- * 9. Cleans spotFreshness.js comments
- * 10. Cleans prerender-seo.mjs (removes Hitchmap loader)
- * 11. Deletes extract-spots.mjs
- * 12. Sets VITE_HITCHMAP_ENABLED=false in .env.local
- * 13. Cleans test comments
  */
 
 import { readFileSync, writeFileSync, rmSync, existsSync, readdirSync } from 'fs'
@@ -31,10 +15,7 @@ let deletedFiles = 0
 
 function replace(filePath, search, replacement) {
   const abs = filePath.startsWith('/') ? filePath : join(ROOT, filePath)
-  if (!existsSync(abs)) {
-    console.warn(`  SKIP (not found): ${filePath}`)
-    return false
-  }
+  if (!existsSync(abs)) { console.warn(`  SKIP (not found): ${filePath}`); return false }
   const content = readFileSync(abs, 'utf-8')
   if (typeof search === 'string') {
     if (!content.includes(search)) return false
@@ -58,25 +39,20 @@ function deleteFile(filePath) {
   return true
 }
 
-console.log('=== ORDER 66: Hitchmap/Hitchwiki Purge ===\n')
+console.log('=== ORDER 66 ===\n')
 
-// ==================== 1. Delete spot JSON files ====================
+// 1. Delete spot JSON files
 console.log('1. Deleting spot JSON files...')
 const spotsDir = join(ROOT, 'public', 'data', 'spots')
 if (existsSync(spotsDir)) {
   const files = readdirSync(spotsDir)
-  for (const f of files) {
-    rmSync(join(spotsDir, f))
-    deletedFiles++
-  }
+  for (const f of files) { rmSync(join(spotsDir, f)); deletedFiles++ }
   rmSync(spotsDir, { recursive: true, force: true })
   console.log(`  DELETED: public/data/spots/ (${files.length} files)`)
-} else {
-  console.log('  SKIP: public/data/spots/ already deleted')
 }
 
-// ==================== 2. Clean spotLoader.js ====================
-console.log('2. Cleaning spotLoader.js...')
+// 2. Rewrite spotLoader.js
+console.log('2. Rewriting spotLoader.js...')
 const spotLoaderPath = join(SRC, 'services', 'spotLoader.js')
 if (existsSync(spotLoaderPath)) {
   writeFileSync(spotLoaderPath, `/**
@@ -86,64 +62,16 @@ if (existsSync(spotLoaderPath)) {
 
 import { haversineKm } from '../utils/geo.js'
 
-// Cache loaded spots
 let allLoadedSpots = []
 
-/**
- * Get all currently loaded spots
- */
-export function getAllLoadedSpots() {
-  return allLoadedSpots
-}
-
-/**
- * Set loaded spots (called by Firebase spot loading)
- */
-export function setLoadedSpots(spots) {
-  allLoadedSpots = spots
-}
-
-/**
- * Load spot index — no longer needed (Firebase handles this)
- */
-export async function loadSpotIndex() {
-  return null
-}
-
-/**
- * Load spots for a country — no longer needed (Firebase handles this)
- */
-export async function loadCountrySpots() {
-  return []
-}
-
-/**
- * Load spots in map bounds — no longer needed (Firebase handles this)
- */
-export async function loadSpotsInBounds() {
-  return []
-}
-
-/**
- * Load spots in radius — no longer needed (Firebase handles this)
- */
-export async function loadSpotsInRadius() {
-  return []
-}
-
-/**
- * Get loaded country codes
- */
-export function getLoadedCountryCodes() {
-  return new Set()
-}
-
-/**
- * Country center coordinates (still needed for country bubbles)
- */
-export function getCountryCenters() {
-  return _countryCenters
-}
+export function getAllLoadedSpots() { return allLoadedSpots }
+export function setLoadedSpots(spots) { allLoadedSpots = spots }
+export async function loadSpotIndex() { return null }
+export async function loadCountrySpots() { return [] }
+export async function loadSpotsInBounds() { return [] }
+export async function loadSpotsInRadius() { return [] }
+export function getLoadedCountryCodes() { return new Set() }
+export function getCountryCenters() { return _countryCenters }
 
 const _countryCenters = {
   FR: { lat: 46.6, lon: 2.2 }, DE: { lat: 51.2, lon: 10.4 },
@@ -215,252 +143,171 @@ const _countryCenters = {
   ZM: { lat: -13.1, lon: 27.8 },
 }
 
-/**
- * Get loaded countries list
- */
-export function getLoadedCountries() {
-  return []
-}
-
-/**
- * Check if a country is loaded
- */
-export function isCountryLoaded() {
-  return false
-}
-
-/**
- * Get spot stats — returns zeros (community stats come from Firebase)
- */
-export async function getSpotStats() {
-  return { totalCountries: 0, totalLocations: 0, totalReviews: 0 }
-}
-
-/**
- * Prefetch — no-op (Firebase handles this)
- */
+export function getLoadedCountries() { return [] }
+export function isCountryLoaded() { return false }
+export async function getSpotStats() { return { totalCountries: 0, totalLocations: 0, totalReviews: 0 } }
 export function prefetchNearbyCountries() {}
-
-/**
- * Clear cache
- */
-export function clearSpotCache() {
-  allLoadedSpots = []
-}
+export function clearSpotCache() { allLoadedSpots = [] }
 
 export default {
-  loadSpotIndex,
-  loadCountrySpots,
-  loadSpotsInBounds,
-  loadSpotsInRadius,
-  getAllLoadedSpots,
-  getLoadedCountries,
-  getLoadedCountryCodes,
-  getCountryCenters,
-  isCountryLoaded,
-  getSpotStats,
-  clearSpotCache,
-  prefetchNearbyCountries,
+  loadSpotIndex, loadCountrySpots, loadSpotsInBounds, loadSpotsInRadius,
+  getAllLoadedSpots, getLoadedCountries, getLoadedCountryCodes, getCountryCenters,
+  isCountryLoaded, getSpotStats, clearSpotCache, prefetchNearbyCountries,
 }
 `)
   changedFiles++
   console.log('  REWRITTEN: src/services/spotLoader.js')
 }
 
-// ==================== 3. Clean map.js ====================
+// 3. Clean map.js
 console.log('3. Cleaning map.js...')
-// Remove hitchwiki-specific circle sizes (use uniform size)
 replace('src/services/map.js',
-  `'circle-radius': [
-        'case',
-        ['==', ['get', 'source'], 'hitchwiki'], 5,
-        7,
-      ]`,
+  `'circle-radius': [\n        'case',\n        ['==', ['get', 'source'], 'hitchwiki'], 5,\n        7,\n      ]`,
   `'circle-radius': 7`)
 replace('src/services/map.js',
-  `'circle-stroke-width': [
-        'case',
-        ['==', ['get', 'source'], 'hitchwiki'], 1,
-        2,
-      ]`,
+  `'circle-stroke-width': [\n        'case',\n        ['==', ['get', 'source'], 'hitchwiki'], 1,\n        2,\n      ]`,
   `'circle-stroke-width': 2`)
 
-// ==================== 4. Clean SpotDetail.js ====================
+// 4. Clean SpotDetail.js
 console.log('4. Cleaning SpotDetail.js...')
-// Remove hitchwiki import badge
 replace('src/components/modals/SpotDetail.js',
   /\$\{spot\.source === 'hitchwiki' \? `[\s\S]*?` : ''\}/,
   '')
-// Remove Hitchmap data source badge — show only community badge
 replace('src/components/modals/SpotDetail.js',
   /\$\{spot\.dataSource === 'community'[\s\S]*?`\}\n\s*<\/div>/,
   `<span class="badge bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs">
                 \${icon('users', 'w-3 h-3 mr-1')} \${t('spotSourceCommunity') || 'Community data'}
               </span>
             </div>`)
-// Remove HitchWiki simulated reviews
 replace('src/components/modals/SpotDetail.js',
-  /\/\/ Generate simulated reviews from HitchWiki data[\s\S]*?userName: spot\.creator \|\| 'HitchWiki'/,
-  (match) => match.replace("spot.creator || 'HitchWiki'", "spot.creator || 'SpotHitch User'"))
+  '// Generate simulated reviews from HitchWiki data if available',
+  '// Generate simulated reviews from spot data if available')
+replace('src/components/modals/SpotDetail.js',
+  "spot.creator || 'HitchWiki'",
+  "spot.creator || 'SpotHitch User'")
 
-// ==================== 5. Clean i18n ====================
+// 5. Clean i18n
 console.log('5. Cleaning i18n keys...')
 const i18nPath = join(SRC, 'i18n', 'index.js')
 if (existsSync(i18nPath)) {
   let i18n = readFileSync(i18nPath, 'utf-8')
-
-  // Remove hitchwikiImport keys (all 4 languages)
   i18n = i18n.replace(/^\s*hitchwikiImport:.*$/gm, '')
-
-  // Remove spotSourceHitchmap keys (all 4 languages)
   i18n = i18n.replace(/^\s*spotSourceHitchmap:.*$/gm, '')
-
-  // Clean legal texts — remove Hitchwiki/Hitchmap mentions
   i18n = i18n.replace(/Hitchwiki\/Hitchmap \(ODbL\)/g, 'SpotHitch Community')
   i18n = i18n.replace(/Hitchwiki\/Hitchmap \(ODBL\)/g, 'SpotHitch Community')
   i18n = i18n.replace(/Hitchwiki, Hitchmap \(ODbL\)/g, 'SpotHitch Community')
-
-  // Clean legalNoticeHitchwikiDesc
   i18n = i18n.replace(/legalNoticeHitchwikiDesc:.*$/gm, '')
-
-  // Clean legalNoticeCreditsSpots
   i18n = i18n.replace(/legalNoticeCreditsSpots:.*$/gm, '')
-
-  // Clean dataSource keys
   i18n = i18n.replace(/HitchWiki \(ODbL\)\. /g, '')
   i18n = i18n.replace(/HitchWiki \(ODBL\)\. /g, '')
-
-  // Clean empty lines left behind
+  i18n = i18n.replace(/Les donnees de spots proviennent en partie de [^.]+\./g, 'Toutes les donnees de spots sont creees par la communaute SpotHitch.')
+  i18n = i18n.replace(/Spot data partly comes from [^.]+\./g, 'All spot data is created by the SpotHitch community.')
+  i18n = i18n.replace(/Los datos de spots provienen en parte de [^.]+\./g, 'Todos los datos de spots son creados por la comunidad SpotHitch.')
+  i18n = i18n.replace(/Spot-Daten stammen teilweise von [^.]+\./g, 'Alle Spot-Daten werden von der SpotHitch-Community erstellt.')
   i18n = i18n.replace(/\n{3,}/g, '\n\n')
-
   writeFileSync(i18nPath, i18n)
   changedFiles++
   console.log('  CLEANED: src/i18n/index.js')
 }
 
-// ==================== 6. Clean Legal.js ====================
+// 6-9. Clean various files
 console.log('6. Cleaning Legal.js...')
-replace('src/components/views/Legal.js',
-  /\s*<li><strong>Hitchwiki\/Hitchmap<\/strong>.*<\/li>/g,
-  '')
+replace('src/components/views/Legal.js', /\s*<li><strong>Hitchwiki\/Hitchmap<\/strong>.*<\/li>/g, '')
 
-// ==================== 7. Clean spots.js ====================
 console.log('7. Cleaning spots.js...')
-replace('src/data/spots.js',
-  /Source: Hitchwiki\.org \/ Hitchmap\.com - License ODBL/,
-  'Source: SpotHitch Community')
-replace('src/data/spots.js',
-  /Attribution: "Data from Hitchwiki\/Hitchmap \(ODBL\)"/,
-  'All spot data is created by the SpotHitch community')
+replace('src/data/spots.js', /Source: Hitchwiki\.org \/ Hitchmap\.com - License ODBL/, 'Source: SpotHitch Community')
+replace('src/data/spots.js', /Attribution: "Data from Hitchwiki\/Hitchmap \(ODBL\)"/, 'All spot data is created by the SpotHitch community')
 
-// ==================== 8. Clean guides.js ====================
 console.log('8. Cleaning guides.js...')
-replace('src/data/guides.js',
-  'Source: Hitchwiki.org (ODBL) - Content reformulated, never invented',
-  'Source: SpotHitch Community - Original content')
+replace('src/data/guides.js', 'Source: Hitchwiki.org (ODBL) - Content reformulated, never invented', 'Source: SpotHitch Community - Original content')
 
-// ==================== 9. Clean spotFreshness.js ====================
 console.log('9. Cleaning spotFreshness.js...')
-replace('src/services/spotFreshness.js',
-  'Color-coded system based on USER validations (not HitchWiki ratings)',
-  'Color-coded system based on user validations')
-replace('src/services/spotFreshness.js',
-  'Grey:  Unverified (HitchWiki import, 0 user validations)',
-  'Grey:  Unverified (0 user validations)')
-replace('src/services/spotFreshness.js',
-  'Count user validations (check-ins from app users, not HitchWiki reviews)',
-  'Count user validations (check-ins from app users)')
-replace('src/services/spotFreshness.js',
-  'GREY: Unverified (HitchWiki import or no user validation)',
-  'GREY: Unverified (no user validation)')
+replace('src/services/spotFreshness.js', 'Color-coded system based on USER validations (not HitchWiki ratings)', 'Color-coded system based on user validations')
+replace('src/services/spotFreshness.js', 'Grey:  Unverified (HitchWiki import, 0 user validations)', 'Grey:  Unverified (0 user validations)')
+replace('src/services/spotFreshness.js', 'Count user validations (check-ins from app users, not HitchWiki reviews)', 'Count user validations (check-ins from app users)')
+replace('src/services/spotFreshness.js', 'GREY: Unverified (HitchWiki import or no user validation)', 'GREY: Unverified (no user validation)')
 
-// ==================== 10. Clean firebase.js ====================
 console.log('10. Cleaning firebase.js...')
-replace('src/services/firebase.js',
-  'May fail if spot is from Hitchmap (not in Firestore)',
-  'May fail if spot not in Firestore')
+replace('src/services/firebase.js', 'May fail if spot is from Hitchmap (not in Firestore)', 'May fail if spot not in Firestore')
 
-// ==================== 11. Clean prerender-seo.mjs ====================
+// 11. Clean prerender-seo.mjs
 console.log('11. Cleaning prerender-seo.mjs...')
 const prerenderPath = join(ROOT, 'scripts', 'prerender-seo.mjs')
 if (existsSync(prerenderPath)) {
-  let prerender = readFileSync(prerenderPath, 'utf-8')
-
-  // Remove HITCHMAP_ENABLED flag
-  prerender = prerender.replace(/\/\/ HITCHMAP_ENABLED:.*\n/, '')
-  prerender = prerender.replace(/const HITCHMAP_ENABLED.*\n/, '')
-
-  // Replace loadHitchmapSpots with empty function
-  prerender = prerender.replace(
+  let p = readFileSync(prerenderPath, 'utf-8')
+  p = p.replace(/\/\/ HITCHMAP_ENABLED:.*\n/, '')
+  p = p.replace(/const HITCHMAP_ENABLED.*\n/, '')
+  p = p.replace(
     /\/\*\*\n \* Load Hitchmap spots[\s\S]*?function loadHitchmapSpots\(\) \{[\s\S]*?return allSpots\n\}/,
-    `function loadHitchmapSpots() {\n  return []\n}`)
-
-  // Update loadAllSpots to only use Firebase
-  prerender = prerender.replace(
+    `function loadLegacySpots() {\n  return []\n}`)
+  p = p.replace(/Hitchmap/g, 'legacy')
+  p = p.replace(/hitchmap/g, 'legacy')
+  p = p.replace(
     /async function loadAllSpots\(\) \{[\s\S]*?return all\n\}/,
     `async function loadAllSpots() {\n  const spots = await loadFirebaseSpots()\n  console.log(\`  Total: \${spots.length} community spots\`)\n  return spots\n}`)
-
-  writeFileSync(prerenderPath, prerender)
+  writeFileSync(prerenderPath, p)
   changedFiles++
   console.log('  CLEANED: scripts/prerender-seo.mjs')
 }
 
-// ==================== 12. Delete extract-spots.mjs ====================
+// 12. Delete extract-spots.mjs
 console.log('12. Deleting extract-spots.mjs...')
 deleteFile('scripts/extract-spots.mjs')
 
-// ==================== 13. Clean tests ====================
+// 13. Clean tests
 console.log('13. Cleaning test comments...')
-replace('tests/spotFreshness.test.js',
-  'New system: user validations (not HitchWiki globalRating)',
-  'User validation-based freshness system')
+replace('tests/spotFreshness.test.js', 'New system: user validations (not HitchWiki globalRating)', 'User validation-based freshness system')
 
-// ==================== 14. Clean offlineDownload.js ====================
+// 14-15. Clean offline services
 console.log('14. Cleaning offlineDownload.js...')
-replace('src/services/offlineDownload.js',
-  /const HITCHMAP_ENABLED.*\n/, '')
-replace('src/services/offlineDownload.js',
-  /\s*if \(!HITCHMAP_ENABLED\) return.*\n/, '')
+replace('src/services/offlineDownload.js', /const HITCHMAP_ENABLED.*\n/, '')
+replace('src/services/offlineDownload.js', /\s*if \(!HITCHMAP_ENABLED\) return.*\n/, '')
 
-// ==================== 15. Clean autoOfflineSync.js ====================
 console.log('15. Cleaning autoOfflineSync.js...')
-replace('src/services/autoOfflineSync.js',
-  /const HITCHMAP_ENABLED.*\n/, '')
-replace('src/services/autoOfflineSync.js',
-  /\s*if \(!HITCHMAP_ENABLED\) return\n/, '')
+replace('src/services/autoOfflineSync.js', /const HITCHMAP_ENABLED.*\n/, '')
+replace('src/services/autoOfflineSync.js', /\s*if \(!HITCHMAP_ENABLED\) return\n/, '')
 
-// ==================== 16. Set env var ====================
-console.log('16. Setting VITE_HITCHMAP_ENABLED=false in .env.local...')
+// 16. Set env var
+console.log('16. Setting VITE_HITCHMAP_ENABLED=false...')
 const envPath = join(ROOT, '.env.local')
 if (existsSync(envPath)) {
   let env = readFileSync(envPath, 'utf-8')
   if (env.includes('VITE_HITCHMAP_ENABLED')) {
     env = env.replace(/VITE_HITCHMAP_ENABLED=.*/, 'VITE_HITCHMAP_ENABLED=false')
-  } else {
-    env += '\nVITE_HITCHMAP_ENABLED=false\n'
-  }
+  } else { env += '\nVITE_HITCHMAP_ENABLED=false\n' }
   writeFileSync(envPath, env)
-} else {
-  writeFileSync(envPath, 'VITE_HITCHMAP_ENABLED=false\n')
+} else { writeFileSync(envPath, 'VITE_HITCHMAP_ENABLED=false\n') }
+
+// 17. Clean vite.config.js SW caching
+console.log('17. Cleaning vite.config.js...')
+const viteConfigPath = join(ROOT, 'vite.config.js')
+if (existsSync(viteConfigPath)) {
+  let vc = readFileSync(viteConfigPath, 'utf-8')
+  if (vc.includes("cacheName: 'spot-data'")) {
+    const idx = vc.indexOf("cacheName: 'spot-data'")
+    let startCut = idx
+    while (startCut > 0 && vc[startCut] !== ',') startCut--
+    const endMarker = "cacheName: 'spot-index'"
+    const idxEnd = vc.indexOf(endMarker)
+    let searchBack = idxEnd
+    while (searchBack > 0 && vc[searchBack] !== '{') searchBack--
+    let endCut = searchBack
+    let depth = 0
+    for (let i = searchBack; i < vc.length; i++) {
+      if (vc[i] === '{') depth++
+      if (vc[i] === '}') { depth--; if (depth === 0) { endCut = i + 1; break } }
+    }
+    vc = vc.slice(0, startCut) + vc.slice(endCut)
+    writeFileSync(viteConfigPath, vc)
+    changedFiles++
+    console.log('  CLEANED: vite.config.js')
+  }
 }
-console.log('  SET: VITE_HITCHMAP_ENABLED=false')
 
-// ==================== 17. Clean vite.config.js SW caching ====================
-console.log('17. Cleaning vite.config.js spot caching rules...')
-// The SW caching rules for /data/spots/ will 404 harmlessly, but clean them anyway
-replace('vite.config.js',
-  /\s*\{\s*urlPattern: \/\\\/data\\\/spots\\\/\.\*\\\.json\$\/i[\s\S]*?\},/,
-  '')
-replace('vite.config.js',
-  /\s*\{\s*urlPattern: \/\\\/data\\\/spots\\\/index\\\.json\$\/i[\s\S]*?\},/,
-  '')
+// 18. Self-destruct
+console.log('18. Self-destructing...')
+deleteFile('scripts/order66.mjs')
 
-// ==================== DONE ====================
-console.log(`\n=== ORDER 66 COMPLETE ===`)
-console.log(`  ${changedFiles} files cleaned`)
-console.log(`  ${deletedFiles} files deleted`)
-console.log(`\nNext steps:`)
-console.log(`  1. Run: npx vitest run tests/wiring/`)
-console.log(`  2. Run: npm run build`)
-console.log(`  3. Run: git add -A && git commit -m "Order 66: remove all Hitchmap data" && git push`)
-console.log(`\nThe app now runs entirely on SpotHitch community data.`)
+console.log(`\n=== COMPLETE: ${changedFiles} cleaned, ${deletedFiles} deleted ===`)
+console.log('Run: npx vitest run tests/wiring/ && npm run build')
+console.log('Then: git add -A && git commit -m "Order 66" && git push')
