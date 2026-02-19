@@ -71,7 +71,7 @@ export default defineConfig({
         clientsClaim: true,
         cleanupOutdatedCaches: true,
         globPatterns: ['index.html', 'assets/index-*.js', 'assets/vendor-utils-*.js', 'assets/*.css', 'fonts/*.woff2'],
-      globIgnores: ['**/*.map', '**/*legacy*', '**/gamification-*', '**/vendor-maplibre-*', '**/vendor-firebase-*', '**/social-*', '**/guides-*', '**/admin-*'],
+      globIgnores: ['**/*.map', '**/*legacy*', '**/gamification-*', '**/vendor-maplibre-*', '**/vendor-firebase-*', '**/vendor-sentry-*', '**/social-*', '**/guides-*', '**/admin-*'],
         navigateFallbackDenylist: [/^\/design-/, /^\/debug-/],
         runtimeCaching: [
           {
@@ -158,6 +158,7 @@ export default defineConfig({
         manualChunks: {
           'vendor-maplibre': ['maplibre-gl'],
           'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage'],
+          'vendor-sentry': ['@sentry/browser'],
           'vendor-utils': ['dompurify'],
           'gamification': [
             './src/services/gamification.js',

@@ -54,6 +54,7 @@ const initialState = {
   // Favorites
   favorites: [],
   favoritesSort: 'date',
+  filterFavorites: false,
   showFavoritesOnMap: false,
 
   // Map layout
