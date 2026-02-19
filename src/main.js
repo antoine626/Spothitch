@@ -1875,6 +1875,9 @@ window.dismissLanding = () => {
   })
 }
 
+// Landing carousel next slide — overridden by initLandingCarousel()
+window.landingNext = () => {}
+
 window.installPWAFromLanding = () => {
   localStorage.setItem('spothitch_landing_seen', '1')
   setState({ showLanding: false })

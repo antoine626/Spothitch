@@ -1,7 +1,7 @@
 /**
- * Landing Page Component
- * Full-screen landing page for first-time visitors.
- * Shown once, then dismissed forever via localStorage flag.
+ * Landing Page — 5-slide Onboarding Carousel
+ * Shown once for first-time visitors, dismissed forever via localStorage.
+ * Slides: Imagine → Avant/Après → Témoignages → Sécurité → Communauté
  */
 
 import { t } from '../i18n/index.js'
@@ -9,223 +9,189 @@ import { icon } from '../utils/icons.js'
 
 export function renderLanding() {
   return `
-    <div id="landing-page" class="fixed inset-0 z-[100] bg-dark-primary overflow-y-auto overflow-x-hidden scroll-smooth">
+    <div id="landing-page" class="fixed inset-0 z-[100] bg-dark-primary overflow-hidden">
 
-      <!-- Hero Section -->
-      <section class="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 text-center overflow-hidden">
-        <!-- Animated background gradient orbs -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <div class="absolute -top-40 -left-40 w-80 h-80 bg-primary-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-primary-600/15 rounded-full blur-3xl animate-pulse" style="animation-delay:1s"></div>
-          <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay:2s"></div>
+      <!-- Carousel Track -->
+      <div id="landing-track" class="flex h-full transition-transform duration-300 ease-out" style="width:500%">
+
+        <!-- Slide 1: Imagine -->
+        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,rgba(10,22,40,0.9),#0f1520 40%)">
+          <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+            <div class="absolute -top-32 -right-32 w-72 h-72 bg-primary-500/15 rounded-full blur-3xl animate-pulse"></div>
+          </div>
+          <div class="relative z-10 max-w-sm">
+            <div class="text-xs font-semibold tracking-[3px] uppercase text-primary-400 mb-5">${t('onboardingImagine')}</div>
+            <h2 class="text-[22px] font-light text-slate-200 leading-relaxed mb-6">
+              ${t('onboardingImagineText')} <span class="text-primary-400 font-semibold">${t('onboardingImagineHighlight')}</span>
+            </h2>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 text-left backdrop-blur-sm">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-2xl">${icon('smartphone', 'w-6 h-6 text-primary-400')}</span>
+                <span class="text-sm font-semibold text-white">${t('onboardingYouOpen')}</span>
+              </div>
+              <div class="flex flex-col gap-2 pl-9">
+                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('map-pin', 'w-4 h-4 text-primary-400/70')} ${t('onboarding3Spots')}</div>
+                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('star', 'w-4 h-4 text-primary-400/70')} ${t('onboardingBestRated')}</div>
+                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('clock', 'w-4 h-4 text-primary-400/70')} ${t('onboardingAvgWait')}</div>
+                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('camera', 'w-4 h-4 text-primary-400/70')} ${t('onboardingPhotos')}</div>
+                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('shield', 'w-4 h-4 text-primary-400/70')} ${t('onboardingCompanionActive')}</div>
+              </div>
+            </div>
+            <p class="text-sm text-slate-500 mt-5">${t('onboardingNeverAlone')}</p>
+          </div>
         </div>
 
-        <!-- Content -->
-        <div class="relative z-10 max-w-2xl mx-auto">
-          <!-- Logo -->
-          <div class="mb-8 flex items-center justify-center gap-3">
-            <span class="text-5xl">&#129305;</span>
-            <h1 class="font-display text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-              SpotHitch
-            </h1>
+        <!-- Slide 2: Avant / Après -->
+        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center">
+          <span class="text-4xl mb-4">⚡</span>
+          <h2 class="text-2xl font-bold text-white mb-6 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingDayNight')}</h2>
+          <div class="flex gap-3 w-full max-w-sm mb-6">
+            <div class="flex-1 bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
+              <h3 class="text-sm font-semibold text-red-400 mb-3">❌ ${t('onboardingWithout')}</h3>
+              <div class="flex flex-col gap-1.5">
+                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">${t('onboardingLost')}</span>
+                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">${t('onboardingNoInfo')}</span>
+                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">${t('onboardingAlone')}</span>
+              </div>
+            </div>
+            <div class="flex-1 bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
+              <h3 class="text-sm font-semibold text-green-400 mb-3">✅ ${t('onboardingWith')}</h3>
+              <div class="flex flex-col gap-1.5">
+                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-green-500/20 text-green-300">${t('onboarding14kSpots')}</span>
+                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-green-500/20 text-green-300">${t('onboardingWaitTimes')}</span>
+                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-green-500/20 text-green-300">${t('onboardingCommunity')}</span>
+              </div>
+            </div>
           </div>
+          <div class="flex gap-6 justify-center">
+            <div class="text-center"><div class="text-2xl font-bold text-primary-400">137</div><div class="text-[11px] text-slate-500">${t('countries')}</div></div>
+            <div class="text-center"><div class="text-2xl font-bold text-primary-400">14.6k</div><div class="text-[11px] text-slate-500">spots</div></div>
+            <div class="text-center"><div class="text-2xl font-bold text-primary-400">100%</div><div class="text-[11px] text-slate-500">${t('onboardingFree')}</div></div>
+          </div>
+        </div>
 
-          <!-- Title -->
-          <h2 class="text-2xl md:text-5xl font-bold text-white mb-6 leading-tight">
-            ${t('landingHeroTitle')}
-          </h2>
+        <!-- Slide 3: Témoignages -->
+        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7">
+          <span class="text-4xl mb-3">💬</span>
+          <h2 class="text-2xl font-bold text-white mb-6 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingTheyTell')}</h2>
+          <div class="w-full max-w-sm flex flex-col gap-3">
+            <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
+              <p class="text-[13px] text-slate-200 italic leading-relaxed mb-2">${t('onboardingTestimonialMarie')}</p>
+              <p class="text-xs font-semibold text-primary-400">🇫🇷 Marie, Lyon</p>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
+              <p class="text-[13px] text-slate-200 italic leading-relaxed mb-2">${t('onboardingTestimonialTom')}</p>
+              <p class="text-xs font-semibold text-primary-400">🇩🇪 Tom, Berlin</p>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
+              <p class="text-[13px] text-slate-200 italic leading-relaxed mb-2">${t('onboardingTestimonialLucia')}</p>
+              <p class="text-xs font-semibold text-primary-400">🇪🇸 Lucía, Madrid</p>
+            </div>
+          </div>
+        </div>
 
-          <!-- Subtitle -->
-          <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-xl mx-auto leading-relaxed">
-            ${t('landingHeroSubtitle')}
-          </p>
+        <!-- Slide 4: Sécurité -->
+        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center">
+          <div class="w-24 h-24 rounded-full bg-emerald-500/15 border-2 border-emerald-500/20 flex items-center justify-center text-5xl mb-6 animate-pulse">🛡️</div>
+          <h2 class="text-2xl font-bold text-white mb-2 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingNeverAloneTitle')}</h2>
+          <p class="text-sm text-slate-400 mb-6 max-w-xs">${t('onboardingCompanionDesc')}</p>
+          <div class="w-full max-w-sm flex flex-col gap-3 text-left">
+            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
+              <span class="text-lg">${icon('radio', 'w-5 h-5 text-emerald-400')}</span>
+              <span class="text-[13px] text-slate-200">${t('onboardingGPSRealtime')}</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
+              <span class="text-lg">${icon('check-circle', 'w-5 h-5 text-emerald-400')}</span>
+              <span class="text-[13px] text-slate-200">${t('onboardingCheckins')}</span>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
+              <span class="text-lg">${icon('alert-triangle', 'w-5 h-5 text-emerald-400')}</span>
+              <span class="text-[13px] text-slate-200">${t('onboardingSOSAlerts')}</span>
+            </div>
+          </div>
+          <div class="bg-white/5 border border-white/10 rounded-xl p-3 mt-4 max-w-sm">
+            <p class="text-primary-400 font-semibold text-[13px] text-center">${t('onboardingFamilyTrack')}</p>
+          </div>
+        </div>
 
-          <!-- CTA Button -->
+        <!-- Slide 5: Communauté + CTA -->
+        <div class="w-full h-full flex-shrink-0 flex flex-col items-center justify-center px-7">
+          <span class="text-4xl mb-3">🌍</span>
+          <h2 class="text-2xl font-bold text-white mb-5 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingJoinCommunity')}</h2>
+          <div class="w-full max-w-sm bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm mb-6">
+            <div class="flex gap-3 items-center py-2 border-b border-white/5">
+              <div class="w-7 h-7 rounded-full bg-primary-500 flex items-center justify-center text-xs font-bold">J</div>
+              <span class="text-[13px] text-slate-200"><strong>Julie</strong> ${t('onboardingFeedAdded')} <span class="text-primary-400">Bordeaux</span></span>
+            </div>
+            <div class="flex gap-3 items-center py-2 border-b border-white/5">
+              <div class="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold">M</div>
+              <span class="text-[13px] text-slate-200"><strong>Max</strong> ${t('onboardingFeedValidated')} — <span class="text-primary-400">⭐ 4.5</span></span>
+            </div>
+            <div class="flex gap-3 items-center py-2">
+              <div class="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-xs font-bold">S</div>
+              <span class="text-[13px] text-slate-200"><strong>Sara</strong> ${t('onboardingFeedShared')} <span class="text-primary-400">Paris → Marseille</span></span>
+            </div>
+          </div>
           <button
             onclick="dismissLanding()"
-            class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 transition-all duration-300"
+            class="w-full max-w-sm py-4 rounded-2xl text-dark-primary font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-[1.02] transition-all duration-300"
             style="background:linear-gradient(135deg,#f59e0b,#d97706)"
           >
-            ${icon('rocket', 'w-5 h-5')}
-            ${t('landingGetStarted')}
+            ${t('onboardingDiscoverMap')} →
           </button>
-
-          <!-- Scroll hint -->
-          <div class="mt-16 text-slate-400 animate-bounce">
-            ${icon('chevron-down', 'w-7 h-7')}
-          </div>
         </div>
 
-        <!-- Map illustration (CSS only) -->
-        <div class="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" aria-hidden="true"
-             style="background:linear-gradient(to top,#0f1520,transparent)"></div>
-      </section>
-
-      <!-- Features Section -->
-      <section class="px-6 py-20 max-w-5xl mx-auto">
-        <h3 class="text-2xl md:text-3xl font-bold text-center text-white mb-4">
-          ${t('landingFeaturesTitle')}
-        </h3>
-        <p class="text-slate-400 text-center mb-12 max-w-xl mx-auto">
-          ${t('landingFeaturesSubtitle')}
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          ${renderFeatureCard(
-            'map-pinned',
-            'primary',
-            t('landingFeatureMapTitle'),
-            t('landingFeatureMapDesc')
-          )}
-          ${renderFeatureCard(
-            'route',
-            'emerald',
-            t('landingFeatureRouteTitle'),
-            t('landingFeatureRouteDesc')
-          )}
-          ${renderFeatureCard(
-            'users',
-            'violet',
-            t('landingFeatureCommunityTitle'),
-            t('landingFeatureCommunityDesc')
-          )}
-          ${renderFeatureCard(
-            'trophy',
-            'amber',
-            t('landingFeatureGamificationTitle'),
-            t('landingFeatureGamificationDesc')
-          )}
-        </div>
-      </section>
-
-      <!-- Stats Section -->
-      <section class="px-6 py-20 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-900/30 via-primary-800/20 to-primary-900/30 pointer-events-none" aria-hidden="true"></div>
-        <div class="relative z-10 max-w-4xl mx-auto">
-          <h3 class="text-2xl md:text-3xl font-bold text-center text-white mb-12">
-            ${t('landingStatsTitle')}
-          </h3>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            ${renderStatCard('37,000+', t('landingStatsSpots'), 'map-pin', 'primary')}
-            ${renderStatCard('170', t('landingStatsCountries'), 'globe', 'emerald')}
-            ${renderStatCard('71,000+', t('landingStatsReviews'), 'star', 'amber')}
-            ${renderStatCard('4', t('landingStatsLanguages'), 'language', 'violet')}
-          </div>
-        </div>
-      </section>
-
-      <!-- How It Works Section -->
-      <section class="px-6 py-20 max-w-4xl mx-auto">
-        <h3 class="text-2xl md:text-3xl font-bold text-center text-white mb-4">
-          ${t('landingHowTitle')}
-        </h3>
-        <p class="text-slate-400 text-center mb-12 max-w-xl mx-auto">
-          ${t('landingHowSubtitle')}
-        </p>
-
-        <div class="flex flex-col md:flex-row gap-8 items-stretch">
-          ${renderStepCard('1', t('landingStep1Title'), t('landingStep1Desc'), 'search')}
-          ${renderStepCard('2', t('landingStep2Title'), t('landingStep2Desc'), 'clipboard-check')}
-          ${renderStepCard('3', t('landingStep3Title'), t('landingStep3Desc'), 'share-2')}
-        </div>
-      </section>
-
-      <!-- Final CTA Section -->
-      <section class="px-6 py-24 text-center relative overflow-hidden">
-        <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-        </div>
-
-        <div class="relative z-10 max-w-xl mx-auto">
-          <h3 class="text-3xl md:text-4xl font-bold text-white mb-6">
-            ${t('landingCtaTitle')}
-          </h3>
-          <p class="text-lg text-slate-300 mb-10">
-            ${t('landingCtaSubtitle')}
-          </p>
-
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onclick="dismissLanding()"
-              class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 transition-all duration-300"
-              style="background:linear-gradient(135deg,#f59e0b,#d97706)"
-            >
-              ${icon('compass', 'w-5 h-5')}
-              ${t('landingStartExploring')}
-            </button>
-
-            <button
-              onclick="installPWAFromLanding()"
-              id="landing-install-btn"
-              class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-primary-400 font-bold text-lg border-2 border-primary-500/30 hover:border-primary-500/60 hover:bg-primary-500/10 hover:scale-105 transition-all duration-300"
-            >
-              ${icon('smartphone', 'w-5 h-5')}
-              ${t('landingInstallApp')}
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="px-6 py-8 border-t border-white/5 text-center">
-        <p class="text-slate-400 text-sm">
-          ${t('landingFooter')}
-        </p>
-      </footer>
-
-    </div>
-  `
-}
-
-function renderFeatureCard(iconName, color, title, desc) {
-  const colorMap = {
-    primary: { bg: 'bg-primary-500/10', text: 'text-primary-400', border: 'border-primary-500/20' },
-    emerald: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
-    violet: { bg: 'bg-violet-500/10', text: 'text-violet-400', border: 'border-violet-500/20' },
-    amber: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
-  }
-  const c = colorMap[color] || colorMap.primary
-
-  return `
-    <div class="p-6 rounded-2xl bg-white/[0.03] border ${c.border} hover:bg-white/[0.06] transition-all duration-300 group">
-      <div class="w-12 h-12 rounded-xl ${c.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-        ${icon(iconName, `w-6 h-6 ${c.text}`)}
       </div>
-      <h4 class="text-lg font-bold text-white mb-2">${title}</h4>
-      <p class="text-slate-400 text-sm leading-relaxed">${desc}</p>
-    </div>
-  `
-}
 
-function renderStatCard(number, label, iconName, color) {
-  const colorMap = {
-    primary: 'text-primary-400',
-    emerald: 'text-emerald-400',
-    amber: 'text-amber-400',
-    violet: 'text-violet-400',
-  }
-  const textColor = colorMap[color] || colorMap.primary
-
-  return `
-    <div class="text-center p-6 rounded-2xl bg-white/[0.03] border border-white/5">
-      ${icon(iconName, `w-7 h-7 ${textColor} mb-3`)}
-      <div class="text-3xl md:text-4xl font-bold text-white mb-1">${number}</div>
-      <div class="text-slate-400 text-sm">${label}</div>
-    </div>
-  `
-}
-
-function renderStepCard(number, title, desc, iconName) {
-  return `
-    <div class="flex-1 text-center p-6 rounded-2xl bg-white/[0.03] border border-white/5 relative">
-      <div class="w-12 h-12 rounded-full bg-primary-500 text-white font-bold text-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-500/30">
-        ${number}
+      <!-- Controls: dots + next -->
+      <div class="absolute bottom-0 left-0 right-0 flex items-center justify-between px-7 pb-10 pt-4 z-10" style="background:linear-gradient(transparent,#0f1520)">
+        <div id="landing-dots" class="flex gap-2">
+          <div class="landing-dot w-6 h-2 rounded-full bg-primary-400 transition-all duration-200" data-i="0"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="1"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="2"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="3"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="4"></div>
+        </div>
+        <button id="landing-next" onclick="landingNext()" class="text-primary-400 text-sm font-semibold">
+          ${t('onboardingNext')} →
+        </button>
       </div>
-      ${icon(iconName, 'w-7 h-7 text-slate-400 mb-3')}
-      <h4 class="text-lg font-bold text-white mb-2">${title}</h4>
-      <p class="text-slate-400 text-sm leading-relaxed">${desc}</p>
+
     </div>
   `
 }
 
-export default { renderLanding }
+export function initLandingCarousel() {
+  let current = 0
+  const track = document.getElementById('landing-track')
+  const dots = document.querySelectorAll('.landing-dot')
+  const nextBtn = document.getElementById('landing-next')
+  if (!track || !dots.length) return
+
+  function goTo(i) {
+    current = Math.max(0, Math.min(i, 4))
+    track.style.transform = `translateX(-${current * 20}%)`
+    dots.forEach((d, j) => {
+      d.className = j === current
+        ? 'landing-dot w-6 h-2 rounded-full bg-primary-400 transition-all duration-200'
+        : 'landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200'
+    })
+    if (nextBtn) nextBtn.style.display = current === 4 ? 'none' : ''
+  }
+
+  // Dot clicks
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.i)))
+
+  // Next button
+  window.landingNext = () => goTo(current + 1)
+
+  // Touch swipe
+  let tx = 0
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX }, { passive: true })
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx
+    if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1))
+  })
+}
+
+export default { renderLanding, initLandingCarousel }

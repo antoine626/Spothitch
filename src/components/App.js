@@ -44,7 +44,7 @@ import { renderAgeVerification } from './modals/AgeVerification.js';
 import { renderIdentityVerification } from './modals/IdentityVerification.js';
 
 // Landing
-import { renderLanding } from './Landing.js';
+import { renderLanding, initLandingCarousel } from './Landing.js';
 
 // UI Components
 import { renderNavigationOverlay } from './ui/NavigationOverlay.js';
@@ -305,6 +305,11 @@ function renderActiveView(state) {
  * Post-render hook to initialize map and focus traps
  */
 export function afterRender(state) {
+  // Init landing carousel if visible
+  if (state.showLanding) {
+    setTimeout(() => initLandingCarousel(), 50)
+  }
+
   const isMapTab = ['map', 'fullmap', 'home', 'travel', 'planner'].includes(state.activeTab)
   if (isMapTab) {
     setTimeout(() => initHomeMap(state), 100)

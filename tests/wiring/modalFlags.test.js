@@ -339,7 +339,7 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
     expect(html.length).toBeGreaterThan(100)
     expect(html).toContain('landing-page')
     expect(html).toContain('dismissLanding')
-    expect(html).toContain('installPWAFromLanding')
+    expect(html).toContain('landingNext')
   })
 
   test('showContactForm flag renders ContactForm modal', () => {
