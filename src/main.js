@@ -690,6 +690,28 @@ window.selectSpot = async (id) => {
 window.openSpotDetail = window.selectSpot; // alias for services that use openSpotDetail
 window.closeSpotDetail = () => actions.selectSpot(null);
 window.openAddSpot = () => {
+  // Test mode bypass — activate via console: localStorage.setItem('spothitch_test_mode', 'true')
+  const isTestMode = localStorage.getItem('spothitch_test_mode') === 'true'
+
+  if (isTestMode) {
+    // Skip auth in test mode but still require profile
+    if (!window.requireProfile('addSpot')) return
+    setState({ showAddSpot: true, addSpotPreview: false, addSpotStep: 1, addSpotType: null })
+    return
+  }
+
+  // Production: require real authentication (Google/Facebook/Apple/Email)
+  const { isLoggedIn } = getState()
+  if (!isLoggedIn) {
+    setState({
+      showAuth: true,
+      authPendingAction: 'addSpot',
+      showAuthReason: t('authRequiredAddSpot') || 'Connecte-toi pour partager un spot',
+    })
+    return
+  }
+
+  // Authenticated — also require profile (username)
   if (!window.requireProfile('addSpot')) return
   setState({ showAddSpot: true, addSpotPreview: false, addSpotStep: 1, addSpotType: null })
 }
@@ -749,135 +771,7 @@ window.getSpotLocation = () => {
     );
   }
 };
-// AddSpot 3-step form handlers
-window.addSpotNextStep = () => {
-  const { addSpotStep } = getState()
-  if (addSpotStep < 3) setState({ addSpotStep: addSpotStep + 1 })
-}
-window.addSpotPrevStep = () => {
-  const { addSpotStep } = getState()
-  if (addSpotStep > 1) setState({ addSpotStep: addSpotStep - 1 })
-}
-window.useGPSForSpot = async () => {
-  if (!navigator.geolocation) {
-    showToast(t('positionFailed') || 'GPS non disponible', 'error')
-    return
-  }
-  navigator.geolocation.getCurrentPosition(
-    async (position) => {
-      const lat = position.coords.latitude
-      const lng = position.coords.longitude
-      const latInput = document.getElementById('spot-lat')
-      const lngInput = document.getElementById('spot-lng')
-      if (latInput) latInput.value = lat.toFixed(6)
-      if (lngInput) lngInput.value = lng.toFixed(6)
-      if (window.spotFormData) {
-        window.spotFormData.lat = lat
-        window.spotFormData.lng = lng
-        window.spotFormData.positionSource = 'gps'
-      }
-      showToast(t('positionSet') || 'Position définie !', 'success')
-      // Auto-detect country via reverse geocode
-      try {
-        const { reverseGeocode } = await import('./services/osrm.js')
-        const result = await reverseGeocode(lat, lng)
-        if (result?.countryCode && window.spotFormData) {
-          window.spotFormData.country = result.countryCode
-          window.spotFormData.countryName = result.country || ''
-          const countryInput = document.getElementById('spot-country-input')
-          if (countryInput) countryInput.value = result.country || result.countryCode
-        }
-      } catch (e) { /* reverse geocode optional */ }
-    },
-    () => showToast(t('positionFailed') || 'Impossible de récupérer la position', 'error'),
-    { enableHighAccuracy: true, timeout: 10000 }
-  )
-}
-window.toggleSpotMapPicker = () => {
-  const picker = document.getElementById('spot-map-picker')
-  if (picker) picker.classList.toggle('hidden')
-}
-window.spotMapPickLocation = (lat, lng) => {
-  if (window.spotFormData) {
-    window.spotFormData.lat = lat
-    window.spotFormData.lng = lng
-    window.spotFormData.positionSource = 'map'
-  }
-  const latInput = document.getElementById('spot-lat')
-  const lngInput = document.getElementById('spot-lng')
-  if (latInput) latInput.value = lat.toFixed(6)
-  if (lngInput) lngInput.value = lng.toFixed(6)
-  showToast(t('positionSet') || 'Position définie !', 'success')
-}
-window.autoDetectStation = async () => {
-  const lat = window.spotFormData?.lat
-  const lng = window.spotFormData?.lng
-  if (!lat || !lng) {
-    showToast(t('positionRequired') || 'Position obligatoire', 'warning')
-    return
-  }
-  try {
-    const { reverseGeocode } = await import('./services/osrm.js')
-    const result = await reverseGeocode(lat, lng)
-    const nameInput = document.getElementById('spot-station-name')
-    if (nameInput && result?.name) {
-      nameInput.value = result.name.split(',')[0]
-    } else {
-      showToast(t('noStationFound') || 'Aucune station trouvée', 'info')
-    }
-  } catch (e) {
-    showToast(t('noStationFound') || 'Aucune station trouvée', 'info')
-  }
-}
-window.autoDetectRoad = async () => {
-  const lat = window.spotFormData?.lat
-  const lng = window.spotFormData?.lng
-  if (!lat || !lng) {
-    showToast(t('positionRequired') || 'Position obligatoire', 'warning')
-    return
-  }
-  try {
-    const { reverseGeocode } = await import('./services/osrm.js')
-    const result = await reverseGeocode(lat, lng)
-    const nameInput = document.getElementById('spot-road-name')
-    if (nameInput && result?.name) {
-      nameInput.value = result.name.split(',')[0]
-    }
-  } catch (e) { /* ignore */ }
-}
-window.saveSpotAsDraft = async () => {
-  try {
-    const { saveSpotDraft } = await import('./services/spotDrafts.js')
-    saveSpotDraft(window.spotFormData || {})
-    showToast(t('draftSaved') || 'Brouillon sauvegardé !', 'success')
-    setState({ showAddSpot: false })
-  } catch (e) {
-    showToast(t('saveDraft') || 'Erreur de sauvegarde', 'error')
-  }
-}
-window.openSpotDraft = async (draftId) => {
-  try {
-    const { getSpotDrafts } = await import('./services/spotDrafts.js')
-    const drafts = getSpotDrafts()
-    const draft = drafts.find(d => d.id === draftId)
-    if (draft) {
-      window.spotFormData = { ...draft }
-      setState({ showAddSpot: true, addSpotStep: 2, addSpotType: draft.spotType || null })
-    }
-  } catch (e) { /* ignore */ }
-}
-window.deleteSpotDraft = async (draftId) => {
-  try {
-    const { deleteSpotDraft } = await import('./services/spotDrafts.js')
-    deleteSpotDraft(draftId)
-    showToast(t('deleteDraft') || 'Brouillon supprimé', 'success')
-  } catch (e) { /* ignore */ }
-}
-
-window.triggerPhotoUpload = () => {
-  const input = document.getElementById('spot-photo-input');
-  if (input) input.click();
-};
+// AddSpot 3-step form handlers → defined in AddSpot.js (with validation)
 window.doCheckin = async (spotId) => {
   const { recordCheckin } = await import('./services/gamification.js')
   recordCheckin()

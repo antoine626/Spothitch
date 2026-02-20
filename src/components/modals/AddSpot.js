@@ -1082,6 +1082,14 @@ window.handleAddSpot = async (event) => {
     return
   }
 
+  // Ratings validation — all 3 criteria required
+  const ratingsCheck = window.spotFormData.ratings || {}
+  if (!ratingsCheck.safety || !ratingsCheck.traffic || !ratingsCheck.accessibility) {
+    const { showError } = await import('../../services/notifications.js')
+    showError(t('ratingsRequired') || 'Note les 3 critères (sécurité, trafic, accessibilité)')
+    return
+  }
+
   // Proximity check
   if (window.spotFormData.lat && window.spotFormData.lng) {
     const { checkProximity } = await import('../../services/proximityVerification.js')

@@ -21,7 +21,7 @@ const MAIN_JS_HANDLERS = [
   // Spots
   'selectSpot', 'closeSpotDetail', 'openAddSpot', 'openAddSpotPreview', 'closeAddSpot',
   'openRating', 'closeRating', 'openNavigation', 'getSpotLocation',
-  'triggerPhotoUpload', 'doCheckin', 'submitReview', 'setRating', 'reportSpotAction',
+  'doCheckin', 'submitReview', 'setRating', 'reportSpotAction',
   // Navigation GPS
   'startSpotNavigation', 'stopNavigation', 'openExternalNavigation',
   // SOS
@@ -188,11 +188,10 @@ const MAIN_JS_HANDLERS = [
   'submitCreateTravelGroup',
   // FriendProfile (defined in FriendProfile.js / friendsList)
   'removeFriend', 'shareProfile',
-  // AddSpot (defined in AddSpot.js)
+  // AddSpot (all defined in AddSpot.js)
   'handlePhotoSelect', 'setSpotRating', 'onSpotTypeChange',
-  // AddSpot 3-step form (defined in main.js)
-  'addSpotNextStep', 'addSpotPrevStep', 'useGPSForSpot',
-  'toggleSpotMapPicker', 'spotMapPickLocation',
+  'triggerPhotoUpload', 'addSpotNextStep', 'addSpotPrevStep',
+  'useGPSForSpot', 'toggleSpotMapPicker', 'spotMapPickLocation',
   'autoDetectStation', 'autoDetectRoad',
   'saveSpotAsDraft', 'openSpotDraft', 'deleteSpotDraft',
   // Map (defined in Map.js)
