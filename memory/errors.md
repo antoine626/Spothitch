@@ -124,8 +124,20 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/components/modals/AddSpot.js`
 - **Statut** : CORRIGÉ
 
+### ERR-011 — MutationObserver boucle infinie dans AddSpot autocomplete
+- **Date** : 2026-02-20
+- **Gravité** : CRITIQUE
+- **Description** : L'autocomplete ville de départ/destination ne fonctionnait pas : les suggestions n'apparaissaient jamais, la mini-map était perturbée, et il était impossible de passer à l'étape 2 (directionCity restait null car forceSelection=true + rien sélectionnable).
+- **Cause racine** : Le `MutationObserver` détectait l'input → appelait `initStep1Autocomplete()` → qui appelait `cleanupAutocompletes()` → `dropdown.remove()` modifiait le DOM → l'Observer se re-déclenchait → boucle infinie. L'autocomplete se créait/détruisait des centaines de fois par seconde.
+- **Correction** : (1) Ajout d'un flag `lastAutocompleteStep` dans l'Observer — il ne re-initialise que si l'étape a VRAIMENT changé. (2) Retiré `cleanupAutocompletes()` du début de `initStep1Autocomplete()` et `initStep2Autocomplete()` — le cleanup est géré par l'Observer quand les inputs disparaissent. (3) Retiré l'affichage saison (la date est déjà encodée dans createdAt).
+- **Leçon** : **Ne JAMAIS appeler une fonction de cleanup DOM depuis un callback MutationObserver si ce cleanup modifie le DOM observé.** Utiliser un flag de garde pour éviter les boucles. Pattern : `if (condition && lastState !== newState) { lastState = newState; doAction() }`.
+- **Fichiers** : `src/components/modals/AddSpot.js`
+- **Statut** : CORRIGÉ
+
+---
+
 ## Statistiques
 
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
-| 2026-02-20 | 10 | 10 | 0 |
+| 2026-02-20 | 11 | 11 | 0 |

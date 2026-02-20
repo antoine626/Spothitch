@@ -48,6 +48,7 @@
 
 | Décision | Choix | Raison | Date |
 |----------|-------|--------|------|
+| E2E CI speed | 2 workers, 1 retry, 30s timeout, no video, 60s webServer timeout | CI 2x plus rapide, réduit les timeouts | 2026-02-20 |
 | Code splitting | Chunks manuels (maplibre, firebase, sentry, gamification) | Bundle initial minimal | 2026-02 |
 | i18n lazy | 1 langue chargée à la fois | ~20KB au lieu de 80KB | 2026-02 |
 | MapLibre lazy | Chargé uniquement quand la carte est affichée | 277KB économisés au premier chargement | 2026-02 |

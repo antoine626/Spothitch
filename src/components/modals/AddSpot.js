@@ -316,12 +316,6 @@ function renderStep2(state) {
         </div>
       </div>
 
-      <!-- Season (auto-detected, shown as info) -->
-      <div class="mb-4 text-sm text-slate-500 flex items-center gap-2">
-        ${icon('calendar', 'w-4 h-4')}
-        ${t('seasonLabel') || 'Saison'}: <span class="text-slate-300 font-medium">${seasonLabel(detectSeason())}</span>
-      </div>
-
       <!-- Navigation buttons -->
       <div class="flex gap-3">
         <button type="button" onclick="addSpotPrevStep()" class="btn btn-ghost flex-1">
@@ -960,7 +954,6 @@ window.deleteSpotDraft = async (draftId) => {
 let autocompleteCleanups = []
 
 function initStep1Autocomplete() {
-  cleanupAutocompletes()
   if (!navigator.onLine) return
 
   import('../../utils/autocomplete.js').then(({ initAutocomplete }) => {
@@ -991,7 +984,6 @@ function initStep1Autocomplete() {
 }
 
 function initStep2Autocomplete() {
-  cleanupAutocompletes()
   if (!navigator.onLine) return
 
   import('../../utils/autocomplete.js').then(({ initAutocomplete }) => {
@@ -1022,13 +1014,22 @@ function cleanupAutocompletes() {
   autocompleteCleanups = []
 }
 
-// Watch for DOM changes to init autocomplete
+// Watch for DOM changes to init autocomplete (guarded to prevent infinite loop)
+let lastAutocompleteStep = 0
+
 const observer = new MutationObserver(() => {
-  if (document.getElementById('spot-departure-city') && !document.getElementById('spot-direction-city')) {
+  const depInput = document.getElementById('spot-departure-city')
+  const dirInput = document.getElementById('spot-direction-city')
+
+  if (depInput && !dirInput && lastAutocompleteStep !== 1) {
+    lastAutocompleteStep = 1
     initStep1Autocomplete()
-  }
-  if (document.getElementById('spot-direction-city')) {
+  } else if (dirInput && lastAutocompleteStep !== 2) {
+    lastAutocompleteStep = 2
     initStep2Autocomplete()
+  } else if (!depInput && !dirInput && lastAutocompleteStep !== 0) {
+    lastAutocompleteStep = 0
+    cleanupAutocompletes()
   }
 })
 
