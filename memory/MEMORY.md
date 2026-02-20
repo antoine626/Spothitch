@@ -61,6 +61,21 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session ~2026-02-20 (session 5)
+- Analyse des 9 points d'amélioration remontés par l'utilisateur
+- Nettoyage carte : suppression bouton guide clignotant, compteur spots, bouton spots proches
+- Recherche ville : force-load les spots du pays, affiche panneau même avec 0 spots
+- Progression : capitalise "Pouces", historique pouces cliquable, boutons action défis, classement avec filtre pays, récompenses mensuelles
+- Profil : stats renommées (Spots créés, Spots validés), couleurs alignées, footer (FAQ, À propos, Mentions légales, Inviter, Crédits)
+- Filtres route : 7 filtres chips (tous, station, note 4+, attente <20min, vérifié, récent, abri)
+- Labels spots carte trip : halo + collision detection (plus de chevauchement)
+- Guide feedback : votes utile/pas utile sur chaque conseil, formulaire suggestion par section
+- feedbackService.js centralisé (localStorage)
+- Barre recherche carte : padding pl-12 + icône left-4 (plus de chevauchement)
+- Mockups HTML : itinéraire (10), compagnon (20), radar (20), social (20), profil (20)
+- i18n : ~30 nouvelles clés en 4 langues
+- 104 tests wiring passent, build OK, déployé Cloudflare
+
 ### Session ~2026-02-20 (session 4)
 - Mini-carte toujours visible dans AddSpot étape 1 (plus cachée derrière un bouton)
 - Carte s'auto-initialise avec la position connue de l'utilisateur

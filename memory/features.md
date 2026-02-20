@@ -50,6 +50,15 @@
 - [x] Labels spots sans overlap sur carte trip (halo + collision detection)
 - [x] Nommage spots par distance au lieu de commentaires
 
+## Guides pays
+
+- [x] 53 guides pays (difficulté, légalité, phrases, événements, numéros d'urgence)
+- [x] Conseils communautaires (ajout + vote up/down)
+- [x] Vote utile/pas utile sur chaque conseil guide (sections Débuter, Sécurité, Pays)
+- [x] Formulaire de suggestion de conseils par section
+- [x] Service feedback centralisé (feedbackService.js, localStorage)
+- [x] Barre de recherche carte avec padding corrigé (plus de chevauchement icône)
+
 ## Gamification
 
 - [x] Points & XP (100 XP par niveau)
