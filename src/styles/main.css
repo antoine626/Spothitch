@@ -1050,7 +1050,7 @@ select.input-modern option {
 
 /* Mini map picker for AddSpot */
 .spot-map-picker {
-  @apply w-full h-48 rounded-xl overflow-hidden border-2 border-white/10;
+  @apply w-full h-56 rounded-xl overflow-hidden border-2 border-amber-500/30;
 }
 
 .spot-map-picker .maplibregl-map {

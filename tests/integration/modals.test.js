@@ -269,9 +269,10 @@ describe('Integration: AddSpot Modal', () => {
     expect(html).toContain('triggerPhotoUpload')
   })
 
-  it('has location button', () => {
+  it('has location section with map', () => {
     const html = renderAddSpot({ ...baseState, showAddSpot: true, addSpotStep: 1 })
-    expect(html).toContain('toggleSpotMapPicker')
+    expect(html).toContain('spot-mini-map')
+    expect(html).toContain('useGPSForSpot')
   })
 
   it('has close button', () => {

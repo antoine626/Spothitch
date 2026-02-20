@@ -433,21 +433,16 @@ function renderPositionBlock() {
   return `
     <div>
       <span class="text-sm text-slate-400 block mb-2" id="location-label">${t('position') || 'Position'} <span aria-label="obligatoire">*</span></span>
-      <div class="flex gap-2">
-        <button type="button" onclick="useGPSForSpot()" class="btn btn-ghost flex-1" aria-describedby="location-display">
-          ${icon('crosshair', 'w-5 h-5')} ${t('useMyPosition') || 'Ma position GPS'}
-        </button>
-        <button type="button" onclick="toggleSpotMapPicker()" class="btn btn-ghost flex-1">
-          ${icon('map-pin', 'w-5 h-5')} ${t('pickOnMap') || 'Pointer sur la carte'}
-        </button>
-      </div>
-      <div id="location-display" class="text-sm text-slate-400 mt-2 text-center" aria-live="polite" role="status">${
+      <button type="button" onclick="useGPSForSpot()" class="btn btn-ghost w-full mb-2" aria-describedby="location-display">
+        ${icon('crosshair', 'w-5 h-5')} ${t('useMyPosition') || 'Ma position GPS'}
+      </button>
+      <div id="location-display" class="text-sm text-slate-400 mb-2 text-center" aria-live="polite" role="status">${
         window.spotFormData?.lat && window.spotFormData?.lng
           ? `<span class="text-green-400">${icon('check', 'w-4 h-4 inline')} ${window.spotFormData.departureCity || 'Position'} (${window.spotFormData.lat.toFixed(4)}, ${window.spotFormData.lng.toFixed(4)})</span>`
           : ''
       }</div>
-      <div id="spot-map-container" class="hidden mt-3">
-        <p class="text-xs text-center text-slate-400 mb-2">${t('tapToPlacePin') || 'Toucher pour placer'}</p>
+      <div id="spot-map-container" class="mt-2">
+        <p class="text-xs text-center text-amber-400/80 mb-2 font-medium">👇 ${t('tapToPlaceSpot') || 'Touche la carte pour placer ton spot'}</p>
         <div id="spot-mini-map" class="spot-map-picker"></div>
       </div>
     </div>
@@ -747,6 +742,17 @@ window.useGPSForSpot = () => {
       window.spotFormData.lng = position.coords.longitude
       window.spotFormData.positionSource = 'gps'
 
+      // Center mini map on GPS position and place marker
+      if (miniMap) {
+        miniMap.flyTo({ center: [position.coords.longitude, position.coords.latitude], zoom: 15 })
+        import('maplibre-gl').then(maplibregl => {
+          if (miniMapMarker) miniMapMarker.remove()
+          miniMapMarker = new maplibregl.default.Marker({ color: '#f59e0b' })
+            .setLngLat([position.coords.longitude, position.coords.latitude])
+            .addTo(miniMap)
+        }).catch(() => {})
+      }
+
       try {
         const { reverseGeocode } = await import('../../services/osrm.js')
         const location = await reverseGeocode(position.coords.latitude, position.coords.longitude)
@@ -791,41 +797,50 @@ window.useGPSForSpot = () => {
   )
 }
 
-// Map picker
+// Map picker — always visible in step 1
 let miniMap = null
+let miniMapMarker = null
 
-window.toggleSpotMapPicker = async () => {
-  const container = document.getElementById('spot-map-container')
-  if (!container) return
+async function initSpotMap() {
+  const mapDiv = document.getElementById('spot-mini-map')
+  if (!mapDiv) return
 
-  if (!container.classList.contains('hidden')) {
-    container.classList.add('hidden')
-    if (miniMap) { miniMap.remove(); miniMap = null }
-    return
+  // Destroy stale map if container was rebuilt by render()
+  if (miniMap) {
+    try { miniMap.remove() } catch { /* no-op */ }
+    miniMap = null
+    miniMapMarker = null
   }
-
-  container.classList.remove('hidden')
 
   try {
     const maplibregl = await import('maplibre-gl')
-    const mapDiv = document.getElementById('spot-mini-map')
-    if (!mapDiv) return
 
-    const center = window.spotFormData.lng
-      ? [window.spotFormData.lng, window.spotFormData.lat]
-      : [2.35, 48.85]
+    // Use existing position, or user's known location, or default to Paris
+    let center = [2.35, 48.85]
+    let zoom = 5
+    if (window.spotFormData?.lng && window.spotFormData?.lat) {
+      center = [window.spotFormData.lng, window.spotFormData.lat]
+      zoom = 13
+    } else {
+      try {
+        const { getState } = await import('../../stores/state.js')
+        const loc = getState().userLocation
+        if (loc?.lat && loc?.lng) {
+          center = [loc.lng, loc.lat]
+          zoom = 13
+        }
+      } catch { /* no-op */ }
+    }
 
     miniMap = new maplibregl.default.Map({
       container: mapDiv,
       style: 'https://tiles.openfreemap.org/styles/liberty',
       center,
-      zoom: 13,
+      zoom,
     })
 
-    let marker = null
-
-    if (window.spotFormData.lat) {
-      marker = new maplibregl.default.Marker({ color: '#f59e0b' })
+    if (window.spotFormData?.lat) {
+      miniMapMarker = new maplibregl.default.Marker({ color: '#f59e0b' })
         .setLngLat([window.spotFormData.lng, window.spotFormData.lat])
         .addTo(miniMap)
     }
@@ -836,8 +851,9 @@ window.toggleSpotMapPicker = async () => {
       window.spotFormData.lng = lng
       window.spotFormData.positionSource = 'map'
 
-      if (marker) marker.remove()
-      marker = new maplibregl.default.Marker({ color: '#f59e0b' })
+      const maplibre = await import('maplibre-gl')
+      if (miniMapMarker) miniMapMarker.remove()
+      miniMapMarker = new maplibre.default.Marker({ color: '#f59e0b' })
         .setLngLat([lng, lat])
         .addTo(miniMap)
 
@@ -867,9 +883,13 @@ window.toggleSpotMapPicker = async () => {
       } catch { /* no-op */ }
     })
   } catch (error) {
-    console.error('Map picker failed:', error)
-    container.classList.add('hidden')
+    console.error('Map init failed:', error)
   }
+}
+
+// Kept for backward compat (wiring tests) — map is now always visible
+window.toggleSpotMapPicker = async () => {
+  if (!miniMap) await initSpotMap()
 }
 
 // spotMapPickLocation — handled by map click listener in toggleSpotMapPicker
@@ -1029,12 +1049,18 @@ const observer = new MutationObserver(() => {
   if (depInput && !dirInput && lastAutocompleteStep !== 1) {
     lastAutocompleteStep = 1
     initStep1Autocomplete()
+    // Auto-init map when step 1 appears (map is always visible)
+    initSpotMap()
   } else if (dirInput && lastAutocompleteStep !== 2) {
     lastAutocompleteStep = 2
     initStep2Autocomplete()
+    // Cleanup map when leaving step 1
+    if (miniMap) { try { miniMap.remove() } catch {} miniMap = null; miniMapMarker = null }
   } else if (!depInput && !dirInput && lastAutocompleteStep !== 0) {
     lastAutocompleteStep = 0
     cleanupAutocompletes()
+    // Cleanup map when modal closes
+    if (miniMap) { try { miniMap.remove() } catch {} miniMap = null; miniMapMarker = null }
   }
 })
 

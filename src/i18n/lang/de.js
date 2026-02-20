@@ -3127,6 +3127,7 @@ export default {
   directionCity: 'Richtung',
   pickOnMap: 'Auf Karte wählen',
   tapToPlacePin: 'Tippen zum Platzieren',
+  tapToPlaceSpot: 'Tippe auf die Karte, um deinen Spot zu setzen',
   stationName: 'Tankstellenname',
   roadName: 'Straßenname/-nummer',
   locationDesc: 'Ortsbeschreibung',

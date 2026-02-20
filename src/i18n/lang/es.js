@@ -3127,6 +3127,7 @@ export default {
   directionCity: 'Dirección',
   pickOnMap: 'Señalar en el mapa',
   tapToPlacePin: 'Toca para colocar el marcador',
+  tapToPlaceSpot: 'Toca el mapa para colocar tu spot',
   stationName: 'Nombre de la estación',
   roadName: 'Nombre de carretera',
   locationDesc: 'Descripción del lugar',

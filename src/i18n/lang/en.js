@@ -3130,6 +3130,7 @@ export default {
   directionCity: 'Direction',
   pickOnMap: 'Pick on map',
   tapToPlacePin: 'Tap to place pin',
+  tapToPlaceSpot: 'Tap the map to place your spot',
   stationName: 'Station name',
   roadName: 'Road name/number',
   locationDesc: 'Location description',
