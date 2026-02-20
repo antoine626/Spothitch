@@ -193,7 +193,7 @@
 - [x] E2E Playwright
 - [x] Visual regression (screenshots)
 - [x] Lighthouse CI
-- [x] Plan Wolf (commande master qui lance tous les checks)
+- [x] Plan Wolf v3 (14 phases : code quality, tests, build, impact, features, regressions, wiring, dead code, audit, lighthouse, screenshots, feature scores, score, recommandations)
 - [x] Audit RGPD automatisé
 - [x] ESLint + Prettier + Husky pre-commit
 

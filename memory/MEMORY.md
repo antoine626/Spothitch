@@ -12,7 +12,7 @@
 - **Site live** : spothitch.com (GitHub Pages, HTTPS actif, cert expire 2026-05-13)
 - **Spots** : 14 669 spots dans 137 pays (source Hitchmap/Hitchwiki ODBL)
 - **Langues** : FR, EN, ES, DE
-- **Tests** : 88+ tests wiring, tests integration, E2E Playwright
+- **Tests** : 104 tests wiring, tests integration, E2E Playwright
 
 ---
 
@@ -60,6 +60,14 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session ~2026-02-21 (session 6)
+- Plan Wolf v3 : upgrade majeur de v2 à v3, 14 phases au lieu de 10
+- Nouvelles phases : Dead Code detection (exports/fonctions mortes), Lighthouse CI, Playwright screenshots, Feature Scores (score par feature)
+- Améliorations : imports circulaires (DFS), scan ALL-files handlers dupliqués, onclick verification, memory accuracy check, image size audit
+- Recommandations enrichies pour toutes les nouvelles catégories (dead code, circular imports, onclick, handlers dupliqués, images, Lighthouse, mémoire périmée)
+- Score Wolf v3 : 70/100 (baisse attendue car plus de checks = plus de problèmes détectés)
+- Détection : 399 exports morts, 36 fonctions mortes, 100 handlers dupliqués, 22 services orphelins, 1 onclick dangling
 
 ### Session ~2026-02-20 (session 5)
 - Analyse des 9 points d'amélioration remontés par l'utilisateur
