@@ -152,8 +152,10 @@ const MAIN_JS_HANDLERS = [
   'toggleThumbHistory',
   // Map view (defined in Map.js / views)
   'openCountryGuide', 'mapZoomIn', 'mapZoomOut',
+  // Guide tips feedback (defined in feedbackService.js)
+  'voteGuideTip', 'submitGuideSuggestion',
   // Travel view (defined in Travel.js)
-  'syncTripFieldsAndCalculate', 'toggleRouteAmenities', 'centerTripMapOnGps',
+  'syncTripFieldsAndCalculate', 'toggleRouteAmenities', 'centerTripMapOnGps', 'setRouteFilter',
   // Social view (defined in Social.js + sub-components)
   'setSocialTab', 'postCompanionRequest', 'addFriendByName',
   // Feed (defined in Feed.js)

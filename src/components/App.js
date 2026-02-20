@@ -947,11 +947,17 @@ function initTripMap(state) {
           source: 'trip-spots',
           layout: {
             'text-field': ['to-string', ['get', 'index']],
-            'text-size': 10,
+            'text-size': 11,
             'text-font': ['Noto Sans Bold'],
-            'text-allow-overlap': true,
+            'text-allow-overlap': false,
+            'text-ignore-placement': false,
+            'text-padding': 4,
           },
-          paint: { 'text-color': '#ffffff' },
+          paint: {
+            'text-color': '#ffffff',
+            'text-halo-color': 'rgba(0,0,0,0.7)',
+            'text-halo-width': 1.5,
+          },
         })
         map.on('click', 'trip-spot-points', (e) => {
           if (e.features?.length > 0) window.selectSpot?.(e.features[0].properties.id)

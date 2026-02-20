@@ -46,14 +46,14 @@ export function renderMap(state) {
             type="text"
             id="map-search"
             placeholder="${t('searchPlace') || 'Search a location...'}"
-            class="w-full pl-10 pr-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
+            class="w-full pl-12 pr-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
             oninput="searchMapSuggestions(this.value)"
             onkeydown="if(event.key==='Enter') { searchLocation(this.value); hideSearchSuggestions(); }"
             onfocus="if(this.value.length>=2) searchMapSuggestions(this.value)"
             aria-label="${t('searchMapLocation') || 'Search a location on the map'}"
             autocomplete="off"
           />
-          ${icon('search', 'w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
+          ${icon('search', 'w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400')}
           <div id="map-search-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
         </div>
         <button

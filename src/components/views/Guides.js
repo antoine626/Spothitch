@@ -8,6 +8,7 @@ import { t } from '../../i18n/index.js'
 import { countryGuides, getGuideByCode, getUniversalPhrases } from '../../data/guides.js'
 import { icon } from '../../utils/icons.js'
 import { renderCommunityTips } from '../../services/communityTips.js'
+import { renderTipVoteButtons, renderSuggestionForm } from '../../services/feedbackService.js'
 
 const GUIDE_SECTIONS = [
   { id: 'start', icon: 'compass', color: 'amber', labelKey: 'guideStart', fallback: 'Débuter' },
@@ -80,19 +81,22 @@ function renderStartSection() {
         <h3 class="font-bold text-lg mb-1">${t('guideStartTitle') || 'Prêt à lever le pouce ?'}</h3>
         <p class="text-sm text-slate-400">${t('guideStartIntro') || 'Les bases de l\'auto-stop pour les débutants comme les confirmés.'}</p>
       </div>
-      ${tips.map(tip => `
+      ${tips.map((tip, i) => `
         <div class="card p-4">
           <div class="flex items-start gap-3">
             <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
               ${icon(tip.icon, 'w-5 h-5 text-amber-400')}
             </div>
-            <div>
+            <div class="flex-1">
               <div class="font-medium mb-1">${tip.title}</div>
               <p class="text-sm text-slate-400 leading-relaxed">${tip.desc}</p>
+              ${renderTipVoteButtons('start', i)}
             </div>
           </div>
         </div>
       `).join('')}
+
+      ${renderSuggestionForm('start')}
     </div>
   `
 }
@@ -178,15 +182,16 @@ function renderSafetySection() {
         <h3 class="font-bold text-lg mb-1">${t('guideSafetyTitle') || 'Voyager en sécurité'}</h3>
         <p class="text-sm text-slate-400">${t('guideSafetyIntro') || 'Les règles d\'or pour un auto-stop serein.'}</p>
       </div>
-      ${rules.map(r => `
+      ${rules.map((r, i) => `
         <div class="card p-4">
           <div class="flex items-start gap-3">
             <div class="w-10 h-10 rounded-xl bg-${r.color}-500/20 flex items-center justify-center shrink-0">
               ${icon(r.icon, `w-5 h-5 text-${r.color}-400`)}
             </div>
-            <div>
+            <div class="flex-1">
               <div class="font-medium mb-1">${r.title}</div>
               <p class="text-sm text-slate-400 leading-relaxed">${r.desc}</p>
+              ${renderTipVoteButtons('safety', i)}
             </div>
           </div>
         </div>
@@ -243,6 +248,8 @@ function renderSafetySection() {
           `).join('')}
         </div>
       </div>
+
+      ${renderSuggestionForm('safety')}
     </div>
   `
 }
@@ -439,10 +446,13 @@ export function renderCountryDetail(guideOrCode) {
           ${t('tips') || 'Conseils'}
         </h3>
         <ul class="space-y-2">
-          ${(isEn && guide.tipsEn ? guide.tipsEn : guide.tips).map(tip => `
+          ${(isEn && guide.tipsEn ? guide.tipsEn : guide.tips).map((tip, i) => `
             <li class="flex items-start gap-2">
               ${icon('check', 'w-4 h-4 text-emerald-400 mt-1 shrink-0')}
-              <span class="text-slate-300 text-sm">${tip}</span>
+              <div class="flex-1">
+                <span class="text-slate-300 text-sm">${tip}</span>
+                ${renderTipVoteButtons(`country_${guide.code}`, i)}
+              </div>
             </li>
           `).join('')}
         </ul>
@@ -592,6 +602,9 @@ export function renderCountryDetail(guideOrCode) {
           <p>${t('guideRecommendation3') || 'Après chaque trajet, validez les spots que vous avez utilisés pour aider les prochains voyageurs.'}</p>
         </div>
       </div>
+
+      <!-- Suggest a tip -->
+      ${renderSuggestionForm(`country_${guide.code}`)}
 
       <!-- Community Tips -->
       ${renderCommunityTips(guide.code)}

@@ -175,9 +175,30 @@ function getSavedTrips(state) {
   } catch (e) { return [] }
 }
 
+function applyRouteFilter(spots, filter) {
+  if (!filter || filter === 'all') return spots
+  switch (filter) {
+    case 'station': return spots.filter(s => (s.spotType || '').toLowerCase().includes('station') || (s.description || '').toLowerCase().includes('station'))
+    case 'rating4': return spots.filter(s => (s.globalRating || 0) >= 4 || (s._hitchwikiRating || 0) >= 4)
+    case 'wait20': return spots.filter(s => s.avgWaitTime && s.avgWaitTime <= 20)
+    case 'verified': return spots.filter(s => s.userValidations > 0 || s.verified)
+    case 'recent': return spots.filter(s => {
+      if (!s.lastUsed) return false
+      const oneYear = Date.now() - 365 * 24 * 60 * 60 * 1000
+      return new Date(s.lastUsed).getTime() > oneYear
+    })
+    case 'shelter': return spots.filter(s => {
+      const desc = (s.description || '').toLowerCase()
+      return desc.includes('shelter') || desc.includes('abri') || desc.includes('roof') || desc.includes('toit') || desc.includes('covered') || desc.includes('couvert')
+    })
+    default: return spots
+  }
+}
+
 function renderTripResults(results) {
-  const spots = results.spots || []
+  const allSpots = results.spots || []
   const state = window.getState?.() || {}
+  const spots = applyRouteFilter(allSpots, state.routeFilter)
   const showAmenities = state.showRouteAmenities || false
   const amenities = state.routeAmenities || []
   const loadingAmenities = state.loadingRouteAmenities || false
@@ -259,6 +280,19 @@ function renderTripResults(results) {
         </div>
       ` : ''}
 
+      <!-- Route Filters -->
+      ${spots.length > 0 ? `
+        <div class="flex flex-wrap gap-1.5 px-1">
+          <button onclick="setRouteFilter('all')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${!state.routeFilter || state.routeFilter === 'all' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">${t('filterAll') || 'Tous'} (${spots.length})</button>
+          <button onclick="setRouteFilter('station')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'station' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⛽ ${t('filterStation') || 'Station'}</button>
+          <button onclick="setRouteFilter('rating4')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'rating4' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⭐ 4+</button>
+          <button onclick="setRouteFilter('wait20')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'wait20' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⏱️ &lt;20min</button>
+          <button onclick="setRouteFilter('verified')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'verified' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">✓ ${t('filterVerified') || 'Vérifié'}</button>
+          <button onclick="setRouteFilter('recent')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'recent' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">🕐 ${t('filterRecent') || 'Récent'}</button>
+          <button onclick="setRouteFilter('shelter')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'shelter' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">🏠 ${t('filterShelter') || 'Abri'}</button>
+        </div>
+      ` : ''}
+
       <!-- Trip Timeline -->
       ${spots.length > 0 ? `
         <div class="relative pl-8 space-y-0 max-h-96 overflow-y-auto">
@@ -289,12 +323,12 @@ function renderTripResults(results) {
                 <span class="text-[9px] font-bold text-white">${i + 1}</span>
               </div>
               <div class="pt-0.5 flex-1 min-w-0">
-                <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.description?.slice(0, 40) || t('hitchhikingSpot')}</div>
+                <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || (distFromStart !== null ? `${t('hitchhikingSpot') || 'Spot'} — ${distFromStart} km` : (t('hitchhikingSpot') || 'Spot d\'autostop'))}</div>
                 <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
                   ${distFromStart !== null ? `<span class="text-slate-400">${distFromStart} km</span>` : ''}
                   ${spot.type ? `<span class="px-1.5 py-0.5 rounded bg-white/5 text-slate-400">${spot.type}</span>` : ''}
                   ${spot.userValidations ? `<span class="text-emerald-400">${icon('circle-check', 'w-3 h-3 mr-0.5')}${spot.userValidations}</span>` : ''}
-                  ${spot.avgWait ? `<span>${icon('clock', 'w-3 h-3 mr-0.5')}${spot.avgWait} min</span>` : ''}
+                  ${(spot.avgWaitTime || spot.avgWait) ? `<span>${icon('clock', 'w-3 h-3 mr-0.5')}${spot.avgWaitTime || spot.avgWait} min</span>` : ''}
                 </div>
               </div>
               <button onclick="event.stopPropagation();removeSpotFromTrip(${spot.id})" class="text-slate-600 hover:text-danger-400 transition-colors mt-1" aria-label="${t('remove') || 'Retirer'}">
@@ -1206,6 +1240,11 @@ window.toggleRouteAmenities = async () => {
     window.setState?.({ showRouteAmenities: true, routeAmenities: [], loadingRouteAmenities: false })
     window.showToast?.(t('noStationsFound') || 'No stations found, try again', 'info')
   }
+}
+
+// Route filter handler
+window.setRouteFilter = (filter) => {
+  window.setState?.({ routeFilter: filter })
 }
 
 export default { renderTravel }
