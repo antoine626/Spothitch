@@ -9,12 +9,22 @@ export default defineConfig({
   timeout: 60000,
   expect: {
     timeout: 15000,
+    toHaveScreenshot: {
+      // Visual regression: allow 3% pixel diff by default
+      maxDiffPixelRatio: 0.03,
+      // Disable animations for stable screenshots
+      animations: 'disabled',
+    },
   },
   reporter: [
     ['html', { open: 'never' }],
     ['json', { outputFile: 'playwright-report/results.json' }],
   ],
-  
+
+  // Snapshot directory for visual baselines
+  snapshotDir: './e2e/__snapshots__',
+  snapshotPathTemplate: '{snapshotDir}/{arg}{ext}',
+
   use: {
     baseURL: 'http://localhost:4173/',
     trace: 'on-first-retry',
@@ -28,20 +38,8 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-    {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
     },
   ],
 

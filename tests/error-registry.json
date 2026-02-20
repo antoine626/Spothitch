@@ -1,0 +1,21 @@
+{
+  "errors": [
+    {
+      "sentryId": "JAVASCRIPT-1",
+      "sentryUrl": "https://de.sentry.io/issues/97156031/",
+      "title": "TypeError: Object [object Object] has no method 'updateFrom'",
+      "file": "../../sentry/scripts/views.js",
+      "function": "poll",
+      "firstSeen": "2026-02-17T09:34:47.947000Z",
+      "events": "1",
+      "testFile": "sentry-JAVASCRIPT-1-typeerror-object-object-object-has-no-me.test.js",
+      "dateRegistered": "2026-02-20T01:41:59.515Z",
+      "status": "skeleton"
+    }
+  ],
+  "meta": {
+    "lastCheck": "2026-02-20T01:41:59.517Z",
+    "totalFixed": 0,
+    "description": "Error registry — maps Sentry issues to regression tests. Every bug found = a test written = never happens again."
+  }
+}

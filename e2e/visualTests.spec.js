@@ -1,228 +1,216 @@
 /**
- * Visual Screenshot Tests — All Views & Modals
- * Takes screenshots of every major view and modal to verify rendering.
+ * Visual Regression Tests — Pixel-by-pixel comparison
+ * Uses Playwright's toHaveScreenshot() to detect ANY visual change.
+ * First run creates baselines in e2e/__snapshots__/
+ * Subsequent runs compare against baselines and FAIL if anything changed.
+ * Update baselines: npx playwright test e2e/visualTests.spec.js --update-snapshots
  */
 
 import { test, expect } from '@playwright/test'
-import { skipOnboarding, navigateToTab, dismissOverlays } from './helpers.js'
+import { skipOnboarding, navigateToTab } from './helpers.js'
 
-test.describe('Visual Tests — Main Views', () => {
+// Mask dynamic areas that change between runs (map tiles, timestamps)
+const MASK_SELECTORS = ['.maplibregl-canvas', '.maplibregl-ctrl', '[data-timestamp]']
+
+async function maskDynamic(page) {
+  return page.locator(MASK_SELECTORS.join(', ')).all()
+}
+
+// ================================================================
+// MAIN VIEWS — Mobile (390x844)
+// ================================================================
+test.describe('Visual Regression — Views (Mobile)', () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
+
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
   })
 
-  test('Home / Map view renders', async ({ page }) => {
+  test('map view', async ({ page }) => {
     await navigateToTab(page, 'map')
-    await page.waitForTimeout(1500) // Map tiles load
-    const content = page.locator('#app')
-    await expect(content).toBeVisible()
-    await page.screenshot({ path: 'screenshots/01-home-map.png', fullPage: false })
+    await page.waitForTimeout(1500)
+    await expect(page).toHaveScreenshot('mobile-map.png', {
+      maxDiffPixelRatio: 0.05,
+      mask: await maskDynamic(page),
+    })
   })
 
-  test('Travel / Planner overlay renders', async ({ page }) => {
-    await navigateToTab(page, 'map')
+  test('travel planner', async ({ page }) => {
+    await navigateToTab(page, 'travel')
+    await page.waitForSelector('#trip-from', { timeout: 10000 })
     await page.waitForTimeout(500)
-    // Open trip planner overlay
-    await page.evaluate(() => window.openTripPlanner?.())
-    await page.waitForTimeout(800)
-    const plannerForm = page.locator('#trip-from')
-    await expect(plannerForm).toBeVisible({ timeout: 10000 })
-    await page.screenshot({ path: 'screenshots/02-travel-planner.png', fullPage: false })
+    await expect(page).toHaveScreenshot('mobile-travel.png', {
+      maxDiffPixelRatio: 0.03,
+      mask: await maskDynamic(page),
+    })
   })
 
-  test('Travel / Guides overlay renders', async ({ page }) => {
-    await navigateToTab(page, 'map')
+  test('guides', async ({ page }) => {
+    await navigateToTab(page, 'travel')
     await page.waitForTimeout(500)
-    // Open guides overlay
-    await page.evaluate(() => window.openGuidesOverlay?.())
+    const guidesTab = page.locator('button:has-text("Guides")')
+    if (await guidesTab.count() > 0) await guidesTab.first().click()
     await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/03-travel-guides.png', fullPage: false })
+    await expect(page).toHaveScreenshot('mobile-guides.png', {
+      maxDiffPixelRatio: 0.03,
+    })
   })
 
-  test('Challenges / Activities view renders', async ({ page }) => {
+  test('challenges', async ({ page }) => {
     await navigateToTab(page, 'challenges')
-    await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/04-challenges.png', fullPage: false })
+    await page.waitForTimeout(800)
+    await expect(page).toHaveScreenshot('mobile-challenges.png', {
+      maxDiffPixelRatio: 0.03,
+    })
   })
 
-  test('Social / Feed tab renders', async ({ page }) => {
+  test('social feed', async ({ page }) => {
     await navigateToTab(page, 'social')
-    await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/05-social-feed.png', fullPage: false })
+    await page.waitForTimeout(800)
+    await expect(page).toHaveScreenshot('mobile-social.png', {
+      maxDiffPixelRatio: 0.03,
+    })
   })
 
-  test('Social / Conversations tab renders', async ({ page }) => {
+  test('profile', async ({ page }) => {
+    await navigateToTab(page, 'profile')
+    await page.waitForTimeout(800)
+    await expect(page).toHaveScreenshot('mobile-profile.png', {
+      maxDiffPixelRatio: 0.03,
+    })
+  })
+})
+
+// ================================================================
+// MAIN VIEWS — Desktop (1280x720)
+// ================================================================
+test.describe('Visual Regression — Views (Desktop)', () => {
+  test.use({ viewport: { width: 1280, height: 720 } })
+
+  test.beforeEach(async ({ page }) => {
+    await skipOnboarding(page)
+  })
+
+  test('map view', async ({ page }) => {
+    await navigateToTab(page, 'map')
+    await page.waitForTimeout(1500)
+    await expect(page).toHaveScreenshot('desktop-map.png', {
+      maxDiffPixelRatio: 0.05,
+      mask: await maskDynamic(page),
+    })
+  })
+
+  test('travel planner', async ({ page }) => {
+    await navigateToTab(page, 'travel')
+    await page.waitForSelector('#trip-from', { timeout: 10000 })
+    await page.waitForTimeout(500)
+    await expect(page).toHaveScreenshot('desktop-travel.png', {
+      maxDiffPixelRatio: 0.03,
+      mask: await maskDynamic(page),
+    })
+  })
+
+  test('challenges', async ({ page }) => {
+    await navigateToTab(page, 'challenges')
+    await page.waitForTimeout(800)
+    await expect(page).toHaveScreenshot('desktop-challenges.png', {
+      maxDiffPixelRatio: 0.03,
+    })
+  })
+
+  test('social', async ({ page }) => {
     await navigateToTab(page, 'social')
-    await page.waitForTimeout(300)
-    await page.evaluate(() => window.setSocialSubTab?.('conversations'))
-    await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/06-social-conversations.png', fullPage: false })
+    await page.waitForTimeout(800)
+    await expect(page).toHaveScreenshot('desktop-social.png', {
+      maxDiffPixelRatio: 0.03,
+    })
   })
 
-  test('Social / Friends tab renders', async ({ page }) => {
-    await navigateToTab(page, 'social')
-    await page.waitForTimeout(300)
-    await page.evaluate(() => window.setSocialSubTab?.('friends'))
-    await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/07-social-friends.png', fullPage: false })
+  test('profile', async ({ page }) => {
+    await navigateToTab(page, 'profile')
+    await page.waitForTimeout(800)
+    await expect(page).toHaveScreenshot('desktop-profile.png', {
+      maxDiffPixelRatio: 0.03,
+    })
+  })
+})
+
+// ================================================================
+// ALL MODALS — Mobile (most users are on mobile)
+// ================================================================
+test.describe('Visual Regression — Modals', () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
+
+  test.beforeEach(async ({ page }) => {
+    await skipOnboarding(page)
   })
 
-  test('Profile view renders', async ({ page }) => {
+  const modals = [
+    { name: 'sos', flag: 'showSOS' },
+    { name: 'auth', flag: 'showAuth' },
+    { name: 'settings', flag: 'showSettings' },
+    { name: 'badges', flag: 'showBadges' },
+    { name: 'shop', flag: 'showShop' },
+    { name: 'stats', flag: 'showStats' },
+    { name: 'leaderboard', flag: 'showLeaderboard' },
+    { name: 'quiz', flag: 'showQuiz' },
+    { name: 'challenges', flag: 'showChallenges' },
+    { name: 'companion', flag: 'showCompanionModal' },
+    { name: 'mydata', flag: 'showMyData' },
+    { name: 'donation', flag: 'showDonation' },
+    { name: 'titles', flag: 'showTitles' },
+    { name: 'addspot', flag: 'showAddSpot' },
+    { name: 'filters', flag: 'showFilters' },
+    { name: 'legal', flag: 'showLegal' },
+    { name: 'faq', flag: 'showFAQ' },
+    { name: 'checkin', flag: 'showCheckin' },
+    { name: 'validate-spot', flag: 'showValidateSpot' },
+    { name: 'cookie-banner', flag: 'showCookieBanner' },
+  ]
+
+  for (const { name, flag } of modals) {
+    test(`modal: ${name}`, async ({ page }) => {
+      await page.evaluate((f) => window.setState?.({ [f]: true }), flag)
+      await page.waitForTimeout(800)
+      // Verify something rendered (modal overlay or content)
+      const overlay = page.locator('.modal-overlay, .modal, [role="dialog"]')
+      const hasModal = await overlay.count() > 0
+      if (hasModal) {
+        await expect(overlay.first()).toBeVisible({ timeout: 5000 })
+      }
+      await expect(page).toHaveScreenshot(`modal-${name}.png`, {
+        maxDiffPixelRatio: 0.03,
+      })
+    })
+  }
+})
+
+// ================================================================
+// THEMES
+// ================================================================
+test.describe('Visual Regression — Themes', () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true })
+
+  test('dark theme', async ({ page }) => {
+    await skipOnboarding(page)
     await navigateToTab(page, 'profile')
     await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/08-profile.png', fullPage: false })
-  })
-})
-
-test.describe('Visual Tests — Modals', () => {
-  test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page)
+    await expect(page).toHaveScreenshot('theme-dark.png', {
+      maxDiffPixelRatio: 0.03,
+    })
   })
 
-  test('SOS modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showSOS: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/10-modal-sos.png', fullPage: false })
-  })
-
-  test('Auth modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showAuth: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/11-modal-auth.png', fullPage: false })
-  })
-
-  test('Settings modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showSettings: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/12-modal-settings.png', fullPage: false })
-  })
-
-  test('Badges modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showBadges: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/13-modal-badges.png', fullPage: false })
-  })
-
-  test('Shop modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showShop: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/14-modal-shop.png', fullPage: false })
-  })
-
-  test('Stats modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showStats: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/15-modal-stats.png', fullPage: false })
-  })
-
-  test('Leaderboard modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showLeaderboard: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/16-modal-leaderboard.png', fullPage: false })
-  })
-
-  test('Quiz modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showQuiz: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/17-modal-quiz.png', fullPage: false })
-  })
-
-  test('Challenges modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showChallenges: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/18-modal-challenges.png', fullPage: false })
-  })
-
-  test('Companion modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showCompanionModal: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/19-modal-companion.png', fullPage: false })
-  })
-
-  test('MyData modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showMyData: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/20-modal-mydata.png', fullPage: false })
-  })
-
-  test('Donation modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showDonation: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/21-modal-donation.png', fullPage: false })
-  })
-
-  test('Titles modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showTitles: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/22-modal-titles.png', fullPage: false })
-  })
-
-  test('AddSpot modal renders', async ({ page }) => {
-    await page.evaluate(() => window.setState?.({ showAddSpot: true }))
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/23-modal-addspot.png', fullPage: false })
-  })
-
-  test('FAQ page renders', async ({ page }) => {
-    await page.evaluate(() => window.openFAQ?.())
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: 'screenshots/24-modal-faq.png', fullPage: false })
-  })
-})
-
-test.describe('Visual Tests — Theme', () => {
-  test('Dark theme renders correctly', async ({ page }) => {
-    await skipOnboarding(page)
-    await page.waitForTimeout(300)
-    await page.screenshot({ path: 'screenshots/30-theme-dark.png', fullPage: false })
-  })
-
-  test('Light theme renders correctly', async ({ page }) => {
+  test('light theme', async ({ page }) => {
     await skipOnboarding(page)
     await page.evaluate(() => {
       document.documentElement.classList.remove('dark')
       document.documentElement.classList.add('light')
       window.setState?.({ theme: 'light' })
     })
-    await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/31-theme-light.png', fullPage: false })
-  })
-})
-
-test.describe('Visual Tests — Responsive', () => {
-  test('Mobile viewport (iPhone 12)', async ({ browser }) => {
-    const context = await browser.newContext({
-      viewport: { width: 390, height: 844 },
-      deviceScaleFactor: 3,
-      isMobile: true,
-      hasTouch: true,
-    })
-    const page = await context.newPage()
-    await skipOnboarding(page)
-    await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/40-mobile-home.png', fullPage: false })
-
-    // Navigate to Profile on mobile
     await navigateToTab(page, 'profile')
     await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/41-mobile-profile.png', fullPage: false })
-
-    // Navigate to Social on mobile
-    await navigateToTab(page, 'social')
-    await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/42-mobile-social.png', fullPage: false })
-
-    await context.close()
-  })
-
-  test('Desktop viewport (1920x1080)', async ({ browser }) => {
-    const context = await browser.newContext({
-      viewport: { width: 1920, height: 1080 },
+    await expect(page).toHaveScreenshot('theme-light.png', {
+      maxDiffPixelRatio: 0.03,
     })
-    const page = await context.newPage()
-    await skipOnboarding(page)
-    await page.waitForTimeout(500)
-    await page.screenshot({ path: 'screenshots/43-desktop-home.png', fullPage: false })
-    await context.close()
   })
 })
