@@ -912,61 +912,9 @@ window.openAuth = (reason) => {
 }
 window.closeAuth = () => setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
 window.setAuthMode = (mode) => setState({ authMode: mode })
-window.handleLogin = async (e) => {
-  e?.preventDefault()
-  const form = document.getElementById('auth-form')
-  if (!form) return
-  const email = form.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value
-  const password = form.querySelector('[name="password"]')?.value || document.getElementById('auth-password')?.value
-  if (!email || !password) {
-    showToast(t('fillAllFields') || 'Please fill all fields', 'error')
-    return
-  }
-  const fb = await getFirebase()
-  fb.initializeFirebase()
-  const result = await fb.signIn(email, password)
-  if (result.success) {
-    await fb.createOrUpdateUserProfile(result.user)
-    fb.onAuthChange((user) => {
-      actions.setUser(user)
-      setState({ currentUser: user, userProfile: { uid: user?.uid, email: user?.email, displayName: user?.displayName, photoURL: user?.photoURL } })
-      import('./services/sentry.js').then(m => m.setUser(user)).catch(() => {})
-    })
-    setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
-    showToast(t('loginSuccess') || 'Login successful!', 'success')
-  } else {
-    showToast(t('loginError') || 'Login error', 'error')
-  }
-}
-window.handleSignup = async (e) => {
-  e?.preventDefault()
-  const form = document.getElementById('auth-form')
-  if (!form) return
-  const name = form.querySelector('[name="name"]')?.value || document.getElementById('auth-username')?.value
-  const email = form.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value
-  const password = form.querySelector('[name="password"]')?.value || document.getElementById('auth-password')?.value
-  if (!email || !password) {
-    showToast(t('fillAllFields') || 'Please fill all fields', 'error')
-    return
-  }
-  const fb = await getFirebase()
-  fb.initializeFirebase()
-  const result = await fb.signUp(email, password, name || 'Hitchhiker')
-  if (result.success) {
-    await fb.createOrUpdateUserProfile(result.user)
-    fb.onAuthChange((user) => {
-      actions.setUser(user)
-      setState({ currentUser: user, userProfile: { uid: user?.uid, email: user?.email, displayName: user?.displayName, photoURL: user?.photoURL } })
-      import('./services/sentry.js').then(m => m.setUser(user)).catch(() => {})
-    })
-    setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
-    showToast(t('accountCreated') || 'Account created!', 'success')
-  } else {
-    showToast(t('signupError') || 'Signup error', 'error')
-  }
-}
+// Email login/signup is handled by Auth.js via window.handleAuth (with executePendingAction)
 // Social auth handlers are defined in Auth.js (handleGoogleSignIn, handleAppleSignIn, handleFacebookSignIn)
-// We just need fallback registrations for the ones main.js previously defined
+// Fallback registrations in case Auth.js hasn't loaded yet — must also resume authPendingAction
 if (!window.handleGoogleSignIn) {
   window.handleGoogleSignIn = async () => {
     const fb = await getFirebase()
@@ -975,8 +923,10 @@ if (!window.handleGoogleSignIn) {
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
       fb.onAuthChange((user) => actions.setUser(user))
+      const pendingAction = getState().authPendingAction
       setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
       showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
+      if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
     } else {
       showToast(t('googleLoginError') || 'Google login error', 'error')
     }
@@ -990,8 +940,10 @@ if (!window.handleFacebookSignIn) {
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
       fb.onAuthChange((user) => actions.setUser(user))
+      const pendingAction = getState().authPendingAction
       setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
       showToast(t('facebookLoginSuccess') || 'Facebook login successful!', 'success')
+      if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
     } else {
       showToast(t('facebookLoginError') || 'Facebook login error', 'error')
     }
@@ -1005,8 +957,10 @@ if (!window.handleAppleSignIn) {
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
       fb.onAuthChange((user) => actions.setUser(user))
+      const pendingAction = getState().authPendingAction
       setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
       showToast(t('appleLoginSuccess') || 'Apple login successful!', 'success')
+      if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
     } else {
       showToast(t('authError'), 'error')
     }

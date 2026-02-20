@@ -82,15 +82,15 @@ Chaque erreur suit ce format :
 - **Fichiers** : `memory/MEMORY.md`, `memory/features.md`, `CLAUDE.md`
 - **Statut** : CORRIGÉ
 
-### ERR-007 — Modal profil s'ouvre PAR-DESSUS AddSpot
+### ERR-007 — Modal profil s'ouvre PAR-DESSUS AddSpot + auth ne reprend pas l'action
 - **Date** : 2026-02-20
 - **Gravité** : MAJEUR
-- **Description** : Quand on clique "Ajouter un spot", le modal "Set up your profile" s'ouvre par-dessus le formulaire AddSpot. L'utilisateur voit le modal profil mais pas le formulaire. Les toasts d'erreur de validation apparaissent derrière le modal profil.
-- **Cause racine** : `openAddSpot` appelle d'abord `requireProfile` qui ouvre le modal profil, PUIS `setState({ showAddSpot: true })`. Les deux modaux s'ouvrent en même temps mais le profil est au-dessus.
-- **Correction** : À FAIRE — `requireProfile` devrait retourner false et NE PAS ouvrir AddSpot si le profil n'est pas configuré. Le formulaire AddSpot ne devrait s'ouvrir qu'APRÈS que le profil est complété.
-- **Leçon** : **Quand deux modaux peuvent s'ouvrir en séquence, le premier doit BLOQUER le second.** Ne jamais ouvrir deux modaux en même temps.
-- **Fichiers** : `src/main.js`
-- **Statut** : À FAIRE
+- **Description** : Deux problèmes liés : (1) Le modal profil s'ouvrait par-dessus AddSpot. (2) Après connexion (email/Google/Facebook/Apple), l'action en attente (`authPendingAction: 'addSpot'`) était effacée sans reprendre l'action — l'utilisateur devait re-cliquer "Ajouter un spot".
+- **Cause racine** : (1) `openAddSpot` n'avait pas de `return` après `requireProfile` → les deux modaux s'ouvraient. (2) `handleLogin`/`handleSignup` dans main.js effaçaient `authPendingAction` sans la reprendre. Les fallback handlers sociaux dans main.js faisaient pareil.
+- **Correction** : (1) Le `return` après `requireProfile` bloque correctement l'ouverture d'AddSpot. (2) Supprimé `handleLogin`/`handleSignup` (code mort — le formulaire utilise `handleAuth` d'Auth.js qui reprend `authPendingAction` via `executePendingAction`). (3) Ajouté la reprise de `authPendingAction` dans les fallback handlers sociaux de main.js.
+- **Leçon** : **Quand une action est interrompue par une étape requise (auth, profil), l'action DOIT être reprise automatiquement après l'étape.** Ne jamais effacer `pendingAction` sans la reprendre. Et ne jamais avoir de code mort qui peut être confondu avec le vrai handler.
+- **Fichiers** : `src/main.js`, `tests/wiring/globalHandlers.test.js`
+- **Statut** : CORRIGÉ
 
 ---
 
@@ -128,4 +128,4 @@ Chaque erreur suit ce format :
 
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
-| 2026-02-20 | 10 | 9 | 1 |
+| 2026-02-20 | 10 | 10 | 0 |

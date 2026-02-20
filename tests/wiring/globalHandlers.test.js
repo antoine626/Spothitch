@@ -28,7 +28,7 @@ const MAIN_JS_HANDLERS = [
   'openSOS', 'closeSOS', 'shareSOSLocation', 'markSafe',
   'addEmergencyContact', 'removeEmergencyContact',
   // Auth
-  'openAuth', 'closeAuth', 'setAuthMode', 'handleLogin', 'handleSignup',
+  'openAuth', 'closeAuth', 'setAuthMode',
   'handleGoogleSignIn', 'handleFacebookSignIn', 'handleAppleLogin', 'handleAppleSignIn',
   'handleForgotPassword', 'handleLogout', 'requireAuth',
   // Age Verification
