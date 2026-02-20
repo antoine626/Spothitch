@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpotHitch — Social Tab (20 designs)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:16px}
+h1{text-align:center;font-size:1.3rem;margin-bottom:24px;color:#818cf8}
+.grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.card{width:360px;background:#1e293b;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.card h2{font-size:.8rem;padding:10px 14px 6px;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.05)}
+.m{padding:10px;font-size:.75rem}
+.btn{padding:5px 12px;border-radius:8px;border:none;font-size:.7rem;cursor:pointer;font-weight:600}
+.bp{background:#818cf8;color:#fff}.bg{background:rgba(129,140,248,.15);color:#818cf8}
+.be{background:#ef4444;color:#fff}.bs{background:#34d399;color:#0f172a}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.6rem;font-weight:600}
+.row{display:flex;align-items:center;gap:8px;padding:6px;background:rgba(255,255,255,.03);border-radius:8px;margin:3px 0}
+.av{width:28px;height:28px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+.meta{color:#64748b;font-size:.6rem}
+.tab-bar{display:flex;gap:2px;background:#0f172a;border-radius:10px;padding:2px;margin-bottom:8px}
+.tab{flex:1;text-align:center;padding:6px;border-radius:8px;font-size:.7rem;font-weight:600;color:#94a3b8;cursor:pointer}
+.tab.active{background:#818cf8;color:#fff}
+.post{background:#0f172a;border-radius:10px;padding:8px;margin-bottom:6px;border:1px solid rgba(255,255,255,.04)}
+</style></head><body>
+<h1>💬 Onglet Social — 20 Designs</h1>
+<div class="grid">
+
+<!-- 1: Feed activité -->
+<div class="card"><h2>1 — Feed d'activité</h2><div class="m">
+<div class="tab-bar"><div class="tab active">Feed</div><div class="tab">Amis</div><div class="tab">Messages</div></div>
+<div class="post">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><div class="av">👩</div><b style="font-size:.7rem">Marie</b><span class="meta">· il y a 30min</span></div>
+  <div style="font-size:.7rem;margin-bottom:4px">Trouvé un lift en 5 min à la station Total Senlis ! 🎉</div>
+  <div style="display:flex;gap:8px"><span class="meta">👍 12</span><span class="meta">💬 3</span></div>
+</div>
+<div class="post">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><div class="av">👨</div><b style="font-size:.7rem">Lucas</b><span class="meta">· il y a 2h</span></div>
+  <div style="font-size:.7rem;margin-bottom:4px">A ajouté un nouveau spot près de Lille ⭐⭐⭐⭐</div>
+  <div style="display:flex;gap:8px"><span class="meta">👍 8</span><span class="meta">💬 1</span></div>
+</div>
+</div></div>
+
+<!-- 2: Stories/statuts -->
+<div class="card"><h2>2 — Stories d'autostoppeurs</h2><div class="m">
+<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:6px">
+  <div style="text-align:center;min-width:50px"><div class="av" style="width:44px;height:44px;border:2px solid #818cf8;margin:0 auto 2px;font-size:.9rem">+</div><span class="meta">Toi</span></div>
+  <div style="text-align:center;min-width:50px"><div class="av" style="width:44px;height:44px;border:2px solid #34d399;margin:0 auto 2px;font-size:.9rem">👩</div><span class="meta">Marie</span></div>
+  <div style="text-align:center;min-width:50px"><div class="av" style="width:44px;height:44px;border:2px solid #fbbf24;margin:0 auto 2px;font-size:.9rem">👨</div><span class="meta">Lucas</span></div>
+  <div style="text-align:center;min-width:50px"><div class="av" style="width:44px;height:44px;border:2px solid #818cf8;margin:0 auto 2px;font-size:.9rem">👩</div><span class="meta">Léa</span></div>
+</div>
+<div class="post"><div style="display:flex;align-items:center;gap:6px"><div class="av">👩</div><div><b style="font-size:.7rem">Marie</b> est en route vers Lyon<br><span class="meta">📍 Aire de Venoy · il y a 20min</span></div></div></div>
+</div></div>
+
+<!-- 3: Forum/discussions -->
+<div class="card"><h2>3 — Forum discussions</h2><div class="m">
+<div class="tab-bar"><div class="tab active">Discussions</div><div class="tab">Questions</div><div class="tab">Tips</div></div>
+<div class="post" style="border-left:3px solid #818cf8">
+  <div style="display:flex;justify-content:space-between;margin-bottom:3px"><b style="font-size:.75rem">Meilleurs spots Paris→Lyon ?</b><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">12 rép.</span></div>
+  <div class="meta">Par Marie · il y a 1h · 👍 8</div>
+</div>
+<div class="post" style="border-left:3px solid #34d399">
+  <div style="display:flex;justify-content:space-between;margin-bottom:3px"><b style="font-size:.75rem">Autostop en hiver — conseils ?</b><span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">24 rép.</span></div>
+  <div class="meta">Par Lucas · il y a 3h · 👍 15</div>
+</div>
+<div class="post" style="border-left:3px solid #fbbf24">
+  <div style="display:flex;justify-content:space-between;margin-bottom:3px"><b style="font-size:.75rem">Panneau ou pas panneau ?</b><span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24">6 rép.</span></div>
+  <div class="meta">Par Tom · il y a 5h · 👍 4</div>
+</div>
+</div></div>
+
+<!-- 4: Messagerie -->
+<div class="card"><h2>4 — Messagerie directe</h2><div class="m">
+<div class="tab-bar"><div class="tab">Feed</div><div class="tab">Amis</div><div class="tab active">Messages</div></div>
+<div class="row"><div class="av" style="border:2px solid #34d399">👩</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><b style="font-size:.7rem">Marie</b><span class="meta">il y a 5min</span></div><div class="meta">On se retrouve à la station ?</div></div><div style="width:8px;height:8px;border-radius:50%;background:#818cf8;flex-shrink:0"></div></div>
+<div class="row"><div class="av">👨</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><b style="font-size:.7rem">Lucas</b><span class="meta">hier</span></div><div class="meta">Merci pour le tuyau !</div></div></div>
+<div class="row" style="opacity:.6"><div class="av">👩</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><b style="font-size:.7rem">Léa</b><span class="meta">lun.</span></div><div class="meta">Super spot, bien trouvé</div></div></div>
+</div></div>
+
+<!-- 5: Carte des amis -->
+<div class="card"><h2>5 — Carte amis en direct</h2><div class="m">
+<div style="height:100px;background:linear-gradient(135deg,#1a2744,#0f172a);border-radius:10px;position:relative;margin-bottom:6px;display:flex;align-items:center;justify-content:center">
+  <span style="color:#475569;font-size:.65rem">🗺️ Amis en direct</span>
+  <div style="position:absolute;top:20px;left:30%;width:10px;height:10px;border-radius:50%;background:#34d399;border:2px solid #0f172a"></div>
+  <div style="position:absolute;top:50px;right:25%;width:10px;height:10px;border-radius:50%;background:#818cf8;border:2px solid #0f172a"></div>
+</div>
+<div style="display:flex;gap:6px"><span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">👩 Marie — Lyon</span><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">👨 Lucas — Lille</span></div>
+</div></div>
+
+<!-- 6: Événements -->
+<div class="card"><h2>6 — Événements communauté</h2><div class="m">
+<div class="post" style="border:1px solid rgba(129,140,248,.2);background:linear-gradient(135deg,rgba(129,140,248,.05),transparent)">
+  <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:4px"><div><span style="font-size:.8rem">🎪</span> <b style="font-size:.75rem">Rencontre Paris</b></div><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">25 fév</span></div>
+  <div class="meta" style="margin-bottom:4px">Bar Le Hibou, 20h · 12 inscrits</div>
+  <button class="btn bp" style="width:100%;font-size:.65rem">Participer</button>
+</div>
+<div class="post">
+  <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:4px"><div><span style="font-size:.8rem">🏕️</span> <b style="font-size:.75rem">Camp autostop Lyon</b></div><span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24">1 mars</span></div>
+  <div class="meta">Parc Tête d'Or, 14h · 8 inscrits</div>
+</div>
+</div></div>
+
+<!-- 7: Classement social -->
+<div class="card"><h2>7 — Classement social</h2><div class="m">
+<div class="tab-bar"><div class="tab active">Top contrib.</div><div class="tab">Top amis</div><div class="tab">Nearby</div></div>
+<div class="row" style="border-left:3px solid #fbbf24"><span style="font-weight:700;color:#fbbf24;width:20px;text-align:center">🥇</span><div class="av">👩</div><div style="flex:1"><b style="font-size:.7rem">Marie</b><br><span class="meta">156 spots · ⭐ 4.8</span></div><span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24">1 560 pts</span></div>
+<div class="row" style="border-left:3px solid #94a3b8"><span style="font-weight:700;color:#94a3b8;width:20px;text-align:center">🥈</span><div class="av">👨</div><div style="flex:1"><b style="font-size:.7rem">Lucas</b><br><span class="meta">98 spots · ⭐ 4.5</span></div><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">980 pts</span></div>
+<div class="row" style="border-left:3px solid #cd7f32"><span style="font-weight:700;color:#cd7f32;width:20px;text-align:center">🥉</span><div class="av">👩</div><div style="flex:1"><b style="font-size:.7rem">Léa</b><br><span class="meta">67 spots · ⭐ 4.2</span></div><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">670 pts</span></div>
+</div></div>
+
+<!-- 8: Groupes de voyage -->
+<div class="card"><h2>8 — Groupes de voyage</h2><div class="m">
+<div class="post"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:.9rem">🇫🇷</span><b style="font-size:.75rem">Autostop France</b><span class="pill" style="background:rgba(52,211,153,.2);color:#34d399;margin-left:auto">234 membres</span></div><div class="meta">Dernière activité il y a 10min</div></div>
+<div class="post"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:.9rem">🇪🇺</span><b style="font-size:.75rem">Euro Hitchhikers</b><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8;margin-left:auto">1.2k membres</span></div><div class="meta">Dernière activité il y a 1h</div></div>
+<div class="post"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:.9rem">👩</span><b style="font-size:.75rem">Women Hitchhikers</b><span class="pill" style="background:rgba(248,113,113,.2);color:#f87171;margin-left:auto">89 membres</span></div><div class="meta">Safe space · Dernière activité il y a 3h</div></div>
+</div></div>
+
+<!-- 9: Profil social compact -->
+<div class="card"><h2>9 — Profil social compact</h2><div class="m">
+<div style="display:flex;align-items:center;gap:10px;background:#0f172a;border-radius:10px;padding:8px;margin-bottom:6px">
+  <div class="av" style="width:44px;height:44px;font-size:1.1rem">👩</div>
+  <div style="flex:1">
+    <b>Marie</b> <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">✓</span><br>
+    <span class="meta">⭐ 4.8 · Lvl. 5 · 12 pays · 156 spots</span>
+  </div>
+  <button class="btn bp" style="font-size:.6rem">+ Ami</button>
+</div>
+<div style="display:flex;gap:4px">
+  <div style="flex:1;background:#0f172a;border-radius:8px;padding:4px;text-align:center"><div style="font-weight:700;color:#818cf8">156</div><div class="meta">Spots</div></div>
+  <div style="flex:1;background:#0f172a;border-radius:8px;padding:4px;text-align:center"><div style="font-weight:700;color:#34d399">12</div><div class="meta">Pays</div></div>
+  <div style="flex:1;background:#0f172a;border-radius:8px;padding:4px;text-align:center"><div style="font-weight:700;color:#fbbf24">4.8</div><div class="meta">Note</div></div>
+</div>
+</div></div>
+
+<!-- 10: Notifications sociales -->
+<div class="card"><h2>10 — Notifications sociales</h2><div class="m">
+<div class="row" style="background:rgba(129,140,248,.08)"><div class="av" style="background:#818cf8;color:#fff">👍</div><div style="flex:1"><b style="font-size:.7rem">Marie</b> a aimé ton spot<br><span class="meta">Station Senlis · il y a 5min</span></div></div>
+<div class="row" style="background:rgba(52,211,153,.05)"><div class="av" style="background:#34d399;color:#0f172a">🤝</div><div style="flex:1"><b style="font-size:.7rem">Lucas</b> veut voyager avec toi<br><span class="meta">Paris→Lille · il y a 1h</span></div><button class="btn bp" style="font-size:.6rem">✓</button></div>
+<div class="row"><div class="av" style="background:#fbbf24;color:#0f172a">⭐</div><div style="flex:1"><b style="font-size:.7rem">Léa</b> t'a donné 5 étoiles<br><span class="meta">Trajet Paris→Lyon · hier</span></div></div>
+</div></div>
+
+<!-- 11: Mur d'un spot -->
+<div class="card"><h2>11 — Commentaires d'un spot</h2><div class="m">
+<div style="display:flex;align-items:center;gap:6px;padding:6px;background:#0f172a;border-radius:8px;margin-bottom:6px"><span style="font-size:.9rem">📍</span><div><b style="font-size:.75rem">Station Total Senlis</b><br><span class="meta">⭐⭐⭐⭐⭐ · 23 avis</span></div></div>
+<div class="post" style="padding:6px"><div style="display:flex;align-items:center;gap:4px;margin-bottom:2px"><div class="av" style="width:20px;height:20px;font-size:.55rem">👩</div><b style="font-size:.65rem">Marie</b><span class="meta">· fév 2026</span></div><div style="font-size:.7rem">Super spot ! Lift en 5 min, les routiers sont sympas.</div></div>
+<div class="post" style="padding:6px"><div style="display:flex;align-items:center;gap:4px;margin-bottom:2px"><div class="av" style="width:20px;height:20px;font-size:.55rem">👨</div><b style="font-size:.65rem">Lucas</b><span class="meta">· jan 2026</span></div><div style="font-size:.7rem">Confirmé, spot au top. Panneau utile.</div></div>
+<div style="display:flex;gap:4px;margin-top:4px"><input style="flex:1;background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:5px 8px;color:#e2e8f0;font-size:.7rem" placeholder="Ajouter un avis..."><button class="btn bp">→</button></div>
+</div></div>
+
+<!-- 12: Badge mur -->
+<div class="card"><h2>12 — Mur de badges</h2><div class="m">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><div class="av">👩</div><b style="font-size:.75rem">Marie</b><span class="meta">· 12 badges</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">
+  <div style="width:50px;text-align:center"><div style="font-size:1.3rem">🏆</div><span class="meta">Pioneer</span></div>
+  <div style="width:50px;text-align:center"><div style="font-size:1.3rem">🗺️</div><span class="meta">10 pays</span></div>
+  <div style="width:50px;text-align:center"><div style="font-size:1.3rem">⭐</div><span class="meta">100 spots</span></div>
+  <div style="width:50px;text-align:center"><div style="font-size:1.3rem">🤝</div><span class="meta">10 amis</span></div>
+  <div style="width:50px;text-align:center"><div style="font-size:1.3rem">🌍</div><span class="meta">Europe</span></div>
+  <div style="width:50px;text-align:center;opacity:.3"><div style="font-size:1.3rem">🔒</div><span class="meta">???</span></div>
+</div>
+</div></div>
+
+<!-- 13: Demande d'aide -->
+<div class="card"><h2>13 — Demande d'aide communauté</h2><div class="m">
+<div class="post" style="border:1px solid rgba(251,191,36,.2);background:rgba(251,191,36,.05)">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:.8rem">🆘</span><b style="font-size:.75rem">Besoin d'aide</b><span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24;margin-left:auto">Urgent</span></div>
+  <div style="font-size:.7rem;margin-bottom:4px">Je suis bloqué sur l'A6 direction Lyon, personne ne s'arrête depuis 1h. Des tips ?</div>
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="meta">Par Tom · il y a 15min</span><button class="btn bp" style="font-size:.6rem">💬 Aider</button></div>
+</div>
+</div></div>
+
+<!-- 14: Carnet de voyage -->
+<div class="card"><h2>14 — Carnet de voyage partagé</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:8px;margin-bottom:6px">
+  <div style="display:flex;justify-content:space-between;margin-bottom:4px"><b style="font-size:.8rem">📔 Mon carnet — Paris→Istanbul</b><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Jour 5</span></div>
+  <div style="height:50px;background:#1e293b;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:4px"><span class="meta">📷 Photo du trajet</span></div>
+  <div style="font-size:.7rem">"Arrivé à Budapest ! 3 lifts aujourd'hui, le dernier avec un couple hongrois adorable 🇭🇺"</div>
+  <div style="display:flex;gap:8px;margin-top:4px"><span class="meta">❤️ 34</span><span class="meta">💬 8</span><span class="meta">🔖 12</span></div>
+</div>
+</div></div>
+
+<!-- 15: Tips communautaires -->
+<div class="card"><h2>15 — Tips & astuces</h2><div class="m">
+<div class="post" style="border-left:3px solid #34d399;padding:6px">
+  <b style="font-size:.75rem">💡 Astuce du jour</b>
+  <div style="font-size:.7rem;margin:4px 0">En station-service, approchez les conducteurs directement à la pompe. Taux de réussite 80% !</div>
+  <div class="meta">Par Marie · 👍 45 · Vérifié ✓</div>
+</div>
+<div class="post" style="border-left:3px solid #818cf8;padding:6px">
+  <b style="font-size:.75rem">💡 Le panneau parfait</b>
+  <div style="font-size:.7rem;margin:4px 0">Écrivez gros, la prochaine GRANDE ville, pas votre destination finale.</div>
+  <div class="meta">Par Lucas · 👍 32 · Vérifié ✓</div>
+</div>
+</div></div>
+
+<!-- 16: Parrainage -->
+<div class="card"><h2>16 — Système de parrainage</h2><div class="m">
+<div style="text-align:center;background:#0f172a;border-radius:10px;padding:10px">
+  <div style="font-size:1.3rem;margin-bottom:4px">🎁</div>
+  <b style="font-size:.8rem">Invite tes amis !</b>
+  <div class="meta" style="margin:6px 0">Gagne 50 points par ami qui s'inscrit</div>
+  <div style="background:#1e293b;border-radius:8px;padding:6px;margin:6px 0;display:flex;align-items:center;gap:4px">
+    <span style="font-size:.7rem;color:#818cf8;flex:1">spothitch.com/invite/marie42</span>
+    <button class="btn bp" style="font-size:.6rem">📋 Copier</button>
+  </div>
+  <div class="meta">2 amis déjà invités · 100 points gagnés</div>
+</div>
+</div></div>
+
+<!-- 17: Récits de voyage -->
+<div class="card"><h2>17 — Récits de voyage</h2><div class="m">
+<div class="tab-bar"><div class="tab active">Récits</div><div class="tab">Photos</div><div class="tab">Vidéos</div></div>
+<div class="post">
+  <div style="height:60px;background:linear-gradient(135deg,#2a1a44,#1e293b);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:6px"><span style="font-size:.7rem;color:#818cf8">📸 Photo de couverture</span></div>
+  <b style="font-size:.8rem">Paris → Istanbul en 7 jours 🚀</b>
+  <div class="meta" style="margin:2px 0">Par Marie · 5 pays · 23 lifts · fév 2026</div>
+  <div style="display:flex;gap:8px;margin-top:4px"><span class="meta">❤️ 89</span><span class="meta">💬 23</span><span class="meta">📖 5min</span></div>
+</div>
+</div></div>
+
+<!-- 18: Marketplace -->
+<div class="card"><h2>18 — Échanges / marketplace</h2><div class="m">
+<div class="post"><div style="display:flex;gap:8px"><div style="width:50px;height:50px;background:#334155;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">🎒</div><div><b style="font-size:.75rem">Sac à dos 40L</b><br><span class="meta">État : bon · Paris · Gratuit</span><br><span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">Don</span></div></div></div>
+<div class="post"><div style="display:flex;gap:8px"><div style="width:50px;height:50px;background:#334155;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">🏕️</div><div><b style="font-size:.75rem">Tente 2 places</b><br><span class="meta">État : neuf · Lyon · 30€</span><br><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Vente</span></div></div></div>
+</div></div>
+
+<!-- 19: Système de réputation -->
+<div class="card"><h2>19 — Réputation détaillée</h2><div class="m">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="av" style="width:36px;height:36px;font-size:.9rem">👩</div><div><b>Marie</b><br><span class="meta">Membre depuis jan 2025</span></div><div style="margin-left:auto;text-align:right"><div style="font-size:1rem;font-weight:700;color:#fbbf24">4.8</div><div class="meta">/ 5.0</div></div></div>
+<div style="margin-bottom:6px">
+  <div style="display:flex;align-items:center;gap:4px;margin:2px 0"><span class="meta" style="width:70px">Fiabilité</span><div style="flex:1;height:4px;background:#334155;border-radius:2px"><div style="width:95%;height:100%;background:#34d399;border-radius:2px"></div></div><span class="meta">95%</span></div>
+  <div style="display:flex;align-items:center;gap:4px;margin:2px 0"><span class="meta" style="width:70px">Sympathie</span><div style="flex:1;height:4px;background:#334155;border-radius:2px"><div style="width:90%;height:100%;background:#818cf8;border-radius:2px"></div></div><span class="meta">90%</span></div>
+  <div style="display:flex;align-items:center;gap:4px;margin:2px 0"><span class="meta" style="width:70px">Ponctualité</span><div style="flex:1;height:4px;background:#334155;border-radius:2px"><div style="width:85%;height:100%;background:#fbbf24;border-radius:2px"></div></div><span class="meta">85%</span></div>
+</div>
+</div></div>
+
+<!-- 20: Complet (recommandé) -->
+<div class="card"><h2>20 — Complet (recommandé)</h2><div class="m">
+<div class="tab-bar"><div class="tab active">Feed</div><div class="tab">Forum</div><div class="tab">Amis</div><div class="tab">Msgs</div></div>
+<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:6px">
+  <div style="text-align:center;min-width:40px"><div class="av" style="width:36px;height:36px;border:2px solid #818cf8;margin:0 auto 2px;font-size:.7rem">+</div><span style="font-size:.5rem;color:#64748b">Toi</span></div>
+  <div style="text-align:center;min-width:40px"><div class="av" style="width:36px;height:36px;border:2px solid #34d399;margin:0 auto 2px;font-size:.7rem">👩</div><span style="font-size:.5rem;color:#64748b">Marie</span></div>
+  <div style="text-align:center;min-width:40px"><div class="av" style="width:36px;height:36px;border:2px solid #fbbf24;margin:0 auto 2px;font-size:.7rem">👨</div><span style="font-size:.5rem;color:#64748b">Lucas</span></div>
+</div>
+<div class="post">
+  <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px"><div class="av" style="width:22px;height:22px;font-size:.55rem">👩</div><b style="font-size:.7rem">Marie</b><span class="meta">· 30min</span><span class="pill" style="background:rgba(52,211,153,.2);color:#34d399;margin-left:auto;font-size:.5rem">✓ Vérifié</span></div>
+  <div style="font-size:.7rem">Lift en 5 min à Senlis ! 🎉 Le meilleur spot du trajet.</div>
+  <div style="display:flex;gap:8px;margin-top:3px"><span class="meta" style="cursor:pointer">👍 12</span><span class="meta" style="cursor:pointer">💬 3</span><span class="meta" style="cursor:pointer">📍 Voir spot</span></div>
+</div>
+<div class="post" style="border:1px solid rgba(251,191,36,.15)">
+  <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px"><div class="av" style="width:22px;height:22px;font-size:.55rem">👨</div><b style="font-size:.7rem">Tom</b><span class="meta">· 15min</span><span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24;margin-left:auto;font-size:.5rem">🆘 Aide</span></div>
+  <div style="font-size:.7rem">Bloqué A6 depuis 1h, des tips ?</div>
+  <div style="display:flex;gap:4px;margin-top:3px"><button class="btn bp" style="font-size:.6rem;padding:3px 8px">💬 Aider</button><span class="meta" style="align-self:center">👍 5 · 💬 8</span></div>
+</div>
+</div></div>
+
+</div>
+</body></html>

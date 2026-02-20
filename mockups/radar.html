@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpotHitch — Proximity Radar (20 designs)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:16px}
+h1{text-align:center;font-size:1.3rem;margin-bottom:24px;color:#818cf8}
+.grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.card{width:360px;background:#1e293b;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.card h2{font-size:.8rem;padding:10px 14px 6px;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.05)}
+.m{padding:10px;font-size:.75rem}
+.btn{padding:5px 12px;border-radius:8px;border:none;font-size:.7rem;cursor:pointer;font-weight:600}
+.bp{background:#818cf8;color:#fff}.bg{background:rgba(129,140,248,.15);color:#818cf8}
+.be{background:#ef4444;color:#fff}.bs{background:#34d399;color:#0f172a}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.6rem;font-weight:600}
+.row{display:flex;align-items:center;gap:8px;padding:6px;background:rgba(255,255,255,.03);border-radius:8px;margin:3px 0}
+.meta{color:#64748b;font-size:.6rem}
+.radar-circle{width:160px;height:160px;border-radius:50%;border:1px solid rgba(129,140,248,.15);display:flex;align-items:center;justify-content:center;position:relative;margin:0 auto}
+@keyframes ping{0%{transform:scale(1);opacity:.5}100%{transform:scale(2);opacity:0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+</style></head><body>
+<h1>📡 Radar de proximité — 20 Designs</h1>
+<div class="grid">
+
+<!-- 1: Radar classique -->
+<div class="card"><h2>1 — Radar classique</h2><div class="m">
+<div class="radar-circle" style="border:2px solid rgba(129,140,248,.1)">
+  <div style="position:absolute;width:120px;height:120px;border-radius:50%;border:1px solid rgba(129,140,248,.08)"></div>
+  <div style="position:absolute;width:80px;height:80px;border-radius:50%;border:1px solid rgba(129,140,248,.06)"></div>
+  <div style="position:absolute;width:12px;height:12px;border-radius:50%;background:#818cf8"></div>
+  <div style="position:absolute;top:20px;right:30px;width:8px;height:8px;border-radius:50%;background:#34d399"></div>
+  <div style="position:absolute;bottom:35px;left:25px;width:8px;height:8px;border-radius:50%;background:#fbbf24"></div>
+  <div style="position:absolute;top:50px;left:45px;width:8px;height:8px;border-radius:50%;background:#f87171"></div>
+</div>
+<div class="meta" style="text-align:center;margin-top:6px">3 autostoppeurs à moins de 5km</div>
+</div></div>
+
+<!-- 2: Liste proximité -->
+<div class="card"><h2>2 — Liste par distance</h2><div class="m">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+  <span style="font-size:1rem">📡</span><b>Autostoppeurs proches</b>
+  <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399;margin-left:auto">3 en ligne</span>
+</div>
+<div class="row" style="border-left:3px solid #34d399"><div style="width:28px;height:28px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:.7rem">👩</div><div style="flex:1"><b>Marie</b><br><span class="meta">📍 500m · Paris→Lyon · En attente</span></div><button class="btn bp" style="font-size:.6rem">👋</button></div>
+<div class="row" style="border-left:3px solid #fbbf24"><div style="width:28px;height:28px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:.7rem">👨</div><div style="flex:1"><b>Lucas</b><br><span class="meta">📍 1.2km · Paris→Lille · En route</span></div><button class="btn bp" style="font-size:.6rem">👋</button></div>
+<div class="row" style="border-left:3px solid #f87171"><div style="width:28px;height:28px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:.7rem">👩</div><div style="flex:1"><b>Léa</b><br><span class="meta">📍 3.5km · Bordeaux→Toulouse · En attente</span></div><button class="btn bp" style="font-size:.6rem">👋</button></div>
+</div></div>
+
+<!-- 3: Carte radar -->
+<div class="card"><h2>3 — Carte avec cercles</h2><div class="m">
+<div style="height:120px;background:linear-gradient(135deg,#1a2744,#0f172a);border-radius:10px;position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:6px">
+  <div style="width:100px;height:100px;border-radius:50%;border:1px dashed rgba(129,140,248,.15);position:absolute"></div>
+  <div style="width:60px;height:60px;border-radius:50%;border:1px dashed rgba(129,140,248,.1);position:absolute"></div>
+  <div style="width:14px;height:14px;border-radius:50%;background:#818cf8;position:absolute;z-index:2"></div>
+  <div style="width:8px;height:8px;border-radius:50%;background:#34d399;position:absolute;top:25px;right:70px"></div>
+  <div style="width:8px;height:8px;border-radius:50%;background:#fbbf24;position:absolute;bottom:30px;left:60px"></div>
+  <span style="position:absolute;bottom:4px;right:8px;color:#475569;font-size:.55rem">1km — 5km</span>
+</div>
+<div style="display:flex;gap:6px"><span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">● &lt;1km (1)</span><span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24">● 1-5km (1)</span></div>
+</div></div>
+
+<!-- 4: Notification push -->
+<div class="card"><h2>4 — Notification push</h2><div class="m">
+<div style="background:linear-gradient(135deg,rgba(129,140,248,.12),rgba(52,211,153,.08));border:1px solid rgba(129,140,248,.2);border-radius:12px;padding:10px">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:1rem">📡</span><b>Autostoppeur détecté !</b></div>
+  <div class="meta" style="margin-bottom:6px">Marie est à 500m de toi et va aussi vers Lyon</div>
+  <div style="display:flex;gap:6px"><button class="btn bg" style="flex:1">Ignorer</button><button class="btn bp" style="flex:1">👋 Dire bonjour</button></div>
+</div>
+</div></div>
+
+<!-- 5: Widget carte -->
+<div class="card"><h2>5 — Widget overlay carte</h2><div class="m">
+<div style="background:#0f172a;border-radius:12px;padding:8px;border:1px solid rgba(129,140,248,.15)">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <span style="font-size:.75rem;font-weight:700">📡 Radar</span>
+    <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">3 proches</span>
+  </div>
+  <div style="display:flex;gap:4px">
+    <div style="flex:1;background:#1e293b;border-radius:8px;padding:4px;text-align:center"><div style="font-size:.9rem">👩</div><div class="meta">500m</div></div>
+    <div style="flex:1;background:#1e293b;border-radius:8px;padding:4px;text-align:center"><div style="font-size:.9rem">👨</div><div class="meta">1.2km</div></div>
+    <div style="flex:1;background:#1e293b;border-radius:8px;padding:4px;text-align:center"><div style="font-size:.9rem">👩</div><div class="meta">3.5km</div></div>
+  </div>
+</div>
+</div></div>
+
+<!-- 6: Paramètres radar -->
+<div class="card"><h2>6 — Réglages rayon</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:10px">
+  <div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="font-size:.8rem">📡 Rayon de détection</b><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">5 km</span></div>
+  <input type="range" min="1" max="50" value="5" style="width:100%;accent-color:#818cf8;margin-bottom:6px">
+  <div style="display:flex;justify-content:space-between"><span class="meta">1 km</span><span class="meta">50 km</span></div>
+  <div style="margin-top:8px;display:flex;align-items:center;gap:6px">
+    <div style="width:40px;height:20px;border-radius:10px;background:#818cf8;position:relative"><div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;right:2px;top:2px"></div></div>
+    <span style="font-size:.7rem">Notifications actives</span>
+  </div>
+</div>
+</div></div>
+
+<!-- 7: Bubble view -->
+<div class="card"><h2>7 — Vue bulles</h2><div class="m">
+<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px">
+  <div style="width:60px;height:60px;border-radius:50%;background:rgba(52,211,153,.15);border:2px solid #34d399;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-size:.9rem">👩</span><span style="font-size:.5rem;color:#34d399">500m</span></div>
+  <div style="width:50px;height:50px;border-radius:50%;background:rgba(251,191,36,.1);border:2px solid #fbbf24;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-size:.8rem">👨</span><span style="font-size:.5rem;color:#fbbf24">1.2km</span></div>
+  <div style="width:40px;height:40px;border-radius:50%;background:rgba(248,113,113,.1);border:2px solid #f87171;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-size:.7rem">👩</span><span style="font-size:.45rem;color:#f87171">3.5km</span></div>
+</div>
+<div class="meta" style="text-align:center">Taille = distance (plus gros = plus proche)</div>
+</div></div>
+
+<!-- 8: Panneau détail -->
+<div class="card"><h2>8 — Panneau détail personne</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:10px;border:1px solid rgba(52,211,153,.2)">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+    <div style="width:40px;height:40px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:1.1rem">👩</div>
+    <div><b>Marie</b> <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">✓</span><br><span class="meta">⭐ 4.8 · Lvl. 5 · 📍 500m</span></div>
+    <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399;margin-left:auto;animation:pulse 2s infinite">🟢</span>
+  </div>
+  <div class="meta" style="margin-bottom:6px">🛣️ Paris → Lyon · 🕐 En attente depuis 20min</div>
+  <div style="display:flex;gap:4px"><button class="btn bp" style="flex:1">💬 Message</button><button class="btn bg" style="flex:1">📍 Voir sur carte</button></div>
+</div>
+</div></div>
+
+<!-- 9: Compteur en temps réel -->
+<div class="card"><h2>9 — Compteur temps réel</h2><div class="m">
+<div style="text-align:center;padding:10px">
+  <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(129,140,248,.2),rgba(52,211,153,.1));display:flex;align-items:center;justify-content:center;margin:0 auto;border:2px solid rgba(129,140,248,.3)">
+    <span style="font-size:2rem;font-weight:700;color:#818cf8">3</span>
+  </div>
+  <div style="font-size:.8rem;font-weight:600;margin-top:6px">autostoppeurs proches</div>
+  <div class="meta">Dans un rayon de 5km · MàJ il y a 30s</div>
+  <div style="display:flex;justify-content:center;gap:12px;margin-top:8px">
+    <div><span style="color:#34d399;font-weight:700">1</span><br><span class="meta">&lt;1km</span></div>
+    <div><span style="color:#fbbf24;font-weight:700">1</span><br><span class="meta">1-3km</span></div>
+    <div><span style="color:#f87171;font-weight:700">1</span><br><span class="meta">3-5km</span></div>
+  </div>
+</div>
+</div></div>
+
+<!-- 10: Mode discret -->
+<div class="card"><h2>10 — Mode discret</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:10px;text-align:center">
+  <div style="font-size:1.3rem;margin-bottom:4px">👻</div>
+  <b style="font-size:.8rem">Mode fantôme</b>
+  <div class="meta" style="margin:6px 0">Tu es invisible sur le radar des autres.<br>Active ta position pour être visible.</div>
+  <div style="display:flex;gap:6px;margin-top:8px">
+    <button class="btn bg" style="flex:1">Rester invisible</button>
+    <button class="btn bs" style="flex:1">📍 Être visible</button>
+  </div>
+</div>
+</div></div>
+
+<!-- 11: Historique rencontres -->
+<div class="card"><h2>11 — Historique rencontres</h2><div class="m">
+<div class="meta" style="margin-bottom:6px;font-weight:600;color:#e2e8f0">🕐 Croisés récemment</div>
+<div class="row"><div style="width:24px;height:24px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:.6rem">👩</div><div style="flex:1"><b style="font-size:.7rem">Marie</b> · <span class="meta">Il y a 30min · Aire A6</span></div></div>
+<div class="row"><div style="width:24px;height:24px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:.6rem">👨</div><div style="flex:1"><b style="font-size:.7rem">Lucas</b> · <span class="meta">Il y a 2h · Station Senlis</span></div></div>
+<div class="row" style="opacity:.5"><div style="width:24px;height:24px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:.6rem">👩</div><div style="flex:1"><b style="font-size:.7rem">Léa</b> · <span class="meta">Hier · Péage A10</span></div></div>
+</div></div>
+
+<!-- 12: Mini radar FAB -->
+<div class="card"><h2>12 — Mini radar (bouton flottant)</h2><div class="m">
+<div style="text-align:center;padding:8px">
+  <div class="meta" style="margin-bottom:8px">Bouton sur la carte principale :</div>
+  <div style="width:52px;height:52px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;margin:0 auto;position:relative;box-shadow:0 4px 15px rgba(129,140,248,.3)">
+    <span style="font-size:1.2rem">📡</span>
+    <div style="position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:.6rem;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid #1e293b">3</div>
+  </div>
+  <div class="meta" style="margin-top:6px">Badge = nombre de personnes proches</div>
+</div>
+</div></div>
+
+<!-- 13: Alerte nouvelle personne -->
+<div class="card"><h2>13 — Alerte nouveau proche</h2><div class="m">
+<div style="background:linear-gradient(135deg,rgba(52,211,153,.1),rgba(129,140,248,.08));border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:8px;display:flex;align-items:center;gap:8px">
+  <div style="width:36px;height:36px;border-radius:50%;background:#34d399;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:1rem">👩</span></div>
+  <div style="flex:1"><b style="font-size:.75rem">Marie vient d'arriver !</b><br><span class="meta">📍 500m de toi · Paris→Lyon</span></div>
+  <button class="btn bp" style="font-size:.6rem">👋</button>
+</div>
+</div></div>
+
+<!-- 14: Statistiques radar -->
+<div class="card"><h2>14 — Stats radar zone</h2><div class="m">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+  <div style="background:#0f172a;border-radius:8px;padding:6px;text-align:center"><div style="font-size:1rem;font-weight:700;color:#818cf8">3</div><div class="meta">Proches (5km)</div></div>
+  <div style="background:#0f172a;border-radius:8px;padding:6px;text-align:center"><div style="font-size:1rem;font-weight:700;color:#34d399">12</div><div class="meta">Actifs (50km)</div></div>
+  <div style="background:#0f172a;border-radius:8px;padding:6px;text-align:center"><div style="font-size:1rem;font-weight:700;color:#fbbf24">~15min</div><div class="meta">Attente moy.</div></div>
+  <div style="background:#0f172a;border-radius:8px;padding:6px;text-align:center"><div style="font-size:1rem;font-weight:700;color:#fb923c">8</div><div class="meta">Spots ici</div></div>
+</div>
+</div></div>
+
+<!-- 15: Timeline activité -->
+<div class="card"><h2>15 — Timeline activité zone</h2><div class="m">
+<div style="border-left:2px solid rgba(129,140,248,.2);margin-left:8px;padding-left:12px">
+  <div style="margin-bottom:6px;position:relative"><div style="position:absolute;left:-17px;top:2px;width:8px;height:8px;border-radius:50%;background:#34d399"></div><span class="meta">Il y a 5min</span><br><span style="font-size:.7rem">👩 Marie est arrivée (500m)</span></div>
+  <div style="margin-bottom:6px;position:relative"><div style="position:absolute;left:-17px;top:2px;width:8px;height:8px;border-radius:50%;background:#818cf8"></div><span class="meta">Il y a 30min</span><br><span style="font-size:.7rem">👨 Lucas a trouvé un lift !</span></div>
+  <div style="position:relative"><div style="position:absolute;left:-17px;top:2px;width:8px;height:8px;border-radius:50%;background:#fbbf24"></div><span class="meta">Il y a 1h</span><br><span style="font-size:.7rem">👩 Léa est partie vers le sud</span></div>
+</div>
+</div></div>
+
+<!-- 16: Heatmap -->
+<div class="card"><h2>16 — Heatmap d'activité</h2><div class="m">
+<div style="height:100px;background:linear-gradient(135deg,#1a2744,#0f172a);border-radius:10px;position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:6px">
+  <div style="position:absolute;width:50px;height:50px;border-radius:50%;background:rgba(239,68,68,.2);top:20px;left:30px"></div>
+  <div style="position:absolute;width:30px;height:30px;border-radius:50%;background:rgba(251,191,36,.15);top:40px;right:60px"></div>
+  <div style="position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(52,211,153,.1);bottom:15px;left:50%"></div>
+  <span style="color:#475569;font-size:.6rem;z-index:1">🗺️ Zones actives</span>
+</div>
+<div style="display:flex;gap:8px;justify-content:center"><span class="meta">🔴 Très actif</span><span class="meta">🟡 Moyen</span><span class="meta">🟢 Calme</span></div>
+</div></div>
+
+<!-- 17: Signal de présence -->
+<div class="card"><h2>17 — Signal "Je suis là"</h2><div class="m">
+<div style="text-align:center;padding:8px">
+  <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#818cf8,#34d399);display:flex;align-items:center;justify-content:center;margin:0 auto;cursor:pointer;position:relative">
+    <span style="font-size:1.5rem">👋</span>
+    <div style="position:absolute;width:90px;height:90px;border-radius:50%;border:2px solid rgba(129,140,248,.3);animation:ping 2s infinite"></div>
+  </div>
+  <b style="font-size:.8rem;display:block;margin-top:8px">Signal envoyé !</b>
+  <div class="meta">Les autostoppeurs proches voient que tu es là</div>
+</div>
+</div></div>
+
+<!-- 18: Groupement direction -->
+<div class="card"><h2>18 — Groupé par direction</h2><div class="m">
+<div style="margin-bottom:6px"><span class="meta" style="font-weight:600;color:#34d399">→ Nord (2)</span></div>
+<div class="row"><div style="width:22px;height:22px;border-radius:50%;background:#334155;font-size:.6rem;display:flex;align-items:center;justify-content:center">👩</div><div style="flex:1;font-size:.7rem"><b>Marie</b> · <span class="meta">Paris→Lille · 500m</span></div></div>
+<div class="row"><div style="width:22px;height:22px;border-radius:50%;background:#334155;font-size:.6rem;display:flex;align-items:center;justify-content:center">👨</div><div style="flex:1;font-size:.7rem"><b>Lucas</b> · <span class="meta">Paris→Bruxelles · 1.2km</span></div></div>
+<div style="margin:6px 0 3px"><span class="meta" style="font-weight:600;color:#818cf8">→ Sud (1)</span></div>
+<div class="row"><div style="width:22px;height:22px;border-radius:50%;background:#334155;font-size:.6rem;display:flex;align-items:center;justify-content:center">👩</div><div style="flex:1;font-size:.7rem"><b>Léa</b> · <span class="meta">Paris→Lyon · 3.5km</span></div></div>
+</div></div>
+
+<!-- 19: Prédiction -->
+<div class="card"><h2>19 — Prédiction de rencontre</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:10px;text-align:center">
+  <div style="font-size:1rem;margin-bottom:4px">🔮</div>
+  <b style="font-size:.8rem">Prédiction radar</b>
+  <div class="meta" style="margin:6px 0">Basé sur l'activité habituelle de cette zone :</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px">
+    <div style="background:#1e293b;border-radius:8px;padding:4px"><div style="font-weight:700;color:#34d399;font-size:.8rem">8h</div><div class="meta">Haute activité</div></div>
+    <div style="background:#1e293b;border-radius:8px;padding:4px"><div style="font-weight:700;color:#fbbf24;font-size:.8rem">12h</div><div class="meta">Moyenne</div></div>
+    <div style="background:#1e293b;border-radius:8px;padding:4px"><div style="font-weight:700;color:#f87171;font-size:.8rem">20h</div><div class="meta">Faible</div></div>
+  </div>
+</div>
+</div></div>
+
+<!-- 20: Complet (recommandé) -->
+<div class="card"><h2>20 — Complet (recommandé)</h2><div class="m">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+  <b style="font-size:.85rem">📡 Radar</b>
+  <div><span class="pill" style="background:rgba(52,211,153,.2);color:#34d399;margin-right:2px">3 proches</span><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">5km</span></div>
+</div>
+<div style="height:70px;background:linear-gradient(135deg,#1a2744,#0f172a);border-radius:10px;position:relative;margin-bottom:6px;display:flex;align-items:center;justify-content:center">
+  <div style="width:10px;height:10px;border-radius:50%;background:#818cf8"></div>
+  <div style="position:absolute;top:15px;right:40px;width:8px;height:8px;border-radius:50%;background:#34d399"></div>
+  <div style="position:absolute;bottom:20px;left:50px;width:8px;height:8px;border-radius:50%;background:#fbbf24"></div>
+</div>
+<div class="row" style="border-left:3px solid #34d399"><div style="flex:1;font-size:.7rem"><b>Marie</b> · 500m · Paris→Lyon<br><span class="meta">⭐ 4.8 · ✓ Vérifié · En attente</span></div><button class="btn bp" style="font-size:.6rem">💬</button></div>
+<div class="row" style="border-left:3px solid #fbbf24"><div style="flex:1;font-size:.7rem"><b>Lucas</b> · 1.2km · Paris→Lille<br><span class="meta">⭐ 3.5 · Nouveau · En route</span></div><button class="btn bp" style="font-size:.6rem">💬</button></div>
+<div style="display:flex;gap:4px;margin-top:6px">
+  <button class="btn bg" style="flex:1">⚙️ Réglages</button>
+  <button class="btn bp" style="flex:1">👋 Signal</button>
+</div>
+</div></div>
+
+</div>
+</body></html>

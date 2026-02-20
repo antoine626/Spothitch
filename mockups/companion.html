@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpotHitch — Companion Mode (20 designs)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:16px}
+h1{text-align:center;font-size:1.3rem;margin-bottom:24px;color:#818cf8}
+.grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.card{width:360px;background:#1e293b;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.card h2{font-size:.8rem;padding:10px 14px 6px;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.05)}
+.m{padding:10px;font-size:.75rem}
+.btn{padding:5px 12px;border-radius:8px;border:none;font-size:.7rem;cursor:pointer;font-weight:600}
+.bp{background:#818cf8;color:#fff}.bg{background:rgba(129,140,248,.15);color:#818cf8}
+.be{background:#ef4444;color:#fff}.bw{background:#f59e0b;color:#0f172a}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.6rem;font-weight:600}
+.row{display:flex;align-items:center;gap:8px;padding:6px;background:rgba(255,255,255,.03);border-radius:8px;margin:3px 0}
+.avatar{width:28px;height:28px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+.meta{color:#64748b;font-size:.6rem}
+.sos{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:8px}
+</style></head><body>
+<h1>🤝 Mode Companion — 20 Designs</h1>
+<div class="grid">
+
+<!-- 1: Recherche basique -->
+<div class="card"><h2>1 — Recherche simple</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:8px;margin-bottom:6px">
+  <input type="text" placeholder="🔍 Chercher un compagnon..." style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 10px;color:#e2e8f0;font-size:.75rem">
+</div>
+<div class="row"><div class="avatar">👩</div><div style="flex:1"><b>Marie</b> · <span class="meta">Paris → Lyon · Demain</span></div><button class="btn bp">Contacter</button></div>
+<div class="row"><div class="avatar">👨</div><div style="flex:1"><b>Lucas</b> · <span class="meta">Paris → Lille · Auj.</span></div><button class="btn bp">Contacter</button></div>
+</div></div>
+
+<!-- 2: Carte des compagnons -->
+<div class="card"><h2>2 — Carte compagnons</h2><div class="m">
+<div style="height:80px;background:linear-gradient(135deg,#1a2744,#0f172a);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;position:relative">
+  <span style="color:#475569;font-size:.65rem">🗺️ Compagnons à proximité</span>
+  <div style="position:absolute;top:15px;left:30px;width:10px;height:10px;border-radius:50%;background:#34d399;border:2px solid #0f172a"></div>
+  <div style="position:absolute;top:40px;right:50px;width:10px;height:10px;border-radius:50%;background:#818cf8;border:2px solid #0f172a"></div>
+</div>
+<div class="row"><div class="avatar" style="background:#34d399;color:#0f172a">M</div><div style="flex:1"><b>Marie</b> · <span class="meta">500m · Paris→Lyon</span></div><button class="btn bg">👋</button></div>
+</div></div>
+
+<!-- 3: Annonces tableau -->
+<div class="card"><h2>3 — Tableau d'annonces</h2><div class="m">
+<div style="display:flex;gap:6px;margin-bottom:6px">
+  <span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Toutes</span>
+  <span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Aujourd'hui</span>
+  <span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Cette semaine</span>
+</div>
+<div style="background:#0f172a;border-radius:10px;padding:8px;margin-bottom:4px;border-left:3px solid #34d399">
+  <div style="display:flex;justify-content:space-between"><b>Marie, 24</b><span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">Vérifié</span></div>
+  <div class="meta" style="margin:4px 0">Paris → Lyon · 21 fév · "Cherche qqn pour le trajet"</div>
+  <button class="btn bp" style="width:100%;margin-top:4px">Proposer de voyager ensemble</button>
+</div>
+<div style="background:#0f172a;border-radius:10px;padding:8px;border-left:3px solid #818cf8">
+  <div style="display:flex;justify-content:space-between"><b>Lucas, 28</b><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Exp.</span></div>
+  <div class="meta" style="margin:4px 0">Paris → Lille · 20 fév · "1ère fois, cherche conseil"</div>
+  <button class="btn bp" style="width:100%;margin-top:4px">Proposer de voyager ensemble</button>
+</div>
+</div></div>
+
+<!-- 4: Profil match -->
+<div class="card"><h2>4 — Match profil</h2><div class="m">
+<div style="text-align:center;padding:10px;background:#0f172a;border-radius:10px;margin-bottom:6px">
+  <div class="avatar" style="width:48px;height:48px;margin:0 auto 6px;font-size:1.3rem;background:#334155">👩</div>
+  <b>Marie, 24</b><br>
+  <span class="meta">⭐ Lvl. 5 · 12 voyages · Paris</span><br>
+  <div style="display:flex;gap:4px;justify-content:center;margin-top:6px">
+    <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">Profil vérifié</span>
+    <span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24">Expérimentée</span>
+  </div>
+</div>
+<div style="background:#0f172a;border-radius:8px;padding:6px;margin-bottom:6px">
+  <div class="meta">🛣️ Paris → Lyon · 📅 21 fév · 🕐 Matin</div>
+  <div class="meta" style="margin-top:2px">"Cherche qqn sympa pour le trajet, j'ai un panneau !"</div>
+</div>
+<div style="display:flex;gap:6px"><button class="btn bp" style="flex:1">💬 Contacter</button><button class="btn bg" style="flex:1">👤 Voir profil</button></div>
+</div></div>
+
+<!-- 5: Formulaire création -->
+<div class="card"><h2>5 — Créer une annonce</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:10px">
+  <div style="margin-bottom:8px"><label class="meta" style="display:block;margin-bottom:2px">📍 Départ</label><input style="width:100%;background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:5px 8px;color:#e2e8f0;font-size:.7rem" value="Paris"></div>
+  <div style="margin-bottom:8px"><label class="meta" style="display:block;margin-bottom:2px">🎯 Destination</label><input style="width:100%;background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:5px 8px;color:#e2e8f0;font-size:.7rem" value="Lyon"></div>
+  <div style="margin-bottom:8px"><label class="meta" style="display:block;margin-bottom:2px">📅 Date</label><input style="width:100%;background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:5px 8px;color:#e2e8f0;font-size:.7rem" value="21 février 2026"></div>
+  <div style="margin-bottom:8px"><label class="meta" style="display:block;margin-bottom:2px">💬 Message</label><textarea style="width:100%;background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:5px 8px;color:#e2e8f0;font-size:.7rem;resize:none" rows="2">Cherche compagnon pour le trajet !</textarea></div>
+  <button class="btn bp" style="width:100%">📢 Publier l'annonce</button>
+</div>
+</div></div>
+
+<!-- 6: Chat intégré -->
+<div class="card"><h2>6 — Chat compagnon</h2><div class="m">
+<div style="display:flex;align-items:center;gap:8px;padding:6px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:6px">
+  <div class="avatar">👩</div><div><b>Marie</b><br><span class="meta">En ligne · Paris→Lyon</span></div>
+</div>
+<div style="background:#0f172a;border-radius:10px;padding:8px;min-height:80px">
+  <div style="background:#334155;border-radius:8px;padding:4px 8px;font-size:.7rem;margin-bottom:4px;max-width:80%">Salut ! Tu pars à quelle heure demain ?</div>
+  <div style="background:#818cf8;border-radius:8px;padding:4px 8px;font-size:.7rem;margin-left:auto;max-width:80%;color:#fff">Vers 9h, rdv Porte de la Chapelle ?</div>
+</div>
+<div style="display:flex;gap:4px;margin-top:6px"><input style="flex:1;background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:5px 8px;color:#e2e8f0;font-size:.7rem" placeholder="Message..."><button class="btn bp">→</button></div>
+</div></div>
+
+<!-- 7: Timeline trajet -->
+<div class="card"><h2>7 — Timeline trajet en cours</h2><div class="m">
+<div style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:8px;margin-bottom:6px;text-align:center">
+  <span style="color:#34d399;font-weight:700;font-size:.8rem">🚀 Trajet en cours</span>
+  <div class="meta">Avec Marie · Depuis 1h30</div>
+</div>
+<div style="border-left:2px solid #818cf8;margin-left:10px;padding-left:12px">
+  <div style="margin-bottom:8px;position:relative"><div style="position:absolute;left:-17px;top:2px;width:8px;height:8px;border-radius:50%;background:#34d399"></div><span class="meta">9:00</span><br><b style="font-size:.75rem">Départ Paris</b></div>
+  <div style="margin-bottom:8px;position:relative"><div style="position:absolute;left:-17px;top:2px;width:8px;height:8px;border-radius:50%;background:#818cf8"></div><span class="meta">10:15</span><br><b style="font-size:.75rem">1er lift — Camion direction Auxerre</b></div>
+  <div style="position:relative"><div style="position:absolute;left:-17px;top:2px;width:8px;height:8px;border-radius:50%;background:#fbbf24;animation:pulse 2s infinite"></div><span class="meta">Maintenant</span><br><b style="font-size:.75rem">Aire de Venoy — En attente</b></div>
+</div>
+<style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}</style>
+</div></div>
+
+<!-- 8: SOS intégré -->
+<div class="card"><h2>8 — SOS compagnon</h2><div class="m">
+<div class="sos">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span style="font-size:1rem">🆘</span><b style="color:#ef4444">Sécurité</b></div>
+  <div class="meta" style="margin-bottom:6px">Tu voyages avec Marie. En cas de problème :</div>
+  <button class="btn be" style="width:100%;margin-bottom:4px">📍 Partager ma position avec Marie</button>
+  <button class="btn bw" style="width:100%;margin-bottom:4px">📞 Appeler un contact d'urgence</button>
+  <button class="btn bg" style="width:100%">🔕 Je suis en sécurité</button>
+</div>
+</div></div>
+
+<!-- 9: Notation post-trajet -->
+<div class="card"><h2>9 — Avis post-trajet</h2><div class="m">
+<div style="text-align:center;background:#0f172a;border-radius:10px;padding:10px;margin-bottom:6px">
+  <div class="avatar" style="width:40px;height:40px;margin:0 auto 6px;font-size:1.1rem">👩</div>
+  <b>Comment était le trajet avec Marie ?</b>
+  <div style="font-size:1.2rem;margin:8px 0;letter-spacing:8px;cursor:pointer">★★★★☆</div>
+  <textarea style="width:100%;background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:6px;color:#e2e8f0;font-size:.7rem;resize:none" rows="2" placeholder="Un commentaire ? (optionnel)"></textarea>
+</div>
+<div style="display:flex;gap:6px"><button class="btn bg" style="flex:1">Passer</button><button class="btn bp" style="flex:1">Envoyer ⭐</button></div>
+</div></div>
+
+<!-- 10: Filtres avancés -->
+<div class="card"><h2>10 — Filtres avancés</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:8px">
+  <div class="meta" style="margin-bottom:6px;font-weight:600;color:#e2e8f0">🔍 Filtrer les compagnons</div>
+  <div style="margin-bottom:6px"><span class="meta">Genre</span><div style="display:flex;gap:4px;margin-top:2px"><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Tous</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Femme</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Homme</span></div></div>
+  <div style="margin-bottom:6px"><span class="meta">Expérience</span><div style="display:flex;gap:4px;margin-top:2px"><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Débutant</span><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Confirmé</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Expert</span></div></div>
+  <div style="margin-bottom:6px"><span class="meta">Langues</span><div style="display:flex;gap:4px;margin-top:2px"><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">🇫🇷 FR</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">🇬🇧 EN</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">🇪🇸 ES</span></div></div>
+  <button class="btn bp" style="width:100%;margin-top:4px">Appliquer</button>
+</div>
+</div></div>
+
+<!-- 11: Badges confiance -->
+<div class="card"><h2>11 — Badges de confiance</h2><div class="m">
+<div class="row"><div class="avatar" style="background:#34d399;color:#0f172a">M</div>
+  <div style="flex:1"><b>Marie</b><br>
+    <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399;margin-right:2px">✓ Vérifié</span>
+    <span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24;margin-right:2px">⭐ 4.8</span>
+    <span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">12 trajets</span>
+  </div>
+</div>
+<div class="row"><div class="avatar" style="background:#818cf8;color:#fff">L</div>
+  <div style="flex:1"><b>Lucas</b><br>
+    <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399;margin-right:2px">✓ Vérifié</span>
+    <span class="pill" style="background:rgba(251,191,36,.2);color:#fbbf24;margin-right:2px">⭐ 3.5</span>
+    <span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">1er trajet</span>
+  </div>
+</div>
+</div></div>
+
+<!-- 12: Notification match -->
+<div class="card"><h2>12 — Notification de match</h2><div class="m">
+<div style="background:linear-gradient(135deg,rgba(129,140,248,.15),rgba(52,211,153,.1));border:1px solid rgba(129,140,248,.2);border-radius:12px;padding:12px;text-align:center">
+  <div style="font-size:1.5rem;margin-bottom:4px">🎉</div>
+  <b style="font-size:.85rem">Nouveau match !</b>
+  <div class="meta" style="margin:4px 0">Marie cherche aussi Paris → Lyon le 21 fév</div>
+  <div style="display:flex;gap:6px;margin-top:8px"><button class="btn bg" style="flex:1">Ignorer</button><button class="btn bp" style="flex:1">💬 Contacter</button></div>
+</div>
+</div></div>
+
+<!-- 13: Liste compacte -->
+<div class="card"><h2>13 — Liste compacte</h2><div class="m">
+<div class="row" style="border-left:3px solid #34d399"><div class="avatar">👩</div><div style="flex:1"><b>Marie</b> <span class="meta">Paris→Lyon · 21 fév · ★4.8</span></div><button class="btn bp" style="font-size:.6rem">💬</button></div>
+<div class="row" style="border-left:3px solid #818cf8"><div class="avatar">👨</div><div style="flex:1"><b>Lucas</b> <span class="meta">Paris→Lille · Auj. · ★3.5</span></div><button class="btn bp" style="font-size:.6rem">💬</button></div>
+<div class="row" style="border-left:3px solid #fbbf24"><div class="avatar">👩</div><div style="flex:1"><b>Léa</b> <span class="meta">Lyon→Marseille · 22 fév · ★4.2</span></div><button class="btn bp" style="font-size:.6rem">💬</button></div>
+<div class="row" style="border-left:3px solid #f87171"><div class="avatar">👨</div><div style="flex:1"><b>Tom</b> <span class="meta">Bordeaux→Paris · 23 fév · Nouveau</span></div><button class="btn bp" style="font-size:.6rem">💬</button></div>
+</div></div>
+
+<!-- 14: Partage de position live -->
+<div class="card"><h2>14 — Position live partagée</h2><div class="m">
+<div style="height:80px;background:linear-gradient(135deg,#1a2744,#0f172a);border-radius:10px;margin-bottom:6px;position:relative;display:flex;align-items:center;justify-content:center">
+  <span style="color:#475569;font-size:.65rem">🗺️ Position en direct</span>
+  <div style="position:absolute;top:20px;left:40%;width:12px;height:12px;border-radius:50%;background:#34d399;border:2px solid #fff;box-shadow:0 0 10px rgba(52,211,153,.5)"></div>
+  <div style="position:absolute;top:20px;left:40%;width:30px;height:30px;border-radius:50%;border:1px solid rgba(52,211,153,.3);animation:pulse 2s infinite"></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;background:#0f172a;border-radius:8px;padding:6px 8px">
+  <div><b style="font-size:.75rem">Marie</b><br><span class="meta">📍 Aire de Venoy · MàJ il y a 2min</span></div>
+  <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">🟢 En ligne</span>
+</div>
+</div></div>
+
+<!-- 15: Demande rapide -->
+<div class="card"><h2>15 — Demande rapide (FAB)</h2><div class="m">
+<div style="text-align:center;padding:12px;background:#0f172a;border-radius:10px">
+  <div style="width:56px;height:56px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:1.5rem;box-shadow:0 4px 15px rgba(129,140,248,.3)">🤝</div>
+  <b>Trouver un compagnon</b>
+  <div class="meta" style="margin:6px 0">Publier une demande rapide pour ton prochain trajet</div>
+  <div style="display:flex;gap:6px;margin-top:8px">
+    <button class="btn bg" style="flex:1">Chercher</button>
+    <button class="btn bp" style="flex:1">Publier</button>
+  </div>
+</div>
+</div></div>
+
+<!-- 16: Historique compagnons -->
+<div class="card"><h2>16 — Historique compagnons</h2><div class="m">
+<div class="meta" style="margin-bottom:6px;font-weight:600;color:#e2e8f0">📋 Mes compagnons de voyage</div>
+<div class="row"><div class="avatar">👩</div><div style="flex:1"><b>Marie</b><br><span class="meta">Paris→Lyon · 15 fév · ★★★★★</span></div></div>
+<div class="row"><div class="avatar">👨</div><div style="flex:1"><b>Pierre</b><br><span class="meta">Lyon→Marseille · 10 fév · ★★★★☆</span></div></div>
+<div class="row" style="opacity:.5"><div class="avatar">👩</div><div style="flex:1"><b>Sophie</b><br><span class="meta">Berlin→Prague · 3 fév · ★★★☆☆</span></div></div>
+</div></div>
+
+<!-- 17: Préférences de voyage -->
+<div class="card"><h2>17 — Préférences voyage</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:8px">
+  <div class="meta" style="margin-bottom:6px;font-weight:600;color:#e2e8f0">⚙️ Mes préférences compagnon</div>
+  <div style="margin-bottom:6px"><span class="meta">Je voyage plutôt</span><div style="display:flex;gap:4px;margin-top:2px"><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Le matin</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">L'après-midi</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Flexible</span></div></div>
+  <div style="margin-bottom:6px"><span class="meta">Fumeur</span><div style="display:flex;gap:4px;margin-top:2px"><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Oui</span><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Non</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Peu importe</span></div></div>
+  <div style="margin-bottom:6px"><span class="meta">Animal de compagnie</span><div style="display:flex;gap:4px;margin-top:2px"><span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">Avec chien 🐕</span><span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">Sans</span></div></div>
+</div>
+</div></div>
+
+<!-- 18: Vérification ID -->
+<div class="card"><h2>18 — Vérification identité</h2><div class="m">
+<div style="text-align:center;background:#0f172a;border-radius:10px;padding:10px">
+  <div style="font-size:1.5rem;margin-bottom:4px">🛡️</div>
+  <b>Vérifie ton profil</b>
+  <div class="meta" style="margin:6px 0">Les profils vérifiés reçoivent 3x plus de demandes</div>
+  <div style="text-align:left;margin:8px 0">
+    <div style="display:flex;align-items:center;gap:6px;margin:4px 0"><span style="color:#34d399">✅</span><span class="meta">Email vérifié</span></div>
+    <div style="display:flex;align-items:center;gap:6px;margin:4px 0"><span style="color:#34d399">✅</span><span class="meta">Numéro de téléphone</span></div>
+    <div style="display:flex;align-items:center;gap:6px;margin:4px 0"><span style="color:#64748b">⬜</span><span class="meta">Photo de profil</span></div>
+    <div style="display:flex;align-items:center;gap:6px;margin:4px 0"><span style="color:#64748b">⬜</span><span class="meta">Pièce d'identité</span></div>
+  </div>
+  <button class="btn bp" style="width:100%;margin-top:4px">Continuer la vérification</button>
+</div>
+</div></div>
+
+<!-- 19: Groupe de voyage -->
+<div class="card"><h2>19 — Groupe de voyage</h2><div class="m">
+<div style="background:#0f172a;border-radius:10px;padding:8px;margin-bottom:6px">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+    <span style="font-size:1rem">👥</span>
+    <b style="font-size:.8rem">Paris → Barcelone</b>
+    <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399;margin-left:auto">3/5</span>
+  </div>
+  <div style="display:flex;gap:-4px;margin-bottom:6px">
+    <div class="avatar" style="width:24px;height:24px;font-size:.6rem;border:2px solid #0f172a;margin-right:-6px;z-index:3">👩</div>
+    <div class="avatar" style="width:24px;height:24px;font-size:.6rem;border:2px solid #0f172a;margin-right:-6px;z-index:2">👨</div>
+    <div class="avatar" style="width:24px;height:24px;font-size:.6rem;border:2px solid #0f172a;z-index:1">👩</div>
+    <span class="meta" style="margin-left:12px;align-self:center">Marie, Lucas, Léa</span>
+  </div>
+  <div class="meta">📅 25 fév · 🕐 8h · "Direction Espagne ensemble !"</div>
+</div>
+<button class="btn bp" style="width:100%">Rejoindre le groupe</button>
+</div></div>
+
+<!-- 20: Résumé intégré SOS -->
+<div class="card"><h2>20 — Complet SOS intégré (recommandé)</h2><div class="m">
+<div style="display:flex;gap:6px;margin-bottom:6px">
+  <span class="pill" style="background:rgba(129,140,248,.2);color:#818cf8">🤝 Compagnon</span>
+  <span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">🆘 SOS</span>
+  <span class="pill" style="background:rgba(255,255,255,.06);color:#94a3b8">📍 Live</span>
+</div>
+<div style="background:#0f172a;border-radius:10px;padding:8px;margin-bottom:4px">
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+    <div class="avatar" style="background:#34d399;color:#0f172a;width:32px;height:32px">M</div>
+    <div><b>Marie</b> <span class="pill" style="background:rgba(52,211,153,.2);color:#34d399">✓</span><br><span class="meta">Paris → Lyon · Demain 9h · ⭐ 4.8</span></div>
+  </div>
+  <div class="meta">"Cherche qqn, j'ai un panneau ! Non-fumeuse, anglais OK"</div>
+</div>
+<div style="display:flex;gap:4px">
+  <button class="btn bp" style="flex:2">💬 Contacter Marie</button>
+  <button class="btn be" style="flex:1;font-size:.6rem">🆘 SOS</button>
+</div>
+</div></div>
+
+</div>
+</body></html>

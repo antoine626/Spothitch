@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpotHitch — Route/Itinerary Designs (10)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif;padding:16px}
+h1{text-align:center;font-size:1.3rem;margin-bottom:24px;color:#818cf8}
+.grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.card{width:370px;background:#1e293b;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.card h2{font-size:.85rem;padding:12px 16px 8px;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.05)}
+.mock{padding:12px}
+/* Common elements */
+.route-bar{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#0f172a;border-radius:10px;margin-bottom:8px}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dot.start{background:#34d399}
+.dot.end{background:#f87171}
+.dot.mid{background:#fbbf24}
+.line{flex:1;height:2px;background:linear-gradient(90deg,#34d399,#818cf8,#f87171)}
+.city{font-size:.8rem;font-weight:600}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.65rem;font-weight:600}
+.spot{display:flex;align-items:center;gap:8px;padding:8px;background:rgba(255,255,255,.03);border-radius:8px;margin:4px 0;font-size:.75rem}
+.spot .num{width:22px;height:22px;border-radius:50%;background:#818cf8;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem;flex-shrink:0}
+.stars{color:#fbbf24;font-size:.7rem}
+.meta{color:#64748b;font-size:.65rem}
+.btn{padding:6px 14px;border-radius:8px;border:none;font-size:.75rem;cursor:pointer;font-weight:600}
+.btn-p{background:#818cf8;color:#fff}
+.btn-g{background:rgba(129,140,248,.15);color:#818cf8}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.chip{padding:4px 10px;border-radius:999px;font-size:.65rem;background:rgba(255,255,255,.08);color:#94a3b8;border:1px solid transparent}
+.chip.active{background:rgba(129,140,248,.2);color:#818cf8;border-color:rgba(129,140,248,.3)}
+.summary{display:flex;gap:12px;padding:8px 12px;background:rgba(129,140,248,.08);border-radius:10px;margin:8px 0;font-size:.7rem;color:#c7d2fe}
+.summary b{color:#e2e8f0}
+</style></head><body>
+<h1>🛤️ Route / Itinerary — 10 Designs</h1>
+<div class="grid">
+
+<!-- Design 1: Vertical Timeline -->
+<div class="card">
+<h2>1 — Timeline vertical</h2>
+<div class="mock">
+<div style="border-left:2px solid #818cf8;margin-left:14px;padding-left:16px">
+  <div style="position:relative;margin-bottom:12px">
+    <div class="dot start" style="position:absolute;left:-23px;top:4px"></div>
+    <div class="city">Paris — Départ</div>
+    <div class="meta">📍 Porte de la Chapelle</div>
+  </div>
+  <div class="spot"><div class="num">1</div><div><b>A1 Sortie 3</b><br><span class="stars">★★★★☆</span> · <span class="meta">~15min</span></div></div>
+  <div class="spot"><div class="num">2</div><div><b>Station Total Senlis</b><br><span class="stars">★★★★★</span> · <span class="meta">~10min</span></div></div>
+  <div style="position:relative;margin-top:12px">
+    <div class="dot end" style="position:absolute;left:-23px;top:4px"></div>
+    <div class="city">Lille — Arrivée</div>
+    <div class="meta">🎯 ~2h30 · 3 spots</div>
+  </div>
+</div>
+</div></div>
+
+<!-- Design 2: Horizontal Strip -->
+<div class="card">
+<h2>2 — Bande horizontale</h2>
+<div class="mock">
+<div class="route-bar">
+  <div class="dot start"></div>
+  <span class="city" style="font-size:.7rem">Paris</span>
+  <div class="line"></div>
+  <span style="font-size:.6rem;color:#fbbf24">3 spots</span>
+  <div class="line"></div>
+  <span class="city" style="font-size:.7rem">Lille</span>
+  <div class="dot end"></div>
+</div>
+<div class="summary"><span>🕐 ~2h30</span><span>📍 <b>3</b> spots</span><span>⭐ 4.2 moy.</span><span>🚗 220 km</span></div>
+<div class="spot"><div class="num">1</div><div style="flex:1"><b>A1 Sortie 3</b> <span class="meta">· Panneau</span></div><span class="stars">★★★★☆</span></div>
+<div class="spot"><div class="num">2</div><div style="flex:1"><b>Station Senlis</b> <span class="meta">· Station</span></div><span class="stars">★★★★★</span></div>
+<div class="spot"><div class="num">3</div><div style="flex:1"><b>Péage Chamant</b> <span class="meta">· Bord de route</span></div><span class="stars">★★★☆☆</span></div>
+</div></div>
+
+<!-- Design 3: Map + List Split -->
+<div class="card">
+<h2>3 — Carte + liste split</h2>
+<div class="mock">
+<div style="height:100px;background:linear-gradient(135deg,#1a2744,#1e293b);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative">
+  <span style="color:#475569;font-size:.7rem">🗺️ Carte avec tracé A→B</span>
+  <div style="position:absolute;top:8px;left:12px" class="badge" style="background:rgba(52,211,153,.2);color:#34d399">Paris</div>
+  <div style="position:absolute;bottom:8px;right:12px" class="badge" style="background:rgba(248,113,113,.2);color:#f87171">Lille</div>
+</div>
+<div class="spot"><div class="num">1</div><div style="flex:1"><b>A1 Sortie 3</b></div><span class="badge" style="background:rgba(52,211,153,.15);color:#34d399">15min</span></div>
+<div class="spot"><div class="num">2</div><div style="flex:1"><b>Station Senlis</b></div><span class="badge" style="background:rgba(52,211,153,.15);color:#34d399">10min</span></div>
+</div></div>
+
+<!-- Design 4: Cards Carousel -->
+<div class="card">
+<h2>4 — Carrousel de cartes</h2>
+<div class="mock">
+<div class="route-bar"><div class="dot start"></div><span class="city" style="font-size:.7rem">Paris → Lille</span><div style="flex:1"></div><span class="meta">3 spots · 220km</span></div>
+<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">
+  <div style="min-width:140px;background:#0f172a;border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,.06)">
+    <div style="font-size:.7rem;font-weight:700;margin-bottom:4px">1. A1 Sortie 3</div>
+    <div class="stars">★★★★☆</div>
+    <div class="meta">Panneau · ~15min</div>
+    <div class="meta" style="color:#34d399">✓ Vérifié</div>
+  </div>
+  <div style="min-width:140px;background:#0f172a;border-radius:10px;padding:10px;border:1px solid rgba(129,140,248,.2)">
+    <div style="font-size:.7rem;font-weight:700;margin-bottom:4px">2. Station Senlis</div>
+    <div class="stars">★★★★★</div>
+    <div class="meta">Station · ~10min</div>
+    <div class="meta" style="color:#34d399">✓ Vérifié</div>
+  </div>
+  <div style="min-width:140px;background:#0f172a;border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,.06)">
+    <div style="font-size:.7rem;font-weight:700;margin-bottom:4px">3. Péage Chamant</div>
+    <div class="stars">★★★☆☆</div>
+    <div class="meta">Route · ~25min</div>
+  </div>
+</div>
+</div></div>
+
+<!-- Design 5: Compact List with Filters -->
+<div class="card">
+<h2>5 — Liste compacte + filtres</h2>
+<div class="mock">
+<div class="filter-row">
+  <span class="chip active">Tous</span>
+  <span class="chip">Sur la route</span>
+  <span class="chip">Stations</span>
+  <span class="chip">⭐ 4+</span>
+  <span class="chip">&lt;20min</span>
+</div>
+<div class="route-bar"><div class="dot start"></div><span style="flex:1;font-size:.7rem;font-weight:600">Paris → Lille · 220km</span><div class="dot end"></div></div>
+<div class="spot"><div class="num" style="background:#34d399">1</div><div style="flex:1"><b>A1 Sortie 3</b><br><span class="meta">Panneau · ★★★★☆ · 15min</span></div><button class="btn btn-g" style="font-size:.6rem">Voir</button></div>
+<div class="spot"><div class="num" style="background:#fbbf24;color:#0f172a">2</div><div style="flex:1"><b>Station Senlis</b><br><span class="meta">Station · ★★★★★ · 10min</span></div><button class="btn btn-g" style="font-size:.6rem">Voir</button></div>
+<div class="spot"><div class="num" style="background:#f87171">3</div><div style="flex:1"><b>Péage Chamant</b><br><span class="meta">Route · ★★★☆☆ · 25min</span></div><button class="btn btn-g" style="font-size:.6rem">Voir</button></div>
+</div></div>
+
+<!-- Design 6: Step-by-Step Guide -->
+<div class="card">
+<h2>6 — Guide étape par étape</h2>
+<div class="mock">
+<div style="text-align:center;margin-bottom:10px">
+  <div class="city" style="font-size:.9rem">Paris → Lille</div>
+  <div class="meta">3 étapes · ~2h30 · 220km</div>
+</div>
+<div style="background:#0f172a;border-radius:10px;padding:10px;margin-bottom:6px;border-left:3px solid #34d399">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div><span style="font-size:.7rem;color:#34d399;font-weight:700">ÉTAPE 1</span><br><b style="font-size:.8rem">A1 Sortie 3</b></div>
+    <div style="text-align:right"><div class="stars">★★★★☆</div><div class="meta">~15min d'attente</div></div>
+  </div>
+  <div class="meta" style="margin-top:4px">💡 Se placer après le feu rouge, panneau "Lille" visible</div>
+</div>
+<div style="background:#0f172a;border-radius:10px;padding:10px;margin-bottom:6px;border-left:3px solid #818cf8">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div><span style="font-size:.7rem;color:#818cf8;font-weight:700">ÉTAPE 2</span><br><b style="font-size:.8rem">Station Senlis</b></div>
+    <div style="text-align:right"><div class="stars">★★★★★</div><div class="meta">~10min d'attente</div></div>
+  </div>
+  <div class="meta" style="margin-top:4px">💡 Demander directement aux conducteurs à la pompe</div>
+</div>
+</div></div>
+
+<!-- Design 7: Dashboard Summary -->
+<div class="card">
+<h2>7 — Dashboard résumé</h2>
+<div class="mock">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+  <div style="background:#0f172a;border-radius:8px;padding:8px;text-align:center"><div style="font-size:1.1rem;font-weight:700;color:#818cf8">3</div><div class="meta">Spots</div></div>
+  <div style="background:#0f172a;border-radius:8px;padding:8px;text-align:center"><div style="font-size:1.1rem;font-weight:700;color:#34d399">220</div><div class="meta">km</div></div>
+  <div style="background:#0f172a;border-radius:8px;padding:8px;text-align:center"><div style="font-size:1.1rem;font-weight:700;color:#fbbf24">4.2</div><div class="meta">Note moy.</div></div>
+  <div style="background:#0f172a;border-radius:8px;padding:8px;text-align:center"><div style="font-size:1.1rem;font-weight:700;color:#fb923c">~2h30</div><div class="meta">Temps total</div></div>
+</div>
+<div class="spot"><div class="num">1</div><div style="flex:1"><b>A1 Sortie 3</b></div><div class="stars">★★★★☆</div></div>
+<div class="spot"><div class="num">2</div><div style="flex:1"><b>Station Senlis</b></div><div class="stars">★★★★★</div></div>
+<div style="text-align:center;margin-top:8px"><button class="btn btn-p">🚀 Lancer le trajet</button></div>
+</div></div>
+
+<!-- Design 8: Bottom Sheet Style -->
+<div class="card">
+<h2>8 — Bottom sheet mobile</h2>
+<div class="mock">
+<div style="height:80px;background:linear-gradient(135deg,#1a2744,#0f172a);border-radius:10px;margin-bottom:8px;display:flex;align-items:center;justify-content:center"><span style="color:#475569;font-size:.7rem">🗺️ Carte itinéraire</span></div>
+<div style="background:#1e293b;border-radius:16px 16px 0 0;padding:12px;border-top:1px solid rgba(255,255,255,.1)">
+  <div style="width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:0 auto 10px"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <div><b style="font-size:.85rem">Paris → Lille</b><br><span class="meta">3 spots · 220km</span></div>
+    <button class="btn btn-p" style="font-size:.7rem">Filtres</button>
+  </div>
+  <div class="spot"><div class="num">1</div><div style="flex:1"><b>A1 Sortie 3</b><br><span class="meta">Panneau · 15min · ★★★★☆</span></div></div>
+  <div class="spot"><div class="num">2</div><div style="flex:1"><b>Station Senlis</b><br><span class="meta">Station · 10min · ★★★★★</span></div></div>
+</div>
+</div></div>
+
+<!-- Design 9: Minimal Dark -->
+<div class="card">
+<h2>9 — Minimal sombre</h2>
+<div class="mock" style="background:#0f172a;border-radius:10px;padding:12px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+  <span style="color:#34d399;font-size:.8rem;font-weight:700">●</span>
+  <span style="flex:1;height:1px;background:linear-gradient(90deg,#34d399 30%,#818cf8 50%,#f87171 70%)"></span>
+  <span style="color:#f87171;font-size:.8rem;font-weight:700">●</span>
+</div>
+<div style="display:flex;justify-content:space-between;margin-bottom:10px">
+  <span style="font-size:.75rem;color:#34d399">Paris</span>
+  <span style="font-size:.7rem;color:#64748b">220km · ~2h30</span>
+  <span style="font-size:.75rem;color:#f87171">Lille</span>
+</div>
+<div style="border-top:1px solid rgba(255,255,255,.05);padding-top:8px">
+  <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)"><span style="color:#818cf8;font-weight:700;font-size:.7rem;width:20px">01</span><span style="flex:1;font-size:.75rem">A1 Sortie 3</span><span style="color:#fbbf24;font-size:.7rem">4.0</span></div>
+  <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)"><span style="color:#818cf8;font-weight:700;font-size:.7rem;width:20px">02</span><span style="flex:1;font-size:.75rem">Station Senlis</span><span style="color:#fbbf24;font-size:.7rem">5.0</span></div>
+  <div style="display:flex;align-items:center;gap:10px;padding:6px 0"><span style="color:#818cf8;font-weight:700;font-size:.7rem;width:20px">03</span><span style="flex:1;font-size:.75rem">Péage Chamant</span><span style="color:#fbbf24;font-size:.7rem">3.0</span></div>
+</div>
+</div></div>
+
+<!-- Design 10: Full Featured -->
+<div class="card">
+<h2>10 — Complet (recommandé)</h2>
+<div class="mock">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+  <div class="dot start"></div><span class="city" style="font-size:.8rem">Paris</span>
+  <div style="flex:1;display:flex;align-items:center;gap:4px">
+    <div style="flex:1;height:2px;background:#34d399"></div>
+    <div style="width:6px;height:6px;border-radius:50%;background:#818cf8"></div>
+    <div style="flex:1;height:2px;background:#818cf8"></div>
+    <div style="width:6px;height:6px;border-radius:50%;background:#818cf8"></div>
+    <div style="flex:1;height:2px;background:#818cf8"></div>
+    <div style="width:6px;height:6px;border-radius:50%;background:#818cf8"></div>
+    <div style="flex:1;height:2px;background:#f87171"></div>
+  </div>
+  <span class="city" style="font-size:.8rem">Lille</span><div class="dot end"></div>
+</div>
+<div class="summary"><span>🕐 ~2h30</span><span>📍 <b>3</b> spots</span><span>⭐ <b>4.2</b></span><span>🛣️ 220km</span></div>
+<div class="filter-row">
+  <span class="chip active">Tous (3)</span>
+  <span class="chip">Station ⛽</span>
+  <span class="chip">⭐ 4+</span>
+  <span class="chip">Vérifiés ✓</span>
+</div>
+<div class="spot" style="border-left:3px solid #34d399">
+  <div class="num">1</div>
+  <div style="flex:1">
+    <div style="display:flex;justify-content:space-between"><b style="font-size:.8rem">A1 Sortie 3</b><span class="stars">★★★★☆</span></div>
+    <div class="meta">📍 Panneau · ⏱️ ~15min · ✓ Vérifié juin 2025</div>
+  </div>
+</div>
+<div class="spot" style="border-left:3px solid #818cf8">
+  <div class="num" style="background:#fbbf24;color:#0f172a">2</div>
+  <div style="flex:1">
+    <div style="display:flex;justify-content:space-between"><b style="font-size:.8rem">Station Senlis</b><span class="stars">★★★★★</span></div>
+    <div class="meta">⛽ Station · ⏱️ ~10min · ✓ Vérifié jan 2026</div>
+  </div>
+</div>
+<div class="spot" style="border-left:3px solid #f87171">
+  <div class="num" style="background:#f87171">3</div>
+  <div style="flex:1">
+    <div style="display:flex;justify-content:space-between"><b style="font-size:.8rem">Péage Chamant</b><span class="stars">★★★☆☆</span></div>
+    <div class="meta">🛣️ Route · ⏱️ ~25min</div>
+  </div>
+</div>
+<div style="text-align:center;margin-top:10px"><button class="btn btn-p">🧭 Suivre l'itinéraire</button></div>
+</div></div>
+
+</div>
+</body></html>
