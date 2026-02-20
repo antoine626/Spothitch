@@ -1055,12 +1055,12 @@ const observer = new MutationObserver(() => {
     lastAutocompleteStep = 2
     initStep2Autocomplete()
     // Cleanup map when leaving step 1
-    if (miniMap) { try { miniMap.remove() } catch {} miniMap = null; miniMapMarker = null }
+    if (miniMap) { try { miniMap.remove() } catch { /* map already detached */ } miniMap = null; miniMapMarker = null }
   } else if (!depInput && !dirInput && lastAutocompleteStep !== 0) {
     lastAutocompleteStep = 0
     cleanupAutocompletes()
     // Cleanup map when modal closes
-    if (miniMap) { try { miniMap.remove() } catch {} miniMap = null; miniMapMarker = null }
+    if (miniMap) { try { miniMap.remove() } catch { /* map already detached */ } miniMap = null; miniMapMarker = null }
   }
 })
 
