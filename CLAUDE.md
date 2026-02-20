@@ -93,13 +93,22 @@
 > - Les "cancelled" sont normaux (push suivant trop rapide), les "failure" doivent être investigués
 > - Le E2E peut timeout (non-bloquant), mais tous les autres jobs DOIVENT passer
 
-> **RÈGLE #12 — JOURNAL DES ERREURS** :
+> **RÈGLE #12 — JOURNAL DES ERREURS + APPRENTISSAGE CONTINU** (ABSOLUMENT OBLIGATOIRE) :
 > - Après CHAQUE bug trouvé → ajouter une entrée dans `memory/errors.md` avec : date, gravité, description, cause racine, correction, leçon apprise, fichiers, statut
 > - Après CHAQUE correction → mettre à jour l'entrée avec la solution et la leçon
-> - AVANT de coder une feature → relire errors.md pour ne PAS reproduire les mêmes erreurs
+> - **AVANT de coder quoi que ce soit** → relire `memory/errors.md` EN ENTIER pour ne PAS reproduire les mêmes erreurs
+> - **Appliquer ACTIVEMENT les leçons** : chaque leçon dans errors.md est une règle permanente. Si une leçon dit "Ne JAMAIS faire X" → ne JAMAIS le refaire. Si elle dit "Toujours vérifier Y" → TOUJOURS le vérifier.
+> - **Évoluer en continu** : le journal d'erreurs est la MÉMOIRE VIVANTE. Chaque bug corrigé rend le code futur meilleur. Ne JAMAIS reproduire une erreur déjà documentée — c'est la règle la plus importante.
 > - Le Plan Wolf analyse ce fichier — les leçons non appliquées font baisser le score
 > - Format : ERR-XXX avec gravité CRITIQUE / MAJEUR / MINEUR
 > - Une "leçon" doit être **actionnable** ("Ne JAMAIS faire X" ou "Toujours vérifier Y") — pas juste "c'était un bug"
+> - **Checklist erreurs connues à vérifier AVANT chaque commit** :
+>   - Pas de handlers `window.*` dupliqués entre fichiers (ERR-001)
+>   - Les actions qui écrivent des données vérifient Firebase Auth (ERR-002)
+>   - Tout champ marqué * a une validation côté code (ERR-003)
+>   - Les sélecteurs CSS matchent le HTML réel du template (ERR-008)
+>   - La validation existe au passage d'étape ET à la soumission finale (ERR-009)
+>   - Pas de MutationObserver qui modifie le DOM qu'il observe sans garde (ERR-011)
 
 > **RÈGLE #11 — AUDIT COMPLET AVANT LIVRAISON** :
 > - À la fin de chaque session ou avant une livraison majeure, exécuter EN PARALLÈLE :

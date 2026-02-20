@@ -61,6 +61,13 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session ~2026-02-20 (session 3)
+- Fix MutationObserver boucle infinie dans AddSpot autocomplete (ERR-011) : flag de garde lastAutocompleteStep
+- Retiré cleanupAutocompletes() des fonctions init (le cleanup est géré par l'Observer)
+- Retiré l'affichage saison de l'étape 2 (la date est dans createdAt)
+- Renforcé CLAUDE.md Règle #12 : apprentissage continu obligatoire + checklist erreurs connues avant chaque commit
+- Ajouté décision E2E CI (2 workers, 1 retry, 30s timeout, no video)
+
 ### Session ~2026-02-20 (suite)
 - Fix Service Worker interceptant les pages SEO : /city/* et /guides/* exclus du navigateFallback
 - Fix formulaire AddSpot cassé : suppression 11 handlers en double dans main.js qui écrasaient la validation d'AddSpot.js
