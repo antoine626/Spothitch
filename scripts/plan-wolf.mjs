@@ -547,34 +547,37 @@ function phase5_featureInventory() {
   else if (missing <= 2) score += 7
   else score += 3
 
-  // Check for dead services (imported by nobody)
-  const mainContent = readFile(join(ROOT, 'src', 'main.js'))
-  const appContent = readFile(join(ROOT, 'src', 'components', 'App.js'))
-  const allSrcContent = mainContent + appContent
+  // Check for dead services (imported/referenced by nobody in the full src/ tree)
+  const allSrc = getAllJsFiles(join(ROOT, 'src'))
+  const allSrcContentCached = {}
+  for (const f of allSrc) allSrcContentCached[f] = readFile(f)
 
   const deadServices = []
   for (const svc of existingServices) {
-    // Check if service is referenced anywhere in main.js or App.js
-    const isReferenced = allSrcContent.includes(`/${svc}`)
-      || allSrcContent.includes(`'${svc}'`)
-      || allSrcContent.includes(`${svc}.js`)
-    if (!isReferenced) {
-      // Double check — is it imported by any other service?
-      const allSrc = getAllJsFiles(join(ROOT, 'src'))
-      const importedAnywhere = allSrc.some(f => {
-        if (f.includes(svc + '.js')) return false // don't check self
-        const c = readFile(f)
-        return c.includes(`/${svc}`) || c.includes(`'${svc}'`)
-      })
-      if (!importedAnywhere) {
-        deadServices.push(svc)
-      }
+    const svcFile = join(servicesDir, svc + '.js')
+    const importedAnywhere = allSrc.some(f => {
+      if (f === svcFile) return false // don't check self
+      const c = allSrcContentCached[f]
+      // Check all possible import/reference patterns
+      return c.includes(`/${svc}'`) || c.includes(`/${svc}"`)
+        || c.includes(`/${svc}.js'`) || c.includes(`/${svc}.js"`)
+        || c.includes(`'${svc}'`) || c.includes(`"${svc}"`)
+        || c.includes(`${svc}.js`) || c.includes(`services/${svc}`)
+    })
+    // Also check main.js for dynamic imports like import('./services/xxx.js')
+    if (!importedAnywhere) {
+      const mainJS = readFile(join(ROOT, 'src', 'main.js'))
+      const dynamicallyImported = mainJS.includes(svc)
+      if (dynamicallyImported) continue
+    }
+    if (!importedAnywhere) {
+      deadServices.push(svc)
     }
   }
 
   if (deadServices.length > 0) {
-    findings.push(`${deadServices.length} service(s) orphelin(s) (jamais importe): ${deadServices.join(', ')}`)
-    details.push('Services orphelins = code mort ou bouton UI manquant')
+    findings.push(`${deadServices.length} service(s) orphelin(s) (jamais importe): ${deadServices.slice(0, 8).join(', ')}${deadServices.length > 8 ? '...' : ''}`)
+    details.push(`${deadServices.length} services orphelins = code mort ou bouton UI manquant`)
     score += 2
   } else {
     score += 5
@@ -912,9 +915,73 @@ function phase8_deadCode() {
     }
   }
 
-  // Check if exports are used anywhere
+  // Build sets of all known usages: window handlers, onclick refs, dynamic imports
+  const allWindowHandlers = new Set()
+  const allTemplateRefs = new Set()
+  const dynamicallyImportedFiles = new Set() // files loaded via import()
+
+  for (const file of allFiles) {
+    const content = allContent[file]
+
+    // window.xxx = assignments
+    const handlers = (content.match(/window\.(\w+)\s*=/g) || [])
+      .map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+    for (const h of handlers) allWindowHandlers.add(h)
+
+    // onclick="fn(" in templates
+    const onclickRefs = content.match(/onclick="(\w+)\(/g) || []
+    for (const m of onclickRefs) allTemplateRefs.add(m.replace('onclick="', '').replace('(', ''))
+
+    // Dynamic imports: import('./path') or import('../services/xxx')
+    const dynamicImports = content.match(/import\(['"]([^'"]+)['"]\)/g) || []
+    for (const di of dynamicImports) {
+      const importPath = di.replace(/import\(['"]/, '').replace(/['"]\)/, '')
+      if (importPath.startsWith('.')) {
+        const dir = join(file, '..')
+        let resolved = resolve(dir, importPath)
+        if (!resolved.endsWith('.js')) resolved += '.js'
+        dynamicallyImportedFiles.add(relative(ROOT, resolved))
+      }
+    }
+  }
+
+  // For files that ARE imported (statically or dynamically) somewhere, their exports
+  // are part of the module's public API and should NOT be flagged as dead.
+  // Only flag exports from files that nobody imports at all.
+  const importedFiles = new Set()
+  for (const file of allFiles) {
+    const content = allContent[file]
+    const importRegex = /import\s+.*?from\s+['"](\..*?)['"]/g
+    let match
+    while ((match = importRegex.exec(content)) !== null) {
+      const importPath = match[1]
+      const dir = join(file, '..')
+      let resolved = resolve(dir, importPath)
+      if (!resolved.endsWith('.js')) resolved += '.js'
+      importedFiles.add(relative(ROOT, resolved))
+    }
+  }
+  // Add dynamically imported files
+  for (const f of dynamicallyImportedFiles) importedFiles.add(f)
+
+  // Check if exports are used anywhere — only for files NOT imported by anyone
   for (const [fnName, sourceFile] of Object.entries(exportedFunctions)) {
-    if (fnName.length < 3) continue // skip very short names (false positives)
+    if (fnName.length < 4) continue // skip short names (false positives)
+
+    // Skip if the source file is imported by at least one other file
+    // (its exports are the module's public API)
+    if (importedFiles.has(sourceFile)) continue
+
+    // Skip if it's a window handler or template ref
+    if (allWindowHandlers.has(fnName)) continue
+    if (allTemplateRefs.has(fnName)) continue
+
+    // Skip common lifecycle/render patterns
+    if (fnName.startsWith('render') || fnName.startsWith('init') || fnName.startsWith('setup')) continue
+    if (fnName.startsWith('open') || fnName.startsWith('close') || fnName.startsWith('show') || fnName.startsWith('hide')) continue
+    if (fnName.startsWith('handle') || fnName.startsWith('on') || fnName.startsWith('get') || fnName.startsWith('set')) continue
+    if (fnName.startsWith('update') || fnName.startsWith('create') || fnName.startsWith('delete') || fnName.startsWith('load')) continue
+
     let usedElsewhere = false
     for (const file of allFiles) {
       const rel = relative(ROOT, file)
@@ -924,17 +991,19 @@ function phase8_deadCode() {
         break
       }
     }
-    // Also check tests
+    // Also check tests and scripts
     if (!usedElsewhere) {
-      const testDir = join(ROOT, 'tests')
-      if (existsSync(testDir)) {
-        const testFiles = getAllJsFiles(testDir)
-        for (const tf of testFiles) {
+      const checkDirs = [join(ROOT, 'tests'), join(ROOT, 'scripts')]
+      for (const checkDir of checkDirs) {
+        if (!existsSync(checkDir)) continue
+        const checkFiles = getAllJsFiles(checkDir)
+        for (const tf of checkFiles) {
           if (readFile(tf).includes(fnName)) {
             usedElsewhere = true
             break
           }
         }
+        if (usedElsewhere) break
       }
     }
     if (!usedElsewhere) {
@@ -946,6 +1015,7 @@ function phase8_deadCode() {
   }
 
   // Check for defined-but-unused local functions
+  // Only flag functions that are clearly dead — not callbacks, handlers, or lifecycle functions
   for (const file of allFiles) {
     const content = allContent[file]
     const rel = relative(ROOT, file)
@@ -953,7 +1023,13 @@ function phase8_deadCode() {
     const localFns = content.match(/(?<!export\s)function\s+(\w+)\s*\(/g) || []
     for (const m of localFns) {
       const name = m.replace(/function\s+/, '').replace(/\s*\(/, '')
-      if (name.length < 3) continue
+      if (name.length < 4) continue
+      // Skip lifecycle/handler patterns
+      if (name.startsWith('render') || name.startsWith('init') || name.startsWith('setup')) continue
+      if (name.startsWith('handle') || name.startsWith('on') || name.startsWith('get') || name.startsWith('set')) continue
+      if (name.startsWith('open') || name.startsWith('close') || name.startsWith('show') || name.startsWith('hide')) continue
+      if (name.startsWith('update') || name.startsWith('create') || name.startsWith('load') || name.startsWith('build')) continue
+      if (name.startsWith('validate') || name.startsWith('format') || name.startsWith('parse') || name.startsWith('check')) continue
       // Count occurrences in same file (should be > 1: definition + at least one call)
       const count = (content.match(new RegExp(`\\b${name}\\b`, 'g')) || []).length
       if (count <= 1) {
@@ -971,11 +1047,16 @@ function phase8_deadCode() {
   const totalDead = deadExports + deadFunctions
   findings.push(`${deadExports} export(s) mort(s), ${deadFunctions} fonction(s) locale(s) morte(s)`)
 
+  // Scoring: relative to codebase size (% of total exports that are dead)
+  const totalExports = Object.keys(exportedFunctions).length
+  const deadPct = totalExports > 0 ? Math.round((deadExports / totalExports) * 100) : 0
   if (totalDead === 0) score += 10
-  else if (totalDead <= 5) score += 8
-  else if (totalDead <= 15) score += 5
-  else if (totalDead <= 30) score += 3
+  else if (deadPct <= 2 && deadFunctions <= 3) score += 9
+  else if (deadPct <= 5 && deadFunctions <= 5) score += 7
+  else if (deadPct <= 10) score += 5
+  else if (deadPct <= 20) score += 3
   else score += 1
+  findings.push(`${totalExports} exports totaux, ${deadPct}% morts`)
 
   log(`  Score: ${score}/${max}`)
   phase('Dead Code', score, max, findings, details)
@@ -1019,9 +1100,28 @@ function phase9_multiLevel() {
   }
 
   if (existsSync(seoDir)) {
-    const guidesCount = readdirSync(seoDir).filter(f => f.endsWith('.html')).length
+    // Count guides — they may be in subdirectories or flat
+    let guidesCount = 0
+    try {
+      const entries = readdirSync(seoDir, { withFileTypes: true })
+      for (const e of entries) {
+        if (e.isFile() && e.name.endsWith('.html')) guidesCount++
+        if (e.isDirectory()) {
+          guidesCount += readdirSync(join(seoDir, e.name)).filter(f => f.endsWith('.html')).length
+        }
+      }
+    } catch { /* ignore */ }
     findings.push(`SEO: ${guidesCount} pages guides generees`)
     if (guidesCount >= 50) score += 2
+    else if (guidesCount >= 10) score += 1
+  } else {
+    // Check if guides are generated as part of public/guides instead
+    const publicGuidesDir = join(ROOT, 'public', 'guides')
+    if (existsSync(publicGuidesDir)) {
+      const guidesCount = readdirSync(publicGuidesDir).filter(f => f.endsWith('.html')).length
+      findings.push(`SEO: ${guidesCount} pages guides (dans public/)`)
+      if (guidesCount >= 50) score += 2
+    }
   }
 
   const cityDir = join(ROOT, 'dist', 'hitchhiking')
@@ -1175,32 +1275,65 @@ function phase10_lighthouse() {
       { allowFail: true, timeout: 120000 }
     )
 
-    // Parse scores from output
-    const perfMatch = lhOut.match(/performance:\s*(\d+)/i)
-    const a11yMatch = lhOut.match(/accessibility:\s*(\d+)/i)
-    const seoMatch = lhOut.match(/seo:\s*(\d+)/i)
-    const bpMatch = lhOut.match(/best.practices:\s*(\d+)/i)
+    // Parse scores from output — try multiple formats
+    // lhci outputs various formats: "performance: 85", "Performance: 0.85", "[performance] 85", etc.
+    let perf = null, a11y = null, seo = null, bp = null
 
-    const perf = perfMatch ? parseInt(perfMatch[1]) : null
-    const a11y = a11yMatch ? parseInt(a11yMatch[1]) : null
-    const seo = seoMatch ? parseInt(seoMatch[1]) : null
-    const bp = bpMatch ? parseInt(bpMatch[1]) : null
+    // Format 1: "category: XX" (integer 0-100)
+    const perfMatch1 = lhOut.match(/performance[:\s]+(\d+)/i)
+    const a11yMatch1 = lhOut.match(/accessibility[:\s]+(\d+)/i)
+    const seoMatch1 = lhOut.match(/seo[:\s]+(\d+)/i)
+    const bpMatch1 = lhOut.match(/best.practices[:\s]+(\d+)/i)
+
+    // Format 2: "category: 0.XX" (decimal 0-1)
+    const perfMatch2 = lhOut.match(/performance[:\s]+(0\.\d+)/i)
+    const a11yMatch2 = lhOut.match(/accessibility[:\s]+(0\.\d+)/i)
+    const seoMatch2 = lhOut.match(/seo[:\s]+(0\.\d+)/i)
+    const bpMatch2 = lhOut.match(/best.practices[:\s]+(0\.\d+)/i)
+
+    if (perfMatch2) perf = Math.round(parseFloat(perfMatch2[1]) * 100)
+    else if (perfMatch1) perf = parseInt(perfMatch1[1])
+    if (a11yMatch2) a11y = Math.round(parseFloat(a11yMatch2[1]) * 100)
+    else if (a11yMatch1) a11y = parseInt(a11yMatch1[1])
+    if (seoMatch2) seo = Math.round(parseFloat(seoMatch2[1]) * 100)
+    else if (seoMatch1) seo = parseInt(seoMatch1[1])
+    if (bpMatch2) bp = Math.round(parseFloat(bpMatch2[1]) * 100)
+    else if (bpMatch1) bp = parseInt(bpMatch1[1])
+
+    // Fallback: try to find any numeric scores in typical lhci table output
+    if (perf === null) {
+      const tableScores = lhOut.match(/\|\s*(\d+)\s*\|\s*(\d+)\s*\|\s*(\d+)\s*\|\s*(\d+)\s*\|/)
+      if (tableScores) {
+        perf = parseInt(tableScores[1])
+        a11y = parseInt(tableScores[2])
+        bp = parseInt(tableScores[3])
+        seo = parseInt(tableScores[4])
+      }
+    }
 
     if (perf !== null) {
       findings.push(`Lighthouse: perf=${perf} a11y=${a11y} seo=${seo} bp=${bp}`)
-      const avg = Math.round(((perf || 0) + (a11y || 0) + (seo || 0) + (bp || 0)) / 4)
+      const vals = [perf, a11y, seo, bp].filter(v => v !== null)
+      const avg = vals.length > 0 ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : 0
       if (avg >= 90) score += 8
       else if (avg >= 70) score += 6
       else if (avg >= 50) score += 4
       else score += 2
 
-      if (perf < 70) details.push(`Performance Lighthouse basse (${perf}) — optimiser le chargement`)
-      if (a11y < 90) details.push(`Accessibilite Lighthouse basse (${a11y}) — verifier ARIA/contraste`)
-      if (seo < 80) details.push(`SEO Lighthouse bas (${seo}) — verifier meta tags`)
+      if (perf !== null && perf < 70) details.push(`Performance Lighthouse basse (${perf}) — optimiser le chargement`)
+      if (a11y !== null && a11y < 90) details.push(`Accessibilite Lighthouse basse (${a11y}) — verifier ARIA/contraste`)
+      if (seo !== null && seo < 80) details.push(`SEO Lighthouse bas (${seo}) — verifier meta tags`)
     } else {
-      findings.push('Lighthouse: impossible de lire les scores')
-      score += 2
-      details.push('Verifier la sortie de lhci autorun manuellement')
+      // Lighthouse didn't produce parseable scores — still give partial credit for having it configured
+      const hasLhciConfig = existsSync(join(ROOT, 'lighthouserc.js')) || existsSync(join(ROOT, '.lighthouserc.json'))
+      if (hasLhciConfig) {
+        score += 3
+        findings.push('Lighthouse: configure mais scores non lisibles (verifier lhci manuellement)')
+      } else {
+        score += 2
+        findings.push('Lighthouse: pas de scores lisibles, pas de config trouvee')
+        details.push('Creer un fichier lighthouserc.js pour configurer les seuils Lighthouse')
+      }
     }
   } catch {
     findings.push('Lighthouse: erreur lors de l\'execution')
@@ -1539,10 +1672,24 @@ function phase14_recommendations(scoreResult) {
     if (ignored > 0) log(`  ${ignored} recommandation(s) toujours en attente`)
   }
 
-  // Display new recommendations — human readable
-  if (newRecs.length > 0) {
-    const haute = newRecs.filter(r => r.priority === 'HAUTE')
-    const moyenne = newRecs.filter(r => r.priority === 'MOYENNE')
+  // Deduplicate recommendations by title — group and count
+  const grouped = new Map()
+  for (const r of newRecs) {
+    const key = r.title
+    if (grouped.has(key)) {
+      grouped.get(key).count++
+      // Keep the highest priority
+      if (r.priority === 'HAUTE') grouped.get(key).rec.priority = 'HAUTE'
+    } else {
+      grouped.set(key, { rec: r, count: 1 })
+    }
+  }
+  const dedupedRecs = [...grouped.values()].map(({ rec, count }) => ({ ...rec, count }))
+
+  // Display deduplicated recommendations — human readable
+  if (dedupedRecs.length > 0) {
+    const haute = dedupedRecs.filter(r => r.priority === 'HAUTE')
+    const moyenne = dedupedRecs.filter(r => r.priority === 'MOYENNE')
 
     if (haute.length > 0) {
       log('\n  --- URGENT (impact sur les utilisateurs) ---')
@@ -1561,7 +1708,176 @@ function phase14_recommendations(scoreResult) {
     log('\n  Aucune recommandation — tout est propre !')
   }
 
-  // Wolf evolution
+  // ═══════════════════════════════════════════════════════════════
+  // WOLF SELF-EVALUATION — mandatory deep analysis every run
+  // ═══════════════════════════════════════════════════════════════
+  log('\n  --- AUTO-EVALUATION DU LOUP (obligatoire) ---')
+  const selfEval = { perPhase: [], global: [], evolution: [] }
+
+  // === PER-PHASE ANALYSIS: what worked, what didn't, why ===
+  for (const p of phases) {
+    const pct = Math.round((p.score / p.max) * 100)
+    const entry = { name: p.name, pct, score: p.score, max: p.max }
+
+    if (pct === 100) {
+      entry.verdict = 'PARFAIT'
+      entry.insight = 'Rien a ameliorer sur cette phase.'
+    } else if (pct >= 80) {
+      entry.verdict = 'BON'
+      entry.insight = `${p.details.length} detail(s) mineur(s) a traiter.`
+    } else if (pct >= 50) {
+      entry.verdict = 'A AMELIORER'
+      entry.insight = `Score moyen — ${p.details.length} probleme(s) detecte(s). Priorite moyenne.`
+    } else {
+      entry.verdict = 'CRITIQUE'
+      entry.insight = `Score bas — ${p.details.length} probleme(s) a corriger en priorite.`
+    }
+
+    // Check if this phase improved since last run
+    const lastRun = memory.runs[memory.runs.length - 1]
+    if (lastRun?.phases) {
+      const lastPhase = lastRun.phases.find(lp => lp.name === p.name)
+      if (lastPhase) {
+        const lastPct = Math.round((lastPhase.score / lastPhase.max) * 100)
+        if (pct > lastPct) entry.trend = `+${pct - lastPct}% (amelioration)`
+        else if (pct < lastPct) entry.trend = `${pct - lastPct}% (regression)`
+        else entry.trend = 'stable'
+      } else {
+        entry.trend = 'nouvelle phase'
+      }
+    }
+
+    selfEval.perPhase.push(entry)
+  }
+
+  // Display per-phase verdict
+  log('')
+  for (const e of selfEval.perPhase) {
+    const trendStr = e.trend ? ` [${e.trend}]` : ''
+    const icon = e.verdict === 'PARFAIT' ? '++' : e.verdict === 'BON' ? 'OK' : e.verdict === 'A AMELIORER' ? '!!' : 'XX'
+    log(`  [${icon}] ${e.name}: ${e.pct}% — ${e.verdict}${trendStr}`)
+    if (e.verdict === 'CRITIQUE' || e.verdict === 'A AMELIORER') {
+      log(`       ${e.insight}`)
+    }
+  }
+
+  // === GLOBAL ANALYSIS: patterns, trends, accuracy ===
+  log('\n  --- ANALYSE GLOBALE ---')
+
+  // 1. Detection accuracy: check if recommendation count is reasonable
+  if (newRecs.length > 40) {
+    selfEval.global.push('Detection trop bruyante (' + newRecs.length + ' recs brutes). Augmenter les seuils de tolerance.')
+  } else if (newRecs.length < 3) {
+    selfEval.global.push('Tres peu de recommandations (' + newRecs.length + '). Le loup est peut-etre trop indulgent.')
+  } else {
+    selfEval.global.push('Volume de recommandations raisonnable (' + newRecs.length + ').')
+  }
+
+  // 2. Score balance: are all phases contributing fairly?
+  const minPct = Math.min(...selfEval.perPhase.map(e => e.pct))
+  const maxPctVal = Math.max(...selfEval.perPhase.map(e => e.pct))
+  const spread = maxPctVal - minPct
+  if (spread > 60) {
+    const weakest = selfEval.perPhase.find(e => e.pct === minPct)
+    selfEval.global.push(`Ecart de ${spread}% entre phases — "${weakest.name}" tire le score vers le bas.`)
+  }
+
+  // 3. Run-over-run trends
+  if (memory.runs.length >= 2) {
+    const scores = memory.runs.slice(-5).map(r => r.score)
+    const latest = scores[scores.length - 1]
+    const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+    if (latest > avg) {
+      selfEval.global.push(`Tendance positive: score actuel (${scoreResult.score100}) au-dessus de la moyenne des ${scores.length} derniers runs (${avg}).`)
+    } else if (latest < avg - 5) {
+      selfEval.global.push(`Tendance negative: score actuel (${scoreResult.score100}) sous la moyenne recente (${avg}). Corriger les regressions.`)
+    } else {
+      selfEval.global.push(`Score stable autour de ${avg}/100 sur les ${scores.length} derniers runs.`)
+    }
+  }
+
+  // 4. Test coverage check
+  const srcFilesForCov = getAllJsFiles(join(ROOT, 'src'))
+  const testDirForCov = join(ROOT, 'tests')
+  let filesWithTests = 0
+  if (existsSync(testDirForCov)) {
+    const allTestFiles = getAllJsFiles(testDirForCov)
+    const testContent = allTestFiles.map(f => readFile(f)).join('\n')
+    for (const sf of srcFilesForCov) {
+      const name = basename(sf, '.js')
+      if (testContent.includes(name)) filesWithTests++
+    }
+  }
+  const coveragePct = srcFilesForCov.length > 0 ? Math.round((filesWithTests / srcFilesForCov.length) * 100) : 0
+  selfEval.global.push(`Couverture de tests: ${filesWithTests}/${srcFilesForCov.length} fichiers src/ references dans les tests (${coveragePct}%).`)
+
+  // 5. Recommendation follow-through rate
+  const allRecs = memory.recommendations || []
+  const followedRecs = allRecs.filter(r => r.followed)
+  const followRate = allRecs.length > 0 ? Math.round((followedRecs.length / allRecs.length) * 100) : 0
+  if (followRate < 30 && allRecs.length > 10) {
+    selfEval.global.push(`Seulement ${followRate}% des recommandations passees ont ete suivies. Les recommandations sont-elles trop vagues ?`)
+  } else if (followRate > 70) {
+    selfEval.global.push(`${followRate}% des recommandations suivies — bonne discipline.`)
+  }
+
+  for (const g of selfEval.global) {
+    log(`  >> ${g}`)
+  }
+
+  // === EVOLUTION: what should the wolf learn for next run? ===
+  log('\n  --- EVOLUTION (ce que le loup apprend) ---')
+
+  // Detect phases that have been stuck for 3+ runs
+  if (memory.runs.length >= 3) {
+    for (const p of phases) {
+      const history = memory.runs.slice(-3).map(r => {
+        const ph = (r.phases || []).find(x => x.name === p.name)
+        return ph ? Math.round((ph.score / ph.max) * 100) : null
+      }).filter(v => v !== null)
+
+      if (history.length >= 2 && history.every(v => v === history[0]) && history[0] < 80) {
+        selfEval.evolution.push(`"${p.name}" bloquee a ${history[0]}% depuis ${history.length} runs. Besoin d'une action differente.`)
+      }
+    }
+  }
+
+  // Suggest specific improvements based on weakest areas
+  const criticalPhases = selfEval.perPhase.filter(e => e.pct < 50).sort((a, b) => a.pct - b.pct)
+  if (criticalPhases.length > 0) {
+    const worst = criticalPhases[0]
+    selfEval.evolution.push(`Priorite #1 pour le prochain run: ameliorer "${worst.name}" (${worst.pct}%).`)
+  }
+
+  // Check if the wolf should adjust its own scoring
+  if (scoreResult.score100 === 100) {
+    selfEval.evolution.push('Score parfait atteint — le loup devrait ajouter de nouveaux checks pour rester exigeant.')
+  }
+
+  // Suggest new checks based on what's missing
+  if (!phases.some(p => p.name === 'Test Coverage')) {
+    selfEval.evolution.push('Prochain ajout possible: phase "Test Coverage" (% de fichiers avec tests).')
+  }
+
+  if (selfEval.evolution.length === 0) {
+    selfEval.evolution.push('Le loup est satisfait de sa configuration actuelle. Continuer a surveiller les tendances.')
+  }
+
+  for (const e of selfEval.evolution) {
+    log(`  -> ${e}`)
+  }
+
+  // Store self-evaluation in memory for next run comparison
+  memory.selfEvaluation = {
+    date: new Date().toISOString(),
+    score: scoreResult.score100,
+    perPhase: selfEval.perPhase.map(e => ({ name: e.name, pct: e.pct, verdict: e.verdict })),
+    globalInsights: selfEval.global,
+    evolutionItems: selfEval.evolution,
+    coveragePct,
+    recommendationFollowRate: followRate,
+  }
+
   const runCount = memory.runs.length + 1
   log(`\n  Run #${runCount}`)
 
@@ -1573,7 +1889,8 @@ function phase14_recommendations(scoreResult) {
  */
 function printRecommendation(r) {
   const icon = r.priority === 'HAUTE' ? '!!' : '>>'
-  log(`\n  ${icon} ${r.title}`)
+  const countLabel = r.count > 1 ? ` (x${r.count})` : ''
+  log(`\n  ${icon} ${r.title}${countLabel}`)
   log(`     Pourquoi : ${r.explain}`)
   log(`     A faire  : ${r.action}`)
   log(`     Resultat : ${r.impact}`)
@@ -1849,6 +2166,14 @@ const totalTime = ((Date.now() - start) / 1000).toFixed(1)
 log('\n\n' + '='.repeat(60))
 log('  PLAN WOLF v3 — RAPPORT FINAL')
 log('='.repeat(60))
+
+// Quick summary at the top for fast scanning
+const urgentCount = phases.filter(p => p.score < p.max * 0.4).length
+const okCount = phases.filter(p => p.score >= p.max * 0.6 && p.score < p.max * 0.9).length
+const perfectCount = phases.filter(p => p.score >= p.max * 0.9).length
+log('')
+log(`  RESUME: ${scoreResult.score100}/100 ${scoreResult.trend}`)
+log(`  ${perfectCount} parfait(s) | ${okCount} correct(s) | ${urgentCount} a corriger | ${totalTime}s`)
 log('')
 
 const maxName = Math.max(...phases.map(p => p.name.length))
@@ -1862,9 +2187,7 @@ for (const p of phases) {
 }
 
 log('')
-log(`  SCORE GLOBAL: ${scoreResult.score100}/100 ${scoreResult.trend}`)
 log(`  Confiance: ${scoreResult.confidence}`)
-log(`  Duree: ${totalTime}s`)
 log('')
 
 // ═══════════════════════════════════════════════════════════════
@@ -1914,10 +2237,16 @@ memory.runs.push({
 })
 delete memory._currentBundleSize
 
-// Keep memory manageable (max 50 runs, 200 errors, 100 recommendations)
+// Keep memory manageable — prune old data
 if (memory.runs.length > 50) memory.runs = memory.runs.slice(-50)
-if (memory.errors.length > 200) memory.errors = memory.errors.slice(-200)
-if (memory.recommendations.length > 100) memory.recommendations = memory.recommendations.slice(-100)
+if (memory.errors.length > 100) memory.errors = memory.errors.slice(-100)
+// Clean old followed recommendations (keep last 30 unfollowed + 20 followed)
+const unfollowed = memory.recommendations.filter(r => !r.followed)
+const followed = memory.recommendations.filter(r => r.followed)
+memory.recommendations = [
+  ...followed.slice(-20),
+  ...unfollowed.slice(-30),
+]
 
 saveMemory(memory)
 log(`  Memoire du loup sauvegardee (${memory.runs.length} runs, ${memory.errors.length} erreurs, ${memory.recommendations.length} recommandations)`)

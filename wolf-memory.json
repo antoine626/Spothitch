@@ -280,6 +280,366 @@
       ],
       "errors": 1,
       "recommendations": 34
+    },
+    {
+      "date": "2026-02-20T23:15:14.994Z",
+      "score": 73,
+      "confidence": "MOYENNE",
+      "duration": "201.8s",
+      "mode": "full",
+      "bundleSize": 706,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 12
+        },
+        {
+          "name": "Dead Code",
+          "score": 1,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 11,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 2,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 5,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 8,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 34
+    },
+    {
+      "date": "2026-02-20T23:21:06.409Z",
+      "score": 74,
+      "confidence": "MOYENNE",
+      "duration": "192.2s",
+      "mode": "quick",
+      "bundleSize": 706,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 12
+        },
+        {
+          "name": "Dead Code",
+          "score": 1,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 4,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 3,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 8,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 33
+    },
+    {
+      "date": "2026-02-20T23:26:06.092Z",
+      "score": 74,
+      "confidence": "MOYENNE",
+      "duration": "185.6s",
+      "mode": "quick",
+      "bundleSize": 706,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 12
+        },
+        {
+          "name": "Dead Code",
+          "score": 1,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 4,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 3,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 8,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 33
+    },
+    {
+      "date": "2026-02-20T23:30:43.750Z",
+      "score": 75,
+      "confidence": "MOYENNE",
+      "duration": "196.3s",
+      "mode": "full",
+      "bundleSize": 706,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 12
+        },
+        {
+          "name": "Dead Code",
+          "score": 1,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 3,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 5,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 8,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 33
+    },
+    {
+      "date": "2026-02-20T23:34:56.527Z",
+      "score": 78,
+      "confidence": "MOYENNE",
+      "duration": "196.9s",
+      "mode": "full",
+      "bundleSize": 706,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 12
+        },
+        {
+          "name": "Dead Code",
+          "score": 5,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 3,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 5,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 8,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 33
     }
   ],
   "errors": [
@@ -296,190 +656,263 @@
       "date": "2026-02-20T12:47:21.334Z",
       "file": null,
       "check": null
+    },
+    {
+      "phase": "Feature Inventory",
+      "description": "26 services orphelins = code mort ou bouton UI manquant",
+      "date": "2026-02-20T23:21:06.409Z",
+      "file": null,
+      "check": null
+    },
+    {
+      "phase": "Feature Inventory",
+      "description": "22 services orphelins = code mort ou bouton UI manquant",
+      "date": "2026-02-20T23:26:06.092Z",
+      "file": null,
+      "check": null
     }
   ],
   "patterns": [],
   "recommendations": [
     {
-      "source": "Code Quality",
-      "text": "Lancer npx eslint src/ --fix pour corriger automatiquement",
-      "priority": "MOYENNE",
-      "createdAt": "2026-02-20T07:03:31.358Z",
-      "followed": false
+      "source": "Dead Code",
+      "text": "Export mort: \"positionSpotlight\" dans src/components/modals/Tutorial.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:10:13.555Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"renderThankYouModal\" dans src/components/ui/DonationCard.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:10:13.555Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:21:06.405Z"
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"renderNavigationWidget\" dans src/components/ui/NavigationOverlay.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:10:13.555Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:21:06.405Z"
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"renderSkeletonLine\" dans src/components/ui/Skeleton.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:10:13.555Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:21:06.405Z"
+    },
+    {
+      "source": "Dead Code",
+      "text": "... et 389 autres exports morts",
+      "createdAt": "2026-02-20T23:10:13.556Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir.",
+      "followedAt": "2026-02-20T23:21:06.405Z"
+    },
+    {
+      "source": "Lighthouse",
+      "text": "Verifier la sortie de lhci autorun manuellement",
+      "createdAt": "2026-02-20T23:15:14.986Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "[Lighthouse] Verifier la sortie de lhci autorun manuellement",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Lighthouse.",
+      "followedAt": "2026-02-20T23:21:06.405Z"
     },
     {
       "source": "Feature Inventory",
-      "text": "Services orphelins = code mort ou bouton UI manquant",
-      "priority": "MOYENNE",
-      "createdAt": "2026-02-20T07:03:31.358Z",
-      "followed": false
-    },
-    {
-      "source": "Wiring Integrity",
-      "text": "31 modales sans close handler",
-      "priority": "MOYENNE",
-      "createdAt": "2026-02-20T07:03:31.358Z",
-      "followed": true,
-      "followedAt": "2026-02-20T12:47:21.331Z"
-    },
-    {
-      "source": "Code Quality",
-      "text": "Lancer node scripts/audit-rgpd.mjs pour voir les cles manquantes",
-      "createdAt": "2026-02-20T12:47:21.331Z",
+      "text": "26 services orphelins = code mort ou bouton UI manquant",
+      "createdAt": "2026-02-20T23:21:06.403Z",
       "followed": true,
       "priority": "HAUTE",
-      "title": "Probleme de conformite RGPD",
-      "explain": "Le reglement europeen sur les donnees personnelles n'est pas respecte sur certains points.",
-      "action": "Lancer node scripts/audit-rgpd.mjs pour voir les problemes et les corriger.",
-      "impact": "Le site respecte la loi et les donnees des utilisateurs sont protegees.",
-      "followedAt": "2026-02-20T13:00:23.609Z"
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Impact Analysis",
-      "text": "src/main.js affecte potentiellement 1 fichiers",
-      "createdAt": "2026-02-20T12:47:21.331Z",
+      "source": "Dead Code",
+      "text": "Export mort: \"getTotalBadgePoints\" dans src/data/badges.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:21:06.404Z",
       "followed": true,
       "priority": "HAUTE",
-      "title": "[Impact Analysis] src/main.js affecte potentiellement 1 fichiers",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Impact Analysis.",
-      "followedAt": "2026-02-20T13:00:23.609Z"
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Impact Analysis",
-      "text": "Tester TOUT apres modification de fichiers critiques",
-      "createdAt": "2026-02-20T12:47:21.331Z",
+      "source": "Dead Code",
+      "text": "Export mort: \"getWeeklyChallenges\" dans src/data/challenges.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:21:06.404Z",
       "followed": true,
       "priority": "HAUTE",
-      "title": "[Impact Analysis] Tester TOUT apres modification de fichiers critiques",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Impact Analysis.",
-      "followedAt": "2026-02-20T13:00:23.609Z"
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Impact Analysis",
-      "text": "1 fichier(s) modifie(s) sans test unitaire correspondant",
-      "createdAt": "2026-02-20T12:47:21.331Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Des tests echouent",
-      "explain": "Certains tests automatiques detectent des problemes. Ca veut dire qu'une fonctionnalite est peut-etre cassee.",
-      "action": "Lancer npx vitest run pour voir les tests qui echouent et corriger les erreurs.",
-      "impact": "Toutes les fonctionnalites marchent comme prevu."
-    },
-    {
-      "source": "Regression Guard",
-      "text": "10 erreur(s) NON CORRIGEE(S) dans memory/errors.md — a traiter en priorite",
-      "createdAt": "2026-02-20T12:47:21.331Z",
+      "source": "Dead Code",
+      "text": "Export mort: \"getMonthlyChallenges\" dans src/data/challenges.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:21:06.404Z",
       "followed": true,
       "priority": "HAUTE",
-      "title": "[Regression Guard] 10 erreur(s) NON CORRIGEE(S) dans memory/errors.md — a trait",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Regression Guard.",
-      "followedAt": "2026-02-20T13:00:23.609Z"
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Wiring Integrity",
-      "text": "28 modales sans close handler",
-      "createdAt": "2026-02-20T12:47:21.331Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Des fenetres popup ne peuvent pas etre fermees",
-      "explain": "Certaines fenetres (modales) s'ouvrent mais n'ont pas de bouton \"fermer\" fonctionnel. L'utilisateur reste bloque s'il ouvre une de ces fenetres.",
-      "action": "Ajouter un handler window.closeXxx pour chaque modale qui en manque un.",
-      "impact": "Les utilisateurs pourront fermer toutes les fenetres popup sans rester bloques."
-    },
-    {
-      "source": "Tendance",
-      "text": "Le score baisse depuis 3 runs consecutifs",
-      "title": "Score en baisse",
-      "explain": "Le score du loup diminue a chaque verification. Ca veut dire que le code se degrade petit a petit au lieu de s'ameliorer.",
-      "action": "Regarder les recommandations non-suivies ci-dessous et les corriger une par une.",
-      "impact": "Remonter le score et eviter que des bugs s'accumulent.",
-      "priority": "HAUTE",
-      "createdAt": "2026-02-20T13:00:23.609Z",
+      "source": "Dead Code",
+      "text": "Export mort: \"getAnnualChallenges\" dans src/data/challenges.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:21:06.404Z",
       "followed": true,
-      "followedAt": "2026-02-20T23:10:13.556Z"
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Feature Inventory",
-      "text": "MEMOIRE PERIMEE: features.md dit \"104 tests wiring\" mais il y en a 3",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
+      "source": "Dead Code",
+      "text": "Export mort: \"getChallengeProgress\" dans src/data/challenges.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:21:06.404Z",
+      "followed": true,
       "priority": "HAUTE",
-      "title": "Des tests echouent",
-      "explain": "Certains tests automatiques detectent des problemes. Ca veut dire qu'une fonctionnalite est peut-etre cassee.",
-      "action": "Lancer npx vitest run pour voir les tests qui echouent et corriger les erreurs.",
-      "impact": "Toutes les fonctionnalites marchent comme prevu."
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Regression Guard",
-      "text": "Handler \"openSOS\" defini dans 3 fichiers: AdminPanel, modals, main",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
+      "source": "Dead Code",
+      "text": "Export mort: \"getGuidesByDifficulty\" dans src/data/guides.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:21:06.404Z",
+      "followed": true,
       "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Regression Guard",
-      "text": "Handler \"openAddSpot\" defini dans 3 fichiers: AdminPanel, modals, main",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
+      "source": "Dead Code",
+      "text": "Export mort: \"getEasiestCountries\" dans src/data/guides.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:21:06.404Z",
+      "followed": true,
       "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Regression Guard",
-      "text": "Handler \"openFilters\" defini dans 3 fichiers: AdminPanel, modals, main",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
+      "source": "Dead Code",
+      "text": "Export mort: \"getGuidesByLegality\" dans src/data/guides.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:21:06.404Z",
+      "followed": true,
       "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Regression Guard",
-      "text": "Handler \"setAuthMode\" defini dans 3 fichiers: Auth, auth, main",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
+      "source": "Dead Code",
+      "text": "... et 324 autres exports morts",
+      "createdAt": "2026-02-20T23:21:06.405Z",
+      "followed": true,
       "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir.",
+      "followedAt": "2026-02-20T23:26:06.087Z"
     },
     {
-      "source": "Regression Guard",
-      "text": "Handler \"handleGoogleSignIn\" defini dans 3 fichiers: Auth, auth, main",
+      "source": "Dead Code",
+      "text": "Fonction morte: \"renderRatingBar\" dans src/components/modals/SpotDetail.js — definie mais jamais appelee",
       "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir.",
+      "followedAt": "2026-02-20T23:34:56.442Z"
     },
     {
-      "source": "Regression Guard",
-      "text": "Handler \"handleForgotPassword\" defini dans 3 fichiers: Auth, auth, main",
+      "source": "Dead Code",
+      "text": "Fonction morte: \"renderTripSpot\" dans src/components/views/Travel.js — definie mais jamais appelee",
       "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir.",
+      "followedAt": "2026-02-20T23:34:56.442Z"
+    },
+    {
+      "source": "Dead Code",
+      "text": "Fonction morte: \"loadTranslations\" dans src/i18n/index.js — definie mais jamais appelee",
+      "createdAt": "2026-02-20T23:10:13.555Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Traductions manquantes",
+      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
+      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
+      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
+      "followedAt": "2026-02-20T23:34:56.442Z"
+    },
+    {
+      "source": "Dead Code",
+      "text": "... et 31 autres fonctions mortes",
+      "createdAt": "2026-02-20T23:10:13.556Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir.",
+      "followedAt": "2026-02-20T23:34:56.442Z"
     },
     {
       "source": "Regression Guard",
@@ -549,149 +982,6 @@
     },
     {
       "source": "Dead Code",
-      "text": "Export mort: \"renderSplashScreen\" dans src/components/SplashScreen.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"saveCustomPreferences\" dans src/components/modals/CookieBanner.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"showCustomizeModal\" dans src/components/modals/CookieBanner.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"hideCustomizeModal\" dans src/components/modals/CookieBanner.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"renderVerificationBadgeUI\" dans src/components/modals/IdentityVerification.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"renderAnswerFeedback\" dans src/components/modals/Quiz.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"positionSpotlight\" dans src/components/modals/Tutorial.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"renderThankYouModal\" dans src/components/ui/DonationCard.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"renderNavigationWidget\" dans src/components/ui/NavigationOverlay.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"renderSkeletonLine\" dans src/components/ui/Skeleton.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Fonction morte: \"renderRatingBar\" dans src/components/modals/SpotDetail.js — definie mais jamais appelee",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Code mort detecte (fonctions jamais utilisees)",
-      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
-      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
-      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Fonction morte: \"renderTripSpot\" dans src/components/views/Travel.js — definie mais jamais appelee",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Code mort detecte (fonctions jamais utilisees)",
-      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
-      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
-      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Fonction morte: \"loadTranslations\" dans src/i18n/index.js — definie mais jamais appelee",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue."
-    },
-    {
-      "source": "Dead Code",
       "text": "Fonction morte: \"haversineSimple\" dans src/main.js — definie mais jamais appelee",
       "createdAt": "2026-02-20T23:10:13.555Z",
       "followed": false,
@@ -713,9 +1003,130 @@
       "impact": "Code plus leger, plus clair, et plus facile a maintenir."
     },
     {
+      "source": "Feature Inventory",
+      "text": "22 services orphelins = code mort ou bouton UI manquant",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
       "source": "Dead Code",
-      "text": "... et 389 autres exports morts",
-      "createdAt": "2026-02-20T23:10:13.556Z",
+      "text": "Export mort: \"markMessagesAsRead\" dans src/services/chat.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"unsubscribeAll\" dans src/services/chat.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"shouldShowDailyRewardPopup\" dans src/services/dailyReward.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"grantStreakProtection\" dans src/services/dailyReward.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"addFavorite\" dans src/services/favorites.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"removeFavorite\" dans src/services/favorites.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"clearFavorites\" dans src/services/favorites.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"importFavorites\" dans src/services/favorites.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.085Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"refreshSpotOfTheDay\" dans src/services/spotOfTheDay.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.086Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Export mort: \"shouldRefreshSpotOfTheDay\" dans src/services/spotOfTheDay.js — jamais importe ailleurs",
+      "createdAt": "2026-02-20T23:26:06.086Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+    },
+    {
+      "source": "Dead Code",
+      "text": "... et 5 autres exports morts",
+      "createdAt": "2026-02-20T23:26:06.086Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Code mort detecte (fonctions jamais utilisees)",
@@ -724,11 +1135,110 @@
       "impact": "Code plus leger, plus clair, et plus facile a maintenir."
     },
     {
-      "source": "Dead Code",
-      "text": "... et 31 autres fonctions mortes",
-      "createdAt": "2026-02-20T23:10:13.556Z",
+      "source": "Code Quality",
+      "text": "Lancer npx eslint src/ --fix pour corriger automatiquement",
+      "createdAt": "2026-02-20T23:30:43.667Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Nettoyage automatique du code (ESLint)",
+      "explain": "ESLint trouve des petites erreurs de style dans le code (espaces, variables inutilisees). Ca ne casse rien mais ca rend le code moins propre.",
+      "action": "Lancer la commande : npx eslint src/ --fix (ca corrige tout automatiquement).",
+      "impact": "Code plus propre, plus facile a maintenir, et le score Code Quality passe a 15/15."
+    },
+    {
+      "source": "Feature Inventory",
+      "text": "MEMOIRE PERIMEE: features.md dit \"104 tests wiring\" mais il y en a 3",
+      "createdAt": "2026-02-20T23:30:43.668Z",
       "followed": false,
       "priority": "HAUTE",
+      "title": "Des tests echouent",
+      "explain": "Certains tests automatiques detectent des problemes. Ca veut dire qu'une fonctionnalite est peut-etre cassee.",
+      "action": "Lancer npx vitest run pour voir les tests qui echouent et corriger les erreurs.",
+      "impact": "Toutes les fonctionnalites marchent comme prevu."
+    },
+    {
+      "source": "Wiring Integrity",
+      "text": "28 modales sans close handler",
+      "createdAt": "2026-02-20T23:30:43.668Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Des fenetres popup ne peuvent pas etre fermees",
+      "explain": "Certaines fenetres (modales) s'ouvrent mais n'ont pas de bouton \"fermer\" fonctionnel. L'utilisateur reste bloque s'il ouvre une de ces fenetres.",
+      "action": "Ajouter un handler window.closeXxx pour chaque modale qui en manque un.",
+      "impact": "Les utilisateurs pourront fermer toutes les fenetres popup sans rester bloques."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"openSOS\" defini dans 3 fichiers: AdminPanel, modals, main",
+      "createdAt": "2026-02-20T23:34:56.440Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"openAddSpot\" defini dans 3 fichiers: AdminPanel, modals, main",
+      "createdAt": "2026-02-20T23:34:56.440Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"openFilters\" defini dans 3 fichiers: AdminPanel, modals, main",
+      "createdAt": "2026-02-20T23:34:56.440Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Fonction morte: \"signIn\" dans src/services/firebase.js — definie mais jamais appelee",
+      "createdAt": "2026-02-20T23:34:56.441Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Fonction morte: \"signInWithGoogle\" dans src/services/firebase.js — definie mais jamais appelee",
+      "createdAt": "2026-02-20T23:34:56.442Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Fonction morte: \"signInWithFacebook\" dans src/services/firebase.js — definie mais jamais appelee",
+      "createdAt": "2026-02-20T23:34:56.442Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
+    },
+    {
+      "source": "Dead Code",
+      "text": "... et 19 autres fonctions mortes",
+      "createdAt": "2026-02-20T23:34:56.442Z",
+      "followed": false,
+      "priority": "MOYENNE",
       "title": "Code mort detecte (fonctions jamais utilisees)",
       "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
       "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
@@ -739,6 +1249,87 @@
   "dependencyGraph": {
     "totalFiles": 205,
     "totalLinks": 587,
-    "updatedAt": "2026-02-20T23:10:02.600Z"
+    "updatedAt": "2026-02-20T23:34:41.136Z"
+  },
+  "selfEvaluation": {
+    "date": "2026-02-20T23:34:56.525Z",
+    "score": 78,
+    "perPhase": [
+      {
+        "name": "Code Quality",
+        "pct": 87,
+        "verdict": "BON"
+      },
+      {
+        "name": "Unit Tests",
+        "pct": 100,
+        "verdict": "PARFAIT"
+      },
+      {
+        "name": "Build",
+        "pct": 100,
+        "verdict": "PARFAIT"
+      },
+      {
+        "name": "Impact Analysis",
+        "pct": 100,
+        "verdict": "PARFAIT"
+      },
+      {
+        "name": "Feature Inventory",
+        "pct": 80,
+        "verdict": "BON"
+      },
+      {
+        "name": "Regression Guard",
+        "pct": 40,
+        "verdict": "CRITIQUE"
+      },
+      {
+        "name": "Wiring Integrity",
+        "pct": 42,
+        "verdict": "CRITIQUE"
+      },
+      {
+        "name": "Dead Code",
+        "pct": 50,
+        "verdict": "A AMELIORER"
+      },
+      {
+        "name": "Multi-Level Audit",
+        "pct": 87,
+        "verdict": "BON"
+      },
+      {
+        "name": "Lighthouse",
+        "pct": 38,
+        "verdict": "CRITIQUE"
+      },
+      {
+        "name": "Screenshots",
+        "pct": 100,
+        "verdict": "PARFAIT"
+      },
+      {
+        "name": "Feature Scores",
+        "pct": 80,
+        "verdict": "BON"
+      }
+    ],
+    "globalInsights": [
+      "Volume de recommandations raisonnable (33).",
+      "Ecart de 62% entre phases — \"Lighthouse\" tire le score vers le bas.",
+      "Tendance positive: score actuel (78) au-dessus de la moyenne des 5 derniers runs (73).",
+      "Couverture de tests: 158/205 fichiers src/ references dans les tests (77%)."
+    ],
+    "evolutionItems": [
+      "\"Regression Guard\" bloquee a 40% depuis 3 runs. Besoin d'une action differente.",
+      "\"Wiring Integrity\" bloquee a 42% depuis 3 runs. Besoin d'une action differente.",
+      "\"Dead Code\" bloquee a 10% depuis 3 runs. Besoin d'une action differente.",
+      "Priorite #1 pour le prochain run: ameliorer \"Lighthouse\" (38%).",
+      "Prochain ajout possible: phase \"Test Coverage\" (% de fichiers avec tests)."
+    ],
+    "coveragePct": 77,
+    "recommendationFollowRate": 48
   }
 }
