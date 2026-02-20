@@ -1,5 +1,7 @@
 # CLAUDE.md - Guide de développement SpotHitch
 
+> **RÈGLE #0 — AUCUNE PERMISSION** : NE JAMAIS demander la permission pour exécuter des commandes bash, lire des fichiers, ou faire des opérations techniques. AGIR directement. La seule exception = les décisions PRODUIT (ce qu'on construit, pas comment on le construit).
+
 > **RÈGLE #1 — DEPLOY AUTO** : Après CHAQUE modification de code, AUTOMATIQUEMENT et SANS DEMANDER :
 > 1. `npx vitest run tests/wiring/` pour vérifier les tests
 > 2. `npm run build` pour vérifier la compilation
