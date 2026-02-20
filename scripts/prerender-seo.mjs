@@ -488,6 +488,58 @@ async function loadAllSpots() {
   return all
 }
 
+// Common words that are NOT city names — filter these out from comment extraction
+const STOP_WORDS = new Set([
+  // English common words
+  'the', 'this', 'that', 'here', 'there', 'where', 'when', 'from', 'with', 'about',
+  'after', 'before', 'inside', 'outside', 'around', 'behind', 'between', 'under', 'over',
+  'both', 'another', 'some', 'every', 'each', 'many', 'much', 'more', 'most', 'other',
+  'hand', 'case', 'area', 'direction', 'road', 'exit', 'bus', 'car', 'station', 'hotel',
+  'fence', 'roundabout', 'city', 'front', 'group', 'vacation', 'thursday', 'friday',
+  'monday', 'tuesday', 'wednesday', 'saturday', 'sunday',
+  'for', 'and', 'but', 'not', 'you', 'are', 'was', 'get', 'got', 'catch', 'which',
+  'itself', 'himself', 'herself', 'yourself', 'myself',
+  // French common words
+  'les', 'des', 'une', 'que', 'sur', 'par', 'dans', 'avec', 'pour', 'tout', 'cette',
+  'vers', 'entre', 'chez', 'aussi', 'comme', 'mais',
+  // Months
+  'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august',
+  'september', 'october', 'november', 'december',
+  // Transport / infrastructure (not cities)
+  'terminal', 'tram', 'tren', 'train', 'airport', 'metro', 'port', 'gare',
+  // Brands / stores / gas stations (not cities)
+  'tesco', 'texaco', 'shell', 'total', 'esso', 'lidl', 'aldi', 'carrefour',
+  // Short noise words
+  'tel', 'adr', 'bod', 'zub', 'bar', 'talk', 'aires',
+  // Languages / nationalities
+  'arabic', 'english', 'french', 'german', 'spanish', 'turkish', 'russian',
+  // Country names (not cities)
+  'belgium', 'denmark', 'austria', 'france', 'germany', 'spain', 'italy', 'portugal',
+  'switzerland', 'netherlands', 'sweden', 'norway', 'finland', 'iceland', 'ireland',
+  'poland', 'hungary', 'romania', 'bulgaria', 'croatia', 'serbia', 'greece', 'turkey',
+  'albania', 'bosnia', 'taiwan', 'tirol', 'bretagne', 'baltics', 'baltic', 'bavaria',
+])
+
+/**
+ * Check if a candidate city name looks like a real proper noun
+ */
+function isValidCityName(name) {
+  if (!name || name.length < 3) return false
+  // Must start with uppercase
+  if (!/^[A-ZÀÂÄÉÈÊËÎÏÔÙÛÜÇ]/.test(name)) return false
+  // Single-word names must be at least 4 chars (real short cities like Fez are in KNOWN_CITIES)
+  if (!name.includes(' ') && name.length < 4) return false
+  // Check each word against stop words
+  const words = name.toLowerCase().split(/\s+/)
+  if (words.some(w => STOP_WORDS.has(w))) return false
+  // Reject if it ends with a preposition/conjunction
+  const lastWord = words[words.length - 1]
+  if (['to', 'and', 'but', 'or', 'of', 'in', 'on', 'at', 'is', 'it', 'we', 'with', 'after', 'before'].includes(lastWord)) return false
+  // Reject if purely numeric or too short after cleanup
+  if (/^\d+$/.test(name)) return false
+  return true
+}
+
 /**
  * Auto-discover cities by clustering spots geographically.
  * Groups spots within 15km of each other, names the cluster
@@ -521,14 +573,13 @@ function discoverCitiesFromSpots(allSpots) {
 
     used.add(key)
 
-    // Try to find a city name from comments
+    // Try to find a city name from comments — NO /i flag so only proper nouns match
     let cityName = null
     for (const s of cluster) {
       if (s.comments && s.comments.length > 0) {
         for (const c of s.comments) {
-          // Look for patterns like "from CityName" or "near CityName" in comments
-          const match = c.text?.match(/(?:from|near|in|leaving|quitting|depuis|près de|sortie)\s+([A-Z][a-zéèêëàâîïôùûü]+(?:\s[A-Z][a-zéèêëàâîïôùûü]+)?)/i)
-          if (match) {
+          const match = c.text?.match(/(?:from|near|in|leaving|quitting|depuis|près de|sortie)\s+([A-ZÀÂÄÉÈÊËÎÏÔÙÛÜÇ][a-zàâäéèêëîïôùûüçñ]+(?:\s[A-ZÀÂÄÉÈÊËÎÏÔÙÛÜÇ][a-zàâäéèêëîïôùûüçñ]+)?)/)
+          if (match && isValidCityName(match[1].trim())) {
             cityName = match[1].trim()
             break
           }
@@ -537,8 +588,8 @@ function discoverCitiesFromSpots(allSpots) {
       }
     }
 
-    // Fallback: use coordinates as name (will be improved when users add real city data)
-    if (!cityName) continue // Skip unnamed clusters for SEO
+    // Skip unnamed clusters for SEO
+    if (!cityName) continue
 
     discovered.push({
       name: cityName,
