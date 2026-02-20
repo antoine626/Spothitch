@@ -15,8 +15,10 @@
 - [x] Affichage stations-service (toggle, via Overpass API)
 - [x] Heatmap densité des spots
 - [x] Filtres carte (type de spot, note, fraîcheur)
-- [x] Panneau ville (infos + routes depuis une ville)
+- [x] Panneau ville (infos + routes depuis une ville, affichage même avec 0 spots)
 - [x] Style carte clair/sombre selon thème
+- [x] Compteur de spots supprimé (nettoyage UI)
+- [x] Bouton guide clignotant supprimé (nettoyage UI)
 
 ## Spots
 
@@ -44,6 +46,9 @@
 - [x] Commodités le long de la route
 - [x] Barre de voyage active (indicateur flottant pendant planification)
 - [x] Suggestions de spots le long de l'itinéraire
+- [x] Filtres route (station, note 4+, attente <20min, vérifié, récent, abri)
+- [x] Labels spots sans overlap sur carte trip (halo + collision detection)
+- [x] Nommage spots par distance au lieu de commentaires
 
 ## Gamification
 
@@ -58,6 +63,11 @@
 - [x] Défis équipe, défis amis, défis personnels
 - [x] Quiz géographique interactif
 - [x] Hub de défis (actifs/en attente)
+- [x] Modal historique des Pouces (toggle dans ChallengesHub)
+- [x] Badges/défis cliquables (cursor-pointer, z-index)
+- [x] Boutons d'action sur les défis (challenges)
+- [x] Leaderboard activé avec filtre pays/région
+- [x] Récompenses mensuelles dans le leaderboard
 
 ## Social
 
