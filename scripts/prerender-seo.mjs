@@ -502,22 +502,43 @@ const STOP_WORDS = new Set([
   // French common words
   'les', 'des', 'une', 'que', 'sur', 'par', 'dans', 'avec', 'pour', 'tout', 'cette',
   'vers', 'entre', 'chez', 'aussi', 'comme', 'mais',
-  // Months
+  // Months (English + Dutch/Swedish/German variants)
   'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august',
   'september', 'october', 'november', 'december',
-  // Transport / infrastructure (not cities)
+  'januari', 'februari', 'mars', 'juni', 'juli', 'oktober', 'dezember',
+  // Transport / infrastructure
   'terminal', 'tram', 'tren', 'train', 'airport', 'metro', 'port', 'gare',
-  // Brands / stores / gas stations (not cities)
+  'trainstation', 'stadium', 'park', 'plaza', 'center', 'centre',
+  // Brands / stores / gas stations / hotels
   'tesco', 'texaco', 'shell', 'total', 'esso', 'lidl', 'aldi', 'carrefour',
-  // Short noise words
-  'tel', 'adr', 'bod', 'zub', 'bar', 'talk', 'aires',
-  // Languages / nationalities
+  'crowne', 'hilton', 'ibis', 'novotel',
+  // Short noise words and non-city terms
+  'tel', 'adr', 'bod', 'zub', 'bar', 'talk', 'aires', 'fall', 'kirk', 'nord',
+  'saint', 'outlet', 'mitte', 'lokals', 'minutes', 'casa', 'broadway', 'zona',
+  'otogar', 'kamppi', 'keskustori', 'perrache', 'domb', 'gills', 'holby',
+  'koda', 'kooli', 'osula', 'rudn', 'mpnaco', 'dienvidu', 'vlkol',
+  // Person names commonly found in comments
+  'derek', 'jake', 'johnny', 'peter', 'robert', 'sabby', 'stalin', 'marja',
+  'paul', 'zamenhof', 'barrick',
+  // Languages / nationalities / scripts
   'arabic', 'english', 'french', 'german', 'spanish', 'turkish', 'russian',
-  // Country names (not cities)
+  'cyrillic', 'czech', 'dutch', 'greek', 'italian', 'polish', 'portuguese',
+  'romanian', 'hungarian', 'swedish', 'norwegian',
+  // Country / region / continent names (not cities)
   'belgium', 'denmark', 'austria', 'france', 'germany', 'spain', 'italy', 'portugal',
   'switzerland', 'netherlands', 'sweden', 'norway', 'finland', 'iceland', 'ireland',
   'poland', 'hungary', 'romania', 'bulgaria', 'croatia', 'serbia', 'greece', 'turkey',
   'albania', 'bosnia', 'taiwan', 'tirol', 'bretagne', 'baltics', 'baltic', 'bavaria',
+  'andorra', 'colombia', 'eritrea', 'holland', 'india', 'jordan', 'kosovo', 'latvia',
+  'macedonia', 'montenegro', 'russia', 'slovakia', 'slovenia', 'tunisia', 'europe',
+  'georgia', 'estonia', 'lithuania', 'morocco', 'egypt', 'china', 'japan',
+  // Regions (not cities)
+  'brittany', 'limousin', 'provence', 'normandy', 'catalonia', 'andalusia',
+  'patagonia', 'transylvania', 'scandinavia', 'siberia',
+  // Religious / cultural periods
+  'ramadan', 'christmas', 'easter',
+  // Geographic features (not cities)
+  'rhein', 'ruhr', 'danube', 'alps',
 ])
 
 /**
@@ -529,14 +550,29 @@ function isValidCityName(name) {
   if (!/^[A-ZÀÂÄÉÈÊËÎÏÔÙÛÜÇ]/.test(name)) return false
   // Single-word names must be at least 4 chars (real short cities like Fez are in KNOWN_CITIES)
   if (!name.includes(' ') && name.length < 4) return false
-  // Check each word against stop words
-  const words = name.toLowerCase().split(/\s+/)
+  // Check each word against stop words (normalize accents for matching)
+  const normalized = name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  const words = normalized.split(/[\s-]+/)
   if (words.some(w => STOP_WORDS.has(w))) return false
   // Reject if it ends with a preposition/conjunction
   const lastWord = words[words.length - 1]
   if (['to', 'and', 'but', 'or', 'of', 'in', 'on', 'at', 'is', 'it', 'we', 'with', 'after', 'before'].includes(lastWord)) return false
   // Reject if purely numeric or too short after cleanup
   if (/^\d+$/.test(name)) return false
+  // Reject compound names ending with infrastructure words
+  const slug = name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+  if (/-(trainstation|station|airport|plaza|stadium|park|center|centre|hotel|hostel|highway|motorway|south|north|east|west|gardens|rally|bothy)$/.test(slug)) return false
+  // Reject Dutch/German street/square names (weg=road, straat=street, plein=square, platz=square)
+  if (/(weg|veg|straat|plein|platz|gasse|allee|tori|torget)$/.test(slug)) return false
+  // Reject names with directional/infrastructure prefixes or suffixes
+  if (/^(western|eastern|northern|southern|old|new)-/.test(slug)) return false
+  if (/-(central|freville|canaria)$/.test(slug)) return false
+  // Reject very short truncated slugs (4 chars or less = likely broken from accent stripping)
+  if (slug.length <= 4) return false
+  // Reject slugs that look truncated (end in consonant cluster suggesting cut-off word)
+  if (/[bcdfghjklmnpqrstvwxz]{3,}$/.test(slug) && slug.length < 8) return false
+  // Reject Russian/Slavic street name suffixes
+  if (/(ova|evova|skaya|skiy)$/.test(slug) && slug.length < 15) return false
   return true
 }
 

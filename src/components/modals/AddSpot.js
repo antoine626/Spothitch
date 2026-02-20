@@ -107,7 +107,6 @@ function renderStep1(state) {
             id="spot-photo"
             name="photo"
             accept="image/*"
-            capture="environment"
             class="hidden"
             onchange="handlePhotoSelect(event)"
             aria-describedby="photo-help"
