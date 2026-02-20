@@ -37,10 +37,14 @@
 - Plan Wolf (commande test complète)
 - Visual regression testing + Lighthouse CI
 
+## Ce qui est configuré en prod (GitHub Secrets)
+
+- **Firebase** : TOUTES les clés VITE_FIREBASE_* configurées depuis 2025-12-26 (Auth, Firestore, Storage, Messaging)
+- **Sentry** : VITE_SENTRY_DSN configuré depuis 2026-02-17
+- **Cloudflare** : Account ID + API Token configurés depuis 2026-02-16
+
 ## Ce qui est PAS encore configuré
 
-- **Firebase** : les variables d'env (VITE_FIREBASE_*) ne sont pas dans les GitHub Secrets → l'auth et la base de données ne marchent pas en prod
-- **Sentry** : pas de compte sentry.io → pas de monitoring d'erreurs en prod
 - **Affiliés** : pas inscrit sur Hostelworld/Booking → pas de monétisation
 
 ---
@@ -57,7 +61,17 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
-### Session ~2026-02-20
+### Session ~2026-02-20 (suite)
+- Fix Service Worker interceptant les pages SEO : /city/* et /guides/* exclus du navigateFallback
+- Fix formulaire AddSpot cassé : suppression 11 handlers en double dans main.js qui écrasaient la validation d'AddSpot.js
+- Auth obligatoire pour créer un spot (Firebase Auth) + mode test (localStorage spothitch_test_mode)
+- Validation étoiles obligatoire (sécurité, trafic, accessibilité) avant soumission
+- Fix bugs badge popup + daily reward (close handlers manquants)
+- Plan Wolf v2 : recommandations humaines en français (titre/explication/action/impact)
+- Mise à jour CLAUDE.md Règle #6 : mémoire mise à jour en CONTINU (pas juste en fin de session)
+- Correction MEMORY.md : Firebase configuré depuis 2025-12-26, Sentry depuis 2026-02-17
+
+### Session ~2026-02-20 (début)
 - Fix CHROME_PATH pour Plan Wolf + Lighthouse CI
 - Ajout Plan Wolf (master test command)
 - Infrastructure de tests complète (visual regression, Lighthouse CI, Sentry error learning)

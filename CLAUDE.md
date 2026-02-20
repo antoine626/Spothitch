@@ -63,11 +63,14 @@
 > - C'est la solution la plus SIMPLE qui marche ?
 
 > **RÈGLE #6 — MÉMOIRE** :
-> - Relire MEMORY.md + decisions.md au DÉBUT de chaque session
-> - Mettre à jour MEMORY.md + decisions.md + features.md après chaque changement
-> - NE JAMAIS laisser des infos périmées (chiffres, états, TODO déjà faits)
+> - Relire MEMORY.md + decisions.md + features.md au DÉBUT de chaque session — OBLIGATOIRE
+> - Mettre à jour MEMORY.md + decisions.md + features.md après CHAQUE changement — pas à la fin, EN CONTINU
+> - Après chaque commit/push → mettre à jour immédiatement les fichiers mémoire avec ce qui a changé
+> - NE JAMAIS laisser des infos périmées (chiffres, états, TODO déjà faits, APIs déjà configurées)
 > - NE JAMAIS proposer une feature qui EXISTE DÉJÀ → vérifier features.md d'abord
 > - NE JAMAIS demander à l'utilisateur ce qui a déjà été fait — le retrouver soi-même
+> - NE JAMAIS contredire la mémoire sans vérifier d'abord (ex: dire "Firebase pas configuré" alors que MEMORY.md dit le contraire)
+> - Si un doute sur l'état d'un service → vérifier avec `gh secret list` ou les fichiers de config, pas deviner
 
 > **RÈGLE #7 — CÂBLAGE** : Chaque nouvelle feature/modal/composant DOIT inclure :
 > 1. Ajouter les handlers `window.*` dans `MAIN_JS_HANDLERS` de `tests/wiring/globalHandlers.test.js`

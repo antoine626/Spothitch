@@ -33,6 +33,8 @@
 | Décision | Choix | Raison | Date |
 |----------|-------|--------|------|
 | Auth | Progressive (anonyme → email → social → vérifié) | Friction minimale, on montre la valeur d'abord | 2026-02 |
+| Auth obligatoire AddSpot | Firebase Auth requis pour créer un spot (+ mode test localStorage) | Empêcher les données poubelle, garantir traçabilité | 2026-02-20 |
+| SW denylist city/guides | /city/* et /guides/* exclus du navigateFallback SW | Pages SEO statiques ne doivent pas être interceptées par le SPA | 2026-02-20 |
 | Onboarding | Carousel 5 slides puis carte directe | Map-first, montrer la valeur immédiatement | 2026-02 |
 | Spots : 3 critères | Sécurité, trafic, accessibilité (1-5 étoiles) | Simple et suffisant pour évaluer un spot | 2025-12-23 |
 | Direction obligatoire | Toujours indiquer la destination | Le coeur de l'app = trouver un spot VERS une destination | 2025-12-23 |

@@ -52,6 +52,58 @@
       ],
       "errors": 1,
       "recommendations": 3
+    },
+    {
+      "date": "2026-02-20T07:11:50.188Z",
+      "score": 87,
+      "confidence": "HAUTE",
+      "duration": "180.7s",
+      "mode": "full",
+      "bundleSize": 695,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 11,
+          "max": 15
+        }
+      ],
+      "errors": 1,
+      "recommendations": 3
     }
   ],
   "errors": [
@@ -91,6 +143,6 @@
   "dependencyGraph": {
     "totalFiles": 204,
     "totalLinks": 583,
-    "updatedAt": "2026-02-20T07:03:30.574Z"
+    "updatedAt": "2026-02-20T07:11:49.463Z"
   }
 }

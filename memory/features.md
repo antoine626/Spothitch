@@ -183,8 +183,12 @@
 - [x] Contenu sponsorisé (hostels/hébergements recommandés — code prêt)
 - [x] Modal donation
 
+## Configuré en prod
+
+- [x] Firebase : GitHub Secrets configurés depuis 2025-12-26
+- [x] Sentry : DSN configuré depuis 2026-02-17
+- [x] Cloudflare : configuré depuis 2026-02-16
+
 ## Pas encore configuré en prod
 
-- [ ] Firebase : GitHub Secrets manquants (VITE_FIREBASE_*)
-- [ ] Sentry : pas de compte sentry.io / pas de DSN
 - [ ] Affiliés : inscription manuelle nécessaire
