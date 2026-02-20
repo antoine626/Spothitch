@@ -94,8 +94,38 @@ Chaque erreur suit ce format :
 
 ---
 
+### ERR-008 — Sélecteurs CSS incorrects dans handlers DOM-only
+- **Date** : 2026-02-20
+- **Gravité** : MAJEUR
+- **Description** : `setMethod`, `setGroupSize`, `setTimeOfDay` cherchaient les classes `.method-btn`, `.group-size-btn`, `.time-btn` alors que les boutons ont la classe `.radio-btn`. Les boutons ne changeaient jamais visuellement quand on cliquait.
+- **Cause racine** : Lors du passage de setState à DOM-only, les sélecteurs CSS ont été inventés au lieu de vérifier le HTML réel. Les boutons utilisent `onclick="setMethod('sign')"` etc., pas des classes spécifiques.
+- **Correction** : Remplacé par `document.querySelectorAll('[onclick*="setMethod"]')` etc. qui matchent l'attribut onclick réel.
+- **Leçon** : **Quand on change un handler pour faire du DOM direct, TOUJOURS vérifier les sélecteurs contre le HTML réel du template.** Ne jamais inventer des classes CSS — aller lire le template d'abord.
+- **Fichiers** : `src/components/modals/AddSpot.js`
+- **Statut** : CORRIGÉ
+
+### ERR-009 — Pas de validation autocomplete avant soumission
+- **Date** : 2026-02-20
+- **Gravité** : MAJEUR
+- **Description** : L'utilisateur pouvait taper n'importe quoi dans le champ ville de départ, ne PAS sélectionner dans la liste déroulante, et soumettre quand même. Le `forceSelection: true` de l'autocomplete ajoutait une bordure rouge mais n'empêchait pas la soumission.
+- **Cause racine** : `handleAddSpot` ne vérifiait pas `window.spotFormData.departureCity` avant la soumission finale — cette validation n'était présente que dans `addSpotNextStep` pour le passage d'étape.
+- **Correction** : Ajout d'un check explicite `if (!window.spotFormData.departureCity)` dans `handleAddSpot` avant la soumission Firebase.
+- **Leçon** : **La validation doit exister à DEUX endroits : au passage d'étape ET à la soumission finale.** Ne jamais supposer que la validation d'étape empêche les soumissions invalides — l'utilisateur peut contourner les étapes.
+- **Fichiers** : `src/components/modals/AddSpot.js`
+- **Statut** : CORRIGÉ
+
+### ERR-010 — Code mort non nettoyé (autoDetectStation, autoDetectRoad, spotMapPickLocation)
+- **Date** : 2026-02-20
+- **Gravité** : MINEUR
+- **Description** : 3 fonctions (`autoDetectStation`, `autoDetectRoad`, `spotMapPickLocation`) avaient du code de 15-30 lignes mais n'étaient jamais appelées dans aucun template ou bouton.
+- **Cause racine** : Ces fonctions étaient prévues pour des features annulées (détection automatique de nom de station/route) mais le code est resté.
+- **Correction** : Réduit à des fonctions vides (gardées pour compatibilité avec les tests wiring).
+- **Leçon** : **Quand une feature est annulée, supprimer le code immédiatement.** Ne pas laisser du code mort "au cas où" — ça pollue et crée de la confusion. Si besoin plus tard, git log le retrouvera.
+- **Fichiers** : `src/components/modals/AddSpot.js`
+- **Statut** : CORRIGÉ
+
 ## Statistiques
 
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
-| 2026-02-20 | 7 | 6 | 1 |
+| 2026-02-20 | 10 | 9 | 1 |

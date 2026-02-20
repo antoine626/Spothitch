@@ -635,7 +635,7 @@ window.setWaitTime = (sliderIndex) => {
 // Method selection — DOM-only, no re-render
 window.setMethod = (method) => {
   window.spotFormData.method = method
-  document.querySelectorAll('.method-btn').forEach(btn => {
+  document.querySelectorAll('[onclick*="setMethod"]').forEach(btn => {
     const btnMethod = btn.getAttribute('onclick')?.match(/'(\w+)'/)?.[1]
     btn.classList.toggle('active', btnMethod === method)
   })
@@ -644,7 +644,7 @@ window.setMethod = (method) => {
 // Group size selection — DOM-only, no re-render
 window.setGroupSize = (size) => {
   window.spotFormData.groupSize = size
-  document.querySelectorAll('.group-size-btn').forEach(btn => {
+  document.querySelectorAll('[onclick*="setGroupSize"]').forEach(btn => {
     const btnSize = btn.getAttribute('onclick')?.match(/'(\w+)'/)?.[1]
     btn.classList.toggle('active', btnSize === size)
   })
@@ -653,7 +653,7 @@ window.setGroupSize = (size) => {
 // Time of day selection — DOM-only, no re-render
 window.setTimeOfDay = (time) => {
   window.spotFormData.timeOfDay = time
-  document.querySelectorAll('.time-btn').forEach(btn => {
+  document.querySelectorAll('[onclick*="setTimeOfDay"]').forEach(btn => {
     const btnTime = btn.getAttribute('onclick')?.match(/'(\w+)'/)?.[1]
     btn.classList.toggle('active', btnTime === time)
   })
@@ -680,10 +680,8 @@ window.setSpotTag = (tagName, value) => {
   if (chip) chip.classList.toggle('active')
 }
 
-// Spot type change (alias) — DOM-only
-window.onSpotTypeChange = (spotType) => {
-  window.selectSpotType(spotType)
-}
+// Alias for wiring compatibility
+window.onSpotTypeChange = (spotType) => { window.selectSpotType(spotType) }
 
 // Step navigation
 window.addSpotNextStep = async () => {
@@ -875,39 +873,12 @@ window.toggleSpotMapPicker = async () => {
   }
 }
 
-window.spotMapPickLocation = () => {
-  // Handled by map click listener above
-}
+// spotMapPickLocation — handled by map click listener in toggleSpotMapPicker
+window.spotMapPickLocation = () => {}
 
-// Auto-detect station name
-window.autoDetectStation = async () => {
-  if (!window.spotFormData.lat || !window.spotFormData.lng) {
-    const { showError } = await import('../../services/notifications.js')
-    showError(t('positionRequired') || 'Position obligatoire')
-    return
-  }
-  try {
-    const { reverseGeocode } = await import('../../services/osrm.js')
-    const location = await reverseGeocode(window.spotFormData.lat, window.spotFormData.lng)
-    if (location?.name) {
-      const parts = location.name.split(',')
-      window.spotFormData.locationName = parts[0].trim()
-    }
-  } catch { /* no-op */ }
-}
-
-// Auto-detect road
-window.autoDetectRoad = async () => {
-  if (!window.spotFormData.lat || !window.spotFormData.lng) return
-  try {
-    const { reverseGeocode } = await import('../../services/osrm.js')
-    const location = await reverseGeocode(window.spotFormData.lat, window.spotFormData.lng)
-    if (location?.name) {
-      const parts = location.name.split(',')
-      window.spotFormData.roadNumber = parts[0].trim()
-    }
-  } catch { /* no-op */ }
-}
+// autoDetectStation/autoDetectRoad — kept for wiring test compatibility
+window.autoDetectStation = () => {}
+window.autoDetectRoad = () => {}
 
 // Draft saving — saves ALL form data
 window.saveDraftAndClose = async () => {
@@ -1095,6 +1066,13 @@ window.handleAddSpot = async (event) => {
   if (!direction) {
     const { showError } = await import('../../services/notifications.js')
     showError(t('directionRequired'))
+    return
+  }
+
+  // City autocomplete validation — must have been selected from the list
+  if (!window.spotFormData.departureCity) {
+    const { showError } = await import('../../services/notifications.js')
+    showError(t('departureRequired') || 'Ville de départ obligatoire')
     return
   }
 
