@@ -93,6 +93,14 @@
 > - Les "cancelled" sont normaux (push suivant trop rapide), les "failure" doivent être investigués
 > - Le E2E peut timeout (non-bloquant), mais tous les autres jobs DOIVENT passer
 
+> **RÈGLE #12 — JOURNAL DES ERREURS** :
+> - Après CHAQUE bug trouvé → ajouter une entrée dans `memory/errors.md` avec : date, gravité, description, cause racine, correction, leçon apprise, fichiers, statut
+> - Après CHAQUE correction → mettre à jour l'entrée avec la solution et la leçon
+> - AVANT de coder une feature → relire errors.md pour ne PAS reproduire les mêmes erreurs
+> - Le Plan Wolf analyse ce fichier — les leçons non appliquées font baisser le score
+> - Format : ERR-XXX avec gravité CRITIQUE / MAJEUR / MINEUR
+> - Une "leçon" doit être **actionnable** ("Ne JAMAIS faire X" ou "Toujours vérifier Y") — pas juste "c'était un bug"
+
 > **RÈGLE #11 — AUDIT COMPLET AVANT LIVRAISON** :
 > - À la fin de chaque session ou avant une livraison majeure, exécuter EN PARALLÈLE :
 >   1. `npx vitest run` (TOUS les tests, pas juste wiring)

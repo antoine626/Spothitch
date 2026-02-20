@@ -555,16 +555,8 @@ function phase6_regressionGuard() {
   const findings = []
   const details = []
 
+  // === Part A: Check wolf-memory errors (automated regression checks) ===
   const pastErrors = memory.errors || []
-
-  if (pastErrors.length === 0) {
-    score += 10
-    findings.push('Premiere execution — pas encore d\'erreurs enregistrees')
-    findings.push('Le loup commencera a surveiller les regressions au prochain run')
-    phase('Regression Guard', score, max, findings, details)
-    return
-  }
-
   let regressions = 0
   let checked = 0
 
@@ -572,7 +564,6 @@ function phase6_regressionGuard() {
     if (!error.file || !error.check) continue
     checked++
 
-    // Re-verify each past error hasn't come back
     try {
       if (error.check.type === 'file_exists') {
         if (!existsSync(join(ROOT, error.file))) {
@@ -596,13 +587,64 @@ function phase6_regressionGuard() {
     }
   }
 
-  if (regressions === 0) {
+  // === Part B: Analyze memory/errors.md (human-readable error journal) ===
+  const errorsPath = join(ROOT, 'memory', 'errors.md')
+  let errorsTotal = 0
+  let errorsFixed = 0
+  let errorsPending = 0
+  let lessons = []
+
+  if (existsSync(errorsPath)) {
+    const errorsContent = readFile(errorsPath)
+    const errBlocks = errorsContent.split(/### ERR-\d+/).slice(1)
+    errorsTotal = errBlocks.length
+
+    for (const block of errBlocks) {
+      if (/Statut\s*:\s*CORRIG/.test(block)) errorsFixed++
+      else errorsPending++
+
+      // Extract lessons
+      const lessonMatch = block.match(/\*\*Leçon\*\*\s*:\s*(.+?)(?:\n|$)/)
+      if (lessonMatch) lessons.push(lessonMatch[1].trim())
+    }
+
+    findings.push(`Journal erreurs: ${errorsTotal} erreurs documentees (${errorsFixed} corrigees, ${errorsPending} en cours)`)
+
+    if (errorsPending > 0) {
+      details.push(`${errorsPending} erreur(s) NON CORRIGEE(S) dans memory/errors.md — a traiter en priorite`)
+    }
+
+    // Check that lessons are being applied (spot-check duplicate handlers)
+    const mainJs = readFile(join(ROOT, 'src', 'main.js'))
+    const addSpotJs = readFile(join(ROOT, 'src', 'components', 'modals', 'AddSpot.js'))
+
+    // ERR-001 regression check: no duplicate handlers between main.js and AddSpot.js
+    const mainHandlers = (mainJs.match(/window\.\w+\s*=/g) || []).map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+    const addSpotHandlers = (addSpotJs.match(/window\.\w+\s*=/g) || []).map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+    const duplicates = mainHandlers.filter(h => addSpotHandlers.includes(h))
+    if (duplicates.length > 0) {
+      regressions++
+      details.push(`REGRESSION ERR-001: Handlers dupliques entre main.js et AddSpot.js: ${duplicates.join(', ')}`)
+    }
+  } else {
+    findings.push('Pas de journal erreurs (memory/errors.md manquant)')
+    details.push('Creer memory/errors.md pour documenter les bugs et leurs corrections')
+  }
+
+  // === Scoring ===
+  if (checked === 0 && errorsTotal === 0) {
     score += 10
-    findings.push(`${checked} erreurs passees verifiees — 0 regressions`)
+    findings.push('Premiere execution — pas encore d\'erreurs enregistrees')
+  } else if (regressions === 0) {
+    score += Math.min(10, 6 + Math.min(4, errorsFixed))
+    if (checked > 0) findings.push(`${checked} verifications auto — 0 regressions`)
+    if (lessons.length > 0) findings.push(`${lessons.length} lecons apprises documentees`)
   } else {
     score += Math.max(0, 10 - regressions * 3)
-    findings.push(`REGRESSIONS DETECTEES: ${regressions} sur ${checked} verifications`)
+    findings.push(`REGRESSIONS DETECTEES: ${regressions}`)
   }
+
+  if (errorsPending > 0) score = Math.max(0, score - errorsPending)
 
   log(`  Score: ${score}/${max}`)
   phase('Regression Guard', score, max, findings, details)

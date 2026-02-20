@@ -112,9 +112,13 @@ function renderStep1(state) {
             aria-describedby="photo-help"
           />
           <div id="photo-preview">
-            ${icon('camera', 'w-10 h-10 text-slate-400 mb-2')}
-            <p class="text-slate-400">${t('takePhoto')}</p>
-            <p class="text-slate-400 text-sm" id="photo-help">${t('chooseFromGallery')}</p>
+            ${window.spotFormData?.photo
+              ? `<img src="${window.spotFormData.photo}" alt="Preview" class="max-h-40 rounded-lg object-cover" />
+                 <p class="text-green-400 text-sm mt-1">${t('photoReady') || 'Photo prête'}</p>`
+              : `${icon('camera', 'w-10 h-10 text-slate-400 mb-2')}
+                 <p class="text-slate-400">${t('takePhoto')}</p>
+                 <p class="text-slate-400 text-sm" id="photo-help">${t('chooseFromGallery')}</p>`
+            }
           </div>
         </div>
       </div>
@@ -443,7 +447,11 @@ function renderPositionBlock() {
           ${icon('map-pin', 'w-5 h-5')} ${t('pickOnMap') || 'Pointer sur la carte'}
         </button>
       </div>
-      <div id="location-display" class="text-sm text-slate-400 mt-2 text-center" aria-live="polite" role="status"></div>
+      <div id="location-display" class="text-sm text-slate-400 mt-2 text-center" aria-live="polite" role="status">${
+        window.spotFormData?.lat && window.spotFormData?.lng
+          ? `<span class="text-green-400">${icon('check', 'w-4 h-4 inline')} ${window.spotFormData.departureCity || 'Position'} (${window.spotFormData.lat.toFixed(4)}, ${window.spotFormData.lng.toFixed(4)})</span>`
+          : ''
+      }</div>
       <div id="spot-map-container" class="hidden mt-3">
         <p class="text-xs text-center text-slate-400 mb-2">${t('tapToPlacePin') || 'Toucher pour placer'}</p>
         <div id="spot-mini-map" class="spot-map-picker"></div>
@@ -594,62 +602,72 @@ window.setSpotRating = (criterion, value) => {
   }
 }
 
-// Spot type selection (big buttons)
+// Spot type selection (big buttons) — DOM-only update, no re-render
 window.selectSpotType = (type) => {
   window.spotFormData.spotType = type
-  import('../../stores/state.js').then(({ setState }) => {
-    setState({ addSpotType: type })
+  // Update button styles directly without triggering a full app re-render
+  document.querySelectorAll('.spot-type-btn').forEach(btn => {
+    const btnType = btn.getAttribute('onclick')?.match(/'(\w+)'/)?.[1]
+    if (btnType === type) {
+      btn.classList.add('active')
+    } else {
+      btn.classList.remove('active')
+    }
+  })
+  // Store in state silently for persistence (without triggering render)
+  import('../../stores/state.js').then(({ getState }) => {
+    const state = getState()
+    state.addSpotType = type
   })
 }
 
-// Wait time slider
+// Wait time slider — DOM-only, no re-render
 window.setWaitTime = (sliderIndex) => {
   const idx = parseInt(sliderIndex, 10)
   const minutes = WAIT_STEPS[idx] || 10
   window.spotFormData.waitTime = minutes
-  import('../../stores/state.js').then(({ setState }) => {
-    setState({ addSpotWaitTime: minutes })
-  })
   const display = document.getElementById('wait-time-display')
   if (display) {
     display.textContent = minutes >= 180 ? '3h+' : minutes + ' min'
   }
 }
 
-// Method selection
+// Method selection — DOM-only, no re-render
 window.setMethod = (method) => {
   window.spotFormData.method = method
-  import('../../stores/state.js').then(({ setState }) => {
-    setState({ addSpotMethod: method })
+  document.querySelectorAll('.method-btn').forEach(btn => {
+    const btnMethod = btn.getAttribute('onclick')?.match(/'(\w+)'/)?.[1]
+    btn.classList.toggle('active', btnMethod === method)
   })
 }
 
-// Group size selection
+// Group size selection — DOM-only, no re-render
 window.setGroupSize = (size) => {
   window.spotFormData.groupSize = size
-  import('../../stores/state.js').then(({ setState }) => {
-    setState({ addSpotGroupSize: size })
+  document.querySelectorAll('.group-size-btn').forEach(btn => {
+    const btnSize = btn.getAttribute('onclick')?.match(/'(\w+)'/)?.[1]
+    btn.classList.toggle('active', btnSize === size)
   })
 }
 
-// Time of day selection
+// Time of day selection — DOM-only, no re-render
 window.setTimeOfDay = (time) => {
   window.spotFormData.timeOfDay = time
-  import('../../stores/state.js').then(({ setState }) => {
-    setState({ addSpotTimeOfDay: time })
+  document.querySelectorAll('.time-btn').forEach(btn => {
+    const btnTime = btn.getAttribute('onclick')?.match(/'(\w+)'/)?.[1]
+    btn.classList.toggle('active', btnTime === time)
   })
 }
 
-// Toggle amenity chip
+// Toggle amenity chip — DOM-only, no re-render
 window.toggleAmenity = (name) => {
   window.spotFormData.tags = window.spotFormData.tags || {}
   window.spotFormData.tags[name] = !window.spotFormData.tags[name]
-  import('../../stores/state.js').then(({ setState }) => {
-    setState({ _tagRefresh: Date.now() })
-  })
+  const chip = document.querySelector(`[onclick*="toggleAmenity('${name}')"]`)
+  if (chip) chip.classList.toggle('active', window.spotFormData.tags[name])
 }
 
-// Keep backward compat for setSpotTag
+// Keep backward compat for setSpotTag — DOM-only, no re-render
 window.setSpotTag = (tagName, value) => {
   window.spotFormData.tags = window.spotFormData.tags || {}
   if (tagName === 'signMethod') {
@@ -657,15 +675,14 @@ window.setSpotTag = (tagName, value) => {
   } else {
     window.spotFormData.tags[tagName] = value === true || value === 'true'
   }
-  import('../../stores/state.js').then(({ setState }) => {
-    setState({ _tagRefresh: Date.now() })
-  })
+  // Update chip visuals directly
+  const chip = document.querySelector(`[onclick*="setSpotTag('${tagName}'"]`)
+  if (chip) chip.classList.toggle('active')
 }
 
+// Spot type change (alias) — DOM-only
 window.onSpotTypeChange = (spotType) => {
-  import('../../stores/state.js').then(({ setState }) => {
-    setState({ addSpotType: spotType })
-  })
+  window.selectSpotType(spotType)
 }
 
 // Step navigation
