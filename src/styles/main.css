@@ -1315,21 +1315,6 @@ select.input-modern option {
   animation: pulse-subtle 2s ease-in-out infinite;
 }
 
-@keyframes guide-blink {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.05);
-  }
-}
-
-.animate-guide-blink {
-  animation: guide-blink 1.5s ease-in-out infinite;
-}
-
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }

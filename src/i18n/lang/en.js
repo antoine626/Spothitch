@@ -191,7 +191,7 @@ export default {
   // Profile
   level: 'Level',
   levelShort: 'Lv.',
-  points: 'thumbs',
+  points: 'Thumbs',
   spotsShared: 'Spots',
   checkinsCount: 'Check-ins',
   checkins: 'Check-ins',
@@ -1750,7 +1750,7 @@ export default {
   noPromoCode: 'No promo code',
   viewOffers: 'View offers',
   useOn: 'Use on',
-  totalThumbs: 'Total thumbs',
+  totalThumbs: 'Total Thumbs',
   activeChallenges: 'Active challenges',
   seeAll: 'See all',
   ranking: 'Ranking',
@@ -1820,6 +1820,28 @@ export default {
   beginner: 'Beginner',
   progress: 'Progress',
   special: 'Special',
+  // Thumb History
+  thumbHistoryTitle: 'How to earn Thumbs',
+  thumbHistoryCreate: 'Create a spot',
+  thumbHistoryValidate: 'Validate a spot',
+  thumbHistoryReview: 'Leave a review',
+  thumbHistoryQuiz: 'Daily quiz',
+  thumbHistoryWeekly: 'Weekly challenge',
+  thumbHistoryMonthly: 'Monthly challenge',
+  // Challenge actions
+  goToAction: 'Go!',
+  createSpotAction: 'Add a spot',
+  validateSpotAction: 'Validate spots',
+  writeReviewAction: 'Leave a review',
+  addPhotoAction: 'Add photos',
+  doCheckinAction: 'Do a check-in',
+  exploreCountriesAction: 'Explore the map',
+  // Leaderboard extras
+  leaderboardFilterCountry: 'Filter by country',
+  monthlyRewards: 'Monthly rewards',
+  monthlyRewardGold: '1st: Gold Badge + 500 Thumbs',
+  monthlyRewardSilver: '2nd: Silver Badge + 300 Thumbs',
+  monthlyRewardBronze: '3rd: Bronze Badge + 100 Thumbs',
   // Guides
   guideStart: 'Getting Started',
   guideCountries: 'By Country',
@@ -3265,7 +3287,8 @@ export default {
   proximityAlertsDesc: "Get notified when near a spot",
 
   // City Panel
-  hitchhikingFrom: "Hitchhiking from",
+  hitchhikingFrom: "Hitchhiking guide —",
+  guideHitchhikingCity: "Hitchhiking guide —",
   popularRoutes: "Popular routes",
   openCityGuide: "Country guide",
   direction: "Direction",
@@ -3341,4 +3364,14 @@ export default {
   allFieldsRequired: "All fields are required",
   confirmUnregisterAmbassador: "Are you sure you want to leave the ambassador program?",
   sendAlert: "Send alert",
+
+  // Profile footer
+  spotsValidatedLabel: 'Spots validated',
+  faqAndHelp: 'FAQ & Help',
+  aboutSpotHitch: 'About SpotHitch',
+  aboutSpotHitchDesc: 'The hitchhiking community. Find the best spots, share your experiences, travel safely.',
+  legalNotices: 'Legal notices',
+  inviteFriends: 'Invite friends',
+  creditsLabel: 'Credits',
+  creditsText: 'Data: Hitchwiki (ODBL) • Maps: OpenFreeMap',
 }

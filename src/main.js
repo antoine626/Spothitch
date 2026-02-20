@@ -1297,6 +1297,12 @@ window.openChallenges = () => setState({ showChallenges: true });
 window.closeChallenges = () => setState({ showChallenges: false });
 window.setChallengeTab = (tab) => setState({ challengeTab: tab });
 
+// Thumb History toggle
+window.toggleThumbHistory = () => {
+  const s = getState();
+  setState({ showThumbHistory: !s.showThumbHistory });
+};
+
 // Shop handlers
 window.openShop = () => setState({ showShop: true });
 window.closeShop = () => setState({ showShop: false });
@@ -1775,16 +1781,51 @@ window.companionSendAlert = () => {
 
 // City Panel handlers
 window.openCityPanel = async (citySlug, cityName, lat, lng, countryCode, countryName) => {
+  const parsedLat = parseFloat(lat)
+  const parsedLng = parseFloat(lng)
+
+  // Force-load the country's spots before building city info
+  try {
+    const { loadSpotsInBounds, getAllLoadedSpots } = await import('./services/spotLoader.js')
+    await loadSpotsInBounds({
+      north: parsedLat + 3,
+      south: parsedLat - 3,
+      east: parsedLng + 3,
+      west: parsedLng - 3,
+    })
+    // Merge newly loaded spots into state
+    const allLoaded = getAllLoadedSpots()
+    const current = getState().spots || []
+    const existingIds = new Set(current.map(s => s.id))
+    const newSpots = allLoaded.filter(s => !existingIds.has(s.id))
+    if (newSpots.length > 0) {
+      actions.setSpots([...current, ...newSpots])
+    }
+  } catch (e) {
+    console.warn('Failed to load spots for city panel:', e)
+  }
+
   const { buildCityInfo } = await import('./services/cityRoutes.js')
   const { spots } = getState()
-  const cityInfo = buildCityInfo(spots, cityName, parseFloat(lat), parseFloat(lng), countryCode, countryName)
-  if (cityInfo) {
-    setState({ selectedCity: citySlug, cityData: cityInfo, selectedRoute: null })
-    if (window.mapInstance) {
-      window.mapInstance.flyTo({ center: [parseFloat(lng), parseFloat(lat)], zoom: 11 })
-    }
-  } else {
-    showToast(t('noSpotsNearby') || 'No spots near this city', 'info')
+  const cityInfo = buildCityInfo(spots, cityName, parsedLat, parsedLng, countryCode, countryName)
+
+  // Always show city panel — even with 0 spots (guide info is still useful)
+  const panelData = cityInfo || {
+    name: cityName,
+    slug: citySlug,
+    lat: parsedLat,
+    lng: parsedLng,
+    country: countryCode || '',
+    countryName: countryName || '',
+    spotCount: 0,
+    avgWait: 0,
+    avgRating: 0,
+    routesList: [],
+    spots: [],
+  }
+  setState({ selectedCity: citySlug, cityData: panelData, selectedRoute: null })
+  if (window.mapInstance) {
+    window.mapInstance.flyTo({ center: [parsedLng, parsedLat], zoom: 11 })
   }
 }
 window.closeCityPanel = () => setState({ selectedCity: null, selectedRoute: null, cityData: null })

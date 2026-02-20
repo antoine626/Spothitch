@@ -31,21 +31,21 @@ export function renderProfile(state) {
 
       <!-- Stats -->
       <div class="grid grid-cols-4 gap-3">
-        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
+        <button onclick="openStats()" class="card p-4 text-center hover:border-emerald-500/50 transition-all overflow-hidden">
           <div class="text-2xl font-bold text-emerald-400">${state.spotsCreated || 0}</div>
-          <div class="text-xs text-slate-400">${t('spotsShared') || 'Spots'}</div>
+          <div class="text-xs text-slate-400">${t('spotsCreated') || 'Spots créés'}</div>
         </button>
         <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
-          <div class="text-2xl font-bold text-purple-400">${state.checkins || 0}</div>
+          <div class="text-2xl font-bold text-primary-400">${state.spotsValidated || 0}</div>
+          <div class="text-xs text-slate-400">${t('spotsValidatedLabel') || 'Validés'}</div>
+        </button>
+        <button onclick="openStats()" class="card p-4 text-center hover:border-amber-500/50 transition-all overflow-hidden">
+          <div class="text-2xl font-bold text-amber-400">${state.checkins || 0}</div>
           <div class="text-xs text-slate-400">${t('checkins') || 'Check-ins'}</div>
         </button>
-        <button onclick="openStats()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
-          <div class="text-2xl font-bold text-amber-400">${state.reviewsGiven || 0}</div>
+        <button onclick="openStats()" class="card p-4 text-center hover:border-purple-500/50 transition-all overflow-hidden">
+          <div class="text-2xl font-bold text-purple-400">${state.reviewsGiven || 0}</div>
           <div class="text-xs text-slate-400">${t('reviewsGivenLabel') || 'Avis'}</div>
-        </button>
-        <button onclick="openBadges()" class="card p-4 text-center hover:border-primary-500/50 transition-all overflow-hidden">
-          <div class="text-2xl font-bold text-primary-400">${(state.badges || []).length}</div>
-          <div class="text-xs text-slate-400">${t('badgesEarned') || 'Badges'}</div>
         </button>
       </div>
 
@@ -284,6 +284,52 @@ export function renderProfile(state) {
 
       <!-- Support / Donation -->
       ${renderDonationCard({ variant: 'full' })}
+
+      <!-- Footer -->
+      <div class="card p-5 space-y-1">
+        <button
+          onclick="openContactForm()"
+          class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+        >
+          ${icon('mail', 'w-4 h-4 text-slate-500')}
+          <span class="text-sm text-slate-400">${t('contactUs') || 'Nous contacter'}</span>
+        </button>
+        <button
+          onclick="openFAQ()"
+          class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+        >
+          ${icon('help-circle', 'w-4 h-4 text-slate-500')}
+          <span class="text-sm text-slate-400">${t('faqAndHelp') || 'FAQ & Aide'}</span>
+        </button>
+        <div class="p-3">
+          <div class="flex items-center gap-3 mb-2">
+            ${icon('info', 'w-4 h-4 text-slate-500')}
+            <span class="text-sm text-slate-400">${t('aboutSpotHitch') || 'À propos de SpotHitch'}</span>
+          </div>
+          <p class="text-xs text-slate-500 pl-7">${t('aboutSpotHitchDesc') || 'La communauté des autostoppeurs.'}</p>
+        </div>
+        <button
+          onclick="showLegalPage('privacy')"
+          class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+        >
+          ${icon('scroll-text', 'w-4 h-4 text-slate-500')}
+          <span class="text-sm text-slate-400">${t('legalNotices') || 'Mentions légales'}</span>
+        </button>
+        <button
+          onclick="shareApp()"
+          class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+        >
+          ${icon('share-2', 'w-4 h-4 text-slate-500')}
+          <span class="text-sm text-slate-400">${t('inviteFriends') || 'Inviter des amis'}</span>
+        </button>
+        <div class="p-3 pt-2 border-t border-white/5">
+          <div class="flex items-center gap-3 mb-1">
+            ${icon('heart', 'w-4 h-4 text-slate-500')}
+            <span class="text-sm text-slate-400">${t('creditsLabel') || 'Crédits'}</span>
+          </div>
+          <p class="text-xs text-slate-500 pl-7">${t('creditsText') || 'Données : Hitchwiki (ODBL) • Cartes : OpenFreeMap'}</p>
+        </div>
+      </div>
 
       <!-- Version & Reset -->
       <div class="flex items-center justify-between text-xs text-slate-400 pt-4">

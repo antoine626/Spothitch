@@ -90,7 +90,6 @@ function groupByDirection(spots) {
  */
 export function buildCityInfo(allSpots, cityName, lat, lng, countryCode, countryName) {
   const nearby = findNearbySpots(allSpots, lat, lng, 30)
-  if (nearby.length === 0) return null
 
   const slug = slugify(cityName)
   const directionGroups = groupByDirection(nearby)

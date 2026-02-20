@@ -146,8 +146,10 @@ const MAIN_JS_HANDLERS = [
   'openCheckinModal', 'closeCheckinModal', 'submitCheckin',
   'setCheckinWaitTime', 'toggleCheckinChar', 'triggerCheckinPhoto',
   'onCheckinWaitSlider', 'setCheckinRideResult', 'handleCheckinPhoto',
-  // Leaderboard tabs
-  'setLeaderboardTab',
+  // Leaderboard tabs + country filter
+  'setLeaderboardTab', 'setLeaderboardCountry',
+  // Thumb History toggle
+  'toggleThumbHistory',
   // Map view (defined in Map.js / views)
   'openCountryGuide', 'mapZoomIn', 'mapZoomOut',
   // Travel view (defined in Travel.js)
@@ -438,6 +440,8 @@ const mockState = {
   showSideMenu: false,
   showTutorial: false,
   showLeaderboard: false,
+  showThumbHistory: false,
+  leaderboardCountry: 'all',
   showDonation: false,
   showProfileCustomization: false,
   showNearbyFriends: false,
@@ -460,6 +464,7 @@ const mockState = {
   level: 5,
   checkins: 20,
   spotsCreated: 5,
+  spotsValidated: 3,
   reviewsGiven: 10,
   streak: 3,
   badges: ['first_checkin', 'explorer'],
@@ -586,6 +591,7 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
   testHandlers('Map view', renderMap)
   testHandlers('Travel view', renderTravel)
   testHandlers('ChallengesHub view', renderChallengesHub)
+  testHandlers('ChallengesHub view (thumb history)', renderChallengesHub, { showThumbHistory: true })
   testHandlers('Social view (feed)', renderSocial, { socialSubTab: 'feed' })
   testHandlers('Social view (conversations)', renderSocial, { socialSubTab: 'conversations' })
   testHandlers('Social view (friends)', renderSocial, { socialSubTab: 'friends' })

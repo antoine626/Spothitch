@@ -77,14 +77,5 @@ describe('Map Controls', () => {
       expect(html).toContain('Rechercher');
       expect(html).toContain('input');
     });
-
-    it('should show spots count', async () => {
-      const { renderMap } = await import('../src/components/views/Map.js');
-      const state = { spots: [{}, {}, {}], points: 100, level: 1, streak: 0 };
-      const html = renderMap(state);
-
-      expect(html).toContain('3');
-      expect(html).toContain('spots disponibles');
-    });
   });
 });

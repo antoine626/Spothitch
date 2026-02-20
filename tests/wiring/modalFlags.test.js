@@ -79,6 +79,7 @@ const mockState = {
   seasonPoints: 100,
   totalPoints: 500,
   spotsCreated: 2,
+  spotsValidated: 1,
   checkins: 5,
   reviewsGiven: 3,
   skillPoints: 10,

@@ -127,6 +127,24 @@ export function renderChallengesModal() {
 }
 
 /**
+ * Map challenge type to action button config
+ */
+function getChallengeAction(challengeType) {
+  const actionMap = {
+    spotsCreated: { handler: 'closeChallenges();openAddSpot()', label: 'createSpotAction' },
+    totalSpotsCreated: { handler: 'closeChallenges();openAddSpot()', label: 'createSpotAction' },
+    fiveStarSpots: { handler: 'closeChallenges();openAddSpot()', label: 'createSpotAction' },
+    reviews: { handler: 'closeChallenges();changeTab(\'map\')', label: 'writeReviewAction' },
+    totalReviews: { handler: 'closeChallenges();changeTab(\'map\')', label: 'writeReviewAction' },
+    checkins: { handler: 'closeChallenges();changeTab(\'map\')', label: 'doCheckinAction' },
+    totalCheckins: { handler: 'closeChallenges();changeTab(\'map\')', label: 'doCheckinAction' },
+    photosAdded: { handler: 'closeChallenges();changeTab(\'map\')', label: 'addPhotoAction' },
+    countriesVisited: { handler: 'closeChallenges();changeTab(\'map\')', label: 'exploreCountriesAction' },
+  };
+  return actionMap[challengeType] || { handler: 'closeChallenges();changeTab(\'map\')', label: 'goToAction' };
+}
+
+/**
  * Render a single challenge card
  */
 export function renderChallengeCard(challenge, lang = 'fr', type = 'weekly') {
@@ -134,6 +152,7 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'weekly') {
   const description = lang === 'en' && challenge.descriptionEn ? challenge.descriptionEn : challenge.description;
   const progressPercent = Math.min(challenge.progress * 100, 100);
   const isCompleted = challenge.completed;
+  const action = getChallengeAction(challenge.type);
 
   const typeColors = {
     weekly: 'from-primary-500 to-primary-600',
@@ -174,10 +193,19 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'weekly') {
             </div>
           </div>
 
-          <!-- Reward -->
-          <div class="flex items-center gap-3 mt-2 text-xs">
-            <span class="text-amber-400">+${challenge.points} 👍</span>
-            <span class="text-purple-400">+${challenge.xp} XP</span>
+          <!-- Reward + Action -->
+          <div class="flex items-center justify-between mt-2">
+            <div class="flex items-center gap-3 text-xs">
+              <span class="text-amber-400">+${challenge.points} 👍</span>
+              <span class="text-purple-400">+${challenge.xp} XP</span>
+            </div>
+            ${!isCompleted ? `
+              <button onclick="${action.handler}"
+                      type="button"
+                      class="text-xs px-3 py-1 rounded-full bg-gradient-to-r ${typeColors[type]} text-white font-medium hover:opacity-90 transition-opacity cursor-pointer">
+                ${t(action.label) || 'Go!'} →
+              </button>
+            ` : ''}
           </div>
         </div>
       </div>

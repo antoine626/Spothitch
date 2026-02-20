@@ -191,7 +191,7 @@ export default {
   // Profile
   level: 'Niveau',
   levelShort: 'Niv.',
-  points: 'pouces',
+  points: 'Pouces',
   spotsShared: 'Spots',
   checkinsCount: 'Check-ins',
   checkins: 'Check-ins',
@@ -1820,6 +1820,28 @@ export default {
   beginner: 'Débutant',
   progress: 'Progression',
   special: 'Spécial',
+  // Thumb History
+  thumbHistoryTitle: 'Comment gagner des Pouces',
+  thumbHistoryCreate: 'Créer un spot',
+  thumbHistoryValidate: 'Valider un spot',
+  thumbHistoryReview: 'Laisser un avis',
+  thumbHistoryQuiz: 'Quiz du jour',
+  thumbHistoryWeekly: 'Défi hebdomadaire',
+  thumbHistoryMonthly: 'Défi mensuel',
+  // Challenge actions
+  goToAction: 'C\'est parti !',
+  createSpotAction: 'Ajouter un spot',
+  validateSpotAction: 'Valider des spots',
+  writeReviewAction: 'Laisser un avis',
+  addPhotoAction: 'Ajouter des photos',
+  doCheckinAction: 'Faire un check-in',
+  exploreCountriesAction: 'Explorer la carte',
+  // Leaderboard extras
+  leaderboardFilterCountry: 'Filtrer par pays',
+  monthlyRewards: 'Récompenses mensuelles',
+  monthlyRewardGold: '1er : Badge Or + 500 Pouces',
+  monthlyRewardSilver: '2e : Badge Argent + 300 Pouces',
+  monthlyRewardBronze: '3e : Badge Bronze + 100 Pouces',
   // Guides
   guideStart: 'Débuter',
   guideCountries: 'Par pays',
@@ -3265,7 +3287,8 @@ export default {
   proximityAlertsDesc: "Être notifié quand tu passes près d'un spot",
 
   // City Panel
-  hitchhikingFrom: "Autostop depuis",
+  hitchhikingFrom: "Guide autostop —",
+  guideHitchhikingCity: "Guide autostop —",
   popularRoutes: "Destinations populaires",
   openCityGuide: "Guide du pays",
   direction: "Direction",
@@ -3341,4 +3364,14 @@ export default {
   allFieldsRequired: "Tous les champs sont obligatoires",
   confirmUnregisterAmbassador: "Tu veux vraiment quitter le programme ambassadeur ?",
   sendAlert: "Envoyer une alerte",
+
+  // Profile footer
+  spotsValidatedLabel: 'Spots validés',
+  faqAndHelp: 'FAQ & Aide',
+  aboutSpotHitch: 'À propos de SpotHitch',
+  aboutSpotHitchDesc: 'La communauté des autostoppeurs. Trouve les meilleurs spots, partage tes expériences, voyage en toute sécurité.',
+  legalNotices: 'Mentions légales',
+  inviteFriends: 'Inviter des amis',
+  creditsLabel: 'Crédits',
+  creditsText: 'Données : Hitchwiki (ODBL) • Cartes : OpenFreeMap',
 }

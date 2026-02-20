@@ -1,10 +1,10 @@
 /**
  * Map View Component (New Home)
- * Full-screen map with search, scores, add button, and guide indicator
+ * Full-screen map with search, scores, and add button
  */
 
 import { t } from '../../i18n/index.js';
-import { countryGuides, getGuideByCode } from '../../data/guides.js';
+import { countryGuides } from '../../data/guides.js';
 import { icon } from '../../utils/icons.js'
 
 // Build reverse lookup: country name (EN + local variants) → code
@@ -37,11 +37,6 @@ function countryNameToCode(name) {
 }
 
 export function renderMap(state) {
-  // Get current country from search or map center
-  const currentCountry = state.searchCountry || null;
-  const currentGuide = currentCountry ? getGuideByCode(currentCountry.toUpperCase()) : null;
-  const hasGuide = !!currentGuide;
-
   return `
     <div class="h-full flex flex-col relative" style="height: calc(100vh - 130px);">
       <!-- Search Bar -->
@@ -97,22 +92,6 @@ export function renderMap(state) {
       <!-- Map Container -->
       <div id="main-map" class="flex-1 w-full bg-dark-secondary"></div>
 
-      <!-- Country Guide Indicator (shows when a guide is available) -->
-      <div id="guide-indicator" class="absolute bottom-20 left-4 z-20 ${hasGuide ? '' : 'hidden'}">
-        <button
-          onclick="openCountryGuide('${currentGuide?.code || ''}')"
-          class="flex items-center gap-2 px-4 py-3 rounded-xl bg-emerald-500/90 backdrop-blur text-white font-medium shadow-lg hover:bg-emerald-600 transition-all animate-guide-blink"
-          aria-label="${t('viewCountryGuide') || 'View country guide'}"
-        >
-          <span class="text-xl">${currentGuide?.flag || '🌍'}</span>
-          <div class="text-left">
-            <div class="text-xs opacity-80">${t('guideAvailable') || 'Guide available'}</div>
-            <div class="font-bold">${currentGuide?.name || (t('country') || 'Country')}</div>
-          </div>
-          ${icon('chevron-right', 'w-5 h-5 ml-2')}
-        </button>
-      </div>
-
       <!-- Map Controls (Zoom + Location) -->
       <div class="absolute left-4 bottom-36 z-30 flex flex-col gap-2">
         <button
@@ -151,19 +130,6 @@ export function renderMap(state) {
         ${icon('plus', 'w-5 h-5')}
       </button>
 
-      <!-- Spots count + loading indicator -->
-      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
-        <div class="px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm" aria-live="polite">
-          <span id="map-spots-loading" class="hidden items-center gap-2">
-            <span class="w-3 h-3 border-2 border-primary-400 border-t-transparent rounded-full animate-spin"></span>
-            <span class="text-slate-400">${t('loadingSpots') || 'Loading spots...'}</span>
-          </span>
-          <span id="map-spots-count">
-            <span class="text-primary-400 font-bold">${state.spots?.length || 0}</span>
-            <span class="text-slate-400"> ${t('spotsAvailable') || 'spots available'}</span>
-          </span>
-        </div>
-      </div>
     </div>
   `;
 }
@@ -236,7 +202,7 @@ window.searchMapSuggestions = (query) => {
                     onclick="openCityPanel('${cityName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}', '${cityName}', ${r.lat}, ${r.lon}, '${cc}', '${countryName.replace(/'/g, "\\'")}')"
                     class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-all text-xs font-medium border-t border-white/5"
                   >
-                    📍 ${window.t?.('hitchhikingFrom') || 'Hitchhiking from'} ${cityName}
+                    📍 ${window.t?.('guideHitchhikingCity') || 'Hitchhiking guide —'} ${cityName}
                   </button>
                 ` : ''}
               </div>`
@@ -298,20 +264,6 @@ window.searchLocation = async (query) => {
       // Update state with search country
       if (window.setState) {
         window.setState({ searchCountry: countryCode });
-      }
-
-      // Show/hide guide indicator
-      const guideIndicator = document.getElementById('guide-indicator');
-      if (guideIndicator) {
-        const guide = countryCode ? getGuideByCode(countryCode.toUpperCase()) : null;
-        if (guide) {
-          guideIndicator.classList.remove('hidden');
-          guideIndicator.querySelector('button').onclick = () => window.openCountryGuide(guide.code);
-          guideIndicator.querySelector('.text-xl').textContent = guide.flag;
-          guideIndicator.querySelector('.font-bold').textContent = guide.name;
-        } else {
-          guideIndicator.classList.add('hidden');
-        }
       }
 
       // Center map on result

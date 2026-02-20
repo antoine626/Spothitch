@@ -1,6 +1,6 @@
 /**
  * Leaderboard Modal Component
- * Weekly and monthly rankings
+ * Weekly and monthly rankings with country filter and monthly rewards
  */
 
 import { getState, setState } from '../../stores/state.js';
@@ -51,16 +51,40 @@ const countryFlags = {
   BE: '🇧🇪', PT: '🇵🇹', AT: '🇦🇹', CH: '🇨🇭', PL: '🇵🇱',
 };
 
+const countryNames = {
+  FR: 'France', DE: 'Deutschland', NL: 'Nederland', ES: 'España', IT: 'Italia',
+  BE: 'Belgique', PT: 'Portugal', AT: 'Österreich', CH: 'Schweiz', PL: 'Polska',
+};
+
+/**
+ * Get unique countries from leaderboard data
+ */
+function getAvailableCountries(data) {
+  const countries = new Set();
+  for (const tab of Object.values(data)) {
+    for (const user of tab) {
+      if (user.country) countries.add(user.country);
+    }
+  }
+  return [...countries].sort();
+}
+
 /**
  * Render leaderboard modal
  */
 export function renderLeaderboardModal() {
   const state = getState();
-  const { showLeaderboard, leaderboardTab = 'weekly' } = state;
+  const { showLeaderboard, leaderboardTab = 'weekly', leaderboardCountry = 'all' } = state;
 
   if (!showLeaderboard) return '';
 
-  const leaderboardData = mockLeaderboardData[leaderboardTab] || [];
+  const rawData = mockLeaderboardData[leaderboardTab] || [];
+  const leaderboardData = leaderboardCountry === 'all'
+    ? rawData
+    : rawData.filter(u => u.country === leaderboardCountry);
+
+  const availableCountries = getAvailableCountries(mockLeaderboardData);
+
   const currentUser = {
     username: state.username || 'Vous',
     avatar: state.avatar || '🤙',
@@ -126,19 +150,61 @@ export function renderLeaderboardModal() {
           </button>
         </div>
 
+        <!-- Country Filter -->
+        <div class="px-5 pt-3 pb-1">
+          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            <button onclick="setLeaderboardCountry('all')"
+                    type="button"
+                    class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer
+                           ${leaderboardCountry === 'all' ? 'bg-amber-500 text-white' : 'bg-white/10 text-slate-400 hover:bg-white/20'}">
+              🌍 ${t('allCountries') || 'All'}
+            </button>
+            ${availableCountries.map(code => `
+              <button onclick="setLeaderboardCountry('${code}')"
+                      type="button"
+                      class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer
+                             ${leaderboardCountry === code ? 'bg-amber-500 text-white' : 'bg-white/10 text-slate-400 hover:bg-white/20'}">
+                ${countryFlags[code] || '🌍'} ${countryNames[code] || code}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Monthly Rewards Banner -->
+        ${leaderboardTab === 'monthly' ? `
+        <div class="mx-5 mt-2 p-3 rounded-xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20">
+          <div class="text-xs font-bold text-amber-400 mb-2">${t('monthlyRewards') || 'Monthly rewards'}</div>
+          <div class="flex justify-between text-[10px]">
+            <span class="text-amber-300">🥇 ${t('monthlyRewardGold') || '1st: Gold + 500 👍'}</span>
+          </div>
+          <div class="flex justify-between text-[10px] mt-0.5">
+            <span class="text-slate-300">🥈 ${t('monthlyRewardSilver') || '2nd: Silver + 300 👍'}</span>
+          </div>
+          <div class="flex justify-between text-[10px] mt-0.5">
+            <span class="text-orange-300">🥉 ${t('monthlyRewardBronze') || '3rd: Bronze + 100 👍'}</span>
+          </div>
+        </div>
+        ` : ''}
+
         <!-- Leaderboard List -->
         <div class="flex-1 overflow-y-auto">
+          ${leaderboardData.length > 0 ? `
           <!-- Top 3 Podium -->
           <div class="flex justify-center items-end gap-4 p-8 bg-gradient-to-b from-dark-secondary/50 to-transparent">
-            ${renderPodiumPlace(leaderboardData[1], 2)}
-            ${renderPodiumPlace(leaderboardData[0], 1)}
-            ${renderPodiumPlace(leaderboardData[2], 3)}
+            ${renderPodiumPlace(leaderboardData[1], 2, leaderboardTab === 'monthly')}
+            ${renderPodiumPlace(leaderboardData[0], 1, leaderboardTab === 'monthly')}
+            ${renderPodiumPlace(leaderboardData[2], 3, leaderboardTab === 'monthly')}
           </div>
 
           <!-- Rest of Leaderboard -->
           <div class="px-5 pb-5 space-y-3">
             ${leaderboardData.slice(3).map((user, index) => renderLeaderboardRow(user, index + 4)).join('')}
           </div>
+          ` : `
+          <div class="text-center text-slate-400 py-12">
+            ${t('noResults') || 'No results'}
+          </div>
+          `}
         </div>
 
         <!-- Footer Stats -->
@@ -153,7 +219,7 @@ export function renderLeaderboardModal() {
               <div class="text-xs text-slate-400">${t('participants') || 'Participants'}</div>
             </div>
             <div>
-              <div class="text-2xl font-bold text-purple-400">${Math.max(...leaderboardData.map(u => u.level))}</div>
+              <div class="text-2xl font-bold text-purple-400">${leaderboardData.length > 0 ? Math.max(...leaderboardData.map(u => u.level)) : 0}</div>
               <div class="text-xs text-slate-400">${t('bestLevel') || 'Best level'}</div>
             </div>
           </div>
@@ -164,9 +230,9 @@ export function renderLeaderboardModal() {
 }
 
 /**
- * Render podium place (top 3)
+ * Render podium place (top 3) with optional monthly reward indicator
  */
-function renderPodiumPlace(user, position) {
+function renderPodiumPlace(user, position, showReward = false) {
   if (!user) return '';
 
   const podiumStyles = {
@@ -175,6 +241,8 @@ function renderPodiumPlace(user, position) {
     3: { height: 'h-20', medal: '🥉', bg: 'from-orange-700/30 to-orange-800/30', border: 'border-orange-700/50' },
   };
 
+  const rewardThumbs = { 1: 500, 2: 300, 3: 100 };
+
   const style = podiumStyles[position];
 
   return `
@@ -182,6 +250,7 @@ function renderPodiumPlace(user, position) {
       <div class="text-3xl mb-2">${user.avatar}</div>
       <div class="text-white font-medium text-sm truncate max-w-20">${user.username}</div>
       <div class="text-slate-400 text-xs">${user.points.toLocaleString()} 👍</div>
+      ${showReward ? `<div class="text-amber-400 text-[10px] font-bold mt-0.5">+${rewardThumbs[position]} 👍</div>` : ''}
       <div class="mt-2 w-20 ${style.height} rounded-t-lg bg-gradient-to-b ${style.bg} border-2 ${style.border} flex items-start justify-center pt-2">
         <span class="text-2xl">${style.medal}</span>
       </div>
@@ -218,6 +287,7 @@ function renderLeaderboardRow(user, rank) {
 window.openLeaderboard = () => setState({ showLeaderboard: true });
 window.closeLeaderboard = () => setState({ showLeaderboard: false });
 window.setLeaderboardTab = (tab) => setState({ leaderboardTab: tab });
+window.setLeaderboardCountry = (country) => setState({ leaderboardCountry: country });
 
 export default {
   renderLeaderboardModal,

@@ -1817,6 +1817,28 @@ export default {
   beginner: 'Anfänger',
   progress: 'Fortschritt',
   special: 'Spezial',
+  // Thumb History
+  thumbHistoryTitle: 'Wie man Daumen verdient',
+  thumbHistoryCreate: 'Spot erstellen',
+  thumbHistoryValidate: 'Spot validieren',
+  thumbHistoryReview: 'Bewertung abgeben',
+  thumbHistoryQuiz: 'Tagesquiz',
+  thumbHistoryWeekly: 'Wöchentliche Herausforderung',
+  thumbHistoryMonthly: 'Monatliche Herausforderung',
+  // Challenge actions
+  goToAction: 'Los!',
+  createSpotAction: 'Spot hinzufügen',
+  validateSpotAction: 'Spots validieren',
+  writeReviewAction: 'Bewertung abgeben',
+  addPhotoAction: 'Fotos hinzufügen',
+  doCheckinAction: 'Check-in machen',
+  exploreCountriesAction: 'Karte erkunden',
+  // Leaderboard extras
+  leaderboardFilterCountry: 'Nach Land filtern',
+  monthlyRewards: 'Monatliche Belohnungen',
+  monthlyRewardGold: '1.: Gold-Abzeichen + 500 Daumen',
+  monthlyRewardSilver: '2.: Silber-Abzeichen + 300 Daumen',
+  monthlyRewardBronze: '3.: Bronze-Abzeichen + 100 Daumen',
   // Guides
   guideStart: 'Anfangen',
   guideCountries: 'Nach Land',
@@ -3262,7 +3284,8 @@ export default {
   proximityAlertsDesc: "Benachrichtigung wenn du in der Nähe eines Spots bist",
 
   // City Panel
-  hitchhikingFrom: "Trampen ab",
+  hitchhikingFrom: "Trampen-Guide —",
+  guideHitchhikingCity: "Tramper-Guide —",
   popularRoutes: "Beliebte Routen",
   openCityGuide: "Länderführer",
   direction: "Richtung",
@@ -3338,4 +3361,14 @@ export default {
   allFieldsRequired: "Alle Felder sind erforderlich",
   confirmUnregisterAmbassador: "Willst du das Botschafterprogramm wirklich verlassen?",
   sendAlert: "Alarm senden",
+
+  // Profile footer
+  spotsValidatedLabel: 'Validierte Spots',
+  faqAndHelp: 'FAQ & Hilfe',
+  aboutSpotHitch: 'Über SpotHitch',
+  aboutSpotHitchDesc: 'Die Tramper-Community. Finde die besten Spots, teile deine Erfahrungen, reise sicher.',
+  legalNotices: 'Rechtliche Hinweise',
+  inviteFriends: 'Freunde einladen',
+  creditsLabel: 'Credits',
+  creditsText: 'Daten: Hitchwiki (ODBL) • Karten: OpenFreeMap',
 }
