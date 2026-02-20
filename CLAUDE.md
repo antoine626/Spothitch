@@ -92,6 +92,7 @@
 > - Si un job échoue → le corriger IMMÉDIATEMENT dans la même session, ne pas laisser traîner
 > - Les "cancelled" sont normaux (push suivant trop rapide), les "failure" doivent être investigués
 > - Le E2E peut timeout (non-bloquant), mais tous les autres jobs DOIVENT passer
+> - **NE JAMAIS dire "déployé" ou "en ligne" tant que le CI n'est pas passé au vert** — dire "poussé sur GitHub" quand c'est push, et "déployé" UNIQUEMENT après avoir vérifié `gh run view` et confirmé que le deploy Cloudflare est completed/success
 
 > **RÈGLE #12 — JOURNAL DES ERREURS + APPRENTISSAGE CONTINU** (ABSOLUMENT OBLIGATOIRE) :
 > - Après CHAQUE bug trouvé → ajouter une entrée dans `memory/errors.md` avec : date, gravité, description, cause racine, correction, leçon apprise, fichiers, statut

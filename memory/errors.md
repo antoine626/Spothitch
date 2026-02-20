@@ -144,10 +144,20 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/components/modals/AddSpot.js`
 - **Statut** : CORRIGÉ
 
+### ERR-013 — Dit "déployé" alors que le CI n'a pas fini
+- **Date** : 2026-02-20
+- **Gravité** : MAJEUR
+- **Description** : Après un push, Claude a dit "tout est déployé" alors que le pipeline CI/CD GitHub Actions était encore en cours. L'utilisateur ne pouvait pas voir les changements sur le site.
+- **Cause racine** : Confusion entre "push réussi" et "déployé en production". Le build local passait, mais le déploiement Cloudflare se fait via GitHub Actions et prend plusieurs minutes.
+- **Correction** : Ajout d'une règle explicite dans CLAUDE.md Règle #10 : NE JAMAIS dire "déployé" tant que `gh run view` ne montre pas le deploy Cloudflare en completed/success.
+- **Leçon** : **"Poussé" ≠ "Déployé". Toujours vérifier `gh run view` avant de dire que c'est en ligne.** Dire "poussé sur GitHub" quand c'est push, "déployé" uniquement après confirmation CI vert.
+- **Fichiers** : `CLAUDE.md`
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
 
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
-| 2026-02-20 | 12 | 12 | 0 |
+| 2026-02-20 | 13 | 13 | 0 |
