@@ -104,6 +104,58 @@
       ],
       "errors": 1,
       "recommendations": 3
+    },
+    {
+      "date": "2026-02-20T12:47:21.334Z",
+      "score": 66,
+      "confidence": "MOYENNE",
+      "duration": "183.1s",
+      "mode": "full",
+      "bundleSize": 690,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 9,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 1,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 0,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 11,
+          "max": 15
+        }
+      ],
+      "errors": 2,
+      "recommendations": 8
     }
   ],
   "errors": [
@@ -111,6 +163,13 @@
       "phase": "Feature Inventory",
       "description": "Services orphelins = code mort ou bouton UI manquant",
       "date": "2026-02-20T07:03:31.359Z",
+      "file": null,
+      "check": null
+    },
+    {
+      "phase": "Code Quality",
+      "description": "Lancer node scripts/audit-rgpd.mjs pour voir les cles manquantes",
+      "date": "2026-02-20T12:47:21.334Z",
       "file": null,
       "check": null
     }
@@ -136,13 +195,80 @@
       "text": "31 modales sans close handler",
       "priority": "MOYENNE",
       "createdAt": "2026-02-20T07:03:31.358Z",
-      "followed": false
+      "followed": true,
+      "followedAt": "2026-02-20T12:47:21.331Z"
+    },
+    {
+      "source": "Code Quality",
+      "text": "Lancer node scripts/audit-rgpd.mjs pour voir les cles manquantes",
+      "createdAt": "2026-02-20T12:47:21.331Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Probleme de conformite RGPD",
+      "explain": "Le reglement europeen sur les donnees personnelles n'est pas respecte sur certains points.",
+      "action": "Lancer node scripts/audit-rgpd.mjs pour voir les problemes et les corriger.",
+      "impact": "Le site respecte la loi et les donnees des utilisateurs sont protegees."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "src/main.js affecte potentiellement 1 fichiers",
+      "createdAt": "2026-02-20T12:47:21.331Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "[Impact Analysis] src/main.js affecte potentiellement 1 fichiers",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Impact Analysis."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "Tester TOUT apres modification de fichiers critiques",
+      "createdAt": "2026-02-20T12:47:21.331Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "[Impact Analysis] Tester TOUT apres modification de fichiers critiques",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Impact Analysis."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "1 fichier(s) modifie(s) sans test unitaire correspondant",
+      "createdAt": "2026-02-20T12:47:21.331Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Des tests echouent",
+      "explain": "Certains tests automatiques detectent des problemes. Ca veut dire qu'une fonctionnalite est peut-etre cassee.",
+      "action": "Lancer npx vitest run pour voir les tests qui echouent et corriger les erreurs.",
+      "impact": "Toutes les fonctionnalites marchent comme prevu."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "10 erreur(s) NON CORRIGEE(S) dans memory/errors.md — a traiter en priorite",
+      "createdAt": "2026-02-20T12:47:21.331Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "[Regression Guard] 10 erreur(s) NON CORRIGEE(S) dans memory/errors.md — a trait",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Regression Guard."
+    },
+    {
+      "source": "Wiring Integrity",
+      "text": "28 modales sans close handler",
+      "createdAt": "2026-02-20T12:47:21.331Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Des fenetres popup ne peuvent pas etre fermees",
+      "explain": "Certaines fenetres (modales) s'ouvrent mais n'ont pas de bouton \"fermer\" fonctionnel. L'utilisateur reste bloque s'il ouvre une de ces fenetres.",
+      "action": "Ajouter un handler window.closeXxx pour chaque modale qui en manque un.",
+      "impact": "Les utilisateurs pourront fermer toutes les fenetres popup sans rester bloques."
     }
   ],
   "featureBaseline": null,
   "dependencyGraph": {
     "totalFiles": 204,
     "totalLinks": 583,
-    "updatedAt": "2026-02-20T07:11:49.463Z"
+    "updatedAt": "2026-02-20T12:47:20.541Z"
   }
 }

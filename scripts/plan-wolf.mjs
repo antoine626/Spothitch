@@ -600,7 +600,7 @@ function phase6_regressionGuard() {
     errorsTotal = errBlocks.length
 
     for (const block of errBlocks) {
-      if (/Statut\s*:\s*CORRIG/.test(block)) errorsFixed++
+      if (/Statut.*:\s*CORRIG[EÉ]/i.test(block)) errorsFixed++
       else errorsPending++
 
       // Extract lessons
