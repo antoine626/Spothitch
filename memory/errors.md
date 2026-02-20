@@ -124,6 +124,16 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/components/modals/AddSpot.js`
 - **Statut** : CORRIGÉ
 
+### ERR-012 — render() bloqué quand un input a le focus → transitions d'étape impossibles
+- **Date** : 2026-02-20
+- **Gravité** : CRITIQUE
+- **Description** : Après avoir rempli l'étape 1 du formulaire AddSpot et cliqué "Continuer", l'étape 2 ne s'affichait jamais. Le `setState({ addSpotStep: 2 })` était bien appelé mais l'UI restait sur l'étape 1.
+- **Cause racine** : Le render() de main.js (ligne 492-496) contient un guard qui skip TOUT re-render quand un input a le focus (pour éviter de perdre le texte en cours de frappe). Problème : quand l'utilisateur tape dans "Ville de départ" puis clique "Continuer", l'input a toujours le focus → render() est bloqué → le changement d'étape n'est jamais affiché.
+- **Correction** : Ajout de `document.activeElement?.blur()` avant chaque `setState` qui change d'étape (addSpotNextStep et addSpotPrevStep). Le blur libère le focus → render() n'est plus bloqué.
+- **Leçon** : **Quand render() a un guard "skip if input focused", toute action qui DOIT déclencher un re-render (changement d'étape, fermeture de modal, navigation) doit d'abord blur() l'élément actif.** Le guard protège la frappe mais ne doit pas empêcher les transitions.
+- **Fichiers** : `src/components/modals/AddSpot.js`
+- **Statut** : CORRIGÉ
+
 ### ERR-011 — MutationObserver boucle infinie dans AddSpot autocomplete
 - **Date** : 2026-02-20
 - **Gravité** : CRITIQUE
@@ -140,4 +150,4 @@ Chaque erreur suit ce format :
 
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
-| 2026-02-20 | 11 | 11 | 0 |
+| 2026-02-20 | 12 | 12 | 0 |

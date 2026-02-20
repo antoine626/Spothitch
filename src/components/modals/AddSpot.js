@@ -703,6 +703,8 @@ window.addSpotNextStep = async () => {
       showError(t('departureRequired') || 'Ville de départ obligatoire')
       return
     }
+    // Blur focused input so render() is not blocked by the typing guard
+    document.activeElement?.blur()
     setState({ addSpotStep: 2, addSpotType: spotType })
   } else if (currentStep === 2) {
     // Validate direction
@@ -712,6 +714,8 @@ window.addSpotNextStep = async () => {
     }
     // Auto-detect season
     window.spotFormData.season = detectSeason()
+    // Blur focused input so render() is not blocked by the typing guard
+    document.activeElement?.blur()
     setState({ addSpotStep: 3 })
   }
 }
@@ -721,6 +725,7 @@ window.addSpotPrevStep = async () => {
   const state = getState()
   const currentStep = state.addSpotStep || 1
   if (currentStep > 1) {
+    document.activeElement?.blur()
     setState({ addSpotStep: currentStep - 1 })
   }
 }
