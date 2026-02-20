@@ -89,7 +89,7 @@ if (!isQuick) {
 
   // ---- PHASE 5: Performance ----
   console.log('\n\n⚡ PHASE 5 — PERFORMANCE')
-  run('Lighthouse CI', 'npx @lhci/cli autorun', { critical: false, timeout: 300000 })
+  run('Lighthouse CI', 'CHROME_PATH=/home/antoine626/.cache/ms-playwright/chromium-1208/chrome-linux/chrome npx @lhci/cli autorun', { critical: false, timeout: 300000 })
 }
 
 // ---- REPORT ----
