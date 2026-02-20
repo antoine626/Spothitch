@@ -1429,10 +1429,13 @@ window.closeBadges = () => setState({ showBadges: false });
 window.showBadgeDetail = (badgeId) => setState({ showBadgeDetail: true, selectedBadgeId: badgeId });
 window.closeBadgeDetail = () => setState({ showBadgeDetail: false, selectedBadgeId: null });
 window.dismissBadgePopup = () => setState({ showBadgePopup: false, newBadge: null });
+window.closeBadgePopup = () => setState({ showBadgePopup: false, newBadge: null });
 window.openBadgePopup = (badge) => setState({ showBadgePopup: true, newBadge: badge });
 
 // Daily reward
 window.openDailyReward = () => setState({ showDailyReward: true });
+window.closeDailyReward = () => setState({ showDailyReward: false, lastDailyRewardResult: null });
+window.closeDailyRewardResult = () => setState({ showDailyReward: false, lastDailyRewardResult: null });
 
 // UI toggles
 window.closeFavoritesOnMap = () => setState({ showFavoritesOnMap: false, filterFavorites: false });

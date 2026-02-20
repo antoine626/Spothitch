@@ -158,6 +158,7 @@ export function renderApp(state) {
     ${state.showQuiz ? renderQuiz() : ''}
     ${state.showLeaderboard ? lazyRender('./modals/Leaderboard.js', 'renderLeaderboardModal') : ''}
     ${state.checkinSpot ? renderCheckinModal(state) : ''}
+    ${state.showDailyReward ? lazyRender('./modals/DailyReward.js', 'renderDailyRewardModal') : ''}
     ${state.newBadge ? lazyRender('./modals/Badges.js', 'renderBadgePopup', state.newBadge) : ''}
     ${state.showBadgeDetail ? lazyRender('./modals/Badges.js', 'renderBadgeDetail', state.selectedBadgeId) : ''}
 

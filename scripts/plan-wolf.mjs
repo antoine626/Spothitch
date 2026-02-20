@@ -873,19 +873,16 @@ function phase9_score() {
 // ═══════════════════════════════════════════════════════════════
 
 function phase10_recommendations(scoreResult) {
-  header(10, 'RECOMMENDATIONS + EVOLUTION')
+  header(10, 'RECOMMANDATIONS')
   const newRecs = []
 
-  // Analyze all phase details for recommendations
+  // ── Build enriched, human-readable recommendations ──
+  // Each recommendation has: title (short), explain (why it matters), action (what to do), impact (what it fixes)
+
   for (const p of phases) {
     for (const d of p.details) {
-      newRecs.push({
-        source: p.name,
-        text: d,
-        priority: p.score < p.max * 0.5 ? 'HAUTE' : 'MOYENNE',
-        createdAt: new Date().toISOString(),
-        followed: false,
-      })
+      const enriched = enrichRecommendation(p.name, d, p.score, p.max)
+      newRecs.push(enriched)
     }
   }
 
@@ -894,8 +891,12 @@ function phase10_recommendations(scoreResult) {
     const lastScores = memory.runs.slice(-3).map(r => r.score)
     if (lastScores.every((s, i) => i === 0 || s <= lastScores[i - 1])) {
       newRecs.push({
-        source: 'Pattern Detection',
-        text: 'Le score baisse depuis 3 runs consecutifs — tendance negative a investiguer',
+        source: 'Tendance',
+        text: 'Le score baisse depuis 3 runs consecutifs',
+        title: 'Score en baisse',
+        explain: 'Le score du loup diminue a chaque verification. Ca veut dire que le code se degrade petit a petit au lieu de s\'ameliorer.',
+        action: 'Regarder les recommandations non-suivies ci-dessous et les corriger une par une.',
+        impact: 'Remonter le score et eviter que des bugs s\'accumulent.',
         priority: 'HAUTE',
         createdAt: new Date().toISOString(),
         followed: false,
@@ -908,7 +909,6 @@ function phase10_recommendations(scoreResult) {
     let followed = 0
     let ignored = 0
     for (const rec of memory.recommendations) {
-      // Check if the issue still exists in current run
       const stillExists = phases.some(p => p.details.some(d => d === rec.text))
       if (!stillExists && !rec.followed) {
         rec.followed = true
@@ -918,35 +918,207 @@ function phase10_recommendations(scoreResult) {
         ignored++
       }
     }
-    if (followed > 0) log(`\n  ${followed} recommandation(s) precedente(s) suivie(s)`)
-    if (ignored > 0) log(`  ${ignored} recommandation(s) en attente`)
+    if (followed > 0) log(`\n  ${followed} recommandation(s) corrigee(s) depuis le dernier run`)
+    if (ignored > 0) log(`  ${ignored} recommandation(s) toujours en attente`)
   }
 
-  // Display new recommendations sorted by priority
+  // Display new recommendations — human readable
   if (newRecs.length > 0) {
-    log('\n  NOUVELLES RECOMMANDATIONS:')
-    const sorted = newRecs.sort((a, b) => a.priority === 'HAUTE' ? -1 : 1)
-    for (let i = 0; i < Math.min(sorted.length, 10); i++) {
-      const r = sorted[i]
-      const icon = r.priority === 'HAUTE' ? '!!' : ' >'
-      log(`    ${icon} [${r.source}] ${r.text}`)
+    const haute = newRecs.filter(r => r.priority === 'HAUTE')
+    const moyenne = newRecs.filter(r => r.priority === 'MOYENNE')
+
+    if (haute.length > 0) {
+      log('\n  --- URGENT (impact sur les utilisateurs) ---')
+      for (const r of haute) {
+        printRecommendation(r)
+      }
     }
-    if (sorted.length > 10) {
-      log(`    ... et ${sorted.length - 10} autre(s)`)
+
+    if (moyenne.length > 0) {
+      log('\n  --- A AMELIORER (qualite du code) ---')
+      for (const r of moyenne) {
+        printRecommendation(r)
+      }
     }
   } else {
     log('\n  Aucune recommandation — tout est propre !')
   }
 
-  // Wolf evolution suggestions
-  log('\n  EVOLUTION DU LOUP:')
+  // Wolf evolution
   const runCount = memory.runs.length + 1
-  log(`    Run #${runCount}`)
-  if (runCount === 1) log('    Baseline etablie — le loup commence a apprendre')
-  if (runCount >= 5) log('    Le loup a assez de donnees pour detecter des tendances')
-  if (runCount >= 10) log('    Le loup peut predire les zones de risque')
+  log(`\n  Run #${runCount}`)
 
   return newRecs
+}
+
+/**
+ * Print a single recommendation in human-readable format
+ */
+function printRecommendation(r) {
+  const icon = r.priority === 'HAUTE' ? '!!' : '>>'
+  log(`\n  ${icon} ${r.title}`)
+  log(`     Pourquoi : ${r.explain}`)
+  log(`     A faire  : ${r.action}`)
+  log(`     Resultat : ${r.impact}`)
+}
+
+/**
+ * Enrich a raw detail string into a human-readable recommendation
+ */
+function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
+  const base = {
+    source: phaseName,
+    text: rawDetail,
+    createdAt: new Date().toISOString(),
+    followed: false,
+    priority: phaseScore < phaseMax * 0.5 ? 'HAUTE' : 'MOYENNE',
+  }
+
+  // --- Code Quality ---
+  if (rawDetail.includes('eslint') || rawDetail.includes('ESLint') || rawDetail.includes('--fix')) {
+    return { ...base,
+      title: 'Nettoyage automatique du code (ESLint)',
+      explain: 'ESLint trouve des petites erreurs de style dans le code (espaces, variables inutilisees). Ca ne casse rien mais ca rend le code moins propre.',
+      action: 'Lancer la commande : npx eslint src/ --fix (ca corrige tout automatiquement).',
+      impact: 'Code plus propre, plus facile a maintenir, et le score Code Quality passe a 15/15.',
+    }
+  }
+
+  // --- Orphan services ---
+  if (rawDetail.includes('orphelin') || rawDetail.includes('orphan') || rawDetail.includes('jamais importe')) {
+    const serviceMatch = rawDetail.match(/:\s*(.+)$/)
+    const services = serviceMatch ? serviceMatch[1] : '(voir liste)'
+    return { ...base,
+      title: 'Services codes mais invisibles pour les utilisateurs',
+      explain: 'Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l\'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C\'est du code "fantome" — il existe mais personne ne peut l\'utiliser.',
+      action: 'Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l\'app en ajoutant les boutons/ecrans necessaires.',
+      impact: 'Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.',
+    }
+  }
+
+  // --- Missing close handlers ---
+  if (rawDetail.includes('close handler') || rawDetail.includes('sans handler close') || rawDetail.includes('sans close')) {
+    return { ...base,
+      title: 'Des fenetres popup ne peuvent pas etre fermees',
+      explain: 'Certaines fenetres (modales) s\'ouvrent mais n\'ont pas de bouton "fermer" fonctionnel. L\'utilisateur reste bloque s\'il ouvre une de ces fenetres.',
+      action: 'Ajouter un handler window.closeXxx pour chaque modale qui en manque un.',
+      impact: 'Les utilisateurs pourront fermer toutes les fenetres popup sans rester bloques.',
+    }
+  }
+
+  // --- SEO ---
+  if (rawDetail.includes('SEO') || rawDetail.includes('sitemap') || rawDetail.includes('guides')) {
+    return { ...base,
+      title: 'Le site est peu visible sur Google',
+      explain: 'Il manque des pages de contenu (guides, pages villes) qui permettent a Google de trouver le site quand quelqu\'un cherche "autostop" ou "hitchhiking spot".',
+      action: 'Generer des pages guides pour les destinations populaires (ex: "Autostop a Paris", "Hitchhiking from Berlin").',
+      impact: 'Plus de visiteurs venant de Google = plus d\'utilisateurs sans pub payante.',
+    }
+  }
+
+  // --- Performance / bundle ---
+  if (rawDetail.includes('bundle') || rawDetail.includes('chunk') || rawDetail.includes('KB')) {
+    return { ...base,
+      title: 'L\'app est un peu lourde a charger',
+      explain: 'Le poids total de l\'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s\'afficher.',
+      action: 'Verifier les imports inutiles et activer le code-splitting (chargement a la demande).',
+      impact: 'L\'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G.',
+    }
+  }
+
+  // --- Security ---
+  if (rawDetail.includes('securite') || rawDetail.includes('CSP') || rawDetail.includes('sanitiz')) {
+    return { ...base,
+      title: 'Protection de securite manquante',
+      explain: 'Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.',
+      action: 'Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.',
+      impact: 'Les utilisateurs sont proteges contre les attaques courantes.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Legal ---
+  if (rawDetail.includes('Legal') || rawDetail.includes('PRIVACY') || rawDetail.includes('TERMS') || rawDetail.includes('Cookie')) {
+    return { ...base,
+      title: 'Documents legaux manquants',
+      explain: 'L\'app doit avoir des conditions d\'utilisation, une politique de confidentialite, et un bandeau cookies pour etre conforme RGPD.',
+      action: 'Ajouter les fichiers manquants (PRIVACY.md, TERMS.md, ou CookieBanner).',
+      impact: 'Le site est legal en Europe et inspire confiance aux utilisateurs.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Accessibility ---
+  if (rawDetail.includes('accessibilite') || rawDetail.includes('a11y') || rawDetail.includes('ARIA')) {
+    return { ...base,
+      title: 'Ameliorer l\'accessibilite',
+      explain: 'Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d\'ecran) peuvent avoir du mal a utiliser l\'app.',
+      action: 'Ajouter les attributs ARIA manquants et verifier la navigation au clavier.',
+      impact: 'L\'app est utilisable par tout le monde, y compris les personnes en situation de handicap.',
+    }
+  }
+
+  // --- i18n ---
+  if (rawDetail.includes('langue') || rawDetail.includes('i18n') || rawDetail.includes('traduction')) {
+    return { ...base,
+      title: 'Traductions manquantes',
+      explain: 'Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.',
+      action: 'Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.',
+      impact: 'Tous les utilisateurs voient l\'app dans leur langue.',
+    }
+  }
+
+  // --- Tests ---
+  if (rawDetail.includes('FAIL') || rawDetail.includes('echoue') || rawDetail.includes('test')) {
+    return { ...base,
+      title: 'Des tests echouent',
+      explain: 'Certains tests automatiques detectent des problemes. Ca veut dire qu\'une fonctionnalite est peut-etre cassee.',
+      action: 'Lancer npx vitest run pour voir les tests qui echouent et corriger les erreurs.',
+      impact: 'Toutes les fonctionnalites marchent comme prevu.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- RGPD ---
+  if (rawDetail.includes('RGPD') || rawDetail.includes('rgpd')) {
+    return { ...base,
+      title: 'Probleme de conformite RGPD',
+      explain: 'Le reglement europeen sur les donnees personnelles n\'est pas respecte sur certains points.',
+      action: 'Lancer node scripts/audit-rgpd.mjs pour voir les problemes et les corriger.',
+      impact: 'Le site respecte la loi et les donnees des utilisateurs sont protegees.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Build ---
+  if (rawDetail.includes('build') || rawDetail.includes('Build')) {
+    return { ...base,
+      title: 'Le build ne fonctionne pas',
+      explain: 'Le site ne peut pas etre construit correctement — il ne se mettra pas a jour tant que ce n\'est pas corrige.',
+      action: 'Lancer npm run build pour voir l\'erreur exacte et la corriger.',
+      impact: 'Le site peut etre mis a jour normalement.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Regression ---
+  if (rawDetail.includes('REGRESSION')) {
+    return { ...base,
+      title: 'Un bug deja corrige est revenu',
+      explain: 'Un probleme qui avait ete resolu est reapparu. Ca arrive quand une modification casse quelque chose qui marchait avant.',
+      action: 'Verifier le detail ci-dessus et re-corriger le bug.',
+      impact: 'La fonctionnalite remarche comme prevu.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Fallback for unrecognized details ---
+  return { ...base,
+    title: `[${phaseName}] ${rawDetail.slice(0, 60)}`,
+    explain: 'Le loup a detecte un probleme dans cette phase.',
+    action: 'Investiguer le detail ci-dessus.',
+    impact: 'Ameliorer le score de la phase ' + phaseName + '.',
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
