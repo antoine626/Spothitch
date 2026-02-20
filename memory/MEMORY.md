@@ -61,6 +61,14 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session ~2026-02-20 (session 4)
+- Mini-carte toujours visible dans AddSpot étape 1 (plus cachée derrière un bouton)
+- Carte s'auto-initialise avec la position connue de l'utilisateur
+- GPS centre et zoome la mini-carte quand activé
+- Texte d'aide clair "Touche la carte pour placer ton spot" en ambre
+- Carte plus grande (h-56 au lieu de h-48) avec bordure ambre
+- i18n tapToPlaceSpot ajouté en 4 langues
+
 ### Session ~2026-02-20 (session 3)
 - Fix MutationObserver boucle infinie dans AddSpot autocomplete (ERR-011) : flag de garde lastAutocompleteStep
 - Retiré cleanupAutocompletes() des fonctions init (le cleanup est géré par l'Observer)

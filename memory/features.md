@@ -23,6 +23,7 @@
 - [x] 14 669 spots dans 137 pays (Hitchmap/Hitchwiki ODBL)
 - [x] Chargement lazy par pays (JSON)
 - [x] Création spot : wizard 3 étapes (Photo+Type → Expérience → Détails)
+- [x] Mini-carte toujours visible à l'étape 1 (tap pour placer le spot, GPS en raccourci)
 - [x] Photo obligatoire (compression + preview)
 - [x] 4 types : sortie ville, station-service, bord de route, autre
 - [x] 3 critères notation : sécurité, trafic, accessibilité (1-5 étoiles)
