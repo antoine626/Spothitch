@@ -1,0 +1,96 @@
+{
+  "version": 2,
+  "runs": [
+    {
+      "date": "2026-02-20T07:03:31.359Z",
+      "score": 87,
+      "confidence": "HAUTE",
+      "duration": "186.2s",
+      "mode": "quick",
+      "bundleSize": 695,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 11,
+          "max": 15
+        }
+      ],
+      "errors": 1,
+      "recommendations": 3
+    }
+  ],
+  "errors": [
+    {
+      "phase": "Feature Inventory",
+      "description": "Services orphelins = code mort ou bouton UI manquant",
+      "date": "2026-02-20T07:03:31.359Z",
+      "file": null,
+      "check": null
+    }
+  ],
+  "patterns": [],
+  "recommendations": [
+    {
+      "source": "Code Quality",
+      "text": "Lancer npx eslint src/ --fix pour corriger automatiquement",
+      "priority": "MOYENNE",
+      "createdAt": "2026-02-20T07:03:31.358Z",
+      "followed": false
+    },
+    {
+      "source": "Feature Inventory",
+      "text": "Services orphelins = code mort ou bouton UI manquant",
+      "priority": "MOYENNE",
+      "createdAt": "2026-02-20T07:03:31.358Z",
+      "followed": false
+    },
+    {
+      "source": "Wiring Integrity",
+      "text": "31 modales sans close handler",
+      "priority": "MOYENNE",
+      "createdAt": "2026-02-20T07:03:31.358Z",
+      "followed": false
+    }
+  ],
+  "featureBaseline": null,
+  "dependencyGraph": {
+    "totalFiles": 204,
+    "totalLinks": 583,
+    "updatedAt": "2026-02-20T07:03:30.574Z"
+  }
+}
