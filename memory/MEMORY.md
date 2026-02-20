@@ -28,7 +28,7 @@
 - SOS + Mode Compagnon (sécurité voyageur solo)
 - Système d'auth progressif (Firebase Auth - Google, Facebook, Apple, email)
 - Onboarding carousel 5 slides pour nouveaux visiteurs
-- Pages SEO par ville (852 villes générées)
+- Pages SEO par ville (428 villes générées)
 - Notifications de proximité
 - Vérification d'identité progressive (5 niveaux)
 - Report/Block/Modération

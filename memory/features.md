@@ -171,7 +171,7 @@
 
 ## SEO
 
-- [x] Pages SEO par ville (852 villes auto-générées)
+- [x] Pages SEO par ville (428 villes auto-générées)
 - [x] Routes populaires entre villes
 - [x] robots.txt + sitemap.xml
 - [x] Meta tags Open Graph
@@ -188,7 +188,7 @@
 ## Monitoring & Tests
 
 - [x] Sentry error tracking (optionnel, chunk isolé)
-- [x] 88+ tests wiring (handlers + modal flags)
+- [x] 104 tests wiring (handlers + modal flags)
 - [x] Tests integration modales
 - [x] E2E Playwright
 - [x] Visual regression (screenshots)

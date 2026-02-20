@@ -42,7 +42,7 @@
 | Photo obligatoire | Requise à la création de spot | Qualité des données, preuve visuelle | 2025-12-23 |
 | Pas de paywall | Gratuit pour tous | Les autostoppeurs sont fauchés | 2025-12-23 |
 | 4 langues | FR, EN, ES, DE | Couverture Europe principale | 2025-12-23 |
-| Pages SEO villes | 852 pages générées auto depuis les spots | Google indexe, trafic organique | 2026-02 |
+| Pages SEO villes | 428 pages générées auto depuis les spots | Google indexe, trafic organique | 2026-02 |
 
 ## Performance
 

@@ -16,22 +16,6 @@ import { icon } from '../../utils/icons.js'
 const WAIT_STEPS = [1, 2, 3, 5, 10, 15, 20, 25, 30, 45, 60, 90, 120, 180]
 
 /**
- * Detect current season from date
- */
-function detectSeason() {
-  const month = new Date().getMonth() // 0-11
-  if (month >= 2 && month <= 4) return 'spring'
-  if (month >= 5 && month <= 7) return 'summer'
-  if (month >= 8 && month <= 10) return 'autumn'
-  return 'winter'
-}
-
-function seasonLabel(season) {
-  const labels = { spring: 'seasonSpring', summer: 'seasonSummer', autumn: 'seasonAutumn', winter: 'seasonWinter' }
-  return t(labels[season]) || season
-}
-
-/**
  * Render interactive star rating for a criterion
  */
 function renderStarInput(criterion, label) {
