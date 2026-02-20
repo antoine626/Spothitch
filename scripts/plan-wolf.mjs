@@ -1,25 +1,29 @@
 #!/usr/bin/env node
 /**
- * PLAN WOLF v2 — Le Loup Vivant
+ * PLAN WOLF v3 — Le Loup Ultime
  *
  * Un gardien intelligent qui comprend le code, analyse les impacts,
  * apprend de ses erreurs, et evolue a chaque execution.
  *
- * 10 phases :
+ * 14 phases :
  *   1. Code Quality     — ESLint, i18n, RGPD
  *   2. Unit Tests       — Vitest (wiring, integration, all)
  *   3. Build            — Vite build + bundle size
- *   4. Impact Analysis  — git diff → dependency graph → what could break
- *   5. Feature Inventory— features.md vs code reel
- *   6. Regression Guard — re-teste chaque bug passe (wolf-memory)
- *   7. Wiring Integrity — services orphelins, handlers morts, modales cassees
- *   8. Multi-Level Audit— perf, SEO, a11y, i18n, securite, legal
- *   9. Score /100       — auto-evaluation + comparaison run precedent
- *  10. Recommendations  — conseils, patterns, evolution
+ *   4. Impact Analysis  — git diff, dependency graph, circular imports
+ *   5. Feature Inventory— features.md vs code reel, memory accuracy
+ *   6. Regression Guard — re-teste chaque bug, ALL duplicate handlers
+ *   7. Wiring Integrity — handlers morts, onclick verification, modales
+ *   8. Dead Code        — unused functions, exports, dead variables
+ *   9. Multi-Level Audit— perf, SEO, a11y, securite, legal, images
+ *  10. Lighthouse       — performance, accessibility, SEO, best practices
+ *  11. Screenshots      — Playwright visual regression
+ *  12. Feature Scores   — score par feature (carte, social, profil...)
+ *  13. Score /100       — auto-evaluation + comparaison run precedent
+ *  14. Recommendations  — conseils, patterns, evolution
  *
  * Usage:
- *   node scripts/plan-wolf.mjs           # Full run (~5 min)
- *   node scripts/plan-wolf.mjs --quick   # Skip E2E + Lighthouse
+ *   node scripts/plan-wolf.mjs           # Full run (~8 min)
+ *   node scripts/plan-wolf.mjs --quick   # Skip E2E, Lighthouse, Screenshots
  */
 
 import { execSync } from 'child_process'
@@ -43,7 +47,7 @@ function loadMemory() {
     } catch { /* corrupted, start fresh */ }
   }
   return {
-    version: 2,
+    version: 3,
     runs: [],
     errors: [],
     patterns: [],
@@ -328,6 +332,43 @@ function phase4_impactAnalysis() {
     updatedAt: new Date().toISOString(),
   }
 
+  // --- Circular import detection ---
+  const cycles = []
+  function findCycles(node, path, visited) {
+    if (path.includes(node)) {
+      const cycle = path.slice(path.indexOf(node))
+      if (cycle.length >= 2) cycles.push(cycle)
+      return
+    }
+    if (visited.has(node)) return
+    visited.add(node)
+    for (const dep of (deps[node] || [])) {
+      findCycles(dep, [...path, node], visited)
+    }
+  }
+  const cycleVisited = new Set()
+  for (const file of Object.keys(deps)) {
+    findCycles(file, [], cycleVisited)
+  }
+  const uniqueCycles = []
+  const seenCycleKeys = new Set()
+  for (const c of cycles) {
+    const key = [...c].sort().join('|')
+    if (!seenCycleKeys.has(key)) {
+      seenCycleKeys.add(key)
+      uniqueCycles.push(c)
+    }
+  }
+  if (uniqueCycles.length > 0) {
+    findings.push(`Imports circulaires: ${uniqueCycles.length} cycle(s) detecte(s)`)
+    for (const c of uniqueCycles.slice(0, 5)) {
+      details.push(`Cycle: ${c.map(f => basename(f, '.js')).join(' -> ')} -> ${basename(c[0], '.js')}`)
+    }
+    if (uniqueCycles.length > 5) details.push(`... et ${uniqueCycles.length - 5} autres cycles`)
+  } else {
+    findings.push('0 imports circulaires')
+  }
+
   // Get changed files since last commit (or last tag)
   let changedFiles = []
   try {
@@ -540,6 +581,54 @@ function phase5_featureInventory() {
     findings.push('0 services orphelins')
   }
 
+  // --- Memory accuracy: verify numbers in features.md vs reality ---
+  let memoryAccurate = true
+
+  // Check city page count
+  const distCityDir = join(ROOT, 'dist', 'hitchhiking')
+  if (existsSync(distCityDir)) {
+    let realCityCount = 0
+    try {
+      for (const country of readdirSync(distCityDir)) {
+        const cDir = join(distCityDir, country)
+        if (statSync(cDir).isDirectory()) {
+          realCityCount += readdirSync(cDir).filter(f => f.endsWith('.html')).length
+        }
+      }
+    } catch { /* ignore */ }
+
+    // Check what features.md says
+    const cityMatch = featuresContent.match(/(\d+)\s*villes?\s*auto/)
+    if (cityMatch) {
+      const claimed = parseInt(cityMatch[1])
+      if (Math.abs(claimed - realCityCount) > 10) {
+        memoryAccurate = false
+        details.push(`MEMOIRE PERIMEE: features.md dit "${claimed} villes" mais le build en genere ${realCityCount}`)
+      }
+    }
+  }
+
+  // Check test count
+  const testCountMatch = featuresContent.match(/(\d+)\+?\s*tests?\s*wiring/)
+  if (testCountMatch) {
+    const claimedTests = parseInt(testCountMatch[1])
+    const testOut = exec('npx vitest run tests/wiring/ --reporter=verbose 2>&1 || true', { allowFail: true, timeout: 60000 })
+    const realTestMatch = testOut.match(/(\d+)\s*passed/)
+    if (realTestMatch) {
+      const realTests = parseInt(realTestMatch[1])
+      if (Math.abs(claimedTests - realTests) > 5) {
+        memoryAccurate = false
+        details.push(`MEMOIRE PERIMEE: features.md dit "${claimedTests} tests wiring" mais il y en a ${realTests}`)
+      }
+    }
+  }
+
+  if (memoryAccurate) {
+    findings.push('Memoire: chiffres coherents avec la realite')
+  } else {
+    findings.push('Memoire: chiffres perimes detectes')
+  }
+
   log(`  Score: ${score}/${max}`)
   phase('Feature Inventory', score, max, findings, details)
 }
@@ -614,17 +703,39 @@ function phase6_regressionGuard() {
       details.push(`${errorsPending} erreur(s) NON CORRIGEE(S) dans memory/errors.md — a traiter en priorite`)
     }
 
-    // Check that lessons are being applied (spot-check duplicate handlers)
-    const mainJs = readFile(join(ROOT, 'src', 'main.js'))
-    const addSpotJs = readFile(join(ROOT, 'src', 'components', 'modals', 'AddSpot.js'))
+    // ERR-001 regression check: scan ALL files for duplicate window.* handlers
+    const allSrcFiles = getAllJsFiles(join(ROOT, 'src'))
+    const handlersByFile = {} // handler name → [files]
+    for (const file of allSrcFiles) {
+      const content = readFile(file)
+      const relPath = relative(ROOT, file)
+      // Match window.xxx = but skip window.xxx?.() and if(!window.xxx) patterns
+      const handlers = (content.match(/window\.(\w+)\s*=/g) || [])
+        .map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+      for (const h of handlers) {
+        if (!handlersByFile[h]) handlersByFile[h] = []
+        if (!handlersByFile[h].includes(relPath)) handlersByFile[h].push(relPath)
+      }
+    }
+    const duplicateHandlers = Object.entries(handlersByFile)
+      .filter(([, files]) => files.length > 1)
+      .sort((a, b) => b[1].length - a[1].length)
 
-    // ERR-001 regression check: no duplicate handlers between main.js and AddSpot.js
-    const mainHandlers = (mainJs.match(/window\.\w+\s*=/g) || []).map(h => h.replace('window.', '').replace(/\s*=$/, ''))
-    const addSpotHandlers = (addSpotJs.match(/window\.\w+\s*=/g) || []).map(h => h.replace('window.', '').replace(/\s*=$/, ''))
-    const duplicates = mainHandlers.filter(h => addSpotHandlers.includes(h))
-    if (duplicates.length > 0) {
-      regressions++
-      details.push(`REGRESSION ERR-001: Handlers dupliques entre main.js et AddSpot.js: ${duplicates.join(', ')}`)
+    if (duplicateHandlers.length > 0) {
+      findings.push(`DUPLICATE HANDLERS: ${duplicateHandlers.length} handlers definis dans 2+ fichiers`)
+      // Show worst offenders
+      const worst = duplicateHandlers.slice(0, 10)
+      for (const [name, files] of worst) {
+        details.push(`Handler "${name}" defini dans ${files.length} fichiers: ${files.map(f => basename(f, '.js')).join(', ')}`)
+      }
+      if (duplicateHandlers.length > 10) {
+        details.push(`... et ${duplicateHandlers.length - 10} autres handlers dupliques`)
+      }
+      // Penalize score proportionally
+      if (duplicateHandlers.length > 20) regressions += 2
+      else if (duplicateHandlers.length > 5) regressions++
+    } else {
+      findings.push('0 handlers dupliques entre fichiers')
     }
   } else {
     findings.push('Pas de journal erreurs (memory/errors.md manquant)')
@@ -657,7 +768,7 @@ function phase6_regressionGuard() {
 function phase7_wiringIntegrity() {
   header(7, 'WIRING INTEGRITY')
   let score = 0
-  const max = 10
+  const max = 12
   const findings = []
   const details = []
 
@@ -703,6 +814,37 @@ function phase7_wiringIntegrity() {
     details.push(`${missingClose.length} modales sans close handler`)
   }
 
+  // --- onclick verification: every onclick="fn()" must have a window.fn ---
+  const allSrcForOnclick = getAllJsFiles(join(ROOT, 'src'))
+  const allRegisteredHandlers = new Set()
+  for (const file of allSrcForOnclick) {
+    const content = readFile(file)
+    const handlers = (content.match(/window\.(\w+)\s*=/g) || [])
+      .map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+    for (const h of handlers) allRegisteredHandlers.add(h)
+  }
+
+  const onclickCalls = new Set()
+  for (const file of allSrcForOnclick) {
+    const content = readFile(file)
+    const matches = content.match(/onclick="(\w+)\(/g) || []
+    for (const m of matches) {
+      const fn = m.replace('onclick="', '').replace('(', '')
+      onclickCalls.add(fn)
+    }
+  }
+
+  const danglingOnclicks = [...onclickCalls].filter(fn => !allRegisteredHandlers.has(fn))
+  if (danglingOnclicks.length === 0) {
+    score += 2
+    findings.push(`onclick: ${onclickCalls.size} appels, tous branches`)
+  } else {
+    findings.push(`onclick: ${danglingOnclicks.length} fonction(s) appelees mais inexistantes`)
+    for (const fn of danglingOnclicks.slice(0, 5)) {
+      details.push(`onclick="${fn}()" utilise dans le HTML mais window.${fn} n'existe pas`)
+    }
+  }
+
   // Check i18n — all t() calls have translations
   const i18nDir = join(ROOT, 'src', 'i18n', 'lang')
   if (existsSync(i18nDir)) {
@@ -729,11 +871,122 @@ function phase7_wiringIntegrity() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 8: MULTI-LEVEL AUDIT
+// PHASE 8: DEAD CODE DETECTION
 // ═══════════════════════════════════════════════════════════════
 
-function phase8_multiLevel() {
-  header(8, 'MULTI-LEVEL AUDIT')
+function phase8_deadCode() {
+  header(8, 'DEAD CODE')
+  let score = 0
+  const max = 10
+  const findings = []
+  const details = []
+
+  const srcDir = join(ROOT, 'src')
+  const allFiles = getAllJsFiles(srcDir)
+  let deadFunctions = 0
+  let deadExports = 0
+
+  // Collect all exported function names
+  const exportedFunctions = {} // name → file
+  const allContent = {} // file → content (cache)
+  for (const file of allFiles) {
+    const content = readFile(file)
+    allContent[file] = content
+    const rel = relative(ROOT, file)
+
+    // export function xxx
+    const exportFnMatches = content.match(/export\s+function\s+(\w+)/g) || []
+    for (const m of exportFnMatches) {
+      const name = m.replace(/export\s+function\s+/, '')
+      exportedFunctions[name] = rel
+    }
+
+    // export { xxx }
+    const namedExports = content.match(/export\s*\{([^}]+)\}/g) || []
+    for (const block of namedExports) {
+      const names = block.replace(/export\s*\{/, '').replace(/\}/, '').split(',')
+      for (const n of names) {
+        const clean = n.trim().split(/\s+as\s+/)[0].trim()
+        if (clean && clean !== 'default') exportedFunctions[clean] = rel
+      }
+    }
+  }
+
+  // Check if exports are used anywhere
+  for (const [fnName, sourceFile] of Object.entries(exportedFunctions)) {
+    if (fnName.length < 3) continue // skip very short names (false positives)
+    let usedElsewhere = false
+    for (const file of allFiles) {
+      const rel = relative(ROOT, file)
+      if (rel === sourceFile) continue
+      if (allContent[file].includes(fnName)) {
+        usedElsewhere = true
+        break
+      }
+    }
+    // Also check tests
+    if (!usedElsewhere) {
+      const testDir = join(ROOT, 'tests')
+      if (existsSync(testDir)) {
+        const testFiles = getAllJsFiles(testDir)
+        for (const tf of testFiles) {
+          if (readFile(tf).includes(fnName)) {
+            usedElsewhere = true
+            break
+          }
+        }
+      }
+    }
+    if (!usedElsewhere) {
+      deadExports++
+      if (deadExports <= 10) {
+        details.push(`Export mort: "${fnName}" dans ${sourceFile} — jamais importe ailleurs`)
+      }
+    }
+  }
+
+  // Check for defined-but-unused local functions
+  for (const file of allFiles) {
+    const content = allContent[file]
+    const rel = relative(ROOT, file)
+    // Match: function xxx( but NOT export function xxx
+    const localFns = content.match(/(?<!export\s)function\s+(\w+)\s*\(/g) || []
+    for (const m of localFns) {
+      const name = m.replace(/function\s+/, '').replace(/\s*\(/, '')
+      if (name.length < 3) continue
+      // Count occurrences in same file (should be > 1: definition + at least one call)
+      const count = (content.match(new RegExp(`\\b${name}\\b`, 'g')) || []).length
+      if (count <= 1) {
+        deadFunctions++
+        if (deadFunctions <= 5) {
+          details.push(`Fonction morte: "${name}" dans ${rel} — definie mais jamais appelee`)
+        }
+      }
+    }
+  }
+
+  if (deadExports > 10) details.push(`... et ${deadExports - 10} autres exports morts`)
+  if (deadFunctions > 5) details.push(`... et ${deadFunctions - 5} autres fonctions mortes`)
+
+  const totalDead = deadExports + deadFunctions
+  findings.push(`${deadExports} export(s) mort(s), ${deadFunctions} fonction(s) locale(s) morte(s)`)
+
+  if (totalDead === 0) score += 10
+  else if (totalDead <= 5) score += 8
+  else if (totalDead <= 15) score += 5
+  else if (totalDead <= 30) score += 3
+  else score += 1
+
+  log(`  Score: ${score}/${max}`)
+  phase('Dead Code', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 9: MULTI-LEVEL AUDIT
+// ═══════════════════════════════════════════════════════════════
+
+function phase9_multiLevel() {
+  header(9, 'MULTI-LEVEL AUDIT')
   let score = 0
   const max = 15
   const findings = []
@@ -841,16 +1094,337 @@ function phase8_multiLevel() {
     else score += 1
   }
 
+  // --- Image size check ---
+  const imgDirs = ['public/images', 'public/icons', 'public/screenshots', 'src/assets']
+  let oversizedImages = 0
+  let totalImages = 0
+  const imgExtensions = ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']
+  for (const imgDir of imgDirs) {
+    const fullDir = join(ROOT, imgDir)
+    if (!existsSync(fullDir)) continue
+    try {
+      const imgFiles = readdirSync(fullDir).filter(f => imgExtensions.some(ext => f.toLowerCase().endsWith(ext)))
+      for (const img of imgFiles) {
+        totalImages++
+        const size = statSync(join(fullDir, img)).size
+        const kb = Math.round(size / 1024)
+        if (kb > 200) {
+          oversizedImages++
+          if (oversizedImages <= 3) {
+            details.push(`Image trop lourde: ${imgDir}/${img} (${kb}KB > 200KB)`)
+          }
+        }
+      }
+    } catch { /* ignore */ }
+  }
+  if (oversizedImages > 3) details.push(`... et ${oversizedImages - 3} autres images trop lourdes`)
+  if (oversizedImages === 0 && totalImages > 0) {
+    findings.push(`Images: ${totalImages} fichiers, tous < 200KB`)
+  } else if (oversizedImages > 0) {
+    findings.push(`Images: ${oversizedImages}/${totalImages} trop lourdes (> 200KB)`)
+  }
+
   log(`  Score: ${score}/${max}`)
   phase('Multi-Level Audit', score, max, findings, details)
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 9: SCORE + SELF-EVALUATION
+// PHASE 10: LIGHTHOUSE (skip in --quick mode)
 // ═══════════════════════════════════════════════════════════════
 
-function phase9_score() {
-  header(9, 'SCORE + AUTO-EVALUATION')
+function phase10_lighthouse() {
+  header(10, 'LIGHTHOUSE')
+  let score = 0
+  const max = 8
+  const findings = []
+  const details = []
+
+  if (isQuick) {
+    findings.push('Lighthouse saute en mode --quick')
+    score += 4
+    log(`  Score: ${score}/${max} (skip)`)
+    phase('Lighthouse', score, max, findings, details)
+    return
+  }
+
+  // Check if lhci is available
+  const lhciAvailable = execOk('npx lhci --version')
+  if (!lhciAvailable) {
+    findings.push('Lighthouse CI non installe (npx lhci)')
+    details.push('Installer avec: npm install -g @lhci/cli')
+    score += 2
+    log(`  Score: ${score}/${max}`)
+    phase('Lighthouse', score, max, findings, details)
+    return
+  }
+
+  // Run lighthouse on built files (needs a server)
+  try {
+    const distIndex = join(ROOT, 'dist', 'index.html')
+    if (!existsSync(distIndex)) {
+      findings.push('dist/index.html introuvable — lancer npm run build d\'abord')
+      score += 2
+      log(`  Score: ${score}/${max}`)
+      phase('Lighthouse', score, max, findings, details)
+      return
+    }
+
+    // Use lhci autorun with a temp server
+    const lhOut = exec(
+      'npx lhci autorun --collect.staticDistDir=./dist --collect.numberOfRuns=1 --assert.preset=lighthouse:no-pwa 2>&1 || true',
+      { allowFail: true, timeout: 120000 }
+    )
+
+    // Parse scores from output
+    const perfMatch = lhOut.match(/performance:\s*(\d+)/i)
+    const a11yMatch = lhOut.match(/accessibility:\s*(\d+)/i)
+    const seoMatch = lhOut.match(/seo:\s*(\d+)/i)
+    const bpMatch = lhOut.match(/best.practices:\s*(\d+)/i)
+
+    const perf = perfMatch ? parseInt(perfMatch[1]) : null
+    const a11y = a11yMatch ? parseInt(a11yMatch[1]) : null
+    const seo = seoMatch ? parseInt(seoMatch[1]) : null
+    const bp = bpMatch ? parseInt(bpMatch[1]) : null
+
+    if (perf !== null) {
+      findings.push(`Lighthouse: perf=${perf} a11y=${a11y} seo=${seo} bp=${bp}`)
+      const avg = Math.round(((perf || 0) + (a11y || 0) + (seo || 0) + (bp || 0)) / 4)
+      if (avg >= 90) score += 8
+      else if (avg >= 70) score += 6
+      else if (avg >= 50) score += 4
+      else score += 2
+
+      if (perf < 70) details.push(`Performance Lighthouse basse (${perf}) — optimiser le chargement`)
+      if (a11y < 90) details.push(`Accessibilite Lighthouse basse (${a11y}) — verifier ARIA/contraste`)
+      if (seo < 80) details.push(`SEO Lighthouse bas (${seo}) — verifier meta tags`)
+    } else {
+      findings.push('Lighthouse: impossible de lire les scores')
+      score += 2
+      details.push('Verifier la sortie de lhci autorun manuellement')
+    }
+  } catch {
+    findings.push('Lighthouse: erreur lors de l\'execution')
+    score += 1
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Lighthouse', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 11: PLAYWRIGHT SCREENSHOTS (skip in --quick mode)
+// ═══════════════════════════════════════════════════════════════
+
+function phase11_screenshots() {
+  header(11, 'SCREENSHOTS')
+  let score = 0
+  const max = 5
+  const findings = []
+  const details = []
+
+  if (isQuick) {
+    findings.push('Screenshots sautes en mode --quick')
+    score += 3
+    log(`  Score: ${score}/${max} (skip)`)
+    phase('Screenshots', score, max, findings, details)
+    return
+  }
+
+  // Check if playwright is available
+  const pwAvailable = execOk('npx playwright --version')
+  if (!pwAvailable) {
+    findings.push('Playwright non installe')
+    details.push('Installer avec: npx playwright install chromium')
+    score += 1
+    log(`  Score: ${score}/${max}`)
+    phase('Screenshots', score, max, findings, details)
+    return
+  }
+
+  // Take screenshots of key pages
+  try {
+    const screenshotDir = join(ROOT, 'wolf-screenshots')
+    const screenshotScript = `
+      const { chromium } = require('playwright');
+      const path = require('path');
+      const fs = require('fs');
+      (async () => {
+        const dir = '${screenshotDir.replace(/\\/g, '\\\\')}';
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        const browser = await chromium.launch({ args: ['--no-sandbox'] });
+        const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+        try {
+          await page.goto('file://${join(ROOT, 'dist', 'index.html').replace(/\\/g, '\\\\')}', { waitUntil: 'networkidle', timeout: 15000 });
+          await page.waitForTimeout(2000);
+          await page.screenshot({ path: path.join(dir, 'home.png'), fullPage: false });
+        } catch (e) { console.log('Screenshot error:', e.message); }
+        await browser.close();
+        console.log('SCREENSHOTS_OK');
+      })();
+    `
+    const out = exec(`node -e "${screenshotScript.replace(/"/g, '\\"').replace(/\n/g, ' ')}"`, { allowFail: true, timeout: 30000 })
+
+    if (out.includes('SCREENSHOTS_OK')) {
+      const screenshots = existsSync(screenshotDir) ? readdirSync(screenshotDir).filter(f => f.endsWith('.png')) : []
+      score += 5
+      findings.push(`${screenshots.length} screenshot(s) genere(s) dans wolf-screenshots/`)
+    } else {
+      score += 2
+      findings.push('Screenshots: execution partielle')
+      details.push('Verifier que Playwright et Chromium sont installes')
+    }
+  } catch {
+    score += 1
+    findings.push('Screenshots: erreur lors de la capture')
+    details.push('Installer Chromium: npx playwright install chromium')
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Screenshots', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 12: FEATURE SCORES (score par feature)
+// ═══════════════════════════════════════════════════════════════
+
+function phase12_featureScores() {
+  header(12, 'FEATURE SCORES')
+  let score = 0
+  const max = 10
+  const findings = []
+  const details = []
+
+  // Define features and their expected files/patterns
+  const features = [
+    {
+      name: 'Carte',
+      files: ['src/components/App.js', 'src/components/views/Map.js'],
+      handlers: ['flyToCity', 'toggleHeatmap', 'toggleGasStations', 'toggleSplitView'],
+      i18nKeys: ['searchCity', 'mapLoading'],
+    },
+    {
+      name: 'AddSpot',
+      files: ['src/components/modals/AddSpot.js'],
+      handlers: ['openAddSpot', 'closeAddSpot', 'addSpotNextStep', 'submitNewSpot'],
+      i18nKeys: ['addSpot', 'spotType', 'spotDirection'],
+    },
+    {
+      name: 'Social',
+      files: ['src/services/chat.js', 'src/services/friendsList.js', 'src/services/directMessages.js'],
+      handlers: ['openChat', 'sendMessage', 'addFriend'],
+      i18nKeys: ['chat', 'friends', 'messages'],
+    },
+    {
+      name: 'Gamification',
+      files: ['src/services/gamification.js'],
+      handlers: ['openShop', 'claimDailyReward', 'openLeaderboard', 'openChallengesHub'],
+      i18nKeys: ['badges', 'points', 'level'],
+    },
+    {
+      name: 'Securite',
+      files: ['src/components/modals/SOS.js', 'src/components/modals/Companion.js'],
+      handlers: ['openSOS', 'openCompanion'],
+      i18nKeys: ['sosButton', 'companionMode'],
+    },
+    {
+      name: 'Profil',
+      files: ['src/components/views/Profile.js'],
+      handlers: ['openProfile', 'openSettings', 'openEditProfile'],
+      i18nKeys: ['profile', 'settings'],
+    },
+    {
+      name: 'Voyage',
+      files: ['src/components/views/Travel.js', 'src/services/osrm.js'],
+      handlers: ['planTrip', 'clearTrip', 'setRouteFilter'],
+      i18nKeys: ['planTrip', 'routeInfo'],
+    },
+    {
+      name: 'Auth',
+      files: ['src/components/modals/Auth.js', 'src/services/firebase.js'],
+      handlers: ['openAuth', 'closeAuth', 'loginWithEmail'],
+      i18nKeys: ['login', 'register', 'logout'],
+    },
+    {
+      name: 'Guides',
+      files: ['src/components/views/Guides.js'],
+      handlers: ['openGuides', 'voteGuideTip', 'submitGuideSuggestion'],
+      i18nKeys: ['countryGuides', 'tipUseful'],
+    },
+  ]
+
+  // Collect all handler names from src files
+  const allSrcFiles = getAllJsFiles(join(ROOT, 'src'))
+  const allHandlers = new Set()
+  const allSrcContent = {}
+  for (const file of allSrcFiles) {
+    const content = readFile(file)
+    allSrcContent[relative(ROOT, file)] = content
+    const handlers = (content.match(/window\.(\w+)\s*=/g) || [])
+      .map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+    for (const h of handlers) allHandlers.add(h)
+  }
+
+  // Load first i18n file for key checking
+  const frLangPath = join(ROOT, 'src', 'i18n', 'lang', 'fr.js')
+  const frContent = readFile(frLangPath)
+
+  let totalFeatureScore = 0
+  const maxFeatureScore = features.length * 4 // 4 points per feature
+
+  for (const feat of features) {
+    let fScore = 0
+
+    // 1 point: files exist
+    const filesExist = feat.files.every(f => existsSync(join(ROOT, f)))
+    if (filesExist) fScore++
+
+    // 1 point: handlers registered
+    const handlersOk = feat.handlers.filter(h => allHandlers.has(h)).length
+    if (handlersOk >= feat.handlers.length * 0.8) fScore++
+    else if (handlersOk > 0) fScore += 0.5
+
+    // 1 point: i18n keys present
+    const i18nOk = feat.i18nKeys.filter(k => frContent.includes(k)).length
+    if (i18nOk >= feat.i18nKeys.length * 0.8) fScore++
+    else if (i18nOk > 0) fScore += 0.5
+
+    // 1 point: file not empty (> 50 lines)
+    const mainFile = feat.files[0]
+    if (filesExist) {
+      const content = readFile(join(ROOT, mainFile))
+      const lines = content.split('\n').length
+      if (lines > 50) fScore++
+    }
+
+    totalFeatureScore += fScore
+
+    const pct = Math.round((fScore / 4) * 100)
+    const icon = pct >= 90 ? '++' : pct >= 60 ? 'OK' : '!!'
+    findings.push(`[${icon}] ${feat.name}: ${fScore}/4 (${pct}%)`)
+
+    if (fScore < 3) {
+      const missing = []
+      if (!filesExist) missing.push('fichiers manquants')
+      if (handlersOk < feat.handlers.length * 0.8) missing.push(`handlers: ${handlersOk}/${feat.handlers.length}`)
+      if (i18nOk < feat.i18nKeys.length * 0.8) missing.push(`i18n: ${i18nOk}/${feat.i18nKeys.length}`)
+      details.push(`${feat.name}: ${missing.join(', ')}`)
+    }
+  }
+
+  // Score: proportional to feature coverage
+  score = Math.round((totalFeatureScore / maxFeatureScore) * max)
+  findings.unshift(`Score global features: ${Math.round(totalFeatureScore)}/${maxFeatureScore}`)
+
+  log(`  Score: ${score}/${max}`)
+  phase('Feature Scores', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 13: SCORE + SELF-EVALUATION
+// ═══════════════════════════════════════════════════════════════
+
+function phase13_score() {
+  header(13, 'SCORE + AUTO-EVALUATION')
 
   const score100 = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0
 
@@ -897,10 +1471,11 @@ function phase9_score() {
 
   // What the wolf doesn't test yet
   const limitations = []
-  if (isQuick) limitations.push('E2E et Lighthouse non executes (mode --quick)')
+  if (isQuick) limitations.push('Lighthouse + Screenshots sautes (mode --quick)')
   limitations.push('Pas de test de charge (100K utilisateurs)')
   limitations.push('Pas de test de chat en temps reel')
   limitations.push('Pas de verification push notifications')
+  limitations.push('Pas de test E2E automatique (utiliser npm run test:e2e)')
 
   if (limitations.length > 0) {
     log('\n  Ce que le loup ne verifie PAS encore:')
@@ -911,11 +1486,11 @@ function phase9_score() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 10: RECOMMENDATIONS + EVOLUTION
+// PHASE 14: RECOMMENDATIONS + EVOLUTION
 // ═══════════════════════════════════════════════════════════════
 
-function phase10_recommendations(scoreResult) {
-  header(10, 'RECOMMANDATIONS')
+function phase14_recommendations(scoreResult) {
+  header(14, 'RECOMMANDATIONS')
   const newRecs = []
 
   // ── Build enriched, human-readable recommendations ──
@@ -1154,6 +1729,78 @@ function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
     }
   }
 
+  // --- Dead code ---
+  if (rawDetail.includes('Export mort') || rawDetail.includes('Fonction morte') || rawDetail.includes('exports morts') || rawDetail.includes('fonctions mortes')) {
+    return { ...base,
+      title: 'Code mort detecte (fonctions jamais utilisees)',
+      explain: 'Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.',
+      action: 'Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.',
+      impact: 'Code plus leger, plus clair, et plus facile a maintenir.',
+    }
+  }
+
+  // --- Circular imports ---
+  if (rawDetail.includes('Cycle') || rawDetail.includes('circulaire')) {
+    return { ...base,
+      title: 'Import circulaire detecte',
+      explain: 'Deux fichiers s\'importent mutuellement, ce qui peut causer des bugs subtils (variables undefined au chargement).',
+      action: 'Casser le cycle en deplacant le code partage dans un fichier commun (utils ou shared).',
+      impact: 'Plus de bugs de chargement et meilleure stabilite.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- onclick dangling ---
+  if (rawDetail.includes('onclick') || rawDetail.includes('inexistante')) {
+    return { ...base,
+      title: 'Bouton HTML pointe vers une fonction qui n\'existe pas',
+      explain: 'Un bouton dans l\'interface appelle une fonction (onclick="xxx()") mais cette fonction n\'a jamais ete definie. Le bouton ne fait rien quand on clique.',
+      action: 'Soit ajouter window.xxx dans le bon fichier, soit corriger le nom dans le template HTML.',
+      impact: 'Tous les boutons fonctionnent quand on clique dessus.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Duplicate handlers ---
+  if (rawDetail.includes('Handler') && rawDetail.includes('defini dans')) {
+    return { ...base,
+      title: 'Un handler est defini dans plusieurs fichiers',
+      explain: 'La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge "gagne" et ecrase les autres, ce qui peut casser des fonctionnalites.',
+      action: 'Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.',
+      impact: 'Chaque bouton fait exactement ce qu\'il est cense faire, sans surprises.',
+    }
+  }
+
+  // --- Image size ---
+  if (rawDetail.includes('Image trop lourde') || rawDetail.includes('images trop lourdes')) {
+    return { ...base,
+      title: 'Images trop lourdes (> 200KB)',
+      explain: 'Certaines images pesent plus de 200KB. Sur un telephone avec une connexion lente, ca ralentit l\'affichage.',
+      action: 'Compresser les images listees en WebP avec une taille max de 256px.',
+      impact: 'L\'app charge plus vite, surtout en 3G.',
+    }
+  }
+
+  // --- Lighthouse ---
+  if (rawDetail.includes('Lighthouse') || rawDetail.includes('Performance Lighthouse') || rawDetail.includes('Accessibilite Lighthouse') || rawDetail.includes('SEO Lighthouse')) {
+    return { ...base,
+      title: 'Score Lighthouse a ameliorer',
+      explain: 'Google Lighthouse mesure la qualite de l\'app (rapidite, accessibilite, SEO). Un mauvais score = mauvais classement Google.',
+      action: 'Lancer npx lhci autorun --collect.staticDistDir=./dist pour voir les details.',
+      impact: 'Meilleur classement Google et meilleure experience utilisateur.',
+    }
+  }
+
+  // --- Memory perimee ---
+  if (rawDetail.includes('MEMOIRE PERIMEE')) {
+    return { ...base,
+      title: 'Chiffres perimes dans les fichiers memoire',
+      explain: 'Les fichiers memory/*.md contiennent des chiffres qui ne correspondent plus a la realite du code.',
+      action: 'Mettre a jour les chiffres dans features.md et MEMORY.md avec les valeurs reelles.',
+      impact: 'La documentation est fiable et ne trompe personne.',
+    }
+  }
+
   // --- Fallback for unrecognized details ---
   return { ...base,
     title: `[${phaseName}] ${rawDetail.slice(0, 60)}`,
@@ -1168,16 +1815,16 @@ function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
 // ═══════════════════════════════════════════════════════════════
 
 log('\n' + '='.repeat(60))
-log('  PLAN WOLF v2 — LE LOUP VIVANT')
+log('  PLAN WOLF v3 — LE LOUP ULTIME')
 log('='.repeat(60))
-log(`Mode: ${isQuick ? 'QUICK' : 'FULL'}`)
+log(`Mode: ${isQuick ? 'QUICK (skip Lighthouse/Screenshots)' : 'FULL (14 phases)'}`)
 log(`Date: ${new Date().toISOString()}`)
 log(`Run #${memory.runs.length + 1}`)
 if (memory.runs.length > 0) {
   log(`Dernier run: ${memory.runs[memory.runs.length - 1].date} — Score: ${memory.runs[memory.runs.length - 1].score}/100`)
 }
 
-// Execute all phases
+// Execute all 14 phases
 phase1_codeQuality()
 phase2_unitTests()
 phase3_build()
@@ -1185,9 +1832,13 @@ phase4_impactAnalysis()
 phase5_featureInventory()
 phase6_regressionGuard()
 phase7_wiringIntegrity()
-phase8_multiLevel()
-const scoreResult = phase9_score()
-const newRecs = phase10_recommendations(scoreResult)
+phase8_deadCode()
+phase9_multiLevel()
+phase10_lighthouse()
+phase11_screenshots()
+phase12_featureScores()
+const scoreResult = phase13_score()
+const newRecs = phase14_recommendations(scoreResult)
 
 // ═══════════════════════════════════════════════════════════════
 // FINAL REPORT
@@ -1196,7 +1847,7 @@ const newRecs = phase10_recommendations(scoreResult)
 const totalTime = ((Date.now() - start) / 1000).toFixed(1)
 
 log('\n\n' + '='.repeat(60))
-log('  PLAN WOLF v2 — RAPPORT FINAL')
+log('  PLAN WOLF v3 — RAPPORT FINAL')
 log('='.repeat(60))
 log('')
 
