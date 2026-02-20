@@ -75,6 +75,18 @@ global.indexedDB = {
   }),
 };
 
+// Load i18n translations globally (languages are now lazy-loaded)
+import { initI18n, setLanguage } from '../src/i18n/index.js';
+beforeAll(async () => {
+  try {
+    await initI18n();
+    await setLanguage('fr');
+  } catch (e) {
+    // Some tests mock state.js — initI18n may fail in those contexts
+    // The test will load its own translations if needed
+  }
+});
+
 // Reset mocks before each test (but not localStorage which should persist)
 beforeEach(() => {
   vi.clearAllMocks();

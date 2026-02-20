@@ -12,86 +12,34 @@ import { t } from '../i18n/index.js';
 /**
  * Challenge types available
  */
-export const challengeTypes = [
-  {
-    id: 'checkins_race',
-    name: t('friendChallengeCheckinsRaceName') || 'Course aux Check-ins',
-    nameEn: 'Check-in Race',
-    description: t('friendChallengeCheckinsRaceDesc') || 'Le premier a faire X check-ins gagne',
-    descriptionEn: 'First to complete X check-ins wins',
-    icon: '🏁',
-    metric: 'checkins',
-    defaultTarget: 10,
-    minTarget: 5,
-    maxTarget: 50,
-    rewardPoints: 100,
-  },
-  {
-    id: 'spots_discovery',
-    name: t('friendChallengeSpotsDiscoveryName') || 'Decouverte de Spots',
-    nameEn: 'Spot Discovery',
-    description: t('friendChallengeSpotsDiscoveryDesc') || 'Le premier a visiter X nouveaux spots gagne',
-    descriptionEn: 'First to visit X new spots wins',
-    icon: '🗺️',
-    metric: 'spotsVisited',
-    defaultTarget: 5,
-    minTarget: 3,
-    maxTarget: 20,
-    rewardPoints: 150,
-  },
-  {
-    id: 'countries_explored',
-    name: t('friendChallengeCountriesExploredName') || 'Tour d\'Europe',
-    nameEn: 'World Tour',
-    description: t('friendChallengeCountriesExploredDesc') || 'Le premier a visiter X pays gagne',
-    descriptionEn: 'First to visit X countries wins',
-    icon: '🌍',
-    metric: 'countriesVisited',
-    defaultTarget: 3,
-    minTarget: 2,
-    maxTarget: 10,
-    rewardPoints: 300,
-  },
-  {
-    id: 'reviews_battle',
-    name: t('friendChallengeReviewsBattleName') || 'Bataille d\'Avis',
-    nameEn: 'Review Battle',
-    description: t('friendChallengeReviewsBattleDesc') || 'Le premier a donner X avis gagne',
-    descriptionEn: 'First to give X reviews wins',
-    icon: '✍️',
-    metric: 'reviewsGiven',
-    defaultTarget: 10,
-    minTarget: 5,
-    maxTarget: 30,
-    rewardPoints: 120,
-  },
-  {
-    id: 'distance_race',
-    name: t('friendChallengeDistanceRaceName') || 'Course aux Kilometres',
-    nameEn: 'Distance Race',
-    description: t('friendChallengeDistanceRaceDesc') || 'Le premier a parcourir X km en autostop gagne',
-    descriptionEn: 'First to travel X km hitchhiking wins',
-    icon: '🚗',
-    metric: 'totalDistance',
-    defaultTarget: 500,
-    minTarget: 100,
-    maxTarget: 2000,
-    rewardPoints: 250,
-  },
-  {
-    id: 'night_hitchhiker',
-    name: t('friendChallengeNightHitchhikerName') || 'Autostoppeur Nocturne',
-    nameEn: 'Night Hitchhiker',
-    description: t('friendChallengeNightHitchhikerDesc') || 'Le premier a faire X check-ins de nuit gagne',
-    descriptionEn: 'First to complete X night check-ins wins',
-    icon: '🌙',
-    metric: 'nightCheckins',
-    defaultTarget: 3,
-    minTarget: 1,
-    maxTarget: 10,
-    rewardPoints: 180,
-  },
-];
+// Challenge type definitions — names resolved lazily via t() for i18n
+const challengeTypeDefs = [
+  { id: 'checkins_race', nameKey: 'friendChallengeCheckinsRaceName', descKey: 'friendChallengeCheckinsRaceDesc', nameEn: 'Check-in Race', descriptionEn: 'First to complete X check-ins wins', icon: '🏁', metric: 'checkins', defaultTarget: 10, minTarget: 5, maxTarget: 50, rewardPoints: 100 },
+  { id: 'spots_discovery', nameKey: 'friendChallengeSpotsDiscoveryName', descKey: 'friendChallengeSpotsDiscoveryDesc', nameEn: 'Spot Discovery', descriptionEn: 'First to visit X new spots wins', icon: '🗺️', metric: 'spotsVisited', defaultTarget: 5, minTarget: 3, maxTarget: 20, rewardPoints: 150 },
+  { id: 'countries_explored', nameKey: 'friendChallengeCountriesExploredName', descKey: 'friendChallengeCountriesExploredDesc', nameEn: 'World Tour', descriptionEn: 'First to visit X countries wins', icon: '🌍', metric: 'countriesVisited', defaultTarget: 3, minTarget: 2, maxTarget: 10, rewardPoints: 300 },
+  { id: 'reviews_battle', nameKey: 'friendChallengeReviewsBattleName', descKey: 'friendChallengeReviewsBattleDesc', nameEn: 'Review Battle', descriptionEn: 'First to give X reviews wins', icon: '✍️', metric: 'reviewsGiven', defaultTarget: 10, minTarget: 5, maxTarget: 30, rewardPoints: 120 },
+  { id: 'distance_race', nameKey: 'friendChallengeDistanceRaceName', descKey: 'friendChallengeDistanceRaceDesc', nameEn: 'Distance Race', descriptionEn: 'First to travel X km hitchhiking wins', icon: '🚗', metric: 'totalDistance', defaultTarget: 500, minTarget: 100, maxTarget: 2000, rewardPoints: 250 },
+  { id: 'night_hitchhiker', nameKey: 'friendChallengeNightHitchhikerName', descKey: 'friendChallengeNightHitchhikerDesc', nameEn: 'Night Hitchhiker', descriptionEn: 'First to complete X night check-ins wins', icon: '🌙', metric: 'nightCheckins', defaultTarget: 3, minTarget: 1, maxTarget: 10, rewardPoints: 180 },
+]
+
+export function getChallengeTypes() {
+  return challengeTypeDefs.map(d => ({
+    ...d,
+    name: t(d.nameKey),
+    description: t(d.descKey),
+  }))
+}
+
+// Backward-compatible export — Proxy that delegates all array operations to getChallengeTypes()
+export const challengeTypes = new Proxy(challengeTypeDefs, {
+  get(target, prop) {
+    const types = getChallengeTypes()
+    if (prop === 'length') return types.length
+    if (typeof prop === 'string' && !isNaN(prop)) return types[Number(prop)]
+    if (typeof types[prop] === 'function') return types[prop].bind(types)
+    return types[prop]
+  }
+})
 
 /**
  * Challenge status enum
@@ -396,13 +344,7 @@ export function getChallengeStats() {
   };
 }
 
-/**
- * Get all challenge types
- * @returns {Object[]} Challenge types
- */
-export function getChallengeTypes() {
-  return challengeTypes;
-}
+// getChallengeTypes is defined above with lazy i18n resolution
 
 /**
  * Helper to get friend name from ID
