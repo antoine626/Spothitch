@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-20
+> Dernière mise à jour : 2026-02-21
 
 ---
 
@@ -25,7 +25,8 @@
 - Système i18n lazy-loaded par langue
 - Gamification complète (points, badges, niveaux, leagues, VIP, quizz, défis)
 - Social (amis, chat, messages privés, réactions, groupes)
-- SOS + Mode Compagnon (sécurité voyageur solo)
+- SOS v2 (SMS/WhatsApp, offline, countdown, alarme silencieuse, faux appel, enregistrement, contacts primaires, message perso)
+- Companion v2 (SMS/WhatsApp, GPS breadcrumb, arrivée/départ notif, batterie, ETA, rappel check-in, contacts multiples, historique)
 - Système d'auth progressif (Firebase Auth - Google, Facebook, Apple, email)
 - Onboarding carousel 5 slides pour nouveaux visiteurs
 - Pages SEO par ville (428 villes générées)
@@ -60,6 +61,23 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session ~2026-02-21 (session 7 — MASSIVE UPDATE)
+- Plan Wolf v4 : upgrade v3→v4, 16 phases, recherche web compétitive, audit boutons/liens, 2x attention fichiers modifiés
+- Suppression rapport HTML Wolf (plus de wolf-report.html)
+- Fix bugs : detectSeason supprimé de AddSpot.js, 15 href="#" corrigés, liens sociaux placeholder supprimés
+- Suppression src/controllers/ entier (code mort, jamais importé)
+- Déduplication handlers : gardes if(!window.xxx) ajoutées aux fallbacks main.js
+- Sécurité : npm audit fix (2 vulns corrigées), CSP renforcé (object-src, base-uri, form-action), DOMPurify vérifié (20+ fichiers)
+- **SOS v2** : choix SMS/WhatsApp, mode offline, countdown 5s, alarme silencieuse, faux appel, enregistrement audio/vidéo, contact principal, message personnalisable
+- **Companion v2** : choix SMS/WhatsApp, fil GPS, notification arrivée/départ, alerte batterie faible, estimation ETA, rappel check-in, contacts de confiance multiples (5 max), historique voyages
+- **Profil enrichi** : carte voyages (pays visités), références utilisateurs, langues parlées, bio personnalisable, contrôles vie privée, voyages partagés
+- **Guides enrichis** : étiquette culturelle, info visa, info devise pour 20 pays
+- Suppression 28 services orphelins (~22 500 lignes de code mort)
+- Vérification cartes offline : déjà fonctionnel via Service Worker (CacheFirst tiles OpenFreeMap)
+- **PWA** : 4 shortcuts app, share target, Badging API, optimisations Lighthouse (preconnect, dns-prefetch, fetchpriority)
+- i18n : ~140 nouvelles clés en 4 langues
+- 104 tests passent, build OK, tout pushé
 
 ### Session ~2026-02-21 (session 6)
 - Plan Wolf v3 : upgrade majeur de v2 à v3, 14 phases au lieu de 10

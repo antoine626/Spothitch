@@ -58,6 +58,9 @@
 - [x] Formulaire de suggestion de conseils par section
 - [x] Service feedback centralisé (feedbackService.js, localStorage)
 - [x] Barre de recherche carte avec padding corrigé (plus de chevauchement icône)
+- [x] Étiquette culturelle par pays (salutations, pourboire, do's/don'ts — 20 pays)
+- [x] Informations visa par pays (EU/US, durée, visa à l'arrivée — 20 pays)
+- [x] Informations devise par pays (monnaie, taux, paiement, budget — 20 pays)
 
 ## Gamification
 
@@ -89,11 +92,12 @@
 - [x] Profils utilisateurs (stats, badges, titres)
 - [x] Personnalisation profil (cadres, titres, avatars)
 - [x] Fil d'activité amis
+- [x] Profil enrichi : bio, langues parlées, carte pays visités, références, voyages partagés, contrôles vie privée
 
 ## Sécurité & Vérification
 
-- [x] Mode SOS : partage position d'urgence avec contacts
-- [x] Mode Compagnon : check-in régulier pour voyageur solo, alertes temporelles, SMS
+- [x] Mode SOS v2 : partage position, choix SMS/WhatsApp, mode offline, countdown 5s, alarme silencieuse, faux appel, enregistrement audio/vidéo, contact principal, message personnalisable, auto-détection pays urgence
+- [x] Mode Compagnon v2 : check-in régulier, choix SMS/WhatsApp, GPS breadcrumb, notification arrivée/départ, alerte batterie faible, estimation ETA, rappel check-in, contacts multiples (5 max), historique voyages
 - [x] Vérification identité progressive (0-5 : non vérifié → email → téléphone → selfie+ID → vérifié)
 - [x] Vérification d'âge (modal confirmation)
 - [x] Blocage utilisateur (bloquer/débloquer, liste)
@@ -184,6 +188,10 @@
 - [x] Push notifications (Firebase Messaging)
 - [x] Bannière d'installation après 30s
 - [x] Screenshots pour install prompt
+- [x] App shortcuts (Add Spot, SOS, Trip Planner, Profile)
+- [x] Share Target API (recevoir des partages d'autres apps)
+- [x] Badging API (badge compteur messages non-lus)
+- [x] Optimisations Lighthouse (preconnect, dns-prefetch, fetchpriority)
 
 ## Monitoring & Tests
 
@@ -193,7 +201,7 @@
 - [x] E2E Playwright
 - [x] Visual regression (screenshots)
 - [x] Lighthouse CI
-- [x] Plan Wolf v3 (14 phases : code quality, tests, build, impact, features, regressions, wiring, dead code, audit, lighthouse, screenshots, feature scores, score, recommandations)
+- [x] Plan Wolf v4 (16 phases : code quality, tests, build, impact, features, regressions, wiring, button audit, dead code, audit, lighthouse, screenshots, feature scores, competitive intelligence, score, recommandations)
 - [x] Audit RGPD automatisé
 - [x] ESLint + Prettier + Husky pre-commit
 
