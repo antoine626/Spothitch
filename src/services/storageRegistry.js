@@ -199,6 +199,25 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_landing_seen', category: DataCategory.SETTINGS, description: 'Landing page dismissed flag' },
   { key: 'spothitch_sos_disclaimer_seen', category: DataCategory.SETTINGS, description: 'SOS disclaimer accepted flag' },
 
+  // === SOS v2 ===
+  { key: 'spothitch_sos_channel', category: DataCategory.SETTINGS, description: 'SOS alert channel preference (sms/whatsapp)' },
+  { key: 'spothitch_sos_silent', category: DataCategory.SETTINGS, description: 'SOS silent alarm mode flag' },
+  { key: 'spothitch_sos_custom_msg', category: DataCategory.SECURITY, description: 'Custom SOS alert message', sensitive: true },
+  { key: 'spothitch_sos_primary', category: DataCategory.SECURITY, description: 'Primary emergency contact', sensitive: true },
+  { key: 'spothitch_sos_last_pos', category: DataCategory.SECURITY, description: 'Last known GPS position for SOS', sensitive: true },
+
+  // === COMPANION v2 ===
+  { key: 'spothitch_companion', category: DataCategory.SECURITY, description: 'Companion mode settings and trusted contacts', sensitive: true },
+
+  // === PROFILE ===
+  { key: 'spothitch_bio', category: DataCategory.PERSONAL, description: 'User biography text', sensitive: true },
+  { key: 'spothitch_languages', category: DataCategory.PERSONAL, description: 'Languages spoken by user' },
+  { key: 'spothitch_shared_trips', category: DataCategory.SOCIAL, description: 'Trips shared on profile' },
+  { key: 'spothitch_privacy', category: DataCategory.SETTINGS, description: 'Privacy controls (bio, languages, trips, stats)' },
+
+  // === i18n ===
+  { key: 'spothitch_lang', category: DataCategory.SETTINGS, description: 'User preferred language' },
+
   // === STATE (via Storage.js with spothitch_v4_ prefix) ===
   { key: 'spothitch_v4_state', category: DataCategory.PERSONAL, description: 'Main app state (via Storage.js)', sensitive: true },
   { key: 'spothitch_state', category: DataCategory.PERSONAL, description: 'Legacy app state', sensitive: true },
