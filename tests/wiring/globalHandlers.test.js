@@ -27,6 +27,12 @@ const MAIN_JS_HANDLERS = [
   // SOS
   'openSOS', 'closeSOS', 'shareSOSLocation', 'markSafe',
   'addEmergencyContact', 'removeEmergencyContact',
+  // SOS Extended
+  'sosStartCountdown', 'sosCancelCountdown',
+  'sosSetChannel', 'sosToggleSilent', 'sosUpdateCustomMsg',
+  'sosSetPrimaryContact',
+  'sosOpenFakeCall', 'sosFakeCallAnswer', 'sosFakeCallDecline',
+  'sosStartRecording', 'sosStopRecording',
   // Auth
   'openAuth', 'closeAuth', 'setAuthMode',
   'handleGoogleSignIn', 'handleFacebookSignIn', 'handleAppleLogin', 'handleAppleSignIn',
@@ -230,6 +236,8 @@ const MAIN_JS_HANDLERS = [
   'showCompanionModal', 'closeCompanionModal',
   'startCompanion', 'stopCompanion',
   'companionCheckIn', 'companionSendAlert',
+  'companionSetChannel', 'companionAddTrustedContact', 'companionRemoveTrustedContact',
+  'companionClearHistory',
   // Gas Stations (navigation)
   'toggleGasStations',
   // Community Tips (defined in communityTips.js)
