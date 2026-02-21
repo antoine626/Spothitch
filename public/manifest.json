@@ -40,27 +40,43 @@
   ],
   "shortcuts": [
     {
-      "name": "Ajouter un spot",
-      "short_name": "Ajouter",
-      "description": "Partage un nouveau spot d'autostop",
-      "url": "/?action=add-spot",
-      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+      "name": "Add Spot",
+      "short_name": "Add Spot",
+      "description": "Share a new hitchhiking spot",
+      "url": "/?action=addspot",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
-      "name": "Carte",
-      "short_name": "Carte",
-      "description": "Voir tous les spots sur la carte",
-      "url": "/?tab=spots",
-      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+      "name": "SOS",
+      "short_name": "SOS",
+      "description": "Emergency SOS mode",
+      "url": "/?action=sos",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
-      "name": "Planifier",
-      "short_name": "Voyage",
-      "description": "Planifier un itinéraire",
-      "url": "/?tab=planner",
-      "icons": [{ "src": "icon-96.png", "sizes": "96x96" }]
+      "name": "Trip Planner",
+      "short_name": "Trip Planner",
+      "description": "Plan a hitchhiking trip",
+      "url": "/?action=trip",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "My Profile",
+      "short_name": "Profile",
+      "description": "View your profile",
+      "url": "/?action=profile",
+      "icons": [{ "src": "icon-96.png", "sizes": "96x96", "type": "image/png" }]
     }
   ],
+  "share_target": {
+    "action": "/?action=share",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
   "prefer_related_applications": false,
   "handle_links": "preferred",
   "launch_handler": {

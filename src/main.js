@@ -176,6 +176,27 @@ function startVersionCheck() {
   })
 }
 
+// ==================== BADGING API ====================
+
+/**
+ * Update the PWA app badge with the current unread notification count.
+ * Uses the Badging API (navigator.setAppBadge) when available.
+ * Falls back silently on unsupported browsers.
+ * @param {number} count - Number of unread messages/notifications
+ */
+function updateAppBadge(count) {
+  if (!('setAppBadge' in navigator)) return
+  try {
+    if (count > 0) {
+      navigator.setAppBadge(count).catch(() => {})
+    } else {
+      navigator.clearAppBadge().catch(() => {})
+    }
+  } catch (_e) {
+    // Badging API not available or permission denied — ignore silently
+  }
+}
+
 // ==================== INITIALIZATION ====================
 
 /**
@@ -223,6 +244,16 @@ async function init() {
     // Subscribe to state changes and render IMMEDIATELY
     subscribe((state) => {
       scheduleRender(() => render(state));
+    });
+
+    // Subscribe to unread count changes and update app badge
+    let _lastBadgeCount = -1
+    subscribe((state) => {
+      const count = (state.unreadFriendMessages || 0) + (state.unreadDMCount || 0)
+      if (count !== _lastBadgeCount) {
+        _lastBadgeCount = count
+        updateAppBadge(count)
+      }
     });
 
     // Load initial data (spots) — triggers render via state change
