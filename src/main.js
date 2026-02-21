@@ -1738,16 +1738,40 @@ window.startCompanion = () => {
   const nameEl = document.getElementById('companion-guardian-name')
   const phoneEl = document.getElementById('companion-guardian-phone')
   const intervalEl = document.getElementById('companion-interval')
+  const destEl = document.getElementById('companion-destination')
+  const notifyDepartureEl = document.getElementById('companion-notify-departure')
+  const notifyArrivalEl = document.getElementById('companion-notify-arrival')
+
   const name = nameEl?.value?.trim()
   const phone = phoneEl?.value?.trim()
   const interval = parseInt(intervalEl?.value || '30', 10)
+  const destination = destEl?.value?.trim() || ''
+  const notifyOnDeparture = notifyDepartureEl ? notifyDepartureEl.checked : true
+  const notifyOnArrival = notifyArrivalEl ? notifyArrivalEl.checked : true
 
   if (!name || !phone) {
     showToast(t('guardianRequired') || 'Remplis le nom et le numéro de ton gardien.', 'warning')
     return
   }
 
-  startCompanionMode({ name, phone }, interval)
+  // Collect trusted contacts from saved state (added via companionAddTrustedContact)
+  let trustedContacts = []
+  try {
+    const raw = localStorage.getItem('spothitch_companion')
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      trustedContacts = Array.isArray(parsed.trustedContacts) ? parsed.trustedContacts : []
+    }
+  } catch {
+    // ignore
+  }
+
+  startCompanionMode({ name, phone }, interval, {
+    trustedContacts,
+    destination,
+    notifyOnDeparture,
+    notifyOnArrival,
+  })
   onCompanionOverdue(() => {
     setState({ showCompanionModal: true })
   })
@@ -1770,9 +1794,9 @@ window.companionSendAlert = () => {
   const url = companionSendAlertFn()
   if (url) {
     showToast(t('companionAlertOpening') || 'Ouverture de WhatsApp...', 'info')
-    window.open(url, '_blank')
+    // sendAlert already opens the URLs internally; url is returned for info only
   } else {
-    // Fallback to SMS
+    // Fallback to SMS if sendAlert returned nothing (no contacts configured)
     const smsUrl = companionGetSMSLink()
     if (smsUrl) {
       window.open(smsUrl, '_blank')
