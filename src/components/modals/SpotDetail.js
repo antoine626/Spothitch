@@ -300,20 +300,6 @@ export function renderSpotDetail(state) {
   `;
 }
 
-function renderRatingBar(label, value) {
-  const percentage = ((value || 0) / 5) * 100;
-  const valueText = value ? `${value.toFixed(1)}/5` : (t('unrated') || 'Non noté');
-  return `
-    <div class="flex items-center gap-3" role="listitem" aria-label="${label}: ${valueText}">
-      <span class="text-sm text-slate-400 w-24">${label}</span>
-      <div class="flex-1 progress-bar" role="progressbar" aria-valuenow="${value || 0}" aria-valuemin="0" aria-valuemax="5" aria-label="${label}">
-        <div class="progress-fill" style="width: ${percentage}%"></div>
-      </div>
-      <span class="text-sm font-medium w-8" aria-hidden="true">${value?.toFixed(1) || '-'}</span>
-    </div>
-  `;
-}
-
 /**
  * Render navigation app quick access buttons
  */

@@ -79,14 +79,6 @@ export function canClaimReward() {
 }
 
 /**
- * Get the current streak
- */
-export function getStreak() {
-  const state = getState();
-  return state.dailyRewardStreak || 0;
-}
-
-/**
  * Claim today's daily reward
  * @returns {Object} Claim result with points and possible bonus
  */
@@ -205,20 +197,6 @@ function openMysteryChest() {
 }
 
 /**
- * Show daily reward popup
- */
-export function showDailyRewardPopup() {
-  setState({ showDailyReward: true });
-}
-
-/**
- * Close daily reward popup
- */
-export function closeDailyRewardPopup() {
-  setState({ showDailyReward: false });
-}
-
-/**
  * Get preview of all 7 days rewards
  */
 export function getRewardsCalendar() {
@@ -237,9 +215,6 @@ export default {
   DAILY_REWARDS,
   getDailyRewardInfo,
   canClaimReward,
-  getStreak,
   claimReward,
-  showDailyRewardPopup,
-  closeDailyRewardPopup,
   getRewardsCalendar,
 };

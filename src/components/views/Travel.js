@@ -382,47 +382,6 @@ function renderAmenityItem(poi) {
   `
 }
 
-function renderTripSpot(spot, index) {
-  const validations = spot.userValidations || 0
-  const wait = spot.avgWaitTime ? `~${spot.avgWaitTime}min` : ''
-  const desc = (spot.description || '').slice(0, 60) + ((spot.description?.length > 60) ? '...' : '')
-  const country = spot.country || ''
-  const flag = countryFlag(country)
-  const favs = getFavorites()
-  const isFav = favs.includes(spot.id)
-
-  return `
-    <div class="card p-3 flex items-center gap-3 ${isFav ? 'border-amber-500/30' : ''}">
-      <div class="shrink-0 w-8 h-8 rounded-full ${isFav ? 'bg-amber-500/20' : 'bg-primary-500/20'} flex items-center justify-center text-sm font-bold ${isFav ? 'text-amber-400' : 'text-primary-400'}">
-        ${isFav ? icon('star', 'w-3 h-3') : (index + 1)}
-      </div>
-      <button onclick="openSpotDetail('${spot.id}')" class="flex-1 min-w-0 text-left">
-        <div class="flex items-center gap-2">
-          <span class="text-sm">${flag}</span>
-          ${validations > 0 ? `<span class="flex items-center gap-1 text-xs text-emerald-400">${icon('circle-check', 'w-3 h-3')}${validations}</span>` : ''}
-          ${wait ? `<span class="text-xs text-slate-400">${wait}</span>` : ''}
-        </div>
-        <div class="text-sm text-slate-300 truncate mt-0.5">${desc || t('hitchhikingSpot') || 'Spot d\'autostop'}</div>
-      </button>
-      <button
-        onclick="toggleFavorite('${spot.id}')"
-        class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center ${isFav ? 'text-amber-400' : 'text-slate-400 hover:text-amber-400'} hover:bg-amber-500/10 transition-all"
-        aria-label="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
-        title="${isFav ? (t('removeFromFavorites') || 'Retirer des favoris') : (t('addToFavorites') || 'Ajouter aux favoris')}"
-      >
-        ${icon('heart', 'w-3 h-3')}
-      </button>
-      <button
-        onclick="removeSpotFromTrip(${index})"
-        class="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
-        aria-label="${t('remove') || 'Retirer'}"
-      >
-        ${icon('x', 'w-3 h-3')}
-      </button>
-    </div>
-  `
-}
-
 function renderTripMapView(results) {
   const spots = results.spots || []
 
