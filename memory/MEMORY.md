@@ -62,6 +62,12 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session ~2026-02-22 (session 9 — DEAD CODE CLEANUP)
+- Suppression 5 fonctions mortes (80 lignes) : renderRatingBar (SpotDetail.js), renderTripSpot (Travel.js), getStreak/showDailyRewardPopup/closeDailyRewardPopup (dailyReward.js)
+- Vérifié que canAfford (rewards.js) est utilisé dans Shop.js — pas mort
+- Vérifié que tous les exports de statsCalculator.js sont utilisés dans Stats.js — pas mort
+- Tests : 104/104 wiring passent, build OK, pushé
+
 ### Session ~2026-02-22 (session 8 — WOLF FIXES + BUNDLE OPTIMIZATION)
 - Fix window.setSocialTab manquant (détecté par Wolf — onclick dans 6 fichiers mais jamais enregistré)
 - Suppression 23 fichiers de tests orphelins (~21 250 lignes) qui testaient des services supprimés en session 7
