@@ -284,60 +284,6 @@ function cacheStats(stats) {
 }
 
 /**
- * Record a check-in with distance
- * @param {Object} spot - The spot being checked in
- * @param {Object} checkinData - Additional check-in data
- */
-export function recordCheckinWithStats(spot, checkinData = {}) {
-  const state = getState();
-  const checkinHistory = state.checkinHistory || [];
-
-  // Estimate distance (if not provided, use spot avgWaitTime as proxy for typical trip length)
-  // Rough estimate: 1 minute wait = ~5km trip potential
-  const estimatedDistance = checkinData.distance || (spot.avgWaitTime || 20) * 5 * 1000; // in meters
-
-  const checkin = {
-    spotId: spot.id,
-    spot: {
-      id: spot.id,
-      from: spot.from,
-      to: spot.to,
-      country: spot.country,
-      estimatedDistance,
-    },
-    waitTime: checkinData.waitTime,
-    distance: estimatedDistance,
-    timestamp: new Date().toISOString(),
-    ...checkinData,
-  };
-
-  // Add to history
-  const newHistory = [...checkinHistory, checkin];
-
-  // Update state
-  setState({
-    checkinHistory: newHistory,
-    totalDistance: (state.totalDistance || 0) + estimatedDistance,
-    totalWaitTime: (state.totalWaitTime || 0) + getWaitTimeMinutes(checkinData.waitTime),
-  });
-
-  // Invalidate cache
-  Storage.remove(STATS_CACHE_KEY);
-
-  // Track country visit
-  if (spot.country) {
-    const visited = state.visitedCountries || [];
-    if (!visited.includes(spot.country)) {
-      setState({
-        visitedCountries: [...visited, spot.country],
-      });
-    }
-  }
-
-  return checkin;
-}
-
-/**
  * Format duration in minutes to human readable
  * @param {number} minutes - Total minutes
  * @returns {string} Formatted duration
@@ -422,7 +368,6 @@ export function getProgressionData(months = 6) {
 
 export default {
   calculateTravelStats,
-  recordCheckinWithStats,
   getDistanceComparison,
   formatWaitDuration,
   formatDistanceKm,

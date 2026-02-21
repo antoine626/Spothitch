@@ -550,7 +550,8 @@ function phase4_impactAnalysis() {
       if (todos.length > 0) fileIssues.push(`${todos.length} TODO/FIXME`)
 
       // 2. Check all onclick handlers in this file point to real functions
-      const onclickRefs = (content.match(/onclick="(\w+)\(/g) || []).map(m => m.replace('onclick="', '').replace('(', ''))
+      const jsKw = new Set(['if', 'for', 'while', 'return', 'switch', 'case', 'var', 'let', 'const', 'new', 'this', 'event', 'true', 'false', 'null', 'document', 'window', 'console', 'alert', 'confirm', 'prompt'])
+      const onclickRefs = (content.match(/onclick="(\w+)\(/g) || []).map(m => m.replace('onclick="', '').replace('(', '')).filter(fn => !jsKw.has(fn))
       const windowHandlersInFile = (content.match(/window\.(\w+)\s*=/g) || []).map(h => h.replace('window.', '').replace(/\s*=$/, ''))
       const allSrcFilesForCheck = getAllJsFiles(join(ROOT, 'src'))
       const globalHandlers = new Set()
@@ -655,9 +656,9 @@ function phase5_featureInventory() {
     { name: 'Firebase', files: ['firebase.js'], dir: servicesDir },
     { name: 'Notifications', files: ['notifications.js'], dir: servicesDir },
     { name: 'SpotLoader', files: ['spotLoader.js'], dir: servicesDir },
-    { name: 'Chat', files: ['chat.js'], dir: servicesDir },
-    { name: 'Friends', files: ['friendsList.js'], dir: servicesDir },
-    { name: 'DirectMessages', files: ['directMessages.js'], dir: servicesDir },
+    { name: 'Chat', files: ['Conversations.js'], dir: join(ROOT, 'src', 'components', 'views', 'social') },
+    { name: 'Friends', files: ['Friends.js'], dir: join(ROOT, 'src', 'components', 'views', 'social') },
+    { name: 'Feed', files: ['Feed.js'], dir: join(ROOT, 'src', 'components', 'views', 'social') },
     { name: 'Moderation', files: ['moderation.js'], dir: servicesDir },
     { name: 'UserBlocking', files: ['userBlocking.js'], dir: servicesDir },
     { name: 'Verification', files: ['verification.js'], dir: servicesDir },
@@ -1056,11 +1057,16 @@ function phase8_buttonAudit() {
       allOnclicks.get(fn).push(rel)
     }
 
-    // 2. Dead hrefs: href="#", href="javascript:void(0)", href=""
-    const hrefMatches = content.match(/href=["']([^"']{0,40})["']/g) || []
-    for (const m of hrefMatches) {
-      const href = m.replace(/href=["']/, '').replace(/["']$/, '')
-      if (href === '#' || href === 'javascript:void(0)' || href === '' || href === 'javascript:;') {
+    // 2. Dead hrefs: href="#", href="" (but NOT javascript:void(0) with onclick — that's intentional)
+    const anchorMatches = content.match(/<a\s[^>]*>/gi) || []
+    for (const tag of anchorMatches) {
+      const hrefM = tag.match(/href=["']([^"']{0,40})["']/)
+      if (!hrefM) continue
+      const href = hrefM[1]
+      const hasOnclick = /onclick=/i.test(tag)
+      if (href === '#' || href === '' || href === 'javascript:;') {
+        deadHrefs.push({ href, file: rel })
+      } else if (href === 'javascript:void(0)' && !hasOnclick) {
         deadHrefs.push({ href, file: rel })
       }
     }
@@ -1267,9 +1273,13 @@ function phase9_deadCode() {
       .map(h => h.replace('window.', '').replace(/\s*=$/, ''))
     for (const h of handlers) allWindowHandlers.add(h)
 
-    // onclick="fn(" in templates
+    // onclick="fn(" in templates (skip JS keywords like if, for, etc.)
+    const jsKw2 = new Set(['if', 'for', 'while', 'return', 'switch', 'case', 'var', 'let', 'const', 'new', 'this', 'event', 'true', 'false', 'null', 'document', 'window', 'console', 'alert', 'confirm', 'prompt'])
     const onclickRefs = content.match(/onclick="(\w+)\(/g) || []
-    for (const m of onclickRefs) allTemplateRefs.add(m.replace('onclick="', '').replace('(', ''))
+    for (const m of onclickRefs) {
+      const fn = m.replace('onclick="', '').replace('(', '')
+      if (!jsKw2.has(fn)) allTemplateRefs.add(fn)
+    }
 
     // Dynamic imports: import('./path') or import('../services/xxx')
     const dynamicImports = content.match(/import\(['"]([^'"]+)['"]\)/g) || []
@@ -1810,8 +1820,8 @@ function phase13_featureScores() {
     },
     {
       name: 'Social',
-      files: ['src/services/chat.js', 'src/services/friendsList.js', 'src/services/directMessages.js'],
-      handlers: ['openChat', 'sendMessage', 'addFriend'],
+      files: ['src/components/views/Social.js', 'src/components/views/social/Conversations.js', 'src/components/views/social/Friends.js'],
+      handlers: ['setSocialTab', 'sendMessage', 'addFriendByName'],
       i18nKeys: ['chat', 'friends', 'messages'],
       advice100: 'Ajouter les notifications push pour les nouveaux messages.',
       adviceLow: 'Le chat et les amis sont essentiels — brancher les services dans l\'UI si pas fait.',
@@ -2982,7 +2992,7 @@ phase10_multiLevel()
 phase11_lighthouse()
 phase12_screenshots()
 phase13_featureScores()
-phase14_competitiveIntel()
+// phase14_competitiveIntel() — désactivé (conseils internes uniquement)
 const scoreResult = phase15_score()
 const newRecs = phase16_recommendations(scoreResult)
 

@@ -205,23 +205,6 @@ function openMysteryChest() {
 }
 
 /**
- * Check if daily reward popup should be shown
- * Called on app startup
- */
-export function shouldShowDailyRewardPopup() {
-  const state = getState();
-
-  // Don't show if already showing
-  if (state.showDailyReward) return false;
-
-  // Don't show during welcome/tutorial
-  if (state.showWelcome || state.showTutorial) return false;
-
-  // Check if reward available
-  return canClaimReward();
-}
-
-/**
  * Show daily reward popup
  */
 export function showDailyRewardPopup() {
@@ -233,14 +216,6 @@ export function showDailyRewardPopup() {
  */
 export function closeDailyRewardPopup() {
   setState({ showDailyReward: false });
-}
-
-/**
- * Grant streak protection (can be purchased or earned)
- */
-export function grantStreakProtection() {
-  setState({ dailyRewardProtection: true });
-  showToast('Protection de serie activee !', 'success');
 }
 
 /**
@@ -264,9 +239,7 @@ export default {
   canClaimReward,
   getStreak,
   claimReward,
-  shouldShowDailyRewardPopup,
   showDailyRewardPopup,
   closeDailyRewardPopup,
-  grantStreakProtection,
   getRewardsCalendar,
 };

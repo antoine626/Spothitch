@@ -482,6 +482,10 @@ function renderCreateEventForm() {
 
 // ==================== GLOBAL HANDLERS ====================
 
+window.setSocialTab = (tab) => {
+  window.setState?.({ socialSubTab: tab })
+}
+
 window.postCompanionRequest = async () => {
   const from = document.getElementById('companion-from')?.value?.trim()
   const to = document.getElementById('companion-to')?.value?.trim()
