@@ -1,29 +1,32 @@
 #!/usr/bin/env node
 /**
- * PLAN WOLF v3 — Le Loup Ultime
+ * PLAN WOLF v4 — L'Equipe QA Autonome
  *
- * Un gardien intelligent qui comprend le code, analyse les impacts,
- * apprend de ses erreurs, et evolue a chaque execution.
+ * Un gardien intelligent qui teste CHAQUE bouton, compare avec la
+ * concurrence, apprend de ses erreurs, et evolue continuellement.
+ * Il travaille comme une equipe entiere de testeurs QA.
  *
- * 14 phases :
- *   1. Code Quality     — ESLint, i18n, RGPD
- *   2. Unit Tests       — Vitest (wiring, integration, all)
- *   3. Build            — Vite build + bundle size
- *   4. Impact Analysis  — git diff, dependency graph, circular imports
- *   5. Feature Inventory— features.md vs code reel, memory accuracy
- *   6. Regression Guard — re-teste chaque bug, ALL duplicate handlers
- *   7. Wiring Integrity — handlers morts, onclick verification, modales
- *   8. Dead Code        — unused functions, exports, dead variables
- *   9. Multi-Level Audit— perf, SEO, a11y, securite, legal, images
- *  10. Lighthouse       — performance, accessibility, SEO, best practices
- *  11. Screenshots      — Playwright visual regression
- *  12. Feature Scores   — score par feature (carte, social, profil...)
- *  13. Score /100       — auto-evaluation + comparaison run precedent
- *  14. Recommendations  — conseils, patterns, evolution
+ * 16 phases :
+ *   1. Code Quality       — ESLint, i18n, RGPD
+ *   2. Unit Tests         — Vitest (wiring, integration, all)
+ *   3. Build              — Vite build + bundle size + chunks
+ *   4. Impact Analysis    — git diff, 2x attention fichiers modifies depuis dernier run
+ *   5. Feature Inventory  — features.md vs code reel, verification profonde
+ *   6. Regression Guard   — re-teste chaque bug, ALL duplicate handlers
+ *   7. Wiring Integrity   — handlers morts, onclick verification, modales
+ *   8. Button & Link Audit— CHAQUE bouton, lien, modal, placeholder teste
+ *   9. Dead Code          — unused functions, exports, TODO/FIXME, placeholders
+ *  10. Multi-Level Audit  — perf, SEO, a11y, securite, legal, images, npm audit
+ *  11. Lighthouse         — performance, accessibility, SEO, best practices
+ *  12. Screenshots        — Playwright visual regression
+ *  13. Feature Scores     — score par feature (carte, social, profil...)
+ *  14. Competitive Intel  — recherche web par domaine, comparaison concurrents
+ *  15. Score /100         — auto-evaluation + comparaison run precedent
+ *  16. Recommendations    — conseils par phase, par feature, evolution
  *
  * Usage:
- *   node scripts/plan-wolf.mjs           # Full run (~8 min)
- *   node scripts/plan-wolf.mjs --quick   # Skip E2E, Lighthouse, Screenshots
+ *   node scripts/plan-wolf.mjs           # Full run (~12 min)
+ *   node scripts/plan-wolf.mjs --quick   # Skip Lighthouse, Screenshots, Web Search
  */
 
 import { execSync } from 'child_process'
@@ -47,7 +50,7 @@ function loadMemory() {
     } catch { /* corrupted, start fresh */ }
   }
   return {
-    version: 3,
+    version: 4,
     runs: [],
     errors: [],
     patterns: [],
@@ -126,6 +129,59 @@ function header(n, title) {
   log(`\n${'='.repeat(60)}`)
   log(`  PHASE ${n} — ${title}`)
   log('='.repeat(60))
+}
+
+/**
+ * Web search via DuckDuckGo (curl-based, synchronous)
+ * Returns { snippets: string[], titles: string[] }
+ */
+function webSearch(query) {
+  try {
+    const encoded = encodeURIComponent(query)
+    const html = exec(
+      `curl -s -L -m 10 -A "Mozilla/5.0 (compatible; WolfBot/1.0)" "https://html.duckduckgo.com/html/?q=${encoded}"`,
+      { allowFail: true, timeout: 15000 }
+    )
+    if (!html || html.length < 100) return { snippets: [], titles: [] }
+    const snippets = []
+    const titles = []
+    const snippetRegex = /class="result__snippet"[^>]*>([\s\S]*?)<\/a>/g
+    let match
+    while ((match = snippetRegex.exec(html)) && snippets.length < 8) {
+      const clean = match[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").trim()
+      if (clean.length > 20) snippets.push(clean)
+    }
+    const titleRegex = /class="result__a"[^>]*>([\s\S]*?)<\/a>/g
+    while ((match = titleRegex.exec(html)) && titles.length < 8) {
+      const clean = match[1].replace(/<[^>]+>/g, '').trim()
+      if (clean.length > 5) titles.push(clean)
+    }
+    return { snippets, titles }
+  } catch {
+    return { snippets: [], titles: [] }
+  }
+}
+
+/**
+ * Extract potential feature keywords from search result snippets
+ */
+function extractFeatureKeywords(snippets) {
+  const text = snippets.join(' ').toLowerCase()
+  const keywords = []
+  const patterns = [
+    /(?:feature|support|include|offer|provide|enable|allow)s?\s+(\w+[\s\w]{3,25})/g,
+    /(\w+[\s\w]{3,20})\s+(?:feature|mode|option|tool|system)/g,
+  ]
+  for (const pattern of patterns) {
+    let match
+    while ((match = pattern.exec(text)) && keywords.length < 20) {
+      const kw = match[1].trim().replace(/[.,;:!?]$/, '')
+      if (kw.length > 3 && kw.length < 30 && !keywords.includes(kw)) {
+        keywords.push(kw)
+      }
+    }
+  }
+  return keywords
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -386,14 +442,23 @@ function phase4_impactAnalysis() {
     findings.push('0 imports circulaires')
   }
 
-  // Get changed files since last commit (or last tag)
+  // Get changed files since LAST WOLF RUN (not just last commit) for 2x attention
   let changedFiles = []
+  const lastRunCommit = memory.lastRunCommit || null
   try {
-    const diff = exec('git diff --name-only HEAD~1 2>/dev/null || git diff --name-only HEAD', { allowFail: true })
+    let diffCmd
+    if (lastRunCommit) {
+      diffCmd = `git diff --name-only ${lastRunCommit}..HEAD 2>/dev/null || git diff --name-only HEAD~1`
+    } else {
+      diffCmd = 'git diff --name-only HEAD~1 2>/dev/null || git diff --name-only HEAD'
+    }
+    const diff = exec(diffCmd, { allowFail: true })
     changedFiles = diff.split('\n').filter(f => f.endsWith('.js') && f.startsWith('src/'))
   } catch {
     changedFiles = []
   }
+  // Store current commit for next run
+  try { memory.lastRunCommit = exec('git rev-parse HEAD', { allowFail: true }) } catch { /* ignore */ }
 
   if (changedFiles.length === 0) {
     score += 10
@@ -466,6 +531,62 @@ function phase4_impactAnalysis() {
   if (untestedChanges > 0) {
     score = Math.max(score - 2, 0)
     details.push(`${untestedChanges} fichier(s) modifie(s) sans test unitaire correspondant`)
+  }
+
+  // === 2x ATTENTION: Deep scan of every changed file ===
+  if (changedFiles.length > 0) {
+    log('  --- 2x ATTENTION sur fichiers modifies ---')
+    let deepIssues = 0
+
+    for (const f of changedFiles) {
+      const fullPath = join(ROOT, f)
+      if (!existsSync(fullPath)) continue
+      const content = readFile(fullPath)
+      const fileName = basename(f, '.js')
+      const fileIssues = []
+
+      // 1. Check for TODO/FIXME/HACK in changed files
+      const todos = content.match(/(TODO|FIXME|HACK|XXX)[\s:]/g) || []
+      if (todos.length > 0) fileIssues.push(`${todos.length} TODO/FIXME`)
+
+      // 2. Check all onclick handlers in this file point to real functions
+      const onclickRefs = (content.match(/onclick="(\w+)\(/g) || []).map(m => m.replace('onclick="', '').replace('(', ''))
+      const windowHandlersInFile = (content.match(/window\.(\w+)\s*=/g) || []).map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+      const allSrcFilesForCheck = getAllJsFiles(join(ROOT, 'src'))
+      const globalHandlers = new Set()
+      for (const sf of allSrcFilesForCheck) {
+        const sc = readFile(sf)
+        const hs = (sc.match(/window\.(\w+)\s*=/g) || []).map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+        for (const h of hs) globalHandlers.add(h)
+      }
+      const brokenOnclicks = onclickRefs.filter(fn => !globalHandlers.has(fn))
+      if (brokenOnclicks.length > 0) fileIssues.push(`onclick casses: ${brokenOnclicks.join(', ')}`)
+
+      // 3. Check for i18n hardcoded strings (French text in templates not using t())
+      const frenchInTemplate = content.match(/>\s*(Le|La|Les|Un|Une|Des|Ce|Cette|Pour|Avec|Dans|Sur|Par)\s+\w+/g) || []
+      const hardcodedCount = frenchInTemplate.filter(m => !m.includes("t('") && !m.includes('t("')).length
+      if (hardcodedCount > 5) fileIssues.push(`${hardcodedCount} textes FR potentiellement non-traduits`)
+
+      // 4. Check file size change (if file grew more than 50%)
+      const lines = content.split('\n').length
+      if (lines > 500) fileIssues.push(`fichier long (${lines} lignes) — verifier la lisibilite`)
+
+      // 5. Check for empty function bodies
+      const emptyFns = content.match(/(?:function\s+\w+\s*\([^)]*\)\s*\{\s*\})|(?:\w+\s*=\s*(?:\([^)]*\)|[^=])\s*=>\s*\{\s*\})/g) || []
+      if (emptyFns.length > 0) fileIssues.push(`${emptyFns.length} fonction(s) vide(s)`)
+
+      if (fileIssues.length > 0) {
+        deepIssues += fileIssues.length
+        details.push(`[2x] ${f}: ${fileIssues.join(', ')}`)
+      }
+    }
+
+    if (deepIssues === 0) {
+      findings.push(`2x scan approfondi: ${changedFiles.length} fichiers modifies — aucun probleme`)
+    } else {
+      findings.push(`2x scan approfondi: ${deepIssues} probleme(s) dans ${changedFiles.length} fichiers modifies`)
+      score = Math.max(0, score - Math.min(3, Math.ceil(deepIssues / 5)))
+    }
   }
 
   log(`  Score: ${score}/${max}`)
@@ -894,11 +1015,209 @@ function phase7_wiringIntegrity() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 8: DEAD CODE DETECTION
+// PHASE 8: BUTTON & LINK AUDIT — test EVERY interactive element
 // ═══════════════════════════════════════════════════════════════
 
-function phase8_deadCode() {
-  header(8, 'DEAD CODE')
+function phase8_buttonAudit() {
+  header(8, 'BUTTON & LINK AUDIT')
+  let score = 0
+  const max = 15
+  const findings = []
+  const details = []
+
+  const srcDir = join(ROOT, 'src')
+  const allFiles = getAllJsFiles(srcDir)
+
+  // Collect ALL interactive elements from templates
+  const allOnclicks = new Map() // fn name → [files]
+  const deadHrefs = [] // href="#" or empty
+  const emptyHandlers = [] // window.xxx = ()=>{} or empty body
+  const placeholders = [] // TODO, Coming soon, etc.
+  const allModals = new Map() // modal name → { hasOpen, hasClose, hasContent }
+  const navTargets = new Set() // names used in navigation (openXxx, showXxx)
+  const allRegisteredHandlers = new Set()
+
+  for (const file of allFiles) {
+    const content = readFile(file)
+    const rel = relative(ROOT, file)
+
+    // Collect all window.xxx = handlers
+    const handlers = (content.match(/window\.(\w+)\s*=/g) || [])
+      .map(h => h.replace('window.', '').replace(/\s*=$/, ''))
+    for (const h of handlers) allRegisteredHandlers.add(h)
+
+    // 1. onclick="xxx(" — verify the function exists (skip JS keywords like if, for, return)
+    const jsKeywords = new Set(['if', 'for', 'while', 'return', 'switch', 'case', 'var', 'let', 'const', 'new', 'this', 'event', 'true', 'false', 'null', 'document', 'window', 'console', 'alert', 'confirm', 'prompt'])
+    const onclickMatches = content.match(/onclick="(\w+)\(/g) || []
+    for (const m of onclickMatches) {
+      const fn = m.replace('onclick="', '').replace('(', '')
+      if (jsKeywords.has(fn)) continue
+      if (!allOnclicks.has(fn)) allOnclicks.set(fn, [])
+      allOnclicks.get(fn).push(rel)
+    }
+
+    // 2. Dead hrefs: href="#", href="javascript:void(0)", href=""
+    const hrefMatches = content.match(/href=["']([^"']{0,40})["']/g) || []
+    for (const m of hrefMatches) {
+      const href = m.replace(/href=["']/, '').replace(/["']$/, '')
+      if (href === '#' || href === 'javascript:void(0)' || href === '' || href === 'javascript:;') {
+        deadHrefs.push({ href, file: rel })
+      }
+    }
+
+    // 3. Empty handler bodies: window.xxx = () => {} or function() {}
+    const handlerDefRegex = /window\.(\w+)\s*=\s*(?:function\s*\([^)]*\)\s*\{(\s*)\}|\([^)]*\)\s*=>\s*\{(\s*)\})/g
+    let hMatch
+    while ((hMatch = handlerDefRegex.exec(content))) {
+      const name = hMatch[1]
+      const body1 = hMatch[2] || ''
+      const body2 = hMatch[3] || ''
+      if (body1.trim() === '' && body2.trim() === '') {
+        emptyHandlers.push({ name, file: rel })
+      }
+    }
+
+    // 4. Placeholders: TODO, FIXME, Coming soon, Lorem ipsum
+    const todoMatches = content.match(/(TODO|FIXME|HACK|XXX|Coming soon|Lorem ipsum|placeholder text|Not implemented)/gi) || []
+    for (const m of todoMatches) {
+      placeholders.push({ text: m, file: rel })
+    }
+
+    // 5. Modal tracking: open/close/content
+    const openMatches = content.match(/window\.(open\w+|show\w+)\s*=/g) || []
+    for (const m of openMatches) {
+      const name = m.replace('window.', '').replace(/\s*=$/, '')
+      const modalName = name.replace(/^(open|show)/, '')
+      if (modalName.length < 3) continue
+      if (!allModals.has(modalName)) allModals.set(modalName, { hasOpen: false, hasClose: false, hasContent: false })
+      allModals.get(modalName).hasOpen = true
+      navTargets.add(modalName)
+    }
+    const closeMatches = content.match(/window\.close(\w+)\s*=/g) || []
+    for (const m of closeMatches) {
+      const modalName = m.replace('window.close', '').replace(/\s*=$/, '')
+      if (modalName.length < 3) continue
+      if (!allModals.has(modalName)) allModals.set(modalName, { hasOpen: false, hasClose: false, hasContent: false })
+      allModals.get(modalName).hasClose = true
+    }
+
+    // Check if modal/view files have real content — only for modals that have an open handler
+    if (rel.includes('modals/') || rel.includes('views/')) {
+      const modalName = basename(file, '.js')
+      // Only update content flag if this modal was already tracked (has an open handler)
+      if (allModals.has(modalName)) {
+        const hasHTML = (content.match(/<div|<section|<form|<h[1-6]|<p\s|<button/g) || []).length > 2
+        allModals.get(modalName).hasContent = hasHTML && content.length > 300
+      }
+    }
+  }
+
+  // === SCORING ===
+
+  // A. Broken onclick handlers (buttons that do nothing)
+  let brokenOnclicks = 0
+  for (const [fn, files] of allOnclicks) {
+    if (!allRegisteredHandlers.has(fn)) {
+      brokenOnclicks++
+      if (brokenOnclicks <= 5) details.push(`Bouton casse: onclick="${fn}()" dans ${files[0]} — la fonction n'existe pas`)
+    }
+  }
+  if (brokenOnclicks > 5) details.push(`... et ${brokenOnclicks - 5} autres onclick casses`)
+
+  if (brokenOnclicks === 0) {
+    score += 4
+    findings.push(`${allOnclicks.size} onclick verifies — tous branches`)
+  } else {
+    score += Math.max(0, 3 - brokenOnclicks)
+    findings.push(`${brokenOnclicks}/${allOnclicks.size} onclick pointe(nt) vers des fonctions INEXISTANTES`)
+  }
+
+  // B. Dead hrefs
+  if (deadHrefs.length <= 3) {
+    score += 2
+    findings.push(`${deadHrefs.length} lien(s) mort(s) (href="#") — acceptable`)
+  } else {
+    findings.push(`${deadHrefs.length} lien(s) mort(s) (href="#" ou vides)`)
+    for (const h of deadHrefs.slice(0, 3)) {
+      details.push(`Lien mort: href="${h.href}" dans ${h.file}`)
+    }
+    if (deadHrefs.length > 3) details.push(`... et ${deadHrefs.length - 3} autres liens morts`)
+  }
+
+  // C. Empty handlers (buttons that exist but do NOTHING)
+  if (emptyHandlers.length === 0) {
+    score += 3
+    findings.push('0 handlers vides (tous font quelque chose)')
+  } else {
+    score += Math.max(0, 3 - emptyHandlers.length)
+    findings.push(`${emptyHandlers.length} handler(s) avec corps vide — le bouton ne fait RIEN`)
+    for (const h of emptyHandlers.slice(0, 5)) {
+      details.push(`Handler vide: window.${h.name} dans ${h.file} — cliquer ne fait rien`)
+    }
+  }
+
+  // D. Modals: only flag modals that have a MATCHING FILE in modals/ or views/ that's empty
+  // (many openXxx handlers render inline in App.js — those are NOT separate modals)
+  const modalsDir = join(ROOT, 'src', 'components', 'modals')
+  const viewsDir = join(ROOT, 'src', 'components', 'views')
+  const modalFiles = existsSync(modalsDir) ? readdirSync(modalsDir).filter(f => f.endsWith('.js')).map(f => f.replace('.js', '')) : []
+  const viewFiles = existsSync(viewsDir) ? readdirSync(viewsDir).filter(f => f.endsWith('.js')).map(f => f.replace('.js', '')) : []
+  const knownUIFiles = new Set([...modalFiles, ...viewFiles])
+
+  let emptyModals = 0
+  let unclosableModals = 0
+  for (const [name, info] of allModals) {
+    // Only flag if there's a matching file that we can verify
+    if (info.hasOpen && !info.hasContent && knownUIFiles.has(name)) {
+      emptyModals++
+      if (emptyModals <= 5) details.push(`Modale "${name}": fichier existe mais AUCUN contenu HTML visible`)
+    }
+    if (info.hasOpen && !info.hasClose && knownUIFiles.has(name)) {
+      unclosableModals++
+      if (unclosableModals <= 3) details.push(`Modale "${name}": peut s'ouvrir mais PAS se fermer`)
+    }
+  }
+
+  if (emptyModals <= 2) {
+    score += 3
+    findings.push(`${knownUIFiles.size} fichiers modales/vues verifies — ${emptyModals} vide(s)`)
+  } else {
+    score += Math.max(0, 3 - Math.ceil(emptyModals / 3))
+    findings.push(`${emptyModals} modale(s)/vue(s) avec fichier VIDE (pas de contenu HTML)`)
+  }
+
+  // E. Placeholders and TODOs (unfinished work)
+  if (placeholders.length === 0) {
+    score += 3
+    findings.push('0 TODO/placeholder dans le code')
+  } else {
+    score += Math.max(0, 3 - Math.ceil(placeholders.length / 5))
+    findings.push(`${placeholders.length} TODO/placeholder(s) — travail inacheve`)
+    const grouped = {}
+    for (const p of placeholders) {
+      const type = p.text.toUpperCase().replace(/\s+/g, ' ')
+      if (!grouped[type]) grouped[type] = 0
+      grouped[type]++
+    }
+    for (const [type, count] of Object.entries(grouped).slice(0, 5)) {
+      details.push(`${count}x "${type}" — a implementer ou supprimer`)
+    }
+  }
+
+  // F. Summary: what Wolf couldn't test
+  const buttonCoverage = allOnclicks.size + allModals.size
+  findings.push(`Couverture: ${buttonCoverage} elements interactifs testes, ${deadHrefs.length + emptyHandlers.length + emptyModals + brokenOnclicks} problemes`)
+
+  log(`  Score: ${score}/${max}`)
+  phase('Button & Link Audit', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 9: DEAD CODE DETECTION
+// ═══════════════════════════════════════════════════════════════
+
+function phase9_deadCode() {
+  header(9, 'DEAD CODE')
   let score = 0
   const max = 10
   const findings = []
@@ -1083,11 +1402,11 @@ function phase8_deadCode() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 9: MULTI-LEVEL AUDIT
+// PHASE 10: MULTI-LEVEL AUDIT
 // ═══════════════════════════════════════════════════════════════
 
-function phase9_multiLevel() {
-  header(9, 'MULTI-LEVEL AUDIT')
+function phase10_multiLevel() {
+  header(10, 'MULTI-LEVEL AUDIT')
   let score = 0
   const max = 15
   const findings = []
@@ -1273,11 +1592,11 @@ function phase9_multiLevel() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 10: LIGHTHOUSE (skip in --quick mode)
+// PHASE 11: LIGHTHOUSE (skip in --quick mode)
 // ═══════════════════════════════════════════════════════════════
 
-function phase10_lighthouse() {
-  header(10, 'LIGHTHOUSE')
+function phase11_lighthouse() {
+  header(11, 'LIGHTHOUSE')
   let score = 0
   const max = 8
   const findings = []
@@ -1389,11 +1708,11 @@ function phase10_lighthouse() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 11: PLAYWRIGHT SCREENSHOTS (skip in --quick mode)
+// PHASE 12: PLAYWRIGHT SCREENSHOTS (skip in --quick mode)
 // ═══════════════════════════════════════════════════════════════
 
-function phase11_screenshots() {
-  header(11, 'SCREENSHOTS')
+function phase12_screenshots() {
+  header(12, 'SCREENSHOTS')
   let score = 0
   const max = 5
   const findings = []
@@ -1461,11 +1780,11 @@ function phase11_screenshots() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 12: FEATURE SCORES (score par feature)
+// PHASE 13: FEATURE SCORES (score par feature)
 // ═══════════════════════════════════════════════════════════════
 
-function phase12_featureScores() {
-  header(12, 'FEATURE SCORES')
+function phase13_featureScores() {
+  header(13, 'FEATURE SCORES')
   let score = 0
   const max = 10
   const findings = []
@@ -1634,11 +1953,205 @@ function phase12_featureScores() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 13: SCORE + SELF-EVALUATION
+// PHASE 14: COMPETITIVE INTELLIGENCE — web research per feature
 // ═══════════════════════════════════════════════════════════════
 
-function phase13_score() {
-  header(13, 'SCORE + AUTO-EVALUATION')
+function phase14_competitiveIntel() {
+  header(14, 'COMPETITIVE INTELLIGENCE')
+  let score = 0
+  const max = 10
+  const findings = []
+  const details = []
+
+  if (isQuick) {
+    findings.push('Analyse concurrentielle sautee en mode --quick')
+    score += 5
+    log(`  Score: ${score}/${max} (skip)`)
+    phase('Competitive Intelligence', score, max, findings, details)
+    return
+  }
+
+  // Each feature domain is compared to the BEST apps in that specific category
+  const domains = [
+    {
+      feature: 'Carte & Itineraire',
+      queries: ['best route planning app features 2026', 'Google Maps Waze Komoot features comparison'],
+      referenceApps: ['Google Maps', 'Waze', 'Komoot', 'Maps.me'],
+      knownBestFeatures: [
+        'turn-by-turn navigation', 'offline maps download', 'real-time traffic',
+        'street view', 'ETA estimation', 'alternative routes', 'speed camera alerts',
+        'voice guidance', 'live location sharing', 'save places', 'multi-stop route',
+        'elevation profile', 'route conditions warnings',
+      ],
+      spothitchHas: ['offline map tiles', 'route planning', 'save favorites', 'spots along route', 'multi-city planner', 'heatmap'],
+    },
+    {
+      feature: 'Messagerie & Social',
+      queries: ['best messaging app features 2026', 'WhatsApp Telegram Discord comparison'],
+      referenceApps: ['WhatsApp', 'Telegram', 'Discord', 'Signal'],
+      knownBestFeatures: [
+        'read receipts', 'typing indicators', 'voice messages', 'group chats',
+        'media sharing', 'message reactions', 'message search', 'pinned messages',
+        'disappearing messages', 'video calls', 'status stories', 'message forwarding',
+        'reply to specific message', 'mentions', 'threads', 'file sharing',
+      ],
+      spothitchHas: ['text messages', 'group chats', 'emoji reactions', 'zone chat', 'direct messages', 'friend activity feed'],
+    },
+    {
+      feature: 'Gamification',
+      queries: ['best gamification app features 2026', 'Duolingo Strava gamification design'],
+      referenceApps: ['Duolingo', 'Strava', 'Nike Run Club', 'Habitica'],
+      knownBestFeatures: [
+        'daily streaks', 'XP system', 'levels', 'badges', 'leaderboards',
+        'friend challenges', 'seasonal events', 'achievement trees', 'progress bars',
+        'milestone rewards', 'social sharing achievements', 'hearts lives system',
+        'combo multiplier', 'weekly goals', 'tier rewards',
+      ],
+      spothitchHas: ['XP', 'badges', 'levels', 'leaderboard', 'daily reward', 'challenges', 'leagues', 'VIP', 'streaks', 'team challenges'],
+    },
+    {
+      feature: 'Securite Voyageur',
+      queries: ['best personal safety app solo traveler 2026', 'bSafe Noonlight safety features'],
+      referenceApps: ['bSafe', 'Noonlight', 'TripWhistle', 'Sitata'],
+      knownBestFeatures: [
+        'SOS button', 'live location sharing', 'automatic check-ins', 'fake call',
+        'emergency contacts alert', 'audio video recording', 'GPS tracking',
+        'travel advisories', 'insurance integration', 'embassy locator',
+        'offline emergency info', 'shake to alert', 'safe walk timer',
+      ],
+      spothitchHas: ['SOS button', 'companion check-in', 'location sharing', 'verification levels', 'emergency numbers in guides'],
+    },
+    {
+      feature: 'Profil Utilisateur',
+      queries: ['best user profile social travel app 2026', 'Couchsurfing profile design'],
+      referenceApps: ['Couchsurfing', 'Instagram', 'LinkedIn', 'Strava'],
+      knownBestFeatures: [
+        'profile photo', 'bio', 'stats dashboard', 'achievement showcase',
+        'travel map visited places', 'references reviews from others', 'verification badges',
+        'privacy controls', 'activity feed', 'shared trips', 'languages spoken',
+        'travel style preferences', 'skill endorsements',
+      ],
+      spothitchHas: ['avatar', 'stats', 'badges', 'titles', 'custom frames', 'verification levels', 'activity feed'],
+    },
+    {
+      feature: 'Planification Voyage',
+      queries: ['best trip planning app features 2026', 'Roadtrippers Rome2Rio TripIt features'],
+      referenceApps: ['Google Travel', 'TripIt', 'Roadtrippers', 'Rome2Rio'],
+      knownBestFeatures: [
+        'multi-stop itinerary', 'accommodation suggestions', 'budget tracking',
+        'packing lists', 'weather forecast', 'document storage', 'offline access',
+        'collaborative planning', 'points of interest along route', 'time estimates',
+        'currency converter', 'transport comparator', 'travel calendar',
+      ],
+      spothitchHas: ['multi-city planner', 'route analysis', 'spots along route', 'trip history', 'amenities along route', 'route filters'],
+    },
+    {
+      feature: 'Guides & Contenu',
+      queries: ['best travel guide app features 2026', 'Lonely Planet WikiVoyage app comparison'],
+      referenceApps: ['Lonely Planet', 'TripAdvisor', 'WikiVoyage', 'Culture Trip'],
+      knownBestFeatures: [
+        'offline guides', 'photo galleries', 'local tips', 'restaurant recommendations',
+        'cultural etiquette', 'visa info', 'phrase book', 'currency info',
+        'safety ratings', 'best time to visit', 'events calendar', 'user reviews',
+        'interactive maps in guides', 'bookmark articles', 'nearby attractions',
+      ],
+      spothitchHas: ['53 country guides', 'community tips', 'difficulty rating', 'legality info', 'emergency numbers', 'useful phrases', 'vote on tips'],
+    },
+    {
+      feature: 'PWA & Performance',
+      queries: ['best progressive web app features 2026', 'PWA best practices mobile'],
+      referenceApps: ['Twitter Lite', 'Starbucks PWA', 'Pinterest PWA'],
+      knownBestFeatures: [
+        'instant loading 3s', 'full offline mode', 'push notifications',
+        'add to home screen', 'background sync', 'smooth animations 60fps',
+        'lazy loading', 'skeleton screens', 'auto-update', 'share target',
+        'app shortcuts', 'badging API',
+      ],
+      spothitchHas: ['PWA installable', 'offline mode', 'push notifications', 'lazy loading', 'service worker', 'background sync', 'auto-update', 'skeleton screens'],
+    },
+  ]
+
+  let totalKnown = 0
+  let totalCovered = 0
+  const topOpportunities = []
+
+  for (const domain of domains) {
+    // Compare known best features with what SpotHitch has
+    let covered = 0
+    const missing = []
+
+    for (const feat of domain.knownBestFeatures) {
+      const words = feat.toLowerCase().split(/\s+/)
+      const isPresent = domain.spothitchHas.some(s => {
+        const sLower = s.toLowerCase()
+        return words.some(w => w.length > 3 && sLower.includes(w))
+      })
+      if (isPresent) covered++
+      else missing.push(feat)
+    }
+
+    totalKnown += domain.knownBestFeatures.length
+    totalCovered += covered
+    const pct = Math.round((covered / domain.knownBestFeatures.length) * 100)
+    findings.push(`${domain.feature}: ${pct}% (${covered}/${domain.knownBestFeatures.length}) — ref: ${domain.referenceApps.slice(0, 2).join(', ')}`)
+
+    // Top 3 missing features as opportunities
+    for (const m of missing.slice(0, 3)) {
+      topOpportunities.push({ domain: domain.feature, feature: m, refs: domain.referenceApps })
+    }
+
+    if (missing.length > 0) {
+      details.push(`[${domain.feature}] Manque (inspire par ${domain.referenceApps[0]}): ${missing.slice(0, 4).join(', ')}`)
+    }
+
+    // === WEB SEARCH for fresh ideas ===
+    if (domain.queries.length > 0) {
+      log(`  Recherche web: ${domain.feature}...`)
+      const result = webSearch(domain.queries[0])
+      if (result.snippets && result.snippets.length > 0) {
+        const novelKeywords = extractFeatureKeywords(result.snippets)
+        const trulyNovel = novelKeywords.filter(k =>
+          !domain.knownBestFeatures.some(f => f.includes(k.split(' ')[0])) &&
+          !domain.spothitchHas.some(s => s.toLowerCase().includes(k.split(' ')[0]))
+        )
+        if (trulyNovel.length > 0) {
+          details.push(`[${domain.feature}] Idees du web: ${trulyNovel.slice(0, 3).join(', ')}`)
+        }
+      }
+    }
+  }
+
+  // Score based on competitive coverage
+  const overallPct = Math.round((totalCovered / totalKnown) * 100)
+  if (overallPct >= 60) score += 6
+  else if (overallPct >= 40) score += 4
+  else if (overallPct >= 25) score += 2
+  else score += 1
+
+  findings.unshift(`Couverture concurrentielle globale: ${overallPct}% (${totalCovered}/${totalKnown})`)
+
+  // Show top opportunities
+  if (topOpportunities.length > 0) {
+    score += Math.min(4, Math.floor(topOpportunities.length / 4))
+    log('\n  --- TOP OPPORTUNITES (fonctions des meilleurs concurrents) ---')
+    for (const opp of topOpportunities.slice(0, 10)) {
+      log(`  [${opp.domain}] "${opp.feature}" (vu chez ${opp.refs.slice(0, 2).join(', ')})`)
+    }
+    if (topOpportunities.length > 10) {
+      log(`  ... et ${topOpportunities.length - 10} autres idees`)
+    }
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Competitive Intelligence', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 15: SCORE + SELF-EVALUATION
+// ═══════════════════════════════════════════════════════════════
+
+function phase15_score() {
+  header(15, 'SCORE + AUTO-EVALUATION')
 
   const score100 = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0
 
@@ -1685,11 +2198,12 @@ function phase13_score() {
 
   // What the wolf doesn't test yet
   const limitations = []
-  if (isQuick) limitations.push('Lighthouse + Screenshots sautes (mode --quick)')
+  if (isQuick) limitations.push('Lighthouse + Screenshots + Recherche Web sautes (mode --quick)')
   limitations.push('Pas de test de charge (100K utilisateurs)')
-  limitations.push('Pas de test de chat en temps reel')
-  limitations.push('Pas de verification push notifications')
-  limitations.push('Pas de test E2E automatique (utiliser npm run test:e2e)')
+  limitations.push('Pas de test de chat en temps reel (WebSocket)')
+  limitations.push('Pas de verification push notifications (Firebase Messaging)')
+  limitations.push('Pas de test E2E complet (utiliser npm run test:e2e)')
+  limitations.push('Pas de test multi-navigateurs (seulement Chromium)')
 
   if (limitations.length > 0) {
     log('\n  Ce que le loup ne verifie PAS encore:')
@@ -1700,11 +2214,11 @@ function phase13_score() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 14: RECOMMENDATIONS + EVOLUTION
+// PHASE 16: RECOMMENDATIONS + EVOLUTION
 // ═══════════════════════════════════════════════════════════════
 
-function phase14_recommendations(scoreResult) {
-  header(14, 'RECOMMANDATIONS')
+function phase16_recommendations(scoreResult) {
+  header(16, 'RECOMMANDATIONS')
   const newRecs = []
 
   // ── Build enriched, human-readable recommendations ──
@@ -2062,6 +2576,16 @@ function getPhaseAdvice(name, score, max, findings, details) {
       action: 'Verifier les recommandations par feature ci-dessus',
       pointsGain: gap,
     },
+    'Button & Link Audit': {
+      goal: '0 boutons casses, 0 liens morts, 0 handlers vides, 0 placeholders',
+      action: 'Corriger chaque onclick qui pointe vers une fonction inexistante, implementer les handlers vides, supprimer les TODO',
+      pointsGain: gap,
+    },
+    'Competitive Intelligence': {
+      goal: '> 60% de couverture des fonctionnalites des meilleurs concurrents',
+      action: 'Implementer les fonctionnalites manquantes les plus impactantes (voir TOP OPPORTUNITES)',
+      pointsGain: gap,
+    },
   }
 
   return adviceMap[name] || {
@@ -2315,6 +2839,90 @@ function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
     }
   }
 
+  // --- Button casse ---
+  if (rawDetail.includes('Bouton casse') || rawDetail.includes('onclick casse')) {
+    return { ...base,
+      title: 'Bouton qui ne fait rien quand on clique',
+      explain: 'Un bouton dans l\'app appelle une fonction qui n\'existe pas. L\'utilisateur clique et il ne se passe rien.',
+      action: 'Creer la fonction manquante ou corriger le nom dans le template HTML.',
+      impact: 'Tous les boutons de l\'app fonctionnent — zero frustration utilisateur.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Lien mort ---
+  if (rawDetail.includes('Lien mort') || rawDetail.includes('liens morts')) {
+    return { ...base,
+      title: 'Liens morts dans l\'interface (href="#")',
+      explain: 'Des liens dans l\'app ne menent nulle part. L\'utilisateur clique et rien ne se passe ou la page scroll vers le haut.',
+      action: 'Remplacer href="#" par de vraies actions (onclick ou route) ou supprimer les liens inutiles.',
+      impact: 'Navigation fluide — chaque lien mene quelque part.',
+    }
+  }
+
+  // --- Handler vide ---
+  if (rawDetail.includes('Handler vide') || rawDetail.includes('corps vide')) {
+    return { ...base,
+      title: 'Bouton connecte a une fonction vide',
+      explain: 'La fonction existe mais son corps est vide = le bouton est la mais ne fait rien. C\'est pire qu\'un bouton manquant car l\'utilisateur croit que ca marche.',
+      action: 'Implementer le contenu de la fonction ou supprimer le bouton si la feature n\'existe pas encore.',
+      impact: 'Chaque bouton fait ce qu\'il promet.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Modale vide ---
+  if (rawDetail.includes('Modale') && (rawDetail.includes('contenu') || rawDetail.includes('fermer'))) {
+    return { ...base,
+      title: 'Fenetre popup vide ou impossible a fermer',
+      explain: 'Une modale s\'ouvre mais elle est vide (aucun contenu) ou ne peut pas etre fermee. L\'utilisateur est bloque.',
+      action: 'Ajouter du contenu reel dans la modale et un bouton fermer fonctionnel.',
+      impact: 'L\'utilisateur voit du contenu utile et peut toujours fermer les popups.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Placeholder/TODO ---
+  if (rawDetail.includes('TODO') || rawDetail.includes('FIXME') || rawDetail.includes('placeholder') || rawDetail.includes('Coming soon') || rawDetail.includes('Not implemented')) {
+    return { ...base,
+      title: 'Travail inacheve dans le code (TODO/placeholder)',
+      explain: 'Du code contient des marqueurs "TODO" ou "Coming soon" — ca veut dire que la fonctionnalite n\'est pas finie.',
+      action: 'Finir l\'implementation ou supprimer la fonctionnalite si elle n\'est pas prioritaire.',
+      impact: 'Aucun placeholder visible par l\'utilisateur — tout est fini et fonctionnel.',
+    }
+  }
+
+  // --- Competitive Intelligence ---
+  if (rawDetail.includes('Manque') && rawDetail.includes('inspire par')) {
+    return { ...base,
+      title: 'Fonctionnalite presente chez les concurrents mais absente',
+      explain: 'Les meilleures apps concurrentes (Google Maps, WhatsApp, Duolingo...) offrent des fonctions que SpotHitch n\'a pas encore.',
+      action: 'Evaluer les fonctionnalites manquantes et implementer celles qui ont le plus de valeur pour les autostoppeurs.',
+      impact: 'SpotHitch devient aussi complet que les meilleurs apps dans chaque domaine.',
+    }
+  }
+
+  // --- Idees du web ---
+  if (rawDetail.includes('Idees du web')) {
+    return { ...base,
+      title: 'Nouvelles idees decouvertes par recherche web',
+      explain: 'La recherche web a revele des fonctionnalites populaires dans les apps similaires.',
+      action: 'Evaluer si ces idees correspondent aux besoins des autostoppeurs et les implementer si oui.',
+      impact: 'SpotHitch reste innovant et a jour avec les tendances.',
+    }
+  }
+
+  // --- 2x scan approfondi ---
+  if (rawDetail.includes('[2x]')) {
+    return { ...base,
+      title: 'Probleme dans un fichier recemment modifie (attention 2x)',
+      explain: 'Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.',
+      action: 'Corriger le probleme specifique detecte dans le fichier (voir details).',
+      impact: 'Les modifications recentes sont validees et ne cassent rien.',
+      priority: 'HAUTE',
+    }
+  }
+
   // --- Fallback for unrecognized details ---
   return { ...base,
     title: `[${phaseName}] ${rawDetail.slice(0, 60)}`,
@@ -2329,16 +2937,16 @@ function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
 // ═══════════════════════════════════════════════════════════════
 
 log('\n' + '='.repeat(60))
-log('  PLAN WOLF v3 — LE LOUP ULTIME')
+log('  PLAN WOLF v4 — L\'EQUIPE QA AUTONOME')
 log('='.repeat(60))
-log(`Mode: ${isQuick ? 'QUICK (skip Lighthouse/Screenshots)' : 'FULL (14 phases)'}`)
+log(`Mode: ${isQuick ? 'QUICK (skip Lighthouse/Screenshots/Web Search)' : 'FULL (16 phases)'}`)
 log(`Date: ${new Date().toISOString()}`)
 log(`Run #${memory.runs.length + 1}`)
 if (memory.runs.length > 0) {
   log(`Dernier run: ${memory.runs[memory.runs.length - 1].date} — Score: ${memory.runs[memory.runs.length - 1].score}/100`)
 }
 
-// Execute all 14 phases
+// Execute all 16 phases
 phase1_codeQuality()
 phase2_unitTests()
 phase3_build()
@@ -2346,13 +2954,15 @@ phase4_impactAnalysis()
 phase5_featureInventory()
 phase6_regressionGuard()
 phase7_wiringIntegrity()
-phase8_deadCode()
-phase9_multiLevel()
-phase10_lighthouse()
-phase11_screenshots()
-phase12_featureScores()
-const scoreResult = phase13_score()
-const newRecs = phase14_recommendations(scoreResult)
+phase8_buttonAudit()
+phase9_deadCode()
+phase10_multiLevel()
+phase11_lighthouse()
+phase12_screenshots()
+phase13_featureScores()
+phase14_competitiveIntel()
+const scoreResult = phase15_score()
+const newRecs = phase16_recommendations(scoreResult)
 
 // ═══════════════════════════════════════════════════════════════
 // FINAL REPORT
@@ -2361,7 +2971,7 @@ const newRecs = phase14_recommendations(scoreResult)
 const totalTime = ((Date.now() - start) / 1000).toFixed(1)
 
 log('\n\n' + '='.repeat(60))
-log('  PLAN WOLF v3 — RAPPORT FINAL')
+log('  PLAN WOLF v4 — RAPPORT FINAL')
 log('='.repeat(60))
 
 // Quick summary at the top for fast scanning
@@ -2386,83 +2996,6 @@ for (const p of phases) {
 log('')
 log(`  Confiance: ${scoreResult.confidence}`)
 log('')
-
-// ═══════════════════════════════════════════════════════════════
-// GENERATE HTML REPORT
-// ═══════════════════════════════════════════════════════════════
-
-try {
-  const reportPath = join(ROOT, 'wolf-report.html')
-  const phaseRows = phases.map(p => {
-    const pct = Math.round((p.score / p.max) * 100)
-    const color = pct >= 90 ? '#22c55e' : pct >= 60 ? '#eab308' : pct >= 30 ? '#f97316' : '#ef4444'
-    const findingsHtml = p.findings.map(f => `<div style="font-size:13px;color:#666;margin:2px 0">${f}</div>`).join('')
-    return `<tr>
-      <td style="padding:8px;font-weight:bold">${p.name}</td>
-      <td style="padding:8px;text-align:center"><span style="background:${color};color:white;padding:3px 10px;border-radius:12px;font-weight:bold">${p.score}/${p.max}</span></td>
-      <td style="padding:8px;text-align:center">${pct}%</td>
-      <td style="padding:8px">
-        <div style="background:#e5e7eb;border-radius:8px;height:12px;width:100%"><div style="background:${color};border-radius:8px;height:12px;width:${pct}%"></div></div>
-      </td>
-      <td style="padding:8px">${findingsHtml}</td>
-    </tr>`
-  }).join('\n')
-
-  const featurePhase = phases.find(p => p.name === 'Feature Scores')
-  const featureHtml = featurePhase ? featurePhase.findings.map(f => `<div style="margin:4px 0;font-size:14px">${f}</div>`).join('') : ''
-
-  const html = `<!DOCTYPE html>
-<html lang="fr">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Plan Wolf v3 - Rapport</title>
-<style>
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:20px;background:#f9fafb;color:#111}
-h1{text-align:center;font-size:28px;margin-bottom:5px}
-.score-big{text-align:center;font-size:72px;font-weight:900;margin:10px 0}
-.score-big.high{color:#22c55e}.score-big.mid{color:#eab308}.score-big.low{color:#ef4444}
-.meta{text-align:center;color:#666;margin-bottom:30px}
-table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-th{background:#1f2937;color:white;padding:10px;text-align:left}
-tr:nth-child(even){background:#f9fafb}
-.section{background:white;border-radius:12px;padding:20px;margin:20px 0;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-.section h2{margin-top:0;border-bottom:2px solid #e5e7eb;padding-bottom:10px}
-.rec{padding:12px;margin:8px 0;border-radius:8px;border-left:4px solid}
-.rec.haute{border-color:#ef4444;background:#fef2f2}.rec.moyenne{border-color:#eab308;background:#fefce8}
-.rec h3{margin:0 0 4px 0;font-size:15px}.rec p{margin:3px 0;font-size:13px;color:#555}
-</style></head>
-<body>
-<h1>Plan Wolf v3</h1>
-<div class="score-big ${scoreResult.score100 >= 80 ? 'high' : scoreResult.score100 >= 60 ? 'mid' : 'low'}">${scoreResult.score100}/100</div>
-<div class="meta">${scoreResult.trend} | Run #${memory.runs.length + 1} | ${new Date().toLocaleString('fr-FR')} | ${totalTime}s</div>
-
-<table>
-<tr><th>Phase</th><th>Score</th><th>%</th><th style="width:120px">Barre</th><th>Details</th></tr>
-${phaseRows}
-</table>
-
-<div class="section">
-<h2>Score par Feature</h2>
-${featureHtml}
-</div>
-
-<div class="section">
-<h2>Recommandations</h2>
-${(memory._dedupedRecs || []).slice(0, 10).map(r => `<div class="rec ${r.priority.toLowerCase()}">
-<h3>${r.count > 1 ? '(' + r.count + 'x) ' : ''}${r.title}</h3>
-<p><strong>Pourquoi:</strong> ${r.explain}</p>
-<p><strong>Action:</strong> ${r.action}</p>
-<p><strong>Impact:</strong> ${r.impact}</p>
-</div>`).join('\n')}
-</div>
-
-<div class="meta">Genere par Plan Wolf v3 — SpotHitch</div>
-</body></html>`
-
-  writeFileSync(reportPath, html)
-  log(`  Rapport HTML genere: wolf-report.html`)
-} catch (e) {
-  log(`  Rapport HTML: erreur (${e.message})`)
-}
 
 // ═══════════════════════════════════════════════════════════════
 // SAVE TO WOLF MEMORY
