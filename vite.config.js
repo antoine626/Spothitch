@@ -53,18 +53,43 @@ export default defineConfig({
         ],
         shortcuts: [
           {
-            name: 'Ajouter un spot',
-            short_name: 'Ajouter',
-            url: '/?action=add-spot',
-            icons: [{ src: 'icon-96.png', sizes: '96x96' }]
+            name: 'Add Spot',
+            short_name: 'Add Spot',
+            description: 'Share a new hitchhiking spot',
+            url: '/?action=addspot',
+            icons: [{ src: 'icon-96.png', sizes: '96x96', type: 'image/png' }]
           },
           {
-            name: 'Carte',
-            short_name: 'Carte',
-            url: '/?tab=spots',
-            icons: [{ src: 'icon-96.png', sizes: '96x96' }]
+            name: 'SOS',
+            short_name: 'SOS',
+            description: 'Emergency SOS mode',
+            url: '/?action=sos',
+            icons: [{ src: 'icon-96.png', sizes: '96x96', type: 'image/png' }]
+          },
+          {
+            name: 'Trip Planner',
+            short_name: 'Trip Planner',
+            description: 'Plan a hitchhiking trip',
+            url: '/?action=trip',
+            icons: [{ src: 'icon-96.png', sizes: '96x96', type: 'image/png' }]
+          },
+          {
+            name: 'My Profile',
+            short_name: 'Profile',
+            description: 'View your profile',
+            url: '/?action=profile',
+            icons: [{ src: 'icon-96.png', sizes: '96x96', type: 'image/png' }]
           }
-        ]
+        ],
+        share_target: {
+          action: '/?action=share',
+          method: 'GET',
+          params: {
+            title: 'title',
+            text: 'text',
+            url: 'url'
+          }
+        }
       },
       workbox: {
         skipWaiting: true,
@@ -166,16 +191,13 @@ export default defineConfig({
             './src/services/teamChallenges.js',
             './src/services/friendChallenges.js',
             './src/services/dailyReward.js',
-            './src/services/weeklyLeaderboard.js',
           ],
           'social': [
-            './src/services/realtimeChat.js',
             './src/services/travelGroups.js',
             './src/services/nearbyFriends.js',
             './src/services/profileCustomization.js',
           ],
           'admin': [
-            './src/services/adminModeration.js',
             './src/services/moderation.js',
           ],
           'guides': [
