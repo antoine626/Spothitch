@@ -15,64 +15,16 @@ import { getState } from '../stores/state.js';
 import { t } from '../i18n/index.js';
 import { haversineKm } from '../utils/geo.js';
 
-// Views
+// Core views — only Home is eagerly loaded (default tab)
 import { renderHome } from './views/Home.js';
-// renderMap and initMainMap available in Map.js but not used directly here
-import { renderTravel } from './views/Travel.js';
-import { renderGuides as renderGuidesView } from './views/Guides.js';
-import { renderChallengesHub } from './views/ChallengesHub.js';
-import { renderSocial } from './views/Social.js';
-import { renderProfile } from './views/Profile.js';
-
-// Keep old views for backward compatibility
-import { renderSpots } from './views/Spots.js';
 import { renderCityPanel } from './views/CityPanel.js';
 
-// Modals
-import { renderWelcome } from './modals/Welcome.js';
-import { renderSpotDetail } from './modals/SpotDetail.js';
-import { renderAddSpot } from './modals/AddSpot.js';
-import { renderSOS } from './modals/SOS.js';
-import { renderTutorial } from './modals/Tutorial.js';
-import { renderAuth } from './modals/Auth.js';
-import { renderFiltersModal } from './modals/Filters.js';
-// Gamification modals — lazy-loaded (saves ~200KB on initial load)
-// Actual imports happen on first render via lazyModal() below
-import { renderQuiz } from './modals/Quiz.js';
-import { renderCheckinModal } from './modals/CheckinModal.js';
-import { renderAgeVerification } from './modals/AgeVerification.js';
-import { renderIdentityVerification } from './modals/IdentityVerification.js';
-
-// Landing
-import { renderLanding, initLandingCarousel } from './Landing.js';
-
-// UI Components
-import { renderNavigationOverlay } from './ui/NavigationOverlay.js';
-import { renderDonationModal } from './ui/DonationCard.js';
-
-// New Feature Modals
-import { renderTravelGroupDetail } from '../services/travelGroups.js';
-import { renderNearbyFriendsWidget, renderNearbyFriendsList } from '../services/nearbyFriends.js';
-import { renderCustomizationModal } from '../services/profileCustomization.js';
-import { renderAccessibilityHelp } from '../services/screenReader.js';
-import { renderReportModal } from '../services/moderation.js';
-import { renderBlockModal, renderBlockedUsersList } from '../services/userBlocking.js';
-import { renderSOSTrackingWidget } from '../services/sosTracking.js';
-import { renderProximityAlert } from '../services/proximityNotify.js';
-// renderTeamDashboard lazy-loaded below
-import { renderAdminPanel } from './modals/AdminPanel.js';
+// Core UI — always visible
 import { renderCookieBanner } from './modals/CookieBanner.js';
-import { renderMyDataModal } from './modals/MyData.js';
-// renderTitlesModal lazy-loaded below
-import { renderCreateTravelGroupModal } from './modals/CreateTravelGroup.js';
-import { renderFriendProfileModal } from './modals/FriendProfile.js';
-import { renderContactFormModal } from './modals/ContactForm.js';
-import { renderCompanionModal } from './modals/Companion.js';
-import { renderValidateSpot } from './modals/ValidateSpot.js';
-import { renderDraftBanner } from '../services/spotDrafts.js';
-import { renderTripHistory } from '../services/tripHistory.js';
 import { icon } from '../utils/icons.js'
 import { trapFocus } from '../utils/a11y.js'
+
+// Everything else is lazy-loaded on demand via lazyRender() below
 
 // Lazy-loaded gamification module cache
 const _lazyCache = {}
@@ -92,7 +44,7 @@ let _activeFocusTrapCleanup = null
 export function renderApp(state) {
   // Show landing page for first-time visitors
   if (state.showLanding) {
-    return renderLanding()
+    return lazyRender('../components/Landing.js', 'renderLanding')
   }
 
   // Welcome/profile setup is now shown on-demand (when user wants to contribute)
@@ -135,44 +87,44 @@ export function renderApp(state) {
     ` : ''}
 
     <!-- Draft Banner -->
-    ${state.spotDraftsBannerVisible ? renderDraftBanner() : ''}
+    ${state.spotDraftsBannerVisible ? lazyRender('../services/spotDrafts.js', 'renderDraftBanner') : ''}
 
     <!-- City Panel -->
     ${state.selectedCity ? renderCityPanel(state) : ''}
 
     <!-- Modals -->
-    ${state.showAgeVerification ? renderAgeVerification(state) : ''}
-    ${state.showIdentityVerification ? renderIdentityVerification() : ''}
-    ${state.selectedSpot ? renderSpotDetail(state) : ''}
-    ${state.showAddSpot ? renderAddSpot(state) : ''}
-    ${state.showValidateSpot ? renderValidateSpot(state) : ''}
-    ${state.showSOS ? renderSOS(state) : ''}
-    ${state.showAuth ? renderAuth(state) : ''}
-    ${state.showTutorial ? renderTutorial(state) : ''}
-    ${state.showFilters ? renderFiltersModal() : ''}
+    ${state.showAgeVerification ? lazyRender('./modals/AgeVerification.js', 'renderAgeVerification', state) : ''}
+    ${state.showIdentityVerification ? lazyRender('./modals/IdentityVerification.js', 'renderIdentityVerification') : ''}
+    ${state.selectedSpot ? lazyRender('./modals/SpotDetail.js', 'renderSpotDetail', state) : ''}
+    ${state.showAddSpot ? lazyRender('./modals/AddSpot.js', 'renderAddSpot', state) : ''}
+    ${state.showValidateSpot ? lazyRender('./modals/ValidateSpot.js', 'renderValidateSpot', state) : ''}
+    ${state.showSOS ? lazyRender('./modals/SOS.js', 'renderSOS', state) : ''}
+    ${state.showAuth ? lazyRender('./modals/Auth.js', 'renderAuth', state) : ''}
+    ${state.showTutorial ? lazyRender('./modals/Tutorial.js', 'renderTutorial', state) : ''}
+    ${state.showFilters ? lazyRender('./modals/Filters.js', 'renderFiltersModal') : ''}
     ${state.showStats ? lazyRender('./modals/Stats.js', 'renderStatsModal') : ''}
     ${state.showBadges ? lazyRender('./modals/Badges.js', 'renderBadgesModal') : ''}
     ${state.showChallenges ? lazyRender('./modals/Challenges.js', 'renderChallengesModal') : ''}
     ${state.showShop ? lazyRender('./modals/Shop.js', 'renderShopModal') : ''}
     ${state.showMyRewards ? lazyRender('./modals/Shop.js', 'renderMyRewardsModal') : ''}
-    ${state.showQuiz ? renderQuiz() : ''}
+    ${state.showQuiz ? lazyRender('./modals/Quiz.js', 'renderQuiz') : ''}
     ${state.showLeaderboard ? lazyRender('./modals/Leaderboard.js', 'renderLeaderboardModal') : ''}
-    ${state.checkinSpot ? renderCheckinModal(state) : ''}
+    ${state.checkinSpot ? lazyRender('./modals/CheckinModal.js', 'renderCheckinModal', state) : ''}
     ${state.showDailyReward ? lazyRender('./modals/DailyReward.js', 'renderDailyRewardModal') : ''}
     ${state.newBadge ? lazyRender('./modals/Badges.js', 'renderBadgePopup', state.newBadge) : ''}
     ${state.showBadgeDetail ? lazyRender('./modals/Badges.js', 'renderBadgeDetail', state.selectedBadgeId) : ''}
 
     <!-- Navigation Overlay -->
-    ${state.navigationActive ? renderNavigationOverlay(state) : ''}
+    ${state.navigationActive ? lazyRender('./ui/NavigationOverlay.js', 'renderNavigationOverlay', state) : ''}
 
     <!-- Donation Modal -->
-    ${state.showDonation ? renderDonationModal(state) : ''}
+    ${state.showDonation ? lazyRender('./ui/DonationCard.js', 'renderDonationModal', state) : ''}
 
-    <!-- New Feature Modals -->
-    ${state.showProfileCustomization ? renderCustomizationModal(state) : ''}
-    ${state.showNearbyFriends ? renderNearbyFriendsList(state) : ''}
-    ${state.showReport ? renderReportModal(state) : ''}
-    ${state.showBlockModal ? renderBlockModal(state.blockTargetId, state.blockTargetName) : ''}
+    <!-- Feature Modals -->
+    ${state.showProfileCustomization ? lazyRender('../services/profileCustomization.js', 'renderCustomizationModal', state) : ''}
+    ${state.showNearbyFriends ? lazyRender('../services/nearbyFriends.js', 'renderNearbyFriendsList', state) : ''}
+    ${state.showReport ? lazyRender('../services/moderation.js', 'renderReportModal', state) : ''}
+    ${state.showBlockModal ? lazyRender('../services/userBlocking.js', 'renderBlockModal', state.blockTargetId, state.blockTargetName) : ''}
     ${state.showBlockedUsers ? `
       <div class="fixed inset-0 z-50 flex items-center justify-center p-4" onclick="closeBlockedUsers()" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
@@ -184,13 +136,13 @@ export function renderApp(state) {
                 ${icon('x', 'w-5 h-5')}
               </button>
             </div>
-            ${renderBlockedUsersList()}
+            ${lazyRender('../services/userBlocking.js', 'renderBlockedUsersList')}
           </div>
         </div>
       </div>
     ` : ''}
-    ${state.showAccessibilityHelp ? renderAccessibilityHelp(state) : ''}
-    ${state.showTravelGroupDetail ? renderTravelGroupDetail(state) : ''}
+    ${state.showAccessibilityHelp ? lazyRender('../services/screenReader.js', 'renderAccessibilityHelp', state) : ''}
+    ${state.showTravelGroupDetail ? lazyRender('../services/travelGroups.js', 'renderTravelGroupDetail', state) : ''}
     ${state.showTeamChallenges ? `
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTeamChallenges()">
         <div class="min-h-screen pb-20">
@@ -204,30 +156,30 @@ export function renderApp(state) {
         </div>
       </div>
     ` : ''}
-    ${state.showCreateTravelGroup ? renderCreateTravelGroupModal(state) : ''}
+    ${state.showCreateTravelGroup ? lazyRender('./modals/CreateTravelGroup.js', 'renderCreateTravelGroupModal', state) : ''}
 
     <!-- Floating Widgets -->
-    ${renderNearbyFriendsWidget(state)}
-    ${renderSOSTrackingWidget(state)}
-    ${state.proximityAlertSpot ? renderProximityAlert(state.proximityAlertSpot) : ''}
+    ${lazyRender('../services/nearbyFriends.js', 'renderNearbyFriendsWidget', state)}
+    ${lazyRender('../services/sosTracking.js', 'renderSOSTrackingWidget', state)}
+    ${state.proximityAlertSpot ? lazyRender('../services/proximityNotify.js', 'renderProximityAlert', state.proximityAlertSpot) : ''}
 
     <!-- Admin Panel -->
-    ${state.showAdminPanel ? renderAdminPanel(state) : ''}
+    ${state.showAdminPanel ? lazyRender('./modals/AdminPanel.js', 'renderAdminPanel', state) : ''}
 
     <!-- GDPR My Data Modal -->
-    ${state.showMyData ? renderMyDataModal() : ''}
+    ${state.showMyData ? lazyRender('./modals/MyData.js', 'renderMyDataModal') : ''}
 
     <!-- Titles Modal -->
     ${state.showTitles ? lazyRender('./modals/TitlesModal.js', 'renderTitlesModal', state) : ''}
 
     <!-- Friend Profile Modal -->
-    ${state.showFriendProfile ? renderFriendProfileModal(state) : ''}
+    ${state.showFriendProfile ? lazyRender('./modals/FriendProfile.js', 'renderFriendProfileModal', state) : ''}
 
     <!-- Contact Form Modal -->
-    ${state.showContactForm ? renderContactFormModal() : ''}
+    ${state.showContactForm ? lazyRender('./modals/ContactForm.js', 'renderContactFormModal') : ''}
 
     <!-- Companion Mode Modal -->
-    ${state.showCompanionModal ? renderCompanionModal(state) : ''}
+    ${state.showCompanionModal ? lazyRender('./modals/Companion.js', 'renderCompanionModal', state) : ''}
 
     <!-- Trip History Modal -->
     ${state.showTripHistory ? `
@@ -245,7 +197,7 @@ export function renderApp(state) {
             </div>
           </div>
           <div class="p-4">
-            ${renderTripHistory()}
+            ${lazyRender('../services/tripHistory.js', 'renderTripHistory')}
           </div>
         </div>
       </div>
@@ -280,14 +232,16 @@ export function renderApp(state) {
               </button>
             </div>
           </div>
-          ${activeOverlayTab === 'guides' ? renderGuidesView(state) : renderTravel({ ...state, activeSubTab: activeOverlayTab })}
+          ${activeOverlayTab === 'guides'
+            ? lazyRender('./views/Guides.js', 'renderGuides', state)
+            : lazyRender('./views/Travel.js', 'renderTravel', { ...state, activeSubTab: activeOverlayTab })}
         </div>
       </div>
       `
     })() : ''}
 
     <!-- Profile Setup (triggered when user wants to contribute) -->
-    ${state.showWelcome ? renderWelcome(state) : ''}
+    ${state.showWelcome ? lazyRender('./modals/Welcome.js', 'renderWelcome', state) : ''}
 
     <!-- Cookie Banner (RGPD) - hidden during tutorial -->
     ${!state.showTutorial ? renderCookieBanner() : ''}
@@ -302,19 +256,18 @@ function renderActiveView(state) {
     case 'map':
     case 'fullmap':
     case 'home':
-      return renderHome(state);
     case 'travel':
     case 'planner':
-      return renderHome(state); // Travel merged into map — redirect
+      return renderHome(state);
     case 'challenges':
-      return renderChallengesHub(state);
+      return lazyRender('./views/ChallengesHub.js', 'renderChallengesHub', state);
     case 'social':
     case 'chat':
-      return renderSocial(state);
+      return lazyRender('./views/Social.js', 'renderSocial', state);
     case 'profile':
-      return renderProfile(state);
+      return lazyRender('./views/Profile.js', 'renderProfile', state);
     case 'spots':
-      return renderSpots(state);
+      return lazyRender('./views/Spots.js', 'renderSpots', state);
     default:
       return renderHome(state);
   }
@@ -326,7 +279,9 @@ function renderActiveView(state) {
 export function afterRender(state) {
   // Init landing carousel if visible
   if (state.showLanding) {
-    setTimeout(() => initLandingCarousel(), 50)
+    setTimeout(() => {
+      import('../components/Landing.js').then(mod => mod.initLandingCarousel?.())
+    }, 50)
   }
 
   const isMapTab = ['map', 'fullmap', 'home', 'travel', 'planner'].includes(state.activeTab)
