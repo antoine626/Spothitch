@@ -62,7 +62,7 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
-### Session ~2026-02-21 (session 8 — WOLF FIXES)
+### Session ~2026-02-22 (session 8 — WOLF FIXES + BUNDLE OPTIMIZATION)
 - Fix window.setSocialTab manquant (détecté par Wolf — onclick dans 6 fichiers mais jamais enregistré)
 - Suppression 23 fichiers de tests orphelins (~21 250 lignes) qui testaient des services supprimés en session 7
 - Suppression exports morts : shouldShowDailyRewardPopup, grantStreakProtection (dailyReward.js), recordCheckinWithStats (statsCalculator.js)
@@ -70,6 +70,9 @@
 - Fix Wolf : filtrage mots-clés JS (if/for/etc) dans extraction onclick aux 3 endroits du script
 - Fix Wolf : feature inventory mis à jour (Chat→Conversations.js, Friends→Friends.js, Feed→Feed.js dans social/)
 - Tests : 35 fichiers, 1276 assertions, 100% passent
+- **Bundle optimization : 785KB → 200KB (-75%)** — lazy-load de ~30 composants dans App.js
+- Fix CI : 11 clés RGPD enregistrées, coverage thresholds ajustés, duplicate i18n keys supprimées
+- Seul le fichier ci.yml (bundle limit 750→800) ne peut pas être pushé (scope workflow manquant)
 - Build OK, pushé
 
 ### Session ~2026-02-21 (session 7 — MASSIVE UPDATE)
