@@ -363,7 +363,7 @@ export function renderMyDataModal() {
             ${t('gdprFooter') || 'Conformément au RGPD (Règlement Général sur la Protection des Données), vous avez le droit d\'accéder, de rectifier et de supprimer vos données personnelles.'}
           </p>
           <a
-            href="#"
+            href="javascript:void(0)"
             onclick="showLegalPage('privacy'); closeMyData();"
             class="text-xs text-primary-400 hover:underline mt-2 inline-block"
           >

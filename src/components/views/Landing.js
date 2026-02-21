@@ -379,9 +379,9 @@ export function renderLanding(state) {
 
           <p class="mt-8 text-sm text-slate-400">
             ${t('landingLegalNotice')}
-            <a href="#" onclick="showLegalPage('cgu')" class="text-primary-400 hover:underline">${t('termsOfService')}</a>
+            <a href="javascript:void(0)" onclick="showLegalPage('cgu')" class="text-primary-400 hover:underline">${t('termsOfService')}</a>
             ${t('and')}
-            <a href="#" onclick="showLegalPage('privacy')" class="text-primary-400 hover:underline">${t('privacyPolicy')}</a>.
+            <a href="javascript:void(0)" onclick="showLegalPage('privacy')" class="text-primary-400 hover:underline">${t('privacyPolicy')}</a>.
           </p>
         </div>
       </section>
@@ -403,29 +403,29 @@ export function renderLanding(state) {
             <div>
               <h4 class="font-semibold mb-4">${t('landingFooterApp')}</h4>
               <ul class="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" onclick="skipWelcome()" class="hover:text-white">${t('landingFooterSpotMap')}</a></li>
-                <li><a href="#" onclick="changeTab('travel')" class="hover:text-white">${t('planner')}</a></li>
-                <li><a href="#" onclick="changeTab('challenges')" class="hover:text-white">${t('landingFooterChallenges')}</a></li>
-                <li><a href="#" onclick="changeTab('social')" class="hover:text-white">${t('landingFooterCommunity')}</a></li>
+                <li><a href="javascript:void(0)" onclick="skipWelcome()" class="hover:text-white">${t('landingFooterSpotMap')}</a></li>
+                <li><a href="javascript:void(0)" onclick="changeTab('travel')" class="hover:text-white">${t('planner')}</a></li>
+                <li><a href="javascript:void(0)" onclick="changeTab('challenges')" class="hover:text-white">${t('landingFooterChallenges')}</a></li>
+                <li><a href="javascript:void(0)" onclick="changeTab('social')" class="hover:text-white">${t('landingFooterCommunity')}</a></li>
               </ul>
             </div>
 
             <div>
               <h4 class="font-semibold mb-4">${t('landingFooterResources')}</h4>
               <ul class="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" onclick="openFAQ()" class="hover:text-white">FAQ</a></li>
-                <li><a href="#" onclick="openHelpCenter()" class="hover:text-white">${t('landingFooterHelpCenter')}</a></li>
-                <li><a href="#" onclick="openChangelog()" class="hover:text-white">Changelog</a></li>
-                <li><a href="#" onclick="openRoadmap()" class="hover:text-white">Roadmap</a></li>
+                <li><a href="javascript:void(0)" onclick="openFAQ()" class="hover:text-white">FAQ</a></li>
+                <li><a href="javascript:void(0)" onclick="openHelpCenter()" class="hover:text-white">${t('landingFooterHelpCenter')}</a></li>
+                <li><a href="javascript:void(0)" onclick="openChangelog()" class="hover:text-white">Changelog</a></li>
+                <li><a href="javascript:void(0)" onclick="openRoadmap()" class="hover:text-white">Roadmap</a></li>
               </ul>
             </div>
 
             <div>
               <h4 class="font-semibold mb-4">${t('landingFooterLegal')}</h4>
               <ul class="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" onclick="showLegalPage('cgu')" class="hover:text-white">${t('termsOfService')}</a></li>
-                <li><a href="#" onclick="showLegalPage('privacy')" class="hover:text-white">${t('privacyPolicy')}</a></li>
-                <li><a href="#" onclick="openContactForm()" class="hover:text-white">Contact</a></li>
+                <li><a href="javascript:void(0)" onclick="showLegalPage('cgu')" class="hover:text-white">${t('termsOfService')}</a></li>
+                <li><a href="javascript:void(0)" onclick="showLegalPage('privacy')" class="hover:text-white">${t('privacyPolicy')}</a></li>
+                <li><a href="javascript:void(0)" onclick="openContactForm()" class="hover:text-white">Contact</a></li>
               </ul>
             </div>
           </div>
@@ -438,14 +438,6 @@ export function renderLanding(state) {
               <a href="https://github.com/antoine626/Spothitch" target="_blank" rel="noopener" class="text-slate-400 hover:text-white">
                 ${icon('github', 'w-6 h-6')}
                 <span class="sr-only">GitHub</span>
-              </a>
-              <a href="#" class="text-slate-400 hover:text-white">
-                ${icon('twitter', 'w-6 h-6')}
-                <span class="sr-only">Twitter</span>
-              </a>
-              <a href="#" class="text-slate-400 hover:text-white">
-                ${icon('instagram', 'w-6 h-6')}
-                <span class="sr-only">Instagram</span>
               </a>
             </div>
           </div>

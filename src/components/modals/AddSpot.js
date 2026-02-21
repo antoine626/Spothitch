@@ -691,8 +691,6 @@ window.addSpotNextStep = async () => {
       showError(t('destinationRequired') || 'Destination obligatoire')
       return
     }
-    // Auto-detect season
-    window.spotFormData.season = detectSeason()
     // Blur focused input so render() is not blocked by the typing guard
     document.activeElement?.blur()
     setState({ addSpotStep: 3 })
@@ -1154,7 +1152,7 @@ window.handleAddSpot = async (event) => {
       groupSize: window.spotFormData.groupSize || null,
       timeOfDay: window.spotFormData.timeOfDay || null,
       waitTime: window.spotFormData.waitTime || null,
-      season: window.spotFormData.season || detectSeason(),
+      season: window.spotFormData.season || null,
 
       // Legacy fields (backward compat)
       from: from,

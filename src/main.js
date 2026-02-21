@@ -861,48 +861,50 @@ window.closeSOS = () => setState({ showSOS: false });
 window.openAccessibilityHelp = () => showToast(t('accessibilityHelp') || 'Accessibilité : utilise les raccourcis clavier et le zoom du navigateur', 'info')
 window.showFriendOptions = () => showToast(t('friendOptionsSoon') || 'Options ami bientôt disponibles', 'info')
 window.showFullNavigation = () => window.changeTab('map')
-window.shareSOSLocation = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
-        if (navigator.share) {
-          navigator.share({
-            title: t('sosShareTitle') || 'Ma position SOS - SpotHitch',
-            text: t('sosShareText') || 'Je suis en situation d\'urgence. Voici ma position :',
-            url: url
-          });
-        } else {
-          navigator.clipboard.writeText(url);
-          showToast(t('linkCopied') || 'Lien copié !', 'success');
-        }
-      },
-      () => showToast(t('positionFailed') || 'Impossible de récupérer la position', 'error')
-    );
+// SOS fallbacks — overridden by SOS.js when modal loads
+if (!window.shareSOSLocation) {
+  window.shareSOSLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords
+          const url = `https://www.google.com/maps?q=${latitude},${longitude}`
+          if (navigator.share) {
+            navigator.share({ title: 'SOS - SpotHitch', text: t('sosShareText') || 'Position urgence', url })
+          } else {
+            navigator.clipboard.writeText(url)
+            showToast(t('linkCopied') || 'Lien copié !', 'success')
+          }
+        },
+        () => showToast(t('positionFailed') || 'Position indisponible', 'error')
+      )
+    }
   }
-};
-window.markSafe = () => {
-  setState({ sosActive: false });
-  showToast(t('markedSafe') || 'Vous êtes marqué en sécurité', 'success');
-};
-window.addEmergencyContact = () => {
-  const name = document.getElementById('emergency-name')?.value;
-  const phone = document.getElementById('emergency-phone')?.value;
-  if (!name || !phone) {
-    showToast(t('fillNameAndNumber') || 'Remplissez le nom et le numéro', 'warning');
-    return;
+}
+if (!window.markSafe) {
+  window.markSafe = () => {
+    setState({ sosActive: false })
+    showToast(t('markedSafe') || 'Marqué en sécurité', 'success')
   }
-  const { emergencyContacts = [] } = getState();
-  setState({ emergencyContacts: [...emergencyContacts, { name, phone }] });
-  document.getElementById('emergency-name').value = '';
-  document.getElementById('emergency-phone').value = '';
-  showToast(t('contactAdded') || 'Contact ajouté !', 'success');
-};
-window.removeEmergencyContact = (index) => {
-  const { emergencyContacts = [] } = getState();
-  setState({ emergencyContacts: emergencyContacts.filter((_, i) => i !== index) });
-};
+}
+if (!window.addEmergencyContact) {
+  window.addEmergencyContact = () => {
+    const name = document.getElementById('emergency-name')?.value
+    const phone = document.getElementById('emergency-phone')?.value
+    if (!name || !phone) { showToast(t('fillNameAndNumber') || 'Nom et numéro requis', 'warning'); return }
+    const { emergencyContacts = [] } = getState()
+    setState({ emergencyContacts: [...emergencyContacts, { name, phone }] })
+    document.getElementById('emergency-name').value = ''
+    document.getElementById('emergency-phone').value = ''
+    showToast(t('contactAdded') || 'Contact ajouté !', 'success')
+  }
+}
+if (!window.removeEmergencyContact) {
+  window.removeEmergencyContact = (index) => {
+    const { emergencyContacts = [] } = getState()
+    setState({ emergencyContacts: emergencyContacts.filter((_, i) => i !== index) })
+  }
+}
 
 // Auth handlers
 window.openAuth = (reason) => {
@@ -968,27 +970,26 @@ if (!window.handleAppleSignIn) {
 }
 // Keep handleAppleLogin as alias for backward compat
 window.handleAppleLogin = () => window.handleAppleSignIn?.()
-window.handleForgotPassword = async () => {
-  const email = document.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value
-  if (!email) {
-    showToast(t('enterEmailFirst') || 'Enter your email first', 'warning')
-    return
-  }
-  const fb = await getFirebase()
-  fb.initializeFirebase()
-  const result = await fb.resetPassword(email)
-  if (result.success) {
-    showToast(t('resetEmailSent') || 'Password reset email sent!', 'success')
-  } else {
-    showToast(t('sendError') || 'Error sending email', 'error')
+// Auth fallbacks — overridden by Auth.js/Profile.js when loaded
+if (!window.handleForgotPassword) {
+  window.handleForgotPassword = async () => {
+    const email = document.querySelector('[name="email"]')?.value || document.getElementById('auth-email')?.value
+    if (!email) { showToast(t('enterEmailFirst') || 'Enter your email first', 'warning'); return }
+    const fb = await getFirebase()
+    fb.initializeFirebase()
+    const result = await fb.resetPassword(email)
+    if (result.success) showToast(t('resetEmailSent') || 'Password reset email sent!', 'success')
+    else showToast(t('sendError') || 'Error sending email', 'error')
   }
 }
-window.handleLogout = async () => {
-  const fb = await getFirebase()
-  await fb.logOut()
-  actions.setUser(null)
-  setState({ currentUser: null, userProfile: null })
-  showToast(t('logoutSuccess') || 'Logged out', 'success')
+if (!window.handleLogout) {
+  window.handleLogout = async () => {
+    const fb = await getFirebase()
+    await fb.logOut()
+    actions.setUser(null)
+    setState({ currentUser: null, userProfile: null })
+    showToast(t('logoutSuccess') || 'Logged out', 'success')
+  }
 }
 // Progressive Auth Gate — exposed globally
 window.requireAuth = (actionName) => {
