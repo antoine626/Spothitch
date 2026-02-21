@@ -140,8 +140,9 @@ describe('Integration: SOS Modal', () => {
 
   it('contains share location button', () => {
     const html = renderSOS({ ...baseState, showSOS: true })
-    expect(html).toContain('shareSOSLocation')
     expect(html).toContain('sos-share-btn')
+    // Button handler uses sosStartCountdown (countdown before sharing)
+    expect(html).toContain('sosStartCountdown')
   })
 
   it('contains emergency contact form', () => {
