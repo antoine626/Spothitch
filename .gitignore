@@ -29,3 +29,5 @@ playwright-report/
 test-results/
 cursor.AppImage
 .lighthouseci/
+wolf-report.html
+wolf-screenshots/

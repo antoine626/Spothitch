@@ -262,6 +262,23 @@ function phase3_build() {
           details.push(`Le bundle principal depasse 750KB — optimiser les imports`)
         }
 
+        // Chunk breakdown — find biggest chunks
+        const allChunks = readdirSync(distAssets)
+          .filter(f => f.endsWith('.js'))
+          .map(f => ({ name: f, size: Math.round(statSync(join(distAssets, f)).size / 1024) }))
+          .sort((a, b) => b.size - a.size)
+        if (allChunks.length > 1) {
+          const top3 = allChunks.slice(0, 3)
+          findings.push(`Top chunks: ${top3.map(c => `${c.name.replace(/-.+\.js$/, '')}(${c.size}KB)`).join(', ')}`)
+          // Flag chunks over 300KB
+          const bigChunks = allChunks.filter(c => c.size > 300)
+          if (bigChunks.length > 0) {
+            for (const c of bigChunks) {
+              details.push(`Chunk trop gros: ${c.name} (${c.size}KB > 300KB) — verifier les imports`)
+            }
+          }
+        }
+
         // Track trend
         const lastRun = memory.runs[memory.runs.length - 1]
         if (lastRun?.bundleSize) {
@@ -611,12 +628,13 @@ function phase5_featureInventory() {
     }
   }
 
-  // Check test count
+  // Check test count — look for "X passed" in Tests line (not Test Files)
   const testCountMatch = featuresContent.match(/(\d+)\+?\s*tests?\s*wiring/)
   if (testCountMatch) {
     const claimedTests = parseInt(testCountMatch[1])
-    const testOut = exec('npx vitest run tests/wiring/ --reporter=verbose 2>&1 || true', { allowFail: true, timeout: 60000 })
-    const realTestMatch = testOut.match(/(\d+)\s*passed/)
+    const testOut = exec('npx vitest run tests/wiring/ 2>&1 || true', { allowFail: true, timeout: 60000 })
+    // Match the "Tests" line specifically (not "Test Files")
+    const realTestMatch = testOut.match(/Tests\s+.*?(\d+)\s+passed/)
     if (realTestMatch) {
       const realTests = parseInt(realTestMatch[1])
       if (Math.abs(claimedTests - realTests) > 5) {
@@ -629,7 +647,7 @@ function phase5_featureInventory() {
   if (memoryAccurate) {
     findings.push('Memoire: chiffres coherents avec la realite')
   } else {
-    findings.push('Memoire: chiffres perimes detectes')
+    findings.push('Memoire: chiffres perimes (voir details)')
   }
 
   log(`  Score: ${score}/${max}`)
@@ -777,8 +795,10 @@ function phase7_wiringIntegrity() {
 
   const mainContent = readFile(join(ROOT, 'src', 'main.js'))
 
-  // Count window.* handlers in main.js
-  const handlerMatches = mainContent.match(/window\.\w+\s*=/g) || []
+  // Count window.* handlers in main.js (exclude browser APIs)
+  const browserAPIs = new Set(['location', 'scrollTo', 'scrollBy', 'addEventListener', 'removeEventListener', 'dispatchEvent', 'getComputedStyle', 'requestAnimationFrame', 'cancelAnimationFrame', 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'innerWidth', 'innerHeight', 'devicePixelRatio', 'navigator', 'history', 'localStorage', 'sessionStorage', 'indexedDB', 'crypto', 'performance', 'matchMedia', 'getSelection', 'onload', 'onresize', 'onscroll', 'onerror', 'onpopstate', 'onbeforeunload', 'onhashchange', 'onfocus', 'onblur'])
+  const handlerMatches = (mainContent.match(/window\.(\w+)\s*=/g) || [])
+    .filter(h => !browserAPIs.has(h.replace('window.', '').replace(/\s*=$/, '')))
   const handlerCount = handlerMatches.length
   findings.push(`${handlerCount} handlers window.* enregistres dans main.js`)
 
@@ -1194,6 +1214,30 @@ function phase9_multiLevel() {
     else score += 1
   }
 
+  // --- npm audit (security vulnerabilities) ---
+  const npmAuditOut = exec('npm audit --json 2>/dev/null || true', { allowFail: true, timeout: 30000 })
+  try {
+    const auditData = JSON.parse(npmAuditOut)
+    const vulns = auditData.metadata?.vulnerabilities || {}
+    const critical = vulns.critical || 0
+    const high = vulns.high || 0
+    const moderate = vulns.moderate || 0
+    const total = critical + high + moderate
+    if (total === 0) {
+      findings.push('npm audit: 0 vulnerabilites connues')
+    } else {
+      findings.push(`npm audit: ${total} vulnerabilite(s) (${critical} critiques, ${high} hautes, ${moderate} moyennes)`)
+      if (critical > 0 || high > 0) {
+        details.push('npm audit: vulnerabilites critiques/hautes detectees — lancer npm audit fix')
+      }
+    }
+  } catch {
+    // npm audit didn't return JSON — try simple parse
+    if (npmAuditOut.includes('found 0 vulnerabilities') || npmAuditOut.includes('0 vulnerabilities')) {
+      findings.push('npm audit: 0 vulnerabilites')
+    }
+  }
+
   // --- Image size check ---
   const imgDirs = ['public/images', 'public/icons', 'public/screenshots', 'src/assets']
   let oversizedImages = 0
@@ -1427,61 +1471,79 @@ function phase12_featureScores() {
   const findings = []
   const details = []
 
-  // Define features and their expected files/patterns
+  // Define features with expected files, handlers, i18n, AND improvement advice
   const features = [
     {
       name: 'Carte',
       files: ['src/components/App.js', 'src/components/views/Map.js'],
       handlers: ['flyToCity', 'toggleHeatmap', 'toggleGasStations', 'toggleSplitView'],
       i18nKeys: ['searchCity', 'mapLoading'],
+      advice100: 'Ajouter un mode offline pour les tuiles carte (cache local).',
+      adviceLow: 'La carte est le coeur de l\'app — s\'assurer que la recherche et les filtres marchent parfaitement.',
     },
     {
       name: 'AddSpot',
       files: ['src/components/modals/AddSpot.js'],
       handlers: ['openAddSpot', 'closeAddSpot', 'addSpotNextStep', 'submitNewSpot'],
       i18nKeys: ['addSpot', 'spotType', 'spotDirection'],
+      advice100: 'Ajouter la detection automatique du type de spot (via photo IA ou geolocalisation).',
+      adviceLow: 'Le formulaire doit etre simple et rapide — verifier que chaque etape fonctionne.',
     },
     {
       name: 'Social',
       files: ['src/services/chat.js', 'src/services/friendsList.js', 'src/services/directMessages.js'],
       handlers: ['openChat', 'sendMessage', 'addFriend'],
       i18nKeys: ['chat', 'friends', 'messages'],
+      advice100: 'Ajouter les notifications push pour les nouveaux messages.',
+      adviceLow: 'Le chat et les amis sont essentiels — brancher les services dans l\'UI si pas fait.',
     },
     {
       name: 'Gamification',
       files: ['src/services/gamification.js'],
       handlers: ['openShop', 'claimDailyReward', 'openLeaderboard', 'openChallengesHub'],
       i18nKeys: ['badges', 'points', 'level'],
+      advice100: 'Ajouter des recompenses saisonnieres liees aux voyages reels.',
+      adviceLow: 'Verifier que les badges et le leaderboard s\'affichent correctement.',
     },
     {
       name: 'Securite',
       files: ['src/components/modals/SOS.js', 'src/components/modals/Companion.js'],
       handlers: ['openSOS', 'openCompanion'],
       i18nKeys: ['sosButton', 'companionMode'],
+      advice100: 'Integrer le partage de position avec les contacts d\'urgence via SMS reel.',
+      adviceLow: 'La securite est critique — le bouton SOS doit toujours etre accessible.',
     },
     {
       name: 'Profil',
       files: ['src/components/views/Profile.js'],
       handlers: ['openProfile', 'openSettings', 'openEditProfile'],
       i18nKeys: ['profile', 'settings'],
+      advice100: 'Ajouter l\'export de donnees RGPD directement depuis le profil.',
+      adviceLow: 'Le profil doit afficher les stats, badges et historique correctement.',
     },
     {
       name: 'Voyage',
       files: ['src/components/views/Travel.js', 'src/services/osrm.js'],
       handlers: ['planTrip', 'clearTrip', 'setRouteFilter'],
       i18nKeys: ['planTrip', 'routeInfo'],
+      advice100: 'Ajouter le partage d\'itineraire avec d\'autres utilisateurs.',
+      adviceLow: 'Le planificateur doit calculer et afficher les routes correctement.',
     },
     {
       name: 'Auth',
       files: ['src/components/modals/Auth.js', 'src/services/firebase.js'],
       handlers: ['openAuth', 'closeAuth', 'loginWithEmail'],
       i18nKeys: ['login', 'register', 'logout'],
+      advice100: 'Ajouter la connexion par lien magique (magic link) pour simplifier.',
+      adviceLow: 'L\'auth est un prealable — Google/Facebook/Email doivent tous fonctionner.',
     },
     {
       name: 'Guides',
       files: ['src/components/views/Guides.js'],
       handlers: ['openGuides', 'voteGuideTip', 'submitGuideSuggestion'],
       i18nKeys: ['countryGuides', 'tipUseful'],
+      advice100: 'Enrichir les guides avec des photos et des cartes interactives par pays.',
+      adviceLow: 'Les guides sont un argument SEO majeur — verifier qu\'ils sont accessibles.',
     },
   ]
 
@@ -1506,27 +1568,36 @@ function phase12_featureScores() {
 
   for (const feat of features) {
     let fScore = 0
+    const missingHandlers = []
+    const missingI18n = []
 
     // 1 point: files exist
     const filesExist = feat.files.every(f => existsSync(join(ROOT, f)))
     if (filesExist) fScore++
 
     // 1 point: handlers registered
-    const handlersOk = feat.handlers.filter(h => allHandlers.has(h)).length
+    for (const h of feat.handlers) {
+      if (allHandlers.has(h)) { /* ok */ } else missingHandlers.push(h)
+    }
+    const handlersOk = feat.handlers.length - missingHandlers.length
     if (handlersOk >= feat.handlers.length * 0.8) fScore++
     else if (handlersOk > 0) fScore += 0.5
 
     // 1 point: i18n keys present
-    const i18nOk = feat.i18nKeys.filter(k => frContent.includes(k)).length
+    for (const k of feat.i18nKeys) {
+      if (frContent.includes(k)) { /* ok */ } else missingI18n.push(k)
+    }
+    const i18nOk = feat.i18nKeys.length - missingI18n.length
     if (i18nOk >= feat.i18nKeys.length * 0.8) fScore++
     else if (i18nOk > 0) fScore += 0.5
 
     // 1 point: file not empty (> 50 lines)
+    let mainFileLines = 0
     const mainFile = feat.files[0]
     if (filesExist) {
       const content = readFile(join(ROOT, mainFile))
-      const lines = content.split('\n').length
-      if (lines > 50) fScore++
+      mainFileLines = content.split('\n').length
+      if (mainFileLines > 50) fScore++
     }
 
     totalFeatureScore += fScore
@@ -1535,12 +1606,22 @@ function phase12_featureScores() {
     const icon = pct >= 90 ? '++' : pct >= 60 ? 'OK' : '!!'
     findings.push(`[${icon}] ${feat.name}: ${fScore}/4 (${pct}%)`)
 
-    if (fScore < 3) {
-      const missing = []
-      if (!filesExist) missing.push('fichiers manquants')
-      if (handlersOk < feat.handlers.length * 0.8) missing.push(`handlers: ${handlersOk}/${feat.handlers.length}`)
-      if (i18nOk < feat.i18nKeys.length * 0.8) missing.push(`i18n: ${i18nOk}/${feat.i18nKeys.length}`)
-      details.push(`${feat.name}: ${missing.join(', ')}`)
+    // === PER-FEATURE RECOMMENDATIONS ===
+    if (pct === 100) {
+      // Feature is perfect — give next-level advice
+      findings.push(`     -> ${feat.advice100}`)
+    } else {
+      // Feature needs work — give specific advice
+      const issues = []
+      if (!filesExist) issues.push('fichiers manquants')
+      if (missingHandlers.length > 0) issues.push(`handlers manquants: ${missingHandlers.join(', ')}`)
+      if (missingI18n.length > 0) issues.push(`i18n manquantes: ${missingI18n.join(', ')}`)
+      if (mainFileLines > 0 && mainFileLines <= 50) issues.push('fichier principal trop court (<50 lignes)')
+
+      if (issues.length > 0) {
+        findings.push(`     -> A corriger: ${issues.join('; ')}`)
+      }
+      findings.push(`     -> ${feat.adviceLow}`)
     }
   }
 
@@ -1678,7 +1759,6 @@ function phase14_recommendations(scoreResult) {
     const key = r.title
     if (grouped.has(key)) {
       grouped.get(key).count++
-      // Keep the highest priority
       if (r.priority === 'HAUTE') grouped.get(key).rec.priority = 'HAUTE'
     } else {
       grouped.set(key, { rec: r, count: 1 })
@@ -1686,21 +1766,48 @@ function phase14_recommendations(scoreResult) {
   }
   const dedupedRecs = [...grouped.values()].map(({ rec, count }) => ({ ...rec, count }))
 
-  // Display deduplicated recommendations — human readable
+  // === RECOMMENDATIONS PAR PHASE ===
+  log('\n  --- RECOMMANDATIONS PAR PHASE ---')
+  for (const p of phases) {
+    const pct = Math.round((p.score / p.max) * 100)
+    if (pct >= 90) continue // Skip perfect phases
+
+    log(`\n  [${p.name}] ${p.score}/${p.max} (${pct}%)`)
+
+    // Generate phase-specific action plan
+    const phaseAdvice = getPhaseAdvice(p.name, p.score, p.max, p.findings, p.details)
+    if (phaseAdvice) {
+      log(`     Objectif : ${phaseAdvice.goal}`)
+      log(`     Action   : ${phaseAdvice.action}`)
+      log(`     Gain     : +${phaseAdvice.pointsGain} points possible`)
+    }
+
+    // Show top 3 details for this phase
+    const topDetails = p.details.slice(0, 3)
+    for (const d of topDetails) {
+      log(`     - ${d.slice(0, 100)}${d.length > 100 ? '...' : ''}`)
+    }
+    if (p.details.length > 3) {
+      log(`     ... et ${p.details.length - 3} autre(s)`)
+    }
+  }
+
+  // === GLOBAL RECOMMENDATIONS (deduplicated) ===
   if (dedupedRecs.length > 0) {
     const haute = dedupedRecs.filter(r => r.priority === 'HAUTE')
     const moyenne = dedupedRecs.filter(r => r.priority === 'MOYENNE')
 
     if (haute.length > 0) {
-      log('\n  --- URGENT (impact sur les utilisateurs) ---')
-      for (const r of haute) {
+      log('\n  --- TOP 5 URGENT ---')
+      for (const r of haute.slice(0, 5)) {
         printRecommendation(r)
       }
+      if (haute.length > 5) log(`\n  ... et ${haute.length - 5} autre(s) recommandation(s) urgente(s)`)
     }
 
     if (moyenne.length > 0) {
-      log('\n  --- A AMELIORER (qualite du code) ---')
-      for (const r of moyenne) {
+      log('\n  --- AMELIORATIONS ---')
+      for (const r of moyenne.slice(0, 3)) {
         printRecommendation(r)
       }
     }
@@ -1881,7 +1988,87 @@ function phase14_recommendations(scoreResult) {
   const runCount = memory.runs.length + 1
   log(`\n  Run #${runCount}`)
 
+  // Store dedupedRecs on memory for HTML report access
+  memory._dedupedRecs = dedupedRecs
+
   return newRecs
+}
+
+/**
+ * Get specific advice for a phase to improve its score
+ */
+function getPhaseAdvice(name, score, max, findings, details) {
+  const pct = Math.round((score / max) * 100)
+  const gap = max - score
+
+  const adviceMap = {
+    'Code Quality': {
+      goal: 'Passer de ' + pct + '% a 100%',
+      action: 'npx eslint src/ --fix && node scripts/lint-i18n.mjs && node scripts/audit-rgpd.mjs',
+      pointsGain: gap,
+    },
+    'Unit Tests': {
+      goal: 'Tous les tests passent',
+      action: 'npx vitest run — corriger les tests qui echouent un par un',
+      pointsGain: gap,
+    },
+    'Build': {
+      goal: 'Build OK + bundle < 750KB',
+      action: 'npm run build — verifier les imports inutiles si bundle trop gros',
+      pointsGain: gap,
+    },
+    'Impact Analysis': {
+      goal: 'Pas d\'impact critique non couvert par des tests',
+      action: 'Ajouter des tests pour les fichiers modifies recemment',
+      pointsGain: gap,
+    },
+    'Feature Inventory': {
+      goal: 'Tous les services sont branches + memoire a jour',
+      action: 'Brancher ou supprimer les services orphelins, mettre a jour features.md',
+      pointsGain: gap,
+    },
+    'Regression Guard': {
+      goal: '0 handlers dupliques, 0 regressions',
+      action: 'Dedupliquer les 100 handlers window.* — garder 1 seule definition par handler dans le fichier de la feature',
+      pointsGain: gap,
+    },
+    'Wiring Integrity': {
+      goal: 'Chaque open a un close, chaque onclick fonctionne',
+      action: 'Ajouter les close handlers manquants + corriger les onclick qui pointent vers des fonctions inexistantes',
+      pointsGain: gap,
+    },
+    'Dead Code': {
+      goal: '< 5% d\'exports morts',
+      action: 'Supprimer les fonctions et exports jamais utilises (voir la liste ci-dessus)',
+      pointsGain: gap,
+    },
+    'Multi-Level Audit': {
+      goal: 'SEO complet + securite + a11y',
+      action: 'Generer plus de pages SEO, verifier les meta tags, renforcer le CSP',
+      pointsGain: gap,
+    },
+    'Lighthouse': {
+      goal: 'Performance > 70, Accessibilite > 90, SEO > 80',
+      action: 'Installer @lhci/cli et configurer lighthouserc.js pour mesurer les vrais scores',
+      pointsGain: gap,
+    },
+    'Screenshots': {
+      goal: 'Screenshots des pages principales captures automatiquement',
+      action: 'Verifier que Playwright + Chromium sont installes (npx playwright install chromium)',
+      pointsGain: gap,
+    },
+    'Feature Scores': {
+      goal: 'Toutes les features a 100%',
+      action: 'Verifier les recommandations par feature ci-dessus',
+      pointsGain: gap,
+    },
+  }
+
+  return adviceMap[name] || {
+    goal: 'Ameliorer le score de ' + pct + '% a 100%',
+    action: 'Voir les details ci-dessus',
+    pointsGain: gap,
+  }
 }
 
 /**
@@ -2003,13 +2190,23 @@ function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
   }
 
   // --- Tests ---
-  if (rawDetail.includes('FAIL') || rawDetail.includes('echoue') || rawDetail.includes('test')) {
+  if (rawDetail.includes('tests echouent') || rawDetail.includes('FAIL') || (rawDetail.includes('echoue') && phaseName === 'Unit Tests')) {
     return { ...base,
       title: 'Des tests echouent',
       explain: 'Certains tests automatiques detectent des problemes. Ca veut dire qu\'une fonctionnalite est peut-etre cassee.',
       action: 'Lancer npx vitest run pour voir les tests qui echouent et corriger les erreurs.',
       impact: 'Toutes les fonctionnalites marchent comme prevu.',
       priority: 'HAUTE',
+    }
+  }
+
+  // --- Files without tests ---
+  if (rawDetail.includes('sans test unitaire')) {
+    return { ...base,
+      title: 'Fichiers modifies sans test correspondant',
+      explain: 'Des fichiers ont ete modifies mais il n\'y a pas de test automatique qui verifie qu\'ils marchent correctement.',
+      action: 'Ajouter des tests pour les fichiers modifies ou verifier manuellement.',
+      impact: 'Moins de risque de casser quelque chose sans s\'en apercevoir.',
     }
   }
 
@@ -2189,6 +2386,83 @@ for (const p of phases) {
 log('')
 log(`  Confiance: ${scoreResult.confidence}`)
 log('')
+
+// ═══════════════════════════════════════════════════════════════
+// GENERATE HTML REPORT
+// ═══════════════════════════════════════════════════════════════
+
+try {
+  const reportPath = join(ROOT, 'wolf-report.html')
+  const phaseRows = phases.map(p => {
+    const pct = Math.round((p.score / p.max) * 100)
+    const color = pct >= 90 ? '#22c55e' : pct >= 60 ? '#eab308' : pct >= 30 ? '#f97316' : '#ef4444'
+    const findingsHtml = p.findings.map(f => `<div style="font-size:13px;color:#666;margin:2px 0">${f}</div>`).join('')
+    return `<tr>
+      <td style="padding:8px;font-weight:bold">${p.name}</td>
+      <td style="padding:8px;text-align:center"><span style="background:${color};color:white;padding:3px 10px;border-radius:12px;font-weight:bold">${p.score}/${p.max}</span></td>
+      <td style="padding:8px;text-align:center">${pct}%</td>
+      <td style="padding:8px">
+        <div style="background:#e5e7eb;border-radius:8px;height:12px;width:100%"><div style="background:${color};border-radius:8px;height:12px;width:${pct}%"></div></div>
+      </td>
+      <td style="padding:8px">${findingsHtml}</td>
+    </tr>`
+  }).join('\n')
+
+  const featurePhase = phases.find(p => p.name === 'Feature Scores')
+  const featureHtml = featurePhase ? featurePhase.findings.map(f => `<div style="margin:4px 0;font-size:14px">${f}</div>`).join('') : ''
+
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plan Wolf v3 - Rapport</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:20px;background:#f9fafb;color:#111}
+h1{text-align:center;font-size:28px;margin-bottom:5px}
+.score-big{text-align:center;font-size:72px;font-weight:900;margin:10px 0}
+.score-big.high{color:#22c55e}.score-big.mid{color:#eab308}.score-big.low{color:#ef4444}
+.meta{text-align:center;color:#666;margin-bottom:30px}
+table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+th{background:#1f2937;color:white;padding:10px;text-align:left}
+tr:nth-child(even){background:#f9fafb}
+.section{background:white;border-radius:12px;padding:20px;margin:20px 0;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.section h2{margin-top:0;border-bottom:2px solid #e5e7eb;padding-bottom:10px}
+.rec{padding:12px;margin:8px 0;border-radius:8px;border-left:4px solid}
+.rec.haute{border-color:#ef4444;background:#fef2f2}.rec.moyenne{border-color:#eab308;background:#fefce8}
+.rec h3{margin:0 0 4px 0;font-size:15px}.rec p{margin:3px 0;font-size:13px;color:#555}
+</style></head>
+<body>
+<h1>Plan Wolf v3</h1>
+<div class="score-big ${scoreResult.score100 >= 80 ? 'high' : scoreResult.score100 >= 60 ? 'mid' : 'low'}">${scoreResult.score100}/100</div>
+<div class="meta">${scoreResult.trend} | Run #${memory.runs.length + 1} | ${new Date().toLocaleString('fr-FR')} | ${totalTime}s</div>
+
+<table>
+<tr><th>Phase</th><th>Score</th><th>%</th><th style="width:120px">Barre</th><th>Details</th></tr>
+${phaseRows}
+</table>
+
+<div class="section">
+<h2>Score par Feature</h2>
+${featureHtml}
+</div>
+
+<div class="section">
+<h2>Recommandations</h2>
+${(memory._dedupedRecs || []).slice(0, 10).map(r => `<div class="rec ${r.priority.toLowerCase()}">
+<h3>${r.count > 1 ? '(' + r.count + 'x) ' : ''}${r.title}</h3>
+<p><strong>Pourquoi:</strong> ${r.explain}</p>
+<p><strong>Action:</strong> ${r.action}</p>
+<p><strong>Impact:</strong> ${r.impact}</p>
+</div>`).join('\n')}
+</div>
+
+<div class="meta">Genere par Plan Wolf v3 — SpotHitch</div>
+</body></html>`
+
+  writeFileSync(reportPath, html)
+  log(`  Rapport HTML genere: wolf-report.html`)
+} catch (e) {
+  log(`  Rapport HTML: erreur (${e.message})`)
+}
 
 // ═══════════════════════════════════════════════════════════════
 // SAVE TO WOLF MEMORY

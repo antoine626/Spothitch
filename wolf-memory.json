@@ -640,6 +640,150 @@
       ],
       "errors": 1,
       "recommendations": 33
+    },
+    {
+      "date": "2026-02-20T23:56:36.058Z",
+      "score": 78,
+      "confidence": "MOYENNE",
+      "duration": "201.7s",
+      "mode": "full",
+      "bundleSize": 706,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 12
+        },
+        {
+          "name": "Dead Code",
+          "score": 5,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 3,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 5,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 8,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 37
+    },
+    {
+      "date": "2026-02-21T00:00:33.191Z",
+      "score": 77,
+      "confidence": "MOYENNE",
+      "duration": "189.1s",
+      "mode": "quick",
+      "bundleSize": 706,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 10,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 12,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 5,
+          "max": 12
+        },
+        {
+          "name": "Dead Code",
+          "score": 5,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 4,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 3,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 8,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 36
     }
   ],
   "errors": [
@@ -674,18 +818,6 @@
   ],
   "patterns": [],
   "recommendations": [
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"positionSpotlight\" dans src/components/modals/Tutorial.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
-      "followedAt": "2026-02-20T23:26:06.087Z"
-    },
     {
       "source": "Dead Code",
       "text": "Export mort: \"renderThankYouModal\" dans src/components/ui/DonationCard.js — jamais importe ailleurs",
@@ -915,147 +1047,16 @@
       "followedAt": "2026-02-20T23:34:56.442Z"
     },
     {
-      "source": "Regression Guard",
-      "text": "Handler \"openNavigation\" defini dans 3 fichiers: SpotDetail, spots, main",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
-    },
-    {
-      "source": "Regression Guard",
-      "text": "Handler \"openRating\" defini dans 3 fichiers: SpotDetail, spots, main",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
-    },
-    {
-      "source": "Regression Guard",
-      "text": "Handler \"startTutorial\" defini dans 3 fichiers: Tutorial, Profile, main",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
-    },
-    {
-      "source": "Regression Guard",
-      "text": "Handler \"sendMessage\" defini dans 3 fichiers: Chat, Social, main",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
-    },
-    {
-      "source": "Regression Guard",
-      "text": "... et 90 autres handlers dupliques",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "[Regression Guard] ... et 90 autres handlers dupliques",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Regression Guard."
-    },
-    {
-      "source": "Wiring Integrity",
-      "text": "onclick=\"if()\" utilise dans le HTML mais window.if n'existe pas",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Bouton HTML pointe vers une fonction qui n'existe pas",
-      "explain": "Un bouton dans l'interface appelle une fonction (onclick=\"xxx()\") mais cette fonction n'a jamais ete definie. Le bouton ne fait rien quand on clique.",
-      "action": "Soit ajouter window.xxx dans le bon fichier, soit corriger le nom dans le template HTML.",
-      "impact": "Tous les boutons fonctionnent quand on clique dessus."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Fonction morte: \"haversineSimple\" dans src/main.js — definie mais jamais appelee",
-      "createdAt": "2026-02-20T23:10:13.555Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Code mort detecte (fonctions jamais utilisees)",
-      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
-      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
-      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Fonction morte: \"signUp\" dans src/services/firebase.js — definie mais jamais appelee",
-      "createdAt": "2026-02-20T23:10:13.556Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Code mort detecte (fonctions jamais utilisees)",
-      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
-      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
-      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
-    },
-    {
       "source": "Feature Inventory",
-      "text": "22 services orphelins = code mort ou bouton UI manquant",
-      "createdAt": "2026-02-20T23:26:06.085Z",
-      "followed": false,
+      "text": "MEMOIRE PERIMEE: features.md dit \"104 tests wiring\" mais il y en a 3",
+      "createdAt": "2026-02-20T23:30:43.668Z",
+      "followed": true,
       "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"markMessagesAsRead\" dans src/services/chat.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:26:06.085Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"unsubscribeAll\" dans src/services/chat.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:26:06.085Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"shouldShowDailyRewardPopup\" dans src/services/dailyReward.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:26:06.085Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Export mort: \"grantStreakProtection\" dans src/services/dailyReward.js — jamais importe ailleurs",
-      "createdAt": "2026-02-20T23:26:06.085Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Services codes mais invisibles pour les utilisateurs",
-      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
-      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
-      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs."
+      "title": "Des tests echouent",
+      "explain": "Certains tests automatiques detectent des problemes. Ca veut dire qu'une fonctionnalite est peut-etre cassee.",
+      "action": "Lancer npx vitest run pour voir les tests qui echouent et corriger les erreurs.",
+      "impact": "Toutes les fonctionnalites marchent comme prevu.",
+      "followedAt": "2026-02-21T00:00:33.098Z"
     },
     {
       "source": "Dead Code",
@@ -1146,17 +1147,6 @@
       "impact": "Code plus propre, plus facile a maintenir, et le score Code Quality passe a 15/15."
     },
     {
-      "source": "Feature Inventory",
-      "text": "MEMOIRE PERIMEE: features.md dit \"104 tests wiring\" mais il y en a 3",
-      "createdAt": "2026-02-20T23:30:43.668Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Des tests echouent",
-      "explain": "Certains tests automatiques detectent des problemes. Ca veut dire qu'une fonctionnalite est peut-etre cassee.",
-      "action": "Lancer npx vitest run pour voir les tests qui echouent et corriger les erreurs.",
-      "impact": "Toutes les fonctionnalites marchent comme prevu."
-    },
-    {
       "source": "Wiring Integrity",
       "text": "28 modales sans close handler",
       "createdAt": "2026-02-20T23:30:43.668Z",
@@ -1243,17 +1233,171 @@
       "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
       "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
       "impact": "Code plus leger, plus clair, et plus facile a maintenir."
+    },
+    {
+      "source": "Build",
+      "text": "Chunk trop gros: vendor-maplibre-CrWlTheU.js (998KB > 300KB) — verifier les imports",
+      "createdAt": "2026-02-20T23:56:35.959Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "L'app est un peu lourde a charger",
+      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
+      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
+      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G."
+    },
+    {
+      "source": "Build",
+      "text": "Chunk trop gros: index-BIXzjyCc.js (706KB > 300KB) — verifier les imports",
+      "createdAt": "2026-02-20T23:56:35.959Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "L'app est un peu lourde a charger",
+      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
+      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
+      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G."
+    },
+    {
+      "source": "Build",
+      "text": "Chunk trop gros: vendor-firebase-QnUmOxgy.js (364KB > 300KB) — verifier les imports",
+      "createdAt": "2026-02-20T23:56:35.959Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "L'app est un peu lourde a charger",
+      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
+      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
+      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"setAuthMode\" defini dans 3 fichiers: Auth, auth, main",
+      "createdAt": "2026-02-20T23:56:35.959Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"handleGoogleSignIn\" defini dans 3 fichiers: Auth, auth, main",
+      "createdAt": "2026-02-20T23:56:35.959Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"handleForgotPassword\" defini dans 3 fichiers: Auth, auth, main",
+      "createdAt": "2026-02-20T23:56:35.959Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Multi-Level Audit",
+      "text": "npm audit: vulnerabilites critiques/hautes detectees — lancer npm audit fix",
+      "createdAt": "2026-02-20T23:56:35.960Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "[Multi-Level Audit] npm audit: vulnerabilites critiques/hautes detectees — lance",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Multi-Level Audit."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"openNavigation\" defini dans 3 fichiers: SpotDetail, spots, main",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"openRating\" defini dans 3 fichiers: SpotDetail, spots, main",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"startTutorial\" defini dans 3 fichiers: Tutorial, Profile, main",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"sendMessage\" defini dans 3 fichiers: Chat, Social, main",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
+    },
+    {
+      "source": "Regression Guard",
+      "text": "... et 90 autres handlers dupliques",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "[Regression Guard] ... et 90 autres handlers dupliques",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Regression Guard."
+    },
+    {
+      "source": "Wiring Integrity",
+      "text": "onclick=\"if()\" utilise dans le HTML mais window.if n'existe pas",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Bouton HTML pointe vers une fonction qui n'existe pas",
+      "explain": "Un bouton dans l'interface appelle une fonction (onclick=\"xxx()\") mais cette fonction n'a jamais ete definie. Le bouton ne fait rien quand on clique.",
+      "action": "Soit ajouter window.xxx dans le bon fichier, soit corriger le nom dans le template HTML.",
+      "impact": "Tous les boutons fonctionnent quand on clique dessus."
+    },
+    {
+      "source": "Dead Code",
+      "text": "Fonction morte: \"haversineSimple\" dans src/main.js — definie mais jamais appelee",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
     }
   ],
   "featureBaseline": null,
   "dependencyGraph": {
     "totalFiles": 205,
     "totalLinks": 587,
-    "updatedAt": "2026-02-20T23:34:41.136Z"
+    "updatedAt": "2026-02-21T00:00:24.292Z"
   },
   "selfEvaluation": {
-    "date": "2026-02-20T23:34:56.525Z",
-    "score": 78,
+    "date": "2026-02-21T00:00:33.169Z",
+    "score": 77,
     "perPhase": [
       {
         "name": "Code Quality",
@@ -1302,13 +1446,13 @@
       },
       {
         "name": "Lighthouse",
-        "pct": 38,
-        "verdict": "CRITIQUE"
+        "pct": 50,
+        "verdict": "A AMELIORER"
       },
       {
         "name": "Screenshots",
-        "pct": 100,
-        "verdict": "PARFAIT"
+        "pct": 60,
+        "verdict": "A AMELIORER"
       },
       {
         "name": "Feature Scores",
@@ -1317,19 +1461,128 @@
       }
     ],
     "globalInsights": [
-      "Volume de recommandations raisonnable (33).",
-      "Ecart de 62% entre phases — \"Lighthouse\" tire le score vers le bas.",
-      "Tendance positive: score actuel (78) au-dessus de la moyenne des 5 derniers runs (73).",
+      "Volume de recommandations raisonnable (36).",
+      "Tendance positive: score actuel (77) au-dessus de la moyenne des 5 derniers runs (76).",
       "Couverture de tests: 158/205 fichiers src/ references dans les tests (77%)."
     ],
     "evolutionItems": [
       "\"Regression Guard\" bloquee a 40% depuis 3 runs. Besoin d'une action differente.",
       "\"Wiring Integrity\" bloquee a 42% depuis 3 runs. Besoin d'une action differente.",
-      "\"Dead Code\" bloquee a 10% depuis 3 runs. Besoin d'une action differente.",
-      "Priorite #1 pour le prochain run: ameliorer \"Lighthouse\" (38%).",
+      "\"Lighthouse\" bloquee a 38% depuis 3 runs. Besoin d'une action differente.",
+      "Priorite #1 pour le prochain run: ameliorer \"Regression Guard\" (40%).",
       "Prochain ajout possible: phase \"Test Coverage\" (% de fichiers avec tests)."
     ],
     "coveragePct": 77,
-    "recommendationFollowRate": 48
-  }
+    "recommendationFollowRate": 42
+  },
+  "_dedupedRecs": [
+    {
+      "source": "Code Quality",
+      "text": "Lancer npx eslint src/ --fix pour corriger automatiquement",
+      "createdAt": "2026-02-21T00:00:33.096Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Nettoyage automatique du code (ESLint)",
+      "explain": "ESLint trouve des petites erreurs de style dans le code (espaces, variables inutilisees). Ca ne casse rien mais ca rend le code moins propre.",
+      "action": "Lancer la commande : npx eslint src/ --fix (ca corrige tout automatiquement).",
+      "impact": "Code plus propre, plus facile a maintenir, et le score Code Quality passe a 15/15.",
+      "count": 1
+    },
+    {
+      "source": "Build",
+      "text": "Chunk trop gros: vendor-maplibre-CrWlTheU.js (998KB > 300KB) — verifier les imports",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "L'app est un peu lourde a charger",
+      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
+      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
+      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G.",
+      "count": 3
+    },
+    {
+      "source": "Feature Inventory",
+      "text": "22 services orphelins = code mort ou bouton UI manquant",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Services codes mais invisibles pour les utilisateurs",
+      "explain": "Ces fonctionnalites ont ete codees mais ne sont accessibles nulle part dans l'app. Aucun bouton ne les ouvre, aucun ecran ne les affiche. C'est du code \"fantome\" — il existe mais personne ne peut l'utiliser.",
+      "action": "Deux choix : (A) Supprimer les fichiers inutiles pour alleger le code, ou (B) Les brancher dans l'app en ajoutant les boutons/ecrans necessaires.",
+      "impact": "Option A = code plus leger et plus clair. Option B = nouvelles fonctionnalites pour les utilisateurs.",
+      "count": 11
+    },
+    {
+      "source": "Regression Guard",
+      "text": "Handler \"openSOS\" defini dans 3 fichiers: AdminPanel, modals, main",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Un handler est defini dans plusieurs fichiers",
+      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
+      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
+      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises.",
+      "count": 10
+    },
+    {
+      "source": "Regression Guard",
+      "text": "... et 90 autres handlers dupliques",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "[Regression Guard] ... et 90 autres handlers dupliques",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Regression Guard.",
+      "count": 1
+    },
+    {
+      "source": "Wiring Integrity",
+      "text": "28 modales sans close handler",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Des fenetres popup ne peuvent pas etre fermees",
+      "explain": "Certaines fenetres (modales) s'ouvrent mais n'ont pas de bouton \"fermer\" fonctionnel. L'utilisateur reste bloque s'il ouvre une de ces fenetres.",
+      "action": "Ajouter un handler window.closeXxx pour chaque modale qui en manque un.",
+      "impact": "Les utilisateurs pourront fermer toutes les fenetres popup sans rester bloques.",
+      "count": 1
+    },
+    {
+      "source": "Wiring Integrity",
+      "text": "onclick=\"if()\" utilise dans le HTML mais window.if n'existe pas",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Bouton HTML pointe vers une fonction qui n'existe pas",
+      "explain": "Un bouton dans l'interface appelle une fonction (onclick=\"xxx()\") mais cette fonction n'a jamais ete definie. Le bouton ne fait rien quand on clique.",
+      "action": "Soit ajouter window.xxx dans le bon fichier, soit corriger le nom dans le template HTML.",
+      "impact": "Tous les boutons fonctionnent quand on clique dessus.",
+      "count": 1
+    },
+    {
+      "source": "Dead Code",
+      "text": "Fonction morte: \"haversineSimple\" dans src/main.js — definie mais jamais appelee",
+      "createdAt": "2026-02-21T00:00:33.097Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir.",
+      "count": 7
+    },
+    {
+      "source": "Multi-Level Audit",
+      "text": "npm audit: vulnerabilites critiques/hautes detectees — lancer npm audit fix",
+      "createdAt": "2026-02-21T00:00:33.098Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "[Multi-Level Audit] npm audit: vulnerabilites critiques/hautes detectees — lance",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Multi-Level Audit.",
+      "count": 1
+    }
+  ]
 }
