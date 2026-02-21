@@ -299,6 +299,10 @@ const MAIN_JS_HANDLERS = [
   'showCookieCustomize', 'hideCookieCustomize', 'saveCustomCookiePreferences',
   // Profile extras (defined in Profile.js)
   'editAvatar', 'toggleProximityAlertsSetting',
+  // Profile new features (#57-#63) (defined in Profile.js)
+  'editBio', 'saveBio', 'editLanguages',
+  'openReferences', 'closeReferences',
+  'togglePrivacy',
   // Map extras (defined in Map.js)
   'searchLocation',
   // Chat extras (defined in Chat.js)
@@ -506,6 +510,10 @@ const mockState = {
   verificationLevel: 0,
   profileFrame: null,
   profileTitle: null,
+  countriesVisited: ['FR', 'DE', 'ES'],
+  references: [
+    { from: 'Alice', text: 'Great traveler!', rating: 5, date: '2026-01-15' },
+  ],
 }
 
 // ---- Import render functions ----

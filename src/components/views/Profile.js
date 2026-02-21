@@ -52,6 +52,193 @@ export function renderProfile(state) {
       <!-- Trust Score -->
       ${renderTrustScoreCard()}
 
+      <!-- Bio (#61) -->
+      ${(() => {
+        const bio = typeof localStorage !== 'undefined' ? (localStorage.getItem('spothitch_bio') || '') : ''
+        return `
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold flex items-center gap-2">
+            ${icon('user', 'w-5 h-5 text-slate-400')}
+            ${t('profileBio') || 'À propos de moi'}
+          </h3>
+          <button
+            onclick="editBio()"
+            class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1"
+            aria-label="${t('editBio') || 'Modifier la bio'}"
+          >
+            ${icon('pencil', 'w-4 h-4')}
+            ${t('edit') || 'Modifier'}
+          </button>
+        </div>
+        ${bio
+          ? `<p class="text-sm text-slate-300 leading-relaxed">${bio}</p>
+             <p class="text-xs text-slate-500 mt-2">${bio.length}/200</p>`
+          : `<p class="text-sm text-slate-500 italic">${t('bioEmpty') || 'Dis-leur qui tu es...'}</p>
+             <button
+               onclick="editBio()"
+               class="mt-3 text-xs text-primary-400 hover:text-primary-300"
+             >${t('addBio') || 'Ajouter une bio'}</button>`
+        }
+      </div>`
+      })()}
+
+      <!-- Languages (#59) -->
+      ${(() => {
+        const langs = typeof localStorage !== 'undefined'
+          ? JSON.parse(localStorage.getItem('spothitch_languages') || '[]')
+          : []
+        const langTags = langs.length
+          ? langs.map(l => `<span class="px-3 py-1 rounded-full bg-primary-500/20 text-primary-300 text-sm font-medium">${l}</span>`).join('')
+          : ''
+        return `
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold flex items-center gap-2">
+            ${icon('message-circle', 'w-5 h-5 text-blue-400')}
+            ${t('languagesSpoken') || 'Langues parlées'}
+          </h3>
+          <button
+            onclick="editLanguages()"
+            class="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-400 hover:bg-primary-500/30 transition-all"
+            aria-label="${t('addLanguage') || 'Ajouter une langue'}"
+          >
+            ${icon('plus', 'w-4 h-4')}
+          </button>
+        </div>
+        ${langs.length
+          ? `<div class="flex flex-wrap gap-2">${langTags}</div>`
+          : `<p class="text-sm text-slate-500 italic">${t('languagesEmpty') || 'Quelles langues parles-tu ?'}</p>
+             <button
+               onclick="editLanguages()"
+               class="mt-3 text-xs text-primary-400 hover:text-primary-300"
+             >${t('addLanguage') || 'Ajouter une langue'}</button>`
+        }
+      </div>`
+      })()}
+
+      <!-- Travel Map (#57) -->
+      ${(() => {
+        const visited = state.countriesVisited || []
+        const countryFlagMap = {
+          FR: '🇫🇷', DE: '🇩🇪', ES: '🇪🇸', IT: '🇮🇹', GB: '🇬🇧',
+          PT: '🇵🇹', NL: '🇳🇱', BE: '🇧🇪', CH: '🇨🇭', AT: '🇦🇹',
+          PL: '🇵🇱', CZ: '🇨🇿', HU: '🇭🇺', SK: '🇸🇰', RO: '🇷🇴',
+          BG: '🇧🇬', HR: '🇭🇷', RS: '🇷🇸', GR: '🇬🇷', TR: '🇹🇷',
+          US: '🇺🇸', CA: '🇨🇦', MX: '🇲🇽', BR: '🇧🇷', AR: '🇦🇷',
+          RU: '🇷🇺', UA: '🇺🇦', SE: '🇸🇪', NO: '🇳🇴', DK: '🇩🇰',
+          FI: '🇫🇮', IE: '🇮🇪', MA: '🇲🇦', TN: '🇹🇳', EG: '🇪🇬',
+          IN: '🇮🇳', CN: '🇨🇳', JP: '🇯🇵', AU: '🇦🇺', NZ: '🇳🇿',
+          TH: '🇹🇭', VN: '🇻🇳', ID: '🇮🇩', ZA: '🇿🇦', KE: '🇰🇪',
+        }
+        const flags = visited.map(code => countryFlagMap[code] || '🏳️')
+        return `
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold flex items-center gap-2">
+            ${icon('map', 'w-5 h-5 text-emerald-400')}
+            ${t('travelMap') || 'Pays visités'}
+          </h3>
+          ${visited.length ? `<span class="text-sm text-emerald-400 font-bold">${visited.length} ${t('countries') || 'pays'}</span>` : ''}
+        </div>
+        ${visited.length
+          ? `<div class="flex flex-wrap gap-2">${flags.map((f, i) => `
+              <div class="relative group">
+                <span class="text-2xl cursor-default" title="${visited[i]}">${f}</span>
+              </div>`).join('')}
+            </div>`
+          : `<div class="text-center py-4">
+               <div class="text-4xl mb-2">🌍</div>
+               <p class="text-sm text-slate-400">${t('travelMapEmpty') || 'Tes drapeaux apparaîtront après tes premiers check-ins !'}</p>
+             </div>`
+        }
+      </div>`
+      })()}
+
+      <!-- References (#58) -->
+      ${(() => {
+        const refs = state.references || []
+        const last3 = refs.slice(-3).reverse()
+        const stars = (r) => '★'.repeat(r) + '☆'.repeat(5 - r)
+        return `
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold flex items-center gap-2">
+            ${icon('star', 'w-5 h-5 text-amber-400')}
+            ${t('references') || 'Références'}
+          </h3>
+          ${refs.length > 3
+            ? `<button onclick="openReferences()" class="text-xs text-primary-400 hover:text-primary-300">${t('seeAll') || 'Voir tout'} (${refs.length})</button>`
+            : ''
+          }
+        </div>
+        ${last3.length
+          ? last3.map(ref => `
+            <div class="p-3 rounded-xl bg-white/5 mb-2 last:mb-0">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-sm font-medium text-slate-300">${ref.from || t('traveler') || 'Voyageur'}</span>
+                <span class="text-amber-400 text-xs">${stars(ref.rating || 5)}</span>
+              </div>
+              <p class="text-sm text-slate-400">${ref.text || ''}</p>
+              ${ref.date ? `<p class="text-xs text-slate-600 mt-1">${ref.date}</p>` : ''}
+            </div>`).join('')
+          : `<div class="text-center py-4">
+               <div class="text-3xl mb-2">💬</div>
+               <p class="text-sm text-slate-400">${t('referencesEmpty') || 'Demande à tes compagnons de route de te laisser une référence !'}</p>
+               <button
+                 onclick="openReferences()"
+                 class="mt-3 text-xs text-primary-400 hover:text-primary-300"
+               >${t('askForReference') || 'Demander une référence'}</button>
+             </div>`
+        }
+      </div>`
+      })()}
+
+      <!-- Shared Trips (#63) -->
+      ${(() => {
+        const trips = typeof localStorage !== 'undefined'
+          ? JSON.parse(localStorage.getItem('spothitch_shared_trips') || '[]')
+          : []
+        const recent = trips.slice(-3).reverse()
+        return `
+      <div class="card p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-bold flex items-center gap-2">
+            ${icon('route', 'w-5 h-5 text-purple-400')}
+            ${t('sharedTrips') || 'Voyages partagés'}
+          </h3>
+          <button
+            onclick="shareTrip()"
+            class="flex items-center gap-1 text-xs text-purple-400 hover:text-purple-300 transition-all"
+          >
+            ${icon('plus', 'w-4 h-4')}
+            ${t('shareNewTrip') || 'Partager'}
+          </button>
+        </div>
+        ${recent.length
+          ? recent.map(trip => `
+            <div class="p-3 rounded-xl bg-white/5 mb-2 last:mb-0">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  ${icon('navigation', 'w-4 h-4 text-purple-400')}
+                  <span class="text-sm font-medium text-slate-300">${trip.destination || ''}</span>
+                </div>
+                ${trip.date ? `<span class="text-xs text-slate-500">${trip.date}</span>` : ''}
+              </div>
+              ${trip.notes ? `<p class="text-xs text-slate-500 mt-1 pl-6">${trip.notes}</p>` : ''}
+            </div>`).join('')
+          : `<div class="text-center py-4">
+               <div class="text-3xl mb-2">🛣️</div>
+               <p class="text-sm text-slate-400">${t('sharedTripsEmpty') || 'Partage tes aventures avec la communauté !'}</p>
+               <button
+                 onclick="shareTrip()"
+                 class="mt-3 text-xs text-purple-400 hover:text-purple-300"
+               >${t('shareFirstTrip') || 'Partager mon premier voyage'}</button>
+             </div>`
+        }
+      </div>`
+      })()}
+
       <!-- Friends Link -->
       <button
         onclick="changeTab('social'); setSocialTab('friends');"
@@ -261,6 +448,59 @@ export function renderProfile(state) {
           </div>
           ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
         </button>
+
+        <!-- Privacy Controls (#62) -->
+        ${(() => {
+          const privacy = typeof localStorage !== 'undefined'
+            ? JSON.parse(localStorage.getItem('spothitch_privacy') || '{"showToNonFriends":true,"showLocationHistory":false,"showTravelStats":true}')
+            : { showToNonFriends: true, showLocationHistory: false, showTravelStats: true }
+          return `
+        <div class="p-3 rounded-xl bg-white/5 space-y-3">
+          <div class="flex items-center gap-2 mb-1">
+            ${icon('lock', 'w-5 h-5 text-slate-400')}
+            <span class="font-medium">${t('privacyControls') || 'Confidentialité'}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-sm">${t('showToNonFriends') || 'Profil visible par tous'}</span>
+            </div>
+            <button
+              onclick="togglePrivacy('showToNonFriends')"
+              class="w-12 h-7 rounded-full ${privacy.showToNonFriends ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner flex-shrink-0"
+              role="switch"
+              aria-checked="${privacy.showToNonFriends}"
+            >
+              <div class="w-5 h-5 rounded-full bg-white shadow-md absolute top-1 transition-all ${privacy.showToNonFriends ? 'left-6' : 'left-1'}"></div>
+            </button>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-sm">${t('showLocationHistory') || 'Historique de position'}</span>
+            </div>
+            <button
+              onclick="togglePrivacy('showLocationHistory')"
+              class="w-12 h-7 rounded-full ${privacy.showLocationHistory ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner flex-shrink-0"
+              role="switch"
+              aria-checked="${privacy.showLocationHistory}"
+            >
+              <div class="w-5 h-5 rounded-full bg-white shadow-md absolute top-1 transition-all ${privacy.showLocationHistory ? 'left-6' : 'left-1'}"></div>
+            </button>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-sm">${t('showTravelStats') || 'Statistiques visibles'}</span>
+            </div>
+            <button
+              onclick="togglePrivacy('showTravelStats')"
+              class="w-12 h-7 rounded-full ${privacy.showTravelStats ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner flex-shrink-0"
+              role="switch"
+              aria-checked="${privacy.showTravelStats}"
+            >
+              <div class="w-5 h-5 rounded-full bg-white shadow-md absolute top-1 transition-all ${privacy.showTravelStats ? 'left-6' : 'left-1'}"></div>
+            </button>
+          </div>
+        </div>`
+        })()}
       </div>
 
       <!-- Auth -->
@@ -398,6 +638,78 @@ window.openBlockedUsers = () => {
 
 window.closeBlockedUsers = () => {
   window.setState?.({ showBlockedUsers: false });
+};
+
+// --- Bio handlers (#61) ---
+window.editBio = () => {
+  const current = localStorage.getItem('spothitch_bio') || '';
+  const newBio = prompt(t('bioPrompt') || 'À propos de toi (200 caractères max) :', current);
+  if (newBio === null) return; // cancelled
+  const trimmed = newBio.trim().slice(0, 200);
+  localStorage.setItem('spothitch_bio', trimmed);
+  window.showToast?.(t('bioSaved') || 'Bio enregistrée !', 'success');
+  window.render?.();
+};
+
+window.saveBio = (text) => {
+  const trimmed = (text || '').trim().slice(0, 200);
+  localStorage.setItem('spothitch_bio', trimmed);
+  window.showToast?.(t('bioSaved') || 'Bio enregistrée !', 'success');
+  window.render?.();
+};
+
+// --- Languages handlers (#59) ---
+window.editLanguages = () => {
+  const COMMON_LANGUAGES = [
+    'English', 'Français', 'Español', 'Deutsch', 'Português',
+    'Italiano', 'Русский', 'العربية', '中文', '日本語', 'हिन्दी',
+  ];
+  const current = JSON.parse(localStorage.getItem('spothitch_languages') || '[]');
+  const input = prompt(
+    (t('languagesPrompt') || 'Langues parlées (séparées par des virgules) :') + '\n' +
+    (t('languagesSuggestions') || 'Suggestions : ') + COMMON_LANGUAGES.join(', '),
+    current.join(', ')
+  );
+  if (input === null) return; // cancelled
+  const parsed = input.split(',').map(l => l.trim()).filter(Boolean).slice(0, 10);
+  localStorage.setItem('spothitch_languages', JSON.stringify(parsed));
+  window.showToast?.(t('languagesSaved') || 'Langues enregistrées !', 'success');
+  window.render?.();
+};
+
+// --- References handlers (#58) ---
+window.openReferences = () => {
+  window.setState?.({ showReferences: true });
+};
+
+window.closeReferences = () => {
+  window.setState?.({ showReferences: false });
+};
+
+// --- Privacy controls handler (#62) ---
+window.togglePrivacy = (key) => {
+  const defaults = { showToNonFriends: true, showLocationHistory: false, showTravelStats: true };
+  const privacy = JSON.parse(localStorage.getItem('spothitch_privacy') || JSON.stringify(defaults));
+  privacy[key] = !privacy[key];
+  localStorage.setItem('spothitch_privacy', JSON.stringify(privacy));
+  window.render?.();
+};
+
+// --- Shared trips handler (#63) ---
+window.shareTrip = () => {
+  const destination = prompt(t('shareTripDestination') || 'Destination du voyage :');
+  if (!destination) return;
+  const notes = prompt(t('shareTripNotes') || 'Notes (optionnel) :') || '';
+  const trips = JSON.parse(localStorage.getItem('spothitch_shared_trips') || '[]');
+  const now = new Date();
+  trips.push({
+    destination: destination.trim(),
+    date: now.toLocaleDateString(),
+    notes: notes.trim(),
+  });
+  localStorage.setItem('spothitch_shared_trips', JSON.stringify(trips));
+  window.showToast?.(t('tripShared') || 'Voyage partagé !', 'success');
+  window.render?.();
 };
 
 export default { renderProfile };
