@@ -12,7 +12,7 @@
 - **Site live** : spothitch.com (GitHub Pages, HTTPS actif, cert expire 2026-05-13)
 - **Spots** : 14 669 spots dans 137 pays (source Hitchmap/Hitchwiki ODBL)
 - **Langues** : FR, EN, ES, DE
-- **Tests** : 104 tests wiring, tests integration, E2E Playwright
+- **Tests** : 35 fichiers, 1276 assertions (wiring + integration + unit), E2E Playwright
 
 ---
 
@@ -61,6 +61,16 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session ~2026-02-21 (session 8 — WOLF FIXES)
+- Fix window.setSocialTab manquant (détecté par Wolf — onclick dans 6 fichiers mais jamais enregistré)
+- Suppression 23 fichiers de tests orphelins (~21 250 lignes) qui testaient des services supprimés en session 7
+- Suppression exports morts : shouldShowDailyRewardPopup, grantStreakProtection (dailyReward.js), recordCheckinWithStats (statsCalculator.js)
+- Fix Wolf faux positifs : javascript:void(0) avec onclick n'est plus compté comme lien mort
+- Fix Wolf : filtrage mots-clés JS (if/for/etc) dans extraction onclick aux 3 endroits du script
+- Fix Wolf : feature inventory mis à jour (Chat→Conversations.js, Friends→Friends.js, Feed→Feed.js dans social/)
+- Tests : 35 fichiers, 1276 assertions, 100% passent
+- Build OK, pushé
 
 ### Session ~2026-02-21 (session 7 — MASSIVE UPDATE)
 - Plan Wolf v4 : upgrade v3→v4, 16 phases, recherche web compétitive, audit boutons/liens, 2x attention fichiers modifiés
