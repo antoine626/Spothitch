@@ -101,9 +101,6 @@ export function renderTutorial(state) {
   `
 }
 
-// Position spotlight — kept for compatibility
-export function positionSpotlight() {}
-
 export function cleanupTutorialTargets() {
   document.querySelectorAll('[data-tutorial-target]').forEach(el => {
     el.style.zIndex = ''
@@ -112,7 +109,14 @@ export function cleanupTutorialTargets() {
   })
 }
 
-export function executeStepAction() {}
+export function executeStepAction(stepIndex) {
+  const step = tutorialSteps[stepIndex]
+  if (!step) return
+  // Ensure map tab is active during tutorial
+  if (typeof window.changeTab === 'function') {
+    window.changeTab('map')
+  }
+}
 
 // Fallback global handlers (main.js has priority)
 if (typeof window.nextTutorial === 'undefined') {
@@ -164,4 +168,4 @@ if (typeof window.startTutorial === 'undefined') {
 }
 
 export { tutorialSteps }
-export default { renderTutorial, tutorialSteps, positionSpotlight, executeStepAction, cleanupTutorialTargets }
+export default { renderTutorial, tutorialSteps, executeStepAction, cleanupTutorialTargets }

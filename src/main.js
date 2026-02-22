@@ -1513,9 +1513,9 @@ window.acceptFriendRequest = (_requestId) => {
   // Accept friend logic
   showToast(t('friendAccepted') || 'Ami accepté !', 'success');
 };
-window.rejectFriendRequest = (_requestId) => {
-  // Reject friend logic
-};
+window.declineFriendRequest = window.declineFriendRequest || ((_requestId) => {
+  showToast(t('requestDeclined') || 'Request declined', 'info')
+});
 window.sendPrivateMessage = (_friendId) => {
   const input = document.getElementById('private-chat-input');
   const text = input?.value?.trim();

@@ -604,7 +604,14 @@ window.acceptFriendRequest = async (_requestId) => {
   } catch { /* no-op */ }
 }
 
-window.declineFriendRequest = () => { /* no-op */ }
+window.declineFriendRequest = (requestId) => {
+  const state = window.getState?.()
+  if (state?.friendRequests) {
+    const updated = state.friendRequests.filter(r => r.id !== requestId)
+    window.setState?.({ friendRequests: updated })
+  }
+  window.showToast?.(t('requestDeclined') || 'Request declined', 'info')
+}
 
 window.showAddFriend = () => {
   window.setState?.({ socialSubTab: 'friends' })

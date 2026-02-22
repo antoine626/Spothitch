@@ -78,7 +78,7 @@ export function renderFriends(state) {
                         class="px-4 py-2.5 bg-amber-500 text-white text-sm rounded-xl">
                   ${t('accept') || 'Accepter'}
                 </button>
-                <button onclick="rejectFriendRequest('${request.id}')"
+                <button onclick="declineFriendRequest('${request.id}')"
                         class="p-1.5 text-slate-400 hover:text-red-400">
                   ✕
                 </button>

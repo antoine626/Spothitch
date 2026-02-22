@@ -1460,6 +1460,8 @@ export default {
   noGroupYet: 'Aún sin grupo',
   createGroupToTravel: '¡Crea un grupo para viajar juntos!',
   friendAdded: '¡Amigo añadido!',
+  requestDeclined: 'Solicitud rechazada',
+  deviceRemoved: 'Dispositivo eliminado',
   enterTravelerName: 'Introduce un nombre de viajero',
   alreadyFriend: 'Este amigo ya está en tu lista',
   // Social tabs & sections

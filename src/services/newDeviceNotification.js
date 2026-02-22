@@ -606,6 +606,21 @@ export function renderDeviceList() {
   `
 }
 
+// Window handler for device removal from UI
+window.removeKnownDevice = (fingerprint) => {
+  const result = removeDevice(fingerprint)
+  if (result.success) {
+    showToast(t('deviceRemoved') || 'Device removed', 'success')
+    // Re-render the device list if visible
+    const container = document.getElementById('known-devices-list')
+    if (container) {
+      container.innerHTML = renderDeviceList()
+    }
+  } else {
+    showToast(result.error || t('deviceRemoveFailed') || 'Could not remove device', 'error')
+  }
+}
+
 // Export all functions as default object
 export default {
   generateDeviceFingerprint,

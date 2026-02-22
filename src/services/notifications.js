@@ -671,10 +671,6 @@ export function notifyLevelUp(newLevel, rewards = {}) {
   announce((t('notifLevelUpAnnounce') || 'Niveau {level} atteint').replace('{level}', newLevel));
 }
 
-/** Streak reminder (removed - no-op) */
-export function checkStreakReminder() {}
-export function startStreakReminderCheck() {}
-export function stopStreakReminderCheck() {}
 
 // ==================== DAILY REWARD NOTIFICATION ====================
 
@@ -804,9 +800,6 @@ export default {
   // Gamification notifications
   notifyBadgeUnlocked,
   notifyLevelUp,
-  checkStreakReminder,
-  startStreakReminderCheck,
-  stopStreakReminderCheck,
   notifyDailyRewardAvailable,
   // Helper functions
   calculateDistance,

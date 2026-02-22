@@ -82,7 +82,7 @@ const MAIN_JS_HANDLERS = [
   'setGuideSection', 'selectGuide', 'filterGuides',
   // Friends
   'showFriends', 'openFriendsChat', 'showAddFriend', 'closeAddFriend',
-  'acceptFriendRequest', 'rejectFriendRequest', 'declineFriendRequest',
+  'acceptFriendRequest', 'declineFriendRequest',
   'sendPrivateMessage', 'copyFriendLink',
   'openFriendChat', 'closeFriendChat', 'showFriendProfile',
   // Friend Challenges
