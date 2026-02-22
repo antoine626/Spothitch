@@ -466,6 +466,7 @@ window.closeMyData = () => setState({ showMyData: false });
 window.downloadMyData = downloadUserData;
 window.requestAccountDeletion = requestAccountDeletion;
 window.openConsentSettings = openConsentSettings;
+window.closeConsentSettings = () => setState({ showConsentSettings: false });
 window.openMyData = () => setState({ showMyData: true });
 
 export default { renderMyDataModal, downloadUserData, requestAccountDeletion };

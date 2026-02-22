@@ -42,11 +42,11 @@ const MAIN_JS_HANDLERS = [
   // Identity Verification
   'openIdentityVerification', 'closeIdentityVerification', 'showIdentityVerification',
   // Welcome
-  'selectAvatar', 'completeWelcome', 'skipWelcome',
+  'selectAvatar', 'completeWelcome', 'skipWelcome', 'closeWelcome',
   // Settings
   'openSettings', 'closeSettings', 'setLanguage',
   // Tutorial
-  'startTutorial', 'nextTutorial', 'prevTutorial', 'skipTutorial', 'finishTutorial',
+  'startTutorial', 'nextTutorial', 'prevTutorial', 'skipTutorial', 'finishTutorial', 'closeTutorial',
   // Chat
   'setChatRoom', 'sendMessage',
   // Filters / Map layout
@@ -244,7 +244,7 @@ const MAIN_JS_HANDLERS = [
   'submitCommunityTip', 'voteCommunityTip',
   // main.js — missing handlers
   'showToast', 'openSpotDetail',
-  'acceptLocationPermission', 'declineLocationPermission',
+  'acceptLocationPermission', 'declineLocationPermission', 'closeLocationPermission',
   'showFriendOptions', 'showFullNavigation',
   'startIdentityVerification', 'submitVerificationPhotos',
   'getTrustLevel', 'getTrustBadge',
@@ -376,6 +376,14 @@ const MAIN_JS_HANDLERS = [
   'quickValidateSpot', 'quickReportSpot', 'dismissProximityAlert', 'initProximityNotify',
   // City Panel (defined in main.js)
   'openCityPanel', 'closeCityPanel', 'selectCityRoute', 'viewCitySpotsOnMap',
+  // Missing close handlers (session 2026-02-22)
+  'closeLanding', 'closeSafety',
+  'closeConsentSettings', 'closeJoinTeam', 'closeTeamSettings',
+  'closeTitlePopup', 'closeSeasonRewards', 'closeAnniversaryModal',
+  'closeAmbassadorSuccess', 'closeAmbassadorProfile', 'closeContactAmbassador',
+  'closeReviewForm', 'closeReplyModal', 'closeAddForbiddenWordModal',
+  'closeRouteAmenities', 'closePostTravelPlan', 'closePhotoUpload',
+  'closeLanguageSelector', 'closeCookieBanner',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

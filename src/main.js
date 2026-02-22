@@ -779,6 +779,7 @@ window.declineLocationPermission = () => {
   setState({ showLocationPermission: false, locationPermissionDenied: true })
   showToast(t('locationLater') || 'Vous pouvez activer la localisation plus tard dans les paramètres', 'info')
 }
+window.closeLocationPermission = () => setState({ showLocationPermission: false })
 window.openRating = (spotId) => setState({ showRating: true, ratingSpotId: spotId });
 window.closeRating = () => setState({ showRating: false, ratingSpotId: null });
 window.openNavigation = (lat, lng) => {
@@ -1140,6 +1141,7 @@ window.completeWelcome = () => {
 window.skipWelcome = () => {
   setState({ showWelcome: false, pendingProfileAction: null })
 }
+window.closeWelcome = () => setState({ showWelcome: false, pendingProfileAction: null })
 // Require profile before contributing — returns true if profile exists
 window.requireProfile = (action) => {
   const state = getState()
@@ -1206,6 +1208,7 @@ window.skipTutorial = () => {
   actions.changeTab('map');
   showToast(t('tutorialSkipped') || 'Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
 };
+window.closeTutorial = () => setState({ showTutorial: false, tutorialStep: 0 })
 window.finishTutorial = async () => {
   const state = getState()
   const tutorialCompleted = state.tutorialCompleted
@@ -1329,6 +1332,26 @@ window.toggleGasStationsOnMap = () => {
   setState({ showGasStationsOnMap: !s.showGasStationsOnMap });
 };
 
+// Missing close handlers for modals/overlays
+window.closeTitlePopup = () => setState({ showTitlePopup: false, newTitle: null })
+window.closeSeasonRewards = () => setState({ showSeasonRewards: false })
+window.closeAnniversaryModal = () => setState({ showAnniversaryModal: false })
+window.closeAmbassadorSuccess = () => setState({ showAmbassadorSuccess: false })
+window.closeAmbassadorProfile = () => setState({ showAmbassadorProfile: false })
+window.closeContactAmbassador = () => setState({ showContactAmbassador: false })
+window.closeReviewForm = () => setState({ showReviewForm: false, reviewSpotId: null })
+window.closeReplyModal = () => setState({ showReplyModal: false, replyToReviewId: null })
+window.closeAddForbiddenWordModal = () => setState({ showAddForbiddenWordModal: false })
+window.closeRouteAmenities = () => setState({ showRouteAmenities: false, routeAmenities: [] })
+window.closePostTravelPlan = () => setState({ showPostTravelPlan: false })
+window.closePhotoUpload = () => setState({ showPhotoUpload: false, photoUploadSpotId: null })
+window.closeAdminModeration = () => setState({ showAdminModeration: false })
+window.closeTravelPlanDetail = () => setState({ showTravelPlanDetail: false, selectedTravelPlan: null })
+window.closeLanguageSelector = () => setState({ showLanguageSelector: false })
+window.closeCookieBanner = () => setState({ showCookieBanner: false })
+window.closeReportModal = () => window.closeReport?.()
+window.closeDangerReportModal = () => setState({ showDangerReport: false })
+
 // Challenge handlers
 window.openChallenges = () => setState({ showChallenges: true });
 window.closeChallenges = () => setState({ showChallenges: false });
@@ -1429,6 +1452,7 @@ window.closeGuidesOverlay = () => setState({ showGuidesOverlay: false })
 window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: null, showSafety: false });
 window.showCountryDetail = (code) => setState({ selectedCountryCode: code });
 window.showSafetyPage = () => setState({ showSafety: true });
+window.closeSafety = () => setState({ showSafety: false })
 window.reportGuideError = async (countryCode) => {
   const { getGuideByCode } = await import('./data/guides.js');
   const guide = getGuideByCode(countryCode);
@@ -1731,6 +1755,8 @@ window.dismissLanding = () => {
   })
   preloadMap()
 }
+
+window.closeLanding = () => setState({ showLanding: false })
 
 // Landing carousel next slide — stub until initLandingCarousel() overrides with real implementation.
 // Must exist early so onclick="landingNext()" in landing HTML doesn't throw before carousel init.
@@ -2245,18 +2271,6 @@ window.homeZoomIn = () => {
 
 window.homeZoomOut = () => {
   if (window.homeMapInstance) window.homeMapInstance.zoomOut()
-}
-
-// Simple haversine for distance calculations (currently unused but may be needed)
-// eslint-disable-next-line no-unused-vars
-function haversineSimple(lat1, lng1, lat2, lng2) {
-  const R = 6371
-  const dLat = (lat2 - lat1) * Math.PI / 180
-  const dLng = (lng2 - lng1) * Math.PI / 180
-  const a = Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLng / 2) ** 2
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
 // ==================== START APP ====================

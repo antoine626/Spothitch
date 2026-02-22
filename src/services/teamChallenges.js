@@ -632,7 +632,9 @@ function renderNoTeam(_state) {
 // Global handlers
 window.openCreateTeam = () => setState({ showCreateTeam: true });
 window.openJoinTeam = () => setState({ showJoinTeam: true });
+window.closeJoinTeam = () => setState({ showJoinTeam: false });
 window.openTeamSettings = () => setState({ showTeamSettings: true });
+window.closeTeamSettings = () => setState({ showTeamSettings: false });
 window.openTeamChallengesList = () => setState({ showTeamChallenges: true });
 window.inviteToTeam = () => {
   const state = getState();
