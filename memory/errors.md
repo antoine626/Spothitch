@@ -1,6 +1,6 @@
 # errors.md - Journal des erreurs et corrections SpotHitch
 
-> Dernière mise à jour : 2026-02-20
+> Dernière mise à jour : 2026-02-22
 > IMPORTANT : Après CHAQUE bug trouvé ou corrigé, ajouter une entrée ici.
 > Le Plan Wolf analyse ce fichier pour éviter les régressions.
 
@@ -224,6 +224,26 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/main.js`, `src/components/App.js`, `src/components/views/Profile.js`, `src/components/views/Legal.js`, `src/components/views/FAQ.js`, `src/stores/state.js`, `src/i18n/lang/{fr,en,es,de}.js`
 - **Statut** : CORRIGÉ
 
+### ERR-021 — App re-render détruit le carousel onboarding (reset slide 1)
+- **Date** : 2026-02-22
+- **Gravité** : CRITIQUE
+- **Description** : Pendant l'onboarding, le carousel revenait à la slide 1 toutes les quelques secondes. L'utilisateur ne pouvait pas avancer dans les slides sans que ça revienne au début.
+- **Cause racine** : Le pattern `subscribe → render → app.innerHTML = renderApp(state)` reconstruit TOUT le DOM à chaque changement de state. Pendant l'onboarding, des state changes se produisent en arrière-plan (chargement de spots, géolocalisation, Firebase auth) → chaque changement détruit le carousel DOM et le recrée à la slide 1.
+- **Correction** : Ajout d'un guard dans `render()` : `if (state.showLanding && document.getElementById('landing-page')) return` — skip le re-render tant que l'onboarding est affiché.
+- **Leçon** : **Quand un composant a un état local DOM (position de carousel, scroll, animations), le re-render complet via innerHTML le détruit. Ajouter un guard pour protéger les composants avec état DOM local du re-render.**
+- **Fichiers** : `src/main.js`
+- **Statut** : CORRIGÉ
+
+### ERR-022 — Auto-reload interrompt l'utilisateur pendant l'utilisation active
+- **Date** : 2026-02-22
+- **Gravité** : MAJEUR
+- **Description** : L'app se rechargeait toute seule après un deploy (version.json polling + Service Worker controllerchange), même quand l'utilisateur était en train d'utiliser l'app activement. Perte de contexte, formulaires perdus, position de carte perdue.
+- **Cause racine** : `doReload()` dans `startVersionCheck()` rechargeait même quand `document.visibilityState === 'visible'` — avec un toast puis reload après 2s. Le SW controllerchange faisait pareil.
+- **Correction** : `doReload()` ne recharge que quand `document.visibilityState === 'hidden'`. Si visible, met `pendingReload = true` et attend que l'utilisateur mette l'app en arrière-plan.
+- **Leçon** : **JAMAIS recharger l'app quand l'utilisateur l'utilise activement. Les mises à jour auto doivent attendre que l'app soit en arrière-plan. L'UX de l'utilisateur prime sur la fraîcheur du code.**
+- **Fichiers** : `src/main.js`
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
@@ -231,4 +251,4 @@ Chaque erreur suit ce format :
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
 | 2026-02-20 | 13 | 13 | 0 |
-| 2026-02-22 | 7 | 7 | 0 |
+| 2026-02-22 | 9 | 9 | 0 |

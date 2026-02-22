@@ -28,13 +28,13 @@
 - SOS v2 (SMS/WhatsApp, offline, countdown, alarme silencieuse, faux appel, enregistrement, contacts primaires, message perso)
 - Companion v2 (SMS/WhatsApp, GPS breadcrumb, arrivée/départ notif, batterie, ETA, rappel check-in, contacts multiples, historique)
 - Système d'auth progressif (Firebase Auth - Google, Facebook, Apple, email)
-- Onboarding carousel 5 slides pour nouveaux visiteurs
+- Onboarding carousel 6 slides v2 (Problème → Solution → Sécurité → Guides → Cookies → CTA)
 - Pages SEO par ville (428 villes générées)
 - Notifications de proximité
 - Vérification d'identité progressive (5 niveaux)
 - Report/Block/Modération
 - Conformité RGPD + CCPA + Community Guidelines
-- Auto-update via version.json
+- Auto-update via version.json (reload uniquement quand app en arrière-plan)
 - Plan Wolf (commande test complète)
 - Visual regression testing + Lighthouse CI
 
