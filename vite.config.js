@@ -124,7 +124,7 @@ export default defineConfig({
             }
           },
           {
-            urlPattern: /^https:\/\/.*\.googleapis\.com\/.*/i,
+            urlPattern: /^https:\/\/[a-z0-9-]+\.googleapis\.com\/.*/i,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'firebase-cache',

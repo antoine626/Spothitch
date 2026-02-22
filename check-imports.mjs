@@ -1,7 +1,7 @@
-import http from 'http'
+import { get } from 'http'
 
-const url = 'http://localhost:5173/src/main.js'
-http.get(url, (res) => {
+const url = 'http://localhost:5173/src/main.js' // nosec: local dev server only
+get(url, (res) => {
   let data = ''
   res.on('data', (chunk) => { data += chunk })
   res.on('end', () => {
@@ -17,9 +17,9 @@ http.get(url, (res) => {
     }
 
     imports.forEach((imp) => {
-      const path = imp.replace('from "', '').replace('"', '')
-      const fullUrl = 'http://localhost:5173' + path
-      http.get(fullUrl, (r) => {
+      const path = imp.replace(/from "/, '').replace(/"$/, '')
+      const fullUrl = 'http://localhost:5173' + path // nosec: local dev server only
+      get(fullUrl, (r) => {
         checked++
         if (r.statusCode !== 200) {
           errors.push(path + ' -> ' + r.statusCode)

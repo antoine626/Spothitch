@@ -244,7 +244,8 @@ function generateShareUrl(sessionId) {
  * Generate unique session ID
  */
 function generateSessionId() {
-  return `sos_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  const randomBytes = crypto.getRandomValues(new Uint32Array(2))
+  return `sos_${Date.now()}_${randomBytes[0].toString(36)}${randomBytes[1].toString(36)}`.slice(0, 30)
 }
 
 /**

@@ -18,7 +18,7 @@ function getSessionId() {
   if (sessionId) return sessionId
   sessionId = sessionStorage.getItem(SESSION_KEY)
   if (!sessionId) {
-    sessionId = Math.random().toString(36).substring(2, 10)
+    sessionId = crypto.getRandomValues(new Uint32Array(1))[0].toString(36)
     sessionStart = Date.now()
     sessionStorage.setItem(SESSION_KEY, sessionId)
   }

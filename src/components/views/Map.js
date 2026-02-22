@@ -6,6 +6,7 @@
 import { t } from '../../i18n/index.js';
 import { countryGuides } from '../../data/guides.js';
 import { icon } from '../../utils/icons.js'
+import { escapeJSString } from '../../utils/sanitize.js'
 
 // Build reverse lookup: country name (EN + local variants) → code
 const _countryNameMap = {}
@@ -181,12 +182,13 @@ window.searchMapSuggestions = (query) => {
         container.innerHTML = `
           <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
             ${results.map(r => {
-              const safeName = r.display_name.replace(/'/g, "\\'")
+              const safeName = escapeJSString(r.display_name)
               const shortName = r.display_name.split(',').slice(0, 2).join(',')
               const parts = r.display_name.split(',')
-              const countryName = (parts[parts.length - 1] || '').trim()
+              const countryName = escapeJSString((parts[parts.length - 1] || '').trim())
               const cc = (r.address?.country_code || '').toUpperCase()
-              const cityName = (parts[0] || '').trim().replace(/'/g, "\\'")
+              const cityName = escapeJSString((parts[0] || '').trim())
+              const citySlug = (parts[0] || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-')
               const isCity = isCityType(r)
               return `
               <div class="border-b border-white/5 last:border-0">
@@ -199,7 +201,7 @@ window.searchMapSuggestions = (query) => {
                 </button>
                 ${isCity ? `
                   <button
-                    onclick="openCityPanel('${cityName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}', '${cityName}', ${r.lat}, ${r.lon}, '${cc}', '${countryName.replace(/'/g, "\\'")}')"
+                    onclick="openCityPanel('${citySlug}', '${cityName}', ${r.lat}, ${r.lon}, '${cc}', '${countryName}')"
                     class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-all text-xs font-medium border-t border-white/5"
                   >
                     📍 ${window.t?.('guideHitchhikingCity') || 'Hitchhiking guide —'} ${cityName}

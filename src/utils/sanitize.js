@@ -76,6 +76,23 @@ export function escapeHTML(text) {
 }
 
 /**
+ * Escape a string for safe use inside JS string literals in HTML onclick attributes.
+ * Prevents XSS when injecting user data into onclick="fn('${value}')".
+ * @param {string} str - String to escape
+ * @returns {string} Escaped string safe for onclick attributes
+ */
+export function escapeJSString(str) {
+  if (!str || typeof str !== 'string') return ''
+  return str
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/&/g, '&amp;')
+}
+
+/**
  * Sanitize user input for use in templates
  * @param {string} input - User input
  * @returns {string} Sanitized input
@@ -90,5 +107,6 @@ export default {
   safeInnerHTML,
   createSafeHTML,
   escapeHTML,
+  escapeJSString,
   sanitizeInput,
 };

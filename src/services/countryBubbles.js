@@ -6,6 +6,7 @@
 
 import { t } from '../i18n/index.js'
 import { icon } from '../utils/icons.js'
+import { escapeJSString } from '../utils/sanitize.js'
 
 /**
  * Build GeoJSON FeatureCollection for country bubbles
@@ -171,7 +172,7 @@ export function createBubblePopup(maplibregl, feature, lngLat) {
               ${icon('check', 'w-4 h-4')}
               ${t('countryDownloaded') || 'Téléchargé'}
             </div>`
-          : `<button onclick="downloadCountryFromBubble('${code}', '${name.replace(/'/g, "\\'")}')"
+          : `<button onclick="downloadCountryFromBubble('${code}', '${escapeJSString(name)}')"
               id="bubble-download-${code}"
               class="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-sm font-medium hover:bg-white/20 transition-all flex items-center justify-center gap-2">
               ${icon('download', 'w-4 h-4')}

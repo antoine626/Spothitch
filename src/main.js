@@ -413,12 +413,14 @@ async function init() {
         <div style="text-align:center;padding:20px">
           <div style="color:#ef4444;font-size:48px;margin-bottom:16px">⚠️</div>
           <div style="color:#fff;font-size:18px;margin-bottom:8px">${t('loadingError') || 'Erreur de chargement'}</div>
-          <div style="color:#94a3b8;font-size:14px">${error.message}</div>
+          <div style="color:#94a3b8;font-size:14px" id="init-error-msg"></div>
           <button onclick="location.reload()" class="reload-btn">${t('retry') || 'Réessayer'}</button>
           <style>.reload-btn{margin-top:16px;padding:8px 16px;background:#f59e0b;color:#fff;
             border:none;border-radius:8px;cursor:pointer}</style>
         </div>
       `;
+      const errorMsg = document.getElementById('init-error-msg');
+      if (errorMsg) errorMsg.textContent = error.message;
     }
   }
 }

@@ -1,4 +1,5 @@
 import { icon } from './icons.js'
+import { escapeJSString } from './sanitize.js'
 
 /**
  * External Navigation Apps Utility
@@ -264,7 +265,7 @@ export function renderNavigationPicker(data) {
         <div class="space-y-3">
           ${apps.map(app => `
             <button
-              onclick="selectNavigationApp('${app.id}', ${lat}, ${lng}, '${(name || '').replace(/'/g, "\\'")}')"
+              onclick="selectNavigationApp('${app.id}', ${lat}, ${lng}, '${escapeJSString(name)}')"
               class="w-full flex items-center gap-4 p-4 ${app.bgClass} rounded-xl text-white font-semibold transition-all hover-lift"
               type="button"
             >

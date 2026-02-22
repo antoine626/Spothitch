@@ -7,6 +7,7 @@
 import { formatDistance, getDirectionIcon } from '../../services/navigation.js'
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { escapeJSString } from '../../utils/sanitize.js'
 
 /**
  * Render navigation overlay
@@ -113,7 +114,7 @@ export function renderNavigationOverlay(state) {
               ${icon('fuel', 'w-4 h-4')}
             </button>
             <button
-              onclick="openExternalNavigation(${navigationDestination?.lat}, ${navigationDestination?.lng}, '${navigationDestination?.name?.replace(/'/g, "\\'")}')"
+              onclick="openExternalNavigation(${navigationDestination?.lat}, ${navigationDestination?.lng}, '${escapeJSString(navigationDestination?.name)}')"
               class="flex-1 py-3 px-3 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-all text-sm"
             >
               ${icon('external-link', 'w-4 h-4 mr-1')}

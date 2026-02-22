@@ -4,7 +4,7 @@
  */
 
 import { t } from '../../i18n/index.js';
-import { escapeHTML } from '../../utils/sanitize.js';
+import { escapeHTML, escapeJSString } from '../../utils/sanitize.js';
 import { renderVerificationBadge, renderVoteButtons } from '../../services/verification.js';
 import { renderFreshnessSection, renderFreshnessBadge } from '../../utils/dateHelpers.js';
 import { getAvailableNavigationApps } from '../../utils/navigation.js';
@@ -230,7 +230,7 @@ export function renderSpotDetail(state) {
 
           <!-- Main Y aller Button -->
           <button
-            onclick="showNavigationPicker(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeHTML((spot.from + ' - ' + spot.to).replace(/'/g, "\\'"))}')"
+            onclick="showNavigationPicker(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeJSString(spot.from + ' - ' + spot.to)}')"
             class="w-full btn text-white font-bold text-lg py-4 mb-4 shadow-lg shadow-emerald-500/30"
             style="background: linear-gradient(135deg, #10b981, #059669);"
             type="button"
@@ -252,7 +252,7 @@ export function renderSpotDetail(state) {
           <!-- In-App Navigation & Share & Report -->
           <div class="grid grid-cols-3 gap-3">
             <button
-              onclick="startSpotNavigation(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeHTML((spot.from + ' - ' + spot.to).replace(/'/g, "\\'"))}')"
+              onclick="startSpotNavigation(${spot.coordinates?.lat}, ${spot.coordinates?.lng}, '${escapeJSString(spot.from + ' - ' + spot.to)}')"
               class="btn btn-ghost text-sm py-2"
               type="button"
               aria-label="${t('guidedNav') || 'Navigation guidée'}"
@@ -307,7 +307,7 @@ function renderNavigationAppButtons(lat, lng, name) {
   if (!lat || !lng) return '';
 
   const apps = getAvailableNavigationApps();
-  const escapedName = (name || '').replace(/'/g, "\\'");
+  const escapedName = escapeJSString(name || '');
 
   return apps.map(app => {
     // Determine which icon to use (brand vs fallback)
