@@ -63,12 +63,15 @@ test.describe('Profile', () => {
   })
 
   test('should display profile view', async ({ page }) => {
-    const profileContent = page.locator('text=Score de confiance').or(page.locator('text=Paramètres'))
+    const profileContent = page.locator('text=Score de confiance').or(page.locator('[onclick*="setProfileSubTab"]'))
     await expect(profileContent.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have settings section', async ({ page }) => {
-    const settings = page.locator('text=Paramètres').or(page.locator('text=Mode sombre'))
+    // Navigate to Réglages sub-tab
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(300)
+    const settings = page.locator('text=Mode sombre').or(page.locator('[role="switch"]'))
     await expect(settings.first()).toBeVisible({ timeout: 5000 })
   })
 })

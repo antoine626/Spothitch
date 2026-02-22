@@ -26,8 +26,8 @@ test.describe('Profile View', () => {
     await expect(trustScore.first()).toBeVisible({ timeout: 5000 })
   })
 
-  test('should have settings section', async ({ page }) => {
-    await expect(page.locator('text=Paramètres').first()).toBeVisible({ timeout: 5000 })
+  test('should have sub-tabs bar', async ({ page }) => {
+    await expect(page.locator('[onclick*="setProfileSubTab"]').first()).toBeVisible({ timeout: 5000 })
   })
 })
 
@@ -47,6 +47,9 @@ test.describe('Profile - Settings', () => {
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
     await navigateToTab(page, 'profile')
+    // Navigate to Réglages sub-tab where all settings live
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
   })
 
   test('should have theme toggle', async ({ page }) => {
@@ -107,6 +110,9 @@ test.describe('Profile - Auth', () => {
   })
 
   test('should have auth-related button', async ({ page }) => {
+    // Auth button might be in Réglages sub-tab
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
     const authBtn = page.locator('button:has-text("Connexion")')
     await expect(authBtn.first()).toBeVisible({ timeout: 5000 })
   })

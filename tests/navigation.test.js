@@ -20,7 +20,7 @@ describe('Navigation Component', () => {
     it('should render all tabs', () => {
       const html = renderNavigation(mockState);
       expect(html).toContain('Carte');
-      expect(html).toContain('Progression');
+      expect(html).toContain('Voyage');
       expect(html).toContain('Social');
       expect(html).toContain('Profil');
     });
@@ -36,7 +36,7 @@ describe('Navigation Component', () => {
     it('should have aria-labels for accessibility', () => {
       const html = renderNavigation(mockState);
       expect(html).toContain('aria-label="Carte"');
-      expect(html).toContain('aria-label="Progression"');
+      expect(html).toContain('aria-label="Voyage"');
       expect(html).toContain('aria-label="Social"');
       expect(html).toContain('aria-label="Profil"');
     });

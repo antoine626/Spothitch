@@ -162,7 +162,7 @@ test.describe('Journey: Profile & Settings', () => {
     await expect(page.locator('text=/Détail du score|Améliore/i').first()).toBeVisible({ timeout: 5000 })
 
     // Sub-tabs bar (Profil, Progression, Réglages)
-    await expect(page.locator('button:has-text("Réglages")').or(page.locator('button:has-text("Settings")')).first()).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('[onclick*="setProfileSubTab"]').first()).toBeVisible({ timeout: 5000 })
 
     // App version
     await expect(page.locator('text=/SpotHitch v/i').first()).toBeVisible({ timeout: 5000 })
