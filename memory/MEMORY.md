@@ -62,6 +62,17 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session ~2026-02-22 (session 11 — QUALITÉ + SÉCURITÉ + GITHUB)
+- **E2E 100% green** : 240+ tests, 13 jobs CI, tous passent
+- **GitHub configuré** : Dependabot weekly, CodeQL, issue templates, CODEOWNERS, branch protection, Discussions, release v2.0.0
+- **Sécurité CodeQL 30→0 alertes** : escapeJSString(), textContent, crypto.getRandomValues(), safePhotoURL(), hasOwnProperty
+- **Clé API restreinte** : referrer HTTP limité à spothitch.com, *.spothitch.pages.dev, localhost
+- **CI strict** : supprimé continue-on-error sur lint/E2E, lint bloquant (plus de || true), deploy exige lint+e2e-core
+- **Pre-commit hooks** : Husky + lint-staged configurés (eslint sur src/*.js)
+- **Coverage floor** : seuils montés à 22/20/22/23% (empêche régression)
+- **Règle #10 zéro tolérance** : tout job CI doit passer, E2E timeout = bug à corriger
+- README réécrit avec stats exactes et badges
+
 ### Session ~2026-02-22 (session 10 — FIX ÉCRAN BLEU PRODUCTION)
 - **BUG CRITIQUE** : Site affichait écran bleu vide — lazy-loading cassé en production
 - Cause : `import(variable)` non supporté par Vite en build + pas de re-render après chargement module
