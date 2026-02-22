@@ -22,7 +22,13 @@
     "lint:i18n": "node scripts/lint-i18n.mjs",
     "audit:rgpd": "node scripts/audit-rgpd.mjs",
     "deploy": "npm run build && gh-pages -d dist",
-    "sync:spots": "node scripts/extract-spots.mjs"
+    "sync:spots": "node scripts/extract-spots.mjs",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --max-warnings 0"
+    ]
   },
   "dependencies": {
     "@eslint/js": "^10.0.1",
