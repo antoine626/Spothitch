@@ -319,15 +319,17 @@ test.describe('PWA - Dark Mode', () => {
   });
 
   test('should respect reduced motion preference', async ({ page }) => {
-    // Emulate reduced motion
+    // Emulate reduced motion before navigation
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/');
-    await Promise.race([
-      page.waitForSelector('#app.loaded', { timeout: 15000 }),
-      page.waitForSelector('nav[role="navigation"]', { timeout: 15000 }),
-    ]).catch(() => {});
+    await skipOnboarding(page);
 
-    // App should still load and work
-    await expect(page.locator('#app')).toBeVisible();
+    // App should still load and work with reduced motion
+    await expect(page.locator('#app')).toBeVisible({ timeout: 10000 });
+
+    // Verify reduced motion is active
+    const prefersReducedMotion = await page.evaluate(() => {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    });
+    expect(prefersReducedMotion).toBe(true);
   });
 });
