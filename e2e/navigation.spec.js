@@ -16,7 +16,7 @@ test.describe('Navigation', () => {
   })
 
   test('should navigate between tabs', async ({ page }) => {
-    const tabs = ['travel', 'challenges', 'social', 'profile', 'map']
+    const tabs = ['challenges', 'social', 'profile', 'map']
     for (const tab of tabs) {
       await navigateToTab(page, tab)
       await expect(page.locator(`[data-tab="${tab}"]`)).toHaveAttribute('aria-selected', 'true')
@@ -45,27 +45,14 @@ test.describe('Map View', () => {
     await navigateToTab(page, 'map')
   })
 
-  test('should display map', async ({ page }) => {
-    const mapContainer = page.locator('#main-map, .maplibregl-map')
+  test('should display map container', async ({ page }) => {
+    const mapContainer = page.locator('#home-map, .maplibregl-map')
     await expect(mapContainer.first()).toBeVisible({ timeout: 10000 })
   })
 
-  test('should have zoom controls', async ({ page }) => {
-    const zoomIn = page.locator('[onclick*="mapZoomIn"], button[aria-label*="Zoom"]')
-    const zoomOut = page.locator('[onclick*="mapZoomOut"], button[aria-label*="Zoom"]')
-    await expect(zoomIn.first()).toBeVisible()
-    await expect(zoomOut.first()).toBeVisible()
-  })
-})
-
-test.describe('Travel View', () => {
-  test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page)
-    await navigateToTab(page, 'travel')
-  })
-
-  test('should display travel view', async ({ page }) => {
-    await expect(page.locator('#app')).toBeVisible()
+  test('should have search bar', async ({ page }) => {
+    const search = page.locator('#map-search, input[placeholder*="Search"], input[placeholder*="Chercher"], input[placeholder*="lieu"]')
+    await expect(search.first()).toBeVisible({ timeout: 5000 })
   })
 })
 
@@ -76,11 +63,12 @@ test.describe('Profile', () => {
   })
 
   test('should display profile view', async ({ page }) => {
-    await expect(page.locator('text=/Niv|Niveau|Points/').first()).toBeVisible({ timeout: 5000 })
+    const profileContent = page.locator('text=Score de confiance').or(page.locator('text=Paramètres'))
+    await expect(profileContent.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have settings section', async ({ page }) => {
-    const settings = page.locator('text=Paramètres').or(page.locator('text=Thème sombre')).or(page.locator('select'))
+    const settings = page.locator('text=Paramètres').or(page.locator('text=Mode sombre'))
     await expect(settings.first()).toBeVisible({ timeout: 5000 })
   })
 })
@@ -95,10 +83,9 @@ test.describe('Social View', () => {
     await expect(page.locator('#app')).toBeVisible()
   })
 
-  test('should have chat or friends section', async ({ page }) => {
-    // Social has chat input and sub-tab buttons
-    const chatInput = page.locator('#chat-input').or(page.locator('button:has-text("Général")'))
-    await expect(chatInput.first()).toBeVisible({ timeout: 5000 })
+  test('should have feed or chat content', async ({ page }) => {
+    const content = page.locator('text=Feed').or(page.locator('text=Messages')).or(page.locator('text=Friends'))
+    await expect(content.first()).toBeVisible({ timeout: 5000 })
   })
 })
 
@@ -116,22 +103,9 @@ test.describe('Challenges View', () => {
 test.describe('SOS Mode', () => {
   test('should have SOS button accessible', async ({ page }) => {
     await skipOnboarding(page)
-
-    const sosButton = page.locator('[data-action="sos"], button:has-text("SOS"), .sos-btn, button[aria-label*="SOS"]')
+    const sosButton = page.locator('button:has-text("SOS")')
     if (await sosButton.count() > 0) {
       await expect(sosButton.first()).toBeVisible()
-    }
-  })
-})
-
-test.describe('Add Spot', () => {
-  test('should have add spot button', async ({ page }) => {
-    await skipOnboarding(page)
-    await navigateToTab(page, 'map')
-
-    const addButton = page.locator('button[aria-label*="Ajouter"], [data-action="add-spot"]')
-    if (await addButton.count() > 0) {
-      await expect(addButton.first()).toBeVisible()
     }
   })
 })

@@ -174,6 +174,16 @@ Chaque erreur suit ce format :
 - **Fichiers** : newDeviceNotification.js
 - **Statut** : CORRIGÉ
 
+### ERR-016 — Écran bleu vide en production (lazy-loading cassé)
+- **Date** : 2026-02-22
+- **Gravité** : CRITIQUE
+- **Description** : Le site spothitch.com affichait un écran bleu foncé complètement vide. Le `#app` div existait mais avait 0 enfants. Aucun composant ne se rendait.
+- **Cause racine** : DEUX problèmes dans la fonction `lazyRender()` de App.js : (1) `import(modulePath)` utilisait une variable comme argument — Vite ne peut PAS analyser les imports dynamiques avec des variables en production. Le navigateur recevait le chemin source brut (ex: `https://spothitch.com/components/Landing.js`) qui n'existe pas dans le build. Erreur 403/404. (2) Même si le module avait chargé, `lazyRender()` retournait `''` et ne déclenchait JAMAIS de re-render — l'app restait vide indéfiniment.
+- **Correction** : (1) Créé un registre `_lazyLoaders` avec des fonctions `() => import('./chemin/statique.js')` pour chaque module — Vite peut analyser ces imports statiques et créer des chunks. (2) Ajout de `window.setState({})` après chaque chargement de module pour déclencher un re-render.
+- **Leçon** : **JAMAIS utiliser `import(variable)` avec Vite — toujours des strings littérales dans import(). Tester le lazy-loading en build PRODUCTION (npm run build + preview), pas seulement en dev. Et TOUJOURS déclencher un re-render après un import dynamique dans un framework vanilla JS.**
+- **Fichiers** : `src/components/App.js`
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
@@ -181,4 +191,4 @@ Chaque erreur suit ce format :
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
 | 2026-02-20 | 13 | 13 | 0 |
-| 2026-02-22 | 2 | 2 | 0 |
+| 2026-02-22 | 3 | 3 | 0 |

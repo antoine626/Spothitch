@@ -59,10 +59,10 @@ export async function skipOnboarding(page, opts = {}) {
 
   await page.goto('/', { waitUntil: 'domcontentloaded' })
 
-  // Wait for either app.loaded class or nav to appear
+  // Wait for either app.loaded class or nav to appear (10s max — if it takes longer, something is broken)
   await Promise.race([
-    page.waitForSelector('#app.loaded', { timeout: 30000 }).catch(() => null),
-    page.waitForSelector('nav[role="navigation"]', { timeout: 30000 }).catch(() => null),
+    page.waitForSelector('#app.loaded', { timeout: 10000 }).catch(() => null),
+    page.waitForSelector('nav[role="navigation"]', { timeout: 10000 }).catch(() => null),
   ])
 
   // If still stuck on splash, force remove it
@@ -78,7 +78,7 @@ export async function skipOnboarding(page, opts = {}) {
   })
 
   // Final check: wait for nav
-  await page.waitForSelector('nav', { timeout: 10000 }).catch(() => {})
+  await page.waitForSelector('nav', { timeout: 5000 }).catch(() => {})
   await dismissOverlays(page)
 }
 
@@ -87,14 +87,14 @@ export async function skipOnboarding(page, opts = {}) {
  */
 export async function navigateToTab(page, tabId) {
   const tab = page.locator(`[data-tab="${tabId}"]`)
-  await tab.click({ force: true, timeout: 15000 })
+  await tab.click({ force: true, timeout: 5000 })
   try {
-    await expect(tab).toHaveAttribute('aria-selected', 'true', { timeout: 5000 })
+    await expect(tab).toHaveAttribute('aria-selected', 'true', { timeout: 3000 })
   } catch {
-    await tab.click({ force: true, timeout: 5000 })
-    await page.waitForTimeout(500)
+    await tab.click({ force: true, timeout: 3000 })
   }
-  await page.waitForTimeout(300)
+  // Wait for lazy-loaded view content to appear (import() + re-render cycle)
+  await page.waitForTimeout(2000)
 }
 
 /**

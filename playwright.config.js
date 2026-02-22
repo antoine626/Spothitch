@@ -6,9 +6,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : 1,
-  timeout: 30000,
+  timeout: 20000,
   expect: {
-    timeout: 15000,
+    timeout: 8000,
     toHaveScreenshot: {
       // Visual regression: allow 3% pixel diff by default
       maxDiffPixelRatio: 0.03,

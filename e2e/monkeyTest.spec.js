@@ -7,7 +7,7 @@
 
 import { test, expect } from '@playwright/test'
 
-const GREMLIN_DURATION = 15000 // 15 seconds per tab
+const GREMLIN_DURATION = 5000 // 5 seconds per tab (reduced for CI speed)
 const GREMLIN_COUNT = 200
 
 // Errors to ignore (expected in dev/demo mode)

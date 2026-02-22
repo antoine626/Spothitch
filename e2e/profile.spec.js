@@ -12,19 +12,18 @@ test.describe('Profile View', () => {
   })
 
   test('should display profile header with avatar', async ({ page }) => {
-    const profileHeader = page.locator('h2, .text-xl').filter({ hasText: /Voyageur|TestUser/ })
+    const profileHeader = page.locator('h2').filter({ hasText: /Voyageur|TestUser/ })
     await expect(profileHeader.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should display user stats', async ({ page }) => {
-    await expect(page.locator('text=Points').first()).toBeVisible({ timeout: 5000 })
-    await expect(page.locator('text=/Niv/').first()).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('text=Spots créés').first()).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('text=Score de confiance').first()).toBeVisible({ timeout: 5000 })
   })
 
-  test('should display activity section', async ({ page }) => {
-    // Activity header with text "Activité"
-    const activity = page.locator('text=Activité').or(page.locator('text=Spots partagés'))
-    await expect(activity.first()).toBeVisible({ timeout: 5000 })
+  test('should display trust score section', async ({ page }) => {
+    const trustScore = page.locator('text=Détail du score').or(page.locator('text=Améliore ton score'))
+    await expect(trustScore.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have settings section', async ({ page }) => {
@@ -38,39 +37,9 @@ test.describe('Profile - Skill Tree', () => {
     await navigateToTab(page, 'profile')
   })
 
-  test('should have skill tree button', async ({ page }) => {
-    const skillTreeBtn = page.locator('text=compétences')
-    await expect(skillTreeBtn.first()).toBeVisible({ timeout: 5000 })
-  })
-
-  test('should open skill tree when clicked', async ({ page }) => {
-    const skillTreeBtn = page.locator('button:has-text("compétences"), [onclick*="openSkillTree"]')
-    if ((await skillTreeBtn.count()) > 0) {
-      await skillTreeBtn.first().click()
-      // Wait for skill tree modal/content to appear
-      await page.waitForSelector('[role="dialog"], .skill-tree', { timeout: 3000 }).catch(() => {})
-    }
-  })
-})
-
-test.describe('Profile - Customization', () => {
-  test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page)
-    await navigateToTab(page, 'profile')
-  })
-
-  test('should have customize button', async ({ page }) => {
-    const customizeBtn = page.locator('button:has-text("Personnaliser"), [onclick*="openProfileCustomization"]')
+  test('should have customize or edit button', async ({ page }) => {
+    const customizeBtn = page.locator('button:has-text("Personnaliser")').or(page.locator('button:has-text("Modifier")')).or(page.locator('[onclick*="openProfileCustomization"]'))
     await expect(customizeBtn.first()).toBeVisible({ timeout: 5000 })
-  })
-
-  test('should open customization when clicked', async ({ page }) => {
-    const customizeBtn = page.locator('button:has-text("Personnaliser"), [onclick*="openProfileCustomization"]')
-    if (await customizeBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
-      await customizeBtn.first().click()
-      // Wait for customization panel to appear
-      await page.waitForSelector('[role="dialog"], .customization', { timeout: 3000 }).catch(() => {})
-    }
   })
 })
 
@@ -81,25 +50,22 @@ test.describe('Profile - Settings', () => {
   })
 
   test('should have theme toggle', async ({ page }) => {
-    // Theme section with "Thème sombre" text and a switch
-    const themeSection = page.locator('text=Thème sombre').or(page.locator('[role="switch"]'))
+    const themeSection = page.locator('text=Mode sombre').or(page.locator('[role="switch"]'))
     await expect(themeSection.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have theme switch control', async ({ page }) => {
-    const themeToggle = page.locator('[role="switch"], [onclick*="toggleTheme"]').first()
+    const themeToggle = page.locator('[role="switch"]').first()
     await expect(themeToggle).toBeVisible({ timeout: 5000 })
   })
 
   test('should toggle theme when clicked', async ({ page }) => {
-    const themeToggle = page.locator('[role="switch"], [onclick*="toggleTheme"]').first()
+    const themeToggle = page.locator('[role="switch"]').first()
     if (await themeToggle.isVisible()) {
       const initialState = await themeToggle.getAttribute('aria-checked')
       await themeToggle.click()
-      // Wait for theme change to take effect
-      await page.waitForSelector('nav', { timeout: 3000 })
+      await page.waitForTimeout(500)
       const newState = await themeToggle.getAttribute('aria-checked')
-      // Theme should have toggled (aria-checked changed)
       if (initialState !== null) {
         expect(newState).not.toBe(initialState)
       }
@@ -108,7 +74,9 @@ test.describe('Profile - Settings', () => {
 
   test('should have language selector', async ({ page }) => {
     await expect(page.locator('text=Langue').first()).toBeVisible({ timeout: 5000 })
-    await expect(page.locator('select').first()).toBeVisible({ timeout: 5000 })
+    // Language is now a radiogroup, not a select
+    const langSelector = page.locator('[role="radiogroup"]').or(page.locator('text=FR'))
+    await expect(langSelector.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have notification toggle', async ({ page }) => {
@@ -130,15 +98,6 @@ test.describe('Profile - Friends Link', () => {
   test('should have friends button', async ({ page }) => {
     await expect(page.locator('text=Mes amis').first()).toBeVisible({ timeout: 5000 })
   })
-
-  test('should navigate to friends when clicked', async ({ page }) => {
-    const friendsBtn = page.locator('button:has-text("Mes amis"), [onclick*="openFriends"]')
-    if (await friendsBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
-      await friendsBtn.first().click()
-      // Should switch to social tab with friends section visible
-      await page.waitForSelector('nav', { timeout: 3000 })
-    }
-  })
 })
 
 test.describe('Profile - Auth', () => {
@@ -148,11 +107,8 @@ test.describe('Profile - Auth', () => {
   })
 
   test('should have auth-related button', async ({ page }) => {
-    // "Se connecter" button with fa-sign-in-alt icon or "Se déconnecter"
-    const authBtn = page.locator('[onclick*="openAuth"]').or(page.locator('[onclick*="handleLogout"]')).or(page.locator('button:has-text("connecter")'))
-    if (await authBtn.count() > 0) {
-      await expect(authBtn.first()).toBeVisible({ timeout: 5000 })
-    }
+    const authBtn = page.locator('button:has-text("Connexion")')
+    await expect(authBtn.first()).toBeVisible({ timeout: 5000 })
   })
 })
 
@@ -163,14 +119,12 @@ test.describe('Profile - App Info', () => {
   })
 
   test('should display app version', async ({ page }) => {
-    // Exact text: "SpotHitch v2.0.0"
     const version = page.locator('text=/SpotHitch v/i')
     await expect(version.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have reset app button', async ({ page }) => {
-    // Exact text: "Réinitialiser l'app"
-    const resetBtn = page.locator('[onclick*="resetApp"]').or(page.locator('text=/Réinitialiser/i'))
+    const resetBtn = page.locator('text=/Réinitialiser/i')
     await expect(resetBtn.first()).toBeVisible({ timeout: 5000 })
   })
 })

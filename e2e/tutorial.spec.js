@@ -10,14 +10,18 @@ test.describe('Tutorial', () => {
   test('should show welcome or splash for new users', async ({ page }) => {
     await page.goto('/')
     await page.evaluate(() => localStorage.clear())
-    await page.reload()
+    await page.reload({ waitUntil: 'networkidle' })
 
-    // Wait for splash to appear and finish
-    await page.waitForTimeout(4000)
+    // Wait for splash + lazy-loaded landing page to render
+    // Landing is lazy-loaded: first render returns '', then module loads, setState triggers re-render
+    await page.waitForTimeout(8000)
 
-    // After splash, should show welcome/tutorial or cookie banner
-    const content = page.locator('#app')
-    await expect(content).toBeVisible({ timeout: 10000 })
+    // Verify app has actual content (not empty from lazy loading)
+    const hasContent = await page.evaluate(() => {
+      const app = document.getElementById('app')
+      return app && app.innerHTML.length > 50
+    })
+    expect(hasContent).toBeTruthy()
   })
 
   test('should have skip button in tutorial', async ({ page }) => {

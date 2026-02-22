@@ -62,6 +62,13 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session ~2026-02-22 (session 10 — FIX ÉCRAN BLEU PRODUCTION)
+- **BUG CRITIQUE** : Site affichait écran bleu vide — lazy-loading cassé en production
+- Cause : `import(variable)` non supporté par Vite en build + pas de re-render après chargement module
+- Fix : registre `_lazyLoaders` avec imports statiques + `setState({})` après chaque chargement
+- Bundle principal : 229KB (vs 785KB avant lazy-loading, vs 200KB session 8 mais celui-ci marche réellement)
+- ERR-016 ajouté au journal des erreurs
+
 ### Session ~2026-02-22 (session 9 — ESLINT CLEANUP + DEAD CODE + HANDLERS AUDIT)
 - **ESLint : 77 warnings → 0** — nettoyage massif dans 54 fichiers
 - Suppression 8 fonctions mortes : renderRatingBar, renderTripSpot, getStreak, showDailyRewardPopup, closeDailyRewardPopup, positionSpotlight, checkStreakReminder, startStreakReminderCheck, stopStreakReminderCheck
