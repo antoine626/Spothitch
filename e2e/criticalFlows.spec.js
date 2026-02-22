@@ -244,7 +244,7 @@ test.describe('Map Persistence', () => {
     await canvas.first().isVisible({ timeout: 5000 }).catch(() => {})
   })
 
-  test('should keep map functional after multiple tab switches', async ({ page, testInfo }) => {
+  test('should keep map functional after multiple tab switches', async ({ page }, testInfo) => {
     testInfo.setTimeout(40000) // Needs 25s+ for 3 tab switches
 
     await skipOnboarding(page)
@@ -319,7 +319,7 @@ test.describe('Country Guides', () => {
 // FLOW 5: No Console Errors on Critical Flows
 // ================================================================
 test.describe('Error-Free Critical Flows', () => {
-  test('should navigate all tabs without JS errors', async ({ page, testInfo }) => {
+  test('should navigate all tabs without JS errors', async ({ page }, testInfo) => {
     testInfo.setTimeout(40000) // 4 tabs * 2s + setup
 
     const errors = []
@@ -377,7 +377,7 @@ test.describe('Error-Free Critical Flows', () => {
     expect(criticalErrors).toEqual([])
   })
 
-  test('should open trip planner without errors', async ({ page, testInfo }) => {
+  test('should open trip planner without errors', async ({ page }, testInfo) => {
     testInfo.setTimeout(40000)
 
     const errors = []
