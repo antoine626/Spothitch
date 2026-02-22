@@ -24,12 +24,18 @@ async function getMap() {
   if (!_map) _map = await import('./services/map.js')
   return _map
 }
-// Preload map module during idle time (after carousel/onboarding)
+// Preload map module AND MapLibre GL library during idle time
+// so the map is ready instantly when user opens the app
 function preloadMap() {
+  const doPreload = () => {
+    getMap()
+    // Also preload the heavy MapLibre GL library (277KB gzip)
+    import('maplibre-gl').catch(() => {})
+  }
   if (typeof requestIdleCallback === 'function') {
-    requestIdleCallback(() => getMap())
+    requestIdleCallback(doPreload)
   } else {
-    setTimeout(() => getMap(), 2000)
+    setTimeout(doPreload, 2000)
   }
 }
 // Heavy modules — lazy-loaded via dynamic import() to reduce initial bundle
@@ -551,9 +557,9 @@ function render(state) {
   const app = document.getElementById('app');
   if (!app) return;
 
-  // Skip re-render during onboarding carousel — state changes (spots loading, geolocation)
-  // would destroy the carousel DOM and reset to slide 1
-  if (state.showLanding && document.getElementById('landing-page')) return
+  // Preserve landing carousel DOM across re-renders (prevents slide reset)
+  const landingEl = document.getElementById('landing-page')
+  const savedLanding = (landingEl && state.showLanding) ? landingEl : null
 
   // Skip re-render if user is typing in any input (prevents losing input focus/value)
   const focused = document.activeElement
@@ -592,6 +598,11 @@ function render(state) {
       // Force MapLibre to repaint after DOM reinsertion
       requestAnimationFrame(() => window._tripMapResize?.())
     }
+  }
+  // Re-insert preserved landing carousel (prevents slide reset on state changes)
+  if (savedLanding) {
+    const slot = document.getElementById('landing-page')
+    if (slot) slot.replaceWith(savedLanding)
   }
 
   // Call afterRender hook
@@ -1798,7 +1809,7 @@ window.dismissLanding = () => {
     version: '1.0',
   }
   try {
-    localStorage.setItem('cookie_consent', JSON.stringify(consent))
+    localStorage.setItem('spothitch_v4_cookie_consent', JSON.stringify(consent))
   } catch (_) { /* storage full — non-blocking */ }
 
   const { tutorialCompleted } = getState()

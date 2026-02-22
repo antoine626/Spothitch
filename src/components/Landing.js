@@ -17,25 +17,25 @@ export function renderLanding() {
         <!-- Slide 1: Problème -->
         <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#1a0a0a,#0f1520)">
           <span class="text-5xl mb-5" aria-hidden="true">😰</span>
-          <h2 class="text-[22px] font-bold text-white leading-tight mb-6">
+          <h2 class="text-[26px] font-bold text-white leading-tight mb-6">
             ${t('onboardingProblemTitle')}
           </h2>
           <div class="w-full max-w-sm flex flex-col gap-2.5">
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 flex items-center gap-3">
-              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">😵</span>
-              <span class="text-[13px] text-red-300">${t('onboardingProblemWrongSpot')}</span>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[13px] font-semibold bg-red-500/20 text-red-300">😵</span>
+              <span class="text-[17px] text-red-300">${t('onboardingProblemWrongSpot')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 flex items-center gap-3">
-              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">😱</span>
-              <span class="text-[13px] text-red-300">${t('onboardingProblemNoone')}</span>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[13px] font-semibold bg-red-500/20 text-red-300">😱</span>
+              <span class="text-[17px] text-red-300">${t('onboardingProblemNoone')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 flex items-center gap-3">
-              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">🤷</span>
-              <span class="text-[13px] text-red-300">${t('onboardingProblemNoInfo')}</span>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[13px] font-semibold bg-red-500/20 text-red-300">🤷</span>
+              <span class="text-[17px] text-red-300">${t('onboardingProblemNoInfo')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 flex items-center gap-3">
-              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">🌧️</span>
-              <span class="text-[13px] text-red-300">${t('onboardingProblemNoPlanB')}</span>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[13px] font-semibold bg-red-500/20 text-red-300">🌧️</span>
+              <span class="text-[17px] text-red-300">${t('onboardingProblemNoPlanB')}</span>
             </div>
           </div>
         </div>
@@ -43,52 +43,52 @@ export function renderLanding() {
         <!-- Slide 2: Solution -->
         <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#0a1a10,#0f1520)">
           <span class="text-5xl mb-4" aria-hidden="true">✨</span>
-          <h2 class="text-[22px] font-bold text-white leading-tight mb-5">
+          <h2 class="text-[26px] font-bold text-white leading-tight mb-5">
             ${t('onboardingSolutionTitle')}
           </h2>
           <div class="w-full max-w-sm flex flex-col gap-2 mb-6">
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
-              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/20 text-emerald-300">📍</span>
-              <span class="text-[13px] text-emerald-300">${t('onboardingSolutionBestSpot')}</span>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[13px] font-semibold bg-emerald-500/20 text-emerald-300">📍</span>
+              <span class="text-[17px] text-emerald-300">${t('onboardingSolutionBestSpot')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
-              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/20 text-emerald-300">⏱️</span>
-              <span class="text-[13px] text-emerald-300">${t('onboardingSolutionAvgWait')}</span>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[13px] font-semibold bg-emerald-500/20 text-emerald-300">⏱️</span>
+              <span class="text-[17px] text-emerald-300">${t('onboardingSolutionAvgWait')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
-              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/20 text-emerald-300">📸</span>
-              <span class="text-[13px] text-emerald-300">${t('onboardingSolutionPhotos')}</span>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[13px] font-semibold bg-emerald-500/20 text-emerald-300">📸</span>
+              <span class="text-[17px] text-emerald-300">${t('onboardingSolutionPhotos')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
-              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/20 text-emerald-300">🛡️</span>
-              <span class="text-[13px] text-emerald-300">${t('onboardingSolutionSafety')}</span>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[13px] font-semibold bg-emerald-500/20 text-emerald-300">🛡️</span>
+              <span class="text-[17px] text-emerald-300">${t('onboardingSolutionSafety')}</span>
             </div>
           </div>
           <div class="flex gap-6 justify-center">
-            <div class="text-center"><div class="text-2xl font-bold text-primary-400">14.6k</div><div class="text-[11px] text-slate-500">spots</div></div>
-            <div class="text-center"><div class="text-2xl font-bold text-primary-400">137</div><div class="text-[11px] text-slate-500">${t('countries')}</div></div>
-            <div class="text-center"><div class="text-2xl font-bold text-primary-400">100%</div><div class="text-[11px] text-slate-500">${t('onboardingFree')}</div></div>
+            <div class="text-center"><div class="text-2xl font-bold text-primary-400">14.6k</div><div class="text-[13px] text-slate-500">spots</div></div>
+            <div class="text-center"><div class="text-2xl font-bold text-primary-400">137</div><div class="text-[13px] text-slate-500">${t('countries')}</div></div>
+            <div class="text-center"><div class="text-2xl font-bold text-primary-400">100%</div><div class="text-[13px] text-slate-500">${t('onboardingFree')}</div></div>
           </div>
         </div>
 
         <!-- Slide 3: Sécurité -->
         <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#0a1a14,#0f1520)">
           <div class="w-24 h-24 rounded-full bg-emerald-500/10 border-2 border-emerald-500/20 flex items-center justify-center text-5xl mb-6">🛡️</div>
-          <h2 class="text-[22px] font-bold text-white leading-tight mb-5">
+          <h2 class="text-[26px] font-bold text-white leading-tight mb-5">
             ${t('onboardingSecurityTitle')}
           </h2>
           <div class="w-full max-w-sm flex flex-col gap-2.5 text-left">
             <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3">
               <span class="text-lg">📍</span>
-              <span class="text-[13px] text-slate-200">${t('onboardingSecurityShare')}</span>
+              <span class="text-[17px] text-slate-200">${t('onboardingSecurityShare')}</span>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3">
               <span class="text-lg">🆘</span>
-              <span class="text-[13px] text-slate-200">${t('onboardingSecuritySOS')}</span>
+              <span class="text-[17px] text-slate-200">${t('onboardingSecuritySOS')}</span>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3">
               <span class="text-lg">✅</span>
-              <span class="text-[13px] text-slate-200">${t('onboardingSecurityCheckin')}</span>
+              <span class="text-[17px] text-slate-200">${t('onboardingSecurityCheckin')}</span>
             </div>
           </div>
         </div>
@@ -96,42 +96,42 @@ export function renderLanding() {
         <!-- Slide 4: Guides pays (passeport) -->
         <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:#0f1520">
           <span class="text-5xl mb-4" aria-hidden="true">🛂</span>
-          <h2 class="text-[22px] font-bold text-white leading-tight mb-2">
+          <h2 class="text-[26px] font-bold text-white leading-tight mb-2">
             ${t('onboardingGuidesTitle')}
           </h2>
-          <p class="text-[13px] text-slate-400 mb-5">${t('onboardingGuidesDesc')}</p>
+          <p class="text-[17px] text-slate-400 mb-5">${t('onboardingGuidesDesc')}</p>
           <div class="w-full max-w-sm flex flex-col gap-2">
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3" style="border-left:3px solid #22c55e">
               <span class="text-2xl">🇫🇷</span>
               <div class="flex-1 text-left">
-                <div class="text-[13px] font-bold text-white">France</div>
-                <div class="text-[11px] text-slate-500">1891 spots • ${t('onboardingGuideHighways')}</div>
+                <div class="text-[17px] font-bold text-white">France</div>
+                <div class="text-[13px] text-slate-500">1891 spots • ${t('onboardingGuideHighways')}</div>
               </div>
-              <span class="text-[11px] text-slate-500">${t('onboardingGuideStamped')}</span>
+              <span class="text-[13px] text-slate-500">${t('onboardingGuideStamped')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3" style="border-left:3px solid #22c55e">
               <span class="text-2xl">🇭🇷</span>
               <div class="flex-1 text-left">
-                <div class="text-[13px] font-bold text-white">Croatie</div>
-                <div class="text-[11px] text-slate-500">124 spots • ${t('onboardingGuideCoastEasy')}</div>
+                <div class="text-[17px] font-bold text-white">Croatie</div>
+                <div class="text-[13px] text-slate-500">124 spots • ${t('onboardingGuideCoastEasy')}</div>
               </div>
-              <span class="text-[11px] text-slate-500">${t('onboardingGuideStamped')}</span>
+              <span class="text-[13px] text-slate-500">${t('onboardingGuideStamped')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3 opacity-60" style="border-left:3px solid #64748b">
               <span class="text-2xl">🇬🇪</span>
               <div class="flex-1 text-left">
-                <div class="text-[13px] font-bold text-white">${t('onboardingGuideGeorgia')}</div>
-                <div class="text-[11px] text-slate-500">45 spots • ${t('onboardingGuideWelcoming')}</div>
+                <div class="text-[17px] font-bold text-white">${t('onboardingGuideGeorgia')}</div>
+                <div class="text-[13px] text-slate-500">45 spots • ${t('onboardingGuideWelcoming')}</div>
               </div>
-              <span class="text-[11px] text-slate-500">${t('onboardingGuideDiscover')}</span>
+              <span class="text-[13px] text-slate-500">${t('onboardingGuideDiscover')}</span>
             </div>
             <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3 opacity-60" style="border-left:3px solid #64748b">
               <span class="text-2xl">🇳🇿</span>
               <div class="flex-1 text-left">
-                <div class="text-[13px] font-bold text-white">${t('onboardingGuideNZ')}</div>
-                <div class="text-[11px] text-slate-500">67 spots • ${t('onboardingGuideDream')}</div>
+                <div class="text-[17px] font-bold text-white">${t('onboardingGuideNZ')}</div>
+                <div class="text-[13px] text-slate-500">67 spots • ${t('onboardingGuideDream')}</div>
               </div>
-              <span class="text-[11px] text-slate-500">${t('onboardingGuideDiscover')}</span>
+              <span class="text-[13px] text-slate-500">${t('onboardingGuideDiscover')}</span>
             </div>
           </div>
         </div>
@@ -139,16 +139,16 @@ export function renderLanding() {
         <!-- Slide 5: Cookies (Aire de repos) -->
         <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:#0f1520">
           <span class="text-5xl mb-4" aria-hidden="true">⛽</span>
-          <h2 class="text-[22px] font-bold text-white leading-tight mb-2">
+          <h2 class="text-[26px] font-bold text-white leading-tight mb-2">
             ${t('onboardingCookiesTitle')}
           </h2>
-          <p class="text-[13px] text-primary-400 italic mb-5">"${t('onboardingCookiesQuote')}"</p>
+          <p class="text-[17px] text-primary-400 italic mb-5">"${t('onboardingCookiesQuote')}"</p>
           <div class="w-full max-w-sm">
             <!-- Necessary (always on) -->
             <div class="flex items-center justify-between py-3 border-b border-white/5">
               <div class="text-left">
-                <div class="text-[13px] text-slate-200">⛽ ${t('onboardingCookiesFuel')}</div>
-                <div class="text-[10px] text-slate-500">${t('onboardingCookiesFuelDesc')}</div>
+                <div class="text-[17px] text-slate-200">⛽ ${t('onboardingCookiesFuel')}</div>
+                <div class="text-[14px] text-slate-500">${t('onboardingCookiesFuelDesc')}</div>
               </div>
               <div class="w-10 h-[22px] rounded-full bg-emerald-600 relative flex-shrink-0" aria-label="${t('required')}">
                 <div class="w-[18px] h-[18px] rounded-full bg-white absolute top-[2px] right-[2px]"></div>
@@ -157,8 +157,8 @@ export function renderLanding() {
             <!-- Analytics (toggleable) -->
             <div class="flex items-center justify-between py-3 border-b border-white/5">
               <div class="text-left">
-                <div class="text-[13px] text-slate-200">☕ ${t('onboardingCookiesCoffee')}</div>
-                <div class="text-[10px] text-slate-500">${t('onboardingCookiesCoffeeDesc')}</div>
+                <div class="text-[17px] text-slate-200">☕ ${t('onboardingCookiesCoffee')}</div>
+                <div class="text-[14px] text-slate-500">${t('onboardingCookiesCoffeeDesc')}</div>
               </div>
               <label class="relative inline-flex cursor-pointer flex-shrink-0 w-10 h-[22px]">
                 <input type="checkbox" id="landing-cookie-analytics" class="sr-only peer" checked>
@@ -169,8 +169,8 @@ export function renderLanding() {
             <!-- Bug tracking (toggleable) -->
             <div class="flex items-center justify-between py-3">
               <div class="text-left">
-                <div class="text-[13px] text-slate-200">🔧 ${t('onboardingCookiesMechanic')}</div>
-                <div class="text-[10px] text-slate-500">${t('onboardingCookiesMechanicDesc')}</div>
+                <div class="text-[17px] text-slate-200">🔧 ${t('onboardingCookiesMechanic')}</div>
+                <div class="text-[14px] text-slate-500">${t('onboardingCookiesMechanicDesc')}</div>
               </div>
               <label class="relative inline-flex cursor-pointer flex-shrink-0 w-10 h-[22px]">
                 <input type="checkbox" id="landing-cookie-bugs" class="sr-only peer" checked>
@@ -179,26 +179,26 @@ export function renderLanding() {
               </label>
             </div>
           </div>
-          <p class="text-[10px] text-slate-600 mt-4">${t('onboardingCookiesNoPub')}</p>
+          <p class="text-[14px] text-slate-600 mt-4">${t('onboardingCookiesNoPub')}</p>
         </div>
 
         <!-- Slide 6: CTA (Premier pas) -->
         <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#0f1520,#1a0f0a)">
           <div class="absolute -top-10 -right-16 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-          <h2 class="text-[22px] font-bold text-white leading-tight mb-6 relative z-10">
+          <h2 class="text-[26px] font-bold text-white leading-tight mb-6 relative z-10">
             ${t('onboardingCTATitle')}
           </h2>
           <div class="w-full max-w-sm relative z-10">
             <div class="bg-white/5 border border-white/10 rounded-2xl p-5 text-center">
               <span class="text-4xl block mb-2">📍</span>
-              <div class="text-[15px] font-bold text-white">${t('onboardingCTAAddSpot')}</div>
-              <div class="text-[12px] text-slate-400 mt-1">${t('onboardingCTAAddSpotDesc')}</div>
+              <div class="text-[17px] font-bold text-white">${t('onboardingCTAAddSpot')}</div>
+              <div class="text-[14px] text-slate-400 mt-1">${t('onboardingCTAAddSpotDesc')}</div>
             </div>
-            <p class="text-[12px] text-slate-600 my-2">${t('onboardingCTAOr')}</p>
+            <p class="text-[14px] text-slate-600 my-2">${t('onboardingCTAOr')}</p>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-5 text-center">
               <span class="text-4xl block mb-2">🧭</span>
-              <div class="text-[15px] font-bold text-white">${t('onboardingCTARoute')}</div>
-              <div class="text-[12px] text-slate-400 mt-1">${t('onboardingCTARouteDesc')}</div>
+              <div class="text-[17px] font-bold text-white">${t('onboardingCTARoute')}</div>
+              <div class="text-[14px] text-slate-400 mt-1">${t('onboardingCTARouteDesc')}</div>
             </div>
           </div>
           <button

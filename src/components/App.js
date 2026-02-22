@@ -104,16 +104,9 @@ let _activeFocusTrapCleanup = null
  * Render the complete application
  */
 export function renderApp(state) {
-  // Show landing page for first-time visitors
-  if (state.showLanding) {
-    return lazyRender('renderLanding')
-  }
-
-  // Welcome/profile setup is now shown on-demand (when user wants to contribute)
-  // No longer blocks access to the map
-
-  // Main app content
-  return `
+  // Main app content — always rendered so the map initializes in background
+  // even while the landing carousel is shown as an overlay on top
+  const mainContent = `
     <!-- Skip Link for Accessibility -->
     <a href="#main-content" class="skip-link">
       ${t('skipToContent') || 'Aller au contenu principal'}
@@ -330,9 +323,16 @@ export function renderApp(state) {
     <!-- Profile Setup (triggered when user wants to contribute) -->
     ${state.showWelcome ? lazyRender('renderWelcome', state) : ''}
 
-    <!-- Cookie Banner (RGPD) - hidden during tutorial -->
-    ${!state.showTutorial ? renderCookieBanner() : ''}
-  `;
+    <!-- Cookie Banner (RGPD) - hidden during tutorial and landing -->
+    ${!state.showTutorial && !state.showLanding ? renderCookieBanner() : ''}
+  `
+
+  // Landing overlay for first-time visitors (map loads behind it)
+  if (state.showLanding) {
+    return mainContent + lazyRender('renderLanding')
+  }
+
+  return mainContent
 }
 
 /**
@@ -364,11 +364,15 @@ function renderActiveView(state) {
  * Post-render hook to initialize map and focus traps
  */
 export function afterRender(state) {
-  // Init landing carousel if visible
+  // Init landing carousel if visible (only once — check data attribute)
   if (state.showLanding) {
-    setTimeout(() => {
-      import('./Landing.js').then(mod => mod.initLandingCarousel?.())
-    }, 50)
+    const landingPage = document.getElementById('landing-page')
+    if (landingPage && landingPage.dataset.initialized !== 'true') {
+      landingPage.dataset.initialized = 'true'
+      setTimeout(() => {
+        import('./Landing.js').then(mod => mod.initLandingCarousel?.())
+      }, 50)
+    }
   }
 
   const isMapTab = ['map', 'fullmap', 'home', 'travel', 'planner'].includes(state.activeTab)
