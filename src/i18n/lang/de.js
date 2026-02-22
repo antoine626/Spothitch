@@ -1461,7 +1461,6 @@ export default {
   createGroupToTravel: 'Erstelle eine Gruppe zum gemeinsamen Reisen!',
   friendAdded: 'Freund hinzugefügt!',
   requestDeclined: 'Anfrage abgelehnt',
-  deviceRemoved: 'Gerät entfernt',
   enterTravelerName: 'Gib einen Reisenamen ein',
   alreadyFriend: 'Dieser Freund ist bereits in deiner Liste',
   // Social tabs & sections
