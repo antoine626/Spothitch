@@ -697,9 +697,15 @@ function setupKeyboardShortcuts() {
 // Make functions available globally for onclick handlers
 
 // Reset App
-window.resetApp = () => {
+window.resetApp = async () => {
   if (confirm(t('resetAppConfirm') || 'Réinitialiser l\'application ? Toutes les données locales seront effacées.')) {
     localStorage.clear();
+    sessionStorage.clear();
+    // Clear Service Worker caches so everything reloads fresh
+    if ('caches' in window) {
+      const names = await caches.keys()
+      await Promise.all(names.map(n => caches.delete(n)))
+    }
     location.reload();
   }
 };
