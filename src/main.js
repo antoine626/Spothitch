@@ -1235,15 +1235,19 @@ window.finishTutorial = async () => {
 
 // Chat handlers
 window.setChatRoom = (room) => setState({ chatRoom: room });
-window.sendMessage = async () => {
-  const input = document.getElementById('chat-input');
-  const text = input?.value?.trim();
-  if (!text) return;
-  const { chatRoom } = getState();
-  const fbChat = await getFirebase()
-  await fbChat.sendChatMessage(chatRoom || 'general', text);
-  if (input) input.value = '';
-};
+// sendMessage — canonical owner is Social.js (full implementation with state + localStorage + Firebase).
+// This fallback only runs if Social.js hasn't loaded yet.
+if (!window.sendMessage) {
+  window.sendMessage = async () => {
+    const input = document.getElementById('chat-input');
+    const text = input?.value?.trim();
+    if (!text) return;
+    const { chatRoom } = getState();
+    const fbChat = await getFirebase()
+    await fbChat.sendChatMessage(chatRoom || 'general', text);
+    if (input) input.value = '';
+  };
+}
 
 // Filter handlers
 window.setFilter = (filter) => actions.setFilter(filter);
@@ -1721,7 +1725,8 @@ window.dismissLanding = () => {
   preloadMap()
 }
 
-// Landing carousel next slide — overridden by initLandingCarousel()
+// Landing carousel next slide — stub until initLandingCarousel() overrides with real implementation.
+// Must exist early so onclick="landingNext()" in landing HTML doesn't throw before carousel init.
 window.landingNext = () => {}
 
 window.installPWAFromLanding = () => {

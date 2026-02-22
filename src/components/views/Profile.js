@@ -586,9 +586,7 @@ export function renderProfile(state) {
 }
 
 // Global handlers
-window.startTutorial = () => {
-  window.setState?.({ showTutorial: true, tutorialStep: 0 });
-};
+// startTutorial is defined in main.js (canonical owner — includes tab change + step action)
 
 window.handleLogout = async () => {
   try {

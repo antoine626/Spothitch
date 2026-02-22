@@ -40,7 +40,7 @@ export function getDeviceCapability() {
  * Check if data saver mode is active
  * @returns {boolean}
  */
-export function isDataSaverEnabled() {
+function isDataSaverEnabled() {
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection
   return conn?.saveData === true
 }
@@ -74,37 +74,6 @@ export function getPageSize(defaultCount = 20) {
 }
 
 /**
- * Should we preload resources?
- * @returns {boolean}
- */
-export function shouldPreload() {
-  if (isDataSaverEnabled()) return false
-  const network = getNetworkQuality()
-  return network === 'high'
-}
-
-/**
- * Should we use animations?
- * @returns {boolean}
- */
-export function shouldAnimate() {
-  // Respect prefers-reduced-motion
-  if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return false
-
-  const device = getDeviceCapability()
-  return device !== 'low'
-}
-
-/**
- * Should we load map tiles in high quality?
- * @returns {boolean}
- */
-export function shouldLoadHQTiles() {
-  if (isDataSaverEnabled()) return false
-  return getNetworkQuality() === 'high'
-}
-
-/**
  * Listen for network quality changes
  * @param {Function} callback - (quality: string) => void
  * @returns {Function} cleanup
@@ -129,21 +98,14 @@ export function getAdaptiveConfig() {
     dataSaver: isDataSaverEnabled(),
     imageQuality: getImageQuality(),
     pageSize: getPageSize(),
-    preload: shouldPreload(),
-    animate: shouldAnimate(),
-    hqTiles: shouldLoadHQTiles(),
   }
 }
 
 export default {
   getNetworkQuality,
   getDeviceCapability,
-  isDataSaverEnabled,
   getImageQuality,
   getPageSize,
-  shouldPreload,
-  shouldAnimate,
-  shouldLoadHQTiles,
   onNetworkChange,
   getAdaptiveConfig,
 }

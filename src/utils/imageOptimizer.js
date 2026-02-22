@@ -133,25 +133,6 @@ export async function generateThumbnail(source, size = 'medium') {
 }
 
 /**
- * Generate all thumbnail sizes for an image
- * @param {File|Blob|string} source
- * @returns {Promise<Object>}
- */
-export async function generateAllThumbnails(source) {
-  const results = {};
-
-  for (const [sizeName] of Object.entries(THUMBNAIL_SIZES)) {
-    try {
-      results[sizeName] = await generateThumbnail(source, sizeName);
-    } catch (error) {
-      console.error(`Failed to generate ${sizeName} thumbnail:`, error);
-    }
-  }
-
-  return results;
-}
-
-/**
  * Validate image file
  * @param {File} file
  * @returns {{valid: boolean, error?: string}}
@@ -177,61 +158,6 @@ export function validateImage(file) {
   }
 
   return { valid: true };
-}
-
-/**
- * Get image dimensions without loading full image
- * @param {File|Blob|string} source
- * @returns {Promise<{width: number, height: number}>}
- */
-export async function getImageDimensions(source) {
-  const img = await loadImage(source);
-  return { width: img.width, height: img.height };
-}
-
-/**
- * Convert image to WebP format
- * @param {File|Blob|string} source
- * @param {number} quality
- * @returns {Promise<{dataUrl: string, blob: Blob}>}
- */
-export async function convertToWebP(source, quality = 0.85) {
-  const img = await loadImage(source);
-
-  const canvas = document.createElement('canvas');
-  canvas.width = img.width;
-  canvas.height = img.height;
-
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(img, 0, 0);
-
-  const dataUrl = canvas.toDataURL('image/webp', quality);
-  const blob = await canvasToBlob(canvas, 'image/webp', quality);
-
-  return { dataUrl, blob, size: blob.size };
-}
-
-/**
- * Create a placeholder image (blur placeholder for lazy loading)
- * @param {File|Blob|string} source
- * @returns {Promise<string>} - Base64 blur placeholder
- */
-export async function createBlurPlaceholder(source) {
-  const img = await loadImage(source);
-
-  // Very small dimensions for blur
-  const width = 10;
-  const height = Math.round((img.height / img.width) * width);
-
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(img, 0, 0, width, height);
-
-  // Return tiny base64
-  return canvas.toDataURL('image/jpeg', 0.5);
 }
 
 /**
@@ -348,52 +274,9 @@ function canvasToBlob(canvas, type, quality) {
   });
 }
 
-/**
- * Clear thumbnail cache
- */
-export function clearThumbnailCache() {
-  thumbnailCache.clear();
-}
-
-/**
- * Get cache statistics
- * @returns {{size: number, entries: number}}
- */
-export function getCacheStats() {
-  let totalSize = 0;
-  thumbnailCache.forEach((entry) => {
-    totalSize += entry.size || 0;
-  });
-
-  return {
-    entries: thumbnailCache.size,
-    size: totalSize,
-    sizeFormatted: formatBytes(totalSize),
-  };
-}
-
-/**
- * Format bytes to human readable
- * @param {number} bytes
- * @returns {string}
- */
-function formatBytes(bytes) {
-  if (bytes === 0) return '0 B';
-  const k = 1024;
-  const sizes = ['B', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
 export default {
   compressImage,
   generateThumbnail,
-  generateAllThumbnails,
   validateImage,
-  getImageDimensions,
-  convertToWebP,
-  createBlurPlaceholder,
-  clearThumbnailCache,
-  getCacheStats,
   THUMBNAIL_SIZES,
 };

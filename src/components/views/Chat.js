@@ -127,22 +127,7 @@ window.handleChatKeypress = (e) => {
   }
 };
 
-window.sendMessage = async () => {
-  const input = document.getElementById('chat-input');
-  if (!input?.value.trim()) return;
-
-  const text = input.value.trim();
-  input.value = '';
-
-  // Import and send via Firebase
-  try {
-    const { sendChatMessage } = await import('../../services/firebase.js');
-    const { getState } = await import('../../stores/state.js');
-    const state = getState();
-    await sendChatMessage(state.chatRoom, text);
-  } catch (error) {
-    console.error('Failed to send message:', error);
-  }
-};
+// sendMessage — canonical owner is Social.js (not duplicated here)
+// Chat.js is legacy; Social.js handles all chat rendering.
 
 export default { renderChat };
