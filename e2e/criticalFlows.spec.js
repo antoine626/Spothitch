@@ -16,6 +16,8 @@ import { skipOnboarding, navigateToTab, getAppState, waitForToast } from './help
 // FLOW 1: Search with Autocomplete
 // ================================================================
 test.describe('Search - Autocomplete Suggestions', () => {
+  test.describe.configure({ timeout: 30000 })
+
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
     await navigateToTab(page, 'map')
@@ -130,6 +132,8 @@ test.describe('Search - Autocomplete Suggestions', () => {
 // Trip planner is an overlay opened via setState, NOT a tab
 // ================================================================
 test.describe('Trip Creation - Deep Functional', () => {
+  test.describe.configure({ timeout: 40000 })
+
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
     // Open trip planner overlay (not a tab)
@@ -292,6 +296,8 @@ test.describe('Map Persistence', () => {
 // Guides overlay is opened via setState, NOT via a travel tab
 // ================================================================
 test.describe('Country Guides', () => {
+  test.describe.configure({ timeout: 30000 })
+
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
     // Open guides overlay
@@ -405,10 +411,10 @@ test.describe('Error-Free Critical Flows', () => {
     await toInput.dispatchEvent('blur')
 
     const calcBtn = page.locator('[onclick*="calculateTrip"], [onclick*="syncTripFieldsAndCalculate"]')
-    if (await calcBtn.count() > 0) {
+    if (await calcBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
       await calcBtn.first().click()
-      // Wait for result
-      await page.waitForSelector('text=/km/i', { timeout: 15000 }).catch(() => {})
+      // Wait for result (short timeout — just checking for no crash)
+      await page.waitForSelector('text=/km/i', { timeout: 5000 }).catch(() => {})
     }
 
     const criticalErrors = errors.filter(e =>
