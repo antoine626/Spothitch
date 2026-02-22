@@ -8,6 +8,7 @@ import './styles/main.css';
 
 // State & Store
 import { getState, setState, subscribe, actions } from './stores/state.js';
+import { Storage } from './utils/storage.js';
 
 // Firebase — lazy-loaded to save 115KB gzip on initial load
 let _firebase = null
@@ -1808,9 +1809,7 @@ window.dismissLanding = () => {
     timestamp: Date.now(),
     version: '1.0',
   }
-  try {
-    localStorage.setItem('spothitch_v4_cookie_consent', JSON.stringify(consent))
-  } catch (_) { /* storage full — non-blocking */ }
+  Storage.set('cookie_consent', consent)
 
   const { tutorialCompleted } = getState()
   setState({
