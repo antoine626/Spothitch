@@ -1806,7 +1806,7 @@ function phase13_featureScores() {
     {
       name: 'Carte',
       files: ['src/components/App.js', 'src/components/views/Map.js'],
-      handlers: ['flyToCity', 'toggleHeatmap', 'toggleGasStations', 'toggleSplitView'],
+      handlers: ['flyToCity', 'toggleGasStations', 'toggleSplitView'],
       i18nKeys: ['searchCity', 'mapLoading'],
       advice100: 'Ajouter un mode offline pour les tuiles carte (cache local).',
       adviceLow: 'La carte est le coeur de l\'app — s\'assurer que la recherche et les filtres marchent parfaitement.',
@@ -2002,7 +2002,7 @@ function phase14_competitiveIntel() {
         'voice guidance', 'live location sharing', 'save places', 'multi-stop route',
         'elevation profile', 'route conditions warnings',
       ],
-      spothitchHas: ['offline map tiles', 'route planning', 'save favorites', 'spots along route', 'multi-city planner', 'heatmap'],
+      spothitchHas: ['offline map tiles', 'route planning', 'save favorites', 'spots along route', 'multi-city planner'],
     },
     {
       feature: 'Messagerie & Social',

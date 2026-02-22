@@ -3533,4 +3533,7 @@ export default {
   shareTripDestination: 'Destination du voyage :',
   shareTripNotes: 'Notes (optionnel) :',
   tripShared: 'Voyage partagé !',
+  pushNotifications: 'Notifications push',
+  pushNotificationsDesc: 'Recevoir des alertes quand un autostoppeur est proche',
+  enablePushNotifications: 'Activer les notifications push',
 }

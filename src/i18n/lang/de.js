@@ -3530,4 +3530,7 @@ export default {
   shareTripDestination: 'Reiseziel:',
   shareTripNotes: 'Notizen (optional):',
   tripShared: 'Reise geteilt!',
+  pushNotifications: 'Push-Benachrichtigungen',
+  pushNotificationsDesc: 'Benachrichtigungen erhalten, wenn ein Tramper in der Naehe ist',
+  enablePushNotifications: 'Push-Benachrichtigungen aktivieren',
 }

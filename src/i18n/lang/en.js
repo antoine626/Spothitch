@@ -3533,4 +3533,7 @@ export default {
   shareTripDestination: 'Trip destination:',
   shareTripNotes: 'Notes (optional):',
   tripShared: 'Trip shared!',
+  pushNotifications: 'Push Notifications',
+  pushNotificationsDesc: 'Receive alerts when a hitchhiker is nearby',
+  enablePushNotifications: 'Enable push notifications',
 }

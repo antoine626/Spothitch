@@ -261,7 +261,7 @@ export function renderSpotDetail(state) {
               ${t('guidedNav') || 'Navigation guidée'}
             </button>
             <button
-              onclick="shareSpot(window.getState().selectedSpot)"
+              onclick="openShareCard()"
               class="btn btn-ghost text-sm py-2"
               type="button"
               aria-label="${t('shareSpot') || 'Partager ce spot'}"

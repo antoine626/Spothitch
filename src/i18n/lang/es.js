@@ -3530,4 +3530,7 @@ export default {
   shareTripDestination: 'Destino del viaje:',
   shareTripNotes: 'Notas (opcional):',
   tripShared: 'Viaje compartido!',
+  pushNotifications: 'Notificaciones push',
+  pushNotificationsDesc: 'Recibir alertas cuando un autoestopista esta cerca',
+  enablePushNotifications: 'Activar notificaciones push',
 }

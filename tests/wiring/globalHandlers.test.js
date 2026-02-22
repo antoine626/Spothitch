@@ -136,7 +136,7 @@ const MAIN_JS_HANDLERS = [
   'showSuccessAnimation', 'showErrorAnimation', 'showBadgeUnlock', 'showLevelUp',
   'showPoints', 'playSound', 'launchConfetti', 'launchConfettiBurst',
   // Sharing
-  'shareSpot', 'shareBadge', 'shareStats', 'shareApp',
+  'shareSpot', 'shareBadge', 'shareStats', 'shareApp', 'openShareCard',
   // Side-effect modules (AdminPanel, Leaderboard, MyData, DonationCard, Moderation, FriendProfile, etc.)
   'openAdminPanel', 'closeAdminPanel',
   'openLeaderboard', 'closeLeaderboard',
@@ -372,8 +372,6 @@ const MAIN_JS_HANDLERS = [
   // Nearby Friends extras (defined in nearbyFriends.js)
   'setNotificationRadius', 'toggleNearbyFriendsList',
   'closeNearbyFriendsList', 'toggleLocationSharing', 'showFriendOnMap',
-  // Heatmap (defined in heatmap.js)
-  'toggleHeatmap',
   // Proximity Notify (defined in proximityNotify.js)
   'quickValidateSpot', 'quickReportSpot', 'dismissProximityAlert', 'initProximityNotify',
   // City Panel (defined in main.js)

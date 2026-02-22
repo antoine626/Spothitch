@@ -401,6 +401,35 @@ export function renderProfile(state) {
           </div>
         </div>
 
+        <!-- Push Notifications -->
+        ${(() => {
+          const pushConfig = typeof localStorage !== 'undefined'
+            ? JSON.parse(localStorage.getItem('spothitch_push_config') || '{}')
+            : {}
+          const pushOn = pushConfig.enabled === true
+          return `
+        <div class="p-3 rounded-xl bg-white/5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              ${icon('bell-ring', 'w-5 h-5 text-blue-400')}
+              <div>
+                <span class="block">${t('pushNotifications') || 'Notifications push'}</span>
+                <span class="text-xs text-slate-400">${t('pushNotificationsDesc') || 'Receive alerts when a hitchhiker is nearby'}</span>
+              </div>
+            </div>
+            <button
+              onclick="togglePushNotifications()"
+              class="w-14 h-8 rounded-full ${pushOn ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
+              role="switch"
+              aria-checked="${pushOn}"
+              aria-label="${t('pushNotifications') || 'Notifications push'}"
+            >
+              <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${pushOn ? 'left-7' : 'left-1'}"></div>
+            </button>
+          </div>
+        </div>`
+        })()}
+
         <!-- Tutorial -->
         <button
           onclick="startTutorial()"
@@ -616,13 +645,25 @@ window.toggleNotifications = () => {
   );
 };
 
-window.toggleProximityAlertsSetting = () => {
+window.toggleProximityAlertsSetting = async () => {
   const state = window.getState?.() || {};
-  window.setState?.({ proximityAlerts: state.proximityAlerts === false ? true : false });
+  const newValue = state.proximityAlerts === false ? true : false;
+  window.setState?.({ proximityAlerts: newValue });
+  try {
+    const { initProximityAlerts, stopProximityAlerts } = await import('../../services/proximityAlerts.js');
+    if (newValue) {
+      initProximityAlerts();
+    } else {
+      stopProximityAlerts();
+    }
+  } catch (e) {
+    console.warn('[Profile] Proximity alerts toggle failed:', e);
+  }
   window.showToast?.(
-    state.proximityAlerts === false ? (t('notificationsEnabled') || 'Notifications activées') : (t('notificationsDisabled') || 'Notifications désactivées'),
+    newValue ? (t('proximityAlertsEnabled') || 'Alertes de proximité activées') : (t('proximityAlertsDisabled') || 'Alertes de proximité désactivées'),
     'info'
   );
+  window.render?.();
 };
 
 window.editAvatar = () => {

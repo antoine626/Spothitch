@@ -1513,6 +1513,13 @@ window.shareApp = async (...args) => {
   const { shareApp } = await import('./utils/share.js')
   shareApp(...args)
 }
+window.openShareCard = async () => {
+  const state = getState()
+  const spot = state.selectedSpot
+  if (!spot) return
+  const { showShareModal } = await import('./services/shareCard.js')
+  showShareModal(spot)
+}
 window.showAddFriend = () => setState({ showAddFriend: true });
 window.closeAddFriend = () => setState({ showAddFriend: false });
 window.acceptFriendRequest = (_requestId) => {
