@@ -32,10 +32,9 @@ describe('FAQ Component', () => {
       const html = renderFAQ(state);
 
       expect(html).toContain('faq-view');
-      expect(html).toContain('faqTitle');
+      expect(html).toContain('FAQ');
       expect(html).toContain('scrollToFAQCategory');
-      expect(html).toContain('<svg');
-      expect(html).toContain('<svg');
+      expect(html).toContain('closeFAQ');
     });
 
     it('should render search input', () => {
@@ -489,13 +488,7 @@ describe('FAQ Component', () => {
       expect(typeof window.filterFAQ).toBe('function');
     });
 
-    it('should expose openFAQ on window', () => {
-      expect(typeof window.openFAQ).toBe('function');
-    });
-
-    it('should expose closeFAQ on window', () => {
-      expect(typeof window.closeFAQ).toBe('function');
-    });
+    // openFAQ and closeFAQ are defined in main.js (tested in globalHandlers.test.js)
 
     it('should expose clearFAQSearch on window', () => {
       expect(typeof window.clearFAQSearch).toBe('function');
