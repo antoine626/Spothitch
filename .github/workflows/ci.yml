@@ -136,12 +136,11 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  e2e:
-    name: E2E Tests
+  e2e-core:
+    name: E2E Core (navigation, admin, social, profile)
     runs-on: ubuntu-latest
     needs: build
-    continue-on-error: true
-    timeout-minutes: 15
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
@@ -155,12 +154,63 @@ jobs:
         with:
           name: dist
           path: dist/
-      - run: npm run test:e2e -- --project=chromium
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
+      - run: npx playwright test --project=chromium e2e/navigation.spec.js e2e/admin.spec.js e2e/social.spec.js e2e/profile.spec.js e2e/tutorial.spec.js e2e/gamification.spec.js
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: e2e-core-report
+          path: playwright-report/
+
+  e2e-features:
+    name: E2E Features (critical flows, accessibility, pwa)
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 10
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Download build
+        uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: dist/
+      - run: npx playwright test --project=chromium e2e/criticalFlows.spec.js e2e/accessibility.spec.js e2e/pwa.spec.js e2e/comprehensiveE2E.spec.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-features-report
+          path: playwright-report/
+
+  e2e-stress:
+    name: E2E Stress (monkey, journeys, visual)
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 12
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Download build
+        uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: dist/
+      - run: npx playwright test --project=chromium e2e/monkeyTest.spec.js e2e/userJourneys.spec.js e2e/visualTests.spec.js e2e/map.spec.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-stress-report
           path: playwright-report/
 
   deploy:
