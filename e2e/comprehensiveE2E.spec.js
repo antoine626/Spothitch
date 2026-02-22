@@ -591,6 +591,9 @@ test.describe('Profile — Settings', () => {
   })
 
   test('should have theme toggle control', async ({ page }) => {
+    // Navigate to Réglages sub-tab where theme toggle lives
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(300)
     const html = await page.evaluate(() => document.body.innerHTML)
     // Profile should have a theme toggle somewhere (button or switch)
     expect(html).toMatch(/toggleTheme|theme|Thème|Theme/i)
