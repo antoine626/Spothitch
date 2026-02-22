@@ -94,12 +94,18 @@
 > - JAMAIS exécuter de scripts destructifs (order66, migrations, purge) sans confirmation EXPLICITE de l'utilisateur
 > - Si un `git add -A` a été fait par erreur → `git reset HEAD` immédiatement avant de commiter
 
-> **RÈGLE #10 — CI/CD VÉRIFICATION** :
-> - Après chaque push → attendre 3 min et vérifier `gh run view` pour confirmer que le CI passe
-> - Si un job échoue → le corriger IMMÉDIATEMENT dans la même session, ne pas laisser traîner
-> - Les "cancelled" sont normaux (push suivant trop rapide), les "failure" doivent être investigués
-> - Le E2E peut timeout (non-bloquant), mais tous les autres jobs DOIVENT passer
+> **RÈGLE #10 — CI/CD VÉRIFICATION (ZÉRO TOLÉRANCE)** :
+> - Après chaque push → attendre et vérifier `gh run view` pour confirmer que TOUS les jobs passent
+> - **TOUS les jobs DOIVENT passer, y compris les E2E** — il n'y a AUCUN job "non-bloquant" ou "optionnel"
+> - Si un job E2E échoue (timeout, failure, flaky) → le corriger IMMÉDIATEMENT dans la même session
+> - **NE JAMAIS dire "c'est bon" ou "c'est déployé" si un seul job est en échec** — même un E2E
+> - Les "cancelled" sont normaux (push suivant trop rapide), les "failure" doivent être investigués et corrigés
 > - **NE JAMAIS dire "déployé" ou "en ligne" tant que le CI n'est pas passé au vert** — dire "poussé sur GitHub" quand c'est push, et "déployé" UNIQUEMENT après avoir vérifié `gh run view` et confirmé que le deploy Cloudflare est completed/success
+> - **Si un test E2E timeout** → c'est un bug du test, pas un problème acceptable. Corriger : ajouter des early return guards, augmenter les timeouts, simplifier le test. Un test qui timeout = un test cassé.
+> - **Checklist CI après chaque push** :
+>   1. `gh run view` → TOUS les jobs (lint, test, wiring, build, e2e-core, e2e-features, e2e-comprehensive, e2e-stress, deploy) doivent être `success`
+>   2. Si un seul est `failure` → corriger et re-push avant de dire quoi que ce soit à l'utilisateur
+>   3. Vérifier le nombre de tests passed/failed dans chaque E2E job — 0 failed obligatoire
 
 > **RÈGLE #12 — JOURNAL DES ERREURS + APPRENTISSAGE CONTINU** (ABSOLUMENT OBLIGATOIRE) :
 > - Après CHAQUE bug trouvé → ajouter une entrée dans `memory/errors.md` avec : date, gravité, description, cause racine, correction, leçon apprise, fichiers, statut
@@ -117,6 +123,10 @@
 >   - Les sélecteurs CSS matchent le HTML réel du template (ERR-008)
 >   - La validation existe au passage d'étape ET à la soumission finale (ERR-009)
 >   - Pas de MutationObserver qui modifie le DOM qu'il observe sans garde (ERR-011)
+>   - ZÉRO test E2E en échec — tout timeout ou failure doit être corrigé immédiatement (ERR-018)
+>   - Utiliser `escapeJSString()` pour les onclick, JAMAIS `.replace(/'/g, "\\'")` (ERR-019)
+>   - JAMAIS `innerHTML` avec des variables non échappées — utiliser `textContent` (ERR-019)
+>   - JAMAIS `Math.random()` pour des IDs de sécurité — utiliser `crypto.getRandomValues()` (ERR-019)
 
 > **RÈGLE #11 — AUDIT COMPLET AVANT LIVRAISON** :
 > - À la fin de chaque session ou avant une livraison majeure, exécuter EN PARALLÈLE :
