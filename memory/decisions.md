@@ -1,6 +1,6 @@
 # decisions.md - Historique des décisions SpotHitch
 
-> Dernière mise à jour : 2026-02-20
+> Dernière mise à jour : 2026-02-22
 
 ---
 
@@ -54,6 +54,8 @@
 | MapLibre lazy | Chargé uniquement quand la carte est affichée | 277KB économisés au premier chargement | 2026-02 |
 | Images | Compression WebP 128/256px | Chargement rapide, surtout sur mobile | 2026-02 |
 | Auto-update | Polling version.json + SW listener | L'utilisateur voit toujours la dernière version | 2026-01 |
+| Lazy-load modales/vues | ~30 composants lazy dans App.js | Bundle 785KB → 200KB (-75%) | 2026-02-22 |
+| Nommage cohérent | Règle #8b — 1 nom unique par handler, jamais d'alias | Éviter confusion rejectFriendRequest/declineFriendRequest | 2026-02-22 |
 
 ## Sécurité
 

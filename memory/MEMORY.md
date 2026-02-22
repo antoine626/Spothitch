@@ -1,13 +1,13 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-21
+> Dernière mise à jour : 2026-02-22
 
 ---
 
 ## État du projet
 
 - **Version** : 2.0.0
-- **Commits** : 381
+- **Commits** : 432+
 - **Premier commit** : 2025-12-23
 - **Site live** : spothitch.com (GitHub Pages, HTTPS actif, cert expire 2026-05-13)
 - **Spots** : 14 669 spots dans 137 pays (source Hitchmap/Hitchwiki ODBL)
