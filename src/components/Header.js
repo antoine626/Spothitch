@@ -41,10 +41,14 @@ export function renderHeader(state) {
             const timeStr = `${overdue ? '-' : ''}${String(mins).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
             return `
             <button
-              onclick="showCompanionModal()"
-              class="flex items-center gap-1.5 px-2.5 py-2 rounded-full ${overdue ? 'bg-danger-500 shadow-danger-500/30 animate-pulse-subtle' : 'bg-emerald-500 shadow-emerald-500/30'} text-white font-bold text-xs shadow-lg hover:scale-105 transition-all"
-              aria-label="${t('companionActive') || 'Mode compagnon actif'}"
-              title="${t('companionActive') || 'Mode compagnon actif'}"
+              id="companion-header-btn"
+              onpointerdown="companionBtnDown()"
+              onpointerup="companionBtnUp()"
+              onpointerleave="companionBtnCancel()"
+              oncontextmenu="return false"
+              class="flex items-center gap-1.5 px-2.5 py-2 rounded-full ${overdue ? 'bg-danger-500 shadow-danger-500/30 animate-pulse-subtle' : 'bg-emerald-500 shadow-emerald-500/30'} text-white font-bold text-xs shadow-lg hover:scale-105 transition-all select-none touch-none"
+              aria-label="${t('companionActiveBtnHint') || 'Appuyer : check-in · Maintenir 2s : arrêter'}"
+              title="${t('companionActiveBtnHint') || 'Appuyer : check-in · Maintenir 2s : arrêter'}"
             >
               ${icon('shield', 'w-4 h-4')}
               <span class="tabular-nums">${timeStr}</span>
@@ -52,7 +56,7 @@ export function renderHeader(state) {
             `
           })() : `
           <button
-            onclick="openCompanionModal()"
+            onclick="showCompanionModal()"
             class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 hover:scale-105 transition-all flex items-center justify-center"
             aria-label="${t('companionMode') || 'Mode Compagnon'}"
             title="${t('companionMode') || 'Mode Compagnon'}"

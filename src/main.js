@@ -1873,6 +1873,32 @@ window.submitContactForm = async (event) => {
 // Companion Mode handlers
 window.showCompanionModal = () => setState({ showCompanionModal: true })
 window.closeCompanionModal = () => setState({ showCompanionModal: false })
+
+// Header companion button: short press = check-in, hold 2s = stop
+let _companionPressTimer = null
+let _companionLongFired = false
+
+window.companionBtnDown = () => {
+  _companionLongFired = false
+  _companionPressTimer = setTimeout(() => {
+    _companionLongFired = true
+    _companionPressTimer = null
+    window.stopCompanion()
+  }, 2000)
+}
+window.companionBtnUp = () => {
+  if (_companionPressTimer) {
+    clearTimeout(_companionPressTimer)
+    _companionPressTimer = null
+  }
+  if (!_companionLongFired) window.companionCheckIn()
+}
+window.companionBtnCancel = () => {
+  if (_companionPressTimer) {
+    clearTimeout(_companionPressTimer)
+    _companionPressTimer = null
+  }
+}
 window.startCompanion = () => {
   const nameEl = document.getElementById('companion-guardian-name')
   const phoneEl = document.getElementById('companion-guardian-phone')

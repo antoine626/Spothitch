@@ -236,6 +236,7 @@ const MAIN_JS_HANDLERS = [
   // Companion Mode
   'showCompanionModal', 'closeCompanionModal',
   'startCompanion', 'stopCompanion',
+  'companionBtnDown', 'companionBtnUp', 'companionBtnCancel',
   'companionCheckIn', 'companionSendAlert',
   'companionSetChannel', 'companionAddTrustedContact', 'companionRemoveTrustedContact',
   'companionClearHistory',
