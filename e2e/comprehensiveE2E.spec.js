@@ -72,7 +72,7 @@ test.describe('i18n — Language Switching', () => {
     await page.waitForTimeout(1500)
 
     const html = await page.evaluate(() => document.body.innerText)
-    expect(html).toMatch(/Profile|Settings|Map|Social|Progression|Log|Spot/i)
+    expect(html).toMatch(/Profile|Settings|Map|Social|Progression|Voyage|Trip|Log|Spot/i)
   })
 
   test('should switch to Spanish and update UI text', async ({ page }) => {

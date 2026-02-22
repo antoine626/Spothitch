@@ -1435,6 +1435,7 @@ export default {
   navTravel: 'Reise',
   navChallenges: 'Herausforderungen',
   navProgression: 'Fortschritt',
+  navVoyage: 'Reise',
   navSocial: 'Sozial',
   navProfile: 'Profil',
   offlineMode: 'Offline-Modus',

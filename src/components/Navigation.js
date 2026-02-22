@@ -11,7 +11,7 @@ export function renderNavigation(state) {
   const companionActive = isCompanionActive()
   const tabs = [
     { id: 'map', icon: 'map-pinned', label: t('navMap') || 'Carte' },
-    { id: 'challenges', icon: 'compass', label: t('navProgression') || 'Progression' },
+    { id: 'challenges', icon: 'compass', label: t('navVoyage') || 'Voyage' },
     { id: 'social', icon: 'users', label: t('navSocial') || 'Social' },
     { id: 'profile', icon: 'user', label: t('navProfile') || 'Profil' },
   ]
