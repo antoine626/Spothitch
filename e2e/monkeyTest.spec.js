@@ -180,10 +180,11 @@ async function dismissOnboarding(page) {
   }
 }
 
-const tabs = ['map', 'travel', 'challenges', 'social', 'profile']
+const tabs = ['map', 'challenges', 'social', 'profile']
 
 for (const tab of tabs) {
-  test(`${tab} tab survives monkey testing (${GREMLIN_DURATION / 1000}s)`, async ({ page }) => {
+  test(`${tab} tab survives monkey testing (${GREMLIN_DURATION / 1000}s)`, async ({ page }, testInfo) => {
+    testInfo.setTimeout(30000)
     const criticalErrors = []
 
     // Capture page errors

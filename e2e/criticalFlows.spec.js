@@ -23,7 +23,7 @@ test.describe('Search - Autocomplete Suggestions', () => {
   })
 
   test('should show search input on map', async ({ page }) => {
-    const searchInput = page.locator('#map-search')
+    const searchInput = page.locator('#home-destination')
     await expect(searchInput).toBeVisible({ timeout: 10000 })
     const placeholder = await searchInput.getAttribute('placeholder')
     expect(placeholder).toBeTruthy()
@@ -31,21 +31,21 @@ test.describe('Search - Autocomplete Suggestions', () => {
   })
 
   test('should accept text input in search bar', async ({ page }) => {
-    const searchInput = page.locator('#map-search')
+    const searchInput = page.locator('#home-destination')
     await expect(searchInput).toBeVisible({ timeout: 10000 })
     await searchInput.fill('Par')
     await expect(searchInput).toHaveValue('Par')
   })
 
   test('should show suggestions when typing 2+ chars', async ({ page }) => {
-    const searchInput = page.locator('#map-search')
+    const searchInput = page.locator('#home-destination')
     await expect(searchInput).toBeVisible({ timeout: 10000 })
 
     await searchInput.fill('Paris')
     await searchInput.dispatchEvent('input')
 
     // Wait for suggestions to appear (debounce + network)
-    const suggestions = page.locator('#map-search-suggestions')
+    const suggestions = page.locator('#home-dest-suggestions')
     await expect(suggestions).toBeVisible({ timeout: 8000 })
 
     // Must have at least one suggestion with text content
@@ -56,13 +56,13 @@ test.describe('Search - Autocomplete Suggestions', () => {
   })
 
   test('should select a suggestion and update map', async ({ page }) => {
-    const searchInput = page.locator('#map-search')
+    const searchInput = page.locator('#home-destination')
     await expect(searchInput).toBeVisible({ timeout: 10000 })
 
     await searchInput.fill('Berlin')
     await searchInput.dispatchEvent('input')
 
-    const suggestions = page.locator('#map-search-suggestions')
+    const suggestions = page.locator('#home-dest-suggestions')
     await expect(suggestions).toBeVisible({ timeout: 8000 })
 
     const firstSuggestion = suggestions.locator('button').first()
@@ -81,14 +81,14 @@ test.describe('Search - Autocomplete Suggestions', () => {
     const errors = []
     page.on('pageerror', err => errors.push(err.message))
 
-    const searchInput = page.locator('#map-search')
+    const searchInput = page.locator('#home-destination')
     await expect(searchInput).toBeVisible({ timeout: 10000 })
 
     await searchInput.fill('Lyon')
     await searchInput.press('Enter')
 
     // Wait for geocoding
-    await page.waitForSelector('#main-map', { timeout: 5000 })
+    await page.waitForSelector('#home-map', { timeout: 5000 })
 
     // App should still be functional (nav visible, no critical errors)
     await expect(page.locator('nav')).toBeVisible()
@@ -100,16 +100,16 @@ test.describe('Search - Autocomplete Suggestions', () => {
   })
 
   test('should hide suggestions when clicking outside', async ({ page }) => {
-    const searchInput = page.locator('#map-search')
+    const searchInput = page.locator('#home-destination')
     await expect(searchInput).toBeVisible({ timeout: 10000 })
 
     await searchInput.fill('Madrid')
     await searchInput.dispatchEvent('input')
 
-    const suggestions = page.locator('#map-search-suggestions')
+    const suggestions = page.locator('#home-dest-suggestions')
     await expect(suggestions).toBeVisible({ timeout: 8000 })
 
-    await page.locator('#main-map').click()
+    await page.locator('#home-map').click()
     await expect(suggestions).toBeHidden({ timeout: 3000 })
   })
 })
@@ -196,7 +196,7 @@ test.describe('Map Persistence', () => {
     await skipOnboarding(page)
     await navigateToTab(page, 'map')
 
-    await expect(page.locator('#main-map').first()).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('#home-map').first()).toBeVisible({ timeout: 10000 })
 
     // Switch to another tab
     await navigateToTab(page, 'profile')
@@ -206,7 +206,7 @@ test.describe('Map Persistence', () => {
     await navigateToTab(page, 'map')
 
     // Map should still be visible (not blank/broken)
-    await expect(page.locator('#main-map').first()).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('#home-map').first()).toBeVisible({ timeout: 10000 })
     // MapLibre canvas should be loaded
     const canvas = page.locator('.maplibregl-canvas')
     await expect(canvas.first()).toBeVisible({ timeout: 10000 })
@@ -215,7 +215,7 @@ test.describe('Map Persistence', () => {
   test('should keep map functional after multiple tab switches', async ({ page }) => {
     await skipOnboarding(page)
     await navigateToTab(page, 'map')
-    await expect(page.locator('#main-map').first()).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('#home-map').first()).toBeVisible({ timeout: 10000 })
 
     // Switch through all tabs (no 'travel' tab — it does not exist)
     for (const tab of ['challenges', 'social', 'profile']) {
@@ -227,8 +227,8 @@ test.describe('Map Persistence', () => {
     await navigateToTab(page, 'map')
 
     // Map + search input should be functional
-    await expect(page.locator('#main-map').first()).toBeVisible({ timeout: 10000 })
-    const searchInput = page.locator('#map-search')
+    await expect(page.locator('#home-map').first()).toBeVisible({ timeout: 10000 })
+    const searchInput = page.locator('#home-destination')
     await expect(searchInput).toBeVisible({ timeout: 5000 })
     await searchInput.click()
     await searchInput.fill('test')
@@ -303,16 +303,16 @@ test.describe('Error-Free Critical Flows', () => {
     await skipOnboarding(page)
     await navigateToTab(page, 'map')
 
-    const searchInput = page.locator('#map-search')
+    const searchInput = page.locator('#home-destination')
     await expect(searchInput).toBeVisible({ timeout: 10000 })
     await searchInput.fill('Paris')
     await searchInput.dispatchEvent('input')
 
     // Wait for suggestions or timeout
-    await page.waitForSelector('#map-search-suggestions', { timeout: 5000 }).catch(() => {})
+    await page.waitForSelector('#home-dest-suggestions', { timeout: 5000 }).catch(() => {})
 
     await searchInput.press('Enter')
-    await page.waitForSelector('#main-map', { timeout: 5000 })
+    await page.waitForSelector('#home-map', { timeout: 5000 })
 
     const criticalErrors = errors.filter(e =>
       !e.includes('Firebase') && !e.includes('net::ERR') &&
@@ -520,7 +520,7 @@ test.describe('Visual Snapshots', () => {
   test('map view snapshot', async ({ page }) => {
     await skipOnboarding(page)
     await navigateToTab(page, 'map')
-    await page.waitForSelector('#main-map', { timeout: 10000 })
+    await page.waitForSelector('#home-map', { timeout: 10000 })
     // Wait for MapLibre canvas to load
     await page.waitForSelector('.maplibregl-canvas', { timeout: 10000 }).catch(() => {})
     await expect(page).toHaveScreenshot('map-view.png', {

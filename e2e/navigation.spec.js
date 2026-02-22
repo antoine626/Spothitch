@@ -51,7 +51,7 @@ test.describe('Map View', () => {
   })
 
   test('should have search bar', async ({ page }) => {
-    const search = page.locator('#map-search, input[placeholder*="Search"], input[placeholder*="Chercher"], input[placeholder*="lieu"]')
+    const search = page.locator('#home-destination, input[placeholder*="Search"], input[placeholder*="Chercher"], input[placeholder*="lieu"]')
     await expect(search.first()).toBeVisible({ timeout: 5000 })
   })
 })

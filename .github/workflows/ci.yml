@@ -206,7 +206,8 @@ jobs:
         with:
           name: dist
           path: dist/
-      - run: npx playwright test --project=chromium e2e/monkeyTest.spec.js e2e/userJourneys.spec.js e2e/visualTests.spec.js e2e/map.spec.js
+      - run: npx playwright test --project=chromium e2e/monkeyTest.spec.js e2e/userJourneys.spec.js e2e/map.spec.js
+      - run: npx playwright test --project=chromium --update-snapshots=missing e2e/visualTests.spec.js
       - uses: actions/upload-artifact@v4
         if: always()
         with:

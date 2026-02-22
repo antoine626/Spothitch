@@ -19,19 +19,7 @@ test.describe('Accessibility - Automated WCAG 2.1 AA', () => {
 
   test('map view should pass accessibility checks', async ({ page }) => {
     await navigateToTab(page, 'map')
-    await page.waitForSelector('#main-map', { timeout: 10000 })
-
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa'])
-      .disableRules(AXE_DISABLE_RULES)
-      .analyze()
-
-    expect(results.violations.length).toBe(0)
-  })
-
-  test('travel view should pass accessibility checks', async ({ page }) => {
-    await navigateToTab(page, 'travel')
-    await page.waitForSelector('#trip-from', { timeout: 10000 })
+    await page.waitForSelector('#home-map', { timeout: 10000 })
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])
@@ -43,7 +31,7 @@ test.describe('Accessibility - Automated WCAG 2.1 AA', () => {
 
   test('social view should pass accessibility checks', async ({ page }) => {
     await navigateToTab(page, 'social')
-    await page.waitForSelector('#chat-input', { timeout: 10000 })
+    await page.waitForTimeout(2000)
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])
@@ -102,7 +90,7 @@ test.describe('Accessibility - Navigation Structure', () => {
     // All nav buttons must have role="tab"
     const navButtons = page.locator('nav button[role="tab"]')
     const count = await navButtons.count()
-    expect(count).toBeGreaterThan(3) // At least map, travel, challenges, social, profile
+    expect(count).toBeGreaterThanOrEqual(4) // map, challenges, social, profile
 
     // Each tab must have aria-label
     for (let i = 0; i < count; i++) {

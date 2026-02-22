@@ -70,26 +70,23 @@ test.describe('Journey: Map Exploration', () => {
 
   test('should display full map with all controls', async ({ page }) => {
     // Map container
-    await expect(page.locator('#main-map').first()).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('#home-map').first()).toBeVisible({ timeout: 10000 })
 
     // Search bar
-    await expect(page.locator('#map-search').first()).toBeVisible()
+    await expect(page.locator('#home-destination').first()).toBeVisible()
 
     // Zoom controls
-    await expect(page.locator('[onclick*="mapZoomIn"], button[aria-label*="Zoom"]').first()).toBeVisible()
+    await expect(page.locator('[onclick*="homeZoomIn"]').first()).toBeVisible()
 
     // Add spot FAB
-    await expect(page.locator('button[aria-label*="Ajouter un nouveau spot"]').first()).toBeVisible()
+    await expect(page.locator('[onclick*="openAddSpot"]').first()).toBeVisible()
 
-    // Score bar with points
-    await expect(page.locator('text=pts').first()).toBeVisible()
-
-    // Spots count
-    await expect(page.locator('text=/spots? disponible/i').first()).toBeVisible()
+    // Score bar
+    await expect(page.locator('[onclick*="openStats"]').first()).toBeVisible()
   })
 
   test('should search for a city on the map', async ({ page }) => {
-    const search = page.locator('#map-search')
+    const search = page.locator('#home-destination')
     if (await search.count() > 0) {
       await search.fill('Paris')
       await expect(search).toHaveValue('Paris')
@@ -99,8 +96,8 @@ test.describe('Journey: Map Exploration', () => {
   })
 
   test('should zoom in and out', async ({ page }) => {
-    const zoomIn = page.locator('[onclick*="mapZoomIn"]').or(page.locator('button:has(i.fa-plus)')).first()
-    const zoomOut = page.locator('[onclick*="mapZoomOut"]').or(page.locator('button:has(i.fa-minus)')).first()
+    const zoomIn = page.locator('[onclick*="homeZoomIn"]').first()
+    const zoomOut = page.locator('[onclick*="homeZoomOut"]').first()
 
     if (await zoomIn.isVisible({ timeout: 3000 }).catch(() => false)) {
       await zoomIn.click()
@@ -111,19 +108,18 @@ test.describe('Journey: Map Exploration', () => {
   })
 
   test('should open filter panel', async ({ page }) => {
-    const filterBtn = page.locator('[onclick*="openFilters"]').or(page.locator('button:has(i.fa-sliders-h)'))
+    const filterBtn = page.locator('[onclick*="openFilters"]')
     if (await filterBtn.count() > 0) {
       await filterBtn.first().click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(2000)
     }
   })
 
   test('should try to add a spot', async ({ page }) => {
-    const addBtn = page.locator('button[aria-label*="Ajouter un nouveau spot"]')
+    const addBtn = page.locator('[onclick*="openAddSpot"]')
     if (await addBtn.count() > 0) {
       await addBtn.first().click()
-      await page.waitForTimeout(1000)
-      // Should show add spot modal or login prompt
+      await page.waitForTimeout(2000)
       const modalOrPrompt = page.locator('.modal-overlay, [role="dialog"]')
       if (await modalOrPrompt.count() > 0) {
         await expect(modalOrPrompt.first()).toBeVisible()

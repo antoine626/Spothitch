@@ -35,27 +35,6 @@ test.describe('Visual Regression — Views (Mobile)', () => {
     })
   })
 
-  test('travel planner', async ({ page }) => {
-    await navigateToTab(page, 'travel')
-    await page.waitForSelector('#trip-from', { timeout: 10000 })
-    await page.waitForTimeout(500)
-    await expect(page).toHaveScreenshot('mobile-travel.png', {
-      maxDiffPixelRatio: 0.03,
-      mask: await maskDynamic(page),
-    })
-  })
-
-  test('guides', async ({ page }) => {
-    await navigateToTab(page, 'travel')
-    await page.waitForTimeout(500)
-    const guidesTab = page.locator('button:has-text("Guides")')
-    if (await guidesTab.count() > 0) await guidesTab.first().click()
-    await page.waitForTimeout(800)
-    await expect(page).toHaveScreenshot('mobile-guides.png', {
-      maxDiffPixelRatio: 0.03,
-    })
-  })
-
   test('challenges', async ({ page }) => {
     await navigateToTab(page, 'challenges')
     await page.waitForTimeout(800)
@@ -96,16 +75,6 @@ test.describe('Visual Regression — Views (Desktop)', () => {
     await page.waitForTimeout(1500)
     await expect(page).toHaveScreenshot('desktop-map.png', {
       maxDiffPixelRatio: 0.05,
-      mask: await maskDynamic(page),
-    })
-  })
-
-  test('travel planner', async ({ page }) => {
-    await navigateToTab(page, 'travel')
-    await page.waitForSelector('#trip-from', { timeout: 10000 })
-    await page.waitForTimeout(500)
-    await expect(page).toHaveScreenshot('desktop-travel.png', {
-      maxDiffPixelRatio: 0.03,
       mask: await maskDynamic(page),
     })
   })
