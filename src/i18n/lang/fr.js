@@ -120,6 +120,14 @@ export default {
   spotTypeHighway: 'Bord de route',
   spotTypeCustom: 'Autre',
   spotTypeLabel: 'Type de spot',
+  autoDetectType: 'Auto-détecter le type',
+  placeSpotFirst: 'Place d\'abord ton spot sur la carte',
+  stationDetected: 'Station-service détectée à proximité !',
+  noStationNearby: 'Pas de station-service dans un rayon de 300m',
+  highwayDetected: 'Autoroute/voie rapide détectée !',
+  cityDetected: 'Sortie de ville détectée',
+  roadDetected: 'Route détectée — type mis à "Autre"',
+  detectionFailed: 'Détection impossible (pas de connexion ?)',
   spotLocation: 'Spot',
 
   // Spot form fields

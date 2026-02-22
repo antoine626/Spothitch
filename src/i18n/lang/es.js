@@ -679,6 +679,14 @@ export default {
   spotTypeHighway: 'Borde de carretera',
   spotTypeCustom: 'Otro',
   spotTypeLabel: 'Tipo de spot',
+  autoDetectType: 'Auto-detectar tipo',
+  placeSpotFirst: 'Primero coloca tu spot en el mapa',
+  stationDetected: '¡Gasolinera detectada cerca!',
+  noStationNearby: 'No hay gasolinera en un radio de 300m',
+  highwayDetected: '¡Autopista/vía rápida detectada!',
+  cityDetected: 'Salida de ciudad detectada',
+  roadDetected: 'Carretera detectada — tipo puesto en "Otro"',
+  detectionFailed: 'Detección imposible (¿sin conexión?)',
   spotLocation: 'Spot',
 
   // Spot form fields

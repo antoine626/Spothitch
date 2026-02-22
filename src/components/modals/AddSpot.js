@@ -132,6 +132,9 @@ function renderStep1(state) {
             <span class="text-xs font-medium">${t('spotTypeCustom')}</span>
           </button>
         </div>
+        <button type="button" onclick="autoDetectRoad()" class="w-full mt-2 py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-400 hover:text-primary-400 transition-all flex items-center justify-center gap-2">
+          ${icon('map-pin', 'w-3 h-3')} ${t('autoDetectType') || 'Auto-detecter le type'}
+        </button>
       </div>
 
       <!-- GPS Position -->
@@ -877,9 +880,67 @@ window.toggleSpotMapPicker = async () => {
 // spotMapPickLocation — handled by map click listener in toggleSpotMapPicker
 window.spotMapPickLocation = () => {}
 
-// autoDetectStation/autoDetectRoad — kept for wiring test compatibility
-window.autoDetectStation = () => {}
-window.autoDetectRoad = () => {}
+// Auto-detect spot type based on GPS position
+window.autoDetectStation = async () => {
+  const { showSuccess, showError } = await import('../../services/notifications.js')
+  const lat = window.spotFormData?.lat
+  const lng = window.spotFormData?.lng
+  if (!lat || !lng) {
+    showError(t('placeSpotFirst') || 'Place d\'abord ton spot sur la carte')
+    return
+  }
+  try {
+    const btn = document.querySelector('[onclick*="autoDetectStation"]')
+    if (btn) btn.disabled = true
+    const radius = 300
+    const query = `[out:json][timeout:10];(node["amenity"="fuel"](around:${radius},${lat},${lng}););out center 1;`
+    const resp = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`)
+    const data = await resp.json()
+    if (data.elements && data.elements.length > 0) {
+      window.selectSpotType('gas_station')
+      showSuccess(t('stationDetected') || 'Station-service detectee a proximite !')
+    } else {
+      showSuccess(t('noStationNearby') || 'Pas de station-service dans un rayon de 300m')
+    }
+    if (btn) btn.disabled = false
+  } catch {
+    showError(t('detectionFailed') || 'Detection impossible (pas de connexion ?)')
+  }
+}
+
+window.autoDetectRoad = async () => {
+  const { showSuccess, showError } = await import('../../services/notifications.js')
+  const lat = window.spotFormData?.lat
+  const lng = window.spotFormData?.lng
+  if (!lat || !lng) {
+    showError(t('placeSpotFirst') || 'Place d\'abord ton spot sur la carte')
+    return
+  }
+  try {
+    const btn = document.querySelector('[onclick*="autoDetectRoad"]')
+    if (btn) btn.disabled = true
+    const resp = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=16`)
+    const data = await resp.json()
+    const road = (data.address?.road || '').toLowerCase()
+    const roadType = data.address?.highway || ''
+    const isHighway = /autoroute|motorway|highway|autobahn|autopista/i.test(road) ||
+      /motorway|trunk/i.test(roadType)
+    const isCity = data.address?.city || data.address?.town || data.address?.village
+    if (isHighway) {
+      window.selectSpotType('highway')
+      showSuccess(t('highwayDetected') || 'Autoroute/voie rapide detectee !')
+    } else if (isCity) {
+      window.selectSpotType('city_exit')
+      showSuccess(t('cityDetected') || `Sortie de ville detectee : ${isCity}`)
+    } else {
+      window.selectSpotType('custom')
+      showSuccess(t('roadDetected') || 'Route detectee — type mis a "Autre"')
+    }
+    if (btn) btn.disabled = false
+  } catch {
+    showError(t('detectionFailed') || 'Detection impossible (pas de connexion ?)')
+  }
+}
 
 // Draft saving — saves ALL form data
 window.saveDraftAndClose = async () => {

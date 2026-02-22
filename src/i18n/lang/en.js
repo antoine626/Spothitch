@@ -121,6 +121,14 @@ export default {
   spotTypeHighway: 'Roadside',
   spotTypeCustom: 'Other',
   spotTypeLabel: 'Spot type',
+  autoDetectType: 'Auto-detect type',
+  placeSpotFirst: 'Place your spot on the map first',
+  stationDetected: 'Gas station detected nearby!',
+  noStationNearby: 'No gas station within 300m',
+  highwayDetected: 'Highway/expressway detected!',
+  cityDetected: 'City exit detected',
+  roadDetected: 'Road detected — type set to "Other"',
+  detectionFailed: 'Detection failed (no connection?)',
   spotLocation: 'Spot',
 
   // Spot form fields

@@ -120,6 +120,14 @@ export default {
   spotTypeHighway: 'Strassenrand',
   spotTypeCustom: 'Andere',
   spotTypeLabel: 'Spot-Typ',
+  autoDetectType: 'Typ automatisch erkennen',
+  placeSpotFirst: 'Platziere zuerst deinen Spot auf der Karte',
+  stationDetected: 'Tankstelle in der Nähe erkannt!',
+  noStationNearby: 'Keine Tankstelle im Umkreis von 300m',
+  highwayDetected: 'Autobahn/Schnellstraße erkannt!',
+  cityDetected: 'Stadtausgang erkannt',
+  roadDetected: 'Straße erkannt — Typ auf "Andere" gesetzt',
+  detectionFailed: 'Erkennung fehlgeschlagen (keine Verbindung?)',
   spotLocation: 'Spot',
 
   // Spot form fields
