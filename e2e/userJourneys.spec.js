@@ -3,8 +3,8 @@
  * Simulates real human users navigating ALL features of the app.
  *
  * Navigation tabs: map, challenges, social, profile (4 tabs, NO travel tab)
- * Social sub-tabs: feed (Fil), conversations (Messages), friends (Amis)
- * Switch social sub-tabs via: window.setSocialSubTab?.('feed'|'conversations'|'friends')
+ * Social sub-tabs: messagerie (Messages), evenements (Events) — WhatsApp style
+ * Switch social sub-tabs via: window.setSocialTab?.('messagerie'|'evenements')
  */
 
 import { test, expect } from '@playwright/test'
@@ -227,32 +227,28 @@ test.describe('Journey: Social Features', () => {
     const socialTab = page.locator('[data-tab="social"]')
     await expect(socialTab).toHaveAttribute('aria-selected', 'true')
 
-    // Sub-tabs are: Fil (feed), Messages (conversations), Amis (friends)
-    const tabs = ['Fil', 'Messages', 'Amis']
-    for (const tabName of tabs) {
-      await expect(page.locator(`text=${tabName}`).first()).toBeVisible({ timeout: 5000 })
-    }
+    // Sub-tabs are: Messagerie, Événements (2 tabs, WhatsApp style)
+    await expect(page.locator('text=/Messagerie|Messages/i').first()).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('text=/Événements|Events/i').first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should navigate through all social sub-tabs', async ({ page }) => {
-    // Switch to feed
-    await page.evaluate(() => window.setSocialSubTab?.('feed'))
+    // Default is messagerie
+    await page.evaluate(() => window.setSocialTab?.('messagerie'))
     await page.waitForTimeout(2000)
 
-    // Switch to conversations (Messages)
-    await page.evaluate(() => window.setSocialSubTab?.('conversations'))
+    // Switch to evenements
+    await page.evaluate(() => window.setSocialTab?.('evenements'))
     await page.waitForTimeout(2000)
 
-    // Switch to friends (Amis)
-    await page.evaluate(() => window.setSocialSubTab?.('friends'))
-    await page.waitForTimeout(2000)
+    // Switch back to messagerie
+    await page.evaluate(() => window.setSocialTab?.('messagerie'))
+    await page.waitForTimeout(1000)
   })
 
-  test('should load conversations tab without crash', async ({ page }) => {
-    // #chat-input only exists in the zone chat overlay (showZoneChat: true),
-    // NOT in the regular conversations sub-tab which shows a list of conversations.
-    // Just verify the conversations sub-tab loads without error.
-    await page.evaluate(() => window.setSocialSubTab?.('conversations'))
+  test('should load messagerie tab without crash', async ({ page }) => {
+    // Messagerie tab shows conversation list, zone chat button, etc.
+    await page.evaluate(() => window.setSocialTab?.('messagerie'))
     await page.waitForTimeout(2000)
     await expect(page.locator('#app')).toBeVisible({ timeout: 5000 })
   })
@@ -272,13 +268,13 @@ test.describe('Journey: Social Features', () => {
     }
   })
 
-  test('should access friends sub-tab', async ({ page }) => {
-    await page.evaluate(() => window.setSocialSubTab?.('friends'))
+  test('should show events tab with content', async ({ page }) => {
+    await page.evaluate(() => window.setSocialTab?.('evenements'))
     await page.waitForTimeout(2000)
 
-    // Friends tab should show some content (search or list)
+    // Events tab should show some content (radar, events, or create button)
     const html = await page.evaluate(() => document.body.innerText)
-    expect(html).toMatch(/ami|friend|Amis|Friends|ambassad|Rechercher/i)
+    expect(html).toMatch(/radar|événement|event|créer|proximité/i)
   })
 })
 

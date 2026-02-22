@@ -1,6 +1,6 @@
 /**
- * Social View Component
- * 3 tabs: Feed | Conversations | Amis
+ * Social View Component — WhatsApp Style
+ * 2 tabs: Messagerie | Événements
  * Orchestrator that delegates to sub-components
  */
 
@@ -8,18 +8,19 @@ import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
 import { escapeHTML } from '../../utils/sanitize.js'
 import { formatTime, formatRelativeTime, formatEventDate } from '../../utils/formatters.js'
-import { renderFeed } from './social/Feed.js'
 import { renderConversations } from './social/Conversations.js'
-import { renderFriends } from './social/Friends.js'
 import { renderSkeletonChatList } from '../ui/Skeleton.js'
-import { getEventComments, EVENT_TYPES } from '../../services/events.js'
+import { getConversationsList } from '../../services/directMessages.js'
+import { getUpcomingEvents, getEventComments, EVENT_TYPES } from '../../services/events.js'
+import { getActivityFeed } from '../../services/activityFeed.js'
+
 
 // ==================== MAIN RENDER ====================
 
 export function renderSocial(state) {
-  const mainTab = state.socialSubTab || 'feed'
+  const mainTab = state.socialSubTab || 'messagerie'
 
-  // Zone chat overlay
+  // Zone chat overlay (full-screen)
   if (state.showZoneChat) {
     return renderZoneChatOverlay(state)
   }
@@ -34,11 +35,20 @@ export function renderSocial(state) {
     return renderCreateEventForm()
   }
 
-  // Companion search view
-  if (mainTab === 'companion') {
+  // Active DM or group conversation → full-screen chat
+  if (state.activeDMConversation || state.activeGroupChat) {
     return `
       <div class="flex flex-col h-[calc(100vh-140px)]">
-        ${renderMainTabs(mainTab, state)}
+        ${renderConversations(state)}
+      </div>
+    `
+  }
+
+  // Companion search sub-view
+  if (state.showCompanionSearch) {
+    return `
+      <div class="flex flex-col h-[calc(100vh-140px)]">
+        ${renderSocialTabs(mainTab, state)}
         ${renderCompanionSearch(state)}
       </div>
     `
@@ -46,46 +56,473 @@ export function renderSocial(state) {
 
   return `
     <div class="flex flex-col h-[calc(100vh-140px)]">
-      ${renderMainTabs(mainTab, state)}
-      ${mainTab === 'feed'
-    ? renderFeed(state)
-    : mainTab === 'conversations'
-      ? renderConversations(state)
-      : renderFriends(state)}
+      ${renderSocialTabs(mainTab, state)}
+      ${mainTab === 'evenements'
+    ? renderEvenementsTab(state)
+    : renderMessagerieTab(state)}
     </div>
   `
 }
 
-function renderMainTabs(activeTab, state) {
-  const realTab = activeTab === 'companion' ? 'friends' : activeTab
+// ==================== TAB BAR ====================
+
+function renderSocialTabs(activeTab, state) {
+  const tabs = [
+    {
+      id: 'messagerie',
+      icon: 'message-circle',
+      label: t('socialMessaging') || 'Messagerie',
+      badge: state.unreadDMCount || 0,
+    },
+    {
+      id: 'evenements',
+      icon: 'calendar',
+      label: t('socialEvents') || 'Événements',
+      badge: 0,
+    },
+  ]
+  // Normalize legacy tab values
+  const currentTab = (activeTab === 'conversations' || activeTab === 'friends' || activeTab === 'feed' || activeTab === 'companion')
+    ? 'messagerie'
+    : activeTab
+
   return `
-    <div class="flex bg-dark-secondary/50">
-      ${renderMainTab('feed', realTab, 'activity', t('socialFeed'), 0)}
-      ${renderMainTab('conversations', realTab, 'message-circle', t('socialConversations'), state.unreadDMCount)}
-      ${renderMainTab('friends', realTab, 'users', t('socialFriends'), 0)}
+    <div class="flex bg-dark-secondary/50 border-b border-white/5">
+      ${tabs.map(tab => `
+        <button
+          onclick="setSocialTab('${tab.id}')"
+          class="flex-1 py-3 px-2 font-medium text-sm transition-all relative border-b-2 ${
+      currentTab === tab.id
+        ? 'border-primary-500 text-primary-400'
+        : 'border-transparent text-slate-400 hover:text-white hover:bg-white/5'
+    }"
+        >
+          ${icon(tab.icon, 'w-4 h-4 mr-1 inline-block')}
+          ${tab.label}
+          ${tab.badge > 0 ? `
+            <span class="absolute top-1 right-2 w-5 h-5 bg-danger-500 rounded-full text-xs flex items-center justify-center text-white">
+              ${tab.badge}
+            </span>
+          ` : ''}
+        </button>
+      `).join('')}
     </div>
   `
 }
 
-function renderMainTab(id, activeTab, iconName, label, badge) {
-  const isActive = activeTab === id
+// ==================== TAB 1: MESSAGERIE (WhatsApp Style) ====================
+
+function renderMessagerieTab(state) {
+  const friends = state.friends || []
+  const onlineFriends = friends.filter(f => f.online)
+  const friendRequests = state.friendRequests || []
+  const dmConversations = getConversationsList()
+  const groups = state.travelGroups || []
+  const userId = state.user?.uid || 'local-user'
+  const myGroups = groups.filter(g =>
+    Array.isArray(g.members) ? g.members.includes(userId) || g.members.some(m => m.id === userId) : false
+  )
+
+  // Build unified conversation list
+  const allConversations = []
+  dmConversations.forEach(conv => {
+    allConversations.push({
+      type: 'dm', id: conv.recipientId, name: conv.recipientName,
+      avatar: conv.recipientAvatar || '🤙', lastMessage: conv.lastMessage,
+      lastMessageTime: conv.lastMessageTime, unreadCount: conv.unreadCount,
+      online: conv.online, isGroup: false,
+    })
+  })
+  myGroups.forEach(group => {
+    const lastChat = group.chat?.[group.chat.length - 1]
+    allConversations.push({
+      type: 'group', id: group.id, name: group.name,
+      avatar: group.icon || '🚗', lastMessage: lastChat?.text || t('noMessagesYet'),
+      lastMessageTime: lastChat?.createdAt || group.createdAt, unreadCount: 0,
+      online: false, isGroup: true,
+      memberCount: Array.isArray(group.members) ? group.members.length : 0,
+    })
+  })
+  allConversations.sort((a, b) => {
+    if (!a.lastMessageTime) return 1
+    if (!b.lastMessageTime) return -1
+    return new Date(b.lastMessageTime) - new Date(a.lastMessageTime)
+  })
+
+  if (state.chatLoading) {
+    return `<div class="flex-1 overflow-y-auto p-4 space-y-3">${renderSkeletonChatList(6)}</div>`
+  }
+
+  return `
+    <div class="flex-1 overflow-y-auto relative">
+      <!-- Search bar -->
+      <div class="px-4 pt-3 pb-2">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="${t('searchConversations') || 'Rechercher...'}"
+            class="input-field w-full pl-10 text-sm"
+            id="social-search"
+            aria-label="${t('searchConversations') || 'Rechercher'}"
+          />
+          ${icon('search', 'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
+        </div>
+      </div>
+
+      <!-- Online friends story circles -->
+      ${onlineFriends.length > 0 || friends.length > 0 ? `
+        <div class="flex gap-3 px-4 py-2 overflow-x-auto scrollbar-none">
+          <!-- Add friend circle -->
+          <button
+            onclick="showAddFriend()"
+            class="shrink-0 flex flex-col items-center gap-1"
+          >
+            <div class="w-14 h-14 rounded-full border-2 border-dashed border-slate-500 flex items-center justify-center">
+              ${icon('user-plus', 'w-5 h-5 text-slate-400')}
+            </div>
+            <span class="text-[10px] text-slate-400 w-14 text-center truncate">${t('addFriend') || 'Ajouter'}</span>
+          </button>
+          ${friends.slice(0, 12).map(f => `
+            <button
+              onclick="openConversation('${f.id}')"
+              class="shrink-0 flex flex-col items-center gap-1"
+            >
+              <div class="relative">
+                <div class="w-14 h-14 rounded-full ${f.online ? 'bg-gradient-to-br from-primary-400 to-amber-500 p-[2px]' : 'bg-white/10 p-[2px]'}">
+                  <div class="w-full h-full rounded-full bg-dark-primary flex items-center justify-center text-2xl">
+                    ${f.avatar || '🤙'}
+                  </div>
+                </div>
+                ${f.online ? `<span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-dark-primary bg-emerald-500"></span>` : ''}
+              </div>
+              <span class="text-[10px] ${f.online ? 'text-white' : 'text-slate-400'} w-14 text-center truncate">${escapeHTML(f.name || '')}</span>
+            </button>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      <!-- Friend requests -->
+      ${friendRequests.length > 0 ? `
+        <div class="px-4 pb-2">
+          <div class="card p-3 border-primary-500/30 bg-primary-500/5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                ${icon('user-plus', 'w-4 h-4 text-primary-400')}
+                <span class="text-sm font-medium">${t('friendRequests')} (${friendRequests.length})</span>
+              </div>
+              <button onclick="showAddFriend()" class="text-xs text-primary-400">${t('viewAll') || 'Voir'}</button>
+            </div>
+            <div class="flex gap-2 mt-2 overflow-x-auto scrollbar-none">
+              ${friendRequests.slice(0, 3).map(req => `
+                <div class="shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5">
+                  <span class="text-lg">${req.avatar || '🤙'}</span>
+                  <span class="text-xs font-medium truncate max-w-[80px]">${escapeHTML(req.name || '')}</span>
+                  <button onclick="acceptFriendRequest('${req.id}')" class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center" aria-label="${t('accept')}">
+                    ${icon('check', 'w-3 h-3')}
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Zone chat rooms card -->
+      <div class="px-4 pb-2">
+        <button
+          onclick="openZoneChat()"
+          class="card p-3 w-full text-left bg-gradient-to-r from-primary-500/10 to-amber-500/10 border-primary-500/20 hover:border-primary-500/40 transition-all"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center text-lg">
+              💬
+            </div>
+            <div class="flex-1">
+              <div class="font-medium text-sm">${t('zoneChatRooms')}</div>
+              <div class="text-xs text-slate-400">${t('zoneChatRoomsDesc')}</div>
+            </div>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-400')}
+          </div>
+        </button>
+      </div>
+
+      <!-- Companion travel search card -->
+      <div class="px-4 pb-2">
+        <button
+          onclick="showCompanionSearchView()"
+          class="card p-3 w-full text-left bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40 transition-all"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-lg">
+              🤝
+            </div>
+            <div class="flex-1">
+              <div class="font-medium text-sm">${t('lookingForCompanion')}</div>
+              <div class="text-xs text-slate-400">${t('companionDesc')}</div>
+            </div>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-400')}
+          </div>
+        </button>
+      </div>
+
+      <!-- Conversation list -->
+      ${allConversations.length > 0 ? `
+        <div class="px-4 pb-1">
+          <h4 class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">${t('socialConversations') || 'Messages'}</h4>
+        </div>
+        ${allConversations.map(conv => `
+          <button
+            onclick="${conv.isGroup ? `openGroupChat('${conv.id}')` : `openConversation('${conv.id}')`}"
+            class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-all border-b border-white/5"
+          >
+            <div class="relative shrink-0">
+              <span class="text-3xl">${conv.avatar}</span>
+              ${conv.isGroup ? `
+                <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-purple-500/80 text-white text-[10px] flex items-center justify-center">${conv.memberCount}</span>
+              ` : conv.online ? `
+                <span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-dark-primary bg-emerald-500"></span>
+              ` : ''}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-medium text-sm truncate">${escapeHTML(conv.name)}</span>
+                  ${conv.isGroup ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-400">${t('group')}</span>` : ''}
+                </div>
+                <time class="text-xs text-slate-400 shrink-0 ml-2">${formatRelativeTime(conv.lastMessageTime)}</time>
+              </div>
+              <div class="flex items-center justify-between mt-0.5">
+                <p class="text-xs text-slate-400 truncate">${escapeHTML(conv.lastMessage || '')}</p>
+                ${conv.unreadCount > 0 ? `
+                  <span class="w-5 h-5 rounded-full bg-primary-500 text-white text-xs flex items-center justify-center shrink-0 ml-2">${conv.unreadCount}</span>
+                ` : ''}
+              </div>
+            </div>
+          </button>
+        `).join('')}
+      ` : ''}
+
+      <!-- Create group button -->
+      <div class="px-4 py-3">
+        <button
+          onclick="openCreateTravelGroup()"
+          class="card p-3 w-full text-left border-dashed border-2 border-white/15 hover:border-primary-500/40 transition-all"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center">
+              ${icon('plus', 'w-5 h-5 text-slate-400')}
+            </div>
+            <div class="text-sm text-slate-400">${t('createTravelGroup')}</div>
+          </div>
+        </button>
+      </div>
+
+      ${allConversations.length === 0 && friends.length === 0 ? `
+        <div class="text-center py-12">
+          <span class="text-5xl mb-4 block">💬</span>
+          <h3 class="text-lg font-bold mb-2">${t('noConversationsYet')}</h3>
+          <p class="text-slate-400 text-sm mb-4">${t('addFriendsToChat')}</p>
+          <button onclick="showAddFriend()" class="btn-primary">
+            ${icon('user-plus', 'w-5 h-5 mr-1')}
+            ${t('addFriend')}
+          </button>
+        </div>
+      ` : ''}
+
+      <!-- FAB: New message -->
+      <button
+        onclick="showAddFriend()"
+        class="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center hover:bg-primary-600 hover:scale-110 transition-all z-30"
+        aria-label="${t('newMessage') || 'Nouveau message'}"
+      >
+        ${icon('plus', 'w-6 h-6')}
+      </button>
+    </div>
+  `
+}
+
+// ==================== TAB 2: ÉVÉNEMENTS ====================
+
+function renderEvenementsTab(state) {
+  const eventFilter = state.eventFilter || 'all'
+  const allEvents = getUpcomingEvents()
+  const userId = state.user?.uid || 'local-user'
+  const nearbyFriends = state.nearbyFriends || []
+  const isVisible = state.shareLocationWithFriends || false
+
+  // Filter events
+  let filteredEvents = allEvents
+  if (eventFilter === 'mine') {
+    filteredEvents = allEvents.filter(e => e.participants?.includes(userId) || e.creatorId === userId)
+  }
+
+  // Activity feed (for the feed items mixed in)
+  const activities = getActivityFeed('all').slice(0, 5)
+
+  return `
+    <div class="flex-1 overflow-y-auto relative">
+      <!-- Proximity Radar -->
+      <div class="mx-4 mt-3 mb-2">
+        <div class="card p-3 ${isVisible ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/10'}">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full ${isVisible ? 'bg-emerald-500/20' : 'bg-white/10'} flex items-center justify-center">
+                ${icon('radar', `w-5 h-5 ${isVisible ? 'text-emerald-400' : 'text-slate-400'}`)}
+              </div>
+              <div>
+                <div class="text-sm font-medium">${t('proximityRadar')}</div>
+                <div class="text-xs text-slate-400">
+                  ${isVisible ? t('youAreVisible') : t('youAreInvisible')}
+                  ${nearbyFriends.length > 0 ? ` — ${nearbyFriends.length} ${t('nearbyCount')}` : ''}
+                </div>
+              </div>
+            </div>
+            <button
+              onclick="toggleFeedVisibility()"
+              class="w-11 h-6 rounded-full transition-colors ${isVisible ? 'bg-emerald-500' : 'bg-white/20'}"
+              aria-label="${t('toggleVisibility')}"
+            >
+              <div class="w-5 h-5 rounded-full bg-white shadow transition-transform ${isVisible ? 'translate-x-5' : 'translate-x-0.5'}"></div>
+            </button>
+          </div>
+          ${isVisible && nearbyFriends.length > 0 ? `
+            <div class="mt-2 pt-2 border-t border-white/10 flex gap-2 overflow-x-auto scrollbar-none">
+              ${nearbyFriends.slice(0, 3).map(f => `
+                <button
+                  onclick="openConversation('${f.userId || f.id}')"
+                  class="shrink-0 flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-all text-xs"
+                >
+                  <span>${f.avatar || '🤙'}</span>
+                  <span class="text-slate-300">${escapeHTML(f.username || f.name || '')}</span>
+                  <span class="text-emerald-400">${f.distance || '?'}km</span>
+                </button>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="flex gap-2 px-4 py-2 overflow-x-auto scrollbar-none">
+        ${renderEventFilter('all', eventFilter, t('feedAll') || 'Tous')}
+        ${renderEventFilter('nearby', eventFilter, t('feedNearby') || 'Près de moi')}
+        ${renderEventFilter('mine', eventFilter, t('myEvents') || 'Mes événements')}
+      </div>
+
+      <!-- Events list -->
+      <div class="px-4 py-2 space-y-3">
+        ${filteredEvents.length > 0 ? filteredEvents.map(event => renderEventCard(event, state)).join('') : ''}
+
+        ${activities.length > 0 && eventFilter === 'all' ? `
+          <div class="pt-2">
+            <h4 class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">${t('recentActivity') || 'Activité récente'}</h4>
+            ${activities.map(activity => renderActivityCard(activity)).join('')}
+          </div>
+        ` : ''}
+
+        ${filteredEvents.length === 0 && (eventFilter !== 'all' || activities.length === 0) ? `
+          <div class="text-center py-16">
+            <span class="text-5xl mb-4 block">📅</span>
+            <h3 class="text-lg font-bold mb-2">${t('noUpcomingEvents') || 'Aucun événement'}</h3>
+            <p class="text-slate-400 text-sm mb-4">${t('createFirstEvent') || 'Crée le premier événement !'}</p>
+          </div>
+        ` : ''}
+      </div>
+
+      <!-- FAB: Create event -->
+      <button
+        onclick="createEvent()"
+        class="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center hover:bg-primary-600 hover:scale-110 transition-all z-30"
+        aria-label="${t('createEvent') || 'Créer un événement'}"
+      >
+        ${icon('calendar-plus', 'w-6 h-6')}
+      </button>
+    </div>
+  `
+}
+
+function renderEventFilter(id, active, label) {
   return `
     <button
-      onclick="setSocialTab('${id}')"
-      class="flex-1 py-3 px-2 font-medium text-sm transition-all relative border-b-2 ${
-    isActive
-      ? 'border-primary-500 text-primary-400'
-      : 'border-transparent text-slate-400 hover:text-white hover:bg-white/5'
+      onclick="setEventFilter('${id}')"
+      class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+    active === id
+      ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
+      : 'text-slate-400 hover:text-slate-300 hover:bg-white/5'
   }"
     >
-      ${icon(iconName, 'w-5 h-5 mr-1')}
       ${label}
-      ${(badge || 0) > 0 ? `
-        <span class="absolute top-1 right-2 w-5 h-5 bg-danger-500 rounded-full text-xs flex items-center justify-center text-white">
-          ${badge}
-        </span>
-      ` : ''}
     </button>
+  `
+}
+
+function renderEventCard(event, state) {
+  const typeInfo = EVENT_TYPES[event.type] || EVENT_TYPES.meetup
+  const participantCount = event.participants?.length || 0
+  const userId = state.user?.uid || 'local-user'
+  const isParticipant = event.participants?.includes(userId)
+
+  return `
+    <button
+      onclick="openEventDetail('${event.id}')"
+      class="card p-4 w-full text-left hover:border-primary-500/50 transition-all"
+    >
+      <div class="flex items-start gap-3">
+        <div class="w-12 h-12 rounded-xl ${typeInfo.bg} flex items-center justify-center shrink-0">
+          <span class="text-2xl">${typeInfo.icon}</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-0.5">
+            <div class="font-bold text-sm truncate">${escapeHTML(event.title || '')}</div>
+            ${isParticipant ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs shrink-0">${t('joined')}</span>` : ''}
+          </div>
+          <div class="text-xs text-slate-400">
+            ${icon('calendar', 'w-3 h-3 inline-block mr-1')}
+            ${formatEventDate(event.date)}${event.time ? ` ${t('at')} ${event.time}` : ''}
+          </div>
+          ${event.location ? `
+            <div class="text-xs text-slate-400 mt-0.5">
+              ${icon('map-pin', 'w-3 h-3 inline-block mr-1')}
+              ${escapeHTML(event.location)}
+            </div>
+          ` : ''}
+          <div class="flex items-center gap-3 mt-1.5">
+            <span class="text-xs text-slate-400">
+              ${icon('users', 'w-3 h-3 inline-block mr-1')}
+              ${participantCount} ${t('participants')}
+            </span>
+          </div>
+        </div>
+      </div>
+    </button>
+  `
+}
+
+function renderActivityCard(activity) {
+  const typeConfig = {
+    new_spot: { icon: 'map-pin', color: 'text-primary-400', bg: 'bg-primary-500/10' },
+    review: { icon: 'star', color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    badge: { icon: 'award', color: 'text-purple-400', bg: 'bg-purple-500/10' },
+    checkin: { icon: 'map-pin', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+    friend_joined: { icon: 'user-plus', color: 'text-primary-400', bg: 'bg-primary-500/10' },
+  }
+  const cfg = typeConfig[activity.type] || typeConfig.checkin
+
+  return `
+    <div class="card p-3 mb-2">
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-full ${cfg.bg} flex items-center justify-center shrink-0">
+          ${activity.userAvatar ? `<span class="text-base">${activity.userAvatar}</span>` : icon(cfg.icon, `w-4 h-4 ${cfg.color}`)}
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm">
+            <span class="font-medium">${escapeHTML(activity.userName || t('traveler'))}</span>
+            <span class="text-slate-400"> ${escapeHTML(activity.description || '')}</span>
+          </p>
+          <time class="text-xs text-slate-400 mt-0.5 block">${formatRelativeTime(activity.timestamp)}</time>
+        </div>
+      </div>
+    </div>
   `
 }
 
@@ -105,7 +542,6 @@ function renderZoneChatOverlay(state) {
 
   return `
     <div class="flex flex-col h-[calc(100vh-140px)]">
-      <!-- Header -->
       <div class="p-3 bg-dark-secondary/50 flex items-center gap-3">
         <button onclick="closeZoneChat()" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white" aria-label="${t('back')}">
           ${icon('arrow-left', 'w-5 h-5')}
@@ -115,23 +551,21 @@ function renderZoneChatOverlay(state) {
         </div>
       </div>
 
-      <!-- Room pills -->
       <div class="flex gap-2 px-4 py-2 overflow-x-auto scrollbar-none">
         ${rooms.map(room => `
           <button
             onclick="setChatRoom('${room.id}')"
             class="shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-    currentRoom === room.id
-      ? 'bg-primary-500 text-white'
-      : 'bg-white/5 text-slate-400 hover:bg-white/10'
-  }"
+      currentRoom === room.id
+        ? 'bg-primary-500 text-white'
+        : 'bg-white/5 text-slate-400 hover:bg-white/10'
+    }"
           >
             <span>${room.icon}</span> ${room.name}
           </button>
         `).join('')}
       </div>
 
-      <!-- Messages -->
       <div class="flex-1 overflow-y-auto p-4 space-y-3" id="chat-messages" role="log" aria-live="polite">
         ${state.chatLoading
     ? renderSkeletonChatList(6)
@@ -146,7 +580,6 @@ function renderZoneChatOverlay(state) {
           `}
       </div>
 
-      <!-- Input -->
       <div class="p-3 glass-dark">
         <form class="flex gap-2" onsubmit="event.preventDefault(); sendMessage('${currentRoom}');">
           <input
@@ -191,7 +624,7 @@ function renderZoneMessage(msg, state) {
 function renderCompanionSearch(state) {
   return `
     <div class="flex-1 overflow-y-auto p-5 space-y-5">
-      <button onclick="setSocialTab('friends')" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white">
+      <button onclick="closeCompanionSearch()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white">
         ${icon('arrow-left', 'w-4 h-4')} ${t('back')}
       </button>
 
@@ -223,7 +656,6 @@ function renderCompanionSearch(state) {
 
 function renderCompanionRequests(state) {
   const requests = state.companionRequests || []
-
   if (requests.length === 0) {
     return `
       <div class="text-center py-6">
@@ -265,7 +697,7 @@ function renderCompanionRequests(state) {
   `
 }
 
-// ==================== EVENT DETAIL (kept for overlay) ====================
+// ==================== EVENT DETAIL (overlay) ====================
 
 function renderEventDetail(state, event) {
   const typeInfo = EVENT_TYPES[event.type] || EVENT_TYPES.meetup
@@ -486,6 +918,18 @@ window.setSocialTab = (tab) => {
   window.setState?.({ socialSubTab: tab })
 }
 
+window.setEventFilter = (filter) => {
+  window.setState?.({ eventFilter: filter })
+}
+
+window.showCompanionSearchView = () => {
+  window.setState?.({ showCompanionSearch: true })
+}
+
+window.closeCompanionSearch = () => {
+  window.setState?.({ showCompanionSearch: false })
+}
+
 window.postCompanionRequest = async () => {
   const from = document.getElementById('companion-from')?.value?.trim()
   const to = document.getElementById('companion-to')?.value?.trim()
@@ -510,12 +954,12 @@ window.postCompanionRequest = async () => {
     createdAt: new Date().toISOString(),
   }
 
-  setState({ companionRequests: [newReq, ...requests] })
+  setState({ companionRequests: [newReq, ...requests], showCompanionSearch: false })
   window.showToast?.(t('companionRequestPosted'), 'success')
 }
 
 window.openFriendChat = (friendId) => {
-  window.setState?.({ socialSubTab: 'conversations', activeDMConversation: friendId })
+  window.setState?.({ socialSubTab: 'messagerie', activeDMConversation: friendId })
 }
 
 window.closeFriendChat = () => {
@@ -614,12 +1058,12 @@ window.declineFriendRequest = (requestId) => {
 }
 
 window.showAddFriend = () => {
-  window.setState?.({ socialSubTab: 'friends' })
-  setTimeout(() => document.getElementById('friend-search')?.focus(), 100)
+  window.setState?.({ socialSubTab: 'messagerie' })
+  setTimeout(() => document.getElementById('friend-search')?.focus() || document.getElementById('social-search')?.focus(), 100)
 }
 
 window.addFriendByName = async () => {
-  const input = document.getElementById('friend-search')
+  const input = document.getElementById('friend-search') || document.getElementById('social-search')
   const name = input?.value?.trim()
   if (!name) {
     window.showToast?.(t('enterTravelerName'), 'warning')

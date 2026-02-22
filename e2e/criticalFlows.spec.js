@@ -476,22 +476,18 @@ test.describe('Social Chat - Deep Functional', () => {
     await expect(page.locator('nav')).toBeVisible()
   })
 
-  test('should switch to conversations sub-tab without crash', async ({ page }) => {
-    // Switch to conversations sub-tab via state
-    await page.evaluate(() => window.setState?.({ socialSubTab: 'conversations' }))
+  test('should switch to messagerie sub-tab without crash', async ({ page }) => {
+    await page.evaluate(() => window.setState?.({ socialSubTab: 'messagerie' }))
     await page.waitForTimeout(2000)
 
-    // App should still be functional
     await expect(page.locator('#app')).toBeVisible()
     await expect(page.locator('nav')).toBeVisible()
   })
 
-  test('should switch to friends sub-tab without crash', async ({ page }) => {
-    // Switch to friends sub-tab via state
-    await page.evaluate(() => window.setState?.({ socialSubTab: 'friends' }))
+  test('should switch to evenements sub-tab without crash', async ({ page }) => {
+    await page.evaluate(() => window.setState?.({ socialSubTab: 'evenements' }))
     await page.waitForTimeout(2000)
 
-    // App should still be functional
     await expect(page.locator('#app')).toBeVisible()
     await expect(page.locator('nav')).toBeVisible()
   })
@@ -499,15 +495,15 @@ test.describe('Social Chat - Deep Functional', () => {
 
 // ================================================================
 // FLOW 7: Friend Management
-// Friends sub-tab is accessed via socialSubTab state
+// Friends are now part of the Messagerie tab (WhatsApp style)
 // ================================================================
 test.describe('Friend Management - Deep Functional', () => {
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
     await navigateToTab(page, 'social')
     await page.waitForTimeout(2000)
-    // Switch to friends sub-tab
-    await page.evaluate(() => window.setState?.({ socialSubTab: 'friends' }))
+    // Friends are now integrated in the messagerie tab
+    await page.evaluate(() => window.setState?.({ socialSubTab: 'messagerie' }))
     await page.waitForTimeout(2000)
   })
 

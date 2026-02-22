@@ -164,6 +164,7 @@ const MAIN_JS_HANDLERS = [
   'syncTripFieldsAndCalculate', 'toggleRouteAmenities', 'centerTripMapOnGps', 'setRouteFilter',
   // Social view (defined in Social.js + sub-components)
   'setSocialTab', 'postCompanionRequest', 'addFriendByName',
+  'showCompanionSearchView', 'closeCompanionSearch', 'setEventFilter',
   // Feed (defined in Feed.js)
   'setFeedFilter', 'toggleFeedVisibility', 'setSocialSubTab',
   // Conversations (defined in Conversations.js)
@@ -419,7 +420,7 @@ const mockState = {
   theme: 'dark',
   lang: 'fr',
   activeSubTab: 'planner',
-  socialSubTab: 'feed',
+  socialSubTab: 'messagerie',
   spots: [
     {
       id: 1,
@@ -478,6 +479,8 @@ const mockState = {
   showIdentityVerification: false,
   showAgeVerification: false,
   showCompanionModal: false,
+  showCompanionSearch: false,
+  eventFilter: 'all',
   checkinSpot: null,
   newBadge: null,
   navigationActive: false,
@@ -618,9 +621,8 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
   testHandlers('Travel view', renderTravel)
   testHandlers('ChallengesHub view', renderChallengesHub)
   testHandlers('ChallengesHub view (thumb history)', renderChallengesHub, { showThumbHistory: true })
-  testHandlers('Social view (feed)', renderSocial, { socialSubTab: 'feed' })
-  testHandlers('Social view (conversations)', renderSocial, { socialSubTab: 'conversations' })
-  testHandlers('Social view (friends)', renderSocial, { socialSubTab: 'friends' })
+  testHandlers('Social view (messagerie)', renderSocial, { socialSubTab: 'messagerie' })
+  testHandlers('Social view (evenements)', renderSocial, { socialSubTab: 'evenements' })
   testHandlers('Profile view', renderProfile)
   testHandlers('Profile view (progression)', renderProfile, { profileSubTab: 'progression' })
   testHandlers('Profile view (reglages)', renderProfile, { profileSubTab: 'reglages' })
@@ -687,9 +689,8 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
       () => renderAuth(mockState),
       () => renderAddSpot(mockState),
       () => renderTravel(mockState),
-      () => renderSocial({ ...mockState, socialSubTab: 'feed' }),
-      () => renderSocial({ ...mockState, socialSubTab: 'conversations' }),
-      () => renderSocial({ ...mockState, socialSubTab: 'friends' }),
+      () => renderSocial({ ...mockState, socialSubTab: 'messagerie' }),
+      () => renderSocial({ ...mockState, socialSubTab: 'evenements' }),
       () => renderProfile(mockState),
       () => renderProfile({ ...mockState, profileSubTab: 'progression' }),
       () => renderProfile({ ...mockState, profileSubTab: 'reglages' }),
