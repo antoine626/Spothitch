@@ -3587,4 +3587,17 @@ export default {
   pushNotifications: 'Notificaciones push',
   pushNotificationsDesc: 'Recibir alertas cuando un autoestopista esta cerca',
   enablePushNotifications: 'Activar notificaciones push',
+  // Profile sub-tabs (Instagram redesign)
+  profileTabProfil: 'Perfil',
+  profileTabProgression: 'Progreso',
+  profileTabSettings: 'Ajustes',
+  settingsAppearance: 'Apariencia',
+  settingsNotifications: 'Notificaciones',
+  settingsPrivacy: 'Privacidad',
+  xpRemaining: '{xp} XP para el siguiente nivel',
+  streakDaysShort: 'Racha',
+  rankShort: 'Rango',
+  badgesCount: 'Insignias',
+  trophies: 'Trofeos',
+  profileStats: 'Estadisticas',
 }

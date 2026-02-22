@@ -303,6 +303,7 @@ const MAIN_JS_HANDLERS = [
   'editBio', 'saveBio', 'editLanguages',
   'openReferences', 'closeReferences',
   'togglePrivacy',
+  'setProfileSubTab',
   // Map extras (defined in Map.js)
   'searchLocation',
   // Chat extras (defined in Chat.js)
@@ -516,6 +517,7 @@ const mockState = {
   verificationLevel: 0,
   profileFrame: null,
   profileTitle: null,
+  profileSubTab: 'profil',
   countriesVisited: ['FR', 'DE', 'ES'],
   references: [
     { from: 'Alice', text: 'Great traveler!', rating: 5, date: '2026-01-15' },
@@ -620,6 +622,8 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
   testHandlers('Social view (conversations)', renderSocial, { socialSubTab: 'conversations' })
   testHandlers('Social view (friends)', renderSocial, { socialSubTab: 'friends' })
   testHandlers('Profile view', renderProfile)
+  testHandlers('Profile view (progression)', renderProfile, { profileSubTab: 'progression' })
+  testHandlers('Profile view (reglages)', renderProfile, { profileSubTab: 'reglages' })
   testHandlers('Guides view', renderGuides)
 
   // --- Modals (with state param) ---
@@ -687,6 +691,8 @@ describe('Wiring: onclick handlers map to known window.* functions', () => {
       () => renderSocial({ ...mockState, socialSubTab: 'conversations' }),
       () => renderSocial({ ...mockState, socialSubTab: 'friends' }),
       () => renderProfile(mockState),
+      () => renderProfile({ ...mockState, profileSubTab: 'progression' }),
+      () => renderProfile({ ...mockState, profileSubTab: 'reglages' }),
       () => renderCreateTravelGroupModal(mockState),
       () => renderFiltersModal(),
       () => renderMap(mockState),

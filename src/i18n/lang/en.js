@@ -3590,4 +3590,17 @@ export default {
   pushNotifications: 'Push Notifications',
   pushNotificationsDesc: 'Receive alerts when a hitchhiker is nearby',
   enablePushNotifications: 'Enable push notifications',
+  // Profile sub-tabs (Instagram redesign)
+  profileTabProfil: 'Profile',
+  profileTabProgression: 'Progress',
+  profileTabSettings: 'Settings',
+  settingsAppearance: 'Appearance',
+  settingsNotifications: 'Notifications',
+  settingsPrivacy: 'Privacy',
+  xpRemaining: '{xp} XP to next level',
+  streakDaysShort: 'Streak',
+  rankShort: 'Rank',
+  badgesCount: 'Badges',
+  trophies: 'Trophies',
+  profileStats: 'Stats',
 }

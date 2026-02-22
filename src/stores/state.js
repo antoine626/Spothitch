@@ -26,6 +26,7 @@ const initialState = {
   activeSubTab: 'planner',
   socialSubTab: 'feed',
   chatSubTab: 'zones',
+  profileSubTab: 'profil',
   groupSubTab: 'mine',
   eventSubTab: 'upcoming',
   feedFilter: 'all',

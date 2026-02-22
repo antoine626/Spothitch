@@ -3587,4 +3587,17 @@ export default {
   pushNotifications: 'Push-Benachrichtigungen',
   pushNotificationsDesc: 'Benachrichtigungen erhalten, wenn ein Tramper in der Naehe ist',
   enablePushNotifications: 'Push-Benachrichtigungen aktivieren',
+  // Profile sub-tabs (Instagram redesign)
+  profileTabProfil: 'Profil',
+  profileTabProgression: 'Fortschritt',
+  profileTabSettings: 'Einstellungen',
+  settingsAppearance: 'Erscheinungsbild',
+  settingsNotifications: 'Benachrichtigungen',
+  settingsPrivacy: 'Datenschutz',
+  xpRemaining: '{xp} XP bis zum naechsten Level',
+  streakDaysShort: 'Serie',
+  rankShort: 'Rang',
+  badgesCount: 'Abzeichen',
+  trophies: 'Trophaeen',
+  profileStats: 'Statistiken',
 }

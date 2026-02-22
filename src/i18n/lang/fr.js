@@ -3590,4 +3590,17 @@ export default {
   pushNotifications: 'Notifications push',
   pushNotificationsDesc: 'Recevoir des alertes quand un autostoppeur est proche',
   enablePushNotifications: 'Activer les notifications push',
+  // Profile sub-tabs (Instagram redesign)
+  profileTabProfil: 'Profil',
+  profileTabProgression: 'Progression',
+  profileTabSettings: 'Reglages',
+  settingsAppearance: 'Apparence',
+  settingsNotifications: 'Notifications',
+  settingsPrivacy: 'Confidentialite',
+  xpRemaining: '{xp} XP pour le prochain niveau',
+  streakDaysShort: 'Serie',
+  rankShort: 'Rang',
+  badgesCount: 'Badges',
+  trophies: 'Trophees',
+  profileStats: 'Statistiques',
 }
