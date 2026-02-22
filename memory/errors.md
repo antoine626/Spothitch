@@ -154,6 +154,26 @@ Chaque erreur suit ce format :
 - **Fichiers** : `CLAUDE.md`
 - **Statut** : CORRIGÉ
 
+### ERR-014 — Bouton "refuser ami" ne faisait rien (declineFriendRequest no-op)
+- **Date** : 2026-02-22
+- **Gravité** : MAJEUR
+- **Description** : Le bouton ✕ pour refuser une demande d'ami dans Social/Friends ne faisait rien. `window.declineFriendRequest` était défini comme `() => { /* no-op */ }`.
+- **Cause racine** : Handler créé comme stub lors du développement social, jamais implémenté. De plus, un doublon `rejectFriendRequest` existait dans main.js (aussi vide).
+- **Correction** : Implémentation réelle qui retire la demande du state et affiche un toast. Unification du nom (declineFriendRequest partout, suppression de rejectFriendRequest).
+- **Leçon** : **JAMAIS créer un handler stub `() => {}` sans TODO explicite. Chaque bouton visible DOIT avoir un handler fonctionnel. Vérifier via audit régulier.**
+- **Fichiers** : Social.js, Friends.js, main.js
+- **Statut** : CORRIGÉ
+
+### ERR-015 — Bouton "supprimer appareil" manquant (removeKnownDevice)
+- **Date** : 2026-02-22
+- **Gravité** : MAJEUR
+- **Description** : Le bouton "supprimer cet appareil" dans la liste des appareils connus appelait `window.removeKnownDevice()` mais cette fonction n'existait nulle part.
+- **Cause racine** : La fonction `removeDevice()` existait dans newDeviceNotification.js mais n'avait jamais été câblée à un handler `window.*`.
+- **Correction** : Ajout de `window.removeKnownDevice` qui appelle `removeDevice()` et re-rend la liste.
+- **Leçon** : **Quand on ajoute un onclick dans le HTML, TOUJOURS vérifier que la fonction window.* correspondante existe. Grep le nom de la fonction dans tout src/.**
+- **Fichiers** : newDeviceNotification.js
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
@@ -161,3 +181,4 @@ Chaque erreur suit ce format :
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
 | 2026-02-20 | 13 | 13 | 0 |
+| 2026-02-22 | 2 | 2 | 0 |

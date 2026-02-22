@@ -62,11 +62,14 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
-### Session ~2026-02-22 (session 9 — ESLINT CLEANUP + DEAD CODE + NAMING RULE)
-- **ESLint : 77 warnings → 0** — nettoyage massif dans 54 fichiers (imports inutilisés, variables mortes, lignes trop longues, == → ===)
-- Suppression 5 fonctions mortes (80 lignes) : renderRatingBar (SpotDetail.js), renderTripSpot (Travel.js), getStreak/showDailyRewardPopup/closeDailyRewardPopup (dailyReward.js)
-- Ajout Règle #8b — NOMMAGE COHÉRENT : jamais d'alias, un seul nom partout, convention window.verbNom
-- Tests : 224/224 passent (wiring + integration), build OK, ESLint 0 erreurs
+### Session ~2026-02-22 (session 9 — ESLINT CLEANUP + DEAD CODE + HANDLERS AUDIT)
+- **ESLint : 77 warnings → 0** — nettoyage massif dans 54 fichiers
+- Suppression 8 fonctions mortes : renderRatingBar, renderTripSpot, getStreak, showDailyRewardPopup, closeDailyRewardPopup, positionSpotlight, checkStreakReminder, startStreakReminderCheck, stopStreakReminderCheck
+- Ajout Règle #8b — NOMMAGE COHÉRENT : jamais d'alias, un seul nom partout
+- **Handlers implémentés** : autoDetectStation (Overpass API), autoDetectRoad (Nominatim), declineFriendRequest, removeKnownDevice, executeStepAction
+- **Nommage unifié** : rejectFriendRequest → declineFriendRequest (Rule #8b)
+- i18n : 10 nouvelles clés en 4 langues (autoDetect + requestDeclined + deviceRemoved)
+- Tests : 1276/1276 passent (35 fichiers), build OK, ESLint 0 erreurs
 
 ### Session ~2026-02-22 (session 8 — WOLF FIXES + BUNDLE OPTIMIZATION)
 - Fix window.setSocialTab manquant (détecté par Wolf — onclick dans 6 fichiers mais jamais enregistré)
