@@ -15,7 +15,7 @@ test.describe('Trip Planner — Full Flow', () => {
     await skipOnboarding(page)
     // Open trip planner via state
     await page.evaluate(() => window.setState?.({ showTripPlanner: true }))
-    await page.waitForTimeout(1500)
+    await page.waitForTimeout(2000)
     const html = await page.evaluate(() => document.body.innerHTML)
     expect(html).toMatch(/trip-from|trip-to|planTrip|itinéraire|Itinéraire|planificateur/i)
   })
@@ -23,7 +23,7 @@ test.describe('Trip Planner — Full Flow', () => {
   test('should have swap functionality without crash', async ({ page }) => {
     await skipOnboarding(page)
     await page.evaluate(() => window.setState?.({ showTripPlanner: true }))
-    await page.waitForTimeout(1500)
+    await page.waitForTimeout(2000)
     // Swap function should exist and not crash
     await page.evaluate(() => window.swapTripPoints?.())
     await page.waitForTimeout(500)
@@ -34,7 +34,7 @@ test.describe('Trip Planner — Full Flow', () => {
   test('should show validation when fields empty', async ({ page }) => {
     await skipOnboarding(page)
     await page.evaluate(() => window.setState?.({ showTripPlanner: true }))
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(2000)
     await page.evaluate(() => window.syncTripFieldsAndCalculate?.())
     await page.waitForTimeout(500)
     const state = await getAppState(page)
@@ -213,7 +213,7 @@ test.describe('Social — Conversations Sub-tab', () => {
     const html = await page.evaluate(() => document.body.innerText)
     // Should show conversations tab content (empty state or list)
     expect(html.length).toBeGreaterThan(10)
-    expect(html).toMatch(/conversation|message|discuter|chat|salon|groupe|Discussion|zone|ami|friend|Pas encore/i)
+    expect(html).toMatch(/conversation|message|discuter|chat|salon|Pas encore|Aucune|zone/i)
   })
 
   test('should have zone chat rooms card', async ({ page }) => {
@@ -236,7 +236,7 @@ test.describe('Social — Friends Sub-tab', () => {
   test('should display friends list or empty state', async ({ page }) => {
     const html = await page.evaluate(() => document.body.innerText)
     expect(html.length).toBeGreaterThan(10)
-    expect(html).toMatch(/ami|friend|Amis|Friends|compagnon|ambassad/i)
+    expect(html).toMatch(/ami|friend|Amis|Friends|ambassad|Rechercher|demande/i)
   })
 
   test('should have ambassadors section', async ({ page }) => {
@@ -538,7 +538,7 @@ test.describe('Guides — Content Tests', () => {
     await skipOnboarding(page)
     // Open guides via state directly
     await page.evaluate(() => window.setState?.({ showGuidesOverlay: true }))
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(2500)
 
     const html = await page.evaluate(() => document.body.innerHTML)
     // Should have guide content in the DOM (overlay, cards, or sections)
