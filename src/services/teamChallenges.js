@@ -310,7 +310,7 @@ export function startTeamChallenge(challengeId) {
  * @param {string} type - Type of contribution
  * @returns {boolean}
  */
-export function contributeToChallenge(challengeId, amount, type) {
+export function contributeToChallenge(challengeId, amount, _type) {
   const state = getState();
   const userId = state.user?.uid;
   const teamId = state.myTeamId;
@@ -573,7 +573,7 @@ export function renderTeamDashboard(state) {
  * @param {Object} state
  * @returns {string}
  */
-function renderNoTeam(state) {
+function renderNoTeam(_state) {
   return `
     <div class="p-4 space-y-6">
       <div class="text-center py-12">

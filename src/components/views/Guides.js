@@ -244,7 +244,7 @@ export function renderGuides(state) {
   `
 }
 
-function renderSection(section, state) {
+function renderSection(section, _state) {
   switch (section) {
     case 'start': return renderStartSection()
     case 'countries': return renderCountriesSection()
@@ -666,7 +666,6 @@ function renderVisaSection(code) {
   }
 
   const freeLabel = t('guideVisaFree') || 'Visa-free'
-  const requiredLabel = t('guideVisaRequired') || 'Visa required'
   const yesLabel = t('guideVisaYes') || 'Yes'
   const noLabel = t('guideVisaNo') || 'No'
 

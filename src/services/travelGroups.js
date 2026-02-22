@@ -14,7 +14,6 @@ import { icon } from '../utils/icons.js'
 
 // Storage key
 const TRAVEL_GROUPS_KEY = 'spothitch_travel_groups';
-const ITINERARIES_KEY = 'spothitch_group_itineraries';
 
 // Group status
 export const GROUP_STATUS = {
@@ -90,18 +89,6 @@ function saveGroupsToStorage(groups) {
   } catch (error) {
     console.error('[TravelGroups] Error saving groups:', error);
   }
-}
-
-/**
- * Escape HTML to prevent XSS
- * @param {string} str
- * @returns {string}
- */
-function escapeHTML(str) {
-  if (!str) return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
 }
 
 /**
@@ -759,7 +746,8 @@ export function removeItineraryStop(groupId, stopId) {
   );
   const stop = group.itinerary[stopIndex];
 
-  if (!member || (member.role !== MEMBER_ROLE.CREATOR && member.role !== MEMBER_ROLE.ADMIN && stop.addedBy !== userId)) {
+  const isAdmin = member?.role === MEMBER_ROLE.CREATOR || member?.role === MEMBER_ROLE.ADMIN
+  if (!member || (!isAdmin && stop.addedBy !== userId)) {
     return { success: false, error: 'not_authorized' };
   }
 
@@ -979,7 +967,7 @@ export function renderTravelGroupCard(group) {
  * @param {Object} state
  * @returns {string}
  */
-export function renderTravelGroupsList(state) {
+export function renderTravelGroupsList(_state) {
   const groups = searchTravelGroups({ status: 'planning', hasAvailableSpots: true });
   const myGroups = getMyTravelGroups();
 

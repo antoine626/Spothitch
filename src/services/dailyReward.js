@@ -90,8 +90,8 @@ export function claimReward() {
     return { success: false, message: 'Deja recupere aujourd\'hui !' };
   }
 
-  let newStreak = info.totalStreak;
-  let pointsEarned = 0;
+  let newStreak;
+  let pointsEarned;
   let badgeEarned = null;
   let mysteryResult = null;
 

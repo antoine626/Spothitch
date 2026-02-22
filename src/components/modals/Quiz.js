@@ -5,7 +5,7 @@
 
 import { getState } from '../../stores/state.js'
 import { t } from '../../i18n/index.js'
-import { getQuizState, quizQuestions, getAvailableCountries, getCountryScores } from '../../services/quiz.js'
+import { getQuizState, getAvailableCountries, getCountryScores } from '../../services/quiz.js'
 import { countryFlags, countryNames } from '../../data/quizzes/index.js'
 
 /**

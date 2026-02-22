@@ -15,7 +15,6 @@ function createConfettiParticle(container, x, y) {
   const color = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
   const shape = CONFETTI_SHAPES[Math.floor(Math.random() * CONFETTI_SHAPES.length)];
   const size = Math.random() * 10 + 5;
-  const angle = Math.random() * 360;
   const velocity = Math.random() * 3 + 2;
   const spin = (Math.random() - 0.5) * 10;
 

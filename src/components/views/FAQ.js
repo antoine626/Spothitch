@@ -402,8 +402,6 @@ export function filterFAQ(query) {
     query = '';
   }
 
-  const searchQuery = query.trim().toLowerCase();
-
   // Update state with search query
   window.setState?.({ faqSearchQuery: query });
 }
@@ -472,4 +470,8 @@ window.closeFAQ = closeFAQ;
 window.searchFAQ = searchFAQ;
 window.getFAQQuestionById = getFAQQuestionById;
 
-export default { renderFAQ, toggleFAQItem, filterFAQ, clearFAQSearch, openFAQ, closeFAQ, searchFAQ, getFAQQuestionById, getAllFAQQuestions, getFAQTypes };
+export default {
+  renderFAQ, toggleFAQItem, filterFAQ, clearFAQSearch,
+  openFAQ, closeFAQ, searchFAQ, getFAQQuestionById,
+  getAllFAQQuestions, getFAQTypes,
+};

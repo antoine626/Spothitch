@@ -9,7 +9,6 @@ import { escapeHTML } from '../../../utils/sanitize.js'
 import { formatTime, formatRelativeTime } from '../../../utils/formatters.js'
 import { renderSkeletonChatList } from '../../ui/Skeleton.js'
 import { getConversationsList, getConversationMessages } from '../../../services/directMessages.js'
-import { getTrustBadge } from '../../../services/identityVerification.js'
 
 export function renderConversations(state) {
   // If a DM conversation is open, show it directly

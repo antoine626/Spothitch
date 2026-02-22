@@ -661,7 +661,7 @@ export function destroyMaps() {
 /**
  * Initialize map service (alias for initMap with 'main-map' container)
  */
-export async function initMapService(state) {
+export async function initMapService(_state) {
   return initMap('main-map')
 }
 

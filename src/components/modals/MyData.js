@@ -457,10 +457,6 @@ export function requestAccountDeletion() {
  */
 export function openConsentSettings() {
   // Show a simple consent management modal
-  const cookiesConsent = Storage.get('consent_cookies');
-  const geoConsent = Storage.get('consent_geolocation');
-  const notifConsent = Storage.get('consent_notifications');
-
   setState({ showConsentSettings: true });
   window.showToast?.((t('consentSettingsComingSoon') || 'Paramètres de consentement - fonctionnalité à venir'), 'info');
 }

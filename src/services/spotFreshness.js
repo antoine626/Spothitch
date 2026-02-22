@@ -17,7 +17,6 @@
  *   - > 5 years: auto-deleted (handled in spotLoader)
  */
 
-import { getState } from '../stores/state.js'
 import { t } from '../i18n/index.js'
 import { icon } from '../utils/icons.js'
 

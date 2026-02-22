@@ -3,7 +3,7 @@
  * Handles geolocation with explanation before permission request
  */
 
-import { getState, setState, actions } from '../stores/state.js';
+import { setState, actions } from '../stores/state.js';
 import { Storage } from '../utils/storage.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';

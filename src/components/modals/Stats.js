@@ -5,7 +5,7 @@
 
 import { getState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
-import { getVipLevel, getLeague, getVipProgress, getLeagueProgress } from '../../data/vip-levels.js';
+import { getVipProgress, getLeagueProgress } from '../../data/vip-levels.js';
 import { getGamificationSummary } from '../../services/gamification.js';
 import {
   calculateTravelStats,

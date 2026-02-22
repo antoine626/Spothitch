@@ -5,7 +5,7 @@
 
 import { t } from '../../i18n/index.js';
 import { renderSpotCard } from '../SpotCard.js';
-import { renderSkeletonSpotList, renderSkeletonMapLoading } from '../ui/Skeleton.js';
+import { renderSkeletonSpotList } from '../ui/Skeleton.js';
 import { icon } from '../../utils/icons.js'
 
 export function renderSpots(state) {

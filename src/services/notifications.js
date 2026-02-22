@@ -6,8 +6,8 @@
 
 import { requestNotificationPermission, onForegroundMessage, saveFCMToken } from './firebase.js';
 import { escapeHTML } from '../utils/sanitize.js';
-import { getErrorMessage, getFormattedError } from '../utils/errorMessages.js';
-import { getState, setState, subscribe } from '../stores/state.js';
+import { getErrorMessage } from '../utils/errorMessages.js';
+import { getState, setState } from '../stores/state.js';
 import { t } from '../i18n/index.js';
 
 // Toast container reference

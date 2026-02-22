@@ -123,7 +123,6 @@ export function checkNearbyFriends() {
   if (!userLocation) return;
 
   const state = getState();
-  const friends = state.friends || [];
   const friendsLocations = state.friendsLocations || [];
   const notificationRadius = state.nearbyFriendsRadius || CONFIG.defaultRadius;
 

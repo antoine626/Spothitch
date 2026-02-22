@@ -3,7 +3,7 @@
  * Calculates detailed travel statistics from check-in history
  */
 
-import { getState, setState } from '../stores/state.js';
+import { getState } from '../stores/state.js';
 import { Storage } from '../utils/storage.js';
 
 // Cache key for calculated stats

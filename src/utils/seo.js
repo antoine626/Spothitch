@@ -344,7 +344,7 @@ function updateLink(rel, href) {
  * @param {string} currentLang - Current language code
  * @param {string} currentPath - Current page path (without lang)
  */
-export function setHreflangTags(currentLang = DEFAULT_LANGUAGE, currentPath = '') {
+export function setHreflangTags(_currentLang = DEFAULT_LANGUAGE, currentPath = '') {
   // Remove existing hreflang links
   const existingLinks = document.querySelectorAll('link[rel="alternate"][hreflang]');
   existingLinks.forEach(link => link.remove());

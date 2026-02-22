@@ -6,7 +6,7 @@
 import { t } from '../../i18n/index.js'
 import { getGuideByCode } from '../../data/guides.js'
 import { icon } from '../../utils/icons.js'
-import { isCompanionActive, getTimeUntilNextCheckIn, isCheckInOverdue } from '../../services/companion.js'
+import { isCompanionActive, getTimeUntilNextCheckIn } from '../../services/companion.js'
 
 export function renderHome(state) {
   const hasGPS = !!state.userLocation

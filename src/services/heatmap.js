@@ -12,8 +12,6 @@ const HEATMAP_CONFIG = {
   minOpacity: 0.3,
 }
 
-// Track heatmap state
-let heatmapVisible = false
 
 /**
  * Generate heatmap GeoJSON from spots
@@ -131,7 +129,6 @@ export function initHeatmap(map, spots) {
     },
   })
 
-  heatmapVisible = true
   return true
 }
 
@@ -152,7 +149,6 @@ export function toggleHeatmap(map, visible) {
 
   if (map.getLayer('heatmap-layer')) {
     map.setLayoutProperty('heatmap-layer', 'visibility', visible ? 'visible' : 'none')
-    heatmapVisible = visible
   } else if (visible) {
     // Heatmap not yet created, initialize it
     const state = getState()
@@ -169,7 +165,6 @@ export function removeHeatmap(map) {
   if (!map) return
   if (map.getLayer('heatmap-layer')) map.removeLayer('heatmap-layer')
   if (map.getSource('heatmap-source')) map.removeSource('heatmap-source')
-  heatmapVisible = false
 }
 
 /**

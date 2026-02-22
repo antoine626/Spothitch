@@ -4,7 +4,7 @@
  * Users can download specific countries and browse spots without network
  */
 
-import { putAll, getByIndex, clear, count, getAll } from '../utils/idb.js'
+import { putAll, getByIndex, count, getAll } from '../utils/idb.js'
 
 const STORAGE_KEY = 'spothitch_offline_countries'
 const BASE = import.meta.env.BASE_URL || '/'

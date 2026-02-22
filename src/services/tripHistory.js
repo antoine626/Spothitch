@@ -146,31 +146,6 @@ export function clearTripHistory() {
 // ==================== RENDERING ====================
 
 /**
- * Format timestamp as relative time or date
- * @param {number} timestamp - Timestamp in ms
- * @returns {string} Formatted string
- */
-function formatTimestamp(timestamp) {
-  const now = Date.now()
-  const diff = now - timestamp
-  const minutes = Math.floor(diff / 60000)
-  const hours = Math.floor(diff / 3600000)
-  const days = Math.floor(diff / 86400000)
-
-  if (minutes < 1) return t('tripTimeJustNow') || 'À l\'instant'
-  if (minutes < 60) return (t('tripTimeMinutesAgo') || 'Il y a {n}min').replace('{n}', minutes)
-  if (hours < 24) return (t('tripTimeHoursAgo') || 'Il y a {n}h').replace('{n}', hours)
-  if (days < 7) return (t('tripTimeDaysAgo') || 'Il y a {n}j').replace('{n}', days)
-
-  const date = new Date(timestamp)
-  return date.toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'short',
-    year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined,
-  })
-}
-
-/**
  * Format time of day
  * @param {number} timestamp - Timestamp in ms
  * @returns {string} Time string

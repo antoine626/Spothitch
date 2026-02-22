@@ -666,7 +666,7 @@ export function renderVerificationStatus() {
 
       <!-- Verification steps -->
       <div class="grid grid-cols-4 gap-2 mb-4">
-        ${Object.values(verificationLevels).slice(1).map((level, index) => {
+        ${Object.values(verificationLevels).slice(1).map((level, _index) => {
           const isComplete = progress.currentLevel >= level.id;
           const isCurrent = progress.currentLevel === level.id - 1;
           return `

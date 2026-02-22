@@ -14,7 +14,6 @@ export const THUMBNAIL_SIZES = {
 
 // Max file sizes (in bytes)
 const MAX_ORIGINAL_SIZE = 5 * 1024 * 1024; // 5MB
-const MAX_THUMBNAIL_SIZE = 100 * 1024; // 100KB
 
 // Supported formats
 const SUPPORTED_FORMATS = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];

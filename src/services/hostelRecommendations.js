@@ -3,7 +3,7 @@
  * Allows users to recommend hostels near spots/cities with affiliate links
  */
 
-import { getState, setState } from '../stores/state.js'
+import { getState } from '../stores/state.js'
 import { showToast } from './notifications.js'
 import { t } from '../i18n/index.js'
 import { icon } from '../utils/icons.js'

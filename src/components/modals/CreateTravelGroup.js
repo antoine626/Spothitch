@@ -6,7 +6,7 @@
 import { t } from '../../i18n/index.js';
 import { icon } from '../../utils/icons.js'
 
-export function renderCreateTravelGroupModal(state) {
+export function renderCreateTravelGroupModal(_state) {
   return `
     <div
       class="fixed inset-0 z-50 flex items-center justify-center p-4"

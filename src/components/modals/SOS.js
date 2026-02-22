@@ -791,7 +791,7 @@ let _sosCountdownTimer = null
 
 window.sosStartCountdown = async () => {
   const { getState, actions } = await import('../../stores/state.js')
-  const { showSuccess, showError } = await import('../../services/notifications.js')
+  const { showSuccess } = await import('../../services/notifications.js')
   const state = getState()
 
   // If SOS already active, stop sharing immediately

@@ -48,13 +48,14 @@ export function calculateTrustScore(userStats = {}) {
   const identityScore = (stats.emailVerified ? 5 : 0) + (stats.phoneVerified ? 5 : 0) + (stats.idVerified ? 5 : 0);
 
   // Calculate individual scores
+  const sf = SCORE_FACTORS
   const scores = {
-    accountAge: Math.min((stats.accountAge / 365) * SCORE_FACTORS.accountAge.max, SCORE_FACTORS.accountAge.max),
-    spotsCreated: Math.min((stats.spotsCreated / 20) * SCORE_FACTORS.spotsCreated.max, SCORE_FACTORS.spotsCreated.max),
-    verifiedSpots: Math.min((stats.verifiedSpots / 10) * SCORE_FACTORS.verifiedSpots.max, SCORE_FACTORS.verifiedSpots.max),
-    helpfulReviews: Math.min((stats.helpfulReviews / 30) * SCORE_FACTORS.helpfulReviews.max, SCORE_FACTORS.helpfulReviews.max),
-    identityVerification: Math.min(identityScore, SCORE_FACTORS.identityVerification.max),
-    communityVotes: Math.min((stats.communityVotes / 50) * SCORE_FACTORS.communityVotes.max, SCORE_FACTORS.communityVotes.max),
+    accountAge: Math.min((stats.accountAge / 365) * sf.accountAge.max, sf.accountAge.max),
+    spotsCreated: Math.min((stats.spotsCreated / 20) * sf.spotsCreated.max, sf.spotsCreated.max),
+    verifiedSpots: Math.min((stats.verifiedSpots / 10) * sf.verifiedSpots.max, sf.verifiedSpots.max),
+    helpfulReviews: Math.min((stats.helpfulReviews / 30) * sf.helpfulReviews.max, sf.helpfulReviews.max),
+    identityVerification: Math.min(identityScore, sf.identityVerification.max),
+    communityVotes: Math.min((stats.communityVotes / 50) * sf.communityVotes.max, sf.communityVotes.max),
   };
 
   // Calculate total score
@@ -145,7 +146,7 @@ export function renderTrustBadge(score, size = 'md') {
  * Render detailed trust score card
  */
 export function renderTrustScoreCard() {
-  const { score, tier, breakdown, stats } = calculateTrustScore();
+  const { score, tier, breakdown } = calculateTrustScore();
 
   return `
     <div class="trust-score-card card p-4">

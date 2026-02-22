@@ -4,7 +4,7 @@
  */
 
 import { getState, setState } from '../stores/state.js';
-import { getRoute, searchLocation, reverseGeocode } from './osrm.js';
+import { getRoute, searchLocation } from './osrm.js';
 import { sampleSpots } from '../data/spots.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';

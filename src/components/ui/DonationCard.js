@@ -397,7 +397,7 @@ window.closeDonation = () => {
   window.setState?.({ showDonation: false });
 };
 
-window.handleDonationClick = (platform) => {
+window.handleDonationClick = (_platform) => {
   const state = window.getState?.() || {};
   let amount = state.donationAmount;
 

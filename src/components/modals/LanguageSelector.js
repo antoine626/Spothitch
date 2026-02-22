@@ -16,7 +16,7 @@ import {
  * @param {Object} state - Current app state
  * @returns {string} HTML string
  */
-export function renderLanguageSelector(state) {
+export function renderLanguageSelector(_state) {
   const languages = getAvailableLanguages();
   const detectedLang = detectLanguage();
 

@@ -80,6 +80,13 @@
 
 > **RÈGLE #8 — i18n** : TOUT en t('key'), 4 langues (FR/EN/ES/DE), jamais de texte hardcodé
 
+> **RÈGLE #8b — NOMMAGE COHÉRENT** :
+> - JAMAIS créer d'alias (`window.openX = window.showX`) — utiliser UN SEUL nom partout
+> - Quand une fonction `window.*` est créée, utiliser le MÊME nom dans : le code, les onclick HTML, les tests, le Wolf
+> - Si un nom existe déjà dans le code → réutiliser ce nom, ne PAS en inventer un nouveau
+> - Convention : `window.verbNom` (ex: `showCompanionModal`, `openSpotDetail`, `submitNewSpot`)
+> - Si le Wolf attend un nom différent du code → corriger le Wolf, PAS ajouter un alias
+
 > **RÈGLE #9 — SÉCURITÉ GIT** :
 > - JAMAIS `git add -A` ou `git add .` → toujours lister les fichiers un par un
 > - Avant chaque commit → `git diff --stat HEAD` pour vérifier EXACTEMENT ce qui va être commité

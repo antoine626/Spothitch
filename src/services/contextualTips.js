@@ -78,7 +78,6 @@ export const TIPS = {
 
 // Current active tip (for rendering)
 let currentTip = null;
-const tipCallback = null;
 
 /**
  * Get all seen tips from storage

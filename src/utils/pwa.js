@@ -125,7 +125,7 @@ export async function installPWA() {
  */
 function showManualInstallInstructions() {
   const ua = navigator.userAgent.toLowerCase();
-  let instructions = '';
+  let instructions;
 
   if (/iphone|ipad|ipod/.test(ua)) {
     instructions = t('pwaInstallIOS') || 'Appuyez sur le bouton Partager puis "Sur l\'écran d\'accueil"';

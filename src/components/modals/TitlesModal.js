@@ -3,7 +3,7 @@
  * Shows all narrative titles with unlock progress
  */
 
-import { getAllTitles, getTitleForLevel, getUnlockedTitles, getLockedTitles } from '../../data/titles.js'
+import { getAllTitles, getTitleForLevel, getUnlockedTitles } from '../../data/titles.js'
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
 
@@ -11,7 +11,6 @@ export function renderTitlesModal(state) {
   const level = state.level || 1
   const currentTitle = getTitleForLevel(level)
   const unlocked = getUnlockedTitles(level)
-  const locked = getLockedTitles(level)
   const all = getAllTitles()
 
   return `

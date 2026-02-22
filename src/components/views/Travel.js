@@ -11,6 +11,7 @@ import { escapeHTML } from '../../utils/sanitize.js'
 import { icon } from '../../utils/icons.js'
 
 const SAVED_TRIPS_KEY = 'spothitch_saved_trips'
+const FAVORITES_KEY = 'spothitch_favorites'
 
 // Haversine distance in km
 function haversine(lat1, lng1, lat2, lng2) {
@@ -21,20 +22,6 @@ function haversine(lat1, lng1, lat2, lng2) {
     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLng / 2) ** 2
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-}
-
-// Country code → flag emoji
-function countryFlag(code) {
-  if (!code || code.length !== 2) return '📍'
-  return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65))
-}
-
-const FAVORITES_KEY = 'spothitch_favorites'
-
-function getFavorites() {
-  try {
-    return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]')
-  } catch (e) { return [] }
 }
 
 export function renderTravel(state) {
@@ -1043,7 +1030,11 @@ window.closeTripMap = () => {
 
 window.clearTripResults = () => {
   window._tripMapCleanup?.()
-  window.setState?.({ tripResults: null, showTripMap: false, showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
+  window.setState?.({
+    tripResults: null, showTripMap: false,
+    showRouteAmenities: false, routeAmenities: [],
+    loadingRouteAmenities: false,
+  })
 }
 
 // Remove a spot from trip results (by spot ID)

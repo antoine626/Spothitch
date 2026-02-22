@@ -5,7 +5,6 @@
  */
 
 import { showToast, sendLocalNotification } from './notifications.js'
-import { getState } from '../stores/state.js'
 import { t } from '../i18n/index.js'
 
 // Storage key for known devices
@@ -413,9 +412,6 @@ export function updateDeviceName(deviceId, newName) {
  * @param {Object} device - Device info object
  */
 export function notifyNewDeviceLogin(device) {
-  const state = getState()
-  const username = state.username || (t('traveler') || 'Traveler')
-
   const title = t('newDeviceLoginDetected') || 'New login detected'
   const body = `${t('loginFromNewDevice') || 'Login from new device'}: ${device.name} (${device.os})`
 

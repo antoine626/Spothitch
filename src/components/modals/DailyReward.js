@@ -10,7 +10,6 @@ import {
   canClaimReward,
   claimReward,
   getRewardsCalendar,
-  DAILY_REWARDS,
 } from '../../services/dailyReward.js';
 import { launchConfettiBurst } from '../../utils/confetti.js';
 import { showToast } from '../../services/notifications.js';
@@ -126,7 +125,7 @@ export function renderDailyRewardModal() {
 /**
  * Render a single day card in the calendar
  */
-function renderDayCard(day, info) {
+function renderDayCard(day, _info) {
   const isClaimed = day.claimed;
   const isCurrent = day.current;
   const isLocked = day.locked && !isCurrent;

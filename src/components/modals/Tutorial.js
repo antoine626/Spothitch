@@ -47,7 +47,6 @@ export function renderTutorial(state) {
   }
 
   const isLast = stepIndex === tutorialSteps.length - 1
-  const isFirst = stepIndex === 0
 
   return `
     <div class="tutorial-overlay" id="tutorial-overlay">

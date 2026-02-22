@@ -5,7 +5,7 @@
 
 import { t } from '../../i18n/index.js';
 import { formatDistance, formatDuration } from '../../services/osrm.js';
-import { getSavedTrips, getTripById } from '../../services/planner.js';
+import { getTripById } from '../../services/planner.js';
 
 /**
  * Render the trip planner view

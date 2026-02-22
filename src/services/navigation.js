@@ -369,7 +369,7 @@ export function getDirectionIcon(maneuverType, modifier) {
  * @param {number} lng
  * @param {string} name
  */
-export function openExternalNavigation(lat, lng, name) {
+export function openExternalNavigation(lat, lng, _name) {
   // Detect platform and open appropriate app
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const isAndroid = /Android/.test(navigator.userAgent);

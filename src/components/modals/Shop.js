@@ -5,7 +5,7 @@
 
 import { getState, setState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
-import { shopRewards, rewardCategories, getRewardsByCategory, getRewardById, canAfford } from '../../data/rewards.js';
+import { rewardCategories, getRewardsByCategory, getRewardById } from '../../data/rewards.js';
 import { showToast } from '../../services/notifications.js';
 import { icon } from '../../utils/icons.js'
 
@@ -161,7 +161,7 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
  */
 export function renderMyRewardsModal() {
   const state = getState();
-  const { showMyRewards, redeemedCodes = [], lang = 'fr' } = state;
+  const { showMyRewards, redeemedCodes = [] } = state;
 
   if (!showMyRewards) return '';
 

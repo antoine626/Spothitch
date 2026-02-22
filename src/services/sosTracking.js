@@ -228,7 +228,7 @@ function notifyContacts(session) {
 /**
  * Notify contacts that user is safe
  */
-function notifyContactsSafe(session) {
+function notifyContactsSafe(_session) {
   /* no-op */
 }
 

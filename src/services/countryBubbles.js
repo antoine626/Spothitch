@@ -15,7 +15,9 @@ import { icon } from '../utils/icons.js'
  * @param {Set<string>} loadedCodes - country codes currently loaded in memory
  * @returns {object} GeoJSON FeatureCollection
  */
-export function buildCountryBubblesGeoJSON(indexData, countryCenters, downloadedCodes = new Set(), loadedCodes = new Set()) {
+export function buildCountryBubblesGeoJSON(
+  indexData, countryCenters, downloadedCodes = new Set(), loadedCodes = new Set(),
+) {
   if (!indexData?.countries) return { type: 'FeatureCollection', features: [] }
 
   const displayNames = getCountryDisplayNames()

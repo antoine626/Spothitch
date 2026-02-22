@@ -3,8 +3,6 @@
  * Catches and handles rendering errors gracefully
  */
 
-import { showToast } from '../services/notifications.js';
-
 // Error log for debugging
 const errorLog = [];
 const MAX_ERRORS = 50;

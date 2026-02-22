@@ -28,7 +28,8 @@ function sampleRoute(geometry) {
   }
   // Always include the last point
   const [lastLng, lastLat] = geometry[geometry.length - 1]
-  if (sampled.length === 0 || sampled[sampled.length - 1].lat !== lastLat || sampled[sampled.length - 1].lng !== lastLng) {
+  const last = sampled[sampled.length - 1]
+  if (sampled.length === 0 || last.lat !== lastLat || last.lng !== lastLng) {
     sampled.push({ lat: lastLat, lng: lastLng })
   }
   return sampled.slice(0, 50)

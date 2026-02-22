@@ -62,11 +62,11 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
-### Session ~2026-02-22 (session 9 — DEAD CODE CLEANUP)
+### Session ~2026-02-22 (session 9 — ESLINT CLEANUP + DEAD CODE + NAMING RULE)
+- **ESLint : 77 warnings → 0** — nettoyage massif dans 54 fichiers (imports inutilisés, variables mortes, lignes trop longues, == → ===)
 - Suppression 5 fonctions mortes (80 lignes) : renderRatingBar (SpotDetail.js), renderTripSpot (Travel.js), getStreak/showDailyRewardPopup/closeDailyRewardPopup (dailyReward.js)
-- Vérifié que canAfford (rewards.js) est utilisé dans Shop.js — pas mort
-- Vérifié que tous les exports de statsCalculator.js sont utilisés dans Stats.js — pas mort
-- Tests : 104/104 wiring passent, build OK, pushé
+- Ajout Règle #8b — NOMMAGE COHÉRENT : jamais d'alias, un seul nom partout, convention window.verbNom
+- Tests : 224/224 passent (wiring + integration), build OK, ESLint 0 erreurs
 
 ### Session ~2026-02-22 (session 8 — WOLF FIXES + BUNDLE OPTIMIZATION)
 - Fix window.setSocialTab manquant (détecté par Wolf — onclick dans 6 fichiers mais jamais enregistré)

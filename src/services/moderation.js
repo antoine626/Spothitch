@@ -254,7 +254,7 @@ function generateReportId() {
 export function renderReportModal(state) {
   if (!state.showReport) return '';
 
-  const { reportType = 'spot', reportTargetId } = state;
+  const { reportType = 'spot' } = state;
   const reportTypes = REPORT_TYPES[reportType.toUpperCase()] || REPORT_TYPES.SPOT;
 
   return `
@@ -284,7 +284,7 @@ export function renderReportModal(state) {
           <p class="text-sm text-slate-400 mb-4">${t('reportWhy') || 'Pourquoi signales-tu cet élément ?'}</p>
 
           <div class="space-y-2">
-            ${Object.entries(reportTypes).map(([key, reason]) => `
+            ${Object.entries(reportTypes).map(([_key, reason]) => `
               <button
                 onclick="selectReportReason('${reason.id}')"
                 class="w-full p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-left flex items-center gap-3 ${state.selectedReportReason === reason.id ? 'ring-2 ring-primary-500 bg-primary-500/10' : ''}"

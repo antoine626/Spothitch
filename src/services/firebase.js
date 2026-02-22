@@ -27,7 +27,6 @@ import {
   doc,
   addDoc,
   updateDoc,
-  deleteDoc,
   getDocs,
   query,
   orderBy,
@@ -716,7 +715,6 @@ export async function reportSpot(spotId, reason, details = '') {
  */
 export async function handleAuthSuccess(user, isNew = false) {
   try {
-    const usersRef = collection(db, 'users');
     const userDocRef = doc(db, 'users', user.uid);
 
     if (isNew) {

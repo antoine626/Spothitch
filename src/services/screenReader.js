@@ -129,8 +129,6 @@ function setupLandmarks() {
 function initFocusManagement() {
   // Track focus for modal management
   document.addEventListener('focusin', (e) => {
-    const state = getState();
-
     // If modal is open, trap focus inside
     const activeModal = document.querySelector('.modal[aria-modal="true"], [role="dialog"][aria-modal="true"]');
     if (activeModal && !activeModal.contains(e.target)) {
@@ -444,7 +442,6 @@ function isInInput(element) {
  * Show accessibility help modal
  */
 function showAccessibilityHelp() {
-  const state = getState();
   setState({ showAccessibilityHelp: true });
   announce(t('sr.accessibilityHelpOpened') || 'Aide accessibilité ouverte');
 }

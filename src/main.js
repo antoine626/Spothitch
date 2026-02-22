@@ -37,7 +37,7 @@ function preloadMap() {
 import { searchLocation } from './services/osrm.js';
 
 // i18n
-import { t, detectLanguage, setLanguage, initI18n } from './i18n/index.js';
+import { t, setLanguage, initI18n } from './i18n/index.js';
 
 // Components
 import { renderApp, afterRender } from './components/App.js';
@@ -527,7 +527,6 @@ function render(state) {
   }
 
   // Save scroll position before EVERY re-render (not just tab changes)
-  const currentTab = state.activeTab || previousTab
   const savedScroll = window.scrollY || document.documentElement.scrollTop || 0
   if (previousTab && previousTab !== state.activeTab) {
     saveScrollPosition(previousTab)
@@ -2041,7 +2040,7 @@ window.togglePushNotifications = async () => {
 
 window.loadCountryOnMap = async (code) => {
   try {
-    const { loadCountrySpots, getAllLoadedSpots } = await import('./services/spotLoader.js')
+    const { loadCountrySpots } = await import('./services/spotLoader.js')
     await loadCountrySpots(code)
     showToast(`${t('countryLoaded') || 'Pays chargé'} (${code})`, 'success')
     // Refresh map spots source if map is active

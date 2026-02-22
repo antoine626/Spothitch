@@ -3,7 +3,7 @@
  * Friends list and private chat
  */
 
-import { getState, setState } from '../../stores/state.js';
+import { getState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
 
 /**

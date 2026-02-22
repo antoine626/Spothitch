@@ -10,7 +10,7 @@ import { icon } from '../../utils/icons.js'
 /**
  * Render the landing page for new visitors
  */
-export function renderLanding(state) {
+export function renderLanding(_state) {
   const stats = {
     spots: 11000,
     countries: 137,

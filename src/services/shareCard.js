@@ -273,7 +273,7 @@ export async function copySpotLink(spotId) {
  */
 export function shareOnWhatsApp(spotId) {
   const { spots } = getState()
-  const spot = spots.find(s => s.id == spotId)
+  const spot = spots.find(s => String(s.id) === String(spotId))
 
   if (!spot) {
     console.warn('[ShareCard] Spot not found:', spotId)
