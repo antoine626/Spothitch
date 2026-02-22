@@ -71,6 +71,8 @@ const _lazyLoaders = {
   renderContactFormModal: () => import('./modals/ContactForm.js'),
   renderCompanionModal: () => import('./modals/Companion.js'),
   renderTripHistory: () => import('../services/tripHistory.js'),
+  renderFAQ: () => import('./views/FAQ.js'),
+  renderLegalPage: () => import('./views/Legal.js'),
   renderGuides: () => import('./views/Guides.js'),
   renderTravel: () => import('./views/Travel.js'),
   renderWelcome: () => import('./modals/Welcome.js'),
@@ -263,6 +265,31 @@ export function renderApp(state) {
       </div>
     ` : ''}
 
+    <!-- FAQ Overlay -->
+    ${state.showFAQ ? `
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeFAQ()">
+        <div class="min-h-screen pb-20">
+          <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
+            <h2 class="text-lg font-bold flex items-center gap-2">${icon('help-circle', 'w-5 h-5 text-primary-400')}${t('faqTitle') || 'FAQ & Aide'}</h2>
+            <button onclick="closeFAQ()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
+              ${icon('x', 'w-5 h-5')}
+            </button>
+          </div>
+          <div class="p-4">
+            ${lazyRender('renderFAQ', state)}
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Legal Overlay -->
+    ${state.showLegal ? `
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeLegal()">
+        <div class="min-h-screen pb-20">
+          ${lazyRender('renderLegalPage', state.legalPage || 'cgu')}
+        </div>
+      </div>
+    ` : ''}
 
     <!-- Trip Planner / Guides Overlay (unified with tabs) -->
     ${state.showTripPlanner || state.showGuidesOverlay ? (() => {

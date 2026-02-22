@@ -469,6 +469,18 @@ describe('Modal Flags: close buttons present in HTML', () => {
     expect(hasCloseHandler, 'DailyReward modal missing close button/handler').toBe(true)
   })
 
+  test('showFAQ state key exists with related keys', () => {
+    const state = getState()
+    expect('showFAQ' in state).toBe(true)
+    expect('faqSearchQuery' in state).toBe(true)
+  })
+
+  test('showLegal state key exists with related keys', () => {
+    const state = getState()
+    expect('showLegal' in state).toBe(true)
+    expect('legalPage' in state).toBe(true)
+  })
+
   test('selectedCity flag renders CityPanel', () => {
     const { renderCityPanel } = require('../../src/components/views/CityPanel.js')
     const state = {

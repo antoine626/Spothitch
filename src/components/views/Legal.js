@@ -31,7 +31,7 @@ export function renderLegalPage(page = 'cgu') {
       <!-- Header -->
       <div class="sticky top-0 bg-dark-primary/80 backdrop-blur-xl z-10 border-b border-white/10">
         <div class="flex items-center gap-3 p-4">
-          <button onclick="changeTab('profile')" class="p-2 hover:bg-dark-secondary rounded-full">
+          <button onclick="closeLegal()" class="p-2 hover:bg-dark-secondary rounded-full">
             ${icon('arrow-left', 'w-5 h-5')}
           </button>
           <h1 class="text-lg font-bold text-white">

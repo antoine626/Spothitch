@@ -203,6 +203,22 @@ function updateAppBadge(count) {
  * Initialize the application
  */
 async function init() {
+  // Request geolocation early (during loading screen) so the map is ready at user's position
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude }
+        // Only set if we don't already have a location (avoid overwriting high-accuracy result)
+        if (!getState().userLocation) {
+          actions.setUserLocation(loc)
+          loadNearbySpots(loc)
+        }
+      },
+      () => { /* User declined or error — no problem */ },
+      { timeout: 5000, enableHighAccuracy: false }
+    )
+  }
+
   // Initialize splash screen only if user has already seen the landing carousel
   // (no need for 2 loading screens stacked on each other)
   const landingSeen = localStorage.getItem('spothitch_landing_seen')
@@ -438,7 +454,7 @@ function loadInitialData() {
     if (savedTrips.length > 0) setState({ savedTrips })
   } catch (e) { /* no-op */ }
 
-  // Try to get user location and load nearby spots
+  // Try to get user location with high accuracy (upgrades the early low-accuracy request)
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -447,7 +463,7 @@ function loadInitialData() {
           lng: position.coords.longitude,
         }
         actions.setUserLocation(loc)
-        // Load nearby spots for the new home view
+        // Load nearby spots if not already loaded by early request
         loadNearbySpots(loc)
       },
       () => {
@@ -1206,7 +1222,6 @@ window.skipTutorial = () => {
   });
   setState({ showTutorial: false, tutorialStep: 0 });
   actions.changeTab('map');
-  showToast(t('tutorialSkipped') || 'Tutoriel passé. Tu peux le relancer depuis le Profil.', 'info');
 };
 window.closeTutorial = () => setState({ showTutorial: false, tutorialStep: 0 })
 window.finishTutorial = async () => {
@@ -1226,13 +1241,10 @@ window.finishTutorial = async () => {
     const { addPoints, addSeasonPoints } = await import('./services/gamification.js')
     addPoints(100, 'tutorial_complete')
     addSeasonPoints(20)
-    showToast(t('tutorialCompleted') || 'Tutoriel termine ! +100 👍 bonus !', 'success')
     // Trigger confetti
     if (window.launchConfetti) {
       window.launchConfetti()
     }
-  } else {
-    showToast(t('tutorialReviewed') || 'Tutoriel revu ! Bonne route !', 'success')
   }
 };
 
@@ -1625,7 +1637,8 @@ window.getChallengeTypes = async () => {
 }
 
 // Legal handlers
-window.showLegalPage = (page = 'cgu') => setState({ activeTab: 'legal', legalPage: page });
+window.showLegalPage = (page = 'cgu') => setState({ showLegal: true, legalPage: page });
+window.closeLegal = () => setState({ showLegal: false });
 
 // Side menu handlers
 window.openSideMenu = () => setState({ showSideMenu: true });
@@ -1777,18 +1790,24 @@ window.installPWAFromLanding = () => {
 
 // Landing page & help handlers
 window.openFAQ = () => {
-  setState({ activeTab: 'guides' });
-  showToast(t('openingFAQ') || 'Ouverture de la FAQ...', 'info');
+  setState({ showFAQ: true, faqSearchQuery: '' });
+};
+window.closeFAQ = () => {
+  setState({ showFAQ: false, faqSearchQuery: '' });
 };
 window.openHelpCenter = () => {
-  setState({ activeTab: 'guides' });
-  showToast(t('helpCenterOpen') || 'Centre d\'aide ouvert', 'info');
+  setState({ showFAQ: true, faqSearchQuery: '' });
 };
 window.openChangelog = () => {
-  showToast(t('changelog') || 'Changelog - Version 2.0\n\n✨ Nouvelle interface avec Vite\n🎮 Gamification améliorée\n🗺️ Carte interactive MapLibre GL\n📱 PWA complète\n🌍 Support multilingue', 'info');
+  setState({ showFAQ: true, faqSearchQuery: '' });
+  showToast(t('changelogToast') || 'SpotHitch v2.0 — Février 2026', 'info');
 };
 window.openRoadmap = () => {
   showToast(t('roadmap') || 'Roadmap SpotHitch 2026\n\n✅ Chat temps réel\n✅ Messages privés\n✅ Vérification identité\n🔄 Guerres de guildes\n🔄 Événements saisonniers\n🔄 Intégration natives (iOS/Android)', 'info');
+};
+window.openBugReport = () => {
+  setState({ showContactForm: true });
+  showToast(t('bugReportHint') || 'Décris le problème rencontré', 'info');
 };
 window.openContactForm = () => {
   setState({ showContactForm: true });

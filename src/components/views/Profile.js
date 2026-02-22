@@ -466,18 +466,6 @@ export function renderProfile(state) {
           ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
         </button>
 
-        <!-- Community Guidelines -->
-        <button
-          onclick="showLegalPage('guidelines')"
-          class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
-        >
-          <div class="flex items-center gap-3">
-            ${icon('scroll-text', 'w-5 h-5 text-emerald-400')}
-            <span>${t('communityGuidelines') || 'Regles de la communaute'}</span>
-          </div>
-          ${icon('chevron-right', 'w-5 h-5 text-slate-400')}
-        </button>
-
         <!-- Privacy Controls (#62) -->
         ${(() => {
           const privacy = typeof localStorage !== 'undefined'
@@ -555,48 +543,103 @@ export function renderProfile(state) {
       ${renderDonationCard({ variant: 'full' })}
 
       <!-- Footer -->
-      <div class="card p-5 space-y-1">
-        <button
-          onclick="openContactForm()"
-          class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
-        >
-          ${icon('mail', 'w-4 h-4 text-slate-500')}
-          <span class="text-sm text-slate-400">${t('contactUs') || 'Nous contacter'}</span>
-        </button>
-        <button
-          onclick="openFAQ()"
-          class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
-        >
-          ${icon('help-circle', 'w-4 h-4 text-slate-500')}
-          <span class="text-sm text-slate-400">${t('faqAndHelp') || 'FAQ & Aide'}</span>
-        </button>
-        <div class="p-3">
-          <div class="flex items-center gap-3 mb-2">
-            ${icon('info', 'w-4 h-4 text-slate-500')}
-            <span class="text-sm text-slate-400">${t('aboutSpotHitch') || 'À propos de SpotHitch'}</span>
-          </div>
-          <p class="text-xs text-slate-500 pl-7">${t('aboutSpotHitchDesc') || 'La communauté des autostoppeurs.'}</p>
+      <div class="space-y-3">
+        <!-- Help Section -->
+        <div class="card p-4">
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">${t('footerHelp') || 'Aide'}</h4>
+          <button
+            onclick="openFAQ()"
+            class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+          >
+            ${icon('help-circle', 'w-4 h-4 text-primary-400')}
+            <span class="text-sm text-slate-300">${t('faqAndHelp') || 'FAQ & Aide'}</span>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
+          </button>
+          <button
+            onclick="openContactForm()"
+            class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+          >
+            ${icon('mail', 'w-4 h-4 text-blue-400')}
+            <span class="text-sm text-slate-300">${t('contactUs') || 'Nous contacter'}</span>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
+          </button>
+          <button
+            onclick="openBugReport()"
+            class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+          >
+            ${icon('bug', 'w-4 h-4 text-red-400')}
+            <span class="text-sm text-slate-300">${t('reportBug') || 'Signaler un bug'}</span>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
+          </button>
         </div>
-        <button
-          onclick="showLegalPage('privacy')"
-          class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
-        >
-          ${icon('scroll-text', 'w-4 h-4 text-slate-500')}
-          <span class="text-sm text-slate-400">${t('legalNotices') || 'Mentions légales'}</span>
-        </button>
-        <button
-          onclick="shareApp()"
-          class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
-        >
-          ${icon('share-2', 'w-4 h-4 text-slate-500')}
-          <span class="text-sm text-slate-400">${t('inviteFriends') || 'Inviter des amis'}</span>
-        </button>
-        <div class="p-3 pt-2 border-t border-white/5">
-          <div class="flex items-center gap-3 mb-1">
-            ${icon('heart', 'w-4 h-4 text-slate-500')}
-            <span class="text-sm text-slate-400">${t('creditsLabel') || 'Crédits'}</span>
+
+        <!-- Legal Section -->
+        <div class="card p-4">
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">${t('footerLegal') || 'Légal'}</h4>
+          <button
+            onclick="showLegalPage('privacy')"
+            class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+          >
+            ${icon('shield', 'w-4 h-4 text-emerald-400')}
+            <span class="text-sm text-slate-300">${t('privacyPolicy') || 'Politique de confidentialité'}</span>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
+          </button>
+          <button
+            onclick="showLegalPage('cgu')"
+            class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+          >
+            ${icon('file-text', 'w-4 h-4 text-slate-400')}
+            <span class="text-sm text-slate-300">${t('termsOfService') || "Conditions d'utilisation"}</span>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
+          </button>
+          <button
+            onclick="showLegalPage('guidelines')"
+            class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+          >
+            ${icon('scroll-text', 'w-4 h-4 text-amber-400')}
+            <span class="text-sm text-slate-300">${t('communityGuidelines') || 'Règles de la communauté'}</span>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
+          </button>
+        </div>
+
+        <!-- About Section -->
+        <div class="card p-4">
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">${t('footerAbout') || 'À propos'}</h4>
+          <button
+            onclick="openChangelog()"
+            class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+          >
+            ${icon('sparkles', 'w-4 h-4 text-purple-400')}
+            <span class="text-sm text-slate-300">${t('whatsNew') || 'Quoi de neuf'}</span>
+            <span class="text-xs text-slate-500 ml-auto">v2.0.0</span>
+          </button>
+          <button
+            onclick="shareApp()"
+            class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left"
+          >
+            ${icon('share-2', 'w-4 h-4 text-primary-400')}
+            <span class="text-sm text-slate-300">${t('inviteFriends') || 'Inviter des amis'}</span>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
+          </button>
+          <!-- Social Links -->
+          <div class="flex items-center gap-4 p-3 pt-4 border-t border-white/5 mt-2">
+            <span class="text-xs text-slate-500">${t('followUs') || 'Nous suivre'}</span>
+            <div class="flex gap-3 ml-auto">
+              <a href="https://instagram.com/spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-pink-400 hover:bg-pink-500/10 transition-all" aria-label="Instagram">
+                ${icon('instagram', 'w-4 h-4')}
+              </a>
+              <a href="https://tiktok.com/@spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all" aria-label="TikTok">
+                ${icon('video', 'w-4 h-4')}
+              </a>
+              <a href="https://discord.gg/spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all" aria-label="Discord">
+                ${icon('message-square', 'w-4 h-4')}
+              </a>
+            </div>
           </div>
-          <p class="text-xs text-slate-500 pl-7">${t('creditsText') || 'Données : Hitchwiki (ODBL) • Cartes : OpenFreeMap'}</p>
+          <!-- Credits -->
+          <div class="p-3 pt-2 border-t border-white/5">
+            <p class="text-xs text-slate-500">${t('creditsText') || 'Données : Hitchwiki (ODBL) • Cartes : OpenFreeMap'}</p>
+          </div>
         </div>
       </div>
 

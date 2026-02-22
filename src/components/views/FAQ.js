@@ -465,8 +465,7 @@ window.toggleFAQItem = toggleFAQItem;
 window.scrollToFAQCategory = scrollToFAQCategory;
 window.filterFAQ = filterFAQ;
 window.clearFAQSearch = clearFAQSearch;
-window.openFAQ = openFAQ;
-window.closeFAQ = closeFAQ;
+// openFAQ and closeFAQ are defined in main.js (canonical owner — uses showFAQ overlay state)
 window.searchFAQ = searchFAQ;
 window.getFAQQuestionById = getFAQQuestionById;
 

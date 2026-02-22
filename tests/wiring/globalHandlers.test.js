@@ -91,7 +91,7 @@ const MAIN_JS_HANDLERS = [
   'getActiveFriendChallenges', 'getPendingFriendChallenges',
   'getChallengeStats', 'getChallengeTypes',
   // Legal
-  'showLegalPage',
+  'showLegalPage', 'closeLegal',
   // Overlays
   'openGuidesOverlay', 'closeGuidesOverlay',
   // Side menu
@@ -126,7 +126,7 @@ const MAIN_JS_HANDLERS = [
   // Landing page
   'dismissLanding', 'installPWAFromLanding', 'landingNext',
   // Landing / Help
-  'openFAQ', 'openHelpCenter', 'openChangelog', 'openRoadmap', 'openContactForm',
+  'openFAQ', 'openHelpCenter', 'openChangelog', 'openRoadmap', 'openContactForm', 'openBugReport',
   // Lazy load
   'loadModal', 'preloadModals',
   // Loading indicator
