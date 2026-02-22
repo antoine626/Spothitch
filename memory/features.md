@@ -134,6 +134,11 @@
 - [x] Dialogues de confirmation (actions destructives)
 - [x] Tooltips
 - [x] Thème clair/sombre
+- [x] Profile footer reorganized: Help (FAQ, Contact, Bug Report), Legal (Privacy, CGU, Guidelines), About (Changelog, Invite, Social, Credits)
+- [x] FAQ opens as fullscreen overlay (not broken tab navigation)
+- [x] Legal pages open as fullscreen overlay (not broken tab navigation)
+- [x] Bug report button in profile footer
+- [x] Social links (Instagram, TikTok, Discord) in profile footer
 
 ## Accessibilité
 

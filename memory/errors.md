@@ -214,6 +214,16 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/utils/sanitize.js`, `src/main.js`, `src/components/views/Map.js`, `src/components/modals/SpotDetail.js`, `src/components/ui/NavigationOverlay.js`, `src/utils/navigation.js`, `src/services/countryBubbles.js`, `src/services/sosTracking.js`, `src/utils/analytics.js`
 - **Statut** : CORRIGÉ
 
+### ERR-020 — Profile footer links broken (FAQ, Legal, Community Guidelines)
+- **Date** : 2026-02-22
+- **Gravité** : MAJEUR
+- **Description** : Three main footer links in Profile were completely broken: (1) `openFAQ()` set `activeTab: 'guides'` but no `case 'guides'` existed in `renderActiveView` — FAQ never displayed. (2) `showLegalPage()` set `activeTab: 'legal'` but no `case 'legal'` existed — legal pages never displayed. (3) Community Guidelines in Settings used `showLegalPage()` which was also broken. (4) `openChangelog()` only showed a toast, no content. (5) Footer had no visual hierarchy — everything dumped in one card.
+- **Cause racine** : The handlers were written to use `activeTab` for navigation, but no matching view cases were added to `renderActiveView` in App.js. The footer UI was never reorganized after the overlay-based architecture was established.
+- **Correction** : (1) Changed FAQ to use `showFAQ` state flag + fullscreen overlay in App.js. (2) Changed Legal to use `showLegal` state flag + fullscreen overlay. (3) Moved Community Guidelines from Settings card to Legal section in footer. (4) Changelog now opens FAQ overlay. (5) Reorganized footer into 3 themed cards (Help/Legal/About) with social links. (6) Removed duplicate `openFAQ`/`closeFAQ` from FAQ.js (ERR-001 lesson applied).
+- **Leçon** : **When adding a new handler that sets `activeTab`, ALWAYS verify that `renderActiveView` in App.js has a matching `case` for that tab. Better yet: for content that doesn't need a full tab, use overlay pattern (`showXxx: true` + fullscreen div in App.js) instead of tab navigation.**
+- **Fichiers** : `src/main.js`, `src/components/App.js`, `src/components/views/Profile.js`, `src/components/views/Legal.js`, `src/components/views/FAQ.js`, `src/stores/state.js`, `src/i18n/lang/{fr,en,es,de}.js`
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
@@ -221,4 +231,4 @@ Chaque erreur suit ce format :
 | Période | Bugs trouvés | Corrigés | En cours |
 |---------|-------------|----------|----------|
 | 2026-02-20 | 13 | 13 | 0 |
-| 2026-02-22 | 6 | 6 | 0 |
+| 2026-02-22 | 7 | 7 | 0 |
