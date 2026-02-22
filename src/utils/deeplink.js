@@ -59,11 +59,11 @@ export function handleDeepLink() {
     setState(updates);
   }
 
-  // Handle action
+  // Handle action (validated against known whitelist)
   const action = params.get('action');
-  if (action && ACTIONS[action]) {
-    // Delay action to let app render first
-    setTimeout(() => ACTIONS[action](), 100);
+  if (action && Object.prototype.hasOwnProperty.call(ACTIONS, action)) {
+    const handler = ACTIONS[action];
+    setTimeout(() => handler(), 100);
   }
 
   // Handle spot ID

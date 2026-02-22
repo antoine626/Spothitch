@@ -85,11 +85,11 @@ export function escapeJSString(str) {
   if (!str || typeof str !== 'string') return ''
   return str
     .replace(/\\/g, '\\\\')
-    .replace(/'/g, "\\'")
+    .replace(/&/g, '&amp;')  // & first to avoid double-encoding
+    .replace(/'/g, '&#39;')
     .replace(/"/g, '&quot;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/&/g, '&amp;')
 }
 
 /**

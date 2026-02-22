@@ -73,7 +73,7 @@ function generateTestSkeleton(issue) {
 
 import { describe, it, expect } from 'vitest'
 
-describe('Regression: ${issue.shortId} — ${issue.title.replace(/'/g, "\\'")}', () => {
+describe('Regression: ${issue.shortId} — ${issue.title.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}', () => {
   it('should not throw the error that caused this issue', () => {
     // TODO: Import the affected module and reproduce the error conditions
     // File: ${fileHint}

@@ -148,12 +148,12 @@ function webSearch(query) {
     const snippetRegex = /class="result__snippet"[^>]*>([\s\S]*?)<\/a>/g
     let match
     while ((match = snippetRegex.exec(html)) && snippets.length < 8) {
-      const clean = match[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").trim()
+      const clean = match[1].replace(/<\/?[^>]+(>|$)/g, '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").trim()
       if (clean.length > 20) snippets.push(clean)
     }
     const titleRegex = /class="result__a"[^>]*>([\s\S]*?)<\/a>/g
     while ((match = titleRegex.exec(html)) && titles.length < 8) {
-      const clean = match[1].replace(/<[^>]+>/g, '').trim()
+      const clean = match[1].replace(/<\/?[^>]+(>|$)/g, '').trim()
       if (clean.length > 5) titles.push(clean)
     }
     return { snippets, titles }
@@ -1252,7 +1252,7 @@ function phase9_deadCode() {
     // export { xxx }
     const namedExports = content.match(/export\s*\{([^}]+)\}/g) || []
     for (const block of namedExports) {
-      const names = block.replace(/export\s*\{/, '').replace(/\}/, '').split(',')
+      const names = block.replace(/export\s*\{/g, '').replace(/\}/g, '').split(',')
       for (const n of names) {
         const clean = n.trim().split(/\s+as\s+/)[0].trim()
         if (clean && clean !== 'default') exportedFunctions[clean] = rel
@@ -1768,7 +1768,8 @@ function phase12_screenshots() {
         console.log('SCREENSHOTS_OK');
       })();
     `
-    const out = exec(`node -e "${screenshotScript.replace(/"/g, '\\"').replace(/\n/g, ' ')}"`, { allowFail: true, timeout: 30000 })
+    const escaped = screenshotScript.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, ' ')
+    const out = exec(`node -e "${escaped}"`, { allowFail: true, timeout: 30000 })
 
     if (out.includes('SCREENSHOTS_OK')) {
       const screenshots = existsSync(screenshotDir) ? readdirSync(screenshotDir).filter(f => f.endsWith('.png')) : []

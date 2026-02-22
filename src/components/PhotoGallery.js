@@ -7,6 +7,13 @@ import { escapeHTML } from '../utils/sanitize.js';
 import { t } from '../i18n/index.js';
 import { icon } from '../utils/icons.js'
 
+/** Validate that a photo URL is safe (http(s) or data: only) */
+function safePhotoURL(url) {
+  if (!url || typeof url !== 'string') return ''
+  if (url.startsWith('https://') || url.startsWith('http://') || url.startsWith('data:') || url.startsWith('blob:')) return url
+  return ''
+}
+
 /**
  * Render photo gallery with carousel
  * @param {Array} photos - Array of photo URLs
@@ -239,7 +246,7 @@ window.goToPhoto = (galleryId, index) => {
   if (mainImg) {
     mainImg.style.opacity = '0';
     setTimeout(() => {
-      mainImg.src = photos[index];
+      mainImg.src = safePhotoURL(photos[index]);
       mainImg.style.opacity = '1';
     }, 150);
   }
@@ -299,7 +306,8 @@ window.openPhotoFullscreen = async (galleryId, index) => {
   const dataEl = document.getElementById(`${galleryId}-data`);
   if (!dataEl) return;
 
-  const photos = JSON.parse(dataEl.textContent);
+  const photos = JSON.parse(dataEl.textContent).map(safePhotoURL).filter(Boolean);
+  if (!photos.length) return;
 
   // Create fullscreen container
   const container = document.createElement('div');
@@ -370,7 +378,7 @@ function updateFullscreenPhoto(photos, index) {
   const counter = document.getElementById('fullscreen-counter');
   const indexEl = document.getElementById('fullscreen-current-index');
 
-  if (img) img.src = photos[index];
+  if (img) img.src = safePhotoURL(photos[index]);
   if (counter) counter.textContent = index + 1;
   if (indexEl) indexEl.value = index;
 
