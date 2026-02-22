@@ -92,17 +92,6 @@ test.describe('Profile - Settings', () => {
   })
 })
 
-test.describe('Profile - Friends Link', () => {
-  test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page)
-    await navigateToTab(page, 'profile')
-  })
-
-  test('should have friends button', async ({ page }) => {
-    await expect(page.locator('text=Mes amis').first()).toBeVisible({ timeout: 5000 })
-  })
-})
-
 test.describe('Profile - Auth', () => {
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)

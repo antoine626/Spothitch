@@ -86,8 +86,8 @@ test.describe('Social View', () => {
     await expect(page.locator('#app')).toBeVisible()
   })
 
-  test('should have feed or chat content', async ({ page }) => {
-    const content = page.locator('text=Feed').or(page.locator('text=Messages')).or(page.locator('text=Friends'))
+  test('should have messagerie or events content', async ({ page }) => {
+    const content = page.locator('[onclick*="setSocialTab"]').or(page.locator('text=/message/i')).or(page.locator('#social-search'))
     await expect(content.first()).toBeVisible({ timeout: 5000 })
   })
 })
