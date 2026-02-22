@@ -161,14 +161,17 @@ test.describe('Journey: Profile & Settings', () => {
     // Score detail section
     await expect(page.locator('text=/Détail du score|Améliore/i').first()).toBeVisible({ timeout: 5000 })
 
-    // Settings section
-    await expect(page.locator('text=Paramètres').first()).toBeVisible({ timeout: 5000 })
+    // Sub-tabs bar (Profil, Progression, Réglages)
+    await expect(page.locator('button:has-text("Réglages")').or(page.locator('button:has-text("Settings")')).first()).toBeVisible({ timeout: 5000 })
 
     // App version
     await expect(page.locator('text=/SpotHitch v/i').first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should toggle dark/light theme', async ({ page }) => {
+    // Theme toggle is in the Réglages sub-tab
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
     const themeToggle = page.locator('[role="switch"], [onclick*="toggleTheme"]').first()
     if (await themeToggle.isVisible({ timeout: 3000 }).catch(() => false)) {
       await themeToggle.click()
@@ -177,18 +180,23 @@ test.describe('Journey: Profile & Settings', () => {
   })
 
   test('should have language settings', async ({ page }) => {
-    // Language uses a radiogroup, not a select element
+    // Language is in the Réglages sub-tab
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
     const langSection = page.locator('text=Langue').or(page.locator('[role="radiogroup"]'))
     await expect(langSection.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have customization button', async ({ page }) => {
-    const customizeBtn = page.locator('button:has-text("Personnaliser")').or(page.locator('button:has-text("Modifier")'))
+    // Customize button is in the Profil sub-tab header (palette icon on avatar)
+    const customizeBtn = page.locator('[onclick*="openProfileCustomization"]')
     await expect(customizeBtn.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should have tutorial replay option', async ({ page }) => {
-    // "Revoir le tutoriel" button with onclick="startTutorial()"
+    // "Revoir le tutoriel" is in the Réglages sub-tab
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
     const tutorial = page.locator('[onclick*="startTutorial"]').or(page.locator('text=Revoir le tutoriel'))
     await expect(tutorial.first()).toBeVisible({ timeout: 8000 })
   })
@@ -199,6 +207,9 @@ test.describe('Journey: Profile & Settings', () => {
   })
 
   test('should have notification settings', async ({ page }) => {
+    // Notifications is in the Réglages sub-tab
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
     await expect(page.locator('text=Notifications').first()).toBeVisible({ timeout: 5000 })
   })
 })
