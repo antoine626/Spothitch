@@ -13,7 +13,7 @@
 - [x] Centrage GPS sur position utilisateur
 - [x] Split view (carte + liste côte à côte)
 - [x] Affichage stations-service (toggle, via Overpass API)
-- [x] Heatmap densité des spots
+- [ ] ~~Heatmap densité des spots~~ (supprimé session 11 — code fantôme sans UI)
 - [x] Filtres carte (type de spot, note, fraîcheur)
 - [x] Panneau ville (infos + routes depuis une ville, affichage même avec 0 spots)
 - [x] Style carte clair/sombre selon thème
@@ -185,11 +185,13 @@
 
 - [x] Installable (manifest.json, icônes toutes tailles)
 - [x] Offline complet
-- [x] Push notifications (Firebase Messaging)
+- [x] Push notifications (Firebase Messaging) — toggle UI branché session 11
 - [x] Bannière d'installation après 30s
 - [x] Screenshots pour install prompt
 - [x] App shortcuts (Add Spot, SOS, Trip Planner, Profile)
 - [x] Share Target API (recevoir des partages d'autres apps)
+- [x] Carte de partage visuelle (WhatsApp, lien, screenshot) — branchée session 11
+- [x] Alertes de proximité spots (GPS, rayon configurable) — toggle branché session 11
 - [x] Badging API (badge compteur messages non-lus)
 - [x] Optimisations Lighthouse (preconnect, dns-prefetch, fetchpriority)
 
