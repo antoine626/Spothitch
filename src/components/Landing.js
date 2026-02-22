@@ -2,7 +2,7 @@
  * Landing Page — 6-slide Onboarding Carousel
  * Shown once for first-time visitors, dismissed forever via localStorage.
  * Slides: Problème → Solution → Sécurité → Guides → Cookies → CTA
- * Geolocation is requested on slide 1, cookies consent on slide 5.
+ * Geolocation is handled automatically by init() — not in onboarding.
  */
 
 import { t } from '../i18n/index.js'
@@ -14,43 +14,29 @@ export function renderLanding() {
       <!-- Carousel Track -->
       <div id="landing-track" class="flex h-full transition-transform duration-300 ease-out" style="width:600%">
 
-        <!-- Slide 1: Problème + Géolocalisation -->
+        <!-- Slide 1: Problème -->
         <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#1a0a0a,#0f1520)">
-          <span class="text-5xl mb-4" aria-hidden="true">😰</span>
-          <h2 class="text-[22px] font-bold text-white leading-tight mb-4">
+          <span class="text-5xl mb-5" aria-hidden="true">😰</span>
+          <h2 class="text-[22px] font-bold text-white leading-tight mb-6">
             ${t('onboardingProblemTitle')}
           </h2>
-          <div class="w-full max-w-sm flex flex-col gap-2 mb-5">
-            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+          <div class="w-full max-w-sm flex flex-col gap-2.5">
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 flex items-center gap-3">
               <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">😵</span>
               <span class="text-[13px] text-red-300">${t('onboardingProblemWrongSpot')}</span>
             </div>
-            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 flex items-center gap-3">
               <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">😱</span>
               <span class="text-[13px] text-red-300">${t('onboardingProblemNoone')}</span>
             </div>
-            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 flex items-center gap-3">
               <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">🤷</span>
               <span class="text-[13px] text-red-300">${t('onboardingProblemNoInfo')}</span>
             </div>
-            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 flex items-center gap-3">
               <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">🌧️</span>
               <span class="text-[13px] text-red-300">${t('onboardingProblemNoPlanB')}</span>
             </div>
-          </div>
-          <!-- Geolocation prompt -->
-          <div id="landing-geo" class="w-full max-w-sm bg-white/5 border border-emerald-500/20 rounded-2xl p-4">
-            <p class="text-xs text-slate-400 mb-3">${t('onboardingLocateDesc')}</p>
-            <button
-              onclick="landingRequestGeo()"
-              class="w-full py-3 rounded-xl text-sm font-bold text-white transition-colors"
-              style="background:linear-gradient(135deg,#10b981,#059669)"
-            >
-              📍 ${t('onboardingLocateBtn')}
-            </button>
-            <button onclick="landingSkipGeo()" class="text-xs text-slate-500 mt-2 block mx-auto hover:text-slate-400 transition-colors">
-              ${t('onboardingLocateSkip')}
-            </button>
           </div>
         </div>
 
@@ -187,7 +173,7 @@ export function renderLanding() {
                 <div class="text-[10px] text-slate-500">${t('onboardingCookiesMechanicDesc')}</div>
               </div>
               <label class="relative inline-flex cursor-pointer flex-shrink-0 w-10 h-[22px]">
-                <input type="checkbox" id="landing-cookie-bugs" class="sr-only peer">
+                <input type="checkbox" id="landing-cookie-bugs" class="sr-only peer" checked>
                 <div class="absolute inset-0 bg-slate-600 peer-checked:bg-emerald-600 rounded-full transition-colors"></div>
                 <div class="absolute top-[2px] left-[2px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform peer-checked:translate-x-[18px]"></div>
               </label>

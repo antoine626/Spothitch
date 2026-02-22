@@ -141,16 +141,26 @@ function startVersionCheck() {
     } catch { /* offline or file missing — ignore */ }
   }
 
+  let pendingReload = false
+
   function doReload() {
     if (isReloading) return
-    isReloading = true
-    if (document.visibilityState === 'hidden') {
-      window.location.reload()
-    } else {
-      window.showToast?.('🔄 ' + (window.t?.('updating') || 'Updating...'), 'info')
-      setTimeout(() => window.location.reload(), 2000)
+    // Never reload while user is actively using the app — wait until they background it
+    if (document.visibilityState !== 'hidden') {
+      pendingReload = true
+      return
     }
+    isReloading = true
+    window.location.reload()
   }
+
+  // When user backgrounds the app, apply pending reload
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && pendingReload && !isReloading) {
+      isReloading = true
+      window.location.reload()
+    }
+  })
 
   // Initial check to store current version
   checkVersion()
@@ -224,8 +234,11 @@ async function init() {
   const landingSeen = localStorage.getItem('spothitch_landing_seen')
   if (landingSeen) {
     initSplashScreen();
-    preloadMap() // Returning user — preload map during splash
   }
+
+  // Always preload map module during initial loading (onboarding or splash)
+  // so MapLibre is ready when user opens the map tab
+  preloadMap()
 
   // Check for reset parameter in URL
   if (window.location.search.includes('reset')) {
@@ -537,6 +550,10 @@ function restoreScrollPosition(tab) {
 function render(state) {
   const app = document.getElementById('app');
   if (!app) return;
+
+  // Skip re-render during onboarding carousel — state changes (spots loading, geolocation)
+  // would destroy the carousel DOM and reset to slide 1
+  if (state.showLanding && document.getElementById('landing-page')) return
 
   // Skip re-render if user is typing in any input (prevents losing input focus/value)
   const focused = document.activeElement
@@ -1784,7 +1801,6 @@ window.dismissLanding = () => {
     showTutorial: !tutorialCompleted,
     tutorialStep: 0,
   })
-  preloadMap()
 }
 
 window.closeLanding = () => setState({ showLanding: false })
@@ -1792,32 +1808,6 @@ window.closeLanding = () => setState({ showLanding: false })
 // Landing carousel next slide — stub until initLandingCarousel() overrides with real implementation.
 // Must exist early so onclick="landingNext()" in landing HTML doesn't throw before carousel init.
 window.landingNext = () => {}
-
-// Landing geolocation request (slide 1)
-window.landingRequestGeo = () => {
-  if (!navigator.geolocation) return
-  const geoBox = document.getElementById('landing-geo')
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude }
-      actions.setUserLocation(loc)
-      // Visual feedback
-      if (geoBox) {
-        geoBox.innerHTML = `<p class="text-sm text-emerald-400 font-semibold py-2">✅ ${t('onboardingLocateDone') || 'Position activée !'}</p>`
-      }
-    },
-    () => {
-      // User denied — just hide the prompt
-      if (geoBox) geoBox.style.display = 'none'
-    },
-    { timeout: 8000, enableHighAccuracy: false }
-  )
-}
-
-window.landingSkipGeo = () => {
-  const geoBox = document.getElementById('landing-geo')
-  if (geoBox) geoBox.style.display = 'none'
-}
 
 window.installPWAFromLanding = () => {
   localStorage.setItem('spothitch_landing_seen', '1')

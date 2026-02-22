@@ -124,7 +124,7 @@ const MAIN_JS_HANDLERS = [
   // Image
   'compressImage', 'generateThumbnail', 'validateImage',
   // Landing page
-  'dismissLanding', 'installPWAFromLanding', 'landingNext', 'landingRequestGeo', 'landingSkipGeo',
+  'dismissLanding', 'installPWAFromLanding', 'landingNext',
   // Landing / Help
   'openFAQ', 'openHelpCenter', 'openChangelog', 'openRoadmap', 'openContactForm', 'openBugReport',
   // Lazy load
