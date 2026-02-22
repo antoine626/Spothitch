@@ -120,6 +120,7 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_language_pref', category: DataCategory.SETTINGS, description: 'Language preference' },
   { key: 'spothitch_last_country', category: DataCategory.SETTINGS, description: 'Last detected country' },
   { key: 'spothitch_notifications', category: DataCategory.SETTINGS, description: 'Legacy notification prefs' },
+  { key: 'spothitch_push_config', category: DataCategory.SETTINGS, description: 'Push notification opt-in config' },
   { key: 'spothitch_test_mode', category: DataCategory.SETTINGS, description: 'Developer test mode bypass for auth' },
 
   // === SECURITY ===
