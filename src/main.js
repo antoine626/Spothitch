@@ -1757,9 +1757,27 @@ window.validateImage = async (...args) => {
   return validateImage(...args)
 }
 
-// Landing page dismiss handler — show tutorial after landing
+// Landing page dismiss handler — show tutorial after landing + save cookie consent
 window.dismissLanding = () => {
   localStorage.setItem('spothitch_landing_seen', '1')
+
+  // Save cookie consent from onboarding slide 5 toggles
+  const analyticsChecked = document.getElementById('landing-cookie-analytics')?.checked || false
+  const bugsChecked = document.getElementById('landing-cookie-bugs')?.checked || false
+  const consent = {
+    preferences: {
+      necessary: true,
+      analytics: analyticsChecked,
+      marketing: false,
+      personalization: bugsChecked,
+    },
+    timestamp: Date.now(),
+    version: '1.0',
+  }
+  try {
+    localStorage.setItem('cookie_consent', JSON.stringify(consent))
+  } catch (_) { /* storage full — non-blocking */ }
+
   const { tutorialCompleted } = getState()
   setState({
     showLanding: false,
@@ -1774,6 +1792,32 @@ window.closeLanding = () => setState({ showLanding: false })
 // Landing carousel next slide — stub until initLandingCarousel() overrides with real implementation.
 // Must exist early so onclick="landingNext()" in landing HTML doesn't throw before carousel init.
 window.landingNext = () => {}
+
+// Landing geolocation request (slide 1)
+window.landingRequestGeo = () => {
+  if (!navigator.geolocation) return
+  const geoBox = document.getElementById('landing-geo')
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude }
+      actions.setUserLocation(loc)
+      // Visual feedback
+      if (geoBox) {
+        geoBox.innerHTML = `<p class="text-sm text-emerald-400 font-semibold py-2">✅ ${t('onboardingLocateDone') || 'Position activée !'}</p>`
+      }
+    },
+    () => {
+      // User denied — just hide the prompt
+      if (geoBox) geoBox.style.display = 'none'
+    },
+    { timeout: 8000, enableHighAccuracy: false }
+  )
+}
+
+window.landingSkipGeo = () => {
+  const geoBox = document.getElementById('landing-geo')
+  if (geoBox) geoBox.style.display = 'none'
+}
 
 window.installPWAFromLanding = () => {
   localStorage.setItem('spothitch_landing_seen', '1')

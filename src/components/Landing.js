@@ -1,143 +1,226 @@
 /**
- * Landing Page — 5-slide Onboarding Carousel
+ * Landing Page — 6-slide Onboarding Carousel
  * Shown once for first-time visitors, dismissed forever via localStorage.
- * Slides: Imagine → Avant/Après → Témoignages → Sécurité → Communauté
+ * Slides: Problème → Solution → Sécurité → Guides → Cookies → CTA
+ * Geolocation is requested on slide 1, cookies consent on slide 5.
  */
 
 import { t } from '../i18n/index.js'
-import { icon } from '../utils/icons.js'
 
 export function renderLanding() {
   return `
     <div id="landing-page" class="fixed inset-0 z-[100] bg-dark-primary overflow-hidden">
 
       <!-- Carousel Track -->
-      <div id="landing-track" class="flex h-full transition-transform duration-300 ease-out" style="width:500%">
+      <div id="landing-track" class="flex h-full transition-transform duration-300 ease-out" style="width:600%">
 
-        <!-- Slide 1: Imagine -->
-        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,rgba(10,22,40,0.9),#0f1520 40%)">
-          <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-            <div class="absolute -top-32 -right-32 w-72 h-72 bg-primary-500/15 rounded-full blur-3xl animate-pulse"></div>
-          </div>
-          <div class="relative z-10 max-w-sm">
-            <div class="text-xs font-semibold tracking-[3px] uppercase text-primary-400 mb-5">${t('onboardingImagine')}</div>
-            <h2 class="text-[22px] font-light text-slate-200 leading-relaxed mb-6">
-              ${t('onboardingImagineText')} <span class="text-primary-400 font-semibold">${t('onboardingImagineHighlight')}</span>
-            </h2>
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 text-left backdrop-blur-sm">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="text-2xl">${icon('smartphone', 'w-6 h-6 text-primary-400')}</span>
-                <span class="text-sm font-semibold text-white">${t('onboardingYouOpen')}</span>
-              </div>
-              <div class="flex flex-col gap-2 pl-9">
-                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('map-pin', 'w-4 h-4 text-primary-400/70')} ${t('onboarding3Spots')}</div>
-                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('star', 'w-4 h-4 text-primary-400/70')} ${t('onboardingBestRated')}</div>
-                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('clock', 'w-4 h-4 text-primary-400/70')} ${t('onboardingAvgWait')}</div>
-                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('camera', 'w-4 h-4 text-primary-400/70')} ${t('onboardingPhotos')}</div>
-                <div class="text-[13px] text-slate-400 flex items-center gap-2">${icon('shield', 'w-4 h-4 text-primary-400/70')} ${t('onboardingCompanionActive')}</div>
-              </div>
+        <!-- Slide 1: Problème + Géolocalisation -->
+        <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#1a0a0a,#0f1520)">
+          <span class="text-5xl mb-4" aria-hidden="true">😰</span>
+          <h2 class="text-[22px] font-bold text-white leading-tight mb-4">
+            ${t('onboardingProblemTitle')}
+          </h2>
+          <div class="w-full max-w-sm flex flex-col gap-2 mb-5">
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">😵</span>
+              <span class="text-[13px] text-red-300">${t('onboardingProblemWrongSpot')}</span>
             </div>
-            <p class="text-sm text-slate-500 mt-5">${t('onboardingNeverAlone')}</p>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">😱</span>
+              <span class="text-[13px] text-red-300">${t('onboardingProblemNoone')}</span>
+            </div>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">🤷</span>
+              <span class="text-[13px] text-red-300">${t('onboardingProblemNoInfo')}</span>
+            </div>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">🌧️</span>
+              <span class="text-[13px] text-red-300">${t('onboardingProblemNoPlanB')}</span>
+            </div>
+          </div>
+          <!-- Geolocation prompt -->
+          <div id="landing-geo" class="w-full max-w-sm bg-white/5 border border-emerald-500/20 rounded-2xl p-4">
+            <p class="text-xs text-slate-400 mb-3">${t('onboardingLocateDesc')}</p>
+            <button
+              onclick="landingRequestGeo()"
+              class="w-full py-3 rounded-xl text-sm font-bold text-white transition-colors"
+              style="background:linear-gradient(135deg,#10b981,#059669)"
+            >
+              📍 ${t('onboardingLocateBtn')}
+            </button>
+            <button onclick="landingSkipGeo()" class="text-xs text-slate-500 mt-2 block mx-auto hover:text-slate-400 transition-colors">
+              ${t('onboardingLocateSkip')}
+            </button>
           </div>
         </div>
 
-        <!-- Slide 2: Avant / Après -->
-        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center">
-          <span class="text-4xl mb-4">⚡</span>
-          <h2 class="text-2xl font-bold text-white mb-6 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingDayNight')}</h2>
-          <div class="flex gap-3 w-full max-w-sm mb-6">
-            <div class="flex-1 bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
-              <h3 class="text-sm font-semibold text-red-400 mb-3">❌ ${t('onboardingWithout')}</h3>
-              <div class="flex flex-col gap-1.5">
-                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">${t('onboardingLost')}</span>
-                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">${t('onboardingNoInfo')}</span>
-                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-red-500/20 text-red-300">${t('onboardingAlone')}</span>
-              </div>
+        <!-- Slide 2: Solution -->
+        <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#0a1a10,#0f1520)">
+          <span class="text-5xl mb-4" aria-hidden="true">✨</span>
+          <h2 class="text-[22px] font-bold text-white leading-tight mb-5">
+            ${t('onboardingSolutionTitle')}
+          </h2>
+          <div class="w-full max-w-sm flex flex-col gap-2 mb-6">
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/20 text-emerald-300">📍</span>
+              <span class="text-[13px] text-emerald-300">${t('onboardingSolutionBestSpot')}</span>
             </div>
-            <div class="flex-1 bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
-              <h3 class="text-sm font-semibold text-green-400 mb-3">✅ ${t('onboardingWith')}</h3>
-              <div class="flex flex-col gap-1.5">
-                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-green-500/20 text-green-300">${t('onboarding14kSpots')}</span>
-                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-green-500/20 text-green-300">${t('onboardingWaitTimes')}</span>
-                <span class="inline-block px-2.5 py-1 rounded-md text-[11px] font-semibold bg-green-500/20 text-green-300">${t('onboardingCommunity')}</span>
-              </div>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/20 text-emerald-300">⏱️</span>
+              <span class="text-[13px] text-emerald-300">${t('onboardingSolutionAvgWait')}</span>
+            </div>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/20 text-emerald-300">📸</span>
+              <span class="text-[13px] text-emerald-300">${t('onboardingSolutionPhotos')}</span>
+            </div>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3">
+              <span class="inline-block px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-500/20 text-emerald-300">🛡️</span>
+              <span class="text-[13px] text-emerald-300">${t('onboardingSolutionSafety')}</span>
             </div>
           </div>
           <div class="flex gap-6 justify-center">
-            <div class="text-center"><div class="text-2xl font-bold text-primary-400">137</div><div class="text-[11px] text-slate-500">${t('countries')}</div></div>
             <div class="text-center"><div class="text-2xl font-bold text-primary-400">14.6k</div><div class="text-[11px] text-slate-500">spots</div></div>
+            <div class="text-center"><div class="text-2xl font-bold text-primary-400">137</div><div class="text-[11px] text-slate-500">${t('countries')}</div></div>
             <div class="text-center"><div class="text-2xl font-bold text-primary-400">100%</div><div class="text-[11px] text-slate-500">${t('onboardingFree')}</div></div>
           </div>
         </div>
 
-        <!-- Slide 3: Témoignages -->
-        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7">
-          <span class="text-4xl mb-3">💬</span>
-          <h2 class="text-2xl font-bold text-white mb-6 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingTheyTell')}</h2>
-          <div class="w-full max-w-sm flex flex-col gap-3">
-            <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
-              <p class="text-[13px] text-slate-200 italic leading-relaxed mb-2">${t('onboardingTestimonialMarie')}</p>
-              <p class="text-xs font-semibold text-primary-400">🇫🇷 Marie, Lyon</p>
+        <!-- Slide 3: Sécurité -->
+        <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#0a1a14,#0f1520)">
+          <div class="w-24 h-24 rounded-full bg-emerald-500/10 border-2 border-emerald-500/20 flex items-center justify-center text-5xl mb-6">🛡️</div>
+          <h2 class="text-[22px] font-bold text-white leading-tight mb-5">
+            ${t('onboardingSecurityTitle')}
+          </h2>
+          <div class="w-full max-w-sm flex flex-col gap-2.5 text-left">
+            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3">
+              <span class="text-lg">📍</span>
+              <span class="text-[13px] text-slate-200">${t('onboardingSecurityShare')}</span>
             </div>
-            <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
-              <p class="text-[13px] text-slate-200 italic leading-relaxed mb-2">${t('onboardingTestimonialTom')}</p>
-              <p class="text-xs font-semibold text-primary-400">🇩🇪 Tom, Berlin</p>
+            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3">
+              <span class="text-lg">🆘</span>
+              <span class="text-[13px] text-slate-200">${t('onboardingSecuritySOS')}</span>
             </div>
-            <div class="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm">
-              <p class="text-[13px] text-slate-200 italic leading-relaxed mb-2">${t('onboardingTestimonialLucia')}</p>
-              <p class="text-xs font-semibold text-primary-400">🇪🇸 Lucía, Madrid</p>
+            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3">
+              <span class="text-lg">✅</span>
+              <span class="text-[13px] text-slate-200">${t('onboardingSecurityCheckin')}</span>
             </div>
           </div>
         </div>
 
-        <!-- Slide 4: Sécurité -->
-        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center">
-          <div class="w-24 h-24 rounded-full bg-emerald-500/15 border-2 border-emerald-500/20 flex items-center justify-center text-5xl mb-6 animate-pulse">🛡️</div>
-          <h2 class="text-2xl font-bold text-white mb-2 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingNeverAloneTitle')}</h2>
-          <p class="text-sm text-slate-400 mb-6 max-w-xs">${t('onboardingCompanionDesc')}</p>
-          <div class="w-full max-w-sm flex flex-col gap-3 text-left">
-            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
-              <span class="text-lg">${icon('radio', 'w-5 h-5 text-emerald-400')}</span>
-              <span class="text-[13px] text-slate-200">${t('onboardingGPSRealtime')}</span>
+        <!-- Slide 4: Guides pays (passeport) -->
+        <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:#0f1520">
+          <span class="text-5xl mb-4" aria-hidden="true">🛂</span>
+          <h2 class="text-[22px] font-bold text-white leading-tight mb-2">
+            ${t('onboardingGuidesTitle')}
+          </h2>
+          <p class="text-[13px] text-slate-400 mb-5">${t('onboardingGuidesDesc')}</p>
+          <div class="w-full max-w-sm flex flex-col gap-2">
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3" style="border-left:3px solid #22c55e">
+              <span class="text-2xl">🇫🇷</span>
+              <div class="flex-1 text-left">
+                <div class="text-[13px] font-bold text-white">France</div>
+                <div class="text-[11px] text-slate-500">1891 spots • ${t('onboardingGuideHighways')}</div>
+              </div>
+              <span class="text-[11px] text-slate-500">${t('onboardingGuideStamped')}</span>
             </div>
-            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
-              <span class="text-lg">${icon('check-circle', 'w-5 h-5 text-emerald-400')}</span>
-              <span class="text-[13px] text-slate-200">${t('onboardingCheckins')}</span>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3" style="border-left:3px solid #22c55e">
+              <span class="text-2xl">🇭🇷</span>
+              <div class="flex-1 text-left">
+                <div class="text-[13px] font-bold text-white">Croatie</div>
+                <div class="text-[11px] text-slate-500">124 spots • ${t('onboardingGuideCoastEasy')}</div>
+              </div>
+              <span class="text-[11px] text-slate-500">${t('onboardingGuideStamped')}</span>
             </div>
-            <div class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 flex items-center gap-3 backdrop-blur-sm">
-              <span class="text-lg">${icon('alert-triangle', 'w-5 h-5 text-emerald-400')}</span>
-              <span class="text-[13px] text-slate-200">${t('onboardingSOSAlerts')}</span>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3 opacity-60" style="border-left:3px solid #64748b">
+              <span class="text-2xl">🇬🇪</span>
+              <div class="flex-1 text-left">
+                <div class="text-[13px] font-bold text-white">${t('onboardingGuideGeorgia')}</div>
+                <div class="text-[11px] text-slate-500">45 spots • ${t('onboardingGuideWelcoming')}</div>
+              </div>
+              <span class="text-[11px] text-slate-500">${t('onboardingGuideDiscover')}</span>
             </div>
-          </div>
-          <div class="bg-white/5 border border-white/10 rounded-xl p-3 mt-4 max-w-sm">
-            <p class="text-primary-400 font-semibold text-[13px] text-center">${t('onboardingFamilyTrack')}</p>
+            <div class="bg-white/5 border border-white/[0.08] rounded-xl px-4 py-2.5 flex items-center gap-3 opacity-60" style="border-left:3px solid #64748b">
+              <span class="text-2xl">🇳🇿</span>
+              <div class="flex-1 text-left">
+                <div class="text-[13px] font-bold text-white">${t('onboardingGuideNZ')}</div>
+                <div class="text-[11px] text-slate-500">67 spots • ${t('onboardingGuideDream')}</div>
+              </div>
+              <span class="text-[11px] text-slate-500">${t('onboardingGuideDiscover')}</span>
+            </div>
           </div>
         </div>
 
-        <!-- Slide 5: Communauté + CTA -->
-        <div class="w-[20%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7">
-          <span class="text-4xl mb-3">🌍</span>
-          <h2 class="text-2xl font-bold text-white mb-5 bg-gradient-to-r from-white to-primary-400 bg-clip-text text-transparent">${t('onboardingJoinCommunity')}</h2>
-          <div class="w-full max-w-sm bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-sm mb-6">
-            <div class="flex gap-3 items-center py-2 border-b border-white/5">
-              <div class="w-7 h-7 rounded-full bg-primary-500 flex items-center justify-center text-xs font-bold">J</div>
-              <span class="text-[13px] text-slate-200"><strong>Julie</strong> ${t('onboardingFeedAdded')} <span class="text-primary-400">Bordeaux</span></span>
+        <!-- Slide 5: Cookies (Aire de repos) -->
+        <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:#0f1520">
+          <span class="text-5xl mb-4" aria-hidden="true">⛽</span>
+          <h2 class="text-[22px] font-bold text-white leading-tight mb-2">
+            ${t('onboardingCookiesTitle')}
+          </h2>
+          <p class="text-[13px] text-primary-400 italic mb-5">"${t('onboardingCookiesQuote')}"</p>
+          <div class="w-full max-w-sm">
+            <!-- Necessary (always on) -->
+            <div class="flex items-center justify-between py-3 border-b border-white/5">
+              <div class="text-left">
+                <div class="text-[13px] text-slate-200">⛽ ${t('onboardingCookiesFuel')}</div>
+                <div class="text-[10px] text-slate-500">${t('onboardingCookiesFuelDesc')}</div>
+              </div>
+              <div class="w-10 h-[22px] rounded-full bg-emerald-600 relative flex-shrink-0" aria-label="${t('required')}">
+                <div class="w-[18px] h-[18px] rounded-full bg-white absolute top-[2px] right-[2px]"></div>
+              </div>
             </div>
-            <div class="flex gap-3 items-center py-2 border-b border-white/5">
-              <div class="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold">M</div>
-              <span class="text-[13px] text-slate-200"><strong>Max</strong> ${t('onboardingFeedValidated')} — <span class="text-primary-400">⭐ 4.5</span></span>
+            <!-- Analytics (toggleable) -->
+            <div class="flex items-center justify-between py-3 border-b border-white/5">
+              <div class="text-left">
+                <div class="text-[13px] text-slate-200">☕ ${t('onboardingCookiesCoffee')}</div>
+                <div class="text-[10px] text-slate-500">${t('onboardingCookiesCoffeeDesc')}</div>
+              </div>
+              <label class="relative inline-flex cursor-pointer flex-shrink-0 w-10 h-[22px]">
+                <input type="checkbox" id="landing-cookie-analytics" class="sr-only peer" checked>
+                <div class="absolute inset-0 bg-slate-600 peer-checked:bg-emerald-600 rounded-full transition-colors"></div>
+                <div class="absolute top-[2px] left-[2px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform peer-checked:translate-x-[18px]"></div>
+              </label>
             </div>
-            <div class="flex gap-3 items-center py-2">
-              <div class="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-xs font-bold">S</div>
-              <span class="text-[13px] text-slate-200"><strong>Sara</strong> ${t('onboardingFeedShared')} <span class="text-primary-400">Paris → Marseille</span></span>
+            <!-- Bug tracking (toggleable) -->
+            <div class="flex items-center justify-between py-3">
+              <div class="text-left">
+                <div class="text-[13px] text-slate-200">🔧 ${t('onboardingCookiesMechanic')}</div>
+                <div class="text-[10px] text-slate-500">${t('onboardingCookiesMechanicDesc')}</div>
+              </div>
+              <label class="relative inline-flex cursor-pointer flex-shrink-0 w-10 h-[22px]">
+                <input type="checkbox" id="landing-cookie-bugs" class="sr-only peer">
+                <div class="absolute inset-0 bg-slate-600 peer-checked:bg-emerald-600 rounded-full transition-colors"></div>
+                <div class="absolute top-[2px] left-[2px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform peer-checked:translate-x-[18px]"></div>
+              </label>
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-600 mt-4">${t('onboardingCookiesNoPub')}</p>
+        </div>
+
+        <!-- Slide 6: CTA (Premier pas) -->
+        <div class="w-[16.667%] h-full flex-shrink-0 flex flex-col items-center justify-center px-7 text-center relative" style="background:linear-gradient(180deg,#0f1520,#1a0f0a)">
+          <div class="absolute -top-10 -right-16 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+          <h2 class="text-[22px] font-bold text-white leading-tight mb-6 relative z-10">
+            ${t('onboardingCTATitle')}
+          </h2>
+          <div class="w-full max-w-sm relative z-10">
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 text-center">
+              <span class="text-4xl block mb-2">📍</span>
+              <div class="text-[15px] font-bold text-white">${t('onboardingCTAAddSpot')}</div>
+              <div class="text-[12px] text-slate-400 mt-1">${t('onboardingCTAAddSpotDesc')}</div>
+            </div>
+            <p class="text-[12px] text-slate-600 my-2">${t('onboardingCTAOr')}</p>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 text-center">
+              <span class="text-4xl block mb-2">🧭</span>
+              <div class="text-[15px] font-bold text-white">${t('onboardingCTARoute')}</div>
+              <div class="text-[12px] text-slate-400 mt-1">${t('onboardingCTARouteDesc')}</div>
             </div>
           </div>
           <button
             onclick="dismissLanding()"
-            class="w-full max-w-sm py-4 rounded-2xl text-dark-primary font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-[1.02] transition-all duration-300"
+            class="w-full max-w-sm py-4 rounded-2xl text-dark-primary font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-[1.02] transition-all duration-300 mt-6 relative z-10"
             style="background:linear-gradient(135deg,#f59e0b,#d97706)"
           >
-            ${t('onboardingDiscoverMap')} →
+            ${t('onboardingCTAGo')} →
           </button>
         </div>
 
@@ -151,6 +234,7 @@ export function renderLanding() {
           <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="2"></div>
           <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="3"></div>
           <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="4"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="5"></div>
         </div>
         <button id="landing-next" onclick="landingNext()" class="text-primary-400 text-sm font-semibold">
           ${t('onboardingNext')} →
@@ -161,6 +245,9 @@ export function renderLanding() {
   `
 }
 
+const TOTAL_SLIDES = 6
+const SLIDE_WIDTH = 100 / TOTAL_SLIDES // 16.667%
+
 export function initLandingCarousel() {
   let current = 0
   const track = document.getElementById('landing-track')
@@ -169,14 +256,15 @@ export function initLandingCarousel() {
   if (!track || !dots.length) return
 
   function goTo(i) {
-    current = Math.max(0, Math.min(i, 4))
-    track.style.transform = `translateX(-${current * 20}%)`
+    current = Math.max(0, Math.min(i, TOTAL_SLIDES - 1))
+    track.style.transform = `translateX(-${current * SLIDE_WIDTH}%)`
     dots.forEach((d, j) => {
       d.className = j === current
         ? 'landing-dot w-6 h-2 rounded-full bg-primary-400 transition-all duration-200'
         : 'landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200'
     })
-    if (nextBtn) nextBtn.style.display = current === 4 ? 'none' : ''
+    // Hide next button on last slide (CTA has its own button)
+    if (nextBtn) nextBtn.style.display = current === TOTAL_SLIDES - 1 ? 'none' : ''
   }
 
   // Dot clicks
