@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question ou discussion
+    url: https://github.com/antoine626/Spothitch/discussions
+    about: Pour les questions, utilisez les Discussions GitHub
