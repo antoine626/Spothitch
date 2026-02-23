@@ -3699,4 +3699,16 @@ export default {
   voyageClosestSpot: 'Spot le plus proche devant toi',
   voyageSeeSpot: 'Voir ce spot',
   voyageAllSpotsAhead: 'Tous les spots devant toi',
+
+  // Clés manquantes (lint-i18n)
+  add: 'Ajouter',
+  route: 'Route',
+  date: 'Date',
+  optional: 'Optionnel',
+  fillPhoneNumber: 'Entrez un numéro de téléphone',
+  photoReady: 'Photo prête',
+  spotsValidated: 'Spots validés',
+  notFound: 'Introuvable',
+  deviceRemoveFailed: "Impossible de supprimer l'appareil",
+  undefined: 'Non défini',
 }

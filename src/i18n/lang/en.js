@@ -3699,4 +3699,16 @@ export default {
   voyageClosestSpot: 'Closest spot ahead',
   voyageSeeSpot: 'See this spot',
   voyageAllSpotsAhead: 'All spots ahead',
+
+  // Missing keys (lint-i18n)
+  add: 'Add',
+  route: 'Route',
+  date: 'Date',
+  optional: 'Optional',
+  fillPhoneNumber: 'Enter a phone number',
+  photoReady: 'Photo ready',
+  spotsValidated: 'Validated spots',
+  notFound: 'Not found',
+  deviceRemoveFailed: 'Could not remove device',
+  undefined: 'Undefined',
 }

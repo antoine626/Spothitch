@@ -312,7 +312,6 @@ window.adminExportState = () => {
   window.showToast?.(t('stateExported') || 'State exporté', 'success');
 };
 
-window.openReport = () => setState({ showReport: true });
 window.openDonation = () => setState({ showDonation: true });
 window.openSOS = () => setState({ showSOS: true });
 window.openAddSpot = () => setState({ showAddSpot: true });

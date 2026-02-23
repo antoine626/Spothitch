@@ -395,6 +395,13 @@ const MAIN_JS_HANDLERS = [
   'closeReviewForm', 'closeReplyModal', 'closeAddForbiddenWordModal',
   'closeRouteAmenities', 'closePostTravelPlan', 'closePhotoUpload',
   'closeLanguageSelector', 'closeCookieBanner',
+  // Wolf audit handlers (session 2026-02-23)
+  'flyToCity', 'openProfile', 'openEditProfile',
+  'planTrip', 'clearTrip', 'openGuides', 'openChallengesHub',
+  'loginWithEmail', 'claimDailyReward',
+  'triggerSOS', 'shareSOS',
+  'openCompanion', 'closeCompanion',
+  'submitNewSpot',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

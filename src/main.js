@@ -2368,6 +2368,51 @@ window.homeZoomOut = () => {
   if (window.homeMapInstance) window.homeMapInstance.zoomOut()
 }
 
+// ==================== HANDLERS MANQUANTS (Wolf audit) ====================
+
+// Navigation shortcuts
+window.flyToCity = (lat, lng, zoom = 12) => {
+  if (window.mapInstance) window.mapInstance.flyTo({ center: [lng, lat], zoom })
+  else window.navigate?.('map')
+}
+
+window.openProfile = () => window.navigate?.('profile')
+window.openEditProfile = () => {
+  window.navigate?.('profile')
+  setState({ profileSubTab: 'profil' })
+}
+
+window.planTrip = () => {
+  window.navigate?.('challenges')
+  setTimeout(() => window.setVoyageSubTab?.('voyage'), 100)
+}
+
+window.clearTrip = () => window.clearTripResults?.()
+
+window.openGuides = () => {
+  window.navigate?.('challenges')
+  setTimeout(() => window.setVoyageSubTab?.('guides'), 100)
+}
+
+window.openChallengesHub = () => window.navigate?.('challenges')
+
+// Auth shortcut
+window.loginWithEmail = () => window.openAuth?.('email')
+
+// Gamification shortcuts
+window.claimDailyReward = () => window.openDailyReward?.()
+
+// SOS shortcuts
+window.triggerSOS = async () => window.openSOS?.()
+window.shareSOS = () => window.shareSOSLink?.()
+
+// Companion shortcuts
+window.openCompanion = () => window.showCompanionModal?.()
+window.closeCompanion = () => setState({ showCompanionModal: false })
+
+// AddSpot shortcut
+window.submitNewSpot = () => window.openAddSpot?.()
+
 // ==================== START APP ====================
 
 // Initialize when DOM is ready

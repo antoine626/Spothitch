@@ -3696,4 +3696,16 @@ export default {
   voyageClosestSpot: 'Spot más cercano delante',
   voyageSeeSpot: 'Ver este spot',
   voyageAllSpotsAhead: 'Todos los spots delante',
+
+  // Claves faltantes (lint-i18n)
+  add: 'Agregar',
+  route: 'Ruta',
+  date: 'Fecha',
+  optional: 'Opcional',
+  fillPhoneNumber: 'Ingresa un número de teléfono',
+  photoReady: 'Foto lista',
+  spotsValidated: 'Spots validados',
+  notFound: 'No encontrado',
+  deviceRemoveFailed: 'No se pudo eliminar el dispositivo',
+  undefined: 'No definido',
 }

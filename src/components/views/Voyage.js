@@ -1144,9 +1144,37 @@ window.openTripPhotoUpload = (tripIndex) => {
   input.click()
 }
 
-// tripSearchSuggestions is fully implemented in Travel.js.
-// Define a no-op stub here so the Voyage trip planner form doesn't throw
-// "not defined" errors before Travel.js has been loaded.
+// tripSearchSuggestions — lazy delegate to Travel.js's full implementation.
+// If Travel.js isn't loaded yet, do a minimal autocomplete via Nominatim.
 if (!window.tripSearchSuggestions) {
-  window.tripSearchSuggestions = () => {}
+  let voyageDebounce = null
+  window.tripSearchSuggestions = (field, query) => {
+    clearTimeout(voyageDebounce)
+    const container = document.getElementById(`trip-${field}-suggestions`)
+    if (!container) return
+    if (!query || query.trim().length < 2) {
+      container.classList.add('hidden')
+      return
+    }
+    voyageDebounce = setTimeout(async () => {
+      try {
+        const { searchLocation } = await import('../../services/osrm.js')
+        const results = await searchLocation(query)
+        const currentInput = document.getElementById(`trip-${field}`)
+        if (!currentInput || currentInput.value.trim() !== query.trim()) return
+        if (results?.length > 0) {
+          const names = results.slice(0, 5).map(r => r.name)
+          container.classList.remove('hidden')
+          container.innerHTML = `<div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
+            ${names.map(name => {
+              const safe = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/'/g, '&#39;')
+              return `<button onmousedown="event.preventDefault();(window.tripSelectSuggestion||function(f,n){var i=document.getElementById('trip-'+f);if(i)i.value=n;document.getElementById('trip-from-suggestions')?.classList.add('hidden');document.getElementById('trip-to-suggestions')?.classList.add('hidden')})('${field}','${safe}')" class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"><div class="font-medium text-sm truncate">${safe}</div></button>`
+            }).join('')}
+          </div>`
+        } else {
+          container.classList.add('hidden')
+        }
+      } catch { container.classList.add('hidden') }
+    }, 300)
+  }
 }
