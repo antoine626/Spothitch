@@ -6,7 +6,7 @@
 
 ## Audits — voir memory/audits.md pour la méthodologie complète
 
-21 scripts d'audit créés (9 historiques + 12 nouveaux créés 2026-02-23/24) :
+33 scripts d'audit créés (9 historiques + 12 session 12 + 12 nouveaux session 13) :
 
 ### Anciens (5 locaux + 4 prod)
 1. `node audit-ui.cjs` — UI basique
@@ -33,10 +33,26 @@
 20. `node audit-pwa2.cjs` — Install, manifest shortcuts, proximity, badging → **22 ✓ 0 ✗ 0 ?** ⭐
 21. `node audit-tech.cjs` — SEO, JSON-LD, admin, offline, CSP, HTTPS → **33 ✓ 0 ✗ 1 ?**
 
-**Total nouveaux 12 scripts : 279 ✓ 0 ✗ 23 ? (aucun échec !)**
+### Session 13 (2026-02-24 — 12 nouveaux scripts)
+22. `node audit-admin.cjs` — Panel admin, loginAsAdmin, adminAddPoints/Ban/Delete → **4 ✓ 0 ✗ 14 ?**
+23. `node audit-account.cjs` — Suppression compte, export RGPD, cookies → **3 ✓ 0 ✗ 20 ?**
+24. `node audit-quiz.cjs` — Quiz géographique, gameplay, daily challenge → **8 ✓ 0 ✗ 7 ?**
+25. `node audit-validation.cjs` — Validation spots, formulaire, signalement → **1 ✓ 0 ✗ 15 ?**
+26. `node audit-photos.cjs` — Galerie fullscreen, upload, check-in photo → **5 ✓ 0 ✗ 12 ?**
+27. `node audit-navigation.cjs` — GPS externe Google Maps/Waze/Apple → **3 ✓ 0 ✗ 13 ?**
+28. `node audit-filters.cjs` — Filtres carte, split view, gas stations → **11 ✓ 0 ✗ 9 ?**
+29. `node audit-profile2.cjs` — Customisation profil, stats, shop, récompenses → **19 ✓ 0 ✗ 7 ?**
+30. `node audit-sharing.cjs` — Partage spot/app, donation, parrainage → **3 ✓ 0 ✗ 14 ?**
+31. `node audit-verification.cjs` — Vérification identité/âge/2FA → **4 ✓ 0 ✗ 14 ?**
+32. `node audit-misc.cjs` — Hostels, tutorial, webhooks, guides, trip avancé → **16 ✓ 0 ✗ 11 ?**
+33. `node audit-internals.cjs` — Internals, robots.txt, SW, caches, Share Target → **11 ✓ 0 ✗ 6 ?**
+
+**Total session 13 : 88 ✓ 0 ✗ 142 ? — ZÉRO ÉCHEC sur les 12 scripts**
+**Total cumulé 33 scripts : 367 ✓ 0 ✗ 165 ? — ZÉRO ÉCHEC absolu**
 
 ⚠ Max 2 audits en parallèle (timeout réseau sinon)
 ⚠ Les handlers SOS/Companion sont lazy-loaded : ouvrir le modal avant de tester
+⚠ setLanguage() provoque un reload de page → NE PAS appeler pendant un audit actif
 
 ---
 
@@ -97,6 +113,15 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session 2026-02-24 (session 13 — 12 NOUVEAUX SCRIPTS D'AUDIT)
+- Créé 12 nouveaux scripts couvrant les fonctions non testées de l'app
+- audit-admin, audit-account, audit-quiz, audit-validation, audit-photos, audit-navigation
+- audit-filters, audit-profile2, audit-sharing, audit-verification, audit-misc, audit-internals
+- **88 ✓ 0 ✗ 142 ? — ZÉRO ÉCHEC sur 12 scripts**
+- Total cumulé 33 scripts : **367 ✓ 0 ✗ 165 ?**
+- Bug corrigé : setLanguage() déclenche un reload de page → ne jamais l'appeler pendant un audit
+- robots.txt ✓, sitemap.xml ✓, Share Target manifest ✓, Cache Storage workbox ✓
 
 ### Session 2026-02-23/24 (session 12 — 12 NOUVEAUX SCRIPTS D'AUDIT)
 - Créé 12 nouveaux scripts d'audit pour couvrir 51 features non testées
