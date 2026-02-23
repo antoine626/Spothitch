@@ -1144,6 +1144,35 @@ window.openTripPhotoUpload = (tripIndex) => {
   input.click()
 }
 
+// swapTripPoints & syncTripFieldsAndCalculate — also defined in Travel.js but
+// Travel.js is lazy-loaded only when its tab is opened. Define fallbacks here
+// so Voyage's trip form works even before Travel.js has ever been loaded.
+if (!window.swapTripPoints) {
+  window.swapTripPoints = () => {
+    const fromInput = document.getElementById('trip-from')
+    const toInput = document.getElementById('trip-to')
+    const newFrom = toInput?.value || ''
+    const newTo = fromInput?.value || ''
+    if (fromInput) fromInput.value = newFrom
+    if (toInput) toInput.value = newTo
+  }
+}
+
+if (!window.syncTripFieldsAndCalculate) {
+  window.syncTripFieldsAndCalculate = () => {
+    const fromInput = document.getElementById('trip-from')
+    const toInput = document.getElementById('trip-to')
+    const from = fromInput?.value?.trim() || ''
+    const to = toInput?.value?.trim() || ''
+    if (!from || !to) {
+      window.showToast?.(t('fillDepartureAndDestination') || 'Remplis le départ et la destination', 'warning')
+      return
+    }
+    window.setState?.({ tripFrom: from, tripTo: to, tripLoading: true })
+    window.calculateTrip?.()
+  }
+}
+
 // tripSearchSuggestions — lazy delegate to Travel.js's full implementation.
 // If Travel.js isn't loaded yet, do a minimal autocomplete via Nominatim.
 if (!window.tripSearchSuggestions) {

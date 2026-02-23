@@ -2413,6 +2413,30 @@ window.closeCompanion = () => setState({ showCompanionModal: false })
 // AddSpot shortcut
 window.submitNewSpot = () => window.openAddSpot?.()
 
+// Trip form helpers — also defined in Travel.js (lazy-loaded) but needed
+// on Voyage tab BEFORE Travel.js has been opened.
+window.swapTripPoints = () => {
+  const fromInput = document.getElementById('trip-from')
+  const toInput = document.getElementById('trip-to')
+  const newFrom = toInput?.value || ''
+  const newTo = fromInput?.value || ''
+  if (fromInput) fromInput.value = newFrom
+  if (toInput) toInput.value = newTo
+}
+
+window.syncTripFieldsAndCalculate = () => {
+  const fromInput = document.getElementById('trip-from')
+  const toInput = document.getElementById('trip-to')
+  const from = fromInput?.value?.trim() || ''
+  const to = toInput?.value?.trim() || ''
+  if (!from || !to) {
+    window.showToast?.(t('fillDepartureAndDestination') || 'Remplis le départ et la destination', 'warning')
+    return
+  }
+  setState({ tripFrom: from, tripTo: to, tripLoading: true })
+  window.calculateTrip?.()
+}
+
 // ==================== START APP ====================
 
 // Initialize when DOM is ready

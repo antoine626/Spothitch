@@ -50,8 +50,12 @@ export async function skipOnboarding(page, opts = {}) {
   // Use addInitScript to set localStorage BEFORE any page JS runs
   await page.addInitScript((state) => {
     localStorage.setItem('spothitch_v4_state', JSON.stringify(state))
-    localStorage.setItem('cookie_consent', JSON.stringify({
-      essential: true, analytics: true, marketing: false, timestamp: Date.now()
+    // Use prefixed key matching Storage.js (spothitch_v4_cookie_consent)
+    // and the format expected by hasConsent(): { preferences, timestamp, version }
+    localStorage.setItem('spothitch_v4_cookie_consent', JSON.stringify({
+      preferences: { necessary: true, analytics: false, marketing: false, personalization: false },
+      timestamp: Date.now(),
+      version: '1.0'
     }))
     localStorage.setItem('spothitch_age_verified', 'true')
     localStorage.setItem('spothitch_landing_seen', '1')

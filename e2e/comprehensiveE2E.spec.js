@@ -480,9 +480,9 @@ test.describe('Data Persistence', () => {
   test('should persist cookie consent', async ({ page }) => {
     await skipOnboarding(page)
     const consent = await page.evaluate(() => {
-      return JSON.parse(localStorage.getItem('cookie_consent') || '{}')
+      return JSON.parse(localStorage.getItem('spothitch_v4_cookie_consent') || '{}')
     })
-    expect(consent.essential).toBe(true)
+    expect(consent.preferences?.necessary).toBe(true)
   })
 })
 
