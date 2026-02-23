@@ -314,6 +314,26 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/components/App.js`, `src/stores/state.js`
 - **Statut** : CORRIGÉ
 
+### ERR-031 — renderThankYouModal non câblée dans App.js (showDonationThankYou ghost state)
+- **Date** : 2026-02-23
+- **Gravité** : MAJEUR
+- **Description** : La fonction `renderThankYouModal` existait dans `DonationCard.js` et était correctement exportée, mais n'était pas enregistrée dans `_lazyLoaders` de App.js ni rendue de manière conditionnelle. Résultat : cliquer "Donner" settait `showDonationThankYou: true` mais rien n'apparaissait à l'écran.
+- **Cause racine** : Lors de l'ajout du composant DonationCard, seul `renderDonationModal` a été câblé dans App.js. La fonction `renderThankYouModal` (pour le suivi post-don) a été créée dans le composant mais oubliée dans le pipeline de rendu.
+- **Correction** : Ajout de `renderThankYouModal: () => import('./ui/DonationCard.js')` dans `_lazyLoaders` + `${state.showDonationThankYou ? lazyRender('renderThankYouModal', state) : ''}` dans le render.
+- **Leçon** : **Après avoir créé une export function render* dans un composant, TOUJOURS vérifier qu'elle est dans _lazyLoaders ET dans le render conditionnel de App.js. Un "ghost state" (state flag setté mais jamais rendu) = feature morte silencieusement.**
+- **Fichiers** : `src/components/App.js`
+- **Statut** : CORRIGÉ
+
+### ERR-032 — Ambassador modals (showAmbassadorSuccess, showContactAmbassador) ghost states
+- **Date** : 2026-02-23
+- **Gravité** : MAJEUR
+- **Description** : `showAmbassadorSuccess` (après inscription ambassadeur) et `showContactAmbassador` (contacter un ambassadeur) étaient settés dans `ambassadors.js` mais aucune fonction de rendu n'existait → actions silencieuses pour l'utilisateur. De plus, `showContactAmbassador` et `selectedAmbassador` étaient absents du state initial dans `state.js`.
+- **Cause racine** : Feature ambassador créée avec uniquement la logique métier (service) mais sans les composants UI correspondants.
+- **Correction** : Ajout de modals inline dans App.js pour `showAmbassadorSuccess` et `showContactAmbassador`. Ajout de `window.sendAmbassadorMessage` dans main.js. Ajout des états `showContactAmbassador` et `selectedAmbassador` dans state.js. 5 nouvelles clés i18n (FR/EN/ES/DE).
+- **Leçon** : **Quand on crée un service avec des setState(), TOUJOURS créer les composants UI correspondants en même temps. Un service sans rendu = feature zombie.**
+- **Fichiers** : `src/components/App.js`, `src/main.js`, `src/stores/state.js`, `src/i18n/lang/*.js`
+- **Statut** : CORRIGÉ
+
 ### ERR-030 — DailyReward.js : textes hardcodés en français sans t() (RÈGLE #8 violée)
 - **Date** : 2026-02-23
 - **Gravité** : MINEUR
@@ -332,4 +352,4 @@ Chaque erreur suit ce format :
 |---------|-------------|----------|----------|
 | 2026-02-20 | 13 | 13 | 0 |
 | 2026-02-22 | 9 | 9 | 0 |
-| 2026-02-23 | 8 | 8 | 0 |
+| 2026-02-23 | 10 | 10 | 0 |

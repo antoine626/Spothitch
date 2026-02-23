@@ -4,6 +4,23 @@
 
 ---
 
+## Audits — voir memory/audits.md pour la méthodologie complète
+
+9 scripts d'audit (5 historiques + 4 nouveaux créés 2026-02-23) :
+1. `node audit-ui.cjs` — UI basique
+2. `node audit-ui-part2.cjs` — Modals
+3. `node audit-ui-part3.cjs` — Flows complexes
+4. `node audit-ui-part4.cjs` — Flows avancés (nécessite `npm run build` + `npx vite preview --port 4173`)
+5. `node audit-firebase.cjs` — Firebase + prod (21 ✓ 0 ✗ 0 ?)
+6. `node audit-ux.cjs` — UX, onboarding, carte, guides (26 ✓ 0 ✗ 0 ?)
+7. `node audit-security.cjs` — SOS v2, Companion v2, identité, modération (20 ✓ 0 ✗ 0 ?)
+8. `node audit-social.cjs` — Amis, DM, messagerie, réactions, événements (12 ✓ 0 ✗ 0 ?)
+9. `node audit-gamification.cjs` — Daily reward, voyage, leaderboard, boutique (13 ✓ 0 ✗ 0 ?)
+
+⚠ Max 2 audits en parallèle (timeout réseau sinon)
+
+---
+
 ## État du projet
 
 - **Version** : 2.0.0
