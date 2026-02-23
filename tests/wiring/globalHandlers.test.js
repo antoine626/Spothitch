@@ -161,7 +161,9 @@ const MAIN_JS_HANDLERS = [
   // Guide tips feedback (defined in feedbackService.js)
   'voteGuideTip', 'submitGuideSuggestion',
   // Voyage view (defined in Voyage.js)
-  'setVoyageSubTab', 'highlightTripSpot', 'startTrip', 'tripNextStop', 'finishTrip',
+  'setVoyageSubTab', 'setJournalSubTab', 'highlightTripSpot', 'startTrip', 'tripNextStop', 'finishTrip',
+  'toggleTripPublic', 'openTripDetail', 'closeTripDetail', 'deleteJournalTrip',
+  'openAddTripNote', 'openTripPhotoUpload',
   // Travel view (defined in Travel.js)
   'syncTripFieldsAndCalculate', 'toggleRouteAmenities', 'centerTripMapOnGps', 'setRouteFilter',
   // Social view (defined in Social.js + sub-components)

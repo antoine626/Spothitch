@@ -221,19 +221,25 @@ export function renderGuides(state) {
 
   return `
     <div class="space-y-4">
-      <!-- Section tabs (scrollable pills) -->
-      <div class="flex gap-2 overflow-x-auto scrollbar-none pb-1">
+      <!-- Section grid (Design B: 3×2 icon tiles) -->
+      <div class="grid grid-cols-3 gap-2">
         ${GUIDE_SECTIONS.map(s => `
           <button
             onclick="setGuideSection('${s.id}')"
-            class="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
-  activeSection === s.id
-    ? `bg-${s.color}-500 text-white`
-    : 'bg-white/5 text-slate-400 hover:bg-white/10'
-}"
+            class="flex flex-col items-center gap-2 p-3 rounded-xl font-medium text-xs transition-all ${
+              activeSection === s.id
+                ? `bg-${s.color}-500 text-white shadow-lg`
+                : 'bg-white/5 text-slate-400 hover:bg-white/10'
+            }"
           >
-            ${icon(s.icon, 'w-4 h-4')}
-            ${t(s.labelKey) || s.fallback}
+            <div class="w-10 h-10 rounded-xl ${
+              activeSection === s.id
+                ? 'bg-white/20'
+                : `bg-${s.color}-500/20`
+            } flex items-center justify-center">
+              ${icon(s.icon, `w-5 h-5 ${activeSection === s.id ? 'text-white' : `text-${s.color}-400`}`)}
+            </div>
+            <span class="text-center leading-tight">${t(s.labelKey) || s.fallback}</span>
           </button>
         `).join('')}
       </div>

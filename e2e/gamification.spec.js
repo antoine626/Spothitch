@@ -36,20 +36,20 @@ test.describe('Voyage Tab', () => {
     await expect(guidesContent).toBeVisible({ timeout: 5000 })
   })
 
-  test('should switch to En route sub-tab', async ({ page }) => {
-    await page.evaluate(() => window.setVoyageSubTab?.('enroute'))
+  test('should switch to Voyage sub-tab (trip planner)', async ({ page }) => {
+    await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(500)
-    // En route shows "no active trip" message or trip progress
-    const enRouteContent = page.locator('text=/Aucun voyage|No active|Planifier|On the road/i').first()
-    await expect(enRouteContent).toBeVisible({ timeout: 5000 })
+    // Voyage tab shows trip planner form
+    const voyageContent = page.locator('input#trip-from, text=/Nouveau voyage|New trip|Planifier/i').first()
+    await expect(voyageContent).toBeVisible({ timeout: 5000 })
   })
 
-  test('should switch to Historique sub-tab', async ({ page }) => {
-    await page.evaluate(() => window.setVoyageSubTab?.('historique'))
+  test('should switch to Journal sub-tab', async ({ page }) => {
+    await page.evaluate(() => window.setVoyageSubTab?.('journal'))
     await page.waitForTimeout(500)
-    // Historique shows saved trips or empty state
-    const histContent = page.locator('text=/Voyages|History|sauvegardé|No trips/i').first()
-    await expect(histContent).toBeVisible({ timeout: 5000 })
+    // Journal shows bilan or empty state
+    const journalContent = page.locator('text=/bilan|Journal|voyages|trips|Aucun/i').first()
+    await expect(journalContent).toBeVisible({ timeout: 5000 })
   })
 
   test('should have trip search inputs', async ({ page }) => {

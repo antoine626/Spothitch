@@ -313,17 +313,17 @@ test.describe('Journey: Voyage Tab', () => {
     await expect(guidesContent).toBeVisible({ timeout: 5000 })
   })
 
-  test('should navigate to En route sub-tab showing no active trip', async ({ page }) => {
-    await page.evaluate(() => window.setVoyageSubTab?.('enroute'))
+  test('should navigate to Voyage sub-tab showing trip planner', async ({ page }) => {
+    await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(500)
-    const content = page.locator('text=/Aucun voyage|No active|Planifier|road/i').first()
+    const content = page.locator('input#trip-from, text=/Nouveau voyage|New trip|Planifier|road/i').first()
     await expect(content).toBeVisible({ timeout: 5000 })
   })
 
-  test('should navigate to Historique sub-tab', async ({ page }) => {
-    await page.evaluate(() => window.setVoyageSubTab?.('historique'))
+  test('should navigate to Journal sub-tab', async ({ page }) => {
+    await page.evaluate(() => window.setVoyageSubTab?.('journal'))
     await page.waitForTimeout(500)
-    const content = page.locator('text=/Voyages|History|sauvegardé|Aucun/i').first()
+    const content = page.locator('text=/bilan|Journal|voyages|trips|Aucun/i').first()
     await expect(content).toBeVisible({ timeout: 5000 })
   })
 })
