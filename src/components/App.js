@@ -69,6 +69,7 @@ const _lazyLoaders = {
   renderTitlesModal: () => import('./modals/TitlesModal.js'),
   renderFriendProfileModal: () => import('./modals/FriendProfile.js'),
   renderContactFormModal: () => import('./modals/ContactForm.js'),
+  renderDeleteAccountModal: () => import('./modals/DeleteAccount.js'),
   renderCompanionModal: () => import('./modals/Companion.js'),
   renderTripHistory: () => import('../services/tripHistory.js'),
   renderFAQ: () => import('./views/FAQ.js'),
@@ -214,6 +215,41 @@ export function renderApp(state) {
     ` : ''}
     ${state.showCreateTravelGroup ? lazyRender('renderCreateTravelGroupModal', state) : ''}
 
+    <!-- Create Team Modal -->
+    ${state.showCreateTeam ? `
+      <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 p-4" onclick="if(event.target===this)closeCreateTeam()">
+        <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden slide-up">
+          <div class="flex items-center justify-between p-4 border-b border-white/10">
+            <h2 class="text-lg font-bold">${icon('users', 'w-5 h-5 mr-2 text-primary-400')}${t('teamCreateButton') || 'Créer une équipe'}</h2>
+            <button onclick="closeCreateTeam()" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">${icon('x', 'w-5 h-5')}</button>
+          </div>
+          <div class="p-4 space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-1">${t('teamNameLabel') || 'Nom de l\'équipe'} *</label>
+              <input id="create-team-name" type="text" maxlength="30" placeholder="${t('teamNamePlaceholder') || 'Ex: Les routards du monde'}" class="input-field w-full" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">${t('teamDescLabel') || 'Description'}</label>
+              <textarea id="create-team-desc" rows="2" maxlength="100" placeholder="${t('teamDescPlaceholder') || 'Décrivez votre équipe...'}" class="input-field w-full resize-none"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">${t('teamAvatarLabel') || 'Emoji de l\'équipe'}</label>
+              <div class="flex flex-wrap gap-2">
+                ${['👥','🚗','🌍','🏕️','✈️','🚀','🦅','🔥','⚡','🌟'].map(emoji => `
+                  <button onclick="document.getElementById('create-team-avatar').value='${emoji}';document.querySelectorAll('.team-avatar-btn').forEach(b=>b.classList.remove('ring-2','ring-primary-400'));this.classList.add('ring-2','ring-primary-400')"
+                    class="team-avatar-btn w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl hover:bg-white/20 transition-all">${emoji}</button>
+                `).join('')}
+              </div>
+              <input id="create-team-avatar" type="hidden" value="👥" />
+            </div>
+            <button onclick="handleCreateTeam()" class="btn btn-primary w-full">
+              ${icon('plus', 'w-5 h-5 mr-2')}${t('teamCreateConfirm') || 'Créer l\'équipe'}
+            </button>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
     <!-- Floating Widgets -->
     ${lazyRender('renderNearbyFriendsWidget', state)}
     ${lazyRender('renderSOSTrackingWidget', state)}
@@ -233,6 +269,9 @@ export function renderApp(state) {
 
     <!-- Contact Form Modal -->
     ${state.showContactForm ? lazyRender('renderContactFormModal') : ''}
+
+    <!-- Delete Account Modal -->
+    ${state.showDeleteAccount ? lazyRender('renderDeleteAccountModal', state) : ''}
 
     <!-- Companion Mode Modal -->
     ${state.showCompanionModal ? lazyRender('renderCompanionModal', state) : ''}

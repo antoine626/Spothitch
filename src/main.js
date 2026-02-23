@@ -1701,6 +1701,20 @@ window.openTeamChallenges = () => setState({ showTeamChallenges: true })
 window.closeTeamChallenges = () => setState({ showTeamChallenges: false })
 window.openCreateTeam = () => setState({ showCreateTeam: true })
 window.closeCreateTeam = () => setState({ showCreateTeam: false })
+window.handleCreateTeam = async () => {
+  const nameInput = document.getElementById('create-team-name')
+  const descInput = document.getElementById('create-team-desc')
+  const avatarInput = document.getElementById('create-team-avatar')
+  const name = nameInput?.value?.trim()
+  if (!name) {
+    showToast(t('teamNameRequired') || 'Le nom de l\'équipe est obligatoire', 'error')
+    nameInput?.focus()
+    return
+  }
+  const { createTeam } = await import('./services/teamChallenges.js')
+  const team = createTeam({ name, description: descInput?.value?.trim() || '', avatar: avatarInput?.value || '👥' })
+  if (team) setState({ showCreateTeam: false })
+}
 window.createTeamAction = async (...args) => {
   const { createTeam } = await import('./services/teamChallenges.js')
   return createTeam(...args)

@@ -244,6 +244,56 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/main.js`
 - **Statut** : CORRIGÉ
 
+### ERR-023 — `.modal-overlay` CSS manquant (AdminPanel + MyData invisibles)
+- **Date** : 2026-02-23
+- **Gravité** : CRITIQUE
+- **Description** : AdminPanel.js et MyData.js utilisaient `class="modal-overlay active"` comme conteneur principal, mais aucune règle CSS ne définissait `.modal-overlay`. Les modals étaient dans le DOM mais totalement invisibles.
+- **Cause racine** : Convention `.modal-overlay` différente du pattern standard `.fixed.inset-0`. Classe jamais ajoutée à main.css.
+- **Correction** : Ajout dans `src/styles/main.css` : `.modal-overlay { @apply fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4; }`
+- **Leçon** : **Quand un modal utilise une classe CSS custom, TOUJOURS vérifier qu'elle est définie dans main.css. Après création d'un modal → screenshot Playwright obligatoire pour confirmer la visibilité.**
+- **Fichiers** : `src/styles/main.css`
+- **Statut** : CORRIGÉ
+
+### ERR-024 — Handlers lazy-loaded non disponibles au premier appel
+- **Date** : 2026-02-23
+- **Gravité** : MAJEUR
+- **Description** : `openAdminPanel`, `openLeaderboard`, `saveTripWithSpots`, `loadSavedTrip`, `deleteSavedTrip`, `removeSpotFromTrip` uniquement définis dans leurs modules lazy-loaded → undefined au premier appel.
+- **Cause racine** : Handlers oubliés dans main.js. Architecture lazy-loading correcte mais handlers pas dupliqués dans l'entry point.
+- **Correction** : Ajout de tous ces handlers dans `src/main.js`.
+- **Leçon** : **Tout handler `window.*` appelable depuis l'UI DOIT exister dans main.js avant le lazy-load. Si un bouton HTML appelle `window.openX()`, alors `window.openX` doit être dans main.js.**
+- **Fichiers** : `src/main.js`
+- **Statut** : CORRIGÉ
+
+### ERR-025 — Tab ID interne 'voyage' inexistant (l'ID réel est 'challenges')
+- **Date** : 2026-02-23
+- **Gravité** : MINEUR
+- **Description** : `activeTab: 'voyage'` dans les tests ne charge pas l'onglet Voyage. L'ID interne est `challenges`, le label traduit est "Voyage".
+- **Cause racine** : Confusion entre ID technique (`challenges`) et label i18n affiché (`Voyage`).
+- **Correction** : Utiliser `activeTab: 'challenges'` dans tous les tests.
+- **Leçon** : **L'ID interne d'un tab est indépendant de son label i18n. Toujours utiliser l'ID de `state.js`/`Navigation.js`, jamais le label traduit.**
+- **Fichiers** : `audit-ui.cjs`, `e2e/*.spec.js`
+- **Statut** : CORRIGÉ
+
+### ERR-026 — Format cookie consent incorrect dans e2e/helpers.js
+- **Date** : 2026-02-23
+- **Gravité** : MINEUR
+- **Description** : `e2e/helpers.js` stockait `{ accepted: true }` au lieu du format structuré `{ preferences: { necessary: true, ... }, timestamp, version: '1.0' }`. Cookie banner s'affichait dans les tests.
+- **Cause racine** : Format non synchronisé lors de l'évolution du système de cookies.
+- **Correction** : Mise à jour de `e2e/helpers.js` avec le bon format.
+- **Leçon** : **Quand la structure d'une donnée localStorage change, TOUJOURS mettre à jour les helpers de test en même temps.**
+- **Fichiers** : `e2e/helpers.js`
+- **Statut** : CORRIGÉ
+
+### ERR-027 — Autocomplete voyage intercepte les clics sur bouton swap
+- **Date** : 2026-02-23
+- **Gravité** : MINEUR
+- **Description** : Après `fill()` sur `#trip-from`, le dropdown autocomplete restait ouvert et interceptait le clic sur le bouton swap dans les tests Playwright.
+- **Cause racine** : Dropdown absolute positionné par-dessus le swap button.
+- **Correction** : Dans les tests, utiliser `page.evaluate()` pour setter les valeurs directement ou appeler `press('Escape')` avant de cliquer sur swap.
+- **Leçon** : **Avec les autocompletes, toujours fermer le dropdown (`Escape`) ou bypasser via `page.evaluate()` avant tout autre clic.**
+- **Fichiers** : `audit-ui.cjs`
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
@@ -252,3 +302,4 @@ Chaque erreur suit ce format :
 |---------|-------------|----------|----------|
 | 2026-02-20 | 13 | 13 | 0 |
 | 2026-02-22 | 9 | 9 | 0 |
+| 2026-02-23 | 5 | 5 | 0 |

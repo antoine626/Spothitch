@@ -266,6 +266,7 @@ const initialState = {
   blockTargetName: null,
   // Consent
   showConsentSettings: false,
+  showDeleteAccount: false,
 
   // AddSpot wizard
   addSpotStep: 1,
