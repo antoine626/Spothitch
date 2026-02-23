@@ -1143,3 +1143,10 @@ window.openTripPhotoUpload = (tripIndex) => {
   }
   input.click()
 }
+
+// tripSearchSuggestions is fully implemented in Travel.js.
+// Define a no-op stub here so the Voyage trip planner form doesn't throw
+// "not defined" errors before Travel.js has been loaded.
+if (!window.tripSearchSuggestions) {
+  window.tripSearchSuggestions = () => {}
+}

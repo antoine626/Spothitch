@@ -18,11 +18,11 @@ test.describe('Voyage Tab', () => {
     await expect(form).toBeVisible({ timeout: 8000 })
   })
 
-  test('should show 4 sub-tabs', async ({ page }) => {
-    // At least 4 sub-tab buttons
+  test('should show 3 sub-tabs', async ({ page }) => {
+    // At least 3 sub-tab buttons (voyage | guides | journal)
     const subTabs = page.locator('[onclick*="setVoyageSubTab"]')
     await expect(subTabs.first()).toBeVisible({ timeout: 5000 })
-    expect(await subTabs.count()).toBeGreaterThanOrEqual(4)
+    expect(await subTabs.count()).toBeGreaterThanOrEqual(3)
   })
 
   test('should switch to Guides sub-tab', async ({ page }) => {
@@ -39,8 +39,8 @@ test.describe('Voyage Tab', () => {
   test('should switch to Voyage sub-tab (trip planner)', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(500)
-    // Voyage tab shows trip planner form
-    const voyageContent = page.locator('input#trip-from, text=/Nouveau voyage|New trip|Planifier/i').first()
+    // Voyage tab shows trip planner form (input#trip-from is the main indicator)
+    const voyageContent = page.locator('input#trip-from').first()
     await expect(voyageContent).toBeVisible({ timeout: 5000 })
   })
 

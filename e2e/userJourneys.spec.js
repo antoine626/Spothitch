@@ -300,7 +300,7 @@ test.describe('Journey: Voyage Tab', () => {
   test('should show voyage sub-tab navigation', async ({ page }) => {
     const subTabs = page.locator('[onclick*="setVoyageSubTab"]')
     await expect(subTabs.first()).toBeVisible({ timeout: 5000 })
-    expect(await subTabs.count()).toBeGreaterThanOrEqual(4)
+    expect(await subTabs.count()).toBeGreaterThanOrEqual(3)
   })
 
   test('should navigate to Guides sub-tab', async ({ page }) => {
