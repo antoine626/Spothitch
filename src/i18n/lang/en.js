@@ -3467,6 +3467,11 @@ export default {
   notEligibleForAmbassador: "You don't meet the requirements to become an ambassador yet",
   allFieldsRequired: "All fields are required",
   confirmUnregisterAmbassador: "Are you sure you want to leave the ambassador program?",
+  ambassadorSuccessTitle: "You are now an Ambassador!",
+  ambassadorSuccessDesc: "You now represent your city on SpotHitch. Thank you for your commitment!",
+  ambassadorMessagePlaceholder: "E.g.: Hi, I'd love some advice for leaving Paris...",
+  ambassadorMessageSent: "Message sent!",
+  yourMessage: "Your message",
   sendAlert: "Send alert",
 
   // Profile footer

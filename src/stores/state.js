@@ -41,6 +41,8 @@ const initialState = {
   ambassadorError: null,
   showAmbassadorProfile: false,
   currentAmbassadorProfile: null,
+  showContactAmbassador: false,
+  selectedAmbassador: null,
   companionRequests: [],
   companionSearchResults: [],
   sosSession: null,

@@ -52,6 +52,7 @@ const _lazyLoaders = {
   renderDailyRewardModal: () => import('./modals/DailyReward.js'),
   renderNavigationOverlay: () => import('./ui/NavigationOverlay.js'),
   renderDonationModal: () => import('./ui/DonationCard.js'),
+  renderThankYouModal: () => import('./ui/DonationCard.js'),
   renderCustomizationModal: () => import('../services/profileCustomization.js'),
   renderNearbyFriendsList: () => import('../services/nearbyFriends.js'),
   renderNearbyFriendsWidget: () => import('../services/nearbyFriends.js'),
@@ -176,6 +177,57 @@ export function renderApp(state) {
 
     <!-- Donation Modal -->
     ${state.showDonation ? lazyRender('renderDonationModal', state) : ''}
+
+    <!-- Donation Thank You Modal -->
+    ${state.showDonationThankYou ? lazyRender('renderThankYouModal', state) : ''}
+
+    <!-- Ambassador Success Modal -->
+    ${state.showAmbassadorSuccess ? `
+      <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onclick="if(event.target===this)closeAmbassadorSuccess()" role="dialog" aria-modal="true" aria-labelledby="amb-success-title">
+        <div class="modal-panel rounded-2xl max-w-sm w-full p-6 text-center slide-up">
+          <div class="text-6xl mb-4">🌟</div>
+          <h2 id="amb-success-title" class="text-2xl font-bold mb-2">${t('ambassadorSuccessTitle') || 'Tu es maintenant Ambassadeur !'}</h2>
+          <p class="text-slate-300 text-sm mb-6">${t('ambassadorSuccessDesc') || 'Tu représentes désormais ta ville sur SpotHitch. Merci pour ton engagement !'}</p>
+          <button onclick="closeAmbassadorSuccess()" class="w-full py-3 px-6 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-all">
+            ${icon('check', 'w-5 h-5 mr-2')}${t('awesome') || 'Super !'}
+          </button>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Contact Ambassador Modal -->
+    ${state.showContactAmbassador && state.selectedAmbassador ? `
+      <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm p-4" onclick="if(event.target===this)closeContactAmbassador()" role="dialog" aria-modal="true" aria-labelledby="contact-amb-title">
+        <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden slide-up">
+          <div class="flex items-center justify-between p-4 border-b border-white/10">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">${state.selectedAmbassador.userAvatar || '🤙'}</span>
+              <div>
+                <h2 id="contact-amb-title" class="text-base font-bold">${state.selectedAmbassador.userName || ''}</h2>
+                <p class="text-xs text-slate-400">${state.selectedAmbassador.city || ''}, ${state.selectedAmbassador.country || ''}</p>
+              </div>
+            </div>
+            <button onclick="closeContactAmbassador()" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">${icon('x', 'w-5 h-5')}</button>
+          </div>
+          <div class="p-4 space-y-4">
+            ${state.selectedAmbassador.bio ? `<p class="text-sm text-slate-300 italic">"${state.selectedAmbassador.bio}"</p>` : ''}
+            ${state.selectedAmbassador.languages?.length > 0 ? `
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs text-slate-400">${t('languages') || 'Langues'} :</span>
+                ${state.selectedAmbassador.languages.map(l => `<span class="px-2 py-0.5 rounded bg-white/10 text-xs">${l.toUpperCase()}</span>`).join('')}
+              </div>
+            ` : ''}
+            <div>
+              <label class="block text-sm font-medium mb-1">${t('yourMessage') || 'Ton message'}</label>
+              <textarea id="ambassador-message" rows="3" maxlength="500" placeholder="${t('ambassadorMessagePlaceholder') || 'Ex: Bonjour, j\'aurais besoin de conseils pour quitter Paris...'}" class="input-field w-full resize-none text-sm"></textarea>
+            </div>
+            <button onclick="window.sendAmbassadorMessage?.()" class="btn btn-primary w-full">
+              ${icon('send', 'w-4 h-4 mr-2')}${t('sendMessage') || 'Envoyer'}
+            </button>
+          </div>
+        </div>
+      </div>
+    ` : ''}
 
     <!-- Feature Modals -->
     ${state.showProfileCustomization ? lazyRender('renderCustomizationModal', state) : ''}

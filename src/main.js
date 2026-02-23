@@ -1386,6 +1386,12 @@ window.closeAnniversaryModal = () => setState({ showAnniversaryModal: false })
 window.closeAmbassadorSuccess = () => setState({ showAmbassadorSuccess: false })
 window.closeAmbassadorProfile = () => setState({ showAmbassadorProfile: false })
 window.closeContactAmbassador = () => setState({ showContactAmbassador: false })
+window.sendAmbassadorMessage = () => {
+  const msg = document.getElementById('ambassador-message')?.value?.trim()
+  if (!msg) return
+  window.showToast?.(t('ambassadorMessageSent') || 'Message envoyé !', 'success')
+  setState({ showContactAmbassador: false, selectedAmbassador: null })
+}
 window.closeReviewForm = () => setState({ showReviewForm: false, reviewSpotId: null })
 window.closeReplyModal = () => setState({ showReplyModal: false, replyToReviewId: null })
 window.closeAddForbiddenWordModal = () => setState({ showAddForbiddenWordModal: false })
