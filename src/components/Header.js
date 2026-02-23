@@ -14,7 +14,7 @@ export function renderHeader(state) {
       <div class="flex items-center justify-between max-w-7xl mx-auto">
         <!-- Logo -->
         <div class="flex items-center gap-3">
-          <span class="text-3xl">🤙</span>
+          <img src="icon-96.png" alt="SpotHitch" class="w-9 h-9 rounded-xl object-cover" />
           <h1 class="font-display text-xl font-bold gradient-text">${t('appName')}</h1>
         </div>
 
