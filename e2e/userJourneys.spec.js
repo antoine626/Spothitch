@@ -316,7 +316,7 @@ test.describe('Journey: Voyage Tab', () => {
   test('should navigate to Voyage sub-tab showing trip planner', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(500)
-    const content = page.locator('input#trip-from, text=/Nouveau voyage|New trip|Planifier|road/i').first()
+    const content = page.locator('input#trip-from').first()
     await expect(content).toBeVisible({ timeout: 5000 })
   })
 
