@@ -294,6 +294,26 @@ Chaque erreur suit ce format :
 - **Fichiers** : `audit-ui.cjs`
 - **Statut** : CORRIGÉ
 
+### ERR-028 — Bouton "Créer une équipe" ne faisait rien (CreateTeam sans render function)
+- **Date** : 2026-02-23
+- **Gravité** : MAJEUR
+- **Description** : Dans la vue TeamChallenges, le bouton "Créer une équipe" appelait `openCreateTeam()` qui settait `showCreateTeam: true`. Mais il n'existait AUCUNE render function ni aucun appel dans App.js pour ce state flag → rien ne s'affichait.
+- **Cause racine** : Feature partiellement implémentée : handler créé, state flag défini, bouton affiché dans l'UI, mais la partie render du modal oubliée.
+- **Correction** : Ajout d'un inline CreateTeam form modal dans App.js + handler `handleCreateTeam()` dans main.js avec validation du nom.
+- **Leçon** : **Quand un handler `window.openX()` setzte un state flag `showX: true`, TOUJOURS vérifier qu'il existe un `lazyRender` ou render inline dans App.js pour ce flag. Grep `showX` dans App.js — si absent, la feature est incomplete.**
+- **Fichiers** : `src/components/App.js`, `src/main.js`
+- **Statut** : CORRIGÉ
+
+### ERR-029 — Bouton "Supprimer mon compte" ne faisait rien (DeleteAccount absent de App.js)
+- **Date** : 2026-02-23
+- **Gravité** : CRITIQUE
+- **Description** : Profile.js avait un bouton "Supprimer mon compte" avec `onclick="openDeleteAccount()"`. Le module `DeleteAccount.js` existait avec `renderDeleteAccountModal()` et les handlers. Mais le module n'était pas dans les `_lazyLoaders` de App.js et il n'y avait pas de render conditionnel sur `showDeleteAccount`. Cliquer le bouton ne faisait rien du tout — fonctionnalité RGPD complètement cassée.
+- **Cause racine** : Module créé et handler câblé dans Profile.js, mais l'étape d'enregistrement dans App.js lazy loaders + render pipeline complètement omise.
+- **Correction** : Ajout de `renderDeleteAccountModal` dans `_lazyLoaders` + `${state.showDeleteAccount ? lazyRender(...) : ''}` dans App.js + `showDeleteAccount: false` dans state.js.
+- **Leçon** : **Créer un module modal en 3 étapes OBLIGATOIRES : (1) le module avec renderXxxModal() + window.openXxx/closeXxx, (2) l'entrée dans `_lazyLoaders` de App.js, (3) le `${state.showXxx ? lazyRender(...) : ''}` dans App.js renderApp. Si une étape manque → le modal n'apparaît jamais. Checklist à valider avec un screenshot Playwright après création.**
+- **Fichiers** : `src/components/App.js`, `src/stores/state.js`
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
@@ -302,4 +322,4 @@ Chaque erreur suit ce format :
 |---------|-------------|----------|----------|
 | 2026-02-20 | 13 | 13 | 0 |
 | 2026-02-22 | 9 | 9 | 0 |
-| 2026-02-23 | 5 | 5 | 0 |
+| 2026-02-23 | 7 | 7 | 0 |
