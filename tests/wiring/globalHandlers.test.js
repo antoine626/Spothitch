@@ -160,6 +160,8 @@ const MAIN_JS_HANDLERS = [
   'openCountryGuide', 'mapZoomIn', 'mapZoomOut',
   // Guide tips feedback (defined in feedbackService.js)
   'voteGuideTip', 'submitGuideSuggestion',
+  // Voyage view (defined in Voyage.js)
+  'setVoyageSubTab', 'highlightTripSpot', 'startTrip', 'tripNextStop', 'finishTrip',
   // Travel view (defined in Travel.js)
   'syncTripFieldsAndCalculate', 'toggleRouteAmenities', 'centerTripMapOnGps', 'setRouteFilter',
   // Social view (defined in Social.js + sub-components)

@@ -75,6 +75,7 @@ const _lazyLoaders = {
   renderLegalPage: () => import('./views/Legal.js'),
   renderGuides: () => import('./views/Guides.js'),
   renderTravel: () => import('./views/Travel.js'),
+  renderVoyage: () => import('./views/Voyage.js'),
   renderWelcome: () => import('./modals/Welcome.js'),
   renderChallengesHub: () => import('./views/ChallengesHub.js'),
   renderSocial: () => import('./views/Social.js'),
@@ -347,7 +348,7 @@ function renderActiveView(state) {
     case 'planner':
       return renderHome(state);
     case 'challenges':
-      return lazyRender('renderChallengesHub', state);
+      return lazyRender('renderVoyage', state);
     case 'social':
     case 'chat':
       return lazyRender('renderSocial', state);

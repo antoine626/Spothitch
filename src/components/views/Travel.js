@@ -458,7 +458,7 @@ function renderSavedTrips(savedTrips) {
 
 // ==================== GUIDES (unchanged) ====================
 
-function renderGuides(state, selectedGuide) {
+export function renderGuides(state, selectedGuide) {
   if (selectedGuide) {
     return renderGuideDetail(selectedGuide)
   }

@@ -279,84 +279,44 @@ test.describe('Journey: Social Features', () => {
 })
 
 // ================================================================
-// JOURNEY 5: Complete Gamification Features
+// JOURNEY 5: Voyage Tab (Trip Planner)
 // ================================================================
-test.describe('Journey: Gamification & Challenges', () => {
+test.describe('Journey: Voyage Tab', () => {
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
     await navigateToTab(page, 'challenges')
   })
 
-  test('should display challenges hub with badges section', async ({ page }) => {
-    // "Defis" text may not appear, but Badges should
-    await expect(page.locator('text=/Badges|badges/i').first()).toBeVisible({ timeout: 5000 })
+  test('should display voyage planner as default sub-tab', async ({ page }) => {
+    // Default sub-tab is Planifier — trip form inputs visible
+    await expect(page.locator('input#trip-from').first()).toBeVisible({ timeout: 8000 })
   })
 
-  test('should show user stats (points, contributions)', async ({ page }) => {
-    await expect(page.locator('text=Pouces').first()).toBeVisible({ timeout: 5000 })
-    await expect(page.locator('text=/Contributions/i').first()).toBeVisible({ timeout: 5000 })
+  test('should show voyage sub-tab navigation', async ({ page }) => {
+    const subTabs = page.locator('[onclick*="setVoyageSubTab"]')
+    await expect(subTabs.first()).toBeVisible({ timeout: 5000 })
+    expect(await subTabs.count()).toBeGreaterThanOrEqual(4)
   })
 
-  test('should open and navigate badges modal', async ({ page }) => {
-    const badgesBtn = page.locator('[onclick*="openBadges"]')
-    if (await badgesBtn.count() > 0) {
-      await badgesBtn.first().click()
-      await page.waitForTimeout(500)
-      await expect(page.locator('text=Mes badges').first()).toBeVisible({ timeout: 5000 })
-    }
+  test('should navigate to Guides sub-tab', async ({ page }) => {
+    await page.evaluate(() => window.setVoyageSubTab?.('guides'))
+    await page.waitForTimeout(500)
+    const guidesContent = page.locator('input[oninput*="filterGuides"], .guide-card, text=/Guides|pays/i').first()
+    await expect(guidesContent).toBeVisible({ timeout: 5000 })
   })
 
-  test('should open challenges modal', async ({ page }) => {
-    const challengesBtn = page.locator('[onclick*="openChallenges"]').first()
-    if (await challengesBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await challengesBtn.click()
-      await page.waitForTimeout(500)
-      await expect(page.locator('.modal-overlay, [role="dialog"]').first()).toBeVisible({ timeout: 5000 })
-    }
+  test('should navigate to En route sub-tab showing no active trip', async ({ page }) => {
+    await page.evaluate(() => window.setVoyageSubTab?.('enroute'))
+    await page.waitForTimeout(500)
+    const content = page.locator('text=/Aucun voyage|No active|Planifier|road/i').first()
+    await expect(content).toBeVisible({ timeout: 5000 })
   })
 
-  test('should start and play quiz', async ({ page }) => {
-    const quizBtn = page.locator('[onclick*="openQuiz"]')
-    if (await quizBtn.count() > 0) {
-      await quizBtn.first().click()
-      // Wait for lazy load
-      await page.waitForTimeout(2000)
-
-      // Quiz shows intro first - click start
-      const startBtn = page.locator('button:has-text("Commencer"), [onclick*="startQuizGame"]')
-      if (await startBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
-        await startBtn.first().click()
-        await page.waitForTimeout(500)
-      }
-
-      await expect(page.locator('text=Question').first()).toBeVisible({ timeout: 5000 })
-
-      // Quiz answer buttons use onclick="answerQuizQuestion(N)"
-      const firstOption = page.locator('button[onclick^="answerQuizQuestion"]').first()
-      if (await firstOption.isVisible({ timeout: 3000 }).catch(() => false)) {
-        await firstOption.click()
-        await page.waitForTimeout(500)
-      }
-    }
-  })
-
-  test('should open shop with items', async ({ page }) => {
-    const shopBtn = page.locator('[onclick*="openShop"]')
-    if (await shopBtn.count() > 0) {
-      await shopBtn.first().click()
-      await page.waitForTimeout(2000)
-      const html = await page.evaluate(() => document.body.innerText)
-      expect(html).toMatch(/Boutique|Shop|pouce|thumb|Récompense|Reward/i)
-    }
-  })
-
-  test('should show leaderboard', async ({ page }) => {
-    const leaderboard = page.locator('[onclick*="openLeaderboard"]').or(page.locator('button:has-text("Classement")'))
-    if (await leaderboard.count() > 0) {
-      await leaderboard.first().click()
-      await page.waitForTimeout(500)
-      await expect(page.locator('text=Classement').first()).toBeVisible({ timeout: 5000 })
-    }
+  test('should navigate to Historique sub-tab', async ({ page }) => {
+    await page.evaluate(() => window.setVoyageSubTab?.('historique'))
+    await page.waitForTimeout(500)
+    const content = page.locator('text=/Voyages|History|sauvegardé|Aucun/i').first()
+    await expect(content).toBeVisible({ timeout: 5000 })
   })
 })
 

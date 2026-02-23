@@ -215,6 +215,8 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_languages', category: DataCategory.PERSONAL, description: 'Languages spoken by user' },
   { key: 'spothitch_shared_trips', category: DataCategory.SOCIAL, description: 'Trips shared on profile' },
   { key: 'spothitch_references', category: DataCategory.SOCIAL, description: 'Community references received from travel companions', sensitive: true },
+  { key: 'spothitch_active_trip', category: DataCategory.ACTIVITY, description: 'Currently active hitchhiking trip with progress tracking' },
+  { key: 'spothitch_highlighted_trip_spots', category: DataCategory.ACTIVITY, description: 'Spot IDs highlighted/starred by user in trip planner' },
   { key: 'spothitch_privacy', category: DataCategory.SETTINGS, description: 'Privacy controls (bio, languages, trips, stats)' },
 
   // === i18n ===
