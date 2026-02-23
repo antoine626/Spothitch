@@ -22,9 +22,7 @@ export function renderProfile(state) {
       <div class="p-4 space-y-4 flex-1">
         ${subTab === 'profil' ? renderProfilTab(state) : ''}
         ${subTab === 'progression' ? renderProgressionTab(state) : ''}
-        ${subTab === 'reglages' ? renderReglagesTab(state) : ''}
-        ${renderProfileFooter()}
-        ${renderVersionReset()}
+        ${subTab === 'reglages' ? `${renderReglagesTab(state)}${renderProfileFooter()}${renderVersionReset()}` : ''}
       </div>
     </div>
   `
@@ -57,15 +55,18 @@ function renderProfileSubTabs(activeTab) {
   `
 }
 
-// ==================== TAB 1: PROFIL (Instagram) ====================
+// ==================== TAB 1: PROFIL (V2 — Voyageur Enrichi) ====================
 
 function renderProfilTab(state) {
   return `
     ${renderProfileHeader(state)}
-    ${renderStatRow(state)}
+    ${renderClickableStats(state)}
+    ${renderBioCard(state)}
     ${renderLanguagesCard(state)}
     ${renderTrustScoreCard()}
-    ${renderBioCard(state)}
+    ${renderVerificationCard(state)}
+    ${renderReferencesCard(state)}
+    ${renderPublicTripsCard(state)}
     ${renderBadgesGrid(state)}
   `
 }
@@ -73,53 +74,274 @@ function renderProfilTab(state) {
 function renderProfileHeader(state) {
   const level = state.level || 1
   const vipLevel = getVipLevel(state.points || 0)
+  const verifiedLevel = state.verificationLevel || 0
+  const verifiedBadge = verifiedLevel >= 2
+    ? `<span class="text-emerald-400 text-xs font-semibold ml-1">✓</span>`
+    : ''
+  const memberSince = state.user?.metadata?.creationTime
+    ? new Date(state.user.metadata.creationTime).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
+    : null
+
   return `
-    <div class="text-center pt-2">
-      <div class="relative inline-block">
-        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-[3px] mx-auto">
-          <div class="w-full h-full rounded-full bg-dark-primary flex items-center justify-center text-4xl">
+    <div class="flex items-start gap-4 pt-2 pb-4 border-b border-white/10">
+      <!-- Avatar -->
+      <div class="relative flex-shrink-0">
+        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-primary-600 p-[3px]">
+          <div class="w-full h-full rounded-full bg-dark-primary flex items-center justify-center text-3xl">
             ${state.avatar || '🤙'}
           </div>
         </div>
         <button
           onclick="openProfileCustomization()"
-          class="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-primary-500 text-white flex items-center justify-center text-xs hover:bg-primary-600 transition-all shadow-lg"
-          aria-label="${t('customizeProfile') || 'Personnaliser le profil'}"
+          class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary-500 text-white flex items-center justify-center hover:bg-primary-600 transition-all shadow-lg"
+          aria-label="${t('customizeProfile') || 'Personnaliser'}"
         >
-          ${icon('palette', 'w-4 h-4')}
+          ${icon('palette', 'w-3 h-3')}
         </button>
       </div>
-      <h2 class="text-lg font-bold mt-2">@${state.username || t('traveler') || 'Voyageur'}</h2>
-      <div class="flex items-center justify-center gap-2 mt-1">
-        <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-400">
-          ${vipLevel.icon} ${t('level') || 'Niv.'} ${level} — ${vipLevel.name}
-        </span>
+      <!-- Name + level -->
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-1 flex-wrap">
+          <h2 class="text-base font-bold">@${state.username || t('traveler') || 'Voyageur'}</h2>
+          ${verifiedBadge}
+        </div>
+        <div class="mt-1">
+          <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-400">
+            ${vipLevel.icon} ${t('level') || 'Niv.'} ${level} — ${vipLevel.name}
+          </span>
+        </div>
+        ${memberSince ? `<p class="text-[10px] text-slate-500 mt-1">${t('memberSince') || 'Membre depuis'} ${memberSince}</p>` : ''}
+        <p class="text-[10px] text-slate-500 truncate">${state.user?.email || t('notConnected') || 'Non connecté'}</p>
       </div>
-      <p class="text-slate-400 text-xs mt-1">${state.user?.email || t('notConnected') || 'Non connecté'}</p>
+      <!-- Quick actions -->
+      <div class="flex flex-col gap-1.5 flex-shrink-0">
+        <button
+          onclick="openProfileCustomization()"
+          class="px-3 py-1.5 rounded-lg bg-primary-500/15 text-primary-400 text-xs font-semibold hover:bg-primary-500/25 transition-all"
+        >
+          ${icon('pencil', 'w-3 h-3 mr-1')}${t('edit') || 'Modifier'}
+        </button>
+        <button
+          onclick="shareApp()"
+          class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 text-xs font-semibold hover:bg-white/10 transition-all"
+        >
+          ${icon('share-2', 'w-3 h-3 mr-1')}${t('share') || 'Partager'}
+        </button>
+      </div>
     </div>
   `
 }
 
-function renderStatRow(state) {
+function renderClickableStats(state) {
   const countries = (state.countriesVisited || []).length
-  const totalKm = state.totalKm || 0
-  const kmDisplay = totalKm >= 1000 ? `${(totalKm / 1000).toFixed(1)}k` : totalKm
+  const validations = state.reviewsGiven || 0
+  const spotsCreated = state.spotsCreated || 0
   return `
-    <div class="flex items-center justify-around py-3 border-y border-white/10">
-      <button onclick="openStats()" class="text-center flex-1">
-        <div class="text-xl font-bold text-emerald-400">${state.spotsCreated || 0}</div>
-        <div class="text-[10px] text-slate-400 uppercase tracking-wide">${t('spotsCreated') || 'Spots'}</div>
+    <div class="grid grid-cols-3 gap-2">
+      <button
+        onclick="openStats()"
+        class="card p-3 text-center hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all active:scale-95"
+        aria-label="${t('spotsCreated') || 'Spots créés'}"
+      >
+        <div class="text-xl font-bold text-emerald-400">${spotsCreated}</div>
+        <div class="text-[10px] text-slate-400 uppercase tracking-wide mt-0.5">${t('spotsCreatedShort') || 'Spots créés'}</div>
+        <div class="text-[9px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
       </button>
-      <div class="w-px h-8 bg-white/10"></div>
-      <button onclick="openStats()" class="text-center flex-1">
+      <button
+        onclick="openStats()"
+        class="card p-3 text-center hover:border-sky-500/30 hover:bg-sky-500/5 transition-all active:scale-95"
+        aria-label="${t('spotsValidated') || 'Spots validés'}"
+      >
+        <div class="text-xl font-bold text-sky-400">${validations}</div>
+        <div class="text-[10px] text-slate-400 uppercase tracking-wide mt-0.5">${t('spotsValidatedShort') || 'Validations'}</div>
+        <div class="text-[9px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
+      </button>
+      <button
+        onclick="openStats()"
+        class="card p-3 text-center hover:border-primary-500/30 hover:bg-primary-500/5 transition-all active:scale-95"
+        aria-label="${t('countriesVisited') || 'Pays visités'}"
+      >
         <div class="text-xl font-bold text-primary-400">${countries}</div>
-        <div class="text-[10px] text-slate-400 uppercase tracking-wide">${t('countriesShort') || 'Pays'}</div>
+        <div class="text-[10px] text-slate-400 uppercase tracking-wide mt-0.5">${t('countriesShort') || 'Pays'}</div>
+        <div class="text-[9px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
       </button>
-      <div class="w-px h-8 bg-white/10"></div>
-      <button onclick="openStats()" class="text-center flex-1">
-        <div class="text-xl font-bold text-amber-400">${kmDisplay}</div>
-        <div class="text-[10px] text-slate-400 uppercase tracking-wide">km</div>
-      </button>
+    </div>
+  `
+}
+
+function renderVerificationCard(state) {
+  const level = state.verificationLevel || 0
+  const steps = [
+    { label: t('verifyEmailStep') || 'Email vérifié', done: level >= 1, icon: 'mail' },
+    { label: t('verifyPhone') || 'Téléphone', done: level >= 2, icon: 'phone' },
+    { label: t('verifySelfie') || 'Selfie + ID', done: level >= 3, icon: 'scan-face' },
+  ]
+  return `
+    <div class="card p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-bold flex items-center gap-2">
+          ${icon('shield-check', 'w-4 h-4 text-emerald-400')}
+          ${t('identityVerification') || 'Vérification'}
+        </h3>
+        ${level < 3 ? `
+          <button
+            onclick="openIdentityVerification()"
+            class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1"
+          >
+            ${t('improve') || 'Améliorer'}
+            ${icon('chevron-right', 'w-3 h-3')}
+          </button>
+        ` : `<span class="text-xs text-emerald-400 font-semibold">✓ ${t('fullyVerified') || 'Vérifié'}</span>`}
+      </div>
+      <div class="flex gap-2">
+        ${steps.map((s, i) => `
+          <div class="flex-1 flex flex-col items-center gap-1.5">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+              s.done ? 'bg-emerald-500 text-white' : i === level ? 'bg-primary-500/20 border-2 border-primary-500/50 text-primary-400' : 'bg-white/5 text-slate-600'
+            }">
+              ${s.done ? icon('check', 'w-4 h-4') : (i + 1)}
+            </div>
+            <span class="text-[9px] text-center leading-tight ${s.done ? 'text-emerald-400' : 'text-slate-500'}">${s.label}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `
+}
+
+function renderReferencesCard(_state) {
+  const refs = typeof localStorage !== 'undefined'
+    ? JSON.parse(localStorage.getItem('spothitch_references') || '[]')
+    : []
+  return `
+    <div class="card p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-bold flex items-center gap-2">
+          ${icon('star', 'w-4 h-4 text-amber-400')}
+          ${t('references') || 'Références'} ${refs.length > 0 ? `(${refs.length})` : ''}
+        </h3>
+        <button
+          onclick="openReferences()"
+          class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1"
+          aria-label="${t('seeAll') || 'Voir tout'}"
+        >
+          ${refs.length > 0 ? (t('seeAll') || 'Voir tout') : (t('add') || 'Ajouter')}
+          ${icon('chevron-right', 'w-3 h-3')}
+        </button>
+      </div>
+      ${refs.length > 0
+        ? `<div class="space-y-2">
+            ${refs.slice(0, 2).map(r => `
+              <div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/5">
+                <div class="w-7 h-7 rounded-full bg-primary-500/20 flex items-center justify-center text-sm flex-shrink-0">
+                  ${r.avatar || '👤'}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-xs font-semibold">${r.from || '?'}</div>
+                  <div class="text-[11px] text-emerald-400 leading-snug">${r.text || ''}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>`
+        : `<p class="text-xs text-slate-500 italic">${t('noReferencesYet') || 'Pas encore de références — voyage avec quelqu\'un pour en recevoir !'}</p>`
+      }
+    </div>
+  `
+}
+
+function renderPublicTripsCard(_state) {
+  // Merge saved trips (from Travel planner) + shared trips (manually added)
+  const savedTrips = (() => {
+    try {
+      return JSON.parse(localStorage.getItem('spothitch_saved_trips') || '[]')
+    } catch (e) { return [] }
+  })()
+  const sharedTrips = (() => {
+    try {
+      return JSON.parse(localStorage.getItem('spothitch_shared_trips') || '[]')
+    } catch (e) { return [] }
+  })()
+
+  // Normalize to unified format
+  const trips = [
+    ...savedTrips.slice(0, 5).map(tr => ({
+      title: `${tr.from || '?'} → ${tr.to || '?'}`,
+      meta: tr.distance ? `${Math.round(tr.distance)} km` : '',
+      status: tr.completed ? 'done' : 'saved',
+      date: tr.savedAt || '',
+    })),
+    ...sharedTrips.slice(0, 3).map(tr => ({
+      title: tr.destination || '?',
+      meta: tr.notes || '',
+      status: 'done',
+      date: tr.date || '',
+    })),
+  ].slice(0, 5)
+
+  const privacy = (() => {
+    try {
+      return JSON.parse(localStorage.getItem('spothitch_privacy') || '{}')
+    } catch (e) { return {} }
+  })()
+  const isPublic = privacy.showTravelStats !== false
+
+  const statusColor = { done: 'text-emerald-400', saved: 'text-amber-400', active: 'text-sky-400' }
+  const statusLabel = {
+    done: t('tripDone') || 'Réalisé',
+    saved: t('tripStatusSaved') || 'Sauvegardé',
+    active: t('tripActive') || 'En cours',
+  }
+
+  return `
+    <div class="card p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-bold flex items-center gap-2">
+          ${icon('route', 'w-4 h-4 text-primary-400')}
+          ${t('myTrips') || 'Mes voyages'}
+          ${!isPublic ? `<span class="text-[10px] text-slate-500">${icon('lock', 'w-3 h-3 inline-block mr-0.5')}${t('private') || 'Privé'}</span>` : ''}
+        </h3>
+        <div class="flex items-center gap-2">
+          <button
+            onclick="shareTrip()"
+            class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1"
+          >
+            ${icon('plus', 'w-3 h-3')} ${t('add') || 'Ajouter'}
+          </button>
+          <button
+            onclick="changeTab('challenges')"
+            class="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+          >
+            ${t('seeAll') || 'Voir tout'} ${icon('chevron-right', 'w-3 h-3')}
+          </button>
+        </div>
+      </div>
+      ${trips.length > 0
+        ? `<div class="space-y-2">
+            ${trips.map(tr => `
+              <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5">
+                <div class="w-8 h-8 rounded-lg bg-primary-500/10 flex items-center justify-center flex-shrink-0">
+                  ${icon('route', 'w-4 h-4 text-primary-400')}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-semibold truncate">${tr.title}</div>
+                  ${tr.meta ? `<div class="text-[10px] text-slate-500">${tr.meta}</div>` : ''}
+                </div>
+                <span class="text-[10px] font-semibold flex-shrink-0 ${statusColor[tr.status] || 'text-slate-400'}">
+                  ${statusLabel[tr.status] || tr.status}
+                </span>
+              </div>
+            `).join('')}
+          </div>`
+        : `<div class="text-center py-3">
+            <p class="text-xs text-slate-500 italic mb-2">${t('noTripsYet') || 'Aucun voyage encore — planifie ton premier !'}</p>
+            <button
+              onclick="changeTab('challenges')"
+              class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 mx-auto"
+            >
+              ${icon('route', 'w-3 h-3')} ${t('planTrip') || 'Planifier un voyage'}
+            </button>
+          </div>`
+      }
     </div>
   `
 }
