@@ -314,6 +314,16 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/components/App.js`, `src/stores/state.js`
 - **Statut** : CORRIGÉ
 
+### ERR-030 — DailyReward.js : textes hardcodés en français sans t() (RÈGLE #8 violée)
+- **Date** : 2026-02-23
+- **Gravité** : MINEUR
+- **Description** : Le composant `DailyReward.js` avait 10+ textes hardcodés directement en français sans utiliser la fonction `t()` : "Recuperer ma recompense !", "Recompense recuperee aujourd'hui !", "Reviens demain pour le jour", "Connecte-toi chaque jour...", "Jour ${day.day}", "Mystere", "Coffre Mystere Ouvert !", "Felicitations !", "Pouces gagnes", "Badge debloque !", "Super !". De plus, les accents manquaient (e au lieu de é).
+- **Cause racine** : Développement rapide sans appliquer systématiquement la RÈGLE #8 (tout en t(), 4 langues). Textes copiés-collés directement en français sans passer par le système i18n.
+- **Correction** : Remplacement de tous les textes par `t('clé') || 'fallback FR'` + ajout des 13 nouvelles clés dans les 4 fichiers lang (fr/en/es/de) : `dailyRewardTitle`, `dailyRewardSubtitleClaim`, `dailyRewardSubtitleWait`, `claimDailyReward`, `dailyRewardClaimed`, `dailyRewardNextDay`, `dailyRewardTip`, `mystery`, `mysteryChestOpened`, `congratulations`, `thumbsEarned`, `badgeUnlockedExclaim`, `awesome`.
+- **Leçon** : **Quand on crée ou modifie un composant UI, GREP immédiatement tous les textes visibles par l'user → chaque texte doit passer par t(). Utiliser un fallback FR en dernier recours. Les textes sans t() = bug i18n silent (la feature "marche" en FR mais est cassée en EN/ES/DE).**
+- **Fichiers** : `src/components/modals/DailyReward.js`, `src/i18n/lang/fr.js`, `src/i18n/lang/en.js`, `src/i18n/lang/es.js`, `src/i18n/lang/de.js`
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
@@ -322,4 +332,4 @@ Chaque erreur suit ce format :
 |---------|-------------|----------|----------|
 | 2026-02-20 | 13 | 13 | 0 |
 | 2026-02-22 | 9 | 9 | 0 |
-| 2026-02-23 | 7 | 7 | 0 |
+| 2026-02-23 | 8 | 8 | 0 |

@@ -3708,4 +3708,19 @@ export default {
   notFound: 'No encontrado',
   deviceRemoveFailed: 'No se pudo eliminar el dispositivo',
   undefined: 'No definido',
+
+  // DailyReward i18n (audit 2026-02-23)
+  dailyRewardTitle: 'Recompensa Diaria',
+  dailyRewardSubtitleClaim: '¡Tu recompensa te espera!',
+  dailyRewardSubtitleWait: '¡Vuelve mañana para continuar!',
+  claimDailyReward: '¡Reclamar mi recompensa!',
+  dailyRewardClaimed: '¡Recompensa reclamada hoy!',
+  dailyRewardNextDay: 'Vuelve mañana para el día',
+  dailyRewardTip: '¡Conéctate cada día para maximizar tus recompensas!',
+  mystery: 'Misterio',
+  mysteryChestOpened: '¡Cofre Misterioso Abierto!',
+  congratulations: '¡Felicidades!',
+  thumbsEarned: 'Pulgares ganados',
+  badgeUnlockedExclaim: '¡Insignia desbloqueada!',
+  awesome: '¡Genial!',
 }

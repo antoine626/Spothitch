@@ -53,10 +53,10 @@ export function renderDailyRewardModal() {
           <div class="relative z-10">
             <div class="text-5xl mb-3 animate-bounce-slow">🎁</div>
             <h2 id="daily-reward-title" class="text-2xl font-bold text-white">
-              Recompense Quotidienne
+              ${t('dailyRewardTitle') || 'Récompense Quotidienne'}
             </h2>
             <p class="text-white/80 mt-1">
-              ${canClaim ? 'Ta recompense t\'attend !' : 'Reviens demain pour continuer !'}
+              ${canClaim ? (t('dailyRewardSubtitleClaim') || 'Ta récompense t\'attend !') : (t('dailyRewardSubtitleWait') || 'Reviens demain pour continuer !')}
             </p>
           </div>
 
@@ -97,16 +97,16 @@ export function renderDailyRewardModal() {
                            transition-all transform hover:scale-[1.02] active:scale-[0.98]"
                     id="claim-reward-btn">
               ${icon('gift', 'w-5 h-5 mr-2')}
-              Recuperer ma recompense !
+              ${t('claimDailyReward') || 'Récupérer ma récompense !'}
             </button>
           ` : `
             <div class="text-center">
               <div class="py-4 px-6 rounded-xl bg-white/5 text-slate-400">
                 ${icon('circle-check', 'w-5 h-5 text-emerald-400 mr-2')}
-                Recompense recuperee aujourd'hui !
+                ${t('dailyRewardClaimed') || 'Récompense récupérée aujourd\'hui !'}
               </div>
               <p class="text-xs text-slate-400 mt-2">
-                Reviens demain pour le jour ${(info.currentDay % 7) + 1}
+                ${t('dailyRewardNextDay') || 'Reviens demain pour le jour'} ${(info.currentDay % 7) + 1}
               </p>
             </div>
           `}
@@ -115,7 +115,7 @@ export function renderDailyRewardModal() {
         <!-- Info Footer -->
         <div class="px-4 pb-4 text-center text-xs text-slate-400">
           ${icon('info', 'w-5 h-5 mr-1')}
-          Connecte-toi chaque jour pour maximiser tes recompenses !
+          ${t('dailyRewardTip') || 'Connecte-toi chaque jour pour maximiser tes récompenses !'}
         </div>
       </div>
     </div>
@@ -148,7 +148,7 @@ function renderDayCard(day, _info) {
 
   return `
     <div class="day-card ${bgClass} ${borderClass} ${statusClass} rounded-xl p-2 text-center transition-all">
-      <div class="text-[10px] text-slate-400 mb-1">Jour ${day.day}</div>
+      <div class="text-[10px] text-slate-400 mb-1">${t('day') || 'Jour'} ${day.day}</div>
       <div class="text-2xl mb-1">
         ${isClaimed ? '✅' : isMystery ? '🎁' : day.icon}
       </div>
@@ -156,7 +156,7 @@ function renderDayCard(day, _info) {
         ${isMystery ? '?' : `+${day.points}`}
       </div>
       ${isMystery && !isClaimed ? `
-        <div class="text-[8px] text-amber-400 mt-0.5">Mystere</div>
+        <div class="text-[8px] text-amber-400 mt-0.5">${t('mystery') || 'Mystère'}</div>
       ` : ''}
     </div>
   `;
@@ -190,7 +190,7 @@ function renderRewardResult(result) {
               ${result.isMystery ? '🎁' : '🎉'}
             </div>
             <h2 id="reward-result-title" class="text-2xl font-bold text-white">
-              ${result.isMystery ? 'Coffre Mystere Ouvert !' : 'Felicitations !'}
+              ${result.isMystery ? (t('mysteryChestOpened') || 'Coffre Mystère Ouvert !') : (t('congratulations') || 'Félicitations !')}
             </h2>
           </div>
         </div>
@@ -199,7 +199,7 @@ function renderRewardResult(result) {
         <div class="p-6 space-y-4">
           <!-- Points -->
           <div class="bg-amber-500/20 rounded-xl p-4">
-            <div class="text-amber-400 text-sm mb-1">Pouces gagnes</div>
+            <div class="text-amber-400 text-sm mb-1">${t('thumbsEarned') || 'Pouces gagnés'}</div>
             <div class="text-4xl font-bold text-white flex items-center justify-center gap-2">
               <span>+${result.points}</span>
               <span class="text-amber-400">👍</span>
@@ -209,7 +209,7 @@ function renderRewardResult(result) {
           ${result.badge ? `
             <!-- Badge Earned -->
             <div class="bg-purple-500/20 rounded-xl p-4">
-              <div class="text-purple-400 text-sm mb-2">Badge debloque !</div>
+              <div class="text-purple-400 text-sm mb-2">${t('badgeUnlockedExclaim') || 'Badge débloqué !'}</div>
               <div class="flex items-center justify-center gap-3">
                 <span class="text-4xl">${result.badge.icon}</span>
                 <div class="text-left">
@@ -230,7 +230,7 @@ function renderRewardResult(result) {
                          hover:from-primary-600 hover:to-cyan-600
                          shadow-lg transition-all">
             ${icon('thumbs-up', 'w-5 h-5 mr-2')}
-            Super !
+            ${t('awesome') || 'Super !'}
           </button>
         </div>
       </div>
