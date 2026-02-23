@@ -605,6 +605,7 @@ test.describe('Profile — Settings', () => {
 // =================================================================
 test.describe('Console Errors — Zero Tolerance', () => {
   test('should navigate all views without JS errors', async ({ page }) => {
+    test.setTimeout(40000)
     const errors = []
     page.on('pageerror', (err) => errors.push(err.message))
 

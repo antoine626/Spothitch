@@ -111,6 +111,8 @@ test.describe('Profile - App Info', () => {
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
     await navigateToTab(page, 'profile')
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
   })
 
   test('should display app version', async ({ page }) => {

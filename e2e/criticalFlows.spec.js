@@ -574,6 +574,8 @@ test.describe('Profile Settings Flow', () => {
   })
 
   test('should have app version displayed', async ({ page }) => {
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
     const version = page.locator('text=/SpotHitch v/i')
     await expect(version.first()).toBeVisible({ timeout: 10000 })
 
