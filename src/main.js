@@ -2406,6 +2406,14 @@ window.claimDailyReward = () => window.openDailyReward?.()
 window.triggerSOS = async () => window.openSOS?.()
 window.shareSOS = () => window.shareSOSLink?.()
 
+// Admin panel — also defined in AdminPanel.js (lazy-loaded)
+window.openAdminPanel = () => setState({ showAdminPanel: true })
+window.closeAdminPanel = () => setState({ showAdminPanel: false })
+
+// Leaderboard — also defined in Leaderboard.js (lazy-loaded)
+window.openLeaderboard = () => setState({ showLeaderboard: true })
+window.closeLeaderboard = () => setState({ showLeaderboard: false })
+
 // Companion shortcuts
 window.openCompanion = () => window.showCompanionModal?.()
 window.closeCompanion = () => setState({ showCompanionModal: false })

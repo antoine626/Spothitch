@@ -186,6 +186,15 @@
     @apply bg-white/90 backdrop-blur-lg border-light-border shadow-xs;
   }
 
+  /* Modal overlay (AdminPanel, MyData legacy pattern) */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4;
+  }
+
+  .modal-content {
+    @apply bg-dark-primary border border-white/10 rounded-2xl w-full;
+  }
+
   /* Modal panel (glass morphism) */
   .modal-panel {
     @apply bg-dark-primary/80 backdrop-blur-2xl border border-white/10 rounded-t-3xl shadow-2xl shadow-black/40;
