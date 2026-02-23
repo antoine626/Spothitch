@@ -1,12 +1,14 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-22
+> Dernière mise à jour : 2026-02-24
 
 ---
 
 ## Audits — voir memory/audits.md pour la méthodologie complète
 
-9 scripts d'audit (5 historiques + 4 nouveaux créés 2026-02-23) :
+21 scripts d'audit créés (9 historiques + 12 nouveaux créés 2026-02-23/24) :
+
+### Anciens (5 locaux + 4 prod)
 1. `node audit-ui.cjs` — UI basique
 2. `node audit-ui-part2.cjs` — Modals
 3. `node audit-ui-part3.cjs` — Flows complexes
@@ -17,7 +19,24 @@
 8. `node audit-social.cjs` — Amis, DM, messagerie, réactions, événements (12 ✓ 0 ✗ 0 ?)
 9. `node audit-gamification.cjs` — Daily reward, voyage, leaderboard, boutique (13 ✓ 0 ✗ 0 ?)
 
+### Nouveaux (12 scripts prod — tous sur https://spothitch.com)
+10. `node audit-map.cjs` — Carte MapLibre (zoom, pan, clusters, GPS, flyTo) → **15 ✓ 0 ✗ 0 ?**
+11. `node audit-spots.cjs` — AddSpot tags/ratings/check-in/favoris/export → **19 ✓ 0 ✗ 0 ?**
+12. `node audit-voyage.cjs` — Trip planner OSRM, filtres route, historique → **13 ✓ 0 ✗ 0 ?**
+13. `node audit-social2.cjs` — Amis avancé, chat, groupes, events, blocage → **23 ✓ 0 ✗ 8 ?**
+14. `node audit-security2.cjs` — SOS handlers, Companion, signalement → **32 ✓ 0 ✗ 5 ?**
+15. `node audit-gamification2.cjs` — Points, badges, challenges, leaderboard → **36 ✓ 0 ✗ 0 ?** ⭐
+16. `node audit-auth2.cjs` — Social login, session, requireAuth gate → **22 ✓ 0 ✗ 1 ?**
+17. `node audit-i18n.cjs` — 4 langues, auto-detect, MyMemory API → **16 ✓ 0 ✗ 1 ?**
+18. `node audit-ux2.cjs` — États vides, FAQ, CGU, changelog, profil enrichi → **22 ✓ 0 ✗ 4 ?**
+19. `node audit-a11y.cjs` — ARIA, focus trap, keyboard, reduced-motion → **16 ✓ 0 ✗ 3 ?**
+20. `node audit-pwa2.cjs` — Install, manifest shortcuts, proximity, badging → **22 ✓ 0 ✗ 0 ?** ⭐
+21. `node audit-tech.cjs` — SEO, JSON-LD, admin, offline, CSP, HTTPS → **33 ✓ 0 ✗ 1 ?**
+
+**Total nouveaux 12 scripts : 279 ✓ 0 ✗ 23 ? (aucun échec !)**
+
 ⚠ Max 2 audits en parallèle (timeout réseau sinon)
+⚠ Les handlers SOS/Companion sont lazy-loaded : ouvrir le modal avant de tester
 
 ---
 
@@ -78,6 +97,17 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session 2026-02-23/24 (session 12 — 12 NOUVEAUX SCRIPTS D'AUDIT)
+- Créé 12 nouveaux scripts d'audit pour couvrir 51 features non testées
+- audit-map.cjs (15 tests), audit-spots.cjs (19), audit-voyage.cjs (13)
+- audit-social2.cjs (23), audit-security2.cjs (32), audit-gamification2.cjs (36 ⭐)
+- audit-auth2.cjs (22), audit-i18n.cjs (16), audit-ux2.cjs (22)
+- audit-a11y.cjs (16), audit-pwa2.cjs (22 ⭐), audit-tech.cjs (33)
+- **Total : 279 ✓ 0 ✗ 23 ? — ZÉRO ÉCHEC sur les 12 scripts**
+- Leçon clé : handlers lazy-loaded (SOS.js, Companion.js, moderation.js) → ouvrir le modal avant de les tester
+- Leçon clé : Tags et ratings AddSpot sont à l'ÉTAPE 3 (pas 2), avec photo obligatoire
+- userBlocking.js handlers (openBlockModal etc) ne s'enregistrent pas en test sans contexte d'utilisateur
 
 ### Session ~2026-02-22 (session 11 — QUALITÉ + SÉCURITÉ + GITHUB)
 - **E2E 100% green** : 240+ tests, 13 jobs CI, tous passent
