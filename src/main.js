@@ -2437,6 +2437,67 @@ window.syncTripFieldsAndCalculate = () => {
   window.calculateTrip?.()
 }
 
+const _SAVED_TRIPS_KEY = 'spothitch_saved_trips'
+
+window.saveTripWithSpots = () => {
+  const state = getState()
+  if (!state.tripResults) return
+  const trip = {
+    from: state.tripResults.from,
+    to: state.tripResults.to,
+    fromCoords: state.tripResults.fromCoords,
+    toCoords: state.tripResults.toCoords,
+    routeGeometry: state.tripResults.routeGeometry,
+    distance: state.tripResults.distance,
+    estimatedTime: state.tripResults.estimatedTime,
+    spots: (state.tripResults.spots || []).map(s => ({
+      id: s.id,
+      coordinates: s.coordinates,
+      lat: s.lat,
+      lng: s.lng,
+      userValidations: s.userValidations || 0,
+      country: s.country,
+      description: (s.description || '').slice(0, 80),
+      avgWaitTime: s.avgWaitTime,
+    })),
+    savedAt: new Date().toISOString(),
+  }
+  try {
+    const saved = JSON.parse(localStorage.getItem(_SAVED_TRIPS_KEY) || '[]')
+    saved.push(trip)
+    localStorage.setItem(_SAVED_TRIPS_KEY, JSON.stringify(saved))
+    setState({ savedTrips: saved })
+    window.showToast?.(t('tripSaved') || 'Voyage sauvegardé !', 'success')
+  } catch (e) {
+    window.showToast?.(t('saveError') || 'Erreur de sauvegarde', 'error')
+  }
+}
+
+window.loadSavedTrip = (index) => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(_SAVED_TRIPS_KEY) || '[]')
+    const trip = saved[index]
+    if (!trip) return
+    setState({ tripFrom: trip.from, tripTo: trip.to, tripResults: trip, showTripMap: false })
+  } catch (e) { /* parse error */ }
+}
+
+window.deleteSavedTrip = (index) => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(_SAVED_TRIPS_KEY) || '[]')
+    saved.splice(index, 1)
+    localStorage.setItem(_SAVED_TRIPS_KEY, JSON.stringify(saved))
+    setState({ savedTrips: saved })
+    window.showToast?.(t('tripDeleted') || 'Voyage supprimé', 'success')
+  } catch (e) { /* parse error */ }
+}
+
+window.removeSpotFromTrip = (spotId) => {
+  const state = getState()
+  if (!state.tripResults?.spots) return
+  setState({ tripResults: { ...state.tripResults, spots: state.tripResults.spots.filter(s => s.id !== spotId) } })
+}
+
 // ==================== START APP ====================
 
 // Initialize when DOM is ready
