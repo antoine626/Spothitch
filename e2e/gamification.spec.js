@@ -28,8 +28,11 @@ test.describe('Voyage Tab', () => {
   test('should switch to Guides sub-tab', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('guides'))
     await page.waitForTimeout(500)
-    // Guides tab shows country search input or guide cards
-    const guidesContent = page.locator('input[oninput*="filterGuides"], .guide-card, text=/Guides/i').first()
+    // Guides tab shows guide cards or a country/region heading
+    const guidesContent = page
+      .locator('.guide-card')
+      .or(page.locator('text=/Pays|Country|Pais|Land|Guides/i'))
+      .first()
     await expect(guidesContent).toBeVisible({ timeout: 5000 })
   })
 

@@ -164,7 +164,9 @@ test.describe('Journey: Profile & Settings', () => {
     // Sub-tabs bar (Profil, Progression, Réglages)
     await expect(page.locator('[onclick*="setProfileSubTab"]').first()).toBeVisible({ timeout: 5000 })
 
-    // App version
+    // App version is in the Réglages sub-tab
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
     await expect(page.locator('text=/SpotHitch v/i').first()).toBeVisible({ timeout: 5000 })
   })
 
@@ -202,6 +204,9 @@ test.describe('Journey: Profile & Settings', () => {
   })
 
   test('should have reset app option', async ({ page }) => {
+    // Reset is in the Réglages sub-tab
+    await page.evaluate(() => window.setProfileSubTab?.('reglages'))
+    await page.waitForTimeout(500)
     const reset = page.locator('[onclick*="resetApp"]').or(page.locator('text=/Réinitialiser/i'))
     await expect(reset.first()).toBeVisible({ timeout: 5000 })
   })
@@ -301,7 +306,10 @@ test.describe('Journey: Voyage Tab', () => {
   test('should navigate to Guides sub-tab', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('guides'))
     await page.waitForTimeout(500)
-    const guidesContent = page.locator('input[oninput*="filterGuides"], .guide-card, text=/Guides|pays/i').first()
+    const guidesContent = page
+      .locator('.guide-card')
+      .or(page.locator('text=/Pays|Country|Pais|Land|Guides/i'))
+      .first()
     await expect(guidesContent).toBeVisible({ timeout: 5000 })
   })
 

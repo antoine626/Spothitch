@@ -524,10 +524,10 @@ test.describe('Gamification Hub Flow', () => {
     await page.waitForTimeout(2000)
   })
 
-  test('should display challenges hub with points', async ({ page }) => {
-    // Should show points/level info (not just #app visibility)
-    const pointsText = page.locator('text=/Pouces|pts|points/i')
-    await expect(pointsText.first()).toBeVisible({ timeout: 10000 })
+  test('should display voyage planner (challenges tab now shows Voyage)', async ({ page }) => {
+    // The challenges tab now renders the Voyage component — planner form is the default
+    const plannerInput = page.locator('input#trip-from, input#trip-to').first()
+    await expect(plannerInput).toBeVisible({ timeout: 10000 })
   })
 
   test('should open quiz and show question', async ({ page }) => {
