@@ -310,6 +310,10 @@ const MAIN_JS_HANDLERS = [
   'openReferences', 'closeReferences',
   'togglePrivacy',
   'setProfileSubTab',
+  // Profile stats detail views + past trip form (defined in Profile.js)
+  'openMySpots', 'openMyValidations', 'openMyCountries', 'closeProfileDetail',
+  'openAddPastTrip', 'closeAddPastTrip', 'submitPastTrip',
+  'removeLanguage', 'cycleLanguageLevel',
   // Map extras (defined in Map.js)
   'searchLocation',
   // Chat extras (defined in Chat.js)

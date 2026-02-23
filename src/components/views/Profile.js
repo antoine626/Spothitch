@@ -11,6 +11,67 @@ import { getVipLevel, getLeague } from '../../data/vip-levels.js'
 import { allBadges } from '../../data/badges.js'
 import { allChallenges } from '../../data/challenges.js'
 
+// ==================== LANGUAGE + COUNTRY MAPS ====================
+
+const LANG_FLAG_MAP = {
+  'Français': '🇫🇷', 'French': '🇫🇷',
+  'English': '🇬🇧', 'Anglais': '🇬🇧',
+  'Español': '🇪🇸', 'Spanish': '🇪🇸', 'Espagnol': '🇪🇸',
+  'Deutsch': '🇩🇪', 'German': '🇩🇪', 'Allemand': '🇩🇪',
+  'Português': '🇵🇹', 'Portuguese': '🇵🇹', 'Portugais': '🇵🇹',
+  'Italiano': '🇮🇹', 'Italian': '🇮🇹', 'Italien': '🇮🇹',
+  'Русский': '🇷🇺', 'Russian': '🇷🇺', 'Russe': '🇷🇺',
+  'العربية': '🇸🇦', 'Arabic': '🇸🇦', 'Arabe': '🇸🇦',
+  '中文': '🇨🇳', 'Chinese': '🇨🇳', 'Chinois': '🇨🇳',
+  '日本語': '🇯🇵', 'Japanese': '🇯🇵', 'Japonais': '🇯🇵',
+  'हिन्दी': '🇮🇳', 'Hindi': '🇮🇳',
+  'Nederlands': '🇳🇱', 'Dutch': '🇳🇱', 'Néerlandais': '🇳🇱',
+  'Polski': '🇵🇱', 'Polish': '🇵🇱', 'Polonais': '🇵🇱',
+  'Română': '🇷🇴', 'Romanian': '🇷🇴', 'Roumain': '🇷🇴',
+  'Türkçe': '🇹🇷', 'Turkish': '🇹🇷', 'Turc': '🇹🇷',
+  'Svenska': '🇸🇪', 'Swedish': '🇸🇪', 'Suédois': '🇸🇪',
+  'Norsk': '🇳🇴', 'Norwegian': '🇳🇴', 'Norvégien': '🇳🇴',
+  'Dansk': '🇩🇰', 'Danish': '🇩🇰', 'Danois': '🇩🇰',
+  'Suomi': '🇫🇮', 'Finnish': '🇫🇮', 'Finnois': '🇫🇮',
+  'Čeština': '🇨🇿', 'Czech': '🇨🇿', 'Tchèque': '🇨🇿',
+  'Magyar': '🇭🇺', 'Hungarian': '🇭🇺', 'Hongrois': '🇭🇺',
+  'Ελληνικά': '🇬🇷', 'Greek': '🇬🇷', 'Grec': '🇬🇷',
+  'Українська': '🇺🇦', 'Ukrainian': '🇺🇦', 'Ukrainien': '🇺🇦',
+}
+
+const COUNTRY_MAP = {
+  'FR': { flag: '🇫🇷', name: 'France' }, 'DE': { flag: '🇩🇪', name: 'Allemagne' },
+  'ES': { flag: '🇪🇸', name: 'Espagne' }, 'IT': { flag: '🇮🇹', name: 'Italie' },
+  'PT': { flag: '🇵🇹', name: 'Portugal' }, 'GB': { flag: '🇬🇧', name: 'Royaume-Uni' },
+  'BE': { flag: '🇧🇪', name: 'Belgique' }, 'NL': { flag: '🇳🇱', name: 'Pays-Bas' },
+  'CH': { flag: '🇨🇭', name: 'Suisse' }, 'AT': { flag: '🇦🇹', name: 'Autriche' },
+  'PL': { flag: '🇵🇱', name: 'Pologne' }, 'CZ': { flag: '🇨🇿', name: 'Tchéquie' },
+  'HU': { flag: '🇭🇺', name: 'Hongrie' }, 'RO': { flag: '🇷🇴', name: 'Roumanie' },
+  'SE': { flag: '🇸🇪', name: 'Suède' }, 'NO': { flag: '🇳🇴', name: 'Norvège' },
+  'DK': { flag: '🇩🇰', name: 'Danemark' }, 'FI': { flag: '🇫🇮', name: 'Finlande' },
+  'GR': { flag: '🇬🇷', name: 'Grèce' }, 'TR': { flag: '🇹🇷', name: 'Turquie' },
+  'HR': { flag: '🇭🇷', name: 'Croatie' }, 'RS': { flag: '🇷🇸', name: 'Serbie' },
+  'SK': { flag: '🇸🇰', name: 'Slovaquie' }, 'SI': { flag: '🇸🇮', name: 'Slovénie' },
+  'BG': { flag: '🇧🇬', name: 'Bulgarie' }, 'UA': { flag: '🇺🇦', name: 'Ukraine' },
+  'RU': { flag: '🇷🇺', name: 'Russie' }, 'MA': { flag: '🇲🇦', name: 'Maroc' },
+  'US': { flag: '🇺🇸', name: 'États-Unis' }, 'CA': { flag: '🇨🇦', name: 'Canada' },
+  'MX': { flag: '🇲🇽', name: 'Mexique' }, 'BR': { flag: '🇧🇷', name: 'Brésil' },
+  'AR': { flag: '🇦🇷', name: 'Argentine' }, 'AU': { flag: '🇦🇺', name: 'Australie' },
+  'JP': { flag: '🇯🇵', name: 'Japon' }, 'CN': { flag: '🇨🇳', name: 'Chine' },
+  'IN': { flag: '🇮🇳', name: 'Inde' }, 'GE': { flag: '🇬🇪', name: 'Géorgie' },
+  'AM': { flag: '🇦🇲', name: 'Arménie' }, 'AZ': { flag: '🇦🇿', name: 'Azerbaïdjan' },
+  'EE': { flag: '🇪🇪', name: 'Estonie' }, 'LV': { flag: '🇱🇻', name: 'Lettonie' },
+  'LT': { flag: '🇱🇹', name: 'Lituanie' },
+}
+
+function normalizeLangs(raw) {
+  return raw.map(l =>
+    typeof l === 'string'
+      ? { name: l, flag: LANG_FLAG_MAP[l] || '🌐', level: 'courant' }
+      : { name: l.name || '?', flag: l.flag || LANG_FLAG_MAP[l.name] || '🌐', level: l.level || 'courant' }
+  )
+}
+
 // ==================== MAIN RENDER ====================
 
 export function renderProfile(state) {
@@ -58,6 +119,11 @@ function renderProfileSubTabs(activeTab) {
 // ==================== TAB 1: PROFIL (V2 — Voyageur Enrichi) ====================
 
 function renderProfilTab(state) {
+  // Detail views replace the normal profil content
+  if (state.profileDetailView === 'spots') return renderMySpotsList(state)
+  if (state.profileDetailView === 'validations') return renderMyValidationsList(state)
+  if (state.profileDetailView === 'countries') return renderMyCountriesList(state)
+
   return `
     ${renderProfileHeader(state)}
     ${renderClickableStats(state)}
@@ -139,7 +205,7 @@ function renderClickableStats(state) {
   return `
     <div class="grid grid-cols-3 gap-2">
       <button
-        onclick="openStats()"
+        onclick="openMySpots()"
         class="card p-3 text-center hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all active:scale-95"
         aria-label="${t('spotsCreated') || 'Spots créés'}"
       >
@@ -148,7 +214,7 @@ function renderClickableStats(state) {
         <div class="text-[9px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
       </button>
       <button
-        onclick="openStats()"
+        onclick="openMyValidations()"
         class="card p-3 text-center hover:border-sky-500/30 hover:bg-sky-500/5 transition-all active:scale-95"
         aria-label="${t('spotsValidated') || 'Spots validés'}"
       >
@@ -157,7 +223,7 @@ function renderClickableStats(state) {
         <div class="text-[9px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
       </button>
       <button
-        onclick="openStats()"
+        onclick="openMyCountries()"
         class="card p-3 text-center hover:border-primary-500/30 hover:bg-primary-500/5 transition-all active:scale-95"
         aria-label="${t('countriesVisited') || 'Pays visités'}"
       >
@@ -249,39 +315,79 @@ function renderReferencesCard(_state) {
   `
 }
 
-function renderPublicTripsCard(_state) {
-  // Merge saved trips (from Travel planner) + shared trips (manually added)
+function renderPublicTripsCard(state) {
+  // Show the add past trip form (Format C — journal style)
+  if (state.showAddPastTrip) {
+    return `
+      <div class="card p-4">
+        <div class="flex items-center gap-3 mb-4">
+          <button onclick="closeAddPastTrip()" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-white/10 transition-all">
+            ${icon('arrow-left', 'w-4 h-4')}
+          </button>
+          <h3 class="text-sm font-bold">🧳 ${t('addPastTrip') || 'Nouveau voyage passé'}</h3>
+        </div>
+        <div class="space-y-3">
+          <!-- Route -->
+          <div class="p-3 rounded-xl bg-white/5 space-y-2">
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">📍 ${t('route') || 'ROUTE'}</div>
+            <div class="flex items-center gap-2">
+              <input id="past-trip-from" type="text" placeholder="${t('tripDeparture') || 'Départ'}"
+                class="flex-1 bg-white/10 rounded-lg px-3 py-2 text-sm placeholder-slate-500 border border-white/10 focus:border-primary-500/50 outline-none" />
+              <span class="text-slate-500 text-lg">→</span>
+              <input id="past-trip-to" type="text" placeholder="${t('tripArrival') || 'Arrivée'}"
+                class="flex-1 bg-white/10 rounded-lg px-3 py-2 text-sm placeholder-slate-500 border border-white/10 focus:border-primary-500/50 outline-none" />
+            </div>
+          </div>
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-2">
+            <div class="p-3 rounded-xl bg-white/5">
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">📅 ${t('date') || 'Date'}</div>
+              <input id="past-trip-date" type="date"
+                class="w-full bg-transparent text-sm text-slate-300 outline-none" />
+            </div>
+            <div class="p-3 rounded-xl bg-white/5">
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">📍 km</div>
+              <input id="past-trip-km" type="number" min="0" placeholder="—"
+                class="w-full bg-transparent text-sm text-slate-300 outline-none" />
+            </div>
+            <div class="p-3 rounded-xl bg-white/5">
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">🤙 ${t('lifts') || 'Stops'}</div>
+              <input id="past-trip-lifts" type="number" min="0" placeholder="—"
+                class="w-full bg-transparent text-sm text-slate-300 outline-none" />
+            </div>
+          </div>
+          <!-- Journal note -->
+          <div class="p-3 rounded-xl bg-white/5">
+            <div class="text-[10px] text-emerald-400 uppercase tracking-wider font-bold mb-2">
+              📒 ${t('journalNote') || 'Ma note de voyage'}
+            </div>
+            <textarea id="past-trip-note" rows="3"
+              placeholder="${t('journalNotePlaceholder') || 'Anecdote, conseil aux prochains...'}"
+              class="w-full bg-transparent text-sm text-slate-300 placeholder-slate-600 outline-none resize-none leading-relaxed"></textarea>
+          </div>
+          <button onclick="submitPastTrip()" class="btn-primary w-full py-3">
+            🧳 ${t('saveToJournal') || 'Sauvegarder dans mon journal'}
+          </button>
+        </div>
+      </div>
+    `
+  }
+
+  // Normal list view
   const savedTrips = (() => {
-    try {
-      return JSON.parse(localStorage.getItem('spothitch_saved_trips') || '[]')
-    } catch (e) { return [] }
-  })()
-  const sharedTrips = (() => {
-    try {
-      return JSON.parse(localStorage.getItem('spothitch_shared_trips') || '[]')
-    } catch (e) { return [] }
+    try { return JSON.parse(localStorage.getItem('spothitch_saved_trips') || '[]') }
+    catch (e) { return [] }
   })()
 
-  // Normalize to unified format
-  const trips = [
-    ...savedTrips.slice(0, 5).map(tr => ({
-      title: `${tr.from || '?'} → ${tr.to || '?'}`,
-      meta: tr.distance ? `${Math.round(tr.distance)} km` : '',
-      status: tr.completed ? 'done' : 'saved',
-      date: tr.savedAt || '',
-    })),
-    ...sharedTrips.slice(0, 3).map(tr => ({
-      title: tr.destination || '?',
-      meta: tr.notes || '',
-      status: 'done',
-      date: tr.date || '',
-    })),
-  ].slice(0, 5)
+  const trips = savedTrips.slice(0, 5).map(tr => ({
+    title: `${tr.from || '?'} → ${tr.to || '?'}`,
+    meta: tr.distance ? `${Math.round(tr.distance)} km` : (tr.notes ? tr.notes.slice(0, 40) : ''),
+    status: tr.completed ? 'done' : 'saved',
+  }))
 
   const privacy = (() => {
-    try {
-      return JSON.parse(localStorage.getItem('spothitch_privacy') || '{}')
-    } catch (e) { return {} }
+    try { return JSON.parse(localStorage.getItem('spothitch_privacy') || '{}') }
+    catch (e) { return {} }
   })()
   const isPublic = privacy.showTravelStats !== false
 
@@ -301,16 +407,10 @@ function renderPublicTripsCard(_state) {
           ${!isPublic ? `<span class="text-[10px] text-slate-500">${icon('lock', 'w-3 h-3 inline-block mr-0.5')}${t('private') || 'Privé'}</span>` : ''}
         </h3>
         <div class="flex items-center gap-2">
-          <button
-            onclick="shareTrip()"
-            class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1"
-          >
+          <button onclick="openAddPastTrip()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1">
             ${icon('plus', 'w-3 h-3')} ${t('add') || 'Ajouter'}
           </button>
-          <button
-            onclick="changeTab('challenges')"
-            class="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
-          >
+          <button onclick="changeTab('challenges')" class="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1">
             ${t('seeAll') || 'Voir tout'} ${icon('chevron-right', 'w-3 h-3')}
           </button>
         </div>
@@ -324,7 +424,7 @@ function renderPublicTripsCard(_state) {
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="text-sm font-semibold truncate">${tr.title}</div>
-                  ${tr.meta ? `<div class="text-[10px] text-slate-500">${tr.meta}</div>` : ''}
+                  ${tr.meta ? `<div class="text-[10px] text-slate-500 truncate">${tr.meta}</div>` : ''}
                 </div>
                 <span class="text-[10px] font-semibold flex-shrink-0 ${statusColor[tr.status] || 'text-slate-400'}">
                   ${statusLabel[tr.status] || tr.status}
@@ -333,13 +433,16 @@ function renderPublicTripsCard(_state) {
             `).join('')}
           </div>`
         : `<div class="text-center py-3">
-            <p class="text-xs text-slate-500 italic mb-2">${t('noTripsYet') || 'Aucun voyage encore — planifie ton premier !'}</p>
-            <button
-              onclick="changeTab('challenges')"
-              class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 mx-auto"
-            >
-              ${icon('route', 'w-3 h-3')} ${t('planTrip') || 'Planifier un voyage'}
-            </button>
+            <p class="text-xs text-slate-500 italic mb-2">${t('noTripsYet') || 'Aucun voyage encore — commence !'}</p>
+            <div class="flex justify-center gap-3">
+              <button onclick="changeTab('challenges')" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1">
+                ${icon('route', 'w-3 h-3')} ${t('planTrip') || 'Planifier'}
+              </button>
+              <span class="text-slate-600">·</span>
+              <button onclick="openAddPastTrip()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1">
+                ${icon('plus', 'w-3 h-3')} ${t('addPastTripShort') || 'Ajouter passé'}
+              </button>
+            </div>
           </div>`
       }
     </div>
@@ -347,12 +450,23 @@ function renderPublicTripsCard(_state) {
 }
 
 function renderLanguagesCard(_state) {
-  const langs = typeof localStorage !== 'undefined'
+  const raw = typeof localStorage !== 'undefined'
     ? JSON.parse(localStorage.getItem('spothitch_languages') || '[]')
     : []
+  const langs = normalizeLangs(raw)
+
+  const levelDots = (level) => {
+    const filled = { natif: 3, courant: 2, debutant: 1 }[level] || 2
+    return Array.from({ length: 3 }, (_, i) =>
+      `<span class="inline-block w-2 h-2 rounded-full ${i < filled ? 'bg-emerald-400' : 'bg-white/15'}"></span>`
+    ).join('')
+  }
+  const levelLabel = (level) => ({ natif: t('langLevelNatif') || 'Natif', courant: t('langLevelCourant') || 'Courant', debutant: t('langLevelDebutant') || 'Débutant' }[level] || 'Courant')
+  const levelColor = (level) => ({ natif: 'text-emerald-400', courant: 'text-blue-400', debutant: 'text-amber-400' }[level] || 'text-slate-400')
+
   return `
     <div class="card p-4">
-      <div class="flex items-center justify-between mb-2">
+      <div class="flex items-center justify-between mb-3">
         <h3 class="text-sm font-bold flex items-center gap-2">
           ${icon('message-circle', 'w-4 h-4 text-blue-400')}
           ${t('languagesSpoken') || 'Langues parlées'}
@@ -362,9 +476,38 @@ function renderLanguagesCard(_state) {
         </button>
       </div>
       ${langs.length
-        ? `<div class="flex flex-wrap gap-1.5">${langs.map(l => `<span class="px-2.5 py-1 rounded-full bg-primary-500/20 text-primary-300 text-xs font-medium">${l}</span>`).join('')}</div>`
-        : `<p class="text-xs text-slate-500 italic">${t('languagesEmpty') || 'Quelles langues parles-tu ?'}</p>
-           <button onclick="editLanguages()" class="mt-2 text-xs text-primary-400 hover:text-primary-300">${t('addLanguage') || 'Ajouter une langue'}</button>`
+        ? `<div class="space-y-2">
+            ${langs.map((l, idx) => `
+              <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5">
+                <span class="text-xl flex-shrink-0">${l.flag}</span>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-medium">${l.name}</div>
+                  <div class="text-[10px] ${levelColor(l.level)}">${levelLabel(l.level)}</div>
+                </div>
+                <button
+                  onclick="cycleLanguageLevel(${idx})"
+                  class="flex items-center gap-0.5 px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
+                  title="${t('changeLevel') || 'Changer le niveau'}"
+                >
+                  ${levelDots(l.level)}
+                </button>
+                <button
+                  onclick="removeLanguage(${idx})"
+                  class="w-6 h-6 flex items-center justify-center text-slate-500 hover:text-red-400 transition-all flex-shrink-0"
+                  aria-label="${t('remove') || 'Supprimer'}"
+                >
+                  ${icon('x', 'w-3.5 h-3.5')}
+                </button>
+              </div>
+            `).join('')}
+          </div>
+          <button onclick="editLanguages()" class="mt-3 w-full text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 p-2 rounded-xl border border-dashed border-primary-500/30 hover:border-primary-500/50 transition-all">
+            ${icon('plus', 'w-3 h-3')} ${t('addLanguage') || 'Ajouter une langue'}
+          </button>`
+        : `<p class="text-xs text-slate-500 italic mb-3">${t('languagesEmpty') || 'Quelles langues parles-tu ?'}</p>
+           <button onclick="editLanguages()" class="w-full text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 p-2 rounded-xl border border-dashed border-primary-500/30 hover:border-primary-500/50 transition-all">
+             ${icon('plus', 'w-3 h-3')} ${t('addLanguage') || 'Ajouter une langue'}
+           </button>`
       }
     </div>
   `
@@ -413,6 +556,138 @@ function renderBadgesGrid(state) {
       ${earned.length > 8 ? `
         <button onclick="openBadges()" class="mt-2 text-xs text-primary-400 hover:text-primary-300 w-full text-center">${t('seeAll') || 'Voir tout'} (${earned.length})</button>
       ` : ''}
+    </div>
+  `
+}
+
+// ==================== DETAIL VIEWS ====================
+
+function renderDetailBackButton() {
+  return `
+    <button onclick="closeProfileDetail()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-all mb-4">
+      ${icon('arrow-left', 'w-4 h-4')} ${t('backToProfile') || 'Retour au profil'}
+    </button>
+  `
+}
+
+function renderMySpotsList(state) {
+  const count = state.spotsCreated || 0
+  // Mock data (real data would come from Firebase)
+  const mockSpots = [
+    { name: 'Aire de Ressons', location: 'Hauts-de-France, France', type: 'rest_area', validations: 14 },
+    { name: 'Sortie A10 Orléans', location: 'Sortie autoroute · Loiret, France', type: 'highway_exit', validations: 8 },
+    { name: 'Bahnhof München', location: 'Gare · Munich, Bavière', type: 'station', validations: 3 },
+    { name: 'N12 — Péage Espagne', location: 'Péage · Catalogne, Espagne', type: 'other', validations: 0 },
+    { name: 'Aire de repos A6', location: 'Aire de repos · Bourgogne, France', type: 'rest_area', validations: 21 },
+  ].slice(0, count || 5)
+
+  return `
+    <div>
+      ${renderDetailBackButton()}
+      <h2 class="text-base font-bold flex items-center gap-2 mb-4">
+        📍 ${t('myCreatedSpots') || 'Mes spots créés'} (${count})
+      </h2>
+      ${count === 0
+        ? `<div class="card p-6 text-center">
+            <p class="text-slate-400 text-sm mb-3">${t('noSpotsCreated') || "Tu n'as pas encore créé de spot"}</p>
+            <button onclick="closeProfileDetail(); setTimeout(openAddSpot, 100)" class="text-xs text-primary-400 hover:text-primary-300">
+              ${icon('plus', 'w-3 h-3 mr-1 inline-block')} ${t('addFirstSpot') || 'Créer ton premier spot'}
+            </button>
+          </div>`
+        : `<div class="space-y-2">
+            ${mockSpots.map(s => `
+              <div class="card p-3 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                  ${icon('map-pin', 'w-5 h-5 text-emerald-400')}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-semibold truncate">${s.name}</div>
+                  <div class="text-[10px] text-slate-400 truncate">${s.location}</div>
+                </div>
+                <div class="flex-shrink-0 text-right">
+                  <div class="text-xs ${s.validations > 0 ? 'text-emerald-400' : 'text-slate-500'} font-semibold">
+                    ${s.validations > 0 ? `✓ ${s.validations}` : '0'}
+                  </div>
+                  <div class="text-[9px] text-slate-600">${t('validations') || 'valid.'}</div>
+                </div>
+              </div>
+            `).join('')}
+            ${count > mockSpots.length ? `<p class="text-xs text-slate-500 text-center pt-2">+ ${count - mockSpots.length} ${t('otherSpots') || 'autres spots'}</p>` : ''}
+          </div>`
+      }
+    </div>
+  `
+}
+
+function renderMyValidationsList(state) {
+  const count = state.reviewsGiven || 0
+  const mockValidations = [
+    { name: 'Aire de Dole', location: 'Jura, France', date: '10 jan 2025', stars: 5 },
+    { name: 'Stazione di Bologna', location: 'Bologne, Italie', date: '3 déc 2024', stars: 4 },
+    { name: 'A4 — Strasbourg Est', location: 'Bas-Rhin, France', date: '20 nov 2024', stars: 3 },
+    { name: 'Aire de Vienne', location: 'Isère, France', date: '12 oct 2024', stars: 5 },
+    { name: 'Autobahn A9 München', location: 'Bavière, Allemagne', date: '2 sep 2024', stars: 4 },
+  ].slice(0, count || 5)
+
+  return `
+    <div>
+      ${renderDetailBackButton()}
+      <h2 class="text-base font-bold flex items-center gap-2 mb-4">
+        ✓ ${t('myValidations') || 'Mes validations'} (${count})
+      </h2>
+      ${count === 0
+        ? `<div class="card p-6 text-center">
+            <p class="text-slate-400 text-sm">${t('noValidationsYet') || 'Aucune validation encore — valide des spots que tu as utilisés !'}</p>
+          </div>`
+        : `<div class="space-y-2">
+            ${mockValidations.map(v => `
+              <div class="card p-3 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                  <span class="text-amber-400">★</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-semibold truncate">${v.name}</div>
+                  <div class="text-[10px] text-slate-400">${v.location} · ${v.date}</div>
+                </div>
+                <div class="flex-shrink-0">
+                  <div class="text-amber-400 text-xs">${'★'.repeat(v.stars)}${'☆'.repeat(5 - v.stars)}</div>
+                </div>
+              </div>
+            `).join('')}
+            ${count > mockValidations.length ? `<p class="text-xs text-slate-500 text-center pt-2">+ ${count - mockValidations.length} ${t('otherValidations') || 'autres validations'}</p>` : ''}
+          </div>`
+      }
+    </div>
+  `
+}
+
+function renderMyCountriesList(state) {
+  const countryCodes = state.countriesVisited || []
+  return `
+    <div>
+      ${renderDetailBackButton()}
+      <h2 class="text-base font-bold flex items-center gap-2 mb-4">
+        🌍 ${t('myCountries') || 'Pays visités'} (${countryCodes.length})
+      </h2>
+      ${countryCodes.length === 0
+        ? `<div class="card p-6 text-center">
+            <p class="text-slate-400 text-sm">${t('noCountriesYet') || 'Aucun pays encore — commence à bouger !'}</p>
+          </div>`
+        : `<div class="grid grid-cols-2 gap-2">
+            ${countryCodes.map(code => {
+              const c = COUNTRY_MAP[code] || { flag: '🌐', name: code }
+              return `
+                <div class="card p-3 flex items-center gap-3">
+                  <span class="text-2xl flex-shrink-0">${c.flag}</span>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-sm font-semibold truncate">${c.name}</div>
+                    <div class="text-[10px] text-slate-400">${t('spotsUsedIn') || 'spots utilisés'}</div>
+                  </div>
+                </div>
+              `
+            }).join('')}
+          </div>`
+      }
     </div>
   `
 }
@@ -974,20 +1249,44 @@ window.saveBio = (text) => {
 
 // --- Languages handlers (#59) ---
 window.editLanguages = () => {
-  const COMMON_LANGUAGES = [
-    'English', 'Français', 'Español', 'Deutsch', 'Português',
-    'Italiano', 'Русский', 'العربية', '中文', '日本語', 'हिन्दी',
-  ]
-  const current = JSON.parse(localStorage.getItem('spothitch_languages') || '[]')
-  const input = prompt(
-    (t('languagesPrompt') || 'Langues parlées (séparées par des virgules) :') + '\n' +
-    (t('languagesSuggestions') || 'Suggestions : ') + COMMON_LANGUAGES.join(', '),
-    current.join(', ')
+  const name = prompt(
+    (t('languageNamePrompt') || 'Nom de la langue (ex: Français, English, Español) :')
   )
-  if (input === null) return
-  const parsed = input.split(',').map(l => l.trim()).filter(Boolean).slice(0, 10)
-  localStorage.setItem('spothitch_languages', JSON.stringify(parsed))
-  window.showToast?.(t('languagesSaved') || 'Langues enregistrées !', 'success')
+  if (!name) return
+  const trimmedName = name.trim()
+  if (!trimmedName) return
+
+  const levelInput = prompt(
+    `${t('languageLevelPrompt') || 'Niveau ?'}\n1 = ${t('langLevelDebutant') || 'Débutant'}\n2 = ${t('langLevelCourant') || 'Courant'}\n3 = ${t('langLevelNatif') || 'Natif'}`,
+    '2'
+  )
+  if (levelInput === null) return
+  const levelMap = { '1': 'debutant', '2': 'courant', '3': 'natif' }
+  const level = levelMap[levelInput.trim()] || 'courant'
+
+  const raw = JSON.parse(localStorage.getItem('spothitch_languages') || '[]')
+  const langs = normalizeLangs(raw)
+  langs.push({ name: trimmedName, flag: LANG_FLAG_MAP[trimmedName] || '🌐', level })
+  localStorage.setItem('spothitch_languages', JSON.stringify(langs.slice(0, 10)))
+  window.showToast?.(t('languagesSaved') || 'Langue ajoutée !', 'success')
+  window.render?.()
+}
+
+window.removeLanguage = (idx) => {
+  const raw = JSON.parse(localStorage.getItem('spothitch_languages') || '[]')
+  const langs = normalizeLangs(raw)
+  langs.splice(idx, 1)
+  localStorage.setItem('spothitch_languages', JSON.stringify(langs))
+  window.render?.()
+}
+
+window.cycleLanguageLevel = (idx) => {
+  const raw = JSON.parse(localStorage.getItem('spothitch_languages') || '[]')
+  const langs = normalizeLangs(raw)
+  const levels = ['debutant', 'courant', 'natif']
+  const cur = langs[idx]?.level || 'courant'
+  langs[idx].level = levels[(levels.indexOf(cur) + 1) % levels.length]
+  localStorage.setItem('spothitch_languages', JSON.stringify(langs))
   window.render?.()
 }
 
@@ -1009,20 +1308,49 @@ window.togglePrivacy = (key) => {
   window.render?.()
 }
 
-// --- Shared trips handler (#63) ---
+// --- Shared trips handler (#63) — kept for backward compat ---
 window.shareTrip = () => {
-  const destination = prompt(t('shareTripDestination') || 'Destination du voyage :')
-  if (!destination) return
-  const notes = prompt(t('shareTripNotes') || 'Notes (optionnel) :') || ''
-  const trips = JSON.parse(localStorage.getItem('spothitch_shared_trips') || '[]')
-  const now = new Date()
+  window.openAddPastTrip?.()
+}
+
+// --- Stats detail views ---
+window.openMySpots = () => window.setState?.({ profileDetailView: 'spots' })
+window.openMyValidations = () => window.setState?.({ profileDetailView: 'validations' })
+window.openMyCountries = () => window.setState?.({ profileDetailView: 'countries' })
+window.closeProfileDetail = () => window.setState?.({ profileDetailView: null })
+
+// --- Add past trip (Format C — journal style) ---
+window.openAddPastTrip = () => window.setState?.({ showAddPastTrip: true })
+window.closeAddPastTrip = () => window.setState?.({ showAddPastTrip: false })
+
+window.submitPastTrip = () => {
+  const from = document.getElementById('past-trip-from')?.value?.trim() || ''
+  const to = document.getElementById('past-trip-to')?.value?.trim() || ''
+  const date = document.getElementById('past-trip-date')?.value || ''
+  const km = parseInt(document.getElementById('past-trip-km')?.value || '0', 10) || 0
+  const lifts = parseInt(document.getElementById('past-trip-lifts')?.value || '0', 10) || 0
+  const notes = document.getElementById('past-trip-note')?.value?.trim() || ''
+
+  if (!from || !to) {
+    window.showToast?.(t('tripFromToRequired') || 'Départ et arrivée requis', 'error')
+    return
+  }
+
+  const id = typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `manual_${Date.now()}`
+  const trips = (() => {
+    try { return JSON.parse(localStorage.getItem('spothitch_saved_trips') || '[]') }
+    catch (e) { return [] }
+  })()
   trips.push({
-    destination: destination.trim(),
-    date: now.toLocaleDateString(),
-    notes: notes.trim(),
+    id, from, to, date, distance: km, lifts, notes,
+    completed: true, isManual: true,
+    savedAt: new Date().toISOString(), finishedAt: new Date().toISOString(),
   })
-  localStorage.setItem('spothitch_shared_trips', JSON.stringify(trips))
-  window.showToast?.(t('tripShared') || 'Voyage partagé !', 'success')
+  localStorage.setItem('spothitch_saved_trips', JSON.stringify(trips))
+  window.setState?.({ showAddPastTrip: false })
+  window.showToast?.(t('tripSaved') || 'Voyage enregistré !', 'success')
   window.render?.()
 }
 
