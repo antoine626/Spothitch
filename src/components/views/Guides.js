@@ -814,6 +814,54 @@ export function renderCountryDetail(guideOrCode) {
         </div>
       </div>
 
+      <!-- B4: Guide sub-tabs -->
+      ${(() => {
+        const guideTab = window.getState?.()?.guideDetailTab || 'info'
+        const tabs = [
+          { id: 'info', icon: 'info', label: t('guideTabInfo') || 'Info' },
+          { id: 'culture', icon: 'heart', label: t('guideTabCulture') || 'Culture' },
+          { id: 'pratique', icon: 'map-pin', label: t('guideTabPractical') || 'Pratique' },
+        ]
+        return `
+        <div class="flex bg-dark-secondary/50 rounded-xl overflow-hidden border border-white/5">
+          ${tabs.map(tab => `
+            <button
+              onclick="setState({guideDetailTab:'${tab.id}'})"
+              class="flex-1 py-2.5 px-2 font-medium text-xs transition-all flex items-center justify-center gap-1.5 ${
+                guideTab === tab.id
+                  ? 'bg-primary-500/20 text-primary-400 border-b-2 border-primary-500'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              }"
+            >
+              ${icon(tab.icon, 'w-3.5 h-3.5')}
+              ${tab.label}
+            </button>
+          `).join('')}
+        </div>
+        `
+      })()}
+
+      ${(() => {
+        const guideTab = window.getState?.()?.guideDetailTab || 'info'
+        if (guideTab === 'culture') return renderGuideCultureTab(guide, isEn)
+        if (guideTab === 'pratique') return renderGuidePratiqueTab(guide, isEn)
+        return renderGuideInfoTab(guide, isEn)
+      })()}
+
+      <!-- Suggest a tip -->
+      ${renderSuggestionForm(`country_${guide.code}`)}
+
+      <!-- Community Tips -->
+      ${renderCommunityTips(guide.code)}
+
+      <!-- Bottom padding for scroll -->
+      <div class="h-8"></div>
+    </div>
+  `
+}
+
+function renderGuideInfoTab(guide, isEn) {
+  return `
       <!-- Legality -->
       <div class="card p-4">
         <h3 class="font-bold mb-2 flex items-center gap-2">
@@ -831,25 +879,6 @@ export function renderCountryDetail(guideOrCode) {
             `).join('')}
           </ul>
         ` : ''}
-      </div>
-
-      <!-- Tips -->
-      <div class="card p-4">
-        <h3 class="font-bold mb-3 flex items-center gap-2">
-          ${icon('lightbulb', 'w-5 h-5 text-amber-400')}
-          ${t('tips') || 'Conseils'}
-        </h3>
-        <ul class="space-y-2">
-          ${(isEn && guide.tipsEn ? guide.tipsEn : guide.tips).map((tip, i) => `
-            <li class="flex items-start gap-2">
-              ${icon('check', 'w-4 h-4 text-emerald-400 mt-1 shrink-0')}
-              <div class="flex-1">
-                <span class="text-slate-300 text-sm">${tip}</span>
-                ${renderTipVoteButtons(`country_${guide.code}`, i)}
-              </div>
-            </li>
-          `).join('')}
-        </ul>
       </div>
 
       <!-- Strategies -->
@@ -870,20 +899,23 @@ export function renderCountryDetail(guideOrCode) {
         </div>
       ` : ''}
 
-      <!-- Phrases (5 universal phrases) -->
+      <!-- Tips -->
       <div class="card p-4">
         <h3 class="font-bold mb-3 flex items-center gap-2">
-          ${icon('message-circle', 'w-5 h-5 text-purple-400')}
-          ${t('usefulPhrases') || 'Phrases utiles'}
+          ${icon('lightbulb', 'w-5 h-5 text-amber-400')}
+          ${t('tips') || 'Conseils'}
         </h3>
-        <div class="space-y-2">
-          ${getUniversalPhrases(guide.code).map(p => `
-            <div class="p-2.5 rounded-xl bg-white/5">
-              <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
-              <div class="text-xs text-slate-400 mt-1">${isEn ? p.meaningEn : p.meaning}</div>
-            </div>
+        <ul class="space-y-2">
+          ${(isEn && guide.tipsEn ? guide.tipsEn : guide.tips).map((tip, i) => `
+            <li class="flex items-start gap-2">
+              ${icon('check', 'w-4 h-4 text-emerald-400 mt-1 shrink-0')}
+              <div class="flex-1">
+                <span class="text-slate-300 text-sm">${tip}</span>
+                ${renderTipVoteButtons(`country_${guide.code}`, i)}
+              </div>
+            </li>
           `).join('')}
-        </div>
+        </ul>
       </div>
 
       <!-- Best months -->
@@ -920,32 +952,40 @@ export function renderCountryDetail(guideOrCode) {
           </div>
         </div>
       ` : ''}
+  `
+}
 
-      <!-- Emergency numbers -->
-      <div class="card p-4 border-danger-500/30">
-        <h3 class="font-bold mb-3 flex items-center gap-2 text-danger-400">
-          ${icon('phone', 'w-5 h-5')}
-          ${t('emergencyNumbers') || "Numéros d'urgence"}
+function renderGuideCultureTab(guide, isEn) {
+  return `
+      <!-- Phrases -->
+      <div class="card p-4">
+        <h3 class="font-bold mb-3 flex items-center gap-2">
+          ${icon('message-circle', 'w-5 h-5 text-purple-400')}
+          ${t('usefulPhrases') || 'Phrases utiles'}
         </h3>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="text-center p-3 rounded-xl bg-danger-500/10">
-            <div class="text-xs text-slate-400 mb-1">Police</div>
-            <div class="font-bold text-lg">${guide.emergencyNumbers.police}</div>
-          </div>
-          <div class="text-center p-3 rounded-xl bg-danger-500/10">
-            <div class="text-xs text-slate-400 mb-1">Ambulance</div>
-            <div class="font-bold text-lg">${guide.emergencyNumbers.ambulance}</div>
-          </div>
-          <div class="text-center p-3 rounded-xl bg-danger-500/10">
-            <div class="text-xs text-slate-400 mb-1">${t('fire') || 'Pompiers'}</div>
-            <div class="font-bold text-lg">${guide.emergencyNumbers.fire}</div>
-          </div>
-          <div class="text-center p-3 rounded-xl bg-emerald-500/10">
-            <div class="text-xs text-slate-400 mb-1">${t('worldwide') || 'Monde'}</div>
-            <div class="font-bold text-lg text-emerald-400">${guide.emergencyNumbers.universal}</div>
-          </div>
+        <div class="space-y-2">
+          ${getUniversalPhrases(guide.code).map(p => `
+            <div class="p-2.5 rounded-xl bg-white/5">
+              <div class="font-medium text-sm text-purple-300">"${p.local}"</div>
+              <div class="text-xs text-slate-400 mt-1">${isEn ? p.meaningEn : p.meaning}</div>
+            </div>
+          `).join('')}
         </div>
       </div>
+
+      <!-- Cultural Etiquette -->
+      ${renderEtiquetteSection(guide.code)}
+
+      <!-- Cultural notes -->
+      ${guide.culturalNotes ? `
+        <div class="card p-4">
+          <h3 class="font-bold mb-2 flex items-center gap-2">
+            ${icon('heart', 'w-5 h-5 text-pink-400')}
+            ${t('culturalNotes') || 'Notes culturelles'}
+          </h3>
+          <p class="text-slate-300 text-sm leading-relaxed">${isEn && guide.culturalNotesEn ? guide.culturalNotesEn : guide.culturalNotes}</p>
+        </div>
+      ` : ''}
 
       <!-- Events -->
       ${guide.events && guide.events.length > 0 ? `
@@ -972,25 +1012,41 @@ export function renderCountryDetail(guideOrCode) {
           </div>
         </div>
       ` : ''}
+  `
+}
 
-      <!-- Cultural notes -->
-      ${guide.culturalNotes ? `
-        <div class="card p-4">
-          <h3 class="font-bold mb-2 flex items-center gap-2">
-            ${icon('heart', 'w-5 h-5 text-pink-400')}
-            ${t('culturalNotes') || 'Notes culturelles'}
-          </h3>
-          <p class="text-slate-300 text-sm leading-relaxed">${isEn && guide.culturalNotesEn ? guide.culturalNotesEn : guide.culturalNotes}</p>
+function renderGuidePratiqueTab(guide, _isEn) {
+  return `
+      <!-- Emergency numbers -->
+      <div class="card p-4 border-danger-500/30">
+        <h3 class="font-bold mb-3 flex items-center gap-2 text-danger-400">
+          ${icon('phone', 'w-5 h-5')}
+          ${t('emergencyNumbers') || "Numéros d'urgence"}
+        </h3>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
+            <div class="text-xs text-slate-400 mb-1">Police</div>
+            <div class="font-bold text-lg">${guide.emergencyNumbers.police}</div>
+          </div>
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
+            <div class="text-xs text-slate-400 mb-1">Ambulance</div>
+            <div class="font-bold text-lg">${guide.emergencyNumbers.ambulance}</div>
+          </div>
+          <div class="text-center p-3 rounded-xl bg-danger-500/10">
+            <div class="text-xs text-slate-400 mb-1">${t('fire') || 'Pompiers'}</div>
+            <div class="font-bold text-lg">${guide.emergencyNumbers.fire}</div>
+          </div>
+          <div class="text-center p-3 rounded-xl bg-emerald-500/10">
+            <div class="text-xs text-slate-400 mb-1">${t('worldwide') || 'Monde'}</div>
+            <div class="font-bold text-lg text-emerald-400">${guide.emergencyNumbers.universal}</div>
+          </div>
         </div>
-      ` : ''}
+      </div>
 
-      <!-- Cultural Etiquette (#76) -->
-      ${renderEtiquetteSection(guide.code)}
-
-      <!-- Visa Info (#77) -->
+      <!-- Visa Info -->
       ${renderVisaSection(guide.code)}
 
-      <!-- Currency Info (#78) -->
+      <!-- Currency Info -->
       ${renderCurrencySection(guide.code)}
 
       <!-- Recommendations -->
@@ -1005,16 +1061,6 @@ export function renderCountryDetail(guideOrCode) {
           <p>${t('guideRecommendation3') || 'Après chaque trajet, validez les spots que vous avez utilisés pour aider les prochains voyageurs.'}</p>
         </div>
       </div>
-
-      <!-- Suggest a tip -->
-      ${renderSuggestionForm(`country_${guide.code}`)}
-
-      <!-- Community Tips -->
-      ${renderCommunityTips(guide.code)}
-
-      <!-- Bottom padding for scroll -->
-      <div class="h-8"></div>
-    </div>
   `
 }
 

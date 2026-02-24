@@ -16,14 +16,20 @@ export const TRUST_TIERS = {
   legend: { min: 95, max: 100, label: 'Légende', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: 'crown' },
 };
 
-// Score factors with weights (total = 100)
+// Score factors with weights (base 100 + bonus factors, capped at 100)
 const SCORE_FACTORS = {
-  accountAge: { weight: 20, max: 20 },         // Max 20 points for account age
-  spotsCreated: { weight: 20, max: 20 },       // Max 20 points for spots
-  verifiedSpots: { weight: 15, max: 15 },      // Max 15 points for verified spots
-  helpfulReviews: { weight: 15, max: 15 },     // Max 15 points for reviews
-  identityVerification: { weight: 15, max: 15 }, // Max 15 points for identity verification
-  communityVotes: { weight: 15, max: 15 },     // Max 15 points for positive votes
+  accountAge: { weight: 15, max: 15 },         // Max 15 points for account age
+  spotsCreated: { weight: 15, max: 15 },       // Max 15 points for spots
+  verifiedSpots: { weight: 12, max: 12 },      // Max 12 points for verified spots
+  helpfulReviews: { weight: 12, max: 12 },     // Max 12 points for reviews
+  identityVerification: { weight: 13, max: 13 }, // Max 13 points for identity verification
+  communityVotes: { weight: 13, max: 13 },     // Max 13 points for positive votes
+  // E4: New factors
+  profilePhotos: { weight: 5, max: 5 },        // +5 if at least 1 profile photo
+  socialLinks: { weight: 5, max: 5 },          // +5 if at least 1 social link
+  bioCompleted: { weight: 3, max: 3 },         // +3 if bio is set
+  languagesDeclared: { weight: 2, max: 2 },    // +2 if languages declared
+  checkIns: { weight: 5, max: 5 },             // +5 for check-ins (up to 10)
 };
 
 /**
@@ -33,6 +39,14 @@ const SCORE_FACTORS = {
  */
 export function calculateTrustScore(userStats = {}) {
   const state = getState();
+
+  // Read localStorage data for new factors
+  const ls = typeof localStorage !== 'undefined' ? localStorage : null
+  const profilePhotos = ls ? JSON.parse(ls.getItem('spothitch_profile_photos') || '[]') : []
+  const socialLinks = ls ? JSON.parse(ls.getItem('spothitch_social_links') || '{}') : {}
+  const bio = ls ? (ls.getItem('spothitch_bio') || '') : ''
+  const languages = ls ? JSON.parse(ls.getItem('spothitch_languages') || '[]') : []
+
   const stats = {
     accountAge: userStats.accountAge || getDaysSinceCreation(state.createdAt),
     spotsCreated: userStats.spotsCreated || state.spotsCreated || 0,
@@ -42,10 +56,15 @@ export function calculateTrustScore(userStats = {}) {
     phoneVerified: userStats.phoneVerified ?? state.phoneVerified ?? false,
     idVerified: userStats.idVerified ?? state.idVerified ?? false,
     communityVotes: userStats.communityVotes || state.positiveVotes || 0,
+    hasPhotos: profilePhotos.length > 0,
+    hasSocialLinks: Object.values(socialLinks).some(v => v && v.trim()),
+    hasBio: bio.trim().length > 10,
+    hasLanguages: languages.length > 0,
+    checkIns: state.totalCheckIns || 0,
   };
 
-  // Identity verification score: email +5, phone +5, ID +5
-  const identityScore = (stats.emailVerified ? 5 : 0) + (stats.phoneVerified ? 5 : 0) + (stats.idVerified ? 5 : 0);
+  // Identity verification score: email +4, phone +4, ID +5
+  const identityScore = (stats.emailVerified ? 4 : 0) + (stats.phoneVerified ? 4 : 0) + (stats.idVerified ? 5 : 0);
 
   // Calculate individual scores
   const sf = SCORE_FACTORS
@@ -56,17 +75,28 @@ export function calculateTrustScore(userStats = {}) {
     helpfulReviews: Math.min((stats.helpfulReviews / 30) * sf.helpfulReviews.max, sf.helpfulReviews.max),
     identityVerification: Math.min(identityScore, sf.identityVerification.max),
     communityVotes: Math.min((stats.communityVotes / 50) * sf.communityVotes.max, sf.communityVotes.max),
+    // E4: New factors
+    profilePhotos: stats.hasPhotos ? sf.profilePhotos.max : 0,
+    socialLinks: stats.hasSocialLinks ? sf.socialLinks.max : 0,
+    bioCompleted: stats.hasBio ? sf.bioCompleted.max : 0,
+    languagesDeclared: stats.hasLanguages ? sf.languagesDeclared.max : 0,
+    checkIns: Math.min((stats.checkIns / 10) * sf.checkIns.max, sf.checkIns.max),
   };
 
-  // Calculate total score
-  const totalScore = Math.round(
+  // Calculate total score (capped at 100)
+  const totalScore = Math.min(100, Math.round(
     scores.accountAge +
     scores.spotsCreated +
     scores.verifiedSpots +
     scores.helpfulReviews +
     scores.identityVerification +
-    scores.communityVotes
-  );
+    scores.communityVotes +
+    scores.profilePhotos +
+    scores.socialLinks +
+    scores.bioCompleted +
+    scores.languagesDeclared +
+    scores.checkIns
+  ));
 
   // Get tier
   const tier = getTierForScore(totalScore);
@@ -190,8 +220,13 @@ export function renderTrustScoreCard() {
         ${renderScoreFactor('Spots créés', breakdown.spotsCreated, SCORE_FACTORS.spotsCreated.max, 'map-pin')}
         ${renderScoreFactor('Spots vérifiés', breakdown.verifiedSpots, SCORE_FACTORS.verifiedSpots.max, 'check-circle')}
         ${renderScoreFactor('Avis utiles', breakdown.helpfulReviews, SCORE_FACTORS.helpfulReviews.max, 'star')}
-        ${renderScoreFactor('Vérification identité', breakdown.identityVerification, SCORE_FACTORS.identityVerification.max, 'id-card')}
+        ${renderScoreFactor('Vérification identité', breakdown.identityVerification, SCORE_FACTORS.identityVerification.max, 'shield-check')}
         ${renderScoreFactor('Votes positifs', breakdown.communityVotes, SCORE_FACTORS.communityVotes.max, 'thumbs-up')}
+        ${renderScoreFactor('Photos profil', breakdown.profilePhotos, SCORE_FACTORS.profilePhotos.max, 'camera')}
+        ${renderScoreFactor('Réseaux sociaux', breakdown.socialLinks, SCORE_FACTORS.socialLinks.max, 'link')}
+        ${renderScoreFactor('Bio complétée', breakdown.bioCompleted, SCORE_FACTORS.bioCompleted.max, 'file-text')}
+        ${renderScoreFactor('Langues', breakdown.languagesDeclared, SCORE_FACTORS.languagesDeclared.max, 'message-circle')}
+        ${renderScoreFactor('Check-ins', breakdown.checkIns, SCORE_FACTORS.checkIns.max, 'map-pin')}
       </div>
 
       <!-- Tips to improve -->

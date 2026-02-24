@@ -423,6 +423,7 @@ const FA_ALIASES = {
   'couch': 'sofa',
   'crosshairs': 'crosshair',
   'edit': 'pencil',
+  'notebook-pen': 'pencil',
   'envelope': 'mail',
   'exchange-alt': 'arrow-right-left',
   'exclamation-circle': 'circle-alert',

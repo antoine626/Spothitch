@@ -14,7 +14,7 @@ export function renderHeader(state) {
       <div class="flex items-center justify-between max-w-7xl mx-auto">
         <!-- Logo -->
         <div class="flex items-center gap-3">
-          <img src="icon-96.png" alt="SpotHitch" class="w-9 h-9 rounded-xl object-cover" />
+          <img src="logo.png" alt="SpotHitch" class="w-9 h-9 rounded-xl object-cover" />
           <h1 class="font-display text-xl font-bold gradient-text">${t('appName')}</h1>
         </div>
 
@@ -50,7 +50,7 @@ export function renderHeader(state) {
               aria-label="${t('companionActiveBtnHint') || 'Appuyer : check-in · Maintenir 2s : arrêter'}"
               title="${t('companionActiveBtnHint') || 'Appuyer : check-in · Maintenir 2s : arrêter'}"
             >
-              ${icon('shield', 'w-4 h-4')}
+              ${icon('users', 'w-4 h-4')}
               <span class="tabular-nums">${timeStr}</span>
             </button>
             `
@@ -61,7 +61,7 @@ export function renderHeader(state) {
             aria-label="${t('companionMode') || 'Mode Compagnon'}"
             title="${t('companionMode') || 'Mode Compagnon'}"
           >
-            ${icon('shield', 'w-5 h-5')}
+            ${icon('users', 'w-5 h-5')}
           </button>
           `}
           <!-- SOS Button - Always visible, prominent -->

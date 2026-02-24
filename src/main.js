@@ -575,7 +575,7 @@ function render(state) {
   }
 
   // Preserve map containers across re-renders to avoid destroying MapLibre
-  const isMapTab = ['map', 'home', 'fullmap', 'travel', 'planner'].includes(state.activeTab)
+  // A8: Always preserve the home map (it's rendered on all tabs now, just hidden)
   const homeMapContainer = document.getElementById('home-map')
   const hasHomeMap = homeMapContainer && window.homeMapInstance
   const savedHomeMap = hasHomeMap ? homeMapContainer : null
@@ -587,8 +587,8 @@ function render(state) {
 
   app.innerHTML = renderApp(state);
 
-  // Re-insert preserved map containers
-  if (savedHomeMap && isMapTab) {
+  // Re-insert preserved map containers (always — map is persistent across tabs)
+  if (savedHomeMap) {
     const slot = document.getElementById('home-map')
     if (slot) slot.replaceWith(savedHomeMap)
   }
@@ -1495,11 +1495,11 @@ window.clearTripSteps = async () => {
   clearTripSteps()
 }
 
-// Trip Planner & Guides overlays
-window.openTripPlanner = () => setState({ showTripPlanner: true })
-window.closeTripPlanner = () => setState({ showTripPlanner: false })
-window.openGuidesOverlay = () => setState({ showGuidesOverlay: true })
-window.closeGuidesOverlay = () => setState({ showGuidesOverlay: false })
+// Trip Planner (redirects to Voyage tab now)
+window.openTripPlanner = () => setState({ activeTab: 'challenges', voyageSubTab: 'voyage' })
+window.closeTripPlanner = () => {} // no-op, overlay removed
+window.openGuidesOverlay = () => setState({ activeTab: 'challenges', voyageSubTab: 'guides' })
+window.closeGuidesOverlay = () => {} // no-op, overlay removed
 
 // Guides handlers
 window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: null, showSafety: false });

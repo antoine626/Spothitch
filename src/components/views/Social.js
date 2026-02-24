@@ -161,7 +161,7 @@ function renderMessagerieTab(state) {
           <input
             type="text"
             placeholder="${t('searchConversations') || 'Rechercher...'}"
-            class="input-field w-full pl-10 text-sm"
+            class="input-field w-full pl-12 text-sm"
             id="social-search"
             aria-label="${t('searchConversations') || 'Rechercher'}"
           />

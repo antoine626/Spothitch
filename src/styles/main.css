@@ -967,10 +967,14 @@ body:not(.keyboard-nav) *:focus {
 
 body:not(.keyboard-nav) button:focus,
 body:not(.keyboard-nav) a:focus,
+body:not(.keyboard-nav) select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 body:not(.keyboard-nav) input:focus,
-body:not(.keyboard-nav) select:focus,
 body:not(.keyboard-nav) textarea:focus {
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
 }
 
 /* Touch Target Size - WCAG 2.2 */
@@ -1055,6 +1059,17 @@ select.input-modern option {
 .light-theme .autocomplete-item:hover,
 .light-theme .autocomplete-item.active {
   @apply bg-slate-100;
+}
+
+/* Home map — prevent vertical scroll on map tab */
+#home-map-container {
+  touch-action: none;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+#home-map {
+  touch-action: none;
 }
 
 /* Mini map picker for AddSpot */

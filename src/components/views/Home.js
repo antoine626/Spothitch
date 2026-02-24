@@ -11,7 +11,6 @@ import { isCompanionActive, getTimeUntilNextCheckIn } from '../../services/compa
 export function renderHome(state) {
   const hasGPS = !!state.userLocation
   const searchLabel = state.homeSearchLabel || ''
-  const spotCount = (state.homeFilteredSpots || state.spots || []).length
   const isSplit = !!state.splitView
   const companionActive = isCompanionActive()
 
@@ -88,32 +87,12 @@ export function renderHome(state) {
           >
             ${icon('sliders-horizontal', 'w-5 h-5')}
           </button>
-          <!-- Trip planner button -->
-          <button
-            onclick="openTripPlanner()"
-            class="px-4 py-3.5 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-primary-500/50 transition-all shadow-lg"
-            aria-label="${t('planTrip') || 'Planifier un trajet'}"
-            title="${t('planTrip') || 'Planifier un trajet'}"
-          >
-            ${icon('route', 'w-5 h-5')}
-          </button>
         </div>
       </div>
 
-      <!-- Spot count badge (below search) -->
-      <div class="absolute ${companionActive ? 'top-[9rem]' : 'top-[5.5rem]'} left-4 z-20 px-4 py-2 rounded-full bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-sm shadow-lg">
-        <span id="home-spots-loading" class="hidden items-center gap-2">
-          <span class="w-3 h-3 border-2 border-primary-400 border-t-transparent rounded-full animate-spin"></span>
-          <span class="text-slate-400">${t('loadingSpots') || 'Loading spots...'}</span>
-        </span>
-        <span id="home-spots-count" ${spotCount > 0 ? '' : 'class="hidden"'}>
-          <span class="text-primary-400 font-semibold">${spotCount}</span>
-          <span class="text-slate-400 ml-1">${t('spotsAvailable') || 'spots'}</span>
-        </span>
-      </div>
 
       <!-- Zoom + location + split controls (right side) -->
-      <div class="absolute ${companionActive ? 'top-[9rem]' : 'top-[5.5rem]'} right-4 z-20 flex flex-col gap-2">
+      <div class="absolute ${companionActive ? 'top-[8rem]' : 'top-[5rem]'} right-4 z-20 flex flex-col gap-2">
         <button
           onclick="homeZoomIn()"
           class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-all text-lg font-bold shadow-lg"
@@ -133,6 +112,15 @@ export function renderHome(state) {
             ${icon('locate', 'w-5 h-5')}
           </button>
         ` : ''}
+        <!-- Gas stations toggle -->
+        <button
+          onclick="toggleGasStations()"
+          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-all shadow-lg"
+          aria-label="${t('gasStations') || 'Stations-service'}"
+          title="${t('gasStations') || 'Stations-service'}"
+        >
+          <span class="text-lg">⛽</span>
+        </button>
         <!-- Split view toggle -->
         <button
           onclick="toggleSplitView()"
@@ -144,32 +132,18 @@ export function renderHome(state) {
         </button>
       </div>
 
-      <!-- Country Guide Indicator (above bottom sheet) -->
-      <div id="guide-indicator" class="absolute ${isSplit ? 'bottom-[52%]' : 'bottom-32'} left-4 z-20 ${hasGuide ? '' : 'hidden'}">
+      <!-- Country Guide shortcut → Voyage > Guides -->
+      <div class="absolute ${isSplit ? 'bottom-[52%]' : 'bottom-32'} left-4 z-20">
         <button
-          onclick="openCountryGuide('${currentGuide?.code || ''}')"
-          class="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-500/90 backdrop-blur text-white font-medium shadow-lg hover:bg-emerald-600 transition-all text-sm"
-          aria-label="${t('viewCountryGuide') || 'Voir le guide pays'}"
+          onclick="changeTab('challenges');setState({voyageSubTab:'guides'})"
+          class="flex items-center gap-2 px-3 py-2 rounded-xl ${hasGuide ? 'bg-emerald-500/90 text-white hover:bg-emerald-600' : 'bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-emerald-500/50'} transition-all text-sm shadow-lg"
+          aria-label="${t('countryGuides') || 'Guides pays'}"
         >
-          <span class="text-lg">${currentGuide?.flag || ''}</span>
-          <span>${t('guideAvailable') || 'Guide'}</span>
+          ${hasGuide ? `<span class="text-lg">${currentGuide?.flag || ''}</span>` : icon('book-open', 'w-5 h-5')}
+          <span>${t('guides') || 'Guides'}</span>
           ${icon('chevron-right', 'w-3 h-3')}
         </button>
       </div>
-
-      <!-- Guides button (when no country guide active) -->
-      ${!hasGuide ? `
-        <div class="absolute ${isSplit ? 'bottom-[52%]' : 'bottom-32'} left-4 z-20">
-          <button
-            onclick="openGuidesOverlay()"
-            class="flex items-center gap-2 px-3 py-2 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-emerald-500/50 transition-all text-sm shadow-lg"
-            aria-label="${t('countryGuides') || 'Guides pays'}"
-          >
-            ${icon('book-open', 'w-5 h-5')}
-            <span>${t('guides') || 'Guides'}</span>
-          </button>
-        </div>
-      ` : ''}
 
       <!-- Bottom sheet removed — country bubbles handle discovery at low zoom -->
 

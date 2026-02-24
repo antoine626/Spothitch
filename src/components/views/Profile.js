@@ -86,6 +86,63 @@ export function renderProfile(state) {
         ${subTab === 'reglages' ? `${renderReglagesTab(state)}${renderProfileFooter()}${renderVersionReset()}` : ''}
       </div>
     </div>
+    ${state.showLanguagePicker ? renderLanguagePickerModal(state) : ''}
+    ${state.showLanguageLevelPicker ? renderLanguageLevelModal(state) : ''}
+  `
+}
+
+function renderLanguagePickerModal(state) {
+  const search = (state.langPickerSearch || '').toLowerCase()
+  const filtered = POPULAR_LANGUAGES.filter(l => l.toLowerCase().includes(search))
+  return `
+    <div class="fixed inset-0 z-50 bg-black/80 flex items-end sm:items-center justify-center" onclick="if(event.target===this)closeLanguagePicker()">
+      <div class="bg-dark-secondary rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md max-h-[80vh] flex flex-col">
+        <div class="p-4 border-b border-white/10 flex items-center justify-between">
+          <h3 class="font-bold">${t('addLanguage') || 'Ajouter une langue'}</h3>
+          <button onclick="closeLanguagePicker()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">${icon('x', 'w-4 h-4')}</button>
+        </div>
+        <div class="p-3 border-b border-white/10">
+          <input type="text" placeholder="${t('searchLanguage') || 'Rechercher...'}" class="input-field w-full text-sm" oninput="langPickerFilter(this.value)" value="${state.langPickerSearch || ''}" autofocus />
+        </div>
+        <div class="flex-1 overflow-y-auto p-2 space-y-1">
+          ${filtered.map(lang => `
+            <button onclick="selectLanguageFromPicker('${lang}')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-all text-left">
+              <span class="text-xl">${LANG_FLAG_MAP[lang] || '🌐'}</span>
+              <span class="text-sm font-medium">${lang}</span>
+            </button>
+          `).join('')}
+          ${filtered.length === 0 ? `<p class="text-center text-slate-500 py-4 text-sm">${t('noResults') || 'Aucun résultat'}</p>` : ''}
+        </div>
+      </div>
+    </div>
+  `
+}
+
+function renderLanguageLevelModal(state) {
+  const name = state.langPickerSelectedName || ''
+  const levels = [
+    { id: 'debutant', label: t('langLevelDebutant') || 'Débutant', desc: t('langLevelDebutantDesc') || 'Quelques mots et phrases', dots: 1 },
+    { id: 'courant', label: t('langLevelCourant') || 'Courant', desc: t('langLevelCourantDesc') || 'Conversations fluides', dots: 2 },
+    { id: 'natif', label: t('langLevelNatif') || 'Natif', desc: t('langLevelNatifDesc') || 'Langue maternelle', dots: 3 },
+  ]
+  return `
+    <div class="fixed inset-0 z-50 bg-black/80 flex items-end sm:items-center justify-center" onclick="if(event.target===this)closeLanguageLevelPicker()">
+      <div class="bg-dark-secondary rounded-t-2xl sm:rounded-2xl w-full sm:max-w-sm p-5 space-y-4">
+        <h3 class="font-bold text-center">${LANG_FLAG_MAP[name] || '🌐'} ${name}</h3>
+        <p class="text-xs text-slate-400 text-center">${t('selectLevel') || 'Choisis ton niveau'}</p>
+        <div class="space-y-2">
+          ${levels.map(l => `
+            <button onclick="selectLanguageLevel('${l.id}')" class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-left">
+              <div class="flex gap-1">${Array.from({ length: 3 }, (_, i) => `<span class="w-3 h-3 rounded-full ${i < l.dots ? 'bg-emerald-400' : 'bg-white/15'}"></span>`).join('')}</div>
+              <div>
+                <div class="text-sm font-semibold">${l.label}</div>
+                <div class="text-[10px] text-slate-400">${l.desc}</div>
+              </div>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    </div>
   `
 }
 
@@ -94,7 +151,7 @@ export function renderProfile(state) {
 function renderProfileSubTabs(activeTab) {
   const tabs = [
     { id: 'profil', icon: 'user', label: t('profileTabProfil') || 'Profil' },
-    { id: 'progression', icon: 'trending-up', label: t('profileTabProgression') || 'Progression' },
+    { id: 'progression', icon: 'star', label: t('profileTabProgression') || 'Progression' },
     { id: 'reglages', icon: 'settings', label: t('profileTabSettings') || 'Réglages' },
   ]
   return `
@@ -129,11 +186,13 @@ function renderProfilTab(state) {
     ${renderClickableStats(state)}
     ${renderBioCard(state)}
     ${renderLanguagesCard(state)}
+    ${renderSocialLinksCard(state)}
+    ${renderPhotoGalleryCard(state)}
     ${renderTrustScoreCard()}
-    ${renderVerificationCard(state)}
     ${renderReferencesCard(state)}
     ${renderPublicTripsCard(state)}
     ${renderBadgesGrid(state)}
+    ${renderDonationCard()}
   `
 }
 
@@ -157,13 +216,6 @@ function renderProfileHeader(state) {
             ${state.avatar || '🤙'}
           </div>
         </div>
-        <button
-          onclick="openProfileCustomization()"
-          class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary-500 text-white flex items-center justify-center hover:bg-primary-600 transition-all shadow-lg"
-          aria-label="${t('customizeProfile') || 'Personnaliser'}"
-        >
-          ${icon('palette', 'w-3 h-3')}
-        </button>
       </div>
       <!-- Name + level -->
       <div class="flex-1 min-w-0">
@@ -338,13 +390,21 @@ function renderPublicTripsCard(state) {
                 class="flex-1 bg-white/10 rounded-lg px-3 py-2 text-sm placeholder-slate-500 border border-white/10 focus:border-primary-500/50 outline-none" />
             </div>
           </div>
-          <!-- Stats -->
-          <div class="grid grid-cols-3 gap-2">
+          <!-- Dates -->
+          <div class="grid grid-cols-2 gap-2">
             <div class="p-3 rounded-xl bg-white/5">
-              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">📅 ${t('date') || 'Date'}</div>
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">📅 ${t('startDate') || 'Début'}</div>
               <input id="past-trip-date" type="date"
                 class="w-full bg-transparent text-sm text-slate-300 outline-none" />
             </div>
+            <div class="p-3 rounded-xl bg-white/5">
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">📅 ${t('endDate') || 'Fin'}</div>
+              <input id="past-trip-date-end" type="date"
+                class="w-full bg-transparent text-sm text-slate-300 outline-none" />
+            </div>
+          </div>
+          <!-- Stats -->
+          <div class="grid grid-cols-2 gap-2">
             <div class="p-3 rounded-xl bg-white/5">
               <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">📍 km</div>
               <input id="past-trip-km" type="number" min="0" placeholder="—"
@@ -509,6 +569,80 @@ function renderLanguagesCard(_state) {
              ${icon('plus', 'w-3 h-3')} ${t('addLanguage') || 'Ajouter une langue'}
            </button>`
       }
+    </div>
+  `
+}
+
+// D3: Social links card
+function renderSocialLinksCard(_state) {
+  const social = typeof localStorage !== 'undefined'
+    ? JSON.parse(localStorage.getItem('spothitch_social_links') || '{}')
+    : {}
+  const networks = [
+    { id: 'instagram', icon: 'camera', label: 'Instagram', color: 'text-pink-400' },
+    { id: 'tiktok', icon: 'video', label: 'TikTok', color: 'text-slate-300' },
+    { id: 'facebook', icon: 'users', label: 'Facebook', color: 'text-blue-400' },
+  ]
+  return `
+    <div class="card p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-bold flex items-center gap-2">
+          ${icon('link', 'w-4 h-4 text-purple-400')}
+          ${t('socialLinks') || 'Réseaux sociaux'}
+        </h3>
+      </div>
+      <div class="space-y-2">
+        ${networks.map(n => `
+          <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5">
+            ${icon(n.icon, `w-4 h-4 ${n.color} flex-shrink-0`)}
+            <input
+              type="text"
+              id="social-link-${n.id}"
+              placeholder="@${t('username') || 'pseudo'}"
+              value="${social[n.id] || ''}"
+              onblur="saveSocialLink('${n.id}', this.value)"
+              class="flex-1 bg-transparent text-sm outline-none placeholder-slate-600"
+            />
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `
+}
+
+// D2: Photo gallery card
+function renderPhotoGalleryCard(_state) {
+  const photos = typeof localStorage !== 'undefined'
+    ? JSON.parse(localStorage.getItem('spothitch_profile_photos') || '[]')
+    : []
+  const maxPhotos = 6
+  return `
+    <div class="card p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-bold flex items-center gap-2">
+          ${icon('camera', 'w-4 h-4 text-pink-400')}
+          ${t('myPhotos') || 'Mes Photos'} (${photos.length}/${maxPhotos})
+        </h3>
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        ${photos.map((photo, i) => `
+          <div class="relative aspect-square rounded-xl overflow-hidden bg-white/5">
+            <img src="${photo}" alt="" class="w-full h-full object-cover" loading="lazy" />
+            <button
+              onclick="removeProfilePhoto(${i})"
+              class="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/70 flex items-center justify-center text-white"
+            >
+              ${icon('x', 'w-3 h-3')}
+            </button>
+          </div>
+        `).join('')}
+        ${photos.length < maxPhotos ? `
+          <label class="aspect-square rounded-xl border-2 border-dashed border-slate-600 flex items-center justify-center cursor-pointer hover:border-primary-500/50 transition-all">
+            <input type="file" accept="image/*" onchange="addProfilePhoto(this)" class="hidden" />
+            ${icon('plus', 'w-6 h-6 text-slate-500')}
+          </label>
+        ` : ''}
+      </div>
     </div>
   `
 }
@@ -700,6 +834,7 @@ function renderProgressionTab(state) {
     ${renderProgressStatCards(state)}
     ${renderActiveChallenges(state)}
     ${renderTrophiesGrid(state)}
+    ${renderDonationCard()}
   `
 }
 
@@ -820,6 +955,7 @@ function renderTrophiesGrid(state) {
 function renderReglagesTab(state) {
   return `
     ${renderSettingsMiniHeader(state)}
+    ${renderVerificationCard(state)}
     ${renderAppearanceCard(state)}
     ${renderNotificationsCard(state)}
     ${renderPrivacyCard(state)}
@@ -858,12 +994,12 @@ function renderAppearanceCard(state) {
         </div>
         <button
           onclick="toggleTheme()"
-          class="w-14 h-8 rounded-full ${state.theme === 'dark' ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
+          class="text-2xl px-2 py-1 rounded-xl ${state.theme === 'dark' ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all"
           role="switch"
           aria-checked="${state.theme === 'dark'}"
           aria-label="${t('toggleDarkMode') || 'Activer le thème sombre'}"
         >
-          <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${state.theme === 'dark' ? 'left-7' : 'left-1'}"></div>
+          ${state.theme === 'dark' ? '👍' : '👎'}
         </button>
       </div>
       <div class="p-3 rounded-xl bg-white/5">
@@ -914,12 +1050,12 @@ function renderNotificationsCard(state) {
         </div>
         <button
           onclick="toggleNotifications()"
-          class="w-14 h-8 rounded-full ${state.notifications !== false ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
+          class="text-2xl px-2 py-1 rounded-xl ${state.notifications !== false ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all"
           role="switch"
           aria-checked="${state.notifications !== false}"
           aria-label="${t('toggleNotifications') || 'Activer les notifications'}"
         >
-          <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${state.notifications !== false ? 'left-7' : 'left-1'}"></div>
+          ${state.notifications !== false ? '👍' : '👎'}
         </button>
       </div>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
@@ -932,12 +1068,12 @@ function renderNotificationsCard(state) {
         </div>
         <button
           onclick="toggleProximityAlertsSetting()"
-          class="w-14 h-8 rounded-full ${state.proximityAlerts !== false ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
+          class="text-2xl px-2 py-1 rounded-xl ${state.proximityAlerts !== false ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all"
           role="switch"
           aria-checked="${state.proximityAlerts !== false}"
           aria-label="${t('proximityAlerts') || 'Alertes de proximité'}"
         >
-          <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${state.proximityAlerts !== false ? 'left-7' : 'left-1'}"></div>
+          ${state.proximityAlerts !== false ? '👍' : '👎'}
         </button>
       </div>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
@@ -950,12 +1086,12 @@ function renderNotificationsCard(state) {
         </div>
         <button
           onclick="togglePushNotifications()"
-          class="w-14 h-8 rounded-full ${pushOn ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner"
+          class="text-2xl px-2 py-1 rounded-xl ${pushOn ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all"
           role="switch"
           aria-checked="${pushOn}"
           aria-label="${t('pushNotifications') || 'Notifications push'}"
         >
-          <div class="w-6 h-6 rounded-full bg-white shadow-md absolute top-1 transition-all ${pushOn ? 'left-7' : 'left-1'}"></div>
+          ${pushOn ? '👍' : '👎'}
         </button>
       </div>
     </div>
@@ -976,33 +1112,33 @@ function renderPrivacyCard(_state) {
         <span class="text-sm">${t('showToNonFriends') || 'Profil visible par tous'}</span>
         <button
           onclick="togglePrivacy('showToNonFriends')"
-          class="w-12 h-7 rounded-full ${privacy.showToNonFriends ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner flex-shrink-0"
+          class="text-2xl px-2 py-1 rounded-xl ${privacy.showToNonFriends ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all flex-shrink-0"
           role="switch"
           aria-checked="${privacy.showToNonFriends}"
         >
-          <div class="w-5 h-5 rounded-full bg-white shadow-md absolute top-1 transition-all ${privacy.showToNonFriends ? 'left-6' : 'left-1'}"></div>
+          ${privacy.showToNonFriends ? '👍' : '👎'}
         </button>
       </div>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
         <span class="text-sm">${t('showLocationHistory') || 'Historique de position'}</span>
         <button
           onclick="togglePrivacy('showLocationHistory')"
-          class="w-12 h-7 rounded-full ${privacy.showLocationHistory ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner flex-shrink-0"
+          class="text-2xl px-2 py-1 rounded-xl ${privacy.showLocationHistory ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all flex-shrink-0"
           role="switch"
           aria-checked="${privacy.showLocationHistory}"
         >
-          <div class="w-5 h-5 rounded-full bg-white shadow-md absolute top-1 transition-all ${privacy.showLocationHistory ? 'left-6' : 'left-1'}"></div>
+          ${privacy.showLocationHistory ? '👍' : '👎'}
         </button>
       </div>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
         <span class="text-sm">${t('showTravelStats') || 'Statistiques visibles'}</span>
         <button
           onclick="togglePrivacy('showTravelStats')"
-          class="w-12 h-7 rounded-full ${privacy.showTravelStats ? 'bg-primary-500' : 'bg-slate-600'} relative transition-all shadow-inner flex-shrink-0"
+          class="text-2xl px-2 py-1 rounded-xl ${privacy.showTravelStats ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all flex-shrink-0"
           role="switch"
           aria-checked="${privacy.showTravelStats}"
         >
-          <div class="w-5 h-5 rounded-full bg-white shadow-md absolute top-1 transition-all ${privacy.showTravelStats ? 'left-6' : 'left-1'}"></div>
+          ${privacy.showTravelStats ? '👍' : '👎'}
         </button>
       </div>
       <button
@@ -1248,28 +1384,48 @@ window.saveBio = (text) => {
 }
 
 // --- Languages handlers (#59) ---
+// D5: Language picker modal (no more prompt())
+const POPULAR_LANGUAGES = [
+  'Français', 'English', 'Español', 'Deutsch', 'Português', 'Italiano',
+  'Русский', 'العربية', '中文', '日本語', 'हिन्दी', 'Nederlands',
+  'Polski', 'Română', 'Türkçe', 'Svenska', 'Norsk', 'Dansk',
+  'Suomi', 'Čeština', 'Magyar', 'Ελληνικά', 'Українська',
+  'Bahasa Indonesia', 'Tiếng Việt', 'ภาษาไทย', '한국어',
+  'فارسی', 'עברית', 'Kiswahili', 'Tagalog',
+]
+
 window.editLanguages = () => {
-  const name = prompt(
-    (t('languageNamePrompt') || 'Nom de la langue (ex: Français, English, Español) :')
-  )
+  window.setState?.({ showLanguagePicker: true, langPickerSearch: '' })
+}
+
+window.closeLanguagePicker = () => {
+  window.setState?.({ showLanguagePicker: false })
+}
+
+window.langPickerFilter = (query) => {
+  window.setState?.({ langPickerSearch: query })
+}
+
+window.selectLanguageFromPicker = (name) => {
+  window.setState?.({ showLanguagePicker: false, langPickerSelectedName: name, langPickerLevel: 'courant' })
+  // Show level selector
+  setTimeout(() => window.setState?.({ showLanguageLevelPicker: true }), 100)
+}
+
+window.selectLanguageLevel = (level) => {
+  const name = window.getState?.()?.langPickerSelectedName || ''
   if (!name) return
-  const trimmedName = name.trim()
-  if (!trimmedName) return
-
-  const levelInput = prompt(
-    `${t('languageLevelPrompt') || 'Niveau ?'}\n1 = ${t('langLevelDebutant') || 'Débutant'}\n2 = ${t('langLevelCourant') || 'Courant'}\n3 = ${t('langLevelNatif') || 'Natif'}`,
-    '2'
-  )
-  if (levelInput === null) return
-  const levelMap = { '1': 'debutant', '2': 'courant', '3': 'natif' }
-  const level = levelMap[levelInput.trim()] || 'courant'
-
   const raw = JSON.parse(localStorage.getItem('spothitch_languages') || '[]')
   const langs = normalizeLangs(raw)
-  langs.push({ name: trimmedName, flag: LANG_FLAG_MAP[trimmedName] || '🌐', level })
+  langs.push({ name, flag: LANG_FLAG_MAP[name] || '🌐', level })
   localStorage.setItem('spothitch_languages', JSON.stringify(langs.slice(0, 10)))
   window.showToast?.(t('languagesSaved') || 'Langue ajoutée !', 'success')
+  window.setState?.({ showLanguageLevelPicker: false, langPickerSelectedName: null })
   window.render?.()
+}
+
+window.closeLanguageLevelPicker = () => {
+  window.setState?.({ showLanguageLevelPicker: false })
 }
 
 window.removeLanguage = (idx) => {
@@ -1287,6 +1443,47 @@ window.cycleLanguageLevel = (idx) => {
   const cur = langs[idx]?.level || 'courant'
   langs[idx].level = levels[(levels.indexOf(cur) + 1) % levels.length]
   localStorage.setItem('spothitch_languages', JSON.stringify(langs))
+  window.render?.()
+}
+
+// D3: Social links handler
+window.saveSocialLink = (network, value) => {
+  const social = JSON.parse(localStorage.getItem('spothitch_social_links') || '{}')
+  social[network] = value.trim()
+  localStorage.setItem('spothitch_social_links', JSON.stringify(social))
+}
+
+// D2: Photo gallery handlers
+window.addProfilePhoto = async (input) => {
+  const file = input?.files?.[0]
+  if (!file) return
+  const photos = JSON.parse(localStorage.getItem('spothitch_profile_photos') || '[]')
+  if (photos.length >= 6) {
+    window.showToast?.('Maximum 6 photos', 'warning')
+    return
+  }
+  // Compress to WebP-like quality using canvas
+  const img = new Image()
+  img.onload = () => {
+    const canvas = document.createElement('canvas')
+    const maxSize = 400
+    const scale = Math.min(maxSize / img.width, maxSize / img.height, 1)
+    canvas.width = img.width * scale
+    canvas.height = img.height * scale
+    const ctx = canvas.getContext('2d')
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    const dataUrl = canvas.toDataURL('image/webp', 0.7) || canvas.toDataURL('image/jpeg', 0.7)
+    photos.push(dataUrl)
+    localStorage.setItem('spothitch_profile_photos', JSON.stringify(photos))
+    window.render?.()
+  }
+  img.src = URL.createObjectURL(file)
+}
+
+window.removeProfilePhoto = (idx) => {
+  const photos = JSON.parse(localStorage.getItem('spothitch_profile_photos') || '[]')
+  photos.splice(idx, 1)
+  localStorage.setItem('spothitch_profile_photos', JSON.stringify(photos))
   window.render?.()
 }
 

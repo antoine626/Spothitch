@@ -48,9 +48,7 @@ export function renderSplashScreen() {
       <div class="splash-content">
         <!-- Logo -->
         <div class="splash-logo">
-          <span class="splash-logo-icon">
-            ${icon('route', 'w-5 h-5')}
-          </span>
+          <img src="logo.png" alt="SpotHitch" class="w-16 h-16 rounded-2xl object-cover" />
           <h1 class="splash-logo-text">SpotHitch</h1>
         </div>
 

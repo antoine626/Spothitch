@@ -314,6 +314,9 @@ const MAIN_JS_HANDLERS = [
   'openMySpots', 'openMyValidations', 'openMyCountries', 'closeProfileDetail',
   'openAddPastTrip', 'closeAddPastTrip', 'submitPastTrip',
   'removeLanguage', 'cycleLanguageLevel',
+  'saveSocialLink', 'addProfilePhoto', 'removeProfilePhoto',
+  'closeLanguagePicker', 'langPickerFilter', 'selectLanguageFromPicker',
+  'selectLanguageLevel', 'closeLanguageLevelPicker',
   // Map extras (defined in Map.js)
   'searchLocation',
   // Chat extras (defined in Chat.js)

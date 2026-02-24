@@ -118,13 +118,17 @@ export function renderApp(state) {
     ${renderHeader(state)}
 
     <main id="main-content" class="pb-28 pt-[4.5rem] min-h-screen overflow-x-hidden" role="main" tabindex="-1">
-      ${renderActiveView(state)}
+      <!-- Map is ALWAYS rendered but hidden when not active (A8: persistence) -->
+      <div id="persistent-map-wrapper" style="${isMapTab(state) ? '' : 'display:none'}">
+        ${renderHome(state)}
+      </div>
+      ${!isMapTab(state) ? renderActiveView(state) : ''}
     </main>
 
     ${renderNavigation(state)}
 
     <!-- Active Trip Bar (like Spotify "Now Playing") -->
-    ${state.tripResults && !state.showTripPlanner && !state.showTripMap && ['map', 'fullmap', 'home', 'travel', 'planner'].includes(state.activeTab) ? `
+    ${state.tripResults && !state.showTripPlanner && !state.showTripMap && isMapTab(state) ? `
       <div class="fixed bottom-[4.5rem] left-4 right-4 z-30 px-4 py-2.5 rounded-xl bg-primary-500/90 backdrop-blur-xl border border-primary-400/30 shadow-lg shadow-primary-500/20 cursor-pointer" onclick="openActiveTrip()">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3 min-w-0">
@@ -376,41 +380,6 @@ export function renderApp(state) {
       </div>
     ` : ''}
 
-    <!-- Trip Planner / Guides Overlay (unified with tabs) -->
-    ${state.showTripPlanner || state.showGuidesOverlay ? (() => {
-      const activeOverlayTab = state.showTripPlanner ? 'planner' : 'guides'
-      return `
-      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this){closeTripPlanner();closeGuidesOverlay()}">
-        <div class="min-h-screen pb-20">
-          <!-- Header with tabs -->
-          <div class="sticky top-0 z-10 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
-            <div class="flex items-center justify-between p-4">
-              <div class="flex items-center gap-2">
-                <button
-                  onclick="openTripPlanner();setState({showGuidesOverlay:false})"
-                  class="px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeOverlayTab === 'planner' ? 'bg-primary-500 text-white' : 'bg-white/10 text-slate-400 hover:text-white'}"
-                >
-                  ${icon('route', 'w-4 h-4 mr-1.5')}${t('planTrip') || 'Itinéraire'}
-                </button>
-                <button
-                  onclick="openGuidesOverlay();setState({showTripPlanner:false})"
-                  class="px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeOverlayTab === 'guides' ? 'bg-emerald-500 text-white' : 'bg-white/10 text-slate-400 hover:text-white'}"
-                >
-                  ${icon('book-open', 'w-4 h-4 mr-1.5')}${t('guides') || 'Guides'}
-                </button>
-              </div>
-              <button onclick="closeTripPlanner();closeGuidesOverlay()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-                ${icon('x', 'w-5 h-5')}
-              </button>
-            </div>
-          </div>
-          ${activeOverlayTab === 'guides'
-            ? lazyRender('renderGuides', state)
-            : lazyRender('renderTravel', { ...state, activeSubTab: activeOverlayTab })}
-        </div>
-      </div>
-      `
-    })() : ''}
 
     <!-- Profile Setup (triggered when user wants to contribute) -->
     ${state.showWelcome ? lazyRender('renderWelcome', state) : ''}
@@ -428,16 +397,18 @@ export function renderApp(state) {
 }
 
 /**
+ * Check if the current tab is a map tab
+ */
+function isMapTab(state) {
+  return ['map', 'fullmap', 'home', 'travel', 'planner'].includes(state.activeTab) || !state.activeTab
+}
+
+/**
  * Render the active view based on current tab
+ * Note: Map is rendered separately in persistent-map-wrapper (A8)
  */
 function renderActiveView(state) {
   switch (state.activeTab) {
-    case 'map':
-    case 'fullmap':
-    case 'home':
-    case 'travel':
-    case 'planner':
-      return renderHome(state);
     case 'challenges':
       return lazyRender('renderVoyage', state);
     case 'social':
@@ -448,7 +419,7 @@ function renderActiveView(state) {
     case 'spots':
       return lazyRender('renderSpots', state);
     default:
-      return renderHome(state);
+      return '' // Map handled by persistent-map-wrapper
   }
 }
 
@@ -467,12 +438,10 @@ export function afterRender(state) {
     }
   }
 
-  const isMapTab = ['map', 'fullmap', 'home', 'travel', 'planner'].includes(state.activeTab)
-  if (isMapTab) {
-    setTimeout(() => initHomeMap(state), 100)
-  }
+  // A9: Always init the map (it persists across tabs)
+  setTimeout(() => initHomeMap(state), 100)
   // Trip map can be in overlay (showTripPlanner) regardless of activeTab
-  if (state.showTripMap && (isMapTab || state.showTripPlanner)) {
+  if (state.showTripMap && (isMapTab(state) || state.showTripPlanner)) {
     // Only init if not already preserved from previous render
     const tripContainer = document.getElementById('trip-map')
     if (tripContainer && tripContainer.dataset.initialized !== 'true') {

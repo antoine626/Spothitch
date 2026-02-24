@@ -1159,7 +1159,7 @@ if (!window.swapTripPoints) {
 }
 
 if (!window.syncTripFieldsAndCalculate) {
-  window.syncTripFieldsAndCalculate = () => {
+  window.syncTripFieldsAndCalculate = async () => {
     const fromInput = document.getElementById('trip-from')
     const toInput = document.getElementById('trip-to')
     const from = fromInput?.value?.trim() || ''
@@ -1169,6 +1169,10 @@ if (!window.syncTripFieldsAndCalculate) {
       return
     }
     window.setState?.({ tripFrom: from, tripTo: to, tripLoading: true })
+    // B1: Ensure Travel.js is loaded before calling calculateTrip
+    if (!window.calculateTrip) {
+      try { await import('./Travel.js') } catch { /* no-op */ }
+    }
     window.calculateTrip?.()
   }
 }
@@ -1181,29 +1185,47 @@ if (!window.tripSearchSuggestions) {
     clearTimeout(voyageDebounce)
     const container = document.getElementById(`trip-${field}-suggestions`)
     if (!container) return
-    if (!query || query.trim().length < 2) {
+    if (!query || query.trim().length < 1) {
       container.classList.add('hidden')
       return
     }
+
+    const renderSuggestions = (names) => {
+      if (!names?.length) { container.classList.add('hidden'); return }
+      container.classList.remove('hidden')
+      container.innerHTML = `<div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
+        ${names.slice(0, 5).map(name => {
+          const safe = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/'/g, '&#39;')
+          return `<button onmousedown="event.preventDefault();(window.tripSelectSuggestion||function(f,n){var i=document.getElementById('trip-'+f);if(i)i.value=n;document.getElementById('trip-from-suggestions')?.classList.add('hidden');document.getElementById('trip-to-suggestions')?.classList.add('hidden')})('${field}','${safe}')" class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"><div class="font-medium text-sm truncate">${safe}</div></button>`
+        }).join('')}
+      </div>`
+    }
+
     voyageDebounce = setTimeout(async () => {
       try {
-        const { searchLocation } = await import('../../services/osrm.js')
-        const results = await searchLocation(query)
+        // B2: Use Photon API (faster than Nominatim)
+        const q = query.trim()
+        const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=5&lang=fr&layer=city&layer=locality`)
+        const data = await res.json()
         const currentInput = document.getElementById(`trip-${field}`)
-        if (!currentInput || currentInput.value.trim() !== query.trim()) return
-        if (results?.length > 0) {
-          const names = results.slice(0, 5).map(r => r.name)
-          container.classList.remove('hidden')
-          container.innerHTML = `<div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
-            ${names.map(name => {
-              const safe = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/'/g, '&#39;')
-              return `<button onmousedown="event.preventDefault();(window.tripSelectSuggestion||function(f,n){var i=document.getElementById('trip-'+f);if(i)i.value=n;document.getElementById('trip-from-suggestions')?.classList.add('hidden');document.getElementById('trip-to-suggestions')?.classList.add('hidden')})('${field}','${safe}')" class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"><div class="font-medium text-sm truncate">${safe}</div></button>`
-            }).join('')}
-          </div>`
+        if (!currentInput || currentInput.value.trim() !== q) return
+        if (data?.features?.length > 0) {
+          const names = data.features.map(f => {
+            const p = f.properties
+            const parts = [p.name]
+            if (p.state) parts.push(p.state)
+            if (p.country) parts.push(p.country)
+            return parts.join(', ')
+          })
+          renderSuggestions(names)
         } else {
-          container.classList.add('hidden')
+          // Fallback to Nominatim
+          const { searchLocation } = await import('../../services/osrm.js')
+          const results = await searchLocation(q)
+          if (!currentInput || currentInput.value.trim() !== q) return
+          renderSuggestions(results?.map(r => r.name) || [])
         }
       } catch { container.classList.add('hidden') }
-    }, 300)
+    }, 100)
   }
 }
