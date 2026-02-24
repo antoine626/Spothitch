@@ -200,6 +200,8 @@ export const STORAGE_KEYS = [
   // === UX ===
   { key: 'spothitch_landing_seen', category: DataCategory.SETTINGS, description: 'Landing page dismissed flag' },
   { key: 'spothitch_sos_disclaimer_seen', category: DataCategory.SETTINGS, description: 'SOS disclaimer accepted flag' },
+  { key: 'spothitch_roadmap_intro_seen', category: DataCategory.SETTINGS, description: 'Roadmap intro screen dismissed flag' },
+  { key: 'spothitch_roadmap_detail_seen', category: DataCategory.SETTINGS, description: 'Roadmap detail intro dismissed flag' },
 
   // === SOS v2 ===
   { key: 'spothitch_sos_channel', category: DataCategory.SETTINGS, description: 'SOS alert channel preference (sms/whatsapp)' },

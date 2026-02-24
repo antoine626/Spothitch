@@ -932,9 +932,37 @@ function lt(obj) {
   return obj[lang] || obj.en || obj.fr || ''
 }
 
+function renderRoadmapIntroScreen() {
+  return `
+    <div class="flex flex-col items-center justify-center py-8 text-center">
+      <div class="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center text-3xl mx-auto mb-4">
+        ${icon('rocket', 'w-8 h-8 text-amber-400')}
+      </div>
+      <h2 class="text-xl font-bold text-amber-400 mb-4">
+        ${t('roadmapIntroTitle') || 'Feature Roadmap'}
+      </h2>
+      <div class="text-sm text-slate-300 text-left space-y-3 mb-6 max-w-sm mx-auto">
+        <p>${t('roadmapIntroText1') || 'This is the SpotHitch feature roadmap. See what we are building next!'}</p>
+        <p>${t('roadmapIntroText2') || 'Vote on the features you want most. The more votes, the higher the priority.'}</p>
+        <p>${t('roadmapIntroText3') || 'Leave comments to share your ideas and suggestions with the team.'}</p>
+      </div>
+      <button
+        onclick="acceptRoadmapIntro()"
+        class="w-full max-w-sm py-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-dark-primary font-bold text-lg transition-colors"
+      >
+        ${t('roadmapIntroAccept') || 'Got it!'}
+      </button>
+    </div>
+  `
+}
+
 function renderRoadmapTab(state) {
   // Trigger Firebase data load (non-blocking)
   if (!state.roadmapVoteCounts) loadRoadmapData()
+
+  // First-time intro screen (like SOS disclaimer pattern)
+  const introSeen = typeof localStorage !== 'undefined' && localStorage.getItem('spothitch_roadmap_intro_seen')
+  if (!introSeen) return renderRoadmapIntroScreen()
 
   if (state.roadmapFeatureId) {
     const feature = ROADMAP_FEATURES.find(f => f.id === state.roadmapFeatureId)
@@ -1372,11 +1400,22 @@ function renderRoadmapDetail(state, feature) {
   const status = ROADMAP_STATUS[feature.status] || ROADMAP_STATUS.thinking
   const detailRenderer = FEATURE_DETAIL_RENDERERS[feature.id]
 
+  const detailIntroSeen = typeof localStorage !== 'undefined' && localStorage.getItem('spothitch_roadmap_detail_seen')
+
   return `
     <div>
       <button onclick="closeRoadmapFeature()" class="text-sm text-slate-400 hover:text-white mb-4 flex items-center gap-1">
         ${icon('arrow-left', 'w-4 h-4')} ${t('back') || 'Retour'}
       </button>
+
+      ${!detailIntroSeen ? `
+        <div class="card p-3 mb-4 border-primary-500/20 bg-primary-500/5 relative">
+          <p class="text-xs text-slate-300 pr-6">${t('roadmapDetailIntro') || 'Vote up or down, and leave a comment to share your thoughts. Your feedback shapes what we build next!'}</p>
+          <button onclick="dismissRoadmapDetailIntro()" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+            ${icon('x', 'w-3 h-3')}
+          </button>
+        </div>
+      ` : ''}
 
       <div class="mb-4">
         <span class="text-[10px] ${status.cls} px-2 py-0.5 rounded font-bold uppercase">${lt(status)}</span>
@@ -2105,6 +2144,17 @@ window.submitRoadmapComment = async (featureId) => {
 
 window.openProgressionStats = () => {
   window.setState?.({ showBadges: true })
+}
+
+// --- Roadmap intro screens ---
+window.acceptRoadmapIntro = () => {
+  localStorage.setItem('spothitch_roadmap_intro_seen', '1')
+  window.render?.()
+}
+
+window.dismissRoadmapDetailIntro = () => {
+  localStorage.setItem('spothitch_roadmap_detail_seen', '1')
+  window.render?.()
 }
 
 export default { renderProfile }

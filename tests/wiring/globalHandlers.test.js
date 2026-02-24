@@ -321,6 +321,7 @@ const MAIN_JS_HANDLERS = [
   'openRoadmapFeature', 'closeRoadmapFeature', 'setRoadmapListTab',
   'roadmapVote', 'roadmapVoteDetail', 'roadmapShowCommentInput',
   'roadmapHideCommentInput', 'submitRoadmapComment', 'openProgressionStats',
+  'acceptRoadmapIntro', 'dismissRoadmapDetailIntro',
   // Map extras (defined in Map.js)
   'searchLocation',
   // Chat extras (defined in Chat.js)
