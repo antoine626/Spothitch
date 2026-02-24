@@ -10,9 +10,9 @@
 - [x] Carte interactive MapLibre GL JS avec tuiles OpenFreeMap
 - [x] Clustering dynamique des spots (dé-cluster au zoom)
 - [x] Couleurs de fraîcheur (vert=récent, jaune=ancien, gris=très vieux)
-- [x] Centrage GPS sur position utilisateur
-- [x] Split view (carte + liste côte à côte)
-- [x] Affichage stations-service (toggle, via Overpass API)
+- [x] Centrage GPS sur position utilisateur (bouton visible sur tous les appareils, demande permission au clic)
+- [x] ~~Split view (carte + liste côte à côte)~~ (supprimé session 16 — bouton "nearby spots" retiré)
+- [x] Affichage stations-service (toggle ⛽, Overpass API, viewport actuel, zoom guard >= 8)
 - [ ] ~~Heatmap densité des spots~~ (supprimé session 11 — code fantôme sans UI)
 - [x] Filtres carte (type de spot, note, fraîcheur)
 - [x] Panneau ville (infos + routes depuis une ville, affichage même avec 0 spots)
@@ -61,7 +61,7 @@
 
 - [x] 53 guides pays (difficulté, légalité, phrases, événements, numéros d'urgence)
 - [x] Conseils communautaires (ajout + vote up/down)
-- [x] Vote utile/pas utile sur chaque conseil guide (sections Débuter, Sécurité, Pays)
+- [x] Vote utile/pas utile avec compteur affiché + feedback instantané DOM (pas de toast flottant)
 - [x] Formulaire de suggestion de conseils par section
 - [x] Service feedback centralisé (feedbackService.js, localStorage)
 - [x] Barre de recherche carte avec padding corrigé (plus de chevauchement icône)
@@ -70,6 +70,7 @@
 - [x] Informations devise par pays (monnaie, taux, paiement, budget — 20 pays)
 - [x] Détail pays en 3 sous-onglets : Info, Culture, Pratique
 - [x] Suggestions villes Photon API (plus rapide que Nominatim, 100ms debounce)
+- [x] Sections guides simplifiées : 3 onglets (Débuter, Pays, Sécurité) — phrases/événements/légalité dans chaque pays
 
 ## Gamification
 
@@ -191,6 +192,7 @@
 - [x] Version check pause quand app backgrounded
 - [x] Favorites cache en mémoire (pas de JSON.parse répété)
 - [x] Idle preload Social.js + Profile.js
+- [x] Autocomplete Photon API partout (100ms debounce, ~50ms réponse vs 300ms Nominatim)
 
 ## Légal & Conformité
 

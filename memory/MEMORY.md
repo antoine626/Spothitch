@@ -88,20 +88,30 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
-### Session 2026-02-24 (session 16 — PERFORMANCE OPTIMIZATION)
+### Session 2026-02-24 (session 16 — PERFORMANCE + UX FIXES)
+**Phase 1 : Optimisation perf**
 - **setState() dirty-checking** : skip notifySubscribers quand aucune valeur ne change réellement (élimine ~30-50% des renders)
 - **Render fingerprint** : skip le rebuild complet du DOM quand seul l'état non-visuel change (ex: points, messages)
-- **persistState() debounce** : écriture localStorage groupée toutes les 500ms au lieu de chaque setState
+- **persistState() debounce** : écriture localStorage groupée via queueMicrotask au lieu de chaque setState
 - **MutationObservers supprimés** : 3 observers globaux sur document.body (AddSpot, ValidateSpot, Companion) remplacés par des hooks afterRender ciblés
 - **transition-all → transition-colors** : 352 occurrences dans 61 fichiers — réduit le travail du moteur CSS
 - **MapLibre CSS lazy** : ~50KB CSS chargé seulement quand la carte s'initialise
 - **Widgets conditionnels** : nearbyFriendsWidget et SOSTrackingWidget ne lazy-loadent plus si pas actifs
 - **Monitoring** : window.__renderStats() exposé pour debug perf
 - **window._forceRender()** : nouveau mécanisme pour les modules lazy-loaded (contourne dirty-checking + fingerprint)
-- **Chat messages slice(-50)** : zone, DM et group chat limités aux 50 derniers messages (évite de générer des milliers de lignes HTML)
-- **Version check pause** : arrête le polling version.json quand l'app est en arrière-plan (économie réseau/batterie)
-- **Favorites cache** : parsed favorites set gardé en mémoire (évite JSON.parse à chaque render de la carte)
-- **Idle preload** : Social.js et Profile.js préchargés pendant le temps mort pour un changement d'onglet instantané
+- **Chat messages slice(-50)** : zone, DM et group chat limités aux 50 derniers messages
+- **Version check pause** : arrête le polling version.json quand l'app est en arrière-plan
+- **Favorites cache** : parsed favorites set gardé en mémoire
+- **Idle preload** : Social.js et Profile.js préchargés pendant le temps mort
+
+**Phase 2 : 7 corrections UX**
+- **Autocomplete Photon API** : tous les champs de recherche utilisent Photon (50-100ms) au lieu de Nominatim (300-500ms), debounce réduit à 100ms
+- **Stations-service fixées** : le bouton ⛽ cherche maintenant dans le viewport de la carte (pas la route de navigation), avec garde zoom >= 8
+- **GPS sur tous les appareils** : le bouton géolocalisation est toujours visible (pas conditionnel au GPS), demande la permission au clic
+- **Nearby spots supprimé** : bouton split view retiré, filtre "nearby" retiré de Spots.js
+- **Mini-map AddSpot fixée** : MapLibre CSS chargé avant l'initialisation de la mini-carte
+- **Guides simplifiés** : 3 onglets (Débuter, Pays, Sécurité) — phrases/événements/légalité sont dans chaque page pays
+- **Vote avec compteur** : les boutons utile/pas utile affichent le nombre de votes + feedback DOM instantané (plus de toast flottant)
 
 ### Session 2026-02-24 (session 15 — UX OVERHAUL 25+ corrections)
 - **Carte** : compteur spots supprimé, bouton itinéraire supprimé, bouton guide → Voyage>Guides, bouton ⛽ stations-service, scroll vertical bloqué, focus orange supprimé au touch, carte persistante entre onglets, carte init au lancement
