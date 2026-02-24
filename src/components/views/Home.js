@@ -9,9 +9,7 @@ import { icon } from '../../utils/icons.js'
 import { isCompanionActive, getTimeUntilNextCheckIn } from '../../services/companion.js'
 
 export function renderHome(state) {
-  const hasGPS = !!state.userLocation
   const searchLabel = state.homeSearchLabel || ''
-  const isSplit = !!state.splitView
   const companionActive = isCompanionActive()
 
   // Country guide indicator
@@ -22,7 +20,7 @@ export function renderHome(state) {
   return `
     <div class="relative overflow-hidden" style="height:calc(100dvh - 4rem)">
       <!-- Map — full screen behind everything (z-0) -->
-      <div id="home-map-container" class="absolute inset-0 z-0 bg-dark-secondary ${isSplit ? 'bottom-1/2' : ''}">
+      <div id="home-map-container" class="absolute inset-0 z-0 bg-dark-secondary ">
         <div id="home-map" class="w-full h-full"></div>
       </div>
 
@@ -103,37 +101,26 @@ export function renderHome(state) {
           class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-colors text-lg font-bold shadow-lg"
           aria-label="${t('zoomOut') || 'Zoom out'}"
         >−</button>
-        ${hasGPS ? `
-          <button
-            onclick="homeCenterOnUser()"
-            class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-colors shadow-lg"
-            aria-label="${t('myLocation') || 'Ma position'}"
-          >
-            ${icon('locate', 'w-5 h-5')}
-          </button>
-        ` : ''}
+        <button
+          onclick="homeCenterOnUser()"
+          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-colors shadow-lg"
+          aria-label="${t('myLocation') || 'Ma position'}"
+        >
+          ${icon('locate', 'w-5 h-5')}
+        </button>
         <!-- Gas stations toggle -->
         <button
           onclick="toggleGasStations()"
-          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-colors shadow-lg"
+          class="w-10 h-10 rounded-xl ${state.showGasStationsOnMap ? 'bg-red-500/80 text-white' : 'bg-dark-primary/60 text-slate-400'} backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-colors shadow-lg"
           aria-label="${t('gasStations') || 'Stations-service'}"
           title="${t('gasStations') || 'Stations-service'}"
         >
           <span class="text-lg">⛽</span>
         </button>
-        <!-- Split view toggle -->
-        <button
-          onclick="toggleSplitView()"
-          class="w-10 h-10 rounded-xl ${isSplit ? 'bg-primary-500/80 text-white' : 'bg-dark-primary/60 text-slate-400'} backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 transition-colors shadow-lg"
-          aria-label="${t('splitView') || 'Vue partagée'}"
-          title="${t('splitView') || 'Vue partagée'}"
-        >
-          ${icon('columns-2', 'w-5 h-5')}
-        </button>
       </div>
 
       <!-- Country Guide shortcut → Voyage > Guides -->
-      <div class="absolute ${isSplit ? 'bottom-[52%]' : 'bottom-32'} left-4 z-20">
+      <div class="absolute bottom-32 left-4 z-20">
         <button
           onclick="changeTab('challenges');setState({voyageSubTab:'guides'})"
           class="flex items-center gap-2 px-3 py-2 rounded-xl ${hasGuide ? 'bg-emerald-500/90 text-white hover:bg-emerald-600' : 'bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-emerald-500/50'} transition-colors text-sm shadow-lg"
@@ -145,27 +132,10 @@ export function renderHome(state) {
         </button>
       </div>
 
-      <!-- Bottom sheet removed — country bubbles handle discovery at low zoom -->
-
-      <!-- Split View: spot list (bottom half) -->
-      ${isSplit ? `
-        <div class="absolute bottom-0 left-0 right-0 top-1/2 z-20 bg-dark-primary/95 backdrop-blur-xl border-t border-white/10 overflow-y-auto">
-          <div class="p-5">
-            <h3 class="text-sm font-semibold text-slate-400 mb-4">
-              ${icon('list', 'w-5 h-5 mr-1')}
-              ${t('nearbySpots') || 'Spots à proximité'}
-            </h3>
-            <div id="split-spots-list" class="space-y-2">
-              <!-- Populated dynamically by afterRender -->
-            </div>
-          </div>
-        </div>
-      ` : ''}
-
       <!-- Add Spot FAB -->
       <button
         onclick="openAddSpot()"
-        class="fixed ${isSplit ? 'bottom-[52%]' : 'bottom-36'} right-5 z-30 w-16 h-16 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-2xl hover:bg-primary-600 hover:scale-110 transition-colors"
+        class="fixed bottom-36 right-5 z-30 w-16 h-16 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-2xl hover:bg-primary-600 hover:scale-110 transition-colors"
         aria-label="${t('addSpot') || 'Ajouter un spot'}"
         title="${t('addSpot') || 'Ajouter un spot'}"
       >

@@ -107,6 +107,42 @@ function haversineKm(lat1, lng1, lat2, lng2) {
 }
 
 /**
+ * Fetch gas stations in map viewport
+ * @param {Object} bounds - { north, south, east, west }
+ * @returns {Promise<Array>} stations
+ */
+export async function fetchGasStationsInBounds(bounds) {
+  if (!bounds) return []
+
+  const query = `[out:json][timeout:10];
+    node["amenity"="fuel"](${bounds.south},${bounds.west},${bounds.north},${bounds.east});
+    out body;`
+
+  try {
+    const response = await fetch(OVERPASS_API, {
+      method: 'POST',
+      body: `data=${encodeURIComponent(query)}`,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    })
+
+    if (!response.ok) return []
+    const data = await response.json()
+
+    return (data.elements || [])
+      .filter(el => el.lat && el.lon)
+      .map(el => ({
+        id: el.id,
+        lat: el.lat,
+        lng: el.lon,
+        name: el.tags?.name || el.tags?.brand || t('gasStation') || 'Station-service',
+        brand: el.tags?.brand || '',
+      }))
+  } catch {
+    return []
+  }
+}
+
+/**
  * Toggle gas stations visibility on map
  */
 export function toggleGasStations() {
@@ -114,17 +150,36 @@ export function toggleGasStations() {
   const show = !state.showGasStationsOnMap
   setState({ showGasStationsOnMap: show })
 
-  if (show && (!state.gasStations || state.gasStations.length === 0)) {
-    // Fetch gas stations for current route
-    const route = state.navigationRoute
-    if (route?.geometry?.coordinates) {
-      fetchGasStationsAlongRoute(route.geometry.coordinates).then(stations => {
+  if (show) {
+    // Get current map bounds
+    const map = window.homeMapInstance || window.mapInstance
+    if (!map) return
+
+    // Check zoom level — require zoom >= 8 to avoid too many results
+    const zoom = map.getZoom?.() || 0
+    if (zoom < 8) {
+      import('../services/notifications.js').then(n => n.showToast(
+        t('zoomInForStations') || 'Zoome pour voir les stations-service',
+        'info'
+      ))
+      setState({ showGasStationsOnMap: false })
+      return
+    }
+
+    const bounds = map.getBounds?.()
+    if (bounds) {
+      const ne = bounds.getNorthEast()
+      const sw = bounds.getSouthWest()
+      fetchGasStationsInBounds({
+        north: ne.lat,
+        south: sw.lat,
+        east: ne.lng,
+        west: sw.lng,
+      }).then(stations => {
         setState({ gasStations: stations })
         showGasStationMarkers(stations)
       })
     }
-  } else if (show) {
-    showGasStationMarkers(state.gasStations)
   } else {
     hideGasStationMarkers()
   }

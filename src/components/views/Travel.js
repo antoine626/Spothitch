@@ -738,18 +738,18 @@ window.tripSearchSuggestions = (field, query) => {
     container.innerHTML = renderSuggestions(field, localMatches)
   }
 
-  // Also fetch from Nominatim (but don't block on it)
+  // Also fetch from Photon API (faster than Nominatim, ~50-100ms)
   tripDebounce = setTimeout(async () => {
     try {
-      const { searchLocation } = await import('../../services/osrm.js')
-      const results = await searchLocation(query)
+      const { searchPhoton } = await import('../../services/osrm.js')
+      const results = await searchPhoton(query)
       // Only update if input still has same value (user hasn't changed it)
       const currentInput = document.getElementById(`trip-${field}`)
       if (!currentInput || currentInput.value.trim() !== query.trim()) return
 
       if (results && results.length > 0) {
         // Merge: local matches first, then API results (deduplicated)
-        const apiNames = results.map(r => r.name)
+        const apiNames = results.map(r => r.fullName || r.name)
         const merged = [...new Set([...localMatches, ...apiNames])].slice(0, 5)
         container.classList.remove('hidden')
         container.innerHTML = renderSuggestions(field, merged)
@@ -760,7 +760,7 @@ window.tripSearchSuggestions = (field, query) => {
       // Keep local results if they exist
       if (localMatches.length === 0) container.classList.add('hidden')
     }
-  }, 200)
+  }, 100)
 }
 
 function renderSuggestions(field, names) {

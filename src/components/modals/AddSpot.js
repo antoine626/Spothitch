@@ -798,6 +798,9 @@ async function initSpotMap() {
   }
 
   try {
+    // Load MapLibre CSS (required since it's lazy-loaded)
+    import('maplibre-gl/dist/maplibre-gl.css')
+
     const maplibregl = await import('maplibre-gl')
 
     // Use existing position, or user's known location, or default to Paris
@@ -1025,12 +1028,13 @@ function initStep1Autocomplete() {
   if (!navigator.onLine) return
 
   import('../../utils/autocomplete.js').then(({ initAutocomplete }) => {
-    import('../../services/osrm.js').then(({ searchCities }) => {
+    import('../../services/osrm.js').then(({ searchPhoton }) => {
       const depInput = document.getElementById('spot-departure-city')
       if (depInput) {
         const ac = initAutocomplete({
           inputId: 'spot-departure-city',
-          searchFn: (q) => searchCities(q, { countryCode: window.spotFormData.country }),
+          searchFn: (q) => searchPhoton(q, { countryCode: window.spotFormData.country }),
+          debounceMs: 100,
           forceSelection: true,
           onSelect: (item) => {
             window.spotFormData.departureCity = item.name
@@ -1055,12 +1059,13 @@ function initStep2Autocomplete() {
   if (!navigator.onLine) return
 
   import('../../utils/autocomplete.js').then(({ initAutocomplete }) => {
-    import('../../services/osrm.js').then(({ searchCities }) => {
+    import('../../services/osrm.js').then(({ searchPhoton }) => {
       const dirInput = document.getElementById('spot-direction-city')
       if (dirInput) {
         const ac = initAutocomplete({
           inputId: 'spot-direction-city',
-          searchFn: (q) => searchCities(q, {}),
+          searchFn: (q) => searchPhoton(q, {}),
+          debounceMs: 100,
           forceSelection: true,
           onSelect: (item) => {
             window.spotFormData.directionCity = item.name

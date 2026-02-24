@@ -77,7 +77,6 @@ function renderFilterButtons(state) {
     { id: 'all', label: t('filterAll'), icon: 'globe' },
     { id: 'top', label: t('filterTop'), icon: 'star' },
     { id: 'recent', label: t('filterRecent'), icon: 'clock' },
-    { id: 'nearby', label: t('filterNearby'), icon: 'navigation' },
   ];
 
   return filters.map(filter => `

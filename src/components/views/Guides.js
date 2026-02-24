@@ -206,9 +206,6 @@ const GUIDE_SECTIONS = [
   { id: 'start', icon: 'compass', color: 'amber', labelKey: 'guideStart', fallback: 'Débuter' },
   { id: 'countries', icon: 'globe', color: 'primary', labelKey: 'guideCountries', fallback: 'Par pays' },
   { id: 'safety', icon: 'shield', color: 'emerald', labelKey: 'guideSafety', fallback: 'Sécurité' },
-  { id: 'phrases', icon: 'message-circle', color: 'purple', labelKey: 'guidePhrases', fallback: 'Phrases utiles' },
-  { id: 'events', icon: 'calendar', color: 'pink', labelKey: 'guideEvents', fallback: 'Événements' },
-  { id: 'legality', icon: 'scale', color: 'blue', labelKey: 'guideLegality', fallback: 'Légalité' },
 ]
 
 export function renderGuides(state) {
@@ -221,7 +218,7 @@ export function renderGuides(state) {
 
   return `
     <div class="space-y-4">
-      <!-- Section grid (Design B: 3×2 icon tiles) -->
+      <!-- Section tabs -->
       <div class="grid grid-cols-3 gap-2">
         ${GUIDE_SECTIONS.map(s => `
           <button

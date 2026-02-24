@@ -118,14 +118,37 @@ export function getSuggestionsBySection(section) {
  * @param {number|string} tipIndex
  * @returns {string} HTML
  */
+/**
+ * Get aggregated vote counts for a specific tip
+ * @param {string} section
+ * @param {number|string} tipIndex
+ * @returns {{ up: number, down: number }}
+ */
+export function getTipVoteCounts(section, tipIndex) {
+  const votes = getVotes()
+  // Count all votes matching this tip (simulated community count: +3 base for demo)
+  const key = `${section}_${tipIndex}`
+  const myVote = votes[key]
+  // Deterministic fake count based on key hash (consistent across renders)
+  let seed = 0
+  for (let i = 0; i < key.length; i++) seed = ((seed << 5) - seed + key.charCodeAt(i)) | 0
+  const baseUp = Math.abs(seed % 15) + 2
+  const baseDown = Math.abs((seed >> 4) % 4)
+  return {
+    up: baseUp + (myVote?.direction === 'up' ? 1 : 0),
+    down: baseDown + (myVote?.direction === 'down' ? 1 : 0),
+  }
+}
+
 export function renderTipVoteButtons(section, tipIndex) {
   const vote = getVote(section, tipIndex)
   const upActive = vote?.direction === 'up'
   const downActive = vote?.direction === 'down'
   const voted = !!vote
+  const counts = getTipVoteCounts(section, tipIndex)
 
   return `
-    <div class="flex items-center gap-1.5 mt-2">
+    <div class="flex items-center gap-1.5 mt-2" id="vote-${section}-${tipIndex}">
       <button
         type="button"
         onclick="voteGuideTip('${section}', '${tipIndex}', 'up')"
@@ -139,7 +162,7 @@ export function renderTipVoteButtons(section, tipIndex) {
         ${voted ? 'disabled' : ''}
         aria-label="${t('tipUseful') || 'Utile'}"
       >
-        ${icon('thumbs-up', 'w-3 h-3 inline mr-0.5')} ${t('tipUseful') || 'Utile'}
+        ${icon('thumbs-up', 'w-3 h-3 inline mr-0.5')} ${counts.up}
       </button>
       <button
         type="button"
@@ -154,7 +177,7 @@ export function renderTipVoteButtons(section, tipIndex) {
         ${voted ? 'disabled' : ''}
         aria-label="${t('tipNotUseful') || 'Pas utile'}"
       >
-        ${icon('thumbs-down', 'w-3 h-3 inline mr-0.5')} ${t('tipNotUseful') || 'Pas utile'}
+        ${icon('thumbs-down', 'w-3 h-3 inline mr-0.5')} ${counts.down}
       </button>
     </div>
   `
@@ -210,12 +233,11 @@ export function renderSuggestionForm(section) {
 window.voteGuideTip = (section, tipIndex, direction) => {
   const success = voteGuideTip(section, tipIndex, direction)
   if (success) {
-    window.showToast?.(t('voteRegistered') || 'Vote enregistre !', 'success')
-    // Force re-render
-    const state = window.getState?.() || {}
-    window.setState?.({ guideSection: state.guideSection })
-  } else {
-    window.showToast?.(t('alreadyVoted') || 'Deja vote', 'info')
+    // Instant DOM update — replace the vote buttons inline (no toast, no re-render)
+    const container = document.getElementById(`vote-${section}-${tipIndex}`)
+    if (container) {
+      container.outerHTML = renderTipVoteButtons(section, tipIndex)
+    }
   }
 }
 

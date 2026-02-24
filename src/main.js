@@ -41,8 +41,6 @@ function preloadMap() {
 }
 // Heavy modules — lazy-loaded via dynamic import() to reduce initial bundle
 // gamification.js, quiz.js, planner.js, friendChallenges.js loaded on demand
-import { searchLocation } from './services/osrm.js';
-
 // i18n
 import { t, setLanguage, initI18n } from './i18n/index.js';
 
@@ -2335,16 +2333,17 @@ window.homeSearchDestination = (query) => {
   }
   homeDestDebounce = setTimeout(async () => {
     try {
-      const results = await searchLocation(query)
+      // Use Photon API (faster: ~50-100ms vs Nominatim ~300-500ms)
+      const { searchPhoton } = await import('./services/osrm.js')
+      const results = await searchPhoton(query)
       if (results && results.length > 0) {
         container.classList.remove('hidden')
         container.innerHTML = `
           <div class="bg-dark-secondary/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
             ${results.map((r, i) => {
-              const shortName = escapeHTML((r.name || '').split(',').slice(0, 2).join(','))
-              const fullName = escapeHTML(r.name || '')
-              const cityName = escapeHTML((r.name || '').split(',')[0].trim())
-              const countryName = escapeHTML((r.name || '').split(',').pop().trim())
+              const shortName = escapeHTML(r.fullName || r.name || '')
+              const cityName = escapeHTML(r.name || '')
+              const countryName = escapeHTML(r.countryName || '')
               const cc = (r.countryCode || '').toUpperCase()
               const slug = cityName.toLowerCase().replace(/[^a-z0-9]+/g, '-')
               return `
@@ -2355,7 +2354,6 @@ window.homeSearchDestination = (query) => {
                   data-home-suggestion="${i}"
                 >
                   <div class="font-medium text-sm truncate">${shortName}</div>
-                  <div class="text-xs text-slate-400 truncate">${fullName}</div>
                 </button>
                 <button
                   onclick="openCityPanel('${slug}', '${cityName.replace(/'/g, '&#39;')}', ${Number(r.lat)}, ${Number(r.lng)}, '${cc}', '${countryName.replace(/'/g, '&#39;')}')"
@@ -2373,7 +2371,7 @@ window.homeSearchDestination = (query) => {
     } catch (e) {
       container.classList.add('hidden')
     }
-  }, 300)
+  }, 100)
 }
 
 window.homeSelectFirstSuggestion = () => {
@@ -2407,6 +2405,22 @@ window.homeCenterOnUser = () => {
   const { userLocation } = getState()
   if (userLocation && window.homeMapInstance) {
     window.homeMapInstance.setView([userLocation.lat, userLocation.lng], 13)
+  } else if (navigator.geolocation) {
+    // Request GPS permission and center when available
+    showToast(t('locating') || 'Localisation en cours...', 'info')
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude }
+        actions.setUserLocation(loc)
+        if (window.homeMapInstance) {
+          window.homeMapInstance.setView([loc.lat, loc.lng], 13)
+        }
+      },
+      () => {
+        showToast(t('gpsUnavailable') || 'GPS non disponible', 'warning')
+      },
+      { timeout: 10000, enableHighAccuracy: true }
+    )
   }
 }
 

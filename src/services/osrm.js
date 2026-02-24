@@ -337,6 +337,60 @@ export function clearCache() {
   routeCache.clear();
 }
 
+/**
+ * Fast city search via Photon API (Komoot)
+ * ~50-100ms response time vs ~300-500ms for Nominatim
+ * @param {string} query - Search query
+ * @param {Object} [options] - Options
+ * @param {string} [options.countryCode] - Not supported by Photon, ignored
+ * @returns {Promise<Array>} City suggestions
+ */
+export async function searchPhoton(query, { countryCode } = {}) {
+  if (!query || query.length < 2) return []
+
+  let lang = 'fr'
+  try { lang = (await import('../stores/state.js')).getState().lang || 'fr' } catch { /* no-op */ }
+
+  const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=5&lang=${lang}&layer=city&layer=locality`
+
+  try {
+    const response = await fetch(url)
+    if (!response.ok) throw new Error(`Photon error: ${response.status}`)
+
+    const data = await response.json()
+    if (!data?.features?.length) return []
+
+    const results = data.features.map(f => {
+      const p = f.properties
+      const city = p.name || ''
+      const country = p.country || ''
+      const cc = (p.countrycode || '').toUpperCase()
+      const coords = f.geometry?.coordinates || [0, 0]
+      return {
+        name: city,
+        fullName: country ? `${city}, ${country}` : city,
+        lat: coords[1],
+        lng: coords[0],
+        countryCode: cc,
+        countryName: country,
+        importance: p.importance || 0,
+      }
+    })
+
+    // Deduplicate
+    const seen = new Set()
+    return results.filter(r => {
+      const key = `${r.name.toLowerCase()}|${r.lat.toFixed(1)},${r.lng.toFixed(1)}`
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    }).slice(0, 5)
+  } catch {
+    // Fallback to Nominatim
+    return searchCities(query, { countryCode })
+  }
+}
+
 export default {
   getRoute,
   getRouteDebounced,
@@ -345,6 +399,7 @@ export default {
   searchLocation,
   searchCities,
   searchCountries,
+  searchPhoton,
   reverseGeocode,
   clearCache,
 };
