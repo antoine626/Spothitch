@@ -426,6 +426,44 @@ function renderActiveView(state) {
 }
 
 /**
+ * Inject / update persistent map controls inside #home-map.
+ * Since #home-map is preserved across re-renders (never destroyed),
+ * controls inside it won't blink/flash on state changes.
+ */
+function ensureMapControls(state) {
+  const map = document.getElementById('home-map')
+  if (!map) return
+
+  let ctrl = document.getElementById('home-map-controls')
+  if (!ctrl) {
+    ctrl = document.createElement('div')
+    ctrl.id = 'home-map-controls'
+    ctrl.style.cssText = 'position:absolute;right:1rem;z-index:20;display:flex;flex-direction:column;gap:0.5rem'
+    ctrl.innerHTML = `
+      <button onclick="homeZoomIn()" class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-colors text-lg font-bold shadow-lg" aria-label="Zoom in">+</button>
+      <button onclick="homeZoomOut()" class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-colors text-lg font-bold shadow-lg" aria-label="Zoom out">\u2212</button>
+      <button onclick="homeCenterOnUser()" class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-colors shadow-lg" aria-label="My location">${icon('locate', 'w-5 h-5')}</button>
+      <button id="gas-toggle-btn" onclick="toggleGasStations()" class="w-10 h-10 rounded-xl bg-dark-primary/60 text-slate-400 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-colors shadow-lg" aria-label="Gas stations"><span class="text-lg">\u26FD</span></button>
+    `
+    map.appendChild(ctrl)
+  }
+
+  // Update position (companion bar pushes controls down)
+  const companionOn = !!document.querySelector('[onclick="showCompanionModal()"]')
+  ctrl.style.top = companionOn ? '8rem' : '5rem'
+
+  // Update gas station button active state
+  const gasBtn = document.getElementById('gas-toggle-btn')
+  if (gasBtn) {
+    if (state.showGasStationsOnMap) {
+      gasBtn.className = 'w-10 h-10 rounded-xl bg-red-500/80 text-white backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-colors shadow-lg'
+    } else {
+      gasBtn.className = 'w-10 h-10 rounded-xl bg-dark-primary/60 text-slate-400 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-colors shadow-lg'
+    }
+  }
+}
+
+/**
  * Post-render hook to initialize map and focus traps
  */
 export function afterRender(state) {
@@ -442,6 +480,9 @@ export function afterRender(state) {
 
   // A9: Always init the map (it persists across tabs)
   setTimeout(() => initHomeMap(state), 100)
+
+  // Inject / update persistent map controls (zoom, GPS, gas stations)
+  ensureMapControls(state)
   // Trip map can be in overlay (showTripPlanner) regardless of activeTab
   if (state.showTripMap && (isMapTab(state) || state.showTripPlanner)) {
     // Only init if not already preserved from previous render

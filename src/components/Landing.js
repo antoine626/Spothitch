@@ -5,11 +5,22 @@
  * Geolocation is handled automatically by init() — not in onboarding.
  */
 
-import { t } from '../i18n/index.js'
+import { t, languageConfig } from '../i18n/index.js'
+import { getState } from '../stores/state.js'
 
 export function renderLanding() {
+  const currentLang = getState().lang || 'fr'
+  const langButtons = Object.values(languageConfig).map(l =>
+    `<button onclick="changeLandingLanguage('${l.code}')" class="w-10 h-10 rounded-full ${l.code === currentLang ? 'bg-primary-500/30 border-2 border-primary-400 scale-110' : 'bg-white/10 border border-white/10'} flex items-center justify-center text-lg transition-colors hover:bg-white/20" aria-label="${l.nativeName}">${l.flag}</button>`
+  ).join('')
+
   return `
     <div id="landing-page" class="fixed inset-0 z-[100] bg-dark-primary overflow-hidden">
+
+      <!-- Language selector (floating top-right) -->
+      <div class="absolute top-4 right-4 z-20 flex gap-1.5">
+        ${langButtons}
+      </div>
 
       <!-- Carousel Track -->
       <div id="landing-track" class="flex h-full transition-transform duration-300 ease-out" style="width:600%">

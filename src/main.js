@@ -1402,10 +1402,7 @@ window.closeDailyRewardResult = () => setState({ showDailyReward: false, lastDai
 
 // UI toggles
 window.closeFavoritesOnMap = () => setState({ showFavoritesOnMap: false, filterFavorites: false });
-window.toggleGasStationsOnMap = () => {
-  const s = getState();
-  setState({ showGasStationsOnMap: !s.showGasStationsOnMap });
-};
+// toggleGasStations is registered by gasStations.js (import at top)
 
 // Missing close handlers for modals/overlays
 window.closeTitlePopup = () => setState({ showTitlePopup: false, newTitle: null })
@@ -1868,6 +1865,24 @@ window.dismissLanding = () => {
 }
 
 window.closeLanding = () => setState({ showLanding: false })
+
+// Change language from the onboarding carousel without page reload
+window.changeLandingLanguage = async (langCode) => {
+  // Load translations for new language
+  const { setLanguage: setLangI18n } = await import('./i18n/index.js')
+  await setLangI18n(langCode)
+  // Persist to localStorage
+  try {
+    const stored = JSON.parse(localStorage.getItem('spothitch_v4_state') || '{}')
+    stored.lang = langCode
+    localStorage.setItem('spothitch_v4_state', JSON.stringify(stored))
+  } catch { /* no-op */ }
+  // Remove the preserved landing so it gets rebuilt with new translations
+  const landing = document.getElementById('landing-page')
+  if (landing) landing.remove()
+  // Re-render (setState with lang triggers render, landing is rebuilt fresh)
+  setState({ lang: langCode })
+}
 
 // Landing carousel next slide — stub until initLandingCarousel() overrides with real implementation.
 // Must exist early so onclick="landingNext()" in landing HTML doesn't throw before carousel init.

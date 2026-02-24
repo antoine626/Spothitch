@@ -89,35 +89,7 @@ export function renderHome(state) {
       </div>
 
 
-      <!-- Zoom + location + split controls (right side) -->
-      <div class="absolute ${companionActive ? 'top-[8rem]' : 'top-[5rem]'} right-4 z-20 flex flex-col gap-2">
-        <button
-          onclick="homeZoomIn()"
-          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-colors text-lg font-bold shadow-lg"
-          aria-label="${t('zoomIn') || 'Zoom in'}"
-        >+</button>
-        <button
-          onclick="homeZoomOut()"
-          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-colors text-lg font-bold shadow-lg"
-          aria-label="${t('zoomOut') || 'Zoom out'}"
-        >−</button>
-        <button
-          onclick="homeCenterOnUser()"
-          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-colors shadow-lg"
-          aria-label="${t('myLocation') || 'Ma position'}"
-        >
-          ${icon('locate', 'w-5 h-5')}
-        </button>
-        <!-- Gas stations toggle -->
-        <button
-          onclick="toggleGasStations()"
-          class="w-10 h-10 rounded-xl ${state.showGasStationsOnMap ? 'bg-red-500/80 text-white' : 'bg-dark-primary/60 text-slate-400'} backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-colors shadow-lg"
-          aria-label="${t('gasStations') || 'Stations-service'}"
-          title="${t('gasStations') || 'Stations-service'}"
-        >
-          <span class="text-lg">⛽</span>
-        </button>
-      </div>
+      <!-- Map controls injected persistently inside #home-map by App.js afterRender -->
 
       <!-- Country Guide shortcut → Voyage > Guides -->
       <div class="absolute bottom-32 left-4 z-20">
