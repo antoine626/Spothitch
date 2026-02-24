@@ -1234,6 +1234,22 @@ if (!window.syncTripFieldsAndCalculate) {
 // tripSearchSuggestions — lazy delegate to Travel.js's full implementation.
 // If Travel.js isn't loaded yet, do a minimal autocomplete via Nominatim.
 if (!window.tripSearchSuggestions) {
+  // Popular cities for instant local suggestions (no API call needed)
+  const POPULAR_CITIES_VOYAGE = [
+    'Paris, France', 'London, United Kingdom', 'Berlin, Germany', 'Barcelona, Spain',
+    'Amsterdam, Netherlands', 'Rome, Italy', 'Prague, Czech Republic', 'Vienna, Austria',
+    'Lisbon, Portugal', 'Brussels, Belgium', 'Budapest, Hungary', 'Warsaw, Poland',
+    'Copenhagen, Denmark', 'Stockholm, Sweden', 'Oslo, Norway', 'Helsinki, Finland',
+    'Dublin, Ireland', 'Zurich, Switzerland', 'Munich, Germany', 'Hamburg, Germany',
+    'Lyon, France', 'Marseille, France', 'Bordeaux, France', 'Nice, France',
+    'Toulouse, France', 'Nantes, France', 'Strasbourg, France', 'Lille, France',
+    'Milan, Italy', 'Madrid, Spain', 'Porto, Portugal', 'Krakow, Poland',
+    'Zagreb, Croatia', 'Ljubljana, Slovenia', 'Athens, Greece', 'Istanbul, Turkey',
+    'Marrakech, Morocco', 'Tbilisi, Georgia', 'Tallinn, Estonia', 'Riga, Latvia',
+    'Vilnius, Lithuania', 'Edinburgh, United Kingdom', 'Cologne, Germany',
+    'Montpellier, France', 'Grenoble, France', 'Rennes, France',
+  ]
+
   let voyageDebounce = null
   window.tripSearchSuggestions = (field, query) => {
     clearTimeout(voyageDebounce)
@@ -1255,14 +1271,24 @@ if (!window.tripSearchSuggestions) {
       </div>`
     }
 
+    const q = query.trim().toLowerCase()
+
+    // Instant local matches from popular cities
+    const localMatches = POPULAR_CITIES_VOYAGE
+      .filter(c => c.toLowerCase().includes(q))
+      .slice(0, 5)
+    if (localMatches.length > 0) {
+      renderSuggestions(localMatches)
+    }
+
+    // Also fetch from API for non-local cities
     voyageDebounce = setTimeout(async () => {
       try {
-        // B2: Use Photon API (faster than Nominatim)
-        const q = query.trim()
-        const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=5&lang=fr&layer=city&layer=locality`)
+        const trimQ = query.trim()
+        const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(trimQ)}&limit=5&lang=fr&layer=city&layer=locality`)
         const data = await res.json()
         const currentInput = document.getElementById(`trip-${field}`)
-        if (!currentInput || currentInput.value.trim() !== q) return
+        if (!currentInput || currentInput.value.trim() !== trimQ) return
         if (data?.features?.length > 0) {
           const names = data.features.map(f => {
             const p = f.properties
@@ -1272,14 +1298,19 @@ if (!window.tripSearchSuggestions) {
             return parts.join(', ')
           })
           renderSuggestions(names)
-        } else {
-          // Fallback to Nominatim
-          const { searchLocation } = await import('../../services/osrm.js')
-          const results = await searchLocation(q)
-          if (!currentInput || currentInput.value.trim() !== q) return
-          renderSuggestions(results?.map(r => r.name) || [])
         }
-      } catch { container.classList.add('hidden') }
+      } catch {
+        // Photon failed (CSP, network, etc) — fallback to Nominatim
+        try {
+          const trimQ = query.trim()
+          const currentInput = document.getElementById(`trip-${field}`)
+          if (!currentInput || currentInput.value.trim() !== trimQ) return
+          const { searchLocation } = await import('../../services/osrm.js')
+          const results = await searchLocation(trimQ)
+          if (!currentInput || currentInput.value.trim() !== trimQ) return
+          if (results?.length) renderSuggestions(results.map(r => r.name))
+        } catch { /* both APIs failed, keep local results if any */ }
+      }
     }, 100)
   }
 }
