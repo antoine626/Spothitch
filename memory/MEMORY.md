@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-24 (session 17)
+> Dernière mise à jour : 2026-02-24 (session 19)
 
 ---
 
@@ -88,6 +88,17 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session 2026-02-24 (session 19 — 4 FIXES UX + PRÉVENTION)
+- **Fix suggestions Voyage** : `.card` overflow-hidden clippait les dropdowns. Ajout `!overflow-visible` sur Voyage.js + Travel.js
+- **Fix mini-carte AddSpot** : CSS MapLibre non awaitée. Ajout `await import()` + `resize()` après load
+- **Fix bouton voyage passé Journal** : Formulaire + bouton "Ajouter passé" ajoutés dans Voyage.js renderJournalTab/renderMesVoyages
+- **Écrans intro Roadmap** : renderRoadmapIntroScreen() au premier accès + info-card detail avec dismiss. Pattern SOS disclaimer.
+- **2 nouveaux handlers** : acceptRoadmapIntro, dismissRoadmapDetailIntro
+- **7 clés i18n ajoutées** (FR/EN/ES/DE) pour les intros Roadmap
+- **2 clés RGPD** : spothitch_roadmap_intro_seen, spothitch_roadmap_detail_seen
+- **ERR-036** : Leçon overflow-hidden + dropdowns documentée
+- 107 tests passent, build OK, pushé
 
 ### Session 2026-02-24 (session 18 — ROADMAP FEATURE REQUESTS)
 - **Sous-onglet Progression remplacé par Roadmap** dans Profil (3 sous-onglets : Profil, Roadmap, Réglages)

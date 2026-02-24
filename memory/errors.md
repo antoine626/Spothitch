@@ -383,6 +383,17 @@ Chaque erreur suit ce format :
 - **Fichiers** : `scripts/checks/error-patterns.mjs`
 - **Statut** : CORRIGÉ
 
+### ERR-036 — Dropdown/suggestions clippés par overflow-hidden sur .card
+
+- **Date** : 2026-02-24
+- **Gravité** : MAJEUR
+- **Description** : Les suggestions de ville dans le formulaire Voyage ne s'affichaient pas. Les dropdowns en `position:absolute` étaient invisibles car le parent `.card` a `overflow-hidden`.
+- **Cause racine** : La classe CSS `.card` applique `overflow-hidden` (main.css:177). Tout élément enfant en `position:absolute` qui dépasse la boîte du card est clippé.
+- **Correction** : Ajout de `!overflow-visible` sur les cartes de formulaire dans Voyage.js et Travel.js pour overrider le overflow-hidden.
+- **Leçon** : **Ne JAMAIS mettre un dropdown/suggestions/autocomplete dans un conteneur `overflow-hidden`. Avant d'ajouter un élément `position:absolute` dans un `.card`, vérifier que le parent n'a pas `overflow:hidden`. Si oui, ajouter `!overflow-visible` sur ce card spécifique.**
+- **Fichiers** : `src/components/views/Voyage.js`, `src/components/views/Travel.js`
+- **Statut** : CORRIGÉ
+
 ---
 
 ## Statistiques
@@ -392,4 +403,5 @@ Chaque erreur suit ce format :
 | 2026-02-20 | 13 | 13 | 0 |
 | 2026-02-22 | 9 | 9 | 0 |
 | 2026-02-23 | 10 | 10 | 0 |
+| 2026-02-24 | 1 | 1 | 0 |
 | 2026-02-24 | 3 | 3 | 0 |
