@@ -3662,7 +3662,7 @@ export default {
   roadmapComments: 'Kommentare',
   roadmapNoComments: 'Noch keine Kommentare',
   roadmapCommentSent: 'Danke fuer dein Feedback!',
-  roadmapSeeStats: 'Meine Stats & Badges ansehen →',
+  roadmapIntro: 'Hier sind die geplanten Updates fuer SpotHitch. Dein Feedback hilft uns bei der Priorisierung! Stimme ab und kommentiere, um uns zu sagen, was du zuerst willst.',
   settingsAppearance: 'Erscheinungsbild',
   settingsNotifications: 'Benachrichtigungen',
   settingsPrivacy: 'Datenschutz',

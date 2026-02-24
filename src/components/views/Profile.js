@@ -829,61 +829,13 @@ function renderMyCountriesList(state) {
 // ==================== TAB 2: ROADMAP ====================
 
 const ROADMAP_FEATURES = [
-  {
-    id: 'tech',
-    icon: '🚀',
-    title: { fr: 'Améliorations techniques', en: 'Technical Improvements', es: 'Mejoras técnicas', de: 'Technische Verbesserungen' },
-    desc: { fr: 'Google Maps, serveurs rapides', en: 'Google Maps, faster servers', es: 'Google Maps, servidores rápidos', de: 'Google Maps, schnellere Server' },
-    status: 'in_progress',
-    items: [
-      { icon: '🗺️', color: 'amber', title: { fr: 'Google Maps intégré', en: 'Integrated Google Maps', es: 'Google Maps integrado', de: 'Google Maps integriert' }, desc: { fr: 'Navigation plus fluide, vue satellite, meilleure précision GPS.', en: 'Smoother navigation, satellite view, better GPS accuracy.', es: 'Navegación más fluida, vista satélite, mejor precisión GPS.', de: 'Flüssigere Navigation, Satellitenansicht, bessere GPS-Genauigkeit.' }, impact: { fr: 'Navigation ++', en: 'Navigation ++', es: 'Navegación ++', de: 'Navigation ++' } },
-      { icon: '⚡', color: 'blue', title: { fr: 'Serveurs plus puissants', en: 'More powerful servers', es: 'Servidores más potentes', de: 'Leistungsstärkere Server' }, desc: { fr: 'Chargement instantané, même avec tous les spots.', en: 'Instant loading, even with all spots.', es: 'Carga instantánea, incluso con todos los spots.', de: 'Sofortiges Laden, auch mit allen Spots.' }, impact: { fr: 'Vitesse x10', en: 'Speed x10', es: 'Velocidad x10', de: 'Geschwindigkeit x10' } },
-      { icon: '📱', color: 'green', title: { fr: 'App plus réactive', en: 'More responsive app', es: 'App más reactiva', de: 'Reaktivere App' }, desc: { fr: 'Animations smooth, transitions rapides.', en: 'Smooth animations, fast transitions.', es: 'Animaciones suaves, transiciones rápidas.', de: 'Flüssige Animationen, schnelle Übergänge.' }, impact: { fr: 'Fluidité ++', en: 'Fluidity ++', es: 'Fluidez ++', de: 'Flüssigkeit ++' } },
-      { icon: '🔄', color: 'purple', title: { fr: 'Synchronisation temps réel', en: 'Real-time sync', es: 'Sincronización en tiempo real', de: 'Echtzeit-Synchronisation' }, desc: { fr: 'Spots et commentaires se mettent à jour instantanément.', en: 'Spots and comments update instantly.', es: 'Spots y comentarios se actualizan al instante.', de: 'Spots und Kommentare werden sofort aktualisiert.' }, impact: { fr: 'Actualité ++', en: 'Freshness ++', es: 'Actualidad ++', de: 'Aktualität ++' } },
-    ]
-  },
-  {
-    id: 'thumbs',
-    icon: '👍',
-    title: { fr: 'Pouces & Partenaires', en: 'Thumbs & Partners', es: 'Pulgares & Socios', de: 'Daumen & Partner' },
-    desc: { fr: 'Réductions Hostelworld, Patagonia...', en: 'Hostelworld, Patagonia discounts...', es: 'Descuentos Hostelworld, Patagonia...', de: 'Hostelworld, Patagonia Rabatte...' },
-    status: 'thinking',
-  },
-  {
-    id: 'leagues',
-    icon: '🏆',
-    title: { fr: 'Leagues & Classements', en: 'Leagues & Rankings', es: 'Ligas & Clasificaciones', de: 'Ligen & Ranglisten' },
-    desc: { fr: 'Compétition par pays, monde', en: 'Competition by country, worldwide', es: 'Competencia por país, mundial', de: 'Wettbewerb nach Land, weltweit' },
-    status: 'thinking',
-  },
-  {
-    id: 'cities',
-    icon: '🏙️',
-    title: { fr: 'Pages Villes', en: 'City Pages', es: 'Páginas de Ciudades', de: 'Stadtseiten' },
-    desc: { fr: 'Spots par direction, conseils', en: 'Spots by direction, tips', es: 'Spots por dirección, consejos', de: 'Spots nach Richtung, Tipps' },
-    status: 'thinking',
-  },
-  {
-    id: 'hostels',
-    icon: '🏨',
-    title: { fr: 'Auberges partenaires', en: 'Partner Hostels', es: 'Albergues asociados', de: 'Partnerherbergen' },
-    desc: { fr: 'Chill, Cheap, Party par ville', en: 'Chill, Cheap, Party by city', es: 'Chill, Barato, Fiesta por ciudad', de: 'Chill, Günstig, Party nach Stadt' },
-    status: 'thinking',
-  },
-  {
-    id: 'events',
-    icon: '🎉',
-    title: { fr: 'Événements', en: 'Events', es: 'Eventos', de: 'Veranstaltungen' },
-    desc: { fr: 'Meetups, rassemblements', en: 'Meetups, gatherings', es: 'Encuentros, reuniones', de: 'Meetups, Treffen' },
-    status: 'thinking',
-  },
-  {
-    id: 'groups',
-    icon: '👥',
-    title: { fr: 'Groupes & Courses', en: 'Groups & Races', es: 'Grupos & Carreras', de: 'Gruppen & Rennen' },
-    desc: { fr: 'Localisation amis, courses', en: 'Friends location, races', es: 'Ubicación amigos, carreras', de: 'Freunde-Standort, Rennen' },
-    status: 'thinking',
-  },
+  { id: 'tech', icon: '🚀', title: { fr: 'Améliorations techniques', en: 'Technical Improvements', es: 'Mejoras técnicas', de: 'Technische Verbesserungen' }, desc: { fr: 'Google Maps, serveurs rapides', en: 'Google Maps, faster servers', es: 'Google Maps, servidores rápidos', de: 'Google Maps, schnellere Server' }, status: 'in_progress' },
+  { id: 'thumbs', icon: '👍', title: { fr: 'Pouces & Partenaires', en: 'Thumbs & Partners', es: 'Pulgares & Socios', de: 'Daumen & Partner' }, desc: { fr: 'Réductions Hostelworld, Patagonia...', en: 'Hostelworld, Patagonia discounts...', es: 'Descuentos Hostelworld, Patagonia...', de: 'Hostelworld, Patagonia Rabatte...' }, status: 'thinking' },
+  { id: 'leagues', icon: '🏆', title: { fr: 'Leagues & Classements', en: 'Leagues & Rankings', es: 'Ligas & Clasificaciones', de: 'Ligen & Ranglisten' }, desc: { fr: 'Compétition par pays, monde', en: 'Competition by country, worldwide', es: 'Competencia por país, mundial', de: 'Wettbewerb nach Land, weltweit' }, status: 'thinking' },
+  { id: 'cities', icon: '🏙️', title: { fr: 'Pages Villes', en: 'City Pages', es: 'Páginas de Ciudades', de: 'Stadtseiten' }, desc: { fr: 'Spots par direction, conseils', en: 'Spots by direction, tips', es: 'Spots por dirección, consejos', de: 'Spots nach Richtung, Tipps' }, status: 'thinking' },
+  { id: 'hostels', icon: '🏨', title: { fr: 'Auberges partenaires', en: 'Partner Hostels', es: 'Albergues asociados', de: 'Partnerherbergen' }, desc: { fr: 'Chill, Cheap, Party par ville', en: 'Chill, Cheap, Party by city', es: 'Chill, Barato, Fiesta por ciudad', de: 'Chill, Günstig, Party nach Stadt' }, status: 'thinking' },
+  { id: 'events', icon: '🎉', title: { fr: 'Événements', en: 'Events', es: 'Eventos', de: 'Veranstaltungen' }, desc: { fr: 'Meetups, rassemblements', en: 'Meetups, gatherings', es: 'Encuentros, reuniones', de: 'Meetups, Treffen' }, status: 'thinking' },
+  { id: 'groups', icon: '👥', title: { fr: 'Groupes & Courses', en: 'Groups & Races', es: 'Grupos & Carreras', de: 'Gruppen & Rennen' }, desc: { fr: 'Localisation amis, courses', en: 'Friends location, races', es: 'Ubicación amigos, carreras', de: 'Freunde-Standort, Rennen' }, status: 'thinking' },
 ]
 
 const ROADMAP_STATUS = {
@@ -900,17 +852,12 @@ function getRoadmapComments() {
 }
 
 function getFeatureVoteCounts(featureId) {
-  const allVotes = getRoadmapVotes()
-  const baseVotes = { tech: 47, thumbs: 38, leagues: 29, cities: 25, hostels: 22, events: 19, groups: 17 }
-  const base = baseVotes[featureId] || 0
-  const myVote = allVotes[featureId]
-  return base + (myVote === 'up' ? 1 : 0)
+  const myVote = getRoadmapVotes()[featureId]
+  return myVote === 'up' ? 1 : 0
 }
 
 function getFeatureCommentCount(featureId) {
-  const comments = getRoadmapComments()
-  const baseCounts = { tech: 12, thumbs: 23, leagues: 8, cities: 15, hostels: 11, events: 7, groups: 14 }
-  return (baseCounts[featureId] || 0) + comments.filter(c => c.featureId === featureId).length
+  return getRoadmapComments().filter(c => c.featureId === featureId).length
 }
 
 function lt(obj) {
@@ -930,16 +877,17 @@ function renderRoadmapTab(state) {
 function renderRoadmapList(state) {
   const tab = state.roadmapListTab || 'popular'
   let features = [...ROADMAP_FEATURES]
-  if (tab === 'popular') features.sort((a, b) => getFeatureVoteCounts(b.id) - getFeatureVoteCounts(a.id))
   if (tab === 'shipped') features = features.filter(f => f.status === 'shipped')
   const myVotes = getRoadmapVotes()
 
   return `
     <div>
-      <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center justify-between mb-2">
         <h2 class="text-lg font-bold">${icon('rocket', 'w-5 h-5 text-amber-400 inline-block mr-1')} ${t('roadmapTitle') || 'Feature Requests'}</h2>
       </div>
-      <p class="text-slate-400 text-sm mb-3">${t('roadmapSubtitle') || 'Top des demandes de la communauté'}</p>
+      <div class="card p-3 mb-4 border-amber-500/20 bg-amber-500/5">
+        <p class="text-slate-300 text-xs leading-relaxed">${t('roadmapIntro') || "Voici les prochaines mises à jour prévues pour SpotHitch. Ton avis nous aide à prioriser ! Vote et commente pour nous dire ce que tu veux en premier."}</p>
+      </div>
 
       <div class="flex gap-2 mb-4">
         <button onclick="setRoadmapListTab('popular')" class="${tab === 'popular' ? 'bg-amber-500 text-black font-bold' : 'bg-white/10 text-white'} px-3 py-1.5 rounded-full text-xs transition-colors">🔥 ${t('roadmapPopular') || 'Populaires'}</button>
@@ -968,7 +916,7 @@ function renderRoadmapList(state) {
                 <p class="text-slate-400 text-xs truncate">${lt(f.desc)}</p>
                 <div class="flex gap-2 mt-1">
                   <span class="text-[10px] ${status.cls} px-2 py-0.5 rounded">${lt(status)}</span>
-                  <span class="text-slate-500 text-[10px]">💬 ${comments}</span>
+                  ${comments > 0 ? `<span class="text-slate-500 text-[10px]">💬 ${comments}</span>` : ''}
                 </div>
               </div>
               ${icon('chevron-right', 'w-4 h-4 text-slate-600 shrink-0')}
@@ -976,12 +924,371 @@ function renderRoadmapList(state) {
           `
         }).join('')}
       </div>
-
-      <button onclick="openProgressionStats()" class="block text-center text-slate-500 text-xs mt-5 w-full hover:text-amber-400 transition-colors">
-        ${t('roadmapSeeStats') || 'Voir mes stats & badges →'}
-      </button>
     </div>
   `
+}
+
+// ── Feature detail renderers ──
+
+function renderFeatureDetailTech() {
+  return `
+    <div class="space-y-3 mb-5">
+      ${[
+        { icon: '🗺️', color: 'amber', title: 'Google Maps intégré', desc: 'Navigation plus fluide, vue satellite, meilleure précision GPS.', impact: 'Navigation ++' },
+        { icon: '⚡', color: 'blue', title: 'Serveurs plus puissants', desc: 'Chargement instantané, même avec tous les spots.', impact: 'Vitesse x10' },
+        { icon: '📱', color: 'green', title: 'App plus réactive', desc: 'Animations smooth, transitions rapides.', impact: 'Fluidité ++' },
+        { icon: '🔄', color: 'purple', title: 'Synchronisation temps réel', desc: 'Spots et commentaires se mettent à jour instantanément.', impact: 'Actualité ++' },
+      ].map(item => `
+        <div class="card p-3">
+          <div class="flex items-start gap-3">
+            <div class="w-11 h-11 bg-${item.color}-500 rounded-xl flex items-center justify-center shrink-0">
+              <span class="text-xl">${item.icon}</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm">${item.title}</h3>
+              <p class="text-slate-400 text-xs mt-0.5">${item.desc}</p>
+              <span class="text-${item.color}-400 text-[10px] mt-1 inline-block">🎯 ${item.impact}</span>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `
+}
+
+function renderFeatureDetailThumbs() {
+  return `
+    <div class="mb-5">
+      <div class="flex items-center justify-end gap-2 mb-3">
+        <span class="text-amber-500 font-bold">1,247</span><span class="text-xl">👍</span>
+      </div>
+      <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl p-4 mb-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-black/70 text-xs">🔥 OFFRE DU JOUR</p>
+            <p class="text-black font-bold text-lg">-30% Hostelworld</p>
+            <p class="text-black/70 text-sm">Expire dans 23:45:12</p>
+          </div>
+          <div class="text-right">
+            <p class="text-black font-bold text-2xl">400</p>
+            <p class="text-black/70 text-sm">👍</p>
+          </div>
+        </div>
+        <div class="w-full bg-black/30 text-amber-500 py-2 rounded-lg mt-3 font-bold text-center text-sm">Obtenir le code</div>
+      </div>
+      <div class="space-y-2.5">
+        <div class="card p-3 border-emerald-500/30 bg-emerald-500/5">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-xs">B.</span></div>
+            <div class="flex-1"><p class="font-bold text-sm">-10% Booking.com</p><p class="text-emerald-500 text-[10px]">✓ Code obtenu</p></div>
+          </div>
+          <div class="bg-white/5 rounded-lg p-2 flex items-center justify-between">
+            <code class="text-emerald-500 font-mono font-bold text-sm">SPOT10BOOK</code>
+            <span class="text-amber-500 text-xs">Copier</span>
+          </div>
+        </div>
+        <div class="card p-3">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center"><span class="text-lg">🏔️</span></div>
+            <div class="flex-1"><p class="font-bold text-sm">-20% Patagonia</p><p class="text-slate-400 text-[10px]">Vêtements outdoor</p></div>
+            <div class="text-right"><p class="text-amber-500 font-bold text-sm">1000 👍</p></div>
+          </div>
+        </div>
+        <div class="card p-3 opacity-60">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-red-600 rounded-lg flex items-center justify-center"><span class="text-lg">🎒</span></div>
+            <div class="flex-1"><p class="font-bold text-sm">-25% Deuter</p><p class="text-slate-400 text-[10px]">Sacs à dos premium</p></div>
+            <div class="text-right"><p class="text-slate-500 font-bold text-sm">1500 👍</p></div>
+          </div>
+          <div class="w-full bg-white/10 rounded-full h-1.5 mt-2"><div class="bg-amber-500 h-1.5 rounded-full" style="width:83%"></div></div>
+        </div>
+        <div class="card p-3">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-teal-500 rounded-lg flex items-center justify-center"><span class="text-lg">🛋️</span></div>
+            <div class="flex-1"><p class="font-bold text-sm">1 mois Couchsurfing</p><p class="text-slate-400 text-[10px]">Premium gratuit</p></div>
+            <div class="text-right"><p class="text-amber-500 font-bold text-sm">800 👍</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="card p-3 mt-3">
+        <h3 class="font-bold text-sm mb-2">🚀 Gagne plus vite</h3>
+        <div class="space-y-1.5 text-xs">
+          <div class="flex justify-between"><span class="text-slate-400">Ajoute un spot</span><span class="text-amber-500">+50 👍</span></div>
+          <div class="flex justify-between"><span class="text-slate-400">Termine un voyage</span><span class="text-amber-500">+100 👍</span></div>
+          <div class="flex justify-between"><span class="text-slate-400">Invite un ami</span><span class="text-amber-500">+150 👍</span></div>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+function renderFeatureDetailLeagues() {
+  return `
+    <div class="mb-5">
+      <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl p-4 mb-3">
+        <div class="flex justify-between items-center">
+          <div><p class="text-white/70 text-xs">SAISON 3</p><p class="text-white font-bold">Spring 2026</p></div>
+          <div class="text-right"><p class="text-white/70 text-xs">TERMINE DANS</p><p class="text-white font-bold text-sm">12j 5h 32m</p></div>
+        </div>
+      </div>
+      <div class="grid grid-cols-4 gap-1.5 mb-3">
+        <div class="card p-2 text-center"><span class="text-xl">🌍</span><p class="text-slate-400 text-[10px] mt-0.5">Monde</p></div>
+        <div class="card p-2 text-center"><span class="text-xl">🇪🇺</span><p class="text-slate-400 text-[10px] mt-0.5">Europe</p></div>
+        <div class="card p-2 text-center border-amber-500/50 bg-amber-500/10"><span class="text-xl">🇫🇷</span><p class="text-amber-500 text-[10px] mt-0.5">France</p></div>
+        <div class="card p-2 text-center"><span class="text-xl">📍</span><p class="text-slate-400 text-[10px] mt-0.5">Région</p></div>
+      </div>
+      <div class="card p-3 mb-3">
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-14 h-14 rounded-full border-3 border-amber-500 flex items-center justify-center"><span class="text-3xl">🥇</span></div>
+            <span class="absolute -bottom-1 -right-1 bg-amber-500 text-black text-[8px] px-1.5 py-0.5 rounded-full font-bold">GOLD</span>
+          </div>
+          <div class="flex-1">
+            <p class="font-bold">Marie_Backpack</p>
+            <p class="text-slate-400 text-xs">Rank #7 en France</p>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-amber-500 font-bold text-sm">2,450 pts</span>
+              <span class="text-emerald-500 text-xs">↑ +340</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card overflow-hidden mb-3">
+        <div class="bg-white/5 px-3 py-2 flex justify-between items-center"><span class="font-bold text-sm">🇫🇷 France</span><span class="text-slate-400 text-xs">247 joueurs</span></div>
+        <div class="p-2 space-y-1">
+          <div class="bg-amber-500/10 rounded-lg p-2 flex items-center gap-2"><span class="text-amber-500 font-bold w-6 text-xs">#1</span><div class="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center text-[10px] font-bold">J</div><span class="flex-1 font-bold text-sm">JulieOnTheRoad</span><span class="text-amber-500 font-bold text-sm">3,210</span></div>
+          <div class="bg-white/5 rounded-lg p-2 flex items-center gap-2"><span class="text-slate-400 font-bold w-6 text-xs">#2</span><div class="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-[10px] font-bold">T</div><span class="flex-1 text-sm">TomHitchiker</span><span class="text-slate-400 text-sm">2,890</span></div>
+          <div class="bg-white/5 rounded-lg p-2 flex items-center gap-2"><span class="text-amber-700 font-bold w-6 text-xs">#3</span><div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-[10px] font-bold">S</div><span class="flex-1 text-sm">SophieRoad</span><span class="text-slate-400 text-sm">2,780</span></div>
+          <p class="text-center text-slate-600 text-xs py-0.5">• • •</p>
+          <div class="bg-blue-500/10 rounded-lg p-2 flex items-center gap-2 border border-blue-500/50"><span class="text-blue-400 font-bold w-6 text-xs">#7</span><div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-[10px] font-bold">M</div><span class="flex-1 font-bold text-sm">Toi</span><span class="text-amber-500 font-bold text-sm">2,450</span></div>
+        </div>
+      </div>
+      <div class="card p-3 border-amber-500/20 bg-amber-500/5">
+        <p class="font-bold text-sm">🏆 Récompenses fin de saison</p>
+        <div class="flex justify-between mt-1.5 text-xs">
+          <span class="text-amber-500">Top 1: 1000 👍</span><span class="text-slate-400">Top 10: 300 👍</span><span class="text-slate-500">Top 50: 100 👍</span>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+function renderFeatureDetailCities() {
+  return `
+    <div class="mb-5">
+      <div class="bg-slate-700/50 rounded-xl h-36 relative mb-3 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-dark-primary/80"></div>
+        <div class="absolute top-1/4 left-1/3 w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+        <div class="absolute top-1/3 right-1/4 w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>
+        <div class="absolute bottom-1/3 left-1/4 w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>
+        <div class="absolute bottom-4 left-3 right-3">
+          <div class="bg-black/70 rounded-xl p-2.5">
+            <p class="text-slate-400 text-[10px] mb-1">Direction</p>
+            <div class="flex gap-1.5">
+              <span class="bg-amber-500 text-black px-2.5 py-0.5 rounded-lg text-xs font-bold">Sud</span>
+              <span class="bg-white/10 text-white px-2.5 py-0.5 rounded-lg text-xs">Nord</span>
+              <span class="bg-white/10 text-white px-2.5 py-0.5 rounded-lg text-xs">Est</span>
+              <span class="bg-white/10 text-white px-2.5 py-0.5 rounded-lg text-xs">Ouest</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-1.5 mb-3 overflow-x-auto">
+        <span class="bg-amber-500 text-black px-2.5 py-1 rounded-full text-[10px] font-bold whitespace-nowrap">Tous</span>
+        <span class="bg-white/10 text-white px-2.5 py-1 rounded-full text-[10px] whitespace-nowrap">⭐ 4.5+</span>
+        <span class="bg-white/10 text-white px-2.5 py-1 rounded-full text-[10px] whitespace-nowrap">🕐 Matin</span>
+        <span class="bg-white/10 text-white px-2.5 py-1 rounded-full text-[10px] whitespace-nowrap">🌙 Soir</span>
+      </div>
+      <div class="card p-3 mb-3 border-amber-500/20 bg-amber-500/5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🇪🇸</span>
+          <div class="flex-1"><p class="font-bold text-sm">Vers Barcelone</p><p class="text-slate-400 text-xs">Direction Sud • A6 puis A7</p></div>
+        </div>
+      </div>
+      <h3 class="font-bold text-sm mb-2">📍 12 spots disponibles</h3>
+      <div class="space-y-2.5">
+        <div class="card p-3">
+          <div class="flex justify-between items-start mb-1.5">
+            <div><p class="font-bold text-sm">Porte d'Orléans</p><p class="text-slate-400 text-xs">Sortie périphérique sud</p></div>
+            <div class="flex items-center gap-1 bg-amber-500/20 px-1.5 py-0.5 rounded-lg"><span class="text-amber-500 text-xs">⭐</span><span class="text-amber-500 font-bold text-xs">4.8</span></div>
+          </div>
+          <div class="flex gap-1.5 mb-2">
+            <span class="bg-emerald-500/20 text-emerald-500 text-[10px] px-1.5 py-0.5 rounded-full">⏱️ 15min</span>
+            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-1.5 py-0.5 rounded-full">👥 342</span>
+          </div>
+          <div class="bg-white/5 rounded-lg p-2">
+            <p class="text-slate-300 text-xs italic">"Spot hyper efficace, j'ai eu une voiture en 10min direction Lyon !"</p>
+            <p class="text-slate-500 text-[10px] mt-0.5">— TomHitchiker, il y a 3 jours</p>
+          </div>
+        </div>
+        <div class="card p-3">
+          <div class="flex justify-between items-start mb-1.5">
+            <div><p class="font-bold text-sm">Aire de Fleury</p><p class="text-slate-400 text-xs">A6 direction Lyon</p></div>
+            <div class="flex items-center gap-1 bg-amber-500/20 px-1.5 py-0.5 rounded-lg"><span class="text-amber-500 text-xs">⭐</span><span class="text-amber-500 font-bold text-xs">4.6</span></div>
+          </div>
+          <div class="flex gap-1.5">
+            <span class="bg-emerald-500/20 text-emerald-500 text-[10px] px-1.5 py-0.5 rounded-full">⏱️ 20min</span>
+            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-1.5 py-0.5 rounded-full">👥 189</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+function renderFeatureDetailHostels() {
+  return `
+    <div class="mb-5">
+      <div class="card p-3 mb-3 bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/20">
+        <div class="flex items-center justify-between mb-2">
+          <div><h3 class="font-bold text-sm">🏨 Nos partenaires</h3><p class="text-slate-400 text-xs">Auberges recommandées</p></div>
+          <span class="bg-amber-500 text-black text-[10px] px-2 py-0.5 rounded-full font-bold">-15%</span>
+        </div>
+        <p class="text-slate-300 text-xs mb-3">On a testé ces auberges pour toi. Utilise tes pouces pour avoir une réduction !</p>
+        <div class="grid grid-cols-3 gap-1.5">
+          <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-2 text-center"><span class="text-xl">🌿</span><p class="text-emerald-400 text-[10px] font-bold mt-0.5">Chill</p></div>
+          <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-2 text-center"><span class="text-xl">💰</span><p class="text-amber-400 text-[10px] font-bold mt-0.5">Cheap</p></div>
+          <div class="bg-pink-500/10 border border-pink-500/30 rounded-xl p-2 text-center"><span class="text-xl">🎉</span><p class="text-pink-400 text-[10px] font-bold mt-0.5">Party</p></div>
+        </div>
+      </div>
+      <div class="space-y-2.5">
+        <div class="card p-3">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 bg-emerald-500 rounded-xl flex items-center justify-center"><span class="text-xl">🌿</span></div>
+            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">The Circus</p><span class="bg-emerald-500/20 text-emerald-400 text-[8px] px-1.5 py-0.5 rounded-full">Chill</span></div><p class="text-slate-400 text-xs">Mitte • ⭐ 4.7</p></div>
+            <div class="text-right"><p class="font-bold text-sm">24€</p><p class="text-emerald-500 text-xs line-through">28€</p></div>
+          </div>
+          <div class="flex gap-1 mt-1.5 text-slate-500 text-[10px]"><span>Yoga</span><span>•</span><span>Rooftop</span><span>•</span><span>Petit-déj</span></div>
+        </div>
+        <div class="card p-3">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 bg-amber-500 rounded-xl flex items-center justify-center"><span class="text-xl">💰</span></div>
+            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">Generator</p><span class="bg-amber-500/20 text-amber-400 text-[8px] px-1.5 py-0.5 rounded-full">Cheap</span></div><p class="text-slate-400 text-xs">Prenzlauer • ⭐ 4.2</p></div>
+            <div class="text-right"><p class="font-bold text-sm">14€</p><p class="text-emerald-500 text-xs line-through">16€</p></div>
+          </div>
+          <div class="flex gap-1 mt-1.5 text-slate-500 text-[10px]"><span>Central</span><span>•</span><span>24/7</span><span>•</span><span>Propre</span></div>
+        </div>
+        <div class="card p-3">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 bg-pink-500 rounded-xl flex items-center justify-center"><span class="text-xl">🎉</span></div>
+            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">St Christopher's</p><span class="bg-pink-500/20 text-pink-400 text-[8px] px-1.5 py-0.5 rounded-full">Party</span></div><p class="text-slate-400 text-xs">Alexanderplatz • ⭐ 4.4</p></div>
+            <div class="text-right"><p class="font-bold text-sm">18€</p><p class="text-emerald-500 text-xs line-through">21€</p></div>
+          </div>
+          <div class="flex gap-1 mt-1.5 text-slate-500 text-[10px]"><span>Bar</span><span>•</span><span>DJ</span><span>•</span><span>Pub crawl</span></div>
+        </div>
+      </div>
+      <div class="card p-3 mt-3">
+        <h3 class="font-bold text-sm mb-1.5">💡 Comment ça marche ?</h3>
+        <div class="space-y-1 text-xs">
+          <div class="flex items-center gap-2"><span class="text-amber-500">1.</span><span class="text-slate-400">Choisis ton auberge</span></div>
+          <div class="flex items-center gap-2"><span class="text-amber-500">2.</span><span class="text-slate-400">Utilise 300 👍 pour -15%</span></div>
+          <div class="flex items-center gap-2"><span class="text-amber-500">3.</span><span class="text-slate-400">Reçois ton code de réduction</span></div>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+function renderFeatureDetailEvents() {
+  return `
+    <div class="mb-5">
+      <div class="bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl p-4 mb-3">
+        <span class="bg-white/20 text-white text-[10px] px-2 py-0.5 rounded-full">⭐ FEATURED</span>
+        <h3 class="text-white text-lg font-bold mt-1.5">Hitchgathering Europe 2026</h3>
+        <p class="text-white/80 text-sm">🇵🇹 Algarve, Portugal</p>
+        <p class="text-white/80 text-xs">15-20 Août 2026</p>
+        <div class="flex items-center justify-between mt-3">
+          <div class="flex items-center gap-2">
+            <div class="flex -space-x-1.5">
+              <div class="w-6 h-6 bg-amber-500 rounded-full border-2 border-purple-600"></div>
+              <div class="w-6 h-6 bg-emerald-500 rounded-full border-2 border-purple-600"></div>
+              <div class="w-6 h-6 bg-blue-500 rounded-full border-2 border-purple-600"></div>
+            </div>
+            <span class="text-white text-xs">+247 inscrits</span>
+          </div>
+          <span class="bg-white text-purple-600 px-3 py-1.5 rounded-full font-bold text-xs">S'inscrire</span>
+        </div>
+      </div>
+      <h3 class="font-bold text-sm mb-2">📍 Près de toi</h3>
+      <div class="space-y-2.5">
+        <div class="card p-3">
+          <div class="flex gap-3">
+            <div class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center"><span class="text-xl">🍻</span></div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm">Apéro Autostoppeurs</h4>
+              <p class="text-slate-400 text-xs">📍 Paris • 12 mars, 19h</p>
+              <div class="flex items-center gap-1.5 mt-1">
+                <div class="flex -space-x-1"><div class="w-4 h-4 bg-blue-500 rounded-full border border-dark-primary"></div><div class="w-4 h-4 bg-emerald-500 rounded-full border border-dark-primary"></div></div>
+                <span class="text-slate-500 text-[10px]">23 inscrits</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card p-3">
+          <div class="flex gap-3">
+            <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center"><span class="text-xl">🏕️</span></div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm">Weekend Camping</h4>
+              <p class="text-slate-400 text-xs">📍 Fontainebleau • 20-21 mars</p>
+              <span class="text-slate-500 text-[10px]">12 inscrits</span>
+            </div>
+          </div>
+        </div>
+        <div class="card p-3">
+          <div class="flex gap-3">
+            <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center"><span class="text-xl">🎤</span></div>
+            <div class="flex-1">
+              <h4 class="font-bold text-sm">Soirée Contes de Route</h4>
+              <p class="text-slate-400 text-xs">📍 Lyon • 28 mars, 20h</p>
+              <span class="text-slate-500 text-[10px]">8 inscrits</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card p-3 mt-3 border-amber-500/20 bg-amber-500/5">
+        <h3 class="text-amber-500 font-bold text-sm mb-1">📌 Mes inscriptions</h3>
+        <p class="text-slate-400 text-xs">Tu es inscrit à 2 événements</p>
+      </div>
+    </div>
+  `
+}
+
+function renderFeatureDetailGroups() {
+  return `
+    <div class="mb-5">
+      <div class="bg-slate-700/50 rounded-xl relative overflow-hidden mb-3" style="height:200px">
+        <div class="absolute top-0 left-0 right-0 p-3 bg-gradient-to-b from-black/70 to-transparent">
+          <span class="bg-emerald-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">🟢 5 en ligne</span>
+          <h3 class="text-white font-bold mt-1">Les Routards</h3>
+        </div>
+        <div class="absolute top-1/3 left-1/4 flex flex-col items-center"><div class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">M</div><span class="bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full mt-0.5">Marie</span></div>
+        <div class="absolute top-1/2 left-1/2 flex flex-col items-center"><div class="w-10 h-10 bg-emerald-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">T</div><span class="bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full mt-0.5">Tom</span></div>
+        <div class="absolute bottom-1/3 left-1/3 flex flex-col items-center"><div class="w-10 h-10 bg-pink-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">S</div><span class="bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full mt-0.5">Sophie</span></div>
+        <div class="absolute top-1/4 right-1/3 flex flex-col items-center"><div class="w-10 h-10 bg-amber-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">A</div><span class="bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full mt-0.5">Alex</span></div>
+      </div>
+      <div class="flex items-center justify-between mb-2"><h3 class="font-bold text-sm">👥 Membres</h3><span class="text-amber-500 text-xs">+ Inviter</span></div>
+      <div class="space-y-1.5">
+        <div class="card p-2.5 flex items-center gap-2.5"><div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center font-bold text-xs">M</div><div class="flex-1"><p class="font-bold text-sm">Marie</p><p class="text-emerald-400 text-[10px]">📍 Cologne • 2 min</p></div><span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span></div>
+        <div class="card p-2.5 flex items-center gap-2.5"><div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center font-bold text-xs">T</div><div class="flex-1"><p class="font-bold text-sm">Tom</p><p class="text-emerald-400 text-[10px]">📍 Luxembourg • 5 min</p></div><span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span></div>
+        <div class="card p-2.5 flex items-center gap-2.5"><div class="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center font-bold text-xs">S</div><div class="flex-1"><p class="font-bold text-sm">Sophie</p><p class="text-emerald-400 text-[10px]">📍 Metz • 1 min</p></div><span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span></div>
+        <div class="card p-2.5 flex items-center gap-2.5 opacity-50"><div class="w-8 h-8 bg-slate-500 rounded-full flex items-center justify-center font-bold text-xs">L</div><div class="flex-1"><p class="font-bold text-sm">Lucas</p><p class="text-slate-500 text-[10px]">Dernière position il y a 3h</p></div><span class="w-2.5 h-2.5 bg-slate-500 rounded-full"></span></div>
+      </div>
+      <div class="flex gap-2 mt-3">
+        <span class="flex-1 bg-amber-500 text-black py-2.5 rounded-xl font-bold text-sm text-center">🏁 Lancer une course</span>
+        <span class="bg-white/10 text-white px-4 py-2.5 rounded-xl text-center">💬</span>
+      </div>
+    </div>
+  `
+}
+
+const FEATURE_DETAIL_RENDERERS = {
+  tech: renderFeatureDetailTech,
+  thumbs: renderFeatureDetailThumbs,
+  leagues: renderFeatureDetailLeagues,
+  cities: renderFeatureDetailCities,
+  hostels: renderFeatureDetailHostels,
+  events: renderFeatureDetailEvents,
+  groups: renderFeatureDetailGroups,
 }
 
 function renderRoadmapDetail(state, feature) {
@@ -990,6 +1297,7 @@ function renderRoadmapDetail(state, feature) {
   const comments = getRoadmapComments().filter(c => c.featureId === feature.id)
   const commentCount = getFeatureCommentCount(feature.id)
   const status = ROADMAP_STATUS[feature.status] || ROADMAP_STATUS.thinking
+  const detailRenderer = FEATURE_DETAIL_RENDERERS[feature.id]
 
   return `
     <div>
@@ -997,32 +1305,15 @@ function renderRoadmapDetail(state, feature) {
         ${icon('arrow-left', 'w-4 h-4')} ${t('back') || 'Retour'}
       </button>
 
-      <div class="mb-5">
+      <div class="mb-4">
         <span class="text-[10px] ${status.cls} px-2 py-0.5 rounded font-bold uppercase">${lt(status)}</span>
         <h2 class="text-xl font-bold mt-2">${feature.icon} ${lt(feature.title)}</h2>
         <p class="text-slate-400 text-sm mt-1">${lt(feature.desc)}</p>
       </div>
 
-      ${feature.items ? `
-        <div class="space-y-3 mb-5">
-          ${feature.items.map(item => `
-            <div class="card p-3">
-              <div class="flex items-start gap-3">
-                <div class="w-11 h-11 bg-${item.color}-500 rounded-xl flex items-center justify-center shrink-0">
-                  <span class="text-xl">${item.icon}</span>
-                </div>
-                <div class="min-w-0">
-                  <h3 class="font-bold text-sm">${lt(item.title)}</h3>
-                  <p class="text-slate-400 text-xs mt-0.5">${lt(item.desc)}</p>
-                  <span class="text-${item.color}-400 text-[10px] mt-1 inline-block">🎯 ${lt(item.impact)}</span>
-                </div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      ` : ''}
+      ${detailRenderer ? detailRenderer() : ''}
 
-      <div class="mb-5">
+      <div class="mb-4">
         <p class="text-slate-400 text-sm mb-2">${t('roadmapWhatDoYouThink') || "Qu'en penses-tu ?"}</p>
         <div class="flex gap-2">
           <button onclick="roadmapVoteDetail('${feature.id}','up')" class="flex-1 py-2.5 rounded-xl font-bold text-sm border transition-colors ${myVote === 'up' ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30'}">
@@ -1060,7 +1351,7 @@ function renderRoadmapDetail(state, feature) {
               <p class="text-slate-300 text-xs">${c.text}</p>
             </div>
           `).join('')}
-          ${comments.length === 0 ? `<p class="text-slate-500 text-xs text-center py-3">${t('roadmapNoComments') || 'Aucun commentaire pour le moment'}</p>` : ''}
+          ${comments.length === 0 ? `<p class="text-slate-500 text-xs text-center py-3">${t('roadmapNoComments') || 'Sois le premier à donner ton avis !'}</p>` : ''}
         </div>
       </div>
     </div>

@@ -3665,7 +3665,7 @@ export default {
   roadmapComments: 'Comments',
   roadmapNoComments: 'No comments yet',
   roadmapCommentSent: 'Thanks for your feedback!',
-  roadmapSeeStats: 'See my stats & badges →',
+  roadmapIntro: 'Here are the upcoming updates planned for SpotHitch. Your feedback helps us prioritize! Vote and comment to tell us what you want first.',
   settingsAppearance: 'Appearance',
   settingsNotifications: 'Notifications',
   settingsPrivacy: 'Privacy',
