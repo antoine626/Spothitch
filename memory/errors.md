@@ -383,6 +383,19 @@ Chaque erreur suit ce format :
 - **Fichiers** : `scripts/checks/error-patterns.mjs`
 - **Statut** : CORRIGÉ
 
+### ERR-037 — window.render?.() n'existait pas — 12 handlers silencieusement cassés
+
+- **Date** : 2026-02-24
+- **Gravité** : CRITIQUE
+- **Description** : 12 handlers dans Profile.js appelaient `window.render?.()` pour rafraîchir l'écran. Mais `window.render` n'était défini nulle part dans le code. L'optional chaining `?.()` faisait que l'appel réussissait silencieusement (pas d'erreur) mais ne faisait rien. Résultat : cliquer sur "Compris", sauvegarder la bio, changer la privacy, etc. ne faisait rien au premier clic.
+- **Cause racine** : Quelqu'un a écrit `window.render?.()` en supposant que cette fonction existait globalement, mais elle n'a jamais été définie. Le pattern correct est `window._forceRender?.()` (défini dans main.js:283).
+- **Correction** : Remplacé les 12 occurrences de `window.render?.()` par `window._forceRender?.()` dans Profile.js.
+- **Leçon** : **TOUJOURS vérifier qu'une fonction window.xxx EXISTE avant de l'utiliser. Grep `window.xxx =` pour confirmer. L'optional chaining `?.()` masque les erreurs — une fonction inexistante ne throw pas, elle fait juste RIEN. Ajouter un test qui vérifie que chaque fonction référencée dans un handler est bien définie.**
+- **Fichiers** : `src/components/views/Profile.js`
+- **Statut** : CORRIGÉ
+
+---
+
 ### ERR-036 — Dropdown/suggestions clippés par overflow-hidden sur .card
 
 - **Date** : 2026-02-24
@@ -403,5 +416,5 @@ Chaque erreur suit ce format :
 | 2026-02-20 | 13 | 13 | 0 |
 | 2026-02-22 | 9 | 9 | 0 |
 | 2026-02-23 | 10 | 10 | 0 |
-| 2026-02-24 | 1 | 1 | 0 |
+| 2026-02-24 | 3 | 3 | 0 |
 | 2026-02-24 | 3 | 3 | 0 |

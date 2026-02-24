@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-24 (session 19)
+> Dernière mise à jour : 2026-02-24 (session 20)
 
 ---
 
@@ -88,6 +88,14 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session 2026-02-24 (session 20 — BUGS CRITIQUES + TOGGLE REDESIGN)
+- **BUG CRITIQUE : window.render n'existait pas** — 12 handlers dans Profile.js appelaient `window.render?.()` qui n'était défini nulle part. Corrigé en `window._forceRender?.()`. Affectait : Compris roadmap, saveBio, editLanguages, togglePrivacy, toggleProximity, etc.
+- **Suggestions Voyage** : `!overflow-visible` Tailwind ne suffit pas avec `backdrop-blur-lg` (stacking context). Corrigé avec `style="overflow:visible!important"` inline.
+- **Toggle redesign #5 Flat Minimal** : nouveau design minimaliste (bordure amber, dot amber, fond sombre). Transitions CSS fluides via `transform:translateX()` + astuce class toggle immédiat (30ms delay avant handler).
+- **Audit complet handlers** : 493+ onclick handlers vérifiés, tous définis. Plus aucun `window.render` dans le code.
+- **ERR-037** documenté (window.render fantôme)
+- 107 tests passent, build OK, pushé
 
 ### Session 2026-02-24 (session 19 — 4 FIXES UX + PRÉVENTION)
 - **Fix suggestions Voyage** : `.card` overflow-hidden clippait les dropdowns. Ajout `!overflow-visible` sur Voyage.js + Travel.js
