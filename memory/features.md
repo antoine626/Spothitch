@@ -1,6 +1,6 @@
 # features.md - Inventaire complet des fonctionnalités SpotHitch
 
-> Dernière mise à jour : 2026-02-20
+> Dernière mise à jour : 2026-02-24
 > IMPORTANT : Vérifier ce fichier AVANT de proposer une feature — elle existe peut-être déjà !
 
 ---
@@ -19,6 +19,13 @@
 - [x] Style carte clair/sombre selon thème
 - [x] Compteur de spots supprimé (nettoyage UI)
 - [x] Bouton guide clignotant supprimé (nettoyage UI)
+- [x] Bouton itinéraire supprimé de la carte (déjà dans Voyage)
+- [x] Bouton guide redirige vers Voyage > Guides (raccourci)
+- [x] Bouton stations-service toggle sur la carte (⛽)
+- [x] Scroll vertical bloqué sur onglet carte (touch-action: none)
+- [x] Focus orange/ambre supprimé au touch (conservé clavier)
+- [x] Carte persistante entre onglets (display:none au lieu de destruction DOM)
+- [x] Carte initialisée au lancement de l'app (pas seulement quand onglet carte affiché)
 
 ## Spots
 
@@ -61,6 +68,8 @@
 - [x] Étiquette culturelle par pays (salutations, pourboire, do's/don'ts — 20 pays)
 - [x] Informations visa par pays (EU/US, durée, visa à l'arrivée — 20 pays)
 - [x] Informations devise par pays (monnaie, taux, paiement, budget — 20 pays)
+- [x] Détail pays en 3 sous-onglets : Info, Culture, Pratique
+- [x] Suggestions villes Photon API (plus rapide que Nominatim, 100ms debounce)
 
 ## Gamification
 
@@ -90,15 +99,23 @@
 - [x] Groupes de voyage (création/rejoindre)
 - [x] Amis à proximité (avec contrôles vie privée)
 - [x] Profils utilisateurs (stats, badges, titres)
-- [x] Personnalisation profil (cadres, titres, avatars)
+- [x] ~~Personnalisation profil (cadres, titres, avatars)~~ (bouton palette supprimé, emoji avatar conservé)
 - [x] Fil d'activité amis
 - [x] Profil enrichi : bio, langues parlées, carte pays visités, références, voyages partagés, contrôles vie privée
+- [x] Mini-galerie photos profil (6 photos max, compression WebP, localStorage)
+- [x] Liens réseaux sociaux (Instagram, TikTok, Facebook) dans profil
+- [x] Formulaire voyage passé amélioré (dates début/fin, layout 2 colonnes)
+- [x] Sélecteur de langues in-app (modal au lieu de prompt())
+- [x] Vérification identité déplacée dans Réglages
+- [x] Carte donation dans Profil et Progression (pas seulement Réglages)
+- [x] Toggles 👍/👎 emoji au lieu de switches classiques
 
 ## Sécurité & Vérification
 
 - [x] Mode SOS v2 : partage position, choix SMS/WhatsApp, mode offline, countdown 5s, alarme silencieuse, faux appel, enregistrement audio/vidéo, contact principal, message personnalisable, auto-détection pays urgence
 - [x] Mode Compagnon v2 : check-in régulier, choix SMS/WhatsApp, GPS breadcrumb, notification arrivée/départ, alerte batterie faible, estimation ETA, rappel check-in, contacts multiples (5 max), historique voyages
 - [x] Vérification identité progressive (0-5 : non vérifié → email → téléphone → selfie+ID → vérifié)
+- [x] Score de confiance 11 facteurs : ancienneté, spots, vérifications, avis, identité, votes, photos profil, réseaux sociaux, bio, langues, check-ins
 - [x] Vérification d'âge (modal confirmation)
 - [x] Blocage utilisateur (bloquer/débloquer, liste)
 - [x] Système de signalement (spots, utilisateurs, contenu + raison)

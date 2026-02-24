@@ -88,6 +88,14 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session 2026-02-24 (session 15 — UX OVERHAUL 25+ corrections)
+- **Carte** : compteur spots supprimé, bouton itinéraire supprimé, bouton guide → Voyage>Guides, bouton ⛽ stations-service, scroll vertical bloqué, focus orange supprimé au touch, carte persistante entre onglets, carte init au lancement
+- **Logo** : nouveau logo.png (192px, 23KB) dans splash screen et header
+- **Voyage** : calcul itinéraire fixé (lazy-load Travel.js), suggestions Photon API (100ms debounce, min 1 char), icône journal fixée, guide pays en 3 sous-onglets (Info, Culture, Pratique)
+- **Profil** : bouton palette supprimé, galerie photos (6 max, WebP), liens réseaux sociaux (Instagram/TikTok/Facebook), voyage passé dates début/fin, sélecteur langues in-app (plus de prompt()), vérification déplacée dans Réglages, donation dans Profil+Progression, toggles 👍/👎
+- **Design** : icône compagnon 👥, icône progression ⭐, score confiance 11 facteurs
+- **Social** : padding recherche corrigé
+
 ### Session 2026-02-24 (session 14 — QUALITY GATE CI + PRODUCTION MONITOR + PLAN WOLF v5)
 - **Quality Gate automatique** : 6 checks (handlers, i18n, dead exports, security patterns, localStorage RGPD, error patterns)
 - Score /100, seuil 70, bloque le deploy si en dessous
