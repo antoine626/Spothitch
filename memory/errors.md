@@ -409,6 +409,19 @@ Chaque erreur suit ce format :
 
 ---
 
+### ERR-038 — CSP connect-src bloquait l'API Photon (suggestions de ville invisibles)
+
+- **Date** : 2026-02-24
+- **Gravité** : CRITIQUE
+- **Description** : Les suggestions de ville dans le formulaire Voyage ne s'affichaient jamais. Taper "Paris" ne produisait aucun résultat. L'API Photon (photon.komoot.io) était silencieusement bloquée par le Content Security Policy du navigateur.
+- **Cause racine** : Le meta tag CSP dans `index.html` (ligne 9) listait les domaines autorisés dans `connect-src`, mais `https://photon.komoot.io` n'y figurait pas. Le navigateur refusait la requête `fetch()` vers l'API Photon avec l'erreur : "Refused to connect because it violates the document's Content Security Policy". Le `catch` block dans Voyage.js masquait l'erreur en ajoutant silencieusement `hidden` au conteneur de suggestions.
+- **Correction** : (1) Ajout de `https://photon.komoot.io` dans le CSP `connect-src`. (2) Ajout de POPULAR_CITIES pour des suggestions locales instantanées sans API. (3) Remplacement du `catch` silencieux par un fallback vers Nominatim (qui était déjà dans le CSP).
+- **Leçon** : **TOUJOURS vérifier le CSP (`connect-src`) quand on ajoute un appel API vers un nouveau domaine. L'erreur CSP est dans la console mais les fetch échouent silencieusement quand le catch est trop large. Avant chaque commit utilisant une nouvelle API externe, vérifier que son domaine est dans le CSP de index.html.**
+- **Fichiers** : `index.html`, `src/components/views/Voyage.js`
+- **Statut** : CORRIGÉ
+
+---
+
 ## Statistiques
 
 | Période | Bugs trouvés | Corrigés | En cours |

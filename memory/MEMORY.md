@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-24 (session 20)
+> Dernière mise à jour : 2026-02-24 (session 21)
 
 ---
 
@@ -88,6 +88,15 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session 2026-02-24 (session 21 — FIX SUGGESTIONS VOYAGE CSP)
+- **BUG CRITIQUE : CSP bloquait l'API Photon** — La CSP `connect-src` dans index.html ne contenait pas `https://photon.komoot.io`. Le navigateur refusait silencieusement les requêtes fetch vers l'API d'autocomplete des villes. Le `catch` block masquait l'erreur.
+- **Fix CSP** : Ajout `https://photon.komoot.io` dans le `connect-src` du meta CSP
+- **POPULAR_CITIES local** : Ajout de 45 villes populaires dans le fallback Voyage.js pour des suggestions instantanées sans API
+- **Fallback Nominatim** : Si Photon échoue (réseau, CSP résiduel), la requête retombe sur Nominatim (déjà autorisé dans CSP)
+- **ERR-038** documenté (CSP blocking API)
+- Vérifié visuellement : 5 suggestions "Par" visibles avec Playwright screenshot
+- 107 tests passent, 14/14 CI jobs verts, déployé sur Cloudflare
 
 ### Session 2026-02-24 (session 20 — BUGS CRITIQUES + TOGGLE REDESIGN)
 - **BUG CRITIQUE : window.render n'existait pas** — 12 handlers dans Profile.js appelaient `window.render?.()` qui n'était défini nulle part. Corrigé en `window._forceRender?.()`. Affectait : Compris roadmap, saveBio, editLanguages, togglePrivacy, toggleProximity, etc.
