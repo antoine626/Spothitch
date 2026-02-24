@@ -223,7 +223,7 @@ function renderVerificationStep(level, isComplete, title, description, iconName,
       </div>
       <div class="grow">
         <div class="flex items-center gap-2">
-          <span class="font-medium text-white">${title}</span>
+          <span class="font-medium text-white whitespace-nowrap">${title}</span>
           ${isComplete ? `<span class="px-2 py-0.5 rounded-full text-xs font-medium" style="background: ${color}20; color: ${color};">${t('verified')}</span>` : ''}
         </div>
         <div class="text-sm text-slate-400">${description}</div>
@@ -231,7 +231,7 @@ function renderVerificationStep(level, isComplete, title, description, iconName,
       ${!isComplete && isActive ? `
         <button
           onclick="startVerificationStep(${level})"
-          class="px-4 py-2 rounded-xl bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-colors"
+          class="px-4 py-2 rounded-xl bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-colors shrink-0 whitespace-nowrap"
           type="button"
           aria-label="${t('startVerification')}"
         >

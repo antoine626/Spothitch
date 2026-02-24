@@ -6,6 +6,7 @@
 
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { renderToggle } from '../../utils/toggle.js'
 import { escapeHTML } from '../../utils/sanitize.js'
 import { formatTime, formatRelativeTime, formatEventDate } from '../../utils/formatters.js'
 import { renderConversations } from './social/Conversations.js'
@@ -377,13 +378,7 @@ function renderEvenementsTab(state) {
                 </div>
               </div>
             </div>
-            <button
-              onclick="toggleFeedVisibility()"
-              class="w-11 h-6 rounded-full transition-colors ${isVisible ? 'bg-emerald-500' : 'bg-white/20'}"
-              aria-label="${t('toggleVisibility')}"
-            >
-              <div class="w-5 h-5 rounded-full bg-white shadow transition-transform ${isVisible ? 'translate-x-5' : 'translate-x-0.5'}"></div>
-            </button>
+            ${renderToggle(isVisible, "toggleFeedVisibility()", t('toggleVisibility'))}
           </div>
           ${isVisible && nearbyFriends.length > 0 ? `
             <div class="mt-2 pt-2 border-t border-white/10 flex gap-2 overflow-x-auto scrollbar-none">

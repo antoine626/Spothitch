@@ -236,7 +236,7 @@ export function renderGuides(state) {
             } flex items-center justify-center">
               ${icon(s.icon, `w-5 h-5 ${activeSection === s.id ? 'text-white' : `text-${s.color}-400`}`)}
             </div>
-            <span class="text-center leading-tight">${t(s.labelKey) || s.fallback}</span>
+            <span class="text-center leading-tight text-sm">${t(s.labelKey) || s.fallback}</span>
           </button>
         `).join('')}
       </div>

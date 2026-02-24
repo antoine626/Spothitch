@@ -5,6 +5,7 @@
 
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { renderToggle, renderToggleCompact } from '../../utils/toggle.js'
 // Use the full Guides.js component (6 sections with vote/suggest)
 import { renderGuides } from './Guides.js'
 
@@ -341,14 +342,7 @@ function renderTripResults(state) {
 
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
         <span class="text-sm font-medium">⛽ ${t('travel_show_stations') || 'Stations & aires de repos'}</span>
-        <button
-          onclick="toggleRouteAmenities()"
-          class="relative w-11 h-6 rounded-full transition-colors ${showAmenities ? 'bg-emerald-500' : 'bg-slate-600'}"
-          role="switch"
-          aria-checked="${showAmenities}"
-        >
-          <span class="absolute top-0.5 ${showAmenities ? 'left-5.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-colors"></span>
-        </button>
+        ${renderToggle(showAmenities, "toggleRouteAmenities()", t('travel_show_stations') || 'Stations & aires de repos')}
       </div>
 
       ${loadingAmenities ? `
@@ -713,14 +707,7 @@ function renderMesVoyages() {
             <div class="flex items-center gap-2">
               <!-- Toggle public -->
               <div class="flex items-center gap-2 flex-1">
-                <button
-                  onclick="toggleTripPublic(${globalIdx})"
-                  class="relative w-10 h-5 rounded-full transition-colors ${isPublic ? 'bg-emerald-500' : 'bg-slate-600'}"
-                  role="switch"
-                  aria-checked="${isPublic}"
-                >
-                  <span class="absolute top-0.5 ${isPublic ? 'left-5' : 'left-0.5'} w-4 h-4 rounded-full bg-white shadow transition-colors"></span>
-                </button>
+                ${renderToggleCompact(isPublic, `toggleTripPublic(${globalIdx})`, t('voyageVisibleAmis') || 'Visible par mes amis')}
                 <span class="text-xs text-slate-400">${isPublic ? (t('voyageVisibleAmis') || 'Visible par mes amis') : (t('voyagePrivateLabel') || 'Privé')}</span>
               </div>
               <!-- View details button -->
@@ -887,14 +874,7 @@ function renderTripDetail(state, tripIndex) {
             <div class="font-medium text-sm">${t('voyageVisibleAmis') || 'Visible par mes amis'}</div>
             <div class="text-xs text-slate-500 mt-0.5">${isPublic ? (t('voyagePublicHint') || 'Tes amis peuvent voir ce voyage') : (t('voyagePrivateHint') || 'Seulement toi')}</div>
           </div>
-          <button
-            onclick="toggleTripPublic(${tripIndex})"
-            class="relative w-12 h-6 rounded-full transition-colors ${isPublic ? 'bg-emerald-500' : 'bg-slate-600'}"
-            role="switch"
-            aria-checked="${isPublic}"
-          >
-            <span class="absolute top-0.5 ${isPublic ? 'left-6' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-colors"></span>
-          </button>
+          ${renderToggle(isPublic, `toggleTripPublic(${tripIndex})`, t('voyageVisibleAmis') || 'Visible par mes amis')}
         </div>
       </div>
 

@@ -6,6 +6,7 @@
 import { getState, setState } from '../../stores/state.js';
 import { t } from '../../i18n/index.js';
 import { haversineKm } from '../../utils/geo.js';
+import { renderToggle } from '../../utils/toggle.js';
 
 
 /**
@@ -103,12 +104,7 @@ export function renderFiltersModal() {
                 <span class="text-white font-medium">${t('verifiedOnly') || 'Spots vérifiés uniquement'}</span>
                 <p class="text-slate-400 text-sm">${t('verifiedOnlyDesc') || "N'afficher que les spots avec ✓"}</p>
               </div>
-              <button onclick="toggleVerifiedFilter()"
-                      class="w-12 h-7 rounded-full transition-colors relative
-                             ${filterVerifiedOnly ? 'bg-amber-500' : 'bg-white/10'}">
-                <span class="absolute w-5 h-5 bg-white rounded-full top-1 transition-transform
-                             ${filterVerifiedOnly ? 'translate-x-6' : 'translate-x-1'}"></span>
-              </button>
+              ${renderToggle(filterVerifiedOnly, "toggleVerifiedFilter()", t('verifiedOnly') || 'Spots vérifiés uniquement')}
             </label>
           </section>
 

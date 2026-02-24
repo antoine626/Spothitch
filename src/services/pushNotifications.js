@@ -187,14 +187,11 @@ export function renderPushSettings() {
             ${enabled ? 'Activées' : asked ? 'Désactivées' : 'Recevez des alertes quand un autostoppeur est proche'}
           </p>
         </div>
-        <button
-          onclick="togglePushNotifications()"
-          class="relative w-12 h-7 rounded-full transition-colors ${enabled ? 'bg-primary-500' : 'bg-slate-600'}"
-          role="switch"
-          aria-checked="${enabled}"
-          aria-label="Notifications push"
-        >
-          <span class="absolute top-0.5 ${enabled ? 'right-0.5' : 'left-0.5'} w-6 h-6 rounded-full bg-white transition-colors shadow"></span>
+        <button onclick="togglePushNotifications()" role="switch" aria-checked="${enabled}" aria-label="Notifications push"
+          class="relative w-14 h-7 rounded-full transition-colors shrink-0 ${enabled ? 'bg-emerald-500' : 'bg-slate-600'}">
+          <span class="absolute top-0.5 ${enabled ? 'right-0.5' : 'left-0.5'} w-6 h-6 rounded-full bg-white flex items-center justify-center text-sm shadow transition-all">
+            ${enabled ? '👍' : '👎'}
+          </span>
         </button>
       </div>
     </div>

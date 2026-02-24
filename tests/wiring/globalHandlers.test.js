@@ -391,7 +391,7 @@ const MAIN_JS_HANDLERS = [
   // City Panel (defined in main.js)
   'openCityPanel', 'closeCityPanel', 'selectCityRoute', 'viewCitySpotsOnMap',
   // Missing close handlers (session 2026-02-22)
-  'closeLanding', 'closeSafety',
+  'closeLanding', 'closeSafety', 'toggleFormCheckbox', 'changeLandingLanguage',
   'closeConsentSettings', 'closeJoinTeam', 'closeTeamSettings',
   'closeTitlePopup', 'closeSeasonRewards', 'closeAnniversaryModal',
   'closeAmbassadorSuccess', 'closeAmbassadorProfile', 'closeContactAmbassador',

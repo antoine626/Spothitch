@@ -171,11 +171,11 @@ export function renderLanding() {
                 <div class="text-[17px] text-slate-200">☕ ${t('onboardingCookiesCoffee')}</div>
                 <div class="text-[14px] text-slate-500">${t('onboardingCookiesCoffeeDesc')}</div>
               </div>
-              <label class="relative inline-flex cursor-pointer flex-shrink-0 w-10 h-[22px]">
-                <input type="checkbox" id="landing-cookie-analytics" class="sr-only peer" checked>
-                <div class="absolute inset-0 bg-slate-600 peer-checked:bg-emerald-600 rounded-full transition-colors"></div>
-                <div class="absolute top-[2px] left-[2px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform peer-checked:translate-x-[18px]"></div>
-              </label>
+              <input type="checkbox" id="landing-cookie-analytics" class="hidden" checked>
+              <button type="button" onclick="toggleFormCheckbox('landing-cookie-analytics',this)" role="switch" aria-checked="true"
+                class="relative w-14 h-7 rounded-full transition-colors shrink-0 bg-emerald-500">
+                <span class="absolute top-0.5 right-0.5 w-6 h-6 rounded-full bg-white flex items-center justify-center text-sm shadow transition-all">👍</span>
+              </button>
             </div>
             <!-- Bug tracking (toggleable) -->
             <div class="flex items-center justify-between py-3">
@@ -183,11 +183,11 @@ export function renderLanding() {
                 <div class="text-[17px] text-slate-200">🔧 ${t('onboardingCookiesMechanic')}</div>
                 <div class="text-[14px] text-slate-500">${t('onboardingCookiesMechanicDesc')}</div>
               </div>
-              <label class="relative inline-flex cursor-pointer flex-shrink-0 w-10 h-[22px]">
-                <input type="checkbox" id="landing-cookie-bugs" class="sr-only peer" checked>
-                <div class="absolute inset-0 bg-slate-600 peer-checked:bg-emerald-600 rounded-full transition-colors"></div>
-                <div class="absolute top-[2px] left-[2px] w-[18px] h-[18px] bg-white rounded-full shadow-sm transition-transform peer-checked:translate-x-[18px]"></div>
-              </label>
+              <input type="checkbox" id="landing-cookie-bugs" class="hidden" checked>
+              <button type="button" onclick="toggleFormCheckbox('landing-cookie-bugs',this)" role="switch" aria-checked="true"
+                class="relative w-14 h-7 rounded-full transition-colors shrink-0 bg-emerald-500">
+                <span class="absolute top-0.5 right-0.5 w-6 h-6 rounded-full bg-white flex items-center justify-center text-sm shadow transition-all">👍</span>
+              </button>
             </div>
           </div>
           <p class="text-[14px] text-slate-600 mt-4">${t('onboardingCookiesNoPub')}</p>

@@ -35,7 +35,7 @@ function renderStarInput(criterion, label) {
             ${icon('star', 'w-5 h-5')}
           </button>
         `).join('')}
-        <span class="ml-2 text-sm text-white font-medium" id="spot-rating-value-${criterion}">-</span>
+        <span class="ml-2 text-sm text-white font-medium" id="spot-rating-value-${criterion}"></span>
       </div>
       <p class="text-xs text-slate-400 mt-1 min-h-[1.25rem]" id="spot-rating-desc-${criterion}" aria-live="polite"></p>
     </div>
@@ -392,7 +392,7 @@ function renderStep3(state) {
           ${icon('eye', 'w-5 h-5')} ${t('previewModeClose')}
         </button>
         ` : `
-        <button type="submit" class="btn btn-primary flex-1 text-lg" id="submit-spot-btn">
+        <button type="submit" class="btn btn-primary flex-1 text-base whitespace-nowrap" id="submit-spot-btn">
           ${icon('share', 'w-5 h-5')} ${t('shareThisSpot') || t('create')}
         </button>
         `}

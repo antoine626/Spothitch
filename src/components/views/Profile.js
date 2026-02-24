@@ -7,6 +7,7 @@ import { t } from '../../i18n/index.js'
 import { renderDonationCard } from '../ui/DonationCard.js'
 import { renderTrustScoreCard } from '../../services/trustScore.js'
 import { icon } from '../../utils/icons.js'
+import { renderToggle } from '../../utils/toggle.js'
 import { getVipLevel, getLeague } from '../../data/vip-levels.js'
 import { allBadges } from '../../data/badges.js'
 import { allChallenges } from '../../data/challenges.js'
@@ -992,15 +993,7 @@ function renderAppearanceCard(state) {
           ${icon('moon', 'w-5 h-5 text-purple-400')}
           <span class="text-sm">${t('darkMode') || 'Thème sombre'}</span>
         </div>
-        <button
-          onclick="toggleTheme()"
-          class="text-2xl px-2 py-1 rounded-xl ${state.theme === 'dark' ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors"
-          role="switch"
-          aria-checked="${state.theme === 'dark'}"
-          aria-label="${t('toggleDarkMode') || 'Activer le thème sombre'}"
-        >
-          ${state.theme === 'dark' ? '👍' : '👎'}
-        </button>
+        ${renderToggle(state.theme === 'dark', "toggleTheme()", t('toggleDarkMode') || 'Activer le thème sombre')}
       </div>
       <div class="p-3 rounded-xl bg-white/5">
         <div class="flex items-center gap-3 mb-2">
@@ -1048,15 +1041,7 @@ function renderNotificationsCard(state) {
           ${icon('bell', 'w-5 h-5 text-amber-400')}
           <span class="text-sm">${t('notifications') || 'Notifications'}</span>
         </div>
-        <button
-          onclick="toggleNotifications()"
-          class="text-2xl px-2 py-1 rounded-xl ${state.notifications !== false ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors"
-          role="switch"
-          aria-checked="${state.notifications !== false}"
-          aria-label="${t('toggleNotifications') || 'Activer les notifications'}"
-        >
-          ${state.notifications !== false ? '👍' : '👎'}
-        </button>
+        ${renderToggle(state.notifications !== false, "toggleNotifications()", t('toggleNotifications') || 'Activer les notifications')}
       </div>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
         <div class="flex items-center gap-3">
@@ -1066,15 +1051,7 @@ function renderNotificationsCard(state) {
             <span class="text-xs text-slate-400">${t('proximityAlertsDesc') || 'Notifié près d\'un spot'}</span>
           </div>
         </div>
-        <button
-          onclick="toggleProximityAlertsSetting()"
-          class="text-2xl px-2 py-1 rounded-xl ${state.proximityAlerts !== false ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors"
-          role="switch"
-          aria-checked="${state.proximityAlerts !== false}"
-          aria-label="${t('proximityAlerts') || 'Alertes de proximité'}"
-        >
-          ${state.proximityAlerts !== false ? '👍' : '👎'}
-        </button>
+        ${renderToggle(state.proximityAlerts !== false, "toggleProximityAlertsSetting()", t('proximityAlerts') || 'Alertes de proximité')}
       </div>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
         <div class="flex items-center gap-3">
@@ -1084,15 +1061,7 @@ function renderNotificationsCard(state) {
             <span class="text-xs text-slate-400">${t('pushNotificationsDesc') || 'Alertes push'}</span>
           </div>
         </div>
-        <button
-          onclick="togglePushNotifications()"
-          class="text-2xl px-2 py-1 rounded-xl ${pushOn ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors"
-          role="switch"
-          aria-checked="${pushOn}"
-          aria-label="${t('pushNotifications') || 'Notifications push'}"
-        >
-          ${pushOn ? '👍' : '👎'}
-        </button>
+        ${renderToggle(pushOn, "togglePushNotifications()", t('pushNotifications') || 'Notifications push')}
       </div>
     </div>
   `
@@ -1110,36 +1079,15 @@ function renderPrivacyCard(_state) {
       </h3>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
         <span class="text-sm">${t('showToNonFriends') || 'Profil visible par tous'}</span>
-        <button
-          onclick="togglePrivacy('showToNonFriends')"
-          class="text-2xl px-2 py-1 rounded-xl ${privacy.showToNonFriends ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors flex-shrink-0"
-          role="switch"
-          aria-checked="${privacy.showToNonFriends}"
-        >
-          ${privacy.showToNonFriends ? '👍' : '👎'}
-        </button>
+        ${renderToggle(privacy.showToNonFriends, "togglePrivacy('showToNonFriends')", t('showToNonFriends') || 'Profil visible par tous')}
       </div>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
         <span class="text-sm">${t('showLocationHistory') || 'Historique de position'}</span>
-        <button
-          onclick="togglePrivacy('showLocationHistory')"
-          class="text-2xl px-2 py-1 rounded-xl ${privacy.showLocationHistory ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors flex-shrink-0"
-          role="switch"
-          aria-checked="${privacy.showLocationHistory}"
-        >
-          ${privacy.showLocationHistory ? '👍' : '👎'}
-        </button>
+        ${renderToggle(privacy.showLocationHistory, "togglePrivacy('showLocationHistory')", t('showLocationHistory') || 'Historique de position')}
       </div>
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
         <span class="text-sm">${t('showTravelStats') || 'Statistiques visibles'}</span>
-        <button
-          onclick="togglePrivacy('showTravelStats')"
-          class="text-2xl px-2 py-1 rounded-xl ${privacy.showTravelStats ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors flex-shrink-0"
-          role="switch"
-          aria-checked="${privacy.showTravelStats}"
-        >
-          ${privacy.showTravelStats ? '👍' : '👎'}
-        </button>
+        ${renderToggle(privacy.showTravelStats, "togglePrivacy('showTravelStats')", t('showTravelStats') || 'Statistiques visibles')}
       </div>
       <button
         onclick="openBlockedUsers()"

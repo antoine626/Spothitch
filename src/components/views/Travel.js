@@ -8,6 +8,7 @@ import { countryGuides, getGuideByCode } from '../../data/guides.js'
 import { renderCommunityTips } from '../../services/communityTips.js'
 import { renderHostelSection } from '../../services/hostelRecommendations.js'
 import { escapeHTML } from '../../utils/sanitize.js'
+import { renderToggle } from '../../utils/toggle.js'
 import { icon } from '../../utils/icons.js'
 
 const SAVED_TRIPS_KEY = 'spothitch_saved_trips'
@@ -233,15 +234,7 @@ function renderTripResults(results) {
       <!-- Amenities toggle -->
       <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
         <span class="text-sm font-medium">${t('travel_show_stations') || '\u26FD Stations & aires de repos'}</span>
-        <button
-          onclick="toggleRouteAmenities()"
-          class="relative w-11 h-6 rounded-full transition-colors ${showAmenities ? 'bg-emerald-500' : 'bg-slate-600'}"
-          role="switch"
-          aria-checked="${showAmenities}"
-          aria-label="${t('travel_show_stations') || 'Stations & aires de repos'}"
-        >
-          <span class="absolute top-0.5 ${showAmenities ? 'left-5.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-colors ${showAmenities ? 'translate-x-0' : ''}"></span>
-        </button>
+        ${renderToggle(showAmenities, "toggleRouteAmenities()", t('travel_show_stations') || 'Stations & aires de repos')}
       </div>
 
       <!-- Loading amenities indicator -->

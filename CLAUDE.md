@@ -138,6 +138,32 @@
 >   6. `gh run view` du dernier CI
 > - NE PAS dire "c'est terminé" tant que les 6 checks ne sont pas verts
 
+> **RÈGLE #13 — QUALITÉ VISUELLE MOBILE** :
+> - TOUT changement UI doit être testé sur viewport 390x844 (iPhone 14)
+> - Vérifier CHAQUE écran modifié avec un screenshot Playwright AVANT de push
+> - Checklist visuelle obligatoire :
+>   - Texte lisible (pas trop petit, pas coupé, pas de retour à la ligne parasite)
+>   - Boutons cliquables (min 44x44px touch target)
+>   - Pas de débordement horizontal (overflow-x)
+>   - Icônes visibles (pas d'image cassée, pas de carré vide)
+>   - Espacement cohérent (pas de texte collé, pas de zones vides)
+>   - Alignement correct (flex/grid, pas de décalage)
+>   - Toggles : style pill classique avec 👍/👎 (renderToggle de src/utils/toggle.js)
+>   - Les labels ne sont pas tronqués ou coupés (whitespace-nowrap si nécessaire)
+> - Exemples de bugs à ÉVITER :
+>   - Point d'exclamation seul sur une ligne (texte mal découpé)
+>   - Bouton texte qui passe sur 2 lignes (whitespace-nowrap manquant)
+>   - Icône externe cassée (toujours utiliser SVG inline ou icons.js)
+>   - Tiret parasite ou placeholder visible (supprimer les placeholders inutiles)
+>   - Texte illisible car trop petit (text-xs minimum, préférer text-sm)
+
+> **RÈGLE #14 — CHECKLIST VISUELLE AVANT PUSH** :
+> - Avant CHAQUE push, exécuter `node scripts/visual-check.mjs` si des fichiers UI ont changé
+> - Le script prend des screenshots automatiques de : Carte, Profil, Voyage, Social, Guides, Auth, AddSpot, SOS
+> - Vérifier visuellement CHAQUE screenshot pour détecter les régressions
+> - Si un élément visuel est cassé → corriger AVANT le push
+> - Les screenshots sont sauvegardés dans `audit-screenshots/` pour référence
+
 ---
 
 ## Vue du Projet
