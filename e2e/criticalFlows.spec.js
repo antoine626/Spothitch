@@ -132,15 +132,16 @@ test.describe('Search - Autocomplete Suggestions', () => {
 
 // ================================================================
 // FLOW 2: Trip/Voyage Creation with Result Verification
-// Trip planner is an overlay opened via setState, NOT a tab
+// Trip planner is now in the Voyage tab (challenges tab > voyage sub-tab)
 // ================================================================
 test.describe('Trip Creation - Deep Functional', () => {
   test.describe.configure({ timeout: 40000 })
 
   test.beforeEach(async ({ page }) => {
     await skipOnboarding(page)
-    // Open trip planner overlay (not a tab)
-    await page.evaluate(() => window.setState?.({ showTripPlanner: true }))
+    // Navigate to voyage tab and voyage sub-tab
+    await navigateToTab(page, 'challenges')
+    await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(2000)
   })
 
@@ -256,25 +257,14 @@ test.describe('Map Persistence', () => {
     await expect(searchInput).toHaveValue('test')
   })
 
-  test('should show spots count on map', async ({ page }) => {
+  test('should show map controls on map', async ({ page }) => {
     await skipOnboarding(page)
     await navigateToTab(page, 'map')
 
-    // Wait for spots to load and count element to appear (may be hidden if 0 spots loaded)
-    const spotsCount = page.locator('#home-spots-count')
-
-    // Wait for element to be in DOM
-    await expect(page.locator('#home-spots-count')).toHaveCount(1, { timeout: 15000 })
-
-    // If spots loaded, check the number — in CI spots may not load so hidden is acceptable
-    const isVisible = await spotsCount.isVisible().catch(() => false)
-    if (isVisible) {
-      const text = await spotsCount.textContent()
-      const match = text.match(/(\d+)/)
-      expect(match).not.toBeNull()
-      expect(parseInt(match[1])).toBeGreaterThanOrEqual(0)
-    }
-    // If hidden: spots count = 0 in CI (network/timing), element exists → test passes
+    // Verify core map controls are present (spots counter was removed)
+    await expect(page.locator('[onclick*="homeZoomIn"]').first()).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[onclick*="openAddSpot"]').first()).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('#home-destination').first()).toBeVisible({ timeout: 5000 })
   })
 })
 
@@ -380,8 +370,9 @@ test.describe('Error-Free Critical Flows', () => {
 
     await skipOnboarding(page)
 
-    // Open trip planner overlay
-    await page.evaluate(() => window.setState?.({ showTripPlanner: true }))
+    // Open trip planner via voyage tab
+    await navigateToTab(page, 'challenges')
+    await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(2000)
 
     const fromInput = page.locator('#trip-from')

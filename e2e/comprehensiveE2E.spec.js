@@ -11,10 +11,11 @@ import { skipOnboarding, navigateToTab, dismissOverlays, getAppState } from './h
 // 1. TRIP PLANNER — Full Flow
 // =================================================================
 test.describe('Trip Planner — Full Flow', () => {
-  test('should display trip planner overlay content', async ({ page }) => {
+  test('should display trip planner in voyage tab', async ({ page }) => {
     await skipOnboarding(page)
-    // Open trip planner via state
-    await page.evaluate(() => window.setState?.({ showTripPlanner: true }))
+    // Trip planner is now in the Voyage tab, not an overlay
+    await navigateToTab(page, 'challenges')
+    await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(2000)
     const html = await page.evaluate(() => document.body.innerHTML)
     expect(html).toMatch(/trip-from|trip-to|planTrip|itinéraire|Itinéraire|planificateur/i)
@@ -22,7 +23,8 @@ test.describe('Trip Planner — Full Flow', () => {
 
   test('should have swap functionality without crash', async ({ page }) => {
     await skipOnboarding(page)
-    await page.evaluate(() => window.setState?.({ showTripPlanner: true }))
+    await navigateToTab(page, 'challenges')
+    await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(2000)
     // Swap function should exist and not crash
     await page.evaluate(() => window.swapTripPoints?.())
@@ -33,7 +35,8 @@ test.describe('Trip Planner — Full Flow', () => {
 
   test('should show validation when fields empty', async ({ page }) => {
     await skipOnboarding(page)
-    await page.evaluate(() => window.setState?.({ showTripPlanner: true }))
+    await navigateToTab(page, 'challenges')
+    await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(2000)
     await page.evaluate(() => window.syncTripFieldsAndCalculate?.())
     await page.waitForTimeout(500)
@@ -43,10 +46,11 @@ test.describe('Trip Planner — Full Flow', () => {
 
   test('should not crash with saved trips in state', async ({ page }) => {
     await skipOnboarding(page)
+    await navigateToTab(page, 'challenges')
     await page.evaluate(() => window.setState?.({
-      showTripPlanner: true,
       savedTrips: [{ from: 'Paris', to: 'Lyon', date: '2026-01-01' }]
     }))
+    await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
     await page.waitForTimeout(1000)
     const html = await page.evaluate(() => document.getElementById('app')?.innerHTML || '')
     expect(html.length).toBeGreaterThan(100)

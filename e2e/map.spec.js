@@ -24,20 +24,10 @@ test.describe('Map View', () => {
     await expect(filterBtn.first()).toBeVisible({ timeout: 5000 })
   })
 
-  test('should display spots count', async ({ page }) => {
-    // Element is hidden when spotCount is 0 (CI without network), just check DOM presence
-    await expect(page.locator('#home-spots-count').first()).toBeAttached({ timeout: 10000 })
-  })
-})
-
-test.describe('Map - Score Bar', () => {
-  test.beforeEach(async ({ page }) => {
-    await skipOnboarding(page)
-    await navigateToTab(page, 'map')
-  })
-
-  test('should display spots count badge', async ({ page }) => {
-    await expect(page.locator('#home-spots-count').first()).toBeAttached({ timeout: 10000 })
+  test('should display map controls', async ({ page }) => {
+    // Spots counter was removed — verify map controls exist instead
+    await expect(page.locator('[onclick*="homeZoomIn"]').first()).toBeVisible({ timeout: 10000 })
+    await expect(page.locator('[onclick*="homeZoomOut"]').first()).toBeVisible({ timeout: 10000 })
   })
 })
 

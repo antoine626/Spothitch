@@ -213,6 +213,8 @@ export const STORAGE_KEYS = [
   // === PROFILE ===
   { key: 'spothitch_bio', category: DataCategory.PERSONAL, description: 'User biography text', sensitive: true },
   { key: 'spothitch_languages', category: DataCategory.PERSONAL, description: 'Languages spoken by user' },
+  { key: 'spothitch_social_links', category: DataCategory.PERSONAL, description: 'Social media links (Instagram, TikTok, Facebook)' },
+  { key: 'spothitch_profile_photos', category: DataCategory.PERSONAL, description: 'Profile photo gallery (base64 WebP images)', sensitive: true },
   { key: 'spothitch_shared_trips', category: DataCategory.SOCIAL, description: 'Trips shared on profile' },
   { key: 'spothitch_references', category: DataCategory.SOCIAL, description: 'Community references received from travel companions', sensitive: true },
   { key: 'spothitch_active_trip', category: DataCategory.ACTIVITY, description: 'Currently active hitchhiking trip with progress tracking' },
