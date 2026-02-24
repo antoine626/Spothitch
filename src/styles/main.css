@@ -548,6 +548,16 @@
   }
 }
 
+/* ===== TOGGLE SWITCH ===== */
+/* Immediate visual feedback on click — CSS transitions play before JS re-render */
+.toggle-on {
+  border-color: #f59e0b !important;
+}
+.toggle-on > span {
+  transform: translateX(1.25rem) !important;
+  background-color: #f59e0b !important;
+}
+
 /* ===== UTILITIES ===== */
 @layer utilities {
   /* Scrollbar hidden */
