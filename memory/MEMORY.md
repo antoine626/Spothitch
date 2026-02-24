@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-24
+> Dernière mise à jour : 2026-02-24 (session 14)
 
 ---
 
@@ -87,6 +87,17 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session 2026-02-24 (session 14 — QUALITY GATE CI + PRODUCTION MONITOR)
+- **Quality Gate automatique** : 5 checks (handlers, i18n, dead exports, security patterns, localStorage RGPD)
+- Score /100, seuil 80, bloque le deploy si en dessous
+- Scripts : `scripts/quality-gate.mjs` + `scripts/checks/{handlers,i18n-keys,dead-exports,console-errors,localstorage}.mjs`
+- CI : nouveau job `quality-gate` dans `.github/workflows/ci.yml`, ajouté aux `needs` du deploy
+- **Production Monitor** : health check toutes les 6h via cron GitHub Actions
+- Vérifie : HTTP 200, version.json, headers sécurité, chargement spots FR.json
+- Script : `scripts/monitor.mjs`, workflow : `.github/workflows/monitor.yml`
+- **Relation avec Plan Wolf** : Quality Gate = filet de sécurité continu (30s, chaque push). Plan Wolf = diagnostic complet (12min, manuel avant releases).
+- Score initial : 83/100 (handlers 60, i18n 85, dead exports 70, security 100, localStorage 100)
 
 ### Session 2026-02-24 (session 13 — 12 NOUVEAUX SCRIPTS D'AUDIT)
 - Créé 12 nouveaux scripts couvrant les fonctions non testées de l'app
