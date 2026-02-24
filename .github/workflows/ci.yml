@@ -120,7 +120,7 @@ jobs:
           fi
           echo "Bundle size OK: ${INDEX_KB}KB < 750KB"
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dist
           path: dist/
@@ -166,7 +166,7 @@ jobs:
           name: dist
           path: dist/
       - run: npx playwright test --project=chromium e2e/navigation.spec.js e2e/admin.spec.js e2e/social.spec.js e2e/profile.spec.js e2e/tutorial.spec.js e2e/gamification.spec.js
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: e2e-core-report
@@ -191,7 +191,7 @@ jobs:
           name: dist
           path: dist/
       - run: npx playwright test --project=chromium e2e/criticalFlows.spec.js e2e/accessibility.spec.js e2e/pwa.spec.js
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: e2e-features-report
@@ -216,7 +216,7 @@ jobs:
           name: dist
           path: dist/
       - run: npx playwright test --project=chromium e2e/comprehensiveE2E.spec.js
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: e2e-comprehensive-report
@@ -241,7 +241,7 @@ jobs:
           name: dist
           path: dist/
       - run: npx playwright test --project=chromium e2e/monkeyTest.spec.js e2e/userJourneys.spec.js e2e/map.spec.js
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: e2e-stress-report
