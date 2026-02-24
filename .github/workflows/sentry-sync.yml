@@ -1,0 +1,85 @@
+name: Sentry Error Sync
+
+on:
+  schedule:
+    - cron: '30 */6 * * *'  # Every 6 hours at :30
+  workflow_dispatch: {}      # Manual trigger
+
+jobs:
+  sync:
+    name: Sync Sentry → GitHub Issues
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch Sentry issues
+        id: sentry
+        env:
+          SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+        run: |
+          node scripts/sentry-sync.mjs > /tmp/sentry-issues.json 2>/tmp/sentry-log.txt
+          cat /tmp/sentry-log.txt
+          echo "count=$(node -e "console.log(JSON.parse(require('fs').readFileSync('/tmp/sentry-issues.json','utf-8')).length)")" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub issues for new Sentry errors
+        if: steps.sentry.outputs.count > 0
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs')
+            const issues = JSON.parse(fs.readFileSync('/tmp/sentry-issues.json', 'utf-8'))
+
+            // Get existing sentry issues to avoid duplicates
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              labels: 'sentry',
+              per_page: 100,
+            })
+            const existingTitles = new Set(existing.data.map(i => i.title))
+
+            let created = 0
+            for (const issue of issues) {
+              const title = `🐛 Sentry ${issue.shortId}: ${issue.title.slice(0, 80)}`
+
+              // Skip if already exists
+              if (existingTitles.has(title)) continue
+
+              const body = [
+                `## Sentry Error: ${issue.shortId}`,
+                '',
+                `**Error:** \`${issue.title}\``,
+                `**Level:** ${issue.level}`,
+                `**File:** \`${issue.file || 'unknown'}\``,
+                `**Function:** \`${issue.function || 'unknown'}\``,
+                `**Culprit:** \`${issue.culprit || 'unknown'}\``,
+                '',
+                `**Events:** ${issue.count} | **Users affected:** ${issue.userCount}`,
+                `**First seen:** ${issue.firstSeen}`,
+                `**Last seen:** ${issue.lastSeen}`,
+                '',
+                `**Sentry link:** ${issue.url}`,
+                '',
+                issue.stacktrace ? `### Stacktrace (last 5 frames)\n\`\`\`\n${issue.stacktrace}\n\`\`\`` : '',
+                '',
+                '---',
+                '_This issue was automatically created by the Sentry Sync workflow._',
+              ].filter(Boolean).join('\n')
+
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['sentry', 'bug'],
+              })
+
+              console.log(`Created: ${title}`)
+              created++
+            }
+
+            console.log(`\nTotal: ${created} new issue(s) created, ${issues.length - created} already existed.`)
