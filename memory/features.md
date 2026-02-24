@@ -1,6 +1,6 @@
 # features.md - Inventaire complet des fonctionnalités SpotHitch
 
-> Dernière mise à jour : 2026-02-24
+> Dernière mise à jour : 2026-02-24 (session 17)
 > IMPORTANT : Vérifier ce fichier AVANT de proposer une feature — elle existe peut-être déjà !
 
 ---
@@ -110,7 +110,7 @@
 - [x] Sélecteur de langues in-app (modal au lieu de prompt())
 - [x] Vérification identité déplacée dans Réglages
 - [x] Carte donation dans Profil et Progression (pas seulement Réglages)
-- [x] Toggles 👍/👎 emoji au lieu de switches classiques
+- [x] Toggles 👍/👎 pill classique unifié (renderToggle via src/utils/toggle.js — 19 toggles)
 
 ## Sécurité & Vérification
 
@@ -246,6 +246,9 @@
 - [x] Quality Gate CI (6 checks automatiques : handlers, i18n, dead exports, security patterns, localStorage RGPD, error patterns — score /100, bloque le deploy si < 70)
 - [x] Production Monitor (health check toutes les 6h + alerte GitHub issue automatique si échec)
 - [x] Plan Wolf v5 (mode --delta, intégration Quality Gate, tracking tendances QG)
+- [x] Sentry → GitHub Issues sync automatique (workflow 6h, labels sentry+bug, déduplication par titre)
+- [x] Visual Check script (screenshots automatiques Playwright, viewport 390x844)
+- [x] Pill toggle unifié (👍/👎) via src/utils/toggle.js (renderToggle + renderToggleCompact)
 
 ## Monétisation (préparé mais pas activé)
 
@@ -256,7 +259,7 @@
 ## Configuré en prod
 
 - [x] Firebase : GitHub Secrets configurés depuis 2025-12-26
-- [x] Sentry : DSN configuré depuis 2026-02-17
+- [x] Sentry : DSN configuré depuis 2026-02-17, SENTRY_TOKEN depuis 2026-02-24
 - [x] Cloudflare : configuré depuis 2026-02-16
 
 ## Pas encore configuré en prod

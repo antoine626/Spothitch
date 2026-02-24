@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-24 (session 14)
+> Dernière mise à jour : 2026-02-24 (session 17)
 
 ---
 
@@ -67,7 +67,8 @@
 ## Ce qui est configuré en prod (GitHub Secrets)
 
 - **Firebase** : TOUTES les clés VITE_FIREBASE_* configurées depuis 2025-12-26 (Auth, Firestore, Storage, Messaging)
-- **Sentry** : VITE_SENTRY_DSN configuré depuis 2026-02-17
+- **Sentry** : VITE_SENTRY_DSN configuré depuis 2026-02-17, SENTRY_TOKEN configuré depuis 2026-02-24
+- **Sentry Sync** : workflow GitHub Actions toutes les 6h, crée des issues GitHub automatiquement depuis les erreurs Sentry
 - **Cloudflare** : Account ID + API Token configurés depuis 2026-02-16
 
 ## Ce qui est PAS encore configuré
@@ -118,6 +119,22 @@
 - **Stations-service garde zoom 6** : abaissé de 8 à 6, toast de chargement ajouté, gestion erreur améliorée
 - **Sélecteur de langue onboarding** : 4 drapeaux (FR/EN/ES/DE) en haut à droite du carousel d'accueil, changement instantané sans rechargement
 - **toggleGasStationsOnMap supprimé** : le stub conflictuel dans main.js a été retiré
+
+**Phase 4 : Sentry + toggles + 4 bugs visuels (session 17)**
+- **Sentry → GitHub Issues** : workflow automatique toutes les 6h, crée des issues GitHub avec labels `sentry`+`bug`, déduplique par titre
+- **SENTRY_TOKEN** : configuré en GitHub Secret (Issue & Event: Read, Project: Read)
+- **Pill toggle partout** : 19 toggles remplacés par le style pill classique (👍/👎) via `src/utils/toggle.js`
+  - renderToggle() + renderToggleCompact() : composant partagé pour tous les toggles
+  - toggleFormCheckbox() : handler pour les toggles checkbox (Landing cookies, Companion)
+  - Fichiers modifiés : Profile.js (7), Social.js (1), Feed.js (1), Travel.js (1), Voyage.js (3), Filters.js (1), Landing.js (2), Companion.js (2), pushNotifications.js (1)
+- **4 bugs visuels corrigés** :
+  - IdentityVerification : whitespace-nowrap sur titres + shrink-0 sur bouton (plus de "!" seul sur une ligne)
+  - Guides tabs : text-sm sur labels (plus de "Par paie" illisible à text-xs)
+  - Auth modal : Google icon inline SVG (plus d'image externe cassée)
+  - AddSpot step 3 : tiret parasite supprimé + bouton submit whitespace-nowrap
+- **CLAUDE.md** : règles #13 (qualité visuelle mobile) + #14 (checklist visuelle avant push)
+- **scripts/visual-check.mjs** : screenshots automatiques Playwright des écrans principaux
+- **sentry-sync.yml** : ajout permissions issues:write (corrigé 403)
 
 ### Session 2026-02-24 (session 15 — UX OVERHAUL 25+ corrections)
 - **Carte** : compteur spots supprimé, bouton itinéraire supprimé, bouton guide → Voyage>Guides, bouton ⛽ stations-service, scroll vertical bloqué, focus orange supprimé au touch, carte persistante entre onglets, carte init au lancement
