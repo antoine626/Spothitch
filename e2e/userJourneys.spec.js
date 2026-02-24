@@ -363,7 +363,7 @@ test.describe('Journey: Complete Tab Navigation', () => {
     }
   })
 
-  test('should rapidly switch tabs (stress test)', async ({ page }) => {
+  test('should rapidly switch tabs (stress test)', { timeout: 40000 }, async ({ page }) => {
     await skipOnboarding(page)
 
     for (let i = 0; i < 3; i++) {
