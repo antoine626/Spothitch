@@ -84,7 +84,7 @@ export function renderShopModal() {
         <!-- My Codes Button -->
         <div class="p-5 border-t border-white/10">
           <button onclick="showMyRewards()"
-                  class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all">
+                  class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-colors">
             ${icon('ticket', 'w-5 h-5 mr-2')}
             ${t('myPromoCodes') || 'Mes codes promo'} (${redeemedCodes?.length || 0})
           </button>
@@ -141,7 +141,7 @@ function renderPartnerReward(reward, userThumbs, redeemedCodes, lang) {
               </span>
             ` : canBuy ? `
               <button onclick="redeemReward('${reward.id}')"
-                      class="px-4 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-all">
+                      class="px-4 py-2.5 rounded-xl bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-colors">
                 ${t('exchange') || 'Échanger'}
               </button>
             ` : `
@@ -232,7 +232,7 @@ export function renderMyRewardsModal() {
 
                       <!-- Use Button -->
                       <a href="${reward.url}" target="_blank" rel="noopener"
-                         class="mt-3 flex items-center justify-center gap-2 w-full py-2 bg-white/5 rounded-xl text-slate-400 hover:bg-white/10 transition-all">
+                         class="mt-3 flex items-center justify-center gap-2 w-full py-2 bg-white/5 rounded-xl text-slate-400 hover:bg-white/10 transition-colors">
                         ${icon('external-link', 'w-5 h-5')}
                         ${t('useOn') || 'Utiliser sur'} ${reward.partner}
                       </a>

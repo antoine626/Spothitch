@@ -36,7 +36,7 @@ export function renderLanguageSelector(_state) {
           ${languages.map((lang) => `
             <button
               type="button"
-              class="language-option p-4 rounded-xl border-2 transition-all
+              class="language-option p-4 rounded-xl border-2 transition-colors
                 ${lang.code === detectedLang
     ? 'border-primary-500 bg-primary-500/20 ring-2 ring-primary-500/50'
     : 'border-white/10 bg-white/5 hover:border-primary-500/50 hover:bg-white/10'

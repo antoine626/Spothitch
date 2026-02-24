@@ -63,7 +63,7 @@ export function renderCheckinModal(state) {
               id="checkin-photo-preview"
               class="relative w-full h-32 rounded-xl border-2 border-dashed border-white/20
                 flex items-center justify-center cursor-pointer hover:border-primary-400
-                hover:bg-primary-400/5 transition-all"
+                hover:bg-primary-400/5 transition-colors"
               onclick="triggerCheckinPhoto()"
             >
               <div id="checkin-photo-placeholder" class="text-center">
@@ -122,7 +122,7 @@ export function renderCheckinModal(state) {
                 <button
                   type="button"
                   onclick="setCheckinRideResult('${opt.value}')"
-                  class="px-4 py-3 rounded-xl text-sm font-medium border transition-all text-center
+                  class="px-4 py-3 rounded-xl text-sm font-medium border transition-colors text-center
                     ${state.checkinRideResult === opt.value
                       ? `bg-${opt.color}-500/20 border-${opt.color}-500 text-${opt.color}-400`
                       : 'bg-white/5 border-white/10 hover:border-white/30'}"
@@ -147,7 +147,7 @@ export function renderCheckinModal(state) {
                 { id: 'traffic', icon: 'car', label: t('frequentTraffic') || 'Trafic fréquent', color: 'warning' },
                 { id: 'shelter', icon: 'umbrella', label: t('shelterAvailable') || 'Abri disponible', color: 'cyan' },
               ].map(char => `
-                <label class="flex items-center gap-3 p-3 rounded-xl bg-white/5 cursor-pointer hover:bg-white/10 transition-all">
+                <label class="flex items-center gap-3 p-3 rounded-xl bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
                   <input
                     type="checkbox"
                     id="checkin-char-${char.id}"

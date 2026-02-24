@@ -91,7 +91,7 @@ function renderSocialTabs(activeTab, state) {
       ${tabs.map(tab => `
         <button
           onclick="setSocialTab('${tab.id}')"
-          class="flex-1 py-3 px-2 font-medium text-sm transition-all relative border-b-2 ${
+          class="flex-1 py-3 px-2 font-medium text-sm transition-colors relative border-b-2 ${
       currentTab === tab.id
         ? 'border-primary-500 text-primary-400'
         : 'border-transparent text-slate-400 hover:text-white hover:bg-white/5'
@@ -231,7 +231,7 @@ function renderMessagerieTab(state) {
       <div class="px-4 pb-2">
         <button
           onclick="openZoneChat()"
-          class="card p-3 w-full text-left bg-gradient-to-r from-primary-500/10 to-amber-500/10 border-primary-500/20 hover:border-primary-500/40 transition-all"
+          class="card p-3 w-full text-left bg-gradient-to-r from-primary-500/10 to-amber-500/10 border-primary-500/20 hover:border-primary-500/40 transition-colors"
         >
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center text-lg">
@@ -250,7 +250,7 @@ function renderMessagerieTab(state) {
       <div class="px-4 pb-2">
         <button
           onclick="showCompanionSearchView()"
-          class="card p-3 w-full text-left bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40 transition-all"
+          class="card p-3 w-full text-left bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40 transition-colors"
         >
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-lg">
@@ -273,7 +273,7 @@ function renderMessagerieTab(state) {
         ${allConversations.map(conv => `
           <button
             onclick="${conv.isGroup ? `openGroupChat('${conv.id}')` : `openConversation('${conv.id}')`}"
-            class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-all border-b border-white/5"
+            class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-colors border-b border-white/5"
           >
             <div class="relative shrink-0">
               <span class="text-3xl">${conv.avatar}</span>
@@ -306,7 +306,7 @@ function renderMessagerieTab(state) {
       <div class="px-4 py-3">
         <button
           onclick="openCreateTravelGroup()"
-          class="card p-3 w-full text-left border-dashed border-2 border-white/15 hover:border-primary-500/40 transition-all"
+          class="card p-3 w-full text-left border-dashed border-2 border-white/15 hover:border-primary-500/40 transition-colors"
         >
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center">
@@ -332,7 +332,7 @@ function renderMessagerieTab(state) {
       <!-- FAB: New message -->
       <button
         onclick="showAddFriend()"
-        class="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center hover:bg-primary-600 hover:scale-110 transition-all z-30"
+        class="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center hover:bg-primary-600 hover:scale-110 transition-colors z-30"
         aria-label="${t('newMessage') || 'Nouveau message'}"
       >
         ${icon('plus', 'w-6 h-6')}
@@ -390,7 +390,7 @@ function renderEvenementsTab(state) {
               ${nearbyFriends.slice(0, 3).map(f => `
                 <button
                   onclick="openConversation('${f.userId || f.id}')"
-                  class="shrink-0 flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-all text-xs"
+                  class="shrink-0 flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-xs"
                 >
                   <span>${f.avatar || '🤙'}</span>
                   <span class="text-slate-300">${escapeHTML(f.username || f.name || '')}</span>
@@ -432,7 +432,7 @@ function renderEvenementsTab(state) {
       <!-- FAB: Create event -->
       <button
         onclick="createEvent()"
-        class="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center hover:bg-primary-600 hover:scale-110 transition-all z-30"
+        class="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center hover:bg-primary-600 hover:scale-110 transition-colors z-30"
         aria-label="${t('createEvent') || 'Créer un événement'}"
       >
         ${icon('calendar-plus', 'w-6 h-6')}
@@ -445,7 +445,7 @@ function renderEventFilter(id, active, label) {
   return `
     <button
       onclick="setEventFilter('${id}')"
-      class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+      class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
     active === id
       ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
       : 'text-slate-400 hover:text-slate-300 hover:bg-white/5'
@@ -465,7 +465,7 @@ function renderEventCard(event, state) {
   return `
     <button
       onclick="openEventDetail('${event.id}')"
-      class="card p-4 w-full text-left hover:border-primary-500/50 transition-all"
+      class="card p-4 w-full text-left hover:border-primary-500/50 transition-colors"
     >
       <div class="flex items-start gap-3">
         <div class="w-12 h-12 rounded-xl ${typeInfo.bg} flex items-center justify-center shrink-0">
@@ -555,7 +555,7 @@ function renderZoneChatOverlay(state) {
         ${rooms.map(room => `
           <button
             onclick="setChatRoom('${room.id}')"
-            class="shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+            class="shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
       currentRoom === room.id
         ? 'bg-primary-500 text-white'
         : 'bg-white/5 text-slate-400 hover:bg-white/10'
@@ -749,11 +749,11 @@ function renderEventDetail(state, event) {
 
           <div>
             ${isParticipant && !isCreator ? `
-              <button onclick="leaveEvent('${event.id}')" class="w-full py-3 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all">
+              <button onclick="leaveEvent('${event.id}')" class="w-full py-3 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-colors">
                 ${icon('log-out', 'w-5 h-5 mr-2')} ${t('leaveEvent')}
               </button>
             ` : !isParticipant ? `
-              <button onclick="joinEvent('${event.id}')" class="w-full py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-all">
+              <button onclick="joinEvent('${event.id}')" class="w-full py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
                 ${icon('user-plus', 'w-5 h-5 mr-2')} ${t('joinEvent')}
               </button>
             ` : `
@@ -794,7 +794,7 @@ function renderEventComment(comment, allReplies, eventId, userId) {
   const reactionDisplay = Object.entries(comment.reactions || {})
     .filter(([, users]) => users.length > 0)
     .map(([emoji, users]) => `
-      <button onclick="reactToEventComment('${eventId}', '${comment.id}', '${emoji}')" class="px-2 py-0.5 rounded-full text-xs ${users.includes(userId) ? 'bg-primary-500/30 text-primary-300' : 'bg-white/10 text-slate-400'} hover:bg-white/20 transition-all">
+      <button onclick="reactToEventComment('${eventId}', '${comment.id}', '${emoji}')" class="px-2 py-0.5 rounded-full text-xs ${users.includes(userId) ? 'bg-primary-500/30 text-primary-300' : 'bg-white/10 text-slate-400'} hover:bg-white/20 transition-colors">
         ${emoji} ${users.length}
       </button>
     `).join('')
@@ -817,11 +817,11 @@ function renderEventComment(comment, allReplies, eventId, userId) {
           <div class="flex items-center gap-1 mt-2 flex-wrap">
             ${reactionDisplay}
             ${reactionEmojis.map(emoji => `
-              <button onclick="reactToEventComment('${eventId}', '${comment.id}', '${emoji}')" class="px-1.5 py-0.5 rounded-full text-xs bg-white/5 text-slate-400 hover:bg-white/10 transition-all" title="${emoji}">
+              <button onclick="reactToEventComment('${eventId}', '${comment.id}', '${emoji}')" class="px-1.5 py-0.5 rounded-full text-xs bg-white/5 text-slate-400 hover:bg-white/10 transition-colors" title="${emoji}">
                 ${emoji}
               </button>
             `).join('')}
-            <button onclick="toggleReplyInput('${comment.id}')" class="px-2 py-0.5 rounded-full text-xs bg-white/5 text-slate-400 hover:bg-white/10 transition-all ml-1">
+            <button onclick="toggleReplyInput('${comment.id}')" class="px-2 py-0.5 rounded-full text-xs bg-white/5 text-slate-400 hover:bg-white/10 transition-colors ml-1">
               ${icon('reply', 'w-4 h-4 mr-1')} ${t('reply')}
             </button>
           </div>
@@ -902,7 +902,7 @@ function renderCreateEventForm() {
             <label class="text-sm text-slate-400 mb-1 block">${t('eventDescription')}</label>
             <textarea id="event-description" class="input-field w-full h-24 resize-none" placeholder="${t('eventDescriptionPlaceholder')}" maxlength="500"></textarea>
           </div>
-          <button onclick="submitCreateEvent()" class="w-full py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-all">
+          <button onclick="submitCreateEvent()" class="w-full py-3 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
             ${icon('calendar-plus', 'w-5 h-5 mr-2')}
             ${t('publishEvent')}
           </button>

@@ -418,6 +418,13 @@ function persistState() {
   Storage.set('state', stateToPersist);
 }
 
+// Debounced persist — avoid writing to localStorage on every setState
+let persistTimer = null
+function debouncedPersist() {
+  if (persistTimer) clearTimeout(persistTimer)
+  persistTimer = setTimeout(persistState, 500)
+}
+
 // Notify all subscribers of state change
 function notifySubscribers() {
   subscribers.forEach(callback => {
@@ -441,9 +448,19 @@ export function getState() {
  * @param {Partial<typeof initialState>} updates - State updates
  */
 export function setState(updates) {
-  state = { ...state, ...updates };
-  notifySubscribers();
-  persistState();
+  // Dirty-checking: skip if nothing actually changed
+  let changed = false
+  for (const key in updates) {
+    if (state[key] !== updates[key]) {
+      changed = true
+      break
+    }
+  }
+  if (!changed) return
+
+  state = { ...state, ...updates }
+  notifySubscribers()
+  debouncedPersist()
 }
 
 /**

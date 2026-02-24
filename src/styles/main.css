@@ -122,8 +122,7 @@
   }
 }
 
-/* MapLibre GL CSS (must be after @theme) */
-@import 'maplibre-gl/dist/maplibre-gl.css';
+/* MapLibre GL CSS — loaded dynamically when map initializes (saves ~50KB on initial load) */
 
 /* ===== BASE STYLES ===== */
 @layer base {
@@ -175,7 +174,7 @@
 
   /* Cards */
   .card {
-    @apply bg-dark-card/80 backdrop-blur-lg border border-dark-border rounded-2xl transition-all duration-300 overflow-hidden;
+    @apply bg-dark-card/80 backdrop-blur-lg border border-dark-border rounded-2xl transition-colors duration-300 overflow-hidden;
   }
 
   .card:hover {
@@ -206,12 +205,12 @@
 
   /* Buttons */
   .btn {
-    @apply font-semibold px-6 py-3 rounded-xl border-none cursor-pointer transition-all duration-300;
+    @apply font-semibold px-6 py-3 rounded-xl border-none cursor-pointer transition-colors duration-300;
     @apply inline-flex items-center justify-center gap-2 min-h-[48px];
   }
 
   .btn-primary {
-    @apply text-white shadow-lg shadow-primary-500/30 rounded-xl px-6 py-3 font-semibold inline-flex items-center justify-center gap-2 cursor-pointer transition-all duration-300;
+    @apply text-white shadow-lg shadow-primary-500/30 rounded-xl px-6 py-3 font-semibold inline-flex items-center justify-center gap-2 cursor-pointer transition-colors duration-300;
     background: linear-gradient(135deg, #f59e0b, #d97706);
   }
 
@@ -225,7 +224,7 @@
   }
 
   .btn-danger {
-    @apply text-white shadow-lg shadow-danger-500/30 rounded-xl px-6 py-3 font-semibold inline-flex items-center justify-center gap-2 cursor-pointer transition-all duration-300;
+    @apply text-white shadow-lg shadow-danger-500/30 rounded-xl px-6 py-3 font-semibold inline-flex items-center justify-center gap-2 cursor-pointer transition-colors duration-300;
     background: linear-gradient(135deg, #ef4444, #dc2626);
   }
 
@@ -243,7 +242,7 @@
   }
 
   .btn-ghost {
-    @apply bg-white/5 text-white rounded-xl px-6 py-3 font-semibold inline-flex items-center justify-center gap-2 cursor-pointer transition-all duration-300;
+    @apply bg-white/5 text-white rounded-xl px-6 py-3 font-semibold inline-flex items-center justify-center gap-2 cursor-pointer transition-colors duration-300;
   }
 
   .btn-ghost:hover {
@@ -259,11 +258,11 @@
   }
 
   .btn-secondary {
-    @apply px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all inline-flex items-center justify-center gap-2 cursor-pointer font-semibold;
+    @apply px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors inline-flex items-center justify-center gap-2 cursor-pointer font-semibold;
   }
 
   .admin-btn {
-    @apply flex items-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-sm text-left;
+    @apply flex items-center gap-2 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-sm text-left;
   }
 
   .admin-btn:hover {
@@ -283,7 +282,7 @@
   /* Inputs */
   .input-modern {
     @apply w-full p-4 bg-white/5 border-2 border-white/10 rounded-xl text-white text-base;
-    @apply transition-all duration-300 outline-hidden;
+    @apply transition-colors duration-300 outline-hidden;
   }
 
   .input-modern:focus {
@@ -446,7 +445,7 @@
   }
 
   .star {
-    @apply cursor-pointer text-3xl transition-all duration-200;
+    @apply cursor-pointer text-3xl transition-colors duration-200;
     filter: grayscale(1) opacity(0.3);
   }
 
@@ -460,7 +459,7 @@
   .fab {
     @apply fixed bottom-24 right-5 z-[45] w-14 h-14 rounded-full;
     @apply text-white text-3xl border-none cursor-pointer;
-    @apply flex items-center justify-center shadow-lg transition-all duration-300;
+    @apply flex items-center justify-center shadow-lg transition-colors duration-300;
     background: linear-gradient(135deg, #10b981, #059669);
   }
 
@@ -476,7 +475,7 @@
   .sos-btn {
     @apply fixed bottom-24 right-5 w-14 h-14 rounded-full text-white font-bold text-xs;
     @apply border-none cursor-pointer z-[45] flex items-center justify-center;
-    @apply shadow-lg transition-all duration-300;
+    @apply shadow-lg transition-colors duration-300;
     background: linear-gradient(135deg, #ef4444, #dc2626);
     box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5);
   }
@@ -493,7 +492,7 @@
   /* Photo Upload */
   .photo-upload {
     @apply border-2 border-dashed border-white/20 rounded-2xl p-10 text-center cursor-pointer;
-    @apply transition-all duration-300;
+    @apply transition-colors duration-300;
   }
 
   .photo-upload:hover {
@@ -1087,7 +1086,7 @@ select.input-modern option {
 }
 
 .step-dot {
-  @apply w-3 h-3 rounded-full transition-all duration-300;
+  @apply w-3 h-3 rounded-full transition-colors duration-300;
 }
 
 .step-dot.completed {
@@ -1103,7 +1102,7 @@ select.input-modern option {
 }
 
 .step-line {
-  @apply flex-1 h-0.5 transition-all duration-300;
+  @apply flex-1 h-0.5 transition-colors duration-300;
 }
 
 .step-line.completed {
@@ -1142,7 +1141,7 @@ select.input-modern option {
   @apply flex flex-wrap gap-2;
 }
 .radio-group .radio-btn {
-  @apply px-4 py-2.5 rounded-xl text-sm font-medium border transition-all cursor-pointer
+  @apply px-4 py-2.5 rounded-xl text-sm font-medium border transition-colors cursor-pointer
     bg-white/5 border-white/10 text-slate-300;
 }
 .radio-group .radio-btn:hover {
@@ -1163,7 +1162,7 @@ select.input-modern option {
   @apply grid grid-cols-2 gap-3;
 }
 .spot-type-btn {
-  @apply flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all cursor-pointer
+  @apply flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-colors cursor-pointer
     bg-white/5 border-white/10 text-slate-300;
 }
 .spot-type-btn:hover {
@@ -1200,7 +1199,7 @@ select.input-modern option {
 
 /* Amenity Chips */
 .amenity-chip {
-  @apply px-3 py-2 rounded-full text-sm font-medium border transition-all cursor-pointer
+  @apply px-3 py-2 rounded-full text-sm font-medium border transition-colors cursor-pointer
     bg-white/5 border-white/10 text-slate-300;
 }
 .amenity-chip:hover {
@@ -1431,7 +1430,7 @@ img[data-error="true"]::after {
 /* Avatar selection buttons */
 .avatar-option {
   @apply w-10 h-10 rounded-full flex items-center justify-center text-xl cursor-pointer;
-  @apply border-2 border-transparent bg-white/5 transition-all;
+  @apply border-2 border-transparent bg-white/5 transition-colors;
 }
 
 .avatar-option:hover {
@@ -1611,7 +1610,7 @@ textarea[aria-invalid="true"] {
 
 /* Dark theme - Inputs (base) */
 .input-field {
-  @apply bg-slate-800/80 border border-white/10 text-white rounded-xl px-4 py-3 placeholder-slate-400 transition-all;
+  @apply bg-slate-800/80 border border-white/10 text-white rounded-xl px-4 py-3 placeholder-slate-400 transition-colors;
 }
 .input-field:focus {
   @apply border-primary-500 ring-2 ring-primary-500/20 outline-hidden;
@@ -2305,7 +2304,7 @@ textarea.input-field {
 
 /* Navigation Buttons */
 .photo-gallery button {
-  @apply transition-all duration-200;
+  @apply transition-colors duration-200;
 }
 
 .photo-gallery button:hover {
@@ -2343,7 +2342,7 @@ textarea.input-field {
 /* Thumbnail Buttons */
 .photo-gallery [data-thumb-index] {
   @apply shrink-0 w-16 h-16 rounded-xl overflow-hidden;
-  @apply border-2 transition-all duration-200;
+  @apply border-2 transition-colors duration-200;
   border-color: transparent;
 }
 
@@ -2380,7 +2379,7 @@ textarea.input-field {
 
 /* Fullscreen Navigation Buttons */
 #photo-fullscreen button {
-  @apply transition-all duration-200;
+  @apply transition-colors duration-200;
   animation: slideIn 0.3s ease-out;
 }
 
@@ -2567,7 +2566,7 @@ textarea.input-field {
 
 /* Spot Card Hover Effect - Subtle elevation */
 .spot-card {
-  @apply transition-all duration-300 ease-out;
+  @apply transition-colors duration-300 ease-out;
 }
 
 .spot-card:hover {
@@ -2645,7 +2644,7 @@ textarea.input-field {
 
 /* Tab Navigation Indicator - Smooth slide */
 .nav-indicator {
-  @apply transition-all duration-300 ease-out;
+  @apply transition-colors duration-300 ease-out;
 }
 
 /* Enhanced Skeleton Loading */
@@ -2735,7 +2734,7 @@ textarea.input-field {
 
 /* Input Focus Animation - Gentle glow */
 .input-focus {
-  @apply transition-all duration-200;
+  @apply transition-colors duration-200;
 }
 
 .input-focus:focus {
@@ -2893,7 +2892,7 @@ textarea.input-field {
 
 /* Profile Avatar - Subtle glow on hover */
 .avatar-glow {
-  @apply transition-all duration-300;
+  @apply transition-colors duration-300;
 }
 
 .avatar-glow:hover {

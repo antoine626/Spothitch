@@ -266,7 +266,7 @@ function renderScoreFactor(label, value, max, iconName) {
           <span class="text-slate-400">${Math.round(value)}/${max}</span>
         </div>
         <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
-          <div class="h-full ${color} rounded-full transition-all" style="width: ${percentage}%"></div>
+          <div class="h-full ${color} rounded-full transition-colors" style="width: ${percentage}%"></div>
         </div>
       </div>
     </div>

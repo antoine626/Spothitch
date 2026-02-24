@@ -513,7 +513,7 @@ export function renderTeamDashboard(state) {
                     </div>
                     <div class="h-2 bg-white/10 rounded-full overflow-hidden">
                       <div
-                        class="h-full bg-gradient-to-r ${type.color || 'from-primary-500 to-primary-400'} rounded-full transition-all"
+                        class="h-full bg-gradient-to-r ${type.color || 'from-primary-500 to-primary-400'} rounded-full transition-colors"
                         style="width: ${progress}%"
                       ></div>
                     </div>

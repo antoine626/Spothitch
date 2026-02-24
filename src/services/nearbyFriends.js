@@ -322,7 +322,7 @@ export function renderNearbyFriendsWidget(state) {
     <div class="nearby-friends-widget fixed bottom-24 right-4 z-40">
       <button
         onclick="toggleNearbyFriendsList()"
-        class="relative p-3 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-all"
+        class="relative p-3 rounded-full bg-primary-500 text-white shadow-lg hover:bg-primary-600 transition-colors"
         aria-label="${t('nearbyFriendsLabel') || 'Amis proches'} (${nearbyFriends.length})"
       >
         ${icon('users', 'w-5 h-5')}

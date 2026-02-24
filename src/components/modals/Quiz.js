@@ -79,7 +79,7 @@ function renderCountrySelection() {
           <div class="mb-7">
             <button onclick="startQuizGame()"
                     class="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white
-                           font-bold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all"
+                           font-bold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-colors"
                     type="button">
               ${t('startQuiz')}
             </button>
@@ -101,7 +101,7 @@ function renderCountrySelection() {
                   <button onclick="startCountryQuiz('${c.code}')"
                           class="w-full p-3 flex items-center gap-3 bg-white/5 rounded-xl
                                  hover:bg-purple-500/20 hover:border-purple-500 border-2 border-transparent
-                                 transition-all text-left"
+                                 transition-colors text-left"
                           type="button"
                           aria-label="${t('quizCountryTitle', { country: c.name })}">
                     <span class="text-2xl">${c.flag}</span>
@@ -175,7 +175,7 @@ function renderQuizQuestion(question, quizState) {
           ` : ''}
           <!-- Progress bar -->
           <div class="h-2 bg-white/30 rounded-full overflow-hidden">
-            <div class="h-full bg-white transition-all duration-300" style="width: ${progress}%"></div>
+            <div class="h-full bg-white transition-colors duration-300" style="width: ${progress}%"></div>
           </div>
         </div>
 
@@ -197,7 +197,7 @@ function renderQuizQuestion(question, quizState) {
               <button onclick="answerQuizQuestion(${index})"
                       class="w-full p-4 text-left bg-white/5 rounded-xl text-white
                              hover:bg-purple-500/30 hover:border-purple-500 border-2 border-transparent
-                             transition-all"
+                             transition-colors"
                       type="button"
                       aria-label="${t('answer')} ${['A', 'B', 'C', 'D'][index]}: ${option}">
                 <span class="inline-flex items-center justify-center w-8 h-8 rounded-full
@@ -284,7 +284,7 @@ function renderExplanation(question, quizState) {
           <!-- Next button -->
           <button onclick="nextQuizQuestion()"
                   class="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white
-                         font-bold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all"
+                         font-bold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-colors"
                   type="button">
             ${quizState.currentIndex + 1 >= quizState.questions.length
               ? (t('quizSeeResults') || t('score'))

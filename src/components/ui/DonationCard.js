@@ -71,7 +71,7 @@ function renderFullDonation() {
           <!-- Coffee - 3E -->
           <button
             onclick="openDonation(3, 'coffee')"
-            class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-amber-500/20 transition-all text-white border border-white/10 hover:border-amber-500/50 group"
+            class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-amber-500/20 transition-colors text-white border border-white/10 hover:border-amber-500/50 group"
           >
             <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">
               ${icon('coffee', 'w-5 h-5 text-amber-400')}
@@ -83,7 +83,7 @@ function renderFullDonation() {
           <!-- Pizza - 10E -->
           <button
             onclick="openDonation(10, 'pizza')"
-            class="donation-btn p-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/30 transition-all text-white border border-amber-500/30 hover:border-amber-500/50 ring-2 ring-amber-500/20 group"
+            class="donation-btn p-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/30 transition-colors text-white border border-amber-500/30 hover:border-amber-500/50 ring-2 ring-amber-500/20 group"
           >
             <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">
               ${icon('pizza', 'w-5 h-5 text-orange-400')}
@@ -96,7 +96,7 @@ function renderFullDonation() {
           <!-- Gas - 50E -->
           <button
             onclick="openDonation(50, 'gas')"
-            class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-emerald-500/20 transition-all text-white border border-white/10 hover:border-emerald-500/50 group"
+            class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-emerald-500/20 transition-colors text-white border border-white/10 hover:border-emerald-500/50 group"
           >
             <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">
               ${icon('fuel', 'w-5 h-5 text-emerald-400')}
@@ -108,7 +108,7 @@ function renderFullDonation() {
           <!-- Custom amount -->
           <button
             onclick="openDonation('custom', 'heart')"
-            class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-rose-500/20 transition-all text-white border border-white/10 hover:border-rose-500/50 group"
+            class="donation-btn p-4 rounded-xl bg-white/5 hover:bg-rose-500/20 transition-colors text-white border border-white/10 hover:border-rose-500/50 group"
           >
             <div class="text-3xl mb-2 group-hover:scale-110 transition-transform">
               ${icon('heart', 'w-5 h-5 text-rose-400')}
@@ -164,7 +164,7 @@ function renderCompactDonation() {
   return `
     <button
       onclick="openDonation(10, 'pizza')"
-      class="donation-btn-compact flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500/20 to-amber-500/20 border border-rose-500/30 hover:border-rose-500/50 transition-all"
+      class="donation-btn-compact flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500/20 to-amber-500/20 border border-rose-500/30 hover:border-rose-500/50 transition-colors"
     >
       <span class="text-xl">
         ${icon('heart', 'w-5 h-5 text-rose-400')}
@@ -192,7 +192,7 @@ function renderDonationBanner() {
         </div>
         <button
           onclick="openDonation(10, 'pizza')"
-          class="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-white text-sm font-medium hover:from-rose-600 hover:to-amber-600 transition-all shadow-lg shadow-rose-500/30"
+          class="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-white text-sm font-medium hover:from-rose-600 hover:to-amber-600 transition-colors shadow-lg shadow-rose-500/30"
         >
           ${icon('heart', 'w-5 h-5 mr-1')} ${t('donationSupport')}
         </button>
@@ -275,7 +275,7 @@ export function renderDonationModal(state) {
               target="_blank"
               rel="noopener noreferrer"
               onclick="handleDonationClick('kofi')"
-              class="w-full py-4 px-6 rounded-xl bg-[#FF5E5B] text-white font-medium flex items-center justify-center gap-3 hover:bg-[#e5524f] transition-all block text-center"
+              class="w-full py-4 px-6 rounded-xl bg-[#FF5E5B] text-white font-medium flex items-center justify-center gap-3 hover:bg-[#e5524f] transition-colors block text-center"
             >
               ${icon('coffee', 'w-6 h-6')}
               Ko-fi
@@ -286,7 +286,7 @@ export function renderDonationModal(state) {
               target="_blank"
               rel="noopener noreferrer"
               onclick="handleDonationClick('bmc')"
-              class="w-full py-4 px-6 rounded-xl bg-[#FFDD00] text-black font-medium flex items-center justify-center gap-3 hover:bg-[#E5C700] transition-all block text-center"
+              class="w-full py-4 px-6 rounded-xl bg-[#FFDD00] text-black font-medium flex items-center justify-center gap-3 hover:bg-[#E5C700] transition-colors block text-center"
             >
               ${icon('coffee', 'w-6 h-6')}
               Buy Me a Coffee
@@ -297,7 +297,7 @@ export function renderDonationModal(state) {
               target="_blank"
               rel="noopener noreferrer"
               onclick="handleDonationClick('paypal')"
-              class="w-full py-4 px-6 rounded-xl bg-[#0070ba] text-white font-medium flex items-center justify-center gap-3 hover:bg-[#005ea6] transition-all block text-center"
+              class="w-full py-4 px-6 rounded-xl bg-[#0070ba] text-white font-medium flex items-center justify-center gap-3 hover:bg-[#005ea6] transition-colors block text-center"
             >
               ${icon('paypal', 'w-6 h-6')}
               PayPal
@@ -377,7 +377,7 @@ export function renderThankYouModal(state) {
 
           <button
             onclick="closeDonationThankYou()"
-            class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-white font-medium hover:from-rose-600 hover:to-amber-600 transition-all"
+            class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-white font-medium hover:from-rose-600 hover:to-amber-600 transition-colors"
           >
             ${icon('check', 'w-5 h-5 mr-2')}
             ${t('donationGreatThanks')}

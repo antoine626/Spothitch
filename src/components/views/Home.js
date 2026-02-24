@@ -42,7 +42,7 @@ export function renderHome(state) {
             </div>
             <div class="flex items-center gap-3">
               <span class="text-sm font-bold text-white">${overdue ? '-' : ''}${String(mins).padStart(2, '0')}:${String(sec).padStart(2, '0')}</span>
-              <button onclick="event.stopPropagation();companionCheckIn()" class="px-3 py-1.5 rounded-xl bg-white/20 text-white text-xs font-semibold hover:bg-white/30 transition-all active:scale-95" aria-label="${t('imSafe') || 'Je vais bien'}">
+              <button onclick="event.stopPropagation();companionCheckIn()" class="px-3 py-1.5 rounded-xl bg-white/20 text-white text-xs font-semibold hover:bg-white/30 transition-colors active:scale-95" aria-label="${t('imSafe') || 'Je vais bien'}">
                 ${icon('check', 'w-3 h-3')} ${t('imSafe') || 'OK'}
               </button>
             </div>
@@ -60,7 +60,7 @@ export function renderHome(state) {
               id="home-destination"
               placeholder="${t('searchPlace') || 'Rechercher un lieu...'}"
               value="${searchLabel}"
-              class="w-full pl-11 pr-11 py-3.5 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all shadow-lg text-base"
+              class="w-full pl-11 pr-11 py-3.5 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-colors shadow-lg text-base"
               oninput="homeSearchDestination(this.value)"
               onkeydown="if(event.key==='Enter'){homeSelectFirstSuggestion()}"
               autocomplete="off"
@@ -81,7 +81,7 @@ export function renderHome(state) {
           <!-- Filter button -->
           <button
             onclick="openFilters()"
-            class="px-4 py-3.5 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-primary-500/50 transition-all shadow-lg"
+            class="px-4 py-3.5 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-primary-500/50 transition-colors shadow-lg"
             aria-label="${t('filterSpots') || 'Filtrer les spots'}"
             title="${t('filters') || 'Filtres'}"
           >
@@ -95,18 +95,18 @@ export function renderHome(state) {
       <div class="absolute ${companionActive ? 'top-[8rem]' : 'top-[5rem]'} right-4 z-20 flex flex-col gap-2">
         <button
           onclick="homeZoomIn()"
-          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-all text-lg font-bold shadow-lg"
+          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-colors text-lg font-bold shadow-lg"
           aria-label="${t('zoomIn') || 'Zoom in'}"
         >+</button>
         <button
           onclick="homeZoomOut()"
-          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-all text-lg font-bold shadow-lg"
+          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white flex items-center justify-center hover:bg-dark-primary/80 transition-colors text-lg font-bold shadow-lg"
           aria-label="${t('zoomOut') || 'Zoom out'}"
         >−</button>
         ${hasGPS ? `
           <button
             onclick="homeCenterOnUser()"
-            class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-all shadow-lg"
+            class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-primary/80 transition-colors shadow-lg"
             aria-label="${t('myLocation') || 'Ma position'}"
           >
             ${icon('locate', 'w-5 h-5')}
@@ -115,7 +115,7 @@ export function renderHome(state) {
         <!-- Gas stations toggle -->
         <button
           onclick="toggleGasStations()"
-          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-all shadow-lg"
+          class="w-10 h-10 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 flex items-center justify-center hover:bg-dark-primary/80 hover:text-white transition-colors shadow-lg"
           aria-label="${t('gasStations') || 'Stations-service'}"
           title="${t('gasStations') || 'Stations-service'}"
         >
@@ -124,7 +124,7 @@ export function renderHome(state) {
         <!-- Split view toggle -->
         <button
           onclick="toggleSplitView()"
-          class="w-10 h-10 rounded-xl ${isSplit ? 'bg-primary-500/80 text-white' : 'bg-dark-primary/60 text-slate-400'} backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 transition-all shadow-lg"
+          class="w-10 h-10 rounded-xl ${isSplit ? 'bg-primary-500/80 text-white' : 'bg-dark-primary/60 text-slate-400'} backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-dark-primary/80 transition-colors shadow-lg"
           aria-label="${t('splitView') || 'Vue partagée'}"
           title="${t('splitView') || 'Vue partagée'}"
         >
@@ -136,7 +136,7 @@ export function renderHome(state) {
       <div class="absolute ${isSplit ? 'bottom-[52%]' : 'bottom-32'} left-4 z-20">
         <button
           onclick="changeTab('challenges');setState({voyageSubTab:'guides'})"
-          class="flex items-center gap-2 px-3 py-2 rounded-xl ${hasGuide ? 'bg-emerald-500/90 text-white hover:bg-emerald-600' : 'bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-emerald-500/50'} transition-all text-sm shadow-lg"
+          class="flex items-center gap-2 px-3 py-2 rounded-xl ${hasGuide ? 'bg-emerald-500/90 text-white hover:bg-emerald-600' : 'bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-slate-400 hover:text-white hover:border-emerald-500/50'} transition-colors text-sm shadow-lg"
           aria-label="${t('countryGuides') || 'Guides pays'}"
         >
           ${hasGuide ? `<span class="text-lg">${currentGuide?.flag || ''}</span>` : icon('book-open', 'w-5 h-5')}
@@ -165,7 +165,7 @@ export function renderHome(state) {
       <!-- Add Spot FAB -->
       <button
         onclick="openAddSpot()"
-        class="fixed ${isSplit ? 'bottom-[52%]' : 'bottom-36'} right-5 z-30 w-16 h-16 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-2xl hover:bg-primary-600 hover:scale-110 transition-all"
+        class="fixed ${isSplit ? 'bottom-[52%]' : 'bottom-36'} right-5 z-30 w-16 h-16 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-2xl hover:bg-primary-600 hover:scale-110 transition-colors"
         aria-label="${t('addSpot') || 'Ajouter un spot'}"
         title="${t('addSpot') || 'Ajouter un spot'}"
       >

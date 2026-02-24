@@ -39,7 +39,7 @@ export function renderTravel(state) {
       <div class="flex gap-2 p-1 bg-dark-secondary rounded-xl">
         <button
           onclick="setSubTab('planner')"
-          class="flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
+          class="flex-1 py-3 px-4 rounded-xl font-medium transition-colors ${
   activeSubTab === 'planner'
     ? 'bg-primary-500 text-white'
     : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -51,7 +51,7 @@ export function renderTravel(state) {
         </button>
         <button
           onclick="setSubTab('guides')"
-          class="flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
+          class="flex-1 py-3 px-4 rounded-xl font-medium transition-colors ${
   activeSubTab === 'guides'
     ? 'bg-primary-500 text-white'
     : 'text-slate-400 hover:text-white hover:bg-white/5'
@@ -109,7 +109,7 @@ function renderPlanner(state) {
           <div class="flex justify-center -my-1">
             <button
               onclick="swapTripPoints()"
-              class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+              class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
               aria-label="${t('swap') || 'Inverser'}"
             >
               ${icon('arrow-right-left', 'w-5 h-5 rotate-90')}
@@ -240,7 +240,7 @@ function renderTripResults(results) {
           aria-checked="${showAmenities}"
           aria-label="${t('travel_show_stations') || 'Stations & aires de repos'}"
         >
-          <span class="absolute top-0.5 ${showAmenities ? 'left-5.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-all ${showAmenities ? 'translate-x-0' : ''}"></span>
+          <span class="absolute top-0.5 ${showAmenities ? 'left-5.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-colors ${showAmenities ? 'translate-x-0' : ''}"></span>
         </button>
       </div>
 
@@ -270,13 +270,13 @@ function renderTripResults(results) {
       <!-- Route Filters -->
       ${spots.length > 0 ? `
         <div class="flex flex-wrap gap-1.5 px-1">
-          <button onclick="setRouteFilter('all')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${!state.routeFilter || state.routeFilter === 'all' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">${t('filterAll') || 'Tous'} (${spots.length})</button>
-          <button onclick="setRouteFilter('station')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'station' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⛽ ${t('filterStation') || 'Station'}</button>
-          <button onclick="setRouteFilter('rating4')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'rating4' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⭐ 4+</button>
-          <button onclick="setRouteFilter('wait20')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'wait20' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⏱️ &lt;20min</button>
-          <button onclick="setRouteFilter('verified')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'verified' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">✓ ${t('filterVerified') || 'Vérifié'}</button>
-          <button onclick="setRouteFilter('recent')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'recent' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">🕐 ${t('filterRecent') || 'Récent'}</button>
-          <button onclick="setRouteFilter('shelter')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${state.routeFilter === 'shelter' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">🏠 ${t('filterShelter') || 'Abri'}</button>
+          <button onclick="setRouteFilter('all')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${!state.routeFilter || state.routeFilter === 'all' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">${t('filterAll') || 'Tous'} (${spots.length})</button>
+          <button onclick="setRouteFilter('station')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${state.routeFilter === 'station' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⛽ ${t('filterStation') || 'Station'}</button>
+          <button onclick="setRouteFilter('rating4')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${state.routeFilter === 'rating4' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⭐ 4+</button>
+          <button onclick="setRouteFilter('wait20')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${state.routeFilter === 'wait20' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">⏱️ &lt;20min</button>
+          <button onclick="setRouteFilter('verified')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${state.routeFilter === 'verified' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">✓ ${t('filterVerified') || 'Vérifié'}</button>
+          <button onclick="setRouteFilter('recent')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${state.routeFilter === 'recent' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">🕐 ${t('filterRecent') || 'Récent'}</button>
+          <button onclick="setRouteFilter('shelter')" class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${state.routeFilter === 'shelter' ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}">🏠 ${t('filterShelter') || 'Abri'}</button>
         </div>
       ` : ''}
 
@@ -379,7 +379,7 @@ function renderTripMapView(results) {
       <!-- Back button -->
       <button
         onclick="closeTripMap()"
-        class="absolute top-3 left-3 z-[1000] px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center gap-2 hover:bg-dark-secondary transition-all"
+        class="absolute top-3 left-3 z-[1000] px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center gap-2 hover:bg-dark-secondary transition-colors"
       >
         ${icon('arrow-left', 'w-5 h-5')}
         <span>${t('back') || 'Retour'}</span>
@@ -444,7 +444,7 @@ function renderSavedTrips(savedTrips) {
             </button>
             <button
               onclick="deleteSavedTrip(${index})"
-              class="shrink-0 w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all ml-2"
+              class="shrink-0 w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors ml-2"
               aria-label="${t('delete') || 'Supprimer'}"
             >
               ${icon('trash', 'w-3 h-3')}
@@ -494,7 +494,7 @@ export function renderGuides(state, selectedGuide) {
         ${sortedGuides.map(guide => `
           <button
             onclick="selectGuide('${guide.code}')"
-            class="card p-4 text-left hover:border-primary-500/50 transition-all guide-card"
+            class="card p-4 text-left hover:border-primary-500/50 transition-colors guide-card"
             data-country="${guide.name.toLowerCase()} ${(guide.nameEn || '').toLowerCase()}"
           >
             <div class="flex items-center gap-3 mb-2">
@@ -529,7 +529,7 @@ function renderGuideDetail(guide) {
     <div class="space-y-4">
       <button
         onclick="selectGuide(null)"
-        class="flex items-center gap-2 text-slate-400 hover:text-white transition-all"
+        class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
       >
         ${icon('arrow-left', 'w-5 h-5')}
         ${t('backToGuides') || 'Retour aux guides'}
@@ -772,7 +772,7 @@ function renderSuggestions(field, names) {
         return `
         <button
           onmousedown="event.preventDefault(); tripSelectSuggestion('${safeField}', '${safeName.replace(/'/g, '&#39;')}')"
-          class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"
+          class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-colors"
           data-trip-${safeField}-suggestion="${i}"
         >
           <div class="font-medium text-sm truncate">${safeName}</div>

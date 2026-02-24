@@ -278,7 +278,7 @@ export function renderVoteButtons(spotId) {
       <div class="grid grid-cols-2 gap-2">
         <button
           onclick="voteSpot('${spotId}', 'accurate')"
-          class="vote-btn p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all text-left"
+          class="vote-btn p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition-colors text-left"
         >
           <div class="flex items-center gap-2 mb-1">
             ${icon('check', 'w-5 h-5 text-emerald-400')}
@@ -289,7 +289,7 @@ export function renderVoteButtons(spotId) {
 
         <button
           onclick="voteSpot('${spotId}', 'excellent')"
-          class="vote-btn p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition-all text-left"
+          class="vote-btn p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition-colors text-left"
         >
           <div class="flex items-center gap-2 mb-1">
             ${icon('star', 'w-5 h-5 text-amber-400')}
@@ -300,7 +300,7 @@ export function renderVoteButtons(spotId) {
 
         <button
           onclick="voteSpot('${spotId}', 'outdated')"
-          class="vote-btn p-3 rounded-xl bg-orange-500/10 border border-orange-500/30 hover:bg-orange-500/20 transition-all text-left"
+          class="vote-btn p-3 rounded-xl bg-orange-500/10 border border-orange-500/30 hover:bg-orange-500/20 transition-colors text-left"
         >
           <div class="flex items-center gap-2 mb-1">
             ${icon('clock', 'w-5 h-5 text-orange-400')}
@@ -311,7 +311,7 @@ export function renderVoteButtons(spotId) {
 
         <button
           onclick="voteSpot('${spotId}', 'dangerous')"
-          class="vote-btn p-3 rounded-xl bg-danger-500/10 border border-danger-500/30 hover:bg-danger-500/20 transition-all text-left"
+          class="vote-btn p-3 rounded-xl bg-danger-500/10 border border-danger-500/30 hover:bg-danger-500/20 transition-colors text-left"
         >
           <div class="flex items-center gap-2 mb-1">
             ${icon('triangle-alert', 'w-5 h-5 text-danger-400')}

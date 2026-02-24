@@ -194,7 +194,7 @@ export function renderPushSettings() {
           aria-checked="${enabled}"
           aria-label="Notifications push"
         >
-          <span class="absolute top-0.5 ${enabled ? 'right-0.5' : 'left-0.5'} w-6 h-6 rounded-full bg-white transition-all shadow"></span>
+          <span class="absolute top-0.5 ${enabled ? 'right-0.5' : 'left-0.5'} w-6 h-6 rounded-full bg-white transition-colors shadow"></span>
         </button>
       </div>
     </div>

@@ -319,7 +319,7 @@ function renderNavigationAppButtons(lat, lng, name) {
     return `
       <button
         onclick="openInNavigationApp('${app.id}', ${lat}, ${lng}, '${escapedName}')"
-        class="nav-app-btn flex flex-col items-center gap-1 p-3 rounded-xl transition-all hover:-translate-y-1"
+        class="nav-app-btn flex flex-col items-center gap-1 p-3 rounded-xl transition-colors hover:-translate-y-1"
         style="background: ${app.color}20; border: 1px solid ${app.color}40;"
         type="button"
         aria-label="${t('openIn') || 'Ouvrir dans'} ${app.name}"

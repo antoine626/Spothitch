@@ -59,7 +59,7 @@ import { initSEO, trackPageView } from './utils/seo.js';
 import { announceAction, prefersReducedMotion } from './utils/a11y.js';
 import { initPWA, showInstallBanner, dismissInstallBanner, installPWA } from './utils/pwa.js';
 import { initNetworkMonitor, cleanupOldData } from './utils/network.js';
-import { scheduleRender } from './utils/render.js';
+import { scheduleRender, shouldRerender } from './utils/render.js';
 import { debounce } from './utils/performance.js';
 import { observeAllLazyImages } from './utils/lazyImages.js';
 import { initWebVitals } from './utils/webVitals.js';
@@ -276,6 +276,12 @@ async function init() {
 
     // Initialize offline handler (needed for first render)
     try { initOfflineHandler() } catch (e) { /* optional */ }
+
+    // Expose _forceRender for lazy-loaded modules (bypasses dirty-checking + fingerprint)
+    window._forceRender = () => {
+      import('./utils/render.js').then(({ clearRenderCache }) => clearRenderCache('app'))
+      scheduleRender(() => render(getState()))
+    }
 
     // Subscribe to state changes and render IMMEDIATELY
     subscribe((state) => {
@@ -554,6 +560,42 @@ function restoreScrollPosition(tab) {
 /**
  * Main render function
  */
+// Keys that determine the visual layout — used for render fingerprinting
+const RENDER_KEYS = [
+  'activeTab', 'showLanding', 'showAddSpot', 'showAuth', 'showSOS', 'showTutorial',
+  'showFilters', 'showStats', 'showBadges', 'showChallenges', 'showShop', 'showMyRewards',
+  'showQuiz', 'showLeaderboard', 'showDailyReward', 'showSettings', 'showSideMenu',
+  'showCompanionModal', 'showGuidesOverlay', 'showIdentityVerification', 'showAgeVerification',
+  'showValidateSpot', 'showReport', 'showBlockModal', 'showBlockedUsers', 'showNearbyFriends',
+  'showProfileCustomization', 'showTripHistory', 'showFAQ', 'showLegal', 'showWelcome',
+  'showAdminPanel', 'showMyData', 'showTitles', 'showFriendProfile', 'showContactForm',
+  'showDeleteAccount', 'showDonation', 'showDonationThankYou', 'showTeamChallenges',
+  'showCreateTeam', 'showCreateTravelGroup', 'showTravelGroupDetail', 'showAccessibilityHelp',
+  'showConsentSettings', 'showTripPlanner', 'showTripMap', 'showAddFriend', 'showSafety',
+  'showInstallBanner', 'showBadgeDetail', 'showBadgePopup', 'showReviewForm', 'showReplyModal',
+  'showAmbassadorSuccess', 'showContactAmbassador', 'showAmbassadorProfile',
+  'selectedSpot', 'checkinSpot', 'newBadge', 'navigationActive', 'proximityAlertSpot',
+  'selectedCity', 'sosActive', 'sosSession', 'nearbyFriendsEnabled',
+  'spotDraftsBannerVisible', 'tripResults', 'activeSubTab', 'socialSubTab', 'chatSubTab',
+  'profileSubTab', 'groupSubTab', 'eventSubTab', 'addSpotStep', 'lang', 'theme',
+  'viewMode', 'splitView', 'showCompanionSearch', 'legalPage', 'guideSection',
+  'challengeTab', 'leaderboardTab', 'shopCategory', 'feedFilter', 'eventFilter',
+  'isLoggedIn', 'showLocationPermission', 'showSeasonRewards', 'showTitlePopup',
+  'showPhotoUpload', 'showCreateEvent', 'showPostTravelPlan', 'showTravelPlanDetail',
+  'selectedCountryGuide', 'selectedFriendChat', 'activeDMConversation',
+  '_tagRefresh', '_valRefresh',
+]
+
+function getRenderFingerprint(state) {
+  let fp = ''
+  for (let i = 0; i < RENDER_KEYS.length; i++) {
+    const v = state[RENDER_KEYS[i]]
+    fp += v == null ? '0' : v === true ? '1' : v === false ? '2' : typeof v === 'string' ? v : '3'
+    fp += '|'
+  }
+  return fp
+}
+
 function render(state) {
   const app = document.getElementById('app');
   if (!app) return;
@@ -567,6 +609,10 @@ function render(state) {
   if (focused && (focused.tagName === 'INPUT' || focused.tagName === 'TEXTAREA' || focused.tagName === 'SELECT')) {
     return
   }
+
+  // Render fingerprint: skip if nothing visual changed
+  const fp = getRenderFingerprint(state)
+  if (!shouldRerender('app', fp)) return
 
   // Save scroll position before EVERY re-render (not just tab changes)
   const savedScroll = window.scrollY || document.documentElement.scrollTop || 0
@@ -2094,9 +2140,9 @@ window.setHostelCategory = (category) => {
   // Update button styles
   document.querySelectorAll('.category-btn').forEach(btn => {
     if (btn.dataset.category === category) {
-      btn.className = 'category-btn py-3 px-2 rounded-xl text-center transition-all border-2 border-primary-500 bg-primary-500/20';
+      btn.className = 'category-btn py-3 px-2 rounded-xl text-center transition-colors border-2 border-primary-500 bg-primary-500/20';
     } else {
-      btn.className = 'category-btn py-3 px-2 rounded-xl text-center transition-all border border-white/10 hover:border-primary-500';
+      btn.className = 'category-btn py-3 px-2 rounded-xl text-center transition-colors border border-white/10 hover:border-primary-500';
     }
   });
 };
@@ -2321,7 +2367,7 @@ window.homeSearchDestination = (query) => {
               <div class="border-b border-white/5 last:border-0">
                 <button
                   onclick="homeSelectPlace(${Number(r.lat)}, ${Number(r.lng)}, '${shortName.replace(/'/g, '&#39;')}')"
-                  class="w-full px-4 py-3 text-left text-white hover:bg-white/10 transition-all"
+                  class="w-full px-4 py-3 text-left text-white hover:bg-white/10 transition-colors"
                   data-home-suggestion="${i}"
                 >
                   <div class="font-medium text-sm truncate">${shortName}</div>
@@ -2329,7 +2375,7 @@ window.homeSearchDestination = (query) => {
                 </button>
                 <button
                   onclick="openCityPanel('${slug}', '${cityName.replace(/'/g, '&#39;')}', ${Number(r.lat)}, ${Number(r.lng)}, '${cc}', '${countryName.replace(/'/g, '&#39;')}')"
-                  class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-all text-xs font-medium border-t border-white/5"
+                  class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-colors text-xs font-medium border-t border-white/5"
                 >
                   📍 ${t('hitchhikingFrom') || 'Hitchhiking from'} ${cityName}
                 </button>

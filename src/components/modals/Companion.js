@@ -112,13 +112,13 @@ function renderConsentScreen() {
           </div>
           <button
             onclick="acceptCompanionConsent()"
-            class="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition-all mb-3"
+            class="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition-colors mb-3"
           >
             ${t('companionConsentAccept') || 'I agree, continue'}
           </button>
           <button
             onclick="closeCompanionModal()"
-            class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all text-sm"
+            class="w-full py-3 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-colors text-sm"
           >
             ${t('cancel') || 'Cancel'}
           </button>
@@ -161,7 +161,7 @@ function renderSetupView(companion) {
     <!-- Close button -->
     <button
       onclick="closeCompanionModal()"
-      class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
+      class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
       aria-label="${t('close') || 'Close'}"
     >
       ${icon('x', 'w-5 h-5 text-white')}
@@ -191,7 +191,7 @@ function renderSetupView(companion) {
           <input
             type="text"
             id="companion-guardian-name"
-            class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-colors"
             placeholder="${t('guardianName') || 'Guardian name'}"
             value="${companion.guardian?.name || ''}"
             aria-label="${t('guardianName') || 'Guardian name'}"
@@ -206,7 +206,7 @@ function renderSetupView(companion) {
           <input
             type="tel"
             id="companion-guardian-phone"
-            class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-colors"
             placeholder="+33 6 12 34 56 78"
             value="${companion.guardian?.phone || ''}"
             aria-label="${t('guardianPhone') || 'Guardian phone'}"
@@ -249,20 +249,20 @@ function renderSetupView(companion) {
             <input
               type="text"
               id="companion-tc-name"
-              class="flex-1 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:border-emerald-500 transition-all"
+              class="flex-1 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:border-emerald-500 transition-colors"
               placeholder="${t('contactName') || 'Name'}"
               aria-label="${t('contactName') || 'Contact name'}"
             />
             <input
               type="tel"
               id="companion-tc-phone"
-              class="flex-1 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:border-emerald-500 transition-all"
+              class="flex-1 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:border-emerald-500 transition-colors"
               placeholder="+33 6..."
               aria-label="${t('guardianPhone') || 'Phone'}"
             />
             <button
               onclick="companionAddTrustedContact()"
-              class="px-3 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-all"
+              class="px-3 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
               aria-label="${t('add') || 'Add'}"
             >
               ${icon('plus', 'w-4 h-4')}
@@ -287,7 +287,7 @@ function renderSetupView(companion) {
           ].map(opt => `
             <button
               onclick="companionSetChannel('${opt.val}')"
-              class="flex-1 py-3 text-sm font-medium flex items-center justify-center gap-1.5 transition-all
+              class="flex-1 py-3 text-sm font-medium flex items-center justify-center gap-1.5 transition-colors
                 ${channel === opt.val
                   ? 'bg-emerald-500 text-white'
                   : 'bg-white/5 text-slate-400 hover:bg-white/10'
@@ -310,7 +310,7 @@ function renderSetupView(companion) {
         <input
           type="text"
           id="companion-destination"
-          class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+          class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-colors"
           placeholder="${t('companionDestinationPlaceholder') || 'e.g. Paris, Lyon...'}"
           value="${companion.destination || ''}"
           aria-label="${t('companionDestination') || 'Destination'}"
@@ -339,7 +339,7 @@ function renderSetupView(companion) {
           <div class="relative w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer
             peer-checked:after:translate-x-full peer-checked:bg-emerald-500
             after:content-[''] after:absolute after:top-[2px] after:left-[2px]
-            after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all">
+            after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-colors">
           </div>
         </label>
 
@@ -358,7 +358,7 @@ function renderSetupView(companion) {
           <div class="relative w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer
             peer-checked:after:translate-x-full peer-checked:bg-emerald-500
             after:content-[''] after:absolute after:top-[2px] after:left-[2px]
-            after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all">
+            after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-colors">
           </div>
         </label>
       </div>
@@ -370,7 +370,7 @@ function renderSetupView(companion) {
         </label>
         <select
           id="companion-interval"
-          class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all appearance-none"
+          class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-colors appearance-none"
           aria-label="${t('checkInInterval') || 'Check-in interval'}"
         >
           <option value="15" class="bg-dark-primary">${t('every15min') || 'Every 15 min'}</option>
@@ -383,7 +383,7 @@ function renderSetupView(companion) {
       <!-- Start Trip Button -->
       <button
         onclick="startCompanion()"
-        class="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-lg shadow-emerald-500/20 active:scale-95"
+        class="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg flex items-center justify-center gap-3 transition-colors shadow-lg shadow-emerald-500/20 active:scale-95"
         aria-label="${t('startTrip') || 'Start trip'}"
       >
         ${icon('play', 'w-6 h-6')}
@@ -445,7 +445,7 @@ function renderActiveView(companion) {
     <!-- Close button -->
     <button
       onclick="closeCompanionModal()"
-      class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
+      class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
       aria-label="${t('close') || 'Close'}"
     >
       ${icon('x', 'w-5 h-5 text-white')}
@@ -480,7 +480,7 @@ function renderActiveView(companion) {
       <!-- Check-in Button -->
       <button
         onclick="companionCheckIn()"
-        class="w-full py-5 rounded-xl ${overdue ? 'bg-red-500 hover:bg-red-600 shadow-red-500/30 animate-pulse' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20'} text-white font-bold text-xl flex items-center justify-center gap-3 transition-all shadow-lg active:scale-95"
+        class="w-full py-5 rounded-xl ${overdue ? 'bg-red-500 hover:bg-red-600 shadow-red-500/30 animate-pulse' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20'} text-white font-bold text-xl flex items-center justify-center gap-3 transition-colors shadow-lg active:scale-95"
         aria-label="${t('imSafe') || "I'm safe"}"
       >
         ${icon('circle-check', 'w-7 h-7')}
@@ -542,7 +542,7 @@ function renderActiveView(companion) {
       <!-- SOS Button -->
       <button
         onclick="companionSendAlert()"
-        class="w-full py-3 rounded-xl bg-red-500/20 border border-red-500/30 text-red-400 font-semibold flex items-center justify-center gap-2 hover:bg-red-500/30 transition-all"
+        class="w-full py-3 rounded-xl bg-red-500/20 border border-red-500/30 text-red-400 font-semibold flex items-center justify-center gap-2 hover:bg-red-500/30 transition-colors"
         aria-label="SOS"
       >
         ${icon('triangle-alert', 'w-5 h-5')}
@@ -553,7 +553,7 @@ function renderActiveView(companion) {
       <!-- Stop Trip -->
       <button
         onclick="stopCompanion()"
-        class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-slate-400 font-medium flex items-center justify-center gap-2 hover:bg-white/10 transition-all"
+        class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-slate-400 font-medium flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
         aria-label="${t('stopTrip') || 'Stop trip'}"
       >
         ${icon('circle-stop', 'w-4 h-4')}
@@ -678,7 +678,7 @@ function renderAlertOverlay(companion) {
         <!-- I'm fine -->
         <button
           onclick="companionCheckIn()"
-          class="w-full py-4 rounded-xl bg-emerald-500 text-white font-bold text-lg mb-4 flex items-center justify-center gap-3 active:scale-95 transition-all"
+          class="w-full py-4 rounded-xl bg-emerald-500 text-white font-bold text-lg mb-4 flex items-center justify-center gap-3 active:scale-95 transition-colors"
           aria-label="${t('imSafe') || "I'm safe"}"
         >
           ${icon('circle-check', 'w-6 h-6')}
@@ -688,7 +688,7 @@ function renderAlertOverlay(companion) {
         <!-- Send Alert -->
         <button
           onclick="companionSendAlert()"
-          class="w-full py-4 rounded-xl bg-red-500 text-white font-bold text-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
+          class="w-full py-4 rounded-xl bg-red-500 text-white font-bold text-lg flex items-center justify-center gap-3 active:scale-95 transition-colors"
           aria-label="${t('sendAlertTo') || 'Send alert to'} ${companion.guardian?.name || ''}"
         >
           ${icon('send', 'w-6 h-6')}
@@ -804,7 +804,7 @@ async function updateBatteryDisplay() {
           <span class="text-sm font-bold ${color}">${pct}%</span>
         </div>
         <div class="mt-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
-          <div class="h-full rounded-full transition-all ${isLow ? 'bg-red-500' : pct <= 30 ? 'bg-amber-500' : 'bg-emerald-500'}"
+          <div class="h-full rounded-full transition-colors ${isLow ? 'bg-red-500' : pct <= 30 ? 'bg-amber-500' : 'bg-emerald-500'}"
             style="width: ${pct}%"></div>
         </div>
         ${isLow ? `<p class="text-xs text-red-400 mt-1">${t('batteryLowWarning') || 'Battery low — guardian will be alerted'}</p>` : ''}
@@ -813,34 +813,20 @@ async function updateBatteryDisplay() {
   `
 }
 
-// Use MutationObserver to detect when companion active view is mounted,
-// then populate the battery row. Guard: only fires when the element is newly added
-// and not already populated (to avoid infinite loop — ERR-011).
+// Init companion battery display after render
+// Called from afterRender in App.js instead of using a global MutationObserver
 let _batteryDisplayDone = false
-const _companionBatteryObserver = new MutationObserver(() => {
-  const el = document.getElementById('companion-battery-row')
-  if (el && !_batteryDisplayDone) {
-    _batteryDisplayDone = true
-    updateBatteryDisplay()
-    // Reset flag when element is removed (modal closed)
-    const removalObserver = new MutationObserver(() => {
-      if (!document.getElementById('companion-battery-row')) {
-        _batteryDisplayDone = false
-        removalObserver.disconnect()
-      }
-    })
-    removalObserver.observe(document.body || document.documentElement, {
-      childList: true,
-      subtree: true,
-    })
+export function initCompanionAfterRender(isVisible) {
+  if (isVisible) {
+    const el = document.getElementById('companion-battery-row')
+    if (el && !_batteryDisplayDone) {
+      _batteryDisplayDone = true
+      updateBatteryDisplay()
+    }
+  } else {
+    // Reset flag when modal closes
+    _batteryDisplayDone = false
   }
-})
-
-if (typeof document !== 'undefined') {
-  _companionBatteryObserver.observe(document.body || document.documentElement, {
-    childList: true,
-    subtree: true,
-  })
 }
 
 export default { renderCompanionModal }

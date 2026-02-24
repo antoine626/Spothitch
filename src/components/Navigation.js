@@ -29,7 +29,7 @@ export function renderNavigation(state) {
           <li role="presentation" class="flex-1">
             <button
               onclick="changeTab('${tab.id}')"
-              class="nav-btn relative w-full flex flex-col items-center gap-1 px-2 py-2.5 rounded-xl transition-all duration-300 ${
+              class="nav-btn relative w-full flex flex-col items-center gap-1 px-2 py-2.5 rounded-xl transition-colors duration-300 ${
   state.activeTab === tab.id
     ? 'text-primary-400'
     : 'text-slate-400 hover:text-white'

@@ -47,7 +47,7 @@ export function renderMap(state) {
             type="text"
             id="map-search"
             placeholder="${t('searchPlace') || 'Search a location...'}"
-            class="w-full pl-12 pr-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
+            class="w-full pl-12 pr-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-colors"
             oninput="searchMapSuggestions(this.value)"
             onkeydown="if(event.key==='Enter') { searchLocation(this.value); hideSearchSuggestions(); }"
             onfocus="if(this.value.length>=2) searchMapSuggestions(this.value)"
@@ -59,7 +59,7 @@ export function renderMap(state) {
         </div>
         <button
           onclick="openFilters()"
-          class="px-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-slate-400 hover:text-white hover:border-primary-500/50 transition-all"
+          class="px-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-slate-400 hover:text-white hover:border-primary-500/50 transition-colors"
           aria-label="${t('filterSpots') || 'Filter spots'}"
           title="${t('filters') || 'Filters'}"
         >
@@ -72,7 +72,7 @@ export function renderMap(state) {
         <div class="flex justify-center gap-2">
           <button
             onclick="openStats()"
-            class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm hover:border-primary-500/50 transition-all"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm hover:border-primary-500/50 transition-colors"
             aria-label="${t('viewMyStats') || 'View my stats'}"
           >
             <span class="text-amber-400">🏆</span>
@@ -81,7 +81,7 @@ export function renderMap(state) {
           </button>
           <button
             onclick="openStats()"
-            class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm hover:border-primary-500/50 transition-all"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm hover:border-primary-500/50 transition-colors"
             aria-label="${t('viewMyLevel') || 'View my level'}"
           >
             <span class="text-primary-400">⭐</span>
@@ -97,7 +97,7 @@ export function renderMap(state) {
       <div class="absolute left-4 bottom-36 z-30 flex flex-col gap-2">
         <button
           onclick="mapZoomIn()"
-          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
+          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-colors"
           aria-label="${t('zoomIn') || 'Zoom in'}"
           title="Zoom +"
         >
@@ -105,7 +105,7 @@ export function renderMap(state) {
         </button>
         <button
           onclick="mapZoomOut()"
-          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
+          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-colors"
           aria-label="${t('zoomOut') || 'Zoom out'}"
           title="Zoom -"
         >
@@ -113,7 +113,7 @@ export function renderMap(state) {
         </button>
         <button
           onclick="centerOnUser()"
-          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-all"
+          class="w-11 h-11 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-primary-400 flex items-center justify-center hover:bg-dark-secondary hover:border-primary-500/50 transition-colors"
           aria-label="${t('myLocation') || 'My location'}"
           title="${t('myLocation') || 'My location'}"
         >
@@ -124,7 +124,7 @@ export function renderMap(state) {
       <!-- Add Spot FAB -->
       <button
         onclick="openAddSpot()"
-        class="absolute bottom-32 right-4 z-20 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-xl hover:bg-primary-600 hover:scale-110 transition-all"
+        class="absolute bottom-32 right-4 z-20 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center text-xl hover:bg-primary-600 hover:scale-110 transition-colors"
         aria-label="${t('addNewSpot') || 'Add a new spot'}"
         title="${t('addSpot') || 'Add spot'}"
       >
@@ -194,7 +194,7 @@ window.searchMapSuggestions = (query) => {
               <div class="border-b border-white/5 last:border-0">
                 <button
                   onclick="selectSearchSuggestion(${r.lat}, ${r.lon}, '${safeName}')"
-                  class="w-full px-4 py-3 text-left text-white hover:bg-white/10 transition-all"
+                  class="w-full px-4 py-3 text-left text-white hover:bg-white/10 transition-colors"
                 >
                   <div class="font-medium text-sm truncate">${shortName}</div>
                   <div class="text-xs text-slate-400 truncate">${r.display_name}</div>
@@ -202,7 +202,7 @@ window.searchMapSuggestions = (query) => {
                 ${isCity ? `
                   <button
                     onclick="openCityPanel('${citySlug}', '${cityName}', ${r.lat}, ${r.lon}, '${cc}', '${countryName}')"
-                    class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-all text-xs font-medium border-t border-white/5"
+                    class="w-full px-4 py-2 text-left text-primary-400 hover:bg-primary-500/10 transition-colors text-xs font-medium border-t border-white/5"
                   >
                     📍 ${window.t?.('guideHitchhikingCity') || 'Hitchhiking guide —'} ${cityName}
                   </button>

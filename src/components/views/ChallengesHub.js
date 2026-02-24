@@ -26,7 +26,7 @@ export function renderChallengesHub(state) {
     <div class="p-5 space-y-5 pb-28 overflow-x-hidden">
       <!-- Header Stats -->
       <div class="grid grid-cols-3 gap-3">
-        <button onclick="toggleThumbHistory()" class="card p-4 text-center cursor-pointer relative z-10 hover:border-amber-500/50 transition-all">
+        <button onclick="toggleThumbHistory()" class="card p-4 text-center cursor-pointer relative z-10 hover:border-amber-500/50 transition-colors">
           <div class="text-2xl font-bold text-amber-400">${state.points || 0}</div>
           <div class="text-xs text-slate-400">${t('points') || 'Pouces'}</div>
         </button>
@@ -107,7 +107,7 @@ export function renderChallengesHub(state) {
         <button
           onclick="openBadges()"
           type="button"
-          class="card p-4 text-left hover:border-amber-500/50 transition-all group cursor-pointer relative z-10"
+          class="card p-4 text-left hover:border-amber-500/50 transition-colors group cursor-pointer relative z-10"
         >
           <div class="flex items-center gap-3 mb-4">
             <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -119,7 +119,7 @@ export function renderChallengesHub(state) {
             </div>
           </div>
           <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-            <div class="h-full bg-amber-500 rounded-full transition-all" style="width: ${totalBadges > 0 ? (earnedBadgesCount / totalBadges) * 100 : 0}%"></div>
+            <div class="h-full bg-amber-500 rounded-full transition-colors" style="width: ${totalBadges > 0 ? (earnedBadgesCount / totalBadges) * 100 : 0}%"></div>
           </div>
         </button>
 
@@ -127,7 +127,7 @@ export function renderChallengesHub(state) {
         <button
           onclick="openChallenges()"
           type="button"
-          class="card p-4 text-left hover:border-purple-500/50 transition-all group cursor-pointer relative z-10"
+          class="card p-4 text-left hover:border-purple-500/50 transition-colors group cursor-pointer relative z-10"
         >
           <div class="flex items-center gap-3 mb-4">
             <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -149,7 +149,7 @@ export function renderChallengesHub(state) {
         <button
           onclick="openQuiz()"
           type="button"
-          class="card p-4 text-left hover:border-primary-500/50 transition-all group cursor-pointer relative z-10"
+          class="card p-4 text-left hover:border-primary-500/50 transition-colors group cursor-pointer relative z-10"
         >
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -166,7 +166,7 @@ export function renderChallengesHub(state) {
         <button
           onclick="openShop()"
           type="button"
-          class="card p-4 text-left hover:border-emerald-500/50 transition-all group cursor-pointer relative z-10"
+          class="card p-4 text-left hover:border-emerald-500/50 transition-colors group cursor-pointer relative z-10"
         >
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -184,7 +184,7 @@ export function renderChallengesHub(state) {
       <button
         onclick="openLeaderboard()"
         type="button"
-        class="card p-4 w-full text-left hover:border-amber-500/50 transition-all group cursor-pointer relative z-10"
+        class="card p-4 w-full text-left hover:border-amber-500/50 transition-colors group cursor-pointer relative z-10"
       >
         <div class="flex items-center gap-3">
           <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -226,7 +226,7 @@ export function renderChallengesHub(state) {
                 </div>
                 <div class="flex items-center gap-2">
                   <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                    <div class="h-full bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full transition-all" style="width: ${progress}%"></div>
+                    <div class="h-full bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full transition-colors" style="width: ${progress}%"></div>
                   </div>
                   <span class="text-[10px] text-slate-400 shrink-0">${Math.round(progress)}%</span>
                 </div>

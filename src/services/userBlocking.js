@@ -327,7 +327,7 @@ export function renderBlockedUsersList() {
 
   const listItems = blockedUsers.map(user => `
     <div
-      class="blocked-user-item flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all"
+      class="blocked-user-item flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors"
       data-user-id="${escapeHTML(user.id)}"
       role="listitem"
     >
@@ -452,7 +452,7 @@ export function renderBlockModal(userId, username = '') {
             </div>
             <button
               onclick="closeBlockModal()"
-              class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
+              class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"
               aria-label="${escapeHTML(t('close') || 'Fermer')}"
             >
               ${icon('x', 'w-5 h-5')}
@@ -536,7 +536,7 @@ export function renderUnblockModal(userId, username = '') {
             </div>
             <button
               onclick="closeUnblockModal()"
-              class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-all"
+              class="p-2 bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"
               aria-label="${escapeHTML(t('close') || 'Fermer')}"
             >
               ${icon('x', 'w-5 h-5')}

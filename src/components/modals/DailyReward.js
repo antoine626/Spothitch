@@ -94,7 +94,7 @@ export function renderDailyRewardModal() {
                            bg-gradient-to-r from-amber-500 to-orange-500
                            hover:from-amber-600 hover:to-orange-600
                            shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50
-                           transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                           transition-colors transform hover:scale-[1.02] active:scale-[0.98]"
                     id="claim-reward-btn">
               ${icon('gift', 'w-5 h-5 mr-2')}
               ${t('claimDailyReward') || 'Récupérer ma récompense !'}
@@ -147,7 +147,7 @@ function renderDayCard(day, _info) {
   }
 
   return `
-    <div class="day-card ${bgClass} ${borderClass} ${statusClass} rounded-xl p-2 text-center transition-all">
+    <div class="day-card ${bgClass} ${borderClass} ${statusClass} rounded-xl p-2 text-center transition-colors">
       <div class="text-[10px] text-slate-400 mb-1">${t('day') || 'Jour'} ${day.day}</div>
       <div class="text-2xl mb-1">
         ${isClaimed ? '✅' : isMystery ? '🎁' : day.icon}
@@ -228,7 +228,7 @@ function renderRewardResult(result) {
                   class="w-full py-4 rounded-xl font-bold text-lg text-white
                          bg-gradient-to-r from-primary-500 to-cyan-500
                          hover:from-primary-600 hover:to-cyan-600
-                         shadow-lg transition-all">
+                         shadow-lg transition-colors">
             ${icon('thumbs-up', 'w-5 h-5 mr-2')}
             ${t('awesome') || 'Super !'}
           </button>

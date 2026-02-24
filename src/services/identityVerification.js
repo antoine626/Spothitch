@@ -659,7 +659,7 @@ export function renderVerificationStatus() {
       <!-- Progress bar -->
       <div class="h-2 bg-white/10 rounded-full overflow-hidden mb-4">
         <div
-          class="h-full rounded-full transition-all"
+          class="h-full rounded-full transition-colors"
           style="width: ${progress.progress}%; background: linear-gradient(90deg, #3b82f6, #8b5cf6);"
         ></div>
       </div>

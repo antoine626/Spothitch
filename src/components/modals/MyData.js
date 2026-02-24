@@ -137,7 +137,7 @@ export function renderMyDataModal() {
           </div>
           <button
             onclick="closeMyData()"
-            class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all"
+            class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
             aria-label="${t('close') || 'Fermer'}"
           >
             ${icon('x', 'w-5 h-5')}
@@ -306,7 +306,7 @@ export function renderMyDataModal() {
 
             <button
               onclick="openConsentSettings()"
-              class="w-full mt-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition-all text-sm"
+              class="w-full mt-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-sm"
             >
               ${icon('settings', 'w-5 h-5 mr-2')}
               ${t('manageConsents') || 'Gérer mes consentements'}
@@ -324,7 +324,7 @@ export function renderMyDataModal() {
             <!-- Download Data -->
             <button
               onclick="downloadMyData()"
-              class="w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 hover:border-blue-500/50 transition-all"
+              class="w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 hover:border-blue-500/50 transition-colors"
             >
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
@@ -341,7 +341,7 @@ export function renderMyDataModal() {
             <!-- Delete Account -->
             <button
               onclick="requestAccountDeletion()"
-              class="w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/30 hover:border-red-500/50 transition-all"
+              class="w-full flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/30 hover:border-red-500/50 transition-colors"
             >
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">

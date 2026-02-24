@@ -94,7 +94,9 @@ function lazyRender(exportName, ...args) {
     loader().then(mod => {
       _lazyCache[exportName] = mod[exportName]
       // Trigger re-render so the loaded component appears
-      if (window.setState) window.setState({})
+      // Use _forceRender (bypasses dirty-checking + fingerprint)
+      if (window._forceRender) window._forceRender()
+      else if (window.setState) window.setState({})
     })
   }
   return ''
@@ -192,7 +194,7 @@ export function renderApp(state) {
           <div class="text-6xl mb-4">🌟</div>
           <h2 id="amb-success-title" class="text-2xl font-bold mb-2">${t('ambassadorSuccessTitle') || 'Tu es maintenant Ambassadeur !'}</h2>
           <p class="text-slate-300 text-sm mb-6">${t('ambassadorSuccessDesc') || 'Tu représentes désormais ta ville sur SpotHitch. Merci pour ton engagement !'}</p>
-          <button onclick="closeAmbassadorSuccess()" class="w-full py-3 px-6 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-all">
+          <button onclick="closeAmbassadorSuccess()" class="w-full py-3 px-6 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">
             ${icon('check', 'w-5 h-5 mr-2')}${t('awesome') || 'Super !'}
           </button>
         </div>
@@ -293,7 +295,7 @@ export function renderApp(state) {
               <div class="flex flex-wrap gap-2">
                 ${['👥','🚗','🌍','🏕️','✈️','🚀','🦅','🔥','⚡','🌟'].map(emoji => `
                   <button onclick="document.getElementById('create-team-avatar').value='${emoji}';document.querySelectorAll('.team-avatar-btn').forEach(b=>b.classList.remove('ring-2','ring-primary-400'));this.classList.add('ring-2','ring-primary-400')"
-                    class="team-avatar-btn w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl hover:bg-white/20 transition-all">${emoji}</button>
+                    class="team-avatar-btn w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl hover:bg-white/20 transition-colors">${emoji}</button>
                 `).join('')}
               </div>
               <input id="create-team-avatar" type="hidden" value="👥" />
@@ -306,9 +308,9 @@ export function renderApp(state) {
       </div>
     ` : ''}
 
-    <!-- Floating Widgets -->
-    ${lazyRender('renderNearbyFriendsWidget', state)}
-    ${lazyRender('renderSOSTrackingWidget', state)}
+    <!-- Floating Widgets (conditional to avoid unnecessary lazy-loads) -->
+    ${state.nearbyFriendsEnabled ? lazyRender('renderNearbyFriendsWidget', state) : ''}
+    ${state.sosActive && state.sosSession ? lazyRender('renderSOSTrackingWidget', state) : ''}
     ${state.proximityAlertSpot ? lazyRender('renderProximityAlert', state.proximityAlertSpot) : ''}
 
     <!-- Admin Panel -->
@@ -339,7 +341,7 @@ export function renderApp(state) {
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold">${icon('clipboard-list', 'w-5 h-5 mr-2 text-emerald-400')}${t('tripHistory') || 'Historique de voyage'}</h2>
             <div class="flex items-center gap-2">
-              <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-xl bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-all" aria-label="${t('clearHistory') || "Effacer l'historique"}">
+              <button onclick="clearTripHistory()" class="px-3 py-1.5 rounded-xl bg-red-500/20 text-red-400 text-sm hover:bg-red-500/30 transition-colors" aria-label="${t('clearHistory') || "Effacer l'historique"}">
                 ${icon('trash', 'w-5 h-5 mr-1')}${t('clear') || 'Effacer'}
               </button>
               <button onclick="closeTripHistory()" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
@@ -449,6 +451,16 @@ export function afterRender(state) {
     }
   }
 
+  // Init modal-specific post-render hooks (replaces global MutationObservers)
+  if (state.showAddSpot) {
+    import('./modals/AddSpot.js').then(mod => mod.initAddSpotAfterRender?.())
+  }
+  if (state.showValidateSpot) {
+    import('./modals/ValidateSpot.js').then(mod => mod.initValidateSpotAfterRender?.())
+  }
+  // Companion: pass visibility flag so it can reset when modal closes
+  import('./modals/Companion.js').then(mod => mod.initCompanionAfterRender?.(!!state.showCompanionModal))
+
   // Focus trap: clean up previous trap
   if (_activeFocusTrapCleanup) {
     _activeFocusTrapCleanup()
@@ -468,9 +480,21 @@ export function afterRender(state) {
 /**
  * Initialize the home map (full-size MapLibre GL, shows spots in visible area)
  */
+// Load MapLibre CSS dynamically (once)
+let _mapCSSLoaded = false
+function loadMapCSS() {
+  if (_mapCSSLoaded) return
+  _mapCSSLoaded = true
+  // Import MapLibre CSS as a side-effect module (Vite handles this)
+  import('maplibre-gl/dist/maplibre-gl.css')
+}
+
 function initHomeMap(state) {
   const container = document.getElementById('home-map')
   if (!container || container.dataset.initialized === 'true') return
+
+  // Load MapLibre CSS on first map init
+  loadMapCSS()
 
   import('maplibre-gl').then(async (maplibreModule) => {
     if (container.dataset.initialized === 'true') return
@@ -739,7 +763,7 @@ function initHomeMap(state) {
           const dir = s.to || s.from || ''
           return `
             <button onclick="selectSpot(${typeof s.id === 'string' ? "'" + s.id + "'" : s.id})"
-              class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+              class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
               <div class="text-amber-400 text-sm font-bold shrink-0">${rating}</div>
               <div class="flex-1 min-w-0">
                 <div class="text-white text-sm font-medium truncate">${dir || 'Spot'}</div>
@@ -945,6 +969,8 @@ function initTripMap(state) {
   const container = document.getElementById('trip-map')
   if (!container || container.dataset.initialized === 'true') return
   if (!state.tripResults) return
+
+  loadMapCSS()
 
   import('maplibre-gl').then((maplibreModule) => {
     if (container.dataset.initialized === 'true') return

@@ -43,7 +43,7 @@ function renderVoyageSubTabs(active, activeTrip) {
       ${tabs.map(tab => `
         <button
           onclick="setVoyageSubTab('${tab.id}')"
-          class="flex-1 py-3 px-1 font-medium text-xs transition-all relative border-b-2 flex flex-col items-center gap-1 ${
+          class="flex-1 py-3 px-1 font-medium text-xs transition-colors relative border-b-2 flex flex-col items-center gap-1 ${
             active === tab.id
               ? 'border-primary-500 text-primary-400'
               : 'border-transparent text-slate-400 hover:text-white hover:bg-white/5'
@@ -144,7 +144,7 @@ function renderEnRouteRadar(_state, activeTrip) {
           </div>
           <button
             onclick="selectSpot(${closestSpot.id})"
-            class="w-full py-2.5 rounded-xl bg-emerald-500 text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-emerald-600 active:scale-95 transition-all"
+            class="w-full py-2.5 rounded-xl bg-emerald-500 text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-emerald-600 active:scale-95 transition-colors"
           >
             ${icon('map-pin', 'w-4 h-4')}
             ${t('voyageSeeSpot') || 'Voir ce spot'}
@@ -172,7 +172,7 @@ function renderEnRouteRadar(_state, activeTrip) {
               return `
                 <button
                   onclick="selectSpot(${spot.id})"
-                  class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-all text-left"
+                  class="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/5 transition-colors text-left"
                 >
                   ${distFromStart !== null
                     ? `<span class="text-[10px] font-bold text-slate-500 w-10 shrink-0 text-right">+${distFromStart}km</span>`
@@ -209,7 +209,7 @@ function renderEnRouteRadar(_state, activeTrip) {
 
       <button
         onclick="finishTrip()"
-        class="w-full py-3 rounded-xl bg-white/5 text-slate-400 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-white/10 hover:text-white transition-all"
+        class="w-full py-3 rounded-xl bg-white/5 text-slate-400 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-white/10 hover:text-white transition-colors"
       >
         ${icon('flag', 'w-4 h-4')}
         ${t('voyageFinishTrip') || 'Terminer le voyage'}
@@ -247,7 +247,7 @@ function renderTripForm(state) {
         <div class="flex justify-center -my-1">
           <button
             onclick="swapTripPoints()"
-            class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"
+            class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
             aria-label="${t('swap') || 'Inverser'}"
           >
             ${icon('arrow-right-left', 'w-5 h-5 rotate-90')}
@@ -333,7 +333,7 @@ function renderTripResults(state) {
 
       <button
         onclick="startTrip()"
-        class="w-full py-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-emerald-500/25 transition-all"
+        class="w-full py-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-emerald-500/25 transition-colors"
       >
         ${icon('navigation', 'w-4 h-4')}
         ${t('voyageStartTrip') || 'Démarrer ce voyage'}
@@ -347,7 +347,7 @@ function renderTripResults(state) {
           role="switch"
           aria-checked="${showAmenities}"
         >
-          <span class="absolute top-0.5 ${showAmenities ? 'left-5.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-all"></span>
+          <span class="absolute top-0.5 ${showAmenities ? 'left-5.5' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-colors"></span>
         </button>
       </div>
 
@@ -395,7 +395,7 @@ function renderFilterChip(filter, label, active) {
   return `
     <button
       onclick="setRouteFilter('${filter}')"
-      class="px-2.5 py-1 rounded-full text-xs font-medium transition-all ${active ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}"
+      class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${active ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}"
     >${label}</button>
   `
 }
@@ -440,7 +440,7 @@ function renderSpotsTimeline(spots, results, highlighted) {
         const isHighlighted = highlighted.has(String(spot.id))
         return `
           <div class="relative flex items-start gap-3 pb-4 group">
-            <div class="absolute left-[-18px] w-7 h-7 rounded-full ${isHighlighted ? 'bg-amber-500 border-amber-400' : 'bg-primary-500/80 border-primary-500/40'} border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg transition-all">
+            <div class="absolute left-[-18px] w-7 h-7 rounded-full ${isHighlighted ? 'bg-amber-500 border-amber-400' : 'bg-primary-500/80 border-primary-500/40'} border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg transition-colors">
               ${isHighlighted ? icon('star', 'w-4 h-4 text-white') : `<span class="text-[9px] font-bold text-white">${i + 1}</span>`}
             </div>
             <div
@@ -457,14 +457,14 @@ function renderSpotsTimeline(spots, results, highlighted) {
             <div class="flex items-center gap-1 mt-1 flex-shrink-0">
               <button
                 onclick="event.stopPropagation();highlightTripSpot(${spot.id})"
-                class="w-6 h-6 rounded-full flex items-center justify-center transition-all ${isHighlighted ? 'text-amber-400 bg-amber-500/20' : 'text-slate-600 hover:text-amber-400 hover:bg-amber-500/10'}"
+                class="w-6 h-6 rounded-full flex items-center justify-center transition-colors ${isHighlighted ? 'text-amber-400 bg-amber-500/20' : 'text-slate-600 hover:text-amber-400 hover:bg-amber-500/10'}"
                 aria-label="${t('highlightSpot') || 'Mettre en avant'}"
               >
                 ${icon('star', 'w-3 h-3')}
               </button>
               <button
                 onclick="event.stopPropagation();removeSpotFromTrip(${spot.id})"
-                class="w-6 h-6 rounded-full flex items-center justify-center text-slate-600 hover:text-danger-400 hover:bg-danger-500/10 transition-all"
+                class="w-6 h-6 rounded-full flex items-center justify-center text-slate-600 hover:text-danger-400 hover:bg-danger-500/10 transition-colors"
                 aria-label="${t('remove') || 'Retirer'}"
               >
                 ${icon('x', 'w-3 h-3')}
@@ -518,10 +518,10 @@ function renderSavedTripsPreview(_state) {
               <div class="text-xs text-slate-500">${trip.spots?.length || 0} spots · ${trip.distance || '?'} km</div>
             </div>
           </button>
-          <button onclick="startTrip(${idx})" class="px-2.5 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/25 transition-all flex-shrink-0">
+          <button onclick="startTrip(${idx})" class="px-2.5 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/25 transition-colors flex-shrink-0">
             ${icon('navigation', 'w-3.5 h-3.5')}
           </button>
-          <button onclick="deleteSavedTrip(${idx})" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-danger-400 hover:bg-danger-500/10 transition-all flex-shrink-0">
+          <button onclick="deleteSavedTrip(${idx})" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-danger-400 hover:bg-danger-500/10 transition-colors flex-shrink-0">
             ${icon('trash', 'w-3.5 h-3.5')}
           </button>
         </div>
@@ -542,7 +542,7 @@ function renderTripMapView(results) {
       <div id="trip-map" class="w-full h-full rounded-xl overflow-hidden"></div>
       <button
         onclick="closeTripMap()"
-        class="absolute top-3 left-3 z-[1000] px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center gap-2 hover:bg-dark-secondary transition-all"
+        class="absolute top-3 left-3 z-[1000] px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center gap-2 hover:bg-dark-secondary transition-colors"
       >
         ${icon('arrow-left', 'w-5 h-5')}
         <span>${t('back') || 'Retour'}</span>
@@ -618,7 +618,7 @@ function renderJournalTab(state) {
       <div class="flex gap-2">
         <button
           onclick="setJournalSubTab('mes-voyages')"
-          class="flex-1 py-2 rounded-xl text-sm font-semibold transition-all ${
+          class="flex-1 py-2 rounded-xl text-sm font-semibold transition-colors ${
             journalSubTab === 'mes-voyages'
               ? 'bg-primary-500 text-white'
               : 'bg-white/5 text-slate-400 hover:bg-white/10'
@@ -629,7 +629,7 @@ function renderJournalTab(state) {
         </button>
         <button
           onclick="setJournalSubTab('amis')"
-          class="flex-1 py-2 rounded-xl text-sm font-semibold transition-all ${
+          class="flex-1 py-2 rounded-xl text-sm font-semibold transition-colors ${
             journalSubTab === 'amis'
               ? 'bg-primary-500 text-white'
               : 'bg-white/5 text-slate-400 hover:bg-white/10'
@@ -703,7 +703,7 @@ function renderMesVoyages() {
             ` : `
               <button
                 onclick="openAddTripNote(${globalIdx})"
-                class="w-full p-2.5 rounded-xl bg-white/5 text-slate-500 text-sm italic text-left hover:bg-white/10 transition-all"
+                class="w-full p-2.5 rounded-xl bg-white/5 text-slate-500 text-sm italic text-left hover:bg-white/10 transition-colors"
               >
                 + ${t('voyageAddNote') || 'Ajouter une note...'}
               </button>
@@ -719,14 +719,14 @@ function renderMesVoyages() {
                   role="switch"
                   aria-checked="${isPublic}"
                 >
-                  <span class="absolute top-0.5 ${isPublic ? 'left-5' : 'left-0.5'} w-4 h-4 rounded-full bg-white shadow transition-all"></span>
+                  <span class="absolute top-0.5 ${isPublic ? 'left-5' : 'left-0.5'} w-4 h-4 rounded-full bg-white shadow transition-colors"></span>
                 </button>
                 <span class="text-xs text-slate-400">${isPublic ? (t('voyageVisibleAmis') || 'Visible par mes amis') : (t('voyagePrivateLabel') || 'Privé')}</span>
               </div>
               <!-- View details button -->
               <button
                 onclick="openTripDetail(${globalIdx})"
-                class="px-3 py-1.5 rounded-lg bg-primary-500/15 text-primary-400 text-xs font-semibold hover:bg-primary-500/25 transition-all flex items-center gap-1.5"
+                class="px-3 py-1.5 rounded-lg bg-primary-500/15 text-primary-400 text-xs font-semibold hover:bg-primary-500/25 transition-colors flex items-center gap-1.5"
               >
                 ${icon('search', 'w-3.5 h-3.5')}
                 ${t('voyageVoirDetails') || 'Voir détails'}
@@ -734,7 +734,7 @@ function renderMesVoyages() {
               <!-- Delete -->
               <button
                 onclick="deleteJournalTrip(${globalIdx})"
-                class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-danger-400 hover:bg-danger-500/10 transition-all"
+                class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-500 hover:text-danger-400 hover:bg-danger-500/10 transition-colors"
               >
                 ${icon('trash', 'w-3.5 h-3.5')}
               </button>
@@ -782,7 +782,7 @@ function renderTripDetail(state, tripIndex) {
       <div class="flex items-center justify-between">
         <button
           onclick="closeTripDetail()"
-          class="flex items-center gap-2 text-slate-400 hover:text-white transition-all"
+          class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
         >
           ${icon('arrow-left', 'w-5 h-5')}
           ${t('back') || 'Retour'}
@@ -825,7 +825,7 @@ function renderTripDetail(state, tripIndex) {
         </div>
         ${trip.notes
           ? `<p class="text-slate-300 text-sm italic leading-relaxed">"${trip.notes}"</p>`
-          : `<button onclick="openAddTripNote(${tripIndex})" class="text-slate-500 text-sm italic hover:text-slate-300 transition-all">+ ${t('voyageAddNote') || 'Ajouter une note...'}</button>`
+          : `<button onclick="openAddTripNote(${tripIndex})" class="text-slate-500 text-sm italic hover:text-slate-300 transition-colors">+ ${t('voyageAddNote') || 'Ajouter une note...'}</button>`
         }
       </div>
 
@@ -841,13 +841,13 @@ function renderTripDetail(state, tripIndex) {
                 <img src="${photo}" alt="photo ${i + 1}" class="w-full h-full object-cover" />
               </div>
             `).join('')}
-            <button onclick="openTripPhotoUpload(${tripIndex})" class="w-20 h-20 rounded-xl shrink-0 bg-white/5 border border-dashed border-white/20 flex items-center justify-center text-slate-500 hover:text-slate-300 hover:border-white/40 transition-all">
+            <button onclick="openTripPhotoUpload(${tripIndex})" class="w-20 h-20 rounded-xl shrink-0 bg-white/5 border border-dashed border-white/20 flex items-center justify-center text-slate-500 hover:text-slate-300 hover:border-white/40 transition-colors">
               ${icon('plus', 'w-6 h-6')}
             </button>
           </div>
         </div>
       ` : `
-        <button onclick="openTripPhotoUpload(${tripIndex})" class="w-full card p-4 text-center text-slate-500 hover:text-slate-300 border-dashed hover:border-white/20 transition-all">
+        <button onclick="openTripPhotoUpload(${tripIndex})" class="w-full card p-4 text-center text-slate-500 hover:text-slate-300 border-dashed hover:border-white/20 transition-colors">
           ${icon('camera', 'w-6 h-6 mx-auto mb-1')}
           <div class="text-sm">${t('voyageAddPhoto') || 'Ajouter des photos'}</div>
         </button>
@@ -870,7 +870,7 @@ function renderTripDetail(state, tripIndex) {
           </div>
           <div class="space-y-1.5 max-h-48 overflow-y-auto">
             ${spots.map((spot, i) => `
-              <button onclick="selectSpot(${spot.id})" class="w-full flex items-center gap-2 p-2 rounded-xl hover:bg-white/5 transition-all text-left">
+              <button onclick="selectSpot(${spot.id})" class="w-full flex items-center gap-2 p-2 rounded-xl hover:bg-white/5 transition-colors text-left">
                 <span class="text-xs font-bold text-slate-600 w-5">${i + 1}</span>
                 <span class="flex-1 text-sm truncate">${spot.from || spot.city || spot.stationName || 'Spot'}</span>
                 ${icon('chevron-right', 'w-3 h-3 text-slate-600 shrink-0')}
@@ -893,13 +893,13 @@ function renderTripDetail(state, tripIndex) {
             role="switch"
             aria-checked="${isPublic}"
           >
-            <span class="absolute top-0.5 ${isPublic ? 'left-6' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-all"></span>
+            <span class="absolute top-0.5 ${isPublic ? 'left-6' : 'left-0.5'} w-5 h-5 rounded-full bg-white shadow transition-colors"></span>
           </button>
         </div>
       </div>
 
       <!-- Delete -->
-      <button onclick="deleteJournalTrip(${tripIndex});closeTripDetail()" class="w-full py-3 rounded-xl bg-danger-500/10 text-danger-400 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-danger-500/20 transition-all">
+      <button onclick="deleteJournalTrip(${tripIndex});closeTripDetail()" class="w-full py-3 rounded-xl bg-danger-500/10 text-danger-400 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-danger-500/20 transition-colors">
         ${icon('trash', 'w-4 h-4')}
         ${t('delete') || 'Supprimer ce voyage'}
       </button>
@@ -1196,7 +1196,7 @@ if (!window.tripSearchSuggestions) {
       container.innerHTML = `<div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
         ${names.slice(0, 5).map(name => {
           const safe = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/'/g, '&#39;')
-          return `<button onmousedown="event.preventDefault();(window.tripSelectSuggestion||function(f,n){var i=document.getElementById('trip-'+f);if(i)i.value=n;document.getElementById('trip-from-suggestions')?.classList.add('hidden');document.getElementById('trip-to-suggestions')?.classList.add('hidden')})('${field}','${safe}')" class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-all"><div class="font-medium text-sm truncate">${safe}</div></button>`
+          return `<button onmousedown="event.preventDefault();(window.tripSelectSuggestion||function(f,n){var i=document.getElementById('trip-'+f);if(i)i.value=n;document.getElementById('trip-from-suggestions')?.classList.add('hidden');document.getElementById('trip-to-suggestions')?.classList.add('hidden')})('${field}','${safe}')" class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-colors"><div class="font-medium text-sm truncate">${safe}</div></button>`
         }).join('')}
       </div>`
     }

@@ -43,7 +43,7 @@ export function renderWelcome(state) {
         <!-- Close button -->
         <button
           onclick="skipWelcome()"
-          class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
+          class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
           aria-label="${t('close') || 'Close'}"
         >
           ${icon('x', 'w-5 h-5 text-white')}
@@ -59,7 +59,7 @@ export function renderWelcome(state) {
             <input
               type="text"
               id="welcome-username"
-              class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-colors"
               placeholder="Ex: Marco_Polo"
               maxlength="20"
               value="${state.username || ''}"
@@ -76,7 +76,7 @@ export function renderWelcome(state) {
               ${avatars.map((avatar) => `
                 <button
                   type="button"
-                  class="w-11 h-11 rounded-xl flex items-center justify-center text-xl transition-all
+                  class="w-11 h-11 rounded-xl flex items-center justify-center text-xl transition-colors
                     ${avatar === selectedAvatar
                       ? 'bg-primary-500/20 border-2 border-primary-500 scale-110'
                       : 'bg-white/5 border border-white/10 hover:bg-white/10'}"
@@ -94,7 +94,7 @@ export function renderWelcome(state) {
           <!-- Submit -->
           <button
             onclick="completeWelcome()"
-            class="w-full py-4 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-bold text-lg flex items-center justify-center gap-3 transition-all shadow-lg shadow-primary-500/20 active:scale-95"
+            class="w-full py-4 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-bold text-lg flex items-center justify-center gap-3 transition-colors shadow-lg shadow-primary-500/20 active:scale-95"
           >
             ${icon('check', 'w-6 h-6')}
             ${t('letsGo') || "Let's go!"}

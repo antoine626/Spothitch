@@ -140,7 +140,7 @@ function renderCompactCard(spot) {
 
   return `
     <article
-      class="card p-3 flex gap-3 cursor-pointer hover:border-primary-500/50 transition-all"
+      class="card p-3 flex gap-3 cursor-pointer hover:border-primary-500/50 transition-colors"
       onclick="selectSpot(${spot.id})"
       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectSpot(${spot.id});}"
       role="button"

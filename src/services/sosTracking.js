@@ -312,7 +312,7 @@ export function renderSOSTrackingWidget(state) {
         </div>
         <button
           onclick="stopSOSTracking()"
-          class="px-4 py-2 rounded-xl bg-white text-danger-500 font-bold text-sm hover:bg-white/90 transition-all"
+          class="px-4 py-2 rounded-xl bg-white text-danger-500 font-bold text-sm hover:bg-white/90 transition-colors"
         >
           ${t('iAmSafe') || 'Je suis en sécurité'}
         </button>
@@ -322,14 +322,14 @@ export function renderSOSTrackingWidget(state) {
       <div class="flex gap-2 mt-3">
         <button
           onclick="shareSOSLink()"
-          class="flex-1 py-2 rounded-xl bg-white/20 text-white text-sm font-medium hover:bg-white/30 transition-all"
+          class="flex-1 py-2 rounded-xl bg-white/20 text-white text-sm font-medium hover:bg-white/30 transition-colors"
         >
           ${icon('share-2', 'w-5 h-5 mr-2')}
           ${t('shareLink') || 'Partager le lien'}
         </button>
         <button
           onclick="callEmergency()"
-          class="flex-1 py-2 rounded-xl bg-white text-danger-500 text-sm font-bold hover:bg-white/90 transition-all"
+          class="flex-1 py-2 rounded-xl bg-white text-danger-500 text-sm font-bold hover:bg-white/90 transition-colors"
         >
           ${icon('phone', 'w-5 h-5 mr-2')}
           ${t('callEmergency') || 'Appeler 112'}

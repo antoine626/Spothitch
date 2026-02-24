@@ -54,7 +54,7 @@ export function renderAuth(state) {
           <!-- Google -->
           <button
             onclick="handleGoogleSignIn()"
-            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white font-medium"
+            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-white font-medium"
             type="button"
             id="auth-google-btn"
           >
@@ -65,7 +65,7 @@ export function renderAuth(state) {
           <!-- Apple -->
           <button
             onclick="handleAppleSignIn()"
-            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white font-medium"
+            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-white font-medium"
             type="button"
             id="auth-apple-btn"
           >
@@ -76,7 +76,7 @@ export function renderAuth(state) {
           <!-- Facebook -->
           <button
             onclick="handleFacebookSignIn()"
-            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white font-medium"
+            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-white font-medium"
             type="button"
             id="auth-facebook-btn"
           >
@@ -96,7 +96,7 @@ export function renderAuth(state) {
         <div class="flex mx-6 mb-4 rounded-xl bg-white/5 p-1" role="tablist" aria-label="${t('authMode') || 'Authentication mode'}">
           <button
             onclick="setAuthMode('login')"
-            class="flex-1 py-2 text-center text-sm rounded-lg transition-all ${!isSignUp ? 'bg-primary-500/20 text-primary-400 font-medium' : 'text-slate-400 hover:text-white'}"
+            class="flex-1 py-2 text-center text-sm rounded-lg transition-colors ${!isSignUp ? 'bg-primary-500/20 text-primary-400 font-medium' : 'text-slate-400 hover:text-white'}"
             data-mode="login"
             id="auth-tab-login"
             role="tab"
@@ -108,7 +108,7 @@ export function renderAuth(state) {
           </button>
           <button
             onclick="setAuthMode('register')"
-            class="flex-1 py-2 text-center text-sm rounded-lg transition-all ${isSignUp ? 'bg-primary-500/20 text-primary-400 font-medium' : 'text-slate-400 hover:text-white'}"
+            class="flex-1 py-2 text-center text-sm rounded-lg transition-colors ${isSignUp ? 'bg-primary-500/20 text-primary-400 font-medium' : 'text-slate-400 hover:text-white'}"
             data-mode="register"
             id="auth-tab-register"
             role="tab"

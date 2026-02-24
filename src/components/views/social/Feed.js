@@ -46,7 +46,7 @@ export function renderFeed(state) {
               ${nearbyFriends.slice(0, 3).map(f => `
                 <button
                   onclick="openConversation('${f.userId || f.id}')"
-                  class="shrink-0 flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-all text-xs"
+                  class="shrink-0 flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-xs"
                 >
                   <span>${f.avatar || '🤙'}</span>
                   <span class="text-slate-300">${escapeHTML(f.username || f.name || '')}</span>
@@ -83,7 +83,7 @@ function renderFeedFilter(id, active, label) {
   return `
     <button
       onclick="setFeedFilter('${id}')"
-      class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+      class="shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
     active === id
       ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
       : 'text-slate-400 hover:text-slate-300 hover:bg-white/5'
@@ -181,7 +181,7 @@ function renderEventFeedCard(event, state) {
   return `
     <button
       onclick="openEventDetail('${event.id}')"
-      class="card p-4 w-full text-left hover:border-primary-500/50 transition-all"
+      class="card p-4 w-full text-left hover:border-primary-500/50 transition-colors"
     >
       <div class="flex items-center gap-1 mb-2 text-xs text-slate-400">
         ${icon('calendar', 'w-3 h-3')}

@@ -226,7 +226,7 @@ export function renderGuides(state) {
         ${GUIDE_SECTIONS.map(s => `
           <button
             onclick="setGuideSection('${s.id}')"
-            class="flex flex-col items-center gap-2 p-3 rounded-xl font-medium text-xs transition-all ${
+            class="flex flex-col items-center gap-2 p-3 rounded-xl font-medium text-xs transition-colors ${
               activeSection === s.id
                 ? `bg-${s.color}-500 text-white shadow-lg`
                 : 'bg-white/5 text-slate-400 hover:bg-white/10'
@@ -332,7 +332,7 @@ function renderCountriesSection() {
         ${sortedGuides.map(guide => `
           <button
             onclick="selectGuide('${guide.code}')"
-            class="card p-4 text-left hover:border-primary-500/50 transition-all guide-card"
+            class="card p-4 text-left hover:border-primary-500/50 transition-colors guide-card"
             data-country="${guide.name.toLowerCase()} ${(guide.nameEn || '').toLowerCase()}"
           >
             <div class="flex items-center gap-3 mb-2">
@@ -412,7 +412,7 @@ function renderSafetySection() {
       </div>
 
       <!-- SOS reminder -->
-      <button onclick="openSOS()" class="card p-4 w-full text-left bg-danger-500/10 border-danger-500/30 hover:bg-danger-500/20 transition-all">
+      <button onclick="openSOS()" class="card p-4 w-full text-left bg-danger-500/10 border-danger-500/30 hover:bg-danger-500/20 transition-colors">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-danger-500/30 flex items-center justify-center">
             ${icon('triangle-alert', 'w-5 h-5 text-danger-400')}
@@ -567,7 +567,7 @@ function renderLegalitySection() {
       </div>
 
       ${sortedByLegality.map(guide => `
-        <button onclick="selectGuide('${guide.code}')" class="card p-4 w-full text-left hover:border-primary-500/50 transition-all">
+        <button onclick="selectGuide('${guide.code}')" class="card p-4 w-full text-left hover:border-primary-500/50 transition-colors">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
               <span class="text-2xl">${guide.flag}</span>
@@ -799,7 +799,7 @@ export function renderCountryDetail(guideOrCode) {
     <div class="space-y-4">
       <button
         onclick="selectGuide(null)"
-        class="flex items-center gap-2 text-slate-400 hover:text-white transition-all"
+        class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
       >
         ${icon('arrow-left', 'w-5 h-5')}
         ${t('backToGuides') || 'Retour aux guides'}
@@ -827,7 +827,7 @@ export function renderCountryDetail(guideOrCode) {
           ${tabs.map(tab => `
             <button
               onclick="setState({guideDetailTab:'${tab.id}'})"
-              class="flex-1 py-2.5 px-2 font-medium text-xs transition-all flex items-center justify-center gap-1.5 ${
+              class="flex-1 py-2.5 px-2 font-medium text-xs transition-colors flex items-center justify-center gap-1.5 ${
                 guideTab === tab.id
                   ? 'bg-primary-500/20 text-primary-400 border-b-2 border-primary-500'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'

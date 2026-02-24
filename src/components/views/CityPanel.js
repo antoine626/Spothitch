@@ -42,7 +42,7 @@ export function renderCityPanel(state) {
             </p>
           </div>
           <button onclick="closeCityPanel()"
-            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 hover:bg-white/20 transition-all"
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 hover:bg-white/20 transition-colors"
             aria-label="${t('close')}">
             ${icon('x', 'w-5 h-5 text-white')}
           </button>
@@ -56,7 +56,7 @@ export function renderCityPanel(state) {
           <div class="space-y-2">
             ${routes.slice(0, 10).map((route, i) => `
               <button onclick="selectCityRoute('${city.slug}', '${route.slug}')"
-                class="w-full p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex items-center justify-between transition-all group">
+                class="w-full p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex items-center justify-between transition-colors group">
                 <div class="min-w-0">
                   <div class="font-medium text-white text-sm truncate">
                     ${icon('arrow-right', 'w-4 h-4 text-primary-400 inline mr-1.5')}${t('direction')} ${i + 1}
@@ -78,12 +78,12 @@ export function renderCityPanel(state) {
       <div class="p-4 border-t border-white/10 flex gap-2">
         ${countryCode ? `
           <button onclick="openCountryGuide('${countryCode}')"
-            class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-500/20 text-emerald-400 text-sm font-medium hover:bg-emerald-500/30 transition-all text-center">
+            class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-500/20 text-emerald-400 text-sm font-medium hover:bg-emerald-500/30 transition-colors text-center">
             ${icon('book-open', 'w-4 h-4 inline mr-1.5')}${t('openCityGuide')} ${countryName}
           </button>
         ` : ''}
         <button onclick="viewCitySpotsOnMap()"
-          class="flex-1 py-2.5 px-4 rounded-xl bg-primary-500/20 text-primary-400 text-sm font-medium hover:bg-primary-500/30 transition-all text-center">
+          class="flex-1 py-2.5 px-4 rounded-xl bg-primary-500/20 text-primary-400 text-sm font-medium hover:bg-primary-500/30 transition-colors text-center">
           ${icon('map', 'w-4 h-4 inline mr-1.5')}${t('viewOnMap')}
         </button>
       </div>

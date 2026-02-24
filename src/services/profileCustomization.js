@@ -433,7 +433,7 @@ export function renderCustomizationModal(state) {
       return `
                   <button
                     onclick="${isUnlocked ? `equipFrame('${frame.id}')` : ''}"
-                    class="relative p-3 rounded-xl border-2 transition-all ${
+                    class="relative p-3 rounded-xl border-2 transition-colors ${
   isEquipped
     ? 'border-primary-500 bg-primary-500/10'
     : isUnlocked
@@ -467,7 +467,7 @@ export function renderCustomizationModal(state) {
       return `
                   <button
                     onclick="${isUnlocked ? `equipTitle('${title.id}')` : ''}"
-                    class="w-full p-3 rounded-xl flex items-center gap-3 transition-all ${
+                    class="w-full p-3 rounded-xl flex items-center gap-3 transition-colors ${
   isEquipped
     ? 'bg-primary-500/10 border-2 border-primary-500'
     : isUnlocked

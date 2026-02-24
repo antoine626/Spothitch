@@ -156,13 +156,13 @@ export function renderProximityAlert(spot) {
           <div class="font-medium text-white text-sm truncate">${t('spotNearby')} ${spotName}</div>
           <div class="text-xs text-slate-400">${t('isSpotStillGood')}</div>
         </div>
-        <button onclick="quickValidateSpot('${escapedId}')" class="px-3 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 text-sm font-medium hover:bg-emerald-500/30 transition-all" aria-label="${t('spotNearby')} - ${t('isSpotStillGood')}">
+        <button onclick="quickValidateSpot('${escapedId}')" class="px-3 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 text-sm font-medium hover:bg-emerald-500/30 transition-colors" aria-label="${t('spotNearby')} - ${t('isSpotStillGood')}">
           <span aria-hidden="true">&#x1f44d;</span>
         </button>
-        <button onclick="quickReportSpot('${escapedId}')" class="px-3 py-2 rounded-xl bg-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/30 transition-all" aria-label="${t('spotNearby')} - report">
+        <button onclick="quickReportSpot('${escapedId}')" class="px-3 py-2 rounded-xl bg-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/30 transition-colors" aria-label="${t('spotNearby')} - report">
           <span aria-hidden="true">&#x1f44e;</span>
         </button>
-        <button onclick="dismissProximityAlert()" class="text-slate-500 hover:text-white transition-all" aria-label="${t('close') || 'Close'}">
+        <button onclick="dismissProximityAlert()" class="text-slate-500 hover:text-white transition-colors" aria-label="${t('close') || 'Close'}">
           ${icon('x', 'w-5 h-5')}
         </button>
       </div>

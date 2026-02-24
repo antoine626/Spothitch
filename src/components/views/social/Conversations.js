@@ -85,7 +85,7 @@ function renderConversationList(state) {
       <div class="px-4 pt-3 pb-1">
         <button
           onclick="openZoneChat()"
-          class="card p-3 w-full text-left bg-gradient-to-r from-primary-500/10 to-amber-500/10 border-primary-500/20 hover:border-primary-500/40 transition-all"
+          class="card p-3 w-full text-left bg-gradient-to-r from-primary-500/10 to-amber-500/10 border-primary-500/20 hover:border-primary-500/40 transition-colors"
         >
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-full bg-primary-500/20 flex items-center justify-center">
@@ -105,7 +105,7 @@ function renderConversationList(state) {
         ${allConversations.map(conv => `
           <button
             onclick="${conv.isGroup ? `openGroupChat('${conv.id}')` : `openConversation('${conv.id}')`}"
-            class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-all border-b border-white/5"
+            class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-colors border-b border-white/5"
           >
             <div class="relative shrink-0">
               <span class="text-3xl">${conv.avatar}</span>
@@ -138,7 +138,7 @@ function renderConversationList(state) {
       <div class="px-4 py-3">
         <button
           onclick="openCreateTravelGroup()"
-          class="card p-3 w-full text-left border-dashed border-2 border-white/15 hover:border-primary-500/40 transition-all"
+          class="card p-3 w-full text-left border-dashed border-2 border-white/15 hover:border-primary-500/40 transition-colors"
         >
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center">

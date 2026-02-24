@@ -266,7 +266,7 @@ export function renderNavigationPicker(data) {
           ${apps.map(app => `
             <button
               onclick="selectNavigationApp('${app.id}', ${lat}, ${lng}, '${escapeJSString(name)}')"
-              class="w-full flex items-center gap-4 p-4 ${app.bgClass} rounded-xl text-white font-semibold transition-all hover-lift"
+              class="w-full flex items-center gap-4 p-4 ${app.bgClass} rounded-xl text-white font-semibold transition-colors hover-lift"
               type="button"
             >
               <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">

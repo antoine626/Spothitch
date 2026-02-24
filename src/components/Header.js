@@ -24,7 +24,7 @@ export function renderHeader(state) {
           ${state.isAdmin ? `
           <button
             onclick="openAdminPanel()"
-            class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 hover:scale-105 transition-all flex items-center justify-center"
+            class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 hover:scale-105 transition-colors flex items-center justify-center"
             aria-label="${t('adminPanel') || 'Panneau Admin'}"
             title="${t('adminPanel') || 'Panneau Admin'}"
           >
@@ -46,7 +46,7 @@ export function renderHeader(state) {
               onpointerup="companionBtnUp()"
               onpointerleave="companionBtnCancel()"
               oncontextmenu="return false"
-              class="flex items-center gap-1.5 px-2.5 py-2 rounded-full ${overdue ? 'bg-danger-500 shadow-danger-500/30 animate-pulse-subtle' : 'bg-emerald-500 shadow-emerald-500/30'} text-white font-bold text-xs shadow-lg hover:scale-105 transition-all select-none touch-none"
+              class="flex items-center gap-1.5 px-2.5 py-2 rounded-full ${overdue ? 'bg-danger-500 shadow-danger-500/30 animate-pulse-subtle' : 'bg-emerald-500 shadow-emerald-500/30'} text-white font-bold text-xs shadow-lg hover:scale-105 transition-colors select-none touch-none"
               aria-label="${t('companionActiveBtnHint') || 'Appuyer : check-in · Maintenir 2s : arrêter'}"
               title="${t('companionActiveBtnHint') || 'Appuyer : check-in · Maintenir 2s : arrêter'}"
             >
@@ -57,7 +57,7 @@ export function renderHeader(state) {
           })() : `
           <button
             onclick="showCompanionModal()"
-            class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 hover:scale-105 transition-all flex items-center justify-center"
+            class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 hover:scale-105 transition-colors flex items-center justify-center"
             aria-label="${t('companionMode') || 'Mode Compagnon'}"
             title="${t('companionMode') || 'Mode Compagnon'}"
           >
@@ -67,7 +67,7 @@ export function renderHeader(state) {
           <!-- SOS Button - Always visible, prominent -->
           <button
             onclick="openSOS()"
-            class="flex items-center gap-1.5 px-3 py-2 rounded-full bg-danger-500 text-white font-bold text-xs shadow-lg shadow-danger-500/30 hover:bg-danger-600 hover:scale-105 transition-all animate-pulse-subtle"
+            class="flex items-center gap-1.5 px-3 py-2 rounded-full bg-danger-500 text-white font-bold text-xs shadow-lg shadow-danger-500/30 hover:bg-danger-600 hover:scale-105 transition-colors animate-pulse-subtle"
             aria-label="Mode urgence SOS - Partager ma position"
             title="Mode urgence SOS"
           >

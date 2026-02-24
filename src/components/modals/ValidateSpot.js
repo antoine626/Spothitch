@@ -398,7 +398,8 @@ window.submitValidation = async (event) => {
 }
 
 // Init autocomplete for direction field in validation modal
-const valObserver = new MutationObserver(() => {
+// Called from afterRender in App.js instead of using a global MutationObserver
+export function initValidateSpotAfterRender() {
   const dirInput = document.getElementById('val-direction-city')
   if (dirInput && !dirInput._acInit) {
     dirInput._acInit = true
@@ -417,10 +418,6 @@ const valObserver = new MutationObserver(() => {
       })
     }
   }
-})
-
-if (typeof document !== 'undefined') {
-  valObserver.observe(document.body || document.documentElement, { childList: true, subtree: true })
 }
 
 export default { renderValidateSpot }

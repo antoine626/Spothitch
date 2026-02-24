@@ -26,7 +26,7 @@ export function renderDeleteAccountModal(state) {
         <!-- Close -->
         <button
           onclick="closeDeleteAccount()"
-          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
+          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
           aria-label="${t('close') || 'Close'}"
           type="button"
         >
@@ -97,14 +97,14 @@ export function renderDeleteAccountModal(state) {
               <button
                 type="button"
                 onclick="closeDeleteAccount()"
-                class="flex-1 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 transition-all font-medium"
+                class="flex-1 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 transition-colors font-medium"
               >
                 ${t('cancel') || 'Annuler'}
               </button>
               <button
                 type="submit"
                 id="delete-submit-btn"
-                class="flex-1 py-3 px-4 rounded-xl bg-red-500 hover:bg-red-600 text-white transition-all font-medium flex items-center justify-center gap-2"
+                class="flex-1 py-3 px-4 rounded-xl bg-red-500 hover:bg-red-600 text-white transition-colors font-medium flex items-center justify-center gap-2"
               >
                 ${icon('trash', 'w-5 h-5')}
                 ${t('delete') || 'Supprimer'}

@@ -28,7 +28,7 @@ export function renderContactFormModal() {
         <!-- Close -->
         <button
           onclick="closeContactForm()"
-          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
+          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
           aria-label="${t('close') || 'Fermer'}"
           type="button"
         >
@@ -56,7 +56,7 @@ export function renderContactFormModal() {
               id="contact-name"
               name="name"
               required
-              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-all"
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-colors"
               placeholder="${t('contactFormName')}"
             />
           </div>
@@ -71,7 +71,7 @@ export function renderContactFormModal() {
               id="contact-email"
               name="email"
               required
-              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-all"
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-colors"
               placeholder="${t('contactFormEmail')}"
             />
           </div>
@@ -84,7 +84,7 @@ export function renderContactFormModal() {
             <select
               id="contact-subject"
               name="subject"
-              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-all"
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-colors"
             >
               <option value="general">${t('contactFormSubjectGeneral')}</option>
               <option value="bug">${t('contactFormSubjectBug')}</option>
@@ -104,7 +104,7 @@ export function renderContactFormModal() {
               name="message"
               required
               rows="5"
-              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-all resize-none"
+              class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 outline-hidden transition-colors resize-none"
               placeholder="${t('contactFormMessage')}"
             ></textarea>
           </div>
@@ -113,7 +113,7 @@ export function renderContactFormModal() {
           <button
             type="submit"
             id="contact-submit-btn"
-            class="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
+            class="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
           >
             ${icon('send', 'w-5 h-5')}
             ${t('contactFormSend')}

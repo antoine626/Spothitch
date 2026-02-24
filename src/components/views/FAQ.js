@@ -232,7 +232,7 @@ export function renderFAQ(state) {
         <div class="flex items-center gap-4 mb-4">
           <button
             onclick="closeFAQ()"
-            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
             aria-label="${t('back', 'Retour')}"
             title="${t('back', 'Retour')}"
           >
@@ -250,7 +250,7 @@ export function renderFAQ(state) {
             type="text"
             id="faq-search"
             placeholder="${t('searchFAQ', 'Rechercher dans la FAQ...')}"
-            class="w-full bg-slate-800 border border-slate-700 rounded-xl px-12 py-3 text-white placeholder-slate-500 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-all"
+            class="w-full bg-slate-800 border border-slate-700 rounded-xl px-12 py-3 text-white placeholder-slate-500 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-colors"
             oninput="filterFAQ(this.value)"
             value="${searchQuery}"
             aria-label="${t('searchFAQ', 'Rechercher dans la FAQ...')}"
@@ -277,7 +277,7 @@ export function renderFAQ(state) {
             ${categories.map(([key, category]) => `
               <button
                 onclick="scrollToFAQCategory('${key}')"
-                class="px-3 py-2 rounded-full bg-${category.color}-500/20 hover:bg-${category.color}-500/30 transition-all text-sm flex items-center gap-2 border border-${category.color}-500/30"
+                class="px-3 py-2 rounded-full bg-${category.color}-500/20 hover:bg-${category.color}-500/30 transition-colors text-sm flex items-center gap-2 border border-${category.color}-500/30"
               >
                 ${icon(category.icon, 'w-5 h-5')}
                 <span>${category.title}</span>
@@ -306,7 +306,7 @@ export function renderFAQ(state) {
                     <div class="faq-item border border-slate-700 rounded-xl overflow-hidden hover:border-slate-600 transition-colors">
                       <button
                         onclick="toggleFAQItem(this)"
-                        class="w-full p-4 text-left flex items-center justify-between gap-4 hover:bg-white/5 transition-all"
+                        class="w-full p-4 text-left flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
                         aria-expanded="false"
                         aria-controls="faq-answer-${item.id}"
                       >

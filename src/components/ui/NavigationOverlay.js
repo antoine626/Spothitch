@@ -91,7 +91,7 @@ export function renderNavigationOverlay(state) {
           <!-- Progress bar -->
           <div class="mt-3 h-1 bg-white/10 rounded-full overflow-hidden">
             <div
-              class="h-full bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full transition-all"
+              class="h-full bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full transition-colors"
               style="width: ${getProgressPercent(navigationInstructions, navigationCurrentStep)}%"
             ></div>
           </div>
@@ -100,14 +100,14 @@ export function renderNavigationOverlay(state) {
           <div class="mt-4 flex gap-2">
             <button
               onclick="stopNavigation()"
-              class="flex-1 py-3 px-3 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-all text-sm"
+              class="flex-1 py-3 px-3 rounded-xl bg-danger-500/20 text-danger-400 font-medium hover:bg-danger-500/30 transition-colors text-sm"
             >
               ${icon('x', 'w-4 h-4 mr-1')}
               ${t('stop') || 'Arrêter'}
             </button>
             <button
               onclick="toggleGasStations()"
-              class="py-3 px-3 rounded-xl ${showGasStationsOnMap ? 'bg-amber-500/20 text-amber-400' : 'bg-white/10 text-slate-400'} font-medium hover:bg-white/20 transition-all text-sm"
+              class="py-3 px-3 rounded-xl ${showGasStationsOnMap ? 'bg-amber-500/20 text-amber-400' : 'bg-white/10 text-slate-400'} font-medium hover:bg-white/20 transition-colors text-sm"
               aria-label="${t('gasStations') || 'Stations-service'}"
               title="${t('gasStations') || 'Stations-service'}${gasCount ? ` (${gasCount})` : ''}"
             >
@@ -115,7 +115,7 @@ export function renderNavigationOverlay(state) {
             </button>
             <button
               onclick="openExternalNavigation(${navigationDestination?.lat}, ${navigationDestination?.lng}, '${escapeJSString(navigationDestination?.name)}')"
-              class="flex-1 py-3 px-3 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-all text-sm"
+              class="flex-1 py-3 px-3 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-colors text-sm"
             >
               ${icon('external-link', 'w-4 h-4 mr-1')}
               ${t('externalGPS') || 'GPS'}
@@ -147,7 +147,7 @@ export function renderNavigationWidget(state) {
     <div class="navigation-widget fixed bottom-24 left-4 right-4 z-30 pointer-events-auto">
       <button
         onclick="showFullNavigation()"
-        class="w-full bg-primary-600 rounded-xl p-3 shadow-lg flex items-center gap-3 hover:bg-primary-500 transition-all"
+        class="w-full bg-primary-600 rounded-xl p-3 shadow-lg flex items-center gap-3 hover:bg-primary-500 transition-colors"
       >
         <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
           ${icon('navigation', 'w-5 h-5 text-white')}

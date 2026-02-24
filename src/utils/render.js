@@ -15,6 +15,7 @@ const CACHE_MAX_SIZE = 100;
 
 // Performance metrics
 let renderCount = 0;
+let skippedRenders = 0;
 let totalRenderTime = 0;
 
 /**
@@ -79,9 +80,11 @@ export function debouncedRender(renderFn, delay = 100) {
  */
 export function shouldRerender(id, props) {
   const cached = renderCache.get(id);
-  const propsString = JSON.stringify(props);
+  // Accept pre-computed fingerprint strings or objects
+  const propsString = typeof props === 'string' ? props : JSON.stringify(props);
 
   if (cached === propsString) {
+    skippedRenders++;
     return false; // Props unchanged
   }
 
@@ -131,9 +134,15 @@ export function trackRenderPerformance(startTime) {
 export function getRenderStats() {
   return {
     renderCount,
+    skippedRenders,
     totalTime: totalRenderTime,
     averageTime: renderCount > 0 ? totalRenderTime / renderCount : 0,
   };
+}
+
+// Expose render stats globally in dev for debugging
+if (typeof window !== 'undefined') {
+  window.__renderStats = getRenderStats;
 }
 
 /**

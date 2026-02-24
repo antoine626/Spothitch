@@ -203,7 +203,7 @@ export function renderLanding() {
           </div>
           <button
             onclick="dismissLanding()"
-            class="w-full max-w-sm py-4 rounded-2xl text-dark-primary font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-[1.02] transition-all duration-300 mt-6 relative z-10"
+            class="w-full max-w-sm py-4 rounded-2xl text-dark-primary font-bold text-lg shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-[1.02] transition-colors duration-300 mt-6 relative z-10"
             style="background:linear-gradient(135deg,#f59e0b,#d97706)"
           >
             ${t('onboardingCTAGo')} →
@@ -215,12 +215,12 @@ export function renderLanding() {
       <!-- Controls: dots + next -->
       <div class="absolute bottom-0 left-0 right-0 flex items-center justify-between px-7 pb-10 pt-4 z-10" style="background:linear-gradient(transparent,#0f1520)">
         <div id="landing-dots" class="flex gap-2">
-          <div class="landing-dot w-6 h-2 rounded-full bg-primary-400 transition-all duration-200" data-i="0"></div>
-          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="1"></div>
-          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="2"></div>
-          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="3"></div>
-          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="4"></div>
-          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200" data-i="5"></div>
+          <div class="landing-dot w-6 h-2 rounded-full bg-primary-400 transition-colors duration-200" data-i="0"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-colors duration-200" data-i="1"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-colors duration-200" data-i="2"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-colors duration-200" data-i="3"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-colors duration-200" data-i="4"></div>
+          <div class="landing-dot w-2 h-2 rounded-full bg-white/20 transition-colors duration-200" data-i="5"></div>
         </div>
         <button id="landing-next" onclick="landingNext()" class="text-primary-400 text-sm font-semibold">
           ${t('onboardingNext')} →
@@ -246,8 +246,8 @@ export function initLandingCarousel() {
     track.style.transform = `translateX(-${current * SLIDE_WIDTH}%)`
     dots.forEach((d, j) => {
       d.className = j === current
-        ? 'landing-dot w-6 h-2 rounded-full bg-primary-400 transition-all duration-200'
-        : 'landing-dot w-2 h-2 rounded-full bg-white/20 transition-all duration-200'
+        ? 'landing-dot w-6 h-2 rounded-full bg-primary-400 transition-colors duration-200'
+        : 'landing-dot w-2 h-2 rounded-full bg-white/20 transition-colors duration-200'
     })
     // Hide next button on last slide (CTA has its own button)
     if (nextBtn) nextBtn.style.display = current === TOTAL_SLIDES - 1 ? 'none' : ''

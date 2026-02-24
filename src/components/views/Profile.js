@@ -106,7 +106,7 @@ function renderLanguagePickerModal(state) {
         </div>
         <div class="flex-1 overflow-y-auto p-2 space-y-1">
           ${filtered.map(lang => `
-            <button onclick="selectLanguageFromPicker('${lang}')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-all text-left">
+            <button onclick="selectLanguageFromPicker('${lang}')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors text-left">
               <span class="text-xl">${LANG_FLAG_MAP[lang] || '🌐'}</span>
               <span class="text-sm font-medium">${lang}</span>
             </button>
@@ -132,7 +132,7 @@ function renderLanguageLevelModal(state) {
         <p class="text-xs text-slate-400 text-center">${t('selectLevel') || 'Choisis ton niveau'}</p>
         <div class="space-y-2">
           ${levels.map(l => `
-            <button onclick="selectLanguageLevel('${l.id}')" class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-left">
+            <button onclick="selectLanguageLevel('${l.id}')" class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-left">
               <div class="flex gap-1">${Array.from({ length: 3 }, (_, i) => `<span class="w-3 h-3 rounded-full ${i < l.dots ? 'bg-emerald-400' : 'bg-white/15'}"></span>`).join('')}</div>
               <div>
                 <div class="text-sm font-semibold">${l.label}</div>
@@ -159,7 +159,7 @@ function renderProfileSubTabs(activeTab) {
       ${tabs.map(tab => `
         <button
           onclick="setProfileSubTab('${tab.id}')"
-          class="flex-1 py-3 px-2 font-medium text-sm transition-all relative border-b-2 ${
+          class="flex-1 py-3 px-2 font-medium text-sm transition-colors relative border-b-2 ${
             activeTab === tab.id
               ? 'border-primary-500 text-primary-400'
               : 'border-transparent text-slate-400 hover:text-white hover:bg-white/5'
@@ -235,13 +235,13 @@ function renderProfileHeader(state) {
       <div class="flex flex-col gap-1.5 flex-shrink-0">
         <button
           onclick="openProfileCustomization()"
-          class="px-3 py-1.5 rounded-lg bg-primary-500/15 text-primary-400 text-xs font-semibold hover:bg-primary-500/25 transition-all"
+          class="px-3 py-1.5 rounded-lg bg-primary-500/15 text-primary-400 text-xs font-semibold hover:bg-primary-500/25 transition-colors"
         >
           ${icon('pencil', 'w-3 h-3 mr-1')}${t('edit') || 'Modifier'}
         </button>
         <button
           onclick="shareApp()"
-          class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 text-xs font-semibold hover:bg-white/10 transition-all"
+          class="px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 text-xs font-semibold hover:bg-white/10 transition-colors"
         >
           ${icon('share-2', 'w-3 h-3 mr-1')}${t('share') || 'Partager'}
         </button>
@@ -258,7 +258,7 @@ function renderClickableStats(state) {
     <div class="grid grid-cols-3 gap-2">
       <button
         onclick="openMySpots()"
-        class="card p-3 text-center hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all active:scale-95"
+        class="card p-3 text-center hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-colors active:scale-95"
         aria-label="${t('spotsCreated') || 'Spots créés'}"
       >
         <div class="text-xl font-bold text-emerald-400">${spotsCreated}</div>
@@ -267,7 +267,7 @@ function renderClickableStats(state) {
       </button>
       <button
         onclick="openMyValidations()"
-        class="card p-3 text-center hover:border-sky-500/30 hover:bg-sky-500/5 transition-all active:scale-95"
+        class="card p-3 text-center hover:border-sky-500/30 hover:bg-sky-500/5 transition-colors active:scale-95"
         aria-label="${t('spotsValidated') || 'Spots validés'}"
       >
         <div class="text-xl font-bold text-sky-400">${validations}</div>
@@ -276,7 +276,7 @@ function renderClickableStats(state) {
       </button>
       <button
         onclick="openMyCountries()"
-        class="card p-3 text-center hover:border-primary-500/30 hover:bg-primary-500/5 transition-all active:scale-95"
+        class="card p-3 text-center hover:border-primary-500/30 hover:bg-primary-500/5 transition-colors active:scale-95"
         aria-label="${t('countriesVisited') || 'Pays visités'}"
       >
         <div class="text-xl font-bold text-primary-400">${countries}</div>
@@ -373,7 +373,7 @@ function renderPublicTripsCard(state) {
     return `
       <div class="card p-4">
         <div class="flex items-center gap-3 mb-4">
-          <button onclick="closeAddPastTrip()" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-white/10 transition-all">
+          <button onclick="closeAddPastTrip()" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-white/10 transition-colors">
             ${icon('arrow-left', 'w-4 h-4')}
           </button>
           <h3 class="text-sm font-bold">🧳 ${t('addPastTrip') || 'Nouveau voyage passé'}</h3>
@@ -531,7 +531,7 @@ function renderLanguagesCard(_state) {
           ${icon('message-circle', 'w-4 h-4 text-blue-400')}
           ${t('languagesSpoken') || 'Langues parlées'}
         </h3>
-        <button onclick="editLanguages()" class="w-7 h-7 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-400 hover:bg-primary-500/30 transition-all" aria-label="${t('addLanguage') || 'Ajouter'}">
+        <button onclick="editLanguages()" class="w-7 h-7 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-400 hover:bg-primary-500/30 transition-colors" aria-label="${t('addLanguage') || 'Ajouter'}">
           ${icon('plus', 'w-3.5 h-3.5')}
         </button>
       </div>
@@ -546,14 +546,14 @@ function renderLanguagesCard(_state) {
                 </div>
                 <button
                   onclick="cycleLanguageLevel(${idx})"
-                  class="flex items-center gap-0.5 px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 transition-all"
+                  class="flex items-center gap-0.5 px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
                   title="${t('changeLevel') || 'Changer le niveau'}"
                 >
                   ${levelDots(l.level)}
                 </button>
                 <button
                   onclick="removeLanguage(${idx})"
-                  class="w-6 h-6 flex items-center justify-center text-slate-500 hover:text-red-400 transition-all flex-shrink-0"
+                  class="w-6 h-6 flex items-center justify-center text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
                   aria-label="${t('remove') || 'Supprimer'}"
                 >
                   ${icon('x', 'w-3.5 h-3.5')}
@@ -561,11 +561,11 @@ function renderLanguagesCard(_state) {
               </div>
             `).join('')}
           </div>
-          <button onclick="editLanguages()" class="mt-3 w-full text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 p-2 rounded-xl border border-dashed border-primary-500/30 hover:border-primary-500/50 transition-all">
+          <button onclick="editLanguages()" class="mt-3 w-full text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 p-2 rounded-xl border border-dashed border-primary-500/30 hover:border-primary-500/50 transition-colors">
             ${icon('plus', 'w-3 h-3')} ${t('addLanguage') || 'Ajouter une langue'}
           </button>`
         : `<p class="text-xs text-slate-500 italic mb-3">${t('languagesEmpty') || 'Quelles langues parles-tu ?'}</p>
-           <button onclick="editLanguages()" class="w-full text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 p-2 rounded-xl border border-dashed border-primary-500/30 hover:border-primary-500/50 transition-all">
+           <button onclick="editLanguages()" class="w-full text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 p-2 rounded-xl border border-dashed border-primary-500/30 hover:border-primary-500/50 transition-colors">
              ${icon('plus', 'w-3 h-3')} ${t('addLanguage') || 'Ajouter une langue'}
            </button>`
       }
@@ -637,7 +637,7 @@ function renderPhotoGalleryCard(_state) {
           </div>
         `).join('')}
         ${photos.length < maxPhotos ? `
-          <label class="aspect-square rounded-xl border-2 border-dashed border-slate-600 flex items-center justify-center cursor-pointer hover:border-primary-500/50 transition-all">
+          <label class="aspect-square rounded-xl border-2 border-dashed border-slate-600 flex items-center justify-center cursor-pointer hover:border-primary-500/50 transition-colors">
             <input type="file" accept="image/*" onchange="addProfilePhoto(this)" class="hidden" />
             ${icon('plus', 'w-6 h-6 text-slate-500')}
           </label>
@@ -681,7 +681,7 @@ function renderBadgesGrid(state) {
       </h3>
       <div class="grid grid-cols-4 gap-2">
         ${earned.slice(0, 8).map(b => `
-          <button onclick="showBadgeDetail('${b.id}')" class="flex flex-col items-center gap-1 p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+          <button onclick="showBadgeDetail('${b.id}')" class="flex flex-col items-center gap-1 p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
             <span class="text-2xl">${b.icon}</span>
             <span class="text-[9px] text-slate-400 text-center leading-tight truncate w-full">${b.name}</span>
           </button>
@@ -698,7 +698,7 @@ function renderBadgesGrid(state) {
 
 function renderDetailBackButton() {
   return `
-    <button onclick="closeProfileDetail()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-all mb-4">
+    <button onclick="closeProfileDetail()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors mb-4">
       ${icon('arrow-left', 'w-4 h-4')} ${t('backToProfile') || 'Retour au profil'}
     </button>
   `
@@ -856,7 +856,7 @@ function renderLeagueHeader(state) {
         </div>
       </div>
       <div class="w-full bg-white/10 rounded-full h-2.5 mb-2">
-        <div class="bg-gradient-to-r from-amber-500 to-primary-500 h-2.5 rounded-full transition-all" style="width: ${xpInLevel}%"></div>
+        <div class="bg-gradient-to-r from-amber-500 to-primary-500 h-2.5 rounded-full transition-colors" style="width: ${xpInLevel}%"></div>
       </div>
       <p class="text-xs text-slate-400">${(t('xpRemaining') || '{xp} XP pour le prochain niveau').replace('{xp}', xpNeeded)}</p>
     </div>
@@ -915,7 +915,7 @@ function renderActiveChallenges(state) {
               <span class="text-xs text-slate-400">${ch.current}/${ch.target}</span>
             </div>
             <div class="w-full bg-white/10 rounded-full h-2">
-              <div class="bg-primary-500 h-2 rounded-full transition-all" style="width: ${ch.pct}%"></div>
+              <div class="bg-primary-500 h-2 rounded-full transition-colors" style="width: ${ch.pct}%"></div>
             </div>
           </div>
         `).join('')}
@@ -937,7 +937,7 @@ function renderTrophiesGrid(state) {
         ${allBadges.slice(0, 18).map(b => {
           const unlocked = userBadges.includes(b.id)
           return `
-            <button onclick="showBadgeDetail('${b.id}')" class="flex flex-col items-center p-1.5 rounded-lg ${unlocked ? 'bg-white/5' : 'bg-white/[0.02] opacity-40'} transition-all">
+            <button onclick="showBadgeDetail('${b.id}')" class="flex flex-col items-center p-1.5 rounded-lg ${unlocked ? 'bg-white/5' : 'bg-white/[0.02] opacity-40'} transition-colors">
               <span class="text-xl">${b.icon}</span>
             </button>
           `
@@ -994,7 +994,7 @@ function renderAppearanceCard(state) {
         </div>
         <button
           onclick="toggleTheme()"
-          class="text-2xl px-2 py-1 rounded-xl ${state.theme === 'dark' ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all"
+          class="text-2xl px-2 py-1 rounded-xl ${state.theme === 'dark' ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors"
           role="switch"
           aria-checked="${state.theme === 'dark'}"
           aria-label="${t('toggleDarkMode') || 'Activer le thème sombre'}"
@@ -1016,7 +1016,7 @@ function renderAppearanceCard(state) {
           ].map(lang => `
             <button
               onclick="setLanguage('${lang.code}')"
-              class="flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${state.lang === lang.code ? 'bg-primary-500/20 border-2 border-primary-500 ring-1 ring-primary-500/30' : 'bg-white/5 border-2 border-transparent hover:bg-white/10'}"
+              class="flex flex-col items-center gap-1 p-2 rounded-xl transition-colors ${state.lang === lang.code ? 'bg-primary-500/20 border-2 border-primary-500 ring-1 ring-primary-500/30' : 'bg-white/5 border-2 border-transparent hover:bg-white/10'}"
               role="radio"
               aria-checked="${state.lang === lang.code}"
               aria-label="${lang.name}"
@@ -1050,7 +1050,7 @@ function renderNotificationsCard(state) {
         </div>
         <button
           onclick="toggleNotifications()"
-          class="text-2xl px-2 py-1 rounded-xl ${state.notifications !== false ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all"
+          class="text-2xl px-2 py-1 rounded-xl ${state.notifications !== false ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors"
           role="switch"
           aria-checked="${state.notifications !== false}"
           aria-label="${t('toggleNotifications') || 'Activer les notifications'}"
@@ -1068,7 +1068,7 @@ function renderNotificationsCard(state) {
         </div>
         <button
           onclick="toggleProximityAlertsSetting()"
-          class="text-2xl px-2 py-1 rounded-xl ${state.proximityAlerts !== false ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all"
+          class="text-2xl px-2 py-1 rounded-xl ${state.proximityAlerts !== false ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors"
           role="switch"
           aria-checked="${state.proximityAlerts !== false}"
           aria-label="${t('proximityAlerts') || 'Alertes de proximité'}"
@@ -1086,7 +1086,7 @@ function renderNotificationsCard(state) {
         </div>
         <button
           onclick="togglePushNotifications()"
-          class="text-2xl px-2 py-1 rounded-xl ${pushOn ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all"
+          class="text-2xl px-2 py-1 rounded-xl ${pushOn ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors"
           role="switch"
           aria-checked="${pushOn}"
           aria-label="${t('pushNotifications') || 'Notifications push'}"
@@ -1112,7 +1112,7 @@ function renderPrivacyCard(_state) {
         <span class="text-sm">${t('showToNonFriends') || 'Profil visible par tous'}</span>
         <button
           onclick="togglePrivacy('showToNonFriends')"
-          class="text-2xl px-2 py-1 rounded-xl ${privacy.showToNonFriends ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all flex-shrink-0"
+          class="text-2xl px-2 py-1 rounded-xl ${privacy.showToNonFriends ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors flex-shrink-0"
           role="switch"
           aria-checked="${privacy.showToNonFriends}"
         >
@@ -1123,7 +1123,7 @@ function renderPrivacyCard(_state) {
         <span class="text-sm">${t('showLocationHistory') || 'Historique de position'}</span>
         <button
           onclick="togglePrivacy('showLocationHistory')"
-          class="text-2xl px-2 py-1 rounded-xl ${privacy.showLocationHistory ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all flex-shrink-0"
+          class="text-2xl px-2 py-1 rounded-xl ${privacy.showLocationHistory ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors flex-shrink-0"
           role="switch"
           aria-checked="${privacy.showLocationHistory}"
         >
@@ -1134,7 +1134,7 @@ function renderPrivacyCard(_state) {
         <span class="text-sm">${t('showTravelStats') || 'Statistiques visibles'}</span>
         <button
           onclick="togglePrivacy('showTravelStats')"
-          class="text-2xl px-2 py-1 rounded-xl ${privacy.showTravelStats ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-all flex-shrink-0"
+          class="text-2xl px-2 py-1 rounded-xl ${privacy.showTravelStats ? 'bg-emerald-500/20' : 'bg-red-500/20'} transition-colors flex-shrink-0"
           role="switch"
           aria-checked="${privacy.showTravelStats}"
         >
@@ -1143,7 +1143,7 @@ function renderPrivacyCard(_state) {
       </div>
       <button
         onclick="openBlockedUsers()"
-        class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
+        class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
       >
         <div class="flex items-center gap-3">
           ${icon('ban', 'w-4 h-4 text-slate-400')}
@@ -1153,7 +1153,7 @@ function renderPrivacyCard(_state) {
       </button>
       <button
         onclick="openMyData()"
-        class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
+        class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
       >
         <div class="flex items-center gap-3">
           ${icon('database', 'w-4 h-4 text-blue-400')}
@@ -1171,7 +1171,7 @@ function renderActionsCard(state) {
       <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">${t('actions') || 'Actions'}</h3>
       <button
         onclick="startTutorial()"
-        class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
+        class="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
       >
         <div class="flex items-center gap-3">
           ${icon('info', 'w-4 h-4 text-primary-400')}
@@ -1182,14 +1182,14 @@ function renderActionsCard(state) {
       ${state.isLoggedIn ? `
         <button
           onclick="handleLogout()"
-          class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-red-500/10 transition-all text-danger-400"
+          class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-red-500/10 transition-colors text-danger-400"
         >
           ${icon('log-out', 'w-4 h-4')}
           <span class="text-sm">${t('logout') || 'Se déconnecter'}</span>
         </button>
         <button
           onclick="openDeleteAccount()"
-          class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-red-500/10 transition-all text-red-400"
+          class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-red-500/10 transition-colors text-red-400"
         >
           ${icon('trash-2', 'w-4 h-4')}
           <span class="text-sm">${t('deleteAccount') || 'Supprimer le compte'}</span>
@@ -1214,17 +1214,17 @@ function renderProfileFooter() {
     <div class="space-y-3 mt-4">
       <div class="card p-4">
         <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">${t('footerHelp') || 'Aide'}</h4>
-        <button onclick="openFAQ()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left">
+        <button onclick="openFAQ()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left">
           ${icon('help-circle', 'w-4 h-4 text-primary-400')}
           <span class="text-sm text-slate-300">${t('faqAndHelp') || 'FAQ & Aide'}</span>
           ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
         </button>
-        <button onclick="openContactForm()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left">
+        <button onclick="openContactForm()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left">
           ${icon('mail', 'w-4 h-4 text-blue-400')}
           <span class="text-sm text-slate-300">${t('contactUs') || 'Nous contacter'}</span>
           ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
         </button>
-        <button onclick="openBugReport()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left">
+        <button onclick="openBugReport()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left">
           ${icon('bug', 'w-4 h-4 text-red-400')}
           <span class="text-sm text-slate-300">${t('reportBug') || 'Signaler un bug'}</span>
           ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
@@ -1232,17 +1232,17 @@ function renderProfileFooter() {
       </div>
       <div class="card p-4">
         <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">${t('footerLegal') || 'Légal'}</h4>
-        <button onclick="showLegalPage('privacy')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left">
+        <button onclick="showLegalPage('privacy')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left">
           ${icon('shield', 'w-4 h-4 text-emerald-400')}
           <span class="text-sm text-slate-300">${t('privacyPolicy') || 'Politique de confidentialité'}</span>
           ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
         </button>
-        <button onclick="showLegalPage('cgu')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left">
+        <button onclick="showLegalPage('cgu')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left">
           ${icon('file-text', 'w-4 h-4 text-slate-400')}
           <span class="text-sm text-slate-300">${t('termsOfService') || "Conditions d'utilisation"}</span>
           ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
         </button>
-        <button onclick="showLegalPage('guidelines')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left">
+        <button onclick="showLegalPage('guidelines')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left">
           ${icon('scroll-text', 'w-4 h-4 text-amber-400')}
           <span class="text-sm text-slate-300">${t('communityGuidelines') || 'Règles de la communauté'}</span>
           ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
@@ -1250,12 +1250,12 @@ function renderProfileFooter() {
       </div>
       <div class="card p-4">
         <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">${t('footerAbout') || 'À propos'}</h4>
-        <button onclick="openChangelog()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left">
+        <button onclick="openChangelog()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left">
           ${icon('sparkles', 'w-4 h-4 text-purple-400')}
           <span class="text-sm text-slate-300">${t('whatsNew') || 'Quoi de neuf'}</span>
           <span class="text-xs text-slate-500 ml-auto">v2.0.0</span>
         </button>
-        <button onclick="shareApp()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-left">
+        <button onclick="shareApp()" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left">
           ${icon('share-2', 'w-4 h-4 text-primary-400')}
           <span class="text-sm text-slate-300">${t('inviteFriends') || 'Inviter des amis'}</span>
           ${icon('chevron-right', 'w-4 h-4 text-slate-500 ml-auto')}
@@ -1263,13 +1263,13 @@ function renderProfileFooter() {
         <div class="flex items-center gap-4 p-3 pt-4 border-t border-white/5 mt-2">
           <span class="text-xs text-slate-500">${t('followUs') || 'Nous suivre'}</span>
           <div class="flex gap-3 ml-auto">
-            <a href="https://instagram.com/spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-pink-400 hover:bg-pink-500/10 transition-all" aria-label="Instagram">
+            <a href="https://instagram.com/spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-pink-400 hover:bg-pink-500/10 transition-colors" aria-label="Instagram">
               ${icon('instagram', 'w-4 h-4')}
             </a>
-            <a href="https://tiktok.com/@spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all" aria-label="TikTok">
+            <a href="https://tiktok.com/@spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-colors" aria-label="TikTok">
               ${icon('video', 'w-4 h-4')}
             </a>
-            <a href="https://discord.gg/spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all" aria-label="Discord">
+            <a href="https://discord.gg/spothitch" target="_blank" rel="noopener" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-colors" aria-label="Discord">
               ${icon('message-square', 'w-4 h-4')}
             </a>
           </div>

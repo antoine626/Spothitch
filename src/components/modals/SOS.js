@@ -87,7 +87,7 @@ function renderSOSDisclaimer() {
           </div>
           <button
             onclick="acceptSOSDisclaimer()"
-            class="w-full py-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-dark-primary font-bold text-lg transition-all"
+            class="w-full py-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-dark-primary font-bold text-lg transition-colors"
           >
             ${t('sosDisclaimerAccept') || 'I understand, continue'}
           </button>
@@ -197,7 +197,7 @@ function renderSOSMain(state) {
             <!-- Silent Alarm Toggle -->
             <button
               onclick="sosToggleSilent()"
-              class="card p-3 text-center transition-all ${isSilent ? 'bg-purple-500/20 border-purple-500/40' : 'hover:bg-white/5'}"
+              class="card p-3 text-center transition-colors ${isSilent ? 'bg-purple-500/20 border-purple-500/40' : 'hover:bg-white/5'}"
               type="button"
               aria-pressed="${isSilent}"
               title="${t('sosSilentModeTitle') || 'Mode alarme silencieuse'}"
@@ -216,7 +216,7 @@ function renderSOSMain(state) {
             <!-- Fake Call -->
             <button
               onclick="sosOpenFakeCall()"
-              class="card p-3 text-center hover:bg-emerald-500/10 transition-all"
+              class="card p-3 text-center hover:bg-emerald-500/10 transition-colors"
               type="button"
               title="${t('sosFakeCallTitle') || 'Simuler un appel entrant'}"
             >
@@ -287,19 +287,19 @@ function renderSOSMain(state) {
               <div class="flex items-center gap-1 text-xs">
                 <button
                   onclick="sosSetChannel('sms')"
-                  class="px-2 py-1 rounded-lg transition-all ${channel === 'sms' ? 'bg-primary-500/30 text-primary-400' : 'text-slate-500 hover:text-slate-300'}"
+                  class="px-2 py-1 rounded-lg transition-colors ${channel === 'sms' ? 'bg-primary-500/30 text-primary-400' : 'text-slate-500 hover:text-slate-300'}"
                   type="button"
                   title="${t('sosChannelSMS') || 'SMS'}"
                 >SMS</button>
                 <button
                   onclick="sosSetChannel('whatsapp')"
-                  class="px-2 py-1 rounded-lg transition-all ${channel === 'whatsapp' ? 'bg-emerald-500/30 text-emerald-400' : 'text-slate-500 hover:text-slate-300'}"
+                  class="px-2 py-1 rounded-lg transition-colors ${channel === 'whatsapp' ? 'bg-emerald-500/30 text-emerald-400' : 'text-slate-500 hover:text-slate-300'}"
                   type="button"
                   title="${t('sosChannelWhatsApp') || 'WhatsApp'}"
                 >WA</button>
                 <button
                   onclick="sosSetChannel('both')"
-                  class="px-2 py-1 rounded-lg transition-all ${channel === 'both' ? 'bg-amber-500/30 text-amber-400' : 'text-slate-500 hover:text-slate-300'}"
+                  class="px-2 py-1 rounded-lg transition-colors ${channel === 'both' ? 'bg-amber-500/30 text-amber-400' : 'text-slate-500 hover:text-slate-300'}"
                   type="button"
                   title="${t('sosChannelBoth') || 'SMS + WhatsApp'}"
                 >${t('sosChannelBothShort') || 'Les 2'}</button>
@@ -363,7 +363,7 @@ function renderSOSMain(state) {
                       <div class="flex items-center gap-1">
                         <button
                           onclick="sosSetPrimaryContact(${i})"
-                          class="w-8 h-8 flex items-center justify-center rounded-full transition-all ${i === primaryIdx ? 'text-amber-400' : 'text-slate-500 hover:text-amber-400'}"
+                          class="w-8 h-8 flex items-center justify-center rounded-full transition-colors ${i === primaryIdx ? 'text-amber-400' : 'text-slate-500 hover:text-amber-400'}"
                           type="button"
                           aria-label="${t('sosSetPrimary') || 'Définir comme contact principal'} ${escapeHTML(contact.name)}"
                           aria-pressed="${i === primaryIdx}"
@@ -372,7 +372,7 @@ function renderSOSMain(state) {
                         </button>
                         <button
                           onclick="removeEmergencyContact(${i})"
-                          class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-danger-400 rounded-full transition-all"
+                          class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-danger-400 rounded-full transition-colors"
                           type="button"
                           aria-label="${t('deleteContact') || 'Supprimer le contact'} ${escapeHTML(contact.name)}"
                         >
@@ -462,15 +462,15 @@ function renderSOSMain(state) {
               ${t('emergencyMessages') || 'Messages d\'urgence'}
             </h3>
             <div class="space-y-3">
-              <button onclick="sendSOSTemplate('danger')" class="w-full p-3 rounded-xl bg-danger-500/10 text-left text-sm hover:bg-danger-500/20 transition-all">
+              <button onclick="sendSOSTemplate('danger')" class="w-full p-3 rounded-xl bg-danger-500/10 text-left text-sm hover:bg-danger-500/20 transition-colors">
                 <div class="font-medium text-danger-400">🚨 ${t('sosInDanger') || 'Je suis en danger'}</div>
                 <div class="text-xs text-slate-400">${t('sosInDangerDesc') || 'Envoie ta position + message d\'alerte'}</div>
               </button>
-              <button onclick="sendSOSTemplate('stuck')" class="w-full p-3 rounded-xl bg-amber-500/10 text-left text-sm hover:bg-amber-500/20 transition-all">
+              <button onclick="sendSOSTemplate('stuck')" class="w-full p-3 rounded-xl bg-amber-500/10 text-left text-sm hover:bg-amber-500/20 transition-colors">
                 <div class="font-medium text-amber-400">📍 ${t('sosStuck') || 'Je suis bloqué(e)'}</div>
                 <div class="text-xs text-slate-400">${t('sosStuckDesc') || 'Envoie ta position + demande d\'aide'}</div>
               </button>
-              <button onclick="sendSOSTemplate('help')" class="w-full p-3 rounded-xl bg-primary-500/10 text-left text-sm hover:bg-primary-500/20 transition-all">
+              <button onclick="sendSOSTemplate('help')" class="w-full p-3 rounded-xl bg-primary-500/10 text-left text-sm hover:bg-primary-500/20 transition-colors">
                 <div class="font-medium text-primary-400">🆘 ${t('sosNeedHelp') || 'J\'ai besoin d\'aide'}</div>
                 <div class="text-xs text-slate-400">${t('sosNeedHelpDesc') || 'Envoie ta position + description'}</div>
               </button>

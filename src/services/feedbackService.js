@@ -129,7 +129,7 @@ export function renderTipVoteButtons(section, tipIndex) {
       <button
         type="button"
         onclick="voteGuideTip('${section}', '${tipIndex}', 'up')"
-        class="px-2 py-0.5 rounded-full text-xs transition-all ${
+        class="px-2 py-0.5 rounded-full text-xs transition-colors ${
           upActive
             ? 'bg-emerald-500/30 text-emerald-400'
             : voted
@@ -144,7 +144,7 @@ export function renderTipVoteButtons(section, tipIndex) {
       <button
         type="button"
         onclick="voteGuideTip('${section}', '${tipIndex}', 'down')"
-        class="px-2 py-0.5 rounded-full text-xs transition-all ${
+        class="px-2 py-0.5 rounded-full text-xs transition-colors ${
           downActive
             ? 'bg-danger-500/30 text-danger-400'
             : voted

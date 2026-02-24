@@ -66,7 +66,7 @@ export function renderFriends(state) {
       <div class="px-4 pb-3">
         <button
           onclick="setSocialTab('companion')"
-          class="card p-3 w-full text-left bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40 transition-all"
+          class="card p-3 w-full text-left bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-emerald-500/20 hover:border-emerald-500/40 transition-colors"
         >
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-full bg-emerald-500/20 flex items-center justify-center">
@@ -87,7 +87,7 @@ export function renderFriends(state) {
           <h4 class="text-xs text-slate-400 font-medium mb-2">${t('myFriends')} (${friends.length})</h4>
           <div class="space-y-1">
             ${friends.map(friend => `
-              <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-all">
+              <div class="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors">
                 <div class="relative shrink-0">
                   <span class="text-2xl">${friend.avatar || '🤙'}</span>
                   <span class="absolute -bottom-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-dark-primary ${friend.online ? 'bg-emerald-500' : 'bg-slate-500'}"></span>
@@ -179,7 +179,7 @@ function renderAmbassadorList(state) {
               </div>
               <button
                 onclick="contactAmbassador('${amb.userId}')"
-                class="shrink-0 px-3 py-1.5 rounded-xl bg-primary-500/20 text-primary-400 text-xs font-medium hover:bg-primary-500/30 transition-all"
+                class="shrink-0 px-3 py-1.5 rounded-xl bg-primary-500/20 text-primary-400 text-xs font-medium hover:bg-primary-500/30 transition-colors"
               >
                 ${icon('message-circle', 'w-3.5 h-3.5 mr-1')}
                 ${t('contact')}

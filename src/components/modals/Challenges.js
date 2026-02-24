@@ -188,7 +188,7 @@ export function renderChallengeCard(challenge, lang = 'fr', type = 'weekly') {
               <span class="text-slate-400">${Math.round(progressPercent)}%</span>
             </div>
             <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r ${typeColors[type]} transition-all duration-500"
+              <div class="h-full bg-gradient-to-r ${typeColors[type]} transition-colors duration-500"
                    style="width: ${progressPercent}%"></div>
             </div>
           </div>

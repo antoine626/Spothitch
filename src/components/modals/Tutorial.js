@@ -70,7 +70,7 @@ export function renderTutorial(state) {
               <!-- Step dots -->
               <div class="flex items-center gap-1.5">
                 ${tutorialSteps.map((_, i) => `
-                  <div class="w-1.5 h-1.5 rounded-full transition-all ${i === stepIndex ? `bg-${step.color}-400 w-4` : i < stepIndex ? 'bg-white/40' : 'bg-white/15'}"></div>
+                  <div class="w-1.5 h-1.5 rounded-full transition-colors ${i === stepIndex ? `bg-${step.color}-400 w-4` : i < stepIndex ? 'bg-white/40' : 'bg-white/15'}"></div>
                 `).join('')}
               </div>
             </div>
@@ -81,13 +81,13 @@ export function renderTutorial(state) {
             <div class="flex gap-2">
               <button
                 onclick="skipTutorial()"
-                class="px-3 py-2.5 rounded-xl bg-white/5 text-slate-400 text-sm hover:bg-white/10 transition-all"
+                class="px-3 py-2.5 rounded-xl bg-white/5 text-slate-400 text-sm hover:bg-white/10 transition-colors"
               >
                 ${t('skip') || 'Skip'}
               </button>
               <button
                 onclick="${isLast ? 'finishTutorial()' : 'nextTutorial()'}"
-                class="flex-1 py-2.5 rounded-xl bg-${step.color}-500 text-white font-medium hover:bg-${step.color}-600 transition-all text-center text-sm flex items-center justify-center gap-2"
+                class="flex-1 py-2.5 rounded-xl bg-${step.color}-500 text-white font-medium hover:bg-${step.color}-600 transition-colors text-center text-sm flex items-center justify-center gap-2"
               >
                 ${isLast ? (t('gotIt') || 'Got it!') : (t('next') || 'Next')}
                 ${icon(isLast ? 'check' : 'arrow-right', 'w-4 h-4')}

@@ -311,7 +311,7 @@ export async function renderHostelSection(cityName) {
       <div class="flex gap-2 mb-4" id="hostel-tabs">
         <button
           onclick="switchHostelCategory('party', '${cityName}')"
-          class="hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all bg-primary-500 text-white"
+          class="hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-colors bg-primary-500 text-white"
           data-category="party"
         >
           🎉 ${t('hostelParty') || 'Festif'}
@@ -319,7 +319,7 @@ export async function renderHostelSection(cityName) {
         </button>
         <button
           onclick="switchHostelCategory('cozy', '${cityName}')"
-          class="hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all text-slate-400 hover:text-white hover:bg-white/5"
+          class="hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-white/5"
           data-category="cozy"
         >
           🛋️ ${t('hostelCozy') || 'Cozy'}
@@ -327,7 +327,7 @@ export async function renderHostelSection(cityName) {
         </button>
         <button
           onclick="switchHostelCategory('budget', '${cityName}')"
-          class="hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all text-slate-400 hover:text-white hover:bg-white/5"
+          class="hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-white/5"
           data-category="budget"
         >
           💰 ${t('hostelBudget') || 'Pas cher'}
@@ -378,14 +378,14 @@ function renderHostelCard(hostel, cityName) {
   const hasUpvoted = userUpvotes.includes(hostelKey)
 
   return `
-    <div class="p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+    <div class="p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
       <div class="flex items-start justify-between mb-2">
         <div class="flex-1">
           <h4 class="font-semibold">${hostel.hostelName}</h4>
           <div class="flex items-center gap-2 mt-1">
             <button
               onclick="upvoteHostel('${hostel.city}', '${hostel.hostelName}')"
-              class="flex items-center gap-1 text-sm ${hasUpvoted ? 'text-primary-400' : 'text-slate-400 hover:text-primary-400'} transition-all"
+              class="flex items-center gap-1 text-sm ${hasUpvoted ? 'text-primary-400' : 'text-slate-400 hover:text-primary-400'} transition-colors"
               ${hasUpvoted ? 'disabled' : ''}
             >
               ${icon('thumbs-up', 'w-5 h-5')}
@@ -400,7 +400,7 @@ function renderHostelCard(hostel, cityName) {
           href="${links.hostelworld}"
           target="_blank"
           rel="noopener"
-          class="flex-1 py-2 px-3 rounded-xl text-center text-sm font-medium text-white transition-all"
+          class="flex-1 py-2 px-3 rounded-xl text-center text-sm font-medium text-white transition-colors"
           style="background-color: #f47521"
           onmouseover="this.style.backgroundColor='#d86818'"
           onmouseout="this.style.backgroundColor='#f47521'"
@@ -411,7 +411,7 @@ function renderHostelCard(hostel, cityName) {
           href="${links.booking}"
           target="_blank"
           rel="noopener"
-          class="flex-1 py-2 px-3 rounded-xl text-center text-sm font-medium text-white transition-all"
+          class="flex-1 py-2 px-3 rounded-xl text-center text-sm font-medium text-white transition-colors"
           style="background-color: #003580"
           onmouseover="this.style.backgroundColor='#002a66'"
           onmouseout="this.style.backgroundColor='#003580'"
@@ -468,7 +468,7 @@ export function renderAddHostelForm(cityName) {
             <div class="grid grid-cols-3 gap-2" id="category-selector">
               <button
                 onclick="setHostelCategory('party')"
-                class="category-btn py-3 px-2 rounded-xl text-center transition-all border border-white/10 hover:border-primary-500"
+                class="category-btn py-3 px-2 rounded-xl text-center transition-colors border border-white/10 hover:border-primary-500"
                 data-category="party"
               >
                 <div class="text-2xl mb-1">🎉</div>
@@ -476,7 +476,7 @@ export function renderAddHostelForm(cityName) {
               </button>
               <button
                 onclick="setHostelCategory('cozy')"
-                class="category-btn py-3 px-2 rounded-xl text-center transition-all border border-white/10 hover:border-primary-500"
+                class="category-btn py-3 px-2 rounded-xl text-center transition-colors border border-white/10 hover:border-primary-500"
                 data-category="cozy"
               >
                 <div class="text-2xl mb-1">🛋️</div>
@@ -484,7 +484,7 @@ export function renderAddHostelForm(cityName) {
               </button>
               <button
                 onclick="setHostelCategory('budget')"
-                class="category-btn py-3 px-2 rounded-xl text-center transition-all border border-white/10 hover:border-primary-500"
+                class="category-btn py-3 px-2 rounded-xl text-center transition-colors border border-white/10 hover:border-primary-500"
                 data-category="budget"
               >
                 <div class="text-2xl mb-1">💰</div>
@@ -519,9 +519,9 @@ export async function switchHostelCategory(category, cityName) {
   // Update tabs
   document.querySelectorAll('.hostel-tab').forEach(tab => {
     if (tab.dataset.category === category) {
-      tab.className = 'hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all bg-primary-500 text-white'
+      tab.className = 'hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-colors bg-primary-500 text-white'
     } else {
-      tab.className = 'hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all text-slate-400 hover:text-white hover:bg-white/5'
+      tab.className = 'hostel-tab flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-white/5'
     }
   })
 

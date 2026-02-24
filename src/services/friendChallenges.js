@@ -412,14 +412,14 @@ export function renderChallengeCard(challenge) {
           <div class="flex items-center gap-2">
             <span class="text-xs text-slate-400 w-12">${t('you') || 'Toi'}</span>
             <div class="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
-              <div class="bg-primary h-full transition-all" style="width: ${progressPercent}%"></div>
+              <div class="bg-primary h-full transition-colors" style="width: ${progressPercent}%"></div>
             </div>
             <span class="text-xs text-white w-10 text-right">${myProgress}/${challenge.target}</span>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-xs text-slate-400 w-12 truncate">${opponentName.substring(0, 5)}</span>
             <div class="flex-1 bg-white/5 rounded-full h-2 overflow-hidden">
-              <div class="bg-red-500 h-full transition-all" style="width: ${opponentPercent}%"></div>
+              <div class="bg-red-500 h-full transition-colors" style="width: ${opponentPercent}%"></div>
             </div>
             <span class="text-xs text-white w-10 text-right">${opponentProgress}/${challenge.target}</span>
           </div>

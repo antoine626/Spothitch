@@ -225,7 +225,7 @@ function showTipUI(tip) {
         <!-- Dismiss Button -->
         <button
           onclick="window.dismissContextualTip()"
-          class="shrink-0 w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-400 hover:text-white transition-all"
+          class="shrink-0 w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
           aria-label="Fermer l'astuce"
           type="button"
         >
@@ -236,7 +236,7 @@ function showTipUI(tip) {
       <!-- OK Button -->
       <button
         onclick="window.dismissContextualTip()"
-        class="mt-3 w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-all flex items-center justify-center gap-2"
+        class="mt-3 w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors flex items-center justify-center gap-2"
         type="button"
       >
         ${icon('thumbs-up', 'w-5 h-5')}

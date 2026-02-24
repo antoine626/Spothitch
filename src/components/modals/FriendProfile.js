@@ -64,7 +64,7 @@ export function renderFriendProfileModal(state) {
               <span class="text-sm font-bold text-${trustColor}-400">${trustScore}/100</span>
             </div>
             <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-              <div class="h-full bg-${trustColor}-500 rounded-full transition-all" style="width: ${trustScore}%"></div>
+              <div class="h-full bg-${trustColor}-500 rounded-full transition-colors" style="width: ${trustScore}%"></div>
             </div>
             <div class="flex items-center gap-1 mt-2 text-xs text-slate-400">
               ${icon('shield', 'w-3 h-3')}
@@ -126,14 +126,14 @@ export function renderFriendProfileModal(state) {
             <div class="flex gap-2">
               <button
                 onclick="shareProfile('${friend.id}')"
-                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-all text-sm flex items-center justify-center gap-1"
+                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 transition-colors text-sm flex items-center justify-center gap-1"
               >
                 ${icon('share', 'w-4 h-4')}
                 ${t('share')}
               </button>
               <button
                 onclick="removeFriend('${friend.id}'); closeFriendProfile()"
-                class="flex-1 py-2 rounded-xl border border-danger-500/30 text-danger-400 hover:bg-danger-500/10 transition-all text-sm flex items-center justify-center gap-1"
+                class="flex-1 py-2 rounded-xl border border-danger-500/30 text-danger-400 hover:bg-danger-500/10 transition-colors text-sm flex items-center justify-center gap-1"
               >
                 ${icon('user-minus', 'w-4 h-4')}
                 ${t('removeFriend')}
@@ -142,14 +142,14 @@ export function renderFriendProfileModal(state) {
             <div class="flex gap-2 pt-1">
               <button
                 onclick="openReport('USER', '${friend.id}')"
-                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-500 hover:text-danger-400 hover:bg-danger-500/10 transition-all text-xs flex items-center justify-center gap-1"
+                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-500 hover:text-danger-400 hover:bg-danger-500/10 transition-colors text-xs flex items-center justify-center gap-1"
               >
                 ${icon('flag', 'w-3 h-3')}
                 ${t('report') || 'Signaler'}
               </button>
               <button
                 onclick="openBlockModal('${friend.id}', '${escapeHTML(friend.name)}')"
-                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-500 hover:text-danger-400 hover:bg-danger-500/10 transition-all text-xs flex items-center justify-center gap-1"
+                class="flex-1 py-2 rounded-xl bg-white/5 text-slate-500 hover:text-danger-400 hover:bg-danger-500/10 transition-colors text-xs flex items-center justify-center gap-1"
               >
                 ${icon('ban', 'w-3 h-3')}
                 ${t('blockUser') || 'Bloquer'}

@@ -140,7 +140,7 @@ function renderOverviewStep(progress, currentLevel, nextLevel, reasons, lang) {
         </div>
         <div class="h-3 bg-white/10 rounded-full overflow-hidden">
           <div
-            class="h-full rounded-full transition-all duration-500"
+            class="h-full rounded-full transition-colors duration-500"
             style="width: ${progress.progress}%; background: linear-gradient(90deg, #9ca3af, #3b82f6, #f59e0b, #10b981, #fbbf24);"
           ></div>
         </div>
@@ -209,7 +209,7 @@ function renderVerificationStep(level, isComplete, title, description, iconName,
 
   return `
     <div
-      class="flex items-center gap-4 p-4 rounded-xl border transition-all ${isComplete ? 'bg-white/5 border-white/10' : isActive ? 'bg-white/10 border-primary-500/50 ring-2 ring-primary-500/30' : 'bg-white/5 border-white/5 opacity-50'}"
+      class="flex items-center gap-4 p-4 rounded-xl border transition-colors ${isComplete ? 'bg-white/5 border-white/10' : isActive ? 'bg-white/10 border-primary-500/50 ring-2 ring-primary-500/30' : 'bg-white/5 border-white/5 opacity-50'}"
       role="listitem"
     >
       <div

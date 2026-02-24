@@ -59,7 +59,7 @@ export function renderBadgesModal() {
           <!-- Progress bar -->
           <div class="mt-4">
             <div class="h-3 bg-white/30 rounded-full overflow-hidden">
-              <div class="h-full bg-white transition-all duration-500"
+              <div class="h-full bg-white transition-colors duration-500"
                    style="width: ${(earnedBadges.length / allBadges.length) * 100}%"></div>
             </div>
           </div>

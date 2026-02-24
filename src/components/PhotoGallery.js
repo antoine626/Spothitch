@@ -95,7 +95,7 @@ export function renderPhotoGallery(photos = [], spotId = 0) {
           ${photos.map((photo, index) => `
             <button
               onclick="goToPhoto('${galleryId}', ${index})"
-              class="shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all
+              class="shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-colors
                 ${index === 0 ? 'border-primary-500' : 'border-transparent hover:border-white/30'}"
               data-thumb-index="${index}"
               aria-label="Photo ${index + 1}"
@@ -194,7 +194,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
           ${photos.map((photo, index) => `
             <button
               onclick="goToPhotoFullscreen(${index}); event.stopPropagation();"
-              class="w-12 h-12 rounded overflow-hidden border-2 transition-all
+              class="w-12 h-12 rounded overflow-hidden border-2 transition-colors
                 ${index === currentIndex ? 'border-primary-500' : 'border-transparent opacity-60 hover:opacity-100'}"
               aria-label="Photo ${index + 1}"
             >

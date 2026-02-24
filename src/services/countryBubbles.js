@@ -163,7 +163,7 @@ export function createBubblePopup(maplibregl, feature, lngLat) {
       <div class="text-sm text-slate-300 mb-3">${spotCount} ${t('spotsInCountry') || 'spots'}</div>
       <div class="flex flex-col gap-2">
         <button onclick="loadCountryOnMap('${code}')"
-          class="w-full px-3 py-2 rounded-xl bg-amber-500/20 text-amber-400 text-sm font-medium hover:bg-amber-500/30 transition-all flex items-center justify-center gap-2">
+          class="w-full px-3 py-2 rounded-xl bg-amber-500/20 text-amber-400 text-sm font-medium hover:bg-amber-500/30 transition-colors flex items-center justify-center gap-2">
           ${icon('eye', 'w-4 h-4')}
           ${t('displayCountry') || 'Afficher'}
         </button>
@@ -174,7 +174,7 @@ export function createBubblePopup(maplibregl, feature, lngLat) {
             </div>`
           : `<button onclick="downloadCountryFromBubble('${code}', '${escapeJSString(name)}')"
               id="bubble-download-${code}"
-              class="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-sm font-medium hover:bg-white/20 transition-all flex items-center justify-center gap-2">
+              class="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-sm font-medium hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
               ${icon('download', 'w-4 h-4')}
               ${t('downloadOffline') || 'Télécharger'}
             </button>`

@@ -238,7 +238,7 @@ export function renderStatsModal() {
                   </div>
                 </div>
                 <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                  <div class="h-full transition-all" style="width: ${vipProgress.progress * 100}%;
+                  <div class="h-full transition-colors" style="width: ${vipProgress.progress * 100}%;
                        background-color: ${summary.vipLevel.color}"></div>
                 </div>
               </div>
@@ -276,7 +276,7 @@ export function renderStatsModal() {
                 ` : ''}
               </div>
               <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                <div class="h-full transition-all" style="width: ${leagueProgress.progress * 100}%;
+                <div class="h-full transition-colors" style="width: ${leagueProgress.progress * 100}%;
                      background-color: ${summary.league.color}"></div>
               </div>
             </div>
@@ -327,7 +327,7 @@ export function renderStatsModal() {
           <!-- Share Stats Button -->
           <button
             onclick="shareStats()"
-            class="w-full py-3 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-xl font-semibold text-white hover:opacity-90 transition-all flex items-center justify-center gap-2"
+            class="w-full py-3 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-xl font-semibold text-white hover:opacity-90 transition-colors flex items-center justify-center gap-2"
           >
             <span>📤</span>
             ${t('shareStats') || 'Partager mes stats'}
@@ -352,7 +352,7 @@ function renderMiniChart(data) {
     return `
       <div class="flex-1 flex flex-col items-center gap-1">
         <div class="text-xs text-slate-400">${d.checkins > 0 ? d.checkins : ''}</div>
-        <div class="w-full bg-gradient-to-t ${color} rounded-t-sm transition-all"
+        <div class="w-full bg-gradient-to-t ${color} rounded-t-sm transition-colors"
              style="height: ${height}%"
              title="${d.month}: ${d.checkins} check-ins, ${d.distance} km"></div>
       </div>
