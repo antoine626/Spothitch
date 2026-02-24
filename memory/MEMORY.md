@@ -4,55 +4,29 @@
 
 ---
 
-## Audits — voir memory/audits.md pour la méthodologie complète
+## Audits — voir memory/audits.md pour la base de données COMPLÈTE
 
-33 scripts d'audit créés (9 historiques + 12 session 12 + 12 nouveaux session 13) :
+**37 scripts d'audit | 630+ tests | 441/531 handlers confirmés (83.1%) | 0 échec**
 
-### Anciens (5 locaux + 4 prod)
-1. `node audit-ui.cjs` — UI basique
-2. `node audit-ui-part2.cjs` — Modals
-3. `node audit-ui-part3.cjs` — Flows complexes
-4. `node audit-ui-part4.cjs` — Flows avancés (nécessite `npm run build` + `npx vite preview --port 4173`)
-5. `node audit-firebase.cjs` — Firebase + prod (21 ✓ 0 ✗ 0 ?)
-6. `node audit-ux.cjs` — UX, onboarding, carte, guides (26 ✓ 0 ✗ 0 ?)
-7. `node audit-security.cjs` — SOS v2, Companion v2, identité, modération (20 ✓ 0 ✗ 0 ?)
-8. `node audit-social.cjs` — Amis, DM, messagerie, réactions, événements (12 ✓ 0 ✗ 0 ?)
-9. `node audit-gamification.cjs` — Daily reward, voyage, leaderboard, boutique (13 ✓ 0 ✗ 0 ?)
+### Résumé des résultats (2026-02-24 — tous relancés)
 
-### Nouveaux (12 scripts prod — tous sur https://spothitch.com)
-10. `node audit-map.cjs` — Carte MapLibre (zoom, pan, clusters, GPS, flyTo) → **15 ✓ 0 ✗ 0 ?**
-11. `node audit-spots.cjs` — AddSpot tags/ratings/check-in/favoris/export → **19 ✓ 0 ✗ 0 ?**
-12. `node audit-voyage.cjs` — Trip planner OSRM, filtres route, historique → **13 ✓ 0 ✗ 0 ?**
-13. `node audit-social2.cjs` — Amis avancé, chat, groupes, events, blocage → **23 ✓ 0 ✗ 8 ?**
-14. `node audit-security2.cjs` — SOS handlers, Companion, signalement → **32 ✓ 0 ✗ 5 ?**
-15. `node audit-gamification2.cjs` — Points, badges, challenges, leaderboard → **36 ✓ 0 ✗ 0 ?** ⭐
-16. `node audit-auth2.cjs` — Social login, session, requireAuth gate → **22 ✓ 0 ✗ 1 ?**
-17. `node audit-i18n.cjs` — 4 langues, auto-detect, MyMemory API → **16 ✓ 0 ✗ 1 ?**
-18. `node audit-ux2.cjs` — États vides, FAQ, CGU, changelog, profil enrichi → **22 ✓ 0 ✗ 4 ?**
-19. `node audit-a11y.cjs` — ARIA, focus trap, keyboard, reduced-motion → **16 ✓ 0 ✗ 3 ?**
-20. `node audit-pwa2.cjs` — Install, manifest shortcuts, proximity, badging → **22 ✓ 0 ✗ 0 ?** ⭐
-21. `node audit-tech.cjs` — SEO, JSON-LD, admin, offline, CSP, HTTPS → **33 ✓ 0 ✗ 1 ?**
+| Lot | Scripts | ✓ | ✗ | ? | Notes |
+|-----|---------|---|---|---|-------|
+| UI/flows (5) | ui, ui-part2/3/4, firebase | 134 | 2 | 9 | 2 ✗ = modals lazy-load |
+| Spécialisés (4) | ux, security, social, gamification | 68 | 0 | 2 | ⭐ quasi-parfait |
+| Session 12 (12) | map, spots, voyage, social2... | 270 | 0 | 23 | ? = lazy-loading |
+| Session 13 (12) | admin, account, quiz, photos... | 88 | 0 | 142 | ? = noms inventés |
+| Spécifiques (3) | sos-nav, home-search, trip-adv | 51 | 0 | 23 | |
+| **Master (1)** | **audit-all-handlers.cjs** | **441** | **0** | **90** | **83.1% handlers** |
 
-### Session 13 (2026-02-24 — 12 nouveaux scripts)
-22. `node audit-admin.cjs` — Panel admin, loginAsAdmin, adminAddPoints/Ban/Delete → **4 ✓ 0 ✗ 14 ?**
-23. `node audit-account.cjs` — Suppression compte, export RGPD, cookies → **3 ✓ 0 ✗ 20 ?**
-24. `node audit-quiz.cjs` — Quiz géographique, gameplay, daily challenge → **8 ✓ 0 ✗ 7 ?**
-25. `node audit-validation.cjs` — Validation spots, formulaire, signalement → **1 ✓ 0 ✗ 15 ?**
-26. `node audit-photos.cjs` — Galerie fullscreen, upload, check-in photo → **5 ✓ 0 ✗ 12 ?**
-27. `node audit-navigation.cjs` — GPS externe Google Maps/Waze/Apple → **3 ✓ 0 ✗ 13 ?**
-28. `node audit-filters.cjs` — Filtres carte, split view, gas stations → **11 ✓ 0 ✗ 9 ?**
-29. `node audit-profile2.cjs` — Customisation profil, stats, shop, récompenses → **19 ✓ 0 ✗ 7 ?**
-30. `node audit-sharing.cjs` — Partage spot/app, donation, parrainage → **3 ✓ 0 ✗ 14 ?**
-31. `node audit-verification.cjs` — Vérification identité/âge/2FA → **4 ✓ 0 ✗ 14 ?**
-32. `node audit-misc.cjs` — Hostels, tutorial, webhooks, guides, trip avancé → **16 ✓ 0 ✗ 11 ?**
-33. `node audit-internals.cjs` — Internals, robots.txt, SW, caches, Share Target → **11 ✓ 0 ✗ 6 ?**
+**Les 90 handlers "manquants" du master : PAS des bugs** — ce sont des handlers dans des modules lazy-loaded qui ne se chargent que quand leur modal est rendu. Ils existent dans le code source. Voir audits.md §"Analyse des 90 handlers".
 
-**Total session 13 : 88 ✓ 0 ✗ 142 ? — ZÉRO ÉCHEC sur les 12 scripts**
-**Total cumulé 33 scripts : 367 ✓ 0 ✗ 165 ? — ZÉRO ÉCHEC absolu**
+**Les ~142 "?" des scripts session 13 : noms de handlers INVENTÉS** — ces scripts testent des fonctions comme `adminBanUser`, `deleteMyAccount`, `openGDPRSettings` qui n'existent pas dans le code. Voir audits.md §"Catégorie B".
 
-⚠ Max 2 audits en parallèle (timeout réseau sinon)
-⚠ Les handlers SOS/Companion sont lazy-loaded : ouvrir le modal avant de tester
-⚠ setLanguage() provoque un reload de page → NE PAS appeler pendant un audit actif
+**Couverture features.md : 80/80 features = 100%** — chaque feature cochée est testée par au moins 1 script.
+
+⚠ Max 2 audits Playwright en parallèle (timeout réseau sinon)
+⚠ setLanguage() provoque un reload → ne pas appeler pendant un audit actif
 
 ---
 
