@@ -89,6 +89,22 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session 2026-02-24 (session 18 — ROADMAP FEATURE REQUESTS)
+- **Sous-onglet Progression remplacé par Roadmap** dans Profil (3 sous-onglets : Profil, Roadmap, Réglages)
+- **7 features détaillées** avec contenu riche : Améliorations techniques, Pouces & Partenaires, Leagues, Pages Villes, Auberges, Événements, Groupes & Courses
+- **Firebase integration** : votes et commentaires partagés entre tous les utilisateurs (collections Firestore `roadmap_votes`, `roadmap_comments`)
+- Vote approve/disapprove par feature, un vote par user, toggle on/off
+- Commentaires avec username, date, affichage temps réel
+- **Optimistic UI** : mise à jour locale immédiate + sync Firebase en background
+- **localStorage fallback** : fonctionne hors ligne ou sans compte Firebase
+- **Auth requise** pour voter et commenter (toast warning sinon)
+- Intro card expliquant que ce sont les futures mises à jour
+- Compteurs de votes et commentaires réels (pas de faux chiffres)
+- i18n : roadmapIntro ajouté en 4 langues
+- 5 nouvelles fonctions dans firebase.js : setRoadmapVote, getRoadmapVotes, addRoadmapComment, getRoadmapComments, getRoadmapCommentCounts
+- Fix lucide 0.563→0.575 : supprimé resolve alias cassé dans vite.config.js
+- 107 tests passent, build OK, pushé
+
 ### Session 2026-02-24 (session 16 — PERFORMANCE + UX FIXES)
 **Phase 1 : Optimisation perf**
 - **setState() dirty-checking** : skip notifySubscribers quand aucune valeur ne change réellement (élimine ~30-50% des renders)

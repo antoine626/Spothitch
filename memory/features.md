@@ -109,7 +109,8 @@
 - [x] Formulaire voyage passé amélioré (dates début/fin, layout 2 colonnes)
 - [x] Sélecteur de langues in-app (modal au lieu de prompt())
 - [x] Vérification identité déplacée dans Réglages
-- [x] Carte donation dans Profil et Progression (pas seulement Réglages)
+- [x] Carte donation dans Profil et Réglages
+- [x] **Roadmap / Feature Requests** : sous-onglet dans Profil (remplace Progression), 7 features détaillées, votes approve/disapprove Firebase partagés, commentaires Firebase, auth requise, optimistic UI + localStorage fallback
 - [x] Toggles 👍/👎 pill classique unifié (renderToggle via src/utils/toggle.js — 19 toggles)
 
 ## Sécurité & Vérification
