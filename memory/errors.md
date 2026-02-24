@@ -1,6 +1,6 @@
 # errors.md - Journal des erreurs et corrections SpotHitch
 
-> Dernière mise à jour : 2026-02-22
+> Dernière mise à jour : 2026-02-24
 > IMPORTANT : Après CHAQUE bug trouvé ou corrigé, ajouter une entrée ici.
 > Le Plan Wolf analyse ce fichier pour éviter les régressions.
 
@@ -346,6 +346,45 @@ Chaque erreur suit ce format :
 
 ---
 
+### ERR-033 — Handlers dupliqués entre fichiers non-main (Guides.js, AdminPanel.js, Profile.js)
+
+- **Date** : 2026-02-24
+- **Gravité** : MAJEUR
+- **Description** : 4 handlers `window.*` étaient définis dans 2+ fichiers non-main : `filterGuides` et `selectGuide` (Guides.js + Travel.js identiques), `openDonation` (AdminPanel.js simplifié vs DonationCard.js complet), `shareTrip` (Profile.js redirect vs Planner.js réel). Le dernier fichier chargé "gagne", ce qui peut changer le comportement selon l'ordre de navigation.
+- **Cause racine** : Copier-coller de handlers entre fichiers sans vérifier s'ils existent déjà. Parfois ajouté "pour backward compat" sans supprimer l'original.
+- **Correction** : Supprimé les doublons dans Guides.js (gardé Travel.js), AdminPanel.js (gardé DonationCard.js avec params), Profile.js (gardé Planner.js avec async). Ajouté commentaires pointant vers le fichier source.
+- **Leçon** : **TOUJOURS grep `window.nomHandler` dans tout `src/` AVANT de créer un nouveau handler. Si le handler existe déjà, l'importer ou le réutiliser, JAMAIS le dupliquer. Un handler = un seul fichier source (sauf pattern main.js + guard `if (!window.xxx)` pour lazy-loading).**
+- **Fichiers** : `Guides.js`, `AdminPanel.js`, `Profile.js`, `Travel.js`, `DonationCard.js`, `Planner.js`
+- **Statut** : CORRIGÉ
+
+---
+
+### ERR-034 — Math.random() utilisé pour générer des IDs dans 15+ fichiers
+
+- **Date** : 2026-02-24
+- **Gravité** : MAJEUR
+- **Description** : `Math.random().toString(36)` était utilisé pour générer des IDs d'entités (checkins, groupes, invitations, stops, events, comments, reports, consents, DMs, activities, drafts, challenges, verifications). `Math.random()` n'est PAS cryptographiquement sûr — les IDs sont prévisibles.
+- **Cause racine** : Pattern `${Date.now()}_${Math.random().toString(36).substring(2, 9)}` copié-collé dans chaque service sans réfléchir à la sécurité. C'est un anti-pattern courant mais dangereux pour tout ID qui pourrait être deviné.
+- **Correction** : Remplacé par `crypto.getRandomValues(new Uint32Array(1))[0].toString(36)` dans 15 fichiers : state.js, travelGroups.js (×3), events.js (×2), moderation.js, consentHistory.js, identityVerification.js, friendChallenges.js, proximityNotify.js, directMessages.js, activityFeed.js, spotDrafts.js, tripHistory.js, a11y.js, network.js, Social.js, SpotDetail.js.
+- **Leçon** : **JAMAIS `Math.random()` pour générer un ID, même un ID "interne". Toujours `crypto.getRandomValues()` ou `crypto.randomUUID()`. `Math.random()` est OK UNIQUEMENT pour du visuel (confetti, animation, position aléatoire d'éléments décoratifs, ordre de quiz).**
+- **Fichiers** : 15+ fichiers dans src/
+- **Statut** : CORRIGÉ
+
+---
+
+### ERR-035 — Error-patterns check ne reconnaît pas les assignments gardés
+
+- **Date** : 2026-02-24
+- **Gravité** : MINEUR
+- **Description** : Le check ERR-001 dans `error-patterns.mjs` flaggait les handlers définis dans Voyage.js comme des doublons, alors qu'ils utilisent le pattern `if (!window.swapTripPoints) { window.swapTripPoints = ... }`. Ce sont des fallbacks intentionnels pour le lazy-loading, pas des vrais doublons.
+- **Cause racine** : Le check comptait toutes les occurrences `window.xxx =` sans analyser le contexte (guards). Résultat : faux positifs qui polluent le score.
+- **Correction** : Modifié `error-patterns.mjs` pour détecter les guards `if (!window.xxx)` dans les 3 lignes précédentes. Les assignments gardés ne comptent plus comme des doublons. Aussi ajouté `mapInstance`, `spotHitchMap`, `homeMapInstance` à la skip list (propriétés, pas handlers).
+- **Leçon** : **Quand un check automatique a des faux positifs, le corriger IMMÉDIATEMENT plutôt que de l'ignorer. Un check avec trop de bruit est pire qu'aucun check — les vrais problèmes se noient dans le bruit. Toujours tester les patterns LÉGITIMES (lazy-loading guards, propriétés vs handlers) avant de déployer un check.**
+- **Fichiers** : `scripts/checks/error-patterns.mjs`
+- **Statut** : CORRIGÉ
+
+---
+
 ## Statistiques
 
 | Période | Bugs trouvés | Corrigés | En cours |
@@ -353,3 +392,4 @@ Chaque erreur suit ce format :
 | 2026-02-20 | 13 | 13 | 0 |
 | 2026-02-22 | 9 | 9 | 0 |
 | 2026-02-23 | 10 | 10 | 0 |
+| 2026-02-24 | 3 | 3 | 0 |
