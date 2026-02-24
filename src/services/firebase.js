@@ -893,5 +893,135 @@ async function deleteUserData(userId) {
   }
 }
 
+// ==================== ROADMAP VOTES & COMMENTS ====================
+
+/**
+ * Vote on a roadmap feature (up/down). One vote per user per feature.
+ * Uses document ID = `${featureId}_${userId}` for upsert.
+ */
+export async function setRoadmapVote(featureId, vote) {
+  try {
+    const user = getCurrentUser()
+    if (!user) return { success: false, error: 'not_authenticated' }
+    const voteId = `${featureId}_${user.uid}`
+    const voteRef = doc(db, 'roadmap_votes', voteId)
+    const existing = await getDoc(voteRef)
+
+    if (existing.exists() && existing.data().vote === vote) {
+      // Toggle off — same vote again removes it
+      const { deleteDoc } = await import('firebase/firestore')
+      await deleteDoc(voteRef)
+      return { success: true, action: 'removed' }
+    }
+
+    await setDoc(voteRef, {
+      featureId,
+      userId: user.uid,
+      vote,
+      updatedAt: serverTimestamp(),
+    })
+    return { success: true, action: 'set' }
+  } catch (error) {
+    console.error('Error setting roadmap vote:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Get all votes for all roadmap features.
+ * Returns { featureId: { up: N, down: N }, ... } + myVotes: { featureId: 'up'|'down' }
+ */
+export async function getRoadmapVotes() {
+  try {
+    const votesRef = collection(db, 'roadmap_votes')
+    const snapshot = await getDocs(votesRef)
+    const counts = {}
+    const myVotes = {}
+    const user = getCurrentUser()
+    const uid = user?.uid
+
+    snapshot.docs.forEach(d => {
+      const data = d.data()
+      const fid = data.featureId
+      if (!counts[fid]) counts[fid] = { up: 0, down: 0 }
+      if (data.vote === 'up') counts[fid].up++
+      if (data.vote === 'down') counts[fid].down++
+      if (uid && data.userId === uid) myVotes[fid] = data.vote
+    })
+
+    return { success: true, counts, myVotes }
+  } catch (error) {
+    console.error('Error getting roadmap votes:', error)
+    return { success: false, counts: {}, myVotes: {} }
+  }
+}
+
+/**
+ * Add a comment to a roadmap feature.
+ */
+export async function addRoadmapComment(featureId, text) {
+  try {
+    const user = getCurrentUser()
+    if (!user) return { success: false, error: 'not_authenticated' }
+
+    const commentsRef = collection(db, 'roadmap_comments')
+    await addDoc(commentsRef, {
+      featureId,
+      userId: user.uid,
+      username: user.displayName || 'Anonyme',
+      text: text.slice(0, 500),
+      createdAt: serverTimestamp(),
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('Error adding roadmap comment:', error)
+    return { success: false, error }
+  }
+}
+
+/**
+ * Get all comments for a specific feature, ordered by date.
+ */
+export async function getRoadmapComments(featureId) {
+  try {
+    const commentsRef = collection(db, 'roadmap_comments')
+    const q = query(commentsRef, where('featureId', '==', featureId), orderBy('createdAt', 'desc'))
+    const snapshot = await getDocs(q)
+    const comments = snapshot.docs.map(d => {
+      const data = d.data()
+      return {
+        id: d.id,
+        featureId: data.featureId,
+        username: data.username || 'Anonyme',
+        text: data.text,
+        date: data.createdAt?.toDate?.()?.toLocaleDateString?.() || '',
+      }
+    })
+    return { success: true, comments }
+  } catch (error) {
+    console.error('Error getting roadmap comments:', error)
+    return { success: false, comments: [] }
+  }
+}
+
+/**
+ * Get comment counts for all features (for list view).
+ */
+export async function getRoadmapCommentCounts() {
+  try {
+    const commentsRef = collection(db, 'roadmap_comments')
+    const snapshot = await getDocs(commentsRef)
+    const counts = {}
+    snapshot.docs.forEach(d => {
+      const fid = d.data().featureId
+      counts[fid] = (counts[fid] || 0) + 1
+    })
+    return { success: true, counts }
+  } catch (error) {
+    console.error('Error getting roadmap comment counts:', error)
+    return { success: false, counts: {} }
+  }
+}
+
 // Export instances for advanced usage
 export { app, auth, db, storage, messaging };

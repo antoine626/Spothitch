@@ -844,20 +844,86 @@ const ROADMAP_STATUS = {
   shipped: { fr: 'Livré', en: 'Shipped', es: 'Entregado', de: 'Ausgeliefert', cls: 'bg-emerald-500/20 text-emerald-400' },
 }
 
-function getRoadmapVotes() {
+// Local fallback helpers (used when Firebase is unavailable)
+function getLocalVotes() {
   try { return JSON.parse(localStorage.getItem('spothitch_roadmap_votes') || '{}') } catch { return {} }
 }
-function getRoadmapComments() {
+function getLocalComments() {
   try { return JSON.parse(localStorage.getItem('spothitch_roadmap_comments') || '[]') } catch { return [] }
 }
 
+// Get vote counts from state (loaded from Firebase) or fallback to local
 function getFeatureVoteCounts(featureId) {
-  const myVote = getRoadmapVotes()[featureId]
+  const state = window.getState?.() || {}
+  const counts = state.roadmapVoteCounts || {}
+  if (counts[featureId]) return counts[featureId].up || 0
+  // Fallback: local vote
+  const myVote = getLocalVotes()[featureId]
   return myVote === 'up' ? 1 : 0
 }
 
+function getMyVotes() {
+  const state = window.getState?.() || {}
+  if (state.roadmapMyVotes) return state.roadmapMyVotes
+  return getLocalVotes()
+}
+
 function getFeatureCommentCount(featureId) {
-  return getRoadmapComments().filter(c => c.featureId === featureId).length
+  const state = window.getState?.() || {}
+  const counts = state.roadmapCommentCounts || {}
+  if (counts[featureId] !== undefined) return counts[featureId]
+  return getLocalComments().filter(c => c.featureId === featureId).length
+}
+
+function getLoadedComments(featureId) {
+  const state = window.getState?.() || {}
+  const loaded = state.roadmapLoadedComments || {}
+  if (loaded[featureId]) return loaded[featureId]
+  return getLocalComments().filter(c => c.featureId === featureId)
+}
+
+// Load all roadmap data from Firebase
+let _roadmapLoading = false
+async function loadRoadmapData() {
+  if (_roadmapLoading) return
+  _roadmapLoading = true
+  try {
+    const fb = await import('../../services/firebase.js')
+    const [votesResult, commentCountsResult] = await Promise.all([
+      fb.getRoadmapVotes(),
+      fb.getRoadmapCommentCounts(),
+    ])
+    const updates = {}
+    if (votesResult.success) {
+      updates.roadmapVoteCounts = votesResult.counts
+      updates.roadmapMyVotes = votesResult.myVotes
+    }
+    if (commentCountsResult.success) {
+      updates.roadmapCommentCounts = commentCountsResult.counts
+    }
+    if (Object.keys(updates).length) {
+      window.setState?.(updates)
+    }
+  } catch (e) {
+    console.warn('Roadmap: Firebase unavailable, using local data', e)
+  } finally {
+    _roadmapLoading = false
+  }
+}
+
+// Load comments for a specific feature
+async function loadFeatureComments(featureId) {
+  try {
+    const fb = await import('../../services/firebase.js')
+    const result = await fb.getRoadmapComments(featureId)
+    if (result.success) {
+      const state = window.getState?.() || {}
+      const loaded = { ...(state.roadmapLoadedComments || {}), [featureId]: result.comments }
+      window.setState?.({ roadmapLoadedComments: loaded })
+    }
+  } catch (e) {
+    console.warn('Roadmap: could not load comments', e)
+  }
 }
 
 function lt(obj) {
@@ -867,6 +933,9 @@ function lt(obj) {
 }
 
 function renderRoadmapTab(state) {
+  // Trigger Firebase data load (non-blocking)
+  if (!state.roadmapVoteCounts) loadRoadmapData()
+
   if (state.roadmapFeatureId) {
     const feature = ROADMAP_FEATURES.find(f => f.id === state.roadmapFeatureId)
     if (feature) return renderRoadmapDetail(state, feature)
@@ -878,7 +947,7 @@ function renderRoadmapList(state) {
   const tab = state.roadmapListTab || 'popular'
   let features = [...ROADMAP_FEATURES]
   if (tab === 'shipped') features = features.filter(f => f.status === 'shipped')
-  const myVotes = getRoadmapVotes()
+  const myVotes = getMyVotes()
 
   return `
     <div>
@@ -1292,10 +1361,14 @@ const FEATURE_DETAIL_RENDERERS = {
 }
 
 function renderRoadmapDetail(state, feature) {
-  const myVotes = getRoadmapVotes()
+  // Load comments for this feature from Firebase
+  const loaded = state.roadmapLoadedComments || {}
+  if (!loaded[feature.id]) loadFeatureComments(feature.id)
+
+  const myVotes = getMyVotes()
   const myVote = myVotes[feature.id]
-  const comments = getRoadmapComments().filter(c => c.featureId === feature.id)
-  const commentCount = getFeatureCommentCount(feature.id)
+  const comments = getLoadedComments(feature.id)
+  const commentCount = comments.length
   const status = ROADMAP_STATUS[feature.status] || ROADMAP_STATUS.thinking
   const detailRenderer = FEATURE_DETAIL_RENDERERS[feature.id]
 
@@ -1917,26 +1990,71 @@ window.setRoadmapListTab = (tab) => {
   window.setState?.({ roadmapListTab: tab })
 }
 
-window.roadmapVote = (featureId) => {
-  const votes = getRoadmapVotes()
-  if (votes[featureId] === 'up') {
-    delete votes[featureId]
-  } else {
-    votes[featureId] = 'up'
+window.roadmapVote = async (featureId) => {
+  const state = window.getState?.() || {}
+  if (!state.isLoggedIn) {
+    window.showToast?.(t('loginRequired') || 'Connecte-toi pour voter', 'warning')
+    return
   }
-  localStorage.setItem('spothitch_roadmap_votes', JSON.stringify(votes))
-  window.render?.()
+  const myVotes = { ...(state.roadmapMyVotes || getLocalVotes()) }
+  const counts = { ...(state.roadmapVoteCounts || {}) }
+
+  // Optimistic update
+  if (myVotes[featureId] === 'up') {
+    delete myVotes[featureId]
+    if (counts[featureId]) {
+      const prev = counts[featureId].up || 0
+      counts[featureId] = { ...counts[featureId], up: Math.max(0, prev - 1) }
+    }
+  } else {
+    myVotes[featureId] = 'up'
+    if (!counts[featureId]) counts[featureId] = { up: 0, down: 0 }
+    const prev = counts[featureId].up || 0
+    counts[featureId] = { ...counts[featureId], up: prev + 1 }
+  }
+  // Save locally as fallback
+  localStorage.setItem('spothitch_roadmap_votes', JSON.stringify(myVotes))
+  window.setState?.({ roadmapMyVotes: myVotes, roadmapVoteCounts: counts })
+
+  // Sync to Firebase
+  try {
+    const fb = await import('../../services/firebase.js')
+    await fb.setRoadmapVote(featureId, 'up')
+  } catch (e) { console.warn('Roadmap vote sync failed', e) }
 }
 
-window.roadmapVoteDetail = (featureId, vote) => {
-  const votes = getRoadmapVotes()
-  if (votes[featureId] === vote) {
-    delete votes[featureId]
-  } else {
-    votes[featureId] = vote
+window.roadmapVoteDetail = async (featureId, vote) => {
+  const state = window.getState?.() || {}
+  if (!state.isLoggedIn) {
+    window.showToast?.(t('loginRequired') || 'Connecte-toi pour voter', 'warning')
+    return
   }
-  localStorage.setItem('spothitch_roadmap_votes', JSON.stringify(votes))
-  window.render?.()
+  const myVotes = { ...(state.roadmapMyVotes || getLocalVotes()) }
+  const counts = { ...(state.roadmapVoteCounts || {}) }
+  if (!counts[featureId]) counts[featureId] = { up: 0, down: 0 }
+
+  // Optimistic update
+  const prevVote = myVotes[featureId]
+  if (prevVote === vote) {
+    delete myVotes[featureId]
+    const prev = counts[featureId][vote] || 0
+    counts[featureId] = { ...counts[featureId], [vote]: Math.max(0, prev - 1) }
+  } else {
+    if (prevVote) {
+      const pv = counts[featureId][prevVote] || 0
+      counts[featureId] = { ...counts[featureId], [prevVote]: Math.max(0, pv - 1) }
+    }
+    myVotes[featureId] = vote
+    counts[featureId] = { ...counts[featureId], [vote]: (counts[featureId][vote] || 0) + 1 }
+  }
+  localStorage.setItem('spothitch_roadmap_votes', JSON.stringify(myVotes))
+  window.setState?.({ roadmapMyVotes: myVotes, roadmapVoteCounts: counts })
+
+  // Sync to Firebase
+  try {
+    const fb = await import('../../services/firebase.js')
+    await fb.setRoadmapVote(featureId, vote)
+  } catch (e) { console.warn('Roadmap vote sync failed', e) }
 }
 
 window.roadmapShowCommentInput = (featureId) => {
@@ -1952,21 +2070,37 @@ window.roadmapHideCommentInput = () => {
   window.setState?.({ roadmapCommentInput: null })
 }
 
-window.submitRoadmapComment = (featureId) => {
+window.submitRoadmapComment = async (featureId) => {
   const textarea = document.getElementById('roadmap-comment-input')
   const text = textarea?.value?.trim()
   if (!text) return
   const state = window.getState?.() || {}
-  const comments = getRoadmapComments()
-  comments.push({
+
+  // Optimistic: add comment to local state immediately
+  const newComment = {
     featureId,
     text: text.slice(0, 500),
     username: state.username || 'Anonyme',
     date: new Date().toLocaleDateString(),
-  })
-  localStorage.setItem('spothitch_roadmap_comments', JSON.stringify(comments))
-  window.setState?.({ roadmapCommentInput: null })
+  }
+  const loaded = { ...(state.roadmapLoadedComments || {}) }
+  loaded[featureId] = [newComment, ...(loaded[featureId] || [])]
+  const commentCounts = { ...(state.roadmapCommentCounts || {}) }
+  commentCounts[featureId] = (commentCounts[featureId] || 0) + 1
+
+  // Also save to localStorage as fallback
+  const localComments = getLocalComments()
+  localComments.push(newComment)
+  localStorage.setItem('spothitch_roadmap_comments', JSON.stringify(localComments))
+
+  window.setState?.({ roadmapCommentInput: null, roadmapLoadedComments: loaded, roadmapCommentCounts: commentCounts })
   window.showToast?.(t('roadmapCommentSent') || 'Merci pour ton avis !', 'success')
+
+  // Sync to Firebase
+  try {
+    const fb = await import('../../services/firebase.js')
+    await fb.addRoadmapComment(featureId, text)
+  } catch (e) { console.warn('Roadmap comment sync failed', e) }
 }
 
 window.openProgressionStats = () => {
