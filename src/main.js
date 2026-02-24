@@ -560,38 +560,18 @@ function restoreScrollPosition(tab) {
 /**
  * Main render function
  */
-// Keys that determine the visual layout — used for render fingerprinting
-const RENDER_KEYS = [
-  'activeTab', 'showLanding', 'showAddSpot', 'showAuth', 'showSOS', 'showTutorial',
-  'showFilters', 'showStats', 'showBadges', 'showChallenges', 'showShop', 'showMyRewards',
-  'showQuiz', 'showLeaderboard', 'showDailyReward', 'showSettings', 'showSideMenu',
-  'showCompanionModal', 'showGuidesOverlay', 'showIdentityVerification', 'showAgeVerification',
-  'showValidateSpot', 'showReport', 'showBlockModal', 'showBlockedUsers', 'showNearbyFriends',
-  'showProfileCustomization', 'showTripHistory', 'showFAQ', 'showLegal', 'showWelcome',
-  'showAdminPanel', 'showMyData', 'showTitles', 'showFriendProfile', 'showContactForm',
-  'showDeleteAccount', 'showDonation', 'showDonationThankYou', 'showTeamChallenges',
-  'showCreateTeam', 'showCreateTravelGroup', 'showTravelGroupDetail', 'showAccessibilityHelp',
-  'showConsentSettings', 'showTripPlanner', 'showTripMap', 'showAddFriend', 'showSafety',
-  'showInstallBanner', 'showBadgeDetail', 'showBadgePopup', 'showReviewForm', 'showReplyModal',
-  'showAmbassadorSuccess', 'showContactAmbassador', 'showAmbassadorProfile',
-  'selectedSpot', 'checkinSpot', 'newBadge', 'navigationActive', 'proximityAlertSpot',
-  'selectedCity', 'sosActive', 'sosSession', 'nearbyFriendsEnabled',
-  'spotDraftsBannerVisible', 'tripResults', 'activeSubTab', 'socialSubTab', 'chatSubTab',
-  'profileSubTab', 'groupSubTab', 'eventSubTab', 'addSpotStep', 'lang', 'theme',
-  'viewMode', 'splitView', 'showCompanionSearch', 'legalPage', 'guideSection',
-  'challengeTab', 'leaderboardTab', 'shopCategory', 'feedFilter', 'eventFilter',
-  'isLoggedIn', 'showLocationPermission', 'showSeasonRewards', 'showTitlePopup',
-  'showPhotoUpload', 'showCreateEvent', 'showPostTravelPlan', 'showTravelPlanDetail',
-  'selectedCountryGuide', 'selectedFriendChat', 'activeDMConversation',
-  '_tagRefresh', '_valRefresh',
-]
-
+// Dynamic render fingerprint — hashes all primitive state values (bool/string/number/null)
+// Skips arrays and objects (spots, messages, etc.) which don't affect layout directly
 function getRenderFingerprint(state) {
   let fp = ''
-  for (let i = 0; i < RENDER_KEYS.length; i++) {
-    const v = state[RENDER_KEYS[i]]
-    fp += v == null ? '0' : v === true ? '1' : v === false ? '2' : typeof v === 'string' ? v : '3'
-    fp += '|'
+  for (const key in state) {
+    const v = state[key]
+    if (v === null || v === undefined) { fp += '0|'; continue }
+    const t = typeof v
+    if (t === 'boolean') { fp += v ? '1|' : '2|'; continue }
+    if (t === 'string') { fp += v + '|'; continue }
+    if (t === 'number') { fp += v + '|'; continue }
+    // Skip arrays/objects — they're data, not layout flags
   }
   return fp
 }
