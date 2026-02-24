@@ -1308,10 +1308,7 @@ window.togglePrivacy = (key) => {
   window.render?.()
 }
 
-// --- Shared trips handler (#63) — kept for backward compat ---
-window.shareTrip = () => {
-  window.openAddPastTrip?.()
-}
+// shareTrip is defined in Planner.js (full async implementation)
 
 // --- Stats detail views ---
 window.openMySpots = () => window.setState?.({ profileDetailView: 'spots' })

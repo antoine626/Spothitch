@@ -91,7 +91,7 @@ export function trapFocus(element) {
  * @returns {string} Unique ID
  */
 export function generateId(prefix = 'aria') {
-  return `${prefix}-${Math.random().toString(36).substr(2, 9)}`;
+  return `${prefix}-${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`;
 }
 
 /**

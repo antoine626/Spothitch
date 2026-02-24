@@ -179,7 +179,7 @@ window.quickValidateSpot = (spotId) => {
   const state = getState()
   const checkinHistory = state.checkinHistory || []
   const newCheckin = {
-    id: `checkin_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    id: `checkin_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     spotId,
     type: 'quick_validation',
     timestamp: new Date().toISOString(),

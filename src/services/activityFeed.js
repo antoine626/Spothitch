@@ -59,7 +59,7 @@ export function addActivity(activity) {
   const activities = Storage.get(STORAGE_KEY) || []
 
   const newActivity = {
-    id: `activity_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    id: `activity_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     timestamp: Date.now(),
     ...activity
   }

@@ -38,31 +38,42 @@ const PATTERN_CHECKS = [
     name: 'Duplicate window.* handlers in non-main files',
     check(files) {
       const handlersByFile = {} // handler → [files]
+      const guardedAssignments = new Set() // "handler:relPath" for guarded assignments
       for (const file of files) {
         const content = readFileSync(file, 'utf-8')
         const relPath = relative(SRC_PATH, file)
-        const matches = content.match(/window\.(\w+)\s*=/g) || []
-        for (const m of matches) {
-          const handler = m.replace('window.', '').replace(/\s*=$/, '')
-          // Skip non-handler properties
-          if (['addEventListener', 'removeEventListener', 'onerror', 'onload',
-               'onunhandledrejection', 'onresize', 'onpopstate', 'onhashchange',
-               '__SPOTHITCH_VERSION__', '_lazyLoaders', '_loadedModules'].includes(handler)) continue
-          // Skip private/internal (prefixed with _)
-          if (handler.startsWith('_')) continue
+        const lines = content.split('\n')
+        // Skip non-handler properties
+        const SKIP = new Set(['addEventListener', 'removeEventListener', 'onerror', 'onload',
+             'onunhandledrejection', 'onresize', 'onpopstate', 'onhashchange',
+             '__SPOTHITCH_VERSION__', '_lazyLoaders', '_loadedModules',
+             'mapInstance', 'spotHitchMap', 'homeMapInstance'])
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i]
+          const m = line.match(/window\.(\w+)\s*=/)
+          if (!m) continue
+          const handler = m[1]
+          if (SKIP.has(handler) || handler.startsWith('_')) continue
+          // Check if this is a guarded assignment (if (!window.xxx) { window.xxx = ... })
+          const prevLines = lines.slice(Math.max(0, i - 3), i).join(' ')
+          if (new RegExp(`if\\s*\\(\\s*!\\s*window\\.${handler}\\s*\\)`).test(prevLines)) {
+            guardedAssignments.add(`${handler}:${relPath}`)
+          }
           if (!handlersByFile[handler]) handlersByFile[handler] = new Set()
           handlersByFile[handler].add(relPath)
         }
       }
       // The lazy-loading pattern: main.js has placeholder + module has real impl = OK
-      // Only flag handlers defined in 2+ NON-main.js files (real duplication)
-      // Or handlers in 3+ files total (even with main.js)
+      // Guarded assignments (if (!window.xxx)) are intentional fallbacks = OK
+      // Only flag real unguarded duplicates in 2+ non-main files
       const duplicates = Object.entries(handlersByFile)
-        .filter(([, fileSet]) => {
+        .filter(([name, fileSet]) => {
           const fileArr = [...fileSet]
           const nonMainFiles = fileArr.filter(f => f !== 'main.js')
-          // Real duplication: 2+ non-main files, or 3+ total files
-          return nonMainFiles.length > 1 || fileArr.length > 2
+          // Remove guarded files from duplication count
+          const unguardedNonMain = nonMainFiles.filter(f => !guardedAssignments.has(`${name}:${f}`))
+          // Real duplication: 2+ unguarded non-main files
+          return unguardedNonMain.length > 1
         })
         .map(([name, fileSet]) => `${name} defined in: ${[...fileSet].join(', ')}`)
       return duplicates

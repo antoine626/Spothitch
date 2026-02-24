@@ -138,7 +138,7 @@ export function createGroup(name, destination, dates = {}, options = {}) {
 
   const now = new Date().toISOString();
   const group = {
-    id: `group_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    id: `group_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     name: name.trim(),
     description: options.description || '',
     departure: options.departure || null,
@@ -496,7 +496,7 @@ export function inviteToGroup(groupId, userId, username = '') {
 
   // Create invitation
   const invitation = {
-    id: `inv_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    id: `inv_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     userId: userId,
     username: username || userId,
     invitedBy: currentUserId,
@@ -689,7 +689,7 @@ export function addItineraryStop(groupId, stop) {
   }
 
   const newStop = {
-    id: `stop_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    id: `stop_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     name: stop.name,
     location: stop.location || null,
     spotId: stop.spotId || null,

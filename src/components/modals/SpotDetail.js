@@ -356,7 +356,7 @@ function renderSpotReviews(spot) {
           <div class="p-3 rounded-xl bg-white/5">
             <div class="flex items-center gap-2 mb-2">
               <button
-                onclick="showFriendProfile('${escapeHTML(review.userId || 'user_' + Math.random().toString(36).slice(2))}')"
+                onclick="showFriendProfile('${escapeHTML(review.userId || 'user_' + crypto.getRandomValues(new Uint32Array(1))[0].toString(36))}')"
                 class="flex items-center gap-2 hover:opacity-80 transition-opacity"
               >
                 <span class="text-lg">${review.avatar || '🤙'}</span>

@@ -117,7 +117,7 @@ export function createEvent(eventData) {
   }
 
   const event = {
-    id: `event_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    id: `event_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     title: eventData.title.trim(),
     type: eventData.type,
     location: eventData.location || '',
@@ -306,7 +306,7 @@ export function postEventComment(eventId, text, replyToId = null) {
   }
 
   const comment = {
-    id: `comment_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    id: `comment_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     eventId,
     text: text.trim(),
     userId,

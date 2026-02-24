@@ -93,7 +93,7 @@ export function queueOfflineAction(action) {
   queue.push({
     ...action,
     timestamp: Date.now(),
-    id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    id: `${Date.now()}-${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
   });
   Storage.set(OFFLINE_QUEUE_KEY, queue);
 }

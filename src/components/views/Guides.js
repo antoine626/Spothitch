@@ -1027,18 +1027,6 @@ export function renderSafety() {
 window.setGuideSection = (section) => {
   window.setState?.({ guideSection: section })
 }
-
-window.selectGuide = (code) => {
-  window.setState?.({ selectedCountryGuide: code })
-}
-
-window.filterGuides = (query) => {
-  const cards = document.querySelectorAll('.guide-card')
-  const lowerQuery = query.toLowerCase()
-  cards.forEach(card => {
-    const country = card.dataset.country || ''
-    card.style.display = country.includes(lowerQuery) ? '' : 'none'
-  })
-}
+// selectGuide and filterGuides are defined in Travel.js (authoritative source)
 
 export default { renderGuides, renderCountryDetail, renderSafety }

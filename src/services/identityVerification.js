@@ -334,7 +334,7 @@ export async function sendPhoneVerification(phoneNumber) {
 
     // In production, this would use Firebase Phone Auth
     // For demo, we simulate sending a code
-    const verificationId = `verify_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    const verificationId = `verify_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`;
 
     // Store pending verification
     setState({

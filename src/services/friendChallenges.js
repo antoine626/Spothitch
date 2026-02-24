@@ -77,7 +77,7 @@ export function createChallenge(friendId, challengeTypeId, target, durationDays 
   );
 
   const challenge = {
-    id: `challenge_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    id: `challenge_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     type: challengeTypeId,
     creatorId: state.user?.uid || 'local',
     creatorName: state.username || t('me') || 'Moi',

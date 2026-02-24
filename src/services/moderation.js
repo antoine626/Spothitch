@@ -245,7 +245,7 @@ export function isUnderReview(type, targetId) {
  * Generate unique report ID
  */
 function generateReportId() {
-  return `report_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `report_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`;
 }
 
 /**

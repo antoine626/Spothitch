@@ -1080,12 +1080,13 @@ window.addFriendByName = async () => {
   }
 
   const avatars = ['🤙', '🧗', '🏄', '🚶', '🧭', '🎒', '🌍', '🛤️']
+  const rng = crypto.getRandomValues(new Uint32Array(3))
   const newFriend = {
     id: `friend_${Date.now()}`,
     name,
-    avatar: avatars[Math.floor(Math.random() * avatars.length)],
-    level: Math.floor(Math.random() * 10) + 1,
-    online: Math.random() > 0.5,
+    avatar: avatars[rng[0] % avatars.length],
+    level: (rng[1] % 10) + 1,
+    online: rng[2] % 2 === 0,
     unread: 0,
     addedAt: new Date().toISOString(),
   }

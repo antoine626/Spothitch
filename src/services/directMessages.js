@@ -97,7 +97,7 @@ export function sendDirectMessage(recipientId, text, options = {}) {
   }
 
   const message = {
-    id: `dm_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+    id: `dm_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`,
     text: text.trim(),
     senderId: userId,
     senderName: state.username || t('traveler') || 'Voyageur',

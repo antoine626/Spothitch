@@ -312,7 +312,7 @@ window.adminExportState = () => {
   window.showToast?.(t('stateExported') || 'State exporté', 'success');
 };
 
-window.openDonation = () => setState({ showDonation: true });
+// openDonation is defined in DonationCard.js (accepts amount/type params)
 window.openSOS = () => setState({ showSOS: true });
 window.openAddSpot = () => setState({ showAddSpot: true });
 window.openFilters = () => setState({ showFilters: true });
