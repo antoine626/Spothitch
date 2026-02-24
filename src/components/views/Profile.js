@@ -1,6 +1,6 @@
 /**
  * Profile View Component
- * Instagram-style profile with 3 sub-tabs: Profil, Progression, Réglages
+ * Instagram-style profile with 3 sub-tabs: Profil, Roadmap, Réglages
  */
 
 import { t } from '../../i18n/index.js'
@@ -8,9 +8,8 @@ import { renderDonationCard } from '../ui/DonationCard.js'
 import { renderTrustScoreCard } from '../../services/trustScore.js'
 import { icon } from '../../utils/icons.js'
 import { renderToggle } from '../../utils/toggle.js'
-import { getVipLevel, getLeague } from '../../data/vip-levels.js'
+import { getVipLevel } from '../../data/vip-levels.js'
 import { allBadges } from '../../data/badges.js'
-import { allChallenges } from '../../data/challenges.js'
 
 // ==================== LANGUAGE + COUNTRY MAPS ====================
 
@@ -83,7 +82,7 @@ export function renderProfile(state) {
       ${renderProfileSubTabs(subTab)}
       <div class="p-4 space-y-4 flex-1">
         ${subTab === 'profil' ? renderProfilTab(state) : ''}
-        ${subTab === 'progression' ? renderProgressionTab(state) : ''}
+        ${subTab === 'progression' ? renderRoadmapTab(state) : ''}
         ${subTab === 'reglages' ? `${renderReglagesTab(state)}${renderProfileFooter()}${renderVersionReset()}` : ''}
       </div>
     </div>
@@ -152,7 +151,7 @@ function renderLanguageLevelModal(state) {
 function renderProfileSubTabs(activeTab) {
   const tabs = [
     { id: 'profil', icon: 'user', label: t('profileTabProfil') || 'Profil' },
-    { id: 'progression', icon: 'star', label: t('profileTabProgression') || 'Progression' },
+    { id: 'progression', icon: 'star', label: t('profileTabRoadmap') || 'Roadmap' },
     { id: 'reglages', icon: 'settings', label: t('profileTabSettings') || 'Réglages' },
   ]
   return `
@@ -827,126 +826,243 @@ function renderMyCountriesList(state) {
   `
 }
 
-// ==================== TAB 2: PROGRESSION ====================
+// ==================== TAB 2: ROADMAP ====================
 
-function renderProgressionTab(state) {
-  return `
-    ${renderLeagueHeader(state)}
-    ${renderProgressStatCards(state)}
-    ${renderActiveChallenges(state)}
-    ${renderTrophiesGrid(state)}
-    ${renderDonationCard()}
-  `
+const ROADMAP_FEATURES = [
+  {
+    id: 'tech',
+    icon: '🚀',
+    title: { fr: 'Améliorations techniques', en: 'Technical Improvements', es: 'Mejoras técnicas', de: 'Technische Verbesserungen' },
+    desc: { fr: 'Google Maps, serveurs rapides', en: 'Google Maps, faster servers', es: 'Google Maps, servidores rápidos', de: 'Google Maps, schnellere Server' },
+    status: 'in_progress',
+    items: [
+      { icon: '🗺️', color: 'amber', title: { fr: 'Google Maps intégré', en: 'Integrated Google Maps', es: 'Google Maps integrado', de: 'Google Maps integriert' }, desc: { fr: 'Navigation plus fluide, vue satellite, meilleure précision GPS.', en: 'Smoother navigation, satellite view, better GPS accuracy.', es: 'Navegación más fluida, vista satélite, mejor precisión GPS.', de: 'Flüssigere Navigation, Satellitenansicht, bessere GPS-Genauigkeit.' }, impact: { fr: 'Navigation ++', en: 'Navigation ++', es: 'Navegación ++', de: 'Navigation ++' } },
+      { icon: '⚡', color: 'blue', title: { fr: 'Serveurs plus puissants', en: 'More powerful servers', es: 'Servidores más potentes', de: 'Leistungsstärkere Server' }, desc: { fr: 'Chargement instantané, même avec tous les spots.', en: 'Instant loading, even with all spots.', es: 'Carga instantánea, incluso con todos los spots.', de: 'Sofortiges Laden, auch mit allen Spots.' }, impact: { fr: 'Vitesse x10', en: 'Speed x10', es: 'Velocidad x10', de: 'Geschwindigkeit x10' } },
+      { icon: '📱', color: 'green', title: { fr: 'App plus réactive', en: 'More responsive app', es: 'App más reactiva', de: 'Reaktivere App' }, desc: { fr: 'Animations smooth, transitions rapides.', en: 'Smooth animations, fast transitions.', es: 'Animaciones suaves, transiciones rápidas.', de: 'Flüssige Animationen, schnelle Übergänge.' }, impact: { fr: 'Fluidité ++', en: 'Fluidity ++', es: 'Fluidez ++', de: 'Flüssigkeit ++' } },
+      { icon: '🔄', color: 'purple', title: { fr: 'Synchronisation temps réel', en: 'Real-time sync', es: 'Sincronización en tiempo real', de: 'Echtzeit-Synchronisation' }, desc: { fr: 'Spots et commentaires se mettent à jour instantanément.', en: 'Spots and comments update instantly.', es: 'Spots y comentarios se actualizan al instante.', de: 'Spots und Kommentare werden sofort aktualisiert.' }, impact: { fr: 'Actualité ++', en: 'Freshness ++', es: 'Actualidad ++', de: 'Aktualität ++' } },
+    ]
+  },
+  {
+    id: 'thumbs',
+    icon: '👍',
+    title: { fr: 'Pouces & Partenaires', en: 'Thumbs & Partners', es: 'Pulgares & Socios', de: 'Daumen & Partner' },
+    desc: { fr: 'Réductions Hostelworld, Patagonia...', en: 'Hostelworld, Patagonia discounts...', es: 'Descuentos Hostelworld, Patagonia...', de: 'Hostelworld, Patagonia Rabatte...' },
+    status: 'thinking',
+  },
+  {
+    id: 'leagues',
+    icon: '🏆',
+    title: { fr: 'Leagues & Classements', en: 'Leagues & Rankings', es: 'Ligas & Clasificaciones', de: 'Ligen & Ranglisten' },
+    desc: { fr: 'Compétition par pays, monde', en: 'Competition by country, worldwide', es: 'Competencia por país, mundial', de: 'Wettbewerb nach Land, weltweit' },
+    status: 'thinking',
+  },
+  {
+    id: 'cities',
+    icon: '🏙️',
+    title: { fr: 'Pages Villes', en: 'City Pages', es: 'Páginas de Ciudades', de: 'Stadtseiten' },
+    desc: { fr: 'Spots par direction, conseils', en: 'Spots by direction, tips', es: 'Spots por dirección, consejos', de: 'Spots nach Richtung, Tipps' },
+    status: 'thinking',
+  },
+  {
+    id: 'hostels',
+    icon: '🏨',
+    title: { fr: 'Auberges partenaires', en: 'Partner Hostels', es: 'Albergues asociados', de: 'Partnerherbergen' },
+    desc: { fr: 'Chill, Cheap, Party par ville', en: 'Chill, Cheap, Party by city', es: 'Chill, Barato, Fiesta por ciudad', de: 'Chill, Günstig, Party nach Stadt' },
+    status: 'thinking',
+  },
+  {
+    id: 'events',
+    icon: '🎉',
+    title: { fr: 'Événements', en: 'Events', es: 'Eventos', de: 'Veranstaltungen' },
+    desc: { fr: 'Meetups, rassemblements', en: 'Meetups, gatherings', es: 'Encuentros, reuniones', de: 'Meetups, Treffen' },
+    status: 'thinking',
+  },
+  {
+    id: 'groups',
+    icon: '👥',
+    title: { fr: 'Groupes & Courses', en: 'Groups & Races', es: 'Grupos & Carreras', de: 'Gruppen & Rennen' },
+    desc: { fr: 'Localisation amis, courses', en: 'Friends location, races', es: 'Ubicación amigos, carreras', de: 'Freunde-Standort, Rennen' },
+    status: 'thinking',
+  },
+]
+
+const ROADMAP_STATUS = {
+  in_progress: { fr: 'En cours', en: 'In progress', es: 'En curso', de: 'In Arbeit', cls: 'bg-amber-500/20 text-amber-500' },
+  thinking: { fr: 'En réflexion', en: 'Under review', es: 'En revisión', de: 'In Prüfung', cls: 'bg-blue-500/20 text-blue-400' },
+  shipped: { fr: 'Livré', en: 'Shipped', es: 'Entregado', de: 'Ausgeliefert', cls: 'bg-emerald-500/20 text-emerald-400' },
 }
 
-function renderLeagueHeader(state) {
-  const seasonPts = state.seasonPoints || 0
-  const league = getLeague(seasonPts)
-  const level = state.level || 1
-  const points = state.points || 0
-  const xpInLevel = points % 100
-  const xpNeeded = 100 - xpInLevel
-  return `
-    <div class="card p-5 bg-gradient-to-br from-amber-500/10 to-primary-500/10 border-amber-500/20">
-      <div class="flex items-center gap-3 mb-3">
-        <span class="text-4xl">${league.icon}</span>
-        <div>
-          <div class="text-sm text-slate-400">${t('league') || 'Ligue'}</div>
-          <div class="text-lg font-bold text-amber-400">${league.name}</div>
-          <div class="text-xs text-slate-400">${t('level') || 'Niveau'} ${level}</div>
-        </div>
-      </div>
-      <div class="w-full bg-white/10 rounded-full h-2.5 mb-2">
-        <div class="bg-gradient-to-r from-amber-500 to-primary-500 h-2.5 rounded-full transition-colors" style="width: ${xpInLevel}%"></div>
-      </div>
-      <p class="text-xs text-slate-400">${(t('xpRemaining') || '{xp} XP pour le prochain niveau').replace('{xp}', xpNeeded)}</p>
-    </div>
-  `
+function getRoadmapVotes() {
+  try { return JSON.parse(localStorage.getItem('spothitch_roadmap_votes') || '{}') } catch { return {} }
+}
+function getRoadmapComments() {
+  try { return JSON.parse(localStorage.getItem('spothitch_roadmap_comments') || '[]') } catch { return [] }
 }
 
-function renderProgressStatCards(state) {
-  const streak = state.dailyRewardStreak || 0
-  const rank = '#' + (state.leaderboardRank || '—')
-  const badgeCount = (state.badges || []).length
-  return `
-    <div class="grid grid-cols-3 gap-2">
-      <div class="card p-3 text-center">
-        <div class="text-2xl mb-1">🔥</div>
-        <div class="text-lg font-bold text-amber-400">${streak}</div>
-        <div class="text-[10px] text-slate-400">${t('streakDaysShort') || 'Série'}</div>
-      </div>
-      <div class="card p-3 text-center">
-        <div class="text-2xl mb-1">📊</div>
-        <div class="text-lg font-bold text-primary-400">${rank}</div>
-        <div class="text-[10px] text-slate-400">${t('rankShort') || 'Rang'}</div>
-      </div>
-      <div class="card p-3 text-center">
-        <div class="text-2xl mb-1">🏅</div>
-        <div class="text-lg font-bold text-emerald-400">${badgeCount}</div>
-        <div class="text-[10px] text-slate-400">${t('badgesCount') || 'Badges'}</div>
-      </div>
-    </div>
-  `
+function getFeatureVoteCounts(featureId) {
+  const allVotes = getRoadmapVotes()
+  const baseVotes = { tech: 47, thumbs: 38, leagues: 29, cities: 25, hostels: 22, events: 19, groups: 17 }
+  const base = baseVotes[featureId] || 0
+  const myVote = allVotes[featureId]
+  return base + (myVote === 'up' ? 1 : 0)
 }
 
-function renderActiveChallenges(state) {
-  const weeklyDefs = allChallenges.weekly || []
-  const items = weeklyDefs.slice(0, 3).map(ch => {
-    let current = 0
-    if (ch.type === 'spotsCreated') current = state.spotsCreated || 0
-    else if (ch.type === 'reviews') current = state.reviewsGiven || 0
-    else if (ch.type === 'checkins') current = state.checkins || 0
-    const pct = Math.min(100, Math.round((current / ch.target) * 100))
-    return { ...ch, current, pct }
-  })
+function getFeatureCommentCount(featureId) {
+  const comments = getRoadmapComments()
+  const baseCounts = { tech: 12, thumbs: 23, leagues: 8, cities: 15, hostels: 11, events: 7, groups: 14 }
+  return (baseCounts[featureId] || 0) + comments.filter(c => c.featureId === featureId).length
+}
+
+function lt(obj) {
+  if (!obj) return ''
+  const lang = (window.getState?.()?.lang) || 'en'
+  return obj[lang] || obj.en || obj.fr || ''
+}
+
+function renderRoadmapTab(state) {
+  if (state.roadmapFeatureId) {
+    const feature = ROADMAP_FEATURES.find(f => f.id === state.roadmapFeatureId)
+    if (feature) return renderRoadmapDetail(state, feature)
+  }
+  return renderRoadmapList(state)
+}
+
+function renderRoadmapList(state) {
+  const tab = state.roadmapListTab || 'popular'
+  let features = [...ROADMAP_FEATURES]
+  if (tab === 'popular') features.sort((a, b) => getFeatureVoteCounts(b.id) - getFeatureVoteCounts(a.id))
+  if (tab === 'shipped') features = features.filter(f => f.status === 'shipped')
+  const myVotes = getRoadmapVotes()
+
   return `
-    <div class="card p-4">
+    <div>
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-sm font-bold flex items-center gap-2">
-          ${icon('target', 'w-4 h-4 text-primary-400')}
-          ${t('activeChallenges') || 'Défis actifs'}
-        </h3>
-        <button onclick="openChallenges()" class="text-xs text-primary-400 hover:text-primary-300">${t('seeAll') || 'Voir tout'}</button>
+        <h2 class="text-lg font-bold">${icon('rocket', 'w-5 h-5 text-amber-400 inline-block mr-1')} ${t('roadmapTitle') || 'Feature Requests'}</h2>
       </div>
-      <div class="space-y-3">
-        ${items.map(ch => `
-          <div>
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-sm">${ch.icon} ${ch.name}</span>
-              <span class="text-xs text-slate-400">${ch.current}/${ch.target}</span>
-            </div>
-            <div class="w-full bg-white/10 rounded-full h-2">
-              <div class="bg-primary-500 h-2 rounded-full transition-colors" style="width: ${ch.pct}%"></div>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `
-}
+      <p class="text-slate-400 text-sm mb-3">${t('roadmapSubtitle') || 'Top des demandes de la communauté'}</p>
 
-function renderTrophiesGrid(state) {
-  const userBadges = state.badges || []
-  const earned = allBadges.filter(b => userBadges.includes(b.id))
-  return `
-    <div class="card p-4">
-      <h3 class="text-sm font-bold flex items-center gap-2 mb-3">
-        ${icon('trophy', 'w-4 h-4 text-amber-400')}
-        ${t('trophies') || 'Trophées'} (${earned.length}/${allBadges.length})
-      </h3>
-      <div class="grid grid-cols-6 gap-1.5">
-        ${allBadges.slice(0, 18).map(b => {
-          const unlocked = userBadges.includes(b.id)
+      <div class="flex gap-2 mb-4">
+        <button onclick="setRoadmapListTab('popular')" class="${tab === 'popular' ? 'bg-amber-500 text-black font-bold' : 'bg-white/10 text-white'} px-3 py-1.5 rounded-full text-xs transition-colors">🔥 ${t('roadmapPopular') || 'Populaires'}</button>
+        <button onclick="setRoadmapListTab('recent')" class="${tab === 'recent' ? 'bg-amber-500 text-black font-bold' : 'bg-white/10 text-white'} px-3 py-1.5 rounded-full text-xs transition-colors">🆕 ${t('roadmapRecent') || 'Récents'}</button>
+        <button onclick="setRoadmapListTab('shipped')" class="${tab === 'shipped' ? 'bg-amber-500 text-black font-bold' : 'bg-white/10 text-white'} px-3 py-1.5 rounded-full text-xs transition-colors">✅ ${t('roadmapShipped') || 'Livrés'}</button>
+      </div>
+
+      <div class="space-y-2.5">
+        ${features.length === 0 ? `<p class="text-center text-slate-500 py-8">${t('roadmapNoShipped') || 'Aucune feature livrée pour le moment'}</p>` : ''}
+        ${features.map(f => {
+          const votes = getFeatureVoteCounts(f.id)
+          const comments = getFeatureCommentCount(f.id)
+          const voted = myVotes[f.id] === 'up'
+          const status = ROADMAP_STATUS[f.status] || ROADMAP_STATUS.thinking
           return `
-            <button onclick="showBadgeDetail('${b.id}')" class="flex flex-col items-center p-1.5 rounded-lg ${unlocked ? 'bg-white/5' : 'bg-white/[0.02] opacity-40'} transition-colors">
-              <span class="text-xl">${b.icon}</span>
-            </button>
+            <div class="flex items-center gap-3 card p-3 cursor-pointer active:scale-[0.98] transition-transform" onclick="openRoadmapFeature('${f.id}')">
+              <button onclick="event.stopPropagation();roadmapVote('${f.id}')" class="flex flex-col items-center ${voted ? 'bg-amber-500 text-black' : 'bg-white/10 hover:bg-amber-500/20'} px-2.5 py-1.5 rounded-lg transition-colors shrink-0" aria-label="${t('roadmapUpvote') || 'Voter'}">
+                <span class="text-sm">▲</span>
+                <span class="font-bold text-sm">${votes}</span>
+              </button>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">${f.icon}</span>
+                  <h3 class="font-semibold text-sm truncate">${lt(f.title)}</h3>
+                </div>
+                <p class="text-slate-400 text-xs truncate">${lt(f.desc)}</p>
+                <div class="flex gap-2 mt-1">
+                  <span class="text-[10px] ${status.cls} px-2 py-0.5 rounded">${lt(status)}</span>
+                  <span class="text-slate-500 text-[10px]">💬 ${comments}</span>
+                </div>
+              </div>
+              ${icon('chevron-right', 'w-4 h-4 text-slate-600 shrink-0')}
+            </div>
           `
         }).join('')}
       </div>
-      ${allBadges.length > 18 ? `
-        <button onclick="openBadges()" class="mt-2 text-xs text-primary-400 hover:text-primary-300 w-full text-center">${t('seeAll') || 'Voir tout'}</button>
+
+      <button onclick="openProgressionStats()" class="block text-center text-slate-500 text-xs mt-5 w-full hover:text-amber-400 transition-colors">
+        ${t('roadmapSeeStats') || 'Voir mes stats & badges →'}
+      </button>
+    </div>
+  `
+}
+
+function renderRoadmapDetail(state, feature) {
+  const myVotes = getRoadmapVotes()
+  const myVote = myVotes[feature.id]
+  const comments = getRoadmapComments().filter(c => c.featureId === feature.id)
+  const commentCount = getFeatureCommentCount(feature.id)
+  const status = ROADMAP_STATUS[feature.status] || ROADMAP_STATUS.thinking
+
+  return `
+    <div>
+      <button onclick="closeRoadmapFeature()" class="text-sm text-slate-400 hover:text-white mb-4 flex items-center gap-1">
+        ${icon('arrow-left', 'w-4 h-4')} ${t('back') || 'Retour'}
+      </button>
+
+      <div class="mb-5">
+        <span class="text-[10px] ${status.cls} px-2 py-0.5 rounded font-bold uppercase">${lt(status)}</span>
+        <h2 class="text-xl font-bold mt-2">${feature.icon} ${lt(feature.title)}</h2>
+        <p class="text-slate-400 text-sm mt-1">${lt(feature.desc)}</p>
+      </div>
+
+      ${feature.items ? `
+        <div class="space-y-3 mb-5">
+          ${feature.items.map(item => `
+            <div class="card p-3">
+              <div class="flex items-start gap-3">
+                <div class="w-11 h-11 bg-${item.color}-500 rounded-xl flex items-center justify-center shrink-0">
+                  <span class="text-xl">${item.icon}</span>
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-bold text-sm">${lt(item.title)}</h3>
+                  <p class="text-slate-400 text-xs mt-0.5">${lt(item.desc)}</p>
+                  <span class="text-${item.color}-400 text-[10px] mt-1 inline-block">🎯 ${lt(item.impact)}</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
       ` : ''}
+
+      <div class="mb-5">
+        <p class="text-slate-400 text-sm mb-2">${t('roadmapWhatDoYouThink') || "Qu'en penses-tu ?"}</p>
+        <div class="flex gap-2">
+          <button onclick="roadmapVoteDetail('${feature.id}','up')" class="flex-1 py-2.5 rounded-xl font-bold text-sm border transition-colors ${myVote === 'up' ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30'}">
+            👍 ${t('roadmapApprove') || "J'approuve"}
+          </button>
+          <button onclick="roadmapVoteDetail('${feature.id}','down')" class="flex-1 py-2.5 rounded-xl font-bold text-sm border transition-colors ${myVote === 'down' ? 'bg-red-500 text-white border-red-500' : 'bg-red-500/10 text-red-400 border-red-500/30'}">
+            👎 ${t('roadmapDisapprove') || 'Pas convaincu'}
+          </button>
+        </div>
+        <button onclick="roadmapShowCommentInput('${feature.id}')" class="w-full bg-white/5 text-slate-400 py-2.5 rounded-xl mt-2 text-sm hover:bg-white/10 transition-colors">
+          💬 ${t('roadmapLeaveComment') || 'Laisser une remarque'}
+        </button>
+      </div>
+
+      ${state.roadmapCommentInput === feature.id ? `
+        <div class="card p-3 mb-4">
+          <textarea id="roadmap-comment-input" class="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-sm resize-none h-20 focus:border-amber-500/50 focus:outline-none" placeholder="${t('roadmapCommentPlaceholder') || 'Ton avis compte...'}" maxlength="500"></textarea>
+          <div class="flex gap-2 mt-2">
+            <button onclick="submitRoadmapComment('${feature.id}')" class="bg-amber-500 text-black px-4 py-1.5 rounded-lg text-sm font-bold">${t('send') || 'Envoyer'}</button>
+            <button onclick="roadmapHideCommentInput()" class="text-slate-400 text-sm">${t('cancel') || 'Annuler'}</button>
+          </div>
+        </div>
+      ` : ''}
+
+      <div>
+        <h3 class="font-bold text-sm flex items-center gap-2 mb-3">💬 ${t('roadmapComments') || 'Commentaires'} (${commentCount})</h3>
+        <div class="space-y-2">
+          ${comments.map(c => `
+            <div class="card p-3">
+              <div class="flex items-center gap-2 mb-1">
+                <div class="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center text-[10px] font-bold">${(c.username || '?')[0].toUpperCase()}</div>
+                <span class="font-bold text-xs">${c.username || t('anonymous') || 'Anonyme'}</span>
+                <span class="text-slate-500 text-[10px]">${c.date || ''}</span>
+              </div>
+              <p class="text-slate-300 text-xs">${c.text}</p>
+            </div>
+          `).join('')}
+          ${comments.length === 0 ? `<p class="text-slate-500 text-xs text-center py-3">${t('roadmapNoComments') || 'Aucun commentaire pour le moment'}</p>` : ''}
+        </div>
+      </div>
     </div>
   `
 }
@@ -1494,6 +1610,76 @@ window.submitPastTrip = () => {
   window.setState?.({ showAddPastTrip: false })
   window.showToast?.(t('tripSaved') || 'Voyage enregistré !', 'success')
   window.render?.()
+}
+
+// ==================== ROADMAP HANDLERS ====================
+
+window.openRoadmapFeature = (featureId) => {
+  window.setState?.({ roadmapFeatureId: featureId, roadmapCommentInput: null })
+}
+
+window.closeRoadmapFeature = () => {
+  window.setState?.({ roadmapFeatureId: null, roadmapCommentInput: null })
+}
+
+window.setRoadmapListTab = (tab) => {
+  window.setState?.({ roadmapListTab: tab })
+}
+
+window.roadmapVote = (featureId) => {
+  const votes = getRoadmapVotes()
+  if (votes[featureId] === 'up') {
+    delete votes[featureId]
+  } else {
+    votes[featureId] = 'up'
+  }
+  localStorage.setItem('spothitch_roadmap_votes', JSON.stringify(votes))
+  window.render?.()
+}
+
+window.roadmapVoteDetail = (featureId, vote) => {
+  const votes = getRoadmapVotes()
+  if (votes[featureId] === vote) {
+    delete votes[featureId]
+  } else {
+    votes[featureId] = vote
+  }
+  localStorage.setItem('spothitch_roadmap_votes', JSON.stringify(votes))
+  window.render?.()
+}
+
+window.roadmapShowCommentInput = (featureId) => {
+  const state = window.getState?.() || {}
+  if (!state.isLoggedIn) {
+    window.showToast?.(t('loginRequired') || 'Connecte-toi pour commenter', 'warning')
+    return
+  }
+  window.setState?.({ roadmapCommentInput: featureId })
+}
+
+window.roadmapHideCommentInput = () => {
+  window.setState?.({ roadmapCommentInput: null })
+}
+
+window.submitRoadmapComment = (featureId) => {
+  const textarea = document.getElementById('roadmap-comment-input')
+  const text = textarea?.value?.trim()
+  if (!text) return
+  const state = window.getState?.() || {}
+  const comments = getRoadmapComments()
+  comments.push({
+    featureId,
+    text: text.slice(0, 500),
+    username: state.username || 'Anonyme',
+    date: new Date().toLocaleDateString(),
+  })
+  localStorage.setItem('spothitch_roadmap_comments', JSON.stringify(comments))
+  window.setState?.({ roadmapCommentInput: null })
+  window.showToast?.(t('roadmapCommentSent') || 'Merci pour ton avis !', 'success')
+}
+
+window.openProgressionStats = () => {
+  window.setState?.({ showBadges: true })
 }
 
 export default { renderProfile }

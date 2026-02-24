@@ -317,6 +317,10 @@ const MAIN_JS_HANDLERS = [
   'saveSocialLink', 'addProfilePhoto', 'removeProfilePhoto',
   'closeLanguagePicker', 'langPickerFilter', 'selectLanguageFromPicker',
   'selectLanguageLevel', 'closeLanguageLevelPicker',
+  // Roadmap handlers (defined in Profile.js)
+  'openRoadmapFeature', 'closeRoadmapFeature', 'setRoadmapListTab',
+  'roadmapVote', 'roadmapVoteDetail', 'roadmapShowCommentInput',
+  'roadmapHideCommentInput', 'submitRoadmapComment', 'openProgressionStats',
   // Map extras (defined in Map.js)
   'searchLocation',
   // Chat extras (defined in Chat.js)
