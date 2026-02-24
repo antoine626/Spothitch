@@ -572,10 +572,73 @@ function renderVoyageGuidesTab(state) {
 
 // ==================== TAB 3: JOURNAL ====================
 
+function renderAddPastTripForm() {
+  return `
+    <div class="card p-4">
+      <div class="flex items-center gap-3 mb-4">
+        <button onclick="closeAddPastTrip()" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:bg-white/10 transition-colors">
+          ${icon('arrow-left', 'w-4 h-4')}
+        </button>
+        <h3 class="text-sm font-bold">${t('addPastTrip') || 'Nouveau voyage passé'}</h3>
+      </div>
+      <div class="space-y-3">
+        <div class="p-3 rounded-xl bg-white/5 space-y-2">
+          <div class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">${t('route') || 'ROUTE'}</div>
+          <div class="flex items-center gap-2">
+            <input id="past-trip-from" type="text" placeholder="${t('tripDeparture') || 'Départ'}"
+              class="flex-1 bg-white/10 rounded-lg px-3 py-2 text-sm placeholder-slate-500 border border-white/10 focus:border-primary-500/50 outline-none" />
+            <span class="text-slate-500 text-lg">&rarr;</span>
+            <input id="past-trip-to" type="text" placeholder="${t('tripArrival') || 'Arrivée'}"
+              class="flex-1 bg-white/10 rounded-lg px-3 py-2 text-sm placeholder-slate-500 border border-white/10 focus:border-primary-500/50 outline-none" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="p-3 rounded-xl bg-white/5">
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">${t('startDate') || 'Début'}</div>
+            <input id="past-trip-date" type="date" class="w-full bg-transparent text-sm text-slate-300 outline-none" />
+          </div>
+          <div class="p-3 rounded-xl bg-white/5">
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">${t('endDate') || 'Fin'}</div>
+            <input id="past-trip-date-end" type="date" class="w-full bg-transparent text-sm text-slate-300 outline-none" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="p-3 rounded-xl bg-white/5">
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">km</div>
+            <input id="past-trip-km" type="number" min="0" placeholder="—"
+              class="w-full bg-transparent text-sm text-slate-300 outline-none" />
+          </div>
+          <div class="p-3 rounded-xl bg-white/5">
+            <div class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">${t('lifts') || 'Stops'}</div>
+            <input id="past-trip-lifts" type="number" min="0" placeholder="—"
+              class="w-full bg-transparent text-sm text-slate-300 outline-none" />
+          </div>
+        </div>
+        <div class="p-3 rounded-xl bg-white/5">
+          <div class="text-[10px] text-emerald-400 uppercase tracking-wider font-bold mb-2">
+            ${t('journalNote') || 'Ma note de voyage'}
+          </div>
+          <textarea id="past-trip-note" rows="3"
+            placeholder="${t('journalNotePlaceholder') || 'Anecdote, conseil aux prochains...'}"
+            class="w-full bg-transparent text-sm text-slate-300 placeholder-slate-600 outline-none resize-none leading-relaxed"></textarea>
+        </div>
+        <button onclick="submitPastTrip()" class="btn-primary w-full py-3">
+          ${t('saveToJournal') || 'Sauvegarder dans mon journal'}
+        </button>
+      </div>
+    </div>
+  `
+}
+
 function renderJournalTab(state) {
   const tripDetailIndex = state.tripDetailIndex
   if (tripDetailIndex !== null && tripDetailIndex !== undefined) {
     return renderTripDetail(state, tripDetailIndex)
+  }
+
+  // Show add past trip form if requested
+  if (state.showAddPastTrip) {
+    return renderAddPastTripForm()
   }
 
   const journalSubTab = state.journalSubTab || 'mes-voyages'
@@ -648,15 +711,26 @@ function renderMesVoyages() {
       <div class="card p-8 text-center">
         ${icon('route', 'w-12 h-12 text-slate-700 mb-3')}
         <p class="text-slate-400">${t('voyageNoPastTrips') || 'Aucun voyage terminé'}</p>
-        <button onclick="setVoyageSubTab('voyage')" class="mt-4 text-sm text-primary-400 hover:text-primary-300 flex items-center gap-1 mx-auto">
-          ${icon('plus', 'w-4 h-4')} ${t('planTrip') || 'Planifier un voyage'}
-        </button>
+        <div class="flex justify-center gap-3 mt-4">
+          <button onclick="setVoyageSubTab('voyage')" class="text-sm text-primary-400 hover:text-primary-300 flex items-center gap-1">
+            ${icon('route', 'w-4 h-4')} ${t('planTrip') || 'Planifier un voyage'}
+          </button>
+          <span class="text-slate-600">&middot;</span>
+          <button onclick="openAddPastTrip()" class="text-sm text-primary-400 hover:text-primary-300 flex items-center gap-1">
+            ${icon('plus', 'w-4 h-4')} ${t('addPastTripShort') || 'Ajouter passé'}
+          </button>
+        </div>
       </div>
     `
   }
 
   return `
     <div class="space-y-3">
+      <div class="flex justify-end mb-1">
+        <button onclick="openAddPastTrip()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1">
+          ${icon('plus', 'w-3 h-3')} ${t('addPastTripShort') || 'Ajouter passé'}
+        </button>
+      </div>
       ${completedTrips.map(trip => {
         const globalIdx = savedTrips.indexOf(trip)
         const isPublic = trip.public || false
