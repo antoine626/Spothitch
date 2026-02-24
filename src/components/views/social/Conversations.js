@@ -194,7 +194,7 @@ function renderDMChat(state, recipientId) {
     <!-- Messages -->
     <div class="flex-1 overflow-y-auto p-4 space-y-3" id="dm-messages" role="log" aria-live="polite">
       ${messages.length > 0
-    ? messages.map(msg => renderDMMessage(msg, state)).join('')
+    ? messages.slice(-50).map(msg => renderDMMessage(msg, state)).join('')
     : `
           <div class="text-center py-12">
             <span class="text-4xl mb-4 block">💬</span>
@@ -306,7 +306,7 @@ function renderGroupChat(state, groupId) {
     <!-- Messages -->
     <div class="flex-1 overflow-y-auto p-4 space-y-3" id="group-chat-messages" role="log" aria-live="polite">
       ${messages.length > 0
-    ? messages.map(msg => renderGroupMessage(msg, state)).join('')
+    ? messages.slice(-50).map(msg => renderGroupMessage(msg, state)).join('')
     : `
           <div class="text-center py-12">
             <span class="text-4xl mb-4 block">🚗</span>

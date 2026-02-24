@@ -172,13 +172,17 @@ function startVersionCheck() {
   // Initial check to store current version
   checkVersion()
 
-  // Check regularly — EVEN when app is visible (user won't notice the fetch)
-  setInterval(checkVersion, CHECK_INTERVAL)
+  // Check regularly — pause when app is backgrounded to save network/battery
+  let versionInterval = setInterval(checkVersion, CHECK_INTERVAL)
 
-  // Check when user comes back from background
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
+      // User came back — check immediately + restart interval
       setTimeout(checkVersion, 2000)
+      if (!versionInterval) versionInterval = setInterval(checkVersion, CHECK_INTERVAL)
+    } else {
+      // App backgrounded — stop polling
+      if (versionInterval) { clearInterval(versionInterval); versionInterval = null }
     }
   })
 

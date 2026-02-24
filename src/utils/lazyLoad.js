@@ -124,6 +124,14 @@ export function preloadOnIdle() {
       },
       { timeout: 5000 }
     );
+    // Preload heavy view chunks during idle (Social, Gamification) so first tab switch is instant
+    requestIdleCallback(
+      () => {
+        import('../components/views/Social.js').catch(() => {})
+        import('../components/views/Profile.js').catch(() => {})
+      },
+      { timeout: 10000 }
+    );
   }
 }
 

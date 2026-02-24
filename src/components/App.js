@@ -481,6 +481,18 @@ export function afterRender(state) {
  * Initialize the home map (full-size MapLibre GL, shows spots in visible area)
  */
 // Load MapLibre CSS dynamically (once)
+// Cached favorites set — avoid JSON.parse on every GeoJSON build
+let _cachedFavSet = null
+let _cachedFavRaw = null
+function getFavoritesSet() {
+  const raw = localStorage.getItem('spothitch_favorites') || '[]'
+  if (raw !== _cachedFavRaw) {
+    _cachedFavRaw = raw
+    try { _cachedFavSet = new Set(JSON.parse(raw)) } catch { _cachedFavSet = new Set() }
+  }
+  return _cachedFavSet
+}
+
 let _mapCSSLoaded = false
 function loadMapCSS() {
   if (_mapCSSLoaded) return
@@ -604,9 +616,7 @@ function initHomeMap(state) {
     const spotsToGeoJSON = (spots, forceRebuild = false) => {
       if (forceRebuild) addedSpotIds.clear()
       const filtered = applySpotFilters(spots)
-      let favIds = []
-      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch { /* no-op */ }
-      const favSet = new Set(favIds)
+      const favSet = getFavoritesSet()
       const features = []
       filtered.forEach(spot => {
         if (addedSpotIds.has(spot.id)) return
@@ -1031,9 +1041,7 @@ function initTripMap(state) {
       }
 
       // Trip spot dots
-      let favIds = []
-      try { favIds = JSON.parse(localStorage.getItem('spothitch_favorites') || '[]') } catch { /* no-op */ }
-      const favSet = new Set(favIds)
+      const favSet = getFavoritesSet()
 
       const spots = results.spots || []
       const spotFeatures = []

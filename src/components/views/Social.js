@@ -570,7 +570,7 @@ function renderZoneChatOverlay(state) {
         ${state.chatLoading
     ? renderSkeletonChatList(6)
     : messages.length > 0
-      ? messages.map(msg => renderZoneMessage(msg, state)).join('')
+      ? messages.slice(-50).map(msg => renderZoneMessage(msg, state)).join('')
       : `
             <div class="text-center py-12">
               <span class="text-5xl mb-4 block">💬</span>
