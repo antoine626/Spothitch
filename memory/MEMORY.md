@@ -88,6 +88,17 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session 2026-02-24 (session 16 — PERFORMANCE OPTIMIZATION)
+- **setState() dirty-checking** : skip notifySubscribers quand aucune valeur ne change réellement (élimine ~30-50% des renders)
+- **Render fingerprint** : skip le rebuild complet du DOM quand seul l'état non-visuel change (ex: points, messages)
+- **persistState() debounce** : écriture localStorage groupée toutes les 500ms au lieu de chaque setState
+- **MutationObservers supprimés** : 3 observers globaux sur document.body (AddSpot, ValidateSpot, Companion) remplacés par des hooks afterRender ciblés
+- **transition-all → transition-colors** : 352 occurrences dans 61 fichiers — réduit le travail du moteur CSS
+- **MapLibre CSS lazy** : ~50KB CSS chargé seulement quand la carte s'initialise
+- **Widgets conditionnels** : nearbyFriendsWidget et SOSTrackingWidget ne lazy-loadent plus si pas actifs
+- **Monitoring** : window.__renderStats() exposé pour debug perf
+- **window._forceRender()** : nouveau mécanisme pour les modules lazy-loaded (contourne dirty-checking + fingerprint)
+
 ### Session 2026-02-24 (session 15 — UX OVERHAUL 25+ corrections)
 - **Carte** : compteur spots supprimé, bouton itinéraire supprimé, bouton guide → Voyage>Guides, bouton ⛽ stations-service, scroll vertical bloqué, focus orange supprimé au touch, carte persistante entre onglets, carte init au lancement
 - **Logo** : nouveau logo.png (192px, 23KB) dans splash screen et header

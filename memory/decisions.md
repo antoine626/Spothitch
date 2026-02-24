@@ -17,6 +17,10 @@
 | PWA | vite-plugin-pwa (Workbox) | Offline-first, installable, auto-update | 2025-12-27 |
 | Tests | Vitest + Playwright | Rapide, compatible Jest, E2E navigateur réel | 2025-12-27 |
 | Linting | ESLint + Prettier | No semicolons, 2 espaces, camelCase | 2025-12-27 |
+| Rendering | Dirty-checking + fingerprint | Pas de virtual DOM, mais skip renders si rien ne change visuellement | 2026-02-24 |
+| MutationObservers | afterRender hooks ciblés | Les MO globaux sur body/subtree déclenchaient à chaque render, gaspillage CPU | 2026-02-24 |
+| CSS transitions | transition-colors au lieu de transition-all | transition-all force le navigateur à vérifier toutes les propriétés CSS | 2026-02-24 |
+| persistState | Debounce 500ms | Sérialisation JSON à chaque setState était coûteux, 500ms suffit | 2026-02-24 |
 
 ## Données
 

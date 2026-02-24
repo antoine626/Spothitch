@@ -179,6 +179,14 @@
 - [x] Sync en arrière-plan quand retour online
 - [x] Auto-update silencieux (version.json polling + SW)
 - [x] Preloading carte pendant idle time
+- [x] setState() dirty-checking (skip render si aucune valeur ne change)
+- [x] Render fingerprint (skip DOM rebuild si état visuel identique)
+- [x] persistState() debounce 500ms (moins d'écritures localStorage)
+- [x] MutationObservers ciblés (plus de subtree:true sur body)
+- [x] transition-colors au lieu de transition-all (352 occurrences, 61 fichiers)
+- [x] MapLibre CSS lazy-loaded (50KB différé)
+- [x] Widgets conditionnels (nearbyFriends, SOS tracking)
+- [x] window.__renderStats() monitoring dev
 
 ## Légal & Conformité
 

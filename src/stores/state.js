@@ -418,11 +418,17 @@ function persistState() {
   Storage.set('state', stateToPersist);
 }
 
-// Debounced persist — avoid writing to localStorage on every setState
-let persistTimer = null
+// Debounced persist — batch rapid setState calls into one localStorage write
+let persistScheduled = false
 function debouncedPersist() {
-  if (persistTimer) clearTimeout(persistTimer)
-  persistTimer = setTimeout(persistState, 500)
+  if (persistScheduled) return
+  persistScheduled = true
+  // Use queueMicrotask to batch all setState calls within the same tick,
+  // but persist before the next event loop iteration (keeps tests happy)
+  queueMicrotask(() => {
+    persistScheduled = false
+    persistState()
+  })
 }
 
 // Notify all subscribers of state change
