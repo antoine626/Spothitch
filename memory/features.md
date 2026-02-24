@@ -203,12 +203,12 @@
 ## Monitoring & Tests
 
 - [x] Sentry error tracking (optionnel, chunk isolé)
-- [x] 104 tests wiring (handlers + modal flags)
+- [x] 123 tests wiring + impact analysis (handlers, modal flags, structure App/state/main)
 - [x] Tests integration modales
 - [x] E2E Playwright
 - [x] Visual regression (screenshots)
 - [x] Lighthouse CI
-- [x] Plan Wolf v4 (16 phases : code quality, tests, build, impact, features, regressions, wiring, button audit, dead code, audit, lighthouse, screenshots, feature scores, competitive intelligence, score, recommandations)
+- [x] ~~Plan Wolf v4~~ → v5 (16 phases, mode --delta, intégration Quality Gate, tracking tendances QG)
 - [x] Audit RGPD automatisé
 - [x] ESLint + Prettier + Husky pre-commit
 - [x] Quality Gate CI (6 checks automatiques : handlers, i18n, dead exports, security patterns, localStorage RGPD, error patterns — score /100, bloque le deploy si < 70)

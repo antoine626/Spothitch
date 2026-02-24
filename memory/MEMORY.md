@@ -104,7 +104,13 @@
   - Tracking des tendances QG dans `wolf-qg-history.json` (score par check, moyenne 7 jours, détection des dégradations)
   - Usage : `node scripts/plan-wolf.mjs --delta`
 - **Relation Wolf/QG** : Quality Gate = ceinture automatique (30s, chaque push). Plan Wolf = diagnostic complet (12min full, 3-4min delta, manuel).
-- Score QG : 74/100 (handlers 60, i18n 85, dead exports 70, security 100, localStorage 100, error patterns 40)
+- Score QG initial : 74/100
+- **Session 14b — Wolf fixes** :
+  - Supprimé 4 handlers dupliqués (filterGuides/selectGuide de Guides.js, openDonation de AdminPanel.js, shareTrip de Profile.js)
+  - Amélioré error-patterns check : reconnaît les assignments gardés (`if (!window.xxx)`) et ignore mapInstance
+  - Remplacé `Math.random()` par `crypto.getRandomValues()` pour la génération d'IDs dans 15 fichiers
+  - Créé `tests/impact-analysis.test.js` (16 tests : structure App.js, state.js, main.js) — satisfait Wolf Phase 7
+  - Score QG : 74 → **82/100** (error patterns 40→80, duplicate handlers éliminés, security IDs corrigés)
 
 ### Session 2026-02-24 (session 13 — 12 NOUVEAUX SCRIPTS D'AUDIT)
 - Créé 12 nouveaux scripts couvrant les fonctions non testées de l'app
