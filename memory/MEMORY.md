@@ -106,12 +106,18 @@
 
 **Phase 2 : 7 corrections UX**
 - **Autocomplete Photon API** : tous les champs de recherche utilisent Photon (50-100ms) au lieu de Nominatim (300-500ms), debounce réduit à 100ms
-- **Stations-service fixées** : le bouton ⛽ cherche maintenant dans le viewport de la carte (pas la route de navigation), avec garde zoom >= 8
+- **Stations-service fixées** : le bouton ⛽ cherche maintenant dans le viewport de la carte (pas la route de navigation), avec garde zoom >= 6
 - **GPS sur tous les appareils** : le bouton géolocalisation est toujours visible (pas conditionnel au GPS), demande la permission au clic
 - **Nearby spots supprimé** : bouton split view retiré, filtre "nearby" retiré de Spots.js
 - **Mini-map AddSpot fixée** : MapLibre CSS chargé avant l'initialisation de la mini-carte
 - **Guides simplifiés** : 3 onglets (Débuter, Pays, Sécurité) — phrases/événements/légalité sont dans chaque page pays
 - **Vote avec compteur** : les boutons utile/pas utile affichent le nombre de votes + feedback DOM instantané (plus de toast flottant)
+
+**Phase 3 : Corrections post-feedback**
+- **Boutons carte persistants** : zoom/GPS/stations injectés dans le conteneur #home-map préservé (plus de blink/flash sur re-render)
+- **Stations-service garde zoom 6** : abaissé de 8 à 6, toast de chargement ajouté, gestion erreur améliorée
+- **Sélecteur de langue onboarding** : 4 drapeaux (FR/EN/ES/DE) en haut à droite du carousel d'accueil, changement instantané sans rechargement
+- **toggleGasStationsOnMap supprimé** : le stub conflictuel dans main.js a été retiré
 
 ### Session 2026-02-24 (session 15 — UX OVERHAUL 25+ corrections)
 - **Carte** : compteur spots supprimé, bouton itinéraire supprimé, bouton guide → Voyage>Guides, bouton ⛽ stations-service, scroll vertical bloqué, focus orange supprimé au touch, carte persistante entre onglets, carte init au lancement

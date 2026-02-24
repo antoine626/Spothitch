@@ -26,6 +26,7 @@
 - [x] Focus orange/ambre supprimé au touch (conservé clavier)
 - [x] Carte persistante entre onglets (display:none au lieu de destruction DOM)
 - [x] Carte initialisée au lancement de l'app (pas seulement quand onglet carte affiché)
+- [x] Boutons carte persistants (zoom/GPS/stations injectés dans le DOM préservé, plus de clignotement)
 
 ## Spots
 
@@ -143,7 +144,7 @@
 
 ## Onboarding & UX
 
-- [x] Carousel d'accueil 5 slides (nouveaux visiteurs)
+- [x] Carousel d'accueil 6 slides (nouveaux visiteurs) + sélecteur de langue (4 drapeaux, changement instantané)
 - [x] Map-first : montrer la carte immédiatement
 - [x] États vides avec messages et actions
 - [x] Skeletons de chargement animés
