@@ -211,8 +211,9 @@
 - [x] Plan Wolf v4 (16 phases : code quality, tests, build, impact, features, regressions, wiring, button audit, dead code, audit, lighthouse, screenshots, feature scores, competitive intelligence, score, recommandations)
 - [x] Audit RGPD automatisé
 - [x] ESLint + Prettier + Husky pre-commit
-- [x] Quality Gate CI (5 checks automatiques : handlers, i18n, dead exports, security patterns, localStorage RGPD — score /100, bloque le deploy si < 80)
-- [x] Production Monitor (health check toutes les 6h : HTTP 200, version.json, headers sécurité, spots data)
+- [x] Quality Gate CI (6 checks automatiques : handlers, i18n, dead exports, security patterns, localStorage RGPD, error patterns — score /100, bloque le deploy si < 70)
+- [x] Production Monitor (health check toutes les 6h + alerte GitHub issue automatique si échec)
+- [x] Plan Wolf v5 (mode --delta, intégration Quality Gate, tracking tendances QG)
 
 ## Monétisation (préparé mais pas activé)
 

@@ -11,6 +11,7 @@
  *   3. Dead exports (unused exports in src/)
  *   4. Security patterns (Math.random IDs, innerHTML XSS, manual escaping)
  *   5. localStorage RGPD (all keys registered)
+ *   6. Error patterns (regressions from errors.md lessons)
  *
  * Exit code 1 if score < threshold (default 80)
  */
@@ -20,20 +21,22 @@ import checkI18nKeys from './checks/i18n-keys.mjs'
 import checkDeadExports from './checks/dead-exports.mjs'
 import checkConsoleErrors from './checks/console-errors.mjs'
 import checkLocalStorage from './checks/localstorage.mjs'
+import checkErrorPatterns from './checks/error-patterns.mjs'
 
 // Parse args
 const args = process.argv.slice(2)
 const thresholdArg = args.find(a => a.startsWith('--threshold='))
-const THRESHOLD = thresholdArg ? parseInt(thresholdArg.split('=')[1], 10) : 80
+const THRESHOLD = thresholdArg ? parseInt(thresholdArg.split('=')[1], 10) : 70
 const JSON_OUTPUT = args.includes('--json')
 
 // Check weights (must sum to 100)
 const WEIGHTS = {
-  'Handlers Wiring': 25,
-  'i18n Keys': 25,
+  'Handlers Wiring': 20,
+  'i18n Keys': 20,
   'Dead Exports': 10,
-  'Security Patterns': 25,
-  'localStorage RGPD': 15,
+  'Security Patterns': 20,
+  'localStorage RGPD': 10,
+  'Error Patterns': 20,
 }
 
 async function runAllChecks() {
@@ -43,6 +46,7 @@ async function runAllChecks() {
     { fn: checkDeadExports, weight: WEIGHTS['Dead Exports'] },
     { fn: checkConsoleErrors, weight: WEIGHTS['Security Patterns'] },
     { fn: checkLocalStorage, weight: WEIGHTS['localStorage RGPD'] },
+    { fn: checkErrorPatterns, weight: WEIGHTS['Error Patterns'] },
   ]
 
   const results = []

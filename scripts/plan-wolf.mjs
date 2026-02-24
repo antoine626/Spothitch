@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 /**
- * PLAN WOLF v4 — L'Equipe QA Autonome
+ * PLAN WOLF v5 — L'Equipe QA Autonome
  *
  * Un gardien intelligent qui teste CHAQUE bouton, compare avec la
  * concurrence, apprend de ses erreurs, et evolue continuellement.
  * Il travaille comme une equipe entiere de testeurs QA.
  *
+ * v5 improvements:
+ *   - Quality Gate integration (reads QG score, stores trends)
+ *   - Delta mode (--delta): only runs phases relevant to changed files
+ *   - QG trend tracking across runs (wolf-qg-history.json)
+ *
  * 16 phases :
- *   1. Code Quality       — ESLint, i18n, RGPD
+ *   1. Code Quality       — ESLint + Quality Gate integration (i18n, RGPD, handlers, security, error patterns)
  *   2. Unit Tests         — Vitest (wiring, integration, all)
  *   3. Build              — Vite build + bundle size + chunks
  *   4. Impact Analysis    — git diff, 2x attention fichiers modifies depuis dernier run
@@ -21,12 +26,13 @@
  *  12. Screenshots        — Playwright visual regression
  *  13. Feature Scores     — score par feature (carte, social, profil...)
  *  14. Competitive Intel  — recherche web par domaine, comparaison concurrents
- *  15. Score /100         — auto-evaluation + comparaison run precedent
+ *  15. Score /100         — auto-evaluation + comparaison run precedent + QG trends
  *  16. Recommendations    — conseils par phase, par feature, evolution
  *
  * Usage:
  *   node scripts/plan-wolf.mjs           # Full run (~12 min)
  *   node scripts/plan-wolf.mjs --quick   # Skip Lighthouse, Screenshots, Web Search
+ *   node scripts/plan-wolf.mjs --delta   # Only phases relevant to changed files (~3-4 min)
  */
 
 import { execSync } from 'child_process'
@@ -36,7 +42,9 @@ import { join, resolve, relative, basename } from 'path'
 const ROOT = resolve(process.cwd())
 const MEMORY_PATH = join(ROOT, 'wolf-memory.json')
 const FEATURES_PATH = join(ROOT, 'memory', 'features.md')
+const QG_HISTORY_PATH = join(ROOT, 'wolf-qg-history.json')
 const isQuick = process.argv.includes('--quick')
+const isDelta = process.argv.includes('--delta')
 const start = Date.now()
 
 // ═══════════════════════════════════════════════════════════════
@@ -185,17 +193,210 @@ function extractFeatureKeywords(snippets) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// DELTA MODE — only run phases relevant to changed files
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Get files changed since last wolf run (or last 24h if no memory)
+ * Returns { changedFiles: string[], categories: Set<string> }
+ * Categories: 'components', 'services', 'i18n', 'styles', 'config', 'tests', 'scripts'
+ */
+function getDeltaInfo() {
+  const lastRun = memory.runs[memory.runs.length - 1]
+  const since = lastRun ? lastRun.date.split('T')[0] : exec('date -d "24 hours ago" +%Y-%m-%d', { allowFail: true }) || '2026-01-01'
+
+  let diffOutput
+  try {
+    diffOutput = exec(`git log --since="${since}" --name-only --pretty=format: HEAD`, { allowFail: true })
+  } catch {
+    diffOutput = exec('git diff --name-only HEAD~5', { allowFail: true })
+  }
+
+  const changedFiles = [...new Set(diffOutput.split('\n').filter(f => f.trim()))]
+  const categories = new Set()
+
+  for (const f of changedFiles) {
+    if (f.includes('src/components/')) categories.add('components')
+    if (f.includes('src/services/')) categories.add('services')
+    if (f.includes('src/i18n/')) categories.add('i18n')
+    if (f.includes('src/styles/')) categories.add('styles')
+    if (f.includes('vite.config') || f.includes('.github/') || f.includes('package')) categories.add('config')
+    if (f.includes('tests/') || f.includes('e2e/')) categories.add('tests')
+    if (f.includes('scripts/')) categories.add('scripts')
+    if (f.includes('src/stores/')) categories.add('services')
+    if (f.includes('src/utils/')) categories.add('services')
+    if (f.includes('src/main.js')) { categories.add('components'); categories.add('services') }
+  }
+
+  return { changedFiles, categories }
+}
+
+/**
+ * Determine which phases to run in delta mode
+ */
+function getDeltaPhases(categories) {
+  const phases = new Set()
+
+  // Always run these lightweight phases
+  phases.add(1)  // Code Quality (includes QG integration)
+  phases.add(15) // Score
+  phases.add(16) // Recommendations
+
+  if (categories.has('components') || categories.has('services')) {
+    phases.add(2)  // Unit Tests
+    phases.add(4)  // Impact Analysis
+    phases.add(6)  // Regression Guard
+    phases.add(7)  // Wiring Integrity
+    phases.add(8)  // Button Audit
+    phases.add(9)  // Dead Code
+  }
+
+  if (categories.has('i18n')) {
+    phases.add(2) // Unit Tests (i18n tests)
+  }
+
+  if (categories.has('config') || categories.has('components')) {
+    phases.add(3)  // Build
+    phases.add(10) // Multi-Level Audit
+  }
+
+  if (categories.has('styles') || categories.has('components')) {
+    phases.add(11) // Lighthouse
+    phases.add(12) // Screenshots
+  }
+
+  if (categories.has('components') || categories.has('services')) {
+    phases.add(5)  // Feature Inventory
+    phases.add(13) // Feature Scores
+  }
+
+  return phases
+}
+
+// ═══════════════════════════════════════════════════════════════
+// QUALITY GATE INTEGRATION
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Run the Quality Gate and integrate its results
+ * Returns QG report object or null if QG not available
+ */
+function runQualityGate() {
+  try {
+    const output = exec('node scripts/quality-gate.mjs --json', { allowFail: true, timeout: 60000 })
+    if (!output) return null
+    const report = JSON.parse(output)
+
+    // Save to QG history
+    let history = []
+    if (existsSync(QG_HISTORY_PATH)) {
+      try { history = JSON.parse(readFileSync(QG_HISTORY_PATH, 'utf-8')) } catch { /* start fresh */ }
+    }
+    history.push({
+      date: new Date().toISOString(),
+      score: report.score,
+      checks: report.checks,
+    })
+    // Keep last 100 entries
+    if (history.length > 100) history = history.slice(-100)
+    writeFileSync(QG_HISTORY_PATH, JSON.stringify(history, null, 2))
+
+    return report
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Analyze QG score trends from history
+ */
+function analyzeQGTrends() {
+  if (!existsSync(QG_HISTORY_PATH)) return null
+  try {
+    const history = JSON.parse(readFileSync(QG_HISTORY_PATH, 'utf-8'))
+    if (history.length < 2) return null
+
+    const current = history[history.length - 1]
+    const prev = history[history.length - 2]
+    const weekAgo = history.filter(h => {
+      const d = new Date(h.date)
+      return d > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    })
+
+    const trends = {
+      current: current.score,
+      previous: prev.score,
+      diff: current.score - prev.score,
+      weekAvg: weekAgo.length > 0 ? Math.round(weekAgo.reduce((s, h) => s + h.score, 0) / weekAgo.length) : null,
+      weekMin: weekAgo.length > 0 ? Math.min(...weekAgo.map(h => h.score)) : null,
+      weekMax: weekAgo.length > 0 ? Math.max(...weekAgo.map(h => h.score)) : null,
+      totalRuns: history.length,
+      // Per-check trends
+      checkTrends: {},
+    }
+
+    if (current.checks && prev.checks) {
+      for (const check of current.checks) {
+        const prevCheck = prev.checks.find(c => c.name === check.name)
+        if (prevCheck) {
+          trends.checkTrends[check.name] = {
+            current: check.score,
+            previous: prevCheck.score,
+            diff: check.score - prevCheck.score,
+          }
+        }
+      }
+    }
+
+    return trends
+  } catch {
+    return null
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
 // PHASE 1: CODE QUALITY
 // ═══════════════════════════════════════════════════════════════
 
 function phase1_codeQuality() {
-  header(1, 'CODE QUALITY')
+  header(1, 'CODE QUALITY + QUALITY GATE')
   let score = 0
   const max = 15
   const findings = []
   const details = []
 
-  // ESLint
+  // === Run Quality Gate (integrates i18n, RGPD, handlers, security, error patterns) ===
+  const qgReport = runQualityGate()
+  if (qgReport) {
+    findings.push(`Quality Gate: ${qgReport.score}/100 (${qgReport.passed ? 'PASSED' : 'FAILED'})`)
+    for (const check of qgReport.checks) {
+      const icon = check.score >= 80 ? '+' : check.score >= 50 ? '~' : '!'
+      findings.push(`  [${icon}] ${check.name}: ${check.score}/100 (${check.errors}E ${check.warnings}W)`)
+    }
+
+    // QG score contributes 10 of 15 points
+    score += Math.round((qgReport.score / 100) * 10)
+
+    // QG trend analysis
+    const trends = analyzeQGTrends()
+    if (trends) {
+      const trendIcon = trends.diff > 0 ? '↑' : trends.diff < 0 ? '↓' : '→'
+      findings.push(`QG Trend: ${trends.current} ${trendIcon} (prev: ${trends.previous}, diff: ${trends.diff > 0 ? '+' : ''}${trends.diff})`)
+      if (trends.weekAvg !== null) {
+        findings.push(`QG 7-day: avg ${trends.weekAvg}, min ${trends.weekMin}, max ${trends.weekMax} (${trends.totalRuns} runs total)`)
+      }
+      // Flag degrading checks
+      for (const [name, t] of Object.entries(trends.checkTrends)) {
+        if (t.diff < -10) {
+          details.push(`QG DEGRADATION: ${name} dropped ${t.diff} points (${t.previous} → ${t.current})`)
+        }
+      }
+    }
+  } else {
+    findings.push('Quality Gate: not available (run node scripts/quality-gate.mjs)')
+  }
+
+  // ESLint (remaining 5 points)
   const eslintOk = execOk('npx eslint src/ --max-warnings=0')
   if (eslintOk) {
     score += 5
@@ -207,28 +408,6 @@ function phase1_codeQuality() {
     if (errorCount === 0) score += 3 // warnings only
     findings.push(`ESLint: ${errorCount} erreurs, ${warnCount} warnings`)
     details.push('Lancer npx eslint src/ --fix pour corriger automatiquement')
-  }
-
-  // i18n lint
-  const i18nOk = execOk('node scripts/lint-i18n.mjs')
-  if (i18nOk) {
-    score += 5
-    findings.push('i18n: 4 langues completes')
-  } else {
-    score += 2
-    findings.push('i18n: traductions manquantes detectees')
-    details.push('Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes')
-  }
-
-  // RGPD audit
-  const rgpdOk = execOk('node scripts/audit-rgpd.mjs')
-  if (rgpdOk) {
-    score += 5
-    findings.push('RGPD: conforme')
-  } else {
-    score += 1
-    findings.push('RGPD: cles localStorage non enregistrees')
-    details.push('Lancer node scripts/audit-rgpd.mjs pour voir les cles manquantes')
   }
 
   log(`  Score: ${score}/${max}`)
@@ -2970,29 +3149,44 @@ function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
 // ═══════════════════════════════════════════════════════════════
 
 log('\n' + '='.repeat(60))
-log('  PLAN WOLF v4 — L\'EQUIPE QA AUTONOME')
+log('  PLAN WOLF v5 — L\'EQUIPE QA AUTONOME')
 log('='.repeat(60))
-log(`Mode: ${isQuick ? 'QUICK (skip Lighthouse/Screenshots/Web Search)' : 'FULL (16 phases)'}`)
+const modeLabel = isDelta ? 'DELTA (changed files only)'
+  : isQuick ? 'QUICK (skip Lighthouse/Screenshots/Web Search)'
+  : 'FULL (16 phases)'
+log(`Mode: ${modeLabel}`)
 log(`Date: ${new Date().toISOString()}`)
 log(`Run #${memory.runs.length + 1}`)
 if (memory.runs.length > 0) {
   log(`Dernier run: ${memory.runs[memory.runs.length - 1].date} — Score: ${memory.runs[memory.runs.length - 1].score}/100`)
 }
 
-// Execute all 16 phases
-phase1_codeQuality()
-phase2_unitTests()
-phase3_build()
-phase4_impactAnalysis()
-phase5_featureInventory()
-phase6_regressionGuard()
-phase7_wiringIntegrity()
-phase8_buttonAudit()
-phase9_deadCode()
-phase10_multiLevel()
-phase11_lighthouse()
-phase12_screenshots()
-phase13_featureScores()
+// Delta mode: determine which phases to run
+let activePhases = null
+if (isDelta) {
+  const delta = getDeltaInfo()
+  activePhases = getDeltaPhases(delta.categories)
+  log(`\nDelta: ${delta.changedFiles.length} fichiers modifies`)
+  log(`Categories: ${[...delta.categories].join(', ') || 'aucune'}`)
+  log(`Phases actives: ${[...activePhases].sort((a, b) => a - b).join(', ')}`)
+}
+
+const shouldRun = (n) => !activePhases || activePhases.has(n)
+
+// Execute phases (respecting delta mode)
+if (shouldRun(1))  phase1_codeQuality()
+if (shouldRun(2))  phase2_unitTests()
+if (shouldRun(3))  phase3_build()
+if (shouldRun(4))  phase4_impactAnalysis()
+if (shouldRun(5))  phase5_featureInventory()
+if (shouldRun(6))  phase6_regressionGuard()
+if (shouldRun(7))  phase7_wiringIntegrity()
+if (shouldRun(8))  phase8_buttonAudit()
+if (shouldRun(9))  phase9_deadCode()
+if (shouldRun(10)) phase10_multiLevel()
+if (shouldRun(11)) phase11_lighthouse()
+if (shouldRun(12)) phase12_screenshots()
+if (shouldRun(13)) phase13_featureScores()
 // phase14_competitiveIntel() — désactivé (conseils internes uniquement)
 const scoreResult = phase15_score()
 const newRecs = phase16_recommendations(scoreResult)
@@ -3004,7 +3198,7 @@ const newRecs = phase16_recommendations(scoreResult)
 const totalTime = ((Date.now() - start) / 1000).toFixed(1)
 
 log('\n\n' + '='.repeat(60))
-log('  PLAN WOLF v4 — RAPPORT FINAL')
+log('  PLAN WOLF v5 — RAPPORT FINAL')
 log('='.repeat(60))
 
 // Quick summary at the top for fast scanning

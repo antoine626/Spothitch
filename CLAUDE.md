@@ -174,8 +174,9 @@ npm run build        # Build production
 npm run test:run     # Tests unitaires (une fois)
 npm run test:e2e     # Tests E2E
 npm run lint         # Linting
-node scripts/quality-gate.mjs  # Quality Gate (5 checks, score /100, seuil 80)
+node scripts/quality-gate.mjs  # Quality Gate (6 checks, score /100, seuil 70)
 node scripts/monitor.mjs       # Health check production
+node scripts/plan-wolf.mjs --delta  # Plan Wolf delta (fichiers modifiés uniquement)
 ```
 
 ### Conventions

@@ -88,16 +88,23 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
-### Session 2026-02-24 (session 14 — QUALITY GATE CI + PRODUCTION MONITOR)
-- **Quality Gate automatique** : 5 checks (handlers, i18n, dead exports, security patterns, localStorage RGPD)
-- Score /100, seuil 80, bloque le deploy si en dessous
-- Scripts : `scripts/quality-gate.mjs` + `scripts/checks/{handlers,i18n-keys,dead-exports,console-errors,localstorage}.mjs`
+### Session 2026-02-24 (session 14 — QUALITY GATE CI + PRODUCTION MONITOR + PLAN WOLF v5)
+- **Quality Gate automatique** : 6 checks (handlers, i18n, dead exports, security patterns, localStorage RGPD, error patterns)
+- Score /100, seuil 70, bloque le deploy si en dessous
+- Scripts : `scripts/quality-gate.mjs` + `scripts/checks/{handlers,i18n-keys,dead-exports,console-errors,localstorage,error-patterns}.mjs`
 - CI : nouveau job `quality-gate` dans `.github/workflows/ci.yml`, ajouté aux `needs` du deploy
+- **Error Patterns check** : vérifie automatiquement que les patterns interdits de errors.md ne reviennent pas (ERR-001 duplicates, ERR-019 escaping, ERR-011 MutationObserver, ERR-029 ghost states)
 - **Production Monitor** : health check toutes les 6h via cron GitHub Actions
 - Vérifie : HTTP 200, version.json, headers sécurité, chargement spots FR.json
+- **Alertes automatiques** : si le monitoring échoue → crée un issue GitHub avec label `monitor-alert`
 - Script : `scripts/monitor.mjs`, workflow : `.github/workflows/monitor.yml`
-- **Relation avec Plan Wolf** : Quality Gate = filet de sécurité continu (30s, chaque push). Plan Wolf = diagnostic complet (12min, manuel avant releases).
-- Score initial : 83/100 (handlers 60, i18n 85, dead exports 70, security 100, localStorage 100)
+- **Plan Wolf v5** :
+  - Intègre le Quality Gate dans phase 1 (évite la duplication)
+  - Nouveau mode `--delta` : n'exécute que les phases liées aux fichiers modifiés (~3-4 min au lieu de 12)
+  - Tracking des tendances QG dans `wolf-qg-history.json` (score par check, moyenne 7 jours, détection des dégradations)
+  - Usage : `node scripts/plan-wolf.mjs --delta`
+- **Relation Wolf/QG** : Quality Gate = ceinture automatique (30s, chaque push). Plan Wolf = diagnostic complet (12min full, 3-4min delta, manuel).
+- Score QG : 74/100 (handlers 60, i18n 85, dead exports 70, security 100, localStorage 100, error patterns 40)
 
 ### Session 2026-02-24 (session 13 — 12 NOUVEAUX SCRIPTS D'AUDIT)
 - Créé 12 nouveaux scripts couvrant les fonctions non testées de l'app
