@@ -798,8 +798,8 @@ async function initSpotMap() {
   }
 
   try {
-    // Load MapLibre CSS (required since it's lazy-loaded)
-    import('maplibre-gl/dist/maplibre-gl.css')
+    // Load MapLibre CSS (required since it's lazy-loaded — must await to ensure styles applied before map renders)
+    await import('maplibre-gl/dist/maplibre-gl.css')
 
     const maplibregl = await import('maplibre-gl')
 
@@ -826,6 +826,10 @@ async function initSpotMap() {
       center,
       zoom,
     })
+
+    // Force map to recalculate size after CSS and DOM settle
+    miniMap.once('load', () => { miniMap.resize() })
+    setTimeout(() => { if (miniMap) miniMap.resize() }, 200)
 
     if (window.spotFormData?.lat) {
       miniMapMarker = new maplibregl.default.Marker({ color: '#f59e0b' })

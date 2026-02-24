@@ -223,7 +223,7 @@ function renderEnRouteRadar(_state, activeTrip) {
 
 function renderTripForm(state) {
   return `
-    <div class="card p-4 space-y-4">
+    <div class="card p-4 space-y-4 !overflow-visible">
       <h3 class="font-bold text-base flex items-center gap-2">
         ${icon('signpost', 'w-5 h-5 text-primary-400')}
         ${t('newTrip') || 'Nouveau voyage'}
