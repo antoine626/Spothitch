@@ -98,6 +98,10 @@
 - **Widgets conditionnels** : nearbyFriendsWidget et SOSTrackingWidget ne lazy-loadent plus si pas actifs
 - **Monitoring** : window.__renderStats() exposé pour debug perf
 - **window._forceRender()** : nouveau mécanisme pour les modules lazy-loaded (contourne dirty-checking + fingerprint)
+- **Chat messages slice(-50)** : zone, DM et group chat limités aux 50 derniers messages (évite de générer des milliers de lignes HTML)
+- **Version check pause** : arrête le polling version.json quand l'app est en arrière-plan (économie réseau/batterie)
+- **Favorites cache** : parsed favorites set gardé en mémoire (évite JSON.parse à chaque render de la carte)
+- **Idle preload** : Social.js et Profile.js préchargés pendant le temps mort pour un changement d'onglet instantané
 
 ### Session 2026-02-24 (session 15 — UX OVERHAUL 25+ corrections)
 - **Carte** : compteur spots supprimé, bouton itinéraire supprimé, bouton guide → Voyage>Guides, bouton ⛽ stations-service, scroll vertical bloqué, focus orange supprimé au touch, carte persistante entre onglets, carte init au lancement

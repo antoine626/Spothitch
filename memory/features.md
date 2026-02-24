@@ -187,6 +187,10 @@
 - [x] MapLibre CSS lazy-loaded (50KB différé)
 - [x] Widgets conditionnels (nearbyFriends, SOS tracking)
 - [x] window.__renderStats() monitoring dev
+- [x] Chat messages windowed (derniers 50 seulement)
+- [x] Version check pause quand app backgrounded
+- [x] Favorites cache en mémoire (pas de JSON.parse répété)
+- [x] Idle preload Social.js + Profile.js
 
 ## Légal & Conformité
 
