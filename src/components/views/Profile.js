@@ -1817,7 +1817,7 @@ window.toggleProximityAlertsSetting = async () => {
     newValue ? (t('proximityAlertsEnabled') || 'Alertes de proximité activées') : (t('proximityAlertsDisabled') || 'Alertes de proximité désactivées'),
     'info'
   )
-  window.render?.()
+  window._forceRender?.()
 }
 
 window.editAvatar = () => {
@@ -1840,14 +1840,14 @@ window.editBio = () => {
   const trimmed = newBio.trim().slice(0, 200)
   localStorage.setItem('spothitch_bio', trimmed)
   window.showToast?.(t('bioSaved') || 'Bio enregistrée !', 'success')
-  window.render?.()
+  window._forceRender?.()
 }
 
 window.saveBio = (text) => {
   const trimmed = (text || '').trim().slice(0, 200)
   localStorage.setItem('spothitch_bio', trimmed)
   window.showToast?.(t('bioSaved') || 'Bio enregistrée !', 'success')
-  window.render?.()
+  window._forceRender?.()
 }
 
 // --- Languages handlers (#59) ---
@@ -1888,7 +1888,7 @@ window.selectLanguageLevel = (level) => {
   localStorage.setItem('spothitch_languages', JSON.stringify(langs.slice(0, 10)))
   window.showToast?.(t('languagesSaved') || 'Langue ajoutée !', 'success')
   window.setState?.({ showLanguageLevelPicker: false, langPickerSelectedName: null })
-  window.render?.()
+  window._forceRender?.()
 }
 
 window.closeLanguageLevelPicker = () => {
@@ -1900,7 +1900,7 @@ window.removeLanguage = (idx) => {
   const langs = normalizeLangs(raw)
   langs.splice(idx, 1)
   localStorage.setItem('spothitch_languages', JSON.stringify(langs))
-  window.render?.()
+  window._forceRender?.()
 }
 
 window.cycleLanguageLevel = (idx) => {
@@ -1910,7 +1910,7 @@ window.cycleLanguageLevel = (idx) => {
   const cur = langs[idx]?.level || 'courant'
   langs[idx].level = levels[(levels.indexOf(cur) + 1) % levels.length]
   localStorage.setItem('spothitch_languages', JSON.stringify(langs))
-  window.render?.()
+  window._forceRender?.()
 }
 
 // D3: Social links handler
@@ -1942,7 +1942,7 @@ window.addProfilePhoto = async (input) => {
     const dataUrl = canvas.toDataURL('image/webp', 0.7) || canvas.toDataURL('image/jpeg', 0.7)
     photos.push(dataUrl)
     localStorage.setItem('spothitch_profile_photos', JSON.stringify(photos))
-    window.render?.()
+    window._forceRender?.()
   }
   img.src = URL.createObjectURL(file)
 }
@@ -1951,7 +1951,7 @@ window.removeProfilePhoto = (idx) => {
   const photos = JSON.parse(localStorage.getItem('spothitch_profile_photos') || '[]')
   photos.splice(idx, 1)
   localStorage.setItem('spothitch_profile_photos', JSON.stringify(photos))
-  window.render?.()
+  window._forceRender?.()
 }
 
 // --- References handlers (#58) ---
@@ -1969,7 +1969,7 @@ window.togglePrivacy = (key) => {
   const privacy = JSON.parse(localStorage.getItem('spothitch_privacy') || JSON.stringify(defaults))
   privacy[key] = !privacy[key]
   localStorage.setItem('spothitch_privacy', JSON.stringify(privacy))
-  window.render?.()
+  window._forceRender?.()
 }
 
 // shareTrip is defined in Planner.js (full async implementation)
@@ -2012,7 +2012,7 @@ window.submitPastTrip = () => {
   localStorage.setItem('spothitch_saved_trips', JSON.stringify(trips))
   window.setState?.({ showAddPastTrip: false })
   window.showToast?.(t('tripSaved') || 'Voyage enregistré !', 'success')
-  window.render?.()
+  window._forceRender?.()
 }
 
 // ==================== ROADMAP HANDLERS ====================
@@ -2149,12 +2149,12 @@ window.openProgressionStats = () => {
 // --- Roadmap intro screens ---
 window.acceptRoadmapIntro = () => {
   localStorage.setItem('spothitch_roadmap_intro_seen', '1')
-  window.render?.()
+  window._forceRender?.()
 }
 
 window.dismissRoadmapDetailIntro = () => {
   localStorage.setItem('spothitch_roadmap_detail_seen', '1')
-  window.render?.()
+  window._forceRender?.()
 }
 
 export default { renderProfile }

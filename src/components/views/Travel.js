@@ -83,7 +83,7 @@ function renderPlanner(state) {
   return `
     <div class="space-y-4">
       <!-- New Trip Form -->
-      <div class="card p-4 space-y-4 !overflow-visible">
+      <div class="card p-4 space-y-4" style="overflow:visible!important">
         <h3 class="font-bold text-lg flex items-center gap-2">
           ${icon('signpost', 'w-5 h-5 text-primary-400')}
           ${t('newTrip') || 'Nouveau voyage'}
