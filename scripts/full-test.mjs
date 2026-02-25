@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * SpotHitch Full App Test — Exhaustive Human Simulation
+ * 🐜 LA FOURMI — SpotHitch Full App Test
  *
- * Tests EVERYTHING a real user can do, level by level.
- * Saves a report after each level so progress is never lost.
+ * Comme une fourmi, elle explore CHAQUE recoin de l'app,
+ * teste CHAQUE bouton, CHAQUE modal, CHAQUE écran.
+ * Méthodique, exhaustive, infatigable.
  *
  * Usage: node scripts/full-test.mjs [--level N] [--url URL]
  *   --level N   Start from level N (1-7, default: 1)
@@ -705,7 +706,7 @@ async function level7_Performance(page, browser) {
 
 async function main() {
   console.log('═══════════════════════════════════════════')
-  console.log('  SpotHitch Full App Test — 7 Levels')
+  console.log('  🐜 LA FOURMI — SpotHitch Full App Test')
   console.log(`  Target: ${TARGET_URL}`)
   console.log(`  Starting from level: ${startLevel}`)
   console.log('═══════════════════════════════════════════')
