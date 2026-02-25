@@ -52,5 +52,167 @@
         "warnings": 0
       }
     ]
+  },
+  {
+    "date": "2026-02-24T05:34:40.657Z",
+    "score": 82,
+    "checks": [
+      {
+        "name": "Handlers Wiring",
+        "score": 60,
+        "weight": 20,
+        "weightedScore": 12,
+        "errors": 22,
+        "warnings": 65
+      },
+      {
+        "name": "i18n Keys",
+        "score": 85,
+        "weight": 20,
+        "weightedScore": 17,
+        "errors": 0,
+        "warnings": 12
+      },
+      {
+        "name": "Dead Exports",
+        "score": 70,
+        "weight": 10,
+        "weightedScore": 7,
+        "errors": 0,
+        "warnings": 22
+      },
+      {
+        "name": "Security Patterns",
+        "score": 100,
+        "weight": 20,
+        "weightedScore": 20,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "localStorage RGPD",
+        "score": 100,
+        "weight": 10,
+        "weightedScore": 10,
+        "errors": 0,
+        "warnings": 11
+      },
+      {
+        "name": "Error Patterns",
+        "score": 80,
+        "weight": 20,
+        "weightedScore": 16,
+        "errors": 5,
+        "warnings": 0
+      }
+    ]
+  },
+  {
+    "date": "2026-02-24T16:51:57.976Z",
+    "score": 78,
+    "checks": [
+      {
+        "name": "Handlers Wiring",
+        "score": 60,
+        "weight": 20,
+        "weightedScore": 12,
+        "errors": 22,
+        "warnings": 65
+      },
+      {
+        "name": "i18n Keys",
+        "score": 85,
+        "weight": 20,
+        "weightedScore": 17,
+        "errors": 0,
+        "warnings": 12
+      },
+      {
+        "name": "Dead Exports",
+        "score": 70,
+        "weight": 10,
+        "weightedScore": 7,
+        "errors": 0,
+        "warnings": 22
+      },
+      {
+        "name": "Security Patterns",
+        "score": 100,
+        "weight": 20,
+        "weightedScore": 20,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "localStorage RGPD",
+        "score": 100,
+        "weight": 10,
+        "weightedScore": 10,
+        "errors": 0,
+        "warnings": 11
+      },
+      {
+        "name": "Error Patterns",
+        "score": 60,
+        "weight": 20,
+        "weightedScore": 12,
+        "errors": 7,
+        "warnings": 0
+      }
+    ]
+  },
+  {
+    "date": "2026-02-25T01:29:12.643Z",
+    "score": 78,
+    "checks": [
+      {
+        "name": "Handlers Wiring",
+        "score": 60,
+        "weight": 20,
+        "weightedScore": 12,
+        "errors": 22,
+        "warnings": 65
+      },
+      {
+        "name": "i18n Keys",
+        "score": 85,
+        "weight": 20,
+        "weightedScore": 17,
+        "errors": 0,
+        "warnings": 12
+      },
+      {
+        "name": "Dead Exports",
+        "score": 70,
+        "weight": 10,
+        "weightedScore": 7,
+        "errors": 0,
+        "warnings": 22
+      },
+      {
+        "name": "Security Patterns",
+        "score": 100,
+        "weight": 20,
+        "weightedScore": 20,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "localStorage RGPD",
+        "score": 100,
+        "weight": 10,
+        "weightedScore": 10,
+        "errors": 0,
+        "warnings": 11
+      },
+      {
+        "name": "Error Patterns",
+        "score": 60,
+        "weight": 20,
+        "weightedScore": 12,
+        "errors": 7,
+        "warnings": 0
+      }
+    ]
   }
 ]

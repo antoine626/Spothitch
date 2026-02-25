@@ -1969,6 +1969,160 @@
       ],
       "errors": 1,
       "recommendations": 47
+    },
+    {
+      "date": "2026-02-24T05:39:32.023Z",
+      "score": 71,
+      "confidence": "MOYENNE",
+      "duration": "292.7s",
+      "mode": "quick",
+      "bundleSize": 239,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 0,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 6,
+          "max": 12
+        },
+        {
+          "name": "Button & Link Audit",
+          "score": 5,
+          "max": 15
+        },
+        {
+          "name": "Dead Code",
+          "score": 5,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 4,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 3,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 10,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 47
+    },
+    {
+      "date": "2026-02-24T16:57:52.611Z",
+      "score": 71,
+      "confidence": "MOYENNE",
+      "duration": "357.3s",
+      "mode": "full",
+      "bundleSize": 236,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Unit Tests",
+          "score": 20,
+          "max": 20
+        },
+        {
+          "name": "Build",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Impact Analysis",
+          "score": 0,
+          "max": 10
+        },
+        {
+          "name": "Feature Inventory",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Regression Guard",
+          "score": 4,
+          "max": 10
+        },
+        {
+          "name": "Wiring Integrity",
+          "score": 6,
+          "max": 12
+        },
+        {
+          "name": "Button & Link Audit",
+          "score": 4,
+          "max": 15
+        },
+        {
+          "name": "Dead Code",
+          "score": 5,
+          "max": 10
+        },
+        {
+          "name": "Multi-Level Audit",
+          "score": 13,
+          "max": 15
+        },
+        {
+          "name": "Lighthouse",
+          "score": 3,
+          "max": 8
+        },
+        {
+          "name": "Screenshots",
+          "score": 5,
+          "max": 5
+        },
+        {
+          "name": "Feature Scores",
+          "score": 10,
+          "max": 10
+        }
+      ],
+      "errors": 1,
+      "recommendations": 68
     }
   ],
   "errors": [
@@ -2053,234 +2207,6 @@
   "patterns": [],
   "recommendations": [
     {
-      "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/en.js: fichier long (3703 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:37:11.358Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
-      "followedAt": "2026-02-23T03:52:20.351Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/es.js: fichier long (3700 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:37:11.358Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
-      "followedAt": "2026-02-23T03:52:20.351Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/fr.js: fichier long (3703 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:37:11.358Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
-      "followedAt": "2026-02-23T03:52:20.351Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/main.js: fichier long (2379 lignes) — verifier la lisibilite, 1 fonction(s) vide(s)",
-      "createdAt": "2026-02-23T03:37:11.358Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-23T03:52:20.351Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/services/teamChallenges.js: fichier long (667 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:37:11.358Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-23T03:52:20.351Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/stores/state.js: fichier long (649 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:37:11.358Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-23T03:52:20.351Z"
-    },
-    {
-      "source": "Button & Link Audit",
-      "text": "Handler vide: window.tripSearchSuggestions dans src/components/views/Voyage.js — cliquer ne fait rien",
-      "createdAt": "2026-02-23T03:37:11.359Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Bouton connecte a une fonction vide",
-      "explain": "La fonction existe mais son corps est vide = le bouton est la mais ne fait rien. C'est pire qu'un bouton manquant car l'utilisateur croit que ca marche.",
-      "action": "Implementer le contenu de la fonction ou supprimer le bouton si la feature n'existe pas encore.",
-      "impact": "Chaque bouton fait ce qu'il promet.",
-      "followedAt": "2026-02-23T03:52:20.351Z"
-    },
-    {
-      "source": "Tendance",
-      "text": "Le score baisse depuis 3 runs consecutifs",
-      "title": "Score en baisse",
-      "explain": "Le score du loup diminue a chaque verification. Ca veut dire que le code se degrade petit a petit au lieu de s'ameliorer.",
-      "action": "Regarder les recommandations non-suivies ci-dessous et les corriger une par une.",
-      "impact": "Remonter le score et eviter que des bugs s'accumulent.",
-      "priority": "HAUTE",
-      "createdAt": "2026-02-23T03:37:11.360Z",
-      "followed": true,
-      "followedAt": "2026-02-23T03:52:20.351Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "src/main.js affecte potentiellement 7 fichiers",
-      "createdAt": "2026-02-23T03:52:20.346Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "[Impact Analysis] src/main.js affecte potentiellement 7 fichiers",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Impact Analysis.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "7 fichier(s) modifie(s) sans test unitaire correspondant",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Fichiers modifies sans test correspondant",
-      "explain": "Des fichiers ont ete modifies mais il n'y a pas de test automatique qui verifie qu'ils marchent correctement.",
-      "action": "Ajouter des tests pour les fichiers modifies ou verifier manuellement.",
-      "impact": "Moins de risque de casser quelque chose sans s'en apercevoir.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/components/views/Voyage.js: fichier long (1181 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/de.js: fichier long (3712 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/en.js: fichier long (3715 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/es.js: fichier long (3712 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/fr.js: fichier long (3715 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/main.js: fichier long (2424 lignes) — verifier la lisibilite, 1 fonction(s) vide(s)",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Regression Guard",
-      "text": "Handler \"handleGoogleSignIn\" defini dans 2 fichiers: Auth, main",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Regression Guard",
-      "text": "Handler \"handleAppleSignIn\" defini dans 2 fichiers: Auth, main",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
-      "source": "Regression Guard",
-      "text": "Handler \"handleFacebookSignIn\" defini dans 2 fichiers: Auth, main",
-      "createdAt": "2026-02-23T03:52:20.347Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises.",
-      "followedAt": "2026-02-24T04:56:28.429Z"
-    },
-    {
       "source": "Regression Guard",
       "text": "... et 51 autres handlers dupliques",
       "createdAt": "2026-02-23T03:52:20.347Z",
@@ -2293,141 +2219,237 @@
       "followedAt": "2026-02-24T04:56:28.429Z"
     },
     {
-      "source": "Dead Code",
-      "text": "Fonction morte: \"signUp\" dans src/services/firebase.js — definie mais jamais appelee",
-      "createdAt": "2026-02-23T03:52:20.350Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Code mort detecte (fonctions jamais utilisees)",
-      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
-      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
-      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
-    },
-    {
-      "source": "Build",
-      "text": "Chunk trop gros: vendor-maplibre-CrWlTheU.js (998KB > 300KB) — verifier les imports",
-      "createdAt": "2026-02-24T04:56:28.422Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "L'app est un peu lourde a charger",
-      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
-      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
-      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G."
-    },
-    {
-      "source": "Build",
-      "text": "Chunk trop gros: vendor-sentry-B3OIgK6O.js (311KB > 300KB) — verifier les imports",
-      "createdAt": "2026-02-24T04:56:28.422Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "L'app est un peu lourde a charger",
-      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
-      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
-      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G."
-    },
-    {
       "source": "Impact Analysis",
       "text": "src/components/App.js, src/main.js, src/stores/state.js affecte potentiellement 116 fichiers",
       "createdAt": "2026-02-24T04:56:28.422Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "[Impact Analysis] src/components/App.js, src/main.js, src/stores/state.js affe",
       "explain": "Le loup a detecte un probleme dans cette phase.",
       "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Impact Analysis."
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "Tester TOUT apres modification de fichiers critiques",
-      "createdAt": "2026-02-24T04:56:28.423Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "[Impact Analysis] Tester TOUT apres modification de fichiers critiques",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Impact Analysis."
+      "impact": "Ameliorer le score de la phase Impact Analysis.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
     },
     {
       "source": "Impact Analysis",
       "text": "8 fichier(s) modifie(s) sans test unitaire correspondant",
       "createdAt": "2026-02-24T04:56:28.423Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Fichiers modifies sans test correspondant",
       "explain": "Des fichiers ont ete modifies mais il n'y a pas de test automatique qui verifie qu'ils marchent correctement.",
       "action": "Ajouter des tests pour les fichiers modifies ou verifier manuellement.",
-      "impact": "Moins de risque de casser quelque chose sans s'en apercevoir."
+      "impact": "Moins de risque de casser quelque chose sans s'en apercevoir.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
     },
     {
       "source": "Impact Analysis",
       "text": "[2x] src/components/App.js: fichier long (1268 lignes) — verifier la lisibilite",
       "createdAt": "2026-02-24T04:56:28.423Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Probleme dans un fichier recemment modifie (attention 2x)",
       "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
       "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien."
+      "impact": "Les modifications recentes sont validees et ne cassent rien.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
     },
     {
       "source": "Impact Analysis",
       "text": "[2x] src/components/views/Voyage.js: fichier long (1210 lignes) — verifier la lisibilite",
       "createdAt": "2026-02-24T04:56:28.423Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Probleme dans un fichier recemment modifie (attention 2x)",
       "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
       "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien."
+      "impact": "Les modifications recentes sont validees et ne cassent rien.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
     },
     {
       "source": "Impact Analysis",
       "text": "[2x] src/i18n/lang/de.js: fichier long (3732 lignes) — verifier la lisibilite",
       "createdAt": "2026-02-24T04:56:28.423Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Traductions manquantes",
       "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
       "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue."
+      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
     },
     {
       "source": "Impact Analysis",
       "text": "[2x] src/i18n/lang/en.js: fichier long (3735 lignes) — verifier la lisibilite",
       "createdAt": "2026-02-24T04:56:28.423Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Traductions manquantes",
       "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
       "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue."
+      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
     },
     {
       "source": "Impact Analysis",
       "text": "[2x] src/i18n/lang/es.js: fichier long (3732 lignes) — verifier la lisibilite",
       "createdAt": "2026-02-24T04:56:28.423Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Traductions manquantes",
       "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
       "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue."
+      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
     },
     {
       "source": "Impact Analysis",
       "text": "[2x] src/i18n/lang/fr.js: fichier long (3735 lignes) — verifier la lisibilite",
       "createdAt": "2026-02-24T04:56:28.423Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Traductions manquantes",
       "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
       "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue."
+      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
     },
     {
       "source": "Impact Analysis",
       "text": "[2x] src/main.js: fichier long (2537 lignes) — verifier la lisibilite, 1 fonction(s) vide(s)",
       "createdAt": "2026-02-24T04:56:28.423Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
+    },
+    {
+      "source": "Regression Guard",
+      "text": "... et 61 autres handlers dupliques",
+      "createdAt": "2026-02-24T04:56:28.424Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "[Regression Guard] ... et 61 autres handlers dupliques",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Regression Guard.",
+      "followedAt": "2026-02-24T05:39:31.945Z"
+    },
+    {
+      "source": "Dead Code",
+      "text": "... et 17 autres fonctions mortes",
+      "createdAt": "2026-02-24T04:56:28.428Z",
+      "followed": true,
+      "priority": "MOYENNE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Build",
+      "text": "Chunk trop gros: vendor-firebase-BFQlLlUR.js (364KB > 300KB) — verifier les imports",
+      "createdAt": "2026-02-24T05:39:31.943Z",
+      "followed": true,
+      "priority": "MOYENNE",
+      "title": "L'app est un peu lourde a charger",
+      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
+      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
+      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "src/stores/state.js affecte potentiellement 114 fichiers",
+      "createdAt": "2026-02-24T05:39:31.943Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "[Impact Analysis] src/stores/state.js affecte potentiellement 114 fichiers",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Impact Analysis.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "14 fichier(s) modifie(s) sans test unitaire correspondant",
+      "createdAt": "2026-02-24T05:39:31.943Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Fichiers modifies sans test correspondant",
+      "explain": "Des fichiers ont ete modifies mais il n'y a pas de test automatique qui verifie qu'ils marchent correctement.",
+      "action": "Ajouter des tests pour les fichiers modifies ou verifier manuellement.",
+      "impact": "Moins de risque de casser quelque chose sans s'en apercevoir.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/components/views/Guides.js: fichier long (1033 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T05:39:31.943Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/components/views/Profile.js: fichier long (1355 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T05:39:31.943Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/components/views/Social.js: fichier long (1111 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T05:39:31.943Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/events.js: fichier long (584 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T05:39:31.943Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/travelGroups.js: fichier long (1256 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T05:39:31.943Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien.",
+      "followedAt": "2026-02-24T16:57:52.531Z"
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/components/views/Voyage.js: fichier long (1317 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.529Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Probleme dans un fichier recemment modifie (attention 2x)",
@@ -2437,8 +2459,140 @@
     },
     {
       "source": "Impact Analysis",
-      "text": "[2x] src/stores/state.js: fichier long (652 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "text": "[2x] src/i18n/lang/de.js: fichier long (3755 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.529Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Traductions manquantes",
+      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
+      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
+      "impact": "Tous les utilisateurs voient l'app dans leur langue."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/i18n/lang/en.js: fichier long (3758 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.529Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Traductions manquantes",
+      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
+      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
+      "impact": "Tous les utilisateurs voient l'app dans leur langue."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/i18n/lang/es.js: fichier long (3755 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.529Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Traductions manquantes",
+      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
+      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
+      "impact": "Tous les utilisateurs voient l'app dans leur langue."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/i18n/lang/fr.js: fichier long (3758 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.529Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Traductions manquantes",
+      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
+      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
+      "impact": "Tous les utilisateurs voient l'app dans leur langue."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/main.js: fichier long (2610 lignes) — verifier la lisibilite, 3 fonction(s) vide(s)",
+      "createdAt": "2026-02-24T16:57:52.529Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/firebase.js: fichier long (1028 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/hostelRecommendations.js: 1 TODO/FIXME, fichier long (544 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Travail inacheve dans le code (TODO/placeholder)",
+      "explain": "Du code contient des marqueurs \"TODO\" ou \"Coming soon\" — ca veut dire que la fonctionnalite n'est pas finie.",
+      "action": "Finir l'implementation ou supprimer la fonctionnalite si elle n'est pas prioritaire.",
+      "impact": "Aucun placeholder visible par l'utilisateur — tout est fini et fonctionnel."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/nearbyFriends.js: fichier long (543 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/profileCustomization.js: fichier long (540 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/teamChallenges.js: fichier long (667 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/userBlocking.js: fichier long (678 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/stores/state.js: fichier long (675 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
+      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
+      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
+      "impact": "Les modifications recentes sont validees et ne cassent rien."
+    },
+    {
+      "source": "Impact Analysis",
+      "text": "[2x] src/utils/icons.js: fichier long (559 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Probleme dans un fichier recemment modifie (attention 2x)",
@@ -2449,7 +2603,7 @@
     {
       "source": "Regression Guard",
       "text": "Handler \"syncTripFieldsAndCalculate\" defini dans 3 fichiers: Travel, Voyage, main",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "createdAt": "2026-02-24T16:57:52.530Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Un handler est defini dans plusieurs fichiers",
@@ -2460,7 +2614,7 @@
     {
       "source": "Regression Guard",
       "text": "Handler \"swapTripPoints\" defini dans 3 fichiers: Travel, Voyage, main",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "createdAt": "2026-02-24T16:57:52.530Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Un handler est defini dans plusieurs fichiers",
@@ -2471,7 +2625,7 @@
     {
       "source": "Regression Guard",
       "text": "Handler \"openAdminPanel\" defini dans 2 fichiers: AdminPanel, main",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "createdAt": "2026-02-24T16:57:52.530Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Un handler est defini dans plusieurs fichiers",
@@ -2482,7 +2636,7 @@
     {
       "source": "Regression Guard",
       "text": "Handler \"closeAdminPanel\" defini dans 2 fichiers: AdminPanel, main",
-      "createdAt": "2026-02-24T04:56:28.424Z",
+      "createdAt": "2026-02-24T16:57:52.530Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Un handler est defini dans plusieurs fichiers",
@@ -2491,20 +2645,9 @@
       "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises."
     },
     {
-      "source": "Regression Guard",
-      "text": "... et 61 autres handlers dupliques",
-      "createdAt": "2026-02-24T04:56:28.424Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "[Regression Guard] ... et 61 autres handlers dupliques",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Regression Guard."
-    },
-    {
       "source": "Wiring Integrity",
       "text": "onclick=\"if()\" utilise dans le HTML mais window.if n'existe pas",
-      "createdAt": "2026-02-24T04:56:28.424Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Bouton HTML pointe vers une fonction qui n'existe pas",
@@ -2515,7 +2658,7 @@
     {
       "source": "Wiring Integrity",
       "text": "onclick=\"fn()\" utilise dans le HTML mais window.fn n'existe pas",
-      "createdAt": "2026-02-24T04:56:28.426Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Bouton HTML pointe vers une fonction qui n'existe pas",
@@ -2526,7 +2669,7 @@
     {
       "source": "Button & Link Audit",
       "text": "Bouton casse: onclick=\"fn()\" dans src/utils/sanitize.js — la fonction n'existe pas",
-      "createdAt": "2026-02-24T04:56:28.426Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
@@ -2537,7 +2680,29 @@
     {
       "source": "Button & Link Audit",
       "text": "Handler vide: window.spotMapPickLocation dans src/components/modals/AddSpot.js — cliquer ne fait rien",
-      "createdAt": "2026-02-24T04:56:28.426Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Bouton connecte a une fonction vide",
+      "explain": "La fonction existe mais son corps est vide = le bouton est la mais ne fait rien. C'est pire qu'un bouton manquant car l'utilisateur croit que ca marche.",
+      "action": "Implementer le contenu de la fonction ou supprimer le bouton si la feature n'existe pas encore.",
+      "impact": "Chaque bouton fait ce qu'il promet."
+    },
+    {
+      "source": "Button & Link Audit",
+      "text": "Handler vide: window.closeTripPlanner dans src/main.js — cliquer ne fait rien",
+      "createdAt": "2026-02-24T16:57:52.531Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Bouton connecte a une fonction vide",
+      "explain": "La fonction existe mais son corps est vide = le bouton est la mais ne fait rien. C'est pire qu'un bouton manquant car l'utilisateur croit que ca marche.",
+      "action": "Implementer le contenu de la fonction ou supprimer le bouton si la feature n'existe pas encore.",
+      "impact": "Chaque bouton fait ce qu'il promet."
+    },
+    {
+      "source": "Button & Link Audit",
+      "text": "Handler vide: window.closeGuidesOverlay dans src/main.js — cliquer ne fait rien",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Bouton connecte a une fonction vide",
@@ -2548,7 +2713,7 @@
     {
       "source": "Button & Link Audit",
       "text": "Handler vide: window.landingNext dans src/main.js — cliquer ne fait rien",
-      "createdAt": "2026-02-24T04:56:28.427Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Bouton connecte a une fonction vide",
@@ -2559,7 +2724,7 @@
     {
       "source": "Button & Link Audit",
       "text": "45x \"TODO\" — a implementer ou supprimer",
-      "createdAt": "2026-02-24T04:56:28.427Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Travail inacheve dans le code (TODO/placeholder)",
@@ -2569,8 +2734,19 @@
     },
     {
       "source": "Dead Code",
+      "text": "Fonction morte: \"signUp\" dans src/services/firebase.js — definie mais jamais appelee",
+      "createdAt": "2026-02-24T16:57:52.531Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Code mort detecte (fonctions jamais utilisees)",
+      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
+      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
+      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
+    },
+    {
+      "source": "Dead Code",
       "text": "Fonction morte: \"signIn\" dans src/services/firebase.js — definie mais jamais appelee",
-      "createdAt": "2026-02-24T04:56:28.428Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "MOYENNE",
       "title": "Code mort detecte (fonctions jamais utilisees)",
@@ -2581,7 +2757,7 @@
     {
       "source": "Dead Code",
       "text": "Fonction morte: \"signInWithGoogle\" dans src/services/firebase.js — definie mais jamais appelee",
-      "createdAt": "2026-02-24T04:56:28.428Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "MOYENNE",
       "title": "Code mort detecte (fonctions jamais utilisees)",
@@ -2591,30 +2767,8 @@
     },
     {
       "source": "Dead Code",
-      "text": "Fonction morte: \"signInWithFacebook\" dans src/services/firebase.js — definie mais jamais appelee",
-      "createdAt": "2026-02-24T04:56:28.428Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Code mort detecte (fonctions jamais utilisees)",
-      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
-      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
-      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
-    },
-    {
-      "source": "Dead Code",
-      "text": "Fonction morte: \"signInWithApple\" dans src/services/firebase.js — definie mais jamais appelee",
-      "createdAt": "2026-02-24T04:56:28.428Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Code mort detecte (fonctions jamais utilisees)",
-      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
-      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
-      "impact": "Code plus leger, plus clair, et plus facile a maintenir."
-    },
-    {
-      "source": "Dead Code",
-      "text": "... et 17 autres fonctions mortes",
-      "createdAt": "2026-02-24T04:56:28.428Z",
+      "text": "... et 18 autres fonctions mortes",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "MOYENNE",
       "title": "Code mort detecte (fonctions jamais utilisees)",
@@ -2625,17 +2779,17 @@
   ],
   "featureBaseline": null,
   "dependencyGraph": {
-    "totalFiles": 172,
-    "totalLinks": 427,
-    "updatedAt": "2026-02-24T04:55:45.802Z"
+    "totalFiles": 173,
+    "totalLinks": 432,
+    "updatedAt": "2026-02-24T16:57:05.126Z"
   },
   "selfEvaluation": {
-    "date": "2026-02-24T04:56:28.532Z",
-    "score": 70,
+    "date": "2026-02-24T16:57:52.604Z",
+    "score": 71,
     "perPhase": [
       {
         "name": "Code Quality",
-        "pct": 80,
+        "pct": 87,
         "verdict": "BON"
       },
       {
@@ -2670,7 +2824,7 @@
       },
       {
         "name": "Button & Link Audit",
-        "pct": 33,
+        "pct": 27,
         "verdict": "CRITIQUE"
       },
       {
@@ -2685,13 +2839,13 @@
       },
       {
         "name": "Lighthouse",
-        "pct": 50,
-        "verdict": "A AMELIORER"
+        "pct": 38,
+        "verdict": "CRITIQUE"
       },
       {
         "name": "Screenshots",
-        "pct": 60,
-        "verdict": "A AMELIORER"
+        "pct": 100,
+        "verdict": "PARFAIT"
       },
       {
         "name": "Feature Scores",
@@ -2700,27 +2854,40 @@
       }
     ],
     "globalInsights": [
-      "Detection trop bruyante (47 recs brutes). Augmenter les seuils de tolerance.",
+      "Detection trop bruyante (68 recs brutes). Augmenter les seuils de tolerance.",
       "Ecart de 100% entre phases — \"Impact Analysis\" tire le score vers le bas.",
-      "Tendance positive: score actuel (70) au-dessus de la moyenne des 5 derniers runs (71).",
-      "Couverture de tests: 120/172 fichiers src/ references dans les tests (70%)."
+      "Score stable autour de 71/100 sur les 5 derniers runs.",
+      "Couverture de tests: 121/173 fichiers src/ references dans les tests (70%)."
     ],
     "evolutionItems": [
       "\"Impact Analysis\" bloquee a 0% depuis 3 runs. Besoin d'une action differente.",
       "\"Regression Guard\" bloquee a 40% depuis 3 runs. Besoin d'une action differente.",
+      "\"Wiring Integrity\" bloquee a 50% depuis 3 runs. Besoin d'une action differente.",
+      "\"Button & Link Audit\" bloquee a 33% depuis 3 runs. Besoin d'une action differente.",
       "\"Dead Code\" bloquee a 50% depuis 3 runs. Besoin d'une action differente.",
-      "\"Lighthouse\" bloquee a 38% depuis 3 runs. Besoin d'une action differente.",
       "Priorite #1 pour le prochain run: ameliorer \"Impact Analysis\" (0%).",
       "Prochain ajout possible: phase \"Test Coverage\" (% de fichiers avec tests)."
     ],
     "coveragePct": 70,
-    "recommendationFollowRate": 64
+    "recommendationFollowRate": 58
   },
   "_dedupedRecs": [
     {
+      "source": "Code Quality",
+      "text": "QG DEGRADATION: Error Patterns dropped -20 points (80 → 60)",
+      "createdAt": "2026-02-24T16:57:52.529Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "[Code Quality] QG DEGRADATION: Error Patterns dropped -20 points (80 → 60)",
+      "explain": "Le loup a detecte un probleme dans cette phase.",
+      "action": "Investiguer le detail ci-dessus.",
+      "impact": "Ameliorer le score de la phase Code Quality.",
+      "count": 1
+    },
+    {
       "source": "Build",
       "text": "Chunk trop gros: vendor-maplibre-CrWlTheU.js (998KB > 300KB) — verifier les imports",
-      "createdAt": "2026-02-24T04:56:28.422Z",
+      "createdAt": "2026-02-24T16:57:52.529Z",
       "followed": false,
       "priority": "MOYENNE",
       "title": "L'app est un peu lourde a charger",
@@ -2731,8 +2898,8 @@
     },
     {
       "source": "Impact Analysis",
-      "text": "src/components/App.js, src/main.js, src/stores/state.js affecte potentiellement 116 fichiers",
-      "createdAt": "2026-02-24T04:56:28.422Z",
+      "text": "src/components/App.js, src/main.js, src/stores/state.js affecte potentiellement 130 fichiers",
+      "createdAt": "2026-02-24T16:57:52.529Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "[Impact Analysis] src/components/App.js, src/main.js, src/stores/state.js affe",
@@ -2744,7 +2911,7 @@
     {
       "source": "Impact Analysis",
       "text": "Tester TOUT apres modification de fichiers critiques",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "createdAt": "2026-02-24T16:57:52.529Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "[Impact Analysis] Tester TOUT apres modification de fichiers critiques",
@@ -2755,8 +2922,8 @@
     },
     {
       "source": "Impact Analysis",
-      "text": "8 fichier(s) modifie(s) sans test unitaire correspondant",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "text": "71 fichier(s) modifie(s) sans test unitaire correspondant",
+      "createdAt": "2026-02-24T16:57:52.529Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Fichiers modifies sans test correspondant",
@@ -2767,20 +2934,20 @@
     },
     {
       "source": "Impact Analysis",
-      "text": "[2x] src/components/App.js: fichier long (1268 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "text": "[2x] src/components/App.js: fichier long (1312 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.529Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Probleme dans un fichier recemment modifie (attention 2x)",
       "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
       "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
       "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "count": 4
+      "count": 20
     },
     {
       "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/de.js: fichier long (3732 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "text": "[2x] src/i18n/lang/de.js: fichier long (3755 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.529Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Traductions manquantes",
@@ -2790,9 +2957,33 @@
       "count": 4
     },
     {
+      "source": "Impact Analysis",
+      "text": "[2x] src/services/hostelRecommendations.js: 1 TODO/FIXME, fichier long (544 lignes) — verifier la lisibilite",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Travail inacheve dans le code (TODO/placeholder)",
+      "explain": "Du code contient des marqueurs \"TODO\" ou \"Coming soon\" — ca veut dire que la fonctionnalite n'est pas finie.",
+      "action": "Finir l'implementation ou supprimer la fonctionnalite si elle n'est pas prioritaire.",
+      "impact": "Aucun placeholder visible par l'utilisateur — tout est fini et fonctionnel.",
+      "count": 2
+    },
+    {
+      "source": "Feature Inventory",
+      "text": "MEMOIRE PERIMEE: features.md dit \"123 tests wiring\" mais il y en a 107",
+      "createdAt": "2026-02-24T16:57:52.530Z",
+      "followed": false,
+      "priority": "MOYENNE",
+      "title": "Chiffres perimes dans les fichiers memoire",
+      "explain": "Les fichiers memory/*.md contiennent des chiffres qui ne correspondent plus a la realite du code.",
+      "action": "Mettre a jour les chiffres dans features.md et MEMORY.md avec les valeurs reelles.",
+      "impact": "La documentation est fiable et ne trompe personne.",
+      "count": 1
+    },
+    {
       "source": "Regression Guard",
       "text": "Handler \"syncTripFieldsAndCalculate\" defini dans 3 fichiers: Travel, Voyage, main",
-      "createdAt": "2026-02-24T04:56:28.423Z",
+      "createdAt": "2026-02-24T16:57:52.530Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Un handler est defini dans plusieurs fichiers",
@@ -2803,11 +2994,11 @@
     },
     {
       "source": "Regression Guard",
-      "text": "... et 61 autres handlers dupliques",
-      "createdAt": "2026-02-24T04:56:28.424Z",
+      "text": "... et 57 autres handlers dupliques",
+      "createdAt": "2026-02-24T16:57:52.530Z",
       "followed": false,
       "priority": "HAUTE",
-      "title": "[Regression Guard] ... et 61 autres handlers dupliques",
+      "title": "[Regression Guard] ... et 57 autres handlers dupliques",
       "explain": "Le loup a detecte un probleme dans cette phase.",
       "action": "Investiguer le detail ci-dessus.",
       "impact": "Ameliorer le score de la phase Regression Guard.",
@@ -2816,7 +3007,7 @@
     {
       "source": "Wiring Integrity",
       "text": "33 modales sans close handler",
-      "createdAt": "2026-02-24T04:56:28.424Z",
+      "createdAt": "2026-02-24T16:57:52.530Z",
       "followed": false,
       "priority": "MOYENNE",
       "title": "Des fenetres popup ne peuvent pas etre fermees",
@@ -2828,7 +3019,7 @@
     {
       "source": "Wiring Integrity",
       "text": "onclick=\"if()\" utilise dans le HTML mais window.if n'existe pas",
-      "createdAt": "2026-02-24T04:56:28.424Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Bouton HTML pointe vers une fonction qui n'existe pas",
@@ -2840,7 +3031,7 @@
     {
       "source": "Button & Link Audit",
       "text": "Bouton casse: onclick=\"fn()\" dans src/utils/sanitize.js — la fonction n'existe pas",
-      "createdAt": "2026-02-24T04:56:28.426Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
@@ -2852,19 +3043,19 @@
     {
       "source": "Button & Link Audit",
       "text": "Handler vide: window.spotMapPickLocation dans src/components/modals/AddSpot.js — cliquer ne fait rien",
-      "createdAt": "2026-02-24T04:56:28.426Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Bouton connecte a une fonction vide",
       "explain": "La fonction existe mais son corps est vide = le bouton est la mais ne fait rien. C'est pire qu'un bouton manquant car l'utilisateur croit que ca marche.",
       "action": "Implementer le contenu de la fonction ou supprimer le bouton si la feature n'existe pas encore.",
       "impact": "Chaque bouton fait ce qu'il promet.",
-      "count": 2
+      "count": 4
     },
     {
       "source": "Button & Link Audit",
       "text": "Modale \"AddSpot\": fichier existe mais AUCUN contenu HTML visible",
-      "createdAt": "2026-02-24T04:56:28.427Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Fenetre popup vide ou impossible a fermer",
@@ -2875,20 +3066,8 @@
     },
     {
       "source": "Button & Link Audit",
-      "text": "45x \"TODO\" — a implementer ou supprimer",
-      "createdAt": "2026-02-24T04:56:28.427Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Travail inacheve dans le code (TODO/placeholder)",
-      "explain": "Du code contient des marqueurs \"TODO\" ou \"Coming soon\" — ca veut dire que la fonctionnalite n'est pas finie.",
-      "action": "Finir l'implementation ou supprimer la fonctionnalite si elle n'est pas prioritaire.",
-      "impact": "Aucun placeholder visible par l'utilisateur — tout est fini et fonctionnel.",
-      "count": 1
-    },
-    {
-      "source": "Button & Link Audit",
       "text": "3x \"COMING SOON\" — a implementer ou supprimer",
-      "createdAt": "2026-02-24T04:56:28.428Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "[Button & Link Audit] 3x \"COMING SOON\" — a implementer ou supprimer",
@@ -2900,7 +3079,7 @@
     {
       "source": "Dead Code",
       "text": "Fonction morte: \"signUp\" dans src/services/firebase.js — definie mais jamais appelee",
-      "createdAt": "2026-02-24T04:56:28.428Z",
+      "createdAt": "2026-02-24T16:57:52.531Z",
       "followed": false,
       "priority": "MOYENNE",
       "title": "Code mort detecte (fonctions jamais utilisees)",
@@ -2910,5 +3089,5 @@
       "count": 6
     }
   ],
-  "lastRunCommit": "7176e1da13a7952f703e00cd3fba8b529fd724f9"
+  "lastRunCommit": "6246157071c75f85d8409f962feee5d4c77bcc47"
 }

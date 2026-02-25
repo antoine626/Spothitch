@@ -15,7 +15,7 @@ export function renderToggle(isOn, handler, label) {
   return `<button onclick="this.classList.toggle('toggle-on');setTimeout(()=>{${handler}},30)" role="switch" aria-checked="${isOn}" aria-label="${label}"
     class="spothitch-toggle relative w-[44px] h-[24px] rounded-xl shrink-0 border-2 overflow-hidden ${isOn ? 'toggle-on' : ''}"
     style="outline:none">
-    <span class="spothitch-toggle-dot absolute top-[2px] left-[2px] w-4 h-4 rounded-full"></span>
+    <span class="spothitch-toggle-dot absolute top-[4px] left-[2px] w-4 h-4 rounded-full"></span>
   </button>`
 }
 
@@ -31,6 +31,6 @@ export function renderToggleCompact(isOn, handler, label) {
   return `<button onclick="this.classList.toggle('toggle-on');setTimeout(()=>{${handler}},30)" role="switch" aria-checked="${isOn}" aria-label="${label}"
     class="spothitch-toggle spothitch-toggle-compact relative w-[38px] h-[20px] rounded-lg shrink-0 border-2 overflow-hidden ${isOn ? 'toggle-on' : ''}"
     style="outline:none">
-    <span class="spothitch-toggle-dot absolute top-[1px] left-[1px] w-3.5 h-3.5 rounded-full"></span>
+    <span class="spothitch-toggle-dot absolute top-[3px] left-[2px] w-3.5 h-3.5 rounded-full"></span>
   </button>`
 }
