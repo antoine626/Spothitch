@@ -3,7 +3,7 @@
  * Handles authentication, Firestore database, and storage
  */
 
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -66,7 +66,8 @@ let messaging;
 
 export function initializeFirebase() {
   try {
-    app = initializeApp(firebaseConfig);
+    // Avoid re-initializing if already done
+    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
     auth = getAuth(app);
     db = getFirestore(app);
     storage = getStorage(app);

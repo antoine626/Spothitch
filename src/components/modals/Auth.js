@@ -320,8 +320,8 @@ window.handleAuth = async (event) => {
       await fb.createOrUpdateUserProfile(result.user)
 
       // Setup auth listener
-      fb.onAuthChange((user) => {
-        const { actions } = require('../../stores/state.js')
+      fb.onAuthChange(async (user) => {
+        const { actions } = await import('../../stores/state.js')
         if (actions?.setUser) actions.setUser(user)
         import('../../services/sentry.js').then(m => m.setUser(user)).catch(() => {})
       })
