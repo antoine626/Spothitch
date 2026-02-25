@@ -6,7 +6,7 @@
 
 ## Audits — voir memory/audits.md pour la base de données COMPLÈTE
 
-**37 scripts d'audit | 630+ tests | 441/531 handlers confirmés (83.1%) | 0 échec**
+**37 scripts d'audit | 630+ tests | 441/531 handlers (83.1%) | La Fourmi 191/191 | QG 93/100 | 0 échec**
 
 ### Résumé des résultats (2026-02-24 — tous relancés)
 
@@ -38,7 +38,7 @@
 - **Site live** : spothitch.com (GitHub Pages, HTTPS actif, cert expire 2026-05-13)
 - **Spots** : 14 669 spots dans 137 pays (source Hitchmap/Hitchwiki ODBL)
 - **Langues** : FR, EN, ES, DE
-- **Tests** : 35 fichiers, 1276 assertions (wiring + integration + unit), E2E Playwright
+- **Tests** : 35 fichiers, 1276 assertions (wiring + integration + unit), E2E Playwright, La Fourmi 191 tests/23 niveaux
 
 ---
 
@@ -117,27 +117,32 @@
 
 ## Dernières sessions (reconstitué depuis git log)
 
+### Session 2026-02-26 (session 24 — OUTILS QUALITÉ + LA FOURMI 23 NIVEAUX)
+- **Quality Gate** : score 93/100, 0 erreurs (était 76/100 avec 73 erreurs)
+  - Fix: duplicate handlers, XSS false positive, Firebase auth, activeTab, ghost states, no-op stubs, missing lazyLoaders, small fonts, hardcoded French, CSS selectors
+- **La Fourmi** étendue de 7 à 23 niveaux : **191 tests OK, 0 erreurs, 0 crash**
+  - L1-L8 : Navigation, Modals, Boutons, Carte, États, Visuel, Performance, Journeys — 100%
+  - L9 : Form Validation (AddSpot, Auth, Recherche, Contact) — 100%
+  - L10-L12 : Stress, i18n 4 langues, Accessibilité — 100%
+  - L13-L15 : Responsive 4 viewports, Data Persistence, Anti-Regression — 100%
+  - L16-L18 : Dead Links, SEO, Sécurité Runtime — 100%
+  - L19-L21 : Auth Flows, Onboarding, Theme Switching — 100%
+  - L22-L23 : Deep Map, SOS & Companion — 100%
+- **Corrections La Fourmi** :
+  - Image check: await onload avant naturalWidth (faux positif éliminé)
+  - Isolation niveaux: chaque niveau en try/catch + recovery auto
+  - Level 7 Performance: try/catch par test individuel (plus de crash)
+  - L9 Contact: page reload avant test (render pipeline pollué)
+  - L23 SOS/Companion: pré-accepter disclaimer/consentement
+- **E2E CI optimisés** : monkey 200→50, map 18→6 tests, waitForTimeout réduits 60%
+  - E2E Core: 8min+ → 3m43s, E2E Stress: 12min+ → 5m00s
+- **Chromium cache CI** : actions/cache@v4 sur 4 jobs E2E
+- **14/14 jobs CI verts**, deploy Cloudflare OK
+
 ### Session 2026-02-25 (session 23 — SENTRY BUGS + TEST EXHAUSTIF 7 NIVEAUX)
-- **Reconnexion GitHub CLI** : gh auth login + git push + .env.local recréé
-- **6 bugs Sentry corrigés** :
-  - toggleFeedVisibility: défini dans Social.js (Feed.js jamais importé)
-  - toUpperCase on null: guards dans moderation.js (reportType/reason)
-  - SyntaxError onclick: escapeJSString() dans proximityNotify.js
-  - QuotaExceededError: safeSetItem() + protection Voyage.js
-  - Style not done loading: isStyleLoaded() guards dans map.js (addSpotLayers, drawRouteOnMap, addFriendLayers)
-  - Monitor FR.json 404: corrigé casse fr.json (GitHub Pages case-sensitive)
-- **17 issues GitHub fermées** (15 Sentry + 1 monitoring + 1 rage click)
-- **Clipboard protégé** : .catch() sur tous les navigator.clipboard.writeText (main.js, teamChallenges.js, sosTracking.js, Shop.js, share.js)
-- **safeSetItem()** créé dans storage.js : wrapper localStorage.setItem avec QuotaExceeded auto-cleanup
-- **Test exhaustif créé** : `scripts/full-test.mjs` — 7 niveaux, 79 tests, 51 screenshots
-  - L1 Navigation (12 tests) : 4 tabs + 8 sous-onglets — 100%
-  - L2 Modals (22 tests) : ouvrir/fermer 22 modals — 100%
-  - L3 Boutons (4 tests) : 106 boutons cliqués, 0 erreur JS — 100%
-  - L4 Carte (8 tests) : zoom, GPS, recherche, stations — 100%
-  - L5 États spéciaux (6 tests) : nouvel user, 4 langues, offline — 100%
-  - L6 Visuel (19 tests) : overflow, images, texte, boutons — 100%
-  - L7 Performance (8 tests) : chargement 600ms, mémoire 32MB — 100% (sauf switch map réseau lent)
-- **Fixes visuels Profile** : text-[9px]→text-[10px], py-2 sur boutons inline, min-w-8 édit bio, py-1 liens donation
+- **6 bugs Sentry corrigés** + **17 issues GitHub fermées**
+- **safeSetItem()** créé, **clipboard protégé**
+- **Test exhaustif créé** : `scripts/full-test.mjs` — 7 niveaux initiaux
 - 107 tests wiring passent, build OK, déployé
 
 ### Session 2026-02-25 (session 22 — WOLF EXHAUSTIF + DOUBLONS + i18n + TOGGLES)
