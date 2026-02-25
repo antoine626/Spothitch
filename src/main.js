@@ -563,7 +563,8 @@ function restoreScrollPosition(tab) {
  * Main render function
  */
 // Dynamic render fingerprint — hashes all primitive state values (bool/string/number/null)
-// Skips arrays and objects (spots, messages, etc.) which don't affect layout directly
+// Skips arrays/objects by default, but tracks null↔object transitions for key result states
+const OBJECT_PRESENCE_KEYS = new Set(['tripResults', 'userProfile', 'currentUser', 'roadmapVotes'])
 function getRenderFingerprint(state) {
   let fp = ''
   for (const key in state) {
@@ -573,7 +574,9 @@ function getRenderFingerprint(state) {
     if (t === 'boolean') { fp += v ? '1|' : '2|'; continue }
     if (t === 'string') { fp += v + '|'; continue }
     if (t === 'number') { fp += v + '|'; continue }
-    // Skip arrays/objects — they're data, not layout flags
+    // For key result objects, track null↔present transition (not full content)
+    if (t === 'object' && OBJECT_PRESENCE_KEYS.has(key)) { fp += 'obj|'; continue }
+    // Skip other arrays/objects — they're data, not layout flags
   }
   return fp
 }
@@ -586,9 +589,11 @@ function render(state) {
   const landingEl = document.getElementById('landing-page')
   const savedLanding = (landingEl && state.showLanding) ? landingEl : null
 
-  // Skip re-render if user is typing in any input (prevents losing input focus/value)
+  // Skip re-render if user is actively typing in an input (prevents losing focus/value)
+  // Exception: don't block if the state signals a completed operation (tripLoading went false, etc.)
   const focused = document.activeElement
-  if (focused && (focused.tagName === 'INPUT' || focused.tagName === 'TEXTAREA' || focused.tagName === 'SELECT')) {
+  const tripJustFinished = !state.tripLoading && state.tripResults
+  if (focused && (focused.tagName === 'INPUT' || focused.tagName === 'TEXTAREA' || focused.tagName === 'SELECT') && !tripJustFinished) {
     return
   }
 
@@ -2523,7 +2528,7 @@ window.swapTripPoints = () => {
   if (toInput) toInput.value = newTo
 }
 
-window.syncTripFieldsAndCalculate = () => {
+window.syncTripFieldsAndCalculate = async () => {
   const fromInput = document.getElementById('trip-from')
   const toInput = document.getElementById('trip-to')
   const from = fromInput?.value?.trim() || ''
@@ -2533,6 +2538,16 @@ window.syncTripFieldsAndCalculate = () => {
     return
   }
   setState({ tripFrom: from, tripTo: to, tripLoading: true })
+  // Ensure Travel.js is loaded before calling calculateTrip
+  if (!window.calculateTrip) {
+    try {
+      await import('./components/views/Travel.js')
+    } catch (e) {
+      setState({ tripLoading: false })
+      window.showToast?.(t('tripCalculationError') || 'Erreur de chargement', 'error')
+      return
+    }
+  }
   window.calculateTrip?.()
 }
 

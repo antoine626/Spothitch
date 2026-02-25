@@ -147,7 +147,7 @@ export async function searchLocation(query) {
 
   // Use featuretype=city to only get cities/towns (not streets, buildings etc.)
   // Results are sorted by "importance" by default (popular cities first)
-  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=8&accept-language=${lang}&featuretype=city&addressdetails=1`;
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=8&accept-language=${lang}&featuretype=settlement&addressdetails=1`;
 
   try {
     const response = await fetch(url, {

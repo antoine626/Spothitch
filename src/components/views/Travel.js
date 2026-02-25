@@ -950,6 +950,7 @@ window.calculateTrip = async () => {
     ])
 
     if (!fromResults[0] || !toResults[0]) {
+      window.setState?.({ tripLoading: false })
       window.showToast?.(t('locationNotFound') || 'Lieu non trouvé', 'error')
       return
     }
@@ -1058,6 +1059,9 @@ window.calculateTrip = async () => {
       storedGeometry = routeGeometry.filter((_, i) => i % s === 0)
     }
 
+    // Blur active input so the render is not blocked by focus guard
+    document.activeElement?.blur?.()
+
     window.setState?.({
       tripResults: {
         from: state.tripFrom,
@@ -1072,6 +1076,9 @@ window.calculateTrip = async () => {
       showTripMap: false,  // Show results first, user clicks "view on map"
       tripLoading: false,
     })
+
+    // Force re-render: tripResults is an object so fingerprint doesn't auto-detect it
+    window._forceRender?.()
 
     window.showToast?.(`${routeSpots.length} ${t('spotsFound') || 'spots trouvés !'}`, 'success')
 
