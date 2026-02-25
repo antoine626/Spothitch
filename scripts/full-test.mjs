@@ -586,9 +586,14 @@ async function level6_Visual(page) {
       noOverflow ? '' : 'Overflow-x détecté')
     console.log(`  ${noOverflow ? '✓' : '✗'} ${screen.name}: overflow-x`)
 
-    // Check no broken images
-    const brokenImages = await page.evaluate(() => {
+    // Check no broken images (wait for images to load first)
+    const brokenImages = await page.evaluate(async () => {
       const imgs = document.querySelectorAll('img')
+      // Wait for all visible images to complete loading
+      await Promise.all([...imgs].map(img =>
+        img.complete ? Promise.resolve() :
+        new Promise(r => { img.onload = r; img.onerror = r; setTimeout(r, 2000) })
+      ))
       let broken = 0
       imgs.forEach(img => {
         if (img.naturalWidth === 0 && img.offsetParent !== null) broken++
@@ -674,50 +679,69 @@ async function level7_Performance(page, browser) {
   const level = 'L7_Performance'
   console.log('\n⚡ LEVEL 7: Performance')
 
-  // Test 1: Initial load time
   const { context: perfCtx, page: perfPage } = await setupPage(browser)
   await skipOnboarding(perfPage)
-  const loadStart = Date.now()
-  await perfPage.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 30000 })
-  await perfPage.waitForSelector('nav', { timeout: 15000 }).catch(() => null)
-  const loadTime = Date.now() - loadStart
-  addResult(level, `Temps de chargement initial`, loadTime < 8000, `${loadTime}ms`)
-  console.log(`  ${loadTime < 8000 ? '✓' : '✗'} Chargement initial: ${loadTime}ms`)
 
-  // Test 2: Tab switch speed
-  for (const tabId of ['challenges', 'social', 'profile', 'map']) {
-    const switchStart = Date.now()
-    await clickTab(perfPage, tabId)
-    const switchTime = Date.now() - switchStart
-    addResult(level, `Switch vers ${tabId}`, switchTime < 5000, `${switchTime}ms`)
-    console.log(`  ${switchTime < 5000 ? '✓' : '✗'} Switch ${tabId}: ${switchTime}ms`)
-  }
+  try {
+    // Test 1: Initial load time
+    const loadStart = Date.now()
+    await perfPage.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 30000 })
+    await perfPage.waitForSelector('nav', { timeout: 15000 }).catch(() => null)
+    const loadTime = Date.now() - loadStart
+    addResult(level, `Temps de chargement initial`, loadTime < 8000, `${loadTime}ms`)
+    console.log(`  ${loadTime < 8000 ? '✓' : '✗'} Chargement initial: ${loadTime}ms`)
 
-  // Test 3: Modal open speed
-  for (const [fn, name, closeFn] of [['openAddSpot', 'AddSpot', 'closeAddSpot'], ['openSOS', 'SOS', 'closeSOS']]) {
-    const modalStart = Date.now()
-    await safeEval(perfPage, `window.${fn}?.()`)
-    await perfPage.waitForTimeout(500)
-    const modalTime = Date.now() - modalStart
-    addResult(level, `Ouverture modal ${name}`, modalTime < 3000, `${modalTime}ms`)
-    console.log(`  ${modalTime < 3000 ? '✓' : '✗'} Modal ${name}: ${modalTime}ms`)
-    await safeEval(perfPage, `window.${closeFn}?.()`)
-    await perfPage.waitForTimeout(300)
-  }
+    // Ensure app is fully loaded before tab switch tests
+    await perfPage.waitForTimeout(MEDIUM_WAIT)
 
-  // Test 4: Memory (heap size)
-  const memory = await perfPage.evaluate(() => {
-    if (performance.memory) {
-      return {
-        used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024),
-        total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024),
+    // Test 2: Tab switch speed (each wrapped in try/catch)
+    for (const tabId of ['challenges', 'social', 'profile', 'map']) {
+      try {
+        const switchStart = Date.now()
+        await clickTab(perfPage, tabId)
+        const switchTime = Date.now() - switchStart
+        addResult(level, `Switch vers ${tabId}`, switchTime < 5000, `${switchTime}ms`)
+        console.log(`  ${switchTime < 5000 ? '✓' : '✗'} Switch ${tabId}: ${switchTime}ms`)
+      } catch {
+        addResult(level, `Switch vers ${tabId}`, false, 'timeout')
+        console.log(`  ✗ Switch ${tabId}: timeout`)
       }
     }
-    return null
-  })
-  if (memory) {
-    addResult(level, `Mémoire JS`, memory.used < 150, `${memory.used}MB / ${memory.total}MB`)
-    console.log(`  ${memory.used < 150 ? '✓' : '✗'} Mémoire: ${memory.used}MB`)
+
+    // Test 3: Modal open speed
+    for (const [fn, name, closeFn] of [['openAddSpot', 'AddSpot', 'closeAddSpot'], ['openSOS', 'SOS', 'closeSOS']]) {
+      try {
+        const modalStart = Date.now()
+        await safeEval(perfPage, `window.${fn}?.()`)
+        await perfPage.waitForTimeout(500)
+        const modalTime = Date.now() - modalStart
+        addResult(level, `Ouverture modal ${name}`, modalTime < 3000, `${modalTime}ms`)
+        console.log(`  ${modalTime < 3000 ? '✓' : '✗'} Modal ${name}: ${modalTime}ms`)
+        await safeEval(perfPage, `window.${closeFn}?.()`)
+        await perfPage.waitForTimeout(300)
+      } catch {
+        addResult(level, `Ouverture modal ${name}`, false, 'timeout')
+        console.log(`  ✗ Modal ${name}: timeout`)
+      }
+    }
+
+    // Test 4: Memory (heap size)
+    const memory = await perfPage.evaluate(() => {
+      if (performance.memory) {
+        return {
+          used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024),
+          total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024),
+        }
+      }
+      return null
+    }).catch(() => null)
+    if (memory) {
+      addResult(level, `Mémoire JS`, memory.used < 150, `${memory.used}MB / ${memory.total}MB`)
+      console.log(`  ${memory.used < 150 ? '✓' : '✗'} Mémoire: ${memory.used}MB`)
+    }
+  } catch (err) {
+    addResult(level, 'Performance tests', false, err.message)
+    console.log(`  ✗ Performance: ${err.message}`)
   }
 
   await perfCtx.close()
@@ -3431,33 +3455,45 @@ async function main() {
   await skipOnboarding(page)
   await waitForApp(page)
 
-  try {
-    if (startLevel <= 1) await level1_Navigation(page)
-    if (startLevel <= 2) await level2_Modals(page)
-    if (startLevel <= 3) await level3_Buttons(page)
-    if (startLevel <= 4) await level4_Map(page)
-    if (startLevel <= 5) await level5_SpecialStates(page, browser)
-    if (startLevel <= 6) await level6_Visual(page)
-    if (startLevel <= 7) await level7_Performance(page, browser)
-    if (startLevel <= 8) await level8_UserJourneys(page, browser)
-    if (startLevel <= 9) await level9_FormValidation(page)
-    if (startLevel <= 10) await level10_Stress(page, browser)
-    if (startLevel <= 11) await level11_i18n(page, browser)
-    if (startLevel <= 12) await level12_Accessibility(page)
-    if (startLevel <= 13) await level13_Responsive(page, browser)
-    if (startLevel <= 14) await level14_DataPersistence(page, browser)
-    if (startLevel <= 15) await level15_AntiRegression(page)
-    if (startLevel <= 16) await level16_DeadLinks(page)
-    if (startLevel <= 17) await level17_SEO(page)
-    if (startLevel <= 18) await level18_Security(page)
-    if (startLevel <= 19) await level19_AuthenticatedFlows(page, browser)
-    if (startLevel <= 20) await level20_Onboarding(page, browser)
-    if (startLevel <= 21) await level21_Theme(page, browser)
-    if (startLevel <= 22) await level22_DeepMap(page, browser)
-    if (startLevel <= 23) await level23_SOSCompanion(page, browser)
-  } catch (err) {
-    console.error(`\n❌ CRASH: ${err.message}`)
-    report.errors.push({ level: 'CRASH', name: 'Script crash', detail: err.message })
+  const levels = [
+    [1, () => level1_Navigation(page)],
+    [2, () => level2_Modals(page)],
+    [3, () => level3_Buttons(page)],
+    [4, () => level4_Map(page)],
+    [5, () => level5_SpecialStates(page, browser)],
+    [6, () => level6_Visual(page)],
+    [7, () => level7_Performance(page, browser)],
+    [8, () => level8_UserJourneys(page, browser)],
+    [9, () => level9_FormValidation(page)],
+    [10, () => level10_Stress(page, browser)],
+    [11, () => level11_i18n(page, browser)],
+    [12, () => level12_Accessibility(page)],
+    [13, () => level13_Responsive(page, browser)],
+    [14, () => level14_DataPersistence(page, browser)],
+    [15, () => level15_AntiRegression(page)],
+    [16, () => level16_DeadLinks(page)],
+    [17, () => level17_SEO(page)],
+    [18, () => level18_Security(page)],
+    [19, () => level19_AuthenticatedFlows(page, browser)],
+    [20, () => level20_Onboarding(page, browser)],
+    [21, () => level21_Theme(page, browser)],
+    [22, () => level22_DeepMap(page, browser)],
+    [23, () => level23_SOSCompanion(page, browser)],
+  ]
+
+  for (const [num, fn] of levels) {
+    if (startLevel > num) continue
+    try {
+      await fn()
+    } catch (err) {
+      console.error(`\n❌ CRASH Level ${num}: ${err.message}`)
+      report.errors.push({ level: `L${num}_CRASH`, name: `Level ${num} crash`, detail: err.message })
+      // Recover: navigate back to app for next level
+      try {
+        await page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 15000 })
+        await page.waitForTimeout(MEDIUM_WAIT)
+      } catch { /* continue anyway */ }
+    }
   }
 
   await context.close()
