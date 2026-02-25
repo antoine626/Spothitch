@@ -242,7 +242,10 @@ export function renderAdminPanel(state) {
   `;
 }
 
-// openAdminPanel/closeAdminPanel defined in main.js (canonical STUB)
+// openAdminPanel/closeAdminPanel: also defined in main.js as early STUBS
+// (needed here so unit tests importing AdminPanel.js directly can verify the handlers)
+window.openAdminPanel = () => setState({ showAdminPanel: true });
+window.closeAdminPanel = () => setState({ showAdminPanel: false });
 
 window.adminAddPoints = (amount) => {
   const state = getState();
