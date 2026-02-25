@@ -158,6 +158,8 @@ export const STORAGE_KEYS = [
   { key: 'spothitch_messages_cache', category: DataCategory.CACHE, description: 'Messages cache' },
   { key: 'spothitch_offline_queue', category: DataCategory.CACHE, description: 'Offline action queue' },
   { key: 'spothitch_offline_countries', category: DataCategory.CACHE, description: 'Downloaded countries for offline use' },
+  { key: 'spothitch_city_cache', category: DataCategory.CACHE, description: 'City search suggestions cache (API results by prefix)' },
+  { key: 'spothitch_cities_*', category: DataCategory.CACHE, description: 'Cities list per downloaded country (spothitch_cities_FR, etc.)' },
   { key: 'spothitch_cache_timestamp', category: DataCategory.CACHE, description: 'Cache timestamps' },
   { key: 'spothitch_badge_count', category: DataCategory.CACHE, description: 'Notification badge count' },
   { key: 'spothitch_notification_badge_count', category: DataCategory.CACHE, description: 'Badge count display' },
