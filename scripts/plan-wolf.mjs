@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 /**
- * PLAN WOLF v5 — L'Equipe QA Autonome
+ * PLAN WOLF v6 — L'Equipe QA Autonome
  *
  * Un gardien intelligent qui teste CHAQUE bouton, compare avec la
  * concurrence, apprend de ses erreurs, et evolue continuellement.
  * Il travaille comme une equipe entiere de testeurs QA.
  *
- * v5 improvements:
+ * v6 improvements:
+ *   - 8 new analysis phases (circular imports, code duplication, test coverage per feature,
+ *     file size audit, dependency freshness, score trend tracking, unused CSS, console.log cleanup)
  *   - Quality Gate integration (reads QG score, stores trends)
  *   - Delta mode (--delta): only runs phases relevant to changed files
  *   - QG trend tracking across runs (wolf-qg-history.json)
  *
- * 16 phases :
+ * 29 phases :
  *   1. Code Quality       — ESLint + Quality Gate integration (i18n, RGPD, handlers, security, error patterns)
  *   2. Unit Tests         — Vitest (wiring, integration, all)
  *   3. Build              — Vite build + bundle size + chunks
@@ -26,8 +28,21 @@
  *  12. Screenshots        — Playwright visual regression
  *  13. Feature Scores     — score par feature (carte, social, profil...)
  *  14. Competitive Intel  — recherche web par domaine, comparaison concurrents
- *  15. Score /100         — auto-evaluation + comparaison run precedent + QG trends
- *  16. Recommendations    — conseils par phase, par feature, evolution
+ *  15. Circular Imports   — DFS detection of import cycles in src/
+ *  16. Code Duplication   — hash function bodies, flag copy-paste across files
+ *  17. Test Coverage/Feature — verify each checked feature in features.md has test coverage
+ *  18. File Size Audit    — flag oversized files (>500 lines warning, >1000 lines error)
+ *  19. Dependency Freshness — npm outdated, flag packages >1 major version behind
+ *  20. Score Trend Tracking — compare current score with last 3 runs, detect decline
+ *  21. Unused CSS Classes — find custom CSS classes in main.css not used in src/
+ *  22. Console.log Cleanup — count remaining console.* in src/ (excluding legitimate logging)
+ *  23. Bundle Size Analysis — list dist/assets/ chunks, flag large ones, total bundle size
+ *  24. TODO/FIXME Scanner — scan src/ for TODO, FIXME, HACK, XXX, TEMP comments
+ *  25. External API Inventory — scan src/ for fetch() calls and external URLs, check CSP
+ *  26. Accessibility Template Lint — check HTML templates for a11y violations
+ *  27. License Compliance — check npm dependencies for incompatible licenses
+ *  28. Score /100         — auto-evaluation + comparaison run precedent + QG trends
+ *  29. Recommendations    — conseils par phase, par feature, evolution
  *
  * Usage:
  *   node scripts/plan-wolf.mjs           # Full run (~12 min)
@@ -239,8 +254,9 @@ function getDeltaPhases(categories) {
 
   // Always run these lightweight phases
   phases.add(1)  // Code Quality (includes QG integration)
-  phases.add(15) // Score
-  phases.add(16) // Recommendations
+  phases.add(20) // Score Trend Tracking (lightweight, always useful)
+  phases.add(28) // Score
+  phases.add(29) // Recommendations
 
   if (categories.has('components') || categories.has('services')) {
     phases.add(2)  // Unit Tests
@@ -249,6 +265,14 @@ function getDeltaPhases(categories) {
     phases.add(7)  // Wiring Integrity
     phases.add(8)  // Button Audit
     phases.add(9)  // Dead Code
+    phases.add(15) // Circular Imports
+    phases.add(16) // Code Duplication
+    phases.add(17) // Test Coverage per Feature
+    phases.add(18) // File Size Audit
+    phases.add(22) // Console.log Cleanup
+    phases.add(24) // TODO/FIXME Scanner
+    phases.add(25) // External API Inventory
+    phases.add(26) // Accessibility Template Lint
   }
 
   if (categories.has('i18n')) {
@@ -258,11 +282,15 @@ function getDeltaPhases(categories) {
   if (categories.has('config') || categories.has('components')) {
     phases.add(3)  // Build
     phases.add(10) // Multi-Level Audit
+    phases.add(19) // Dependency Freshness
+    phases.add(23) // Bundle Size Analysis
+    phases.add(27) // License Compliance
   }
 
   if (categories.has('styles') || categories.has('components')) {
     phases.add(11) // Lighthouse
     phases.add(12) // Screenshots
+    phases.add(21) // Unused CSS Classes
   }
 
   if (categories.has('components') || categories.has('services')) {
@@ -2359,11 +2387,1413 @@ function phase14_competitiveIntel() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 15: SCORE + SELF-EVALUATION
+// PHASE 15: CIRCULAR IMPORTS DETECTION
 // ═══════════════════════════════════════════════════════════════
 
-function phase15_score() {
-  header(15, 'SCORE + AUTO-EVALUATION')
+function phase15_circularImports() {
+  header(15, 'CIRCULAR IMPORTS DETECTION')
+  let score = 0
+  const max = 8
+  const findings = []
+  const details = []
+
+  try {
+    const srcDir = join(ROOT, 'src')
+    const allFiles = getAllJsFiles(srcDir)
+
+    // Build import graph
+    const graph = {} // file → [files it imports]
+    for (const file of allFiles) {
+      const rel = relative(ROOT, file)
+      graph[rel] = []
+      const content = readFile(file)
+      const importRegex = /import\s+.*?from\s+['"](\..*?)['"]/g
+      let match
+      while ((match = importRegex.exec(content)) !== null) {
+        const importPath = match[1]
+        const dir = join(file, '..')
+        let resolved = resolve(dir, importPath)
+        if (!resolved.endsWith('.js')) resolved += '.js'
+        const resolvedRel = relative(ROOT, resolved)
+        if (existsSync(resolved)) {
+          graph[rel].push(resolvedRel)
+        }
+      }
+      // Also detect dynamic imports: import('./xxx')
+      const dynamicRegex = /import\(['"](\.[^'"]+)['"]\)/g
+      while ((match = dynamicRegex.exec(content)) !== null) {
+        const importPath = match[1]
+        const dir = join(file, '..')
+        let resolved = resolve(dir, importPath)
+        if (!resolved.endsWith('.js')) resolved += '.js'
+        const resolvedRel = relative(ROOT, resolved)
+        if (existsSync(resolved)) {
+          graph[rel].push(resolvedRel)
+        }
+      }
+    }
+
+    // DFS-based cycle detection (Tarjan-like coloring: WHITE=0, GRAY=1, BLACK=2)
+    const WHITE = 0, GRAY = 1, BLACK = 2
+    const color = {}
+    for (const node of Object.keys(graph)) color[node] = WHITE
+    const cycles = []
+
+    function dfs(node, path) {
+      color[node] = GRAY
+      for (const neighbor of (graph[node] || [])) {
+        if (color[neighbor] === GRAY) {
+          // Found a cycle — extract the cycle path
+          const cycleStart = path.indexOf(neighbor)
+          if (cycleStart !== -1) {
+            const cycle = path.slice(cycleStart).concat(neighbor)
+            cycles.push(cycle)
+          } else {
+            cycles.push([...path.slice(-3), neighbor]) // partial trace
+          }
+        } else if (color[neighbor] === WHITE) {
+          dfs(neighbor, [...path, neighbor])
+        }
+      }
+      color[node] = BLACK
+    }
+
+    for (const node of Object.keys(graph)) {
+      if (color[node] === WHITE) {
+        dfs(node, [node])
+      }
+    }
+
+    // Deduplicate cycles by sorting their nodes
+    const uniqueCycles = []
+    const seenCycleKeys = new Set()
+    for (const c of cycles) {
+      const key = [...c].sort().join('|')
+      if (!seenCycleKeys.has(key)) {
+        seenCycleKeys.add(key)
+        uniqueCycles.push(c)
+      }
+    }
+
+    findings.push(`Graphe d'imports: ${allFiles.length} fichiers, ${Object.values(graph).reduce((s, d) => s + d.length, 0)} liens`)
+
+    if (uniqueCycles.length === 0) {
+      score += 8
+      findings.push('0 imports circulaires detectes')
+    } else if (uniqueCycles.length <= 3) {
+      score += 5
+      findings.push(`${uniqueCycles.length} cycle(s) circulaire(s) detecte(s)`)
+      for (const c of uniqueCycles) {
+        details.push(`Cycle: ${c.map(f => basename(f, '.js')).join(' -> ')}`)
+      }
+    } else {
+      score += 2
+      findings.push(`${uniqueCycles.length} cycles circulaires detectes — EXCESSIF`)
+      for (const c of uniqueCycles.slice(0, 8)) {
+        details.push(`Cycle: ${c.map(f => basename(f, '.js')).join(' -> ')}`)
+      }
+      if (uniqueCycles.length > 8) details.push(`... et ${uniqueCycles.length - 8} autres cycles`)
+    }
+  } catch (err) {
+    score += 3
+    findings.push(`Erreur lors de l'analyse des imports circulaires: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Circular Imports', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 16: CODE DUPLICATION DETECTION
+// ═══════════════════════════════════════════════════════════════
+
+function phase16_codeDuplication() {
+  header(16, 'CODE DUPLICATION')
+  let score = 0
+  const max = 8
+  const findings = []
+  const details = []
+
+  try {
+    const srcDir = join(ROOT, 'src')
+    const allFiles = getAllJsFiles(srcDir)
+
+    // Extract function/const bodies and hash them
+    // We extract: function xxx(...) { ... } and const xxx = (...) => { ... }
+    const functionBodies = [] // { hash, name, file, lineCount }
+
+    for (const file of allFiles) {
+      const content = readFile(file)
+      const rel = relative(ROOT, file)
+      const lines = content.split('\n')
+
+      // Strategy: extract blocks between function/const declarations
+      // Simple approach: find function-like declarations, then count matching braces to extract body
+      const fnRegex = /(?:export\s+)?(?:function\s+(\w+)|(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s+)?(?:function|\([^)]*\)\s*=>|\w+\s*=>))/g
+      let match
+      while ((match = fnRegex.exec(content)) !== null) {
+        const fnName = match[1] || match[2]
+        if (!fnName || fnName.length < 3) continue
+
+        // Find the opening brace after this match
+        let braceStart = content.indexOf('{', match.index + match[0].length)
+        if (braceStart === -1 || braceStart - match.index > 200) continue
+
+        // Count braces to find closing brace
+        let depth = 0
+        let bodyEnd = -1
+        for (let i = braceStart; i < content.length && i < braceStart + 5000; i++) {
+          if (content[i] === '{') depth++
+          else if (content[i] === '}') {
+            depth--
+            if (depth === 0) {
+              bodyEnd = i + 1
+              break
+            }
+          }
+        }
+        if (bodyEnd === -1) continue
+
+        const body = content.slice(braceStart, bodyEnd).trim()
+        const bodyLines = body.split('\n').length
+
+        // Only consider functions with 5+ lines (skip trivial getters/setters)
+        if (bodyLines < 5) continue
+
+        // Create a normalized hash: strip whitespace, variable names won't matter for structural comparison
+        // Simple approach: hash the body after stripping comments and normalizing whitespace
+        const normalized = body
+          .replace(/\/\/.*$/gm, '') // strip line comments
+          .replace(/\/\*[\s\S]*?\*\//g, '') // strip block comments
+          .replace(/\s+/g, ' ') // normalize whitespace
+          .replace(/['"][^'"]*['"]/g, '""') // normalize strings
+          .trim()
+
+        if (normalized.length < 50) continue // too short to be meaningful
+
+        // Simple hash (djb2)
+        let hash = 5381
+        for (let i = 0; i < normalized.length; i++) {
+          hash = ((hash << 5) + hash + normalized.charCodeAt(i)) & 0xffffffff
+        }
+
+        functionBodies.push({ hash, name: fnName, file: rel, lineCount: bodyLines, bodyLength: normalized.length })
+      }
+    }
+
+    // Group by hash to find duplicates
+    const hashGroups = {}
+    for (const fb of functionBodies) {
+      if (!hashGroups[fb.hash]) hashGroups[fb.hash] = []
+      hashGroups[fb.hash].push(fb)
+    }
+
+    const duplicates = Object.values(hashGroups)
+      .filter(group => group.length > 1)
+      // Only flag cross-file duplicates (same file duplicates are often intentional overloads)
+      .filter(group => {
+        const files = new Set(group.map(g => g.file))
+        return files.size > 1
+      })
+      .sort((a, b) => b[0].lineCount - a[0].lineCount) // biggest duplicates first
+
+    const totalDuplicateLines = duplicates.reduce((sum, group) => {
+      return sum + group[0].lineCount * (group.length - 1)
+    }, 0)
+
+    findings.push(`${functionBodies.length} fonctions analysees (>= 5 lignes)`)
+
+    if (duplicates.length === 0) {
+      score += 8
+      findings.push('0 duplication de code detectee entre fichiers')
+    } else if (duplicates.length <= 3) {
+      score += 6
+      findings.push(`${duplicates.length} bloc(s) duplique(s) detecte(s) (~${totalDuplicateLines} lignes redondantes)`)
+      for (const group of duplicates) {
+        const names = group.map(g => `${g.name} (${basename(g.file, '.js')})`).join(', ')
+        details.push(`Duplication (${group[0].lineCount} lignes): ${names}`)
+      }
+    } else if (duplicates.length <= 10) {
+      score += 3
+      findings.push(`${duplicates.length} blocs dupliques (~${totalDuplicateLines} lignes redondantes)`)
+      for (const group of duplicates.slice(0, 5)) {
+        const names = group.map(g => `${g.name} (${basename(g.file, '.js')})`).join(', ')
+        details.push(`Duplication (${group[0].lineCount} lignes): ${names}`)
+      }
+      if (duplicates.length > 5) details.push(`... et ${duplicates.length - 5} autres duplications`)
+    } else {
+      score += 1
+      findings.push(`${duplicates.length} blocs dupliques (~${totalDuplicateLines} lignes redondantes) — EXCESSIF`)
+      for (const group of duplicates.slice(0, 5)) {
+        const names = group.map(g => `${g.name} (${basename(g.file, '.js')})`).join(', ')
+        details.push(`Duplication (${group[0].lineCount} lignes): ${names}`)
+      }
+      details.push(`... et ${duplicates.length - 5} autres duplications`)
+    }
+  } catch (err) {
+    score += 3
+    findings.push(`Erreur lors de la detection de duplication: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Code Duplication', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 17: TEST COVERAGE PER FEATURE
+// ═══════════════════════════════════════════════════════════════
+
+function phase17_testCoveragePerFeature() {
+  header(17, 'TEST COVERAGE PER FEATURE')
+  let score = 0
+  const max = 8
+  const findings = []
+  const details = []
+
+  try {
+    if (!existsSync(FEATURES_PATH)) {
+      findings.push('features.md introuvable — impossible de verifier la couverture')
+      score += 3
+      log(`  Score: ${score}/${max}`)
+      phase('Test Coverage/Feature', score, max, findings, details)
+      return
+    }
+
+    const featuresContent = readFile(FEATURES_PATH)
+
+    // Parse checked features and extract keywords for each
+    const checkedFeatures = []
+    const currentSection = { name: '' }
+    for (const line of featuresContent.split('\n')) {
+      const sectionMatch = line.match(/^## (.+)/)
+      if (sectionMatch) currentSection.name = sectionMatch[1].trim()
+
+      const checkedMatch = line.match(/^- \[x\]\s+(.+)/)
+      if (checkedMatch) {
+        const featureText = checkedMatch[1]
+          .replace(/~~.*?~~/g, '') // remove strikethrough
+          .replace(/\(.*?\)/g, '') // remove parenthetical notes
+          .trim()
+        if (featureText.length < 5) continue
+
+        // Extract meaningful keywords from the feature description
+        const keywords = featureText
+          .toLowerCase()
+          .split(/[\s,;:—\-/]+/)
+          .filter(w => w.length > 3)
+          .filter(w => !['avec', 'dans', 'pour', 'plus', 'tout', 'tous', 'chaque', 'entre', 'depuis', 'après', 'avant'].includes(w))
+          .slice(0, 4)
+
+        if (keywords.length > 0) {
+          checkedFeatures.push({
+            text: featureText.slice(0, 60),
+            section: currentSection.name,
+            keywords,
+          })
+        }
+      }
+    }
+
+    // Collect all test file contents
+    const testDirs = [join(ROOT, 'tests'), join(ROOT, 'e2e')]
+    let allTestContent = ''
+    for (const testDir of testDirs) {
+      if (!existsSync(testDir)) continue
+      const testFiles = getAllJsFiles(testDir)
+      for (const tf of testFiles) {
+        allTestContent += readFile(tf) + '\n'
+      }
+    }
+    const testContentLower = allTestContent.toLowerCase()
+
+    // Check each feature for test coverage
+    let covered = 0
+    let uncovered = 0
+    const uncoveredFeatures = []
+
+    for (const feat of checkedFeatures) {
+      // A feature is "covered" if at least one keyword appears in any test file
+      const isCovered = feat.keywords.some(kw => testContentLower.includes(kw))
+      if (isCovered) {
+        covered++
+      } else {
+        uncovered++
+        uncoveredFeatures.push(feat)
+      }
+    }
+
+    const coveragePct = checkedFeatures.length > 0 ? Math.round((covered / checkedFeatures.length) * 100) : 0
+    findings.push(`${checkedFeatures.length} features cochees analysees`)
+    findings.push(`Couverture test/feature: ${covered}/${checkedFeatures.length} (${coveragePct}%)`)
+
+    if (coveragePct >= 80) {
+      score += 8
+    } else if (coveragePct >= 60) {
+      score += 6
+      findings.push(`${uncovered} feature(s) sans mention dans les tests`)
+    } else if (coveragePct >= 40) {
+      score += 4
+      findings.push(`${uncovered} feature(s) sans couverture de test`)
+    } else {
+      score += 2
+      findings.push(`Couverture faible: ${uncovered} features non testees`)
+    }
+
+    // Show worst uncovered features (grouped by section)
+    const uncoveredBySection = {}
+    for (const feat of uncoveredFeatures.slice(0, 15)) {
+      if (!uncoveredBySection[feat.section]) uncoveredBySection[feat.section] = []
+      uncoveredBySection[feat.section].push(feat.text)
+    }
+    for (const [section, feats] of Object.entries(uncoveredBySection)) {
+      details.push(`[${section}] Non teste: ${feats.slice(0, 3).join('; ')}${feats.length > 3 ? ` (+${feats.length - 3})` : ''}`)
+    }
+  } catch (err) {
+    score += 3
+    findings.push(`Erreur lors de l'analyse de couverture: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Test Coverage/Feature', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 18: FILE SIZE AUDIT
+// ═══════════════════════════════════════════════════════════════
+
+function phase18_fileSizeAudit() {
+  header(18, 'FILE SIZE AUDIT')
+  let score = 0
+  const max = 6
+  const findings = []
+  const details = []
+
+  try {
+    const srcDir = join(ROOT, 'src')
+    const allFiles = getAllJsFiles(srcDir)
+
+    const fileSizes = allFiles.map(file => {
+      const content = readFile(file)
+      const lineCount = content.split('\n').length
+      return { file: relative(ROOT, file), lineCount }
+    }).sort((a, b) => b.lineCount - a.lineCount)
+
+    const over1000 = fileSizes.filter(f => f.lineCount > 1000)
+    const over500 = fileSizes.filter(f => f.lineCount > 500 && f.lineCount <= 1000)
+    const totalFiles = fileSizes.length
+    const avgLines = Math.round(fileSizes.reduce((s, f) => s + f.lineCount, 0) / totalFiles)
+
+    findings.push(`${totalFiles} fichiers src/, moyenne ${avgLines} lignes/fichier`)
+
+    // Show top 5 biggest files regardless
+    const top5 = fileSizes.slice(0, 5)
+    findings.push(`Top 5: ${top5.map(f => `${basename(f.file)}(${f.lineCount}L)`).join(', ')}`)
+
+    if (over1000.length === 0 && over500.length === 0) {
+      score += 6
+      findings.push('Tous les fichiers < 500 lignes')
+    } else if (over1000.length === 0) {
+      score += 4
+      findings.push(`${over500.length} fichier(s) de 500-1000 lignes (envisager de decouper)`)
+      for (const f of over500.slice(0, 5)) {
+        details.push(`A surveiller: ${f.file} (${f.lineCount} lignes) — envisager de decouper`)
+      }
+    } else if (over1000.length <= 3) {
+      score += 2
+      findings.push(`${over1000.length} fichier(s) > 1000 lignes — A DECOUPER`)
+      for (const f of over1000) {
+        details.push(`TROP GROS: ${f.file} (${f.lineCount} lignes) — decouper en sous-modules`)
+      }
+      for (const f of over500.slice(0, 3)) {
+        details.push(`A surveiller: ${f.file} (${f.lineCount} lignes)`)
+      }
+    } else {
+      score += 1
+      findings.push(`${over1000.length} fichiers > 1000 lignes — REFACTORING URGENT`)
+      for (const f of over1000.slice(0, 5)) {
+        details.push(`TROP GROS: ${f.file} (${f.lineCount} lignes) — decouper en sous-modules`)
+      }
+      if (over1000.length > 5) details.push(`... et ${over1000.length - 5} autres fichiers enormes`)
+    }
+  } catch (err) {
+    score += 3
+    findings.push(`Erreur lors de l'audit de taille: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('File Size Audit', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 19: DEPENDENCY FRESHNESS
+// ═══════════════════════════════════════════════════════════════
+
+function phase19_dependencyFreshness() {
+  header(19, 'DEPENDENCY FRESHNESS')
+  let score = 0
+  const max = 6
+  const findings = []
+  const details = []
+
+  try {
+    const outdatedJson = exec('npm outdated --json 2>/dev/null || echo "{}"', { allowFail: true, timeout: 30000 })
+    let outdated = {}
+    try {
+      outdated = JSON.parse(outdatedJson)
+    } catch {
+      // npm outdated sometimes returns non-JSON on error
+      findings.push('npm outdated: impossible de lire la sortie JSON')
+      score += 3
+      log(`  Score: ${score}/${max}`)
+      phase('Dependency Freshness', score, max, findings, details)
+      return
+    }
+
+    const packages = Object.entries(outdated)
+    const majorBehind = []
+    const minorBehind = []
+
+    for (const [name, info] of packages) {
+      const current = info.current || ''
+      const latest = info.latest || ''
+      if (!current || !latest) continue
+
+      // Parse major versions
+      const currentMajor = parseInt(current.split('.')[0])
+      const latestMajor = parseInt(latest.split('.')[0])
+      const currentMinor = parseInt(current.split('.')[1] || '0')
+      const latestMinor = parseInt(latest.split('.')[1] || '0')
+
+      if (isNaN(currentMajor) || isNaN(latestMajor)) continue
+
+      if (latestMajor - currentMajor > 1) {
+        majorBehind.push({ name, current, latest, behind: latestMajor - currentMajor })
+      } else if (latestMajor - currentMajor === 1) {
+        minorBehind.push({ name, current, latest, behind: 1 })
+      }
+    }
+
+    const totalOutdated = packages.length
+    findings.push(`${totalOutdated} package(s) avec mise a jour disponible`)
+
+    if (majorBehind.length === 0 && minorBehind.length <= 3) {
+      score += 6
+      findings.push('Toutes les dependances sont a jour (< 1 major de retard)')
+    } else if (majorBehind.length === 0) {
+      score += 5
+      findings.push(`${minorBehind.length} package(s) en retard d'1 version majeure`)
+      for (const p of minorBehind.slice(0, 5)) {
+        details.push(`A mettre a jour: ${p.name} ${p.current} -> ${p.latest}`)
+      }
+    } else if (majorBehind.length <= 3) {
+      score += 3
+      findings.push(`${majorBehind.length} package(s) en retard de 2+ versions majeures`)
+      for (const p of majorBehind) {
+        details.push(`RETARD MAJEUR: ${p.name} ${p.current} -> ${p.latest} (${p.behind} majeures de retard)`)
+      }
+      for (const p of minorBehind.slice(0, 3)) {
+        details.push(`A mettre a jour: ${p.name} ${p.current} -> ${p.latest}`)
+      }
+    } else {
+      score += 1
+      findings.push(`${majorBehind.length} packages en retard de 2+ versions majeures — MISE A JOUR URGENTE`)
+      for (const p of majorBehind.slice(0, 5)) {
+        details.push(`RETARD MAJEUR: ${p.name} ${p.current} -> ${p.latest} (${p.behind} majeures de retard)`)
+      }
+      if (majorBehind.length > 5) details.push(`... et ${majorBehind.length - 5} autres packages tres en retard`)
+    }
+  } catch (err) {
+    score += 3
+    findings.push(`Erreur lors de la verification des dependances: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Dependency Freshness', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 20: SCORE TREND TRACKING
+// ═══════════════════════════════════════════════════════════════
+
+function phase20_scoreTrendTracking() {
+  header(20, 'SCORE TREND TRACKING')
+  let score = 0
+  const max = 5
+  const findings = []
+  const details = []
+
+  try {
+    // Read wolf-qg-history.json for QG trends
+    const qgTrends = analyzeQGTrends()
+
+    // Read wolf-memory.json for Wolf score trends
+    const runs = memory.runs || []
+    const lastN = runs.slice(-3)
+
+    if (lastN.length < 2) {
+      score += 3
+      findings.push(`Seulement ${lastN.length} run(s) en memoire — pas assez pour analyser les tendances`)
+      log(`  Score: ${score}/${max}`)
+      phase('Score Trend Tracking', score, max, findings, details)
+      return
+    }
+
+    // Wolf score trend
+    const wolfScores = lastN.map(r => r.score)
+    const wolfLatest = wolfScores[wolfScores.length - 1]
+    const wolfPrev = wolfScores[wolfScores.length - 2]
+    const wolfDiff = wolfLatest - wolfPrev
+
+    const isImproving = wolfScores.every((s, i) => i === 0 || s >= wolfScores[i - 1])
+    const isDeclining = wolfScores.every((s, i) => i === 0 || s <= wolfScores[i - 1])
+    const isStable = wolfScores.every(s => Math.abs(s - wolfScores[0]) <= 3)
+
+    findings.push(`Derniers scores Wolf: ${wolfScores.join(' -> ')}`)
+
+    if (isImproving && wolfDiff > 0) {
+      score += 5
+      findings.push(`Tendance POSITIVE: score en hausse (+${wolfDiff} depuis l'avant-dernier run)`)
+    } else if (isStable) {
+      score += 4
+      findings.push('Tendance STABLE: score constant sur les derniers runs')
+    } else if (isDeclining) {
+      score += 1
+      findings.push(`Tendance NEGATIVE: score en baisse depuis ${lastN.length} runs consecutifs`)
+      details.push('Le score baisse regulierement — des regressions s\'accumulent. Corriger les phases les plus faibles.')
+    } else {
+      score += 3
+      findings.push(`Tendance MIXTE: evolution ${wolfDiff > 0 ? '+' : ''}${wolfDiff} depuis le dernier run`)
+    }
+
+    // QG trend analysis
+    if (qgTrends) {
+      const qgIcon = qgTrends.diff > 0 ? 'hausse' : qgTrends.diff < 0 ? 'baisse' : 'stable'
+      findings.push(`Quality Gate: ${qgTrends.current}/100 (${qgIcon}, diff: ${qgTrends.diff > 0 ? '+' : ''}${qgTrends.diff})`)
+      if (qgTrends.weekAvg !== null) {
+        findings.push(`QG 7 jours: moy=${qgTrends.weekAvg}, min=${qgTrends.weekMin}, max=${qgTrends.weekMax}`)
+      }
+
+      // Flag degrading QG checks
+      for (const [checkName, trend] of Object.entries(qgTrends.checkTrends)) {
+        if (trend.diff < -10) {
+          details.push(`QG check "${checkName}" a baisse de ${Math.abs(trend.diff)} points (${trend.previous} -> ${trend.current})`)
+        }
+      }
+    }
+
+    // Phase-level trend analysis (which phases improved/degraded)
+    if (lastN.length >= 2 && lastN[lastN.length - 1].phases && lastN[lastN.length - 2].phases) {
+      const prevPhases = lastN[lastN.length - 2].phases || []
+      const currPhases = lastN[lastN.length - 1].phases || []
+      const degraded = []
+      const improved = []
+
+      for (const cp of currPhases) {
+        const pp = prevPhases.find(p => p.name === cp.name)
+        if (!pp) continue
+        const cpPct = Math.round((cp.score / cp.max) * 100)
+        const ppPct = Math.round((pp.score / pp.max) * 100)
+        if (cpPct < ppPct - 5) degraded.push({ name: cp.name, from: ppPct, to: cpPct })
+        if (cpPct > ppPct + 5) improved.push({ name: cp.name, from: ppPct, to: cpPct })
+      }
+
+      if (improved.length > 0) {
+        findings.push(`Phases ameliorees: ${improved.map(p => `${p.name}(${p.from}->${p.to}%)`).join(', ')}`)
+      }
+      if (degraded.length > 0) {
+        findings.push(`Phases degradees: ${degraded.map(p => `${p.name}(${p.from}->${p.to}%)`).join(', ')}`)
+        for (const d of degraded) {
+          details.push(`DEGRADATION: "${d.name}" a baisse de ${d.from}% a ${d.to}%`)
+        }
+      }
+    }
+  } catch (err) {
+    score += 2
+    findings.push(`Erreur lors de l'analyse des tendances: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Score Trend Tracking', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 21: UNUSED CSS CLASSES
+// ═══════════════════════════════════════════════════════════════
+
+function phase21_unusedCSS() {
+  header(21, 'UNUSED CSS CLASSES')
+  let score = 0
+  const max = 5
+  const findings = []
+  const details = []
+
+  try {
+    const mainCssPath = join(ROOT, 'src', 'styles', 'main.css')
+    if (!existsSync(mainCssPath)) {
+      findings.push('main.css introuvable')
+      score += 3
+      log(`  Score: ${score}/${max}`)
+      phase('Unused CSS Classes', score, max, findings, details)
+      return
+    }
+
+    const cssContent = readFile(mainCssPath)
+
+    // Extract custom CSS class names defined in @layer components and @layer utilities
+    // Matches: .classname { ... } (but not Tailwind utility classes like .bg-xxx)
+    const customClasses = []
+    const classRegex = /^\s*\.([a-zA-Z][\w-]*)\s*(?:\{|,)/gm
+    let match
+    while ((match = classRegex.exec(cssContent)) !== null) {
+      const className = match[1]
+      // Skip pseudo-classes, Tailwind internal classes, and common patterns
+      if (className.startsWith('light-theme') || className.startsWith('dark-theme')) continue
+      if (className.startsWith('maplibregl-') || className.startsWith('mapboxgl-')) continue
+      // Only track custom component classes (not standard Tailwind utilities)
+      customClasses.push(className)
+    }
+
+    // Deduplicate
+    const uniqueClasses = [...new Set(customClasses)]
+
+    // Now scan all src/ JS files for usage of these classes
+    const srcDir = join(ROOT, 'src')
+    const allSrcFiles = getAllJsFiles(srcDir)
+    let allSrcContent = ''
+    for (const file of allSrcFiles) {
+      allSrcContent += readFile(file) + '\n'
+    }
+    // Also check index.html
+    const indexHtml = readFile(join(ROOT, 'index.html'))
+    allSrcContent += indexHtml
+
+    const unusedClasses = []
+    const usedClasses = []
+    for (const cls of uniqueClasses) {
+      // Check if the class name appears anywhere in src/ files or index.html
+      // Look for: class="...cls...", className="...cls...", 'cls', "cls"
+      if (allSrcContent.includes(cls)) {
+        usedClasses.push(cls)
+      } else {
+        unusedClasses.push(cls)
+      }
+    }
+
+    findings.push(`${uniqueClasses.length} classes CSS custom definies dans main.css`)
+
+    if (unusedClasses.length === 0) {
+      score += 5
+      findings.push('Toutes les classes custom sont utilisees')
+    } else if (unusedClasses.length <= 5) {
+      score += 4
+      findings.push(`${unusedClasses.length} classe(s) CSS custom potentiellement inutilisee(s)`)
+      for (const cls of unusedClasses) {
+        details.push(`Classe CSS inutilisee: .${cls} — definie dans main.css mais introuvable dans src/`)
+      }
+    } else if (unusedClasses.length <= 15) {
+      score += 2
+      findings.push(`${unusedClasses.length} classes CSS custom inutilisees`)
+      for (const cls of unusedClasses.slice(0, 8)) {
+        details.push(`Classe CSS inutilisee: .${cls}`)
+      }
+      if (unusedClasses.length > 8) details.push(`... et ${unusedClasses.length - 8} autres classes inutilisees`)
+    } else {
+      score += 1
+      findings.push(`${unusedClasses.length} classes CSS custom inutilisees — NETTOYAGE NECESSAIRE`)
+      for (const cls of unusedClasses.slice(0, 10)) {
+        details.push(`Classe CSS inutilisee: .${cls}`)
+      }
+      details.push(`... et ${unusedClasses.length - 10} autres classes inutilisees`)
+    }
+  } catch (err) {
+    score += 2
+    findings.push(`Erreur lors de l'analyse CSS: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Unused CSS Classes', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 22: CONSOLE.LOG CLEANUP
+// ═══════════════════════════════════════════════════════════════
+
+function phase22_consoleLogCleanup() {
+  header(22, 'CONSOLE.LOG CLEANUP')
+  let score = 0
+  const max = 5
+  const findings = []
+  const details = []
+
+  try {
+    const srcDir = join(ROOT, 'src')
+    const allFiles = getAllJsFiles(srcDir)
+
+    // Files where console.* is legitimate (logging/monitoring/debugging infrastructure)
+    const exemptFiles = new Set([
+      'sentry.js',
+      'monitor.js',
+      'monitoring.js',
+      'logger.js',
+      'debug.js',
+    ])
+
+    let totalConsole = 0
+    let totalConsoleLog = 0
+    let totalConsoleWarn = 0
+    let totalConsoleError = 0
+    const fileBreakdown = [] // { file, count, types }
+
+    for (const file of allFiles) {
+      const fileName = basename(file)
+      // Skip exempt files
+      if (exemptFiles.has(fileName)) continue
+      // Skip files in scripts/ or test utilities
+      if (file.includes('/scripts/') || file.includes('/tests/')) continue
+
+      const content = readFile(file)
+      const rel = relative(ROOT, file)
+
+      const logCount = (content.match(/console\.log\s*\(/g) || []).length
+      const warnCount = (content.match(/console\.warn\s*\(/g) || []).length
+      const errorCount = (content.match(/console\.error\s*\(/g) || []).length
+      const total = logCount + warnCount + errorCount
+
+      if (total > 0) {
+        totalConsole += total
+        totalConsoleLog += logCount
+        totalConsoleWarn += warnCount
+        totalConsoleError += errorCount
+        fileBreakdown.push({ file: rel, count: total, log: logCount, warn: warnCount, error: errorCount })
+      }
+    }
+
+    // Sort by total count descending
+    fileBreakdown.sort((a, b) => b.count - a.count)
+
+    findings.push(`console.* dans src/: ${totalConsole} total (${totalConsoleLog} log, ${totalConsoleWarn} warn, ${totalConsoleError} error)`)
+
+    // console.error is more acceptable (error handling), console.warn is OK in moderation
+    // console.log is the main target for cleanup
+    if (totalConsoleLog === 0 && totalConsoleWarn <= 5) {
+      score += 5
+      findings.push('Code propre: 0 console.log, console.warn minimal')
+    } else if (totalConsoleLog <= 5) {
+      score += 4
+      findings.push(`${totalConsoleLog} console.log residuel(s) — quasi propre`)
+      for (const fb of fileBreakdown.filter(f => f.log > 0).slice(0, 3)) {
+        details.push(`${fb.file}: ${fb.log} console.log`)
+      }
+    } else if (totalConsoleLog <= 20) {
+      score += 2
+      findings.push(`${totalConsoleLog} console.log a nettoyer`)
+      for (const fb of fileBreakdown.filter(f => f.log > 0).slice(0, 5)) {
+        details.push(`${fb.file}: ${fb.log} console.log`)
+      }
+      if (fileBreakdown.filter(f => f.log > 0).length > 5) {
+        details.push(`... et ${fileBreakdown.filter(f => f.log > 0).length - 5} autres fichiers avec console.log`)
+      }
+    } else {
+      score += 1
+      findings.push(`${totalConsoleLog} console.log — NETTOYAGE NECESSAIRE`)
+      for (const fb of fileBreakdown.filter(f => f.log > 0).slice(0, 5)) {
+        details.push(`${fb.file}: ${fb.log} console.log`)
+      }
+      details.push(`... et ${fileBreakdown.filter(f => f.log > 0).length - 5} autres fichiers`)
+    }
+
+    // Extra detail: files with most console.* statements
+    if (fileBreakdown.length > 0) {
+      const worst = fileBreakdown[0]
+      if (worst.count >= 10) {
+        details.push(`Pire: ${worst.file} avec ${worst.count} console.* — prioriser le nettoyage`)
+      }
+    }
+  } catch (err) {
+    score += 2
+    findings.push(`Erreur lors de l'analyse console.log: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Console.log Cleanup', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 23: BUNDLE SIZE ANALYSIS
+// ═══════════════════════════════════════════════════════════════
+
+function phase23_bundleSizeAnalysis() {
+  header(23, 'BUNDLE SIZE ANALYSIS')
+  let score = 0
+  const max = 6
+  const findings = []
+  const details = []
+
+  try {
+    const distAssetsDir = join(ROOT, 'dist', 'assets')
+    if (!existsSync(distAssetsDir)) {
+      score += 3
+      findings.push('dist/ not found — run npm run build first')
+      log(`  Score: ${score}/${max}`)
+      phase('Bundle Size Analysis', score, max, findings, details)
+      return
+    }
+
+    const entries = readdirSync(distAssetsDir)
+    const jsFiles = entries.filter(f => f.endsWith('.js'))
+    let totalSizeKB = 0
+    const chunks = []
+
+    for (const file of jsFiles) {
+      const filePath = join(distAssetsDir, file)
+      const stat = statSync(filePath)
+      const sizeKB = Math.round(stat.size / 1024 * 10) / 10
+      totalSizeKB += sizeKB
+      let label = ''
+      if (sizeKB > 200) label = ' [VERY LARGE]'
+      else if (sizeKB > 100) label = ' [LARGE]'
+      chunks.push({ file, sizeKB, label })
+    }
+
+    // Sort by size descending
+    chunks.sort((a, b) => b.sizeKB - a.sizeKB)
+
+    findings.push(`${jsFiles.length} JS chunk(s), total: ${Math.round(totalSizeKB)}KB`)
+
+    for (const chunk of chunks) {
+      const line = `${chunk.file}: ${chunk.sizeKB}KB${chunk.label}`
+      if (chunk.label) {
+        details.push(line)
+      }
+      findings.push(`  ${line}`)
+    }
+
+    const largeCount = chunks.filter(c => c.sizeKB > 100).length
+    const veryLargeCount = chunks.filter(c => c.sizeKB > 200).length
+
+    if (veryLargeCount > 0) {
+      findings.push(`${veryLargeCount} chunk(s) > 200KB — consider code splitting`)
+    }
+    if (largeCount > 0) {
+      findings.push(`${largeCount} chunk(s) > 100KB`)
+    }
+
+    // Scoring: 6 if total < 300KB, 4 if < 500KB, 2 if < 800KB, 1 if more
+    if (totalSizeKB < 300) {
+      score += 6
+      findings.push('Bundle size excellent (< 300KB)')
+    } else if (totalSizeKB < 500) {
+      score += 4
+      findings.push('Bundle size acceptable (< 500KB)')
+    } else if (totalSizeKB < 800) {
+      score += 2
+      findings.push('Bundle size heavy (< 800KB) — optimize imports')
+    } else {
+      score += 1
+      findings.push('Bundle size too heavy (>= 800KB) — OPTIMIZATION NEEDED')
+    }
+  } catch (err) {
+    score += 3
+    findings.push(`Error analyzing bundle size: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Bundle Size Analysis', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 24: TODO/FIXME SCANNER
+// ═══════════════════════════════════════════════════════════════
+
+function phase24_todoScanner() {
+  header(24, 'TODO/FIXME SCANNER')
+  let score = 0
+  const max = 5
+  const findings = []
+  const details = []
+
+  try {
+    const srcDir = join(ROOT, 'src')
+    const allFiles = getAllJsFiles(srcDir)
+
+    const high = []   // FIXME, HACK
+    const medium = [] // TODO
+    const low = []    // XXX, TEMP
+
+    const commentPattern = /\/\/\s*(TODO|FIXME|HACK|XXX|TEMP)\b(.*)/gi
+
+    for (const file of allFiles) {
+      const content = readFile(file)
+      const rel = relative(ROOT, file)
+      const lines = content.split('\n')
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i]
+        let match
+        commentPattern.lastIndex = 0
+        while ((match = commentPattern.exec(line))) {
+          const tag = match[1].toUpperCase()
+          const comment = match[2].trim()
+          const entry = { file: rel, line: i + 1, tag, comment: comment.slice(0, 100) }
+
+          if (tag === 'FIXME' || tag === 'HACK') {
+            high.push(entry)
+          } else if (tag === 'TODO') {
+            medium.push(entry)
+          } else {
+            low.push(entry)
+          }
+        }
+      }
+    }
+
+    const total = high.length + medium.length + low.length
+    findings.push(`${total} comment marker(s) found: ${high.length} high (FIXME/HACK), ${medium.length} medium (TODO), ${low.length} low (XXX/TEMP)`)
+
+    if (high.length > 0) {
+      findings.push(`HIGH PRIORITY (${high.length}):`)
+      for (const h of high.slice(0, 5)) {
+        details.push(`[${h.tag}] ${h.file}:${h.line} — ${h.comment || '(no description)'}`)
+      }
+      if (high.length > 5) {
+        details.push(`... and ${high.length - 5} more FIXME/HACK`)
+      }
+    }
+
+    if (medium.length > 0) {
+      findings.push(`MEDIUM PRIORITY (${medium.length}):`)
+      for (const m of medium.slice(0, 5)) {
+        details.push(`[${m.tag}] ${m.file}:${m.line} — ${m.comment || '(no description)'}`)
+      }
+      if (medium.length > 5) {
+        details.push(`... and ${medium.length - 5} more TODO`)
+      }
+    }
+
+    if (low.length > 0) {
+      findings.push(`LOW PRIORITY (${low.length}):`)
+      for (const l of low.slice(0, 3)) {
+        details.push(`[${l.tag}] ${l.file}:${l.line} — ${l.comment || '(no description)'}`)
+      }
+    }
+
+    // Scoring: 5 for 0 high + <=5 medium, 4 for <=3 high, 2 for <=10 high, 1 for more
+    if (high.length === 0 && medium.length <= 5) {
+      score += 5
+      findings.push('Clean codebase — minimal TODO markers')
+    } else if (high.length <= 3) {
+      score += 4
+      findings.push('Few high-priority markers — address FIXME/HACK soon')
+    } else if (high.length <= 10) {
+      score += 2
+      findings.push('Multiple FIXME/HACK — needs cleanup')
+    } else {
+      score += 1
+      findings.push('Too many FIXME/HACK — CLEANUP NEEDED')
+    }
+  } catch (err) {
+    score += 2
+    findings.push(`Error scanning TODO/FIXME: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('TODO/FIXME Scanner', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 25: EXTERNAL API INVENTORY
+// ═══════════════════════════════════════════════════════════════
+
+function phase25_apiInventory() {
+  header(25, 'EXTERNAL API INVENTORY')
+  let score = 0
+  const max = 5
+  const findings = []
+  const details = []
+
+  try {
+    const srcDir = join(ROOT, 'src')
+    const allFiles = getAllJsFiles(srcDir)
+    const indexHtml = readFile(join(ROOT, 'index.html'))
+
+    // Extract CSP connect-src domains from index.html
+    const cspMatch = indexHtml.match(/connect-src\s+([^;]+)/i)
+    const cspDomains = new Set()
+    if (cspMatch) {
+      const parts = cspMatch[1].split(/\s+/)
+      for (const part of parts) {
+        const domainMatch = part.match(/(?:\*\.)?([a-z0-9-]+\.[a-z.]+)/i)
+        if (domainMatch) {
+          cspDomains.add(domainMatch[1].toLowerCase())
+        }
+        // Also handle wildcard patterns like *.googleapis.com
+        if (part.includes('*.')) {
+          const wildcard = part.replace('*.', '').replace(/https?:\/\//, '').trim()
+          if (wildcard) cspDomains.add(wildcard.toLowerCase())
+        }
+      }
+    }
+
+    // Scan for external URLs in src/ files
+    const urlPattern = /https?:\/\/([a-z0-9.-]+\.[a-z]{2,})/gi
+    const fetchPattern = /fetch\s*\(\s*[`'"](https?:\/\/[^`'"]+)/gi
+    const externalDomains = new Map() // domain -> [files]
+
+    // Skip common non-API domains
+    const ignoreDomains = new Set([
+      'github.com', 'www.github.com',
+      'fonts.googleapis.com', 'fonts.gstatic.com',
+      'www.w3.org', 'unpkg.com', 'cdn.jsdelivr.net',
+      'example.com', 'www.example.com',
+      'creativecommons.org', 'opensource.org',
+      'spothitch.com', 'www.spothitch.com',
+    ])
+
+    for (const file of allFiles) {
+      const content = readFile(file)
+      const rel = relative(ROOT, file)
+
+      // Find all URLs
+      let match
+      urlPattern.lastIndex = 0
+      while ((match = urlPattern.exec(content))) {
+        const domain = match[1].toLowerCase()
+        if (!ignoreDomains.has(domain)) {
+          if (!externalDomains.has(domain)) externalDomains.set(domain, new Set())
+          externalDomains.get(domain).add(rel)
+        }
+      }
+
+      // Find fetch() calls specifically
+      fetchPattern.lastIndex = 0
+      while ((match = fetchPattern.exec(content))) {
+        const urlDomainMatch = match[1].match(/https?:\/\/([a-z0-9.-]+\.[a-z]{2,})/i)
+        if (urlDomainMatch) {
+          const domain = urlDomainMatch[1].toLowerCase()
+          if (!ignoreDomains.has(domain)) {
+            if (!externalDomains.has(domain)) externalDomains.set(domain, new Set())
+            externalDomains.get(domain).add(rel)
+          }
+        }
+      }
+    }
+
+    findings.push(`${externalDomains.size} external domain(s) found in src/`)
+    if (cspDomains.size > 0) {
+      findings.push(`CSP connect-src domains: ${[...cspDomains].join(', ')}`)
+    } else {
+      findings.push('No CSP connect-src found in index.html')
+    }
+
+    // Check which domains are NOT in CSP
+    const missingFromCSP = []
+    for (const [domain, files] of externalDomains) {
+      // Check if domain or parent domain is in CSP
+      const inCSP = [...cspDomains].some(cspDomain => {
+        return domain === cspDomain || domain.endsWith('.' + cspDomain)
+      })
+      if (!inCSP) {
+        missingFromCSP.push({ domain, files: [...files] })
+      }
+    }
+
+    if (missingFromCSP.length > 0) {
+      findings.push(`${missingFromCSP.length} domain(s) NOT in CSP connect-src:`)
+      for (const m of missingFromCSP) {
+        details.push(`API not in CSP: ${m.domain} (used in: ${m.files.slice(0, 3).join(', ')}${m.files.length > 3 ? '...' : ''})`)
+        findings.push(`  ${m.domain} — used in ${m.files.length} file(s)`)
+      }
+    } else if (externalDomains.size > 0) {
+      findings.push('All external APIs are listed in CSP connect-src')
+    }
+
+    // Scoring: 5 for all APIs in CSP, 3 for 1-2 missing, 1 for more
+    if (missingFromCSP.length === 0) {
+      score += 5
+      findings.push('CSP coverage complete')
+    } else if (missingFromCSP.length <= 2) {
+      score += 3
+      findings.push(`${missingFromCSP.length} API(s) missing from CSP — add to connect-src`)
+    } else {
+      score += 1
+      findings.push(`${missingFromCSP.length} API(s) missing from CSP — CSP NEEDS UPDATE`)
+    }
+  } catch (err) {
+    score += 2
+    findings.push(`Error scanning APIs: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('External API Inventory', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 26: ACCESSIBILITY TEMPLATE LINT
+// ═══════════════════════════════════════════════════════════════
+
+function phase26_a11yLint() {
+  header(26, 'ACCESSIBILITY TEMPLATE LINT')
+  let score = 0
+  const max = 8
+  const findings = []
+  const details = []
+
+  try {
+    const srcDir = join(ROOT, 'src')
+    const allFiles = getAllJsFiles(srcDir)
+    let totalViolations = 0
+    const fileViolations = [] // { file, count, issues }
+
+    for (const file of allFiles) {
+      const content = readFile(file)
+      const rel = relative(ROOT, file)
+      const issues = []
+
+      // Extract HTML template strings (backtick strings containing HTML tags)
+      const templatePattern = /`([^`]*<[a-z][^`]*)`/gi
+      let tmatch
+      while ((tmatch = templatePattern.exec(content))) {
+        const template = tmatch[1]
+
+        // Check: <button> without aria-label or text content
+        const buttonPattern = /<button\b([^>]*)>(\s*<[^>]+>\s*)*<\/button>/gi
+        let bmatch
+        while ((bmatch = buttonPattern.exec(template))) {
+          const attrs = bmatch[1]
+          const inner = bmatch[2] || ''
+          if (!attrs.includes('aria-label') && !inner.replace(/<[^>]*>/g, '').trim()) {
+            issues.push('button without aria-label or text content')
+          }
+        }
+
+        // Check: <button> self-check — buttons with only icon content
+        const buttonNoTextPattern = /<button\b([^>]*)>\s*<(?:svg|i|img|span)\b[^>]*(?:\/>|>[^<]*<\/(?:svg|i|img|span)>)\s*<\/button>/gi
+        let bntMatch
+        while ((bntMatch = buttonNoTextPattern.exec(template))) {
+          const attrs = bntMatch[1]
+          if (!attrs.includes('aria-label') && !attrs.includes('title')) {
+            issues.push('icon-only button without aria-label')
+          }
+        }
+
+        // Check: <img> without alt
+        const imgPattern = /<img\b([^>]*)>/gi
+        let imatch
+        while ((imatch = imgPattern.exec(template))) {
+          const attrs = imatch[1]
+          if (!attrs.includes('alt=') && !attrs.includes('alt =')) {
+            issues.push('img without alt attribute')
+          }
+        }
+
+        // Check: <a> without text or aria-label
+        const aPattern = /<a\b([^>]*)>(\s*<[^>]+>\s*)*<\/a>/gi
+        let amatch
+        while ((amatch = aPattern.exec(template))) {
+          const attrs = amatch[1]
+          const inner = amatch[2] || ''
+          if (!attrs.includes('aria-label') && !inner.replace(/<[^>]*>/g, '').trim()) {
+            issues.push('anchor without aria-label or text content')
+          }
+        }
+
+        // Check: <input> without label or aria-label
+        const inputPattern = /<input\b([^>]*)>/gi
+        let inmatch
+        while ((inmatch = inputPattern.exec(template))) {
+          const attrs = inmatch[1]
+          if (!attrs.includes('aria-label') && !attrs.includes('aria-labelledby') && !attrs.includes('id=')) {
+            // Check if type is hidden (hidden inputs don't need labels)
+            if (!attrs.includes('type="hidden"') && !attrs.includes("type='hidden'")) {
+              issues.push('input without aria-label or associated label')
+            }
+          }
+        }
+
+        // Check: onclick on non-interactive elements (div, span) without role="button"
+        const nonInteractivePattern = /<(div|span)\b([^>]*onclick[^>]*)>/gi
+        let nimatch
+        while ((nimatch = nonInteractivePattern.exec(template))) {
+          const attrs = nimatch[2]
+          if (!attrs.includes('role="button"') && !attrs.includes("role='button'") && !attrs.includes('role=\\"button\\"')) {
+            issues.push(`onclick on <${nimatch[1]}> without role="button"`)
+          }
+        }
+      }
+
+      if (issues.length > 0) {
+        totalViolations += issues.length
+        fileViolations.push({ file: rel, count: issues.length, issues })
+      }
+    }
+
+    // Sort by violations count descending
+    fileViolations.sort((a, b) => b.count - a.count)
+
+    findings.push(`${totalViolations} a11y violation(s) in ${fileViolations.length} file(s)`)
+
+    for (const fv of fileViolations.slice(0, 5)) {
+      findings.push(`  ${fv.file}: ${fv.count} violation(s)`)
+      for (const issue of fv.issues.slice(0, 3)) {
+        details.push(`[a11y] ${fv.file}: ${issue}`)
+      }
+      if (fv.issues.length > 3) {
+        details.push(`[a11y] ${fv.file}: ... and ${fv.issues.length - 3} more`)
+      }
+    }
+    if (fileViolations.length > 5) {
+      findings.push(`  ... and ${fileViolations.length - 5} more file(s) with violations`)
+    }
+
+    // Scoring: 8 for 0 violations, 6 for <=5, 3 for <=15, 1 for more
+    if (totalViolations === 0) {
+      score += 8
+      findings.push('No a11y template violations — excellent!')
+    } else if (totalViolations <= 5) {
+      score += 6
+      findings.push('Few a11y violations — minor fixes needed')
+    } else if (totalViolations <= 15) {
+      score += 3
+      findings.push('Multiple a11y violations — fix for better accessibility')
+    } else {
+      score += 1
+      findings.push('Many a11y violations — ACCESSIBILITY CLEANUP NEEDED')
+    }
+  } catch (err) {
+    score += 4
+    findings.push(`Error scanning a11y: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('Accessibility Template Lint', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 27: LICENSE COMPLIANCE
+// ═══════════════════════════════════════════════════════════════
+
+function phase27_licenseCompliance() {
+  header(27, 'LICENSE COMPLIANCE')
+  let score = 0
+  const max = 5
+  const findings = []
+  const details = []
+
+  try {
+    // Read package.json to get top-level deps
+    const pkgPath = join(ROOT, 'package.json')
+    const pkg = JSON.parse(readFile(pkgPath))
+    const allDeps = {
+      ...pkg.dependencies || {},
+      ...pkg.devDependencies || {},
+    }
+    const depNames = Object.keys(allDeps)
+
+    const compatibleLicenses = new Set([
+      'MIT', 'ISC', 'BSD-2-Clause', 'BSD-3-Clause', 'Apache-2.0',
+      'CC0-1.0', '0BSD', 'Unlicense', 'CC-BY-4.0', 'CC-BY-3.0',
+      'BlueOak-1.0.0', 'Python-2.0', 'Artistic-2.0', 'Zlib',
+    ])
+
+    const flaggedLicenses = new Set([
+      'GPL-2.0', 'GPL-3.0', 'GPL-2.0-only', 'GPL-3.0-only',
+      'GPL-2.0-or-later', 'GPL-3.0-or-later',
+      'AGPL-1.0', 'AGPL-3.0', 'AGPL-3.0-only', 'AGPL-3.0-or-later',
+      'LGPL-2.0', 'LGPL-2.1', 'LGPL-3.0',
+      'SSPL-1.0', 'EUPL-1.1', 'EUPL-1.2',
+    ])
+
+    const compatible = []
+    const flagged = []
+    const unknown = []
+
+    for (const dep of depNames) {
+      const depPkgPath = join(ROOT, 'node_modules', dep, 'package.json')
+      if (!existsSync(depPkgPath)) continue
+
+      try {
+        const depPkg = JSON.parse(readFile(depPkgPath))
+        const license = depPkg.license || (depPkg.licenses && depPkg.licenses[0]?.type) || null
+
+        if (!license) {
+          unknown.push({ name: dep, license: 'NONE' })
+        } else if (typeof license === 'string') {
+          // Handle SPDX expressions like (MIT OR Apache-2.0)
+          const cleanLicense = license.replace(/[()]/g, '').trim()
+          const parts = cleanLicense.split(/\s+OR\s+/i)
+          const hasCompatible = parts.some(p => compatibleLicenses.has(p.trim()))
+          const hasFlagged = parts.some(p => {
+            return [...flaggedLicenses].some(fl => p.trim().toUpperCase().startsWith(fl.toUpperCase()))
+          })
+
+          if (hasCompatible) {
+            compatible.push({ name: dep, license })
+          } else if (hasFlagged) {
+            flagged.push({ name: dep, license })
+          } else {
+            // Not in our known lists — mark as unknown
+            unknown.push({ name: dep, license })
+          }
+        } else {
+          unknown.push({ name: dep, license: JSON.stringify(license) })
+        }
+      } catch {
+        unknown.push({ name: dep, license: 'UNREADABLE' })
+      }
+    }
+
+    findings.push(`${depNames.length} dependencies checked: ${compatible.length} compatible, ${flagged.length} flagged, ${unknown.length} unknown`)
+
+    if (flagged.length > 0) {
+      findings.push(`FLAGGED LICENSES (potentially incompatible):`)
+      for (const f of flagged) {
+        details.push(`License flagged: ${f.name} (${f.license}) — may be incompatible with commercial use`)
+        findings.push(`  ${f.name}: ${f.license}`)
+      }
+    }
+
+    if (unknown.length > 0) {
+      findings.push(`UNKNOWN/MISSING LICENSES:`)
+      for (const u of unknown.slice(0, 5)) {
+        details.push(`License unknown: ${u.name} (${u.license}) — verify manually`)
+        findings.push(`  ${u.name}: ${u.license}`)
+      }
+      if (unknown.length > 5) {
+        findings.push(`  ... and ${unknown.length - 5} more with unknown licenses`)
+      }
+    }
+
+    if (compatible.length > 0 && flagged.length === 0 && unknown.length === 0) {
+      findings.push('All licenses are compatible (MIT, Apache-2.0, BSD, ISC, etc.)')
+    }
+
+    // Scoring: 5 for all compatible, 3 for 1-2 flagged, 1 for more
+    const totalFlagged = flagged.length + unknown.length
+    if (totalFlagged === 0) {
+      score += 5
+      findings.push('License compliance: PERFECT')
+    } else if (totalFlagged <= 2) {
+      score += 3
+      findings.push('License compliance: minor issues — review flagged packages')
+    } else {
+      score += 1
+      findings.push('License compliance: REVIEW NEEDED — multiple flagged/unknown licenses')
+    }
+  } catch (err) {
+    score += 2
+    findings.push(`Error checking licenses: ${err.message}`)
+  }
+
+  log(`  Score: ${score}/${max}`)
+  phase('License Compliance', score, max, findings, details)
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 28: SCORE + SELF-EVALUATION
+// ═══════════════════════════════════════════════════════════════
+
+function phase28_score() {
+  header(28, 'SCORE + AUTO-EVALUATION')
 
   const score100 = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0
 
@@ -2426,11 +3856,11 @@ function phase15_score() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PHASE 16: RECOMMENDATIONS + EVOLUTION
+// PHASE 29: RECOMMENDATIONS + EVOLUTION
 // ═══════════════════════════════════════════════════════════════
 
-function phase16_recommendations(scoreResult) {
-  header(16, 'RECOMMANDATIONS')
+function phase29_recommendations(scoreResult) {
+  header(29, 'RECOMMANDATIONS')
   const newRecs = []
 
   // ── Build enriched, human-readable recommendations ──
@@ -2688,8 +4118,8 @@ function phase16_recommendations(scoreResult) {
   }
 
   // Suggest new checks based on what's missing
-  if (!phases.some(p => p.name === 'Test Coverage')) {
-    selfEval.evolution.push('Prochain ajout possible: phase "Test Coverage" (% de fichiers avec tests).')
+  if (!phases.some(p => p.name === 'Test Coverage/Feature')) {
+    selfEval.evolution.push('Prochain ajout possible: phase "Test Coverage/Feature" (couverture par feature).')
   }
 
   if (selfEval.evolution.length === 0) {
@@ -2796,6 +4226,71 @@ function getPhaseAdvice(name, score, max, findings, details) {
     'Competitive Intelligence': {
       goal: '> 60% de couverture des fonctionnalites des meilleurs concurrents',
       action: 'Implementer les fonctionnalites manquantes les plus impactantes (voir TOP OPPORTUNITES)',
+      pointsGain: gap,
+    },
+    'Circular Imports': {
+      goal: '0 cycles d\'imports circulaires',
+      action: 'Deplacer le code partage dans un fichier utils/ commun pour casser les cycles',
+      pointsGain: gap,
+    },
+    'Code Duplication': {
+      goal: '0 bloc de code duplique entre fichiers',
+      action: 'Extraire le code duplique dans des fonctions utilitaires partagees',
+      pointsGain: gap,
+    },
+    'Test Coverage/Feature': {
+      goal: '> 80% des features cochees mentionnees dans les tests',
+      action: 'Ajouter des tests pour les features non couvertes (voir details par section)',
+      pointsGain: gap,
+    },
+    'File Size Audit': {
+      goal: 'Tous les fichiers < 500 lignes',
+      action: 'Decouper les fichiers > 500 lignes en sous-modules (ex: extraire les helpers)',
+      pointsGain: gap,
+    },
+    'Dependency Freshness': {
+      goal: 'Toutes les dependances a jour (< 1 version majeure de retard)',
+      action: 'Lancer npm update ou npm install package@latest pour les packages en retard',
+      pointsGain: gap,
+    },
+    'Score Trend Tracking': {
+      goal: 'Score en hausse ou stable sur les 3 derniers runs',
+      action: 'Corriger les phases qui degradent le score (voir DEGRADATION ci-dessus)',
+      pointsGain: gap,
+    },
+    'Unused CSS Classes': {
+      goal: '0 classe CSS custom inutilisee',
+      action: 'Supprimer les classes inutilisees de main.css ou les utiliser dans le code',
+      pointsGain: gap,
+    },
+    'Console.log Cleanup': {
+      goal: '0 console.log dans le code source (sauf infrastructure de logging)',
+      action: 'Remplacer console.log par Sentry breadcrumbs ou les supprimer',
+      pointsGain: gap,
+    },
+    'Bundle Size Analysis': {
+      goal: 'Bundle total < 300KB',
+      action: 'npm run build && analyser dist/assets/ — code-splitting, tree-shaking, lazy imports',
+      pointsGain: gap,
+    },
+    'TODO/FIXME Scanner': {
+      goal: '0 FIXME/HACK + < 5 TODO dans src/',
+      action: 'Resoudre les FIXME/HACK en priorite, puis reduire les TODO restants',
+      pointsGain: gap,
+    },
+    'External API Inventory': {
+      goal: 'Toutes les APIs externes listees dans le CSP connect-src',
+      action: 'Ajouter les domaines manquants dans la directive connect-src du CSP dans index.html',
+      pointsGain: gap,
+    },
+    'Accessibility Template Lint': {
+      goal: '0 violation a11y dans les templates HTML',
+      action: 'Ajouter aria-label aux boutons/liens sans texte, alt aux images, role="button" aux div/span cliquables',
+      pointsGain: gap,
+    },
+    'License Compliance': {
+      goal: 'Toutes les dependances avec licences compatibles (MIT, Apache, BSD, ISC)',
+      action: 'Verifier et remplacer les packages avec licences GPL/AGPL/inconnues',
       pointsGain: gap,
     },
   }
@@ -3135,6 +4630,140 @@ function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
     }
   }
 
+  // --- Code Duplication ---
+  if (rawDetail.includes('Duplication') || rawDetail.includes('duplique')) {
+    return { ...base,
+      title: 'Code duplique entre fichiers',
+      explain: 'Le meme bloc de code existe dans plusieurs fichiers. Ca veut dire que si on corrige un bug dans un, l\'autre reste casse.',
+      action: 'Extraire le code commun dans un fichier utilitaire partage (ex: src/utils/) et l\'importer dans les deux fichiers.',
+      impact: 'Un seul endroit a maintenir par fonctionnalite, moins de bugs.',
+    }
+  }
+
+  // --- File size ---
+  if (rawDetail.includes('TROP GROS') || rawDetail.includes('decouper en sous-modules') || rawDetail.includes('envisager de decouper')) {
+    return { ...base,
+      title: 'Fichier trop volumineux a decouper',
+      explain: 'Un fichier avec 500+ lignes est difficile a lire, maintenir et debugger. Ca ralentit aussi le travail collaboratif.',
+      action: 'Extraire les fonctions helpers, les constantes, et les sous-composants dans des fichiers separes.',
+      impact: 'Code plus lisible, plus facile a maintenir, et meilleur tree-shaking.',
+    }
+  }
+
+  // --- Dependency freshness ---
+  if (rawDetail.includes('RETARD MAJEUR') || rawDetail.includes('mettre a jour')) {
+    return { ...base,
+      title: 'Dependance npm en retard de version majeure',
+      explain: 'Une librairie est plusieurs versions majeures en retard. Ca peut signifier des failles de securite, des incompatibilites, ou des fonctionnalites manquantes.',
+      action: 'Mettre a jour avec npm install package@latest, puis verifier que rien ne casse.',
+      impact: 'Securite renforcee et acces aux nouvelles fonctionnalites des librairies.',
+    }
+  }
+
+  // --- Score trend degradation ---
+  if (rawDetail.includes('DEGRADATION') || rawDetail.includes('baisse de')) {
+    return { ...base,
+      title: 'Score en degradation sur une phase',
+      explain: 'Le score de cette phase a baisse depuis le dernier run. Ca veut dire que la qualite se degrade au lieu de s\'ameliorer.',
+      action: 'Corriger les problemes detectes dans cette phase avant de continuer a ajouter du code.',
+      impact: 'Le score remonte et la qualite du code est maintenue.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Unused CSS ---
+  if (rawDetail.includes('Classe CSS inutilisee') || rawDetail.includes('classes inutilisees')) {
+    return { ...base,
+      title: 'Classes CSS custom inutilisees dans main.css',
+      explain: 'Des classes CSS sont definies dans main.css mais ne sont utilisees nulle part dans le code. Ca alourdit le fichier CSS.',
+      action: 'Supprimer les classes inutilisees de main.css ou les utiliser dans le code source.',
+      impact: 'Fichier CSS plus leger, chargement plus rapide.',
+    }
+  }
+
+  // --- Console.log ---
+  if (rawDetail.includes('console.log') || rawDetail.includes('console.*')) {
+    return { ...base,
+      title: 'console.log restants dans le code source',
+      explain: 'Des console.log ont ete laisses dans le code. En production, ca encombre la console du navigateur et peut exposer des informations sensibles.',
+      action: 'Remplacer par Sentry breadcrumbs pour le debugging, ou supprimer purement.',
+      impact: 'Console propre en production, meilleure securite, code plus professionnel.',
+    }
+  }
+
+  // --- Test coverage per feature ---
+  if (rawDetail.includes('Non teste') || (rawDetail.includes('couverture') && rawDetail.includes('test'))) {
+    return { ...base,
+      title: 'Feature sans couverture de test',
+      explain: 'Certaines fonctionnalites cochees dans features.md ne sont referenceees dans aucun fichier de test. Si elles cassent, on ne le saura pas.',
+      action: 'Ajouter au moins un test (wiring, integration, ou E2E) qui mentionne cette feature.',
+      impact: 'Chaque feature est protegee par au moins un test automatique.',
+    }
+  }
+
+  // --- Bundle Size Analysis ---
+  if (rawDetail.includes('VERY LARGE') || rawDetail.includes('LARGE') || (phaseName === 'Bundle Size Analysis' && rawDetail.includes('KB'))) {
+    return { ...base,
+      title: 'Chunk JS trop volumineux',
+      explain: 'Un fichier JavaScript dans le build final est trop gros. Ca ralentit le chargement de l\'app, surtout sur mobile.',
+      action: 'Activer le code-splitting (import() dynamique) et verifier les imports inutiles avec npm run build -- --report.',
+      impact: 'L\'app charge plus vite, surtout en 3G ou sur un vieux telephone.',
+    }
+  }
+
+  // --- TODO/FIXME Scanner ---
+  if (rawDetail.includes('[FIXME]') || rawDetail.includes('[HACK]') || rawDetail.includes('[TODO]') || rawDetail.includes('[XXX]') || rawDetail.includes('[TEMP]')) {
+    const isHigh = rawDetail.includes('[FIXME]') || rawDetail.includes('[HACK]')
+    return { ...base,
+      title: isHigh ? 'Code marque FIXME/HACK a corriger' : 'TODO restant dans le code',
+      explain: isHigh
+        ? 'Du code est explicitement marque comme "a corriger" (FIXME) ou "bidouille temporaire" (HACK). Ca veut dire que le developpeur savait que c\'etait pas bien.'
+        : 'Un TODO a ete laisse dans le code — une fonctionnalite ou correction n\'est pas encore faite.',
+      action: isHigh
+        ? 'Corriger le code marque FIXME/HACK — c\'est un raccourci qui peut casser des choses.'
+        : 'Implementer le TODO ou le supprimer si c\'est plus necessaire.',
+      impact: 'Code plus fiable, sans raccourcis dangereux.',
+      priority: isHigh ? 'HAUTE' : 'MOYENNE',
+    }
+  }
+
+  // --- External API Inventory ---
+  if (rawDetail.includes('API not in CSP') || rawDetail.includes('not in CSP')) {
+    return { ...base,
+      title: 'API externe non declaree dans le CSP',
+      explain: 'L\'app utilise une API externe mais le Content-Security-Policy ne l\'autorise pas. Le navigateur peut bloquer ces requetes silencieusement.',
+      action: 'Ajouter le domaine dans la directive connect-src du CSP dans index.html.',
+      impact: 'Les requetes vers cette API ne seront plus bloquees par le navigateur.',
+      priority: 'HAUTE',
+    }
+  }
+
+  // --- Accessibility Template Lint ---
+  if (rawDetail.includes('[a11y]')) {
+    return { ...base,
+      title: 'Violation d\'accessibilite dans un template HTML',
+      explain: 'Un element HTML dans le code ne respecte pas les standards d\'accessibilite. Les utilisateurs de lecteurs d\'ecran ou de navigation au clavier sont penalises.',
+      action: 'Ajouter les attributs manquants : aria-label pour les boutons/liens sans texte, alt pour les images, role="button" pour les div/span cliquables.',
+      impact: 'L\'app est utilisable par les personnes avec un handicap visuel ou moteur.',
+    }
+  }
+
+  // --- License Compliance ---
+  if (rawDetail.includes('License flagged') || rawDetail.includes('License unknown')) {
+    const isFlagged = rawDetail.includes('License flagged')
+    return { ...base,
+      title: isFlagged ? 'Dependance avec licence potentiellement incompatible' : 'Dependance sans licence identifiee',
+      explain: isFlagged
+        ? 'Un package npm utilise une licence (GPL, AGPL) qui peut imposer des restrictions sur le code de SpotHitch.'
+        : 'Un package npm n\'a pas de licence identifiable. Ca pose un risque juridique car on ne sait pas sous quelles conditions on peut l\'utiliser.',
+      action: isFlagged
+        ? 'Verifier si la licence est vraiment incompatible. Si oui, chercher un package alternatif avec licence MIT/Apache/BSD.'
+        : 'Verifier le repository du package pour trouver sa licence reelle, ou le remplacer par un equivalent.',
+      impact: 'SpotHitch reste utilisable commercialement sans risque juridique.',
+      priority: isFlagged ? 'HAUTE' : 'MOYENNE',
+    }
+  }
+
   // --- Fallback for unrecognized details ---
   return { ...base,
     title: `[${phaseName}] ${rawDetail.slice(0, 60)}`,
@@ -3149,11 +4778,11 @@ function enrichRecommendation(phaseName, rawDetail, phaseScore, phaseMax) {
 // ═══════════════════════════════════════════════════════════════
 
 log('\n' + '='.repeat(60))
-log('  PLAN WOLF v5 — L\'EQUIPE QA AUTONOME')
+log('  PLAN WOLF v6 — L\'EQUIPE QA AUTONOME')
 log('='.repeat(60))
 const modeLabel = isDelta ? 'DELTA (changed files only)'
   : isQuick ? 'QUICK (skip Lighthouse/Screenshots/Web Search)'
-  : 'FULL (16 phases)'
+  : 'FULL (29 phases)'
 log(`Mode: ${modeLabel}`)
 log(`Date: ${new Date().toISOString()}`)
 log(`Run #${memory.runs.length + 1}`)
@@ -3188,8 +4817,21 @@ if (shouldRun(11)) phase11_lighthouse()
 if (shouldRun(12)) phase12_screenshots()
 if (shouldRun(13)) phase13_featureScores()
 // phase14_competitiveIntel() — désactivé (conseils internes uniquement)
-const scoreResult = phase15_score()
-const newRecs = phase16_recommendations(scoreResult)
+if (shouldRun(15)) phase15_circularImports()
+if (shouldRun(16)) phase16_codeDuplication()
+if (shouldRun(17)) phase17_testCoveragePerFeature()
+if (shouldRun(18)) phase18_fileSizeAudit()
+if (shouldRun(19)) phase19_dependencyFreshness()
+if (shouldRun(20)) phase20_scoreTrendTracking()
+if (shouldRun(21)) phase21_unusedCSS()
+if (shouldRun(22)) phase22_consoleLogCleanup()
+if (shouldRun(23)) phase23_bundleSizeAnalysis()
+if (shouldRun(24)) phase24_todoScanner()
+if (shouldRun(25)) phase25_apiInventory()
+if (shouldRun(26)) phase26_a11yLint()
+if (shouldRun(27)) phase27_licenseCompliance()
+const scoreResult = phase28_score()
+const newRecs = phase29_recommendations(scoreResult)
 
 // ═══════════════════════════════════════════════════════════════
 // FINAL REPORT
@@ -3198,7 +4840,7 @@ const newRecs = phase16_recommendations(scoreResult)
 const totalTime = ((Date.now() - start) / 1000).toFixed(1)
 
 log('\n\n' + '='.repeat(60))
-log('  PLAN WOLF v5 — RAPPORT FINAL')
+log('  PLAN WOLF v6 — RAPPORT FINAL')
 log('='.repeat(60))
 
 // Quick summary at the top for fast scanning

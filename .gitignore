@@ -31,3 +31,7 @@ cursor.AppImage
 .lighthouseci/
 wolf-report.html
 wolf-screenshots/
+
+# Visual regression
+visual-baselines/
+visual-regression-output/
