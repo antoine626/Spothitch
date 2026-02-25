@@ -378,7 +378,8 @@ window.handleGoogleSignIn = async () => {
         executePendingAction(authPendingAction)
       }
     } else {
-      showError(t('authError'))
+      const errorMsg = getAuthErrorMessage(result.error)
+      showError(errorMsg)
     }
   } catch (error) {
     console.error('Google sign in error:', error)

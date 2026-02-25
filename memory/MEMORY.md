@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-24 (session 21)
+> Dernière mise à jour : 2026-02-25 (session 22)
 
 ---
 
@@ -71,6 +71,16 @@
 - **Sentry Sync** : workflow GitHub Actions toutes les 6h, crée des issues GitHub automatiquement depuis les erreurs Sentry
 - **Cloudflare** : Account ID + API Token configurés depuis 2026-02-16
 
+## Configuration locale Firebase (développement)
+
+- **`.env.local`** : fichier créé le 2026-02-25 avec toutes les clés VITE_FIREBASE_* (gitignored)
+- **API key** : `Browser key (auto created by Firebase)` — restrictions HTTP referrer incluent spothitch.com + localhost
+- **OAuth 2.0 Client** : `Web client (auto created by Google Service)` — ID: 314974309234-eh79...
+  - Origines JS autorisées : ajout `http://localhost:5173` (2026-02-25)
+  - URI de redirection : ajout `http://localhost:5173/__/auth/handler` (2026-02-25)
+- **Firebase Auth authorized domains** : inclut `localhost` (vérifié 2026-02-25)
+- **Problème connu** : `auth/internal-error` sur Google Sign-In = OAuth client pas configuré pour localhost → résolu ci-dessus
+
 ## Ce qui est PAS encore configuré
 
 - **Affiliés** : pas inscrit sur Hostelworld/Booking → pas de monétisation
@@ -88,6 +98,16 @@
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session 2026-02-25 (session 22 — WOLF EXHAUSTIF + DOUBLONS + i18n + TOGGLES)
+- **Wolf exhaustif run #30** : score 74/100 (+3 depuis le dernier run). Points parfaits : tests unitaires 100%, build 100%, inventaire features 100%, screenshots 100%, feature scores 100%.
+- **Toggle centering fix** : `top-[2px]` → `top-[4px]` (bouton 24px, bordure 2px = espace intérieur 20px, point 16px → centrage = 4px). Compact: `top-[1px]` → `top-[3px]`.
+- **24 clés i18n manquantes ajoutées** dans 4 langues : languages, teamNameLabel, guideTabInfo, selectLevel, startDate, endDate, socialLinks, myPhotos, gpsUnavailable, loadingStations, stationsError, zoomInForStations, etc. Total : 3399 clés.
+- **Déduplication handlers** : supprimé openLeaderboard/closeLeaderboard de main.js (Leaderboard.js statique), stopNavigation/openExternalNavigation de main.js (navigation.js statique), openAdminPanel/closeAdminPanel/openFilters de AdminPanel.js, openProfileCustomization/closeProfileCustomization de profileCustomization.js, openCreateTravelGroup/closeCreateTravelGroup de travelGroups.js, openCreateTeam de teamChallenges.js, openNavigation de SpotDetail.js, openIdentityVerification de IdentityVerification.js.
+- **Prévention permanente** : nouveau check `scripts/checks/duplicate-handlers.mjs` dans quality-gate. Détecte handlers dans 2+ composants sans main.js → ERREUR. Score: 100/100 après corrections.
+- **Firebase confirmé configuré** : TOUTES les clés GitHub Secrets depuis 2025-12-26. signUp/signIn/signInWithGoogle NON supprimées (fonctions légitimes attendant le lancement public).
+- **Règle pattern STUB** : handlers simple setState open/close appartiennent UNIQUEMENT à main.js. Composants non-statiques = stubs commentés `// STUB (canonical, xxx.js removed its duplicate)`.
+- 107 tests passent, build OK, déployé
 
 ### Session 2026-02-24 (session 21 — FIX SUGGESTIONS VOYAGE CSP)
 - **BUG CRITIQUE : CSP bloquait l'API Photon** — La CSP `connect-src` dans index.html ne contenait pas `https://photon.komoot.io`. Le navigateur refusait silencieusement les requêtes fetch vers l'API d'autocomplete des villes. Le `catch` block masquait l'erreur.
