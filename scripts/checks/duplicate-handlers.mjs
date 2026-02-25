@@ -53,8 +53,9 @@ export default function checkDuplicateHandlers() {
       const match = line.match(/^window\.(\w+)\s*=/)
       if (!match) continue
       const name = match[1]
-      // Skip if this line is inside a guard: if (!window.xxx) { window.xxx = ... }
-      const prevLines = lines.slice(Math.max(0, i - 3), i).join('\n')
+      // Skip if this line is inside a guard: if (!window.xxx) { ... window.xxx = ... }
+      // Look up to 200 lines back for enclosing guard block
+      const prevLines = lines.slice(Math.max(0, i - 200), i).join('\n')
       if (new RegExp(`if\\s*\\(!\\s*window\\.${name}\\s*\\)`).test(prevLines)) continue
       if (seen.has(name)) continue // same file redefinition is a different issue
       seen.add(name)

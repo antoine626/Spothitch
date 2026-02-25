@@ -156,7 +156,7 @@ function renderDayCard(day, _info) {
         ${isMystery ? '?' : `+${day.points}`}
       </div>
       ${isMystery && !isClaimed ? `
-        <div class="text-[8px] text-amber-400 mt-0.5">${t('mystery') || 'Mystère'}</div>
+        <div class="text-[10px] text-amber-400 mt-0.5">${t('mystery') || 'Mystère'}</div>
       ` : ''}
     </div>
   `;

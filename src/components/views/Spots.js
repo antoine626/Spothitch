@@ -141,7 +141,7 @@ function renderSpotsMapLoading() {
     <div
       class="h-[calc(100vh-280px)] min-h-[400px] rounded-2xl overflow-hidden relative"
       role="status"
-      aria-label="Chargement de la carte"
+      aria-label="${t('mapLoading')}"
     >
       <div class="absolute inset-0 bg-slate-800 animate-pulse">
         <div class="absolute inset-0 flex items-center justify-center">

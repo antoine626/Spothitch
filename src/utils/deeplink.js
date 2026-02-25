@@ -80,8 +80,8 @@ export function handleDeepLink() {
   const guide = params.get('guide');
   if (guide) {
     setState({
-      activeTab: 'travel',
-      activeSubTab: 'guides',
+      activeTab: 'challenges',
+      voyageSubTab: 'guides',
       selectedCountryGuide: guide.toUpperCase(),
     });
   }

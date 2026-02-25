@@ -864,7 +864,10 @@ window.declineLocationPermission = () => {
   showToast(t('locationLater') || 'Vous pouvez activer la localisation plus tard dans les paramètres', 'info')
 }
 window.closeLocationPermission = () => setState({ showLocationPermission: false })
-window.openRating = (spotId) => setState({ showRating: true, ratingSpotId: spotId });
+window.openRating = (_spotId) => {
+  // Rating modal not yet implemented — show toast
+  showToast(t('comingSoon') || 'Coming soon', 'info')
+};
 window.closeRating = () => setState({ showRating: false, ratingSpotId: null });
 window.openNavigation = (lat, lng) => {
   if (lat && lng) {
@@ -1530,8 +1533,8 @@ window.closeTripPlanner = () => {} // no-op, overlay removed
 window.openGuidesOverlay = () => setState({ activeTab: 'challenges', voyageSubTab: 'guides' })
 window.closeGuidesOverlay = () => {} // no-op, overlay removed
 
-// Guides handlers
-window.showGuides = () => setState({ activeTab: 'guides', selectedCountryCode: null, showSafety: false });
+// Guides handlers (guides is a sub-tab of Voyage/challenges — ERR-020)
+window.showGuides = () => setState({ activeTab: 'challenges', voyageSubTab: 'guides', selectedCountryCode: null, showSafety: false });
 window.showCountryDetail = (code) => setState({ selectedCountryCode: code });
 window.showSafetyPage = () => setState({ showSafety: true });
 window.closeSafety = () => setState({ showSafety: false })
@@ -1546,26 +1549,29 @@ window.reportGuideError = async (countryCode) => {
     reports.push({ countryCode, error: errorType, date: new Date().toISOString() });
     localStorage.setItem('spothitch_guide_reports', JSON.stringify(reports));
 
-    // Also save to Firestore
-    try {
-      const { db } = await import('./services/firebase.js');
-      const { collection, addDoc } = await import('firebase/firestore');
-      await addDoc(collection(db, 'guide_reports'), {
-        countryCode,
-        error: errorType,
-        date: new Date().toISOString(),
-        userId: getState().user?.uid || 'anonymous'
-      });
-    } catch (error) {
-      // Firestore save failed - report stored locally
+    // Also save to Firestore (only if authenticated — ERR-002)
+    const currentUser = getState().user
+    if (currentUser?.uid) {
+      try {
+        const { db } = await import('./services/firebase.js');
+        const { collection, addDoc } = await import('firebase/firestore');
+        await addDoc(collection(db, 'guide_reports'), {
+          countryCode,
+          error: errorType,
+          date: new Date().toISOString(),
+          userId: currentUser.uid
+        });
+      } catch (error) {
+        // Firestore save failed - report stored locally
+      }
     }
 
     showToast(t('thankYouReport') || 'Merci pour le signalement ! Nous allons vérifier.', 'success');
   }
 };
 
-// Friends handlers
-window.showFriends = () => setState({ activeTab: 'friends', selectedFriendId: null });
+// Friends handlers (friends is a sub-tab of Social — ERR-020)
+window.showFriends = () => setState({ activeTab: 'social', socialSubTab: 'friends', selectedFriendId: null });
 window.openFriendsChat = (friendId) => setState({ selectedFriendId: friendId });
 
 // Animation handlers (global) — lazy-loaded
@@ -1710,8 +1716,10 @@ window.getChallengeTypes = async () => {
 window.showLegalPage = (page = 'cgu') => setState({ showLegal: true, legalPage: page });
 window.closeLegal = () => setState({ showLegal: false });
 
-// Side menu handlers
-window.openSideMenu = () => setState({ showSideMenu: true });
+// Side menu handlers (no render function yet — stub with toast)
+window.openSideMenu = () => {
+  showToast(t('comingSoon') || 'Coming soon', 'info')
+};
 window.closeSideMenu = () => setState({ showSideMenu: false });
 
 // Accessibility handlers

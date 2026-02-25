@@ -630,9 +630,15 @@ function renderNoTeam(_state) {
 }
 
 // openCreateTeam defined in main.js (canonical STUB)
-window.openJoinTeam = () => setState({ showJoinTeam: true });
+window.openJoinTeam = () => {
+  // Join team modal not yet implemented — show toast
+  showToast(t('comingSoon') || 'Coming soon', 'info')
+};
 window.closeJoinTeam = () => setState({ showJoinTeam: false });
-window.openTeamSettings = () => setState({ showTeamSettings: true });
+window.openTeamSettings = () => {
+  // Team settings modal not yet implemented — show toast
+  showToast(t('comingSoon') || 'Coming soon', 'info')
+};
 window.closeTeamSettings = () => setState({ showTeamSettings: false });
 window.openTeamChallengesList = () => setState({ showTeamChallenges: true });
 window.inviteToTeam = () => {

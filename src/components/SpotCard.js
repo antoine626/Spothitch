@@ -60,7 +60,7 @@ function renderDefaultCard(spot) {
             aria-label="${t('freshness') || 'Fraîcheur'}: ${freshnessBadge.label}"
             title="${freshnessBadge.description}"
           >
-            ${icon('circle', `w-5 h-5 ${freshnessBadge.iconColor} text-[8px] mr-1`)}
+            ${icon('circle', `w-5 h-5 ${freshnessBadge.iconColor} text-[10px] mr-1`)}
             ${freshnessBadge.label}
           </span>
         </div>

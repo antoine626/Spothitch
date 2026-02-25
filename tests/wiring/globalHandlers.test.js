@@ -410,6 +410,15 @@ const MAIN_JS_HANDLERS = [
   'triggerSOS', 'shareSOS',
   'openCompanion', 'closeCompanion',
   'submitNewSpot',
+  // Missing handlers (session 2026-02-25)
+  'requireProfile', 'closeBadgePopup', 'sendAmbassadorMessage',
+  'handleCreateTeam', 'forceOfflineSync',
+  'translateElement', 'showOriginal',
+  'startNavigation', 'removeKnownDevice',
+  'closeShareModal', 'copySpotLink', 'shareOnWhatsApp',
+  'exportUserData', 'shareLink', 'generateShareUrl',
+  'openInGoogleMaps', 'openInWaze', 'openInAppleMaps', 'openInNativeMaps',
+  'selectNavigationApp', 'closeNavigationPicker',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

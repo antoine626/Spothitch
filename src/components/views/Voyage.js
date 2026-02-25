@@ -436,7 +436,7 @@ function renderSpotsTimeline(spots, results, highlighted) {
         return `
           <div class="relative flex items-start gap-3 pb-4 group">
             <div class="absolute left-[-18px] w-7 h-7 rounded-full ${isHighlighted ? 'bg-amber-500 border-amber-400' : 'bg-primary-500/80 border-primary-500/40'} border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg transition-colors">
-              ${isHighlighted ? icon('star', 'w-4 h-4 text-white') : `<span class="text-[9px] font-bold text-white">${i + 1}</span>`}
+              ${isHighlighted ? icon('star', 'w-4 h-4 text-white') : `<span class="text-[10px] font-bold text-white">${i + 1}</span>`}
             </div>
             <div
               class="flex-1 min-w-0 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors py-0.5 ${isHighlighted ? 'bg-amber-500/5 border-l-2 border-amber-500/40 pl-2' : ''}"
@@ -1348,6 +1348,7 @@ if (!window.tripSearchSuggestions) {
   }
 
   let voyageDebounce = null
+  // Guarded by if (!window.tripSearchSuggestions) at line 1237
   window.tripSearchSuggestions = (field, query) => {
     clearTimeout(voyageDebounce)
     const container = document.getElementById(`trip-${field}-suggestions`)

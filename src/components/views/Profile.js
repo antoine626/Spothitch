@@ -1031,10 +1031,10 @@ function renderFeatureDetailTech() {
   return `
     <div class="space-y-3 mb-5">
       ${[
-        { icon: '🗺️', color: 'amber', title: 'Google Maps intégré', desc: 'Navigation plus fluide, vue satellite, meilleure précision GPS.', impact: 'Navigation ++' },
-        { icon: '⚡', color: 'blue', title: 'Serveurs plus puissants', desc: 'Chargement instantané, même avec tous les spots.', impact: 'Vitesse x10' },
-        { icon: '📱', color: 'green', title: 'App plus réactive', desc: 'Animations smooth, transitions rapides.', impact: 'Fluidité ++' },
-        { icon: '🔄', color: 'purple', title: 'Synchronisation temps réel', desc: 'Spots et commentaires se mettent à jour instantanément.', impact: 'Actualité ++' },
+        { icon: '🗺️', color: 'amber', title: t('featureTechMapsTitle'), desc: t('featureTechMapsDesc'), impact: t('featureTechMapsImpact') },
+        { icon: '⚡', color: 'blue', title: t('featureTechServersTitle'), desc: t('featureTechServersDesc'), impact: t('featureTechServersImpact') },
+        { icon: '📱', color: 'green', title: t('featureTechAppTitle'), desc: t('featureTechAppDesc'), impact: t('featureTechAppImpact') },
+        { icon: '🔄', color: 'purple', title: t('featureTechSyncTitle'), desc: t('featureTechSyncDesc'), impact: t('featureTechSyncImpact') },
       ].map(item => `
         <div class="card p-3">
           <div class="flex items-start gap-3">
@@ -1138,7 +1138,7 @@ function renderFeatureDetailLeagues() {
         <div class="flex items-center gap-3">
           <div class="relative">
             <div class="w-14 h-14 rounded-full border-3 border-amber-500 flex items-center justify-center"><span class="text-3xl">🥇</span></div>
-            <span class="absolute -bottom-1 -right-1 bg-amber-500 text-black text-[8px] px-1.5 py-0.5 rounded-full font-bold">GOLD</span>
+            <span class="absolute -bottom-1 -right-1 bg-amber-500 text-black text-[10px] px-1.5 py-0.5 rounded-full font-bold">GOLD</span>
           </div>
           <div class="flex-1">
             <p class="font-bold">Marie_Backpack</p>
@@ -1161,7 +1161,7 @@ function renderFeatureDetailLeagues() {
         </div>
       </div>
       <div class="card p-3 border-amber-500/20 bg-amber-500/5">
-        <p class="font-bold text-sm">🏆 Récompenses fin de saison</p>
+        <p class="font-bold text-sm">🏆 ${t('seasonRewards')}</p>
         <div class="flex justify-between mt-1.5 text-xs">
           <span class="text-amber-500">Top 1: 1000 👍</span><span class="text-slate-400">Top 10: 300 👍</span><span class="text-slate-500">Top 50: 100 👍</span>
         </div>
@@ -1252,7 +1252,7 @@ function renderFeatureDetailHostels() {
         <div class="card p-3">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 bg-emerald-500 rounded-xl flex items-center justify-center"><span class="text-xl">🌿</span></div>
-            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">The Circus</p><span class="bg-emerald-500/20 text-emerald-400 text-[8px] px-1.5 py-0.5 rounded-full">Chill</span></div><p class="text-slate-400 text-xs">Mitte • ⭐ 4.7</p></div>
+            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">The Circus</p><span class="bg-emerald-500/20 text-emerald-400 text-[10px] px-1.5 py-0.5 rounded-full">Chill</span></div><p class="text-slate-400 text-xs">Mitte • ⭐ 4.7</p></div>
             <div class="text-right"><p class="font-bold text-sm">24€</p><p class="text-emerald-500 text-xs line-through">28€</p></div>
           </div>
           <div class="flex gap-1 mt-1.5 text-slate-500 text-[10px]"><span>Yoga</span><span>•</span><span>Rooftop</span><span>•</span><span>Petit-déj</span></div>
@@ -1260,7 +1260,7 @@ function renderFeatureDetailHostels() {
         <div class="card p-3">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 bg-amber-500 rounded-xl flex items-center justify-center"><span class="text-xl">💰</span></div>
-            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">Generator</p><span class="bg-amber-500/20 text-amber-400 text-[8px] px-1.5 py-0.5 rounded-full">Cheap</span></div><p class="text-slate-400 text-xs">Prenzlauer • ⭐ 4.2</p></div>
+            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">Generator</p><span class="bg-amber-500/20 text-amber-400 text-[10px] px-1.5 py-0.5 rounded-full">Cheap</span></div><p class="text-slate-400 text-xs">Prenzlauer • ⭐ 4.2</p></div>
             <div class="text-right"><p class="font-bold text-sm">14€</p><p class="text-emerald-500 text-xs line-through">16€</p></div>
           </div>
           <div class="flex gap-1 mt-1.5 text-slate-500 text-[10px]"><span>Central</span><span>•</span><span>24/7</span><span>•</span><span>Propre</span></div>
@@ -1268,7 +1268,7 @@ function renderFeatureDetailHostels() {
         <div class="card p-3">
           <div class="flex items-center gap-3">
             <div class="w-11 h-11 bg-pink-500 rounded-xl flex items-center justify-center"><span class="text-xl">🎉</span></div>
-            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">St Christopher's</p><span class="bg-pink-500/20 text-pink-400 text-[8px] px-1.5 py-0.5 rounded-full">Party</span></div><p class="text-slate-400 text-xs">Alexanderplatz • ⭐ 4.4</p></div>
+            <div class="flex-1"><div class="flex items-center gap-1.5"><p class="font-bold text-sm">St Christopher's</p><span class="bg-pink-500/20 text-pink-400 text-[10px] px-1.5 py-0.5 rounded-full">Party</span></div><p class="text-slate-400 text-xs">Alexanderplatz • ⭐ 4.4</p></div>
             <div class="text-right"><p class="font-bold text-sm">18€</p><p class="text-emerald-500 text-xs line-through">21€</p></div>
           </div>
           <div class="flex gap-1 mt-1.5 text-slate-500 text-[10px]"><span>Bar</span><span>•</span><span>DJ</span><span>•</span><span>Pub crawl</span></div>
@@ -1358,10 +1358,10 @@ function renderFeatureDetailGroups() {
           <span class="bg-emerald-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">🟢 5 en ligne</span>
           <h3 class="text-white font-bold mt-1">Les Routards</h3>
         </div>
-        <div class="absolute top-1/3 left-1/4 flex flex-col items-center"><div class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">M</div><span class="bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full mt-0.5">Marie</span></div>
-        <div class="absolute top-1/2 left-1/2 flex flex-col items-center"><div class="w-10 h-10 bg-emerald-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">T</div><span class="bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full mt-0.5">Tom</span></div>
-        <div class="absolute bottom-1/3 left-1/3 flex flex-col items-center"><div class="w-10 h-10 bg-pink-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">S</div><span class="bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full mt-0.5">Sophie</span></div>
-        <div class="absolute top-1/4 right-1/3 flex flex-col items-center"><div class="w-10 h-10 bg-amber-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">A</div><span class="bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full mt-0.5">Alex</span></div>
+        <div class="absolute top-1/3 left-1/4 flex flex-col items-center"><div class="w-10 h-10 bg-blue-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">M</div><span class="bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded-full mt-0.5">Marie</span></div>
+        <div class="absolute top-1/2 left-1/2 flex flex-col items-center"><div class="w-10 h-10 bg-emerald-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">T</div><span class="bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded-full mt-0.5">Tom</span></div>
+        <div class="absolute bottom-1/3 left-1/3 flex flex-col items-center"><div class="w-10 h-10 bg-pink-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">S</div><span class="bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded-full mt-0.5">Sophie</span></div>
+        <div class="absolute top-1/4 right-1/3 flex flex-col items-center"><div class="w-10 h-10 bg-amber-500 rounded-full border-3 border-white flex items-center justify-center font-bold text-sm shadow-lg">A</div><span class="bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded-full mt-0.5">Alex</span></div>
       </div>
       <div class="flex items-center justify-between mb-2"><h3 class="font-bold text-sm">👥 Membres</h3><span class="text-amber-500 text-xs">+ Inviter</span></div>
       <div class="space-y-1.5">

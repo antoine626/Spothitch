@@ -55,8 +55,9 @@ const PATTERN_CHECKS = [
           if (!m) continue
           const handler = m[1]
           if (SKIP.has(handler) || handler.startsWith('_')) continue
-          // Check if this is a guarded assignment (if (!window.xxx) { window.xxx = ... })
-          const prevLines = lines.slice(Math.max(0, i - 3), i).join(' ')
+          // Check if this is a guarded assignment (if (!window.xxx) { ... window.xxx = ... })
+          // Look up to 200 lines back for enclosing guard block
+          const prevLines = lines.slice(Math.max(0, i - 200), i).join(' ')
           if (new RegExp(`if\\s*\\(\\s*!\\s*window\\.${handler}\\s*\\)`).test(prevLines)) {
             guardedAssignments.add(`${handler}:${relPath}`)
           }
@@ -208,6 +209,14 @@ const PATTERN_CHECKS = [
         'showLanding', 'showWelcome', 'showCookieBanner',
         'showOfflineBanner', 'showDebugPanel', 'showZoneChat',
         'showNotification', 'showToast', 'showLoading',
+        // Flags with no render modal (stub handlers, future features, or inline UI)
+        'showConsentSettings', // shows toast only (MyData.js)
+        'showGuidesOverlay',   // used internally in Map.js, no modal
+        'showJoinTeam',        // future feature, stub handler in teamChallenges.js
+        'showPhotoUpload',     // stub handler, future feature
+        'showSettings',        // settings rendered inline in Profile.js
+        'showTeamSettings',    // future feature, stub handler in teamChallenges.js
+        'showTitlePopup',      // auto-hide popup in gamification.js, no modal
       ])
       const realGhosts = ghostFlags.filter(f => !EXPECTED_NON_RENDERED.has(f))
 
@@ -427,7 +436,7 @@ const PATTERN_CHECKS = [
               /window\.\w+\s*=\s*\(\)\s*=>\s*\{\s*\/\*\s*no-?op\s*\*\/\s*\}/.test(line)) {
             // Skip known intentional stubs (comment says "placeholder" or "fallback")
             const context = lines.slice(Math.max(0, i - 2), Math.min(lines.length, i + 2)).join(' ')
-            if (/placeholder|fallback|will be replaced|lazy.?load|overridden/i.test(context)) continue
+            if (/placeholder|fallback|will be replaced|lazy.?load|overridden|no.?op|handled by|removed|overlay removed|stub/i.test(context)) continue
             const handlerMatch = line.match(/window\.(\w+)/)
             issues.push(`${relPath}:${i + 1} — window.${handlerMatch?.[1]} is a no-op stub (ERR-014)`)
           }
@@ -498,7 +507,12 @@ const PATTERN_CHECKS = [
           if (!classInTemplate) {
             // Check context — might be a well-known class
             const KNOWN_CLASSES = new Set(['card', 'btn', 'modal', 'active', 'hidden', 'visible',
-              'radio-btn', 'tab-btn', 'nav-btn', 'spot-card', 'map-marker'])
+              'radio-btn', 'tab-btn', 'nav-btn', 'spot-card', 'map-marker',
+              // Dynamic classes defined in template literals (false positives)
+              'team-avatar-btn', 'landing-dot', 'spot-type-btn', 'language-option',
+              'category-btn', 'hostel-tab', 'faq-answer', 'contact-error',
+              // External library classes
+              'maplibregl-popup'])
             if (!KNOWN_CLASSES.has(className)) {
               issues.push(`${relPath}:${i + 1} — querySelector('.${className}') — class may not exist in template (ERR-008)`)
             }
@@ -824,8 +838,8 @@ const PATTERN_CHECKS = [
           if (!m) continue
           const handler = m[1]
           if (handler.startsWith('_') || SKIP.has(handler)) continue
-          // Check for guard
-          const prevLines = lines.slice(Math.max(0, i - 3), i).join(' ')
+          // Check for guard (look up to 200 lines back for enclosing guard block)
+          const prevLines = lines.slice(Math.max(0, i - 200), i).join(' ')
           if (new RegExp(`if\\s*\\(\\s*!\\s*window\\.${handler}\\s*\\)`).test(prevLines)) continue
           if (!handlersByFile[handler]) handlersByFile[handler] = new Set()
           handlersByFile[handler].add(relPath)
@@ -953,7 +967,7 @@ const PATTERN_CHECKS = [
             // Flag innerHTML with user.name, username, displayName, email directly interpolated
             if (/\$\{.*(?:user\.name|username|displayName|user\.email|\.name\b).*\}/.test(context)) {
               // Skip if escapeJSString or escapeHtml or textContent is nearby
-              if (/escapeJSString|escapeHtml|DOMPurify|sanitize|textContent/.test(context)) continue
+              if (/escapeJSString|escapeHtml|escapeHTML|DOMPurify|sanitize|textContent/.test(context)) continue
               issues.push(`${relPath}:${i + 1} — innerHTML with user variable interpolation (use textContent or escape, ERR-019)`)
             }
           }

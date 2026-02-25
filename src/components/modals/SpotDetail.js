@@ -405,9 +405,6 @@ function formatReviewDate(dateStr) {
 
 // openNavigation defined in main.js (uses directions API — canonical version)
 
-window.openRating = async (spotId) => {
-  const { setState } = await import('../../stores/state.js');
-  setState({ showRating: true, ratingSpotId: spotId });
-};
+// openRating is defined in main.js (canonical handler)
 
 export default { renderSpotDetail };

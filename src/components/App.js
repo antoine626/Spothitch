@@ -84,6 +84,12 @@ const _lazyLoaders = {
   renderSocial: () => import('./views/Social.js'),
   renderProfile: () => import('./views/Profile.js'),
   renderSpots: () => import('./views/Spots.js'),
+  renderAddFriendModal: () => import('./views/Friends.js'),
+  renderUnblockModal: () => import('../services/userBlocking.js'),
+  renderSafety: () => import('./views/Guides.js'),
+  renderLocationPermission: () => import('./modals/LocationPermission.js'),
+  renderInstallBanner: () => import('../utils/pwa.js'),
+  renderLanguageSelector: () => import('./modals/LanguageSelector.js'),
 }
 
 // Lazy-loaded module cache
@@ -176,7 +182,7 @@ export function renderApp(state) {
     ${state.showLeaderboard ? lazyRender('renderLeaderboardModal') : ''}
     ${state.checkinSpot ? lazyRender('renderCheckinModal', state) : ''}
     ${state.showDailyReward ? lazyRender('renderDailyRewardModal') : ''}
-    ${state.newBadge ? lazyRender('renderBadgePopup', state.newBadge) : ''}
+    ${state.showBadgePopup ? lazyRender('renderBadgePopup') : ''}
     ${state.showBadgeDetail ? lazyRender('renderBadgeDetail', state.selectedBadgeId) : ''}
 
     <!-- Navigation Overlay -->
@@ -383,6 +389,24 @@ export function renderApp(state) {
       </div>
     ` : ''}
 
+
+    <!-- Add Friend Modal -->
+    ${state.showAddFriend ? lazyRender('renderAddFriendModal', state) : ''}
+
+    <!-- Unblock User Modal -->
+    ${state.showUnblockModal ? lazyRender('renderUnblockModal', state.unblockTargetId, state.unblockTargetName) : ''}
+
+    <!-- Safety Page Overlay -->
+    ${state.showSafety ? lazyRender('renderSafety') : ''}
+
+    <!-- Location Permission Modal -->
+    ${state.showLocationPermission ? lazyRender('renderLocationPermission', state) : ''}
+
+    <!-- PWA Install Banner -->
+    ${state.showInstallBanner ? lazyRender('renderInstallBanner') : ''}
+
+    <!-- Language Selector Modal -->
+    ${state.showLanguageSelector ? lazyRender('renderLanguageSelector', state) : ''}
 
     <!-- Profile Setup (triggered when user wants to contribute) -->
     ${state.showWelcome ? lazyRender('renderWelcome', state) : ''}

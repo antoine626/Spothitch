@@ -209,15 +209,6 @@ window.setFeedFilter = (filter) => {
   window.setState?.({ feedFilter: filter })
 }
 
-window.toggleFeedVisibility = async () => {
-  const { getState, setState } = await import('../../../stores/state.js')
-  const state = getState()
-  const newVal = !state.shareLocationWithFriends
-  setState({ shareLocationWithFriends: newVal })
-  window.showToast?.(
-    newVal ? t('nowVisible') : t('nowInvisible'),
-    'info'
-  )
-}
+// STUB: toggleFeedVisibility canonical in Social.js (removed duplicate)
 
 export default { renderFeed }

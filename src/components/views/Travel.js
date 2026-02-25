@@ -282,7 +282,7 @@ function renderTripResults(results) {
           <!-- Departure -->
           <div class="relative flex items-start gap-3 pb-4">
             <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-emerald-500 border-2 border-dark-primary flex items-center justify-center z-10">
-              ${icon('flag', 'w-5 h-5 text-[8px] text-white')}
+              ${icon('flag', 'w-5 h-5 text-[10px] text-white')}
             </div>
             <div class="pt-0.5">
               <div class="text-sm font-semibold">${results.from?.split(',')[0] || '?'}</div>
@@ -300,7 +300,7 @@ function renderTripResults(results) {
             return `
             <div class="relative flex items-start gap-3 pb-4 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors" onclick="selectSpot(${spot.id})">
               <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-primary-500/80 border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg shadow-primary-500/20">
-                <span class="text-[9px] font-bold text-white">${i + 1}</span>
+                <span class="text-[10px] font-bold text-white">${i + 1}</span>
               </div>
               <div class="pt-0.5 flex-1 min-w-0">
                 <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || (distFromStart !== null ? `${t('hitchhikingSpot') || 'Spot'} — ${distFromStart} km` : (t('hitchhikingSpot') || 'Spot d\'autostop'))}</div>
@@ -320,7 +320,7 @@ function renderTripResults(results) {
           <!-- Arrival -->
           <div class="relative flex items-start gap-3">
             <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-primary-500 border-2 border-dark-primary flex items-center justify-center z-10">
-              ${icon('map-pin', 'w-5 h-5 text-[8px] text-white')}
+              ${icon('map-pin', 'w-5 h-5 text-[10px] text-white')}
             </div>
             <div class="pt-0.5">
               <div class="text-sm font-semibold">${results.to?.split(',')[0] || '?'}</div>

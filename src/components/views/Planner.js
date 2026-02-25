@@ -360,7 +360,7 @@ window.saveCurrentTrip = async () => {
     await saveTrip()
     window.showToast?.(window.t?.('tripSaved') || 'Trajet sauvegardé !', 'success')
   } catch {
-    window.showToast?.(window.t?.('error') || 'Erreur', 'error')
+    window.showToast?.(t('error'), 'error')
   }
 }
 
@@ -369,7 +369,7 @@ window.shareTrip = async (tripId) => {
     const { shareTrip: shareTripFn } = await import('../../services/planner.js')
     await shareTripFn(tripId)
   } catch {
-    window.showToast?.(window.t?.('shareError') || 'Erreur de partage', 'error')
+    window.showToast?.(t('shareError'), 'error')
   }
 }
 
