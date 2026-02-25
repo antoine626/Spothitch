@@ -1,6 +1,6 @@
 # features.md - Inventaire complet des fonctionnalités SpotHitch
 
-> Dernière mise à jour : 2026-02-24 (session 17)
+> Dernière mise à jour : 2026-02-25 (session 23)
 > IMPORTANT : Vérifier ce fichier AVANT de proposer une feature — elle existe peut-être déjà !
 
 ---
@@ -266,3 +266,22 @@
 ## Pas encore configuré en prod
 
 - [ ] Affiliés : inscription manuelle nécessaire
+
+---
+
+## À venir — Mode Gardien (Companion In-App)
+
+- [ ] Suivi temps réel du compagnon directement sur la carte SpotHitch du gardien
+  - Le gardien voit la position live de l'autostoppeur (point mobile sur la carte)
+  - Trajet déjà parcouru affiché (ligne sur la carte)
+  - Niveau de batterie visible
+  - Heure du dernier signal GPS
+  - Bouton pour envoyer un message
+- [ ] Lien smart : si le gardien a SpotHitch → ouvre l'app, sinon → page web
+- [ ] Timer check-in : l'autostoppeur doit appuyer régulièrement pour remettre à zéro
+- [ ] Si timer arrive à zéro sans réponse → alerte + notification push au gardien
+- [ ] Alerte visible sur la carte du gardien (point rouge, bannière d'alerte)
+- [ ] Arrivée confirmée manuellement par l'autostoppeur (pas de GPS auto)
+- [ ] Pas d'alerte "immobile" (le stop = attendre, c'est normal)
+- [ ] Technique : Firebase Firestore onSnapshot pour le temps réel
+- [ ] Les données GPS existantes du mode Companion sont réutilisées

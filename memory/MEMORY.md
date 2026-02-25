@@ -85,6 +85,10 @@
 
 - **Affiliés** : pas inscrit sur Hostelworld/Booking → pas de monétisation
 
+## À venir — prochaine session
+
+- **Mode Gardien (Companion In-App)** : gardiens voient position live de l'autostoppeur sur la carte SpotHitch. Timer check-in : si l'autostoppeur ne remet pas à zéro → alerte + notif push au gardien (point rouge sur la carte). Arrivée = confirmation manuelle. Pas d'alerte immobile. Firebase onSnapshot. Lien smart (app si installée, sinon web). Discuté session 23.
+
 ---
 
 ## Infos utilisateur
