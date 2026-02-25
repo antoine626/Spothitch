@@ -1184,9 +1184,7 @@ function formatDate(dateStr) {
   return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
 }
 
-// Global handlers
-window.openCreateTravelGroup = () => setState({ showCreateTravelGroup: true });
-window.closeCreateTravelGroup = () => setState({ showCreateTravelGroup: false });
+// openCreateTravelGroup/closeCreateTravelGroup defined in main.js (canonical STUB)
 window.openTravelGroupDetail = (groupId) => {
   const state = getState();
   const groups = state.travelGroups || SAMPLE_GROUPS;

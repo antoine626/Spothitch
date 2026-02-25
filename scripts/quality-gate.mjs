@@ -22,6 +22,7 @@ import checkDeadExports from './checks/dead-exports.mjs'
 import checkConsoleErrors from './checks/console-errors.mjs'
 import checkLocalStorage from './checks/localstorage.mjs'
 import checkErrorPatterns from './checks/error-patterns.mjs'
+import checkDuplicateHandlers from './checks/duplicate-handlers.mjs'
 
 // Parse args
 const args = process.argv.slice(2)
@@ -31,12 +32,13 @@ const JSON_OUTPUT = args.includes('--json')
 
 // Check weights (must sum to 100)
 const WEIGHTS = {
-  'Handlers Wiring': 20,
+  'Handlers Wiring': 15,
   'i18n Keys': 20,
   'Dead Exports': 10,
   'Security Patterns': 20,
   'localStorage RGPD': 10,
-  'Error Patterns': 20,
+  'Error Patterns': 15,
+  'Duplicate Handlers': 10,
 }
 
 async function runAllChecks() {
@@ -47,6 +49,7 @@ async function runAllChecks() {
     { fn: checkConsoleErrors, weight: WEIGHTS['Security Patterns'] },
     { fn: checkLocalStorage, weight: WEIGHTS['localStorage RGPD'] },
     { fn: checkErrorPatterns, weight: WEIGHTS['Error Patterns'] },
+    { fn: checkDuplicateHandlers, weight: WEIGHTS['Duplicate Handlers'] },
   ]
 
   const results = []

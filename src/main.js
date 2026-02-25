@@ -75,7 +75,7 @@ import { resetFilters as resetFiltersUtil } from './components/modals/Filters.js
 import { redeemReward } from './components/modals/Shop.js';
 import './components/modals/Leaderboard.js'; // Register global handlers
 import { registerCheckinHandlers } from './components/modals/CheckinModal.js'; // Checkin modal handlers
-import { startNavigation, stopNavigation, openExternalNavigation } from './services/navigation.js'; // GPS navigation
+import { startNavigation } from './services/navigation.js'; // stopNavigation/openExternalNavigation registered by navigation.js itself
 import './services/gasStations.js'; // Gas stations (registers window.toggleGasStations)
 import {
   initScreenReaderSupport,
@@ -956,8 +956,7 @@ window.startSpotNavigation = async (lat, lng, name) => {
   // Start navigation
   await startNavigation(lat, lng, name || t('hitchhikingSpot') || 'Spot d\'autostop');
 };
-window.stopNavigation = stopNavigation;
-window.openExternalNavigation = openExternalNavigation;
+// stopNavigation and openExternalNavigation registered by navigation.js (static import above)
 
 // SOS handlers
 window.openSOS = async () => {
@@ -1727,7 +1726,7 @@ window.centerOnUser = () => getMap().then(m => m.centerOnUser());
 window.openTitles = () => setState({ showTitles: true });
 window.closeTitles = () => setState({ showTitles: false });
 
-// Team challenges handlers — lazy-loaded
+// Team challenges handlers — STUBS (canonical here, teamChallenges.js removed its duplicate)
 window.openTeamChallenges = () => setState({ showTeamChallenges: true })
 window.closeTeamChallenges = () => setState({ showTeamChallenges: false })
 window.openCreateTeam = () => setState({ showCreateTeam: true })
@@ -1763,7 +1762,7 @@ window.startTeamChallengeAction = async (...args) => {
   return startTeamChallenge(...args)
 }
 
-// Travel groups handlers — lazy-loaded
+// Travel groups handlers — STUBS (canonical here, travelGroups.js removed its duplicate)
 window.openTravelGroups = () => setState({ activeTab: 'travel-groups' })
 window.openCreateTravelGroup = () => setState({ showCreateTravelGroup: true })
 window.closeCreateTravelGroup = () => setState({ showCreateTravelGroup: false })
@@ -1790,7 +1789,7 @@ window.toggleNearbyFriends = async (...args) => {
 window.openNearbyFriends = () => setState({ showNearbyFriends: true })
 window.closeNearbyFriends = () => setState({ showNearbyFriends: false })
 
-// Profile customization handlers — lazy-loaded
+// Profile customization handlers — STUBS (canonical here, profileCustomization.js removed its duplicate)
 window.openProfileCustomization = () => setState({ showProfileCustomization: true })
 window.closeProfileCustomization = () => setState({ showProfileCustomization: false })
 window.equipFrameAction = async (...args) => {
@@ -2499,13 +2498,11 @@ window.claimDailyReward = () => window.openDailyReward?.()
 window.triggerSOS = async () => window.openSOS?.()
 window.shareSOS = () => window.shareSOSLink?.()
 
-// Admin panel — also defined in AdminPanel.js (lazy-loaded)
+// Admin panel — STUB (canonical, AdminPanel.js removed its duplicate)
 window.openAdminPanel = () => setState({ showAdminPanel: true })
 window.closeAdminPanel = () => setState({ showAdminPanel: false })
 
-// Leaderboard — also defined in Leaderboard.js (lazy-loaded)
-window.openLeaderboard = () => setState({ showLeaderboard: true })
-window.closeLeaderboard = () => setState({ showLeaderboard: false })
+// openLeaderboard/closeLeaderboard registered by Leaderboard.js (static import above)
 
 // Companion shortcuts
 window.openCompanion = () => window.showCompanionModal?.()
@@ -2514,8 +2511,9 @@ window.closeCompanion = () => setState({ showCompanionModal: false })
 // AddSpot shortcut
 window.submitNewSpot = () => window.openAddSpot?.()
 
-// Trip form helpers — also defined in Travel.js (lazy-loaded) but needed
-// on Voyage tab BEFORE Travel.js has been opened.
+// Trip form helpers — STUBS needed on Voyage tab BEFORE Travel.js lazy-loads.
+// Travel.js overrides these with identical implementations when first opened.
+// DO NOT remove: these prevent "function not defined" errors on Voyage tab.
 window.swapTripPoints = () => {
   const fromInput = document.getElementById('trip-from')
   const toInput = document.getElementById('trip-to')

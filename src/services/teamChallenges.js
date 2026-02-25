@@ -629,8 +629,7 @@ function renderNoTeam(_state) {
   `;
 }
 
-// Global handlers
-window.openCreateTeam = () => setState({ showCreateTeam: true });
+// openCreateTeam defined in main.js (canonical STUB)
 window.openJoinTeam = () => setState({ showJoinTeam: true });
 window.closeJoinTeam = () => setState({ showJoinTeam: false });
 window.openTeamSettings = () => setState({ showTeamSettings: true });

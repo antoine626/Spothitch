@@ -242,9 +242,7 @@ export function renderAdminPanel(state) {
   `;
 }
 
-// Global handlers
-window.openAdminPanel = () => setState({ showAdminPanel: true });
-window.closeAdminPanel = () => setState({ showAdminPanel: false });
+// openAdminPanel/closeAdminPanel defined in main.js (canonical STUB)
 
 window.adminAddPoints = (amount) => {
   const state = getState();
@@ -315,6 +313,6 @@ window.adminExportState = () => {
 // openDonation is defined in DonationCard.js (accepts amount/type params)
 window.openSOS = () => setState({ showSOS: true });
 window.openAddSpot = () => setState({ showAddSpot: true });
-window.openFilters = () => setState({ showFilters: true });
+// openFilters defined in main.js (canonical)
 
 export default { renderAdminPanel };

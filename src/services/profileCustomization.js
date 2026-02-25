@@ -513,9 +513,7 @@ function getFrameUnlockText(method) {
   return textFunc ? textFunc() : (method?.replace(/_/g, ' ') || '?')
 }
 
-// Global handlers
-window.openProfileCustomization = () => setState({ showProfileCustomization: true });
-window.closeProfileCustomization = () => setState({ showProfileCustomization: false });
+// openProfileCustomization/closeProfileCustomization defined in main.js (canonical STUB)
 window.equipFrame = equipFrame;
 window.equipTitle = equipTitle;
 

@@ -403,14 +403,7 @@ function formatReviewDate(dateStr) {
   } catch { return '' }
 }
 
-// Global handlers
-window.openNavigation = (lat, lng) => {
-  if (!lat || !lng) return;
-
-  // Open Google Maps at the spot location (no route, just the pin)
-  const googleUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-  window.open(googleUrl, '_blank');
-};
+// openNavigation defined in main.js (uses directions API — canonical version)
 
 window.openRating = async (spotId) => {
   const { setState } = await import('../../stores/state.js');

@@ -740,26 +740,7 @@ export function renderVerificationBadgeUI(level = null, size = 'md') {
 
 // ==================== WINDOW HANDLERS ====================
 
-/**
- * Open identity verification modal
- */
-window.openIdentityVerification = () => {
-  window.identityVerificationState = {
-    currentStep: 'overview',
-    phoneNumber: '',
-    verificationCode: '',
-    photoPreview: null,
-    documentType: 'id_card',
-    documentPreview: null,
-    selfieIdStep: 1,
-    selfiePhoto: null,
-    idCardPhoto: null,
-    selfieWithIdPhoto: null,
-    isLoading: false,
-    error: null,
-  };
-  setState({ showIdentityVerification: true });
-};
+// openIdentityVerification defined in main.js (canonical STUB — identical implementation)
 
 /**
  * Close identity verification modal
