@@ -20,7 +20,7 @@ test.describe('Journey: New User Onboarding', () => {
     await page.reload()
 
     // Wait for the page to settle (landing page, splash, or main app)
-    await page.waitForTimeout(5000)
+    await page.waitForTimeout(1500)
 
     // The #app div should exist in the DOM
     await expect(page.locator('#app')).toBeAttached({ timeout: 10000 })
@@ -39,7 +39,7 @@ test.describe('Journey: New User Onboarding', () => {
     await page.evaluate(() => localStorage.clear())
     await page.reload()
 
-    await page.waitForTimeout(5000)
+    await page.waitForTimeout(1500)
 
     const skipBtn = page.locator('button:has-text("Passer")')
     if (await skipBtn.first().isVisible({ timeout: 5000 }).catch(() => false)) {
@@ -62,7 +62,7 @@ test.describe('Journey: New User Onboarding', () => {
     await page.goto('/')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
-    await page.waitForTimeout(5000)
+    await page.waitForTimeout(1500)
 
     // Cookie banner should appear for first visit
     const cookieBanner = page.locator('#cookie-banner')
@@ -105,7 +105,7 @@ test.describe('Journey: Map Exploration', () => {
       await search.fill('Paris')
       await expect(search).toHaveValue('Paris')
       await search.press('Enter')
-      await page.waitForTimeout(2000)
+      await page.waitForTimeout(800)
     }
   })
 
@@ -115,9 +115,9 @@ test.describe('Journey: Map Exploration', () => {
 
     if (await zoomIn.isVisible({ timeout: 3000 }).catch(() => false)) {
       await zoomIn.click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
       await zoomOut.click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
     }
   })
 
@@ -125,7 +125,7 @@ test.describe('Journey: Map Exploration', () => {
     const filterBtn = page.locator('[onclick*="openFilters"]')
     if (await filterBtn.count() > 0) {
       await filterBtn.first().click()
-      await page.waitForTimeout(2000)
+      await page.waitForTimeout(800)
     }
   })
 
@@ -133,7 +133,7 @@ test.describe('Journey: Map Exploration', () => {
     const addBtn = page.locator('[onclick*="openAddSpot"]')
     if (await addBtn.count() > 0) {
       await addBtn.first().click()
-      await page.waitForTimeout(2000)
+      await page.waitForTimeout(800)
       const modalOrPrompt = page.locator('.modal-overlay, [role="dialog"]')
       if (await modalOrPrompt.count() > 0) {
         await expect(modalOrPrompt.first()).toBeVisible()
@@ -166,25 +166,25 @@ test.describe('Journey: Profile & Settings', () => {
 
     // App version is in the Réglages sub-tab
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     await expect(page.locator('text=/SpotHitch v/i').first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should toggle dark/light theme', async ({ page }) => {
     // Theme toggle is in the Réglages sub-tab
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     const themeToggle = page.locator('[role="switch"], [onclick*="toggleTheme"]').first()
     if (await themeToggle.isVisible({ timeout: 3000 }).catch(() => false)) {
       await themeToggle.click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
     }
   })
 
   test('should have language settings', async ({ page }) => {
     // Language is in the Réglages sub-tab
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     const langSection = page.locator('text=Langue').or(page.locator('[role="radiogroup"]'))
     await expect(langSection.first()).toBeVisible({ timeout: 5000 })
   })
@@ -198,7 +198,7 @@ test.describe('Journey: Profile & Settings', () => {
   test('should have tutorial replay option', async ({ page }) => {
     // "Revoir le tutoriel" is in the Réglages sub-tab
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     const tutorial = page.locator('[onclick*="startTutorial"]').or(page.locator('text=Revoir le tutoriel'))
     await expect(tutorial.first()).toBeVisible({ timeout: 8000 })
   })
@@ -206,7 +206,7 @@ test.describe('Journey: Profile & Settings', () => {
   test('should have reset app option', async ({ page }) => {
     // Reset is in the Réglages sub-tab
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     const reset = page.locator('[onclick*="resetApp"]').or(page.locator('text=/Réinitialiser/i'))
     await expect(reset.first()).toBeVisible({ timeout: 5000 })
   })
@@ -214,7 +214,7 @@ test.describe('Journey: Profile & Settings', () => {
   test('should have notification settings', async ({ page }) => {
     // Notifications is in the Réglages sub-tab
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     await expect(page.locator('text=Notifications').first()).toBeVisible({ timeout: 5000 })
   })
 })
@@ -240,21 +240,21 @@ test.describe('Journey: Social Features', () => {
   test('should navigate through all social sub-tabs', async ({ page }) => {
     // Default is messagerie
     await page.evaluate(() => window.setSocialTab?.('messagerie'))
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
 
     // Switch to evenements
     await page.evaluate(() => window.setSocialTab?.('evenements'))
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
 
     // Switch back to messagerie
     await page.evaluate(() => window.setSocialTab?.('messagerie'))
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(300)
   })
 
   test('should load messagerie tab without crash', async ({ page }) => {
     // Messagerie tab shows conversation list, zone chat button, etc.
     await page.evaluate(() => window.setSocialTab?.('messagerie'))
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
     await expect(page.locator('#app')).toBeVisible({ timeout: 5000 })
   })
 
@@ -262,20 +262,20 @@ test.describe('Journey: Social Features', () => {
     // #chat-input only exists in the zone chat overlay, not in conversations sub-tab.
     // Open zone chat via setState to test the chat input.
     await page.evaluate(() => window.setState?.({ showZoneChat: true }))
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
 
     const input = page.locator('#chat-input')
     if (await input.isVisible({ timeout: 5000 }).catch(() => false)) {
       await input.fill('Hello les autostoppeurs !')
       await expect(input).toHaveValue('Hello les autostoppeurs !')
       await page.keyboard.press('Enter')
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
     }
   })
 
   test('should show events tab with content', async ({ page }) => {
     await page.evaluate(() => window.setSocialTab?.('evenements'))
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
 
     // Events tab should show some content (radar, events, or create button)
     const html = await page.evaluate(() => document.body.innerText)
@@ -305,7 +305,7 @@ test.describe('Journey: Voyage Tab', () => {
 
   test('should navigate to Guides sub-tab', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('guides'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     // Guides sub-tab should show guide cards or search
     const guidesContent = page
       .locator('.guide-card')
@@ -322,14 +322,14 @@ test.describe('Journey: Voyage Tab', () => {
 
   test('should navigate to Voyage sub-tab showing trip planner', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     const content = page.locator('input#trip-from').first()
     await expect(content).toBeVisible({ timeout: 5000 })
   })
 
   test('should navigate to Journal sub-tab', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('journal'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     const content = page.locator('text=/bilan|Journal|voyages|trips|Aucun/i').first()
     await expect(content).toBeVisible({ timeout: 5000 })
   })
@@ -390,7 +390,7 @@ test.describe('Journey: State Persistence', () => {
     await skipOnboarding(page, { points: 500, level: 5 })
 
     await navigateToTab(page, 'profile')
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
 
     await page.reload()
     // Use nav as fallback instead of #app.loaded which may not appear
@@ -413,7 +413,7 @@ test.describe('Journey: State Persistence', () => {
     await skipOnboarding(page)
 
     await navigateToTab(page, 'map')
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
 
     // Verify map controls persist (spots counter was removed)
     await expect(page.locator('[onclick*="homeZoomIn"]').first()).toBeVisible({ timeout: 10000 })
@@ -454,15 +454,15 @@ test.describe('Journey: PWA & Offline Behavior', () => {
 
   test('should survive going offline and back', async ({ page, context }) => {
     await skipOnboarding(page)
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
 
     await context.setOffline(true)
     await page.evaluate(() => window.dispatchEvent(new Event('offline')))
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(300)
 
     await context.setOffline(false)
     await page.evaluate(() => window.dispatchEvent(new Event('online')))
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(300)
 
     await expect(page.locator('#app')).toBeVisible()
     await expect(page.locator('nav')).toBeVisible()
@@ -474,7 +474,7 @@ test.describe('Journey: PWA & Offline Behavior', () => {
     const stateBefore = await getAppState(page)
 
     await context.setOffline(true)
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
 
     const stateOffline = await getAppState(page)
     expect(stateOffline.points).toBe(stateBefore.points)
@@ -528,7 +528,7 @@ test.describe('Journey: Admin Panel', () => {
 
     // Admin panel has no visible button; open via setState
     await page.evaluate(() => window.setState?.({ showAdminPanel: true }))
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
 
     const adminPanel = page.locator('text=Panneau Admin').or(page.locator('text=/Admin/i'))
     if (await adminPanel.first().isVisible({ timeout: 5000 }).catch(() => false)) {
@@ -538,7 +538,7 @@ test.describe('Journey: Admin Panel', () => {
       const addPoints = page.locator('[onclick*="adminAddPoints(100)"]')
       if (await addPoints.count() > 0) {
         await addPoints.first().click()
-        await page.waitForTimeout(500)
+        await page.waitForTimeout(300)
       }
     }
   })
@@ -618,7 +618,7 @@ test.describe('Journey: Performance', () => {
   test('should have acceptable CLS', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(300)
 
     const cls = await page.evaluate(() =>
       new Promise(resolve => {
@@ -651,7 +651,7 @@ test.describe('Journey: Error Resilience', () => {
     // Only 4 tabs (no travel)
     for (const tab of ['map', 'challenges', 'social', 'profile']) {
       await page.locator(`[data-tab="${tab}"]`).click({ force: true })
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
     }
 
     const criticalErrors = errors.filter(e =>
