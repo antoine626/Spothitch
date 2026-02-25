@@ -1,0 +1,18 @@
+{
+  "country": "NZ",
+  "cities": [
+    "Auckland",
+    "Wellington",
+    "Christchurch",
+    "Hamilton",
+    "Tauranga",
+    "Napier",
+    "Dunedin",
+    "Palmerston North",
+    "Nelson",
+    "Invercargill",
+    "Rotorua",
+    "Hastings",
+    "Whangarei"
+  ]
+}

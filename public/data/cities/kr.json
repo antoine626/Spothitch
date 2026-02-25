@@ -1,0 +1,28 @@
+{
+  "country": "KR",
+  "cities": [
+    "Seoul",
+    "Busan",
+    "Incheon",
+    "Daegu",
+    "Daejeon",
+    "Gwangju",
+    "Suwon",
+    "Ulsan",
+    "Changwon",
+    "Seongnam",
+    "Goyang",
+    "Bucheon",
+    "Cheongju",
+    "Jeonju",
+    "Ansan",
+    "Anyang",
+    "Namyangju",
+    "Hwaseong",
+    "Yongin",
+    "Pyeongtaek",
+    "Uijeongbu",
+    "Gimhae",
+    "Jeju"
+  ]
+}

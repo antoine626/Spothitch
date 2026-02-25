@@ -1,0 +1,24 @@
+{
+  "country": "HU",
+  "cities": [
+    "Budapest",
+    "Debrecen",
+    "Miskolc",
+    "Szeged",
+    "Pécs",
+    "Győr",
+    "Nyíregyháza",
+    "Kecskemét",
+    "Székesfehérvár",
+    "Szombathely",
+    "Szolnok",
+    "Tatabánya",
+    "Kaposvár",
+    "Érd",
+    "Veszprém",
+    "Zalaegerszeg",
+    "Sopron",
+    "Eger",
+    "Nagykanizsa"
+  ]
+}

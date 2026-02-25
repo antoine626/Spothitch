@@ -1,0 +1,30 @@
+{
+  "country": "NL",
+  "cities": [
+    "Amsterdam",
+    "Rotterdam",
+    "The Hague",
+    "Utrecht",
+    "Eindhoven",
+    "Tilburg",
+    "Groningen",
+    "Almere",
+    "Breda",
+    "Nijmegen",
+    "Enschede",
+    "Apeldoorn",
+    "Haarlem",
+    "Arnhem",
+    "Zaanstad",
+    "Amersfoort",
+    "'s-Hertogenbosch",
+    "Maastricht",
+    "Dordrecht",
+    "Leiden",
+    "Zoetermeer",
+    "Zwolle",
+    "Deventer",
+    "Delft",
+    "Alkmaar"
+  ]
+}

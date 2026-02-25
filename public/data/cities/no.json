@@ -1,0 +1,24 @@
+{
+  "country": "NO",
+  "cities": [
+    "Oslo",
+    "Bergen",
+    "Stavanger",
+    "Trondheim",
+    "Drammen",
+    "Fredrikstad",
+    "Kristiansand",
+    "Sandnes",
+    "Tromsø",
+    "Sarpsborg",
+    "Skien",
+    "Ålesund",
+    "Sandefjord",
+    "Haugesund",
+    "Tønsberg",
+    "Moss",
+    "Porsgrunn",
+    "Bodø",
+    "Arendal"
+  ]
+}

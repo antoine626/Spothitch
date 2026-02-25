@@ -1,0 +1,28 @@
+{
+  "country": "TR",
+  "cities": [
+    "Istanbul",
+    "Ankara",
+    "Izmir",
+    "Bursa",
+    "Adana",
+    "Gaziantep",
+    "Konya",
+    "Antalya",
+    "Kayseri",
+    "Mersin",
+    "Eskişehir",
+    "Diyarbakır",
+    "Samsun",
+    "Denizli",
+    "Şanlıurfa",
+    "Malatya",
+    "Gebze",
+    "Kahramanmaraş",
+    "Erzurum",
+    "Trabzon",
+    "Hatay",
+    "Manisa",
+    "Van"
+  ]
+}

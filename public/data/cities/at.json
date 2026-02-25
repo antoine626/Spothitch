@@ -1,0 +1,25 @@
+{
+  "country": "AT",
+  "cities": [
+    "Vienna",
+    "Graz",
+    "Linz",
+    "Salzburg",
+    "Innsbruck",
+    "Klagenfurt",
+    "Villach",
+    "Wels",
+    "Sankt Pölten",
+    "Dornbirn",
+    "Steyr",
+    "Wiener Neustadt",
+    "Feldkirch",
+    "Bregenz",
+    "Leonding",
+    "Klosterneuburg",
+    "Leoben",
+    "Baden",
+    "Wolfsberg",
+    "Krems an der Donau"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "country": "EG",
+  "cities": [
+    "Cairo",
+    "Alexandria",
+    "Giza",
+    "Shubra El-Kheima",
+    "Port Said",
+    "Suez",
+    "Luxor",
+    "Mansoura",
+    "El Mahalla El Kubra",
+    "Tanta",
+    "Asyut",
+    "Ismailia",
+    "Fayyum",
+    "Zagazig",
+    "Aswan",
+    "Damietta",
+    "Damanhur",
+    "Al Minya",
+    "Beni Suef",
+    "Sohag"
+  ]
+}

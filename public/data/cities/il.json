@@ -1,0 +1,20 @@
+{
+  "country": "IL",
+  "cities": [
+    "Jerusalem",
+    "Tel Aviv",
+    "Haifa",
+    "Rishon LeZion",
+    "Petah Tikva",
+    "Ashdod",
+    "Netanya",
+    "Beer Sheva",
+    "Bnei Brak",
+    "Holon",
+    "Ramat Gan",
+    "Bat Yam",
+    "Herzliya",
+    "Kfar Saba",
+    "Modiin"
+  ]
+}

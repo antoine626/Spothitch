@@ -1,0 +1,29 @@
+{
+  "country": "AU",
+  "cities": [
+    "Sydney",
+    "Melbourne",
+    "Brisbane",
+    "Perth",
+    "Adelaide",
+    "Gold Coast",
+    "Canberra",
+    "Newcastle",
+    "Wollongong",
+    "Logan City",
+    "Geelong",
+    "Hobart",
+    "Townsville",
+    "Cairns",
+    "Darwin",
+    "Toowoomba",
+    "Ballarat",
+    "Bendigo",
+    "Launceston",
+    "Mackay",
+    "Rockhampton",
+    "Bunbury",
+    "Bundaberg",
+    "Hervey Bay"
+  ]
+}

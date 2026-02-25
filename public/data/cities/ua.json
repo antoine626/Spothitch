@@ -1,0 +1,25 @@
+{
+  "country": "UA",
+  "cities": [
+    "Kyiv",
+    "Kharkiv",
+    "Odessa",
+    "Dnipro",
+    "Donetsk",
+    "Zaporizhzhia",
+    "Lviv",
+    "Kryvyi Rih",
+    "Mykolaiv",
+    "Mariupol",
+    "Luhansk",
+    "Vinnytsia",
+    "Makiivka",
+    "Kherson",
+    "Sevastopol",
+    "Simferopol",
+    "Poltava",
+    "Chernihiv",
+    "Cherkasy",
+    "Sumy"
+  ]
+}

@@ -679,27 +679,117 @@ window.filterGuides = (query) => {
   })
 }
 
-// Popular cities for instant local suggestions (no API call needed)
+// Popular cities for instant local suggestions (no API call needed) — 150 villes
 const POPULAR_CITIES = [
-  'Paris, France', 'London, United Kingdom', 'Berlin, Germany', 'Barcelona, Spain',
-  'Amsterdam, Netherlands', 'Rome, Italy', 'Prague, Czech Republic', 'Vienna, Austria',
-  'Lisbon, Portugal', 'Brussels, Belgium', 'Budapest, Hungary', 'Warsaw, Poland',
-  'Copenhagen, Denmark', 'Stockholm, Sweden', 'Oslo, Norway', 'Helsinki, Finland',
-  'Dublin, Ireland', 'Zurich, Switzerland', 'Munich, Germany', 'Hamburg, Germany',
-  'Lyon, France', 'Marseille, France', 'Bordeaux, France', 'Nice, France',
-  'Toulouse, France', 'Nantes, France', 'Strasbourg, France', 'Lille, France',
-  'Milan, Italy', 'Florence, Italy', 'Naples, Italy', 'Venice, Italy',
-  'Madrid, Spain', 'Valencia, Spain', 'Seville, Spain', 'Malaga, Spain',
-  'Porto, Portugal', 'Krakow, Poland', 'Gdansk, Poland', 'Zagreb, Croatia',
-  'Ljubljana, Slovenia', 'Bratislava, Slovakia', 'Bucharest, Romania',
-  'Sofia, Bulgaria', 'Athens, Greece', 'Istanbul, Turkey', 'Marrakech, Morocco',
-  'Casablanca, Morocco', 'Tbilisi, Georgia', 'Tallinn, Estonia', 'Riga, Latvia',
-  'Vilnius, Lithuania', 'Edinburgh, United Kingdom', 'Manchester, United Kingdom',
-  'Cologne, Germany', 'Frankfurt, Germany', 'Dresden, Germany',
-  'Montpellier, France', 'Grenoble, France', 'Rennes, France',
+  // Europe West
+  'Paris, France', 'Lyon, France', 'Marseille, France', 'Toulouse, France', 'Nice, France',
+  'Nantes, France', 'Montpellier, France', 'Strasbourg, France', 'Bordeaux, France', 'Lille, France',
+  'Rennes, France', 'Grenoble, France', 'Rouen, France', 'Toulon, France', 'Dijon, France',
+  'London, United Kingdom', 'Birmingham, United Kingdom', 'Manchester, United Kingdom',
+  'Edinburgh, United Kingdom', 'Glasgow, United Kingdom', 'Bristol, United Kingdom',
+  'Berlin, Germany', 'Hamburg, Germany', 'Munich, Germany', 'Cologne, Germany', 'Frankfurt, Germany',
+  'Stuttgart, Germany', 'Düsseldorf, Germany', 'Dresden, Germany', 'Leipzig, Germany',
+  'Amsterdam, Netherlands', 'Rotterdam, Netherlands', 'The Hague, Netherlands', 'Utrecht, Netherlands',
+  'Brussels, Belgium', 'Antwerp, Belgium', 'Ghent, Belgium', 'Liège, Belgium',
+  'Zurich, Switzerland', 'Geneva, Switzerland', 'Bern, Switzerland', 'Basel, Switzerland',
+  'Vienna, Austria', 'Graz, Austria', 'Salzburg, Austria', 'Innsbruck, Austria',
+  // Europe South
+  'Madrid, Spain', 'Barcelona, Spain', 'Valencia, Spain', 'Seville, Spain', 'Bilbao, Spain',
+  'Zaragoza, Spain', 'Málaga, Spain', 'Alicante, Spain', 'Granada, Spain',
+  'Rome, Italy', 'Milan, Italy', 'Naples, Italy', 'Turin, Italy', 'Florence, Italy',
+  'Venice, Italy', 'Bologna, Italy', 'Genoa, Italy', 'Palermo, Italy',
+  'Lisbon, Portugal', 'Porto, Portugal', 'Braga, Portugal', 'Coimbra, Portugal',
+  'Athens, Greece', 'Thessaloniki, Greece', 'Patras, Greece',
+  // Europe North
+  'Stockholm, Sweden', 'Gothenburg, Sweden', 'Malmö, Sweden',
+  'Oslo, Norway', 'Bergen, Norway', 'Trondheim, Norway',
+  'Copenhagen, Denmark', 'Aarhus, Denmark', 'Odense, Denmark',
+  'Helsinki, Finland', 'Tampere, Finland', 'Turku, Finland',
+  'Dublin, Ireland', 'Cork, Ireland',
+  // Europe East
+  'Warsaw, Poland', 'Kraków, Poland', 'Łódź, Poland', 'Wrocław, Poland', 'Gdańsk, Poland',
+  'Prague, Czech Republic', 'Brno, Czech Republic', 'Ostrava, Czech Republic',
+  'Budapest, Hungary', 'Debrecen, Hungary', 'Pécs, Hungary',
+  'Bratislava, Slovakia', 'Košice, Slovakia',
+  'Bucharest, Romania', 'Cluj-Napoca, Romania', 'Timișoara, Romania',
+  'Sofia, Bulgaria', 'Plovdiv, Bulgaria', 'Varna, Bulgaria',
+  'Zagreb, Croatia', 'Split, Croatia', 'Rijeka, Croatia',
+  'Ljubljana, Slovenia', 'Belgrade, Serbia', 'Novi Sad, Serbia',
+  'Tallinn, Estonia', 'Riga, Latvia', 'Vilnius, Lithuania',
+  // Eastern Europe / Caucasus
+  'Istanbul, Turkey', 'Ankara, Turkey', 'Izmir, Turkey', 'Antalya, Turkey',
+  'Kyiv, Ukraine', 'Kharkiv, Ukraine', 'Lviv, Ukraine', 'Odessa, Ukraine',
+  'Moscow, Russia', 'Saint Petersburg, Russia', 'Novosibirsk, Russia',
+  'Tbilisi, Georgia', 'Yerevan, Armenia', 'Baku, Azerbaijan',
+  // North Africa / Middle East
+  'Marrakech, Morocco', 'Casablanca, Morocco', 'Rabat, Morocco', 'Tangier, Morocco',
+  'Tunis, Tunisia', 'Algiers, Algeria', 'Cairo, Egypt', 'Alexandria, Egypt',
+  'Tel Aviv, Israel', 'Jerusalem, Israel',
+  // Americas
+  'New York, United States', 'Los Angeles, United States', 'Chicago, United States',
+  'San Francisco, United States', 'Seattle, United States', 'Miami, United States',
+  'Toronto, Canada', 'Montreal, Canada', 'Vancouver, Canada',
+  'Mexico City, Mexico', 'Guadalajara, Mexico',
+  'Buenos Aires, Argentina', 'Córdoba, Argentina',
+  'São Paulo, Brazil', 'Rio de Janeiro, Brazil',
+  'Bogotá, Colombia', 'Lima, Peru', 'Santiago, Chile',
+  // Asia / Pacific
+  'Tokyo, Japan', 'Osaka, Japan', 'Kyoto, Japan',
+  'Seoul, South Korea', 'Busan, South Korea',
+  'Beijing, China', 'Shanghai, China', 'Guangzhou, China',
+  'Bangkok, Thailand', 'Chiang Mai, Thailand',
+  'Ho Chi Minh City, Vietnam', 'Hanoi, Vietnam',
+  'Kuala Lumpur, Malaysia', 'Singapore, Singapore',
+  'Sydney, Australia', 'Melbourne, Australia', 'Brisbane, Australia',
+  'Auckland, New Zealand',
 ]
 
-// Trip autocomplete suggestions
+// Get cities from downloaded offline country data (layer 3)
+function getOfflineCountryCities(query) {
+  try {
+    const countries = JSON.parse(localStorage.getItem('spothitch_offline_countries') || '[]')
+    const results = []
+    for (const { code } of countries) {
+      const key = `spothitch_cities_${code}`
+      const citiesRaw = localStorage.getItem(key)
+      if (!citiesRaw) continue
+      const cities = JSON.parse(citiesRaw)
+      for (const city of cities) {
+        if (city.toLowerCase().includes(query)) results.push(city)
+      }
+    }
+    return results
+  } catch {
+    return []
+  }
+}
+
+// Get cities from localStorage cache (layer 2)
+function getCachedCities(query) {
+  try {
+    const cache = JSON.parse(localStorage.getItem('spothitch_city_cache') || '{}')
+    return cache[query] || []
+  } catch {
+    return []
+  }
+}
+
+// Save API results to localStorage cache (layer 2)
+function saveCityCache(query, results) {
+  try {
+    const cacheKey = 'spothitch_city_cache'
+    const cache = JSON.parse(localStorage.getItem(cacheKey) || '{}')
+    cache[query] = results
+    // Limit cache to 500 entries
+    const keys = Object.keys(cache)
+    if (keys.length > 500) delete cache[keys[0]]
+    localStorage.setItem(cacheKey, JSON.stringify(cache))
+  } catch {
+    // localStorage full or unavailable — ignore
+  }
+}
+
+// Trip autocomplete suggestions — 3 layers: popular cities, cache, offline country, API
 let tripDebounce = null
 let tripSearchSuppressed = false  // Suppress search after selection
 
@@ -721,17 +811,26 @@ window.tripSearchSuggestions = (field, query) => {
 
   const q = query.trim().toLowerCase()
 
-  // Instant local matches from popular cities
+  // Layer 1: instant local matches from popular cities
   const localMatches = POPULAR_CITIES
     .filter(c => c.toLowerCase().includes(q))
     .slice(0, 5)
 
-  if (localMatches.length > 0) {
+  // Layer 2: localStorage cache (previous API results)
+  const cachedMatches = getCachedCities(q)
+
+  // Layer 3: offline country cities
+  const offlineMatches = getOfflineCountryCities(q)
+
+  // Merge all instant results (deduplicated)
+  const instantMatches = [...new Set([...localMatches, ...cachedMatches, ...offlineMatches])].slice(0, 5)
+
+  if (instantMatches.length > 0) {
     container.classList.remove('hidden')
-    container.innerHTML = renderSuggestions(field, localMatches)
+    container.innerHTML = renderSuggestions(field, instantMatches)
   }
 
-  // Also fetch from Photon API (faster than Nominatim, ~50-100ms)
+  // Layer 4: Photon API — async, save to cache
   tripDebounce = setTimeout(async () => {
     try {
       const { searchPhoton } = await import('../../services/osrm.js')
@@ -741,17 +840,19 @@ window.tripSearchSuggestions = (field, query) => {
       if (!currentInput || currentInput.value.trim() !== query.trim()) return
 
       if (results && results.length > 0) {
-        // Merge: local matches first, then API results (deduplicated)
         const apiNames = results.map(r => r.fullName || r.name)
-        const merged = [...new Set([...localMatches, ...apiNames])].slice(0, 5)
+        // Save to cache for future use
+        saveCityCache(q, apiNames.slice(0, 5))
+        // Merge: popular first, then cache/offline, then API (deduplicated)
+        const merged = [...new Set([...localMatches, ...offlineMatches, ...apiNames])].slice(0, 5)
         container.classList.remove('hidden')
         container.innerHTML = renderSuggestions(field, merged)
-      } else if (localMatches.length === 0) {
+      } else if (instantMatches.length === 0) {
         container.classList.add('hidden')
       }
     } catch (e) {
-      // Keep local results if they exist
-      if (localMatches.length === 0) container.classList.add('hidden')
+      // Keep instant results if they exist
+      if (instantMatches.length === 0) container.classList.add('hidden')
     }
   }, 100)
 }

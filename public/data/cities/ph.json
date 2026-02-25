@@ -1,0 +1,25 @@
+{
+  "country": "PH",
+  "cities": [
+    "Quezon City",
+    "Manila",
+    "Caloocan",
+    "Davao",
+    "Cebu City",
+    "Zamboanga",
+    "Antipolo",
+    "Pasig",
+    "Taguig",
+    "Cagayan de Oro",
+    "Parañaque",
+    "Valenzuela",
+    "Las Piñas",
+    "Makati",
+    "Bacoor",
+    "Marikina",
+    "Muntinlupa",
+    "Pasay",
+    "Bacolod",
+    "Iloilo City"
+  ]
+}

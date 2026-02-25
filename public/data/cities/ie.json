@@ -1,0 +1,24 @@
+{
+  "country": "IE",
+  "cities": [
+    "Dublin",
+    "Cork",
+    "Limerick",
+    "Galway",
+    "Waterford",
+    "Drogheda",
+    "Dundalk",
+    "Bray",
+    "Navan",
+    "Ennis",
+    "Kilkenny",
+    "Tralee",
+    "Carlow",
+    "Sligo",
+    "Naas",
+    "Athlone",
+    "Portlaoise",
+    "Mullingar",
+    "Wexford"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "country": "SE",
+  "cities": [
+    "Stockholm",
+    "Gothenburg",
+    "Malmö",
+    "Uppsala",
+    "Västerås",
+    "Örebro",
+    "Linköping",
+    "Helsingborg",
+    "Jönköping",
+    "Norrköping",
+    "Lund",
+    "Umeå",
+    "Gävle",
+    "Borås",
+    "Södertälje",
+    "Eskilstuna",
+    "Halmstad",
+    "Växjö",
+    "Karlstad"
+  ]
+}

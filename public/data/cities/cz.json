@@ -1,0 +1,25 @@
+{
+  "country": "CZ",
+  "cities": [
+    "Prague",
+    "Brno",
+    "Ostrava",
+    "Plzeň",
+    "Liberec",
+    "Olomouc",
+    "Ústí nad Labem",
+    "České Budějovice",
+    "Hradec Králové",
+    "Pardubice",
+    "Zlín",
+    "Havířov",
+    "Kladno",
+    "Most",
+    "Opava",
+    "Frýdek-Místek",
+    "Karviná",
+    "Jihlava",
+    "Teplice",
+    "Mladá Boleslav"
+  ]
+}

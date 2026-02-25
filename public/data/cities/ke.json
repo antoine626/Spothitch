@@ -1,0 +1,20 @@
+{
+  "country": "KE",
+  "cities": [
+    "Nairobi",
+    "Mombasa",
+    "Nakuru",
+    "Eldoret",
+    "Kisumu",
+    "Thika",
+    "Malindi",
+    "Kitui",
+    "Machakos",
+    "Garissa",
+    "Nyeri",
+    "Meru",
+    "Kilifi",
+    "Kisii",
+    "Kakamega"
+  ]
+}

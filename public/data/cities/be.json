@@ -1,0 +1,25 @@
+{
+  "country": "BE",
+  "cities": [
+    "Brussels",
+    "Antwerp",
+    "Ghent",
+    "Charleroi",
+    "Liège",
+    "Bruges",
+    "Namur",
+    "Leuven",
+    "Mons",
+    "Aalst",
+    "Mechelen",
+    "La Louvière",
+    "Kortrijk",
+    "Hasselt",
+    "Sint-Niklaas",
+    "Ostend",
+    "Tournai",
+    "Genk",
+    "Seraing",
+    "Roeselare"
+  ]
+}

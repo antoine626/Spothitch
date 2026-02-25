@@ -1,0 +1,25 @@
+{
+  "country": "GR",
+  "cities": [
+    "Athens",
+    "Thessaloniki",
+    "Patras",
+    "Piraeus",
+    "Larissa",
+    "Heraklion",
+    "Peristeri",
+    "Kallithea",
+    "Acharnes",
+    "Kalamaria",
+    "Nikaia",
+    "Glyfada",
+    "Volos",
+    "Rhodes",
+    "Ioannina",
+    "Chalandri",
+    "Nea Smyrni",
+    "Agios Dimitrios",
+    "Zografou",
+    "Komotini"
+  ]
+}

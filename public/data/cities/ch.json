@@ -1,0 +1,28 @@
+{
+  "country": "CH",
+  "cities": [
+    "Zurich",
+    "Geneva",
+    "Basel",
+    "Bern",
+    "Lausanne",
+    "Winterthur",
+    "Lucerne",
+    "St. Gallen",
+    "Lugano",
+    "Biel",
+    "Thun",
+    "Köniz",
+    "La Chaux-de-Fonds",
+    "Schaffhausen",
+    "Fribourg",
+    "Chur",
+    "Neuchâtel",
+    "Vernier",
+    "Sion",
+    "Lancy",
+    "Uster",
+    "Emmen",
+    "Kriens"
+  ]
+}

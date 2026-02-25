@@ -1,0 +1,33 @@
+{
+  "country": "AR",
+  "cities": [
+    "Buenos Aires",
+    "Córdoba",
+    "Rosario",
+    "Mendoza",
+    "Tucumán",
+    "La Plata",
+    "Mar del Plata",
+    "Quilmes",
+    "Salta",
+    "Santa Fe",
+    "San Juan",
+    "Lanús",
+    "Corrientes",
+    "Merlo",
+    "General San Martín",
+    "Santiago del Estero",
+    "Lomas de Zamora",
+    "Florencio Varela",
+    "Neuquén",
+    "Berazategui",
+    "Morón",
+    "Paraná",
+    "Almirante Brown",
+    "Resistencia",
+    "San Miguel",
+    "Río Cuarto",
+    "Posadas",
+    "Tres de Febrero"
+  ]
+}

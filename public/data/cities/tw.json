@@ -1,0 +1,15 @@
+{
+  "country": "TW",
+  "cities": [
+    "Taipei",
+    "New Taipei",
+    "Taichung",
+    "Kaohsiung",
+    "Taoyuan",
+    "Tainan",
+    "Hsinchu",
+    "Keelung",
+    "Changhua",
+    "Chiayi"
+  ]
+}

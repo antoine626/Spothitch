@@ -59,6 +59,19 @@ export async function downloadCountrySpots(countryCode, onProgress) {
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(countries))
 
+
+    // Download cities for this country (3-layer suggestions system)
+    try {
+      const citiesRes = await fetch(`${BASE}data/cities/${code.toLowerCase()}.json`)
+      if (citiesRes.ok) {
+        const citiesData = await citiesRes.json()
+        const key = `spothitch_cities_${code}`
+        localStorage.setItem(key, JSON.stringify(citiesData.cities || []))
+      }
+    } catch {
+      // Cities download failed — not critical, spots still saved
+    }
+
     if (onProgress) onProgress(100)
 
     return { success: true, count: spots.length }

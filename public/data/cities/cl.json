@@ -1,0 +1,25 @@
+{
+  "country": "CL",
+  "cities": [
+    "Santiago",
+    "Puente Alto",
+    "Maipú",
+    "Antofagasta",
+    "Viña del Mar",
+    "Valparaíso",
+    "Talcahuano",
+    "San Bernardo",
+    "Arica",
+    "Temuco",
+    "Rancagua",
+    "Concepción",
+    "La Florida",
+    "Las Condes",
+    "Iquique",
+    "Peñalolén",
+    "Quilicura",
+    "El Bosque",
+    "La Pintana",
+    "Coquimbo"
+  ]
+}
