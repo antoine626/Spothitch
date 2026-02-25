@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-25 (session 22)
+> Dernière mise à jour : 2026-02-25 (session 23)
 
 ---
 
@@ -95,9 +95,46 @@
 - Ne JAMAIS demander "tu veux que je push ?" — toujours push
 - Tout doit TOUJOURS être sauvegardé sur GitHub (push systématique)
 
+### Économie de tokens (ABSOLUMENT OBLIGATOIRE — RÈGLE PRIORITAIRE)
+- **RÈGLE D'OR : Antoine ne voit RIEN du technique.** Pas de code, pas de contenu de fichiers, pas de résultats de commandes, pas de JSON, pas de config. RIEN. Jamais. Sauf s'il le demande explicitement.
+- **Mode par défaut = économe** : réponses de 1-3 phrases max, zéro répétition, zéro explication technique
+- **JAMAIS montrer** : du code, des fichiers lus, des résultats de bash, des diffs, des configs, des contenus de fichiers — Antoine n'en a AUCUNE utilité, il ne code pas
+- **Dire UNIQUEMENT le résultat concret** : "C'est fait, le bouton est bleu maintenant" — POINT. Pas de "voici ce que j'ai changé", pas de "le fichier contenait..."
+- **JAMAIS expliquer ce qu'on VA faire avant de le faire** — juste le faire puis dire que c'est fait
+- **JAMAIS lister les étapes** ("d'abord je vais lire X, puis modifier Y") — juste agir en silence
+- **Mode analyse** : si Antoine dit "analyse", "réfléchis bien", "prends ton temps" → là utiliser tout l'espace nécessaire
+- **Si Antoine dit "30%"** → passer en mode ultra-économe (phrases minimales)
+- **Si Antoine dit "stop" ou "35%"** → tout sauvegarder immédiatement dans memory/ et arrêter
+- **Sauvegarder après chaque tâche** dans memory/ pour que la prochaine session reprenne sans rien perdre
+- Antoine a un forfait journalier limité → chaque token compte
+- **CETTE RÈGLE EST AU-DESSUS DE TOUTES LES AUTRES** — même la Règle #3 "expliquer simplement" ne signifie PAS montrer du code ou du technique
+
 ---
 
 ## Dernières sessions (reconstitué depuis git log)
+
+### Session 2026-02-25 (session 23 — SENTRY BUGS + TEST EXHAUSTIF 7 NIVEAUX)
+- **Reconnexion GitHub CLI** : gh auth login + git push + .env.local recréé
+- **6 bugs Sentry corrigés** :
+  - toggleFeedVisibility: défini dans Social.js (Feed.js jamais importé)
+  - toUpperCase on null: guards dans moderation.js (reportType/reason)
+  - SyntaxError onclick: escapeJSString() dans proximityNotify.js
+  - QuotaExceededError: safeSetItem() + protection Voyage.js
+  - Style not done loading: isStyleLoaded() guards dans map.js (addSpotLayers, drawRouteOnMap, addFriendLayers)
+  - Monitor FR.json 404: corrigé casse fr.json (GitHub Pages case-sensitive)
+- **17 issues GitHub fermées** (15 Sentry + 1 monitoring + 1 rage click)
+- **Clipboard protégé** : .catch() sur tous les navigator.clipboard.writeText (main.js, teamChallenges.js, sosTracking.js, Shop.js, share.js)
+- **safeSetItem()** créé dans storage.js : wrapper localStorage.setItem avec QuotaExceeded auto-cleanup
+- **Test exhaustif créé** : `scripts/full-test.mjs` — 7 niveaux, 79 tests, 51 screenshots
+  - L1 Navigation (12 tests) : 4 tabs + 8 sous-onglets — 100%
+  - L2 Modals (22 tests) : ouvrir/fermer 22 modals — 100%
+  - L3 Boutons (4 tests) : 106 boutons cliqués, 0 erreur JS — 100%
+  - L4 Carte (8 tests) : zoom, GPS, recherche, stations — 100%
+  - L5 États spéciaux (6 tests) : nouvel user, 4 langues, offline — 100%
+  - L6 Visuel (19 tests) : overflow, images, texte, boutons — 100%
+  - L7 Performance (8 tests) : chargement 600ms, mémoire 32MB — 100% (sauf switch map réseau lent)
+- **Fixes visuels Profile** : text-[9px]→text-[10px], py-2 sur boutons inline, min-w-8 édit bio, py-1 liens donation
+- 107 tests wiring passent, build OK, déployé
 
 ### Session 2026-02-25 (session 22 — WOLF EXHAUSTIF + DOUBLONS + i18n + TOGGLES)
 - **Wolf exhaustif run #30** : score 74/100 (+3 depuis le dernier run). Points parfaits : tests unitaires 100%, build 100%, inventaire features 100%, screenshots 100%, feature scores 100%.
