@@ -254,12 +254,11 @@ async function level2_Modals(page) {
     ['openStats', 'Stats', 'closeStats'],
     ['openDailyReward', 'DailyReward', 'closeDailyReward'],
     ['openTitles', 'Titles', 'closeTitles'],
-    ['openSettings', 'Settings', 'closeSettings'],
     ['openContactForm', 'Contact', 'closeContactForm'],
     ['openFAQ', 'FAQ', 'closeFAQ'],
     ['openAccessibilityHelp', 'Accessibility', 'closeAccessibilityHelp'],
     ['openTeamChallenges', 'TeamChallenges', 'closeTeamChallenges'],
-    ['openTravelGroups', 'TravelGroups', null],
+    // Settings = sub-tab in Profile, TravelGroups = tab view (tested as navigation, not modal)
     ['openIdentityVerification', 'IdentityVerification', 'closeIdentityVerification'],
     ['openProfileCustomization', 'ProfileCustomization', 'closeProfileCustomization'],
     ['openNearbyFriends', 'NearbyFriends', 'closeNearbyFriends'],

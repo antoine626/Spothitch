@@ -974,7 +974,7 @@ window.openSOS = async () => {
 window.closeSOS = () => setState({ showSOS: false });
 
 // Missing handlers (prevent ReferenceError on click)
-window.openAccessibilityHelp = () => showToast(t('accessibilityHelp') || 'Accessibilité : utilise les raccourcis clavier et le zoom du navigateur', 'info')
+window.openAccessibilityHelp = () => setState({ showAccessibilityHelp: true })
 window.showFriendOptions = () => showToast(t('friendOptionsSoon') || 'Options ami bientôt disponibles', 'info')
 window.showFullNavigation = () => window.changeTab('map')
 // SOS fallbacks — overridden by SOS.js when modal loads
@@ -1233,9 +1233,9 @@ window.requireProfile = (action) => {
   return false
 }
 
-// Settings handlers
-window.openSettings = () => setState({ showSettings: true });
-window.closeSettings = () => setState({ showSettings: false });
+// Settings handlers — Settings is a sub-tab in Profile, not a standalone modal
+window.openSettings = () => setState({ activeTab: 'profile', profileSubTab: 'reglages' });
+window.closeSettings = () => setState({ profileSubTab: 'profil' });
 window.setLanguage = async (lang) => {
   // Write lang directly to localStorage BEFORE anything else
   // This ensures it survives the reload regardless of state/render timing

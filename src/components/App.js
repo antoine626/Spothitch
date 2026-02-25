@@ -61,6 +61,7 @@ const _lazyLoaders = {
   renderBlockedUsersList: () => import('../services/userBlocking.js'),
   renderAccessibilityHelp: () => import('../services/screenReader.js'),
   renderTravelGroupDetail: () => import('../services/travelGroups.js'),
+  renderTravelGroupsList: () => import('../services/travelGroups.js'),
   renderTeamDashboard: () => import('../services/teamChallenges.js'),
   renderCreateTravelGroupModal: () => import('./modals/CreateTravelGroup.js'),
   renderSOSTrackingWidget: () => import('../services/sosTracking.js'),
@@ -420,6 +421,8 @@ function renderActiveView(state) {
       return lazyRender('renderProfile', state);
     case 'spots':
       return lazyRender('renderSpots', state);
+    case 'travel-groups':
+      return lazyRender('renderTravelGroupsList', state);
     default:
       return '' // Map handled by persistent-map-wrapper
   }
