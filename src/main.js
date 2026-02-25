@@ -988,7 +988,7 @@ if (!window.shareSOSLocation) {
           if (navigator.share) {
             navigator.share({ title: 'SOS - SpotHitch', text: t('sosShareText') || 'Position urgence', url })
           } else {
-            navigator.clipboard.writeText(url)
+            navigator.clipboard?.writeText(url).catch(() => {})
             showToast(t('linkCopied') || 'Lien copié !', 'success')
           }
         },
@@ -1643,7 +1643,7 @@ window.sendPrivateMessage = (_friendId) => {
   if (input) input.value = '';
 };
 window.copyFriendLink = () => {
-  navigator.clipboard.writeText('spothitch.app/add/user123');
+  navigator.clipboard?.writeText('spothitch.app/add/user123').catch(() => {});
   showToast(t('linkCopied') || 'Lien copié !', 'success');
 };
 

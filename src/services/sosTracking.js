@@ -362,7 +362,7 @@ window.shareSOSLink = () => {
         url,
       });
     } else {
-      navigator.clipboard.writeText(url);
+      navigator.clipboard?.writeText(url).catch(() => {});
       showToast(t('linkCopied') || 'Lien copié !', 'success');
     }
   }

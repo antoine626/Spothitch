@@ -263,7 +263,7 @@ function renderClickableStats(state) {
       >
         <div class="text-xl font-bold text-emerald-400">${spotsCreated}</div>
         <div class="text-[10px] text-slate-400 uppercase tracking-wide mt-0.5">${t('spotsCreatedShort') || 'Spots créés'}</div>
-        <div class="text-[9px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
+        <div class="text-[10px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
       </button>
       <button
         onclick="openMyValidations()"
@@ -272,7 +272,7 @@ function renderClickableStats(state) {
       >
         <div class="text-xl font-bold text-sky-400">${validations}</div>
         <div class="text-[10px] text-slate-400 uppercase tracking-wide mt-0.5">${t('spotsValidatedShort') || 'Validations'}</div>
-        <div class="text-[9px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
+        <div class="text-[10px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
       </button>
       <button
         onclick="openMyCountries()"
@@ -281,7 +281,7 @@ function renderClickableStats(state) {
       >
         <div class="text-xl font-bold text-primary-400">${countries}</div>
         <div class="text-[10px] text-slate-400 uppercase tracking-wide mt-0.5">${t('countriesShort') || 'Pays'}</div>
-        <div class="text-[9px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
+        <div class="text-[10px] text-slate-600 mt-0.5">${t('tapForDetails') || 'Voir détails'} →</div>
       </button>
     </div>
   `
@@ -304,7 +304,7 @@ function renderVerificationCard(state) {
         ${level < 3 ? `
           <button
             onclick="openIdentityVerification()"
-            class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1"
+            class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 py-2"
           >
             ${t('improve') || 'Améliorer'}
             ${icon('chevron-right', 'w-3 h-3')}
@@ -319,7 +319,7 @@ function renderVerificationCard(state) {
             }">
               ${s.done ? icon('check', 'w-4 h-4') : (i + 1)}
             </div>
-            <span class="text-[9px] text-center leading-tight ${s.done ? 'text-emerald-400' : 'text-slate-500'}">${s.label}</span>
+            <span class="text-[10px] text-center leading-tight ${s.done ? 'text-emerald-400' : 'text-slate-500'}">${s.label}</span>
           </div>
         `).join('')}
       </div>
@@ -340,7 +340,7 @@ function renderReferencesCard(_state) {
         </h3>
         <button
           onclick="openReferences()"
-          class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1"
+          class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 py-2"
           aria-label="${t('seeAll') || 'Voir tout'}"
         >
           ${refs.length > 0 ? (t('seeAll') || 'Voir tout') : (t('add') || 'Ajouter')}
@@ -351,7 +351,7 @@ function renderReferencesCard(_state) {
         ? `<div class="space-y-2">
             ${refs.slice(0, 2).map(r => `
               <div class="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/5">
-                <div class="w-7 h-7 rounded-full bg-primary-500/20 flex items-center justify-center text-sm flex-shrink-0">
+                <div class="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-sm flex-shrink-0">
                   ${r.avatar || '👤'}
                 </div>
                 <div class="flex-1 min-w-0">
@@ -467,10 +467,10 @@ function renderPublicTripsCard(state) {
           ${!isPublic ? `<span class="text-[10px] text-slate-500">${icon('lock', 'w-3 h-3 inline-block mr-0.5')}${t('private') || 'Privé'}</span>` : ''}
         </h3>
         <div class="flex items-center gap-2">
-          <button onclick="openAddPastTrip()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1">
+          <button onclick="openAddPastTrip()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 py-2">
             ${icon('plus', 'w-3 h-3')} ${t('add') || 'Ajouter'}
           </button>
-          <button onclick="changeTab('challenges')" class="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1">
+          <button onclick="changeTab('challenges')" class="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 py-2">
             ${t('seeAll') || 'Voir tout'} ${icon('chevron-right', 'w-3 h-3')}
           </button>
         </div>
@@ -495,11 +495,11 @@ function renderPublicTripsCard(state) {
         : `<div class="text-center py-3">
             <p class="text-xs text-slate-500 italic mb-2">${t('noTripsYet') || 'Aucun voyage encore — commence !'}</p>
             <div class="flex justify-center gap-3">
-              <button onclick="changeTab('challenges')" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1">
+              <button onclick="changeTab('challenges')" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 py-2">
                 ${icon('route', 'w-3 h-3')} ${t('planTrip') || 'Planifier'}
               </button>
               <span class="text-slate-600">·</span>
-              <button onclick="openAddPastTrip()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1">
+              <button onclick="openAddPastTrip()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 py-2">
                 ${icon('plus', 'w-3 h-3')} ${t('addPastTripShort') || 'Ajouter passé'}
               </button>
             </div>
@@ -531,7 +531,7 @@ function renderLanguagesCard(_state) {
           ${icon('message-circle', 'w-4 h-4 text-blue-400')}
           ${t('languagesSpoken') || 'Langues parlées'}
         </h3>
-        <button onclick="editLanguages()" class="w-7 h-7 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-400 hover:bg-primary-500/30 transition-colors" aria-label="${t('addLanguage') || 'Ajouter'}">
+        <button onclick="editLanguages()" class="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-400 hover:bg-primary-500/30 transition-colors" aria-label="${t('addLanguage') || 'Ajouter'}">
           ${icon('plus', 'w-3.5 h-3.5')}
         </button>
       </div>
@@ -656,14 +656,14 @@ function renderBioCard(_state) {
           ${icon('user', 'w-4 h-4 text-slate-400')}
           ${t('profileBio') || 'À propos'}
         </h3>
-        <button onclick="editBio()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1" aria-label="${t('editBio') || 'Modifier'}">
+        <button onclick="editBio()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center justify-center gap-1 min-w-8 min-h-8 py-2" aria-label="${t('editBio') || 'Modifier'}">
           ${icon('pencil', 'w-3.5 h-3.5')}
         </button>
       </div>
       ${bio
         ? `<p class="text-sm text-slate-300 leading-relaxed">${bio}</p>`
         : `<p class="text-xs text-slate-500 italic">${t('bioEmpty') || 'Dis-leur qui tu es...'}</p>
-           <button onclick="editBio()" class="mt-2 text-xs text-primary-400 hover:text-primary-300">${t('addBio') || 'Ajouter une bio'}</button>`
+           <button onclick="editBio()" class="mt-2 text-xs text-primary-400 hover:text-primary-300 py-2">${t('addBio') || 'Ajouter une bio'}</button>`
       }
     </div>
   `
@@ -683,7 +683,7 @@ function renderBadgesGrid(state) {
         ${earned.slice(0, 8).map(b => `
           <button onclick="showBadgeDetail('${b.id}')" class="flex flex-col items-center gap-1 p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
             <span class="text-2xl">${b.icon}</span>
-            <span class="text-[9px] text-slate-400 text-center leading-tight truncate w-full">${b.name}</span>
+            <span class="text-[10px] text-slate-400 text-center leading-tight truncate w-full">${b.name}</span>
           </button>
         `).join('')}
       </div>
@@ -742,7 +742,7 @@ function renderMySpotsList(state) {
                   <div class="text-xs ${s.validations > 0 ? 'text-emerald-400' : 'text-slate-500'} font-semibold">
                     ${s.validations > 0 ? `✓ ${s.validations}` : '0'}
                   </div>
-                  <div class="text-[9px] text-slate-600">${t('validations') || 'valid.'}</div>
+                  <div class="text-[10px] text-slate-600">${t('validations') || 'valid.'}</div>
                 </div>
               </div>
             `).join('')}

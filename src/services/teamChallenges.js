@@ -646,7 +646,7 @@ window.inviteToTeam = () => {
         url: shareUrl,
       });
     } else {
-      navigator.clipboard.writeText(shareUrl);
+      navigator.clipboard?.writeText(shareUrl).catch(() => {});
       showToast(t('teamInviteLinkCopied') || 'Lien d\'invitation copié !', 'success');
     }
   }

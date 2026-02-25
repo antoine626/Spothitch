@@ -286,7 +286,7 @@ export function redeemReward(rewardId) {
 // Global handlers
 window.redeemReward = redeemReward;
 window.copyCode = (code) => {
-  navigator.clipboard.writeText(code);
+  navigator.clipboard?.writeText(code).catch(() => {});
   showToast(t('codeCopied') || 'Code copié ! 📋', 'success');
 };
 

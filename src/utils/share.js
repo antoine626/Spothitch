@@ -235,7 +235,7 @@ function showShareModal(data) {
           outline: none;
         " id="share-url-input">
         <button onclick="
-          navigator.clipboard.writeText('${url}');
+          navigator.clipboard?.writeText('${url}').catch(()=>{});
           this.textContent = '${t('copied') || 'Copié !'}';
           this.style.background = '#10b981';
           setTimeout(() => { this.textContent = '${t('copy') || 'Copier'}'; this.style.background = '#3b82f6'; }, 2000);

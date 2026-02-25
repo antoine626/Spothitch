@@ -124,7 +124,7 @@ function renderFullDonation() {
             href="https://ko-fi.com/spothitch"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-sm text-slate-400 hover:text-rose-400 transition-colors flex items-center gap-1"
+            class="text-sm text-slate-400 hover:text-rose-400 transition-colors flex items-center gap-1 py-1"
             aria-label="${t('donationSupportOnKofi')}"
           >
             ${icon('coffee', 'w-5 h-5')}
@@ -135,7 +135,7 @@ function renderFullDonation() {
             href="https://www.buymeacoffee.com/spothitch"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-sm text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-1"
+            class="text-sm text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-1 py-1"
             aria-label="Buy Me a Coffee"
           >
             ${icon('coffee', 'w-5 h-5')}

@@ -399,10 +399,16 @@ export async function initSavedTripMap(tripId) {
  */
 function drawRouteOnMap(map, routeCoords) {
   if (!map || !routeCoords) return
+  if (!map.isStyleLoaded()) {
+    map.once('style.load', () => drawRouteOnMap(map, routeCoords))
+    return
+  }
 
   // Remove existing route source/layer
-  if (map.getLayer('route-line')) map.removeLayer('route-line')
-  if (map.getSource('route')) map.removeSource('route')
+  try {
+    if (map.getLayer('route-line')) map.removeLayer('route-line')
+    if (map.getSource('route')) map.removeSource('route')
+  } catch { /* style might have changed */ }
 
   map.addSource('route', {
     type: 'geojson',
@@ -491,6 +497,10 @@ async function loadDynamicSpots(map) {
  * Add friend location markers layer to the map
  */
 function addFriendLayers(map) {
+  if (!map.isStyleLoaded()) {
+    map.once('style.load', () => addFriendLayers(map))
+    return
+  }
   map.addSource('friends', {
     type: 'geojson',
     data: { type: 'FeatureCollection', features: [] },
