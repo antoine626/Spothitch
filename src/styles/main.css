@@ -548,14 +548,27 @@
   }
 }
 
-/* ===== TOGGLE SWITCH ===== */
-/* Immediate visual feedback on click — CSS transitions play before JS re-render */
-.toggle-on {
-  border-color: #f59e0b !important;
+/* ===== TOGGLE SWITCH (Design #5 Flat Minimal) ===== */
+/* Pure CSS approach — no Tailwind class conflicts, overflow-hidden prevents dot escape */
+.spothitch-toggle {
+  background-color: #1e293b;
+  border-color: #475569;
+  transition: border-color 0.25s ease;
 }
-.toggle-on > span {
-  transform: translateX(1.25rem) !important;
-  background-color: #f59e0b !important;
+.spothitch-toggle.toggle-on {
+  border-color: #f59e0b;
+}
+.spothitch-toggle-dot {
+  background-color: #64748b;
+  transform: translateX(0);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+.spothitch-toggle.toggle-on .spothitch-toggle-dot {
+  background-color: #f59e0b;
+  transform: translateX(20px);
+}
+.spothitch-toggle-compact.toggle-on .spothitch-toggle-dot {
+  transform: translateX(18px);
 }
 
 /* ===== UTILITIES ===== */
