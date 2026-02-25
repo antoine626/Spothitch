@@ -42,7 +42,7 @@ test.describe('Social - Événements', () => {
     await navigateToTab(page, 'social')
     // Switch to Événements tab
     await page.evaluate(() => window.setSocialTab?.('evenements'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
   })
 
   test('should display events content', async ({ page }) => {
@@ -60,9 +60,9 @@ test.describe('Social - Tab Switching', () => {
   test('should switch between sub-tabs', async ({ page }) => {
     // Switch to événements
     await page.evaluate(() => window.setSocialTab?.('evenements'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     // Switch back to messagerie
     await page.evaluate(() => window.setSocialTab?.('messagerie'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
   })
 })

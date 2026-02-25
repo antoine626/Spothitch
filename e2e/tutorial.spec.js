@@ -13,8 +13,7 @@ test.describe('Tutorial', () => {
     await page.reload({ waitUntil: 'networkidle' })
 
     // Wait for splash + lazy-loaded landing page to render
-    // Landing is lazy-loaded: first render returns '', then module loads, setState triggers re-render
-    await page.waitForTimeout(8000)
+    await page.waitForTimeout(2000)
 
     // Verify app has actual content (not empty from lazy loading)
     const hasContent = await page.evaluate(() => {
@@ -28,7 +27,7 @@ test.describe('Tutorial', () => {
     await page.goto('/')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
-    await page.waitForTimeout(4000)
+    await page.waitForTimeout(1500)
     await dismissOverlays(page)
 
     const skipBtn = page.locator('text=Passer, button:has-text("Passer")')
@@ -42,13 +41,13 @@ test.describe('Tutorial', () => {
     await page.goto('/')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
-    await page.waitForTimeout(4000)
+    await page.waitForTimeout(1500)
     await dismissOverlays(page)
 
     const skipBtn = page.locator('text=Passer, button:has-text("Passer")')
     if (await skipBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
       await skipBtn.first().click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
     }
   })
 
@@ -56,25 +55,25 @@ test.describe('Tutorial', () => {
     await page.goto('/')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
-    await page.waitForTimeout(4000)
+    await page.waitForTimeout(1500)
     await dismissOverlays(page)
 
     const nextBtn = page.locator('button:has-text("Suivant")')
     if (await nextBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
       await nextBtn.first().click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
     }
   })
 
   test('should start tutorial from profile', async ({ page }) => {
     await skipOnboarding(page)
     await page.click('[data-tab="profile"]')
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
 
     const tutorialBtn = page.locator('text=/tutoriel/i, button:has-text("tutoriel")')
     if (await tutorialBtn.first().isVisible({ timeout: 3000 }).catch(() => false)) {
       await tutorialBtn.first().click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
     }
   })
 })
@@ -84,7 +83,7 @@ test.describe('Tutorial Completion', () => {
     await page.goto('/')
     await page.evaluate(() => localStorage.clear())
     await page.reload()
-    await page.waitForTimeout(4000)
+    await page.waitForTimeout(1500)
     await dismissOverlays(page)
 
     const skipBtn = page.locator('text=Passer, button:has-text("Passer")')

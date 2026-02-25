@@ -27,7 +27,7 @@ test.describe('Voyage Tab', () => {
 
   test('should switch to Guides sub-tab', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('guides'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     // Guides tab shows guide cards or a search input for guides
     const guidesContent = page
       .locator('.guide-card')
@@ -44,7 +44,7 @@ test.describe('Voyage Tab', () => {
 
   test('should switch to Voyage sub-tab (trip planner)', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('voyage'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     // Voyage tab shows trip planner form (input#trip-from is the main indicator)
     const voyageContent = page.locator('input#trip-from').first()
     await expect(voyageContent).toBeVisible({ timeout: 5000 })
@@ -52,7 +52,7 @@ test.describe('Voyage Tab', () => {
 
   test('should switch to Journal sub-tab', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('journal'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     // Journal shows bilan or empty state
     const journalContent = page.locator('text=/bilan|Journal|voyages|trips|Aucun/i').first()
     await expect(journalContent).toBeVisible({ timeout: 5000 })

@@ -159,6 +159,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
       - run: npx playwright install --with-deps chromium
       - name: Download build
         uses: actions/download-artifact@v7
@@ -184,6 +189,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
       - run: npx playwright install --with-deps chromium
       - name: Download build
         uses: actions/download-artifact@v7
@@ -209,6 +219,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
       - run: npx playwright install --with-deps chromium
       - name: Download build
         uses: actions/download-artifact@v7
@@ -234,6 +249,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
       - run: npx playwright install --with-deps chromium
       - name: Download build
         uses: actions/download-artifact@v7

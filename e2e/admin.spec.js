@@ -10,7 +10,7 @@ test.describe('Admin Panel', () => {
     await skipOnboarding(page)
     // Open admin panel via state (it's a dev/debug feature)
     await page.evaluate(() => window.setState?.({ showAdminPanel: true }))
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(800)
   })
 
   test('should display admin panel content', async ({ page }) => {
@@ -34,7 +34,7 @@ test.describe('Admin Panel', () => {
     const addBtn = page.locator('[onclick*="adminAddPoints(100)"]')
     if (await addBtn.count() > 0) {
       await addBtn.first().click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
 
       const pointsAfter = await page.evaluate(() => {
         const s = JSON.parse(localStorage.getItem('spothitch_v4_state') || '{}')
@@ -48,7 +48,7 @@ test.describe('Admin Panel', () => {
     const closeBtn = page.locator('[onclick*="closeAdminPanel"]').or(page.locator('button[aria-label*="Fermer"]'))
     if (await closeBtn.count() > 0) {
       await closeBtn.first().click()
-      await page.waitForTimeout(1000)
+      await page.waitForTimeout(400)
     }
   })
 })

@@ -49,7 +49,7 @@ test.describe('Profile - Settings', () => {
     await navigateToTab(page, 'profile')
     // Navigate to Réglages sub-tab where all settings live
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
   })
 
   test('should have theme toggle', async ({ page }) => {
@@ -67,7 +67,7 @@ test.describe('Profile - Settings', () => {
     if (await themeToggle.isVisible()) {
       const initialState = await themeToggle.getAttribute('aria-checked')
       await themeToggle.click()
-      await page.waitForTimeout(500)
+      await page.waitForTimeout(300)
       const newState = await themeToggle.getAttribute('aria-checked')
       if (initialState !== null) {
         expect(newState).not.toBe(initialState)
@@ -101,7 +101,7 @@ test.describe('Profile - Auth', () => {
   test('should have auth-related button', async ({ page }) => {
     // Auth button might be in Réglages sub-tab
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     const authBtn = page.locator('button:has-text("Connexion")')
     await expect(authBtn.first()).toBeVisible({ timeout: 5000 })
   })
@@ -112,7 +112,7 @@ test.describe('Profile - App Info', () => {
     await skipOnboarding(page)
     await navigateToTab(page, 'profile')
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
   })
 
   test('should display app version', async ({ page }) => {
