@@ -66,3 +66,32 @@ export const Storage = {
     }
   },
 };
+
+/**
+ * Safe localStorage.setItem wrapper with QuotaExceeded protection.
+ * Use this for direct localStorage calls (not prefixed with spothitch_v4_).
+ * @param {string} key - Full localStorage key
+ * @param {string} value - Value to store (already stringified)
+ * @returns {boolean} Success status
+ */
+export function safeSetItem(key, value) {
+  try {
+    localStorage.setItem(key, value)
+    return true
+  } catch (e) {
+    if (e.name === 'QuotaExceededError') {
+      console.warn(`localStorage quota exceeded for ${key}, clearing old data...`)
+      // Try to free space by removing non-essential cached data
+      try {
+        Object.keys(localStorage)
+          .filter(k => k.includes('_cache') || k.includes('_history'))
+          .forEach(k => localStorage.removeItem(k))
+        localStorage.setItem(key, value)
+        return true
+      } catch {
+        console.error(`localStorage still full after cleanup for ${key}`)
+      }
+    }
+    return false
+  }
+}

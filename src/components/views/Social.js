@@ -15,6 +15,18 @@ import { getConversationsList } from '../../services/directMessages.js'
 import { getUpcomingEvents, getEventComments, EVENT_TYPES } from '../../services/events.js'
 import { getActivityFeed } from '../../services/activityFeed.js'
 
+// Handler for feed visibility toggle (used in radar section onclick)
+window.toggleFeedVisibility = async () => {
+  const { getState, setState } = await import('../../stores/state.js')
+  const { t } = await import('../../i18n/index.js')
+  const state = getState()
+  const newVal = !state.shareLocationWithFriends
+  setState({ shareLocationWithFriends: newVal })
+  window.showToast?.(
+    newVal ? t('nowVisible') : t('nowInvisible'),
+    'info'
+  )
+}
 
 // ==================== MAIN RENDER ====================
 

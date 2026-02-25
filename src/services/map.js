@@ -79,6 +79,10 @@ function spotsToGeoJSON(spots) {
  * Add spots as a clustered GeoJSON source + layers to a map
  */
 function addSpotLayers(map, geojson) {
+  if (!map.isStyleLoaded()) {
+    map.once('style.load', () => addSpotLayers(map, geojson))
+    return
+  }
   // Source with clustering
   map.addSource('spots', {
     type: 'geojson',

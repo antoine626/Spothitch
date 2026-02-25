@@ -76,7 +76,7 @@ export async function submitReport(type, targetId, reason, details = {}) {
     user: REPORT_TYPES.USER,
     message: REPORT_TYPES.MESSAGE,
   };
-  const reasonInfo = reportTypeMap[type]?.[reason.toUpperCase()] || { severity: 'low' };
+  const reasonInfo = reportTypeMap[type]?.[(reason || '').toUpperCase()] || { severity: 'low' };
 
   // Create report
   const report = {
@@ -254,8 +254,9 @@ function generateReportId() {
 export function renderReportModal(state) {
   if (!state.showReport) return '';
 
-  const { reportType = 'spot' } = state;
-  const reportTypes = REPORT_TYPES[reportType.toUpperCase()] || REPORT_TYPES.SPOT;
+  const { reportType } = state;
+  const safeReportType = (reportType || 'spot').toUpperCase();
+  const reportTypes = REPORT_TYPES[safeReportType] || REPORT_TYPES.SPOT;
 
   return `
     <div

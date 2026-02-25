@@ -9,6 +9,7 @@ import { showToast } from './notifications.js'
 import { t } from '../i18n/index.js'
 import { haversineKm } from '../utils/geo.js'
 import { icon } from '../utils/icons.js'
+import { escapeJSString } from '../utils/sanitize.js'
 
 // ==================== CONFIGURATION ====================
 
@@ -146,7 +147,7 @@ function stopWatching() {
 export function renderProximityAlert(spot) {
   const spotName = spot.to || spot.from || spot.name || 'Spot'
   const spotId = typeof spot.id === 'string' ? spot.id : String(spot.id)
-  const escapedId = spotId.replace(/'/g, '&#39;')
+  const escapedId = escapeJSString(spotId)
 
   return `
     <div class="fixed top-20 left-4 right-4 z-40 bg-[#0f1520]/95 backdrop-blur-xl border border-primary-500/30 rounded-2xl p-4 shadow-2xl" role="alert">

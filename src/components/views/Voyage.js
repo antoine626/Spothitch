@@ -8,6 +8,7 @@ import { icon } from '../../utils/icons.js'
 import { renderToggle, renderToggleCompact } from '../../utils/toggle.js'
 // Use the full Guides.js component (6 sections with vote/suggest)
 import { renderGuides } from './Guides.js'
+import { safeSetItem } from '../../utils/storage.js'
 
 const SAVED_TRIPS_KEY = 'spothitch_saved_trips'
 const ACTIVE_TRIP_KEY = 'spothitch_active_trip'
@@ -1043,7 +1044,7 @@ window.highlightTripSpot = (spotId) => {
     } else {
       ids.splice(idx, 1)
     }
-    localStorage.setItem(HIGHLIGHTED_SPOTS_KEY, JSON.stringify(ids))
+    safeSetItem(HIGHLIGHTED_SPOTS_KEY, JSON.stringify(ids))
     window.setState?.({})
   } catch (e) {
     console.error('highlightTripSpot error:', e)
@@ -1071,7 +1072,7 @@ window.startTrip = (savedTripIndex) => {
       currentStopIndex: 0,
       startedAt: new Date().toISOString(),
     }
-    localStorage.setItem(ACTIVE_TRIP_KEY, JSON.stringify(activeTrip))
+    safeSetItem(ACTIVE_TRIP_KEY, JSON.stringify(activeTrip))
     window.setState?.({ voyageSubTab: 'voyage' })
     window.showToast?.(t('activeTrip') || 'Voyage démarré !', 'success')
   } catch (e) {
@@ -1085,7 +1086,7 @@ window.tripNextStop = () => {
     const active = getActiveTrip()
     if (!active) return
     const next = { ...active, currentStopIndex: (active.currentStopIndex || 0) + 1 }
-    localStorage.setItem(ACTIVE_TRIP_KEY, JSON.stringify(next))
+    safeSetItem(ACTIVE_TRIP_KEY, JSON.stringify(next))
     window.setState?.({})
   } catch (e) {
     console.error('tripNextStop error:', e)
@@ -1115,7 +1116,7 @@ window.finishTrip = () => {
     } else {
       savedTrips.push(completedTrip)
     }
-    localStorage.setItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
+    safeSetItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
     localStorage.removeItem(ACTIVE_TRIP_KEY)
     window.setState?.({ voyageSubTab: 'journal', journalSubTab: 'mes-voyages' })
     window.showToast?.(t('voyageTripFinished') || 'Voyage terminé ! 🎉', 'success')
@@ -1129,7 +1130,7 @@ window.toggleTripPublic = (tripIndex) => {
     const savedTrips = getSavedTrips()
     if (!savedTrips[tripIndex]) return
     savedTrips[tripIndex].public = !savedTrips[tripIndex].public
-    localStorage.setItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
+    safeSetItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
     window.setState?.({})
   } catch (e) {
     console.error('toggleTripPublic error:', e)
@@ -1148,7 +1149,7 @@ window.deleteJournalTrip = (tripIndex) => {
   try {
     const savedTrips = getSavedTrips()
     savedTrips.splice(tripIndex, 1)
-    localStorage.setItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
+    safeSetItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
     window.setState?.({ tripDetailIndex: null })
     window.showToast?.('Voyage supprimé', 'success')
   } catch (e) {
@@ -1163,7 +1164,7 @@ window.openAddTripNote = (tripIndex) => {
   const note = prompt(t('voyageAddNote') || 'Ajouter une note...', trip.notes || '')
   if (note === null) return // cancelled
   savedTrips[tripIndex].notes = note
-  localStorage.setItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
+  safeSetItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
   window.setState?.({})
 }
 
@@ -1192,7 +1193,7 @@ window.openTripPhotoUpload = (tripIndex) => {
         console.error('photo read error', err)
       }
     }
-    localStorage.setItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
+    safeSetItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
     window.setState?.({})
   }
   input.click()

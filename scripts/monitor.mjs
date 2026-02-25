@@ -104,7 +104,7 @@ async function checkSecurityHeaders() {
 
 async function checkSpotsData() {
   try {
-    const res = await fetchWithTimeout(`${SITE_URL}/data/spots/FR.json`)
+    const res = await fetchWithTimeout(`${SITE_URL}/data/spots/fr.json`)
     if (res.status !== 200) {
       return { name: 'Spots Data (FR)', ok: false, error: `HTTP ${res.status}` }
     }
