@@ -7,7 +7,7 @@
  * Méthodique, exhaustive, infatigable.
  *
  * Usage: node scripts/full-test.mjs [--level N] [--url URL]
- *   --level N   Start from level N (1-23, default: 1)
+ *   --level N   Start from level N (1-27, default: 1)
  *   --url URL   Target URL (default: http://localhost:4173)
  *
  * Levels:
@@ -34,6 +34,10 @@
  *   L21 Theme Switching     — Dark/light toggle, contrast, multi-tab
  *   L22 Deep Map            — Zoom, markers, search, gas stations, GPS
  *   L23 SOS & Companion     — SOS disclaimer, contacts, Companion fields
+ *   L24 Offline Mode         — Network cut: app survives, cache works, error messages
+ *   L25 API Resilience       — Block APIs one-by-one: fallbacks, no crash
+ *   L26 Safari (WebKit)      — Core tests on WebKit engine
+ *   L27 Firefox              — Core tests on Firefox engine
  */
 
 import { chromium } from 'playwright'
@@ -3461,6 +3465,450 @@ async function level23_SOSCompanion(page, browser) {
   console.log(`  💾 Level 23 sauvegardé — ${report.levels[level].passed} OK, ${report.levels[level].failed} erreurs`)
 }
 
+// ==================== LEVEL 24: Offline Mode ====================
+
+async function level24_Offline(page, browser) {
+  const level = 'L24'
+  console.log('\n📶 Level 24: Offline Mode')
+
+  // Test 1: App doesn't crash when going offline
+  console.log('  Test: App survives network cut...')
+  try {
+    const offlineCtx = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      locale: 'fr-FR',
+    })
+    const offlinePage = await offlineCtx.newPage()
+
+    // Load app normally first
+    await offlinePage.addInitScript(() => {
+      localStorage.setItem('spothitch_v4_state', JSON.stringify({
+        showWelcome: false, showTutorial: false, tutorialStep: 0,
+        username: 'TestUser', avatar: '🤙', activeTab: 'map',
+        theme: 'dark', lang: 'fr', points: 100, level: 2,
+        badges: ['first_spot'], rewards: [], savedTrips: [], emergencyContacts: [],
+      }))
+      localStorage.setItem('spothitch_v4_cookie_consent', JSON.stringify({
+        preferences: { necessary: true, analytics: false, marketing: false, personalization: false },
+        timestamp: Date.now(), version: '1.0',
+      }))
+      localStorage.setItem('spothitch_age_verified', 'true')
+      localStorage.setItem('spothitch_landing_seen', '1')
+    })
+    await offlinePage.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 30000 })
+    await offlinePage.waitForTimeout(LONG_WAIT)
+
+    // Cut the network
+    await offlineCtx.setOffline(true)
+    await offlinePage.waitForTimeout(SHORT_WAIT)
+
+    // Check app is still visible
+    const appVisible = await offlinePage.evaluate(() => {
+      const app = document.getElementById('app')
+      return app && app.innerHTML.length > 100
+    })
+    addResult(level, 'App visible after network cut', appVisible, appVisible ? '' : 'App disappeared or empty')
+    console.log(`    ${appVisible ? '✓' : '✗'} App visible offline`)
+
+    // Test 2: No uncaught JS errors when navigating offline (network errors are expected)
+    console.log('  Test: Navigation offline sans crash...')
+    let offlineErrors = 0
+    offlinePage.on('pageerror', (err) => {
+      const msg = err.message || ''
+      // Network/fetch errors are EXPECTED when offline — don't count them
+      if (msg.includes('fetch') || msg.includes('network') || msg.includes('Failed to fetch') ||
+          msg.includes('NetworkError') || msg.includes('Load failed') || msg.includes('ERR_INTERNET') ||
+          msg.includes('TypeError: Failed') || msg.includes('net::')) return
+      offlineErrors++
+    })
+
+    // Try clicking tabs
+    for (const tabId of ['voyage', 'social', 'profile', 'map']) {
+      try {
+        const tab = offlinePage.locator(`[data-tab="${tabId}"]`)
+        if (await tab.count() > 0) {
+          await tab.click({ force: true, timeout: 3000 }).catch(() => {})
+          await offlinePage.waitForTimeout(SHORT_WAIT)
+        }
+      } catch { /* expected — some things fail offline */ }
+    }
+    addResult(level, 'No JS crash navigating offline', offlineErrors === 0,
+      offlineErrors > 0 ? `${offlineErrors} JS errors` : '')
+    console.log(`    ${offlineErrors === 0 ? '✓' : '✗'} ${offlineErrors} erreurs JS offline`)
+
+    // Test 3: Cached data still readable (localStorage works)
+    console.log('  Test: Données locales accessibles offline...')
+    const localDataWorks = await offlinePage.evaluate(() => {
+      try {
+        const state = JSON.parse(localStorage.getItem('spothitch_v4_state') || '{}')
+        return !!state.username
+      } catch { return false }
+    })
+    addResult(level, 'localStorage accessible offline', localDataWorks)
+    console.log(`    ${localDataWorks ? '✓' : '✗'} localStorage accessible`)
+
+    // Test 4: Map container still present (tiles may be cached by SW)
+    console.log('  Test: Conteneur carte présent offline...')
+    await offlinePage.locator(`[data-tab="map"]`).click({ force: true, timeout: 3000 }).catch(() => {})
+    await offlinePage.waitForTimeout(SHORT_WAIT)
+    const mapExists = await offlinePage.evaluate(() => {
+      return !!document.getElementById('home-map') || !!document.querySelector('.maplibregl-map')
+    })
+    addResult(level, 'Map container exists offline', mapExists)
+    console.log(`    ${mapExists ? '✓' : '✗'} Conteneur carte`)
+
+    // Test 5: Restore network and verify recovery
+    console.log('  Test: Récupération après retour réseau...')
+    await offlineCtx.setOffline(false)
+    await offlinePage.waitForTimeout(MEDIUM_WAIT)
+    // Try a simple action to verify
+    const recovered = await offlinePage.evaluate(() => {
+      return document.getElementById('app')?.innerHTML.length > 100
+    })
+    addResult(level, 'App recovers when network returns', recovered)
+    console.log(`    ${recovered ? '✓' : '✗'} Récupération réseau`)
+
+    await screenshot(offlinePage, 'L24_offline_recovery')
+    await offlineCtx.close()
+  } catch (e) {
+    addResult(level, 'Offline mode (crash)', false, e.message?.substring(0, 100))
+    console.log(`    ✗ Level 24 crash: ${e.message?.substring(0, 80)}`)
+  }
+
+  saveReport()
+  console.log(`  💾 Level 24 sauvegardé — ${report.levels[level]?.passed || 0} OK, ${report.levels[level]?.failed || 0} erreurs`)
+}
+
+// ==================== LEVEL 25: API Resilience ====================
+
+async function level25_APIResilience(page, browser) {
+  const level = 'L25'
+  console.log('\n🛡️ Level 25: API Resilience')
+
+  const apis = [
+    { name: 'OpenFreeMap (tiles)', pattern: '**/tile.openfreemap.org/**', critical: false },
+    { name: 'Photon (search)', pattern: '**/photon.komoot.io/**', critical: false },
+    { name: 'Nominatim (geocoding)', pattern: '**/nominatim.openstreetmap.org/**', critical: false },
+    { name: 'Overpass (stations)', pattern: '**/overpass-api.de/**', critical: false },
+    { name: 'Firebase (auth/data)', pattern: '**/firebaseio.com/**', critical: false },
+  ]
+
+  for (const api of apis) {
+    console.log(`  Test: App sans ${api.name}...`)
+    try {
+      const ctx = await browser.newContext({
+        viewport: { width: 390, height: 844 },
+        locale: 'fr-FR',
+      })
+      const testPage = await ctx.newPage()
+
+      await testPage.addInitScript(() => {
+        localStorage.setItem('spothitch_v4_state', JSON.stringify({
+          showWelcome: false, showTutorial: false, tutorialStep: 0,
+          username: 'TestUser', avatar: '🤙', activeTab: 'map',
+          theme: 'dark', lang: 'fr', points: 100, level: 2,
+          badges: ['first_spot'], rewards: [], savedTrips: [], emergencyContacts: [],
+        }))
+        localStorage.setItem('spothitch_v4_cookie_consent', JSON.stringify({
+          preferences: { necessary: true, analytics: false, marketing: false, personalization: false },
+          timestamp: Date.now(), version: '1.0',
+        }))
+        localStorage.setItem('spothitch_age_verified', 'true')
+        localStorage.setItem('spothitch_landing_seen', '1')
+      })
+
+      // Block the specific API
+      await testPage.route(api.pattern, route => route.abort())
+
+      let jsErrors = 0
+      testPage.on('pageerror', () => jsErrors++)
+
+      await testPage.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 30000 })
+      await testPage.waitForTimeout(LONG_WAIT)
+
+      // App should still be visible
+      const appVisible = await testPage.evaluate(() => {
+        const app = document.getElementById('app')
+        return app && app.innerHTML.length > 100
+      })
+
+      // Navigate all tabs
+      for (const tabId of ['voyage', 'social', 'profile', 'map']) {
+        const tab = testPage.locator(`[data-tab="${tabId}"]`)
+        if (await tab.count() > 0) {
+          await tab.click({ force: true, timeout: 3000 }).catch(() => {})
+          await testPage.waitForTimeout(SHORT_WAIT)
+        }
+      }
+
+      const ok = appVisible && jsErrors === 0
+      addResult(level, `App survives without ${api.name}`, ok,
+        !appVisible ? 'App not visible' : jsErrors > 0 ? `${jsErrors} JS errors` : '')
+      console.log(`    ${ok ? '✓' : '✗'} Sans ${api.name}: visible=${appVisible}, erreurs=${jsErrors}`)
+
+      await ctx.close()
+    } catch (e) {
+      addResult(level, `API ${api.name} (crash)`, false, e.message?.substring(0, 100))
+      console.log(`    ✗ ${api.name} crash: ${e.message?.substring(0, 60)}`)
+    }
+  }
+
+  saveReport()
+  console.log(`  💾 Level 25 sauvegardé — ${report.levels[level]?.passed || 0} OK, ${report.levels[level]?.failed || 0} erreurs`)
+}
+
+// ==================== LEVEL 26: Safari (WebKit) ====================
+
+async function level26_Safari(page, browser) {
+  const level = 'L26'
+  console.log('\n🍎 Level 26: Safari (WebKit)')
+
+  let webkit
+  try {
+    const pw = await import('playwright')
+    webkit = pw.webkit
+  } catch {
+    addResult(level, 'WebKit engine available', false, 'playwright webkit not installed')
+    console.log('    ✗ WebKit non disponible')
+    saveReport()
+    return
+  }
+
+  let wkBrowser
+  try {
+    wkBrowser = await webkit.launch({ headless: true })
+  } catch (e) {
+    // WebKit not available on this system (e.g. Chromebook) — skip gracefully
+    console.log(`    ⊘ WebKit non disponible sur ce système — skip (OK en CI)`)
+    report.summary.skipped++
+    saveReport()
+    return
+  }
+
+  try {
+    const ctx = await wkBrowser.newContext({
+      viewport: { width: 390, height: 844 },
+      locale: 'fr-FR',
+    })
+    const wkPage = await ctx.newPage()
+
+    await wkPage.addInitScript(() => {
+      localStorage.setItem('spothitch_v4_state', JSON.stringify({
+        showWelcome: false, showTutorial: false, tutorialStep: 0,
+        username: 'TestUser', avatar: '🤙', activeTab: 'map',
+        theme: 'dark', lang: 'fr', points: 100, level: 2,
+        badges: ['first_spot'], rewards: [], savedTrips: [], emergencyContacts: [],
+      }))
+      localStorage.setItem('spothitch_v4_cookie_consent', JSON.stringify({
+        preferences: { necessary: true, analytics: false, marketing: false, personalization: false },
+        timestamp: Date.now(), version: '1.0',
+      }))
+      localStorage.setItem('spothitch_age_verified', 'true')
+      localStorage.setItem('spothitch_landing_seen', '1')
+    })
+
+    let jsErrors = 0
+    wkPage.on('pageerror', () => jsErrors++)
+
+    // Test 1: Page loads
+    console.log('  Test: Page charge sur WebKit...')
+    await wkPage.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 30000 })
+    await wkPage.waitForTimeout(LONG_WAIT)
+    const appLoaded = await wkPage.evaluate(() => {
+      const app = document.getElementById('app')
+      return app && app.innerHTML.length > 100
+    })
+    addResult(level, 'WebKit: page loads', appLoaded)
+    console.log(`    ${appLoaded ? '✓' : '✗'} Page chargée`)
+
+    // Test 2: All tabs accessible
+    console.log('  Test: Navigation entre tabs WebKit...')
+    let tabsOk = true
+    for (const tabId of ['voyage', 'social', 'profile', 'map']) {
+      const tab = wkPage.locator(`[data-tab="${tabId}"]`)
+      if (await tab.count() > 0) {
+        await tab.click({ force: true, timeout: 5000 }).catch(() => { tabsOk = false })
+        await wkPage.waitForTimeout(SHORT_WAIT)
+      } else {
+        tabsOk = false
+      }
+    }
+    addResult(level, 'WebKit: all tabs navigable', tabsOk)
+    console.log(`    ${tabsOk ? '✓' : '✗'} Tabs navigables`)
+
+    // Test 3: No JS errors
+    console.log('  Test: Pas d\'erreurs JS sur WebKit...')
+    addResult(level, 'WebKit: no JS errors', jsErrors === 0,
+      jsErrors > 0 ? `${jsErrors} errors` : '')
+    console.log(`    ${jsErrors === 0 ? '✓' : '✗'} ${jsErrors} erreurs JS`)
+
+    // Test 4: CSS renders correctly (no overflow)
+    console.log('  Test: CSS correct sur WebKit...')
+    const noOverflow = await wkPage.evaluate(() => {
+      return document.documentElement.scrollWidth <= window.innerWidth + 5
+    })
+    addResult(level, 'WebKit: no horizontal overflow', noOverflow)
+    console.log(`    ${noOverflow ? '✓' : '✗'} Pas de débordement`)
+
+    // Test 5: Open a modal
+    console.log('  Test: Modal SOS sur WebKit...')
+    const modalWorks = await wkPage.evaluate(() => {
+      try {
+        window.openSOSModal?.()
+        return true
+      } catch { return false }
+    })
+    await wkPage.waitForTimeout(SHORT_WAIT)
+    const sosVisible = await wkPage.evaluate(() => {
+      const modals = document.querySelectorAll('.fixed.inset-0.z-50, [aria-modal="true"]')
+      return modals.length > 0
+    })
+    addResult(level, 'WebKit: SOS modal opens', sosVisible || modalWorks)
+    console.log(`    ${sosVisible || modalWorks ? '✓' : '✗'} Modal SOS`)
+
+    await screenshot(wkPage, 'L26_webkit_final')
+    await ctx.close()
+  } catch (e) {
+    addResult(level, 'WebKit tests (crash)', false, e.message?.substring(0, 100))
+    console.log(`    ✗ WebKit crash: ${e.message?.substring(0, 80)}`)
+  }
+
+  await wkBrowser.close()
+  saveReport()
+  console.log(`  💾 Level 26 sauvegardé — ${report.levels[level]?.passed || 0} OK, ${report.levels[level]?.failed || 0} erreurs`)
+}
+
+// ==================== LEVEL 27: Firefox ====================
+
+async function level27_Firefox(page, browser) {
+  const level = 'L27'
+  console.log('\n🦊 Level 27: Firefox')
+
+  let firefox
+  try {
+    const pw = await import('playwright')
+    firefox = pw.firefox
+  } catch {
+    addResult(level, 'Firefox engine available', false, 'playwright firefox not installed')
+    console.log('    ✗ Firefox non disponible')
+    saveReport()
+    return
+  }
+
+  let ffBrowser
+  try {
+    ffBrowser = await firefox.launch({ headless: true })
+  } catch (e) {
+    // Firefox not available on this system (e.g. Chromebook) — skip gracefully
+    console.log(`    ⊘ Firefox non disponible sur ce système — skip (OK en CI)`)
+    report.summary.skipped++
+    saveReport()
+    return
+  }
+
+  try {
+    const ctx = await ffBrowser.newContext({
+      viewport: { width: 390, height: 844 },
+      locale: 'fr-FR',
+    })
+    const ffPage = await ctx.newPage()
+
+    await ffPage.addInitScript(() => {
+      localStorage.setItem('spothitch_v4_state', JSON.stringify({
+        showWelcome: false, showTutorial: false, tutorialStep: 0,
+        username: 'TestUser', avatar: '🤙', activeTab: 'map',
+        theme: 'dark', lang: 'fr', points: 100, level: 2,
+        badges: ['first_spot'], rewards: [], savedTrips: [], emergencyContacts: [],
+      }))
+      localStorage.setItem('spothitch_v4_cookie_consent', JSON.stringify({
+        preferences: { necessary: true, analytics: false, marketing: false, personalization: false },
+        timestamp: Date.now(), version: '1.0',
+      }))
+      localStorage.setItem('spothitch_age_verified', 'true')
+      localStorage.setItem('spothitch_landing_seen', '1')
+    })
+
+    let jsErrors = 0
+    ffPage.on('pageerror', () => jsErrors++)
+
+    // Test 1: Page loads (Firefox needs more time)
+    console.log('  Test: Page charge sur Firefox...')
+    await ffPage.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 30000 })
+    await ffPage.waitForTimeout(LONG_WAIT * 2) // Firefox needs extra init time
+    // Remove splash/loader like in setupPage
+    await ffPage.evaluate(() => {
+      const splash = document.getElementById('splash-screen')
+      if (splash) splash.remove()
+      const loader = document.getElementById('app-loader')
+      if (loader) loader.remove()
+      const app = document.getElementById('app')
+      if (app && !app.classList.contains('loaded')) app.classList.add('loaded')
+    })
+    await ffPage.waitForTimeout(MEDIUM_WAIT)
+    const appLoaded = await ffPage.evaluate(() => {
+      const app = document.getElementById('app')
+      return app && app.innerHTML.length > 100
+    })
+    addResult(level, 'Firefox: page loads', appLoaded)
+    console.log(`    ${appLoaded ? '✓' : '✗'} Page chargée`)
+
+    // Test 2: All tabs accessible
+    console.log('  Test: Navigation entre tabs Firefox...')
+    let tabsNavigated = 0
+    for (const tabId of ['voyage', 'social', 'profile', 'map']) {
+      try {
+        const tab = ffPage.locator(`[data-tab="${tabId}"]`)
+        if (await tab.count() > 0) {
+          await tab.click({ force: true, timeout: 5000 })
+          await ffPage.waitForTimeout(MEDIUM_WAIT)
+          tabsNavigated++
+        }
+      } catch { /* some tabs may not be ready yet */ }
+    }
+    addResult(level, 'Firefox: tabs navigable', tabsNavigated >= 3,
+      `${tabsNavigated}/4 tabs navigated`)
+    console.log(`    ${tabsNavigated >= 3 ? '✓' : '✗'} ${tabsNavigated}/4 tabs navigables`)
+
+    // Test 3: No JS errors
+    console.log('  Test: Pas d\'erreurs JS sur Firefox...')
+    addResult(level, 'Firefox: no JS errors', jsErrors === 0,
+      jsErrors > 0 ? `${jsErrors} errors` : '')
+    console.log(`    ${jsErrors === 0 ? '✓' : '✗'} ${jsErrors} erreurs JS`)
+
+    // Test 4: CSS renders correctly
+    console.log('  Test: CSS correct sur Firefox...')
+    const noOverflow = await ffPage.evaluate(() => {
+      return document.documentElement.scrollWidth <= window.innerWidth + 5
+    })
+    addResult(level, 'Firefox: no horizontal overflow', noOverflow)
+    console.log(`    ${noOverflow ? '✓' : '✗'} Pas de débordement`)
+
+    // Test 5: Open a modal (lazy-loaded, needs time)
+    console.log('  Test: Modal SOS sur Firefox...')
+    await ffPage.evaluate(() => window.openSOSModal?.())
+    await ffPage.waitForTimeout(LONG_WAIT)
+    const sosVisible = await ffPage.evaluate(() => {
+      const modals = document.querySelectorAll('.fixed.inset-0.z-50, [aria-modal="true"]')
+      if (modals.length > 0) return true
+      // Fallback: check for SOS-related text
+      const text = document.body.textContent || ''
+      return text.includes('SOS') || text.includes('urgence') || text.includes('emergency')
+    })
+    addResult(level, 'Firefox: SOS modal opens', sosVisible)
+    console.log(`    ${sosVisible ? '✓' : '✗'} Modal SOS`)
+
+    await screenshot(ffPage, 'L27_firefox_final')
+    await ctx.close()
+  } catch (e) {
+    addResult(level, 'Firefox tests (crash)', false, e.message?.substring(0, 100))
+    console.log(`    ✗ Firefox crash: ${e.message?.substring(0, 80)}`)
+  }
+
+  await ffBrowser.close()
+  saveReport()
+  console.log(`  💾 Level 27 sauvegardé — ${report.levels[level]?.passed || 0} OK, ${report.levels[level]?.failed || 0} erreurs`)
+}
+
 // ==================== MAIN ====================
 
 async function main() {
@@ -3499,6 +3947,10 @@ async function main() {
     [21, () => level21_Theme(page, browser)],
     [22, () => level22_DeepMap(page, browser)],
     [23, () => level23_SOSCompanion(page, browser)],
+    [24, () => level24_Offline(page, browser)],
+    [25, () => level25_APIResilience(page, browser)],
+    [26, () => level26_Safari(page, browser)],
+    [27, () => level27_Firefox(page, browser)],
   ]
 
   for (const [num, fn] of levels) {

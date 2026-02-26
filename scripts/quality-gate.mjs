@@ -17,6 +17,8 @@
  *   6. Error patterns (regressions from errors.md)
  *   7. Duplicate handlers
  *   8. Accessibility (div onclick without a11y)    [fixable]
+ *   9. Bundle size (JS/CSS within budget)
+ *  10. Import cycles (circular dependencies)
  *
  * Exit code 1 if score < threshold (default 70)
  */
@@ -31,6 +33,8 @@ import checkLocalStorage from './checks/localstorage.mjs'
 import checkErrorPatterns from './checks/error-patterns.mjs'
 import checkDuplicateHandlers from './checks/duplicate-handlers.mjs'
 import checkA11y from './checks/a11y-autofix.mjs'
+import checkBundleSize from './checks/bundle-size.mjs'
+import checkImportCycles from './checks/import-cycles.mjs'
 
 const ROOT = join(import.meta.dirname, '..')
 const RATCHET_PATH = join(ROOT, '.quality-ratchet.json')
@@ -45,13 +49,15 @@ const FIX_MODE = args.includes('--fix')
 // Check weights (must sum to 100)
 const WEIGHTS = {
   'Handlers Wiring': 12,
-  'i18n Keys': 18,
+  'i18n Keys': 15,
   'Dead Exports': 8,
-  'Security Patterns': 20,
+  'Security Patterns': 18,
   'localStorage RGPD': 10,
-  'Error Patterns': 15,
+  'Error Patterns': 14,
   'Duplicate Handlers': 10,
   'Accessibility': 7,
+  'Bundle Size': 3,
+  'Import Cycles': 3,
 }
 
 function runAllChecks(fix = false) {
@@ -64,6 +70,8 @@ function runAllChecks(fix = false) {
     { fn: checkErrorPatterns, weight: WEIGHTS['Error Patterns'], fixable: false },
     { fn: checkDuplicateHandlers, weight: WEIGHTS['Duplicate Handlers'], fixable: false },
     { fn: checkA11y, weight: WEIGHTS['Accessibility'], fixable: true },
+    { fn: checkBundleSize, weight: WEIGHTS['Bundle Size'], fixable: false },
+    { fn: checkImportCycles, weight: WEIGHTS['Import Cycles'], fixable: false },
   ]
 
   const results = []

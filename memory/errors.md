@@ -431,3 +431,16 @@ Chaque erreur suit ce format :
 | 2026-02-23 | 10 | 10 | 0 |
 | 2026-02-24 | 3 | 3 | 0 |
 | 2026-02-24 | 3 | 3 | 0 |
+| 2026-02-26 | 1 | 1 | 0 |
+
+---
+
+### ERR-039 : Auto-fix dead exports casse les imports dynamiques
+- **Date** : 2026-02-26
+- **Gravité** : CRITIQUE
+- **Description** : Le script dead-exports.mjs en mode --fix retirait `export` de 438 fonctions. En production (Vite build), les fonctions lazy-loaded via `import('./module.js').then(m => m.functionName())` ne sont plus exportées → `"n is not a function"` dans la console. Tous les E2E échouent.
+- **Cause racine** : Le détecteur de "dead exports" comptait les accès via `.functionName` comme "importés" mais le regex `dotAccessRegex` capturait trop de faux positifs (`.length`, `.map`, etc.), masquant les vrais usages dynamiques.
+- **Correction** : Désactivé l'auto-fix pour les dead exports (`fixable: false` dans quality-gate.mjs). Les dead exports restent détectés (score 70/100) mais ne sont pas auto-corrigés. Restauré les 438 exports supprimés.
+- **Leçon** : Ne JAMAIS retirer `export` automatiquement. Les imports dynamiques (`import().then(m => m.func)`) et le tree-shaking de Vite dépendent de ces exports. Seul un humain peut décider si un export est vraiment mort.
+- **Fichiers** : `scripts/checks/dead-exports.mjs`, `scripts/quality-gate.mjs`, ~86 fichiers src/
+- **Statut** : CORRIGÉ
