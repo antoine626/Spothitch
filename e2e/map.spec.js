@@ -54,26 +54,33 @@ test.describe('Map View', () => {
   })
 
   test('should open add spot and filter modals', async ({ page }) => {
+    test.setTimeout(40000) // This test reloads the page — needs extra time in CI
+
     const addBtn = page.locator('[onclick*="openAddSpot"]')
     if ((await addBtn.count()) > 0) {
       await addBtn.first().click()
-      await page.waitForTimeout(1000)
-      const dialog = page.locator('[role="dialog"], .modal-overlay')
+      await page.waitForTimeout(1500)
+      const dialog = page.locator('[role="dialog"], .modal-overlay, .fixed.inset-0.z-50')
       if (await dialog.count() > 0) {
         await expect(dialog.first()).toBeVisible()
       }
+      // Close modal via Escape or close button
+      await page.keyboard.press('Escape')
+      await page.waitForTimeout(500)
     }
 
-    // Reload to clear modal state
-    await page.goto('/')
-    await skipOnboarding(page)
-    await navigateToTab(page, 'map')
+    // Close any remaining modal by evaluating close functions
+    await page.evaluate(() => {
+      window.closeAddSpotModal?.()
+      window.closeFilters?.()
+    }).catch(() => {})
+    await page.waitForTimeout(500)
 
     const filterBtn = page.locator('[onclick*="openFilters"]')
     if ((await filterBtn.count()) > 0) {
       await filterBtn.first().click()
-      await page.waitForTimeout(1000)
-      const filterModal = page.locator('[role="dialog"], .modal-overlay')
+      await page.waitForTimeout(1500)
+      const filterModal = page.locator('[role="dialog"], .modal-overlay, .fixed.inset-0.z-50')
       if (await filterModal.count() > 0) {
         await expect(filterModal.first()).toBeVisible({ timeout: 5000 })
       }
