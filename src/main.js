@@ -148,8 +148,15 @@ function startVersionCheck() {
 
   let pendingReload = false
 
-  function doReload() {
+  async function doReload() {
     if (isReloading) return
+    // Clear all runtime caches so the user gets fresh assets
+    if (window.caches) {
+      try {
+        const keys = await caches.keys()
+        await Promise.all(keys.map(k => caches.delete(k)))
+      } catch { /* ignore */ }
+    }
     // Never reload while user is actively using the app — wait until they background it
     if (document.visibilityState !== 'hidden') {
       pendingReload = true
@@ -2408,8 +2415,8 @@ window.homeSelectFirstSuggestion = () => {
   if (btn) btn.click()
 }
 
-// Select a place → center map there, spots update via moveend listener
-window.homeSelectPlace = (lat, lng, name) => {
+// Select a place → center map there + actively load spots for the area
+window.homeSelectPlace = async (lat, lng, name) => {
   const input = document.getElementById('home-destination')
   if (input) input.value = name
   document.getElementById('home-dest-suggestions')?.classList.add('hidden')
@@ -2418,6 +2425,15 @@ window.homeSelectPlace = (lat, lng, name) => {
   if (window.homeMapInstance) {
     window.homeMapInstance.setView([lat, lng], 12)
   }
+
+  // Actively load spots for the searched area (don't rely solely on moveend)
+  try {
+    const { loadSpotsInRadius } = await import('./services/spotLoader.js')
+    await loadSpotsInRadius(lat, lng, 50)
+    // Trigger map refresh to show loaded spots
+    if (window._refreshMapSpots) window._refreshMapSpots()
+    if (window._refreshCountryBubbles) window._refreshCountryBubbles()
+  } catch { /* spots will load via moveend fallback */ }
 }
 
 window.homeClearSearch = () => {

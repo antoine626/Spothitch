@@ -1663,6 +1663,49 @@ textarea.input-field {
   @apply bg-orange-200 text-orange-900;
 }
 
+/* Light theme - Text overrides for readability */
+.light-theme .text-white {
+  color: #1e293b !important; /* slate-800 */
+}
+.light-theme .text-slate-300 {
+  color: #475569 !important; /* slate-600 */
+}
+.light-theme .text-slate-200 {
+  color: #334155 !important; /* slate-700 */
+}
+.light-theme .text-slate-100 {
+  color: #1e293b !important; /* slate-800 */
+}
+.light-theme .placeholder-slate-400::placeholder {
+  color: #94a3b8 !important; /* slate-400 stays for placeholders */
+}
+
+/* Light theme - Borders */
+.light-theme .border-white\/5,
+.light-theme .border-white\/10 {
+  border-color: rgb(226 232 240) !important; /* slate-200 */
+}
+
+/* Light theme - Search bar on map */
+.light-theme .bg-dark-primary\/60 {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Light theme - Modal overlays keep dark */
+.light-theme .bg-black\/80 {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Light theme - Sub-tab bars */
+.light-theme .bg-dark-secondary\/50 {
+  background-color: rgba(241, 245, 249, 0.7) !important; /* slate-100 */
+}
+
+/* Light theme - Active tab text stays colored */
+.light-theme .text-primary-400 {
+  color: #d97706 !important; /* amber-600 for better contrast */
+}
+
 /* Light theme - Map controls */
 .light-theme .maplibregl-ctrl button {
   @apply bg-white text-slate-700 border-slate-200;

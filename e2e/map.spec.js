@@ -28,18 +28,16 @@ test.describe('Map View', () => {
 
   test('should zoom in and out without crash', async ({ page }) => {
     const zoomInBtn = page.locator('[onclick*="homeZoomIn"]').first()
-    if (await zoomInBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await zoomInBtn.click()
-      await page.waitForTimeout(300)
-      await expect(page.locator('#home-map')).toBeVisible()
-    }
+    await expect(zoomInBtn).toBeVisible({ timeout: 5000 })
+    await zoomInBtn.click()
+    await page.waitForTimeout(300)
+    await expect(page.locator('#home-map')).toBeVisible()
 
     const zoomOutBtn = page.locator('[onclick*="homeZoomOut"]').first()
-    if (await zoomOutBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await zoomOutBtn.click()
-      await page.waitForTimeout(300)
-      await expect(page.locator('#home-map')).toBeVisible()
-    }
+    await expect(zoomOutBtn).toBeVisible({ timeout: 5000 })
+    await zoomOutBtn.click()
+    await page.waitForTimeout(300)
+    await expect(page.locator('#home-map')).toBeVisible()
   })
 
   test('should search and interact', async ({ page }) => {
@@ -69,11 +67,11 @@ test.describe('Map View', () => {
       await page.waitForTimeout(500)
     }
 
-    // Close any remaining modal by evaluating close functions
+    // Close any remaining modal
     await page.evaluate(() => {
       window.closeAddSpotModal?.()
       window.closeFilters?.()
-    }).catch(() => {})
+    })
     await page.waitForTimeout(500)
 
     const filterBtn = page.locator('[onclick*="openFilters"]')
@@ -97,22 +95,20 @@ test.describe('Map View', () => {
   })
 
   test('should have accessible controls', async ({ page }) => {
+    // All interactive controls MUST have aria-labels
     const searchInput = page.locator('#home-destination')
-    if ((await searchInput.count()) > 0) {
-      const ariaLabel = await searchInput.getAttribute('aria-label')
-      expect(ariaLabel).toBeTruthy()
-    }
+    await expect(searchInput).toBeVisible({ timeout: 5000 })
+    const searchAriaLabel = await searchInput.getAttribute('aria-label')
+    expect(searchAriaLabel).toBeTruthy()
 
     const zoomIn = page.locator('[onclick*="homeZoomIn"]').first()
-    if (await zoomIn.isVisible({ timeout: 3000 }).catch(() => false)) {
-      const ariaLabel = await zoomIn.getAttribute('aria-label')
-      expect(ariaLabel).toBeTruthy()
-    }
+    await expect(zoomIn).toBeVisible({ timeout: 5000 })
+    const zoomAriaLabel = await zoomIn.getAttribute('aria-label')
+    expect(zoomAriaLabel).toBeTruthy()
 
     const addBtn = page.locator('[onclick*="openAddSpot"]').first()
-    if (await addBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
-      const ariaLabel = await addBtn.getAttribute('aria-label')
-      expect(ariaLabel).toBeTruthy()
-    }
+    await expect(addBtn).toBeVisible({ timeout: 5000 })
+    const addAriaLabel = await addBtn.getAttribute('aria-label')
+    expect(addAriaLabel).toBeTruthy()
   })
 })

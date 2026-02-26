@@ -77,7 +77,7 @@ test.describe('PWA - Service Worker', () => {
     });
 
     // Should have at least one cache (workbox creates caches)
-    expect(cacheNames.length).toBeGreaterThanOrEqual(0);
+    expect(cacheNames.length).toBeGreaterThan(0);
   });
 
   test('should be installable', async ({ page }) => {
@@ -90,8 +90,10 @@ test.describe('PWA - Service Worker', () => {
              navigator.standalone !== undefined;
     });
 
-    // This varies by browser - just verify page loads correctly
-    expect(true).toBe(true);
+    // Verify manifest is fetchable (real check instead of always-true)
+    const manifestLink = page.locator('link[rel="manifest"]')
+    const href = await manifestLink.first().getAttribute('href')
+    expect(href).toBeTruthy();
   });
 });
 
@@ -261,9 +263,10 @@ test.describe('PWA - App Shell', () => {
       page.waitForSelector('nav[role="navigation"]', { timeout: 15000 }),
     ]).catch(() => {});
 
-    // State should be restored (no welcome screen)
-    const welcomeVisible = await page.locator('text=Bienvenue').isVisible().catch(() => false);
-    // Should not show welcome screen again
+    // State should be restored — no welcome screen, app functional
+    const welcomeVisible = await page.locator('text=Bienvenue').isVisible().catch(() => false)
+    expect(welcomeVisible).toBe(false)
+    await expect(page.locator('nav')).toBeVisible({ timeout: 5000 })
   });
 });
 

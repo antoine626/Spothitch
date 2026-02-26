@@ -2805,7 +2805,7 @@ export default {
   landingFooterCopyright: 'All rights reserved.',
   // Donation keys
   donationTitle: 'Support SpotHitch',
-  donationDesc: 'SpotHitch is free and will stay free. Your donation helps us pay for hosting, improve the app and keep hitchhiking free and accessible.',
+  donationDesc: 'Built by a hitchhiker for hitchhikers. Thanks to donations, we improve SpotHitch every day.',
   donationThanksSupporter: 'Thanks, supporter!',
   donationSupporterHero: 'You are a hitchhiking hero',
   donationCoffee: 'A coffee',
@@ -3545,7 +3545,7 @@ export default {
   guideEtiquetteTipping: 'Tipping',
   guideEtiquetteDos: 'Do\'s',
   guideEtiquetteDonts: 'Don\'ts',
-  guideEtiquetteGeneric: 'Be respectful of local customs, always smile and thank your drivers.',
+  guideEtiquetteGeneric: 'Be respectful of local customs, always smile and thank the people who give you a ride.',
 
   // Guides — Visa Info (#77)
   guideVisaTitle: 'Visa info',

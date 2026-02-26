@@ -35,6 +35,7 @@ import checkDuplicateHandlers from './checks/duplicate-handlers.mjs'
 import checkA11y from './checks/a11y-autofix.mjs'
 import checkBundleSize from './checks/bundle-size.mjs'
 import checkImportCycles from './checks/import-cycles.mjs'
+import checkContentIntegrity from './checks/content-integrity.mjs'
 
 const ROOT = join(import.meta.dirname, '..')
 const RATCHET_PATH = join(ROOT, '.quality-ratchet.json')
@@ -49,15 +50,16 @@ const FIX_MODE = args.includes('--fix')
 // Check weights (must sum to 100)
 const WEIGHTS = {
   'Handlers Wiring': 12,
-  'i18n Keys': 15,
+  'i18n Keys': 13,
   'Dead Exports': 8,
   'Security Patterns': 18,
   'localStorage RGPD': 10,
-  'Error Patterns': 14,
+  'Error Patterns': 12,
   'Duplicate Handlers': 10,
   'Accessibility': 7,
   'Bundle Size': 3,
-  'Import Cycles': 3,
+  'Import Cycles': 2,
+  'Content Integrity': 5,
 }
 
 function runAllChecks(fix = false) {
@@ -72,6 +74,7 @@ function runAllChecks(fix = false) {
     { fn: checkA11y, weight: WEIGHTS['Accessibility'], fixable: true },
     { fn: checkBundleSize, weight: WEIGHTS['Bundle Size'], fixable: false },
     { fn: checkImportCycles, weight: WEIGHTS['Import Cycles'], fixable: false },
+    { fn: checkContentIntegrity, weight: WEIGHTS['Content Integrity'], fixable: false },
   ]
 
   const results = []

@@ -57,12 +57,17 @@ test.describe('Social - Tab Switching', () => {
     await navigateToTab(page, 'social')
   })
 
-  test('should switch between sub-tabs', async ({ page }) => {
-    // Switch to événements
+  test('should switch between sub-tabs and show different content', async ({ page }) => {
+    // Switch to événements — verify event content appears
     await page.evaluate(() => window.setSocialTab?.('evenements'))
-    await page.waitForTimeout(300)
-    // Switch back to messagerie
+    await page.waitForTimeout(500)
+    const eventContent = page.locator('text=/événement|event|rencontre|meet|radar/i')
+    await expect(eventContent.first()).toBeVisible({ timeout: 5000 })
+
+    // Switch back to messagerie — verify message content appears
     await page.evaluate(() => window.setSocialTab?.('messagerie'))
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(500)
+    const msgContent = page.locator('text=/message|conversation|chat|ami|friend/i')
+    await expect(msgContent.first()).toBeVisible({ timeout: 5000 })
   })
 })

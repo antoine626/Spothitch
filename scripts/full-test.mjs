@@ -7,7 +7,7 @@
  * Méthodique, exhaustive, infatigable.
  *
  * Usage: node scripts/full-test.mjs [--level N] [--url URL]
- *   --level N   Start from level N (1-34, default: 1)
+ *   --level N   Start from level N (1-35, default: 1)
  *   --url URL   Target URL (default: http://localhost:4173)
  *
  * Levels:
@@ -45,6 +45,7 @@
  *   L32 Screen Reader ARIA   — aria-live regions, role=dialog, focus management
  *   L33 SEO City Pages       — City pages have content, meta tags, h1
  *   L34 Firebase Rules       — Static audit: auth guards before Firestore writes
+ *   L35 Flow Complet         — Antoine's real journey: onboarding → search → guide → SOS → theme → social → roadmap
  */
 
 import { chromium } from 'playwright'
@@ -4823,6 +4824,433 @@ async function level34_FirebaseRulesAudit(page, browser) {
   console.log(`  💾 Level 34 sauvegardé — ${report.levels[level]?.passed || 0} OK, ${report.levels[level]?.failed || 0} erreurs`)
 }
 
+// ==================== LEVEL 35: FLOW COMPLET (Antoine's Journey) ====================
+
+async function level35_FlowComplet(page, browser) {
+  const level = 'L35_FlowComplet'
+  console.log('\n🎯 LEVEL 35: Flow Complet — Parcours Antoine')
+  console.log('  Reproduit exactement le parcours utilisateur réel')
+
+  try {
+    // Start with FRESH context (new user, no localStorage)
+    const freshCtx = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15',
+      locale: 'fr-FR',
+    })
+    const fp = await freshCtx.newPage()
+
+    let jsErrors = 0
+    fp.on('pageerror', () => jsErrors++)
+    fp.on('console', msg => {
+      if (msg.type() === 'error') {
+        const text = msg.text()
+        if (!text.includes('favicon') && !text.includes('net::ERR') && !text.includes('404')) {
+          report.consoleErrors.push({ text: `[L35] ${text}`, time: new Date().toISOString() })
+        }
+      }
+    })
+
+    // ── STEP 1: Onboarding (new user) ──
+    console.log('  Step 1: Onboarding nouvel utilisateur...')
+    try {
+      await fp.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 30000 })
+      await fp.waitForTimeout(LONG_WAIT * 2)
+      await screenshot(fp, 'L35_step1_fresh_landing')
+
+      const hasLanding = await fp.evaluate(() => {
+        return !!(document.querySelector('#landing-page') ||
+                  document.querySelector('[onclick*="dismissLanding"]') ||
+                  document.querySelector('[class*="landing"]') ||
+                  document.querySelector('[class*="onboard"]'))
+      })
+      addResult(level, 'Step 1: Landing visible pour nouvel utilisateur', hasLanding,
+        hasLanding ? '' : 'No landing detected')
+      console.log(`    ${hasLanding ? '✓' : '✗'} Landing visible`)
+
+      // Navigate through onboarding slides
+      for (let i = 0; i < 8; i++) {
+        const clicked = await safeClick(fp,
+          '[onclick*="nextSlide"], [onclick*="nextStep"], button:has-text("Suivant"), button:has-text("Continuer"), button:has-text("C\'est parti"), button:has-text("Commencer")',
+          2000)
+        if (!clicked) break
+        await fp.waitForTimeout(800)
+      }
+
+      // Dismiss landing
+      await safeClick(fp,
+        '[onclick*="dismissLanding"], [onclick*="skipOnboarding"], [onclick*="startApp"], button:has-text("Commencer"), button:has-text("C\'est parti")',
+        3000)
+      await fp.waitForTimeout(MEDIUM_WAIT)
+
+      // Handle age verification
+      await safeClick(fp, '[onclick*="confirmAge"], button:has-text("18"), button:has-text("Oui")', 3000)
+      await fp.waitForTimeout(MEDIUM_WAIT)
+
+      // Handle cookie consent
+      await safeClick(fp, '[onclick*="acceptCookies"], [onclick*="saveCookiePreferences"], button:has-text("Accepter")', 3000)
+      await fp.waitForTimeout(MEDIUM_WAIT)
+
+      // Verify we reached the map
+      const mapVisible = await fp.evaluate(() => {
+        return !!(document.getElementById('home-map') || document.querySelector('.maplibregl-map'))
+      })
+      addResult(level, 'Step 1: Carte visible après onboarding', mapVisible,
+        mapVisible ? '' : 'Map not visible after onboarding')
+      console.log(`    ${mapVisible ? '✓' : '✗'} Carte visible`)
+      await screenshot(fp, 'L35_step1_after_onboarding')
+    } catch (e) {
+      addResult(level, 'Step 1: Onboarding (crash)', false, e.message?.substring(0, 100))
+      console.log(`    ✗ Step 1 crash: ${e.message?.substring(0, 60)}`)
+    }
+
+    // ── STEP 2: Search "Paris" → verify spots appear ──
+    console.log('  Step 2: Recherche "Paris" → spots visibles...')
+    try {
+      const searchInput = fp.locator('#home-destination')
+      if (await searchInput.count() > 0) {
+        await searchInput.fill('Paris')
+        await fp.waitForTimeout(LONG_WAIT)
+
+        // Check suggestions appear with actual content
+        const suggestionsVisible = await fp.evaluate(() => {
+          const box = document.getElementById('home-dest-suggestions')
+          if (!box || box.classList.contains('hidden')) return { visible: false, count: 0, hasParisText: false }
+          const items = box.querySelectorAll('div[onclick], button, a')
+          const text = box.textContent || ''
+          return {
+            visible: true,
+            count: items.length,
+            hasParisText: text.toLowerCase().includes('paris'),
+          }
+        })
+
+        addResult(level, 'Step 2: Suggestions recherche contiennent "Paris"',
+          suggestionsVisible.visible && suggestionsVisible.hasParisText,
+          `Visible: ${suggestionsVisible.visible}, Count: ${suggestionsVisible.count}, HasParis: ${suggestionsVisible.hasParisText}`)
+        console.log(`    ${suggestionsVisible.visible && suggestionsVisible.hasParisText ? '✓' : '✗'} Suggestions: ${suggestionsVisible.count} items, Paris=${suggestionsVisible.hasParisText}`)
+
+        // Select first suggestion
+        await safeClick(fp, '#home-dest-suggestions div[onclick], #home-dest-suggestions button', 3000)
+        await fp.waitForTimeout(LONG_WAIT * 2)
+
+        // CRITICAL: Verify spots/markers appear on the map (not just that map is visible)
+        const spotsLoaded = await fp.evaluate(() => {
+          const markers = document.querySelectorAll('.maplibregl-marker, .marker-cluster, [class*="marker"]')
+          const mapEl = document.querySelector('.maplibregl-canvas')
+          return {
+            markerCount: markers.length,
+            mapExists: !!mapEl,
+          }
+        })
+        addResult(level, 'Step 2: Marqueurs/spots visibles après recherche Paris',
+          spotsLoaded.markerCount > 0,
+          `${spotsLoaded.markerCount} marqueurs trouvés`)
+        console.log(`    ${spotsLoaded.markerCount > 0 ? '✓' : '✗'} ${spotsLoaded.markerCount} marqueurs sur la carte`)
+      } else {
+        addResult(level, 'Step 2: Input recherche trouvé', false, 'No #home-destination input')
+        console.log(`    ✗ Input recherche introuvable`)
+      }
+      await screenshot(fp, 'L35_step2_search_paris')
+    } catch (e) {
+      addResult(level, 'Step 2: Recherche Paris (crash)', false, e.message?.substring(0, 100))
+      console.log(`    ✗ Step 2 crash: ${e.message?.substring(0, 60)}`)
+    }
+
+    // ── STEP 3: Open country guide → verify it opens with content ──
+    console.log('  Step 3: Guide pays → contenu visible...')
+    try {
+      // Navigate to Voyage > Guides
+      await safeEval(fp, `window.changeTab?.('challenges')`)
+      await fp.waitForTimeout(LONG_WAIT)
+      await safeEval(fp, `window.setState?.({voyageSubTab:'guides', guideSection:'countries'})`)
+      await fp.waitForTimeout(LONG_WAIT)
+
+      // Find and click a country guide
+      const guideClicked = await fp.evaluate(() => {
+        const guideCards = document.querySelectorAll('[onclick*="selectGuide"], [onclick*="openGuide"], [onclick*="selectedCountryGuide"]')
+        if (guideCards.length > 0) {
+          guideCards[0].click()
+          return true
+        }
+        // Fallback: try calling handler directly
+        if (typeof window.selectGuide === 'function') {
+          window.selectGuide('FR')
+          return true
+        }
+        return false
+      })
+      await fp.waitForTimeout(LONG_WAIT)
+
+      // Verify guide content is visible (not just that it opened)
+      const guideContent = await fp.evaluate(() => {
+        const body = document.body.textContent || ''
+        const hasGuideContent = body.includes('conseils') || body.includes('tips') ||
+          body.includes('visa') || body.includes('sécurité') || body.includes('safety') ||
+          body.includes('culture') || body.includes('étiquette') || body.includes('etiquette') ||
+          body.includes('transport') || body.includes('climat') || body.includes('monnaie') ||
+          body.includes('France') || body.includes('Allemagne') || body.includes('Espagne')
+        return { clicked: guideClicked, hasContent: hasGuideContent, textLength: body.length }
+      })
+      addResult(level, 'Step 3: Guide pays ouvert avec contenu informatif',
+        guideContent.clicked && guideContent.hasContent,
+        `Clicked: ${guideContent.clicked}, HasContent: ${guideContent.hasContent}`)
+      console.log(`    ${guideContent.clicked && guideContent.hasContent ? '✓' : '✗'} Guide: cliqué=${guideContent.clicked}, contenu=${guideContent.hasContent}`)
+      await screenshot(fp, 'L35_step3_guide')
+    } catch (e) {
+      addResult(level, 'Step 3: Guide pays (crash)', false, e.message?.substring(0, 100))
+      console.log(`    ✗ Step 3 crash: ${e.message?.substring(0, 60)}`)
+    }
+
+    // ── STEP 4: SOS flow complet (disclaimer → accept → content) ──
+    console.log('  Step 4: SOS flow complet...')
+    try {
+      // Go back to map
+      await safeEval(fp, `window.changeTab?.('map')`)
+      await fp.waitForTimeout(MEDIUM_WAIT)
+
+      // Clear SOS disclaimer to test full flow
+      await fp.evaluate(() => localStorage.removeItem('spothitch_sos_disclaimer_seen'))
+
+      // Open SOS
+      await safeEval(fp, `window.openSOS?.()`)
+      await fp.waitForTimeout(LONG_WAIT)
+      await screenshot(fp, 'L35_step4_sos_disclaimer')
+
+      // Verify disclaimer appears
+      const disclaimerVisible = await fp.evaluate(() => {
+        const modals = document.querySelectorAll('.fixed.inset-0.z-50, [aria-modal="true"]')
+        for (const modal of modals) {
+          const text = modal.textContent || ''
+          if (text.includes('urgence') || text.includes('emergency') || text.includes('avertissement') ||
+              text.includes('disclaimer') || text.includes('Attention') || text.includes('important'))
+            return true
+        }
+        return false
+      })
+      addResult(level, 'Step 4a: SOS disclaimer visible', disclaimerVisible,
+        disclaimerVisible ? '' : 'No disclaimer found')
+      console.log(`    ${disclaimerVisible ? '✓' : '✗'} Disclaimer visible`)
+
+      // Accept disclaimer
+      await safeClick(fp,
+        '[onclick*="acceptSOSDisclaimer"], [onclick*="acceptSOS"], button:has-text("J\'accepte"), button:has-text("Compris"), button:has-text("Continuer")',
+        3000)
+      await fp.waitForTimeout(LONG_WAIT)
+      await screenshot(fp, 'L35_step4_sos_main')
+
+      // CRITICAL: Verify SOS CONTENT appears after disclaimer (not just modal stays open)
+      const sosContentAfter = await fp.evaluate(() => {
+        const modals = document.querySelectorAll('.fixed.inset-0.z-50, [aria-modal="true"]')
+        for (const modal of modals) {
+          const text = modal.textContent || ''
+          // SOS interface should have: contact field, SMS/WhatsApp option, or countdown
+          const hasSOS = text.includes('SMS') || text.includes('WhatsApp') || text.includes('contact') ||
+            text.includes('Contact') || text.includes('téléphone') || text.includes('phone') ||
+            text.includes('countdown') || text.includes('alarme') || text.includes('alarm') ||
+            text.includes('enregistr') || text.includes('record')
+          if (hasSOS) return true
+        }
+        return false
+      })
+      addResult(level, 'Step 4b: SOS contenu principal visible après acceptation',
+        sosContentAfter, sosContentAfter ? '' : 'SOS content not found after accepting disclaimer — FLOW BLOCKED')
+      console.log(`    ${sosContentAfter ? '✓' : '✗'} SOS contenu principal après disclaimer`)
+
+      await safeEval(fp, `window.closeSOS?.()`)
+      await fp.waitForTimeout(SHORT_WAIT)
+    } catch (e) {
+      addResult(level, 'Step 4: SOS flow (crash)', false, e.message?.substring(0, 100))
+      console.log(`    ✗ Step 4 crash: ${e.message?.substring(0, 60)}`)
+    }
+
+    // ── STEP 5: Toggle light mode → verify VISUAL change ──
+    console.log('  Step 5: Mode clair → changement visuel...')
+    try {
+      // Go to profile
+      await safeEval(fp, `window.changeTab?.('profile')`)
+      await fp.waitForTimeout(LONG_WAIT)
+
+      // Get background color BEFORE toggle
+      const bgBefore = await fp.evaluate(() => {
+        return getComputedStyle(document.body).backgroundColor
+      })
+
+      // Toggle theme
+      await safeEval(fp, `window.toggleTheme?.()`)
+      await fp.waitForTimeout(LONG_WAIT)
+      await screenshot(fp, 'L35_step5_light_mode')
+
+      // Get background color AFTER toggle
+      const bgAfter = await fp.evaluate(() => {
+        return getComputedStyle(document.body).backgroundColor
+      })
+
+      // CRITICAL: Background color MUST have changed (not just aria attribute)
+      const bgChanged = bgBefore !== bgAfter
+      addResult(level, 'Step 5: Background-color change après toggle thème',
+        bgChanged, `Before: ${bgBefore}, After: ${bgAfter}`)
+      console.log(`    ${bgChanged ? '✓' : '✗'} BG: ${bgBefore} → ${bgAfter}`)
+
+      // Also verify text is readable (not same color as background)
+      const textReadable = await fp.evaluate(() => {
+        const body = document.body
+        const bg = getComputedStyle(body).backgroundColor
+        const headings = document.querySelectorAll('h1, h2, h3, span, p, label')
+        let readableCount = 0
+        let totalCount = 0
+        for (const el of headings) {
+          if (!el.offsetParent) continue // skip hidden
+          totalCount++
+          const color = getComputedStyle(el).color
+          if (color !== bg) readableCount++
+        }
+        return { readable: readableCount, total: totalCount, ratio: totalCount > 0 ? readableCount / totalCount : 1 }
+      })
+      addResult(level, 'Step 5: Texte lisible en mode clair (contraste)',
+        textReadable.ratio > 0.8,
+        `${textReadable.readable}/${textReadable.total} éléments lisibles (${Math.round(textReadable.ratio * 100)}%)`)
+      console.log(`    ${textReadable.ratio > 0.8 ? '✓' : '✗'} Lisibilité: ${Math.round(textReadable.ratio * 100)}%`)
+
+      // Toggle back to dark
+      await safeEval(fp, `window.toggleTheme?.()`)
+      await fp.waitForTimeout(MEDIUM_WAIT)
+    } catch (e) {
+      addResult(level, 'Step 5: Theme toggle (crash)', false, e.message?.substring(0, 100))
+      console.log(`    ✗ Step 5 crash: ${e.message?.substring(0, 60)}`)
+    }
+
+    // ── STEP 6: Profile social links clickable ──
+    console.log('  Step 6: Réseaux sociaux cliquables dans profil...')
+    try {
+      await safeEval(fp, `window.changeTab?.('profile')`)
+      await fp.waitForTimeout(LONG_WAIT)
+
+      const socialLinks = await fp.evaluate(() => {
+        // Check for <a> tags linking to social networks
+        const links = document.querySelectorAll('a[href*="instagram.com"], a[href*="facebook.com"], a[href*="twitter.com"], a[href*="x.com"], a[href*="tiktok.com"], a[href*="youtube.com"]')
+        // Also check for social input fields that could be turned into links
+        const inputs = document.querySelectorAll('input[placeholder*="instagram" i], input[placeholder*="tiktok" i], input[name*="social" i]')
+        return {
+          linkCount: links.length,
+          inputCount: inputs.length,
+          hasClickableLinks: links.length > 0,
+        }
+      })
+      // Social links should exist as clickable <a> elements or input fields
+      addResult(level, 'Step 6: Réseaux sociaux présents dans le profil',
+        socialLinks.linkCount > 0 || socialLinks.inputCount > 0,
+        `Links: ${socialLinks.linkCount}, Inputs: ${socialLinks.inputCount}`)
+      console.log(`    ${socialLinks.linkCount > 0 || socialLinks.inputCount > 0 ? '✓' : '✗'} Social: ${socialLinks.linkCount} liens, ${socialLinks.inputCount} inputs`)
+      await screenshot(fp, 'L35_step6_profile_social')
+    } catch (e) {
+      addResult(level, 'Step 6: Réseaux sociaux (crash)', false, e.message?.substring(0, 100))
+      console.log(`    ✗ Step 6 crash: ${e.message?.substring(0, 60)}`)
+    }
+
+    // ── STEP 7: Roadmap feature detail ──
+    console.log('  Step 7: Roadmap → clic feature → détail visible...')
+    try {
+      // Open Roadmap
+      await safeEval(fp, `window.openRoadmap?.()`)
+      await fp.waitForTimeout(LONG_WAIT)
+
+      // Click first feature in Roadmap
+      const featureClicked = await fp.evaluate(() => {
+        const features = document.querySelectorAll('[onclick*="openRoadmapFeatureDetail"], [onclick*="showFeatureDetail"], [onclick*="roadmapFeature"]')
+        if (features.length > 0) {
+          features[0].click()
+          return true
+        }
+        // Try any clickable card inside the Roadmap modal
+        const modals = document.querySelectorAll('.fixed.inset-0.z-50, [aria-modal="true"]')
+        for (const modal of modals) {
+          const cards = modal.querySelectorAll('[onclick], button')
+          for (const card of cards) {
+            const onclick = card.getAttribute('onclick') || ''
+            if (onclick.includes('Feature') || onclick.includes('feature') || onclick.includes('Detail') || onclick.includes('detail')) {
+              card.click()
+              return true
+            }
+          }
+        }
+        return false
+      })
+      await fp.waitForTimeout(LONG_WAIT)
+      await screenshot(fp, 'L35_step7_roadmap_detail')
+
+      // Verify detail panel appeared with explanation content
+      const detailVisible = await fp.evaluate(() => {
+        const body = document.body.textContent || ''
+        // A feature detail should have explanatory text (not just a title)
+        const hasDescription = body.length > 500 // rough check
+        const modals = document.querySelectorAll('.fixed.inset-0.z-50, [aria-modal="true"]')
+        let detailFound = false
+        for (const modal of modals) {
+          const text = modal.textContent || ''
+          if (text.length > 100) detailFound = true
+        }
+        return { featureClicked, detailFound, hasDescription }
+      })
+      addResult(level, 'Step 7: Roadmap feature detail visible',
+        detailVisible.featureClicked && detailVisible.detailFound,
+        `Clicked: ${detailVisible.featureClicked}, Detail: ${detailVisible.detailFound}`)
+      console.log(`    ${detailVisible.featureClicked && detailVisible.detailFound ? '✓' : '✗'} Detail: cliqué=${detailVisible.featureClicked}, visible=${detailVisible.detailFound}`)
+
+      await safeEval(fp, `window.closeRoadmap?.()`)
+      await fp.waitForTimeout(SHORT_WAIT)
+    } catch (e) {
+      addResult(level, 'Step 7: Roadmap detail (crash)', false, e.message?.substring(0, 100))
+      console.log(`    ✗ Step 7 crash: ${e.message?.substring(0, 60)}`)
+    }
+
+    // ── STEP 8: Content integrity (no misleading text) ──
+    console.log('  Step 8: Intégrité du contenu (pas de texte mensonger)...')
+    try {
+      // Check that donation text is honest (B9 fix)
+      const honestContent = await fp.evaluate(() => {
+        const body = document.body.textContent || ''
+        const html = document.body.innerHTML || ''
+        const issues = []
+        // No "gratuit pour toujours" / "free forever"
+        if (/gratuit et (ça le|le) restera/i.test(body) || /free and will stay free/i.test(body)) {
+          issues.push('FAKE: "gratuit pour toujours"')
+        }
+        // No hardcoded fake user counts
+        if (/\+\d{3,}\s+inscrits/i.test(html)) {
+          issues.push('FAKE: hardcoded user count')
+        }
+        // No fake promo codes
+        if (/SPOT\d+BOOK|SPOT\d+HOST/.test(html)) {
+          issues.push('FAKE: promo codes')
+        }
+        return { honest: issues.length === 0, issues }
+      })
+      addResult(level, 'Step 8: Contenu honnête (pas de texte mensonger)',
+        honestContent.honest,
+        honestContent.honest ? '' : honestContent.issues.join(', '))
+      console.log(`    ${honestContent.honest ? '✓' : '✗'} Contenu: ${honestContent.honest ? 'honnête' : honestContent.issues.join(', ')}`)
+    } catch (e) {
+      addResult(level, 'Step 8: Content integrity (crash)', false, e.message?.substring(0, 100))
+      console.log(`    ✗ Step 8 crash: ${e.message?.substring(0, 60)}`)
+    }
+
+    // Final summary
+    const noJSErrors = jsErrors === 0
+    addResult(level, 'Flow Complet: 0 erreurs JS pendant le parcours', noJSErrors,
+      `${jsErrors} erreurs JS`)
+    console.log(`    ${noJSErrors ? '✓' : '✗'} ${jsErrors} erreurs JS total`)
+
+    await freshCtx.close()
+  } catch (e) {
+    addResult(level, 'Flow Complet (crash)', false, e.message?.substring(0, 100))
+    console.log(`    ✗ Level 35 crash: ${e.message?.substring(0, 80)}`)
+  }
+
+  saveReport()
+  console.log(`  💾 Level 35 sauvegardé — ${report.levels[level]?.passed || 0} OK, ${report.levels[level]?.failed || 0} erreurs`)
+}
+
 // ==================== MAIN ====================
 
 async function main() {
@@ -4872,6 +5300,7 @@ async function main() {
     [32, () => level32_ScreenReaderARIA(page)],
     [33, () => level33_SEOCityPages(page, browser)],
     [34, () => level34_FirebaseRulesAudit(page, browser)],
+    [35, () => level35_FlowComplet(page, browser)],
   ]
 
   for (const [num, fn] of levels) {

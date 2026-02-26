@@ -25,21 +25,12 @@ test.describe('Voyage Tab', () => {
     expect(await subTabs.count()).toBeGreaterThanOrEqual(3)
   })
 
-  test('should switch to Guides sub-tab', async ({ page }) => {
+  test('should switch to Guides sub-tab and show content', async ({ page }) => {
     await page.evaluate(() => window.setVoyageSubTab?.('guides'))
-    await page.waitForTimeout(300)
-    // Guides tab shows guide cards or a search input for guides
-    const guidesContent = page
-      .locator('.guide-card')
-      .or(page.locator('#guides-search'))
-      .or(page.locator('[data-subtab="guides"]'))
-      .first()
-    const isVisible = await guidesContent.isVisible({ timeout: 5000 }).catch(() => false)
-    // In CI, guides content may not be visible due to lazy rendering — check DOM presence
-    if (!isVisible) {
-      const html = await page.evaluate(() => document.querySelector('[data-subtab="guides"], .guide-card, #guides-search')?.outerHTML || '')
-      expect(html !== '' || true).toBe(true) // Guides sub-tab was activated
-    }
+    await page.waitForTimeout(1000)
+    // Guides tab must show guide-related content (country names, flags, or search)
+    const guidesContent = page.locator('text=/guide|Guide|pays|country|🇫🇷|🇩🇪|🇪🇸/i')
+    await expect(guidesContent.first()).toBeVisible({ timeout: 8000 })
   })
 
   test('should switch to Voyage sub-tab (trip planner)', async ({ page }) => {

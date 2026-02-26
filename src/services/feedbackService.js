@@ -126,17 +126,12 @@ export function getSuggestionsBySection(section) {
  */
 export function getTipVoteCounts(section, tipIndex) {
   const votes = getVotes()
-  // Count all votes matching this tip (simulated community count: +3 base for demo)
   const key = `${section}_${tipIndex}`
   const myVote = votes[key]
-  // Deterministic fake count based on key hash (consistent across renders)
-  let seed = 0
-  for (let i = 0; i < key.length; i++) seed = ((seed << 5) - seed + key.charCodeAt(i)) | 0
-  const baseUp = Math.abs(seed % 15) + 2
-  const baseDown = Math.abs((seed >> 4) % 4)
+  // Only show real user votes — no fake counts
   return {
-    up: baseUp + (myVote?.direction === 'up' ? 1 : 0),
-    down: baseDown + (myVote?.direction === 'down' ? 1 : 0),
+    up: myVote?.direction === 'up' ? 1 : 0,
+    down: myVote?.direction === 'down' ? 1 : 0,
   }
 }
 

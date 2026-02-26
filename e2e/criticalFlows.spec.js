@@ -112,21 +112,24 @@ test.describe('Search - Autocomplete Suggestions', () => {
     await searchInput.fill('Madrid')
     await searchInput.dispatchEvent('input')
 
-    // In CI without geocoding API, suggestions may never appear — skip gracefully
+    // Wait for suggestions to appear
     const suggestions = page.locator('#home-dest-suggestions')
-    const appeared = await suggestions.isVisible().catch(() => false)
-      || await page.waitForSelector('#home-dest-suggestions:not(.hidden)', { timeout: 5000 }).then(() => true).catch(() => false)
-    if (!appeared) return // No suggestions in CI — pass as no-op
+    try {
+      await expect(suggestions).toBeVisible({ timeout: 8000 })
+    } catch {
+      // Geocoding API unavailable in CI — mark as skipped, NOT passed
+      test.skip(true, 'Geocoding API unavailable — suggestions did not appear')
+      return
+    }
 
-    // Try Escape key first (most reliable way to dismiss), then click outside
+    // Dismiss via Escape then click outside
     await page.keyboard.press('Escape')
     await page.waitForTimeout(500)
     if (await suggestions.isVisible().catch(() => false)) {
       await page.locator('body').click({ position: { x: 10, y: 10 } })
     }
-    // In CI, dismiss behavior depends on geocoding response — soft check
-    const hidden = await suggestions.isHidden({ timeout: 3000 }).catch(() => false)
-    if (!hidden) return // dismiss doesn't work without real geocoding — pass as no-op
+    // Suggestions should be hidden after dismiss
+    await expect(suggestions).toBeHidden({ timeout: 5000 })
   })
 })
 
@@ -160,11 +163,13 @@ test.describe('Trip Creation - Deep Functional', () => {
     const fromInput = page.locator('#trip-from')
     const toInput = page.locator('#trip-to')
 
-    // Trip planner may not render in CI — skip if inputs don't appear
-    if (!await fromInput.isVisible().catch(() => false)) {
-      await page.waitForSelector('#trip-from', { timeout: 5000 }).catch(() => null)
+    // Trip planner must render — explicit skip if lazy-loading fails
+    try {
+      await expect(fromInput).toBeVisible({ timeout: 10000 })
+    } catch {
+      test.skip(true, 'Trip planner inputs did not render (lazy-loading)')
+      return
     }
-    if (!await fromInput.isVisible().catch(() => false)) return
 
     await expect(fromInput).toBeVisible({ timeout: 5000 })
 
@@ -191,19 +196,20 @@ test.describe('Trip Creation - Deep Functional', () => {
   test('should have swap button and accept input values', async ({ page }) => {
     const fromInput = page.locator('#trip-from')
 
-    // Trip planner may not render in CI — skip if inputs don't appear
-    if (!await fromInput.isVisible().catch(() => false)) {
-      await page.waitForSelector('#trip-from', { timeout: 3000 }).catch(() => null)
+    // Trip planner must render
+    try {
+      await expect(fromInput).toBeVisible({ timeout: 10000 })
+    } catch {
+      test.skip(true, 'Trip planner inputs did not render (lazy-loading)')
+      return
     }
-    if (!await fromInput.isVisible().catch(() => false)) return
 
     await fromInput.fill('Paris')
     await page.locator('#trip-to').fill('Berlin')
 
-    // Verify swap button exists (actual swap logic tested in unit tests)
+    // Verify swap button exists and is visible
     const swapBtn = page.locator('[onclick*="swapTripPoints"]')
-    const hasSwap = await swapBtn.isVisible().catch(() => false)
-    expect(hasSwap || true).toBe(true) // Swap button is optional in some layouts
+    await expect(swapBtn).toBeVisible({ timeout: 5000 })
   })
 })
 
@@ -226,9 +232,9 @@ test.describe('Map Persistence', () => {
 
     // Map container should still be visible (not blank/broken)
     await expect(page.locator('#home-map').first()).toBeVisible({ timeout: 10000 })
-    // In headless CI, MapLibre canvas may not render (no WebGL) — just verify container exists
-    const canvas = page.locator('.maplibregl-canvas')
-    await canvas.first().isVisible({ timeout: 5000 }).catch(() => {})
+    // Verify search input is still functional after tab switch
+    const searchAfter = page.locator('#home-destination')
+    await expect(searchAfter).toBeVisible({ timeout: 5000 })
   })
 
   test('should keep map functional after multiple tab switches', async ({ page }, testInfo) => {
@@ -283,18 +289,23 @@ test.describe('Country Guides', () => {
   })
 
   test('should show country cards in guides view', async ({ page }) => {
-    // Guides overlay may not render in CI (lazy loading) — check if it opened
+    // Guides overlay must open
     const overlay = page.locator('.fixed.inset-0.z-50')
-    if (!await overlay.isVisible().catch(() => false)) {
-      await page.waitForSelector('.fixed.inset-0.z-50', { timeout: 5000 }).catch(() => null)
+    try {
+      await expect(overlay).toBeVisible({ timeout: 8000 })
+    } catch {
+      test.skip(true, 'Guides overlay did not open (lazy-loading)')
+      return
     }
-    if (!await overlay.isVisible().catch(() => false)) return
 
-    // Should have country guide cards with onclick handlers
-    // In CI, lazy-loaded guides may not populate cards — check gracefully
+    // Must have country guide cards with onclick handlers
     const countryCards = page.locator('[onclick*="selectGuide"]')
-    const hasCards = await countryCards.first().isVisible({ timeout: 10000 }).catch(() => false)
-    if (!hasCards) return // Cards didn't render in CI — pass as no-op
+    try {
+      await expect(countryCards.first()).toBeVisible({ timeout: 10000 })
+    } catch {
+      test.skip(true, 'Country guide cards did not render (lazy-loading)')
+      return
+    }
     const count = await countryCards.count()
     expect(count).toBeGreaterThan(5)
   })
@@ -344,8 +355,8 @@ test.describe('Error-Free Critical Flows', () => {
     await searchInput.fill('Paris')
     await searchInput.dispatchEvent('input')
 
-    // Wait for suggestions or timeout
-    await page.waitForSelector('#home-dest-suggestions', { timeout: 5000 }).catch(() => {})
+    // Wait for suggestions (may not appear if geocoding API unavailable)
+    await page.waitForSelector('#home-dest-suggestions:not(.hidden)', { timeout: 5000 }).catch(() => {})
 
     await searchInput.press('Enter')
     await page.waitForSelector('#home-map', { timeout: 5000 })
@@ -378,13 +389,14 @@ test.describe('Error-Free Critical Flows', () => {
     const fromInput = page.locator('#trip-from')
     const toInput = page.locator('#trip-to')
 
-    // Trip planner may not render in CI — skip if inputs don't appear
-    if (!await fromInput.isVisible().catch(() => false)) {
-      await page.waitForSelector('#trip-from', { timeout: 5000 }).catch(() => null)
+    // Trip planner must render — explicit skip if lazy-loading fails
+    try {
+      await expect(fromInput).toBeVisible({ timeout: 10000 })
+    } catch {
+      test.skip(true, 'Trip planner inputs did not render (lazy-loading)')
+      return
     }
-    if (!await fromInput.isVisible().catch(() => false)) return
 
-    await expect(fromInput).toBeVisible({ timeout: 5000 })
     await fromInput.fill('Paris')
     await fromInput.dispatchEvent('blur')
     await toInput.fill('Berlin')
@@ -422,10 +434,12 @@ test.describe('Social Chat - Deep Functional', () => {
   })
 
   test('should display social feed by default', async ({ page }) => {
-    // Social tab defaults to the feed sub-tab
+    // Social tab defaults to the feed sub-tab — verify CONTENT not just container
     await expect(page.locator('#app')).toBeVisible({ timeout: 5000 })
-    // Verify we are on the social view (nav should be visible)
     await expect(page.locator('nav')).toBeVisible({ timeout: 5000 })
+    // Feed should contain sub-tab buttons or social content
+    const socialContent = page.locator('text=/Feed|Messagerie|Événements|feed|amis/i')
+    await expect(socialContent.first()).toBeVisible({ timeout: 5000 })
   })
 
   test('should open zone chat and show chat input', async ({ page }) => {
@@ -472,20 +486,24 @@ test.describe('Social Chat - Deep Functional', () => {
     await expect(page.locator('nav')).toBeVisible()
   })
 
-  test('should switch to messagerie sub-tab without crash', async ({ page }) => {
+  test('should switch to messagerie sub-tab with content', async ({ page }) => {
     await page.evaluate(() => window.setState?.({ socialSubTab: 'messagerie' }))
     await page.waitForTimeout(2000)
 
     await expect(page.locator('#app')).toBeVisible()
-    await expect(page.locator('nav')).toBeVisible()
+    // Verify messagerie-specific content appeared (not just no crash)
+    const msgContent = page.locator('text=/message|conversation|chat|ami|friend/i')
+    await expect(msgContent.first()).toBeVisible({ timeout: 5000 })
   })
 
-  test('should switch to evenements sub-tab without crash', async ({ page }) => {
+  test('should switch to evenements sub-tab with content', async ({ page }) => {
     await page.evaluate(() => window.setState?.({ socialSubTab: 'evenements' }))
     await page.waitForTimeout(2000)
 
     await expect(page.locator('#app')).toBeVisible()
-    await expect(page.locator('nav')).toBeVisible()
+    // Verify evenements-specific content appeared
+    const eventContent = page.locator('text=/événement|event|rencontre|meet/i')
+    await expect(eventContent.first()).toBeVisible({ timeout: 5000 })
   })
 })
 
@@ -503,10 +521,12 @@ test.describe('Friend Management - Deep Functional', () => {
     await page.waitForTimeout(2000)
   })
 
-  test('should display friends view without errors', async ({ page }) => {
-    // Friends view should render without crash
+  test('should display friends view with content', async ({ page }) => {
+    // Friends view should render with actual content (not just container)
     await expect(page.locator('#app')).toBeVisible({ timeout: 5000 })
-    await expect(page.locator('nav')).toBeVisible({ timeout: 5000 })
+    // Must show friend-related content
+    const friendContent = page.locator('text=/ami|friend|conversation|message|invit/i')
+    await expect(friendContent.first()).toBeVisible({ timeout: 5000 })
   })
 })
 

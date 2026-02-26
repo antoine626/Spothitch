@@ -62,17 +62,23 @@ test.describe('Profile - Settings', () => {
     await expect(themeToggle).toBeVisible({ timeout: 5000 })
   })
 
-  test('should toggle theme when clicked', async ({ page }) => {
+  test('should toggle theme and change background color', async ({ page }) => {
     const themeToggle = page.locator('[role="switch"]').first()
-    if (await themeToggle.isVisible()) {
-      const initialState = await themeToggle.getAttribute('aria-checked')
-      await themeToggle.click()
-      await page.waitForTimeout(300)
-      const newState = await themeToggle.getAttribute('aria-checked')
-      if (initialState !== null) {
-        expect(newState).not.toBe(initialState)
-      }
-    }
+    await expect(themeToggle).toBeVisible({ timeout: 5000 })
+
+    // Get background color BEFORE toggle
+    const bgBefore = await page.evaluate(() => getComputedStyle(document.body).backgroundColor)
+
+    await themeToggle.click()
+    await page.waitForTimeout(500)
+
+    // Get background color AFTER toggle — MUST have changed
+    const bgAfter = await page.evaluate(() => getComputedStyle(document.body).backgroundColor)
+    expect(bgAfter).not.toBe(bgBefore)
+
+    // Toggle back
+    await themeToggle.click()
+    await page.waitForTimeout(300)
   })
 
   test('should have language selector', async ({ page }) => {

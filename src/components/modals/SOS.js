@@ -668,7 +668,8 @@ window.markSafe = async () => {
 
 window.acceptSOSDisclaimer = () => {
   localStorage.setItem('spothitch_sos_disclaimer_seen', '1')
-  window.setState?.({ showSOS: true })
+  // Force re-render — setState({showSOS:true}) is a no-op if already true
+  window._forceRender?.()
 }
 
 window.sendSOSTemplate = async (type) => {

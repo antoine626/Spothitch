@@ -2802,7 +2802,7 @@ export default {
   landingFooterCopyright: 'Todos los derechos reservados.',
   // Donation keys
   donationTitle: 'Apoyar a SpotHitch',
-  donationDesc: 'SpotHitch es gratuito y lo seguirá siendo. Tu donación nos ayuda a pagar el alojamiento, mejorar la app y mantener el autostop libre y accesible.',
+  donationDesc: 'Creado por un autoestopista para autoestopistas. Gracias a las donaciones, mejoramos SpotHitch cada dia.',
   donationThanksSupporter: '¡Gracias, supporter!',
   donationSupporterHero: 'Eres un héroe del autostop',
   donationCoffee: 'Un café',
@@ -3542,7 +3542,7 @@ export default {
   guideEtiquetteTipping: 'Propinas',
   guideEtiquetteDos: 'Hacer',
   guideEtiquetteDonts: 'Evitar',
-  guideEtiquetteGeneric: 'Respeta las costumbres locales, sonrie y agradece siempre a tus conductores.',
+  guideEtiquetteGeneric: 'Respeta las costumbres locales, sonrie y agradece siempre a las personas que te llevan.',
 
   // Guides — Visa Info (#77)
   guideVisaTitle: 'Info visa',

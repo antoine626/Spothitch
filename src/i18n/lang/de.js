@@ -2802,7 +2802,7 @@ export default {
   landingFooterCopyright: 'Alle Rechte vorbehalten.',
   // Donation keys
   donationTitle: 'SpotHitch unterstützen',
-  donationDesc: 'SpotHitch ist kostenlos und bleibt es. Deine Spende hilft uns, das Hosting zu bezahlen, die App zu verbessern und das Trampen frei und zugänglich zu halten.',
+  donationDesc: 'Von einem Tramper fuer Tramper gemacht. Dank Spenden verbessern wir SpotHitch jeden Tag.',
   donationThanksSupporter: 'Danke, Supporter!',
   donationSupporterHero: 'Du bist ein Tramper-Held',
   donationCoffee: 'Ein Kaffee',
@@ -3542,7 +3542,7 @@ export default {
   guideEtiquetteTipping: 'Trinkgeld',
   guideEtiquetteDos: 'Tun',
   guideEtiquetteDonts: 'Vermeiden',
-  guideEtiquetteGeneric: 'Respektiere lokale Sitten, laechle immer und danke deinen Fahrern.',
+  guideEtiquetteGeneric: 'Respektiere lokale Sitten, laechle immer und danke den Leuten, die dich mitnehmen.',
 
   // Guides — Visa Info (#77)
   guideVisaTitle: 'Visa-Infos',

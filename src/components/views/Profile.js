@@ -579,9 +579,9 @@ function renderSocialLinksCard(_state) {
     ? JSON.parse(localStorage.getItem('spothitch_social_links') || '{}')
     : {}
   const networks = [
-    { id: 'instagram', icon: 'camera', label: 'Instagram', color: 'text-pink-400' },
-    { id: 'tiktok', icon: 'video', label: 'TikTok', color: 'text-slate-300' },
-    { id: 'facebook', icon: 'users', label: 'Facebook', color: 'text-blue-400' },
+    { id: 'instagram', icon: 'camera', label: 'Instagram', color: 'text-pink-400', url: 'https://instagram.com/' },
+    { id: 'tiktok', icon: 'video', label: 'TikTok', color: 'text-slate-300', url: 'https://tiktok.com/@' },
+    { id: 'facebook', icon: 'users', label: 'Facebook', color: 'text-blue-400', url: 'https://facebook.com/' },
   ]
   return `
     <div class="card p-4">
@@ -592,19 +592,28 @@ function renderSocialLinksCard(_state) {
         </h3>
       </div>
       <div class="space-y-2">
-        ${networks.map(n => `
+        ${networks.map(n => {
+          const val = social[n.id] || ''
+          const username = val.replace(/^@/, '')
+          const hasValue = username.length > 0
+          return `
           <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5">
-            ${icon(n.icon, `w-4 h-4 ${n.color} flex-shrink-0`)}
+            ${hasValue
+              ? `<a href="${n.url}${encodeURIComponent(username)}" target="_blank" rel="noopener noreferrer" class="flex-shrink-0" aria-label="${n.label}">${icon(n.icon, `w-4 h-4 ${n.color}`)}</a>`
+              : icon(n.icon, `w-4 h-4 ${n.color} flex-shrink-0`)
+            }
             <input
               type="text"
               id="social-link-${n.id}"
               placeholder="@${t('username') || 'pseudo'}"
-              value="${social[n.id] || ''}"
+              value="${val}"
               onblur="saveSocialLink('${n.id}', this.value)"
               class="flex-1 bg-transparent text-sm outline-none placeholder-slate-600"
             />
+            ${hasValue ? `<a href="${n.url}${encodeURIComponent(username)}" target="_blank" rel="noopener noreferrer" class="text-xs ${n.color} hover:underline flex-shrink-0">${icon('external-link', 'w-3.5 h-3.5')}</a>` : ''}
           </div>
-        `).join('')}
+          `
+        }).join('')}
       </div>
     </div>
   `
@@ -1056,63 +1065,31 @@ function renderFeatureDetailTech() {
 function renderFeatureDetailThumbs() {
   return `
     <div class="mb-5">
-      <div class="flex items-center justify-end gap-2 mb-3">
-        <span class="text-amber-500 font-bold">1,247</span><span class="text-xl">👍</span>
-      </div>
-      <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl p-4 mb-3">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-black/70 text-xs">🔥 OFFRE DU JOUR</p>
-            <p class="text-black font-bold text-lg">-30% Hostelworld</p>
-            <p class="text-black/70 text-sm">Expire dans 23:45:12</p>
-          </div>
-          <div class="text-right">
-            <p class="text-black font-bold text-2xl">400</p>
-            <p class="text-black/70 text-sm">👍</p>
-          </div>
+      <div class="card p-4 border-amber-500/20 bg-amber-500/5 mb-3">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-amber-500/20 text-amber-400 text-[10px] px-2 py-0.5 rounded-full font-bold">${t('roadmapConcept') || 'CONCEPT'}</span>
         </div>
-        <div class="w-full bg-black/30 text-amber-500 py-2 rounded-lg mt-3 font-bold text-center text-sm">Obtenir le code</div>
+        <p class="text-sm text-slate-300 leading-relaxed">${t('roadmapThumbsExplain') || 'Gagne des points en contribuant (ajout de spots, voyages, invitations). Echange-les contre des reductions chez nos partenaires voyage.'}</p>
       </div>
-      <div class="space-y-2.5">
-        <div class="card p-3 border-emerald-500/30 bg-emerald-500/5">
-          <div class="flex items-center gap-3 mb-2">
-            <div class="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-xs">B.</span></div>
-            <div class="flex-1"><p class="font-bold text-sm">-10% Booking.com</p><p class="text-emerald-500 text-[10px]">✓ Code obtenu</p></div>
-          </div>
-          <div class="bg-white/5 rounded-lg p-2 flex items-center justify-between">
-            <code class="text-emerald-500 font-mono font-bold text-sm">SPOT10BOOK</code>
-            <span class="text-amber-500 text-xs">Copier</span>
+      <h3 class="font-bold text-sm mb-2">${t('roadmapHowItWorks') || 'Comment ca marchera'}</h3>
+      <div class="space-y-2">
+        <div class="card p-3">
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 bg-amber-500/20 rounded-lg flex items-center justify-center shrink-0"><span class="text-lg">📍</span></div>
+            <div><p class="font-bold text-sm">${t('roadmapThumbsStep1') || 'Contribue'}</p><p class="text-slate-400 text-xs">${t('roadmapThumbsStep1Desc') || 'Ajoute des spots, partage tes experiences, aide la communaute'}</p></div>
           </div>
         </div>
         <div class="card p-3">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center"><span class="text-lg">🏔️</span></div>
-            <div class="flex-1"><p class="font-bold text-sm">-20% Patagonia</p><p class="text-slate-400 text-[10px]">Vêtements outdoor</p></div>
-            <div class="text-right"><p class="text-amber-500 font-bold text-sm">1000 👍</p></div>
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 bg-emerald-500/20 rounded-lg flex items-center justify-center shrink-0"><span class="text-lg">⭐</span></div>
+            <div><p class="font-bold text-sm">${t('roadmapThumbsStep2') || 'Accumule'}</p><p class="text-slate-400 text-xs">${t('roadmapThumbsStep2Desc') || 'Chaque contribution te rapporte des points'}</p></div>
           </div>
-        </div>
-        <div class="card p-3 opacity-60">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 bg-red-600 rounded-lg flex items-center justify-center"><span class="text-lg">🎒</span></div>
-            <div class="flex-1"><p class="font-bold text-sm">-25% Deuter</p><p class="text-slate-400 text-[10px]">Sacs à dos premium</p></div>
-            <div class="text-right"><p class="text-slate-500 font-bold text-sm">1500 👍</p></div>
-          </div>
-          <div class="w-full bg-white/10 rounded-full h-1.5 mt-2"><div class="bg-amber-500 h-1.5 rounded-full" style="width:83%"></div></div>
         </div>
         <div class="card p-3">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 bg-teal-500 rounded-lg flex items-center justify-center"><span class="text-lg">🛋️</span></div>
-            <div class="flex-1"><p class="font-bold text-sm">1 mois Couchsurfing</p><p class="text-slate-400 text-[10px]">Premium gratuit</p></div>
-            <div class="text-right"><p class="text-amber-500 font-bold text-sm">800 👍</p></div>
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 bg-purple-500/20 rounded-lg flex items-center justify-center shrink-0"><span class="text-lg">🎁</span></div>
+            <div><p class="font-bold text-sm">${t('roadmapThumbsStep3') || 'Echange'}</p><p class="text-slate-400 text-xs">${t('roadmapThumbsStep3Desc') || 'Utilise tes points pour des reductions auberges, equipement, transports'}</p></div>
           </div>
-        </div>
-      </div>
-      <div class="card p-3 mt-3">
-        <h3 class="font-bold text-sm mb-2">🚀 Gagne plus vite</h3>
-        <div class="space-y-1.5 text-xs">
-          <div class="flex justify-between"><span class="text-slate-400">Ajoute un spot</span><span class="text-amber-500">+50 👍</span></div>
-          <div class="flex justify-between"><span class="text-slate-400">Termine un voyage</span><span class="text-amber-500">+100 👍</span></div>
-          <div class="flex justify-between"><span class="text-slate-400">Invite un ami</span><span class="text-amber-500">+150 👍</span></div>
         </div>
       </div>
     </div>
@@ -1301,7 +1278,7 @@ function renderFeatureDetailEvents() {
               <div class="w-6 h-6 bg-emerald-500 rounded-full border-2 border-purple-600"></div>
               <div class="w-6 h-6 bg-blue-500 rounded-full border-2 border-purple-600"></div>
             </div>
-            <span class="text-white text-xs">+247 inscrits</span>
+            <span class="text-white text-xs">${t('roadmapComingSoon') || 'Bientot'}</span>
           </div>
           <span class="bg-white text-purple-600 px-3 py-1.5 rounded-full font-bold text-xs">S'inscrire</span>
         </div>

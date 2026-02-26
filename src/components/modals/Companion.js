@@ -692,7 +692,8 @@ function renderAlertOverlay(companion) {
 /** Accept consent and show setup */
 window.acceptCompanionConsent = () => {
   sessionStorage.setItem('spothitch_companion_consent', '1')
-  window.setState?.({ showCompanionModal: true })
+  // Force re-render — setState({showCompanionModal:true}) is a no-op if already true
+  window._forceRender?.()
 }
 
 /** Set alert channel preference and re-render */

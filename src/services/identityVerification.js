@@ -150,7 +150,7 @@ export const verificationReasons = {
       {
         icon: '',
         title: 'Confiance mutuelle',
-        description: 'Montre que tu es une vraie personne. Les conducteurs sont plus enclins a s\'arreter pour des profils verifies.',
+        description: 'Montre que tu es une vraie personne. Les autres autostoppeurs te feront plus confiance avec un profil verifie.',
       },
       {
         icon: '',

@@ -5,7 +5,7 @@
 
 import { t } from '../../../i18n/index.js'
 import { icon } from '../../../utils/icons.js'
-import { renderToggle } from '../../../utils/toggle.js'
+// renderToggle removed — proximity radar is now "coming soon"
 import { escapeHTML } from '../../../utils/sanitize.js'
 import { formatRelativeTime, formatEventDate } from '../../../utils/formatters.js'
 import { getActivityFeed } from '../../../services/activityFeed.js'
@@ -13,48 +13,23 @@ import { getUpcomingEvents, EVENT_TYPES } from '../../../services/events.js'
 
 export function renderFeed(state) {
   const feedFilter = state.feedFilter || 'all'
-  const nearbyFriends = state.nearbyFriends || []
-  const isVisible = state.shareLocationWithFriends || false
-
   return `
     <div class="flex flex-col flex-1 min-h-0">
-      <!-- Proximity Radar -->
+      <!-- Proximity Radar — coming soon -->
       <div class="mx-4 mt-3 mb-2">
-        <div class="card p-3 ${isVisible ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/10'}">
+        <div class="card p-3 border-white/10 opacity-75">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-full ${isVisible ? 'bg-emerald-500/20' : 'bg-white/10'} flex items-center justify-center">
-                ${icon('radar', `w-5 h-5 ${isVisible ? 'text-emerald-400' : 'text-slate-400'}`)}
+              <div class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
+                ${icon('radar', 'w-5 h-5 text-slate-400')}
               </div>
               <div>
                 <div class="text-sm font-medium">${t('proximityRadar')}</div>
-                <div class="text-xs text-slate-400">
-                  ${isVisible ? t('youAreVisible') : t('youAreInvisible')}
-                  ${nearbyFriends.length > 0 ? ` — ${nearbyFriends.length} ${t('nearbyCount')}` : ''}
-                </div>
+                <div class="text-xs text-slate-400">${t('comingSoon') || 'Bientot disponible'}</div>
               </div>
             </div>
-            ${renderToggle(isVisible, "toggleFeedVisibility()", t('toggleVisibility'))}
+            <button onclick="changeTab('profile');setState({profileSubTab:'progression'})" class="text-xs text-amber-400 hover:text-amber-300 transition-colors">${t('roadmapVote') || 'Voter'}</button>
           </div>
-          ${isVisible && nearbyFriends.length > 0 ? `
-            <div class="mt-2 pt-2 border-t border-white/10 flex gap-2 overflow-x-auto scrollbar-none">
-              ${nearbyFriends.slice(0, 3).map(f => `
-                <button
-                  onclick="openConversation('${f.userId || f.id}')"
-                  class="shrink-0 flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-xs"
-                >
-                  <span>${f.avatar || '🤙'}</span>
-                  <span class="text-slate-300">${escapeHTML(f.username || f.name || '')}</span>
-                  <span class="text-emerald-400">${f.distance || '?'}km</span>
-                </button>
-              `).join('')}
-              ${nearbyFriends.length > 3 ? `
-                <button onclick="openNearbyFriends()" class="shrink-0 px-2.5 py-1.5 rounded-full bg-white/5 text-slate-400 text-xs hover:bg-white/10">
-                  +${nearbyFriends.length - 3}
-                </button>
-              ` : ''}
-            </div>
-          ` : ''}
         </div>
       </div>
 
