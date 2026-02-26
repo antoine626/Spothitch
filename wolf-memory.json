@@ -2342,6 +2342,28 @@
       ],
       "errors": 1,
       "recommendations": 164
+    },
+    {
+      "date": "2026-02-26T00:36:19.051Z",
+      "score": 85,
+      "confidence": "HAUTE",
+      "duration": "8.4s",
+      "mode": "full",
+      "bundleSize": null,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 14,
+          "max": 15
+        },
+        {
+          "name": "Score Trend Tracking",
+          "score": 3,
+          "max": 5
+        }
+      ],
+      "errors": 0,
+      "recommendations": 2
     }
   ],
   "errors": [
@@ -2426,574 +2448,266 @@
   "patterns": [],
   "recommendations": [
     {
-      "source": "Impact Analysis",
-      "text": "[2x] src/main.js: fichier long (2610 lignes) — verifier la lisibilite, 3 fonction(s) vide(s)",
-      "createdAt": "2026-02-24T16:57:52.529Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/services/firebase.js: fichier long (1028 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T16:57:52.530Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/services/hostelRecommendations.js: 1 TODO/FIXME, fichier long (544 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T16:57:52.530Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Travail inacheve dans le code (TODO/placeholder)",
-      "explain": "Du code contient des marqueurs \"TODO\" ou \"Coming soon\" — ca veut dire que la fonctionnalite n'est pas finie.",
-      "action": "Finir l'implementation ou supprimer la fonctionnalite si elle n'est pas prioritaire.",
-      "impact": "Aucun placeholder visible par l'utilisateur — tout est fini et fonctionnel.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/services/nearbyFriends.js: fichier long (543 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T16:57:52.530Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/services/profileCustomization.js: fichier long (540 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T16:57:52.530Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/services/teamChallenges.js: fichier long (667 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T16:57:52.530Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/services/userBlocking.js: fichier long (678 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T16:57:52.530Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/stores/state.js: fichier long (675 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T16:57:52.530Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/utils/icons.js: fichier long (559 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-24T16:57:52.530Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-25T02:01:11.166Z"
-    },
-    {
-      "source": "Build",
-      "text": "Chunk trop gros: vendor-maplibre-CrWlTheU.js (998KB > 300KB) — verifier les imports",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "MOYENNE",
-      "title": "L'app est un peu lourde a charger",
-      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
-      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
-      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Build",
-      "text": "Chunk trop gros: vendor-firebase-B81CD5Oe.js (365KB > 300KB) — verifier les imports",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "MOYENNE",
-      "title": "L'app est un peu lourde a charger",
-      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
-      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
-      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Build",
-      "text": "Chunk trop gros: vendor-sentry-B3OIgK6O.js (311KB > 300KB) — verifier les imports",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "MOYENNE",
-      "title": "L'app est un peu lourde a charger",
-      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
-      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
-      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "5 fichier(s) modifie(s) sans test unitaire correspondant",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "MOYENNE",
-      "title": "Fichiers modifies sans test correspondant",
-      "explain": "Des fichiers ont ete modifies mais il n'y a pas de test automatique qui verifie qu'ils marchent correctement.",
-      "action": "Ajouter des tests pour les fichiers modifies ou verifier manuellement.",
-      "impact": "Moins de risque de casser quelque chose sans s'en apercevoir.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/components/views/Travel.js: fichier long (1295 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/components/views/Voyage.js: fichier long (1420 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Regression Guard",
-      "text": "Handler \"openFilters\" defini dans 2 fichiers: AdminPanel, main",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Regression Guard",
-      "text": "... et 57 autres handlers dupliques",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "[Regression Guard] ... et 57 autres handlers dupliques",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Regression Guard.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Wiring Integrity",
-      "text": "33 modales sans close handler",
-      "createdAt": "2026-02-25T02:01:11.164Z",
-      "followed": true,
-      "priority": "MOYENNE",
-      "title": "Des fenetres popup ne peuvent pas etre fermees",
-      "explain": "Certaines fenetres (modales) s'ouvrent mais n'ont pas de bouton \"fermer\" fonctionnel. L'utilisateur reste bloque s'il ouvre une de ces fenetres.",
-      "action": "Ajouter un handler window.closeXxx pour chaque modale qui en manque un.",
-      "impact": "Les utilisateurs pourront fermer toutes les fenetres popup sans rester bloques.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Button & Link Audit",
-      "text": "Modale \"Quiz\": fichier existe mais AUCUN contenu HTML visible",
-      "createdAt": "2026-02-25T02:01:11.165Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Fenetre popup vide ou impossible a fermer",
-      "explain": "Une modale s'ouvre mais elle est vide (aucun contenu) ou ne peut pas etre fermee. L'utilisateur est bloque.",
-      "action": "Ajouter du contenu reel dans la modale et un bouton fermer fonctionnel.",
-      "impact": "L'utilisateur voit du contenu utile et peut toujours fermer les popups.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "Button & Link Audit",
-      "text": "3x \"COMING SOON\" — a implementer ou supprimer",
-      "createdAt": "2026-02-25T02:01:11.165Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "[Button & Link Audit] 3x \"COMING SOON\" — a implementer ou supprimer",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Button & Link Audit.",
-      "followedAt": "2026-02-26T00:06:09.234Z"
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: www.flixbus.fr (used in: src/data/rewards.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: www.blablacar.fr (used in: src/data/rewards.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: www.trainline.fr (used in: src/data/rewards.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: www.getyourguide.com (used in: src/data/rewards.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: www.civitatis.com (used in: src/data/rewards.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: www.chapkadirect.fr (used in: src/data/rewards.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: www.worldnomads.com (used in: src/data/rewards.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: www.toogoodtogo.com (used in: src/data/rewards.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: openstreetmap.org (used in: src/services/map.js)",
-      "createdAt": "2026-02-26T00:06:09.230Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: router.project-osrm.org (used in: src/services/navigation.js, src/services/osrm.js, src/utils/seo.js)",
-      "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
-    },
-    {
       "source": "External API Inventory",
       "text": "API not in CSP: waze.com (used in: src/utils/navigation.js)",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
       "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
       "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
+      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "External API Inventory",
       "text": "API not in CSP: api.example.com (used in: src/utils/prefetch.js, src/utils/seo.js)",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
       "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
       "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
+      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "External API Inventory",
       "text": "API not in CSP: schema.org (used in: src/utils/seo.js)",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
       "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
       "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
+      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "External API Inventory",
       "text": "API not in CSP: www.sitemaps.org (used in: src/utils/seo.js)",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Le site est peu visible sur Google",
       "explain": "Il manque des pages de contenu (guides, pages villes) qui permettent a Google de trouver le site quand quelqu'un cherche \"autostop\" ou \"hitchhiking spot\".",
       "action": "Generer des pages guides pour les destinations populaires (ex: \"Autostop a Paris\", \"Hitchhiking from Berlin\").",
-      "impact": "Plus de visiteurs venant de Google = plus d'utilisateurs sans pub payante."
+      "impact": "Plus de visiteurs venant de Google = plus d'utilisateurs sans pub payante.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "External API Inventory",
       "text": "API not in CSP: twitter.com (used in: src/utils/share.js)",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
       "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
       "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
+      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "External API Inventory",
       "text": "API not in CSP: www.facebook.com (used in: src/utils/share.js)",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
       "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
       "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
+      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "External API Inventory",
       "text": "API not in CSP: t.me (used in: src/utils/share.js)",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
       "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
       "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
+      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "External API Inventory",
       "text": "API not in CSP: www.linkedin.com (used in: src/utils/share.js)",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Protection de securite manquante",
       "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
       "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes."
+      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/App.js: onclick on <div> without role=\"button\"",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/App.js: ... and 6 more",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/DeviceManager.js: onclick on <div> without role=\"button\"",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/DeviceManager.js: ... and 3 more",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/modals/Badges.js: onclick on <div> without role=\"button\"",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/modals/Badges.js: ... and 2 more",
       "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/modals/Companion.js: onclick on <div> without role=\"button\"",
       "createdAt": "2026-02-26T00:06:09.232Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/modals/Companion.js: ... and 2 more",
       "createdAt": "2026-02-26T00:06:09.232Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/views/Profile.js: input without aria-label or associated label",
       "createdAt": "2026-02-26T00:06:09.232Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/views/Profile.js: onclick on <div> without role=\"button\"",
       "createdAt": "2026-02-26T00:06:09.232Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "Accessibility Template Lint",
       "text": "[a11y] src/components/views/Profile.js: ... and 2 more",
       "createdAt": "2026-02-26T00:06:09.232Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Ameliorer l'accessibilite",
       "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
       "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap."
+      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
     },
     {
       "source": "License Compliance",
       "text": "License unknown: @axe-core/playwright (MPL-2.0) — verify manually",
       "createdAt": "2026-02-26T00:06:09.232Z",
-      "followed": false,
+      "followed": true,
       "priority": "MOYENNE",
       "title": "Dependance sans licence identifiee",
       "explain": "Un package npm n'a pas de licence identifiable. Ca pose un risque juridique car on ne sait pas sous quelles conditions on peut l'utiliser.",
       "action": "Verifier le repository du package pour trouver sa licence reelle, ou le remplacer par un equivalent.",
-      "impact": "SpotHitch reste utilisable commercialement sans risque juridique."
+      "impact": "SpotHitch reste utilisable commercialement sans risque juridique.",
+      "followedAt": "2026-02-26T00:36:19.013Z"
+    },
+    {
+      "source": "Score Trend Tracking",
+      "text": "DEGRADATION: \"Build\" a baisse de 100% a 0%",
+      "createdAt": "2026-02-26T00:36:19.013Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Le build ne fonctionne pas",
+      "explain": "Le site ne peut pas etre construit correctement — il ne se mettra pas a jour tant que ce n'est pas corrige.",
+      "action": "Lancer npm run build pour voir l'erreur exacte et la corriger.",
+      "impact": "Le site peut etre mis a jour normalement."
+    },
+    {
+      "source": "Score Trend Tracking",
+      "text": "DEGRADATION: \"Impact Analysis\" a baisse de 50% a 0%",
+      "createdAt": "2026-02-26T00:36:19.013Z",
+      "followed": false,
+      "priority": "HAUTE",
+      "title": "Score en degradation sur une phase",
+      "explain": "Le score de cette phase a baisse depuis le dernier run. Ca veut dire que la qualite se degrade au lieu de s'ameliorer.",
+      "action": "Corriger les problemes detectes dans cette phase avant de continuer a ajouter du code.",
+      "impact": "Le score remonte et la qualite du code est maintenue."
     }
   ],
   "featureBaseline": null,
@@ -3003,8 +2717,8 @@
     "updatedAt": "2026-02-26T00:05:20.857Z"
   },
   "selfEvaluation": {
-    "date": "2026-02-26T00:06:09.315Z",
-    "score": 57,
+    "date": "2026-02-26T00:36:19.050Z",
+    "score": 85,
     "perPhase": [
       {
         "name": "Code Quality",
@@ -3012,151 +2726,28 @@
         "verdict": "BON"
       },
       {
-        "name": "Unit Tests",
-        "pct": 100,
-        "verdict": "PARFAIT"
-      },
-      {
-        "name": "Build",
-        "pct": 0,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Impact Analysis",
-        "pct": 0,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Feature Inventory",
-        "pct": 100,
-        "verdict": "PARFAIT"
-      },
-      {
-        "name": "Regression Guard",
-        "pct": 40,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Wiring Integrity",
-        "pct": 50,
-        "verdict": "A AMELIORER"
-      },
-      {
-        "name": "Button & Link Audit",
-        "pct": 27,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Dead Code",
-        "pct": 50,
-        "verdict": "A AMELIORER"
-      },
-      {
-        "name": "Multi-Level Audit",
-        "pct": 87,
-        "verdict": "BON"
-      },
-      {
-        "name": "Lighthouse",
-        "pct": 38,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Screenshots",
-        "pct": 100,
-        "verdict": "PARFAIT"
-      },
-      {
-        "name": "Feature Scores",
-        "pct": 100,
-        "verdict": "PARFAIT"
-      },
-      {
-        "name": "Circular Imports",
-        "pct": 25,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Code Duplication",
-        "pct": 38,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Test Coverage/Feature",
-        "pct": 100,
-        "verdict": "PARFAIT"
-      },
-      {
-        "name": "File Size Audit",
-        "pct": 17,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Dependency Freshness",
-        "pct": 50,
-        "verdict": "A AMELIORER"
-      },
-      {
         "name": "Score Trend Tracking",
-        "pct": 100,
-        "verdict": "PARFAIT"
-      },
-      {
-        "name": "Unused CSS Classes",
-        "pct": 20,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Console.log Cleanup",
-        "pct": 80,
-        "verdict": "BON"
-      },
-      {
-        "name": "Bundle Size Analysis",
-        "pct": 17,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "TODO/FIXME Scanner",
-        "pct": 100,
-        "verdict": "PARFAIT"
-      },
-      {
-        "name": "External API Inventory",
-        "pct": 20,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "Accessibility Template Lint",
-        "pct": 13,
-        "verdict": "CRITIQUE"
-      },
-      {
-        "name": "License Compliance",
         "pct": 60,
         "verdict": "A AMELIORER"
       }
     ],
     "globalInsights": [
-      "Detection trop bruyante (164 recs brutes). Augmenter les seuils de tolerance.",
-      "Ecart de 100% entre phases — \"Build\" tire le score vers le bas.",
-      "Tendance positive: score actuel (57) au-dessus de la moyenne des 5 derniers runs (72).",
-      "Couverture de tests: 121/173 fichiers src/ references dans les tests (70%)."
+      "Tres peu de recommandations (2). Le loup est peut-etre trop indulgent.",
+      "Tendance negative: score actuel (85) sous la moyenne recente (69). Corriger les regressions.",
+      "Couverture de tests: 121/173 fichiers src/ references dans les tests (70%).",
+      "100% des recommandations suivies — bonne discipline."
     ],
     "evolutionItems": [
-      "\"Regression Guard\" bloquee a 40% depuis 3 runs. Besoin d'une action differente.",
-      "\"Wiring Integrity\" bloquee a 50% depuis 3 runs. Besoin d'une action differente.",
-      "\"Dead Code\" bloquee a 50% depuis 3 runs. Besoin d'une action differente.",
-      "Priorite #1 pour le prochain run: ameliorer \"Build\" (0%)."
+      "Prochain ajout possible: phase \"Test Coverage/Feature\" (couverture par feature)."
     ],
     "coveragePct": 70,
-    "recommendationFollowRate": 62
+    "recommendationFollowRate": 100
   },
   "_dedupedRecs": [
     {
-      "source": "Build",
-      "text": "Le build ne compile pas — corriger immediatement",
-      "createdAt": "2026-02-26T00:06:09.219Z",
+      "source": "Score Trend Tracking",
+      "text": "DEGRADATION: \"Build\" a baisse de 100% a 0%",
+      "createdAt": "2026-02-26T00:36:19.013Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Le build ne fonctionne pas",
@@ -3166,351 +2757,15 @@
       "count": 1
     },
     {
-      "source": "Impact Analysis",
-      "text": "src/components/App.js, src/main.js affecte potentiellement 122 fichiers",
-      "createdAt": "2026-02-26T00:06:09.219Z",
+      "source": "Score Trend Tracking",
+      "text": "DEGRADATION: \"Impact Analysis\" a baisse de 50% a 0%",
+      "createdAt": "2026-02-26T00:36:19.013Z",
       "followed": false,
       "priority": "HAUTE",
-      "title": "[Impact Analysis] src/components/App.js, src/main.js affecte potentiellement 1",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Impact Analysis.",
-      "count": 1
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "Tester TOUT apres modification de fichiers critiques",
-      "createdAt": "2026-02-26T00:06:09.219Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "[Impact Analysis] Tester TOUT apres modification de fichiers critiques",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Impact Analysis.",
-      "count": 1
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "30 fichier(s) modifie(s) sans test unitaire correspondant",
-      "createdAt": "2026-02-26T00:06:09.219Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Fichiers modifies sans test correspondant",
-      "explain": "Des fichiers ont ete modifies mais il n'y a pas de test automatique qui verifie qu'ils marchent correctement.",
-      "action": "Ajouter des tests pour les fichiers modifies ou verifier manuellement.",
-      "impact": "Moins de risque de casser quelque chose sans s'en apercevoir.",
-      "count": 1
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/components/App.js: fichier long (1339 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-26T00:06:09.219Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Probleme dans un fichier recemment modifie (attention 2x)",
-      "explain": "Les fichiers modifies depuis le dernier passage du loup sont verifies 2x plus en profondeur. Ce probleme est dans un fichier change recemment.",
-      "action": "Corriger le probleme specifique detecte dans le fichier (voir details).",
-      "impact": "Les modifications recentes sont validees et ne cassent rien.",
-      "count": 13
-    },
-    {
-      "source": "Impact Analysis",
-      "text": "[2x] src/i18n/lang/de.js: fichier long (3794 lignes) — verifier la lisibilite",
-      "createdAt": "2026-02-26T00:06:09.220Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Traductions manquantes",
-      "explain": "Certains textes ne sont pas traduits dans les 4 langues (FR/EN/ES/DE). Les utilisateurs non-francophones verront des textes en anglais par defaut.",
-      "action": "Lancer node scripts/lint-i18n.mjs pour voir les cles manquantes et les ajouter.",
-      "impact": "Tous les utilisateurs voient l'app dans leur langue.",
-      "count": 10
-    },
-    {
-      "source": "Feature Inventory",
-      "text": "MEMOIRE PERIMEE: features.md dit \"123 tests wiring\" mais il y en a 107",
-      "createdAt": "2026-02-26T00:06:09.221Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Chiffres perimes dans les fichiers memoire",
-      "explain": "Les fichiers memory/*.md contiennent des chiffres qui ne correspondent plus a la realite du code.",
-      "action": "Mettre a jour les chiffres dans features.md et MEMORY.md avec les valeurs reelles.",
-      "impact": "La documentation est fiable et ne trompe personne.",
-      "count": 1
-    },
-    {
-      "source": "Regression Guard",
-      "text": "Handler \"syncTripFieldsAndCalculate\" defini dans 3 fichiers: Travel, Voyage, main",
-      "createdAt": "2026-02-26T00:06:09.221Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Un handler est defini dans plusieurs fichiers",
-      "explain": "La meme fonction window.xxx est definie dans 2+ fichiers differents. Le dernier fichier charge \"gagne\" et ecrase les autres, ce qui peut casser des fonctionnalites.",
-      "action": "Garder le handler dans un seul fichier (celui qui gere la feature) et supprimer les doublons.",
-      "impact": "Chaque bouton fait exactement ce qu'il est cense faire, sans surprises.",
-      "count": 10
-    },
-    {
-      "source": "Regression Guard",
-      "text": "... et 44 autres handlers dupliques",
-      "createdAt": "2026-02-26T00:06:09.221Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Code duplique entre fichiers",
-      "explain": "Le meme bloc de code existe dans plusieurs fichiers. Ca veut dire que si on corrige un bug dans un, l'autre reste casse.",
-      "action": "Extraire le code commun dans un fichier utilitaire partage (ex: src/utils/) et l'importer dans les deux fichiers.",
-      "impact": "Un seul endroit a maintenir par fonctionnalite, moins de bugs.",
-      "count": 6
-    },
-    {
-      "source": "Wiring Integrity",
-      "text": "32 modales sans close handler",
-      "createdAt": "2026-02-26T00:06:09.224Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Des fenetres popup ne peuvent pas etre fermees",
-      "explain": "Certaines fenetres (modales) s'ouvrent mais n'ont pas de bouton \"fermer\" fonctionnel. L'utilisateur reste bloque s'il ouvre une de ces fenetres.",
-      "action": "Ajouter un handler window.closeXxx pour chaque modale qui en manque un.",
-      "impact": "Les utilisateurs pourront fermer toutes les fenetres popup sans rester bloques.",
-      "count": 1
-    },
-    {
-      "source": "Wiring Integrity",
-      "text": "onclick=\"if()\" utilise dans le HTML mais window.if n'existe pas",
-      "createdAt": "2026-02-26T00:06:09.224Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Bouton HTML pointe vers une fonction qui n'existe pas",
-      "explain": "Un bouton dans l'interface appelle une fonction (onclick=\"xxx()\") mais cette fonction n'a jamais ete definie. Le bouton ne fait rien quand on clique.",
-      "action": "Soit ajouter window.xxx dans le bon fichier, soit corriger le nom dans le template HTML.",
-      "impact": "Tous les boutons fonctionnent quand on clique dessus.",
-      "count": 2
-    },
-    {
-      "source": "Button & Link Audit",
-      "text": "Bouton casse: onclick=\"fn()\" dans src/utils/sanitize.js — la fonction n'existe pas",
-      "createdAt": "2026-02-26T00:06:09.224Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
-      "count": 36
-    },
-    {
-      "source": "Button & Link Audit",
-      "text": "Handler vide: window.spotMapPickLocation dans src/components/modals/AddSpot.js — cliquer ne fait rien",
-      "createdAt": "2026-02-26T00:06:09.224Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Bouton connecte a une fonction vide",
-      "explain": "La fonction existe mais son corps est vide = le bouton est la mais ne fait rien. C'est pire qu'un bouton manquant car l'utilisateur croit que ca marche.",
-      "action": "Implementer le contenu de la fonction ou supprimer le bouton si la feature n'existe pas encore.",
-      "impact": "Chaque bouton fait ce qu'il promet.",
-      "count": 4
-    },
-    {
-      "source": "Button & Link Audit",
-      "text": "Modale \"AddSpot\": fichier existe mais AUCUN contenu HTML visible",
-      "createdAt": "2026-02-26T00:06:09.225Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Fenetre popup vide ou impossible a fermer",
-      "explain": "Une modale s'ouvre mais elle est vide (aucun contenu) ou ne peut pas etre fermee. L'utilisateur est bloque.",
-      "action": "Ajouter du contenu reel dans la modale et un bouton fermer fonctionnel.",
-      "impact": "L'utilisateur voit du contenu utile et peut toujours fermer les popups.",
-      "count": 8
-    },
-    {
-      "source": "Button & Link Audit",
-      "text": "46x \"TODO\" — a implementer ou supprimer",
-      "createdAt": "2026-02-26T00:06:09.225Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Travail inacheve dans le code (TODO/placeholder)",
-      "explain": "Du code contient des marqueurs \"TODO\" ou \"Coming soon\" — ca veut dire que la fonctionnalite n'est pas finie.",
-      "action": "Finir l'implementation ou supprimer la fonctionnalite si elle n'est pas prioritaire.",
-      "impact": "Aucun placeholder visible par l'utilisateur — tout est fini et fonctionnel.",
-      "count": 1
-    },
-    {
-      "source": "Button & Link Audit",
-      "text": "7x \"COMING SOON\" — a implementer ou supprimer",
-      "createdAt": "2026-02-26T00:06:09.225Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "[Button & Link Audit] 7x \"COMING SOON\" — a implementer ou supprimer",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Button & Link Audit.",
-      "count": 1
-    },
-    {
-      "source": "Dead Code",
-      "text": "Fonction morte: \"signUp\" dans src/services/firebase.js — definie mais jamais appelee",
-      "createdAt": "2026-02-26T00:06:09.225Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Code mort detecte (fonctions jamais utilisees)",
-      "explain": "Des fonctions ont ete codees mais ne sont jamais appelees. Ca alourdit le code et cree de la confusion.",
-      "action": "Supprimer les fonctions/exports listes ci-dessus. Si certaines sont utiles, les brancher dans le code.",
-      "impact": "Code plus leger, plus clair, et plus facile a maintenir.",
-      "count": 6
-    },
-    {
-      "source": "Multi-Level Audit",
-      "text": "npm audit: vulnerabilites critiques/hautes detectees — lancer npm audit fix",
-      "createdAt": "2026-02-26T00:06:09.226Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "[Multi-Level Audit] npm audit: vulnerabilites critiques/hautes detectees — lance",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Multi-Level Audit.",
-      "count": 1
-    },
-    {
-      "source": "Circular Imports",
-      "text": "Cycle: state -> proximityVerification -> location -> state",
-      "createdAt": "2026-02-26T00:06:09.226Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Import circulaire detecte",
-      "explain": "Deux fichiers s'importent mutuellement, ce qui peut causer des bugs subtils (variables undefined au chargement).",
-      "action": "Casser le cycle en deplacant le code partage dans un fichier commun (utils ou shared).",
-      "impact": "Plus de bugs de chargement et meilleure stabilite.",
-      "count": 4
-    },
-    {
-      "source": "Code Duplication",
-      "text": "... et 3 autres duplications",
-      "createdAt": "2026-02-26T00:06:09.227Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "[Code Duplication] ... et 3 autres duplications",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase Code Duplication.",
-      "count": 1
-    },
-    {
-      "source": "Test Coverage/Feature",
-      "text": "[Carte & Navigation] Non teste: Couleurs de fraîcheur",
-      "createdAt": "2026-02-26T00:06:09.227Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Feature sans couverture de test",
-      "explain": "Certaines fonctionnalites cochees dans features.md ne sont referenceees dans aucun fichier de test. Si elles cassent, on ne le saura pas.",
-      "action": "Ajouter au moins un test (wiring, integration, ou E2E) qui mentionne cette feature.",
-      "impact": "Chaque feature est protegee par au moins un test automatique.",
-      "count": 6
-    },
-    {
-      "source": "Test Coverage/Feature",
-      "text": "[SEO] Non teste: robots.txt + sitemap.xml",
-      "createdAt": "2026-02-26T00:06:09.227Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Le site est peu visible sur Google",
-      "explain": "Il manque des pages de contenu (guides, pages villes) qui permettent a Google de trouver le site quand quelqu'un cherche \"autostop\" ou \"hitchhiking spot\".",
-      "action": "Generer des pages guides pour les destinations populaires (ex: \"Autostop a Paris\", \"Hitchhiking from Berlin\").",
-      "impact": "Plus de visiteurs venant de Google = plus d'utilisateurs sans pub payante.",
-      "count": 3
-    },
-    {
-      "source": "Test Coverage/Feature",
-      "text": "[PWA] Non teste: Bannière d'installation après 30s; Badging API; Optimisations Lighthouse",
-      "createdAt": "2026-02-26T00:06:09.227Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Score Lighthouse a ameliorer",
-      "explain": "Google Lighthouse mesure la qualite de l'app (rapidite, accessibilite, SEO). Un mauvais score = mauvais classement Google.",
-      "action": "Lancer npx lhci autorun --collect.staticDistDir=./dist pour voir les details.",
-      "impact": "Meilleur classement Google et meilleure experience utilisateur.",
-      "count": 1
-    },
-    {
-      "source": "File Size Audit",
-      "text": "TROP GROS: src/main.js (2631 lignes) — decouper en sous-modules",
-      "createdAt": "2026-02-26T00:06:09.228Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Fichier trop volumineux a decouper",
-      "explain": "Un fichier avec 500+ lignes est difficile a lire, maintenir et debugger. Ca ralentit aussi le travail collaboratif.",
-      "action": "Extraire les fonctions helpers, les constantes, et les sous-composants dans des fichiers separes.",
-      "impact": "Code plus lisible, plus facile a maintenir, et meilleur tree-shaking.",
-      "count": 1
-    },
-    {
-      "source": "File Size Audit",
-      "text": "... et 11 autres fichiers enormes",
-      "createdAt": "2026-02-26T00:06:09.228Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "[File Size Audit] ... et 11 autres fichiers enormes",
-      "explain": "Le loup a detecte un probleme dans cette phase.",
-      "action": "Investiguer le detail ci-dessus.",
-      "impact": "Ameliorer le score de la phase File Size Audit.",
-      "count": 1
-    },
-    {
-      "source": "Unused CSS Classes",
-      "text": "Classe CSS inutilisee: .btn-lg",
-      "createdAt": "2026-02-26T00:06:09.228Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Classes CSS custom inutilisees dans main.css",
-      "explain": "Des classes CSS sont definies dans main.css mais ne sont utilisees nulle part dans le code. Ca alourdit le fichier CSS.",
-      "action": "Supprimer les classes inutilisees de main.css ou les utiliser dans le code source.",
-      "impact": "Fichier CSS plus leger, chargement plus rapide.",
-      "count": 11
-    },
-    {
-      "source": "Console.log Cleanup",
-      "text": "src/workers/spotFilter.worker.js: 1 console.log",
-      "createdAt": "2026-02-26T00:06:09.229Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "console.log restants dans le code source",
-      "explain": "Des console.log ont ete laisses dans le code. En production, ca encombre la console du navigateur et peut exposer des informations sensibles.",
-      "action": "Remplacer par Sentry breadcrumbs pour le debugging, ou supprimer purement.",
-      "impact": "Console propre en production, meilleure securite, code plus professionnel.",
-      "count": 2
-    },
-    {
-      "source": "Bundle Size Analysis",
-      "text": "vendor-maplibre-CrWlTheU.js: 997.6KB [VERY LARGE]",
-      "createdAt": "2026-02-26T00:06:09.229Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "L'app est un peu lourde a charger",
-      "explain": "Le poids total de l'app depasse la limite recommandee. Sur un telephone avec une connexion lente, ca peut mettre du temps a s'afficher.",
-      "action": "Verifier les imports inutiles et activer le code-splitting (chargement a la demande).",
-      "impact": "L'app charge plus vite, surtout pour les utilisateurs avec des vieux telephones ou en 3G.",
-      "count": 9
-    },
-    {
-      "source": "Accessibility Template Lint",
-      "text": "[a11y] src/components/App.js: onclick on <div> without role=\"button\"",
-      "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Ameliorer l'accessibilite",
-      "explain": "Les personnes avec un handicap (malvoyants, utilisateurs de lecteurs d'ecran) peuvent avoir du mal a utiliser l'app.",
-      "action": "Ajouter les attributs ARIA manquants et verifier la navigation au clavier.",
-      "impact": "L'app est utilisable par tout le monde, y compris les personnes en situation de handicap.",
-      "count": 20
-    },
-    {
-      "source": "License Compliance",
-      "text": "License unknown: @axe-core/playwright (MPL-2.0) — verify manually",
-      "createdAt": "2026-02-26T00:06:09.232Z",
-      "followed": false,
-      "priority": "MOYENNE",
-      "title": "Dependance sans licence identifiee",
-      "explain": "Un package npm n'a pas de licence identifiable. Ca pose un risque juridique car on ne sait pas sous quelles conditions on peut l'utiliser.",
-      "action": "Verifier le repository du package pour trouver sa licence reelle, ou le remplacer par un equivalent.",
-      "impact": "SpotHitch reste utilisable commercialement sans risque juridique.",
+      "title": "Score en degradation sur une phase",
+      "explain": "Le score de cette phase a baisse depuis le dernier run. Ca veut dire que la qualite se degrade au lieu de s'ameliorer.",
+      "action": "Corriger les problemes detectes dans cette phase avant de continuer a ajouter du code.",
+      "impact": "Le score remonte et la qualite du code est maintenue.",
       "count": 1
     }
   ],
