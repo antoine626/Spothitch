@@ -40,6 +40,31 @@ if (!window.swapTripPoints) {
     if (toInput) toInput.value = newTo
   }
 }
+// Bridge stubs for handlers defined in Travel.js (lazy-loaded)
+if (!window.setRouteFilter) {
+  window.setRouteFilter = async (filter) => {
+    await _travelReady
+    window.setRouteFilter?.(filter)
+  }
+}
+if (!window.clearTripResults) {
+  window.clearTripResults = async () => {
+    await _travelReady
+    window.clearTripResults?.()
+  }
+}
+if (!window.centerTripMapOnGps) {
+  window.centerTripMapOnGps = async () => {
+    await _travelReady
+    window.centerTripMapOnGps?.()
+  }
+}
+if (!window.saveTripWithSpots) {
+  window.saveTripWithSpots = async () => {
+    await _travelReady
+    window.saveTripWithSpots?.()
+  }
+}
 
 const SAVED_TRIPS_KEY = 'spothitch_saved_trips'
 const ACTIVE_TRIP_KEY = 'spothitch_active_trip'
@@ -127,73 +152,77 @@ function renderMapFirstView(state) {
   const sheetState = state.tripBottomSheetState || 'collapsed'
   const showGas = state.tripShowGasStations || false
 
-  // Bottom sheet heights
-  const sheetHeights = { collapsed: '80px', half: '50vh', full: '85vh' }
+  // Bottom sheet heights (account for nav bar at bottom = 76px)
+  const sheetHeights = { collapsed: '80px', half: 'calc(50vh - 38px)', full: 'calc(85vh - 76px)' }
   const sheetHeight = sheetHeights[sheetState] || '80px'
 
   return `
-    <div class="relative -m-4" style="height:calc(100dvh - 8rem)">
+    <div class="relative" style="height:100dvh;margin:-0;padding:0">
       <!-- MAP (fills entire space) -->
       <div id="trip-map" class="absolute inset-0 z-0"></div>
 
-      <!-- COLLAPSED FORM BAR (top) -->
-      <div class="absolute top-3 left-3 right-14 z-30">
-        <div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10 shadow-lg">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
-          <span class="text-sm font-semibold text-white truncate flex-1">
-            ${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}
-          </span>
-          <button
-            onclick="tripExpandForm()"
-            class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-colors shrink-0"
-            aria-label="${t('tripEditRoute') || 'Modifier le trajet'}"
-          >
-            ${icon('pencil', 'w-3.5 h-3.5')}
-          </button>
-          <button
-            onclick="clearTripResults()"
-            class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-colors shrink-0"
-            aria-label="${t('tripCloseResults') || 'Fermer'}"
-          >
-            ${icon('x', 'w-3.5 h-3.5')}
-          </button>
+      <!-- COLLAPSED FORM BAR (top) — matches mockup top-bar -->
+      <div class="absolute top-0 left-0 right-0 z-30" style="padding:env(safe-area-inset-top,0) 0 0 0">
+        <div class="flex items-center justify-between px-4 py-2 bg-dark-secondary/95 backdrop-blur-xl border-b border-white/10">
+          <div class="flex items-center gap-2 min-w-0 flex-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+            <span class="text-[15px] font-semibold text-white truncate">
+              ${results.from?.split(',')[0] || '?'} <span class="text-primary-400">&rarr;</span> ${results.to?.split(',')[0] || '?'}
+            </span>
+          </div>
+          <div class="flex gap-2 shrink-0 ml-2">
+            <button
+              onclick="tripExpandForm()"
+              class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-colors"
+              aria-label="${t('tripEditRoute') || 'Modifier le trajet'}"
+            >
+              ${icon('pencil', 'w-4 h-4')}
+            </button>
+            <button
+              onclick="clearTripResults()"
+              class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-colors"
+              aria-label="${t('tripCloseResults') || 'Fermer'}"
+            >
+              ${icon('x', 'w-4 h-4')}
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- MAP CONTROLS (top-right) -->
-      <div class="absolute top-3 right-3 z-30 flex flex-col gap-2">
+      <!-- MAP CONTROLS (right side, below top bar) -->
+      <div class="absolute right-3 z-20 flex flex-col gap-2" style="top:60px">
         <button
           onclick="centerTripMapOnGps()"
-          class="w-10 h-10 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-blue-400 hover:text-blue-300 transition-colors shadow-lg"
+          class="w-10 h-10 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-blue-400 hover:text-blue-300 transition-colors shadow-lg"
           aria-label="${t('myPosition') || 'Ma position'}"
         >
           ${icon('crosshair', 'w-5 h-5')}
         </button>
         <button
           onclick="toggleTripGasStations()"
-          class="w-10 h-10 rounded-full ${showGas ? 'bg-amber-500/20 border-amber-500/40' : 'bg-dark-secondary/90 border-white/10'} backdrop-blur border flex items-center justify-center transition-colors shadow-lg"
+          class="w-10 h-10 rounded-xl ${showGas ? 'bg-amber-500/20 border-amber-500/40' : 'bg-dark-secondary/90 border-white/10'} backdrop-blur border flex items-center justify-center transition-colors shadow-lg"
           aria-label="${t('tripGasStations') || 'Stations-service'}"
         >
           <span class="text-lg">⛽</span>
         </button>
         <button
           onclick="tripFitBounds()"
-          class="w-10 h-10 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors shadow-lg"
+          class="w-10 h-10 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors shadow-lg"
           aria-label="${t('tripFitBounds') || 'Voir tout'}"
         >
           ${icon('maximize', 'w-5 h-5')}
         </button>
       </div>
 
-      <!-- BOTTOM SHEET -->
+      <!-- BOTTOM SHEET (above nav bar) -->
       <div
         id="trip-bottom-sheet"
-        class="trip-bottom-sheet absolute bottom-0 left-0 right-0 z-30 bg-dark-secondary/95 backdrop-blur-xl border-t border-white/10 rounded-t-2xl shadow-2xl"
-        style="height:${sheetHeight};max-height:85vh"
+        class="trip-bottom-sheet absolute left-0 right-0 z-40 bg-dark-primary/95 backdrop-blur-xl border-t border-white/10 rounded-t-2xl shadow-2xl"
+        style="bottom:76px;height:${sheetHeight};max-height:calc(85vh - 76px)"
       >
         <!-- Handle -->
         <div
-          class="trip-sheet-handle flex justify-center pt-2 pb-1 cursor-grab active:cursor-grabbing"
+          class="trip-sheet-handle flex justify-center pt-2.5 pb-2 cursor-grab active:cursor-grabbing"
           ontouchstart="tripSheetTouchStart(event)"
           ontouchmove="tripSheetTouchMove(event)"
           ontouchend="tripSheetTouchEnd(event)"
@@ -201,37 +230,40 @@ function renderMapFirstView(state) {
           role="button" tabindex="0"
           aria-label="${t('tripExpandSheet') || 'Voir les details'}"
         >
-          <div class="w-10 h-1 rounded-full bg-white/20"></div>
+          <div class="w-10 h-1 rounded-full bg-white/25"></div>
         </div>
 
         <!-- Summary line (always visible) -->
-        <div class="px-4 pb-2 flex items-center justify-between text-sm">
-          <div class="flex items-center gap-3">
-            <span class="text-primary-400 font-bold">${filteredSpots.length}</span>
-            <span class="text-slate-400">${t('tripSpotsOnRoute') || 'spots'}</span>
-            <span class="text-slate-600">·</span>
-            <span class="text-slate-400">${results.distance || '?'} km</span>
-            <span class="text-slate-600">·</span>
-            <span class="text-slate-400">~${results.estimatedTime || '?'}</span>
-          </div>
-          <span data-trip-chevron class="text-slate-600 text-xs">${icon(sheetState === 'collapsed' ? 'chevron-up' : 'chevron-down', 'w-4 h-4')}</span>
+        <div class="px-4 pb-2 flex items-center justify-center gap-4 text-[13px]">
+          <span class="flex items-center gap-1">
+            <span class="text-white font-semibold">${results.distance || '?'} km</span>
+          </span>
+          <span class="text-slate-600">&middot;</span>
+          <span class="flex items-center gap-1">
+            <span class="text-white font-semibold">~${results.estimatedTime || '?'}</span>
+          </span>
+          <span class="text-slate-600">&middot;</span>
+          <span class="flex items-center gap-1">
+            <span class="text-white font-semibold">${filteredSpots.length} spots</span>
+          </span>
+          <span data-trip-chevron class="text-slate-500 ml-auto">${icon(sheetState === 'collapsed' ? 'chevron-up' : 'chevron-down', 'w-4 h-4')}</span>
         </div>
 
-          <!-- Scrollable content (always in DOM, hidden when collapsed) -->
-          <div style="${sheetState === 'collapsed' ? 'display:none' : ''}">
+        <!-- Scrollable content (always in DOM, hidden when collapsed) -->
+        <div style="${sheetState === 'collapsed' ? 'display:none' : ''}">
           <div data-trip-scroll class="trip-sheet-scroll overflow-y-auto px-4 pb-6" style="max-height:calc(${sheetHeight} - 80px)">
             <!-- Filter chips -->
-            <div class="flex flex-wrap gap-1.5 mb-3">
+            <div class="flex gap-2 overflow-x-auto scrollbar-none pb-3">
               ${renderFilterChip('all', `${t('tripFilterAll') || 'Tous'} (${visibleSpots.length})`, !routeFilter || routeFilter === 'all')}
-              ${renderFilterChip('rating4', `⭐ ${t('tripFilterHighRating') || '4+'}`, routeFilter === 'rating4')}
-              ${renderFilterChip('wait20', `⏱ ${t('tripFilterQuickWait') || '<20min'}`, routeFilter === 'wait20')}
-              ${renderFilterChip('station', `⛽ ${t('tripFilterStation') || 'Station'}`, routeFilter === 'station')}
+              ${renderFilterChip('rating4', `⭐ 4+`, routeFilter === 'rating4')}
+              ${renderFilterChip('wait20', `⏱ <20min`, routeFilter === 'wait20')}
+              ${renderFilterChip('station', `⛽ Station`, routeFilter === 'station')}
               ${renderFilterChip('verified', `✓ ${t('tripFilterVerified') || 'Verifie'}`, routeFilter === 'verified')}
               ${highlighted.size > 0 ? renderFilterChip('highlighted', `⭐ (${highlighted.size})`, routeFilter === 'highlighted') : ''}
             </div>
 
             <!-- Spot list -->
-            <div class="space-y-1 mb-4">
+            <div class="space-y-1.5 mb-4">
               ${filteredSpots.map((spot, i) => renderBottomSheetSpotItem(spot, i, results, highlighted)).join('')}
               ${filteredSpots.length === 0 ? `
                 <div class="text-center py-6 text-slate-500 text-sm">
@@ -241,24 +273,24 @@ function renderMapFirstView(state) {
               ` : ''}
             </div>
 
-              <!-- Action buttons (only in full mode) -->
-              <div data-trip-actions class="grid grid-cols-2 gap-3 pt-2 border-t border-white/5" style="${sheetState !== 'full' ? 'display:none' : ''}">
-                <button onclick="saveTripWithSpots()" class="btn-secondary py-3 text-sm">
-                  ${icon('bookmark', 'w-4 h-4 mr-1.5')}
-                  ${t('tripSaveTrip') || 'Sauvegarder'}
-                </button>
-                <button onclick="startTrip()" class="btn-primary py-3 text-sm">
-                  ${icon('navigation', 'w-4 h-4 mr-1.5')}
-                  ${t('tripStartTrip') || 'Demarrer'}
-                </button>
-              </div>
+            <!-- Action buttons (only in full mode) -->
+            <div data-trip-actions class="grid grid-cols-2 gap-3 pt-3 border-t border-white/5" style="${sheetState !== 'full' ? 'display:none' : ''}">
+              <button onclick="saveTripWithSpots()" class="btn-secondary py-3 text-sm">
+                ${icon('bookmark', 'w-4 h-4 mr-1.5')}
+                ${t('tripSaveTrip') || 'Sauvegarder'}
+              </button>
+              <button onclick="startTrip()" class="btn-primary py-3 text-sm">
+                ${icon('navigation', 'w-4 h-4 mr-1.5')}
+                ${t('tripStartTrip') || 'Demarrer'}
+              </button>
+            </div>
           </div>
-          </div>
+        </div>
       </div>
 
       <!-- EXPANDED FORM OVERLAY (when editing) -->
       ${!state.tripFormCollapsed ? `
-        <div class="absolute inset-0 z-40 bg-dark-primary/80 backdrop-blur-sm flex items-start justify-center pt-8 px-4">
+        <div class="absolute inset-0 z-50 bg-dark-primary/80 backdrop-blur-sm flex items-start justify-center pt-12 px-4">
           <div class="w-full max-w-md">
             ${renderTripForm(state)}
             <button onclick="tripCollapseForm()" class="w-full mt-3 py-2.5 rounded-xl bg-white/5 text-slate-400 text-sm font-medium hover:bg-white/10 transition-colors">
@@ -279,39 +311,37 @@ function renderBottomSheetSpotItem(spot, i, results, highlighted) {
     ? Math.round(haversineKm(results.fromCoords[0], results.fromCoords[1], sLat, sLng))
     : null
   const isHighlighted = highlighted.has(String(spot.id))
+  const spotName = spot.from || spot.city || spot.stationName || spot.description?.substring(0, 50) || (spot.country ? `${t('spot')} · ${spot.country}` : `${t('spot')} #${i + 1}`)
+
+  // Spot type label
+  const spotType = spot.spotType || ''
+  // Wait time
+  const waitTime = spot.avgWaitTime || spot.avgWait
+  // Stars display (1-5 based on rating)
+  const rating = spot.globalRating || spot._hitchwikiRating || 0
+  const stars = rating > 0 ? '★'.repeat(Math.round(Math.min(5, rating))) + '☆'.repeat(5 - Math.round(Math.min(5, rating))) : ''
 
   return `
-    <div class="flex items-center gap-2 p-2 rounded-xl hover:bg-white/5 transition-colors ${isHighlighted ? 'bg-amber-500/5 border-l-2 border-amber-500/40' : ''}">
-      <span class="w-6 h-6 rounded-full ${isHighlighted ? 'bg-amber-500' : 'bg-primary-500/80'} flex items-center justify-center shrink-0">
-        <span class="text-[10px] font-bold text-white">${i + 1}</span>
+    <button
+      onclick="tripMapShowSpot(${spot.id})"
+      class="w-full flex items-center gap-3 p-3 rounded-xl bg-dark-secondary hover:bg-white/5 transition-colors text-left ${isHighlighted ? 'border border-amber-500/30' : 'border border-transparent'}"
+      role="button" tabindex="0"
+    >
+      <span class="w-7 h-7 rounded-full ${isHighlighted ? 'bg-amber-500' : 'bg-emerald-500'} flex items-center justify-center shrink-0">
+        <span class="text-xs font-bold text-white">${i + 1}</span>
       </span>
-      <button
-        onclick="tripMapShowSpot(${spot.id})"
-        class="flex-1 min-w-0 text-left"
-        role="button" tabindex="0"
-      >
-        <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || spot.description?.substring(0, 50) || (spot.country ? `${t('spot')} · ${spot.country}` : `${t('spot')} #${i + 1}`)}</div>
-        <div class="flex items-center gap-2 text-[10px] text-slate-500">
-          ${distFromStart !== null ? `<span>${distFromStart} km</span>` : ''}
-          ${spot.userValidations ? `<span class="text-emerald-400">✓${spot.userValidations}</span>` : ''}
-          ${(spot.avgWaitTime || spot.avgWait) ? `<span>${icon('clock', 'w-2.5 h-2.5 inline')} ${spot.avgWaitTime || spot.avgWait}min</span>` : ''}
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold text-white truncate">${spotName}</div>
+        <div class="flex items-center gap-2 text-[11px] text-slate-400 mt-0.5">
+          ${stars ? `<span class="text-primary-400">${stars}</span>` : ''}
+          ${spotType ? `<span>${spotType}</span>` : ''}
+          ${waitTime ? `<span>~${waitTime}min</span>` : ''}
         </div>
-      </button>
-      <button
-        onclick="event.stopPropagation();highlightTripSpot(${spot.id})"
-        class="w-7 h-7 rounded-full flex items-center justify-center transition-colors ${isHighlighted ? 'text-amber-400 bg-amber-500/20' : 'text-slate-600 hover:text-amber-400'}"
-        aria-label="${t('highlightSpot') || 'Mettre en avant'}"
-      >
-        ${icon('star', 'w-3.5 h-3.5')}
-      </button>
-      <button
-        onclick="event.stopPropagation();removeTripMapSpot(${spot.id})"
-        class="w-7 h-7 rounded-full flex items-center justify-center text-slate-600 hover:text-danger-400 transition-colors"
-        aria-label="${t('remove') || 'Retirer'}"
-      >
-        ${icon('x', 'w-3.5 h-3.5')}
-      </button>
-    </div>
+      </div>
+      <div class="text-xs text-slate-500 font-medium shrink-0 text-right">
+        ${distFromStart !== null ? `${distFromStart} km` : ''}
+      </div>
+    </button>
   `
 }
 
@@ -512,6 +542,7 @@ function renderTripForm(state) {
             class="input-field w-full"
             value="${state.tripFrom || ''}"
             oninput="tripSearchSuggestions('from', this.value)"
+            onblur="setTimeout(()=>{document.getElementById('trip-from-suggestions')?.classList.add('hidden')},200)"
             onkeydown="if(event.key==='Enter'){event.preventDefault();tripSelectFirst('from')}"
             autocomplete="off"
           />
@@ -537,6 +568,7 @@ function renderTripForm(state) {
             class="input-field w-full"
             value="${state.tripTo || ''}"
             oninput="tripSearchSuggestions('to', this.value)"
+            onblur="setTimeout(()=>{document.getElementById('trip-to-suggestions')?.classList.add('hidden')},200)"
             onkeydown="if(event.key==='Enter'){event.preventDefault();tripSelectFirst('to')}"
             autocomplete="off"
           />
@@ -564,7 +596,11 @@ function renderFilterChip(filter, label, active) {
   return `
     <button
       onclick="setRouteFilter('${filter}')"
-      class="px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${active ? 'bg-primary-500 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'}"
+      class="px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap flex-shrink-0 transition-colors border ${
+        active
+          ? 'bg-primary-500 text-dark-primary font-semibold border-primary-500'
+          : 'bg-dark-secondary text-slate-400 border-white/10 hover:bg-white/10'
+      }"
     >${label}</button>
   `
 }
@@ -1359,7 +1395,7 @@ window.tripSheetTouchMove = (e) => {
 let _currentSheetState = 'collapsed'
 
 function _applySheetState(sheet, state) {
-  const heights = { collapsed: '80px', half: '50vh', full: '85vh' }
+  const heights = { collapsed: '80px', half: 'calc(50vh - 38px)', full: 'calc(85vh - 76px)' }
   sheet.style.height = heights[state] || '80px'
   _currentSheetState = state
   // Show/hide scrollable content using data attributes (avoid querySelector CSS class issues)

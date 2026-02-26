@@ -57,7 +57,7 @@ import { initSEO, trackPageView } from './utils/seo.js';
 import { announceAction, prefersReducedMotion } from './utils/a11y.js';
 import { initPWA, showInstallBanner, dismissInstallBanner, installPWA } from './utils/pwa.js';
 import { initNetworkMonitor, cleanupOldData } from './utils/network.js';
-import { scheduleRender, shouldRerender } from './utils/render.js';
+import { scheduleRender, shouldRerender, clearRenderCache } from './utils/render.js';
 import { debounce } from './utils/performance.js';
 import { observeAllLazyImages } from './utils/lazyImages.js';
 import { initWebVitals } from './utils/webVitals.js';
@@ -287,7 +287,7 @@ async function init() {
 
     // Expose _forceRender for lazy-loaded modules (bypasses dirty-checking + fingerprint)
     window._forceRender = () => {
-      import('./utils/render.js').then(({ clearRenderCache }) => clearRenderCache('app'))
+      clearRenderCache('app')
       scheduleRender(() => render(getState()))
     }
 
@@ -2498,6 +2498,12 @@ window.submitNewSpot = () => window.openAddSpot?.()
 
 // swapTripPoints — canonical in Travel.js (Voyage.js has guarded fallback)
 // syncTripFieldsAndCalculate — canonical in Travel.js (Voyage.js has guarded fallback)
+// Early stub: prevents ReferenceError if user clicks before Voyage.js/Travel.js load (Sentry issue #41)
+if (!window.syncTripFieldsAndCalculate) {
+  window.syncTripFieldsAndCalculate = () => {
+    window.showToast?.('Chargement...', 'info')
+  }
+}
 
 // saveTripWithSpots — canonical in Travel.js
 // loadSavedTrip — canonical in Travel.js

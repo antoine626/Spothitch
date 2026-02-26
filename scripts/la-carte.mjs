@@ -166,11 +166,16 @@ function discoverAPIs() {
     const urlMatches = content.matchAll(/['"`](https?:\/\/([\w.-]+))[^'"`]*/g)
     for (const m of urlMatches) {
       const domain = m[2]
-      if (domain.includes('.') && !domain.includes('example') &&
-          !domain.includes('localhost') && !domain.includes('w3.org') &&
-          !domain.includes('schema.org') && !domain.includes('xmlns')) {
+      if (!domain.includes('.')) continue
+      // Use proper URL hostname comparison — avoid substring matching (CodeQL: incomplete URL sanitization)
+      try {
+        const hostname = new URL(m[1]).hostname
+        const ignoredHosts = ['example.com', 'www.example.com', 'localhost', 'w3.org', 'www.w3.org', 'schema.org', 'www.schema.org']
+        if (ignoredHosts.includes(hostname) || hostname.endsWith('.w3.org') || hostname.endsWith('.schema.org') || hostname.includes('xmlns')) continue
         if (!apis.has(domain)) apis.set(domain, new Set())
         apis.get(domain).add(rel)
+      } catch {
+        // Not a valid URL, skip
       }
     }
   }

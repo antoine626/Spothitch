@@ -467,6 +467,38 @@ Chaque erreur suit ce format :
 - **Fichiers** : `index.html`
 - **Statut** : CORRIGÉ
 
+---
+
+### ERR-043 — CodeQL: 10 security alerts (URL sanitization, ReDoS, biased random, code injection)
+- **Date** : 2026-02-26
+- **Gravité** : MAJEUR
+- **Description** : GitHub CodeQL flagged 10 security issues: 2x incomplete URL substring sanitization (la-carte.mjs), 1x incomplete string escaping (i18n-keys.mjs), 2x inefficient regex/ReDoS (plan-wolf.mjs), 2x incomplete multi-character sanitization (plan-wolf.mjs), 1x biased random from crypto source (Social.js), 2x improper code sanitization (toggle.js).
+- **Cause racine** : (1) Using `.includes('example')` to check hostnames matches substrings. (2) Single-quote escaping without first escaping backslashes. (3) Overlapping character classes `[\s\w]` in regex cause catastrophic backtracking. (4) Chained `.replace()` where output of one creates input for another. (5) `rng[2] % 2` creates modulo bias with crypto values. (6) Unsanitized values injected into onclick/aria-label HTML attributes.
+- **Correction** : (1) Use `new URL().hostname` + exact match array. (2) Escape backslashes before single quotes. (3) Use non-overlapping `(?:\s\w+){0,5}` patterns. (4) Single-pass replacement with function callback. (5) Use `unbiasedInt()` instead of modulo. (6) Add `escapeAttr()` function for HTML attribute sanitization.
+- **Leçon** : TOUJOURS use proper URL parsing (new URL) instead of string includes for hostname checks. TOUJOURS escape backslashes before other characters. NEVER use overlapping character classes in quantified regex groups. ALWAYS use single-pass replacement when chaining replaces on the same string. NEVER use modulo with crypto random values. ALWAYS sanitize values before injecting into HTML attributes.
+- **Fichiers** : `scripts/la-carte.mjs`, `scripts/checks/i18n-keys.mjs`, `scripts/plan-wolf.mjs`, `src/components/views/Social.js`, `src/utils/toggle.js`
+- **Statut** : CORRIGÉ
+
+### ERR-044 — Dependabot: critical basic-ftp + high rollup vulnerabilities
+- **Date** : 2026-02-26
+- **Gravité** : CRITIQUE
+- **Description** : npm audit showed critical path traversal in basic-ftp and high severity arbitrary file write in rollup (2 instances).
+- **Cause racine** : Transitive dependencies not updated. basic-ftp < 5.2.0, rollup < 4.59.0.
+- **Correction** : `npm audit fix` updated basic-ftp and rollup to patched versions. Remaining 4 low-severity tmp issues in @lhci/cli (dev-only) are acceptable.
+- **Leçon** : Run `npm audit` regularly. Address critical/high vulnerabilities immediately. Low-severity issues in dev-only dependencies can be deferred if fix requires breaking changes.
+- **Fichiers** : `package-lock.json`
+- **Statut** : CORRIGÉ
+
+### ERR-045 — Sentry: syncTripFieldsAndCalculate ReferenceError (17 events, 7 users)
+- **Date** : 2026-02-26
+- **Gravité** : MAJEUR
+- **Description** : Users clicking the trip calculate button before Voyage.js/Travel.js finished loading got `ReferenceError: syncTripFieldsAndCalculate is not defined`. 17 events from 7 users over 4 days.
+- **Cause racine** : The onclick HTML references `syncTripFieldsAndCalculate()` as a bare global. The bridge stubs in Voyage.js only exist after Voyage.js module loads. If user navigates quickly and clicks the button before the module finishes, the function is undefined.
+- **Correction** : Added an early stub in main.js (`if (!window.syncTripFieldsAndCalculate) { ... }`) that shows a loading toast. Gets overwritten when Voyage.js/Travel.js load.
+- **Leçon** : EVERY onclick handler that references a global function MUST have a stub in main.js. Lazy-loaded modules can't guarantee their bridge stubs exist before the HTML using them is rendered. The stub pattern: define in main.js (no-op/toast), override in the lazy module.
+- **Fichiers** : `src/main.js`
+- **Statut** : CORRIGÉ
+
 ### ERR-043 — Profil utilisateur (bio, réseaux sociaux, langues) stocké uniquement en localStorage
 - **Date** : 2026-02-26
 - **Gravité** : MAJEUR (les autres utilisateurs ne pouvaient pas voir les profils)

@@ -2901,20 +2901,22 @@ textarea.input-field {
 
 /* ===== TRIP BOTTOM SHEET ===== */
 .trip-bottom-sheet {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: height;
 }
 
 .trip-bottom-sheet .trip-sheet-handle {
   touch-action: none;
+  min-height: 32px;
 }
 
 .trip-bottom-sheet .trip-sheet-scroll {
   touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 .trip-bottom-sheet.dragging {
-  transition: none;
+  transition: none !important;
 }
 
 .trip-spot-faded {

@@ -171,7 +171,7 @@ function webSearch(query) {
     const snippetRegex = /class="result__snippet"[^>]*>([\s\S]*?)<\/a>/g
     let match
     while ((match = snippetRegex.exec(html)) && snippets.length < 8) {
-      const clean = match[1].replace(/<\/?[^>]+(>|$)/g, '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").trim()
+      const clean = match[1].replace(/<\/?[^>]+(>|$)/g, '').replace(/&amp;|&quot;|&#x27;/g, m => m === '&amp;' ? '&' : m === '&quot;' ? '"' : "'").trim()
       if (clean.length > 20) snippets.push(clean)
     }
     const titleRegex = /class="result__a"[^>]*>([\s\S]*?)<\/a>/g
@@ -192,8 +192,9 @@ function extractFeatureKeywords(snippets) {
   const text = snippets.join(' ').toLowerCase()
   const keywords = []
   const patterns = [
-    /(?:feature|support|include|offer|provide|enable|allow)s?\s+(\w+[\s\w]{3,25})/g,
-    /(\w+[\s\w]{3,20})\s+(?:feature|mode|option|tool|system)/g,
+    // Fixed: avoid overlapping character classes that cause ReDoS (CodeQL: inefficient regex)
+    /(?:feature|support|include|offer|provide|enable|allow)s?\s+(\w+(?:\s\w+){0,5})/g,
+    /(\w+(?:\s\w+){0,4})\s+(?:feature|mode|option|tool|system)/g,
   ]
   for (const pattern of patterns) {
     let match
@@ -1975,7 +1976,8 @@ function phase12_screenshots() {
         console.log('SCREENSHOTS_OK');
       })();
     `
-    const escaped = screenshotScript.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, ' ')
+    // Single-pass sanitization to avoid incomplete multi-character escaping (CodeQL fix)
+    const escaped = screenshotScript.replace(/[\\"\n]/g, ch => ch === '\\' ? '\\\\' : ch === '"' ? '\\"' : ' ')
     const out = exec(`node -e "${escaped}"`, { allowFail: true, timeout: 30000 })
 
     if (out.includes('SCREENSHOTS_OK')) {

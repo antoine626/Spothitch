@@ -392,5 +392,99 @@
         "warnings": 0
       }
     ]
+  },
+  {
+    "date": "2026-02-26T14:20:42.041Z",
+    "score": 96,
+    "checks": [
+      {
+        "name": "Handlers Wiring",
+        "score": 100,
+        "weight": 12,
+        "weightedScore": 12,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "i18n Keys",
+        "score": 85,
+        "weight": 13,
+        "weightedScore": 11,
+        "errors": 0,
+        "warnings": 2
+      },
+      {
+        "name": "Dead Exports",
+        "score": 70,
+        "weight": 8,
+        "weightedScore": 6,
+        "errors": 0,
+        "warnings": 22
+      },
+      {
+        "name": "Security Patterns",
+        "score": 100,
+        "weight": 18,
+        "weightedScore": 18,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "localStorage RGPD",
+        "score": 100,
+        "weight": 10,
+        "weightedScore": 10,
+        "errors": 0,
+        "warnings": 11
+      },
+      {
+        "name": "Error Patterns",
+        "score": 100,
+        "weight": 12,
+        "weightedScore": 12,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "Duplicate Handlers",
+        "score": 100,
+        "weight": 10,
+        "weightedScore": 10,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "Accessibility",
+        "score": 100,
+        "weight": 7,
+        "weightedScore": 7,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "Bundle Size",
+        "score": 100,
+        "weight": 3,
+        "weightedScore": 3,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "Import Cycles",
+        "score": 100,
+        "weight": 2,
+        "weightedScore": 2,
+        "errors": 0,
+        "warnings": 0
+      },
+      {
+        "name": "Content Integrity",
+        "score": 100,
+        "weight": 5,
+        "weightedScore": 5,
+        "errors": 0,
+        "warnings": 0
+      }
+    ]
   }
 ]

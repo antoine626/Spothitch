@@ -118,15 +118,18 @@ let _activeFocusTrapCleanup = null
 export function renderApp(state) {
   // Main app content — always rendered so the map initializes in background
   // even while the landing carousel is shown as an overlay on top
+  // Detect map-first Voyage view (full-screen map replaces header)
+  const isVoyageMapFirst = state.activeTab === 'challenges' && state.tripResults && state.tripFormCollapsed
+
   const mainContent = `
     <!-- Skip Link for Accessibility -->
     <a href="#main-content" class="skip-link">
       ${t('skipToContent') || 'Aller au contenu principal'}
     </a>
 
-    ${renderHeader(state)}
+    ${isVoyageMapFirst ? '' : renderHeader(state)}
 
-    <main id="main-content" class="pb-28 pt-[4.5rem] min-h-screen overflow-x-hidden" role="main" tabindex="-1">
+    <main id="main-content" class="${isVoyageMapFirst ? 'min-h-screen overflow-x-hidden' : 'pb-28 pt-[4.5rem] min-h-screen overflow-x-hidden'}" role="main" tabindex="-1">
       <!-- Map is ALWAYS rendered but hidden when not active (A8: persistence) -->
       <div id="panel-map" role="tabpanel" aria-labelledby="tab-map" style="${isMapTab(state) ? '' : 'display:none'}">
         ${renderHome(state)}

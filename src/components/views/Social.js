@@ -1068,14 +1068,14 @@ window.addFriendByName = async () => {
 
   const avatars = ['🤙', '🧗', '🏄', '🚶', '🧭', '🎒', '🌍', '🛤️']
   const rng = crypto.getRandomValues(new Uint32Array(3))
-  // Unbiased random: multiply then shift to avoid modulo bias
+  // Unbiased random: multiply then shift to avoid modulo bias (CodeQL: biased random fix)
   const unbiasedInt = (val, max) => Math.floor((val / 0x100000000) * max)
   const newFriend = {
     id: `friend_${Date.now()}`,
     name,
     avatar: avatars[unbiasedInt(rng[0], avatars.length)],
     level: unbiasedInt(rng[1], 10) + 1,
-    online: rng[2] % 2 === 0,
+    online: unbiasedInt(rng[2], 2) === 0,
     unread: 0,
     addedAt: new Date().toISOString(),
   }

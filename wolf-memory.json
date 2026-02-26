@@ -2364,6 +2364,28 @@
       ],
       "errors": 0,
       "recommendations": 2
+    },
+    {
+      "date": "2026-02-26T14:21:01.970Z",
+      "score": 90,
+      "confidence": "HAUTE",
+      "duration": "24.8s",
+      "mode": "delta",
+      "bundleSize": null,
+      "phases": [
+        {
+          "name": "Code Quality",
+          "score": 15,
+          "max": 15
+        },
+        {
+          "name": "Score Trend Tracking",
+          "score": 3,
+          "max": 5
+        }
+      ],
+      "errors": 0,
+      "recommendations": 1
     }
   ],
   "errors": [
@@ -2447,30 +2469,6 @@
   ],
   "patterns": [],
   "recommendations": [
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: waze.com (used in: src/utils/navigation.js)",
-      "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
-      "followedAt": "2026-02-26T00:36:19.013Z"
-    },
-    {
-      "source": "External API Inventory",
-      "text": "API not in CSP: api.example.com (used in: src/utils/prefetch.js, src/utils/seo.js)",
-      "createdAt": "2026-02-26T00:06:09.231Z",
-      "followed": true,
-      "priority": "HAUTE",
-      "title": "Protection de securite manquante",
-      "explain": "Certaines protections contre les attaques web (injection de code, vol de donnees) ne sont pas en place.",
-      "action": "Ajouter une Content-Security-Policy dans index.html et verifier que DOMPurify est actif.",
-      "impact": "Les utilisateurs sont proteges contre les attaques courantes.",
-      "followedAt": "2026-02-26T00:36:19.013Z"
-    },
     {
       "source": "External API Inventory",
       "text": "API not in CSP: schema.org (used in: src/utils/seo.js)",
@@ -2691,17 +2689,30 @@
       "source": "Score Trend Tracking",
       "text": "DEGRADATION: \"Build\" a baisse de 100% a 0%",
       "createdAt": "2026-02-26T00:36:19.013Z",
-      "followed": false,
+      "followed": true,
       "priority": "HAUTE",
       "title": "Le build ne fonctionne pas",
       "explain": "Le site ne peut pas etre construit correctement — il ne se mettra pas a jour tant que ce n'est pas corrige.",
       "action": "Lancer npm run build pour voir l'erreur exacte et la corriger.",
-      "impact": "Le site peut etre mis a jour normalement."
+      "impact": "Le site peut etre mis a jour normalement.",
+      "followedAt": "2026-02-26T14:21:01.929Z"
     },
     {
       "source": "Score Trend Tracking",
       "text": "DEGRADATION: \"Impact Analysis\" a baisse de 50% a 0%",
       "createdAt": "2026-02-26T00:36:19.013Z",
+      "followed": true,
+      "priority": "HAUTE",
+      "title": "Score en degradation sur une phase",
+      "explain": "Le score de cette phase a baisse depuis le dernier run. Ca veut dire que la qualite se degrade au lieu de s'ameliorer.",
+      "action": "Corriger les problemes detectes dans cette phase avant de continuer a ajouter du code.",
+      "impact": "Le score remonte et la qualite du code est maintenue.",
+      "followedAt": "2026-02-26T14:21:01.929Z"
+    },
+    {
+      "source": "Score Trend Tracking",
+      "text": "DEGRADATION: \"Score Trend Tracking\" a baisse de 100% a 60%",
+      "createdAt": "2026-02-26T14:21:01.928Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Score en degradation sur une phase",
@@ -2717,13 +2728,13 @@
     "updatedAt": "2026-02-26T00:05:20.857Z"
   },
   "selfEvaluation": {
-    "date": "2026-02-26T00:36:19.050Z",
-    "score": 85,
+    "date": "2026-02-26T14:21:01.969Z",
+    "score": 90,
     "perPhase": [
       {
         "name": "Code Quality",
-        "pct": 93,
-        "verdict": "BON"
+        "pct": 100,
+        "verdict": "PARFAIT"
       },
       {
         "name": "Score Trend Tracking",
@@ -2732,8 +2743,8 @@
       }
     ],
     "globalInsights": [
-      "Tres peu de recommandations (2). Le loup est peut-etre trop indulgent.",
-      "Tendance negative: score actuel (85) sous la moyenne recente (69). Corriger les regressions.",
+      "Tres peu de recommandations (1). Le loup est peut-etre trop indulgent.",
+      "Tendance positive: score actuel (90) au-dessus de la moyenne des 5 derniers runs (72).",
       "Couverture de tests: 121/173 fichiers src/ references dans les tests (70%).",
       "100% des recommandations suivies — bonne discipline."
     ],
@@ -2746,20 +2757,8 @@
   "_dedupedRecs": [
     {
       "source": "Score Trend Tracking",
-      "text": "DEGRADATION: \"Build\" a baisse de 100% a 0%",
-      "createdAt": "2026-02-26T00:36:19.013Z",
-      "followed": false,
-      "priority": "HAUTE",
-      "title": "Le build ne fonctionne pas",
-      "explain": "Le site ne peut pas etre construit correctement — il ne se mettra pas a jour tant que ce n'est pas corrige.",
-      "action": "Lancer npm run build pour voir l'erreur exacte et la corriger.",
-      "impact": "Le site peut etre mis a jour normalement.",
-      "count": 1
-    },
-    {
-      "source": "Score Trend Tracking",
-      "text": "DEGRADATION: \"Impact Analysis\" a baisse de 50% a 0%",
-      "createdAt": "2026-02-26T00:36:19.013Z",
+      "text": "DEGRADATION: \"Score Trend Tracking\" a baisse de 100% a 60%",
+      "createdAt": "2026-02-26T14:21:01.928Z",
       "followed": false,
       "priority": "HAUTE",
       "title": "Score en degradation sur une phase",

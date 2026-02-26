@@ -76,8 +76,8 @@ function addKeysToLangFile(filePath, keysToAdd) {
 
   // Build the new keys block
   const newEntries = keysToAdd.map(({ key, value }) => {
-    // Escape single quotes in value
-    const escaped = value.replace(/'/g, "\\'")
+    // Escape backslashes FIRST, then single quotes (CodeQL: incomplete string escaping)
+    const escaped = value.replace(/\\/g, '\\\\').replace(/'/g, "\\'")
     return `  ${key}: '${escaped}',`
   })
 
