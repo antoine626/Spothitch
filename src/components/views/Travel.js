@@ -904,6 +904,10 @@ window.tripSelectFirst = (field) => {
 }
 
 window.syncTripFieldsAndCalculate = () => {
+  // Dismiss any open suggestion dropdowns first
+  document.getElementById('trip-from-suggestions')?.classList.add('hidden')
+  document.getElementById('trip-to-suggestions')?.classList.add('hidden')
+
   const fromInput = document.getElementById('trip-from')
   const toInput = document.getElementById('trip-to')
   const from = fromInput?.value?.trim() || ''

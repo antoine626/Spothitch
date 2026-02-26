@@ -10,6 +10,35 @@ import { renderToggle, renderToggleCompact } from '../../utils/toggle.js'
 import { renderGuides } from './Guides.js'
 import { safeSetItem } from '../../utils/storage.js'
 
+// Load Travel.js handlers (calculateTrip, syncTripFieldsAndCalculate, swapTripPoints, etc.)
+// Travel.js defines the window.* handlers that the trip form buttons call
+const _travelReady = import('./Travel.js')
+
+// Bridge stubs: if user clicks before Travel.js loads, wait for it then delegate
+if (!window.syncTripFieldsAndCalculate) {
+  window.syncTripFieldsAndCalculate = async () => {
+    await _travelReady
+    window.syncTripFieldsAndCalculate?.()
+  }
+}
+if (!window.calculateTrip) {
+  window.calculateTrip = async () => {
+    await _travelReady
+    window.calculateTrip?.()
+  }
+}
+if (!window.swapTripPoints) {
+  window.swapTripPoints = () => {
+    // Swap DOM values directly (no async needed)
+    const fromInput = document.getElementById('trip-from')
+    const toInput = document.getElementById('trip-to')
+    const newFrom = toInput?.value || ''
+    const newTo = fromInput?.value || ''
+    if (fromInput) fromInput.value = newFrom
+    if (toInput) toInput.value = newTo
+  }
+}
+
 const SAVED_TRIPS_KEY = 'spothitch_saved_trips'
 const ACTIVE_TRIP_KEY = 'spothitch_active_trip'
 const HIGHLIGHTED_SPOTS_KEY = 'spothitch_highlighted_trip_spots'
@@ -1318,9 +1347,16 @@ if (!window.tripSearchSuggestions) {
   }
 
   let voyageDebounce = null
+  let suggestionDismissTimer = null
   // Guarded by if (!window.tripSearchSuggestions) at line 1237
   window.tripSearchSuggestions = (field, query) => {
     clearTimeout(voyageDebounce)
+    // Auto-dismiss suggestions after 4s of no typing (user probably moved on)
+    clearTimeout(suggestionDismissTimer)
+    suggestionDismissTimer = setTimeout(() => {
+      document.getElementById('trip-from-suggestions')?.classList.add('hidden')
+      document.getElementById('trip-to-suggestions')?.classList.add('hidden')
+    }, 4000)
     const container = document.getElementById(`trip-${field}-suggestions`)
     if (!container) return
     if (!query || query.trim().length < 1) {
@@ -1388,4 +1424,20 @@ if (!window.tripSearchSuggestions) {
       }
     }, 100)
   }
+
+  // Dismiss suggestions when clicking outside input/suggestion area
+  document.addEventListener('mousedown', (e) => {
+    const target = e.target
+    if (target.closest('#trip-from, #trip-to, #trip-from-suggestions, #trip-to-suggestions')) return
+    document.getElementById('trip-from-suggestions')?.classList.add('hidden')
+    document.getElementById('trip-to-suggestions')?.classList.add('hidden')
+  })
+
+  // Dismiss suggestions on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('trip-from-suggestions')?.classList.add('hidden')
+      document.getElementById('trip-to-suggestions')?.classList.add('hidden')
+    }
+  })
 }
