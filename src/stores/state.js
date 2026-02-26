@@ -254,6 +254,7 @@ const initialState = {
   donationAmount: null,
   showFriendProfile: false,
   selectedFriendProfileId: null,
+  friendProfileSocialLinks: null,
   showCreateEvent: false,
   showAdminPanel: false,
   dangerousSpotAlerts: [],

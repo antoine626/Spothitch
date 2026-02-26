@@ -3230,7 +3230,7 @@ export default {
   companionStopped: 'Mode compagnon désactivé.',
   companionCheckedIn: 'Check-in enregistré ! Tu es en sécurité.',
   guardianRequired: 'Remplis le nom et le numéro de ton gardien.',
-  companionAlertOpening: 'Ouverture de WhatsApp pour envoyer l\'alerte...',
+  companionAlertOpening: 'Envoi de l\'alerte push au gardien...',
 
   // AddSpot form (3-step wizard)
   step1of3: 'Étape 1/3',

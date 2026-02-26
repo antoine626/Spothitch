@@ -3227,7 +3227,7 @@ export default {
   companionStopped: 'Modo compañero desactivado.',
   companionCheckedIn: '¡Check-in registrado! Estás a salvo.',
   guardianRequired: 'Rellena el nombre y el número de tu guardián.',
-  companionAlertOpening: 'Abriendo WhatsApp para enviar la alerta...',
+  companionAlertOpening: 'Enviando alerta push al guardian...',
 
   // AddSpot form (3-step wizard)
   step1of3: 'Paso 1/3',

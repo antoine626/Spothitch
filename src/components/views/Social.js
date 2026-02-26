@@ -1092,8 +1092,16 @@ window.removeFriend = async (friendId) => {
   window.showToast?.(t('friendRemoved'), 'info')
 }
 
-window.showFriendProfile = (friendId) => {
-  window.setState?.({ showFriendProfile: true, selectedFriendProfileId: friendId })
+window.showFriendProfile = async (friendId) => {
+  window.setState?.({ showFriendProfile: true, selectedFriendProfileId: friendId, friendProfileSocialLinks: null })
+  // Fetch social links from Firestore in the background
+  try {
+    const { getUserProfile } = await import('../../services/firebase.js')
+    const result = await getUserProfile(friendId)
+    if (result.success && result.profile?.socialLinks) {
+      window.setState?.({ friendProfileSocialLinks: result.profile.socialLinks })
+    }
+  } catch { /* offline or not found — no social links shown */ }
 }
 
 export default { renderSocial }

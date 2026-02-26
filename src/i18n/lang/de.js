@@ -3227,7 +3227,7 @@ export default {
   companionStopped: 'Begleitmodus deaktiviert.',
   companionCheckedIn: 'Check-in erfolgreich! Du bist sicher.',
   guardianRequired: 'Bitte fülle den Namen und die Telefonnummer deines Begleiters aus.',
-  companionAlertOpening: 'WhatsApp wird geöffnet, um den Alarm zu senden...',
+  companionAlertOpening: 'Push-Alarm an Begleiter wird gesendet...',
 
   // AddSpot form (3-step wizard)
   step1of3: 'Schritt 1/3',

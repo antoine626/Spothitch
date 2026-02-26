@@ -92,6 +92,9 @@ export function renderFriendProfileModal(state) {
             </div>
           </div>
 
+          <!-- Social Links (from Firestore) -->
+          ${renderFriendSocialLinks(state.friendProfileSocialLinks)}
+
           <!-- Info row -->
           <div class="space-y-2 text-sm">
             ${mutualCount > 0 ? `
@@ -166,6 +169,43 @@ export function renderFriendProfileModal(state) {
           ${icon('x', 'w-5 h-5')}
         </button>
       </div>
+    </div>
+  `
+}
+
+/**
+ * Render social links for a friend's profile (loaded from Firestore).
+ * @param {Object|null} socialLinks - { instagram: '@user', tiktok: 'user', facebook: 'user' }
+ */
+function renderFriendSocialLinks(socialLinks) {
+  if (!socialLinks || typeof socialLinks !== 'object') return ''
+  const networks = [
+    { id: 'instagram', label: 'Instagram', color: 'text-pink-400', url: 'https://instagram.com/' },
+    { id: 'tiktok', label: 'TikTok', color: 'text-slate-300', url: 'https://tiktok.com/@' },
+    { id: 'facebook', label: 'Facebook', color: 'text-blue-400', url: 'https://facebook.com/' },
+  ]
+  const links = networks
+    .filter(n => socialLinks[n.id]?.replace(/^@/, '').trim())
+    .map(n => {
+      const username = socialLinks[n.id].replace(/^@/, '').trim()
+      return `
+        <a
+          href="${n.url}${encodeURIComponent(username)}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-sm ${n.color}"
+        >
+          ${icon(n.id === 'instagram' ? 'camera' : n.id === 'tiktok' ? 'video' : 'users', 'w-4 h-4')}
+          <span class="text-white">@${escapeHTML(username)}</span>
+          ${icon('external-link', 'w-3 h-3 text-slate-500')}
+        </a>
+      `
+    })
+  if (links.length === 0) return ''
+  return `
+    <div class="space-y-2">
+      <div class="text-xs text-slate-400 font-medium">${t('socialLinks') || 'Social'}</div>
+      <div class="flex flex-wrap gap-2">${links.join('')}</div>
     </div>
   `
 }
