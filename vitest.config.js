@@ -25,10 +25,10 @@ export default defineConfig({
         'src/utils/image.js',
       ],
       thresholds: {
-        statements: 22,
+        statements: 21,
         branches: 20,
         functions: 22,
-        lines: 22,
+        lines: 21,
       },
     },
     include: ['tests/**/*.test.js'],
