@@ -106,7 +106,6 @@ function renderSOSDisclaimer() {
 
 // ─── Main SOS Modal ──────────────────────────────────────────────────────────
 function renderSOSMain(state) {
-  const channel = LS.channel()
   const isSilent = LS.silent()
   const customMsg = LS.customMsg()
   const primaryIdx = LS.primaryContact()
@@ -283,35 +282,15 @@ function renderSOSMain(state) {
                 ${t('emergencyContacts')}
                 ${state.emergencyContacts.length > 0 ? `<span class="ml-2 text-xs text-slate-500">(${state.emergencyContacts.length})</span>` : ''}
               </h3>
-              <!-- SMS/WhatsApp channel selector -->
-              <div class="flex items-center gap-1 text-xs">
-                <button
-                  onclick="sosSetChannel('sms')"
-                  class="px-2 py-1 rounded-lg transition-colors ${channel === 'sms' ? 'bg-primary-500/30 text-primary-400' : 'text-slate-500 hover:text-slate-300'}"
-                  type="button"
-                  title="${t('sosChannelSMS') || 'SMS'}"
-                >SMS</button>
-                <button
-                  onclick="sosSetChannel('whatsapp')"
-                  class="px-2 py-1 rounded-lg transition-colors ${channel === 'whatsapp' ? 'bg-emerald-500/30 text-emerald-400' : 'text-slate-500 hover:text-slate-300'}"
-                  type="button"
-                  title="${t('sosChannelWhatsApp') || 'WhatsApp'}"
-                >WA</button>
-                <button
-                  onclick="sosSetChannel('both')"
-                  class="px-2 py-1 rounded-lg transition-colors ${channel === 'both' ? 'bg-amber-500/30 text-amber-400' : 'text-slate-500 hover:text-slate-300'}"
-                  type="button"
-                  title="${t('sosChannelBoth') || 'SMS + WhatsApp'}"
-                >${t('sosChannelBothShort') || 'Les 2'}</button>
-              </div>
             </div>
 
-            <!-- Channel description -->
-            <p class="text-xs text-slate-500 mb-3">
-              ${channel === 'sms' ? (t('sosChannelSMSDesc') || 'Les alertes seront envoyées par SMS') :
-                channel === 'whatsapp' ? (t('sosChannelWhatsAppDesc') || 'Les alertes seront envoyées par WhatsApp') :
-                (t('sosChannelBothDesc') || 'Les alertes seront envoyées par SMS et WhatsApp')}
-            </p>
+            <!-- Triple alert description -->
+            <div class="bg-danger-500/10 rounded-xl p-3 mb-3 border border-danger-500/20">
+              <p class="text-xs text-danger-300 leading-relaxed flex items-start gap-2">
+                ${icon('zap', 'w-4 h-4 text-danger-400 shrink-0 mt-0.5')}
+                <span>${t('sosTripleAlertDesc') || 'When SOS is triggered, everything fires at once: push notification + SMS + phone call to your primary contact. No choice needed — maximum safety.'}</span>
+              </p>
+            </div>
 
             <!-- Add Contact Form -->
             <div class="card p-4 mb-4 space-y-3">
@@ -577,7 +556,13 @@ function renderFakeCallOverlay() {
 
 // ─── Global handlers ─────────────────────────────────────────────────────────
 
-// ── Existing handlers (preserved) ────────────────────────────────────────────
+// ── Triple SOS Alert: Push + SMS + Call in parallel ──────────────────────────
+// When SOS is triggered, ALL channels fire simultaneously. No choice needed.
+// Resilience: if one channel fails, the others continue.
+
+/**
+ * Get position (live or cached), then fire triple alert
+ */
 window.shareSOSLocation = async () => {
   const { getState, actions } = await import('../../stores/state.js')
   const { showSuccess, showError } = await import('../../services/notifications.js')
@@ -589,34 +574,133 @@ window.shareSOSLocation = async () => {
     return
   }
 
-  if (!navigator.geolocation) {
-    showError(t('geoNotSupported') || 'Géolocalisation non disponible')
+  // Get position (live preferred, cached fallback)
+  const pos = await _getSOSPosition()
+
+  if (!pos) {
+    showError(t('positionError') || 'Impossible de partager la position')
     return
   }
 
-  navigator.geolocation.getCurrentPosition(
-    async (position) => {
-      const { lat, lng } = { lat: position.coords.latitude, lng: position.coords.longitude }
-      LS.savePos(lat, lng)
-      actions.toggleSOS()
-      actions.setUserLocation({ lat, lng })
-      showSuccess(t('locationShared'))
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: t('sosShareTitle') || '🆘 SOS Position - SpotHitch',
-            text: t('sosShareText') || "Je partage ma position d'urgence",
-            url: `https://www.google.com/maps?q=${lat},${lng}`,
-          })
-        } catch (e) { /* User cancelled */ }
+  LS.savePos(pos.lat, pos.lng)
+  actions.toggleSOS()
+  actions.setUserLocation({ lat: pos.lat, lng: pos.lng })
+
+  // Fire triple alert: push + SMS + call — all in parallel
+  _fireTripleAlert(pos.lat, pos.lng, state.emergencyContacts)
+}
+
+/**
+ * Get current GPS position or fallback to cached position.
+ * @returns {Promise<{lat: number, lng: number}|null>}
+ */
+async function _getSOSPosition() {
+  // Offline → use cache
+  if (!navigator.onLine) {
+    const cached = LS.cachedPos()
+    return cached ? { lat: cached.lat, lng: cached.lng } : null
+  }
+
+  if (!navigator.geolocation) {
+    const cached = LS.cachedPos()
+    return cached ? { lat: cached.lat, lng: cached.lng } : null
+  }
+
+  return new Promise((resolve) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({ lat: position.coords.latitude, lng: position.coords.longitude })
+      },
+      () => {
+        // Fallback to cache
+        const cached = LS.cachedPos()
+        resolve(cached ? { lat: cached.lat, lng: cached.lng } : null)
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    )
+  })
+}
+
+/**
+ * Fire triple alert: push notification + SMS + phone call — all in parallel.
+ * Each channel is independent: if one fails, the others continue.
+ * @param {number} lat
+ * @param {number} lng
+ * @param {Array<{name: string, phone: string}>} contacts
+ */
+function _fireTripleAlert(lat, lng, contacts) {
+  const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`
+  const customMsg = LS.customMsg()
+  const baseMsg = t('sosTripleAlertMsg') || 'SOS! I need help. Here is my position:'
+  const fullMsg = customMsg ? `${customMsg}\n\n${baseMsg}\n${mapUrl}` : `${baseMsg}\n${mapUrl}`
+
+  // Determine primary contact for the phone call
+  const primaryIdx = LS.primaryContact()
+  const primaryContact = (primaryIdx >= 0 && contacts[primaryIdx])
+    ? contacts[primaryIdx]
+    : contacts[0] || null
+
+  // === CHANNEL 1: Push notification (in-app) ===
+  const pushPromise = (async () => {
+    try {
+      const { sendLocalNotification } = await import('../../services/notifications.js')
+      sendLocalNotification(
+        t('sosTripleAlertTitle') || 'SOS SpotHitch',
+        fullMsg,
+        {
+          type: 'sos_alert',
+          tag: 'sos-triple-alert',
+          requireInteraction: true,
+          url: mapUrl,
+        }
+      )
+    } catch (e) {
+      console.error('SOS push notification failed:', e)
+    }
+  })()
+
+  // === CHANNEL 2: SMS to all contacts ===
+  const smsPromise = (async () => {
+    try {
+      if (!contacts || contacts.length === 0) return
+      const encoded = encodeURIComponent(fullMsg)
+      // Build SMS URI with all contact phones
+      const phones = contacts
+        .filter(c => c?.phone)
+        .map(c => c.phone.replace(/[^0-9+]/g, ''))
+      if (phones.length > 0) {
+        // sms: URI with multiple recipients (comma-separated)
+        const smsUri = `sms:${phones.join(',')}?body=${encoded}`
+        window.location.href = smsUri
       }
-    },
-    (error) => {
-      showError(t('positionError') || 'Impossible de partager la position')
-      console.error('Geolocation error:', error)
-    },
-    { enableHighAccuracy: true, timeout: 10000 }
-  )
+    } catch (e) {
+      console.error('SOS SMS failed:', e)
+    }
+  })()
+
+  // === CHANNEL 3: Phone call to primary contact ===
+  const callPromise = (async () => {
+    try {
+      if (!primaryContact?.phone) return
+      const cleanPhone = primaryContact.phone.replace(/[^0-9+]/g, '')
+      // Small delay to let SMS URI trigger first (browsers block simultaneous URI navigations)
+      await new Promise(r => setTimeout(r, 500))
+      // Use tel: link to ring the primary contact
+      const callLink = document.createElement('a')
+      callLink.href = `tel:${cleanPhone}`
+      callLink.style.display = 'none'
+      document.body.appendChild(callLink)
+      callLink.click()
+      callLink.remove()
+    } catch (e) {
+      console.error('SOS call failed:', e)
+    }
+  })()
+
+  // All fire in parallel — we don't await the result, resilience is built-in
+  Promise.allSettled([pushPromise, smsPromise, callPromise]).then(() => {
+    window.showToast?.(t('sosTripleAlertSent') || 'SOS sent: notification + SMS + call', 'success')
+  })
 }
 
 window.addEmergencyContact = async () => {
@@ -673,85 +757,36 @@ window.acceptSOSDisclaimer = () => {
 }
 
 window.sendSOSTemplate = async (type) => {
-  const customMsg = LS.customMsg()
   const templates = {
     danger: t('sosTemplateDanger') || "🚨 URGENCE - Je suis en danger et j'ai besoin d'aide immédiatement !",
     stuck: t('sosTemplateStuck') || "📍 Je suis bloqué(e) en auto-stop et j'ai besoin qu'on vienne me chercher.",
     help: t('sosTemplateHelp') || "🆘 J'ai besoin d'aide. Voici ma position actuelle.",
   }
-  const baseText = templates[type] || templates.help
-  const text = customMsg ? `${customMsg}\n\n${baseText}` : baseText
 
-  const sendWithPosition = (lat, lng) => {
-    const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`
-    const myPosLabel = t('myPosition') || 'Ma position'
-    const fullMsg = `${text}\n\n${myPosLabel}: ${mapUrl}`
-    _dispatchSOSAlert(fullMsg)
-  }
-
-  // Try live position first, fallback to cache when offline
-  if (!navigator.onLine) {
-    const cached = LS.cachedPos()
-    if (cached) {
-      sendWithPosition(cached.lat, cached.lng)
-    } else {
-      window.showToast?.(t('sosNoCachedPos') || 'Aucune position en cache', 'error')
-    }
+  // Get position
+  const pos = await _getSOSPosition()
+  if (!pos) {
+    window.showToast?.(t('positionNotAvailable') || 'Position non disponible', 'error')
     return
   }
 
-  if (!navigator.geolocation) {
-    window.showToast?.(t('geoNotAvailable') || 'Géolocalisation non disponible', 'error')
-    return
-  }
+  LS.savePos(pos.lat, pos.lng)
 
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      LS.savePos(pos.coords.latitude, pos.coords.longitude)
-      sendWithPosition(pos.coords.latitude, pos.coords.longitude)
-    },
-    () => {
-      // Geolocation failed — try cache
-      const cached = LS.cachedPos()
-      if (cached) {
-        sendWithPosition(cached.lat, cached.lng)
-      } else {
-        window.showToast?.(t('positionNotAvailable') || 'Position non disponible', 'error')
-      }
-    },
-    { enableHighAccuracy: true, timeout: 10000 }
-  )
-}
+  // Override custom message with the template text
+  const origCustom = LS.customMsg()
+  const templateText = templates[type] || templates.help
+  const combined = origCustom ? `${origCustom}\n\n${templateText}` : templateText
+  localStorage.setItem('spothitch_sos_custom_msg', combined.slice(0, 200))
 
-// ─── Internal send dispatcher (respects channel + silent mode) ───────────────
-function _dispatchSOSAlert(fullMsg) {
-  const channel = LS.channel()
-  const isSilent = LS.silent()
-  const encoded = encodeURIComponent(fullMsg)
+  // Fire triple alert with template
+  const { getState } = await import('../../stores/state.js')
+  _fireTripleAlert(pos.lat, pos.lng, getState().emergencyContacts)
 
-  const doSend = () => {
-    if (channel === 'sms') {
-      window.location.href = `sms:?&body=${encoded}`
-    } else if (channel === 'whatsapp') {
-      window.open(`https://wa.me/?text=${encoded}`, '_blank')
-    } else {
-      // both — open WhatsApp; SMS is secondary via native share
-      if (navigator.share) {
-        navigator.share({ title: 'SOS SpotHitch', text: fullMsg }).catch(() => {
-          window.open(`https://wa.me/?text=${encoded}`, '_blank')
-        })
-      } else {
-        window.open(`https://wa.me/?text=${encoded}`, '_blank')
-      }
-    }
-  }
-
-  if (isSilent) {
-    // Silent: send without any visible UI change
-    doSend()
+  // Restore original custom message
+  if (origCustom) {
+    localStorage.setItem('spothitch_sos_custom_msg', origCustom)
   } else {
-    doSend()
-    window.showToast?.(t('sosSentToContacts') || 'SOS envoyé à tes contacts d\'urgence', 'success')
+    localStorage.removeItem('spothitch_sos_custom_msg')
   }
 }
 

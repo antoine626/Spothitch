@@ -99,7 +99,6 @@ import {
   stopCompanionMode,
   checkIn as companionCheckInFn,
   sendAlert as companionSendAlertFn,
-  getSMSLink as companionGetSMSLink,
   restoreCompanionMode,
   onOverdue as onCompanionOverdue,
 } from './services/companion.js'
@@ -2040,16 +2039,11 @@ window.companionCheckIn = () => {
   scheduleRender(() => render(getState()))
 }
 window.companionSendAlert = () => {
-  const url = companionSendAlertFn()
-  if (url) {
-    showToast(t('companionAlertOpening') || 'Ouverture de WhatsApp...', 'info')
-    // sendAlert already opens the URLs internally; url is returned for info only
+  const count = companionSendAlertFn()
+  if (count) {
+    showToast(t('companionAlertSent') || 'Alert sent via push notification!', 'success')
   } else {
-    // Fallback to SMS if sendAlert returned nothing (no contacts configured)
-    const smsUrl = companionGetSMSLink()
-    if (smsUrl) {
-      window.open(smsUrl, '_blank')
-    }
+    showToast(t('companionNoContacts') || 'No contacts configured.', 'warning')
   }
 }
 

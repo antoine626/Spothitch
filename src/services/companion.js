@@ -413,56 +413,46 @@ function buildBatteryAlertMessage(state, pct) {
   return msg
 }
 
-// ---- Alert sending (#22, #30) ----
+// ---- Alert sending — Push notifications only (no SMS/WhatsApp) ----
 
 /**
- * Build WhatsApp URL for a contact
- */
-function buildWhatsAppUrl(phone, message) {
-  const clean = phone.replace(/[^0-9+]/g, '').replace('+', '')
-  return `https://wa.me/${clean}?text=${encodeURIComponent(message)}`
-}
-
-/**
- * Build SMS URL for a contact
- */
-function buildSMSUrl(phone, message) {
-  const clean = phone.replace(/[^0-9+]/g, '')
-  return `sms:${clean}?body=${encodeURIComponent(message)}`
-}
-
-/**
- * Open alert URLs for all contacts according to channel preference.
- * Opens first URL immediately, subsequent ones with slight delay.
- * @param {string} message
- * @param {object} state
- * @returns {string[]} - list of URLs opened
+ * Send push notification alerts to all contacts.
+ * Companion mode uses ONLY app push notifications — no SMS/WhatsApp.
+ * The guardian must have the SpotHitch app or open the web link.
+ * @param {string} message - Alert message
+ * @param {object} state - Companion state
+ * @returns {number} - number of notifications sent
  */
 function sendAlertToAll(message, state) {
   const contacts = getAllContacts(state)
-  const channel = getChannelPreference()
-  const urls = []
+  if (contacts.length === 0) return 0
 
-  for (const contact of contacts) {
-    if (!contact.phone) continue
-    if (channel === 'whatsapp' || channel === 'both') {
-      urls.push(buildWhatsAppUrl(contact.phone, message))
-    }
-    if (channel === 'sms' || channel === 'both') {
-      urls.push(buildSMSUrl(contact.phone, message))
-    }
-  }
+  const lastPos = state.positions?.length > 0
+    ? state.positions[state.positions.length - 1]
+    : null
+  const mapLink = lastPos
+    ? `https://www.google.com/maps?q=${lastPos.lat},${lastPos.lng}`
+    : ''
 
-  // Open URLs — first one immediately, rest with timeout (popup blocker mitigation)
-  urls.forEach((url, i) => {
-    if (i === 0) {
-      window.open(url, '_blank')
-    } else {
-      setTimeout(() => window.open(url, '_blank'), i * 500)
-    }
+  // Send push notification (works even abroad, no SMS cost)
+  const title = t('companionAlertPushTitle') || 'SpotHitch Safety Alert'
+  sendLocalNotification(title, message, {
+    type: 'companion_alert',
+    tag: 'companion-alert',
+    requireInteraction: true,
+    url: mapLink || '/?companion=true',
   })
 
-  return urls
+  // Also fire a custom event so the app can react (e.g. show position on map)
+  try {
+    window.dispatchEvent(new CustomEvent('spothitch:companion-alert', {
+      detail: { message, contacts, position: lastPos },
+    }))
+  } catch {
+    // ignore
+  }
+
+  return contacts.length
 }
 
 // ---- Public API ----
@@ -660,8 +650,9 @@ export function getShareLink() {
 }
 
 /**
- * Send alert to ALL contacts (guardian + trusted contacts) via preferred channel.
- * Marks alert as sent. Returns array of opened URLs.
+ * Send push notification alert to ALL contacts (guardian + trusted contacts).
+ * Companion mode is app-only — no SMS/WhatsApp.
+ * Marks alert as sent. Returns number of notifications sent.
  */
 export function sendAlert() {
   const state = loadState()
@@ -674,19 +665,16 @@ export function sendAlert() {
   state.alertSent = true
   saveState(state)
 
-  const urls = sendAlertToAll(message, state)
-  return urls.length > 0 ? urls[0] : null
+  const count = sendAlertToAll(message, state)
+  return count > 0 ? count : null
 }
 
 /**
- * Get SMS fallback URL for the primary guardian
+ * Get SMS fallback URL for the primary guardian.
+ * @deprecated Companion mode is now push-only. Kept for backward compatibility.
  */
 export function getSMSLink() {
-  const state = loadState()
-  if (!state.guardian.phone) return null
-
-  const message = getAlertMessage(state)
-  return buildSMSUrl(state.guardian.phone, message)
+  return null
 }
 
 /**

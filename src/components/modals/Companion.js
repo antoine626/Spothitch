@@ -22,7 +22,6 @@ import {
   getCompanionState,
   getTimeUntilNextCheckIn,
   isCheckInOverdue,
-  getChannelPreference,
   loadTripHistory,
   getETAInfo,
 } from '../../services/companion.js'
@@ -139,7 +138,6 @@ function renderConsentScreen() {
  * Setup view — configure guardian(s), channel, departure/arrival toggles, then start trip
  */
 function renderSetupView(companion) {
-  const channel = getChannelPreference()
   const history = loadTripHistory()
   const contacts = Array.isArray(companion.trustedContacts) ? companion.trustedContacts : []
 
@@ -273,32 +271,15 @@ function renderSetupView(companion) {
         `}
       </div>
 
-      <!-- === ALERT CHANNEL (#22) === -->
-      <div>
-        <label class="block text-sm font-medium text-slate-300 mb-3">
-          ${icon('message-circle', 'w-4 h-4 inline mr-1 text-emerald-400')}
-          ${t('alertChannel') || 'Alert channel'}
-        </label>
-        <div class="flex rounded-xl overflow-hidden border border-white/10" role="group" aria-label="${t('alertChannel') || 'Alert channel'}">
-          ${[
-            { val: 'whatsapp', label: 'WhatsApp', ico: 'message-circle' },
-            { val: 'sms', label: 'SMS', ico: 'smartphone' },
-            { val: 'both', label: t('both') || 'Both', ico: 'layers' },
-          ].map(opt => `
-            <button
-              onclick="companionSetChannel('${opt.val}')"
-              class="flex-1 py-3 text-sm font-medium flex items-center justify-center gap-1.5 transition-colors
-                ${channel === opt.val
-                  ? 'bg-emerald-500 text-white'
-                  : 'bg-white/5 text-slate-400 hover:bg-white/10'
-                }"
-              aria-pressed="${channel === opt.val}"
-            >
-              ${icon(opt.ico, 'w-4 h-4')}
-              ${opt.label}
-            </button>
-          `).join('')}
+      <!-- === ALERT CHANNEL — App push notifications only === -->
+      <div class="bg-emerald-500/10 rounded-xl p-4 border border-emerald-500/20">
+        <div class="flex items-center gap-2 mb-2">
+          ${icon('bell', 'w-4 h-4 text-emerald-400')}
+          <span class="text-sm font-semibold text-emerald-400">${t('companionPushOnly') || 'Push notifications'}</span>
         </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          ${t('companionPushOnlyDesc') || 'Alerts are sent via push notifications in the app. Your guardian receives instant alerts even abroad, with no SMS cost. The guardian needs the SpotHitch app or can open the web link.'}
+        </p>
       </div>
 
       <!-- === DESTINATION (for ETA #28) === -->

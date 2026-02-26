@@ -3888,4 +3888,17 @@ export default {
   roadmapThumbsStep3Desc: '[TODO] roadmapThumbsStep3Desc',
   roadmapComingSoon: '[TODO] roadmapComingSoon',
   roadmapVote: '[TODO] roadmapVote',
+
+  // Begleitmodus — Nur Push-Benachrichtigungen (kein SMS/WhatsApp)
+  companionPushOnly: 'Push-Benachrichtigungen',
+  companionPushOnlyDesc: 'Alarme werden ueber Push-Benachrichtigungen in der App gesendet. Dein Begleiter erhaelt sofortige Alarme auch im Ausland, ohne SMS-Kosten. Der Begleiter braucht die SpotHitch-App oder kann den Weblink oeffnen.',
+  companionAlertSent: 'Alarm per Push-Benachrichtigung gesendet!',
+  companionNoContacts: 'Keine Kontakte konfiguriert.',
+  companionAlertPushTitle: 'SpotHitch Sicherheitsalarm',
+
+  // SOS — Dreifach-Alarm (Push + SMS + Anruf)
+  sosTripleAlertMsg: 'SOS! Ich brauche Hilfe. Hier ist meine Position:',
+  sosTripleAlertTitle: 'SOS SpotHitch',
+  sosTripleAlertSent: 'SOS gesendet: Benachrichtigung + SMS + Anruf',
+  sosTripleAlertDesc: 'Wenn SOS ausgeloest wird, wird alles gleichzeitig gesendet: Push-Benachrichtigung + SMS + Telefonanruf an deinen Hauptkontakt. Keine Auswahl noetig — maximale Sicherheit.',
 }
