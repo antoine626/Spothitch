@@ -1,6 +1,6 @@
 # errors.md - Journal des erreurs et corrections SpotHitch
 
-> Dernière mise à jour : 2026-02-24
+> Dernière mise à jour : 2026-02-26
 > IMPORTANT : Après CHAQUE bug trouvé ou corrigé, ajouter une entrée ici.
 > Le Plan Wolf analyse ce fichier pour éviter les régressions.
 
