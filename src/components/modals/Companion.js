@@ -677,15 +677,6 @@ window.acceptCompanionConsent = () => {
   window._forceRender?.()
 }
 
-/** Set alert channel preference and re-render */
-window.companionSetChannel = async (channel) => {
-  const { setChannelPreference } = await import('../../services/companion.js')
-  setChannelPreference(channel)
-  // Re-render by toggling state
-  const { setState: ss } = await import('../../stores/state.js')
-  ss({ showCompanionModal: true })
-}
-
 /** Add a trusted contact to the saved companion state */
 window.companionAddTrustedContact = async () => {
   const nameEl = document.getElementById('companion-tc-name')

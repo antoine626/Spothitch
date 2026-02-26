@@ -29,7 +29,7 @@ const MAIN_JS_HANDLERS = [
   'addEmergencyContact', 'removeEmergencyContact',
   // SOS Extended
   'sosStartCountdown', 'sosCancelCountdown',
-  'sosSetChannel', 'sosToggleSilent', 'sosUpdateCustomMsg',
+  'sosToggleSilent', 'sosUpdateCustomMsg',
   'sosSetPrimaryContact',
   'sosOpenFakeCall', 'sosFakeCallAnswer', 'sosFakeCallDecline',
   'sosStartRecording', 'sosStopRecording',
@@ -244,7 +244,7 @@ const MAIN_JS_HANDLERS = [
   'startCompanion', 'stopCompanion',
   'companionBtnDown', 'companionBtnUp', 'companionBtnCancel',
   'companionCheckIn', 'companionSendAlert',
-  'companionSetChannel', 'companionAddTrustedContact', 'companionRemoveTrustedContact',
+  'companionAddTrustedContact', 'companionRemoveTrustedContact',
   'companionClearHistory',
   // Gas Stations (navigation)
   'toggleGasStations',

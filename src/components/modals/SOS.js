@@ -671,7 +671,7 @@ function _fireTripleAlert(lat, lng, contacts) {
       if (phones.length > 0) {
         // sms: URI with multiple recipients (comma-separated)
         const smsUri = `sms:${phones.join(',')}?body=${encoded}`
-        window.location.href = smsUri
+        window.open(smsUri, '_blank')
       }
     } catch (e) {
       console.error('SOS SMS failed:', e)
@@ -791,13 +791,6 @@ window.sendSOSTemplate = async (type) => {
 }
 
 // ── New handlers ─────────────────────────────────────────────────────────────
-
-// SMS/WhatsApp channel preference
-window.sosSetChannel = (channel) => {
-  localStorage.setItem('spothitch_sos_channel', channel)
-  // Re-render to update UI
-  window.setState?.({})
-}
 
 // Silent alarm toggle
 window.sosToggleSilent = () => {

@@ -7,7 +7,7 @@
  * with their last known position.
  *
  * Features:
- * - SMS/WhatsApp channel preference (#22)
+ * - Push notification alerts (push-only, no SMS/WhatsApp)
  * - GPS breadcrumb trail (#24)
  * - Safe arrival notification (#25)
  * - Departure notification (#26)
@@ -22,7 +22,6 @@ import { sendLocalNotification } from './notifications.js'
 import { t } from '../i18n/index.js'
 
 const STORAGE_KEY = 'spothitch_companion'
-const CHANNEL_KEY = 'spothitch_companion_channel'
 const HISTORY_KEY = 'spothitch_trip_history'
 const CHECK_INTERVAL_MS = 10_000 // check every 10 seconds
 const MAX_POSITIONS = 50
@@ -98,34 +97,6 @@ export function getCompanionState() {
  */
 export function isCompanionActive() {
   return loadState().active
-}
-
-// ---- Channel preference (#22) ----
-
-/**
- * Get current alert channel preference
- * @returns {'whatsapp' | 'sms' | 'both'}
- */
-export function getChannelPreference() {
-  try {
-    const val = localStorage.getItem(CHANNEL_KEY)
-    if (val === 'sms' || val === 'both' || val === 'whatsapp') return val
-  } catch {
-    // ignore
-  }
-  return 'whatsapp'
-}
-
-/**
- * Save channel preference
- * @param {'whatsapp' | 'sms' | 'both'} channel
- */
-export function setChannelPreference(channel) {
-  try {
-    localStorage.setItem(CHANNEL_KEY, channel)
-  } catch {
-    // ignore
-  }
 }
 
 // ---- Trusted contacts circle (#30) ----
@@ -670,14 +641,6 @@ export function sendAlert() {
 }
 
 /**
- * Get SMS fallback URL for the primary guardian.
- * @deprecated Companion mode is now push-only. Kept for backward compatibility.
- */
-export function getSMSLink() {
-  return null
-}
-
-/**
  * Register a callback for when check-in is overdue
  */
 export function onOverdue(callback) {
@@ -819,15 +782,12 @@ export default {
   getTimeUntilNextCheckIn,
   isCheckInOverdue,
   sendAlert,
-  getSMSLink,
   getShareLink,
   addPosition,
   onOverdue,
   startTimer,
   stopTimer,
   restoreCompanionMode,
-  getChannelPreference,
-  setChannelPreference,
   loadTripHistory,
   clearTripHistory,
   getBatteryLevel,
