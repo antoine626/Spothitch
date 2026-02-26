@@ -3880,6 +3880,7 @@ export default {
   error: '[TODO] error',
   eventType_: '[TODO] eventType_',
   comingSoon: '[TODO] comingSoon',
+  featureComingSoon: 'Coming soon',
 
   // Auto-added by quality-gate --fix
   roadmapConcept: '[TODO] roadmapConcept',
