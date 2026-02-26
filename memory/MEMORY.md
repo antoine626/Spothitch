@@ -1,6 +1,6 @@
 # MEMORY.md - Mémoire de session SpotHitch
 
-> Dernière mise à jour : 2026-02-25 (session 23)
+> Dernière mise à jour : 2026-02-26 (session 24)
 
 ---
 
@@ -138,6 +138,13 @@
   - E2E Core: 8min+ → 3m43s, E2E Stress: 12min+ → 5m00s
 - **Chromium cache CI** : actions/cache@v4 sur 4 jobs E2E
 - **14/14 jobs CI verts**, deploy Cloudflare OK
+- **Plan Wolf v6 run #32** : score 85/100 (+28), confiance HAUTE
+  - Fix: 15 duplicate handlers supprimés, 2 empty handlers corrigés, 30+ a11y violations, 80 lignes CSS mortes, circular import location.js, duplicate calculateDistance
+  - toggleTheme remis dans main.js (Profile.js lazy-loaded → undefined au démarrage)
+  - openAdminPanel/closeAdminPanel remis dans AdminPanel.js (test unitaire importe AdminPanel.js pas main.js)
+- **Visual Regression** : 34/34 baselines sauvegardées (4 tabs + 10 subtabs + 20 modals)
+  - Fix: landing page bloquait le script → ajout spothitch_landing_seen dans localStorage
+- **QG stable** : 93/100 (7 runs, avg 82, min 74, max 93)
 
 ### Session 2026-02-25 (session 23 — SENTRY BUGS + TEST EXHAUSTIF 7 NIVEAUX)
 - **6 bugs Sentry corrigés** + **17 issues GitHub fermées**
