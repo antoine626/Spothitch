@@ -8,7 +8,7 @@
  *
  * Usage from main thread:
  *   worker.postMessage({ type: 'filter', spots, filters })
- *   worker.onmessage = (e) => console.log(e.data.results)
+ *   worker.onmessage = (e) => handleResults(e.data.results)
  */
 
 // ==================== MATH ====================
