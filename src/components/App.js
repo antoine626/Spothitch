@@ -128,10 +128,10 @@ export function renderApp(state) {
 
     <main id="main-content" class="pb-28 pt-[4.5rem] min-h-screen overflow-x-hidden" role="main" tabindex="-1">
       <!-- Map is ALWAYS rendered but hidden when not active (A8: persistence) -->
-      <div id="persistent-map-wrapper" style="${isMapTab(state) ? '' : 'display:none'}">
+      <div id="panel-map" role="tabpanel" aria-labelledby="tab-map" style="${isMapTab(state) ? '' : 'display:none'}">
         ${renderHome(state)}
       </div>
-      ${!isMapTab(state) ? renderActiveView(state) : ''}
+      ${!isMapTab(state) ? `<div role="tabpanel" id="panel-${state.activeTab}" aria-labelledby="tab-${state.activeTab}">${renderActiveView(state)}</div>` : ''}
     </main>
 
     ${renderNavigation(state)}
@@ -432,7 +432,7 @@ function isMapTab(state) {
 
 /**
  * Render the active view based on current tab
- * Note: Map is rendered separately in persistent-map-wrapper (A8)
+ * Note: Map is rendered separately in panel-map (A8)
  */
 function renderActiveView(state) {
   switch (state.activeTab) {
@@ -448,7 +448,7 @@ function renderActiveView(state) {
     case 'travel-groups':
       return lazyRender('renderTravelGroupsList', state);
     default:
-      return '' // Map handled by persistent-map-wrapper
+      return '' // Map handled by panel-map
   }
 }
 
