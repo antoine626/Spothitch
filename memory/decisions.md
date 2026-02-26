@@ -1,6 +1,6 @@
 # decisions.md - Historique des décisions SpotHitch
 
-> Dernière mise à jour : 2026-02-22
+> Dernière mise à jour : 2026-02-26
 
 ---
 
@@ -47,6 +47,13 @@
 | Pas de paywall | Gratuit pour tous | Les autostoppeurs sont fauchés | 2025-12-23 |
 | 4 langues | FR, EN, ES, DE | Couverture Europe principale | 2025-12-23 |
 | Pages SEO villes | 428 pages générées auto depuis les spots | Google indexe, trafic organique | 2026-02 |
+| Voyage carte totale | Carte plein écran + bottom sheet 3 états | Map-first UX, comme Google Maps | 2026-02-26 |
+| Compagnon app-only | Supprimé SMS/WhatsApp, notifications push uniquement | Plus simple, pas de numéro requis, in-app | 2026-02-26 |
+| SOS triple envoi | Push + SMS + appel en parallèle (Promise.allSettled) | Maximise les chances d'alerte en urgence | 2026-02-26 |
+| Profil Firestore sync | Bio, réseaux sociaux, langues dans Firestore + localStorage | Visible par les autres, persiste entre appareils | 2026-02-26 |
+| Firebase plan Spark | Rester gratuit pour maintenant, Blaze plus tard | Pas de coût tant que pas de notifs entre utilisateurs | 2026-02-26 |
+| Proximité spots | 500m rayon, 1 vote/an, pas de popup permanente | Non-intrusif, anti-spam | 2026-02-26 |
+| Mode En Route | Point bleu GPS live, pause/arrêt, pas de barre progression | Simple, réaliste (pas de progression linéaire en stop) | 2026-02-26 |
 
 ## Performance
 
