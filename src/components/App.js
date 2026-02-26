@@ -414,8 +414,8 @@ export function renderApp(state) {
     <!-- Profile Setup (triggered when user wants to contribute) -->
     ${state.showWelcome ? lazyRender('renderWelcome', state) : ''}
 
-    <!-- Cookie Banner (RGPD) - hidden during tutorial and landing -->
-    ${!state.showTutorial && !state.showLanding ? renderCookieBanner() : ''}
+    <!-- Cookie Banner (RGPD) - hidden during tutorial, landing, and map-first Voyage view -->
+    ${!state.showTutorial && !state.showLanding && !isVoyageMapFirst ? renderCookieBanner() : ''}
   `
 
   // Landing overlay for first-time visitors (map loads behind it)
