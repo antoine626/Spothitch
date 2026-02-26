@@ -1783,12 +1783,7 @@ window.handleLogout = async () => {
 
 // setLanguage is defined in main.js (single source of truth)
 
-window.toggleTheme = () => {
-  const state = window.getState?.() || {}
-  const newTheme = state.theme === 'dark' ? 'light' : 'dark'
-  window.setState?.({ theme: newTheme })
-  document.documentElement.classList.toggle('dark', newTheme === 'dark')
-}
+// toggleTheme — canonical in main.js (Profile.js is lazy-loaded)
 
 window.toggleNotifications = () => {
   const state = window.getState?.() || {}

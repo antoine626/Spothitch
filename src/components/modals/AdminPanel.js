@@ -242,8 +242,8 @@ export function renderAdminPanel(state) {
   `;
 }
 
-// openAdminPanel — canonical in main.js
-// closeAdminPanel — canonical in main.js
+window.openAdminPanel = () => setState({ showAdminPanel: true })
+window.closeAdminPanel = () => setState({ showAdminPanel: false })
 
 window.adminAddPoints = (amount) => {
   const state = getState();

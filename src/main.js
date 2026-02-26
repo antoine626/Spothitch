@@ -771,7 +771,12 @@ window.openFullMap = () => {
     getMap().then(m => m.initMap());
   }, 200);
 };
-// toggleTheme — canonical in Profile.js
+window.toggleTheme = () => {
+  const s = getState()
+  const newTheme = s.theme === 'dark' ? 'light' : 'dark'
+  setState({ theme: newTheme })
+  document.documentElement.classList.toggle('dark', newTheme === 'dark')
+}
 window.setViewMode = (mode) => {
   setState({ viewMode: mode });
   // Initialize map after DOM update
@@ -2494,9 +2499,7 @@ window.claimDailyReward = () => window.openDailyReward?.()
 window.triggerSOS = async () => window.openSOS?.()
 window.shareSOS = () => window.shareSOSLink?.()
 
-// Admin panel — STUB (canonical, AdminPanel.js removed its duplicate)
-window.openAdminPanel = () => setState({ showAdminPanel: true })
-window.closeAdminPanel = () => setState({ showAdminPanel: false })
+// openAdminPanel/closeAdminPanel — canonical in AdminPanel.js
 
 // openLeaderboard/closeLeaderboard registered by Leaderboard.js (static import above)
 
