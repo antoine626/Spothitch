@@ -1,6 +1,6 @@
 {
   "totalScore": 98,
-  "updatedAt": "2026-02-26T02:54:09.834Z",
+  "updatedAt": "2026-02-26T05:30:22.235Z",
   "checks": {
     "Handlers Wiring": {
       "score": 100,
@@ -48,6 +48,11 @@
       "warnings": 0
     },
     "Import Cycles": {
+      "score": 100,
+      "errors": 0,
+      "warnings": 0
+    },
+    "Content Integrity": {
       "score": 100,
       "errors": 0,
       "warnings": 0

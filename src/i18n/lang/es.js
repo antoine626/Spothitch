@@ -3857,4 +3857,17 @@ export default {
   error: '[TODO] error',
   eventType_: '[TODO] eventType_',
   comingSoon: '[TODO] comingSoon',
+
+  // Auto-added by quality-gate --fix
+  roadmapConcept: '[TODO] roadmapConcept',
+  roadmapThumbsExplain: '[TODO] roadmapThumbsExplain',
+  roadmapHowItWorks: '[TODO] roadmapHowItWorks',
+  roadmapThumbsStep1: '[TODO] roadmapThumbsStep1',
+  roadmapThumbsStep1Desc: '[TODO] roadmapThumbsStep1Desc',
+  roadmapThumbsStep2: '[TODO] roadmapThumbsStep2',
+  roadmapThumbsStep2Desc: '[TODO] roadmapThumbsStep2Desc',
+  roadmapThumbsStep3: '[TODO] roadmapThumbsStep3',
+  roadmapThumbsStep3Desc: '[TODO] roadmapThumbsStep3Desc',
+  roadmapComingSoon: '[TODO] roadmapComingSoon',
+  roadmapVote: '[TODO] roadmapVote',
 }

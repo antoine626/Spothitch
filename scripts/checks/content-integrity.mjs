@@ -95,9 +95,9 @@ export default function check() {
     name: 'Content Integrity',
     score,
     maxScore: 100,
-    errors: errors.length,
-    details: errors.map(e => `[${e.check}] ${e.file}:${e.line} — ${e.name}: ${e.snippet}`),
-    totalChecked,
+    errors: errors.map(e => `[${e.check}] ${e.file}:${e.line} — ${e.name}: ${e.snippet}`),
+    warnings: [],
+    stats: { totalChecked, issueCount: errors.length },
   }
 }
 
@@ -106,10 +106,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const result = check()
   console.log(`\n📋 Content Integrity Check`)
   console.log(`Score: ${result.score}/100`)
-  console.log(`Errors: ${result.errors}`)
-  if (result.details.length > 0) {
+  console.log(`Errors: ${result.errors.length}`)
+  if (result.errors.length > 0) {
     console.log('\nIssues found:')
-    result.details.forEach(d => console.log(`  ⚠ ${d}`))
+    result.errors.forEach(d => console.log(`  ⚠ ${d}`))
   } else {
     console.log('✅ No misleading content found')
   }
