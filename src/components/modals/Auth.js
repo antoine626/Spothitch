@@ -318,6 +318,8 @@ window.handleAuth = async (event) => {
     if (result.success) {
       // Create/update Firestore profile
       await fb.createOrUpdateUserProfile(result.user)
+      // Hydrate localStorage with Firestore profile data
+      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
 
       // Setup auth listener
       fb.onAuthChange(async (user) => {
@@ -367,6 +369,7 @@ window.handleGoogleSignIn = async () => {
 
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
+      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
       fb.onAuthChange((user) => {
         import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
       })
@@ -397,6 +400,7 @@ window.handleAppleSignIn = async () => {
 
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
+      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
       fb.onAuthChange((user) => {
         import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
       })
@@ -426,6 +430,7 @@ window.handleFacebookSignIn = async () => {
 
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
+      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
       fb.onAuthChange((user) => {
         import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
       })

@@ -11,6 +11,23 @@ import { renderToggle } from '../../utils/toggle.js'
 import { getVipLevel } from '../../data/vip-levels.js'
 import { allBadges } from '../../data/badges.js'
 
+// ==================== FIRESTORE PROFILE SYNC ====================
+
+/**
+ * Sync a subset of profile fields to Firestore (if user is logged in).
+ * Silently fails when offline or not authenticated — localStorage is always the fallback.
+ * @param {Object} fields - e.g. { bio: '...', socialLinks: {...}, languages: [...] }
+ */
+async function syncProfileToFirestore(fields) {
+  try {
+    const { getCurrentUser, updateUserProfile } = await import('../../services/firebase.js')
+    const user = getCurrentUser()
+    if (user) {
+      await updateUserProfile(user.uid, fields)
+    }
+  } catch { /* offline or not logged in */ }
+}
+
 // ==================== LANGUAGE + COUNTRY MAPS ====================
 
 const LANG_FLAG_MAP = {
@@ -1815,9 +1832,10 @@ window.editBio = () => {
   window._forceRender?.()
 }
 
-window.saveBio = (text) => {
+window.saveBio = async (text) => {
   const trimmed = (text || '').trim().slice(0, 200)
   localStorage.setItem('spothitch_bio', trimmed)
+  syncProfileToFirestore({ bio: trimmed })
   window.showToast?.(t('bioSaved') || 'Bio enregistrée !', 'success')
   window._forceRender?.()
 }
@@ -1857,7 +1875,9 @@ window.selectLanguageLevel = (level) => {
   const raw = JSON.parse(localStorage.getItem('spothitch_languages') || '[]')
   const langs = normalizeLangs(raw)
   langs.push({ name, flag: LANG_FLAG_MAP[name] || '🌐', level })
-  localStorage.setItem('spothitch_languages', JSON.stringify(langs.slice(0, 10)))
+  const final = langs.slice(0, 10)
+  localStorage.setItem('spothitch_languages', JSON.stringify(final))
+  syncProfileToFirestore({ languages: final })
   window.showToast?.(t('languagesSaved') || 'Langue ajoutée !', 'success')
   window.setState?.({ showLanguageLevelPicker: false, langPickerSelectedName: null })
   window._forceRender?.()
@@ -1872,6 +1892,7 @@ window.removeLanguage = (idx) => {
   const langs = normalizeLangs(raw)
   langs.splice(idx, 1)
   localStorage.setItem('spothitch_languages', JSON.stringify(langs))
+  syncProfileToFirestore({ languages: langs })
   window._forceRender?.()
 }
 
@@ -1882,14 +1903,16 @@ window.cycleLanguageLevel = (idx) => {
   const cur = langs[idx]?.level || 'courant'
   langs[idx].level = levels[(levels.indexOf(cur) + 1) % levels.length]
   localStorage.setItem('spothitch_languages', JSON.stringify(langs))
+  syncProfileToFirestore({ languages: langs })
   window._forceRender?.()
 }
 
 // D3: Social links handler
-window.saveSocialLink = (network, value) => {
+window.saveSocialLink = async (network, value) => {
   const social = JSON.parse(localStorage.getItem('spothitch_social_links') || '{}')
   social[network] = value.trim()
   localStorage.setItem('spothitch_social_links', JSON.stringify(social))
+  syncProfileToFirestore({ socialLinks: social })
 }
 
 // D2: Photo gallery handlers

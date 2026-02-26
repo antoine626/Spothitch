@@ -457,6 +457,26 @@ Chaque erreur suit ce format :
 - **Fichiers** : `src/components/views/Voyage.js`, `src/components/views/Travel.js`
 - **Statut** : CORRIGÉ
 
+### ERR-042 — CSP script-src bloquait Firebase Auth popup (Google/Apple/Facebook login cassé)
+- **Date** : 2026-02-26
+- **Gravité** : CRITIQUE (l'authentification sociale ne fonctionnait PAS du tout en production)
+- **Description** : Cliquer sur "Se connecter avec Google/Apple/Facebook" ne faisait rien. Firebase signInWithPopup tentait de charger `https://apis.google.com/js/api.js` mais le CSP `script-src` ne contenait que `'self' 'unsafe-inline' https://www.gstatic.com https://static.cloudflareinsights.com`. Le navigateur bloquait silencieusement le script.
+- **Cause racine** : Le CSP meta tag dans index.html n'avait jamais été mis à jour pour autoriser les domaines nécessaires à Firebase Auth (apis.google.com, connect.facebook.net, appleid.cdn-apple.com) et aux iframes OAuth (accounts.google.com, www.facebook.com, appleid.apple.com).
+- **Correction** : Ajout dans le CSP : `script-src` += `https://apis.google.com https://connect.facebook.net https://appleid.cdn-apple.com`. `frame-src` += `https://accounts.google.com https://www.facebook.com https://appleid.apple.com`. `img-src` += `https://*.googleusercontent.com https://*.facebook.com https://*.fbsbx.com`. `connect-src` += `https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://accounts.google.com`.
+- **Leçon** : TOUJOURS vérifier le CSP quand on ajoute une nouvelle API ou un service externe. signInWithPopup charge des scripts depuis apis.google.com — JAMAIS oublier de whitelister ce domaine. Tester l'auth en production (pas juste en dev où le CSP peut être plus permissif). La CSP `connect-src` wildcard `https://*.googleapis.com` ne couvre PAS `script-src` — chaque directive est indépendante.
+- **Fichiers** : `index.html`
+- **Statut** : CORRIGÉ
+
+### ERR-043 — Profil utilisateur (bio, réseaux sociaux, langues) stocké uniquement en localStorage
+- **Date** : 2026-02-26
+- **Gravité** : MAJEUR (les autres utilisateurs ne pouvaient pas voir les profils)
+- **Description** : saveBio, saveSocialLink, editLanguages écrivaient uniquement dans localStorage. Aucune synchronisation vers Firestore. Les profils étaient invisibles pour les autres utilisateurs.
+- **Cause racine** : Les handlers de profil n'avaient jamais été connectés à Firestore — ils étaient restés en mode "local-first" sans le "sync" ajouté ensuite.
+- **Correction** : Ajout de `syncProfileToFirestore()` helper qui écrit en arrière-plan vers Firestore quand l'utilisateur est connecté. Ajout de `hydrateLocalProfileFromFirestore()` qui charge le profil Firestore dans localStorage au login. Les deux échouent silencieusement quand hors-ligne.
+- **Leçon** : TOUJOURS penser aux DEUX directions de sync : local→cloud (quand l'utilisateur modifie) et cloud→local (quand l'utilisateur se connecte sur un nouvel appareil). localStorage seul = données perdues au changement d'appareil et invisibles pour les autres.
+- **Fichiers** : `src/components/views/Profile.js`, `src/services/firebase.js`, `src/components/modals/Auth.js`, `src/main.js`
+- **Statut** : CORRIGÉ
+
 ### ERR-041 — 16 bugs Voyage : filtres carte, map détruite, scroll bloqué, noms spots, prompt natif, photos non compressées
 - **Date** : 2026-02-26
 - **Gravité** : CRITIQUE (5 critiques + 3 majeurs + 5 mineurs)

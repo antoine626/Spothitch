@@ -1054,6 +1054,7 @@ if (!window.handleGoogleSignIn) {
     const result = await fb.signInWithGoogle()
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
+      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
       fb.onAuthChange((user) => actions.setUser(user))
       const pendingAction = getState().authPendingAction
       setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
@@ -1071,6 +1072,7 @@ if (!window.handleFacebookSignIn) {
     const result = await fb.signInWithFacebook()
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
+      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
       fb.onAuthChange((user) => actions.setUser(user))
       const pendingAction = getState().authPendingAction
       setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
@@ -1088,6 +1090,7 @@ if (!window.handleAppleSignIn) {
     const result = await fb.signInWithApple()
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
+      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
       fb.onAuthChange((user) => actions.setUser(user))
       const pendingAction = getState().authPendingAction
       setState({ showAuth: false, authPendingAction: null, showAuthReason: null })

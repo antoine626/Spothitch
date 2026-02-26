@@ -802,6 +802,40 @@ export async function updateUserProfile(userId, updates) {
   }
 }
 
+/**
+ * Hydrate localStorage with profile data from Firestore (on login).
+ * Merges Firestore data into local storage without overwriting local-only fields.
+ * @param {string} userId - User ID
+ */
+export async function hydrateLocalProfileFromFirestore(userId) {
+  try {
+    const result = await getUserProfile(userId)
+    if (!result.success || !result.profile) return
+
+    const p = result.profile
+
+    // Bio
+    if (p.bio) {
+      localStorage.setItem('spothitch_bio', p.bio)
+    }
+
+    // Social links
+    if (p.socialLinks && typeof p.socialLinks === 'object') {
+      const local = JSON.parse(localStorage.getItem('spothitch_social_links') || '{}')
+      // Merge: Firestore wins for non-empty values, keep local-only ones
+      const merged = { ...local, ...p.socialLinks }
+      localStorage.setItem('spothitch_social_links', JSON.stringify(merged))
+    }
+
+    // Languages
+    if (Array.isArray(p.languages) && p.languages.length > 0) {
+      localStorage.setItem('spothitch_languages', JSON.stringify(p.languages))
+    }
+  } catch {
+    // Silent fail — localStorage remains source of truth when offline
+  }
+}
+
 // ==================== DELETE USER ACCOUNT ====================
 
 /**
