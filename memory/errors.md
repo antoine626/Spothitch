@@ -456,3 +456,26 @@ Chaque erreur suit ce format :
 - **Leçon** : TOUJOURS vérifier que les handlers `window.*` utilisés dans les onclick HTML sont bien chargés AVANT que l'UI ne soit rendue. Si le rendu (HTML) et la logique (JS handlers) sont dans des fichiers différents, il FAUT un import explicite entre les deux. Un lazy loader enregistré mais jamais appelé = code mort. TOUJOURS tester le flow complet (pas juste "le bouton existe" mais "le bouton FAIT quelque chose").
 - **Fichiers** : `src/components/views/Voyage.js`, `src/components/views/Travel.js`
 - **Statut** : CORRIGÉ
+
+### ERR-041 — 16 bugs Voyage : filtres carte, map détruite, scroll bloqué, noms spots, prompt natif, photos non compressées
+- **Date** : 2026-02-26
+- **Gravité** : CRITIQUE (5 critiques + 3 majeurs + 5 mineurs)
+- **Description** : Audit complet du sous-onglet Voyage a révélé 16 bugs :
+  - C1: filtres route ne mettaient pas à jour la carte (tous les spots restaient verts)
+  - C2: trip map détruite à chaque setState (condition showTripMap manquait tripFormCollapsed)
+  - C3: touch-action:none sur le conteneur entier bloquait le scroll
+  - C4: tous les spots affichaient "Spot" sans nom (champs from/city/stationName vides dans données Hitchmap)
+  - C5: tripSheetTouchMove appelait preventDefault() sans condition
+  - M3: highlightTripSpot forçait un re-render complet via setState({})
+  - M5: openAddTripNote utilisait prompt() natif (UX mauvaise)
+  - M6: photos stockées en base64 pleine résolution dans localStorage
+  - M7: tripBottomSheetState re-render complet détruisait la carte
+  - m1: sub-tabs style incohérent vs Social/Profile
+  - m8: haversine dupliqué 3 fois (Voyage.js, Travel.js, geo.js)
+  - m10: pas d'attribution OpenFreeMap sur trip map
+  - m11: tripSelectSuggestion inline non sanitisé
+- **Cause racine** : Code Voyage.js accumulé sans refactoring, logique de filtre non implémentée (placeholder), conditions de préservation map trop restrictives, touch-action global au lieu de ciblé, noms de spots dépendants de champs vides dans les données source.
+- **Correction** : 9 fichiers modifiés. Filtres implémentés avec opacity 0.2 pour spots non-matchés. Map préservée avec condition élargie. Touch-action ciblé sur handle. Labels spots avec fallback description/country/#N. Bottom sheet géré en DOM direct. Note modal remplace prompt(). Photos compressées 800px/0.7 quality/3 max. haversineKm importé depuis geo.js. escapeJSString pour suggestions. attributionControl:true.
+- **Leçon** : TOUJOURS implémenter la logique derrière un placeholder ("TODO: filter" = bug garanti). TOUJOURS tester les données réelles (pas juste le code — les champs from/city sont vides dans 99% des spots Hitchmap). JAMAIS touch-action:none sur un conteneur scrollable. JAMAIS prompt() natif dans une PWA mobile. JAMAIS stocker des images pleine résolution en base64 dans localStorage.
+- **Fichiers** : `src/components/App.js`, `src/components/views/Voyage.js`, `src/components/views/Travel.js`, `src/main.js`, `src/styles/main.css`, `src/i18n/lang/{fr,en,es,de}.js`
+- **Statut** : CORRIGÉ
