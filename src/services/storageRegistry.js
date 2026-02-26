@@ -8,7 +8,7 @@
 /**
  * Data categories for RGPD compliance
  */
-export const DataCategory = {
+const DataCategory = {
   PERSONAL: 'personal',       // Identity, profile, devices
   ACTIVITY: 'activity',       // Check-ins, reviews, trips, forum
   SOCIAL: 'social',           // Friends, messages, groups, follows
@@ -25,7 +25,7 @@ export const DataCategory = {
  * Complete registry of all localStorage keys used by the app.
  * Each entry: { key, category, description, sensitive }
  */
-export const STORAGE_KEYS = [
+const STORAGE_KEYS = [
   // === PERSONAL ===
   { key: 'spothitch_user', category: DataCategory.PERSONAL, description: 'User name and avatar', sensitive: true },
   { key: 'spothitch_welcomed', category: DataCategory.PERSONAL, description: 'Welcome screen shown flag' },
@@ -237,7 +237,7 @@ export const STORAGE_KEYS = [
 /**
  * Dynamic keys (with variable suffixes)
  */
-export const DYNAMIC_KEY_PATTERNS = [
+const DYNAMIC_KEY_PATTERNS = [
   { pattern: 'spothitch_tracked_*', category: DataCategory.ANALYTICS, description: 'Event tracking flags' },
   { pattern: 'spothitch_offline_*', category: DataCategory.CACHE, description: 'Offline sync data' },
   { pattern: 'spothitch_v4_*', category: DataCategory.PERSONAL, description: 'Storage.js managed keys' },
@@ -247,7 +247,7 @@ export const DYNAMIC_KEY_PATTERNS = [
  * Get all registered keys
  * @returns {string[]}
  */
-export function getAllRegisteredKeys() {
+function getAllRegisteredKeys() {
   return STORAGE_KEYS.map(entry => entry.key)
 }
 
@@ -256,7 +256,7 @@ export function getAllRegisteredKeys() {
  * @param {string} category - DataCategory value
  * @returns {Array}
  */
-export function getKeysByCategory(category) {
+function getKeysByCategory(category) {
   return STORAGE_KEYS.filter(entry => entry.category === category)
 }
 
@@ -264,7 +264,7 @@ export function getKeysByCategory(category) {
  * Get all sensitive keys
  * @returns {Array}
  */
-export function getSensitiveKeys() {
+function getSensitiveKeys() {
   return STORAGE_KEYS.filter(entry => entry.sensitive)
 }
 
@@ -273,7 +273,7 @@ export function getSensitiveKeys() {
  * This is the single source of truth for data cleanup.
  * @returns {Object} { cleared: number, errors: string[] }
  */
-export function clearAllUserData() {
+function clearAllUserData() {
   const result = { cleared: 0, errors: [] }
 
   // 1. Clear all registered static keys
@@ -317,7 +317,7 @@ export function clearAllUserData() {
  * Export ALL user data from localStorage (for RGPD data export)
  * @returns {Object} Categorized data export
  */
-export function exportAllUserData() {
+function exportAllUserData() {
   const exportData = {}
 
   for (const entry of STORAGE_KEYS) {
@@ -362,7 +362,7 @@ export function exportAllUserData() {
  * Get storage usage stats
  * @returns {Object} { totalKeys, totalBytes, byCategory }
  */
-export function getStorageStats() {
+function getStorageStats() {
   let totalBytes = 0
   const byCategory = {}
 

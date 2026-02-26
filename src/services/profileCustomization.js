@@ -9,7 +9,7 @@ import { t } from '../i18n/index.js';
 import { icon } from '../utils/icons.js'
 
 // Profile frames collection
-export const PROFILE_FRAMES = {
+const PROFILE_FRAMES = {
   default: {
     id: 'default',
     name: () => t('profileFrameStandard') || 'Standard',
@@ -104,7 +104,7 @@ export const PROFILE_FRAMES = {
 };
 
 // Profile titles collection
-export const PROFILE_TITLES = {
+const PROFILE_TITLES = {
   hitchhiker: {
     id: 'hitchhiker',
     name: () => t('profileTitleHitchhiker') || 'Autostoppeur',
@@ -169,7 +169,7 @@ export const PROFILE_TITLES = {
 };
 
 // Avatar borders (separate from frames)
-export const AVATAR_BORDERS = {
+const AVATAR_BORDERS = {
   none: { id: 'none', name: () => t('profileBorderNone') || 'Aucun', css: '' },
   thin: { id: 'thin', name: () => t('profileBorderThin') || 'Fin', css: 'ring-2 ring-white/20' },
   thick: { id: 'thick', name: () => t('profileBorderThick') || 'Épais', css: 'ring-4 ring-white/30' },
@@ -177,7 +177,7 @@ export const AVATAR_BORDERS = {
 };
 
 // Rarity colors
-export const RARITY_COLORS = {
+const RARITY_COLORS = {
   common: { bg: 'bg-slate-500/20', text: 'text-slate-400', label: () => t('profileRarityCommon') || 'Commun' },
   uncommon: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', label: () => t('profileRarityUncommon') || 'Peu commun' },
   rare: { bg: 'bg-blue-500/20', text: 'text-blue-400', label: () => t('profileRarityRare') || 'Rare' },
@@ -189,7 +189,7 @@ export const RARITY_COLORS = {
  * Get user's unlocked frames
  * @returns {string[]}
  */
-export function getUnlockedFrames() {
+function getUnlockedFrames() {
   const state = getState();
   return state.unlockedFrames || ['default'];
 }
@@ -207,7 +207,7 @@ export function getUnlockedTitles() {
  * Get current equipped frame
  * @returns {string}
  */
-export function getCurrentFrame() {
+function getCurrentFrame() {
   const state = getState();
   return state.equippedFrame || 'default';
 }
@@ -216,7 +216,7 @@ export function getCurrentFrame() {
  * Get current equipped title
  * @returns {string}
  */
-export function getCurrentTitle() {
+function getCurrentTitle() {
   const state = getState();
   return state.equippedTitle || 'hitchhiker';
 }
@@ -263,7 +263,7 @@ export function equipTitle(titleId) {
  * Unlock a frame
  * @param {string} frameId
  */
-export function unlockFrame(frameId) {
+function unlockFrame(frameId) {
   const state = getState();
   const unlockedFrames = state.unlockedFrames || ['default'];
 
@@ -281,7 +281,7 @@ export function unlockFrame(frameId) {
  * Unlock a title
  * @param {string} titleId
  */
-export function unlockTitle(titleId) {
+function unlockTitle(titleId) {
   const state = getState();
   const unlockedTitles = state.unlockedTitles || ['hitchhiker'];
 
@@ -299,7 +299,7 @@ export function unlockTitle(titleId) {
  * Check and unlock based on achievements
  * @param {Object} stats - User statistics
  */
-export function checkUnlocks(stats) {
+function checkUnlocks(stats) {
   const {
     level,
     friendsCount,

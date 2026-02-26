@@ -24,7 +24,7 @@ export function debounce(key, fn, delay = 300) {
  * @param {Function} fn - Function to call
  * @param {number} interval - Minimum interval in ms (default 200)
  */
-export function throttle(key, fn, interval = 200) {
+function throttle(key, fn, interval = 200) {
   if (timers[key]) return
   fn()
   timers[key] = setTimeout(() => {
@@ -35,7 +35,7 @@ export function throttle(key, fn, interval = 200) {
 /**
  * Cancel a pending debounce/throttle by key
  */
-export function cancelDebounce(key) {
+function cancelDebounce(key) {
   if (timers[key]) {
     clearTimeout(timers[key])
     delete timers[key]

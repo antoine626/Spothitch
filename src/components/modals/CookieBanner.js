@@ -22,7 +22,7 @@ const DEFAULT_PREFERENCES = {
  * Check if user has already given consent
  * @returns {boolean} True if user has responded to cookie banner
  */
-export function hasConsent() {
+function hasConsent() {
   const consent = Storage.get(COOKIE_CONSENT_KEY);
   return consent !== null && consent.timestamp !== undefined;
 }
@@ -31,7 +31,7 @@ export function hasConsent() {
  * Get user's cookie preferences
  * @returns {Object} Cookie preferences object
  */
-export function getConsent() {
+function getConsent() {
   const consent = Storage.get(COOKIE_CONSENT_KEY);
   if (consent && consent.preferences) {
     // Ensure necessary cookies are always true
@@ -48,7 +48,7 @@ export function getConsent() {
  * @param {Object} preferences - Cookie preferences to save
  * @returns {boolean} Success status
  */
-export function setConsent(preferences) {
+function setConsent(preferences) {
   const consent = {
     preferences: {
       ...preferences,
@@ -91,7 +91,7 @@ export function refuseOptionalCookies() {
 /**
  * Save custom preferences from the customize modal
  */
-export function saveCustomPreferences() {
+function saveCustomPreferences() {
   const analyticsCheckbox = document.getElementById('cookie-analytics');
   const marketingCheckbox = document.getElementById('cookie-marketing');
   const personalizationCheckbox = document.getElementById('cookie-personalization');
@@ -139,7 +139,7 @@ function hideBanner() {
 /**
  * Show the customize modal
  */
-export function showCustomizeModal() {
+function showCustomizeModal() {
   const modal = document.getElementById('cookie-customize-modal');
   if (modal) {
     modal.classList.remove('hidden');
@@ -155,7 +155,7 @@ export function showCustomizeModal() {
 /**
  * Hide the customize modal
  */
-export function hideCustomizeModal() {
+function hideCustomizeModal() {
   const modal = document.getElementById('cookie-customize-modal');
   if (modal) {
     modal.classList.add('fade-out');

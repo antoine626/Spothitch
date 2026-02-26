@@ -6,7 +6,7 @@
 /**
  * All narrative titles with level ranges
  */
-export const narrativeTitles = [
+const narrativeTitles = [
   {
     id: 'vagabond',
     name: 'Vagabond',
@@ -117,7 +117,7 @@ export function getTitleForLevel(level) {
  * @param {string} titleId - Title ID
  * @returns {Object|null} Title object or null
  */
-export function getTitleById(titleId) {
+function getTitleById(titleId) {
   return narrativeTitles.find(t => t.id === titleId) || null;
 }
 
@@ -149,7 +149,7 @@ export function getLockedTitles(level) {
  * @param {number} level - User level
  * @returns {Object|null} Next title object or null if max
  */
-export function getNextTitle(level) {
+function getNextTitle(level) {
   const currentTitle = getTitleForLevel(level);
   const currentIndex = narrativeTitles.findIndex(t => t.id === currentTitle.id);
   return narrativeTitles[currentIndex + 1] || null;

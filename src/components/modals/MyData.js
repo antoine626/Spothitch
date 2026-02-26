@@ -122,7 +122,7 @@ export function renderMyDataModal() {
   const notifConsent = formatConsent(consentData.notifications);
 
   return `
-    <div class="modal-overlay" onclick="closeMyData()" role="dialog" aria-modal="true" aria-labelledby="mydata-title">
+    <div class="modal-overlay" onclick="closeMyData()" role="dialog" aria-modal="true" aria-labelledby="mydata-title" tabindex="0">
       <div class="modal-content max-w-lg max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
@@ -378,7 +378,7 @@ export function renderMyDataModal() {
 /**
  * Download user data as JSON
  */
-export async function downloadUserData() {
+async function downloadUserData() {
   const data = getUserData();
   const state = getState();
 

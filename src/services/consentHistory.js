@@ -14,7 +14,7 @@ const MAX_HISTORY_ENTRIES = 100;
 /**
  * Consent types that can be tracked
  */
-export const CONSENT_TYPES = {
+const CONSENT_TYPES = {
   COOKIES: 'cookies',
   ANALYTICS: 'analytics',
   MARKETING: 'marketing',
@@ -30,7 +30,7 @@ export const CONSENT_TYPES = {
 /**
  * Action types for consent changes
  */
-export const CONSENT_ACTIONS = {
+const CONSENT_ACTIONS = {
   ACCEPTED: 'accepted',
   REFUSED: 'refused',
   MODIFIED: 'modified',
@@ -42,7 +42,7 @@ export const CONSENT_ACTIONS = {
  * Get consent history from storage
  * @returns {Object[]} Array of consent history entries
  */
-export function getConsentHistory() {
+function getConsentHistory() {
   const history = Storage.get(CONSENT_HISTORY_KEY);
   return Array.isArray(history) ? history : [];
 }
@@ -58,7 +58,7 @@ export function getConsentHistory() {
  * @param {string} [entry.userAgent] - Browser user agent
  * @returns {boolean} Success status
  */
-export function addConsentEntry(entry) {
+function addConsentEntry(entry) {
   try {
     const history = getConsentHistory();
 
@@ -95,7 +95,7 @@ export function addConsentEntry(entry) {
  * @param {string} action - Action type
  * @param {string} source - Source of consent (banner, settings)
  */
-export function recordCookieConsent(preferences, action, source = 'banner') {
+function recordCookieConsent(preferences, action, source = 'banner') {
   return addConsentEntry({
     type: CONSENT_TYPES.COOKIES,
     action,
@@ -109,7 +109,7 @@ export function recordCookieConsent(preferences, action, source = 'banner') {
  * @param {boolean} accepted - Whether geolocation was accepted
  * @param {string} source - Source of consent
  */
-export function recordGeolocationConsent(accepted, source = 'permission_modal') {
+function recordGeolocationConsent(accepted, source = 'permission_modal') {
   return addConsentEntry({
     type: CONSENT_TYPES.GEOLOCATION,
     action: accepted ? CONSENT_ACTIONS.ACCEPTED : CONSENT_ACTIONS.REFUSED,
@@ -123,7 +123,7 @@ export function recordGeolocationConsent(accepted, source = 'permission_modal') 
  * @param {boolean} accepted - Whether notifications were accepted
  * @param {string} source - Source of consent
  */
-export function recordNotificationConsent(accepted, source = 'permission_request') {
+function recordNotificationConsent(accepted, source = 'permission_request') {
   return addConsentEntry({
     type: CONSENT_TYPES.NOTIFICATIONS,
     action: accepted ? CONSENT_ACTIONS.ACCEPTED : CONSENT_ACTIONS.REFUSED,
@@ -158,7 +158,7 @@ export function recordAgeVerification(data) {
  * Record terms of service acceptance
  * @param {string} version - Version of terms accepted
  */
-export function recordTermsAcceptance(version = '1.0') {
+function recordTermsAcceptance(version = '1.0') {
   return addConsentEntry({
     type: CONSENT_TYPES.TERMS_OF_SERVICE,
     action: CONSENT_ACTIONS.ACCEPTED,
@@ -171,7 +171,7 @@ export function recordTermsAcceptance(version = '1.0') {
  * Record privacy policy acceptance
  * @param {string} version - Version of policy accepted
  */
-export function recordPrivacyPolicyAcceptance(version = '1.0') {
+function recordPrivacyPolicyAcceptance(version = '1.0') {
   return addConsentEntry({
     type: CONSENT_TYPES.PRIVACY_POLICY,
     action: CONSENT_ACTIONS.ACCEPTED,
@@ -185,7 +185,7 @@ export function recordPrivacyPolicyAcceptance(version = '1.0') {
  * @param {string} type - Type of consent being withdrawn
  * @param {string} source - Source of withdrawal
  */
-export function recordConsentWithdrawal(type, source = 'settings') {
+function recordConsentWithdrawal(type, source = 'settings') {
   return addConsentEntry({
     type,
     action: CONSENT_ACTIONS.WITHDRAWN,
@@ -199,7 +199,7 @@ export function recordConsentWithdrawal(type, source = 'settings') {
  * @param {string} type - Consent type
  * @returns {Object|null} Most recent consent entry for this type
  */
-export function getConsentStatus(type) {
+function getConsentStatus(type) {
   const history = getConsentHistory();
   return history.find(entry => entry.type === type) || null;
 }
@@ -208,7 +208,7 @@ export function getConsentStatus(type) {
  * Get all current consent statuses
  * @returns {Object} Object with consent type as key and latest status as value
  */
-export function getAllConsentStatuses() {
+function getAllConsentStatuses() {
   const history = getConsentHistory();
   const statuses = {};
 
@@ -232,7 +232,7 @@ export function getAllConsentStatuses() {
  * @param {string} type - Consent type
  * @returns {boolean} Whether consent is currently active
  */
-export function isConsentActive(type) {
+function isConsentActive(type) {
   const status = getConsentStatus(type);
   if (!status) return false;
   return status.action === CONSENT_ACTIONS.ACCEPTED && status.value !== false;
@@ -243,7 +243,7 @@ export function isConsentActive(type) {
  * @param {string} type - Consent type
  * @returns {Object[]} Array of history entries for this type
  */
-export function getConsentHistoryByType(type) {
+function getConsentHistoryByType(type) {
   const history = getConsentHistory();
   return history.filter(entry => entry.type === type);
 }
@@ -252,7 +252,7 @@ export function getConsentHistoryByType(type) {
  * Export consent history for GDPR data request
  * @returns {Object} Consent history export
  */
-export function exportConsentHistory() {
+function exportConsentHistory() {
   const history = getConsentHistory();
   return {
     exportedAt: new Date().toISOString(),
@@ -266,7 +266,7 @@ export function exportConsentHistory() {
  * Clear consent history (for account deletion)
  * @returns {boolean} Success status
  */
-export function clearConsentHistory() {
+function clearConsentHistory() {
   return Storage.remove(CONSENT_HISTORY_KEY);
 }
 
@@ -282,7 +282,7 @@ function generateEntryId() {
  * Get summary statistics for consent history
  * @returns {Object} Summary statistics
  */
-export function getConsentSummary() {
+function getConsentSummary() {
   const history = getConsentHistory();
   const statuses = getAllConsentStatuses();
 

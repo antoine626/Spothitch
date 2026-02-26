@@ -180,7 +180,7 @@ export function showError(message, duration) {
  * @param {string} errorCode - Error code (e.g., 'NETWORK_OFFLINE', 'auth/user-not-found')
  * @param {number} duration - Duration in ms
  */
-export function showFriendlyError(errorCode, duration = 5000) {
+function showFriendlyError(errorCode, duration = 5000) {
   const errorInfo = getErrorMessage(errorCode);
   const fullMessage = `${errorInfo.icon} ${errorInfo.message}`;
   showToast(fullMessage, errorInfo.type, duration);
@@ -189,14 +189,14 @@ export function showFriendlyError(errorCode, duration = 5000) {
 /**
  * Show info toast
  */
-export function showInfo(message, duration) {
+function showInfo(message, duration) {
   showToast(message, 'info', duration);
 }
 
 /**
  * Show warning toast
  */
-export function showWarning(message, duration) {
+function showWarning(message, duration) {
   showToast(message, 'warning', duration);
 }
 
@@ -304,7 +304,7 @@ const SPOT_SUBSCRIPTIONS_KEY = 'spothitch_spot_subscriptions';
 /**
  * Get notification settings for spots
  */
-export function getSpotNotificationSettings() {
+function getSpotNotificationSettings() {
   try {
     const saved = localStorage.getItem(SPOT_SUBSCRIPTIONS_KEY);
     return saved ? JSON.parse(saved) : { enabled: true, spots: [], types: ['checkin', 'rating', 'comment'] };
@@ -329,7 +329,7 @@ function saveSpotNotificationSettings(settings) {
  * @param {number|string} spotId - The spot ID
  * @param {string} spotName - The spot name for display
  */
-export function subscribeToSpotNotifications(spotId, spotName) {
+function subscribeToSpotNotifications(spotId, spotName) {
   const settings = getSpotNotificationSettings();
 
   if (!settings.spots.find(s => s.id === spotId)) {
@@ -349,7 +349,7 @@ export function subscribeToSpotNotifications(spotId, spotName) {
  * Unsubscribe from notifications for a spot
  * @param {number|string} spotId - The spot ID
  */
-export function unsubscribeFromSpotNotifications(spotId) {
+function unsubscribeFromSpotNotifications(spotId) {
   const settings = getSpotNotificationSettings();
   settings.spots = settings.spots.filter(s => s.id !== spotId);
   saveSpotNotificationSettings(settings);
@@ -360,7 +360,7 @@ export function unsubscribeFromSpotNotifications(spotId) {
  * Check if subscribed to a spot's notifications
  * @param {number|string} spotId - The spot ID
  */
-export function isSubscribedToSpot(spotId) {
+function isSubscribedToSpot(spotId) {
   const settings = getSpotNotificationSettings();
   return settings.spots.some(s => s.id === spotId);
 }
@@ -370,7 +370,7 @@ export function isSubscribedToSpot(spotId) {
  * @param {number|string} spotId - The spot ID
  * @param {string} spotName - The spot name for display
  */
-export function toggleSpotNotifications(spotId, spotName) {
+function toggleSpotNotifications(spotId, spotName) {
   if (isSubscribedToSpot(spotId)) {
     unsubscribeFromSpotNotifications(spotId);
     return false;
@@ -386,7 +386,7 @@ export function toggleSpotNotifications(spotId, spotName) {
  * @param {string} type - 'checkin' | 'rating' | 'comment'
  * @param {object} data - Activity data
  */
-export function notifySpotActivity(type, data) {
+function notifySpotActivity(type, data) {
   const settings = getSpotNotificationSettings();
 
   // Check if notifications are enabled and spot is subscribed
@@ -428,7 +428,7 @@ export function notifySpotActivity(type, data) {
 /**
  * Get all subscribed spots
  */
-export function getSubscribedSpots() {
+function getSubscribedSpots() {
   const settings = getSpotNotificationSettings();
   return settings.spots;
 }
@@ -437,7 +437,7 @@ export function getSubscribedSpots() {
  * Set notification types to receive
  * @param {string[]} types - Array of types: 'checkin', 'rating', 'comment'
  */
-export function setSpotNotificationTypes(types) {
+function setSpotNotificationTypes(types) {
   const settings = getSpotNotificationSettings();
   settings.types = types;
   saveSpotNotificationSettings(settings);
@@ -447,7 +447,7 @@ export function setSpotNotificationTypes(types) {
  * Toggle all spot notifications
  * @param {boolean} enabled - Enable or disable
  */
-export function setSpotNotificationsEnabled(enabled) {
+function setSpotNotificationsEnabled(enabled) {
   const settings = getSpotNotificationSettings();
   settings.enabled = enabled;
   saveSpotNotificationSettings(settings);
@@ -460,7 +460,7 @@ export function setSpotNotificationsEnabled(enabled) {
  * Get notification preferences
  * @returns {Object} Notification preferences
  */
-export function getNotificationPreferences() {
+function getNotificationPreferences() {
   try {
     const saved = localStorage.getItem(NOTIFICATION_PREFS_KEY);
     return saved ? { ...DEFAULT_NOTIFICATION_PREFS, ...JSON.parse(saved) } : { ...DEFAULT_NOTIFICATION_PREFS };
@@ -473,7 +473,7 @@ export function getNotificationPreferences() {
  * Save notification preferences
  * @param {Object} prefs - Preferences to save
  */
-export function saveNotificationPreferences(prefs) {
+function saveNotificationPreferences(prefs) {
   try {
     const current = getNotificationPreferences();
     const updated = { ...current, ...prefs };
@@ -490,7 +490,7 @@ export function saveNotificationPreferences(prefs) {
  * @param {string} type - Notification type
  * @returns {boolean} Whether the notification is enabled
  */
-export function isNotificationEnabled(type) {
+function isNotificationEnabled(type) {
   const prefs = getNotificationPreferences();
   if (!prefs.enabled) return false;
 
@@ -516,7 +516,7 @@ export function isNotificationEnabled(type) {
  * @param {string} type - Notification type
  * @returns {boolean} New value
  */
-export function toggleNotificationPreference(type) {
+function toggleNotificationPreference(type) {
   const prefs = getNotificationPreferences();
   const newValue = !prefs[type];
   saveNotificationPreferences({ [type]: newValue });
@@ -529,7 +529,7 @@ export function toggleNotificationPreference(type) {
  * Notify when someone becomes a friend
  * @param {Object} friend - Friend data
  */
-export function notifyNewFriend(friend) {
+function notifyNewFriend(friend) {
   if (!isNotificationEnabled('newFriend')) return;
 
   const title = t('notifNewFriendTitle') || 'Nouvel ami !';
@@ -553,7 +553,7 @@ export function notifyNewFriend(friend) {
  * Notify when receiving a new message
  * @param {Object} message - Message data
  */
-export function notifyNewMessage(message) {
+function notifyNewMessage(message) {
   if (!isNotificationEnabled('newMessage')) return;
 
   const senderName = message.senderName || (t('notifATraveler') || 'Un voyageur');
@@ -582,7 +582,7 @@ export function notifyNewMessage(message) {
  * @param {Object} friend - Friend data with location
  * @param {number} distance - Distance in km
  */
-export function notifyFriendNearby(friend, distance) {
+function notifyFriendNearby(friend, distance) {
   if (!isNotificationEnabled('friendNearby')) return;
 
   const prefs = getNotificationPreferences();
@@ -625,7 +625,7 @@ export function notifyFriendNearby(friend, distance) {
  * Notify when a badge is unlocked
  * @param {Object} badge - Badge data
  */
-export function notifyBadgeUnlocked(badge) {
+function notifyBadgeUnlocked(badge) {
   if (!isNotificationEnabled('badgeUnlocked')) return;
 
   const title = t('notifBadgeUnlockedTitle') || 'Badge debloque !';
@@ -647,7 +647,7 @@ export function notifyBadgeUnlocked(badge) {
  * @param {number} newLevel - New level reached
  * @param {Object} rewards - Optional rewards for leveling up
  */
-export function notifyLevelUp(newLevel, rewards = {}) {
+function notifyLevelUp(newLevel, rewards = {}) {
   if (!isNotificationEnabled('levelUp')) return;
 
   const title = (t('notifLevelUpTitle') || 'Niveau {level} atteint !').replace('{level}', newLevel);
@@ -677,7 +677,7 @@ export function notifyLevelUp(newLevel, rewards = {}) {
 /**
  * Notify about daily reward available
  */
-export function notifyDailyRewardAvailable() {
+function notifyDailyRewardAvailable() {
   if (!isNotificationEnabled('dailyReward')) return;
 
   const state = getState();
@@ -707,7 +707,7 @@ export function notifyDailyRewardAvailable() {
  * @param {number} lon2 - Longitude 2
  * @returns {number} Distance in km
  */
-export function calculateDistance(lat1, lon1, lat2, lon2) {
+function calculateDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; // Earth's radius in km
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -724,7 +724,7 @@ export function calculateDistance(lat1, lon1, lat2, lon2) {
  * @param {Array} friends - Array of friends with locations
  * @param {Object} userLocation - User's current location
  */
-export function checkFriendsProximity(friends, userLocation) {
+function checkFriendsProximity(friends, userLocation) {
   if (!friends || !userLocation) return;
 
   const prefs = getNotificationPreferences();
@@ -749,7 +749,7 @@ export function checkFriendsProximity(friends, userLocation) {
  * Cancel a scheduled notification
  * @param {string} id - Notification ID
  */
-export function cancelScheduledNotification(id) {
+function cancelScheduledNotification(id) {
   const timeoutId = scheduledNotifications.get(id);
   if (timeoutId) {
     clearTimeout(timeoutId);
@@ -760,7 +760,7 @@ export function cancelScheduledNotification(id) {
 /**
  * Cancel all scheduled notifications
  */
-export function cancelAllScheduledNotifications() {
+function cancelAllScheduledNotifications() {
   scheduledNotifications.forEach((timeoutId) => {
     clearTimeout(timeoutId);
   });

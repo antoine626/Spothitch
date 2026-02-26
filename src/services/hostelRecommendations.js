@@ -74,7 +74,7 @@ function getHostelKey(city, hostelName) {
  * @param {string} category - Category: 'party' | 'cozy' | 'budget'
  * @returns {Promise<boolean>} Success status
  */
-export async function addRecommendation(cityName, hostelName, category) {
+async function addRecommendation(cityName, hostelName, category) {
   if (!cityName || !hostelName || !category) {
     showToast(t('hostelErrorMissing') || 'Veuillez remplir tous les champs', 'error')
     return false
@@ -132,7 +132,7 @@ export async function addRecommendation(cityName, hostelName, category) {
  * @param {string} cityName - City name
  * @returns {Promise<Object>} Recommendations grouped by category
  */
-export async function getRecommendations(cityName) {
+async function getRecommendations(cityName) {
   // Try to get from Firestore first
   let firestoreRecs = []
   try {
@@ -195,7 +195,7 @@ export async function getRecommendations(cityName) {
  * @param {string} hostelName - Hostel name
  * @returns {Promise<boolean>} Success status
  */
-export async function upvoteRecommendation(city, hostelName) {
+async function upvoteRecommendation(city, hostelName) {
   const recommendations = getAllRecommendations()
   const hostelKey = getHostelKey(city, hostelName)
   const userUpvotes = getUserUpvotes()
@@ -258,7 +258,7 @@ export async function upvoteRecommendation(city, hostelName) {
  * @param {string} cityName - City name
  * @returns {Object} Object with affiliate URLs
  */
-export function getBookingLinks(hostelName, cityName) {
+function getBookingLinks(hostelName, cityName) {
   const query = encodeURIComponent(`${hostelName} ${cityName}`)
 
   return {

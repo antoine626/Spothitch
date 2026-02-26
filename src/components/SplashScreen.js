@@ -20,7 +20,7 @@ function getLoadingMessages() {
 /**
  * Get a random loading message
  */
-export function getRandomMessage() {
+function getRandomMessage() {
   const messages = getLoadingMessages()
   if (messages.length === 0) return 'Loading...'
   return messages[Math.floor(Math.random() * messages.length)]

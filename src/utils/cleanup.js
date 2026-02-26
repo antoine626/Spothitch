@@ -14,7 +14,7 @@ const timeouts = new Set();
  * @param {string} id - Unique identifier
  * @param {Function} cleanupFn - Cleanup function to call
  */
-export function registerCleanup(id, cleanupFn) {
+function registerCleanup(id, cleanupFn) {
   if (cleanupFns.has(id)) {
     // Run existing cleanup first
     runCleanup(id);
@@ -26,7 +26,7 @@ export function registerCleanup(id, cleanupFn) {
  * Run cleanup for a specific component/feature
  * @param {string} id - Unique identifier
  */
-export function runCleanup(id) {
+function runCleanup(id) {
   const fn = cleanupFns.get(id);
   if (fn) {
     try {
@@ -82,7 +82,7 @@ export function runAllCleanup() {
  * @param {Function} handler - Event handler
  * @param {Object} options - Event listener options
  */
-export function addTrackedListener(id, target, event, handler, options = {}) {
+function addTrackedListener(id, target, event, handler, options = {}) {
   if (!target) return;
 
   target.addEventListener(event, handler, options);
@@ -103,7 +103,7 @@ export function addTrackedListener(id, target, event, handler, options = {}) {
  * @param {Object} options - Observer options
  * @returns {IntersectionObserver} The observer
  */
-export function createTrackedObserver(id, callback, options = {}) {
+function createTrackedObserver(id, callback, options = {}) {
   // Disconnect existing observer if any
   if (observers.has(id)) {
     observers.get(id).disconnect();
@@ -121,7 +121,7 @@ export function createTrackedObserver(id, callback, options = {}) {
  * @param {number} delay - Interval delay in ms
  * @returns {number} Interval ID
  */
-export function createTrackedInterval(id, callback, delay) {
+function createTrackedInterval(id, callback, delay) {
   // Clear existing interval if any
   if (intervals.has(id)) {
     clearInterval(intervals.get(id));
@@ -138,7 +138,7 @@ export function createTrackedInterval(id, callback, delay) {
  * @param {number} delay - Timeout delay in ms
  * @returns {number} Timeout ID
  */
-export function createTrackedTimeout(callback, delay) {
+function createTrackedTimeout(callback, delay) {
   const timeoutId = setTimeout(() => {
     callback();
     timeouts.delete(timeoutId);
@@ -151,7 +151,7 @@ export function createTrackedTimeout(callback, delay) {
  * Clear a tracked interval
  * @param {string} id - Interval identifier
  */
-export function clearTrackedInterval(id) {
+function clearTrackedInterval(id) {
   if (intervals.has(id)) {
     clearInterval(intervals.get(id));
     intervals.delete(id);
@@ -162,7 +162,7 @@ export function clearTrackedInterval(id) {
  * Disconnect a tracked observer
  * @param {string} id - Observer identifier
  */
-export function disconnectObserver(id) {
+function disconnectObserver(id) {
   if (observers.has(id)) {
     observers.get(id).disconnect();
     observers.delete(id);

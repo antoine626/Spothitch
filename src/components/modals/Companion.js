@@ -62,7 +62,7 @@ export function renderCompanionModal(_state) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="companion-modal-title"
-    >
+     tabindex="0">
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
 
@@ -92,7 +92,7 @@ function renderConsentScreen() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="companion-consent-title"
-    >
+     tabindex="0">
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
       <div
         class="relative bg-dark-primary border border-emerald-500/30 rounded-3xl w-full max-w-md slide-up"

@@ -172,7 +172,7 @@ export function getUpcomingEvents(filters = {}) {
  * Get past events
  * @returns {Array}
  */
-export function getPastEvents() {
+function getPastEvents() {
   const events = getEventsStorage()
   const now = new Date().toISOString().split('T')[0]
   return events.filter(e => e.date < now).sort((a, b) => b.date.localeCompare(a.date))
@@ -183,7 +183,7 @@ export function getPastEvents() {
  * @param {string} eventId
  * @returns {Object|null}
  */
-export function getEventById(eventId) {
+function getEventById(eventId) {
   const events = getEventsStorage()
   return events.find(e => e.id === eventId) || null
 }
@@ -260,7 +260,7 @@ export function leaveEvent(eventId) {
  * @param {string} eventId
  * @returns {Object} { success }
  */
-export function deleteEvent(eventId) {
+function deleteEvent(eventId) {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
   const events = getEventsStorage()
@@ -340,7 +340,7 @@ export function getEventComments(eventId) {
  * @param {string} emoji
  * @returns {Object} { success }
  */
-export function reactToComment(eventId, commentId, emoji) {
+function reactToComment(eventId, commentId, emoji) {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
   const comments = getCommentsStorage()
@@ -377,7 +377,7 @@ export function reactToComment(eventId, commentId, emoji) {
  * @param {string} commentId
  * @returns {Object} { success }
  */
-export function deleteEventComment(eventId, commentId) {
+function deleteEventComment(eventId, commentId) {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
   const comments = getCommentsStorage()
@@ -428,7 +428,7 @@ export function shareEvent(eventId) {
  * Get events the current user has joined
  * @returns {Array}
  */
-export function getMyEvents() {
+function getMyEvents() {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
   const events = getEventsStorage()

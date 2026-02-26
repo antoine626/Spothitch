@@ -1,0 +1,46 @@
+{
+  "totalScore": 98,
+  "updatedAt": "2026-02-26T01:46:51.255Z",
+  "checks": {
+    "Handlers Wiring": {
+      "score": 100,
+      "errors": 0,
+      "warnings": 0
+    },
+    "i18n Keys": {
+      "score": 100,
+      "errors": 0,
+      "warnings": 0
+    },
+    "Dead Exports": {
+      "score": 70,
+      "errors": 0,
+      "warnings": 22
+    },
+    "Security Patterns": {
+      "score": 100,
+      "errors": 0,
+      "warnings": 0
+    },
+    "localStorage RGPD": {
+      "score": 100,
+      "errors": 0,
+      "warnings": 11
+    },
+    "Error Patterns": {
+      "score": 100,
+      "errors": 0,
+      "warnings": 0
+    },
+    "Duplicate Handlers": {
+      "score": 100,
+      "errors": 0,
+      "warnings": 0
+    },
+    "Accessibility": {
+      "score": 100,
+      "errors": 0,
+      "warnings": 0
+    }
+  }
+}

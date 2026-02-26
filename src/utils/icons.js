@@ -546,7 +546,7 @@ export function icon(name, cls = '', size = 20) {
 }
 
 // ── Brand icon helper ────────────────────────────────────────────────
-export function brandIcon(name, cls = '', size = 20) {
+function brandIcon(name, cls = '', size = 20) {
   const paths = BRANDS[name]
   if (!paths) return ''
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="lucide-brand ${cls}" aria-hidden="true">${paths}</svg>`

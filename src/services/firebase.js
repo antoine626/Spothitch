@@ -441,7 +441,7 @@ export async function saveFCMToken(token) {
 /**
  * Delete all FCM tokens for the current user (on logout)
  */
-export async function deleteFCMTokens() {
+async function deleteFCMTokens() {
   try {
     const user = getCurrentUser()
     if (!user || !db) return false

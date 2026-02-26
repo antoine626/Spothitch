@@ -31,7 +31,7 @@ function saveConfig(config) {
  * Check if push notifications are enabled
  * @returns {boolean}
  */
-export function isPushEnabled() {
+function isPushEnabled() {
   return getConfig().enabled === true
 }
 
@@ -39,7 +39,7 @@ export function isPushEnabled() {
  * Check if user has been asked for push permission
  * @returns {boolean}
  */
-export function hasBeenAsked() {
+function hasBeenAsked() {
   return getConfig().asked === true
 }
 
@@ -48,7 +48,7 @@ export function hasBeenAsked() {
  * Only call this after user explicitly enables notifications
  * @returns {Promise<{success: boolean, token: string|null}>}
  */
-export async function enablePushNotifications() {
+async function enablePushNotifications() {
   try {
     const token = await requestNotificationPermission()
 
@@ -82,7 +82,7 @@ export async function enablePushNotifications() {
 /**
  * Disable push notifications
  */
-export function disablePushNotifications() {
+function disablePushNotifications() {
   saveConfig({
     enabled: false,
     asked: true,
@@ -95,14 +95,14 @@ export function disablePushNotifications() {
  * Get stored FCM token
  * @returns {string|null}
  */
-export function getFCMToken() {
+function getFCMToken() {
   return localStorage.getItem(TOKEN_KEY)
 }
 
 /**
  * Start listening for foreground push messages
  */
-export function startForegroundListener() {
+function startForegroundListener() {
   if (!isPushEnabled()) return
 
   onForegroundMessage((payload) => {
@@ -153,7 +153,7 @@ function handleProximityPush(data) {
  * @param {number} params.distance - Distance in km
  * @param {string} [params.spotId] - Optional spot ID
  */
-export function showProximityNotification({ username, distance, spotId }) {
+function showProximityNotification({ username, distance, spotId }) {
   if (!isPushEnabled()) return
 
   // In-app toast
@@ -201,7 +201,7 @@ export function renderPushSettings() {
 /**
  * Initialize push notifications on app start (if already enabled)
  */
-export function initPushNotifications() {
+function initPushNotifications() {
   if (isPushEnabled()) {
     startForegroundListener()
   }

@@ -77,7 +77,7 @@ export function renderValidateSpot(state) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="validate-modal-title"
-    >
+     tabindex="0">
       <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true"></div>
 
       <div class="relative modal-panel sm:rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden slide-up"

@@ -17,13 +17,13 @@ function saveTips(tips) {
   Storage.set(TIPS_KEY, tips)
 }
 
-export function getTipsByCountry(countryCode) {
+function getTipsByCountry(countryCode) {
   return getTips()
     .filter(t => t.country === countryCode)
     .sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes))
 }
 
-export function addTip(countryCode, text, author) {
+function addTip(countryCode, text, author) {
   const tips = getTips()
   const newTip = {
     id: `tip_${Date.now()}`,
@@ -40,7 +40,7 @@ export function addTip(countryCode, text, author) {
   return newTip
 }
 
-export function voteTip(tipId, direction) {
+function voteTip(tipId, direction) {
   const tips = getTips()
   const tip = tips.find(t => t.id === tipId)
   if (!tip) return false

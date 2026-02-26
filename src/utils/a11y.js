@@ -275,7 +275,7 @@ export function announceAction(action, success = true, customMessage = '') {
  * @param {string} regionId - ID for the live region
  * @param {string} politeness - 'polite', 'assertive', or 'off'
  */
-export function createLiveRegion(regionId, politeness = 'polite') {
+function createLiveRegion(regionId, politeness = 'polite') {
   let region = document.getElementById(regionId);
 
   if (!region) {
@@ -305,7 +305,7 @@ export function createLiveRegion(regionId, politeness = 'polite') {
  * Focus management for route changes
  * @param {string} pageTitle - Title of the new page/view
  */
-export function announcePageChange(pageTitle) {
+function announcePageChange(pageTitle) {
   announce(`Navigation vers ${pageTitle}`, 'polite');
 
   // Focus the main content area
@@ -323,7 +323,7 @@ export function announcePageChange(pageTitle) {
  * @param {HTMLElement} element - Element being loaded
  * @param {boolean} isLoading - Loading state
  */
-export function setLoadingState(element, isLoading) {
+function setLoadingState(element, isLoading) {
   if (!element) return;
 
   element.setAttribute('aria-busy', isLoading.toString());

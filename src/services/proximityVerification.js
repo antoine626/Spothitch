@@ -18,7 +18,7 @@ const PROXIMITY_WINDOW_MS = 24 * 60 * 60 * 1000 // 24h window
  * Called whenever user's GPS updates
  * @param {{ lat: number, lng: number }} location
  */
-export function recordLocation(location) {
+function recordLocation(location) {
   if (!location?.lat || !location?.lng) return
 
   const history = getLocationHistory()
@@ -50,7 +50,7 @@ export function recordLocation(location) {
  * Get stored location history
  * @returns {Array<{ lat: number, lng: number, t: number }>}
  */
-export function getLocationHistory() {
+function getLocationHistory() {
   return Storage.get(LOCATION_HISTORY_KEY) || []
 }
 
@@ -61,7 +61,7 @@ export function getLocationHistory() {
  * @param {number} [radiusKm] - Override default radius
  * @returns {{ nearby: boolean, closestKm: number|null, closestTime: number|null }}
  */
-export function wasNearLocation(lat, lng, radiusKm = PROXIMITY_RADIUS_KM) {
+function wasNearLocation(lat, lng, radiusKm = PROXIMITY_RADIUS_KM) {
   if (!lat || !lng) return { nearby: false, closestKm: null, closestTime: null }
 
   const history = getLocationHistory()
@@ -98,7 +98,7 @@ export function wasNearLocation(lat, lng, radiusKm = PROXIMITY_RADIUS_KM) {
  * @param {{ lat: number, lng: number }|null} userLocation - Current user location from state
  * @returns {{ nearby: boolean, distanceKm: number|null }}
  */
-export function isCurrentlyNear(lat, lng, userLocation) {
+function isCurrentlyNear(lat, lng, userLocation) {
   if (!userLocation?.lat || !userLocation?.lng || !lat || !lng) {
     return { nearby: false, distanceKm: null }
   }
@@ -118,7 +118,7 @@ export function isCurrentlyNear(lat, lng, userLocation) {
  * @param {{ lat: number, lng: number }|null} userLocation - Current GPS
  * @returns {{ allowed: boolean, reason: string }}
  */
-export function checkProximity(lat, lng, userLocation) {
+function checkProximity(lat, lng, userLocation) {
   // 1. No coordinates on spot → allow (user-placed spot without GPS)
   if (!lat || !lng) return { allowed: true, reason: 'no_coordinates' }
 

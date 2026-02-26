@@ -139,7 +139,7 @@ function normalizeElement(element) {
  * @param {Object} options - { showFuel: true, showRestAreas: true }
  * @returns {Promise<Array>} Array of POI objects
  */
-export async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, options = {}) {
+async function getAmenitiesAlongRoute(routeGeometry, corridorKm = 2, options = {}) {
   const { showFuel = true, showRestAreas = true } = options
 
   if (!routeGeometry || routeGeometry.length < 2) {
@@ -392,7 +392,7 @@ async function enrichServiceAreasWithAmenities(areas, allPois) {
 /**
  * Clear the Overpass cache
  */
-export function clearOverpassCache() {
+function clearOverpassCache() {
   cache.clear()
 }
 

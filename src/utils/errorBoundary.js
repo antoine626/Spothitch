@@ -14,7 +14,7 @@ const MAX_ERRORS = 50;
  * @param {string} fallbackHtml - HTML to show on error
  * @returns {Function} Wrapped render function
  */
-export function withErrorBoundary(renderFn, componentName, fallbackHtml = null) {
+function withErrorBoundary(renderFn, componentName, fallbackHtml = null) {
   return function safeRender(...args) {
     try {
       return renderFn(...args);
@@ -35,7 +35,7 @@ export function withErrorBoundary(renderFn, componentName, fallbackHtml = null) 
  * @param {*} fallbackValue - Value to return on error
  * @returns {*} Function result or fallback value
  */
-export function safeExecute(fn, context, fallbackValue = null) {
+function safeExecute(fn, context, fallbackValue = null) {
   try {
     return fn();
   } catch (error) {
@@ -52,7 +52,7 @@ export function safeExecute(fn, context, fallbackValue = null) {
  * @param {*} fallbackValue - Value to return on error
  * @returns {Promise<*>} Function result or fallback value
  */
-export async function safeExecuteAsync(asyncFn, context, fallbackValue = null) {
+async function safeExecuteAsync(asyncFn, context, fallbackValue = null) {
   try {
     return await asyncFn();
   } catch (error) {
@@ -122,14 +122,14 @@ function logError(context, error) {
  * Get error log for debugging
  * @returns {Array} Error log entries
  */
-export function getErrorLog() {
+function getErrorLog() {
   return [...errorLog];
 }
 
 /**
  * Clear error log
  */
-export function clearErrorLog() {
+function clearErrorLog() {
   errorLog.length = 0;
 }
 

@@ -12,7 +12,7 @@ import { netherlandsQuiz } from './netherlands.js'
 /**
  * All available country quizzes indexed by country code
  */
-export const countryQuizzes = {
+const countryQuizzes = {
   FR: franceQuiz,
   DE: germanyQuiz,
   ES: spainQuiz,

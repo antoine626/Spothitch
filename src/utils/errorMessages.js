@@ -290,7 +290,7 @@ export function getErrorMessage(errorCode) {
  * @param {string} errorCode - The error code
  * @returns {string} Formatted error message with icon
  */
-export function getFormattedError(errorCode) {
+function getFormattedError(errorCode) {
   const error = getErrorMessage(errorCode)
   return `${error.icon} ${error.message}`
 }
@@ -300,7 +300,7 @@ export function getFormattedError(errorCode) {
  * @param {string} errorCode - The error code
  * @returns {string} Toast type: 'error' | 'warning' | 'info'
  */
-export function getErrorType(errorCode) {
+function getErrorType(errorCode) {
   const error = getErrorMessage(errorCode)
   return error.type
 }
@@ -310,7 +310,7 @@ export function getErrorType(errorCode) {
  * @param {string} errorCode - The error code
  * @returns {boolean}
  */
-export function isRecoverableError(errorCode) {
+function isRecoverableError(errorCode) {
   const nonRecoverable = [
     'auth/user-disabled',
     'auth/operation-not-allowed',
@@ -323,7 +323,7 @@ export function isRecoverableError(errorCode) {
  * @param {string} errorCode - The error code
  * @returns {string|null} Retry suggestion or null
  */
-export function getRetryMessage(errorCode) {
+function getRetryMessage(errorCode) {
   if (!isRecoverableError(errorCode)) {
     return null
   }

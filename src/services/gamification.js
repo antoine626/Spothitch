@@ -94,7 +94,7 @@ export function addSeasonPoints(pts) {
 /**
  * Update user's league based on season points
  */
-export function updateLeague() {
+function updateLeague() {
   const state = getState();
   const league = getLeague(state.seasonPoints || 0);
 
@@ -109,14 +109,14 @@ export function updateLeague() {
  * Get league info
  * @param {string} leagueId - League ID
  */
-export function getLeagueInfo(leagueId) {
+function getLeagueInfo(leagueId) {
   return leagues.find(l => l.id === leagueId) || leagues[0];
 }
 
 /**
  * Get user's current VIP level
  */
-export function getUserVipLevel() {
+function getUserVipLevel() {
   const state = getState();
   return getVipLevel(state.points);
 }
@@ -124,7 +124,7 @@ export function getUserVipLevel() {
 /**
  * Get user's next VIP level
  */
-export function getNextUserVipLevel() {
+function getNextUserVipLevel() {
   const state = getState();
   return getNextVipLevel(state.points);
 }
@@ -132,7 +132,7 @@ export function getNextUserVipLevel() {
 /**
  * Get VIP progress info
  */
-export function getVipProgressInfo() {
+function getVipProgressInfo() {
   const state = getState();
   const current = getVipLevel(state.points);
   const next = getNextVipLevel(state.points);
@@ -268,7 +268,7 @@ function showTitleUnlock(title) {
  * Get user's current title based on level
  * @returns {Object} Current title object
  */
-export function getUserTitle() {
+function getUserTitle() {
   const state = getState();
   return getTitleForLevel(state.level || 1);
 }
@@ -277,7 +277,7 @@ export function getUserTitle() {
  * Get user's title progress info
  * @returns {Object} Title progress info
  */
-export function getUserTitleProgress() {
+function getUserTitleProgress() {
   const state = getState();
   return getTitleProgress(state.level || 1);
 }
@@ -286,7 +286,7 @@ export function getUserTitleProgress() {
  * Get all unlocked titles for current user
  * @returns {Object[]} Array of unlocked titles
  */
-export function getUserUnlockedTitles() {
+function getUserUnlockedTitles() {
   const state = getState();
   return getUnlockedTitles(state.level || 1);
 }
@@ -295,7 +295,7 @@ export function getUserUnlockedTitles() {
  * Get all locked titles for current user
  * @returns {Object[]} Array of locked titles
  */
-export function getUserLockedTitles() {
+function getUserLockedTitles() {
   const state = getState();
   return getLockedTitles(state.level || 1);
 }
@@ -303,7 +303,7 @@ export function getUserLockedTitles() {
 /**
  * Increment checkin count and award points
  */
-export function recordCheckin() {
+function recordCheckin() {
   const state = getState();
   const hour = new Date().getHours();
 
@@ -329,7 +329,7 @@ export function recordCheckin() {
 /**
  * Increment spots created count
  */
-export function recordSpotCreated() {
+function recordSpotCreated() {
   const state = getState();
   setState({
     spotsCreated: (state.spotsCreated || 0) + 1,
@@ -341,7 +341,7 @@ export function recordSpotCreated() {
 /**
  * Increment reviews given count
  */
-export function recordReview() {
+function recordReview() {
   const state = getState();
   setState({
     reviewsGiven: (state.reviewsGiven || 0) + 1,
@@ -354,7 +354,7 @@ export function recordReview() {
  * Record country visit
  * @param {string} countryCode - Country code
  */
-export function recordCountryVisit(countryCode) {
+function recordCountryVisit(countryCode) {
   const state = getState();
   const visited = state.visitedCountries || [];
 

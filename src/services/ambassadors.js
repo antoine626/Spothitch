@@ -91,7 +91,7 @@ export function getAmbassadors(city = null) {
 }
 
 // Check if current user is eligible to become an ambassador
-export function isEligibleForAmbassador() {
+function isEligibleForAmbassador() {
   const state = getState()
   if (!state.user) return false
 
@@ -103,7 +103,7 @@ export function isEligibleForAmbassador() {
 }
 
 // Register current user as ambassador
-export function registerAsAmbassador(data) {
+function registerAsAmbassador(data) {
   const state = getState()
   if (!state.user) {
     throw new Error(t('pleaseLoginFirst'))
@@ -193,13 +193,13 @@ export function searchAmbassadors(query) {
 }
 
 // Get a specific ambassador's profile
-export function getAmbassadorProfile(userId) {
+function getAmbassadorProfile(userId) {
   const ambassadors = initAmbassadors()
   return ambassadors.find(a => a.userId === userId) || null
 }
 
 // Get ambassador for current user
-export function getCurrentAmbassadorProfile() {
+function getCurrentAmbassadorProfile() {
   const state = getState()
   if (!state.user) return null
   return getAmbassadorProfile(state.user.uid)

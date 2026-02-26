@@ -8,7 +8,7 @@ import { haversineKm } from '../utils/geo.js'
 /**
  * Slugify a string for URL-friendly identifiers
  */
-export function slugify(str) {
+function slugify(str) {
   return str.toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
@@ -39,7 +39,7 @@ function computeAvgRating(spots) {
  * @param {number} radiusKm - Search radius in km (default 30)
  * @returns {Array} Spots within radius
  */
-export function findNearbySpots(spots, lat, lng, radiusKm = 30) {
+function findNearbySpots(spots, lat, lng, radiusKm = 30) {
   return spots.filter(s => {
     const sLat = s.lat || s.coordinates?.lat
     const sLng = s.lon || s.lng || s.coordinates?.lng

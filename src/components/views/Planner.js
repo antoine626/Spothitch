@@ -192,7 +192,7 @@ function renderActiveTripDetails(trip) {
     ? `<div class="flex flex-wrap gap-2">
                     ${leg.spots.slice(0, 3).map(spot => `
                       <span class="px-2 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-full cursor-pointer"
-                            onclick="selectSpot(${spot.id})">
+                            onclick="selectSpot(${spot.id})" role="button" tabindex="0">
                         ✓${spot.userValidations || 0} ${spot.from}
                       </span>
                     `).join('')}
@@ -219,7 +219,7 @@ function renderSavedTripCard(trip) {
   return `
     <div class="saved-trip p-3 bg-dark-secondary rounded-xl flex items-center gap-3 cursor-pointer
                 hover:bg-white/10 transition-colors"
-         onclick="loadSavedTrip('${trip.id}')">
+         onclick="loadSavedTrip('${trip.id}')" role="button" tabindex="0">
       <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl
                   flex items-center justify-center text-white text-lg">
         🗺️
@@ -327,7 +327,7 @@ export function renderSavedTripDetail(tripId) {
                   ${leg.spots.slice(0, 3).map(spot => `
                     <div class="flex items-center gap-3 p-2 bg-dark-secondary rounded-xl cursor-pointer
                                 hover:bg-white/10"
-                         onclick="selectSpot(${spot.id})">
+                         onclick="selectSpot(${spot.id})" role="button" tabindex="0">
                       <img src="${spot.photoUrl}" alt="" class="w-12 h-12 rounded-xl object-cover" loading="lazy" />
                       <div class="flex-1">
                         <div class="text-white text-sm">${spot.from}</div>

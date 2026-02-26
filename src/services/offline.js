@@ -92,7 +92,7 @@ function hideOfflineIndicator() {
  * Check if currently offline
  * @returns {boolean}
  */
-export function isCurrentlyOffline() {
+function isCurrentlyOffline() {
   return isOffline;
 }
 
@@ -100,7 +100,7 @@ export function isCurrentlyOffline() {
  * Queue an action for when online
  * @param {Object} action - Action to queue
  */
-export function queueOfflineAction(action) {
+function queueOfflineAction(action) {
   pendingActions.push({
     ...action,
     timestamp: Date.now(),
@@ -186,7 +186,7 @@ function announceToSR(message) {
  * Cache spots data for offline use
  * @param {Array} spots - Spots to cache
  */
-export function cacheSpots(spots) {
+function cacheSpots(spots) {
   Storage.set('cachedSpots', {
     data: spots,
     timestamp: Date.now(),
@@ -197,7 +197,7 @@ export function cacheSpots(spots) {
  * Get cached spots
  * @returns {Array|null}
  */
-export function getCachedSpots() {
+function getCachedSpots() {
   const cached = Storage.get('cachedSpots');
   if (cached && cached.data) {
     // Check if cache is less than 24 hours old
@@ -215,7 +215,7 @@ export function getCachedSpots() {
  * @param {number} maxAge - Max age in ms
  * @returns {boolean}
  */
-export function isCacheFresh(key, maxAge = 3600000) {
+function isCacheFresh(key, maxAge = 3600000) {
   const cached = Storage.get(key);
   if (!cached || !cached.timestamp) return false;
   return Date.now() - cached.timestamp < maxAge;

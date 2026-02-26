@@ -11,7 +11,7 @@ const STORAGE_KEY = 'spothitch_webhooks'
 /**
  * Webhook types supported
  */
-export const WEBHOOK_TYPES = {
+const WEBHOOK_TYPES = {
   DISCORD: 'discord',
   TELEGRAM: 'telegram',
   SLACK: 'slack',
@@ -21,7 +21,7 @@ export const WEBHOOK_TYPES = {
 /**
  * Events that can trigger webhooks
  */
-export const WEBHOOK_EVENTS = {
+const WEBHOOK_EVENTS = {
   SPOT_CREATED: 'spot_created',
   SPOT_VALIDATED: 'spot_validated',
   MILESTONE_REACHED: 'milestone_reached',
@@ -36,7 +36,7 @@ export const WEBHOOK_EVENTS = {
  * Get all configured webhooks
  * @returns {Array}
  */
-export function getWebhooks() {
+function getWebhooks() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
   } catch (e) {
@@ -53,7 +53,7 @@ export function getWebhooks() {
  * @param {string} [config.name] - Display name
  * @returns {Object} Created webhook
  */
-export function addWebhook(config) {
+function addWebhook(config) {
   const webhooks = getWebhooks()
   const webhook = {
     id: Date.now().toString(36),
@@ -74,7 +74,7 @@ export function addWebhook(config) {
  * Remove a webhook
  * @param {string} webhookId
  */
-export function removeWebhook(webhookId) {
+function removeWebhook(webhookId) {
   const webhooks = getWebhooks().filter(w => w.id !== webhookId)
   localStorage.setItem(STORAGE_KEY, JSON.stringify(webhooks))
 }
@@ -83,7 +83,7 @@ export function removeWebhook(webhookId) {
  * Toggle a webhook on/off
  * @param {string} webhookId
  */
-export function toggleWebhook(webhookId) {
+function toggleWebhook(webhookId) {
   const webhooks = getWebhooks()
   const webhook = webhooks.find(w => w.id === webhookId)
   if (webhook) {
@@ -97,7 +97,7 @@ export function toggleWebhook(webhookId) {
  * @param {string} event - Event name from WEBHOOK_EVENTS
  * @param {Object} payload - Event data
  */
-export async function triggerWebhooks(event, payload = {}) {
+async function triggerWebhooks(event, payload = {}) {
   const webhooks = getWebhooks().filter(w => w.enabled && w.events.includes(event))
 
   const results = await Promise.allSettled(

@@ -9,7 +9,7 @@ import { t } from '../i18n/index.js';
 import { icon } from '../utils/icons.js'
 
 // Report types - labels are now translated dynamically
-export const REPORT_TYPES = {
+const REPORT_TYPES = {
   SPOT: {
     INACCURATE: { id: 'inaccurate', labelKey: 'reportInaccurate', icon: 'circle-alert', severity: 'medium' },
     DANGEROUS: { id: 'dangerous', labelKey: 'reportDangerous', icon: 'skull', severity: 'high' },
@@ -40,7 +40,7 @@ function getReasonLabel(reason) {
 }
 
 // Severity levels
-export const SEVERITY_LEVELS = {
+const SEVERITY_LEVELS = {
   low: { color: 'text-slate-400', bg: 'bg-slate-500/20', priority: 1 },
   medium: { color: 'text-amber-400', bg: 'bg-amber-500/20', priority: 2 },
   high: { color: 'text-orange-400', bg: 'bg-orange-500/20', priority: 3 },
@@ -54,7 +54,7 @@ export const SEVERITY_LEVELS = {
  * @param {string} reason - Report reason ID
  * @param {Object} details - Additional details
  */
-export async function submitReport(type, targetId, reason, details = {}) {
+async function submitReport(type, targetId, reason, details = {}) {
   const state = getState();
   const userId = state.user?.uid || 'anonymous';
 
@@ -156,7 +156,7 @@ async function handleHighSeverityReport(report) {
  * @param {string} reportId - Report ID
  * @param {boolean} agree - Whether user agrees with the report
  */
-export async function voteOnReport(reportId, agree) {
+async function voteOnReport(reportId, agree) {
   const state = getState();
   const reports = state.reports || [];
 
@@ -226,7 +226,7 @@ async function handleConfirmedReport(report) {
 /**
  * Get reports for an item
  */
-export function getReportsForItem(type, targetId) {
+function getReportsForItem(type, targetId) {
   const state = getState();
   return (state.reports || []).filter(r =>
     r.type === type && r.targetId.toString() === targetId.toString()
@@ -236,7 +236,7 @@ export function getReportsForItem(type, targetId) {
 /**
  * Check if item is under review
  */
-export function isUnderReview(type, targetId) {
+function isUnderReview(type, targetId) {
   const reports = getReportsForItem(type, targetId);
   return reports.some(r => r.status === 'pending' && ['high', 'critical'].includes(r.severity));
 }

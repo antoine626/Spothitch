@@ -16,7 +16,7 @@ const HITCHMAP_ENABLED = import.meta.env.VITE_HITCHMAP_ENABLED !== 'false'
  * @param {Function} [onProgress] - Progress callback (0-100)
  * @returns {Promise<{success: boolean, count: number}>}
  */
-export async function downloadCountrySpots(countryCode, onProgress) {
+async function downloadCountrySpots(countryCode, onProgress) {
   if (!HITCHMAP_ENABLED) return { success: true, count: 0 }
   const code = countryCode.toUpperCase()
 
@@ -85,7 +85,7 @@ export async function downloadCountrySpots(countryCode, onProgress) {
  * Get list of downloaded countries
  * @returns {Array<{code: string, count: number, downloadedAt: number}>}
  */
-export function getDownloadedCountries() {
+function getDownloadedCountries() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
   } catch {
@@ -98,7 +98,7 @@ export function getDownloadedCountries() {
  * @param {string} countryCode
  * @returns {boolean}
  */
-export function isCountryDownloaded(countryCode) {
+function isCountryDownloaded(countryCode) {
   return getDownloadedCountries().some(c => c.code === countryCode.toUpperCase())
 }
 
@@ -136,7 +136,7 @@ export async function deleteOfflineCountry(countryCode) {
  * @param {string} countryCode
  * @returns {Promise<Array>}
  */
-export async function getOfflineCountrySpots(countryCode) {
+async function getOfflineCountrySpots(countryCode) {
   return getByIndex('spots', 'country', countryCode.toUpperCase())
 }
 
@@ -144,7 +144,7 @@ export async function getOfflineCountrySpots(countryCode) {
  * Get all offline spots
  * @returns {Promise<Array>}
  */
-export async function getAllOfflineSpots() {
+async function getAllOfflineSpots() {
   const spots = await getAll('spots')
   return spots.filter(s => s._offline)
 }
@@ -153,7 +153,7 @@ export async function getAllOfflineSpots() {
  * Get storage size estimate for offline data
  * @returns {Promise<{countryCount: number, spotCount: number, sizeMB: string}>}
  */
-export async function getOfflineStorageInfo() {
+async function getOfflineStorageInfo() {
   const countries = getDownloadedCountries()
   const spotCount = await count('spots')
 

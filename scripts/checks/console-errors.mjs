@@ -27,7 +27,7 @@ function getAllJsFiles(dir) {
   return files
 }
 
-export default function checkConsoleErrors() {
+export default function checkConsoleErrors(opts = {}) {
   const files = getAllJsFiles(SRC_PATH)
   const errors = []
   const warnings = []

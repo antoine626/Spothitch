@@ -3,19 +3,26 @@
  * Quality Gate - Orchestrator
  * Runs all quality checks and produces a unified score.
  *
- * Usage: node scripts/quality-gate.mjs [--threshold=80] [--json]
+ * Usage: node scripts/quality-gate.mjs [--threshold=80] [--json] [--fix]
+ *
+ * --fix: Auto-correct fixable issues (dead exports, i18n, handlers, a11y)
+ *        then re-run all checks to verify improvements.
  *
  * Checks:
- *   1. Handlers wiring (tests ↔ code sync)
- *   2. i18n keys (translations complete in 4 languages)
- *   3. Dead exports (unused exports in src/)
- *   4. Security patterns (Math.random IDs, innerHTML XSS, manual escaping)
+ *   1. Handlers wiring (tests ↔ code sync)       [fixable]
+ *   2. i18n keys (translations complete)           [fixable]
+ *   3. Dead exports (unused exports in src/)       [fixable]
+ *   4. Security patterns (XSS, Math.random IDs)
  *   5. localStorage RGPD (all keys registered)
- *   6. Error patterns (regressions from errors.md lessons)
+ *   6. Error patterns (regressions from errors.md)
+ *   7. Duplicate handlers
+ *   8. Accessibility (div onclick without a11y)    [fixable]
  *
- * Exit code 1 if score < threshold (default 80)
+ * Exit code 1 if score < threshold (default 70)
  */
 
+import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { join } from 'path'
 import checkHandlers from './checks/handlers.mjs'
 import checkI18nKeys from './checks/i18n-keys.mjs'
 import checkDeadExports from './checks/dead-exports.mjs'
@@ -23,33 +30,40 @@ import checkConsoleErrors from './checks/console-errors.mjs'
 import checkLocalStorage from './checks/localstorage.mjs'
 import checkErrorPatterns from './checks/error-patterns.mjs'
 import checkDuplicateHandlers from './checks/duplicate-handlers.mjs'
+import checkA11y from './checks/a11y-autofix.mjs'
+
+const ROOT = join(import.meta.dirname, '..')
+const RATCHET_PATH = join(ROOT, '.quality-ratchet.json')
 
 // Parse args
 const args = process.argv.slice(2)
 const thresholdArg = args.find(a => a.startsWith('--threshold='))
 const THRESHOLD = thresholdArg ? parseInt(thresholdArg.split('=')[1], 10) : 70
 const JSON_OUTPUT = args.includes('--json')
+const FIX_MODE = args.includes('--fix')
 
 // Check weights (must sum to 100)
 const WEIGHTS = {
-  'Handlers Wiring': 15,
-  'i18n Keys': 20,
-  'Dead Exports': 10,
+  'Handlers Wiring': 12,
+  'i18n Keys': 18,
+  'Dead Exports': 8,
   'Security Patterns': 20,
   'localStorage RGPD': 10,
   'Error Patterns': 15,
   'Duplicate Handlers': 10,
+  'Accessibility': 7,
 }
 
-async function runAllChecks() {
+function runAllChecks(fix = false) {
   const checks = [
-    { fn: checkHandlers, weight: WEIGHTS['Handlers Wiring'] },
-    { fn: checkI18nKeys, weight: WEIGHTS['i18n Keys'] },
-    { fn: checkDeadExports, weight: WEIGHTS['Dead Exports'] },
-    { fn: checkConsoleErrors, weight: WEIGHTS['Security Patterns'] },
-    { fn: checkLocalStorage, weight: WEIGHTS['localStorage RGPD'] },
-    { fn: checkErrorPatterns, weight: WEIGHTS['Error Patterns'] },
-    { fn: checkDuplicateHandlers, weight: WEIGHTS['Duplicate Handlers'] },
+    { fn: checkHandlers, weight: WEIGHTS['Handlers Wiring'], fixable: true },
+    { fn: checkI18nKeys, weight: WEIGHTS['i18n Keys'], fixable: true },
+    { fn: checkDeadExports, weight: WEIGHTS['Dead Exports'], fixable: true },
+    { fn: checkConsoleErrors, weight: WEIGHTS['Security Patterns'], fixable: false },
+    { fn: checkLocalStorage, weight: WEIGHTS['localStorage RGPD'], fixable: false },
+    { fn: checkErrorPatterns, weight: WEIGHTS['Error Patterns'], fixable: false },
+    { fn: checkDuplicateHandlers, weight: WEIGHTS['Duplicate Handlers'], fixable: false },
+    { fn: checkA11y, weight: WEIGHTS['Accessibility'], fixable: true },
   ]
 
   const results = []
@@ -59,7 +73,8 @@ async function runAllChecks() {
 
   for (const check of checks) {
     try {
-      const result = check.fn()
+      const shouldFix = fix && check.fixable
+      const result = check.fn({ fix: shouldFix })
       result.weight = check.weight
       result.weightedScore = Math.round((result.score / 100) * check.weight)
       totalWeightedScore += result.weightedScore
@@ -83,14 +98,87 @@ async function runAllChecks() {
   return { results, totalWeightedScore, totalErrors, totalWarnings }
 }
 
-// Main
-const { results, totalWeightedScore, totalErrors, totalWarnings } = await runAllChecks()
+// === RATCHET SYSTEM ===
+function loadRatchet() {
+  if (!existsSync(RATCHET_PATH)) return null
+  try {
+    return JSON.parse(readFileSync(RATCHET_PATH, 'utf-8'))
+  } catch {
+    return null
+  }
+}
+
+function saveRatchet(results, totalScore) {
+  const ratchet = {
+    totalScore,
+    updatedAt: new Date().toISOString(),
+    checks: {},
+  }
+  for (const r of results) {
+    ratchet.checks[r.name] = {
+      score: r.score,
+      errors: r.errors.length,
+      warnings: r.warnings.length,
+    }
+  }
+  writeFileSync(RATCHET_PATH, JSON.stringify(ratchet, null, 2) + '\n')
+}
+
+function checkRatchet(results, totalScore) {
+  const ratchet = loadRatchet()
+  if (!ratchet) return { passed: true, regressions: [] }
+
+  const regressions = []
+
+  // Check total score
+  if (totalScore < ratchet.totalScore) {
+    regressions.push(`Total score dropped: ${ratchet.totalScore} → ${totalScore}`)
+  }
+
+  // Check per-check scores
+  for (const r of results) {
+    const prev = ratchet.checks[r.name]
+    if (!prev) continue
+    if (r.score < prev.score) {
+      regressions.push(`${r.name}: ${prev.score} → ${r.score} (-${prev.score - r.score})`)
+    }
+  }
+
+  return { passed: regressions.length === 0, regressions }
+}
+
+// === MAIN ===
+
+if (FIX_MODE && !JSON_OUTPUT) {
+  console.log('\n🔧 FIX MODE: Auto-correcting fixable issues...\n')
+}
+
+// If --fix, run with fix first, then re-run to verify
+if (FIX_MODE) {
+  runAllChecks(true)
+  if (!JSON_OUTPUT) {
+    console.log('🔧 Fixes applied. Re-running checks to verify...\n')
+  }
+}
+
+// Final run (always without fix to get accurate scores)
+const { results, totalWeightedScore, totalErrors, totalWarnings } = runAllChecks(false)
+
+// Ratchet check
+const ratchetResult = checkRatchet(results, totalWeightedScore)
+
+// Update ratchet if scores improved
+const ratchet = loadRatchet()
+if (!ratchet || totalWeightedScore >= ratchet.totalScore) {
+  saveRatchet(results, totalWeightedScore)
+}
 
 if (JSON_OUTPUT) {
   console.log(JSON.stringify({
     score: totalWeightedScore,
     threshold: THRESHOLD,
     passed: totalWeightedScore >= THRESHOLD,
+    ratchet: ratchetResult,
     checks: results.map(r => ({
       name: r.name,
       score: r.score,
@@ -130,16 +218,29 @@ if (JSON_OUTPUT) {
   console.log('╠══════════════════════════════════════════════════════╣')
 
   const scoreBar = '█'.repeat(Math.round(totalWeightedScore / 2)) + '░'.repeat(50 - Math.round(totalWeightedScore / 2))
-  const passed = totalWeightedScore >= THRESHOLD
+  const passed = totalWeightedScore >= THRESHOLD && ratchetResult.passed
   const statusIcon = passed ? '✓ PASSED' : '✗ FAILED'
   console.log(`║ Score: ${totalWeightedScore}/100  ${scoreBar.substring(0, 20)} ║`)
   console.log(`║ Threshold: ${THRESHOLD}   Status: ${statusIcon}${' '.repeat(24 - statusIcon.length)}║`)
   console.log(`║ Errors: ${totalErrors}   Warnings: ${totalWarnings}${' '.repeat(32 - String(totalErrors).length - String(totalWarnings).length)}║`)
+
+  if (!ratchetResult.passed) {
+    console.log('╠══════════════════════════════════════════════════════╣')
+    console.log('║ ⚠ RATCHET REGRESSION DETECTED                       ║')
+    for (const r of ratchetResult.regressions) {
+      console.log(`║   ${r.substring(0, 52).padEnd(52)}║`)
+    }
+  }
+
   console.log('╚══════════════════════════════════════════════════════╝')
 
   if (!passed) {
-    console.log(`\nQuality Gate FAILED: score ${totalWeightedScore} < threshold ${THRESHOLD}`)
+    if (!ratchetResult.passed) {
+      console.log(`\nQuality Gate FAILED: ratchet regression detected`)
+    } else {
+      console.log(`\nQuality Gate FAILED: score ${totalWeightedScore} < threshold ${THRESHOLD}`)
+    }
   }
 }
 
-process.exit(totalWeightedScore >= THRESHOLD ? 0 : 1)
+process.exit((totalWeightedScore >= THRESHOLD && ratchetResult.passed) ? 0 : 1)

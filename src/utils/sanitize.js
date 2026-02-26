@@ -47,7 +47,7 @@ export function sanitize(dirty) {
  * @param {HTMLElement} element - Target element
  * @param {string} html - HTML content to set
  */
-export function safeInnerHTML(element, html) {
+function safeInnerHTML(element, html) {
   if (!element) return;
   element.innerHTML = sanitize(html);
 }
@@ -57,7 +57,7 @@ export function safeInnerHTML(element, html) {
  * @param {string} html - HTML string
  * @returns {DocumentFragment} Sanitized document fragment
  */
-export function createSafeHTML(html) {
+function createSafeHTML(html) {
   const template = document.createElement('template');
   template.innerHTML = sanitize(html);
   return template.content;
@@ -97,7 +97,7 @@ export function escapeJSString(str) {
  * @param {string} input - User input
  * @returns {string} Sanitized input
  */
-export function sanitizeInput(input) {
+function sanitizeInput(input) {
   if (!input || typeof input !== 'string') return '';
   return escapeHTML(input.trim());
 }

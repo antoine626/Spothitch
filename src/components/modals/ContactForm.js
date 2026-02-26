@@ -16,7 +16,7 @@ export function renderContactFormModal() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="contact-form-title"
-    >
+     tabindex="0">
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true"></div>
 
@@ -129,7 +129,7 @@ export function renderContactFormModal() {
  * POST name, email, subject, message
  * @param {Event} event
  */
-export async function handleContactFormSubmit(event) {
+async function handleContactFormSubmit(event) {
   event.preventDefault()
 
   const form = document.getElementById('contact-form')

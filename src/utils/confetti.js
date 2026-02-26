@@ -96,7 +96,7 @@ export function launchConfetti(x, y, count = 50) {
  * Launch confetti from center of screen
  * @param {number} count - Number of particles
  */
-export function launchCenterConfetti(count = 100) {
+function launchCenterConfetti(count = 100) {
   const x = window.innerWidth / 2;
   const y = window.innerHeight / 2;
   launchConfetti(x, y, count);
@@ -123,7 +123,7 @@ export function launchConfettiBurst() {
  * @param {number} x - X coordinate
  * @param {number} y - Y coordinate
  */
-export function floatingEmoji(emoji, x, y) {
+function floatingEmoji(emoji, x, y) {
   const element = document.createElement('div');
   element.textContent = emoji;
   element.style.cssText = `

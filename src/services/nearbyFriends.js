@@ -29,7 +29,7 @@ let userLocation = null;
 /**
  * Initialize nearby friends tracking
  */
-export function initNearbyFriendsTracking() {
+function initNearbyFriendsTracking() {
   const state = getState();
 
   // Check if feature is enabled
@@ -47,7 +47,7 @@ export function initNearbyFriendsTracking() {
 /**
  * Stop nearby friends tracking
  */
-export function stopNearbyFriendsTracking() {
+function stopNearbyFriendsTracking() {
   if (locationWatchId) {
     navigator.geolocation.clearWatch(locationWatchId);
     locationWatchId = null;
@@ -120,7 +120,7 @@ function updateSharedLocation(location) {
 /**
  * Check for nearby friends
  */
-export function checkNearbyFriends() {
+function checkNearbyFriends() {
   if (!userLocation) return;
 
   const state = getState();
@@ -261,7 +261,7 @@ export function setNotificationRadius(radius) {
  * Mark notification as read
  * @param {string} notificationId
  */
-export function markNotificationRead(notificationId) {
+function markNotificationRead(notificationId) {
   const state = getState();
   const notifications = state.nearbyNotifications || [];
 
@@ -276,7 +276,7 @@ export function markNotificationRead(notificationId) {
  * Get unread notification count
  * @returns {number}
  */
-export function getUnreadCount() {
+function getUnreadCount() {
   const state = getState();
   const notifications = state.nearbyNotifications || [];
   return notifications.filter((n) => !n.read).length;

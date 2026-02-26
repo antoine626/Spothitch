@@ -8,7 +8,7 @@ const BASE = import.meta.env.BASE_URL || '/';
 const VIP_IMG_PATH = `${BASE}images/vip`;
 const LEAGUE_IMG_PATH = `${BASE}images/leagues`;
 
-export const vipLevels = [
+const vipLevels = [
   {
     id: 'novice',
     name: 'Novice',
@@ -249,7 +249,7 @@ export function getLeague(seasonPoints) {
 /**
  * Get next league
  */
-export function getNextLeague(seasonPoints) {
+function getNextLeague(seasonPoints) {
   const currentLeague = getLeague(seasonPoints);
   const currentIndex = leagues.findIndex(l => l.id === currentLeague.id);
   return leagues[currentIndex + 1] || null;
@@ -281,7 +281,7 @@ export function getLeagueProgress(seasonPoints) {
 /**
  * Calculate discount for reward purchase
  */
-export function applyVipDiscount(originalCost, userPoints) {
+function applyVipDiscount(originalCost, userPoints) {
   const vipLevel = getVipLevel(userPoints);
   const discount = originalCost * (vipLevel.discountPercent / 100);
   return Math.floor(originalCost - discount);
@@ -290,14 +290,14 @@ export function applyVipDiscount(originalCost, userPoints) {
 /**
  * Get all VIP levels
  */
-export function getAllVipLevels() {
+function getAllVipLevels() {
   return vipLevels;
 }
 
 /**
  * Get all leagues
  */
-export function getAllLeagues() {
+function getAllLeagues() {
   return leagues;
 }
 

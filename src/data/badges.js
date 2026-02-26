@@ -262,7 +262,7 @@ export function getBadgeById(badgeId) {
 /**
  * Calculate total badge points
  */
-export function getTotalBadgePoints(earnedBadgeIds = []) {
+function getTotalBadgePoints(earnedBadgeIds = []) {
   return allBadges
     .filter(b => earnedBadgeIds.includes(b.id))
     .reduce((sum, b) => sum + b.points, 0);

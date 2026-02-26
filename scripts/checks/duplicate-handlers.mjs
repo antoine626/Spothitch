@@ -29,7 +29,7 @@ function getAllJsFiles(dir) {
   return files
 }
 
-export default function checkDuplicateHandlers() {
+export default function checkDuplicateHandlers(opts = {}) {
   const errors = []
   const warnings = []
 

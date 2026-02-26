@@ -258,7 +258,7 @@ export function getCurrentPosition() {
 /**
  * Add tracking listener
  */
-export function addTrackingListener(listener) {
+function addTrackingListener(listener) {
   trackingListeners.push(listener);
   return () => {
     trackingListeners = trackingListeners.filter(l => l !== listener);
@@ -268,14 +268,14 @@ export function addTrackingListener(listener) {
 /**
  * Check if tracking is active
  */
-export function isTrackingActive() {
+function isTrackingActive() {
   return watchId !== null;
 }
 
 /**
  * Get tracking session info
  */
-export function getTrackingSession() {
+function getTrackingSession() {
   return getState().sosSession;
 }
 

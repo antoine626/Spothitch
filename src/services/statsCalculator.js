@@ -32,7 +32,7 @@ const DISTANCE_COMPARISONS = [
  * @param {number} distanceKm - Distance in kilometers
  * @returns {Object} Comparison with emoji and text
  */
-export function getDistanceComparison(distanceKm) {
+function getDistanceComparison(distanceKm) {
   if (!distanceKm || distanceKm < 50) {
     return { emoji: '🚶', text: 'Continue a voyager pour debloquer des comparaisons !' };
   }

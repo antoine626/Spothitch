@@ -15,7 +15,7 @@ const APP_URL = 'https://spothitch.com'
  * @param {Object} spot - Spot object
  * @returns {string} HTML string for the card
  */
-export function generateShareCard(spot) {
+function generateShareCard(spot) {
   if (!spot) return ''
 
   const spotName = spot.name || `${spot.from} → ${spot.to}`
@@ -70,7 +70,7 @@ export function generateShareCard(spot) {
  * Show share modal with visual card and share options
  * @param {Object} spot - Spot object
  */
-export function showShareModal(spot) {
+function showShareModal(spot) {
   if (!spot) {
     console.warn('[ShareCard] No spot provided')
     return

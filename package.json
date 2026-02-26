@@ -23,6 +23,7 @@
     "audit:rgpd": "node scripts/audit-rgpd.mjs",
     "deploy": "npm run build && gh-pages -d dist",
     "sync:spots": "node scripts/extract-spots.mjs",
+    "quality:fix": "node scripts/quality-gate.mjs --fix",
     "prepare": "husky"
   },
   "lint-staged": {

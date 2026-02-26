@@ -44,7 +44,7 @@ export function initPWA() {
 /**
  * Check if the app is installed as PWA
  */
-export function isAppInstalled() {
+function isAppInstalled() {
   // Check display-mode
   if (window.matchMedia('(display-mode: standalone)').matches) {
     return true;
@@ -145,7 +145,7 @@ function showManualInstallInstructions() {
 /**
  * Render install banner component
  */
-export function renderInstallBanner() {
+function renderInstallBanner() {
   const { showInstallBanner } = getState();
 
   if (!showInstallBanner) return '';
@@ -184,7 +184,7 @@ export function renderInstallBanner() {
 /**
  * Check for service worker updates
  */
-export async function checkForUpdates() {
+async function checkForUpdates() {
   if (!('serviceWorker' in navigator)) return false;
 
   try {
@@ -200,7 +200,7 @@ export async function checkForUpdates() {
 /**
  * Force reload to apply updates
  */
-export function applyUpdate() {
+function applyUpdate() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then(registration => {
       if (registration.waiting) {
@@ -216,7 +216,7 @@ export function applyUpdate() {
 /**
  * Get PWA display mode
  */
-export function getDisplayMode() {
+function getDisplayMode() {
   if (window.matchMedia('(display-mode: standalone)').matches) {
     return 'standalone';
   }
@@ -232,7 +232,7 @@ export function getDisplayMode() {
 /**
  * Check if device supports PWA installation
  */
-export function canInstallPWA() {
+function canInstallPWA() {
   return deferredPrompt !== null || /chrome|chromium/i.test(navigator.userAgent);
 }
 

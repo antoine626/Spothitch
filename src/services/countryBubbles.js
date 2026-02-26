@@ -16,7 +16,7 @@ import { escapeJSString } from '../utils/sanitize.js'
  * @param {Set<string>} loadedCodes - country codes currently loaded in memory
  * @returns {object} GeoJSON FeatureCollection
  */
-export function buildCountryBubblesGeoJSON(
+function buildCountryBubblesGeoJSON(
   indexData, countryCenters, downloadedCodes = new Set(), loadedCodes = new Set(),
 ) {
   if (!indexData?.countries) return { type: 'FeatureCollection', features: [] }

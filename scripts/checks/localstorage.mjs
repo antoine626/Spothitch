@@ -78,7 +78,7 @@ function findStorageKeys(dir) {
   return keys
 }
 
-export default function checkLocalStorage() {
+export default function checkLocalStorage(opts = {}) {
   const registeredKeys = getRegisteredKeys()
   const usedKeys = findStorageKeys(SRC_PATH)
 

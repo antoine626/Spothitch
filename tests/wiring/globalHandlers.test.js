@@ -17,7 +17,7 @@ const KNOWN_HANDLERS = new Set()
 const MAIN_JS_HANDLERS = [
   // Reset / Navigation
   'resetApp', 'changeTab', 'openFullMap', 'toggleTheme', 'setViewMode',
-  't', 'setState', 'getState',
+  't',
   // Spots
   'selectSpot', 'closeSpotDetail', 'openAddSpot', 'openAddSpotPreview', 'closeAddSpot',
   'openRating', 'closeRating', 'openNavigation', 'getSpotLocation',
@@ -143,8 +143,7 @@ const MAIN_JS_HANDLERS = [
   'openMyData', 'closeMyData',
   'openDonation', 'closeDonation', 'closeDonationThankYou',
   'openReport', 'closeReport',
-  'closeFriendProfile', 'openFriendProfile',
-  'openReportModal', 'closeReportModal',
+  'closeFriendProfile', 'closeReportModal',
   // Legal & Moderation (session 2026-02-19)
   'acceptSOSDisclaimer', 'acceptCompanionConsent',
   'openBlockedUsers', 'closeBlockedUsers',
@@ -170,11 +169,11 @@ const MAIN_JS_HANDLERS = [
   'setSocialTab', 'postCompanionRequest', 'addFriendByName',
   'showCompanionSearchView', 'closeCompanionSearch', 'setEventFilter',
   // Feed (defined in Feed.js)
-  'setFeedFilter', 'toggleFeedVisibility', 'setSocialSubTab',
+  'setFeedFilter', 'toggleFeedVisibility',
   // Conversations (defined in Conversations.js)
   'openGroupChat', 'closeGroupChat', 'openZoneChat', 'closeZoneChat',
   // Friends (defined in Friends.js)
-  'searchAmbassadorsByCity', 'searchFriendSuggestions', 'selectFriendSuggestion',
+  'searchAmbassadorsByCity',
   // Ambassadors (defined in ambassadors.js)
   'searchAmbassadors', 'registerAmbassador', 'contactAmbassador',
   'unregisterAmbassador', 'updateAmbassadorAvailability',
@@ -188,7 +187,7 @@ const MAIN_JS_HANDLERS = [
   'postEventComment', 'replyEventComment', 'toggleReplyInput',
   'reactToEventComment', 'shareEvent', 'deleteEventCommentAction',
   // Profile view (defined in Profile.js)
-  'toggleNotifications', 'openLegalPage',
+  'toggleNotifications',
   // SOS (defined in SOS.js)
   'sendSOSTemplate',
   // Auth (defined in Auth.js)
@@ -196,7 +195,6 @@ const MAIN_JS_HANDLERS = [
   // SpotDetail (defined in navigation controller/utils)
   'showNavigationPicker', 'openInNavigationApp', 'voteSpot',
   // Welcome (defined in Welcome.js)
-  'selectWelcomeLanguage',
   // IdentityVerification (defined in IdentityVerification.js)
   'startVerificationStep',
   // CreateTravelGroup (defined in CreateTravelGroup.js)
@@ -342,7 +340,6 @@ const MAIN_JS_HANDLERS = [
   'setValidationTimeOfDay', 'setValidationRating',
   'handleValidationPhoto',
   // Favorites (defined in favorites.js)
-  'showFavoritesOnMap',
   // User Blocking (defined in userBlocking.js)
   'unblockUserById', 'openBlockModal', 'closeBlockModal', 'confirmBlockUser',
   'openUnblockModal', 'closeUnblockModal', 'confirmUnblockUser',
@@ -353,41 +350,18 @@ const MAIN_JS_HANDLERS = [
   // SOS Tracking (defined in sosTracking.js)
   'startSOSTracking', 'stopSOSTracking', 'shareSOSLink', 'callEmergency',
   // FriendsList (defined in friendsList.js)
-  'acceptFriendRequestHandler', 'declineFriendRequestHandler',
-  'cancelFriendRequestHandler', 'confirmRemoveFriend',
-  'openFindFriends', 'sendFriendRequestHandler',
-  // Admin Moderation (defined in adminModeration.js)
-  'openAdminModerationDashboard', 'closeAdminModeration',
-  'refreshAdminDashboard', 'openModerationQueue',
-  'openBanManagement', 'openWarningManagement', 'openModerationLogs',
-  'filterModerationQueue', 'loadMoreReports',
-  'quickReportAction', 'banUserPermanent', 'banUserTemporary',
-  'unbanUser', 'warnUser', 'removeWarning', 'acknowledgeWarning',
-  'openAddForbiddenWordModal', 'addForbiddenWord', 'removeForbiddenWord',
-  'moderateSpot', 'moderatePhoto', 'moderateChatMessage',
+  // Admin Moderation (defined in adminModeration.js) 'closeAdminModeration',
   // Detailed Reviews (defined in detailedReviews.js)
-  'setReviewRating', 'submitDetailedReview', 'toggleReviewHelpful',
-  'triggerReviewPhotoUpload', 'updateReviewCharsCount',
-  'showReviewForm', 'openReviewPhoto', 'editReviewModal',
-  'deleteReviewConfirm', 'openReplyModal',
   // Realtime Chat (defined in realtimeChat.js)
-  'joinChatRoom', 'sendChatMessage', 'setTyping',
   // Trust Score (defined in trustScore.js)
   'getUserTrustScore', 'showTrustDetails',
-  // Companion Search (defined in companionSearch.js)
-  'openTravelPlanDetail', 'closeTravelPlanDetail',
-  'acceptPlanResponse', 'declinePlanResponse',
-  'postTravelPlanHandler', 'searchCompanionsHandler',
-  // Dangerous Spots (defined in dangerousSpots.js)
-  'reportSpotDanger', 'closeDangerReportModal', 'submitDangerReport',
-  'confirmSpotDanger', 'voteDeletion',
+  // Companion Search (defined in companionSearch.js) 'closeTravelPlanDetail',
+  // Dangerous Spots (defined in dangerousSpots.js) 'closeDangerReportModal',
   // TravelGroups extras (defined in travelGroups.js)
   'createGroup', 'acceptGroupInvitation', 'declineGroupInvitation',
   'addItineraryStop', 'removeItineraryStop',
   'joinTravelGroup', 'leaveTravelGroup', 'createTravelGroup',
   // Private Messages (defined in privateMessages.js)
-  'sendPrivateMessageTo', 'muteConvo', 'unmuteConvo',
-  'archiveConvo', 'deleteConvo',
   // Nearby Friends extras (defined in nearbyFriends.js)
   'setNotificationRadius', 'toggleNearbyFriendsList',
   'closeNearbyFriendsList', 'toggleLocationSharing', 'showFriendOnMap',

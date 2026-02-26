@@ -978,7 +978,7 @@ const PATTERN_CHECKS = [
   },
 ]
 
-export default function checkErrorPatterns() {
+export default function checkErrorPatterns(opts = {}) {
   if (!existsSync(ERRORS_PATH)) {
     return {
       name: 'Error Patterns',

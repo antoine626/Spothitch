@@ -8,7 +8,7 @@ import { showToast } from './notifications.js';
 import { addPoints, addSeasonPoints } from './gamification.js';
 
 // Reward calendar configuration
-export const DAILY_REWARDS = [
+const DAILY_REWARDS = [
   { day: 1, points: 10, label: 'Jour 1', icon: '🎁' },
   { day: 2, points: 15, label: 'Jour 2', icon: '🎁' },
   { day: 3, points: 20, label: 'Jour 3', icon: '🎁' },

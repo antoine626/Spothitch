@@ -3797,14 +3797,34 @@ function phase28_score() {
 
   const score100 = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0
 
-  // Compare with last run
+  // Compare with last run — only compare phases present in BOTH runs
   const lastRun = memory.runs[memory.runs.length - 1]
   let trend = ''
   if (lastRun) {
-    const diff = score100 - lastRun.score
-    if (diff > 0) trend = `(+${diff} depuis le dernier run)`
-    else if (diff < 0) trend = `(${diff} depuis le dernier run)`
-    else trend = '(= stable)'
+    if (isDelta && lastRun.mode !== 'delta') {
+      // Delta vs full: only compare overlapping phases
+      const currentPhaseNames = new Set(phases.map(p => p.name))
+      const lastOverlap = (lastRun.phases || []).filter(lp => currentPhaseNames.has(lp.name))
+      if (lastOverlap.length > 0) {
+        const lastOverlapScore = lastOverlap.reduce((s, p) => s + p.score, 0)
+        const lastOverlapMax = lastOverlap.reduce((s, p) => s + p.max, 0)
+        const lastOverlapPct = lastOverlapMax > 0 ? Math.round((lastOverlapScore / lastOverlapMax) * 100) : 0
+        const currentOverlapScore = phases.filter(p => lastOverlap.some(lp => lp.name === p.name)).reduce((s, p) => s + p.score, 0)
+        const currentOverlapMax = phases.filter(p => lastOverlap.some(lp => lp.name === p.name)).reduce((s, p) => s + p.max, 0)
+        const currentOverlapPct = currentOverlapMax > 0 ? Math.round((currentOverlapScore / currentOverlapMax) * 100) : 0
+        const diff = currentOverlapPct - lastOverlapPct
+        if (diff > 0) trend = `(+${diff} sur ${lastOverlap.length} phases communes)`
+        else if (diff < 0) trend = `(${diff} sur ${lastOverlap.length} phases communes)`
+        else trend = `(= stable sur ${lastOverlap.length} phases communes)`
+      } else {
+        trend = '(delta — pas de phase comparable)'
+      }
+    } else {
+      const diff = score100 - lastRun.score
+      if (diff > 0) trend = `(+${diff} depuis le dernier run)`
+      else if (diff < 0) trend = `(${diff} depuis le dernier run)`
+      else trend = '(= stable)'
+    }
   } else {
     trend = '(premier run — baseline etablie)'
   }
@@ -3997,9 +4017,12 @@ function phase29_recommendations(scoreResult) {
     }
 
     // Check if this phase improved since last run
-    const lastRun = memory.runs[memory.runs.length - 1]
-    if (lastRun?.phases) {
-      const lastPhase = lastRun.phases.find(lp => lp.name === p.name)
+    // Only compare with last run that actually ran this phase
+    const lastRunForPhase = [...(memory.runs || [])].reverse().find(r =>
+      r.phases && r.phases.some(lp => lp.name === p.name)
+    )
+    if (lastRunForPhase?.phases) {
+      const lastPhase = lastRunForPhase.phases.find(lp => lp.name === p.name)
       if (lastPhase) {
         const lastPct = Math.round((lastPhase.score / lastPhase.max) * 100)
         if (pct > lastPct) entry.trend = `+${pct - lastPct}% (amelioration)`
@@ -4905,7 +4928,7 @@ memory.runs.push({
   score: scoreResult.score100,
   confidence: scoreResult.confidence,
   duration: `${totalTime}s`,
-  mode: isQuick ? 'quick' : 'full',
+  mode: isDelta ? 'delta' : isQuick ? 'quick' : 'full',
   bundleSize: memory._currentBundleSize || null,
   phases: phases.map(p => ({ name: p.name, score: p.score, max: p.max })),
   errors: newErrors.length,

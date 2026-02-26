@@ -61,7 +61,7 @@ function isPointNearRoute(point, routeCoords, maxDistanceKm = 10) {
  * @param {Object} to - Ending point {lat, lng, name}
  * @param {number} maxDistanceKm - Max distance from route
  */
-export async function getSpotsForRoute(from, to, maxDistanceKm = 15) {
+async function getSpotsForRoute(from, to, maxDistanceKm = 15) {
   try {
     // Get route from OSRM
     const route = await getRoute([from, to]);
@@ -102,7 +102,7 @@ export async function getSpotsForRoute(from, to, maxDistanceKm = 15) {
  * @param {Object} from - Starting point
  * @param {Object} to - Ending point
  */
-export function getSpotsBetween(from, to) {
+function getSpotsBetween(from, to) {
   const spots = getState().spots || sampleSpots;
 
   const minLat = Math.min(from.lat, to.lat) - 0.5;
@@ -122,7 +122,7 @@ export function getSpotsBetween(from, to) {
  * @param {Array} routeCoords - Array of [lng, lat] coordinates
  * @param {number} maxKm - Maximum distance from route
  */
-export function findSpotsNearRoute(routeCoords, maxKm = 10) {
+function findSpotsNearRoute(routeCoords, maxKm = 10) {
   const spots = getState().spots || sampleSpots;
 
   return spots.filter(spot => {
@@ -135,7 +135,7 @@ export function findSpotsNearRoute(routeCoords, maxKm = 10) {
  * Create a new trip plan
  * @param {Array} steps - Array of step objects {name, lat, lng}
  */
-export async function createTrip(steps) {
+async function createTrip(steps) {
   if (steps.length < 2) {
     showToast(t('needAtLeast2Steps') || 'Il faut au moins 2 étapes', 'error');
     return null;
@@ -200,7 +200,7 @@ export async function createTrip(steps) {
  * Save a trip to user's saved trips
  * @param {Object} trip - Trip object
  */
-export function saveTrip(trip) {
+function saveTrip(trip) {
   const state = getState();
   const savedTrips = state.savedTrips || [];
 
@@ -222,7 +222,7 @@ export function saveTrip(trip) {
  * Delete a saved trip
  * @param {string} tripId - Trip ID
  */
-export function deleteTrip(tripId) {
+function deleteTrip(tripId) {
   const state = getState();
   const savedTrips = state.savedTrips || [];
 
@@ -236,7 +236,7 @@ export function deleteTrip(tripId) {
 /**
  * Get saved trips
  */
-export function getSavedTrips() {
+function getSavedTrips() {
   const state = getState();
   return state.savedTrips || [];
 }
@@ -254,7 +254,7 @@ export function getTripById(tripId) {
  * Search for a location and return coordinates
  * @param {string} query - Search query
  */
-export async function searchTripLocation(query) {
+async function searchTripLocation(query) {
   const results = await searchLocation(query);
   return results.map(r => ({
     name: r.name.split(',')[0], // Just city name
@@ -268,7 +268,7 @@ export async function searchTripLocation(query) {
  * Add a step to current trip planning
  * @param {Object} step - Step object {name, lat, lng}
  */
-export function addTripStep(step) {
+function addTripStep(step) {
   const state = getState();
   const steps = state.tripSteps || [];
 
@@ -295,7 +295,7 @@ export function removeTripStep(index) {
  * @param {number} fromIndex - Original index
  * @param {number} toIndex - New index
  */
-export function reorderTripSteps(fromIndex, toIndex) {
+function reorderTripSteps(fromIndex, toIndex) {
   const state = getState();
   const steps = [...(state.tripSteps || [])];
 
@@ -323,7 +323,7 @@ export function clearTripSteps() {
  * @param {Object} location - {lat, lng}
  * @param {number} limit - Max spots to return
  */
-export function getSuggestedStartingSpots(location, limit = 5) {
+function getSuggestedStartingSpots(location, limit = 5) {
   const spots = getState().spots || sampleSpots;
 
   const sortedSpots = spots

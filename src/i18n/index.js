@@ -121,7 +121,7 @@ export async function initI18n() {
 /**
  * Pluralize a word based on count and current language
  */
-export function pluralize(key, count, includeCount = true) {
+function pluralize(key, count, includeCount = true) {
   const { lang } = getState();
   const langForms = pluralForms[lang] || pluralForms.en;
   const langRule = pluralRules[lang] || pluralRules.en;
@@ -134,11 +134,11 @@ export function pluralize(key, count, includeCount = true) {
   return includeCount ? `${count} ${word}` : word;
 }
 
-export function formatCount(count, key) {
+function formatCount(count, key) {
   return pluralize(key, count, true);
 }
 
-export function getPluralWord(key, count) {
+function getPluralWord(key, count) {
   return pluralize(key, count, false);
 }
 
@@ -172,7 +172,7 @@ export function detectLanguage() {
   return 'en';
 }
 
-export function isFirstLaunch() {
+function isFirstLaunch() {
   return !localStorage.getItem('spothitch_language_selected');
 }
 
@@ -211,7 +211,7 @@ export function getAvailableLanguages() {
   return Object.values(languageConfig);
 }
 
-export function getLanguageInfo(code) {
+function getLanguageInfo(code) {
   return languageConfig[code] || languageConfig.en;
 }
 

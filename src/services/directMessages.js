@@ -77,7 +77,7 @@ function getConversationId(userId1, userId2) {
  * @param {Object} options - { type: 'text'|'spot_share'|'location_share', spot, location }
  * @returns {Object} { success, message }
  */
-export function sendDirectMessage(recipientId, text, options = {}) {
+function sendDirectMessage(recipientId, text, options = {}) {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
 
@@ -145,7 +145,7 @@ export function getConversationMessages(recipientId) {
  * Mark a conversation as read
  * @param {string} recipientId
  */
-export function markConversationRead(recipientId) {
+function markConversationRead(recipientId) {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
   const convId = getConversationId(userId, recipientId)
@@ -172,7 +172,7 @@ export function markConversationRead(recipientId) {
  * @param {string} recipientId
  * @returns {number}
  */
-export function getUnreadCount(recipientId) {
+function getUnreadCount(recipientId) {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
   const storage = getDMStorage()
@@ -186,7 +186,7 @@ export function getUnreadCount(recipientId) {
  * Get total unread DM count across all conversations
  * @returns {number}
  */
-export function getTotalUnreadCount() {
+function getTotalUnreadCount() {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
   const storage = getDMStorage()
@@ -269,7 +269,7 @@ export function getConversationsList() {
  * @param {string} recipientId
  * @returns {Object} { success }
  */
-export function deleteConversation(recipientId) {
+function deleteConversation(recipientId) {
   const state = getState()
   const userId = state.user?.uid || 'local-user'
   const storage = getDMStorage()
@@ -287,7 +287,7 @@ export function deleteConversation(recipientId) {
  * @param {Object} spot - { id, name, city, country, rating, lat, lng }
  * @returns {Object}
  */
-export function shareSpotInDM(recipientId, spot) {
+function shareSpotInDM(recipientId, spot) {
   return sendDirectMessage(recipientId, t('checkThisSpot') || 'Check ce spot !', {
     type: 'spot_share',
     spot: {
@@ -308,7 +308,7 @@ export function shareSpotInDM(recipientId, spot) {
  * @param {Object} location - { lat, lng, address }
  * @returns {Object}
  */
-export function sharePositionInDM(recipientId, location) {
+function sharePositionInDM(recipientId, location) {
   return sendDirectMessage(recipientId, t('hereIsMyPosition') || 'Voici ma position', {
     type: 'location_share',
     location,

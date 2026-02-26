@@ -248,7 +248,7 @@ export function renderApp(state) {
     ${state.showReport ? lazyRender('renderReportModal', state) : ''}
     ${state.showBlockModal ? lazyRender('renderBlockModal', state.blockTargetId, state.blockTargetName) : ''}
     ${state.showBlockedUsers ? `
-      <div class="fixed inset-0 z-50 flex items-center justify-center p-4" onclick="closeBlockedUsers()" role="dialog" aria-modal="true">
+      <div class="fixed inset-0 z-50 flex items-center justify-center p-4" onclick="closeBlockedUsers()" role="dialog" aria-modal="true" tabindex="0">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
         <div class="relative modal-panel rounded-3xl w-full max-w-md max-h-[90vh] overflow-y-auto slide-up" onclick="event.stopPropagation()">
           <div class="p-6">

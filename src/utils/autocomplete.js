@@ -20,7 +20,7 @@ import { icon } from './icons.js'
  * @param {Function} [options.onClear] - Callback when user clears their selection
  * @returns {{ destroy: Function, isValid: Function }} Cleanup handle + validation
  */
-export function initAutocomplete({
+function initAutocomplete({
   inputId,
   searchFn,
   onSelect,

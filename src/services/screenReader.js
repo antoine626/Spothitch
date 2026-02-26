@@ -302,7 +302,7 @@ export function announceViewChange(viewName) {
  * @param {string} listType - Type of list
  * @param {number} count - Number of items
  */
-export function announceListUpdate(listType, count) {
+function announceListUpdate(listType, count) {
   const listNames = {
     spots: t('sr.listSpots') || 'spots',
     messages: t('sr.listMessages') || 'messages',
@@ -320,7 +320,7 @@ export function announceListUpdate(listType, count) {
  * @param {boolean} isLoading - Whether loading is in progress
  * @param {string} context - What is being loaded
  */
-export function announceLoading(isLoading, context = '') {
+function announceLoading(isLoading, context = '') {
   if (isLoading) {
     announce(`${t('sr.loading') || 'Chargement'}${context ? ` ${t('sr.of') || 'de'} ${context}` : ''} ${t('sr.inProgress') || 'en cours'}`);
   } else {
@@ -332,7 +332,7 @@ export function announceLoading(isLoading, context = '') {
  * Announce error
  * @param {string} error - Error message
  */
-export function announceError(error) {
+function announceError(error) {
   announce(`${t('sr.error') || 'Erreur'}: ${error}`, PRIORITY.ASSERTIVE);
 }
 
@@ -341,7 +341,7 @@ export function announceError(error) {
  * @param {string} title - Notification title
  * @param {string} body - Notification body
  */
-export function announceNotification(title, body) {
+function announceNotification(title, body) {
   announce(`${t('sr.notification') || 'Notification'}: ${title}. ${body}`, PRIORITY.ASSERTIVE);
 }
 
@@ -350,7 +350,7 @@ export function announceNotification(title, body) {
  * @param {HTMLElement} container
  * @returns {HTMLElement|null}
  */
-export function getFirstFocusable(container) {
+function getFirstFocusable(container) {
   const focusableSelectors = [
     'button:not([disabled])',
     'input:not([disabled])',
@@ -368,7 +368,7 @@ export function getFirstFocusable(container) {
  * @param {HTMLElement} container
  * @returns {HTMLElement[]}
  */
-export function getAllFocusable(container) {
+function getAllFocusable(container) {
   const focusableSelectors = [
     'button:not([disabled])',
     'input:not([disabled])',
@@ -572,7 +572,7 @@ export function renderAccessibilityHelp(state) {
  * @param {Object} spot
  * @returns {string}
  */
-export function generateSpotDescription(spot) {
+function generateSpotDescription(spot) {
   const parts = [];
 
   parts.push(`${spot.name || (t('sr.spotWithoutName') || 'Spot sans nom')}`);
@@ -614,7 +614,7 @@ export function generateSpotDescription(spot) {
  * @param {number} rating
  * @returns {string}
  */
-export function generateRatingLabel(rating) {
+function generateRatingLabel(rating) {
   if (!rating) return t('sr.noRating') || 'Aucune note';
 
   const rounded = Math.round(rating * 10) / 10;
@@ -628,7 +628,7 @@ export function generateRatingLabel(rating) {
  * @param {string|Date} date
  * @returns {string}
  */
-export function generateTimeLabel(date) {
+function generateTimeLabel(date) {
   if (!date) return '';
 
   const d = new Date(date);

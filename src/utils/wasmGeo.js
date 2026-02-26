@@ -276,7 +276,7 @@ export function batchDistances(userLat, userLng, points) {
  * @param {number} [n=10] - Number of nearest spots to return
  * @returns {Array<{spot, distance}>}
  */
-export function findNearest(userLat, userLng, spots, n = 10) {
+function findNearest(userLat, userLng, spots, n = 10) {
   const points = spots.map(s => ({
     lat: s.coordinates?.lat || s.lat || 0,
     lng: s.coordinates?.lng || s.lng || 0,
@@ -318,7 +318,7 @@ export function findNearest(userLat, userLng, spots, n = 10) {
  * @param {number} radiusKm
  * @returns {Array} Spots within radius, with distance added
  */
-export function spotsInRadius(centerLat, centerLng, spots, radiusKm) {
+function spotsInRadius(centerLat, centerLng, spots, radiusKm) {
   const points = spots.map(s => ({
     lat: s.coordinates?.lat || s.lat || 0,
     lng: s.coordinates?.lng || s.lng || 0,
@@ -336,7 +336,7 @@ export function spotsInRadius(centerLat, centerLng, spots, radiusKm) {
  * Get performance info
  * @returns {Object}
  */
-export function getGeoInfo() {
+function getGeoInfo() {
   return {
     backend: wasmReady ? 'wasm' : 'javascript',
     wasmAvailable: typeof WebAssembly !== 'undefined',
@@ -350,7 +350,7 @@ export function getGeoInfo() {
  * @param {number} [iterations=10000]
  * @returns {Object} { jsMs, currentMs, speedup }
  */
-export function benchmark(iterations = 10000) {
+function benchmark(iterations = 10000) {
   const pairs = Array.from({ length: iterations }, () => ({
     lat1: Math.random() * 180 - 90,
     lng1: Math.random() * 360 - 180,
