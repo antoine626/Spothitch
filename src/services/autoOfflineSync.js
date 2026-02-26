@@ -119,7 +119,7 @@ function shouldAutoSync() {
  * Downloads spots, guides, and map data for relevant countries
  * @returns {Promise<Object>}
  */
-async function performAutoSync() {
+export async function performAutoSync() {
   try {
     const startTime = Date.now()
     const syncedData = {
@@ -293,7 +293,7 @@ async function downloadCountryGuide(countryCode) {
  * @param {string} countryCode - Country code
  * @returns {Array} Array of spots
  */
-function getOfflineSpots(countryCode) {
+export function getOfflineSpots(countryCode) {
   try {
     const key = `${STORAGE_PREFIX}spots_${countryCode}`
     const cached = localStorage.getItem(key)
@@ -330,7 +330,7 @@ async function getOfflineSpotsCount(countryCode) {
  * @param {string} countryCode - Country code
  * @returns {boolean}
  */
-function isOfflineDataAvailable(countryCode) {
+export function isOfflineDataAvailable(countryCode) {
   const spots = getOfflineSpots(countryCode)
   return spots.length > 0
 }
@@ -339,7 +339,7 @@ function isOfflineDataAvailable(countryCode) {
  * Get offline sync status
  * @returns {Object} Status object with countries, size, last sync
  */
-function getOfflineStatus() {
+export function getOfflineStatus() {
   const countries = []
   const guides = []
   let totalSize = 0
@@ -400,7 +400,7 @@ export async function forceOfflineSync() {
 /**
  * Clear all offline data
  */
-function clearOfflineData() {
+export function clearOfflineData() {
   const keys = []
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i)

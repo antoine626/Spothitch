@@ -81,7 +81,7 @@ export function addActivity(activity) {
  * Generate sample activities for demo/empty feeds
  * @returns {Array} Sample activity items
  */
-function generateSampleActivities() {
+export function generateSampleActivities() {
   const now = Date.now()
   const hour = 3600000
   const day = 86400000

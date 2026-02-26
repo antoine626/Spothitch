@@ -141,7 +141,7 @@ export function renderBadgePopup() {
   return `
     <div class="badge-popup fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
          role="dialog" aria-modal="true"
-         onclick="dismissBadgePopup()" tabindex="0">
+         onclick="dismissBadgePopup()">
       <div class="modal-panel w-full max-w-sm rounded-2xl overflow-hidden animate-scale-up"
            onclick="event.stopPropagation()">
         <!-- Confetti effect would be nice here -->
@@ -197,7 +197,7 @@ export function renderBadgeDetail(badgeId) {
   return `
     <div class="badge-detail fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
          role="dialog" aria-modal="true"
-         onclick="closeBadgeDetail()" tabindex="0">
+         onclick="closeBadgeDetail()">
       <div class="modal-panel w-full max-w-sm rounded-2xl overflow-hidden"
            onclick="event.stopPropagation()">
         <div class="bg-gradient-to-r from-amber-500/20 to-orange-500/20 p-8 text-center">

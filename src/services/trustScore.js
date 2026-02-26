@@ -37,7 +37,7 @@ const SCORE_FACTORS = {
  * @param {Object} userStats - User statistics
  * @returns {Object} Trust score details
  */
-function calculateTrustScore(userStats = {}) {
+export function calculateTrustScore(userStats = {}) {
   const state = getState();
 
   // Read localStorage data for new factors
@@ -122,7 +122,7 @@ function getDaysSinceCreation(createdAt) {
 /**
  * Get tier for a given score
  */
-function getTierForScore(score) {
+export function getTierForScore(score) {
   for (const [key, tier] of Object.entries(TRUST_TIERS)) {
     if (score >= tier.min && score <= tier.max) {
       return { id: key, ...tier };
@@ -141,7 +141,7 @@ export function getUserTrustScore() {
 /**
  * Update user trust factors (call after relevant actions)
  */
-function updateTrustFactors(factors) {
+export function updateTrustFactors(factors) {
   const state = getState();
   setState({
     ...state,

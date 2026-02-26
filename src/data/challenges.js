@@ -173,7 +173,7 @@ export const allChallenges = {
 /**
  * Get weekly challenges
  */
-function getWeeklyChallenges() {
+export function getWeeklyChallenges() {
   // Rotate based on week number
   const weekOfYear = Math.floor(
     (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / (7 * 86400000)
@@ -190,7 +190,7 @@ function getWeeklyChallenges() {
 /**
  * Get monthly challenges
  */
-function getMonthlyChallenges() {
+export function getMonthlyChallenges() {
   // Rotate based on month of year
   const monthOfYear = new Date().getMonth();
   const challenges = [...allChallenges.monthly];
@@ -205,14 +205,14 @@ function getMonthlyChallenges() {
 /**
  * Get all annual challenges
  */
-function getAnnualChallenges() {
+export function getAnnualChallenges() {
   return allChallenges.annual;
 }
 
 /**
  * Calculate challenge progress
  */
-function getChallengeProgress(challenge, userStats) {
+export function getChallengeProgress(challenge, userStats) {
   const current = userStats[challenge.type] || 0;
   const progress = Math.min(current / challenge.target, 1);
   return {

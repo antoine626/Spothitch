@@ -234,7 +234,7 @@ let quizStartTime = null
  * @param {string} countryCode - ISO 2-letter country code
  * @returns {Array} Array of quiz questions in internal format
  */
-function getQuizForCountry(countryCode) {
+export function getQuizForCountry(countryCode) {
   const quizData = getCountryQuizData(countryCode)
   if (!quizData) return null
 
@@ -260,7 +260,7 @@ function getQuizForCountry(countryCode) {
  * Start a new quiz (general or country-specific)
  * @param {string} [countryCode] - Optional country code for country quiz
  */
-function startQuiz(countryCode) {
+export function startQuiz(countryCode) {
   let questions
 
   if (countryCode) {
@@ -297,7 +297,7 @@ function startQuiz(countryCode) {
  * Start the quiz timer
  * @param {number} [duration=60] - Timer duration in seconds
  */
-function startQuizTimer(duration = 60) {
+export function startQuizTimer(duration = 60) {
   if (quizTimer) {
     clearInterval(quizTimer)
   }
@@ -319,7 +319,7 @@ function startQuizTimer(duration = 60) {
 /**
  * Stop the quiz timer
  */
-function stopQuizTimer() {
+export function stopQuizTimer() {
   if (quizTimer) {
     clearInterval(quizTimer)
     quizTimer = null
@@ -330,7 +330,7 @@ function stopQuizTimer() {
  * Answer a quiz question
  * @param {number} answerIndex - Index of selected answer
  */
-function answerQuestion(answerIndex) {
+export function answerQuestion(answerIndex) {
   const state = getState()
   const currentQuestion = state.quizQuestions[state.quizCurrentIndex]
   const isCorrect = answerIndex === currentQuestion.correctIndex
@@ -386,7 +386,7 @@ export function nextQuizQuestion() {
 /**
  * Finish the quiz and calculate final score
  */
-function finishQuiz() {
+export function finishQuiz() {
   stopQuizTimer()
 
   const state = getState()
@@ -532,7 +532,7 @@ export function getAvailableCountries() {
 /**
  * Get a random question for practice
  */
-function getRandomQuestion() {
+export function getRandomQuestion() {
   const randomIndex = Math.floor(Math.random() * quizQuestions.length)
   return quizQuestions[randomIndex]
 }
@@ -540,7 +540,7 @@ function getRandomQuestion() {
 /**
  * Get all questions (for review mode)
  */
-function getAllQuestions() {
+export function getAllQuestions() {
   return quizQuestions
 }
 

@@ -14,7 +14,7 @@ const OVERPASS_API = 'https://overpass-api.de/api/interpreter'
  * @param {number} bufferKm - Search buffer in km (default 2km)
  * @returns {Array} Array of {lat, lng, name, brand}
  */
-async function fetchGasStationsAlongRoute(routeCoords, bufferKm = 2) {
+export async function fetchGasStationsAlongRoute(routeCoords, bufferKm = 2) {
   if (!routeCoords || routeCoords.length < 2) return []
 
   // Sample every ~20 points to build a reasonable bounding polygon
@@ -111,7 +111,7 @@ function haversineKm(lat1, lng1, lat2, lng2) {
  * @param {Object} bounds - { north, south, east, west }
  * @returns {Promise<Array>} stations
  */
-async function fetchGasStationsInBounds(bounds) {
+export async function fetchGasStationsInBounds(bounds) {
   if (!bounds) return []
 
   const query = `[out:json][timeout:10];

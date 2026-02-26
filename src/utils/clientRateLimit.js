@@ -23,7 +23,7 @@ const DEFAULT_LIMITS = {
  * @param {Object} [limit] - { max, windowMs }
  * @returns {boolean}
  */
-function canRequest(key, limit) {
+export function canRequest(key, limit) {
   const config = limit || DEFAULT_LIMITS[key] || DEFAULT_LIMITS.general
   const now = Date.now()
 
@@ -72,7 +72,7 @@ export function recordRequest(key, limit) {
  * @param {Object} [limit] - { max, windowMs }
  * @returns {Function} Rate-limited function
  */
-function withRateLimit(key, fn, limit) {
+export function withRateLimit(key, fn, limit) {
   return async (...args) => {
     if (!recordRequest(key, limit)) {
       console.warn(`[RateLimit] ${key}: request blocked (limit reached)`)
@@ -107,7 +107,7 @@ export function getWaitTime(key, limit) {
  * Get rate limit stats for debugging
  * @returns {Object}
  */
-function getRateLimitStats() {
+export function getRateLimitStats() {
   const stats = {}
   for (const [key, win] of windows.entries()) {
     const config = DEFAULT_LIMITS[key] || DEFAULT_LIMITS.general
@@ -127,14 +127,14 @@ function getRateLimitStats() {
  * Reset rate limit for a key
  * @param {string} key
  */
-function resetRateLimit(key) {
+export function resetRateLimit(key) {
   windows.delete(key)
 }
 
 /**
  * Reset all rate limits
  */
-function resetAllRateLimits() {
+export function resetAllRateLimits() {
   windows.clear()
 }
 

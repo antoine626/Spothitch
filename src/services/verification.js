@@ -10,7 +10,7 @@ import { addPoints, addSeasonPoints } from './gamification.js';
 import { icon } from '../utils/icons.js'
 
 // Vote types
-const VOTE_TYPES = {
+export const VOTE_TYPES = {
   ACCURATE: 'accurate',      // Spot is accurate
   OUTDATED: 'outdated',      // Spot needs update
   WRONG_LOCATION: 'wrong_location',  // Wrong location
@@ -32,7 +32,7 @@ const VERIFICATION_POINTS = {
  * @param {string} voteType - Type of vote (VOTE_TYPES)
  * @param {string} comment - Optional comment
  */
-async function submitVote(spotId, voteType, comment = '') {
+export async function submitVote(spotId, voteType, comment = '') {
   const state = getState();
   const userId = state.user?.uid || 'anonymous';
 

@@ -64,7 +64,7 @@ export function renderIdentityVerification() {
         class="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onclick="closeIdentityVerification()"
         aria-hidden="true"
-       role="button" tabindex="0"></div>
+      ></div>
 
       <!-- Modal -->
       <div

@@ -9,7 +9,7 @@ import { icon } from '../../utils/icons.js'
 
 export function renderAdminPanel(state) {
   return `
-    <div class="modal-overlay active" role="dialog" aria-modal="true" onclick="closeAdminPanel()" tabindex="0">
+    <div class="modal-overlay active" role="dialog" aria-modal="true" onclick="closeAdminPanel()">
       <div class="modal-content max-w-lg max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-bold flex items-center gap-2">

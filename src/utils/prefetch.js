@@ -11,7 +11,7 @@ const PREFETCH_DELAY = 200 // ms to wait before prefetching (avoid accidental ho
  * Prefetch a JavaScript module
  * @param {string} modulePath - Path to import
  */
-function prefetchModule(modulePath) {
+export function prefetchModule(modulePath) {
   if (prefetched.has(modulePath)) return
   prefetched.add(modulePath)
 
@@ -27,7 +27,7 @@ function prefetchModule(modulePath) {
  * Prefetch a URL (add <link rel="prefetch">)
  * @param {string} url
  */
-function prefetchUrl(url) {
+export function prefetchUrl(url) {
   if (prefetched.has(url)) return
   prefetched.add(url)
 

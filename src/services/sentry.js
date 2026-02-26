@@ -10,7 +10,7 @@ let Sentry = null;
 /**
  * Initialize Sentry
  */
-async function initSentry() {
+export async function initSentry() {
   if (!SENTRY_DSN || typeof window === 'undefined') {
     console.warn('Sentry DSN not configured, skipping initialization');
     return false;

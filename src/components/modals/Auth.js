@@ -17,7 +17,7 @@ export function renderAuth(state) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="auth-modal-title"
-     tabindex="0">
+    >
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true"></div>
 

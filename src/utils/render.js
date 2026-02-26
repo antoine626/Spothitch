@@ -44,7 +44,7 @@ export function scheduleRender(renderFn) {
 /**
  * Cancel scheduled render
  */
-function cancelScheduledRender() {
+export function cancelScheduledRender() {
   if (rafId !== null) {
     cancelAnimationFrame(rafId);
     rafId = null;
@@ -60,7 +60,7 @@ function cancelScheduledRender() {
  */
 let debounceTimer = null;
 
-function debouncedRender(renderFn, delay = 100) {
+export function debouncedRender(renderFn, delay = 100) {
   if (debounceTimer) {
     clearTimeout(debounceTimer);
   }
@@ -104,7 +104,7 @@ export function shouldRerender(id, props) {
  * Clear render cache for a component
  * @param {string} id - Component identifier
  */
-function clearRenderCache(id) {
+export function clearRenderCache(id) {
   if (id) {
     renderCache.delete(id);
   } else {
@@ -116,7 +116,7 @@ function clearRenderCache(id) {
  * Track render performance
  * @param {number} startTime - Performance.now() at render start
  */
-function trackRenderPerformance(startTime) {
+export function trackRenderPerformance(startTime) {
   const duration = performance.now() - startTime;
   renderCount++;
   totalRenderTime += duration;
@@ -131,7 +131,7 @@ function trackRenderPerformance(startTime) {
  * Get render performance stats
  * @returns {Object} Performance statistics
  */
-function getRenderStats() {
+export function getRenderStats() {
   return {
     renderCount,
     skippedRenders,
@@ -148,7 +148,7 @@ if (typeof window !== 'undefined') {
 /**
  * Reset performance tracking
  */
-function resetRenderStats() {
+export function resetRenderStats() {
   renderCount = 0;
   totalRenderTime = 0;
 }
@@ -158,7 +158,7 @@ function resetRenderStats() {
  * @param {Function[]} updates - Array of update functions
  * @param {Function} renderFn - Render function to call after
  */
-function batchUpdates(updates, renderFn) {
+export function batchUpdates(updates, renderFn) {
   // Execute all updates without triggering individual renders
   updates.forEach(update => update());
 
@@ -172,7 +172,7 @@ function batchUpdates(updates, renderFn) {
  * @param {Function} renderFn - Render function
  * @param {Function} getDeps - Function returning dependencies array
  */
-function memoizedRender(renderFn, getDeps) {
+export function memoizedRender(renderFn, getDeps) {
   let lastDeps = null;
   let lastResult = null;
 
@@ -196,7 +196,7 @@ function memoizedRender(renderFn, getDeps) {
  * @param {string} newContent - New innerHTML
  * @param {boolean} skipSanitize - Skip sanitization for trusted content
  */
-function patchElement(element, newContent, skipSanitize = false) {
+export function patchElement(element, newContent, skipSanitize = false) {
   if (!element) return;
 
   const content = skipSanitize ? newContent : sanitize(newContent);
@@ -213,7 +213,7 @@ function patchElement(element, newContent, skipSanitize = false) {
  * @param {string} selector - Element selector
  * @param {Function} renderFn - Render function
  */
-function lazyRender(selector, renderFn) {
+export function lazyRender(selector, renderFn) {
   const element = document.querySelector(selector);
   if (!element) return;
 

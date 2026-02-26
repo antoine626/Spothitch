@@ -14,7 +14,7 @@ export function renderDeleteAccountModal(state) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="delete-account-title"
-     tabindex="0">
+    >
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true"></div>
 

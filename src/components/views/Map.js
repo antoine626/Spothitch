@@ -136,7 +136,7 @@ export function renderMap(state) {
 }
 
 // Initialize map when the view is rendered
-function initMainMap(state) {
+export function initMainMap(state) {
   const mapContainer = document.getElementById('main-map');
   if (!mapContainer) return;
 

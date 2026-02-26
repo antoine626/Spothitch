@@ -67,7 +67,7 @@ function renderSOSDisclaimer() {
       role="alertdialog"
       aria-modal="true"
       aria-labelledby="sos-disclaimer-title"
-     tabindex="0">
+    >
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
       <div
         class="relative bg-dark-primary border-2 border-amber-500/50 rounded-3xl w-full max-w-md slide-up"
@@ -122,7 +122,7 @@ function renderSOSMain(state) {
       aria-modal="true"
       aria-labelledby="sos-modal-title"
       aria-describedby="sos-modal-desc"
-     tabindex="0">
+    >
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
 

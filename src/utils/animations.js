@@ -111,7 +111,7 @@ export function showErrorAnimation(message) {
  * Show badge unlock animation
  * @param {Object} badge - Badge object with icon, name, points
  */
-function showBadgeUnlockAnimation(badge) {
+export function showBadgeUnlockAnimation(badge) {
   const overlay = document.createElement('div');
   overlay.className = 'badge-unlock-overlay';
   overlay.style.cssText = `
@@ -203,7 +203,7 @@ function showBadgeUnlockAnimation(badge) {
  * Show level up animation
  * @param {number} newLevel - New level reached
  */
-function showLevelUpAnimation(newLevel) {
+export function showLevelUpAnimation(newLevel) {
   floatingEmojisBurst('⬆️', 8);
 
   const overlay = document.createElement('div');
@@ -249,7 +249,7 @@ function showLevelUpAnimation(newLevel) {
  * @param {number} x - X position (optional)
  * @param {number} y - Y position (optional)
  */
-function showPointsAnimation(points, x, y) {
+export function showPointsAnimation(points, x, y) {
   const posX = x || window.innerWidth / 2;
   const posY = y || window.innerHeight / 2;
 

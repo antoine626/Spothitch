@@ -147,7 +147,7 @@ export function initWebVitals() {
  * Get all collected metrics
  * @returns {Object} { LCP, FID, CLS, INP, TTFB }
  */
-function getMetrics() {
+export function getMetrics() {
   return { ...metrics }
 }
 
@@ -156,7 +156,7 @@ function getMetrics() {
  * @param {Function} callback - (name, value, rating) => void
  * @returns {Function} unsubscribe
  */
-function onMetric(callback) {
+export function onMetric(callback) {
   callbacks.push(callback)
   return () => {
     const idx = callbacks.indexOf(callback)
@@ -168,7 +168,7 @@ function onMetric(callback) {
  * Get a summary string for debugging
  * @returns {string}
  */
-function getVitalsSummary() {
+export function getVitalsSummary() {
   const m = metrics
   const parts = []
   if (m.LCP) parts.push(`LCP:${Math.round(m.LCP.value)}ms`)
@@ -183,7 +183,7 @@ function getVitalsSummary() {
  * Send metrics to analytics endpoint (optional)
  * @param {string} endpoint - URL to POST metrics to
  */
-async function sendMetrics(endpoint) {
+export async function sendMetrics(endpoint) {
   if (Object.keys(metrics).length === 0) return
 
   try {

@@ -74,7 +74,7 @@ function saveHistory(history) {
  * @param {Object} data - Event data (spotId, details, etc.)
  * @returns {boolean} Success
  */
-function logTripEvent(type, data = {}) {
+export function logTripEvent(type, data = {}) {
   try {
     // Validate type
     if (!EVENT_TYPES[type]) {
@@ -122,7 +122,7 @@ function logTripEvent(type, data = {}) {
  * @param {number} limit - Maximum number of events (default 50)
  * @returns {Array} Array of events
  */
-function getTripHistory(limit = 50) {
+export function getTripHistory(limit = 50) {
   const history = getHistory()
   return history.slice(0, limit)
 }
@@ -269,7 +269,7 @@ export function renderTripHistory(limit = 50) {
  * Get trip statistics
  * @returns {Object} Statistics
  */
-function getTripStats() {
+export function getTripStats() {
   const history = getHistory()
 
   const stats = {

@@ -2129,28 +2129,28 @@ export function getGuideByCode(code) {
 /**
  * Get all guides sorted by difficulty
  */
-function getGuidesByDifficulty() {
+export function getGuidesByDifficulty() {
   return [...countryGuides].sort((a, b) => a.difficulty - b.difficulty)
 }
 
 /**
  * Get easiest countries
  */
-function getEasiestCountries(limit = 5) {
+export function getEasiestCountries(limit = 5) {
   return getGuidesByDifficulty().slice(0, limit)
 }
 
 /**
  * Get guides by legality
  */
-function getGuidesByLegality(legality) {
+export function getGuidesByLegality(legality) {
   return countryGuides.filter(g => g.legality === legality)
 }
 
 /**
  * Search guides
  */
-function searchGuides(query) {
+export function searchGuides(query) {
   const lowerQuery = query.toLowerCase()
   return countryGuides.filter(
     g =>
@@ -2163,7 +2163,7 @@ function searchGuides(query) {
 /**
  * Get all countries as a simple list
  */
-function getCountryList() {
+export function getCountryList() {
   return countryGuides.map(g => ({
     code: g.code,
     name: g.name,
@@ -2175,7 +2175,7 @@ function getCountryList() {
 /**
  * Get emergency numbers for a country
  */
-function getEmergencyNumbers(countryCode) {
+export function getEmergencyNumbers(countryCode) {
   const guide = getGuideByCode(countryCode)
   return guide?.emergencyNumbers || { universal: '112' }
 }

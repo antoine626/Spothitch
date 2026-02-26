@@ -4,7 +4,7 @@
  */
 
 // Thumbnail sizes configuration
-const THUMBNAIL_SIZES = {
+export const THUMBNAIL_SIZES = {
   small: { width: 128, height: 128 },
   medium: { width: 256, height: 256 },
   card: { width: 256, height: 192 },

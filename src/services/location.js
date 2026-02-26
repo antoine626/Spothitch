@@ -54,7 +54,7 @@ const PERMISSION_REMEMBER_DURATION = 30 * 24 * 60 * 60 * 1000;
  * Check if user has already made a location permission choice
  * @returns {'granted' | 'denied' | 'unknown'}
  */
-function getLocationPermissionChoice() {
+export function getLocationPermissionChoice() {
   const choice = Storage.get(LOCATION_PERMISSION_KEY);
   const choiceDate = Storage.get(LOCATION_PERMISSION_DATE_KEY);
 
@@ -80,7 +80,7 @@ function getLocationPermissionChoice() {
  * Save user's location permission choice
  * @param {'granted' | 'denied'} choice
  */
-function saveLocationPermissionChoice(choice) {
+export function saveLocationPermissionChoice(choice) {
   Storage.set(LOCATION_PERMISSION_KEY, choice);
   Storage.set(LOCATION_PERMISSION_DATE_KEY, Date.now());
   setStateSafe({ locationPermissionChoice: choice });
@@ -90,7 +90,7 @@ function saveLocationPermissionChoice(choice) {
  * Check browser's geolocation permission status
  * @returns {Promise<'granted' | 'denied' | 'prompt'>}
  */
-async function checkBrowserPermission() {
+export async function checkBrowserPermission() {
   if (!navigator.permissions) {
     return 'prompt';
   }
@@ -113,7 +113,7 @@ async function checkBrowserPermission() {
  * @param {Function} options.onError - Callback on error
  * @returns {Promise<GeolocationPosition | null>}
  */
-async function requestLocationWithExplanation(options = {}) {
+export async function requestLocationWithExplanation(options = {}) {
   const { forceAsk = false, onSuccess, onError } = options;
 
   // Check if geolocation is available
@@ -180,7 +180,7 @@ async function requestLocationWithExplanation(options = {}) {
  * @param {Object} options
  * @returns {Promise<GeolocationPosition | null>}
  */
-async function requestBrowserLocation(options = {}) {
+export async function requestBrowserLocation(options = {}) {
   const { onSuccess, onError } = options;
 
   return new Promise((resolve) => {
@@ -237,7 +237,7 @@ async function requestBrowserLocation(options = {}) {
 /**
  * Handle user accepting location permission from modal
  */
-async function handleAcceptLocationPermission() {
+export async function handleAcceptLocationPermission() {
   setStateSafe({ showLocationPermission: false });
 
   const position = await requestBrowserLocation({
@@ -258,7 +258,7 @@ async function handleAcceptLocationPermission() {
 /**
  * Handle user declining location permission from modal
  */
-function handleDeclineLocationPermission() {
+export function handleDeclineLocationPermission() {
   setStateSafe({ showLocationPermission: false });
   saveLocationPermissionChoice('denied');
 
@@ -277,7 +277,7 @@ function handleDeclineLocationPermission() {
  * @param {Function} onUpdate - Callback with updated position
  * @returns {number | null} - Watch ID for clearing, or null if not available
  */
-function watchUserLocation(onUpdate) {
+export function watchUserLocation(onUpdate) {
   if (!navigator.geolocation) {
     return null;
   }
@@ -314,7 +314,7 @@ function watchUserLocation(onUpdate) {
  * Stop watching user's position
  * @param {number} watchId - ID returned by watchUserLocation
  */
-function stopWatchingLocation(watchId) {
+export function stopWatchingLocation(watchId) {
   if (watchId && navigator.geolocation) {
     navigator.geolocation.clearWatch(watchId);
   }
@@ -323,7 +323,7 @@ function stopWatchingLocation(watchId) {
 /**
  * Reset location permission choice (for testing/settings)
  */
-function resetLocationPermission() {
+export function resetLocationPermission() {
   Storage.remove(LOCATION_PERMISSION_KEY);
   Storage.remove(LOCATION_PERMISSION_DATE_KEY);
   setStateSafe({

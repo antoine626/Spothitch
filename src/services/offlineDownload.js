@@ -16,7 +16,7 @@ const HITCHMAP_ENABLED = import.meta.env.VITE_HITCHMAP_ENABLED !== 'false'
  * @param {Function} [onProgress] - Progress callback (0-100)
  * @returns {Promise<{success: boolean, count: number}>}
  */
-async function downloadCountrySpots(countryCode, onProgress) {
+export async function downloadCountrySpots(countryCode, onProgress) {
   if (!HITCHMAP_ENABLED) return { success: true, count: 0 }
   const code = countryCode.toUpperCase()
 
@@ -85,7 +85,7 @@ async function downloadCountrySpots(countryCode, onProgress) {
  * Get list of downloaded countries
  * @returns {Array<{code: string, count: number, downloadedAt: number}>}
  */
-function getDownloadedCountries() {
+export function getDownloadedCountries() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
   } catch {
@@ -98,7 +98,7 @@ function getDownloadedCountries() {
  * @param {string} countryCode
  * @returns {boolean}
  */
-function isCountryDownloaded(countryCode) {
+export function isCountryDownloaded(countryCode) {
   return getDownloadedCountries().some(c => c.code === countryCode.toUpperCase())
 }
 
@@ -136,7 +136,7 @@ export async function deleteOfflineCountry(countryCode) {
  * @param {string} countryCode
  * @returns {Promise<Array>}
  */
-async function getOfflineCountrySpots(countryCode) {
+export async function getOfflineCountrySpots(countryCode) {
   return getByIndex('spots', 'country', countryCode.toUpperCase())
 }
 
@@ -144,7 +144,7 @@ async function getOfflineCountrySpots(countryCode) {
  * Get all offline spots
  * @returns {Promise<Array>}
  */
-async function getAllOfflineSpots() {
+export async function getAllOfflineSpots() {
   const spots = await getAll('spots')
   return spots.filter(s => s._offline)
 }
@@ -153,7 +153,7 @@ async function getAllOfflineSpots() {
  * Get storage size estimate for offline data
  * @returns {Promise<{countryCount: number, spotCount: number, sizeMB: string}>}
  */
-async function getOfflineStorageInfo() {
+export async function getOfflineStorageInfo() {
   const countries = getDownloadedCountries()
   const spotCount = await count('spots')
 

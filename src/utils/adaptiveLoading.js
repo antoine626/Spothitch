@@ -8,7 +8,7 @@
  * Get current network quality level
  * @returns {'high'|'medium'|'low'|'offline'}
  */
-function getNetworkQuality() {
+export function getNetworkQuality() {
   if (!navigator.onLine) return 'offline'
 
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection
@@ -25,7 +25,7 @@ function getNetworkQuality() {
  * Get device capability level
  * @returns {'high'|'medium'|'low'}
  */
-function getDeviceCapability() {
+export function getDeviceCapability() {
   const memory = navigator.deviceMemory // GB (Chrome only)
   const cores = navigator.hardwareConcurrency || 2
 
@@ -49,7 +49,7 @@ function isDataSaverEnabled() {
  * Get recommended image quality based on conditions
  * @returns {'high'|'medium'|'low'|'none'}
  */
-function getImageQuality() {
+export function getImageQuality() {
   if (isDataSaverEnabled()) return 'low'
 
   const network = getNetworkQuality()
@@ -64,7 +64,7 @@ function getImageQuality() {
  * @param {number} [defaultCount=20]
  * @returns {number}
  */
-function getPageSize(defaultCount = 20) {
+export function getPageSize(defaultCount = 20) {
   const network = getNetworkQuality()
   const device = getDeviceCapability()
 
@@ -78,7 +78,7 @@ function getPageSize(defaultCount = 20) {
  * @param {Function} callback - (quality: string) => void
  * @returns {Function} cleanup
  */
-function onNetworkChange(callback) {
+export function onNetworkChange(callback) {
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection
   if (!conn) return () => {}
 
@@ -91,7 +91,7 @@ function onNetworkChange(callback) {
  * Get a full adaptive config object
  * @returns {Object} Configuration based on current conditions
  */
-function getAdaptiveConfig() {
+export function getAdaptiveConfig() {
   return {
     network: getNetworkQuality(),
     device: getDeviceCapability(),

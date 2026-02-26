@@ -63,7 +63,7 @@ export async function getRoute(waypoints) {
  * @param {number} delay - Debounce delay in ms (default 500)
  * @returns {Promise<Object>} Route data
  */
-function getRouteDebounced(waypoints, delay = 500) {
+export function getRouteDebounced(waypoints, delay = 500) {
   return new Promise((resolve, reject) => {
     clearTimeout(debounceTimer);
 
@@ -241,7 +241,7 @@ export async function reverseGeocode(lat, lng) {
  * @param {string} [options.countryCode] - ISO country code to filter (e.g. 'FR')
  * @returns {Promise<Array>} City suggestions
  */
-async function searchCities(query, { countryCode } = {}) {
+export async function searchCities(query, { countryCode } = {}) {
   if (!query || query.length < 2) return []
 
   let lang = 'fr'
@@ -299,7 +299,7 @@ async function searchCities(query, { countryCode } = {}) {
  * @param {string} query - Country name query
  * @returns {Promise<Array>} Country suggestions
  */
-async function searchCountries(query) {
+export async function searchCountries(query) {
   if (!query || query.length < 2) return []
 
   let lang = 'fr'
@@ -345,7 +345,7 @@ export function clearCache() {
  * @param {string} [options.countryCode] - Not supported by Photon, ignored
  * @returns {Promise<Array>} City suggestions
  */
-async function searchPhoton(query, { countryCode } = {}) {
+export async function searchPhoton(query, { countryCode } = {}) {
   if (!query || query.length < 2) return []
 
   let lang = 'fr'

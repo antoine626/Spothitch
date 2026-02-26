@@ -15,7 +15,7 @@ const EXPIRY_DAYS = 7
  * @param {Object} data - Complete spot form data
  * @returns {string} Draft ID
  */
-function saveSpotDraft(data) {
+export function saveSpotDraft(data) {
   const drafts = getSpotDrafts()
   const id = `draft_${Date.now()}_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36).substring(0, 5)}`
   const now = Date.now()
@@ -47,7 +47,7 @@ function saveSpotDraft(data) {
  * Get all non-expired drafts
  * @returns {Array} Drafts
  */
-function getSpotDrafts() {
+export function getSpotDrafts() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return []
@@ -79,7 +79,7 @@ export function deleteSpotDraft(draftId) {
 /**
  * Clean up expired drafts
  */
-function cleanupExpiredDrafts() {
+export function cleanupExpiredDrafts() {
   const drafts = getSpotDrafts() // already filters expired
   localStorage.setItem(STORAGE_KEY, JSON.stringify(drafts))
 }
@@ -87,7 +87,7 @@ function cleanupExpiredDrafts() {
 /**
  * Check for drafts and update banner state
  */
-function checkDraftsOnReconnect() {
+export function checkDraftsOnReconnect() {
   const drafts = getSpotDrafts()
   if (drafts.length > 0) {
     import('../stores/state.js').then(({ setState }) => {

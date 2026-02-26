@@ -10,7 +10,7 @@ import { icon } from '../utils/icons.js'
 const TIPS_STORAGE_KEY = 'contextual_tips_seen';
 
 // All available tips configuration
-const TIPS = {
+export const TIPS = {
   // First check-in tip
   FIRST_CHECKIN: {
     id: 'first_checkin',
@@ -83,7 +83,7 @@ let currentTip = null;
  * Get all seen tips from storage
  * @returns {string[]} Array of seen tip IDs
  */
-function getSeenTips() {
+export function getSeenTips() {
   const seen = Storage.get(TIPS_STORAGE_KEY);
   return seen || [];
 }
@@ -93,7 +93,7 @@ function getSeenTips() {
  * @param {string} tipId - The tip ID to check
  * @returns {boolean} True if tip has been seen
  */
-function hasTipBeenSeen(tipId) {
+export function hasTipBeenSeen(tipId) {
   const seenTips = getSeenTips();
   return seenTips.includes(tipId);
 }
@@ -102,7 +102,7 @@ function hasTipBeenSeen(tipId) {
  * Mark a tip as seen
  * @param {string} tipId - The tip ID to mark as seen
  */
-function markTipSeen(tipId) {
+export function markTipSeen(tipId) {
   const seenTips = getSeenTips();
   if (!seenTips.includes(tipId)) {
     seenTips.push(tipId);
@@ -115,7 +115,7 @@ function markTipSeen(tipId) {
  * @param {string} tipId - The tip ID to check
  * @returns {boolean} True if tip should be shown
  */
-function shouldShowTip(tipId) {
+export function shouldShowTip(tipId) {
   return !hasTipBeenSeen(tipId);
 }
 
@@ -124,7 +124,7 @@ function shouldShowTip(tipId) {
  * @param {string} tipId - The tip ID to show
  * @returns {boolean} True if tip was shown, false if already seen
  */
-function showTip(tipId) {
+export function showTip(tipId) {
   // Don't show if already seen
   if (hasTipBeenSeen(tipId)) {
     return false;
@@ -150,14 +150,14 @@ function showTip(tipId) {
  * Get the current active tip
  * @returns {object|null} The current tip or null
  */
-function getCurrentTip() {
+export function getCurrentTip() {
   return currentTip;
 }
 
 /**
  * Dismiss the current tip
  */
-function dismissTip() {
+export function dismissTip() {
   if (currentTip) {
     markTipSeen(currentTip.id);
     currentTip = null;
@@ -270,7 +270,7 @@ function hideTipUI() {
 /**
  * Reset all seen tips (for testing/debugging)
  */
-function resetAllTips() {
+export function resetAllTips() {
   Storage.remove(TIPS_STORAGE_KEY);
   currentTip = null;
   hideTipUI();
@@ -280,7 +280,7 @@ function resetAllTips() {
  * Get progress stats for tips
  * @returns {object} Tips progress stats
  */
-function getTipsProgress() {
+export function getTipsProgress() {
   const seenTips = getSeenTips();
   const totalTips = Object.keys(TIPS).length;
 
@@ -298,56 +298,56 @@ function getTipsProgress() {
 /**
  * Trigger check-in tip (call when user opens check-in modal for first time)
  */
-function triggerCheckinTip() {
+export function triggerCheckinTip() {
   return showTip(TIPS.FIRST_CHECKIN.id);
 }
 
 /**
  * Trigger spot created tip (call after user creates their first spot)
  */
-function triggerSpotCreatedTip() {
+export function triggerSpotCreatedTip() {
   return showTip(TIPS.FIRST_SPOT_CREATED.id);
 }
 
 /**
  * Trigger friend added tip (call after user adds their first friend)
  */
-function triggerFriendAddedTip() {
+export function triggerFriendAddedTip() {
   return showTip(TIPS.FIRST_FRIEND_ADDED.id);
 }
 
 /**
  * Trigger message tip (call after user sends their first chat message)
  */
-function triggerMessageTip() {
+export function triggerMessageTip() {
   return showTip(TIPS.FIRST_MESSAGE.id);
 }
 
 /**
  * Trigger badge tip (call when user earns their first badge)
  */
-function triggerBadgeTip() {
+export function triggerBadgeTip() {
   return showTip(TIPS.FIRST_BADGE.id);
 }
 
 /**
  * Trigger favorite tip (call when user adds their first favorite)
  */
-function triggerFavoriteTip() {
+export function triggerFavoriteTip() {
   return showTip(TIPS.FIRST_FAVORITE.id);
 }
 
 /**
  * Trigger trip tip (call when user saves their first trip)
  */
-function triggerTripTip() {
+export function triggerTripTip() {
   return showTip(TIPS.FIRST_TRIP.id);
 }
 
 /**
  * Trigger SOS tip (call when user opens SOS feature for first time)
  */
-function triggerSOSTip() {
+export function triggerSOSTip() {
   return showTip(TIPS.SOS_FEATURE.id);
 }
 

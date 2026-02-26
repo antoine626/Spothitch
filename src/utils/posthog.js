@@ -32,7 +32,7 @@ function hasConsent() {
  * Set analytics consent
  * @param {boolean} granted
  */
-function setConsent(granted) {
+export function setConsent(granted) {
   try {
     localStorage.setItem(CONSENT_KEY, granted ? 'true' : 'false')
     if (granted && !initialized) {
@@ -47,7 +47,7 @@ function setConsent(granted) {
 /**
  * Initialize PostHog (loads the script lazily)
  */
-async function initPostHog() {
+export async function initPostHog() {
   if (initialized || !POSTHOG_KEY || !hasConsent()) return
 
   try {
@@ -120,7 +120,7 @@ export function capture(event, properties = {}) {
  * Track a page view
  * @param {string} [pageName] - Page name
  */
-function capturePageView(pageName) {
+export function capturePageView(pageName) {
   capture('$pageview', {
     $current_url: window.location.href,
     page: pageName || window.location.pathname,
@@ -185,7 +185,7 @@ export function reloadFeatureFlags() {
 /**
  * Track spot-related events
  */
-const spotEvents = {
+export const spotEvents = {
   created: (spotId) => capture('spot_created', { spotId }),
   viewed: (spotId) => capture('spot_viewed', { spotId }),
   checkedIn: (spotId) => capture('spot_checkin', { spotId }),
@@ -197,7 +197,7 @@ const spotEvents = {
 /**
  * Track social events
  */
-const socialEvents = {
+export const socialEvents = {
   messageSent: (type) => capture('message_sent', { type }),
   friendAdded: () => capture('friend_added'),
   groupJoined: (groupId) => capture('group_joined', { groupId }),
@@ -207,7 +207,7 @@ const socialEvents = {
 /**
  * Track gamification events
  */
-const gamificationEvents = {
+export const gamificationEvents = {
   levelUp: (level) => capture('level_up', { level }),
   badgeEarned: (badgeId) => capture('badge_earned', { badgeId }),
   rewardRedeemed: (rewardId) => capture('reward_redeemed', { rewardId }),

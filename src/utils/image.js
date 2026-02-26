@@ -56,7 +56,7 @@ export async function compressImage(file, maxWidth = 1200, quality = 0.8) {
  * @param {number} quality - JPEG quality
  * @returns {Promise<string>} Compressed base64 data URL
  */
-async function compressDataUrl(dataUrl, maxWidth = 1200, quality = 0.8) {
+export async function compressDataUrl(dataUrl, maxWidth = 1200, quality = 0.8) {
   return new Promise((resolve, reject) => {
     const img = new Image();
 
@@ -88,7 +88,7 @@ async function compressDataUrl(dataUrl, maxWidth = 1200, quality = 0.8) {
  * @param {string} src - Image source (URL or data URL)
  * @returns {Promise<{width: number, height: number}>}
  */
-function getImageDimensions(src) {
+export function getImageDimensions(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve({ width: img.width, height: img.height });
@@ -102,7 +102,7 @@ function getImageDimensions(src) {
  * @param {File} file - File to convert
  * @returns {Promise<string>} Base64 data URL
  */
-function fileToBase64(file) {
+export function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
@@ -117,7 +117,7 @@ function fileToBase64(file) {
  * @param {number} size - Thumbnail size
  * @returns {Promise<string>} Thumbnail data URL
  */
-async function createThumbnail(src, size = 100) {
+export async function createThumbnail(src, size = 100) {
   return compressDataUrl(src, size, 0.7);
 }
 

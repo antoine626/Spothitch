@@ -31,7 +31,7 @@ function getSessionId() {
  * @param {string} action - Action name (e.g., 'view', 'create', 'share')
  * @param {string} [label] - Optional label for specifics
  */
-function trackEvent(category, action, label = '') {
+export function trackEvent(category, action, label = '') {
   try {
     const events = getEvents()
     events.push({
@@ -66,7 +66,7 @@ function getEvents() {
  * @param {number} [days=7] - Number of days to analyze
  * @returns {Object} { category: { action: count } }
  */
-function getUsageHeatmap(days = 7) {
+export function getUsageHeatmap(days = 7) {
   const cutoff = Date.now() - days * 24 * 60 * 60 * 1000
   const events = getEvents().filter(e => e.t >= cutoff)
 
@@ -85,7 +85,7 @@ function getUsageHeatmap(days = 7) {
  * @param {number} [n=10]
  * @returns {Array<{feature: string, count: number}>}
  */
-function getTopFeatures(n = 10) {
+export function getTopFeatures(n = 10) {
   const heatmap = getUsageHeatmap(30)
   const flat = []
 
@@ -102,7 +102,7 @@ function getTopFeatures(n = 10) {
  * Get session stats
  * @returns {Object}
  */
-function getSessionStats() {
+export function getSessionStats() {
   const events = getEvents()
   const sessions = new Set(events.map(e => e.s))
 
@@ -124,21 +124,21 @@ export function trackTabChange(tab) {
 /**
  * Track modal open (shorthand)
  */
-function trackModalOpen(modalName) {
+export function trackModalOpen(modalName) {
   trackEvent('modal', 'open', modalName)
 }
 
 /**
  * Track action (shorthand)
  */
-function trackAction(action, label) {
+export function trackAction(action, label) {
   trackEvent('action', action, label)
 }
 
 /**
  * Clear analytics data
  */
-function clearAnalytics() {
+export function clearAnalytics() {
   localStorage.removeItem(STORAGE_KEY)
 }
 

@@ -27,7 +27,7 @@ const STYLE_LIGHT = 'https://tiles.openfreemap.org/styles/liberty'
 /**
  * Get map style URL based on theme
  */
-function getMapStyleUrl(theme = 'dark') {
+export function getMapStyleUrl(theme = 'dark') {
   return theme === 'light' ? STYLE_LIGHT : STYLE_DARK
 }
 
@@ -290,7 +290,7 @@ export async function initMap(containerId = 'map') {
 /**
  * Initialize planner map
  */
-async function initPlannerMap() {
+export async function initPlannerMap() {
   const mapContainer = document.getElementById('planner-map')
   if (!mapContainer) return null
 
@@ -328,7 +328,7 @@ async function initPlannerMap() {
 /**
  * Initialize saved trip detail map
  */
-async function initSavedTripMap(tripId) {
+export async function initSavedTripMap(tripId) {
   const mapContainer = document.getElementById('trip-detail-map')
   if (!mapContainer) return null
 
@@ -443,7 +443,7 @@ function drawRouteOnMap(map, routeCoords) {
  * @param {Object} _unused - was L (Leaflet), now unused
  * @param {Array} routeCoords - [lng, lat] from OSRM
  */
-function drawRoute(map, _unused, routeCoords) {
+export function drawRoute(map, _unused, routeCoords) {
   if (!map) return
   // Ensure map is loaded before adding layers
   if (map.isStyleLoaded()) {
@@ -544,7 +544,7 @@ function addFriendLayers(map) {
 /**
  * Update friends GeoJSON data on the map
  */
-function updateFriendMarkers(friendsLocations) {
+export function updateFriendMarkers(friendsLocations) {
   if (!mainMap) return
   const source = mainMap.getSource('friends')
   if (!source) return
@@ -567,7 +567,7 @@ function updateFriendMarkers(friendsLocations) {
 /**
  * Toggle friends visibility on the map
  */
-function toggleFriendsOnMap(visible) {
+export function toggleFriendsOnMap(visible) {
   if (!mainMap) return
   const v = visible ? 'visible' : 'none'
   if (mainMap.getLayer('friend-markers')) mainMap.setLayoutProperty('friend-markers', 'visibility', v)
@@ -577,7 +577,7 @@ function toggleFriendsOnMap(visible) {
 /**
  * Display fallback spots (when map fails to load)
  */
-function displayFallbackSpots(container) {
+export function displayFallbackSpots(container) {
   if (!container) return
 
   const spots = getState().spots || sampleSpots
@@ -602,7 +602,7 @@ function displayFallbackSpots(container) {
 /**
  * Update map theme (switch OpenFreeMap style)
  */
-async function updateMapTheme(theme) {
+export async function updateMapTheme(theme) {
   if (!mainMap) return
   mainMap.setStyle(getMapStyleUrl(theme))
 
@@ -650,7 +650,7 @@ export function centerOnSpot(spot) {
 /**
  * Destroy map instances (cleanup to prevent memory leaks)
  */
-function destroyMaps() {
+export function destroyMaps() {
   if (mainMap) {
     try {
       if (mainMap._resizeObserver) mainMap._resizeObserver.disconnect()
@@ -675,16 +675,16 @@ function destroyMaps() {
 /**
  * Initialize map service (alias for initMap with 'main-map' container)
  */
-async function initMapService(_state) {
+export async function initMapService(_state) {
   return initMap('main-map')
 }
 
 // Re-export tile URL getter with old name for compatibility
-function getMapTileUrl(theme) {
+export function getMapTileUrl(theme) {
   return getMapStyleUrl(theme)
 }
 
-function getMapAttribution() {
+export function getMapAttribution() {
   return '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors | <a href="https://spothitch.com">SpotHitch</a> Community'
 }
 

@@ -31,7 +31,7 @@ function saveConfig(config) {
  * Check if push notifications are enabled
  * @returns {boolean}
  */
-function isPushEnabled() {
+export function isPushEnabled() {
   return getConfig().enabled === true
 }
 
@@ -39,7 +39,7 @@ function isPushEnabled() {
  * Check if user has been asked for push permission
  * @returns {boolean}
  */
-function hasBeenAsked() {
+export function hasBeenAsked() {
   return getConfig().asked === true
 }
 
@@ -48,7 +48,7 @@ function hasBeenAsked() {
  * Only call this after user explicitly enables notifications
  * @returns {Promise<{success: boolean, token: string|null}>}
  */
-async function enablePushNotifications() {
+export async function enablePushNotifications() {
   try {
     const token = await requestNotificationPermission()
 
@@ -82,7 +82,7 @@ async function enablePushNotifications() {
 /**
  * Disable push notifications
  */
-function disablePushNotifications() {
+export function disablePushNotifications() {
   saveConfig({
     enabled: false,
     asked: true,
@@ -95,14 +95,14 @@ function disablePushNotifications() {
  * Get stored FCM token
  * @returns {string|null}
  */
-function getFCMToken() {
+export function getFCMToken() {
   return localStorage.getItem(TOKEN_KEY)
 }
 
 /**
  * Start listening for foreground push messages
  */
-function startForegroundListener() {
+export function startForegroundListener() {
   if (!isPushEnabled()) return
 
   onForegroundMessage((payload) => {
@@ -153,7 +153,7 @@ function handleProximityPush(data) {
  * @param {number} params.distance - Distance in km
  * @param {string} [params.spotId] - Optional spot ID
  */
-function showProximityNotification({ username, distance, spotId }) {
+export function showProximityNotification({ username, distance, spotId }) {
   if (!isPushEnabled()) return
 
   // In-app toast
@@ -201,7 +201,7 @@ export function renderPushSettings() {
 /**
  * Initialize push notifications on app start (if already enabled)
  */
-function initPushNotifications() {
+export function initPushNotifications() {
   if (isPushEnabled()) {
     startForegroundListener()
   }

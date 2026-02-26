@@ -9,7 +9,7 @@ import { icon } from './icons.js'
 /**
  * Freshness levels for spots based on last check-in date
  */
-const FRESHNESS_LEVELS = {
+export const FRESHNESS_LEVELS = {
   ACTIVE: 'active',      // < 1 week
   RECENT: 'recent',      // < 1 month
   OLD: 'old',            // < 6 months
@@ -222,7 +222,7 @@ export function getFreshnessBadge(level) {
  * @param {string} level - Freshness level
  * @returns {string|null} Warning message or null if not needed
  */
-function getFreshnessWarning(level) {
+export function getFreshnessWarning(level) {
   if (level !== FRESHNESS_LEVELS.UNVERIFIED) return null;
 
   const { lang } = getState();
@@ -242,7 +242,7 @@ function getFreshnessWarning(level) {
  * @param {string|Date} date - The last check-in date
  * @returns {string} Formatted last check-in text
  */
-function getLastCheckinText(date) {
+export function getLastCheckinText(date) {
   const { lang } = getState();
 
   const labels = {

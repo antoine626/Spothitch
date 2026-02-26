@@ -49,7 +49,7 @@ export function voteGuideTip(section, tipIndex, direction) {
  * @param {number|string} tipIndex
  * @returns {Object|null} Vote object or null
  */
-function getVote(section, tipIndex) {
+export function getVote(section, tipIndex) {
   const votes = getVotes()
   return votes[`${section}_${tipIndex}`] || null
 }
@@ -59,7 +59,7 @@ function getVote(section, tipIndex) {
  * @param {string} section
  * @returns {Object} { up: number, down: number }
  */
-function getSectionVotes(section) {
+export function getSectionVotes(section) {
   const votes = getVotes()
   let up = 0
   let down = 0
@@ -88,7 +88,7 @@ function saveSuggestions(suggestions) {
  * @param {string} text - Suggestion text
  * @returns {Object} Created suggestion
  */
-function submitSuggestion(section, text) {
+export function submitSuggestion(section, text) {
   const suggestions = getSuggestions()
   const suggestion = {
     id: `sug_${Date.now()}`,
@@ -106,7 +106,7 @@ function submitSuggestion(section, text) {
  * @param {string} section
  * @returns {Array}
  */
-function getSuggestionsBySection(section) {
+export function getSuggestionsBySection(section) {
   return getSuggestions().filter(s => s.section === section)
 }
 
@@ -124,7 +124,7 @@ function getSuggestionsBySection(section) {
  * @param {number|string} tipIndex
  * @returns {{ up: number, down: number }}
  */
-function getTipVoteCounts(section, tipIndex) {
+export function getTipVoteCounts(section, tipIndex) {
   const votes = getVotes()
   // Count all votes matching this tip (simulated community count: +3 base for demo)
   const key = `${section}_${tipIndex}`

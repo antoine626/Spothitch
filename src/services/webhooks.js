@@ -11,7 +11,7 @@ const STORAGE_KEY = 'spothitch_webhooks'
 /**
  * Webhook types supported
  */
-const WEBHOOK_TYPES = {
+export const WEBHOOK_TYPES = {
   DISCORD: 'discord',
   TELEGRAM: 'telegram',
   SLACK: 'slack',
@@ -21,7 +21,7 @@ const WEBHOOK_TYPES = {
 /**
  * Events that can trigger webhooks
  */
-const WEBHOOK_EVENTS = {
+export const WEBHOOK_EVENTS = {
   SPOT_CREATED: 'spot_created',
   SPOT_VALIDATED: 'spot_validated',
   MILESTONE_REACHED: 'milestone_reached',
@@ -36,7 +36,7 @@ const WEBHOOK_EVENTS = {
  * Get all configured webhooks
  * @returns {Array}
  */
-function getWebhooks() {
+export function getWebhooks() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
   } catch (e) {
@@ -53,7 +53,7 @@ function getWebhooks() {
  * @param {string} [config.name] - Display name
  * @returns {Object} Created webhook
  */
-function addWebhook(config) {
+export function addWebhook(config) {
   const webhooks = getWebhooks()
   const webhook = {
     id: Date.now().toString(36),
@@ -74,7 +74,7 @@ function addWebhook(config) {
  * Remove a webhook
  * @param {string} webhookId
  */
-function removeWebhook(webhookId) {
+export function removeWebhook(webhookId) {
   const webhooks = getWebhooks().filter(w => w.id !== webhookId)
   localStorage.setItem(STORAGE_KEY, JSON.stringify(webhooks))
 }
@@ -83,7 +83,7 @@ function removeWebhook(webhookId) {
  * Toggle a webhook on/off
  * @param {string} webhookId
  */
-function toggleWebhook(webhookId) {
+export function toggleWebhook(webhookId) {
   const webhooks = getWebhooks()
   const webhook = webhooks.find(w => w.id === webhookId)
   if (webhook) {
@@ -97,7 +97,7 @@ function toggleWebhook(webhookId) {
  * @param {string} event - Event name from WEBHOOK_EVENTS
  * @param {Object} payload - Event data
  */
-async function triggerWebhooks(event, payload = {}) {
+export async function triggerWebhooks(event, payload = {}) {
   const webhooks = getWebhooks().filter(w => w.enabled && w.events.includes(event))
 
   const results = await Promise.allSettled(

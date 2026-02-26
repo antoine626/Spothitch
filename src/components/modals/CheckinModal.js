@@ -19,7 +19,7 @@ export function renderCheckinModal(state) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="checkin-title"
-     tabindex="0">
+    >
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true"></div>
 
@@ -65,7 +65,7 @@ export function renderCheckinModal(state) {
                 flex items-center justify-center cursor-pointer hover:border-primary-400
                 hover:bg-primary-400/5 transition-colors"
               onclick="triggerCheckinPhoto()"
-             role="button" tabindex="0">
+            >
               <div id="checkin-photo-placeholder" class="text-center">
                 ${icon('cloud-upload', 'w-8 h-8 text-slate-400 mb-2')}
                 <p class="text-sm text-slate-400">${t('clickToAddPhoto') || 'Cliquer pour ajouter une photo'}</p>

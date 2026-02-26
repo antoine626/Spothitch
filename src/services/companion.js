@@ -120,7 +120,7 @@ export function getChannelPreference() {
  * Save channel preference
  * @param {'whatsapp' | 'sms' | 'both'} channel
  */
-function setChannelPreference(channel) {
+export function setChannelPreference(channel) {
   try {
     localStorage.setItem(CHANNEL_KEY, channel)
   } catch {
@@ -248,7 +248,7 @@ function stopBatteryMonitor() {
  * Get current battery level (0-1), or null if not available
  * @returns {Promise<number|null>}
  */
-async function getBatteryLevel() {
+export async function getBatteryLevel() {
   if (!navigator.getBattery) return null
   try {
     const battery = await navigator.getBattery()
@@ -629,7 +629,7 @@ export function isCheckInOverdue() {
 /**
  * Add a position to the tracking history
  */
-function addPosition(lat, lng) {
+export function addPosition(lat, lng) {
   const state = loadState()
   if (!state.active) return
 
@@ -649,7 +649,7 @@ function addPosition(lat, lng) {
 /**
  * Get a Google Maps link with the last known position
  */
-function getShareLink() {
+export function getShareLink() {
   const state = loadState()
   const lastPos = state.positions.length > 0
     ? state.positions[state.positions.length - 1]
@@ -700,7 +700,7 @@ export function onOverdue(callback) {
  * Start the periodic timer that checks if check-in is overdue
  * Also handles 2-minute reminder notification (#29)
  */
-function startTimer() {
+export function startTimer() {
   stopTimer()
 
   overdueNotified = false
@@ -778,7 +778,7 @@ function startTimer() {
 /**
  * Stop the periodic timer
  */
-function stopTimer() {
+export function stopTimer() {
   if (timerInterval) {
     clearInterval(timerInterval)
     timerInterval = null

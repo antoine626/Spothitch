@@ -278,7 +278,7 @@ export function getRewardById(id) {
 /**
  * Check if user can afford reward
  */
-function canAfford(rewardId, userThumbs) {
+export function canAfford(rewardId, userThumbs) {
   const reward = getRewardById(rewardId);
   return reward && userThumbs >= reward.cost;
 }
@@ -294,7 +294,7 @@ export function getRewardsByCategory(category) {
 /**
  * Get featured rewards (cheapest in each category)
  */
-function getFeaturedRewards() {
+export function getFeaturedRewards() {
   const categories = [...new Set(shopRewards.map(r => r.category))];
   return categories.map(cat => {
     const catRewards = shopRewards.filter(r => r.category === cat);
@@ -305,7 +305,7 @@ function getFeaturedRewards() {
 /**
  * Get all categories
  */
-function getCategories() {
+export function getCategories() {
   return rewardCategories;
 }
 

@@ -40,14 +40,14 @@ const ACTIONS = {
  * Parse URL parameters
  * @returns {URLSearchParams} Parsed parameters
  */
-function getUrlParams() {
+export function getUrlParams() {
   return new URLSearchParams(window.location.search);
 }
 
 /**
  * Handle deep link on app load
  */
-function handleDeepLink() {
+export function handleDeepLink() {
   const params = getUrlParams();
 
   // Handle tab/route
@@ -102,7 +102,7 @@ function handleDeepLink() {
  * Update URL with current state (for sharing)
  * @param {Object} options - Options to encode in URL
  */
-function updateUrl(options = {}) {
+export function updateUrl(options = {}) {
   const params = new URLSearchParams();
 
   if (options.tab) params.set('tab', options.tab);
@@ -139,7 +139,7 @@ export function generateShareUrl(options = {}) {
 /**
  * Clear URL parameters
  */
-function clearUrlParams() {
+export function clearUrlParams() {
   window.history.replaceState({}, '', BASE_PATH);
 }
 

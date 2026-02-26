@@ -32,7 +32,7 @@ export function initNetworkMonitor() {
 /**
  * Update network status in state
  */
-function updateNetworkStatus() {
+export function updateNetworkStatus() {
   const isOnline = navigator.onLine;
   const state = getState();
 
@@ -69,7 +69,7 @@ function handleOffline() {
 /**
  * Check actual connectivity (not just navigator.onLine)
  */
-async function checkConnectivity() {
+export async function checkConnectivity() {
   try {
     const response = await fetch('/manifest.json', {
       method: 'HEAD',
@@ -88,7 +88,7 @@ async function checkConnectivity() {
  * Add action to offline queue
  * @param {Object} action - Action to queue
  */
-function queueOfflineAction(action) {
+export function queueOfflineAction(action) {
   const queue = getOfflineQueue();
   queue.push({
     ...action,
@@ -101,14 +101,14 @@ function queueOfflineAction(action) {
 /**
  * Get offline queue
  */
-function getOfflineQueue() {
+export function getOfflineQueue() {
   return Storage.get(OFFLINE_QUEUE_KEY) || [];
 }
 
 /**
  * Sync offline queue when back online
  */
-async function syncOfflineQueue() {
+export async function syncOfflineQueue() {
   const queue = getOfflineQueue();
 
   if (queue.length === 0) return;
@@ -174,7 +174,7 @@ async function processOfflineAction(action) {
 /**
  * Clear offline queue
  */
-function clearOfflineQueue() {
+export function clearOfflineQueue() {
   Storage.remove(OFFLINE_QUEUE_KEY);
 }
 
@@ -209,7 +209,7 @@ export function cleanupOldData() {
 /**
  * Get network status info
  */
-function getNetworkInfo() {
+export function getNetworkInfo() {
   const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
 
   return {
@@ -225,7 +225,7 @@ function getNetworkInfo() {
 /**
  * Check if we should use low bandwidth mode
  */
-function shouldUseLowBandwidth() {
+export function shouldUseLowBandwidth() {
   const info = getNetworkInfo();
 
   // Use low bandwidth on slow connections or save-data mode
@@ -237,7 +237,7 @@ function shouldUseLowBandwidth() {
 /**
  * Prefetch critical resources when online
  */
-function prefetchResources() {
+export function prefetchResources() {
   if (!navigator.onLine) return;
 
   const criticalUrls = [
@@ -256,7 +256,7 @@ function prefetchResources() {
 /**
  * Render offline indicator
  */
-function renderOfflineIndicator() {
+export function renderOfflineIndicator() {
   const { isOnline } = getState();
 
   if (isOnline) return '';

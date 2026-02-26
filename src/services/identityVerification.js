@@ -443,7 +443,7 @@ export async function uploadVerificationPhoto(photoData) {
  * Approve photo verification (admin function / auto in demo)
  * @returns {Promise<Object>} Result
  */
-async function approvePhotoVerification() {
+export async function approvePhotoVerification() {
   try {
     const state = getState();
     const pending = state.pendingPhotoVerification;
@@ -530,7 +530,7 @@ export async function uploadIdentityDocument(documentData, documentType = 'id_ca
  * Approve identity verification (admin function / auto in demo)
  * @returns {Promise<Object>} Result
  */
-async function approveIdentityVerification() {
+export async function approveIdentityVerification() {
   try {
     const state = getState();
     const pending = state.pendingIdentityVerification;
@@ -819,7 +819,7 @@ export async function uploadSelfieIdVerification(photos) {
  * Approve selfie + ID verification (admin function / auto in demo)
  * @returns {Promise<Object>} Result
  */
-async function approveSelfieIdVerification() {
+export async function approveSelfieIdVerification() {
   try {
     const state = getState();
     const pending = state.pendingSelfieIdVerification;

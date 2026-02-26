@@ -219,7 +219,7 @@ export async function count(storeName) {
  * @param {string} key
  * @returns {Promise<any>} Data or null if expired/missing
  */
-async function cacheGet(key) {
+export async function cacheGet(key) {
   const item = await get('cache', key)
   if (!item) return null
   if (item.expires && item.expires < Date.now()) {
@@ -235,7 +235,7 @@ async function cacheGet(key) {
  * @param {any} data
  * @param {number} [ttlMs=300000] - TTL in milliseconds (default 5min)
  */
-async function cacheSet(key, data, ttlMs = 300000) {
+export async function cacheSet(key, data, ttlMs = 300000) {
   await put('cache', {
     key,
     data,
@@ -247,7 +247,7 @@ async function cacheSet(key, data, ttlMs = 300000) {
 /**
  * Clear expired cache entries
  */
-async function cacheCleanup() {
+export async function cacheCleanup() {
   try {
     const all = await getAll('cache')
     const now = Date.now()
@@ -267,7 +267,7 @@ async function cacheCleanup() {
  * Save spots for offline use (bulk)
  * @param {Array} spots
  */
-async function saveOfflineSpots(spots) {
+export async function saveOfflineSpots(spots) {
   await putAll('spots', spots)
 }
 
@@ -275,7 +275,7 @@ async function saveOfflineSpots(spots) {
  * Get all offline spots
  * @returns {Promise<Array>}
  */
-async function getOfflineSpots() {
+export async function getOfflineSpots() {
   return getAll('spots')
 }
 
@@ -284,7 +284,7 @@ async function getOfflineSpots() {
  * @param {string} country
  * @returns {Promise<Array>}
  */
-async function getSpotsByCountry(country) {
+export async function getSpotsByCountry(country) {
   return getByIndex('spots', 'country', country)
 }
 
@@ -294,7 +294,7 @@ async function getSpotsByCountry(country) {
  * Get database storage usage
  * @returns {Promise<Object>}
  */
-async function getStorageStats() {
+export async function getStorageStats() {
   const stats = {}
   for (const name of Object.keys(STORES)) {
     stats[name] = await count(name)

@@ -441,7 +441,7 @@ function renderSpotsTimeline(spots, results, highlighted) {
             <div
               class="flex-1 min-w-0 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors py-0.5 ${isHighlighted ? 'bg-amber-500/5 border-l-2 border-amber-500/40 pl-2' : ''}"
               onclick="selectSpot(${spot.id})"
-             role="button" tabindex="0">
+            >
               <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || (distFromStart !== null ? `Spot · ${distFromStart} km` : 'Spot')}</div>
               <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
                 ${distFromStart !== null ? `<span>${distFromStart} km</span>` : ''}

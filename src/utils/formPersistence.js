@@ -14,7 +14,7 @@ const DRAFT_TTL = 24 * 60 * 60 * 1000 // 24 hours
  * @param {string} formId - Unique form identifier (e.g., 'addSpot', 'review')
  * @param {Object} data - Form data to save
  */
-function saveDraft(formId, data) {
+export function saveDraft(formId, data) {
   try {
     const key = STORAGE_PREFIX + formId
     const draft = {
@@ -32,7 +32,7 @@ function saveDraft(formId, data) {
  * @param {string} formId
  * @returns {Object|null} Saved data or null if expired/not found
  */
-function loadDraft(formId) {
+export function loadDraft(formId) {
   try {
     const key = STORAGE_PREFIX + formId
     const raw = localStorage.getItem(key)
@@ -54,7 +54,7 @@ function loadDraft(formId) {
  * Clear a form draft
  * @param {string} formId
  */
-function clearDraft(formId) {
+export function clearDraft(formId) {
   localStorage.removeItem(STORAGE_PREFIX + formId)
 }
 
@@ -63,7 +63,7 @@ function clearDraft(formId) {
  * @param {string} formId
  * @returns {boolean}
  */
-function hasDraft(formId) {
+export function hasDraft(formId) {
   return loadDraft(formId) !== null
 }
 
@@ -75,7 +75,7 @@ function hasDraft(formId) {
  * @param {string[]} fieldNames - Field names to track
  * @returns {Function} cleanup function to stop observing
  */
-function autoSaveForm(formId, formSelector, fieldNames) {
+export function autoSaveForm(formId, formSelector, fieldNames) {
   const form = document.querySelector(formSelector)
   if (!form) return () => {}
 
@@ -114,7 +114,7 @@ function autoSaveForm(formId, formSelector, fieldNames) {
  * @param {string} formId
  * @returns {string} HTML string (empty if no draft)
  */
-function renderDraftBanner(formId) {
+export function renderDraftBanner(formId) {
   if (!hasDraft(formId)) return ''
 
   return `

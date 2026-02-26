@@ -102,7 +102,7 @@ function toRad(deg) {
  * @param {number} lat - User latitude
  * @param {number} lng - User longitude
  */
-function checkNearbySpots(lat, lng) {
+export function checkNearbySpots(lat, lng) {
   if (!isEnabled) return
 
   const state = getState()
@@ -150,7 +150,7 @@ function checkNearbySpots(lat, lng) {
  * Starts watching user position
  * @returns {boolean} Success
  */
-function initProximityAlerts() {
+export function initProximityAlerts() {
   try {
     const settings = getSettings()
     proximityRadius = settings.radius || CONFIG.defaultRadius
@@ -218,7 +218,7 @@ function stopWatching() {
 /**
  * Stop proximity alerts
  */
-function stopProximityAlerts() {
+export function stopProximityAlerts() {
   stopWatching()
   isEnabled = false
   const settings = getSettings()
@@ -265,14 +265,14 @@ export function toggleProximityAlerts() {
  * Check if proximity alerts are enabled
  * @returns {boolean}
  */
-function isProximityAlertsEnabled() {
+export function isProximityAlertsEnabled() {
   return isEnabled
 }
 
 /**
  * Clear alerted spots (for testing or manual reset)
  */
-function clearAlertedSpots() {
+export function clearAlertedSpots() {
   alertedSpots.clear()
 }
 
@@ -280,7 +280,7 @@ function clearAlertedSpots() {
  * Get current settings
  * @returns {Object} Settings
  */
-function getProximitySettings() {
+export function getProximitySettings() {
   return {
     enabled: isEnabled,
     radius: proximityRadius,

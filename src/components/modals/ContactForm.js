@@ -129,7 +129,7 @@ export function renderContactFormModal() {
  * POST name, email, subject, message
  * @param {Event} event
  */
-async function handleContactFormSubmit(event) {
+export async function handleContactFormSubmit(event) {
   event.preventDefault()
 
   const form = document.getElementById('contact-form')

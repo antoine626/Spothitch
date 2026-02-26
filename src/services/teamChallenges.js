@@ -10,7 +10,7 @@ import { t } from '../i18n/index.js';
 import { icon } from '../utils/icons.js'
 
 // Team challenge types
-const TEAM_CHALLENGE_TYPES = {
+export const TEAM_CHALLENGE_TYPES = {
   COLLECTIVE_DISTANCE: {
     id: 'collective_distance',
     name: t('teamChallengeCollectiveDistanceName') || 'Distance collective',
@@ -49,7 +49,7 @@ const TEAM_CHALLENGE_TYPES = {
 };
 
 // Sample team challenges
-const TEAM_CHALLENGES = [
+export const TEAM_CHALLENGES = [
   {
     id: 'team_1',
     type: 'collective_distance',
@@ -108,7 +108,7 @@ const TEAM_CHALLENGES = [
  * @param {Object} teamData
  * @returns {Object} The created team
  */
-function createTeam(teamData) {
+export function createTeam(teamData) {
   const state = getState();
   const userId = state.user?.uid;
 
@@ -155,7 +155,7 @@ function createTeam(teamData) {
  * @param {string} teamId
  * @returns {boolean}
  */
-function joinTeam(teamId) {
+export function joinTeam(teamId) {
   const state = getState();
   const userId = state.user?.uid;
 
@@ -203,7 +203,7 @@ function joinTeam(teamId) {
  * Leave current team
  * @returns {boolean}
  */
-function leaveTeam() {
+export function leaveTeam() {
   const state = getState();
   const userId = state.user?.uid;
   const teamId = state.myTeamId;
@@ -251,7 +251,7 @@ function leaveTeam() {
  * @param {string} challengeId
  * @returns {boolean}
  */
-function startTeamChallenge(challengeId) {
+export function startTeamChallenge(challengeId) {
   const state = getState();
   const teamId = state.myTeamId;
 
@@ -310,7 +310,7 @@ function startTeamChallenge(challengeId) {
  * @param {string} type - Type of contribution
  * @returns {boolean}
  */
-function contributeToChallenge(challengeId, amount, _type) {
+export function contributeToChallenge(challengeId, amount, _type) {
   const state = getState();
   const userId = state.user?.uid;
   const teamId = state.myTeamId;
@@ -395,7 +395,7 @@ function completeTeamChallenge(team, challengeIndex) {
  * Get team leaderboard
  * @returns {Array}
  */
-function getTeamLeaderboard() {
+export function getTeamLeaderboard() {
   const state = getState();
   const teams = state.teams || [];
 

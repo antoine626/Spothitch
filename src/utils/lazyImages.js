@@ -67,7 +67,7 @@ function loadImage(img) {
  * Observe a single image element for lazy loading
  * @param {HTMLImageElement} img
  */
-function observeImage(img) {
+export function observeImage(img) {
   if (OBSERVED.has(img)) return
   OBSERVED.add(img)
 
@@ -106,7 +106,7 @@ export function observeAllLazyImages(root = document) {
  * @param {number} [height] - Height
  * @returns {string} HTML string
  */
-function lazyImg(src, alt, className = '', width = '', height = '') {
+export function lazyImg(src, alt, className = '', width = '', height = '') {
   const placeholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3Crect fill="%231e293b" width="1" height="1"/%3E%3C/svg%3E'
   const w = width ? `width="${width}"` : ''
   const h = height ? `height="${height}"` : ''
@@ -116,7 +116,7 @@ function lazyImg(src, alt, className = '', width = '', height = '') {
 /**
  * Cleanup observer
  */
-function destroyLazyObserver() {
+export function destroyLazyObserver() {
   if (observer) {
     observer.disconnect()
     observer = null

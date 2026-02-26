@@ -58,7 +58,7 @@ function runAllChecks(fix = false) {
   const checks = [
     { fn: checkHandlers, weight: WEIGHTS['Handlers Wiring'], fixable: true },
     { fn: checkI18nKeys, weight: WEIGHTS['i18n Keys'], fixable: true },
-    { fn: checkDeadExports, weight: WEIGHTS['Dead Exports'], fixable: true },
+    { fn: checkDeadExports, weight: WEIGHTS['Dead Exports'], fixable: false },
     { fn: checkConsoleErrors, weight: WEIGHTS['Security Patterns'], fixable: false },
     { fn: checkLocalStorage, weight: WEIGHTS['localStorage RGPD'], fixable: false },
     { fn: checkErrorPatterns, weight: WEIGHTS['Error Patterns'], fixable: false },

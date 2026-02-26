@@ -10,7 +10,7 @@ import { escapeJSString } from './sanitize.js'
  * Detect user platform
  * @returns {{ isIOS: boolean, isAndroid: boolean, isMac: boolean, isDesktop: boolean }}
  */
-function detectPlatform() {
+export function detectPlatform() {
   const ua = navigator.userAgent || navigator.vendor || window.opera;
   const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
   const isAndroid = /android/i.test(ua);
@@ -206,7 +206,7 @@ export function showNavigationPicker(lat, lng, name = '') {
  * Set preferred navigation app
  * @param {string} appId - App identifier
  */
-function setPreferredNavigationApp(appId) {
+export function setPreferredNavigationApp(appId) {
   localStorage.setItem('spothitch_preferred_nav_app', appId);
 }
 
@@ -214,14 +214,14 @@ function setPreferredNavigationApp(appId) {
  * Get preferred navigation app
  * @returns {string|null}
  */
-function getPreferredNavigationApp() {
+export function getPreferredNavigationApp() {
   return localStorage.getItem('spothitch_preferred_nav_app');
 }
 
 /**
  * Clear preferred navigation app (will show picker next time)
  */
-function clearPreferredNavigationApp() {
+export function clearPreferredNavigationApp() {
   localStorage.removeItem('spothitch_preferred_nav_app');
 }
 
@@ -230,7 +230,7 @@ function clearPreferredNavigationApp() {
  * @param {{ lat: number, lng: number, name: string }} data
  * @returns {string}
  */
-function renderNavigationPicker(data) {
+export function renderNavigationPicker(data) {
   const apps = getAvailableNavigationApps();
   const { lat, lng, name } = data || {};
 

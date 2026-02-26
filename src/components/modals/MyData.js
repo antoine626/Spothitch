@@ -378,7 +378,7 @@ export function renderMyDataModal() {
 /**
  * Download user data as JSON
  */
-async function downloadUserData() {
+export async function downloadUserData() {
   const data = getUserData();
   const state = getState();
 
