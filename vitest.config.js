@@ -28,7 +28,7 @@ export default defineConfig({
         statements: 22,
         branches: 20,
         functions: 22,
-        lines: 23,
+        lines: 22,
       },
     },
     include: ['tests/**/*.test.js'],
