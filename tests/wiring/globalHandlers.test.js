@@ -35,7 +35,7 @@ const MAIN_JS_HANDLERS = [
   'sosStartRecording', 'sosStopRecording',
   // Auth
   'openAuth', 'closeAuth', 'setAuthMode',
-  'handleGoogleSignIn', 'handleFacebookSignIn', 'handleAppleLogin', 'handleAppleSignIn',
+  'handleGoogleSignIn', 'handleFacebookSignIn', 'handleAppleSignIn',
   'handleForgotPassword', 'handleLogout', 'requireAuth',
   // Age Verification
   'openAgeVerification', 'closeAgeVerification', 'showAgeVerification',

@@ -1065,44 +1065,17 @@ if (!window.handleGoogleSignIn) {
     }
   }
 }
+// Facebook/Apple sign-in — hidden until configured (Facebook needs Dev App, Apple needs $99/yr account)
 if (!window.handleFacebookSignIn) {
   window.handleFacebookSignIn = async () => {
-    const fb = await getFirebase()
-    fb.initializeFirebase()
-    const result = await fb.signInWithFacebook()
-    if (result.success) {
-      await fb.createOrUpdateUserProfile(result.user)
-      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
-      fb.onAuthChange((user) => actions.setUser(user))
-      const pendingAction = getState().authPendingAction
-      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
-      showToast(t('facebookLoginSuccess') || 'Facebook login successful!', 'success')
-      if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
-    } else {
-      showToast(t('facebookLoginError') || 'Facebook login error', 'error')
-    }
+    showToast(t('featureComingSoon') || 'Coming soon', 'info')
   }
 }
 if (!window.handleAppleSignIn) {
   window.handleAppleSignIn = async () => {
-    const fb = await getFirebase()
-    fb.initializeFirebase()
-    const result = await fb.signInWithApple()
-    if (result.success) {
-      await fb.createOrUpdateUserProfile(result.user)
-      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
-      fb.onAuthChange((user) => actions.setUser(user))
-      const pendingAction = getState().authPendingAction
-      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
-      showToast(t('appleLoginSuccess') || 'Apple login successful!', 'success')
-      if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
-    } else {
-      showToast(t('authError'), 'error')
-    }
+    showToast(t('featureComingSoon') || 'Coming soon', 'info')
   }
 }
-// Keep handleAppleLogin as alias for backward compat
-window.handleAppleLogin = () => window.handleAppleSignIn?.()
 // Auth fallbacks — overridden by Auth.js/Profile.js when loaded
 if (!window.handleForgotPassword) {
   window.handleForgotPassword = async () => {

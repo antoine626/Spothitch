@@ -62,27 +62,8 @@ export function renderAuth(state) {
             ${t('continueWithGoogle')}
           </button>
 
-          <!-- Apple -->
-          <button
-            onclick="handleAppleSignIn()"
-            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-white font-medium"
-            type="button"
-            id="auth-apple-btn"
-          >
-            ${icon('apple', 'w-5 h-5')}
-            ${t('continueWithApple')}
-          </button>
-
-          <!-- Facebook -->
-          <button
-            onclick="handleFacebookSignIn()"
-            class="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-white font-medium"
-            type="button"
-            id="auth-facebook-btn"
-          >
-            ${icon('facebook', 'w-5 h-5 text-blue-500')}
-            ${t('continueWithFacebook')}
-          </button>
+          <!-- Facebook (requires Facebook Developer App — hidden until configured) -->
+          <!-- <button onclick="handleFacebookSignIn()" id="auth-facebook-btn">Facebook</button> -->
         </div>
 
         <!-- Divider -->
@@ -389,64 +370,18 @@ window.handleGoogleSignIn = async () => {
   }
 }
 
+// Apple Sign-In removed (requires $99/yr Apple Developer account)
+// Facebook Sign-In hidden (requires Facebook Developer App setup)
+// To re-enable: create Facebook App at developers.facebook.com, add App ID/Secret in Firebase Console
+
 window.handleAppleSignIn = async () => {
-  try {
-    const fb = await import('../../services/firebase.js')
-    const { showSuccess, showError } = await import('../../services/notifications.js')
-    const { setState, getState } = await import('../../stores/state.js')
-
-    fb.initializeFirebase()
-    const result = await fb.signInWithApple()
-
-    if (result.success) {
-      await fb.createOrUpdateUserProfile(result.user)
-      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
-      fb.onAuthChange((user) => {
-        import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
-      })
-      showSuccess(t('appleLoginSuccess') || 'Apple login successful!')
-
-      const { authPendingAction } = getState()
-      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
-      if (authPendingAction) {
-        executePendingAction(authPendingAction)
-      }
-    } else {
-      showError(t('authError'))
-    }
-  } catch (error) {
-    console.error('Apple sign in error:', error)
-  }
+  const { showError } = await import('../../services/notifications.js')
+  showError(t('featureComingSoon') || 'Coming soon')
 }
 
 window.handleFacebookSignIn = async () => {
-  try {
-    const fb = await import('../../services/firebase.js')
-    const { showSuccess, showError } = await import('../../services/notifications.js')
-    const { setState, getState } = await import('../../stores/state.js')
-
-    fb.initializeFirebase()
-    const result = await fb.signInWithFacebook()
-
-    if (result.success) {
-      await fb.createOrUpdateUserProfile(result.user)
-      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
-      fb.onAuthChange((user) => {
-        import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
-      })
-      showSuccess(t('facebookLoginSuccess') || 'Facebook login successful!')
-
-      const { authPendingAction } = getState()
-      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
-      if (authPendingAction) {
-        executePendingAction(authPendingAction)
-      }
-    } else {
-      showError(t('authError'))
-    }
-  } catch (error) {
-    console.error('Facebook sign in error:', error)
-  }
+  const { showError } = await import('../../services/notifications.js')
+  showError(t('featureComingSoon') || 'Coming soon')
 }
 
 window.handleForgotPassword = async () => {
