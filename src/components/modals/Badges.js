@@ -105,6 +105,7 @@ export function renderBadgesModal() {
     return `
                       <div class="badge-card bg-white/5 rounded-xl p-3 text-center cursor-pointer
                                   ${isEarned ? 'hover:bg-white/10' : 'opacity-40'}"
+                           ${isEarned ? 'role="button" tabindex="0"' : ''}
                            onclick="${isEarned ? `showBadgeDetail('${badge.id}')` : ''}">
                         ${badge.image
     ? `<img src="${badge.image}" alt="${badge.name}" class="w-12 h-12 mx-auto mb-2 ${isEarned ? '' : 'grayscale'}" loading="lazy" />`
@@ -139,6 +140,7 @@ export function renderBadgePopup() {
 
   return `
     <div class="badge-popup fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+         role="dialog" aria-modal="true"
          onclick="dismissBadgePopup()">
       <div class="modal-panel w-full max-w-sm rounded-2xl overflow-hidden animate-scale-up"
            onclick="event.stopPropagation()">
@@ -194,6 +196,7 @@ export function renderBadgeDetail(badgeId) {
 
   return `
     <div class="badge-detail fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+         role="dialog" aria-modal="true"
          onclick="closeBadgeDetail()">
       <div class="modal-panel w-full max-w-sm rounded-2xl overflow-hidden"
            onclick="event.stopPropagation()">

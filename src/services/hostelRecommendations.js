@@ -430,7 +430,7 @@ function renderHostelCard(hostel, cityName) {
  */
 export function renderAddHostelForm(cityName) {
   return `
-    <div class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onclick="if(event.target === this) closeAddHostel()">
+    <div class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" onclick="if(event.target === this) closeAddHostel()">
       <div class="card p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-bold text-lg">

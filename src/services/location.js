@@ -3,10 +3,45 @@
  * Handles geolocation with explanation before permission request
  */
 
-import { setState, actions } from '../stores/state.js';
+// NOTE: Do NOT import from state.js here — it causes circular imports.
+// Use window.setState / window.getState instead (exposed by main.js).
 import { Storage } from '../utils/storage.js';
-import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
+
+// Lazy-load showToast to avoid circular: location -> notifications -> state -> location
+let _showToast = null
+function showToast(msg, type) {
+  if (!_showToast) {
+    _showToast = (...args) => {
+      import('./notifications.js').then(m => m.showToast(...args)).catch(() => {})
+    }
+  }
+  _showToast(msg, type)
+}
+
+/**
+ * Helper: call setState without importing state.js (breaks circular import)
+ */
+function setStateSafe(updates) {
+  if (typeof window.setState === 'function') {
+    window.setState(updates)
+  }
+}
+
+/**
+ * Helper: replicate actions.setUserLocation without importing state.js
+ */
+function setUserLocationSafe(location) {
+  setStateSafe({
+    userLocation: location,
+    gpsEnabled: !!location,
+  })
+  if (location?.lat && location?.lng) {
+    import('./proximityVerification.js').then(({ recordLocation }) => {
+      recordLocation(location)
+    }).catch(() => {})
+  }
+}
 
 // Storage key for location permission choice
 const LOCATION_PERMISSION_KEY = 'location_permission_choice';
@@ -48,7 +83,7 @@ export function getLocationPermissionChoice() {
 export function saveLocationPermissionChoice(choice) {
   Storage.set(LOCATION_PERMISSION_KEY, choice);
   Storage.set(LOCATION_PERMISSION_DATE_KEY, Date.now());
-  setState({ locationPermissionChoice: choice });
+  setStateSafe({ locationPermissionChoice: choice });
 }
 
 /**
@@ -122,7 +157,7 @@ export async function requestLocationWithExplanation(options = {}) {
   }
 
   // Show explanation modal
-  setState({ showLocationPermission: true });
+  setStateSafe({ showLocationPermission: true });
 
   // Return a promise that resolves when user makes a choice
   return new Promise((resolve) => {
@@ -160,7 +195,7 @@ export async function requestBrowserLocation(options = {}) {
         };
 
         // Update state
-        actions.setUserLocation(location);
+        setUserLocationSafe(location);
         saveLocationPermissionChoice('granted');
 
         if (onSuccess) onSuccess(position);
@@ -203,7 +238,7 @@ export async function requestBrowserLocation(options = {}) {
  * Handle user accepting location permission from modal
  */
 export async function handleAcceptLocationPermission() {
-  setState({ showLocationPermission: false });
+  setStateSafe({ showLocationPermission: false });
 
   const position = await requestBrowserLocation({
     onSuccess: window._locationPermissionCallbacks?.onSuccess,
@@ -224,7 +259,7 @@ export async function handleAcceptLocationPermission() {
  * Handle user declining location permission from modal
  */
 export function handleDeclineLocationPermission() {
-  setState({ showLocationPermission: false });
+  setStateSafe({ showLocationPermission: false });
   saveLocationPermissionChoice('denied');
 
   if (window._locationPermissionCallbacks?.onError) {
@@ -261,7 +296,7 @@ export function watchUserLocation(onUpdate) {
         timestamp: position.timestamp,
       };
 
-      actions.setUserLocation(location);
+      setUserLocationSafe(location);
       if (onUpdate) onUpdate(location);
     },
     (error) => {
@@ -291,7 +326,7 @@ export function stopWatchingLocation(watchId) {
 export function resetLocationPermission() {
   Storage.remove(LOCATION_PERMISSION_KEY);
   Storage.remove(LOCATION_PERMISSION_DATE_KEY);
-  setState({
+  setStateSafe({
     locationPermissionChoice: 'unknown',
     userLocation: null,
     gpsEnabled: false,

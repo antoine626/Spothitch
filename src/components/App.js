@@ -138,7 +138,7 @@ export function renderApp(state) {
 
     <!-- Active Trip Bar (like Spotify "Now Playing") -->
     ${state.tripResults && !state.showTripPlanner && !state.showTripMap && isMapTab(state) ? `
-      <div class="fixed bottom-[4.5rem] left-4 right-4 z-30 px-4 py-2.5 rounded-xl bg-primary-500/90 backdrop-blur-xl border border-primary-400/30 shadow-lg shadow-primary-500/20 cursor-pointer" onclick="openActiveTrip()">
+      <div class="fixed bottom-[4.5rem] left-4 right-4 z-30 px-4 py-2.5 rounded-xl bg-primary-500/90 backdrop-blur-xl border border-primary-400/30 shadow-lg shadow-primary-500/20 cursor-pointer" role="button" tabindex="0" onclick="openActiveTrip()">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3 min-w-0">
             ${icon('route', 'w-5 h-5 text-white/80')}
@@ -266,7 +266,7 @@ export function renderApp(state) {
     ${state.showAccessibilityHelp ? lazyRender('renderAccessibilityHelp', state) : ''}
     ${state.showTravelGroupDetail ? lazyRender('renderTravelGroupDetail', state) : ''}
     ${state.showTeamChallenges ? `
-      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTeamChallenges()">
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" role="dialog" aria-modal="true" onclick="if(event.target===this)closeTeamChallenges()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold">${icon('users', 'w-5 h-5 mr-2 text-orange-400')}${t('teamChallenges') || "Défis d'équipe"}</h2>
@@ -282,7 +282,7 @@ export function renderApp(state) {
 
     <!-- Create Team Modal -->
     ${state.showCreateTeam ? `
-      <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 p-4" onclick="if(event.target===this)closeCreateTeam()">
+      <div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" onclick="if(event.target===this)closeCreateTeam()">
         <div class="modal-panel w-full max-w-md rounded-2xl overflow-hidden slide-up">
           <div class="flex items-center justify-between p-4 border-b border-white/10">
             <h2 class="text-lg font-bold">${icon('users', 'w-5 h-5 mr-2 text-primary-400')}${t('teamCreateButton') || 'Créer une équipe'}</h2>
@@ -343,7 +343,7 @@ export function renderApp(state) {
 
     <!-- Trip History Modal -->
     ${state.showTripHistory ? `
-      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeTripHistory()">
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" role="dialog" aria-modal="true" onclick="if(event.target===this)closeTripHistory()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold">${icon('clipboard-list', 'w-5 h-5 mr-2 text-emerald-400')}${t('tripHistory') || 'Historique de voyage'}</h2>
@@ -365,7 +365,7 @@ export function renderApp(state) {
 
     <!-- FAQ Overlay -->
     ${state.showFAQ ? `
-      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeFAQ()">
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" role="dialog" aria-modal="true" onclick="if(event.target===this)closeFAQ()">
         <div class="min-h-screen pb-20">
           <div class="sticky top-0 z-10 flex items-center justify-between p-4 bg-dark-primary/80 backdrop-blur-xl border-b border-white/5">
             <h2 class="text-lg font-bold flex items-center gap-2">${icon('help-circle', 'w-5 h-5 text-primary-400')}${t('faqTitle') || 'FAQ & Aide'}</h2>
@@ -382,7 +382,7 @@ export function renderApp(state) {
 
     <!-- Legal Overlay -->
     ${state.showLegal ? `
-      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" onclick="if(event.target===this)closeLegal()">
+      <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" role="dialog" aria-modal="true" onclick="if(event.target===this)closeLegal()">
         <div class="min-h-screen pb-20">
           ${lazyRender('renderLegalPage', state.legalPage || 'cgu')}
         </div>
@@ -611,7 +611,7 @@ function initHomeMap(state) {
     map.invalidateSize = function () { this.resize() }
 
     window.homeMapInstance = map
-    window.mapInstance = map
+    // mapInstance — canonical in map.js
 
     // User position marker + GPS centering
     let userMarker = null

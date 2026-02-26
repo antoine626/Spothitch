@@ -72,7 +72,7 @@ import { setupGlobalErrorHandlers as setupErrorHandlers } from './utils/errorBou
 // animations.js, share.js, confetti.js — lazy-loaded (only triggered by user actions)
 import { initAutoOfflineSync } from './services/autoOfflineSync.js';
 import { resetFilters as resetFiltersUtil } from './components/modals/Filters.js';
-import { redeemReward } from './components/modals/Shop.js';
+// redeemReward registered globally by Shop.js itself (canonical)
 import './components/modals/Leaderboard.js'; // Register global handlers
 import { registerCheckinHandlers } from './components/modals/CheckinModal.js'; // Checkin modal handlers
 import { startNavigation } from './services/navigation.js'; // stopNavigation/openExternalNavigation registered by navigation.js itself
@@ -771,7 +771,7 @@ window.openFullMap = () => {
     getMap().then(m => m.initMap());
   }, 200);
 };
-window.toggleTheme = () => actions.toggleTheme();
+// toggleTheme — canonical in Profile.js
 window.setViewMode = (mode) => {
   setState({ viewMode: mode });
   // Initialize map after DOM update
@@ -1032,7 +1032,7 @@ window.openAuth = (reason) => {
   setState(updates)
 }
 window.closeAuth = () => setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
-window.setAuthMode = (mode) => setState({ authMode: mode })
+// setAuthMode — canonical in Auth.js
 // Email login/signup is handled by Auth.js via window.handleAuth (with executePendingAction)
 // Social auth handlers are defined in Auth.js (handleGoogleSignIn, handleAppleSignIn, handleFacebookSignIn)
 // Fallback registrations in case Auth.js hasn't loaded yet — must also resume authPendingAction
@@ -1164,7 +1164,7 @@ window.openIdentityVerification = () => {
   };
   setState({ showIdentityVerification: true });
 };
-window.closeIdentityVerification = () => setState({ showIdentityVerification: false });
+// closeIdentityVerification — canonical in IdentityVerification.js
 window.showIdentityVerification = () => window.openIdentityVerification();
 
 // Identity Verification - New handlers for Selfie + ID flow
@@ -1319,7 +1319,7 @@ window.finishTutorial = async () => {
 };
 
 // Chat handlers
-window.setChatRoom = (room) => setState({ chatRoom: room });
+// setChatRoom — canonical in Chat.js
 // sendMessage — canonical owner is Social.js (full implementation with state + localStorage + Firebase).
 // This fallback only runs if Social.js hasn't loaded yet.
 if (!window.sendMessage) {
@@ -1404,8 +1404,8 @@ window.openBadgePopup = (badge) => setState({ showBadgePopup: true, newBadge: ba
 
 // Daily reward
 window.openDailyReward = () => setState({ showDailyReward: true });
-window.closeDailyReward = () => setState({ showDailyReward: false, lastDailyRewardResult: null });
-window.closeDailyRewardResult = () => setState({ showDailyReward: false, lastDailyRewardResult: null });
+// closeDailyReward — canonical in DailyReward.js
+// closeDailyRewardResult — canonical in DailyReward.js
 
 // UI toggles
 window.closeFavoritesOnMap = () => setState({ showFavoritesOnMap: false, filterFavorites: false });
@@ -1452,7 +1452,7 @@ window.toggleThumbHistory = () => {
 window.openShop = () => setState({ showShop: true });
 window.closeShop = () => setState({ showShop: false });
 window.setShopCategory = (category) => setState({ shopCategory: category });
-window.redeemReward = (rewardId) => redeemReward(rewardId);
+// redeemReward — canonical in Shop.js
 window.showMyRewards = () => setState({ showShop: false, showMyRewards: true });
 window.openMyRewards = () => setState({ showShop: false, showMyRewards: true });
 window.closeMyRewards = () => setState({ showMyRewards: false });
@@ -1460,14 +1460,8 @@ window.equipAvatar = (avatar) => {
   setState({ avatar });
   showToast(t('avatarEquipped') || 'Avatar équipé !', 'success');
 };
-window.equipFrame = (frame) => {
-  setState({ profileFrame: frame });
-  showToast(t('frameEquipped') || 'Cadre équipé !', 'success');
-};
-window.equipTitle = (title) => {
-  setState({ profileTitle: title });
-  showToast(t('titleEquipped') || 'Titre équipé !', 'success');
-};
+// equipFrame — canonical in profileCustomization.js
+// equipTitle — canonical in profileCustomization.js
 window.activateBooster = (_boosterId) => {
   // Activate booster logic
   showToast(t('boosterActivated') || 'Booster activé !', 'success');
@@ -1529,9 +1523,9 @@ window.clearTripSteps = async () => {
 
 // Trip Planner (redirects to Voyage tab now)
 window.openTripPlanner = () => setState({ activeTab: 'challenges', voyageSubTab: 'voyage' })
-window.closeTripPlanner = () => {} // no-op, overlay removed
+window.closeTripPlanner = () => setState({ showTripPlanner: false })
 window.openGuidesOverlay = () => setState({ activeTab: 'challenges', voyageSubTab: 'guides' })
-window.closeGuidesOverlay = () => {} // no-op, overlay removed
+window.closeGuidesOverlay = () => setState({ showGuidesOverlay: false })
 
 // Guides handlers (guides is a sub-tab of Voyage/challenges — ERR-020)
 window.showGuides = () => setState({ activeTab: 'challenges', voyageSubTab: 'guides', selectedCountryCode: null, showSafety: false });
@@ -1632,22 +1626,11 @@ window.openShareCard = async () => {
   const { showShareModal } = await import('./services/shareCard.js')
   showShareModal(spot)
 }
-window.showAddFriend = () => setState({ showAddFriend: true });
+// showAddFriend — canonical in Social.js
 window.closeAddFriend = () => setState({ showAddFriend: false });
-window.acceptFriendRequest = (_requestId) => {
-  // Accept friend logic
-  showToast(t('friendAccepted') || 'Ami accepté !', 'success');
-};
-window.declineFriendRequest = window.declineFriendRequest || ((_requestId) => {
-  showToast(t('requestDeclined') || 'Request declined', 'info')
-});
-window.sendPrivateMessage = (_friendId) => {
-  const input = document.getElementById('private-chat-input');
-  const text = input?.value?.trim();
-  if (!text) return;
-  // Send private message logic
-  if (input) input.value = '';
-};
+// acceptFriendRequest — canonical in Social.js
+// declineFriendRequest — canonical in Social.js
+// sendPrivateMessage — canonical in Social.js
 window.copyFriendLink = () => {
   navigator.clipboard?.writeText('spothitch.app/add/user123').catch(() => {});
   showToast(t('linkCopied') || 'Lien copié !', 'success');
@@ -1723,8 +1706,8 @@ window.openSideMenu = () => {
 window.closeSideMenu = () => setState({ showSideMenu: false });
 
 // Accessibility handlers
-window.showAccessibilityHelp = () => setState({ showAccessibilityHelp: true });
-window.closeAccessibilityHelp = () => setState({ showAccessibilityHelp: false });
+// showAccessibilityHelp — canonical in screenReader.js
+// closeAccessibilityHelp — canonical in screenReader.js
 window.srAnnounce = srAnnounce; // Allow components to announce
 
 // PWA handlers
@@ -1775,12 +1758,12 @@ window.startTeamChallengeAction = async (...args) => {
   return startTeamChallenge(...args)
 }
 
-// Travel groups handlers — STUBS (canonical here, travelGroups.js removed its duplicate)
+// Travel groups handlers
 window.openTravelGroups = () => setState({ activeTab: 'travel-groups' })
 window.openCreateTravelGroup = () => setState({ showCreateTravelGroup: true })
 window.closeCreateTravelGroup = () => setState({ showCreateTravelGroup: false })
-window.openTravelGroupDetail = (groupId) => setState({ showTravelGroupDetail: true, selectedTravelGroupId: groupId })
-window.closeTravelGroupDetail = () => setState({ showTravelGroupDetail: false, selectedTravelGroupId: null })
+// openTravelGroupDetail — canonical in travelGroups.js
+// closeTravelGroupDetail — canonical in travelGroups.js
 window.createTravelGroupAction = async (...args) => {
   const { createTravelGroup } = await import('./services/travelGroups.js')
   return createTravelGroup(...args)
@@ -2524,101 +2507,13 @@ window.closeCompanion = () => setState({ showCompanionModal: false })
 // AddSpot shortcut
 window.submitNewSpot = () => window.openAddSpot?.()
 
-// Trip form helpers — STUBS needed on Voyage tab BEFORE Travel.js lazy-loads.
-// Travel.js overrides these with identical implementations when first opened.
-// DO NOT remove: these prevent "function not defined" errors on Voyage tab.
-window.swapTripPoints = () => {
-  const fromInput = document.getElementById('trip-from')
-  const toInput = document.getElementById('trip-to')
-  const newFrom = toInput?.value || ''
-  const newTo = fromInput?.value || ''
-  if (fromInput) fromInput.value = newFrom
-  if (toInput) toInput.value = newTo
-}
+// swapTripPoints — canonical in Travel.js (Voyage.js has guarded fallback)
+// syncTripFieldsAndCalculate — canonical in Travel.js (Voyage.js has guarded fallback)
 
-window.syncTripFieldsAndCalculate = async () => {
-  const fromInput = document.getElementById('trip-from')
-  const toInput = document.getElementById('trip-to')
-  const from = fromInput?.value?.trim() || ''
-  const to = toInput?.value?.trim() || ''
-  if (!from || !to) {
-    window.showToast?.(t('fillDepartureAndDestination') || 'Remplis le départ et la destination', 'warning')
-    return
-  }
-  setState({ tripFrom: from, tripTo: to, tripLoading: true })
-  // Ensure Travel.js is loaded before calling calculateTrip
-  if (!window.calculateTrip) {
-    try {
-      await import('./components/views/Travel.js')
-    } catch (e) {
-      setState({ tripLoading: false })
-      window.showToast?.(t('tripCalculationError') || 'Erreur de chargement', 'error')
-      return
-    }
-  }
-  window.calculateTrip?.()
-}
-
-const _SAVED_TRIPS_KEY = 'spothitch_saved_trips'
-
-window.saveTripWithSpots = () => {
-  const state = getState()
-  if (!state.tripResults) return
-  const trip = {
-    from: state.tripResults.from,
-    to: state.tripResults.to,
-    fromCoords: state.tripResults.fromCoords,
-    toCoords: state.tripResults.toCoords,
-    routeGeometry: state.tripResults.routeGeometry,
-    distance: state.tripResults.distance,
-    estimatedTime: state.tripResults.estimatedTime,
-    spots: (state.tripResults.spots || []).map(s => ({
-      id: s.id,
-      coordinates: s.coordinates,
-      lat: s.lat,
-      lng: s.lng,
-      userValidations: s.userValidations || 0,
-      country: s.country,
-      description: (s.description || '').slice(0, 80),
-      avgWaitTime: s.avgWaitTime,
-    })),
-    savedAt: new Date().toISOString(),
-  }
-  try {
-    const saved = JSON.parse(localStorage.getItem(_SAVED_TRIPS_KEY) || '[]')
-    saved.push(trip)
-    localStorage.setItem(_SAVED_TRIPS_KEY, JSON.stringify(saved))
-    setState({ savedTrips: saved })
-    window.showToast?.(t('tripSaved') || 'Voyage sauvegardé !', 'success')
-  } catch (e) {
-    window.showToast?.(t('saveError') || 'Erreur de sauvegarde', 'error')
-  }
-}
-
-window.loadSavedTrip = (index) => {
-  try {
-    const saved = JSON.parse(localStorage.getItem(_SAVED_TRIPS_KEY) || '[]')
-    const trip = saved[index]
-    if (!trip) return
-    setState({ tripFrom: trip.from, tripTo: trip.to, tripResults: trip, showTripMap: false })
-  } catch (e) { /* parse error */ }
-}
-
-window.deleteSavedTrip = (index) => {
-  try {
-    const saved = JSON.parse(localStorage.getItem(_SAVED_TRIPS_KEY) || '[]')
-    saved.splice(index, 1)
-    localStorage.setItem(_SAVED_TRIPS_KEY, JSON.stringify(saved))
-    setState({ savedTrips: saved })
-    window.showToast?.(t('tripDeleted') || 'Voyage supprimé', 'success')
-  } catch (e) { /* parse error */ }
-}
-
-window.removeSpotFromTrip = (spotId) => {
-  const state = getState()
-  if (!state.tripResults?.spots) return
-  setState({ tripResults: { ...state.tripResults, spots: state.tripResults.spots.filter(s => s.id !== spotId) } })
-}
+// saveTripWithSpots — canonical in Travel.js
+// loadSavedTrip — canonical in Travel.js
+// deleteSavedTrip — canonical in Travel.js
+// removeSpotFromTrip — canonical in Travel.js
 
 // ==================== START APP ====================
 

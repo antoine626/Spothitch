@@ -95,7 +95,7 @@ function renderLanguagePickerModal(state) {
   const search = (state.langPickerSearch || '').toLowerCase()
   const filtered = POPULAR_LANGUAGES.filter(l => l.toLowerCase().includes(search))
   return `
-    <div class="fixed inset-0 z-50 bg-black/80 flex items-end sm:items-center justify-center" onclick="if(event.target===this)closeLanguagePicker()">
+    <div class="fixed inset-0 z-50 bg-black/80 flex items-end sm:items-center justify-center" role="dialog" aria-modal="true" onclick="if(event.target===this)closeLanguagePicker()">
       <div class="bg-dark-secondary rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md max-h-[80vh] flex flex-col">
         <div class="p-4 border-b border-white/10 flex items-center justify-between">
           <h3 class="font-bold">${t('addLanguage') || 'Ajouter une langue'}</h3>
@@ -126,7 +126,7 @@ function renderLanguageLevelModal(state) {
     { id: 'natif', label: t('langLevelNatif') || 'Natif', desc: t('langLevelNatifDesc') || 'Langue maternelle', dots: 3 },
   ]
   return `
-    <div class="fixed inset-0 z-50 bg-black/80 flex items-end sm:items-center justify-center" onclick="if(event.target===this)closeLanguageLevelPicker()">
+    <div class="fixed inset-0 z-50 bg-black/80 flex items-end sm:items-center justify-center" role="dialog" aria-modal="true" onclick="if(event.target===this)closeLanguageLevelPicker()">
       <div class="bg-dark-secondary rounded-t-2xl sm:rounded-2xl w-full sm:max-w-sm p-5 space-y-4">
         <h3 class="font-bold text-center">${LANG_FLAG_MAP[name] || '🌐'} ${name}</h3>
         <p class="text-xs text-slate-400 text-center">${t('selectLevel') || 'Choisis ton niveau'}</p>
@@ -1000,7 +1000,7 @@ function renderRoadmapList(state) {
           const voted = myVotes[f.id] === 'up'
           const status = ROADMAP_STATUS[f.status] || ROADMAP_STATUS.thinking
           return `
-            <div class="flex items-center gap-3 card p-3 cursor-pointer active:scale-[0.98] transition-transform" onclick="openRoadmapFeature('${f.id}')">
+            <div class="flex items-center gap-3 card p-3 cursor-pointer active:scale-[0.98] transition-transform" role="button" tabindex="0" onclick="openRoadmapFeature('${f.id}')">
               <button onclick="event.stopPropagation();roadmapVote('${f.id}')" class="flex flex-col items-center ${voted ? 'bg-amber-500 text-black' : 'bg-white/10 hover:bg-amber-500/20'} px-2.5 py-1.5 rounded-lg transition-colors shrink-0" aria-label="${t('roadmapUpvote') || 'Voter'}">
                 <span class="text-sm">▲</span>
                 <span class="font-bold text-sm">${votes}</span>

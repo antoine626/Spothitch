@@ -273,11 +273,7 @@ function showShareModal(data) {
   }
 }
 
-// Expose globally
-window.shareSpot = shareSpot;
-window.shareBadge = shareBadge;
-window.shareStats = shareStats;
-window.shareApp = shareApp;
+// shareSpot, shareBadge, shareStats, shareApp — canonical in main.js (lazy-load stubs)
 
 export default {
   share,

@@ -7,6 +7,7 @@ import { getState, setState } from '../stores/state.js';
 import { showToast } from './notifications.js';
 import { t } from '../i18n/index.js';
 import { icon } from '../utils/icons.js'
+import { getDistanceKm } from './location.js'
 
 // Configuration
 const CONFIG = {
@@ -134,7 +135,7 @@ export function checkNearbyFriends() {
     if (Date.now() - friendLoc.lastUpdate > 60 * 60 * 1000) continue;
 
     // Calculate distance
-    const distance = calculateDistance(
+    const distance = getDistanceKm(
       userLocation.lat,
       userLocation.lng,
       friendLoc.lat,
@@ -229,32 +230,6 @@ function showNearbyFriendNotification(friend, proximity) {
   setState({
     nearbyNotifications: notifications.slice(0, 10),
   });
-}
-
-/**
- * Calculate distance between two points (Haversine formula)
- * @param {number} lat1
- * @param {number} lng1
- * @param {number} lat2
- * @param {number} lng2
- * @returns {number} Distance in kilometers
- */
-function calculateDistance(lat1, lng1, lat2, lng2) {
-  const R = 6371; // Earth's radius in km
-  const dLat = toRad(lat2 - lat1);
-  const dLng = toRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) *
-      Math.cos(toRad(lat2)) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-
-function toRad(deg) {
-  return deg * (Math.PI / 180);
 }
 
 /**
@@ -497,7 +472,7 @@ export function renderNearbyFriendsSettings(state) {
 }
 
 // Global handlers
-window.toggleNearbyFriends = toggleNearbyFriends;
+// toggleNearbyFriends — canonical in main.js (lazy-load stub)
 window.setNotificationRadius = setNotificationRadius;
 window.toggleNearbyFriendsList = () => {
   const state = getState();

@@ -893,7 +893,7 @@ export function renderTravelGroupCard(group) {
   const spotsLeft = group.maxMembers - group.members.length;
 
   return `
-    <div class="bg-dark-card rounded-2xl overflow-hidden" onclick="openTravelGroupDetail('${group.id}')">
+    <div class="bg-dark-card rounded-2xl overflow-hidden cursor-pointer" role="button" tabindex="0" onclick="openTravelGroupDetail('${group.id}')">
       <!-- Header with gradient -->
       <div class="h-24 bg-gradient-to-br from-primary-500 to-primary-600 relative">
         <div class="absolute inset-0 bg-black/20"></div>

@@ -32,7 +32,7 @@ export function renderHome(state) {
         const mins = Math.floor(absSecs / 60)
         const sec = absSecs % 60
         return `
-        <div class="absolute top-4 left-4 right-4 z-40" onclick="showCompanionModal()">
+        <div class="absolute top-4 left-4 right-4 z-40" role="button" tabindex="0" onclick="showCompanionModal()">
           <div class="flex items-center justify-between px-4 py-2.5 rounded-xl ${overdue ? 'bg-red-500/90 border-red-400/30' : 'bg-emerald-500/90 border-emerald-400/30'} backdrop-blur-xl border shadow-lg cursor-pointer">
             <div class="flex items-center gap-2">
               ${icon('shield', 'w-4 h-4 text-white/80')}

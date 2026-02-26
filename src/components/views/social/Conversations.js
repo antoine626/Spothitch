@@ -179,7 +179,7 @@ function renderDMChat(state, recipientId) {
         <span class="text-2xl">${recipientAvatar}</span>
         ${isOnline ? `<span class="absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-dark-secondary bg-emerald-500"></span>` : ''}
       </div>
-      <div class="flex-1 min-w-0" onclick="showFriendProfile('${recipientId}')">
+      <div class="flex-1 min-w-0 cursor-pointer" role="button" tabindex="0" onclick="showFriendProfile('${recipientId}')">
         <div class="font-medium text-sm">${escapeHTML(recipientName)}</div>
         <div class="text-xs text-slate-400">${isOnline ? t('online') : t('offline')}</div>
       </div>
@@ -286,7 +286,7 @@ function renderGroupChat(state, groupId) {
         ${icon('arrow-left', 'w-5 h-5')}
       </button>
       <span class="text-2xl">${group.icon || '🚗'}</span>
-      <div class="flex-1 min-w-0" onclick="openTravelGroupDetail('${groupId}')">
+      <div class="flex-1 min-w-0 cursor-pointer" role="button" tabindex="0" onclick="openTravelGroupDetail('${groupId}')">
         <div class="font-medium text-sm truncate">${escapeHTML(group.name)}</div>
         <div class="text-xs text-slate-400">${memberCount} ${t('members')}</div>
       </div>

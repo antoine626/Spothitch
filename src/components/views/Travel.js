@@ -298,7 +298,7 @@ function renderTripResults(results) {
               ? Math.round(haversine(results.fromCoords[0], results.fromCoords[1], sLat, sLng))
               : null
             return `
-            <div class="relative flex items-start gap-3 pb-4 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors" onclick="selectSpot(${spot.id})">
+            <div class="relative flex items-start gap-3 pb-4 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors" role="button" tabindex="0" onclick="selectSpot(${spot.id})">
               <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-primary-500/80 border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg shadow-primary-500/20">
                 <span class="text-[10px] font-bold text-white">${i + 1}</span>
               </div>

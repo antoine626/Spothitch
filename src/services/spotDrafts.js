@@ -147,7 +147,7 @@ export function renderDraftBanner() {
   const cityName = latest.departureCity || latest.directionCity || ''
 
   return `
-    <div class="draft-banner" onclick="openSpotDraft('${latest.id}')">
+    <div class="draft-banner" role="button" tabindex="0" onclick="openSpotDraft('${latest.id}')">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3 min-w-0 text-white">
           <span class="text-xl">📝</span>

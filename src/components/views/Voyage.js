@@ -1199,38 +1199,8 @@ window.openTripPhotoUpload = (tripIndex) => {
   input.click()
 }
 
-// swapTripPoints & syncTripFieldsAndCalculate — also defined in Travel.js but
-// Travel.js is lazy-loaded only when its tab is opened. Define fallbacks here
-// so Voyage's trip form works even before Travel.js has ever been loaded.
-if (!window.swapTripPoints) {
-  window.swapTripPoints = () => {
-    const fromInput = document.getElementById('trip-from')
-    const toInput = document.getElementById('trip-to')
-    const newFrom = toInput?.value || ''
-    const newTo = fromInput?.value || ''
-    if (fromInput) fromInput.value = newFrom
-    if (toInput) toInput.value = newTo
-  }
-}
-
-if (!window.syncTripFieldsAndCalculate) {
-  window.syncTripFieldsAndCalculate = async () => {
-    const fromInput = document.getElementById('trip-from')
-    const toInput = document.getElementById('trip-to')
-    const from = fromInput?.value?.trim() || ''
-    const to = toInput?.value?.trim() || ''
-    if (!from || !to) {
-      window.showToast?.(t('fillDepartureAndDestination') || 'Remplis le départ et la destination', 'warning')
-      return
-    }
-    window.setState?.({ tripFrom: from, tripTo: to, tripLoading: true })
-    // B1: Ensure Travel.js is loaded before calling calculateTrip
-    if (!window.calculateTrip) {
-      try { await import('./Travel.js') } catch { /* no-op */ }
-    }
-    window.calculateTrip?.()
-  }
-}
+// swapTripPoints — canonical in Travel.js
+// syncTripFieldsAndCalculate — canonical in Travel.js
 
 // tripSearchSuggestions — 3 couches : villes populaires, cache localStorage, pays offline, API Photon
 // Se surcharge si Travel.js est déjà chargé (window.tripSearchSuggestions déjà défini)

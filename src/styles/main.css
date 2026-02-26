@@ -237,10 +237,6 @@
     @apply text-sm px-4 py-2 rounded-xl min-h-[36px];
   }
 
-  .btn-lg {
-    @apply text-lg px-8 py-4 rounded-2xl min-h-[56px];
-  }
-
   .btn-ghost {
     @apply bg-white/5 text-white rounded-xl px-6 py-3 font-semibold inline-flex items-center justify-center gap-2 cursor-pointer transition-colors duration-300;
   }
@@ -322,10 +318,6 @@
     @apply bg-warning-500/20 text-warning-400;
   }
 
-  .badge-danger {
-    @apply bg-danger-500/20 text-danger-400;
-  }
-
   .light-theme .badge-primary {
     @apply bg-amber-100 text-amber-700;
   }
@@ -336,20 +328,6 @@
 
   .light-theme .badge-warning {
     @apply bg-amber-100 text-amber-700;
-  }
-
-  .light-theme .badge-danger {
-    @apply bg-red-100 text-red-700;
-  }
-
-  /* Progress Bar */
-  .progress-bar {
-    @apply h-2 bg-white/10 rounded-full overflow-hidden;
-  }
-
-  .progress-fill {
-    @apply h-full rounded-full;
-    background: linear-gradient(90deg, #f59e0b, #fbbf24);
   }
 
   /* Toast Notifications */
@@ -412,83 +390,6 @@
   }
 
   /* Map Markers */
-  .custom-marker {
-    @apply flex items-center justify-center w-9 h-9 rounded-full border-[3px] border-white;
-    @apply text-sm font-bold text-white shadow-lg;
-  }
-
-  .marker-top {
-    @apply animate-pulse-glow;
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-  }
-
-  .marker-good {
-    background: linear-gradient(135deg, #10b981, #059669);
-  }
-
-  .marker-new {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-  }
-
-  .marker-old {
-    background: linear-gradient(135deg, #64748b, #475569);
-  }
-
-  .marker-user {
-    @apply animate-pulse;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-  }
-
-  /* Star Rating */
-  .star-rating {
-    @apply flex gap-1;
-  }
-
-  .star {
-    @apply cursor-pointer text-3xl transition-colors duration-200;
-    filter: grayscale(1) opacity(0.3);
-  }
-
-  .star:hover,
-  .star.active {
-    filter: grayscale(0) opacity(1);
-    @apply scale-125;
-  }
-
-  /* FAB Button */
-  .fab {
-    @apply fixed bottom-24 right-5 z-[45] w-14 h-14 rounded-full;
-    @apply text-white text-3xl border-none cursor-pointer;
-    @apply flex items-center justify-center shadow-lg transition-colors duration-300;
-    background: linear-gradient(135deg, #10b981, #059669);
-  }
-
-  .fab:hover {
-    @apply scale-110;
-  }
-
-  .fab:active {
-    @apply scale-95;
-  }
-
-  /* SOS Button */
-  .sos-btn {
-    @apply fixed bottom-24 right-5 w-14 h-14 rounded-full text-white font-bold text-xs;
-    @apply border-none cursor-pointer z-[45] flex items-center justify-center;
-    @apply shadow-lg transition-colors duration-300;
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5);
-  }
-
-  .sos-btn:hover {
-    @apply scale-110;
-  }
-
-  .sos-btn::before {
-    content: '';
-    @apply absolute -inset-1 rounded-full border-2 border-danger-500/50 animate-ping;
-  }
-
   /* Photo Upload */
   .photo-upload {
     @apply border-2 border-dashed border-white/20 rounded-2xl p-10 text-center cursor-pointer;

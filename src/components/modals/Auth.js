@@ -614,7 +614,6 @@ export function requireAuth(actionName, callback) {
   })
 }
 
-// Expose requireAuth globally
-window.requireAuth = (actionName) => requireAuth(actionName)
+// requireAuth — canonical in main.js (synchronous return value needed by callers)
 
 export default { renderAuth }

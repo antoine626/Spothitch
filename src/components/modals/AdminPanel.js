@@ -9,7 +9,7 @@ import { icon } from '../../utils/icons.js'
 
 export function renderAdminPanel(state) {
   return `
-    <div class="modal-overlay active" onclick="closeAdminPanel()">
+    <div class="modal-overlay active" role="dialog" aria-modal="true" onclick="closeAdminPanel()">
       <div class="modal-content max-w-lg max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xl font-bold flex items-center gap-2">
@@ -242,10 +242,8 @@ export function renderAdminPanel(state) {
   `;
 }
 
-// openAdminPanel/closeAdminPanel: also defined in main.js as early STUBS
-// (needed here so unit tests importing AdminPanel.js directly can verify the handlers)
-window.openAdminPanel = () => setState({ showAdminPanel: true });
-window.closeAdminPanel = () => setState({ showAdminPanel: false });
+// openAdminPanel — canonical in main.js
+// closeAdminPanel — canonical in main.js
 
 window.adminAddPoints = (amount) => {
   const state = getState();
@@ -314,8 +312,8 @@ window.adminExportState = () => {
 };
 
 // openDonation is defined in DonationCard.js (accepts amount/type params)
-window.openSOS = () => setState({ showSOS: true });
-window.openAddSpot = () => setState({ showAddSpot: true });
+// openSOS — canonical in main.js
+// openAddSpot — canonical in main.js
 // openFilters defined in main.js (canonical)
 
 export default { renderAdminPanel };

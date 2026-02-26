@@ -265,7 +265,7 @@ function renderRemoveConfirmation(deviceId) {
 
   return `
     <div class="fixed inset-0 z-[60] flex items-center justify-center p-4" id="remove-device-confirm">
-      <div class="absolute inset-0 bg-black/40" onclick="cancelRemoveDevice()"></div>
+      <div class="absolute inset-0 bg-black/40" role="presentation" onclick="cancelRemoveDevice()"></div>
       <div class="relative bg-dark-secondary border border-white/10 rounded-2xl p-6 max-w-sm w-full slide-up" onclick="event.stopPropagation()">
         <div class="text-center">
           <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -308,7 +308,7 @@ function renderRemoveAllConfirmation() {
 
   return `
     <div class="fixed inset-0 z-[60] flex items-center justify-center p-4" id="remove-all-confirm">
-      <div class="absolute inset-0 bg-black/40" onclick="cancelRemoveAllDevices()"></div>
+      <div class="absolute inset-0 bg-black/40" role="presentation" onclick="cancelRemoveAllDevices()"></div>
       <div class="relative bg-dark-secondary border border-white/10 rounded-2xl p-6 max-w-sm w-full slide-up" onclick="event.stopPropagation()">
         <div class="text-center">
           <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
