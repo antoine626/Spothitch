@@ -33,7 +33,7 @@ export function renderFriendProfileModal(state) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="friend-profile-title"
-    >
+     tabindex="0">
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
       <div
         class="relative modal-panel rounded-3xl w-full max-w-sm slide-up max-h-[90vh] overflow-y-auto"

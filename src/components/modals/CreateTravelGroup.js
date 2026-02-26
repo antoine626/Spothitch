@@ -14,7 +14,7 @@ export function renderCreateTravelGroupModal(_state) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="create-group-title"
-    >
+     tabindex="0">
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
       <div
         class="relative modal-panel rounded-3xl w-full max-w-md max-h-[85vh] overflow-y-auto slide-up"

@@ -19,7 +19,7 @@ export function renderWelcome(state) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="welcome-title"
-    >
+     tabindex="0">
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true"></div>
 

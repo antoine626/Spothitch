@@ -51,7 +51,7 @@ export function renderTutorial(state) {
   return `
     <div class="tutorial-overlay" id="tutorial-overlay">
       <!-- Transparent backdrop — map visible behind -->
-      <div class="fixed inset-0 z-[100] bg-black/50" role="presentation" onclick="skipTutorial()"></div>
+      <div class="fixed inset-0 z-[100] bg-black/50" role="presentation" onclick="skipTutorial()" tabindex="0"></div>
 
       <!-- Bottom card (like a tooltip, not blocking the map) -->
       <div class="fixed bottom-24 left-0 right-0 z-[101] flex justify-center px-4">

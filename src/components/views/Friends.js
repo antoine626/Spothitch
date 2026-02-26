@@ -137,7 +137,7 @@ function renderFriendCard(friend, isOnline) {
   return `
     <div class="friend-card flex items-center gap-3 p-4 bg-white/5 rounded-xl cursor-pointer
                 hover:bg-white/10 transition-colors"
-         onclick="openFriendsChat('${friend.id}')">
+         onclick="openFriendsChat('${friend.id}')" role="button" tabindex="0">
       <div class="relative">
         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-2xl">
           ${friend.avatar || '🤙'}

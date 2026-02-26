@@ -142,7 +142,7 @@ export function renderPhotoFullscreen(photos, currentIndex, galleryId) {
       id="photo-fullscreen"
       class="fixed inset-0 z-[100] bg-black flex items-center justify-center"
       onclick="closePhotoFullscreen(event)"
-    >
+     role="button" tabindex="0">
       <!-- Close Button -->
       <button
         onclick="closePhotoFullscreen()"
