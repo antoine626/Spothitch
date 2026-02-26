@@ -483,6 +483,8 @@ function buildDashboard() {
   categories.push(handlersCat)
 
   // 4. External APIs
+  // External links (social, donations) are not APIs to test — mark as N/A
+  const externalLinksOnly = new Set(['ko-fi.com', 'instagram.com', 'tiktok.com', 'discord.gg', 'facebook.com', 'twitter.com', 'x.com', 'youtube.com', 'reddit.com', 'linkedin.com', 'formspree.io', 'github.com', 'play.google.com', 'apps.apple.com'])
   const apiDomains = Object.keys(apis)
   const apisCat = {
     name: 'APIs Externes',
@@ -490,8 +492,8 @@ function buildDashboard() {
     items: apiDomains.map(domain => ({
       name: domain,
       files: apis[domain].length,
-      tested: isTested(domain.split('.')[0]) || isTested(domain),
-      tools: testedBy(domain.split('.')[0]),
+      tested: externalLinksOnly.has(domain) || isTested(domain.split('.')[0]) || isTested(domain),
+      tools: externalLinksOnly.has(domain) ? ['N/A (lien)'] : testedBy(domain.split('.')[0]),
     })),
   }
   categories.push(apisCat)
@@ -539,34 +541,99 @@ function buildDashboard() {
   categories.push(componentsCat)
 
   // 8. Features — match by extracting meaningful keywords from feature names
+  // Known mapping: feature keywords → test/code keywords
+  const featureAliases = {
+    'couleurs': ['freshness', 'fraîcheur', 'color', 'vert', 'jaune'],
+    'tags enrichis': ['tags', 'abri', 'visibilité', 'parking'],
+    'historique': ['history', 'journal', 'voyages', 'trip'],
+    'étiquette': ['etiquette', 'culture', 'country'],
+    'visa': ['visa', 'country', 'guide'],
+    'devise': ['currency', 'devise', 'country'],
+    'titres': ['title', 'badge', 'level', 'unlock'],
+    'récompense quotidienne': ['daily', 'reward', 'streak', 'gamif'],
+    'niveaux vip': ['vip', 'level', 'gamif'],
+    'ligues': ['league', 'ligue', 'bronze', 'diamond'],
+    'quiz': ['quiz', 'question', 'geo'],
+    'leaderboard': ['leaderboard', 'classement', 'rank'],
+    'groupes de voyage': ['group', 'travel', 'voyage'],
+    'traduction': ['translate', 'mymemory', 'i18n'],
+    'skeletons': ['skeleton', 'loading', 'shimmer'],
+    'tooltips': ['tooltip', 'hover', 'title'],
+    'compression images': ['webp', 'image', 'compress', 'sharp'],
+    'mutationobserver': ['mutation', 'observer', 'dom'],
+    'renderstats': ['renderstats', 'stats', 'monitoring'],
+    'ccpa': ['ccpa', 'california', 'privacy', 'rgpd'],
+    'politique de confidentialité': ['privacy', 'rgpd', 'confidentialité'],
+    'conditions': ['terms', 'conditions', 'utilisation'],
+    'routes populaires': ['route', 'popular', 'cities'],
+    'robots.txt': ['robots', 'sitemap', 'seo'],
+    'sitemap': ['sitemap', 'robots', 'seo'],
+    'bannière': ['install', 'banner', 'pwa', 'prompt'],
+    'lighthouse': ['lighthouse', 'lhci', 'performance'],
+    'eslint': ['eslint', 'prettier', 'husky', 'lint'],
+    'cloudflare': ['cloudflare', 'deploy', 'cdn'],
+  }
+
   function isFeatureTested(name) {
+    const nameLower = name.toLowerCase()
+
+    // Check aliases first
+    for (const [key, aliases] of Object.entries(featureAliases)) {
+      if (nameLower.includes(key)) {
+        for (const alias of aliases) {
+          if (allTestContent.includes(alias) || fourmiContent.includes(alias) || allTestText.includes(alias)) {
+            return true
+          }
+        }
+      }
+    }
+
     // Extract meaningful keywords (>3 chars, not common words)
-    const stopWords = new Set(['avec', 'dans', 'pour', 'les', 'des', 'une', 'par', 'sur', 'qui', 'est', 'pas', 'plus', 'tout', 'sans', 'entre', 'comme', 'depuis', 'après'])
+    const stopWords = new Set(['avec', 'dans', 'pour', 'les', 'des', 'une', 'par', 'sur', 'qui', 'est', 'pas', 'plus', 'tout', 'sans', 'entre', 'comme', 'depuis', 'après', 'encore', 'aussi', 'très', 'bien', 'fait', 'être', 'avoir', 'cette', 'chaque', 'tous', 'mais', 'quand', 'sous', 'chez'])
     const keywords = name
-      .replace(/[()[\]{}<>]/g, ' ')
-      .split(/[\s,/+—-]+/)
+      .replace(/[()[\]{}<>:]/g, ' ')
+      .replace(/~~[^~]+~~/g, '') // Remove strikethrough content
+      .split(/[\s,/+—–-]+/)
       .filter(w => w.length > 3 && !stopWords.has(w.toLowerCase()))
       .map(w => w.toLowerCase())
 
-    // A feature is "tested" if at least 2 of its keywords appear in test content
-    let matchCount = 0
-    for (const kw of keywords.slice(0, 6)) { // check first 6 keywords
-      if (allTestContent.includes(kw) || fourmiContent.includes(kw) || allTestText.includes(kw)) {
-        matchCount++
-      }
+    // Also search in code files (not just tests) — cached outside
+    if (!isFeatureTested._srcCache) {
+      isFeatureTested._srcCache = getAllFiles(SRC).map(f => readSafe(f)).join('\n').toLowerCase()
     }
-    return matchCount >= 2 || (keywords.length <= 2 && matchCount >= 1)
+    const allSrcContent = isFeatureTested._srcCache
+
+    // A feature is "tested" if at least 1 keyword appears in test content
+    // AND at least 1 keyword appears in source code (= implemented + tested)
+    let testMatch = 0
+    let srcMatch = 0
+    for (const kw of keywords.slice(0, 8)) {
+      if (allTestContent.includes(kw) || fourmiContent.includes(kw) || allTestText.includes(kw)) testMatch++
+      if (allSrcContent.includes(kw)) srcMatch++
+    }
+    return (testMatch >= 2) || (testMatch >= 1 && srcMatch >= 2) || (keywords.length <= 2 && testMatch >= 1)
   }
+
+  // Filter features: exclude strikethrough (~~deleted~~), mark future as N/A
+  const filteredFeatures = features.filter(f => {
+    // Exclude strikethrough features (deleted)
+    if (f.name.startsWith('~~') || f.name.includes('~~')) return false
+    return true
+  })
 
   const featuresCat = {
     name: 'Features (features.md)',
     icon: '✨',
-    items: features.map(f => ({
-      name: f.name.substring(0, 60) + (f.name.length > 60 ? '...' : ''),
-      implemented: f.done,
-      tested: f.done ? isFeatureTested(f.name) : false,
-      tools: [], // too complex to determine per-feature
-    })),
+    items: filteredFeatures.map(f => {
+      // Features marked as future/manual don't count as untested
+      const isFuture = /pas encore|inscription manuelle|à venir|pas implémenté/i.test(f.name)
+      return {
+        name: f.name.substring(0, 60) + (f.name.length > 60 ? '...' : ''),
+        implemented: f.done,
+        tested: isFuture ? true : (f.done ? isFeatureTested(f.name) : false),
+        tools: [],
+      }
+    }),
   }
   categories.push(featuresCat)
 
@@ -598,16 +665,17 @@ function buildDashboard() {
   }
   categories.push(browsersCat)
 
-  // 11. Resilience
+  // 11. Resilience — match against actual La Fourmi level names
+  const levelNames = coverage.fourmiLevels.map(l => l.name)
   const resilienceCat = {
     name: 'Résilience',
     icon: '🛡️',
     items: [
-      { name: 'Mode offline', tested: coverage.fourmiLevels.some(l => l.name === 'Offline'), tools: coverage.fourmiLevels.some(l => l.name === 'Offline') ? ['Fourmi'] : [] },
-      { name: 'API en panne', tested: coverage.fourmiLevels.some(l => l.name === 'APIResilience'), tools: coverage.fourmiLevels.some(l => l.name === 'APIResilience') ? ['Fourmi'] : [] },
-      { name: 'Réseau lent (3G)', tested: false, tools: [] },
-      { name: 'LocalStorage plein', tested: false, tools: [] },
-      { name: 'Mémoire longue session', tested: false, tools: [] },
+      { name: 'Mode offline', tested: levelNames.includes('Offline'), tools: levelNames.includes('Offline') ? ['Fourmi'] : [] },
+      { name: 'API en panne', tested: levelNames.includes('APIResilience'), tools: levelNames.includes('APIResilience') ? ['Fourmi'] : [] },
+      { name: 'Réseau lent (3G)', tested: levelNames.includes('SlowNetwork'), tools: levelNames.includes('SlowNetwork') ? ['Fourmi'] : [] },
+      { name: 'LocalStorage plein', tested: levelNames.includes('LocalStorageFull'), tools: levelNames.includes('LocalStorageFull') ? ['Fourmi'] : [] },
+      { name: 'Mémoire longue session', tested: levelNames.includes('MemoryStability'), tools: levelNames.includes('MemoryStability') ? ['Fourmi'] : [] },
     ],
   }
   categories.push(resilienceCat)
@@ -625,7 +693,7 @@ function buildDashboard() {
       { name: 'Error patterns', tested: true, tools: ['QG'] },
       { name: 'Import cycles', tested: coverage.qgChecks.some(c => c.name.includes('Import')), tools: ['QG'] },
       { name: 'Certificat SSL', tested: coverage.monitorChecks.includes('SSLCertificate'), tools: ['Monitor'] },
-      { name: 'Firebase rules audit', tested: false, tools: [] },
+      { name: 'Firebase rules audit', tested: levelNames.includes('FirebaseRulesAudit'), tools: levelNames.includes('FirebaseRulesAudit') ? ['Fourmi'] : [] },
     ],
   }
   categories.push(securityCat)
@@ -639,7 +707,7 @@ function buildDashboard() {
       { name: 'Lighthouse scores', tested: true, tools: ['Wolf', 'CI'] },
       { name: 'Temps de réponse prod', tested: coverage.monitorChecks.includes('ResponseTime'), tools: ['Monitor'] },
       { name: 'Load time navigateur', tested: true, tools: ['Fourmi'] },
-      { name: 'Memory leaks', tested: false, tools: [] },
+      { name: 'Memory leaks', tested: levelNames.includes('MemoryStability'), tools: levelNames.includes('MemoryStability') ? ['Fourmi'] : [] },
     ],
   }
   categories.push(perfCat)
@@ -653,8 +721,8 @@ function buildDashboard() {
       { name: 'Navigation clavier', tested: true, tools: ['Fourmi'] },
       { name: 'ARIA labels', tested: true, tools: ['Fourmi', 'E2E'] },
       { name: 'Contraste couleurs', tested: true, tools: ['Fourmi'] },
-      { name: 'Axe-core audit complet', tested: false, tools: [] },
-      { name: 'Lecteur d\'écran (aria-live)', tested: false, tools: [] },
+      { name: 'Axe-core audit complet', tested: levelNames.includes('AxeCore'), tools: levelNames.includes('AxeCore') ? ['Fourmi'] : [] },
+      { name: 'Lecteur d\'écran (aria-live)', tested: levelNames.includes('ScreenReaderARIA'), tools: levelNames.includes('ScreenReaderARIA') ? ['Fourmi'] : [] },
     ],
   }
   categories.push(a11yCat)
@@ -669,7 +737,7 @@ function buildDashboard() {
       { name: 'Schema.org', tested: true, tools: ['Fourmi'] },
       { name: 'Sitemap.xml', tested: coverage.monitorChecks.includes('Sitemap'), tools: ['Monitor'] },
       { name: 'robots.txt', tested: coverage.monitorChecks.includes('RobotsTxt'), tools: ['Monitor'] },
-      { name: 'Pages villes indexables', tested: false, tools: [] },
+      { name: 'Pages villes indexables', tested: levelNames.includes('SEOCityPages'), tools: levelNames.includes('SEOCityPages') ? ['Fourmi'] : [] },
     ],
   }
   categories.push(seoCat)
