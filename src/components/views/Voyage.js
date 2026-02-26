@@ -214,12 +214,12 @@ function renderMapFirstView(state) {
             <span class="text-slate-600">·</span>
             <span class="text-slate-400">~${results.estimatedTime || '?'}</span>
           </div>
-          <span class="trip-sheet-chevron text-slate-600 text-xs">${icon(sheetState === 'collapsed' ? 'chevron-up' : 'chevron-down', 'w-4 h-4')}</span>
+          <span data-trip-chevron class="text-slate-600 text-xs">${icon(sheetState === 'collapsed' ? 'chevron-up' : 'chevron-down', 'w-4 h-4')}</span>
         </div>
 
           <!-- Scrollable content (always in DOM, hidden when collapsed) -->
           <div style="${sheetState === 'collapsed' ? 'display:none' : ''}">
-          <div class="trip-sheet-scroll overflow-y-auto px-4 pb-6" style="max-height:calc(${sheetHeight} - 80px)">
+          <div data-trip-scroll class="trip-sheet-scroll overflow-y-auto px-4 pb-6" style="max-height:calc(${sheetHeight} - 80px)">
             <!-- Filter chips -->
             <div class="flex flex-wrap gap-1.5 mb-3">
               ${renderFilterChip('all', `${t('tripFilterAll') || 'Tous'} (${visibleSpots.length})`, !routeFilter || routeFilter === 'all')}
@@ -242,7 +242,7 @@ function renderMapFirstView(state) {
             </div>
 
               <!-- Action buttons (only in full mode) -->
-              <div class="trip-sheet-actions grid grid-cols-2 gap-3 pt-2 border-t border-white/5" style="${sheetState !== 'full' ? 'display:none' : ''}">
+              <div data-trip-actions class="grid grid-cols-2 gap-3 pt-2 border-t border-white/5" style="${sheetState !== 'full' ? 'display:none' : ''}">
                 <button onclick="saveTripWithSpots()" class="btn-secondary py-3 text-sm">
                   ${icon('bookmark', 'w-4 h-4 mr-1.5')}
                   ${t('tripSaveTrip') || 'Sauvegarder'}
@@ -1362,13 +1362,13 @@ function _applySheetState(sheet, state) {
   const heights = { collapsed: '80px', half: '50vh', full: '85vh' }
   sheet.style.height = heights[state] || '80px'
   _currentSheetState = state
-  // Show/hide scrollable content
-  const scrollArea = sheet.querySelector('.trip-sheet-scroll')
-  const actionsArea = sheet.querySelector('.trip-sheet-actions')
+  // Show/hide scrollable content using data attributes (avoid querySelector CSS class issues)
+  const scrollArea = sheet.querySelector('[data-trip-scroll]')
+  const actionsArea = sheet.querySelector('[data-trip-actions]')
   if (scrollArea) scrollArea.parentElement.style.display = (state === 'collapsed') ? 'none' : ''
   if (actionsArea) actionsArea.style.display = (state === 'full') ? '' : 'none'
   // Update chevron direction
-  const chevron = sheet.querySelector('.trip-sheet-chevron')
+  const chevron = sheet.querySelector('[data-trip-chevron]')
   if (chevron) {
     chevron.innerHTML = state === 'collapsed'
       ? icon('chevron-up', 'w-4 h-4')
