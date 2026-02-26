@@ -24,6 +24,7 @@
     "deploy": "npm run build && gh-pages -d dist",
     "sync:spots": "node scripts/extract-spots.mjs",
     "quality:fix": "node scripts/quality-gate.mjs --fix",
+    "la-carte": "node scripts/la-carte.mjs",
     "prepare": "husky"
   },
   "lint-staged": {
