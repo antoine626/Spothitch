@@ -9,6 +9,8 @@ import { renderToggle, renderToggleCompact } from '../../utils/toggle.js'
 // Use the full Guides.js component (6 sections with vote/suggest)
 import { renderGuides } from './Guides.js'
 import { safeSetItem } from '../../utils/storage.js'
+import { haversineKm } from '../../utils/geo.js'
+import { escapeJSString } from '../../utils/sanitize.js'
 
 // Load Travel.js handlers (calculateTrip, syncTripFieldsAndCalculate, swapTripPoints, etc.)
 // Travel.js defines the window.* handlers that the trip form buttons call
@@ -71,14 +73,14 @@ function renderVoyageSubTabs(active, activeTrip) {
     { id: 'journal', icon: 'notebook-pen', label: t('voyageTabJournal') || 'Journal' },
   ]
   return `
-    <div class="flex bg-dark-secondary/50 border-b border-white/5">
+    <div class="flex gap-2 p-1.5 bg-dark-secondary rounded-xl mx-4 mt-2">
       ${tabs.map(tab => `
         <button
           onclick="setVoyageSubTab('${tab.id}')"
-          class="flex-1 py-3 px-1 font-medium text-xs transition-colors relative border-b-2 flex flex-col items-center gap-1 ${
+          class="flex-1 py-2.5 px-2 rounded-xl font-medium text-xs transition-colors relative flex items-center justify-center gap-1.5 ${
             active === tab.id
-              ? 'border-primary-500 text-primary-400'
-              : 'border-transparent text-slate-400 hover:text-white hover:bg-white/5'
+              ? 'bg-primary-500 text-white'
+              : 'text-slate-400 hover:text-white hover:bg-white/5'
           }"
           aria-selected="${active === tab.id}"
         >
@@ -191,7 +193,7 @@ function renderMapFirstView(state) {
       >
         <!-- Handle -->
         <div
-          class="flex justify-center pt-2 pb-1 cursor-grab active:cursor-grabbing"
+          class="trip-sheet-handle flex justify-center pt-2 pb-1 cursor-grab active:cursor-grabbing"
           ontouchstart="tripSheetTouchStart(event)"
           ontouchmove="tripSheetTouchMove(event)"
           ontouchend="tripSheetTouchEnd(event)"
@@ -212,12 +214,12 @@ function renderMapFirstView(state) {
             <span class="text-slate-600">·</span>
             <span class="text-slate-400">~${results.estimatedTime || '?'}</span>
           </div>
-          <span class="text-slate-600 text-xs">${icon(sheetState === 'collapsed' ? 'chevron-up' : 'chevron-down', 'w-4 h-4')}</span>
+          <span class="trip-sheet-chevron text-slate-600 text-xs">${icon(sheetState === 'collapsed' ? 'chevron-up' : 'chevron-down', 'w-4 h-4')}</span>
         </div>
 
-        ${sheetState !== 'collapsed' ? `
-          <!-- Scrollable content -->
-          <div class="overflow-y-auto px-4 pb-6" style="max-height:calc(${sheetHeight} - 80px)">
+          <!-- Scrollable content (always in DOM, hidden when collapsed) -->
+          <div style="${sheetState === 'collapsed' ? 'display:none' : ''}">
+          <div class="trip-sheet-scroll overflow-y-auto px-4 pb-6" style="max-height:calc(${sheetHeight} - 80px)">
             <!-- Filter chips -->
             <div class="flex flex-wrap gap-1.5 mb-3">
               ${renderFilterChip('all', `${t('tripFilterAll') || 'Tous'} (${visibleSpots.length})`, !routeFilter || routeFilter === 'all')}
@@ -239,9 +241,8 @@ function renderMapFirstView(state) {
               ` : ''}
             </div>
 
-            ${sheetState === 'full' ? `
               <!-- Action buttons (only in full mode) -->
-              <div class="grid grid-cols-2 gap-3 pt-2 border-t border-white/5">
+              <div class="trip-sheet-actions grid grid-cols-2 gap-3 pt-2 border-t border-white/5" style="${sheetState !== 'full' ? 'display:none' : ''}">
                 <button onclick="saveTripWithSpots()" class="btn-secondary py-3 text-sm">
                   ${icon('bookmark', 'w-4 h-4 mr-1.5')}
                   ${t('tripSaveTrip') || 'Sauvegarder'}
@@ -251,9 +252,8 @@ function renderMapFirstView(state) {
                   ${t('tripStartTrip') || 'Demarrer'}
                 </button>
               </div>
-            ` : ''}
           </div>
-        ` : ''}
+          </div>
       </div>
 
       <!-- EXPANDED FORM OVERLAY (when editing) -->
@@ -276,7 +276,7 @@ function renderBottomSheetSpotItem(spot, i, results, highlighted) {
   const sLat = spot.coordinates?.lat || spot.lat
   const sLng = spot.coordinates?.lng || spot.lng
   const distFromStart = (sLat && sLng && results.fromCoords)
-    ? Math.round(haversine(results.fromCoords[0], results.fromCoords[1], sLat, sLng))
+    ? Math.round(haversineKm(results.fromCoords[0], results.fromCoords[1], sLat, sLng))
     : null
   const isHighlighted = highlighted.has(String(spot.id))
 
@@ -290,7 +290,7 @@ function renderBottomSheetSpotItem(spot, i, results, highlighted) {
         class="flex-1 min-w-0 text-left"
         role="button" tabindex="0"
       >
-        <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || 'Spot'}</div>
+        <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || spot.description?.substring(0, 50) || (spot.country ? `${t('spot')} · ${spot.country}` : `${t('spot')} #${i + 1}`)}</div>
         <div class="flex items-center gap-2 text-[10px] text-slate-500">
           ${distFromStart !== null ? `<span>${distFromStart} km</span>` : ''}
           ${spot.userValidations ? `<span class="text-emerald-400">✓${spot.userValidations}</span>` : ''}
@@ -409,7 +409,7 @@ function renderEnRouteRadar(_state, activeTrip) {
               ⭐
             </div>
             <div class="flex-1 min-w-0">
-              <div class="font-semibold truncate">${closestSpot.from || closestSpot.city || closestSpot.stationName || 'Spot'}</div>
+              <div class="font-semibold truncate">${closestSpot.from || closestSpot.city || closestSpot.stationName || closestSpot.description?.substring(0, 50) || (closestSpot.country ? `${t('spot')} · ${closestSpot.country}` : t('spot'))}</div>
               <div class="text-xs text-slate-400 flex items-center gap-2 mt-0.5">
                 ${closestSpot.spotType ? `<span>${closestSpot.spotType}</span>` : ''}
                 ${(closestSpot.avgWaitTime || closestSpot.avgWait) ? `<span>${icon('clock', 'w-3 h-3 inline')} ~${closestSpot.avgWaitTime || closestSpot.avgWait}min</span>` : ''}
@@ -441,7 +441,7 @@ function renderEnRouteRadar(_state, activeTrip) {
               const sLat = spot.coordinates?.lat || spot.lat
               const sLng = spot.coordinates?.lng || spot.lng
               const distFromStart = (sLat && sLng && activeTrip.fromCoords)
-                ? Math.round(haversine(activeTrip.fromCoords[0], activeTrip.fromCoords[1], sLat, sLng))
+                ? Math.round(haversineKm(activeTrip.fromCoords[0], activeTrip.fromCoords[1], sLat, sLng))
                 : null
               return `
                 <button
@@ -454,7 +454,7 @@ function renderEnRouteRadar(_state, activeTrip) {
                   }
                   <span class="w-2.5 h-2.5 rounded-full shrink-0 ${i === 0 ? 'bg-amber-400' : 'bg-slate-600'}"></span>
                   <div class="flex-1 min-w-0">
-                    <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || 'Spot'}</div>
+                    <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || spot.description?.substring(0, 50) || (spot.country ? `${t('spot')} · ${spot.country}` : `${t('spot')} #${i + 1}`)}</div>
                     <div class="text-[10px] text-slate-500">${spot.spotType || ''} ${spot.userValidations ? `· ✓${spot.userValidations}` : ''}</div>
                   </div>
                   ${icon('chevron-right', 'w-3.5 h-3.5 text-slate-600 shrink-0')}
@@ -990,7 +990,7 @@ function renderTripDetail(state, tripIndex) {
             ${spots.map((spot, i) => `
               <button onclick="selectSpot(${spot.id})" class="w-full flex items-center gap-2 p-2 rounded-xl hover:bg-white/5 transition-colors text-left">
                 <span class="text-xs font-bold text-slate-600 w-5">${i + 1}</span>
-                <span class="flex-1 text-sm truncate">${spot.from || spot.city || spot.stationName || 'Spot'}</span>
+                <span class="flex-1 text-sm truncate">${spot.from || spot.city || spot.stationName || spot.description?.substring(0, 50) || (spot.country ? `${t('spot')} · ${spot.country}` : `${t('spot')} #${i + 1}`)}</span>
                 ${icon('chevron-right', 'w-3 h-3 text-slate-600 shrink-0')}
               </button>
             `).join('')}
@@ -1028,16 +1028,6 @@ function computeBilan() {
     lifts: trips.reduce((acc, trip) => acc + (trip.spots?.length || 0), 0),
     hours: trips.reduce((acc, trip) => acc + (parseInt(trip.durationHours) || 0), 0),
   }
-}
-
-function haversine(lat1, lng1, lat2, lng2) {
-  const R = 6371
-  const dLat = (lat2 - lat1) * Math.PI / 180
-  const dLng = (lng2 - lng1) * Math.PI / 180
-  const a = Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLng / 2) ** 2
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
 function applyVoyageFilter(spots, filter) {
@@ -1095,13 +1085,31 @@ window.highlightTripSpot = (spotId) => {
     const ids = JSON.parse(localStorage.getItem(HIGHLIGHTED_SPOTS_KEY) || '[]')
     const strId = String(spotId)
     const idx = ids.indexOf(strId)
-    if (idx === -1) {
-      ids.push(strId)
-    } else {
+    const wasHighlighted = idx !== -1
+    if (wasHighlighted) {
       ids.splice(idx, 1)
+    } else {
+      ids.push(strId)
     }
     safeSetItem(HIGHLIGHTED_SPOTS_KEY, JSON.stringify(ids))
-    window.setState?.({})
+
+    // Update map spots without full re-render
+    window._tripMapUpdateSpots?.()
+
+    // Update bottom sheet item directly via DOM
+    const sheet = document.getElementById('trip-bottom-sheet')
+    if (sheet) {
+      const starBtns = sheet.querySelectorAll(`button[onclick*="highlightTripSpot(${spotId})"]`)
+      starBtns.forEach(btn => {
+        if (wasHighlighted) {
+          btn.classList.remove('text-amber-400', 'bg-amber-500/20')
+          btn.classList.add('text-slate-600')
+        } else {
+          btn.classList.add('text-amber-400', 'bg-amber-500/20')
+          btn.classList.remove('text-slate-600')
+        }
+      })
+    }
   } catch (e) {
     console.error('highlightTripSpot error:', e)
   }
@@ -1217,15 +1225,78 @@ window.openAddTripNote = (tripIndex) => {
   const savedTrips = getSavedTrips()
   const trip = savedTrips[tripIndex]
   if (!trip) return
-  const note = prompt(t('voyageAddNote') || 'Ajouter une note...', trip.notes || '')
-  if (note === null) return // cancelled
-  savedTrips[tripIndex].notes = note
-  safeSetItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
-  window.setState?.({})
+
+  // Remove any existing note modal
+  document.getElementById('trip-note-modal')?.remove()
+
+  const overlay = document.createElement('div')
+  overlay.id = 'trip-note-modal'
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);padding:1rem'
+
+  const card = document.createElement('div')
+  card.style.cssText = 'background:#1e293b;border-radius:1rem;padding:1.25rem;max-width:24rem;width:100%;border:1px solid rgba(255,255,255,0.1)'
+
+  const title = document.createElement('h3')
+  title.textContent = t('voyageAddNote') || 'Ajouter une note...'
+  title.style.cssText = 'color:white;font-weight:600;font-size:1rem;margin-bottom:0.75rem'
+
+  const textarea = document.createElement('textarea')
+  textarea.value = trip.notes || ''
+  textarea.placeholder = t('voyageNotePlaceholder') || 'Ton ressenti, tes anecdotes...'
+  textarea.style.cssText = 'width:100%;min-height:100px;background:#0f172a;color:white;border:1px solid rgba(255,255,255,0.1);border-radius:0.75rem;padding:0.75rem;font-size:0.875rem;resize:vertical;outline:none;box-sizing:border-box'
+
+  const btnRow = document.createElement('div')
+  btnRow.style.cssText = 'display:flex;gap:0.5rem;margin-top:0.75rem'
+
+  const cancelBtn = document.createElement('button')
+  cancelBtn.textContent = t('cancel') || 'Annuler'
+  cancelBtn.style.cssText = 'flex:1;padding:0.625rem;border-radius:0.75rem;background:rgba(255,255,255,0.05);color:#94a3b8;font-weight:600;font-size:0.875rem;border:none;cursor:pointer'
+  cancelBtn.onclick = () => overlay.remove()
+
+  const saveBtn = document.createElement('button')
+  saveBtn.textContent = t('save') || 'Enregistrer'
+  saveBtn.style.cssText = 'flex:1;padding:0.625rem;border-radius:0.75rem;background:#22c55e;color:white;font-weight:600;font-size:0.875rem;border:none;cursor:pointer'
+  saveBtn.onclick = () => {
+    savedTrips[tripIndex].notes = textarea.value
+    safeSetItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
+    overlay.remove()
+    window.setState?.({})
+  }
+
+  btnRow.appendChild(cancelBtn)
+  btnRow.appendChild(saveBtn)
+  card.appendChild(title)
+  card.appendChild(textarea)
+  card.appendChild(btnRow)
+  overlay.appendChild(card)
+
+  // Close on overlay click (outside card)
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove() }
+
+  document.body.appendChild(overlay)
+  textarea.focus()
 }
 
 window.openTripPhotoUpload = (tripIndex) => {
-  // Create a file input and trigger it
+  // Compress image to max 800px wide, quality 0.7
+  const compressImage = (file) => new Promise((resolve, reject) => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      const MAX = 800
+      let w = img.width, h = img.height
+      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX }
+      if (h > MAX) { w = Math.round(w * MAX / h); h = MAX }
+      const canvas = document.createElement('canvas')
+      canvas.width = w; canvas.height = h
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h)
+      URL.revokeObjectURL(url)
+      resolve(canvas.toDataURL('image/jpeg', 0.7))
+    }
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('image load failed')) }
+    img.src = url
+  })
+
   const input = document.createElement('input')
   input.type = 'file'
   input.accept = 'image/*'
@@ -1236,17 +1307,18 @@ window.openTripPhotoUpload = (tripIndex) => {
     const savedTrips = getSavedTrips()
     if (!savedTrips[tripIndex]) return
     if (!savedTrips[tripIndex].photos) savedTrips[tripIndex].photos = []
-    for (const file of files.slice(0, 5)) {
+    // Limit to 3 photos max per trip
+    const remaining = Math.max(0, 3 - savedTrips[tripIndex].photos.length)
+    if (remaining === 0) {
+      window.showToast?.(t('maxPhotosReached') || 'Maximum 3 photos', 'info')
+      return
+    }
+    for (const file of files.slice(0, remaining)) {
       try {
-        const dataUrl = await new Promise((resolve, reject) => {
-          const reader = new FileReader()
-          reader.onload = e => resolve(e.target.result)
-          reader.onerror = reject
-          reader.readAsDataURL(file)
-        })
-        savedTrips[tripIndex].photos.push(dataUrl)
+        const compressed = await compressImage(file)
+        savedTrips[tripIndex].photos.push(compressed)
       } catch (err) {
-        console.error('photo read error', err)
+        console.error('photo compress error', err)
       }
     }
     safeSetItem(SAVED_TRIPS_KEY, JSON.stringify(savedTrips))
@@ -1273,12 +1345,35 @@ window.tripSheetTouchStart = (e) => {
 
 window.tripSheetTouchMove = (e) => {
   if (!_sheetDragging) return
+  const deltaY = _sheetTouchStartY - e.touches[0].clientY
+  // Only prevent default scroll if drag exceeds 10px threshold
+  if (Math.abs(deltaY) < 10) return
   e.preventDefault()
   const sheet = document.getElementById('trip-bottom-sheet')
   if (!sheet) return
-  const deltaY = _sheetTouchStartY - e.touches[0].clientY
   const newHeight = Math.max(80, Math.min(window.innerHeight * 0.85, _sheetStartHeight + deltaY))
   sheet.style.height = newHeight + 'px'
+}
+
+// Local sheet state to avoid setState re-renders
+let _currentSheetState = 'collapsed'
+
+function _applySheetState(sheet, state) {
+  const heights = { collapsed: '80px', half: '50vh', full: '85vh' }
+  sheet.style.height = heights[state] || '80px'
+  _currentSheetState = state
+  // Show/hide scrollable content
+  const scrollArea = sheet.querySelector('.trip-sheet-scroll')
+  const actionsArea = sheet.querySelector('.trip-sheet-actions')
+  if (scrollArea) scrollArea.parentElement.style.display = (state === 'collapsed') ? 'none' : ''
+  if (actionsArea) actionsArea.style.display = (state === 'full') ? '' : 'none'
+  // Update chevron direction
+  const chevron = sheet.querySelector('.trip-sheet-chevron')
+  if (chevron) {
+    chevron.innerHTML = state === 'collapsed'
+      ? icon('chevron-up', 'w-4 h-4')
+      : icon('chevron-down', 'w-4 h-4')
+  }
 }
 
 window.tripSheetTouchEnd = () => {
@@ -1297,14 +1392,15 @@ window.tripSheetTouchEnd = () => {
     newState = 'half'
   }
   sheet.style.height = ''
-  window.setState?.({ tripBottomSheetState: newState })
+  _applySheetState(sheet, newState)
 }
 
 window.tripSheetCycleState = () => {
-  const state = window.getState?.() || {}
-  const current = state.tripBottomSheetState || 'collapsed'
+  const sheet = document.getElementById('trip-bottom-sheet')
+  if (!sheet) return
+  const current = _currentSheetState
   const next = current === 'collapsed' ? 'half' : current === 'half' ? 'full' : 'collapsed'
-  window.setState?.({ tripBottomSheetState: next })
+  _applySheetState(sheet, next)
 }
 
 window.tripExpandForm = () => {
@@ -1484,7 +1580,7 @@ if (!window.tripSearchSuggestions) {
     if (!names?.length) return ''
     return `<div class="bg-slate-800/95 backdrop-blur rounded-xl border border-white/10 overflow-hidden shadow-xl">
       ${names.slice(0, 5).map(name => {
-        const safe = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/'/g, '&#39;')
+        const safe = escapeJSString(name)
         return `<button onmousedown="event.preventDefault();(window.tripSelectSuggestion||function(f,n){var i=document.getElementById('trip-'+f);if(i)i.value=n;document.getElementById('trip-from-suggestions')?.classList.add('hidden');document.getElementById('trip-to-suggestions')?.classList.add('hidden')})('${field}','${safe}')" class="w-full px-3 py-2.5 text-left text-white hover:bg-white/10 border-b border-white/5 last:border-0 transition-colors"><div class="font-medium text-sm truncate">${safe}</div></button>`
       }).join('')}
     </div>`

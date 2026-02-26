@@ -3726,6 +3726,8 @@ export default {
   voyageAmis: 'Freunde',
   voyageVoirDetails: 'Details anzeigen',
   voyageAddNote: 'Notiz hinzufügen...',
+  voyageNotePlaceholder: 'Deine Eindrücke, deine Geschichten...',
+  maxPhotosReached: 'Maximal 3 Fotos pro Reise',
   voyageMaNote: 'Meine Notiz',
   voyagePublicLabel: 'Öffentlich',
   voyagePrivateLabel: 'Privat',

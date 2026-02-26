@@ -631,7 +631,7 @@ function render(state) {
     const slot = document.getElementById('home-map')
     if (slot) slot.replaceWith(savedHomeMap)
   }
-  if (savedTripMap && state.showTripMap) {
+  if (savedTripMap && (state.showTripMap || (state.tripFormCollapsed && state.tripResults && state.activeTab === 'challenges'))) {
     const slot = document.getElementById('trip-map')
     if (slot) {
       slot.replaceWith(savedTripMap)

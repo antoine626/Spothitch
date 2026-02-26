@@ -1035,6 +1035,29 @@ function initHomeMap(state) {
 }
 
 /**
+ * Apply trip route filter (mirrors Voyage.js applyVoyageFilter logic)
+ */
+function _applyTripFilter(spots, filter, highlighted) {
+  if (!filter || filter === 'all') return spots
+  switch (filter) {
+    case 'station': return spots.filter(s => (s.spotType || '').toLowerCase().includes('station') || (s.description || '').toLowerCase().includes('station'))
+    case 'rating4': return spots.filter(s => (s.globalRating || 0) >= 4 || (s._hitchwikiRating || 0) >= 4)
+    case 'wait20': return spots.filter(s => s.avgWaitTime && s.avgWaitTime <= 20)
+    case 'verified': return spots.filter(s => s.userValidations > 0 || s.verified)
+    case 'recent': return spots.filter(s => {
+      if (!s.lastUsed) return false
+      return new Date(s.lastUsed).getTime() > Date.now() - 365 * 24 * 60 * 60 * 1000
+    })
+    case 'shelter': return spots.filter(s => {
+      const desc = (s.description || '').toLowerCase()
+      return desc.includes('shelter') || desc.includes('abri') || desc.includes('covered') || desc.includes('couvert')
+    })
+    case 'highlighted': return spots.filter(s => highlighted && highlighted.has(String(s.id)))
+    default: return spots
+  }
+}
+
+/**
  * Initialize trip map (MapLibre GL — shows only trip spots along route)
  */
 // Trip map instance + state (module-level for dynamic updates)
@@ -1068,7 +1091,7 @@ function initTripMap(state) {
       style: 'https://tiles.openfreemap.org/styles/liberty',
       center: [from[1], from[0]], // [lng, lat]
       zoom: 7,
-      attributionControl: false,
+      attributionControl: true,
     })
     tripMapInstance = map
     window._tripMapInstance = map
@@ -1147,7 +1170,7 @@ function initTripMap(state) {
             'circle-radius': ['get', 'radius'],
             'circle-stroke-color': ['get', 'strokeColor'],
             'circle-stroke-width': ['get', 'strokeWidth'],
-            'circle-opacity': 0.9,
+            'circle-opacity': ['coalesce', ['get', 'opacity'], 0.9],
           },
         })
         // Spot number labels
@@ -1375,11 +1398,13 @@ window._tripMapUpdateSpots = () => {
   })()
   const routeFilter = state.routeFilter
   const allSpots = results.spots.filter(s => !removedSet.has(String(s.id)))
+  // Apply route filter to determine which spots are "active" vs "faded"
   const filteredIds = new Set()
   if (routeFilter && routeFilter !== 'all') {
-    // We need to import the filter function concept inline
-    allSpots.forEach(s => filteredIds.add(String(s.id)))
+    const filtered = _applyTripFilter(allSpots, routeFilter, highlighted)
+    filtered.forEach(s => filteredIds.add(String(s.id)))
   }
+  const hasFilter = routeFilter && routeFilter !== 'all'
   const favSet = getFavoritesSet()
   const spotFeatures = []
   allSpots.forEach((spot, i) => {
@@ -1388,6 +1413,7 @@ window._tripMapUpdateSpots = () => {
     if (!lat || !lng) return
     const isHighlighted = highlighted.has(String(spot.id))
     const isFav = favSet.has(spot.id) || isHighlighted
+    const isFaded = hasFilter && !filteredIds.has(String(spot.id))
     spotFeatures.push({
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [lng, lat] },
@@ -1396,8 +1422,9 @@ window._tripMapUpdateSpots = () => {
         index: i + 1,
         color: isHighlighted ? '#f59e0b' : isFav ? '#f59e0b' : '#22c55e',
         strokeColor: isHighlighted ? '#fbbf24' : '#ffffff',
-        radius: isHighlighted ? 14 : 12,
-        strokeWidth: isHighlighted ? 3 : 2,
+        radius: isHighlighted ? 14 : isFaded ? 8 : 12,
+        strokeWidth: isHighlighted ? 3 : isFaded ? 1 : 2,
+        opacity: isFaded ? 0.2 : 1,
       },
     })
   })

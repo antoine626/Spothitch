@@ -2903,7 +2903,14 @@ textarea.input-field {
 .trip-bottom-sheet {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
+}
+
+.trip-bottom-sheet .trip-sheet-handle {
   touch-action: none;
+}
+
+.trip-bottom-sheet .trip-sheet-scroll {
+  touch-action: pan-y;
 }
 
 .trip-bottom-sheet.dragging {

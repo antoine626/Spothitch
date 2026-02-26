@@ -1309,6 +1309,7 @@ window.toggleRouteAmenities = async () => {
 // Route filter handler
 window.setRouteFilter = (filter) => {
   window.setState?.({ routeFilter: filter })
+  window._tripMapUpdateSpots?.()
 }
 
 export default { renderTravel }
