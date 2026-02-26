@@ -2882,7 +2882,7 @@ export default {
   legalCgu9Title: '9. Modification of terms',
   legalCgu9Text: 'We reserve the right to modify these terms. Users will be informed of significant changes.',
   legalCgu10Title: '10. Contact',
-  legalCgu10Text: 'For any questions: contact@spothitch.app',
+  legalCgu10Text: 'For any questions: contact@spothitch.com',
   // Privacy policy keys
   legalPrivacyTitle: 'Privacy Policy',
   legalPrivacy1Title: '1. Data collection',
@@ -2922,7 +2922,7 @@ export default {
   legalPrivacy8Title: '8. Retention',
   legalPrivacy8Text: 'Your data is retained as long as your account is active. After account deletion, data is erased within 30 days.',
   legalPrivacy9Title: '9. DPO Contact',
-  legalPrivacy9Text: 'To exercise your rights or ask questions: privacy@spothitch.app',
+  legalPrivacy9Text: 'To exercise your rights or ask questions: support@spothitch.com',
   // Cookie policy keys
   legalCookieTitle: 'Cookie Policy',
   legalCookie1Title: '1. What is a cookie?',
@@ -3467,7 +3467,7 @@ export default {
   legalPrivacyCcpaOptOutDesc: "We do NOT sell your personal information. There is nothing to opt out of.",
   legalPrivacyCcpaNonDiscrim: "Non-discrimination",
   legalPrivacyCcpaNonDiscrimDesc: "We will not treat you differently for exercising your privacy rights.",
-  legalPrivacyCcpaContact: "To exercise these rights, use the \"My Data\" section in your profile or email us at privacy@spothitch.app.",
+  legalPrivacyCcpaContact: "To exercise these rights, use the \"My Data\" section in your profile or email us at support@spothitch.com.",
 
   // Missing keys fix (audit 2026-02-19)
   groupName: "Group name",

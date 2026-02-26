@@ -195,7 +195,7 @@ export function renderPrivacyPolicy() {
         <li><strong>${t('legalPrivacyCcpaOptOut') || 'Right to opt out'}</strong>: ${t('legalPrivacyCcpaOptOutDesc') || 'We do NOT sell your personal information. There is nothing to opt out of.'}</li>
         <li><strong>${t('legalPrivacyCcpaNonDiscrim') || 'Non-discrimination'}</strong>: ${t('legalPrivacyCcpaNonDiscrimDesc') || 'We will not treat you differently for exercising your privacy rights.'}</li>
       </ul>
-      <p>${t('legalPrivacyCcpaContact') || 'To exercise these rights, use the "My Data" section in your profile or email us at privacy@spothitch.app.'}</p>
+      <p>${t('legalPrivacyCcpaContact') || 'To exercise these rights, use the "My Data" section in your profile or email us at support@spothitch.com.'}</p>
     </div>
   `;
 }
@@ -367,7 +367,7 @@ export function renderCookiePolicy() {
 
       <h3>${t('legalCookie8Title')}</h3>
       <p>
-        ${t('legalCookie8Text')} <a href="mailto:privacy@spothitch.app" class="text-amber-400">privacy@spothitch.app</a>
+        ${t('legalCookie8Text')} <a href="mailto:support@spothitch.com" class="text-amber-400">support@spothitch.com</a>
       </p>
 
       <!-- Bouton pour modifier les preferences -->
@@ -428,7 +428,7 @@ export function renderLegalNotice() {
 
       <h3>${t('legalNoticeContactTitle')}</h3>
       <p>
-        ${t('legalNoticeContactEmail')} contact@spothitch.app<br>
+        ${t('legalNoticeContactEmail')} contact@spothitch.com<br>
         GitHub Issues : <a href="https://github.com/antoine626/Spothitch/issues" class="text-amber-400">${t('legalNoticeReportIssue')}</a>
       </p>
     </div>
@@ -478,7 +478,7 @@ export function renderCommunityGuidelines() {
 
       <h3>${t('guidelinesContactTitle') || 'Contact'}</h3>
       <p>
-        ${t('guidelinesContactText') || 'If you see a violation, use the report button (flag icon) on any spot, message, or profile. You can also email us at:'} <a href="mailto:contact@spothitch.app" class="text-amber-400">contact@spothitch.app</a>
+        ${t('guidelinesContactText') || 'If you see a violation, use the report button (flag icon) on any spot, message, or profile. You can also email us at:'} <a href="mailto:contact@spothitch.com" class="text-amber-400">contact@spothitch.com</a>
       </p>
     </div>
   `

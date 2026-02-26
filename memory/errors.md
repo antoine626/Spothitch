@@ -531,3 +531,13 @@ Chaque erreur suit ce format :
 - **Leçon** : TOUJOURS implémenter la logique derrière un placeholder ("TODO: filter" = bug garanti). TOUJOURS tester les données réelles (pas juste le code — les champs from/city sont vides dans 99% des spots Hitchmap). JAMAIS touch-action:none sur un conteneur scrollable. JAMAIS prompt() natif dans une PWA mobile. JAMAIS stocker des images pleine résolution en base64 dans localStorage.
 - **Fichiers** : `src/components/App.js`, `src/components/views/Voyage.js`, `src/components/views/Travel.js`, `src/main.js`, `src/styles/main.css`, `src/i18n/lang/{fr,en,es,de}.js`
 - **Statut** : CORRIGÉ
+
+### ERR-041 — Cookie banner bloquait le bottom sheet handle en mode Voyage map-first
+- **Date** : 2026-02-26
+- **Gravité** : MAJEUR
+- **Description** : En mode Voyage carte plein écran (tripResults + tripFormCollapsed), la bannière cookies (z-40, fixed bottom-32) recouvrait le handle du bottom sheet (z-40, absolute bottom:76px). L'utilisateur ne pouvait pas cliquer sur le handle pour agrandir la feuille de spots.
+- **Cause racine** : La bannière cookies est rendue en `fixed bottom-32 z-40` dans toutes les vues sauf landing/tutorial. En mode map-first, le bottom sheet est positionné à `bottom:76px` avec le handle autour de y=689 (sur viewport 844px). La bannière cookies à bottom-32 (bottom:128px = top~716px) chevauche cette zone.
+- **Correction** : Ajout de `!isVoyageMapFirst` dans la condition de rendu de `renderCookieBanner()` dans App.js. La bannière est maintenant masquée quand le mode carte plein écran est actif.
+- **Leçon** : TOUJOURS vérifier que les overlays fixes (cookie banner, toast, companion bar) ne chevauchent PAS les éléments interactifs dans CHAQUE vue. Utiliser `document.elementsFromPoint()` dans les tests Playwright pour identifier les éléments qui interceptent les clics.
+- **Fichiers** : `src/components/App.js`
+- **Statut** : CORRIGÉ

@@ -293,7 +293,7 @@ export function renderDonationModal(state) {
             </a>
 
             <a
-              href="https://www.paypal.com/donate?business=spothitch@example.com&currency_code=EUR"
+              href="https://www.paypal.com/donate?business=support@spothitch.com&currency_code=EUR"
               target="_blank"
               rel="noopener noreferrer"
               onclick="handleDonationClick('paypal')"
