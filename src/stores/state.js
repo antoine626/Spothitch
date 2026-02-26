@@ -112,6 +112,13 @@ const initialState = {
   routeAmenities: [],
   loadingRouteAmenities: false,
   searchCountry: null,
+  tripBottomSheetState: 'collapsed',
+  tripRemovedSpots: [],
+  tripShowGasStations: false,
+  tripFormCollapsed: false,
+  tripGpsPosition: null,
+  tripOfflineData: null,
+  tripDownloadProgress: null,
 
   // Gamification
   points: 0,

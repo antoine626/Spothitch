@@ -48,11 +48,12 @@ const HIGHLIGHTED_SPOTS_KEY = 'spothitch_highlighted_trip_spots'
 export function renderVoyage(state) {
   const subTab = state.voyageSubTab || 'voyage'
   const activeTrip = getActiveTrip()
+  const isMapFirst = subTab === 'voyage' && !activeTrip && state.tripResults && state.tripFormCollapsed
 
   return `
-    <div class="flex flex-col min-h-[calc(100vh-140px)] pb-28 overflow-x-hidden">
-      ${renderVoyageSubTabs(subTab, activeTrip)}
-      <div class="flex-1 p-4 space-y-4">
+    <div class="flex flex-col min-h-[calc(100vh-140px)] ${isMapFirst ? '' : 'pb-28'} overflow-x-hidden">
+      ${isMapFirst ? '' : renderVoyageSubTabs(subTab, activeTrip)}
+      <div class="${isMapFirst ? 'flex-1' : 'flex-1 p-4 space-y-4'}">
         ${subTab === 'voyage' ? renderVoyageTab(state, activeTrip) : ''}
         ${subTab === 'guides' ? renderVoyageGuidesTab(state) : ''}
         ${subTab === 'journal' ? renderJournalTab(state) : ''}
@@ -97,16 +98,258 @@ function renderVoyageTab(state, activeTrip) {
     return renderEnRouteRadar(state, activeTrip)
   }
 
-  // Full-screen trip map view
-  if (state.showTripMap && state.tripResults) {
-    return renderTripMapView(state.tripResults)
+  // Map-first view when trip results exist
+  if (state.tripResults && state.tripFormCollapsed) {
+    return renderMapFirstView(state)
   }
 
   return `
     <div class="space-y-4">
       ${renderTripForm(state)}
-      ${state.tripResults ? renderTripResults(state) : ''}
+      ${state.tripResults ? renderTripResultsSummary(state) : ''}
       ${!state.tripResults ? renderSavedTripsPreview(state) : ''}
+    </div>
+  `
+}
+
+// ==================== MAP-FIRST VIEW (carte plein ecran + bottom sheet) ====================
+
+function renderMapFirstView(state) {
+  const results = state.tripResults
+  const allSpots = results.spots || []
+  const removedSet = new Set((state.tripRemovedSpots || []).map(String))
+  const visibleSpots = allSpots.filter(s => !removedSet.has(String(s.id)))
+  const routeFilter = state.routeFilter
+  const filteredSpots = applyVoyageFilter(visibleSpots, routeFilter)
+  const highlighted = getHighlightedSpots()
+  const sheetState = state.tripBottomSheetState || 'collapsed'
+  const showGas = state.tripShowGasStations || false
+
+  // Bottom sheet heights
+  const sheetHeights = { collapsed: '80px', half: '50vh', full: '85vh' }
+  const sheetHeight = sheetHeights[sheetState] || '80px'
+
+  return `
+    <div class="relative -m-4" style="height:calc(100dvh - 8rem)">
+      <!-- MAP (fills entire space) -->
+      <div id="trip-map" class="absolute inset-0 z-0"></div>
+
+      <!-- COLLAPSED FORM BAR (top) -->
+      <div class="absolute top-3 left-3 right-14 z-30">
+        <div class="flex items-center gap-2 px-3 py-2 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10 shadow-lg">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+          <span class="text-sm font-semibold text-white truncate flex-1">
+            ${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}
+          </span>
+          <button
+            onclick="tripExpandForm()"
+            class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-colors shrink-0"
+            aria-label="${t('tripEditRoute') || 'Modifier le trajet'}"
+          >
+            ${icon('pencil', 'w-3.5 h-3.5')}
+          </button>
+          <button
+            onclick="clearTripResults()"
+            class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-colors shrink-0"
+            aria-label="${t('tripCloseResults') || 'Fermer'}"
+          >
+            ${icon('x', 'w-3.5 h-3.5')}
+          </button>
+        </div>
+      </div>
+
+      <!-- MAP CONTROLS (top-right) -->
+      <div class="absolute top-3 right-3 z-30 flex flex-col gap-2">
+        <button
+          onclick="centerTripMapOnGps()"
+          class="w-10 h-10 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-blue-400 hover:text-blue-300 transition-colors shadow-lg"
+          aria-label="${t('myPosition') || 'Ma position'}"
+        >
+          ${icon('crosshair', 'w-5 h-5')}
+        </button>
+        <button
+          onclick="toggleTripGasStations()"
+          class="w-10 h-10 rounded-full ${showGas ? 'bg-amber-500/20 border-amber-500/40' : 'bg-dark-secondary/90 border-white/10'} backdrop-blur border flex items-center justify-center transition-colors shadow-lg"
+          aria-label="${t('tripGasStations') || 'Stations-service'}"
+        >
+          <span class="text-lg">⛽</span>
+        </button>
+        <button
+          onclick="tripFitBounds()"
+          class="w-10 h-10 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors shadow-lg"
+          aria-label="${t('tripFitBounds') || 'Voir tout'}"
+        >
+          ${icon('maximize', 'w-5 h-5')}
+        </button>
+      </div>
+
+      <!-- BOTTOM SHEET -->
+      <div
+        id="trip-bottom-sheet"
+        class="trip-bottom-sheet absolute bottom-0 left-0 right-0 z-30 bg-dark-secondary/95 backdrop-blur-xl border-t border-white/10 rounded-t-2xl shadow-2xl"
+        style="height:${sheetHeight};max-height:85vh"
+      >
+        <!-- Handle -->
+        <div
+          class="flex justify-center pt-2 pb-1 cursor-grab active:cursor-grabbing"
+          ontouchstart="tripSheetTouchStart(event)"
+          ontouchmove="tripSheetTouchMove(event)"
+          ontouchend="tripSheetTouchEnd(event)"
+          onclick="tripSheetCycleState()"
+          role="button" tabindex="0"
+          aria-label="${t('tripExpandSheet') || 'Voir les details'}"
+        >
+          <div class="w-10 h-1 rounded-full bg-white/20"></div>
+        </div>
+
+        <!-- Summary line (always visible) -->
+        <div class="px-4 pb-2 flex items-center justify-between text-sm">
+          <div class="flex items-center gap-3">
+            <span class="text-primary-400 font-bold">${filteredSpots.length}</span>
+            <span class="text-slate-400">${t('tripSpotsOnRoute') || 'spots'}</span>
+            <span class="text-slate-600">·</span>
+            <span class="text-slate-400">${results.distance || '?'} km</span>
+            <span class="text-slate-600">·</span>
+            <span class="text-slate-400">~${results.estimatedTime || '?'}</span>
+          </div>
+          <span class="text-slate-600 text-xs">${icon(sheetState === 'collapsed' ? 'chevron-up' : 'chevron-down', 'w-4 h-4')}</span>
+        </div>
+
+        ${sheetState !== 'collapsed' ? `
+          <!-- Scrollable content -->
+          <div class="overflow-y-auto px-4 pb-6" style="max-height:calc(${sheetHeight} - 80px)">
+            <!-- Filter chips -->
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              ${renderFilterChip('all', `${t('tripFilterAll') || 'Tous'} (${visibleSpots.length})`, !routeFilter || routeFilter === 'all')}
+              ${renderFilterChip('rating4', `⭐ ${t('tripFilterHighRating') || '4+'}`, routeFilter === 'rating4')}
+              ${renderFilterChip('wait20', `⏱ ${t('tripFilterQuickWait') || '<20min'}`, routeFilter === 'wait20')}
+              ${renderFilterChip('station', `⛽ ${t('tripFilterStation') || 'Station'}`, routeFilter === 'station')}
+              ${renderFilterChip('verified', `✓ ${t('tripFilterVerified') || 'Verifie'}`, routeFilter === 'verified')}
+              ${highlighted.size > 0 ? renderFilterChip('highlighted', `⭐ (${highlighted.size})`, routeFilter === 'highlighted') : ''}
+            </div>
+
+            <!-- Spot list -->
+            <div class="space-y-1 mb-4">
+              ${filteredSpots.map((spot, i) => renderBottomSheetSpotItem(spot, i, results, highlighted)).join('')}
+              ${filteredSpots.length === 0 ? `
+                <div class="text-center py-6 text-slate-500 text-sm">
+                  ${icon('search', 'w-6 h-6 mb-1')}
+                  <p>${t('noSpotsFound') || 'Aucun spot'}</p>
+                </div>
+              ` : ''}
+            </div>
+
+            ${sheetState === 'full' ? `
+              <!-- Action buttons (only in full mode) -->
+              <div class="grid grid-cols-2 gap-3 pt-2 border-t border-white/5">
+                <button onclick="saveTripWithSpots()" class="btn-secondary py-3 text-sm">
+                  ${icon('bookmark', 'w-4 h-4 mr-1.5')}
+                  ${t('tripSaveTrip') || 'Sauvegarder'}
+                </button>
+                <button onclick="startTrip()" class="btn-primary py-3 text-sm">
+                  ${icon('navigation', 'w-4 h-4 mr-1.5')}
+                  ${t('tripStartTrip') || 'Demarrer'}
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        ` : ''}
+      </div>
+
+      <!-- EXPANDED FORM OVERLAY (when editing) -->
+      ${!state.tripFormCollapsed ? `
+        <div class="absolute inset-0 z-40 bg-dark-primary/80 backdrop-blur-sm flex items-start justify-center pt-8 px-4">
+          <div class="w-full max-w-md">
+            ${renderTripForm(state)}
+            <button onclick="tripCollapseForm()" class="w-full mt-3 py-2.5 rounded-xl bg-white/5 text-slate-400 text-sm font-medium hover:bg-white/10 transition-colors">
+              ${icon('x', 'w-4 h-4 mr-1.5')}
+              ${t('close') || 'Fermer'}
+            </button>
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `
+}
+
+function renderBottomSheetSpotItem(spot, i, results, highlighted) {
+  const sLat = spot.coordinates?.lat || spot.lat
+  const sLng = spot.coordinates?.lng || spot.lng
+  const distFromStart = (sLat && sLng && results.fromCoords)
+    ? Math.round(haversine(results.fromCoords[0], results.fromCoords[1], sLat, sLng))
+    : null
+  const isHighlighted = highlighted.has(String(spot.id))
+
+  return `
+    <div class="flex items-center gap-2 p-2 rounded-xl hover:bg-white/5 transition-colors ${isHighlighted ? 'bg-amber-500/5 border-l-2 border-amber-500/40' : ''}">
+      <span class="w-6 h-6 rounded-full ${isHighlighted ? 'bg-amber-500' : 'bg-primary-500/80'} flex items-center justify-center shrink-0">
+        <span class="text-[10px] font-bold text-white">${i + 1}</span>
+      </span>
+      <button
+        onclick="tripMapShowSpot(${spot.id})"
+        class="flex-1 min-w-0 text-left"
+        role="button" tabindex="0"
+      >
+        <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || 'Spot'}</div>
+        <div class="flex items-center gap-2 text-[10px] text-slate-500">
+          ${distFromStart !== null ? `<span>${distFromStart} km</span>` : ''}
+          ${spot.userValidations ? `<span class="text-emerald-400">✓${spot.userValidations}</span>` : ''}
+          ${(spot.avgWaitTime || spot.avgWait) ? `<span>${icon('clock', 'w-2.5 h-2.5 inline')} ${spot.avgWaitTime || spot.avgWait}min</span>` : ''}
+        </div>
+      </button>
+      <button
+        onclick="event.stopPropagation();highlightTripSpot(${spot.id})"
+        class="w-7 h-7 rounded-full flex items-center justify-center transition-colors ${isHighlighted ? 'text-amber-400 bg-amber-500/20' : 'text-slate-600 hover:text-amber-400'}"
+        aria-label="${t('highlightSpot') || 'Mettre en avant'}"
+      >
+        ${icon('star', 'w-3.5 h-3.5')}
+      </button>
+      <button
+        onclick="event.stopPropagation();removeTripMapSpot(${spot.id})"
+        class="w-7 h-7 rounded-full flex items-center justify-center text-slate-600 hover:text-danger-400 transition-colors"
+        aria-label="${t('remove') || 'Retirer'}"
+      >
+        ${icon('x', 'w-3.5 h-3.5')}
+      </button>
+    </div>
+  `
+}
+
+// Simplified summary card that shows when form is NOT collapsed but results exist
+function renderTripResultsSummary(state) {
+  const results = state.tripResults
+  const spots = results.spots || []
+
+  return `
+    <div class="card p-4 space-y-3 border-primary-500/30">
+      <div class="flex items-center justify-between">
+        <h4 class="font-bold text-base truncate pr-2">
+          ${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}
+        </h4>
+        <button onclick="clearTripResults()" class="text-slate-400 hover:text-white transition-colors" aria-label="${t('close') || 'Fermer'}">
+          ${icon('x', 'w-5 h-5')}
+        </button>
+      </div>
+
+      <div class="flex gap-4 text-sm">
+        <div class="flex items-center gap-2">
+          ${icon('milestone', 'w-4 h-4 text-slate-400')}
+          <span>${results.distance || '?'} km</span>
+        </div>
+        <div class="flex items-center gap-2">
+          ${icon('clock', 'w-4 h-4 text-slate-400')}
+          <span>~${results.estimatedTime || '?'}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          ${icon('map-pin', 'w-4 h-4 text-primary-400')}
+          <span class="text-primary-400 font-semibold">${spots.length} spots</span>
+        </div>
+      </div>
+
+      <button onclick="tripCollapseForm()" class="btn-primary w-full py-3">
+        ${icon('map', 'w-5 h-5 mr-2')}
+        ${t('viewOnMap') || 'Voir sur la carte'}
+      </button>
     </div>
   `
 }
@@ -315,105 +558,7 @@ function renderTripForm(state) {
   `
 }
 
-function renderTripResults(state) {
-  const results = state.tripResults
-  const allSpots = results.spots || []
-  const highlighted = getHighlightedSpots()
-  const routeFilter = state.routeFilter
-  const spots = applyVoyageFilter(allSpots, routeFilter)
-  const showAmenities = state.showRouteAmenities || false
-  const amenities = state.routeAmenities || []
-  const loadingAmenities = state.loadingRouteAmenities || false
-
-  return `
-    <div class="card p-4 space-y-4 border-primary-500/30">
-      <div class="flex items-center justify-between">
-        <h4 class="font-bold text-base truncate pr-2">
-          ${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}
-        </h4>
-        <button onclick="clearTripResults()" class="text-slate-400 hover:text-white transition-colors" aria-label="${t('close') || 'Fermer'}">
-          ${icon('x', 'w-5 h-5')}
-        </button>
-      </div>
-
-      <div class="flex gap-4 text-sm">
-        <div class="flex items-center gap-2">
-          ${icon('milestone', 'w-4 h-4 text-slate-400')}
-          <span>${results.distance || '?'} km</span>
-        </div>
-        <div class="flex items-center gap-2">
-          ${icon('clock', 'w-4 h-4 text-slate-400')}
-          <span>~${results.estimatedTime || '?'}</span>
-        </div>
-        <div class="flex items-center gap-2">
-          ${icon('map-pin', 'w-4 h-4 text-primary-400')}
-          <span class="text-primary-400 font-semibold">${spots.length} spots</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="viewTripOnMap()" class="btn-primary py-2.5 text-sm">
-          ${icon('map', 'w-4 h-4 mr-1.5')}
-          ${t('viewOnMap') || 'Voir sur la carte'}
-        </button>
-        <button onclick="saveTripWithSpots()" class="btn-secondary py-2.5 text-sm">
-          ${icon('bookmark', 'w-4 h-4 mr-1.5')}
-          ${t('saveTrip') || 'Sauvegarder'}
-        </button>
-      </div>
-
-      <button
-        onclick="startTrip()"
-        class="w-full py-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-emerald-500/25 transition-colors"
-      >
-        ${icon('navigation', 'w-4 h-4')}
-        ${t('voyageStartTrip') || 'Démarrer ce voyage'}
-      </button>
-
-      <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
-        <span class="text-sm font-medium">⛽ ${t('travel_show_stations') || 'Stations & aires de repos'}</span>
-        ${renderToggle(showAmenities, "toggleRouteAmenities()", t('travel_show_stations') || 'Stations & aires de repos')}
-      </div>
-
-      ${loadingAmenities ? `
-        <div class="flex items-center gap-2 text-sm text-slate-400 px-1">
-          ${icon('loader-circle', 'w-4 h-4 animate-spin')}
-          <span>${t('travel_loading_stations') || 'Chargement des stations...'}</span>
-        </div>
-      ` : ''}
-
-      ${showAmenities && !loadingAmenities && amenities.length > 0 ? `
-        <div class="space-y-1 max-h-40 overflow-y-auto">
-          <div class="text-xs text-slate-400 mb-1">${amenities.length} ${t('travel_stations_count') || 'stations trouvées'}</div>
-          ${amenities.map(poi => renderAmenityChip(poi)).join('')}
-        </div>
-      ` : ''}
-      ${showAmenities && !loadingAmenities && amenities.length === 0 ? `
-        <p class="text-xs text-slate-400 text-center py-1">${t('travel_no_stations') || 'Aucune station trouvée'}</p>
-      ` : ''}
-
-      ${allSpots.length > 0 ? `
-        <div class="flex flex-wrap gap-1.5">
-          ${renderFilterChip('all', `${t('filterAll') || 'Tous'} (${allSpots.length})`, !routeFilter || routeFilter === 'all')}
-          ${renderFilterChip('rating4', `⭐ 4+`, routeFilter === 'rating4')}
-          ${renderFilterChip('wait20', `⏱ <20min`, routeFilter === 'wait20')}
-          ${renderFilterChip('station', `⛽ ${t('filterStation') || 'Station'}`, routeFilter === 'station')}
-          ${renderFilterChip('verified', `✓ ${t('filterVerified') || 'Vérifié'}`, routeFilter === 'verified')}
-          ${renderFilterChip('recent', `🕐 ${t('filterRecent') || 'Récent'}`, routeFilter === 'recent')}
-          ${renderFilterChip('shelter', `🏠 ${t('filterShelter') || 'Abri'}`, routeFilter === 'shelter')}
-          ${highlighted.size > 0 ? renderFilterChip('highlighted', `⭐ ${t('filterHighlighted') || 'Mis en avant'} (${highlighted.size})`, routeFilter === 'highlighted') : ''}
-        </div>
-      ` : ''}
-
-      ${spots.length > 0 ? renderSpotsTimeline(spots, results, highlighted) : `
-        <div class="text-center py-4">
-          ${icon('search', 'w-8 h-8 text-slate-600 mb-2')}
-          <p class="text-slate-400 text-sm">${t('noSpotsFound') || 'Aucun spot trouvé sur ce trajet'}</p>
-        </div>
-      `}
-    </div>
-  `
-}
+// renderTripResults removed — replaced by renderMapFirstView + renderTripResultsSummary
 
 function renderFilterChip(filter, label, active) {
   return `
@@ -424,92 +569,7 @@ function renderFilterChip(filter, label, active) {
   `
 }
 
-function renderAmenityChip(poi) {
-  const poiIcon = poi.type === 'fuel' ? '⛽' : '🅿️'
-  const typeLabel = poi.type === 'fuel'
-    ? (t('travel_fuel_station') || 'Station-service')
-    : (t('travel_rest_area') || 'Aire de repos')
-  return `
-    <div class="flex items-center gap-2 p-2.5 rounded-xl bg-white/5">
-      <span class="text-sm">${poiIcon}</span>
-      <div class="flex-1 min-w-0">
-        <div class="text-sm font-medium truncate">${poi.name || typeLabel}${poi.brand ? ` · ${poi.brand}` : ''}</div>
-        <div class="text-[10px] text-slate-500">${typeLabel}</div>
-      </div>
-    </div>
-  `
-}
-
-function renderSpotsTimeline(spots, results, highlighted) {
-  return `
-    <div class="relative pl-8 space-y-0 max-h-96 overflow-y-auto">
-      <div class="absolute left-[13px] top-3 bottom-3 w-0.5 bg-white/10"></div>
-
-      <div class="relative flex items-start gap-3 pb-4">
-        <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-emerald-500 border-2 border-dark-primary flex items-center justify-center z-10">
-          ${icon('flag', 'w-4 h-4 text-white')}
-        </div>
-        <div class="pt-0.5">
-          <div class="text-sm font-semibold">${results.from?.split(',')[0] || '?'}</div>
-          <div class="text-xs text-slate-400">${t('departure') || 'Départ'}</div>
-        </div>
-      </div>
-
-      ${spots.map((spot, i) => {
-        const sLat = spot.coordinates?.lat || spot.lat
-        const sLng = spot.coordinates?.lng || spot.lng
-        const distFromStart = (sLat && sLng && results.fromCoords)
-          ? Math.round(haversine(results.fromCoords[0], results.fromCoords[1], sLat, sLng))
-          : null
-        const isHighlighted = highlighted.has(String(spot.id))
-        return `
-          <div class="relative flex items-start gap-3 pb-4 group">
-            <div class="absolute left-[-18px] w-7 h-7 rounded-full ${isHighlighted ? 'bg-amber-500 border-amber-400' : 'bg-primary-500/80 border-primary-500/40'} border-2 border-dark-primary flex items-center justify-center z-10 shadow-lg transition-colors">
-              ${isHighlighted ? icon('star', 'w-4 h-4 text-white') : `<span class="text-[10px] font-bold text-white">${i + 1}</span>`}
-            </div>
-            <div
-              class="flex-1 min-w-0 cursor-pointer hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors py-0.5 ${isHighlighted ? 'bg-amber-500/5 border-l-2 border-amber-500/40 pl-2' : ''}"
-              onclick="selectSpot(${spot.id})"
-             role="button" tabindex="0">
-              <div class="text-sm font-medium truncate">${spot.from || spot.city || spot.stationName || (distFromStart !== null ? `Spot · ${distFromStart} km` : 'Spot')}</div>
-              <div class="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
-                ${distFromStart !== null ? `<span>${distFromStart} km</span>` : ''}
-                ${spot.userValidations ? `<span class="text-emerald-400">${icon('circle-check', 'w-3 h-3 mr-0.5 inline-block')}${spot.userValidations}</span>` : ''}
-                ${(spot.avgWaitTime || spot.avgWait) ? `<span>${icon('clock', 'w-3 h-3 mr-0.5 inline-block')}${spot.avgWaitTime || spot.avgWait}min</span>` : ''}
-              </div>
-            </div>
-            <div class="flex items-center gap-1 mt-1 flex-shrink-0">
-              <button
-                onclick="event.stopPropagation();highlightTripSpot(${spot.id})"
-                class="w-6 h-6 rounded-full flex items-center justify-center transition-colors ${isHighlighted ? 'text-amber-400 bg-amber-500/20' : 'text-slate-600 hover:text-amber-400 hover:bg-amber-500/10'}"
-                aria-label="${t('highlightSpot') || 'Mettre en avant'}"
-              >
-                ${icon('star', 'w-3 h-3')}
-              </button>
-              <button
-                onclick="event.stopPropagation();removeSpotFromTrip(${spot.id})"
-                class="w-6 h-6 rounded-full flex items-center justify-center text-slate-600 hover:text-danger-400 hover:bg-danger-500/10 transition-colors"
-                aria-label="${t('remove') || 'Retirer'}"
-              >
-                ${icon('x', 'w-3 h-3')}
-              </button>
-            </div>
-          </div>
-        `
-      }).join('')}
-
-      <div class="relative flex items-start gap-3">
-        <div class="absolute left-[-18px] w-7 h-7 rounded-full bg-primary-500 border-2 border-dark-primary flex items-center justify-center z-10">
-          ${icon('map-pin', 'w-4 h-4 text-white')}
-        </div>
-        <div class="pt-0.5">
-          <div class="text-sm font-semibold">${results.to?.split(',')[0] || '?'}</div>
-          <div class="text-xs text-slate-400">${t('arrival') || 'Arrivée'}</div>
-        </div>
-      </div>
-    </div>
-  `
-}
+// renderAmenityChip + renderSpotsTimeline removed — replaced by bottom sheet in renderMapFirstView
 
 function renderSavedTripsPreview(_state) {
   const savedTrips = getSavedTrips()
@@ -559,40 +619,7 @@ function renderSavedTripsPreview(_state) {
   `
 }
 
-function renderTripMapView(results) {
-  const spots = results.spots || []
-  return `
-    <div class="relative" style="height:calc(100dvh - 8rem)">
-      <div id="trip-map" class="w-full h-full rounded-xl overflow-hidden"></div>
-      <button
-        onclick="closeTripMap()"
-        class="absolute top-3 left-3 z-[1000] px-4 py-2 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-white flex items-center gap-2 hover:bg-dark-secondary transition-colors"
-      >
-        ${icon('arrow-left', 'w-5 h-5')}
-        <span>${t('back') || 'Retour'}</span>
-      </button>
-      <div class="absolute top-3 right-3 z-[1000] flex items-center gap-2">
-        <button
-          onclick="centerTripMapOnGps()"
-          class="w-10 h-10 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-blue-400 hover:text-blue-300 transition-colors"
-          aria-label="${t('myPosition') || 'Ma position'}"
-        >
-          ${icon('crosshair', 'w-5 h-5')}
-        </button>
-        <div class="px-3 py-1.5 rounded-full bg-dark-secondary/90 backdrop-blur border border-white/10 text-sm">
-          <span class="text-primary-400 font-semibold">${spots.length}</span>
-          <span class="text-slate-400 ml-1">${t('spotsOnRoute') || 'spots'}</span>
-        </div>
-      </div>
-      <div class="absolute bottom-3 left-3 right-3 z-[1000] px-4 py-3 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10">
-        <div class="flex items-center justify-between text-sm">
-          <span class="font-medium truncate">${results.from?.split(',')[0] || '?'} → ${results.to?.split(',')[0] || '?'}</span>
-          <span class="text-slate-400 shrink-0 ml-2">${results.distance} km · ~${results.estimatedTime}</span>
-        </div>
-      </div>
-    </div>
-  `
-}
+// renderTripMapView removed — replaced by renderMapFirstView
 
 // ==================== TAB 2: GUIDES ====================
 
@@ -1226,6 +1253,123 @@ window.openTripPhotoUpload = (tripIndex) => {
     window.setState?.({})
   }
   input.click()
+}
+
+// ==================== MAP-FIRST HANDLERS ====================
+
+// Bottom sheet touch drag state
+let _sheetTouchStartY = 0
+let _sheetStartHeight = 0
+let _sheetDragging = false
+
+window.tripSheetTouchStart = (e) => {
+  const sheet = document.getElementById('trip-bottom-sheet')
+  if (!sheet) return
+  _sheetTouchStartY = e.touches[0].clientY
+  _sheetStartHeight = sheet.getBoundingClientRect().height
+  _sheetDragging = true
+  sheet.classList.add('dragging')
+}
+
+window.tripSheetTouchMove = (e) => {
+  if (!_sheetDragging) return
+  e.preventDefault()
+  const sheet = document.getElementById('trip-bottom-sheet')
+  if (!sheet) return
+  const deltaY = _sheetTouchStartY - e.touches[0].clientY
+  const newHeight = Math.max(80, Math.min(window.innerHeight * 0.85, _sheetStartHeight + deltaY))
+  sheet.style.height = newHeight + 'px'
+}
+
+window.tripSheetTouchEnd = () => {
+  if (!_sheetDragging) return
+  _sheetDragging = false
+  const sheet = document.getElementById('trip-bottom-sheet')
+  if (!sheet) return
+  sheet.classList.remove('dragging')
+  const h = sheet.getBoundingClientRect().height
+  const vh = window.innerHeight
+  // Snap to nearest state
+  let newState = 'collapsed'
+  if (h > vh * 0.65) {
+    newState = 'full'
+  } else if (h > vh * 0.25) {
+    newState = 'half'
+  }
+  sheet.style.height = ''
+  window.setState?.({ tripBottomSheetState: newState })
+}
+
+window.tripSheetCycleState = () => {
+  const state = window.getState?.() || {}
+  const current = state.tripBottomSheetState || 'collapsed'
+  const next = current === 'collapsed' ? 'half' : current === 'half' ? 'full' : 'collapsed'
+  window.setState?.({ tripBottomSheetState: next })
+}
+
+window.tripExpandForm = () => {
+  window.setState?.({ tripFormCollapsed: false })
+}
+
+window.tripCollapseForm = () => {
+  window.setState?.({ tripFormCollapsed: true })
+}
+
+window.removeTripMapSpot = (spotId) => {
+  const state = window.getState?.() || {}
+  const removed = [...(state.tripRemovedSpots || []), String(spotId)]
+  window.setState?.({ tripRemovedSpots: removed })
+  // Update the map spots without full re-render
+  window._tripMapUpdateSpots?.()
+}
+
+window.toggleTripGasStations = () => {
+  const state = window.getState?.() || {}
+  const show = !state.tripShowGasStations
+  window.setState?.({ tripShowGasStations: show })
+  if (show) {
+    // Load and show gas stations
+    const results = state.tripResults
+    if (results?.routeGeometry?.length > 1) {
+      import('../../services/overpass.js').then(({ getAmenitiesAlongRoute }) => {
+        getAmenitiesAlongRoute(results.routeGeometry, 2, { showFuel: true, showRestAreas: true })
+          .then(amenities => {
+            window._tripMapAddAmenities?.(amenities)
+          })
+          .catch(() => {})
+      }).catch(() => {})
+    }
+  } else {
+    window._tripMapRemoveAmenities?.()
+  }
+}
+
+window.tripFitBounds = () => {
+  const state = window.getState?.() || {}
+  const results = state.tripResults
+  if (!results?.fromCoords || !results?.toCoords) return
+  const from = results.fromCoords
+  const to = results.toCoords
+  const spots = results.spots || []
+  const allCoords = [[from[1], from[0]], [to[1], to[0]]]
+  spots.forEach(s => {
+    const lat = s.coordinates?.lat || s.lat
+    const lng = s.coordinates?.lng || s.lng
+    if (lat && lng) allCoords.push([lng, lat])
+  })
+  window._tripMapFitBounds?.(allCoords)
+}
+
+window.tripMapShowSpot = (spotId) => {
+  const state = window.getState?.() || {}
+  const spot = state.tripResults?.spots?.find(s => s.id === spotId)
+  if (!spot) return
+  const lat = spot.coordinates?.lat || spot.lat
+  const lng = spot.coordinates?.lng || spot.lng
+  if (lat && lng) {
+    window._tripMapFlyTo?.(lng, lat)
+    window._tripMapShowPopup?.(spotId)
+  }
 }
 
 // swapTripPoints — canonical in Travel.js

@@ -163,6 +163,10 @@ const MAIN_JS_HANDLERS = [
   'setVoyageSubTab', 'setJournalSubTab', 'highlightTripSpot', 'startTrip', 'tripNextStop', 'finishTrip',
   'toggleTripPublic', 'openTripDetail', 'closeTripDetail', 'deleteJournalTrip',
   'openAddTripNote', 'openTripPhotoUpload',
+  // Voyage map-first handlers (defined in Voyage.js)
+  'tripSheetTouchStart', 'tripSheetTouchMove', 'tripSheetTouchEnd', 'tripSheetCycleState',
+  'tripExpandForm', 'tripCollapseForm', 'removeTripMapSpot', 'toggleTripGasStations',
+  'tripFitBounds', 'tripMapShowSpot',
   // Travel view (defined in Travel.js)
   'syncTripFieldsAndCalculate', 'toggleRouteAmenities', 'centerTripMapOnGps', 'setRouteFilter',
   // Social view (defined in Social.js + sub-components)

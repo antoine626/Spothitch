@@ -508,4 +508,28 @@ describe('Modal Flags: close buttons present in HTML', () => {
     expect(html).toContain('Paris')
     expect(html).toContain('closeCityPanel')
   })
+
+  test('tripBottomSheetState is a valid state field', () => {
+    const state = getState()
+    expect(state).toHaveProperty('tripBottomSheetState')
+    expect(['collapsed', 'half', 'full']).toContain(state.tripBottomSheetState)
+  })
+
+  test('tripFormCollapsed is a valid state field', () => {
+    const state = getState()
+    expect(state).toHaveProperty('tripFormCollapsed')
+    expect(typeof state.tripFormCollapsed).toBe('boolean')
+  })
+
+  test('tripRemovedSpots is a valid state field', () => {
+    const state = getState()
+    expect(state).toHaveProperty('tripRemovedSpots')
+    expect(Array.isArray(state.tripRemovedSpots)).toBe(true)
+  })
+
+  test('tripShowGasStations is a valid state field', () => {
+    const state = getState()
+    expect(state).toHaveProperty('tripShowGasStations')
+    expect(typeof state.tripShowGasStations).toBe('boolean')
+  })
 })

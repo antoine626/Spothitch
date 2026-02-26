@@ -181,10 +181,11 @@ async function checkSpotsData() {
       return { name: 'Spots Data (FR)', ok: false, error: `HTTP ${res.status}` }
     }
     const data = await res.json()
-    if (!Array.isArray(data) || data.length === 0) {
+    const spots = Array.isArray(data) ? data : data?.spots
+    if (!Array.isArray(spots) || spots.length === 0) {
       return { name: 'Spots Data (FR)', ok: false, error: 'Empty or invalid JSON' }
     }
-    return { name: 'Spots Data (FR)', ok: true, detail: `${data.length} spots, ${res._elapsed}ms` }
+    return { name: 'Spots Data (FR)', ok: true, detail: `${spots.length} spots, ${res._elapsed}ms` }
   } catch (err) {
     return { name: 'Spots Data (FR)', ok: false, error: err.message }
   }

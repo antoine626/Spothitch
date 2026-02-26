@@ -1077,7 +1077,10 @@ window.calculateTrip = async () => {
         distance: distanceKm,
         estimatedTime,
       },
-      showTripMap: false,  // Show results first, user clicks "view on map"
+      showTripMap: false,
+      tripFormCollapsed: true,  // Switch to map-first view
+      tripBottomSheetState: 'half',  // Open bottom sheet at half
+      tripRemovedSpots: [],  // Reset removed spots
       tripLoading: false,
     })
 
@@ -1130,13 +1133,19 @@ window.centerTripMapOnGps = () => {
 
 window.closeTripMap = () => {
   window._tripMapCleanup?.()
-  window.setState?.({ showTripMap: false, showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false })
+  window.setState?.({
+    showTripMap: false, tripFormCollapsed: false,
+    tripBottomSheetState: 'collapsed', tripShowGasStations: false,
+    showRouteAmenities: false, routeAmenities: [], loadingRouteAmenities: false,
+  })
 }
 
 window.clearTripResults = () => {
   window._tripMapCleanup?.()
   window.setState?.({
     tripResults: null, showTripMap: false,
+    tripFormCollapsed: false, tripBottomSheetState: 'collapsed',
+    tripRemovedSpots: [], tripShowGasStations: false,
     showRouteAmenities: false, routeAmenities: [],
     loadingRouteAmenities: false,
   })

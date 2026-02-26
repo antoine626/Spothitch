@@ -510,9 +510,10 @@ export function afterRender(state) {
 
   // Inject / update persistent map controls (zoom, GPS, gas stations)
   ensureMapControls(state)
-  // Trip map can be in overlay (showTripPlanner) regardless of activeTab
-  if (state.showTripMap && (isMapTab(state) || state.showTripPlanner)) {
-    // Only init if not already preserved from previous render
+  // Trip map: init when map-first view is active OR old showTripMap
+  const tripMapNeeded = (state.showTripMap && (isMapTab(state) || state.showTripPlanner)) ||
+    (state.tripResults && state.tripFormCollapsed && state.activeTab === 'challenges')
+  if (tripMapNeeded) {
     const tripContainer = document.getElementById('trip-map')
     if (tripContainer && tripContainer.dataset.initialized !== 'true') {
       setTimeout(() => initTripMap(state), 100)
@@ -1169,7 +1170,11 @@ function initTripMap(state) {
           },
         })
         map.on('click', 'trip-spot-points', (e) => {
-          if (e.features?.length > 0) window.selectSpot?.(e.features[0].properties.id)
+          if (e.features?.length > 0) {
+            const spotId = e.features[0].properties.id
+            const coords = e.features[0].geometry.coordinates
+            showTripSpotPopup(map, maplibregl, spotId, coords, spots)
+          }
         })
         map.on('mouseenter', 'trip-spot-points', () => { map.getCanvas().style.cursor = 'pointer' })
         map.on('mouseleave', 'trip-spot-points', () => { map.getCanvas().style.cursor = '' })
@@ -1309,6 +1314,121 @@ function stopTripGpsTracking() {
     tripGpsMarker.remove()
     tripGpsMarker = null
   }
+}
+
+// Show popup on a trip spot (used by map click and bottom sheet)
+let tripActivePopup = null
+function showTripSpotPopup(map, maplibregl, spotId, coords, spots) {
+  if (tripActivePopup) { tripActivePopup.remove(); tripActivePopup = null }
+  const spot = spots?.find(s => s.id === spotId)
+  if (!spot) return
+  const name = spot.from || spot.city || spot.stationName || 'Spot'
+  const waitTxt = (spot.avgWaitTime || spot.avgWait) ? `${spot.avgWaitTime || spot.avgWait}min` : ''
+  const typeTxt = spot.spotType || ''
+  const popupEl = document.createElement('div')
+  popupEl.style.cssText = 'font-family:system-ui;font-size:13px;max-width:220px'
+  const titleEl = document.createElement('div')
+  titleEl.style.cssText = 'font-weight:600;color:#fff;margin-bottom:4px'
+  titleEl.textContent = name
+  popupEl.appendChild(titleEl)
+  if (typeTxt || waitTxt) {
+    const infoEl = document.createElement('div')
+    infoEl.style.cssText = 'font-size:11px;color:#94a3b8;margin-bottom:6px'
+    infoEl.textContent = [typeTxt, waitTxt].filter(Boolean).join(' · ')
+    popupEl.appendChild(infoEl)
+  }
+  const btnRow = document.createElement('div')
+  btnRow.style.cssText = 'display:flex;gap:6px'
+  const mkBtn = (text, fn) => {
+    const b = document.createElement('button')
+    b.style.cssText = 'padding:4px 10px;border-radius:8px;font-size:12px;cursor:pointer;border:none;font-weight:600'
+    b.textContent = text
+    b.onclick = fn
+    return b
+  }
+  const starBtn = mkBtn('⭐', () => { window.highlightTripSpot?.(spotId); tripActivePopup?.remove() })
+  starBtn.style.background = 'rgba(245,158,11,0.2)'; starBtn.style.color = '#fbbf24'
+  const removeBtn = mkBtn('✕', () => { window.removeTripMapSpot?.(spotId); tripActivePopup?.remove() })
+  removeBtn.style.background = 'rgba(239,68,68,0.2)'; removeBtn.style.color = '#f87171'
+  const detailBtn = mkBtn('🔍', () => { window.selectSpot?.(spotId) })
+  detailBtn.style.background = 'rgba(59,130,246,0.2)'; detailBtn.style.color = '#60a5fa'
+  btnRow.appendChild(starBtn)
+  btnRow.appendChild(removeBtn)
+  btnRow.appendChild(detailBtn)
+  popupEl.appendChild(btnRow)
+  tripActivePopup = new maplibregl.Popup({ offset: 15, closeButton: true, maxWidth: '240px' })
+    .setLngLat(coords)
+    .setDOMContent(popupEl)
+    .addTo(map)
+}
+
+// Update spots on the map without re-init (for filters, highlight, remove)
+window._tripMapUpdateSpots = () => {
+  if (!tripMapInstance) return
+  const state = window.getState?.() || {}
+  const results = state.tripResults
+  if (!results?.spots) return
+  const removedSet = new Set((state.tripRemovedSpots || []).map(String))
+  const highlighted = (() => {
+    try { return new Set(JSON.parse(localStorage.getItem('spothitch_highlighted_trip_spots') || '[]').map(String)) }
+    catch { return new Set() }
+  })()
+  const routeFilter = state.routeFilter
+  const allSpots = results.spots.filter(s => !removedSet.has(String(s.id)))
+  const filteredIds = new Set()
+  if (routeFilter && routeFilter !== 'all') {
+    // We need to import the filter function concept inline
+    allSpots.forEach(s => filteredIds.add(String(s.id)))
+  }
+  const favSet = getFavoritesSet()
+  const spotFeatures = []
+  allSpots.forEach((spot, i) => {
+    const lat = spot.coordinates?.lat || spot.lat
+    const lng = spot.coordinates?.lng || spot.lng
+    if (!lat || !lng) return
+    const isHighlighted = highlighted.has(String(spot.id))
+    const isFav = favSet.has(spot.id) || isHighlighted
+    spotFeatures.push({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [lng, lat] },
+      properties: {
+        id: spot.id,
+        index: i + 1,
+        color: isHighlighted ? '#f59e0b' : isFav ? '#f59e0b' : '#22c55e',
+        strokeColor: isHighlighted ? '#fbbf24' : '#ffffff',
+        radius: isHighlighted ? 14 : 12,
+        strokeWidth: isHighlighted ? 3 : 2,
+      },
+    })
+  })
+  const source = tripMapInstance.getSource('trip-spots')
+  if (source) {
+    source.setData({ type: 'FeatureCollection', features: spotFeatures })
+  }
+}
+
+// Show popup for a specific spot (from bottom sheet click)
+window._tripMapShowPopup = (spotId) => {
+  if (!tripMapInstance || !tripMaplibregl) return
+  const state = window.getState?.() || {}
+  const spots = state.tripResults?.spots || []
+  const spot = spots.find(s => s.id === spotId)
+  if (!spot) return
+  const lat = spot.coordinates?.lat || spot.lat
+  const lng = spot.coordinates?.lng || spot.lng
+  if (!lat || !lng) return
+  showTripSpotPopup(tripMapInstance, tripMaplibregl, spotId, [lng, lat], spots)
+}
+
+// Fit bounds to given coordinates
+window._tripMapFitBounds = (coords) => {
+  if (!tripMapInstance || !tripMaplibregl || !coords?.length) return
+  if (coords.length < 2) return
+  const bounds = coords.reduce(
+    (b, c) => b.extend(c),
+    new tripMaplibregl.LngLatBounds(coords[0], coords[0])
+  )
+  tripMapInstance.fitBounds(bounds, { padding: 50 })
 }
 
 // Expose for Travel.js to call dynamically

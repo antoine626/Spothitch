@@ -444,3 +444,15 @@ Chaque erreur suit ce format :
 - **Leçon** : Ne JAMAIS retirer `export` automatiquement. Les imports dynamiques (`import().then(m => m.func)`) et le tree-shaking de Vite dépendent de ces exports. Seul un humain peut décider si un export est vraiment mort.
 - **Fichiers** : `scripts/checks/dead-exports.mjs`, `scripts/quality-gate.mjs`, ~86 fichiers src/
 - **Statut** : CORRIGÉ
+
+---
+
+### ERR-040 — Planificateur voyage non fonctionnel (Travel.js jamais importé)
+- **Date** : 2026-02-26
+- **Gravité** : CRITIQUE
+- **Description** : Le bouton "Trouver les spots sur le trajet" dans l'onglet Voyage ne faisait RIEN. Le formulaire s'affichait correctement mais `window.calculateTrip` et `window.syncTripFieldsAndCalculate` étaient `undefined`.
+- **Cause racine** : Travel.js définit tous les handlers du planificateur (calculateTrip, syncTripFieldsAndCalculate, etc.) comme effets de bord à l'import. Travel.js était enregistré dans App.js comme lazy loader (`renderTravel: () => import('./views/Travel.js')`) mais `lazyRender('renderTravel')` n'était JAMAIS appelé. Le formulaire était rendu par Voyage.js (renderTripForm), mais la logique vivait dans Travel.js qui n'était jamais chargé. Le bouton existait visuellement mais appelait une fonction undefined → erreur silencieuse via `?.()`.
+- **Correction** : Ajouté `import('./Travel.js')` dans Voyage.js au chargement du module + bridge stubs async pour `syncTripFieldsAndCalculate` et `calculateTrip` qui attendent que Travel.js charge avant de déléguer. Ajouté aussi dismiss suggestions (mousedown outside, Escape, auto-dismiss 4s) car le dropdown autocomplete couvrait physiquement le bouton.
+- **Leçon** : TOUJOURS vérifier que les handlers `window.*` utilisés dans les onclick HTML sont bien chargés AVANT que l'UI ne soit rendue. Si le rendu (HTML) et la logique (JS handlers) sont dans des fichiers différents, il FAUT un import explicite entre les deux. Un lazy loader enregistré mais jamais appelé = code mort. TOUJOURS tester le flow complet (pas juste "le bouton existe" mais "le bouton FAIT quelque chose").
+- **Fichiers** : `src/components/views/Voyage.js`, `src/components/views/Travel.js`
+- **Statut** : CORRIGÉ

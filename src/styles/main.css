@@ -2899,6 +2899,21 @@ textarea.input-field {
   transition: width 0.5s ease-out;
 }
 
+/* ===== TRIP BOTTOM SHEET ===== */
+.trip-bottom-sheet {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  touch-action: none;
+}
+
+.trip-bottom-sheet.dragging {
+  transition: none;
+}
+
+.trip-spot-faded {
+  opacity: 0.2;
+}
+
 @keyframes progressFill {
   from {
     transform: scaleX(0);
