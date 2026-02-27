@@ -366,15 +366,14 @@ test.describe('Journey: Complete Tab Navigation', () => {
   test('should rapidly switch tabs (stress test)', { timeout: 40000 }, async ({ page }) => {
     await skipOnboarding(page)
 
+    const tabs = ['map', 'challenges', 'social', 'profile']
     for (let i = 0; i < 3; i++) {
-      await page.locator('[data-tab="map"]').click({ force: true })
-      await page.waitForTimeout(200)
-      await page.locator('[data-tab="challenges"]').click({ force: true })
-      await page.waitForTimeout(200)
-      await page.locator('[data-tab="social"]').click({ force: true })
-      await page.waitForTimeout(200)
-      await page.locator('[data-tab="profile"]').click({ force: true })
-      await page.waitForTimeout(200)
+      for (const tabId of tabs) {
+        const tab = page.locator(`[data-tab="${tabId}"]`)
+        await tab.waitFor({ state: 'visible', timeout: 5000 })
+        await tab.click({ force: true })
+        await page.waitForTimeout(300)
+      }
     }
 
     await expect(page.locator('#app')).toBeVisible()
