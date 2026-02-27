@@ -229,6 +229,10 @@ export const STORAGE_KEYS = [
   // === i18n ===
   { key: 'spothitch_lang', category: DataCategory.SETTINGS, description: 'User preferred language' },
 
+  // === Feedback ===
+  { key: 'spothitch_feedback_reviewed', category: DataCategory.ACTIVITY, description: 'IDs of features the user has reviewed' },
+  { key: 'spothitch_feedback_data', category: DataCategory.ACTIVITY, description: 'Feedback data (reactions, comments) per feature' },
+
   // === STATE (via Storage.js with spothitch_v4_ prefix) ===
   { key: 'spothitch_v4_state', category: DataCategory.PERSONAL, description: 'Main app state (via Storage.js)', sensitive: true },
   { key: 'spothitch_state', category: DataCategory.PERSONAL, description: 'Legacy app state', sensitive: true },
