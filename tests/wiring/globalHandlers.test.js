@@ -186,7 +186,7 @@ const MAIN_JS_HANDLERS = [
   'openConversation', 'closeConversation', 'sendDM',
   'shareDMSpot', 'shareDMPosition', 'deleteDMConversation',
   // Events (defined in events.js)
-  'createEvent', 'closeCreateEvent', 'submitCreateEvent',
+  'openCreateEvent', 'closeCreateEvent', 'submitCreateEvent',
   'joinEvent', 'leaveEvent', 'deleteEventAction',
   'openEventDetail', 'closeEventDetail',
   'postEventComment', 'replyEventComment', 'toggleReplyInput',

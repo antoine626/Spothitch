@@ -437,7 +437,7 @@ export function getMyEvents() {
 
 // ==================== GLOBAL HANDLERS ====================
 
-window.createEvent = () => {
+window.openCreateEvent = () => {
   setState({ showCreateEvent: true })
 }
 

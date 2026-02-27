@@ -416,7 +416,7 @@ function renderEvenementsTab(state) {
 
       <!-- FAB: Create event -->
       <button
-        onclick="createEvent()"
+        onclick="openCreateEvent()"
         class="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-primary-500 text-white shadow-lg shadow-primary-500/30 flex items-center justify-center hover:bg-primary-600 hover:scale-110 transition-colors z-30"
         aria-label="${t('createEvent') || 'Créer un événement'}"
       >
