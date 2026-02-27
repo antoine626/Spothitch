@@ -416,7 +416,7 @@ export function renderLanding(_state) {
                 <li><a href="javascript:void(0)" onclick="openFAQ()" class="hover:text-white">FAQ</a></li>
                 <li><a href="javascript:void(0)" onclick="openHelpCenter()" class="hover:text-white">${t('landingFooterHelpCenter')}</a></li>
                 <li><a href="javascript:void(0)" onclick="openChangelog()" class="hover:text-white">Changelog</a></li>
-                <li><a href="javascript:void(0)" onclick="openRoadmap()" class="hover:text-white">Roadmap</a></li>
+                <li><a href="javascript:void(0)" onclick="openRoadmap()" class="hover:text-white">${t('profileTabRoadmap') || 'Prochainement'}</a></li>
               </ul>
             </div>
 
