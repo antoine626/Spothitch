@@ -98,8 +98,8 @@ function setFeedbackData(data) {
 function renderFeatureItem(feat, reviewed) {
   const isReviewed = reviewed.includes(feat.id)
   const statusTag = feat.status === 'available'
-    ? `<span class="text-[8px] font-bold px-1.5 py-px rounded-md" style="background: rgba(34,197,94,0.12); color: #22c55e">${escapeHTML(t('fbStatusAvailable') || 'Dispo')}</span>`
-    : `<span class="text-[8px] font-bold px-1.5 py-px rounded-md" style="background: rgba(245,158,11,0.12); color: #f59e0b">${escapeHTML(t('fbStatusComing') || 'Bientôt')}</span>`
+    ? `<span class="text-[10px] font-bold px-1.5 py-px rounded-md" style="background: rgba(34,197,94,0.12); color: #22c55e">${escapeHTML(t('fbStatusAvailable') || 'Dispo')}</span>`
+    : `<span class="text-[10px] font-bold px-1.5 py-px rounded-md" style="background: rgba(245,158,11,0.12); color: #f59e0b">${escapeHTML(t('fbStatusComing') || 'Bientôt')}</span>`
 
   const checkStyle = isReviewed
     ? 'border: 2px solid #22c55e; background: rgba(34,197,94,0.15); color: #22c55e'
@@ -143,7 +143,7 @@ export function renderFeedbackPanel(state) {
 
   return `
     <div class="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="fb-panel-title">
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeFeedbackPanel()" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="if(event.target===this)closeFeedbackPanel()" aria-hidden="true"></div>
       <div class="absolute top-0 right-0 bottom-0 w-[88%] max-w-md overflow-hidden flex flex-col shadow-2xl slide-panel-in" style="z-index: 50; background: #1e293b">
 
         <!-- Header -->
@@ -233,7 +233,7 @@ function renderFeedbackDetail(state, featureId) {
 
   return `
     <div class="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="fb-detail-title">
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeFeedbackPanel()" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="if(event.target===this)closeFeedbackPanel()" aria-hidden="true"></div>
       <div class="absolute top-0 right-0 bottom-0 w-[88%] max-w-md overflow-hidden flex flex-col shadow-2xl slide-panel-in" style="z-index: 60; background: #1e293b">
 
         <div class="shrink-0 px-4" style="padding-top: 54px; padding-bottom: 16px">
