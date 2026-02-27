@@ -23,6 +23,7 @@ export default defineConfig({
         'src/services/firebase.js',
         'src/services/sentry.js',
         'src/utils/image.js',
+        'src/utils/backButton.js',
       ],
       thresholds: {
         statements: 21,
