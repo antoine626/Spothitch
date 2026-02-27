@@ -620,17 +620,48 @@ function renderCompanionSearch(state) {
         </h3>
         <p class="text-sm text-slate-400 mb-4">${t('companionDesc')}</p>
         <div class="space-y-3">
+          <!-- From / To -->
           <div class="flex gap-2">
-            <input type="text" id="companion-from" class="input-field flex-1" placeholder="${t('from')}" />
-            <input type="text" id="companion-to" class="input-field flex-1" placeholder="${t('to')}" />
+            <input type="text" id="companion-from" class="input-field flex-1" placeholder="${t('from')} *" />
+            <input type="text" id="companion-to" class="input-field flex-1" placeholder="${t('to')} *" />
           </div>
+          <!-- Date + Duration -->
           <div class="flex gap-2">
             <input type="date" id="companion-date" class="input-field flex-1" min="${new Date().toISOString().split('T')[0]}" />
-            <button onclick="postCompanionRequest()" class="btn-primary px-4">
-              ${icon('send', 'w-5 h-5 mr-1')}
-              ${t('publish')}
-            </button>
+            <select id="companion-duration" class="input-field flex-1">
+              <option value="">${t('companionDuration') || 'Durée'}</option>
+              <option value="1d">1 ${t('day') || 'jour'}</option>
+              <option value="2d">2 ${t('days') || 'jours'}</option>
+              <option value="3d">3 ${t('days') || 'jours'}</option>
+              <option value="1w">1 ${t('week') || 'semaine'}</option>
+              <option value="2w">2 ${t('weeks') || 'semaines'}</option>
+              <option value="1m">1 ${t('month') || 'mois'}</option>
+              <option value="2m">2+ ${t('months') || 'mois'}</option>
+            </select>
           </div>
+          <!-- People + Gender -->
+          <div class="flex gap-2">
+            <select id="companion-people" class="input-field flex-1">
+              <option value="any">${t('companionPeopleAny') || "N'importe"}</option>
+              <option value="1">1 ${t('person') || 'personne'}</option>
+              <option value="2">2 ${t('people') || 'personnes'}</option>
+              <option value="3">3 ${t('people') || 'personnes'}</option>
+            </select>
+            <select id="companion-gender" class="input-field flex-1">
+              <option value="any">${t('companionGenderAny') || "N'importe"}</option>
+              <option value="female">${t('companionGenderFemale') || 'Femme'}</option>
+              <option value="male">${t('companionGenderMale') || 'Homme'}</option>
+            </select>
+          </div>
+          <!-- Description -->
+          <textarea id="companion-desc" class="input-field w-full" rows="2"
+            placeholder="${t('companionDescPlaceholder') || 'Décris ton voyage, ce que tu recherches...'}"
+            maxlength="300"></textarea>
+          <!-- Publish -->
+          <button onclick="postCompanionRequest()" class="btn-primary w-full py-3">
+            ${icon('send', 'w-5 h-5 mr-1')}
+            ${t('publish')}
+          </button>
         </div>
       </div>
 
@@ -650,29 +681,69 @@ function renderCompanionRequests(state) {
     `
   }
 
+  const durationLabels = {
+    '1d': `1 ${t('day') || 'jour'}`, '2d': `2 ${t('days') || 'jours'}`, '3d': `3 ${t('days') || 'jours'}`,
+    '1w': `1 ${t('week') || 'semaine'}`, '2w': `2 ${t('weeks') || 'semaines'}`,
+    '1m': `1 ${t('month') || 'mois'}`, '2m': `2+ ${t('months') || 'mois'}`,
+  }
+  const genderLabels = {
+    female: t('companionGenderFemale') || 'Femme',
+    male: t('companionGenderMale') || 'Homme',
+    any: t('companionGenderAny') || "N'importe",
+  }
+
   return `
     <div class="space-y-3">
       <h4 class="font-bold text-sm text-slate-400">${t('activeRequests')}</h4>
       ${requests.map(req => `
         <div class="card p-4">
-          <div class="flex items-center gap-3 mb-2">
+          <!-- Profile header (clickable) -->
+          <button onclick="openFriendProfile('${escapeHTML(req.userId)}')" class="flex items-center gap-3 mb-3 w-full text-left">
             <span class="text-2xl">${req.avatar || '🤙'}</span>
             <div class="flex-1 min-w-0">
               <div class="font-medium text-sm truncate">${escapeHTML(req.name || '')}</div>
               <div class="text-xs text-slate-400">${formatRelativeTime(req.createdAt)}</div>
             </div>
-          </div>
+            ${icon('chevron-right', 'w-4 h-4 text-slate-500')}
+          </button>
+          <!-- Route -->
           <div class="flex items-center gap-2 text-sm">
             ${icon('map-pin', 'w-4 h-4 text-primary-400')}
-            <span class="text-slate-300">${escapeHTML(req.from || '')} → ${escapeHTML(req.to || '')}</span>
+            <span class="text-slate-300 font-medium">${escapeHTML(req.from || '')} → ${escapeHTML(req.to || '')}</span>
           </div>
-          ${req.date ? `
-            <div class="flex items-center gap-2 text-sm mt-1">
-              ${icon('calendar', 'w-4 h-4 text-amber-400')}
-              <span class="text-slate-400">${formatEventDate(req.date)}</span>
-            </div>
+          <!-- Details row -->
+          <div class="flex flex-wrap gap-2 mt-2">
+            ${req.date ? `
+              <span class="inline-flex items-center gap-1 text-xs bg-white/5 px-2 py-1 rounded-lg">
+                ${icon('calendar', 'w-3.5 h-3.5 text-amber-400')}
+                ${formatEventDate(req.date)}
+              </span>
+            ` : ''}
+            ${req.duration ? `
+              <span class="inline-flex items-center gap-1 text-xs bg-white/5 px-2 py-1 rounded-lg">
+                ${icon('clock', 'w-3.5 h-3.5 text-blue-400')}
+                ${durationLabels[req.duration] || req.duration}
+              </span>
+            ` : ''}
+            ${req.people && req.people !== 'any' ? `
+              <span class="inline-flex items-center gap-1 text-xs bg-white/5 px-2 py-1 rounded-lg">
+                ${icon('users', 'w-3.5 h-3.5 text-emerald-400')}
+                ${req.people} ${Number(req.people) > 1 ? (t('people') || 'pers.') : (t('person') || 'pers.')}
+              </span>
+            ` : ''}
+            ${req.gender && req.gender !== 'any' ? `
+              <span class="inline-flex items-center gap-1 text-xs bg-white/5 px-2 py-1 rounded-lg">
+                ${icon('user', 'w-3.5 h-3.5 text-purple-400')}
+                ${genderLabels[req.gender] || req.gender}
+              </span>
+            ` : ''}
+          </div>
+          <!-- Description -->
+          ${req.description ? `
+            <p class="text-sm text-slate-400 mt-2">${escapeHTML(req.description)}</p>
           ` : ''}
-          <button onclick="openConversation('${req.userId}')" class="mt-3 w-full btn-primary text-sm py-2">
+          <!-- Contact button -->
+          <button onclick="openConversation('${escapeHTML(req.userId)}')" class="mt-3 w-full btn-primary text-sm py-2">
             ${icon('message-circle', 'w-4 h-4 mr-1')}
             ${t('contactTraveler')}
           </button>
@@ -919,6 +990,10 @@ window.postCompanionRequest = async () => {
   const from = document.getElementById('companion-from')?.value?.trim()
   const to = document.getElementById('companion-to')?.value?.trim()
   const date = document.getElementById('companion-date')?.value
+  const duration = document.getElementById('companion-duration')?.value
+  const people = document.getElementById('companion-people')?.value
+  const gender = document.getElementById('companion-gender')?.value
+  const description = document.getElementById('companion-desc')?.value?.trim()
 
   if (!from || !to) {
     window.showToast?.(t('fillFromTo'), 'warning')
@@ -936,6 +1011,10 @@ window.postCompanionRequest = async () => {
     from,
     to,
     date: date || null,
+    duration: duration || null,
+    people: people || 'any',
+    gender: gender || 'any',
+    description: description || null,
     createdAt: new Date().toISOString(),
   }
 

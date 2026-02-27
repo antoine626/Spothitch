@@ -553,3 +553,25 @@ Chaque erreur suit ce format :
 - **Leçon** : **Ne JAMAIS définir de classes CSS composantes (`.input-field`, `.btn-primary`, etc.) en dehors d'un `@layer` en Tailwind CSS 4.** Les styles non-layered battent TOUJOURS les utility classes. Mettre les composants dans `@layer components`. Et **toujours utiliser `renderSearchInput()` pour les champs avec icône** — ne JAMAIS recréer le pattern inline.
 - **Fichiers** : `src/styles/main.css`, `src/utils/searchInput.js` (nouveau), `src/components/views/Social.js`, `src/components/views/Spots.js`, `src/components/views/Home.js`, `src/components/views/Map.js`, `src/components/views/Guides.js`, `src/components/views/FAQ.js`, `src/components/views/Travel.js`, `src/components/views/social/Friends.js`
 - **Statut** : CORRIGÉ
+
+---
+
+### ERR-047 — Toggle mode clair ne fonctionnait pas (deux implémentations conflictuelles)
+- **Date** : 2026-02-27
+- **Gravité** : MAJEUR
+- **Description** : Le bouton de bascule mode sombre/clair dans Profil > Réglages ne fonctionnait pas.
+- **Cause racine** : DEUX toggleTheme() : state.js utilisait `body.classList.toggle('light-theme')` (correct, matchant le CSS), main.js utilisait `documentElement.classList.toggle('dark')` (mauvais, style Tailwind mais le CSS de l'app utilise `body.light-theme`). main.js chargeant après, sa version écrasait la bonne.
+- **Correction** : main.js utilise maintenant `document.body.classList.toggle('light-theme', newTheme === 'light')`.
+- **Leçon** : **Ne JAMAIS avoir DEUX implémentations d'une même fonction.** Vérifier que la méthode DOM correspond EXACTEMENT aux sélecteurs CSS.
+- **Fichiers** : `src/main.js`
+- **Statut** : CORRIGÉ
+
+### ERR-048 — localStorage direct non enregistré dans storageRegistry (violation RGPD)
+- **Date** : 2026-02-27
+- **Gravité** : MINEUR
+- **Description** : `localStorage.setItem('spothitch_theme')` ajouté par erreur — le thème est déjà persisté par le state system.
+- **Cause racine** : Ajout redondant de localStorage direct alors que `persistState()` dans state.js sauvegarde déjà `theme`.
+- **Correction** : Suppression de la ligne.
+- **Leçon** : **Ne JAMAIS utiliser `localStorage.setItem()` directement quand le state system persiste déjà la propriété.** Vérifier `persistState()` dans state.js d'abord.
+- **Fichiers** : `src/main.js`
+- **Statut** : CORRIGÉ
