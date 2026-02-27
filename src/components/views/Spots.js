@@ -7,6 +7,7 @@ import { t } from '../../i18n/index.js';
 import { renderSpotCard } from '../SpotCard.js';
 import { renderSkeletonSpotList } from '../ui/Skeleton.js';
 import { icon } from '../../utils/icons.js'
+import { renderSearchInput } from '../../utils/searchInput.js'
 
 export function renderSpots(state) {
   const filteredSpots = filterSpots(state);
@@ -15,19 +16,17 @@ export function renderSpots(state) {
     <div class="p-4 overflow-x-hidden" role="tabpanel" id="panel-spots" aria-labelledby="tab-spots">
       <!-- Search & View Toggle -->
       <div class="flex gap-2 mb-4">
-        <div class="flex-1 relative">
-          ${icon('search', 'w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400')}
-          <label for="search-input" class="sr-only">${t('searchSpot')}</label>
-          <input
-            id="search-input"
-            type="search"
-            class="input-modern pl-12"
-            placeholder="${t('searchSpot')}"
-            value="${state.searchQuery || ''}"
-            oninput="handleSearch(this.value)"
-            aria-describedby="search-results-count"
-          />
-        </div>
+        ${renderSearchInput({
+          id: 'search-input',
+          type: 'search',
+          placeholder: t('searchSpot'),
+          value: state.searchQuery || '',
+          oninput: 'handleSearch(this.value)',
+          inputClass: 'input-modern w-full',
+          paddingLeft: 'pl-12',
+          iconLeft: 'left-4',
+          wrapperClass: 'flex-1',
+        })}
 
         <div class="flex gap-1 bg-white/5 rounded-xl p-1" role="group" aria-label="Mode d'affichage">
           <button

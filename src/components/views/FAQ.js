@@ -7,6 +7,7 @@
 
 import { t } from '../../i18n/index.js';
 import { icon } from '../../utils/icons.js'
+import { renderSearchInput } from '../../utils/searchInput.js'
 
 /**
  * FAQ data organized by category (5 categories, 20+ questions)
@@ -245,18 +246,16 @@ export function renderFAQ(state) {
         </div>
 
         <!-- Search -->
-        <div class="relative">
-          <input
-            type="text"
-            id="faq-search"
-            placeholder="${t('searchFAQ', 'Rechercher dans la FAQ...')}"
-            class="w-full bg-slate-800 border border-slate-700 rounded-xl px-12 py-3 text-white placeholder-slate-500 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-colors"
-            oninput="filterFAQ(this.value)"
-            value="${searchQuery}"
-            aria-label="${t('searchFAQ', 'Rechercher dans la FAQ...')}"
-          />
-          ${icon('search', 'w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400')}
-          ${searchQuery ? `
+        ${renderSearchInput({
+          id: 'faq-search',
+          placeholder: t('searchFAQ', 'Rechercher dans la FAQ...'),
+          ariaLabel: t('searchFAQ', 'Rechercher dans la FAQ...'),
+          value: searchQuery,
+          oninput: 'filterFAQ(this.value)',
+          inputClass: 'w-full bg-slate-800 border border-slate-700 rounded-xl pr-12 py-3 text-white placeholder-slate-500 focus:border-primary-400 focus:ring-1 focus:ring-primary-400 transition-colors',
+          paddingLeft: 'pl-12',
+          iconLeft: 'left-4',
+          extraHTML: searchQuery ? `
             <button
               onclick="clearFAQSearch()"
               class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
@@ -265,8 +264,8 @@ export function renderFAQ(state) {
             >
               ${icon('x', 'w-5 h-5')}
             </button>
-          ` : ''}
-        </div>
+          ` : '',
+        })}
       </div>
 
       ${!searchQuery ? `

@@ -1532,15 +1532,17 @@ textarea[aria-invalid="true"] {
   --tw-shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Dark theme - Inputs (base) */
-.input-field {
-  @apply bg-slate-800/80 border border-white/10 text-white rounded-xl px-4 py-3 placeholder-slate-400 transition-colors;
-}
-.input-field:focus {
-  @apply border-primary-500 ring-2 ring-primary-500/20 outline-hidden;
-}
-textarea.input-field {
-  @apply min-h-[80px] resize-y;
+/* Dark theme - Inputs (base) — inside @layer so utility padding classes can override px-4 */
+@layer components {
+  .input-field {
+    @apply bg-slate-800/80 border border-white/10 text-white rounded-xl px-4 py-3 placeholder-slate-400 transition-colors;
+  }
+  .input-field:focus {
+    @apply border-primary-500 ring-2 ring-primary-500/20 outline-hidden;
+  }
+  textarea.input-field {
+    @apply min-h-[80px] resize-y;
+  }
 }
 
 /* Light theme - Inputs */

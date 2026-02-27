@@ -541,3 +541,15 @@ Chaque erreur suit ce format :
 - **Leçon** : TOUJOURS vérifier que les overlays fixes (cookie banner, toast, companion bar) ne chevauchent PAS les éléments interactifs dans CHAQUE vue. Utiliser `document.elementsFromPoint()` dans les tests Playwright pour identifier les éléments qui interceptent les clics.
 - **Fichiers** : `src/components/App.js`
 - **Statut** : CORRIGÉ
+
+---
+
+### ERR-046 — Icône de recherche (loupe) chevauchait le texte tapé dans les champs de recherche
+- **Date** : 2026-02-27
+- **Gravité** : MAJEUR
+- **Description** : Dans tous les champs de recherche avec une icône loupe (Social, Spots, Home, Map, Guides, FAQ, Travel, Friends), l'icône se superposait au texte tapé par l'utilisateur, rendant le texte illisible.
+- **Cause racine** : La classe CSS `.input-field` définissait `px-4` (padding-left: 16px) via `@apply` en DEHORS de tout `@layer`. En Tailwind CSS 4, les styles non-layered ont une spécificité plus haute que les utility classes (qui sont dans `@layer utilities`). Donc `pl-10` ou `pl-12` ajouté en classe utilitaire sur l'input était IGNORÉ — le `px-4` de `.input-field` gagnait toujours. Résultat : le padding-left restait à 16px alors que l'icône occupait 28-32px.
+- **Correction** : (1) Déplacé `.input-field` dans `@layer components` pour que les utility classes puissent l'overrider. (2) Créé `src/utils/searchInput.js` avec `renderSearchInput()` — helper canonique (comme `renderToggle()` pour les toggles) qui garantit que l'icône est toujours `absolute + pointer-events-none` et que l'input a toujours assez de `padding-left`. (3) Remplacé les 8 instances inline par le helper dans : Social.js, Spots.js, Home.js, Map.js, Guides.js, FAQ.js, Travel.js, Friends.js (2 inputs).
+- **Leçon** : **Ne JAMAIS définir de classes CSS composantes (`.input-field`, `.btn-primary`, etc.) en dehors d'un `@layer` en Tailwind CSS 4.** Les styles non-layered battent TOUJOURS les utility classes. Mettre les composants dans `@layer components`. Et **toujours utiliser `renderSearchInput()` pour les champs avec icône** — ne JAMAIS recréer le pattern inline.
+- **Fichiers** : `src/styles/main.css`, `src/utils/searchInput.js` (nouveau), `src/components/views/Social.js`, `src/components/views/Spots.js`, `src/components/views/Home.js`, `src/components/views/Map.js`, `src/components/views/Guides.js`, `src/components/views/FAQ.js`, `src/components/views/Travel.js`, `src/components/views/social/Friends.js`
+- **Statut** : CORRIGÉ

@@ -7,6 +7,7 @@
 import { t } from '../../i18n/index.js'
 import { countryGuides, getGuideByCode, getUniversalPhrases } from '../../data/guides.js'
 import { icon } from '../../utils/icons.js'
+import { renderSearchInput } from '../../utils/searchInput.js'
 import { renderCommunityTips } from '../../services/communityTips.js'
 import { renderTipVoteButtons, renderSuggestionForm } from '../../services/feedbackService.js'
 
@@ -302,16 +303,13 @@ function renderCountriesSection() {
 
   return `
     <div class="space-y-3">
-      <div class="relative">
-        <input
-          type="text"
-          placeholder="${t('searchCountry') || 'Rechercher un pays...'}"
-          class="input-field w-full pl-10"
-          oninput="filterGuides(this.value)"
-          aria-label="${t('searchCountry') || 'Rechercher un pays'}"
-        />
-        ${icon('search', 'w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
-      </div>
+      ${renderSearchInput({
+        placeholder: t('searchCountry') || 'Rechercher un pays...',
+        ariaLabel: t('searchCountry') || 'Rechercher un pays',
+        oninput: 'filterGuides(this.value)',
+        inputClass: 'input-field w-full',
+        paddingLeft: 'pl-10',
+      })}
 
       <div class="flex flex-wrap gap-2 text-xs">
         <span class="flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400">

@@ -6,6 +6,7 @@
 import { t } from '../../i18n/index.js'
 import { getGuideByCode } from '../../data/guides.js'
 import { icon } from '../../utils/icons.js'
+import { renderSearchInput } from '../../utils/searchInput.js'
 import { isCompanionActive, getTimeUntilNextCheckIn } from '../../services/companion.js'
 
 export function renderHome(state) {
@@ -52,20 +53,19 @@ export function renderHome(state) {
       <!-- Floating search bar (translucent, top) -->
       <div class="absolute ${companionActive ? 'top-[4.5rem]' : 'top-4'} left-4 right-4 z-30">
         <div class="flex gap-3">
-          <div class="flex-1 relative">
-            <input
-              type="text"
-              id="home-destination"
-              placeholder="${t('searchPlace') || 'Rechercher un lieu...'}"
-              value="${searchLabel}"
-              class="w-full pl-11 pr-11 py-3.5 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-colors shadow-lg text-base"
-              oninput="homeSearchDestination(this.value)"
-              onkeydown="if(event.key==='Enter'){homeSelectFirstSuggestion()}"
-              autocomplete="off"
-              aria-label="${t('searchPlace') || 'Rechercher un lieu'}"
-            />
-            ${icon('search', 'w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400')}
-            ${searchLabel ? `
+          ${renderSearchInput({
+            id: 'home-destination',
+            placeholder: t('searchPlace') || 'Rechercher un lieu...',
+            ariaLabel: t('searchPlace') || 'Rechercher un lieu',
+            value: searchLabel,
+            oninput: 'homeSearchDestination(this.value)',
+            onkeydown: "if(event.key==='Enter'){homeSelectFirstSuggestion()}",
+            inputClass: 'w-full pr-11 py-3.5 rounded-xl bg-dark-primary/60 backdrop-blur-xl border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-colors shadow-lg text-base',
+            paddingLeft: 'pl-11',
+            iconLeft: 'left-4',
+            autocomplete: 'off',
+            wrapperClass: 'flex-1',
+            extraHTML: `${searchLabel ? `
               <button
                 onclick="homeClearSearch()"
                 class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
@@ -74,8 +74,8 @@ export function renderHome(state) {
                 ${icon('x', 'w-5 h-5')}
               </button>
             ` : ''}
-            <div id="home-dest-suggestions" class="absolute top-full left-0 right-0 mt-1 z-[60] hidden"></div>
-          </div>
+            <div id="home-dest-suggestions" class="absolute top-full left-0 right-0 mt-1 z-[60] hidden"></div>`,
+          })}
           <!-- Filter button -->
           <button
             onclick="openFilters()"

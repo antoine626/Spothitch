@@ -5,6 +5,7 @@
 
 import { t } from '../../../i18n/index.js'
 import { icon } from '../../../utils/icons.js'
+import { renderSearchInput } from '../../../utils/searchInput.js'
 import { escapeHTML } from '../../../utils/sanitize.js'
 import { getTrustBadge } from '../../../services/identityVerification.js'
 import { getAmbassadors, searchAmbassadors } from '../../../services/ambassadors.js'
@@ -18,17 +19,15 @@ export function renderFriends(state) {
     <div class="flex-1 overflow-y-auto">
       <!-- Add friend bar -->
       <div class="p-4 flex gap-2">
-        <div class="relative flex-1">
-          <input
-            type="text"
-            placeholder="${t('enterTravelerName')}"
-            class="input-field w-full pl-10"
-            id="friend-search"
-            aria-label="${t('addFriend')}"
-            onkeydown="if(event.key==='Enter') addFriendByName()"
-          />
-          ${icon('search', 'w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
-        </div>
+        ${renderSearchInput({
+          id: 'friend-search',
+          placeholder: t('enterTravelerName'),
+          ariaLabel: t('addFriend'),
+          onkeydown: "if(event.key==='Enter') addFriendByName()",
+          inputClass: 'input-field w-full',
+          paddingLeft: 'pl-10',
+          wrapperClass: 'flex-1',
+        })}
         <button onclick="addFriendByName()" class="btn-primary px-3" aria-label="${t('addFriend')}">
           ${icon('user-plus', 'w-5 h-5')}
         </button>
@@ -125,18 +124,17 @@ export function renderFriends(state) {
         </h4>
 
         <!-- Ambassador search -->
-        <div class="relative mb-3">
-          <input
-            type="text"
-            placeholder="${t('searchByCity')}"
-            class="input-field w-full pl-10 text-sm"
-            id="ambassador-search"
-            value="${escapeHTML(ambassadorQuery)}"
-            oninput="searchAmbassadorsByCity(this.value)"
-            aria-label="${t('searchByCity')}"
-          />
-          ${icon('search', 'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
-        </div>
+        ${renderSearchInput({
+          id: 'ambassador-search',
+          placeholder: t('searchByCity'),
+          ariaLabel: t('searchByCity'),
+          value: escapeHTML(ambassadorQuery),
+          oninput: 'searchAmbassadorsByCity(this.value)',
+          inputClass: 'input-field w-full text-sm',
+          paddingLeft: 'pl-10',
+          iconSize: 'w-4 h-4',
+          wrapperClass: 'mb-3',
+        })}
 
         ${renderAmbassadorList(state)}
       </div>

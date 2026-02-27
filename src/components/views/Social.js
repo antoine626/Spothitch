@@ -6,6 +6,7 @@
 
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { renderSearchInput } from '../../utils/searchInput.js'
 // renderToggle removed — proximity radar is now "coming soon"
 import { escapeHTML } from '../../utils/sanitize.js'
 import { formatTime, formatRelativeTime, formatEventDate } from '../../utils/formatters.js'
@@ -170,16 +171,13 @@ function renderMessagerieTab(state) {
     <div class="flex-1 overflow-y-auto relative">
       <!-- Search bar -->
       <div class="px-4 pt-3 pb-2">
-        <div class="relative">
-          <input
-            type="text"
-            placeholder="${t('searchConversations') || 'Rechercher...'}"
-            class="input-field w-full pl-12 text-sm"
-            id="social-search"
-            aria-label="${t('searchConversations') || 'Rechercher'}"
-          />
-          ${icon('search', 'w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400')}
-        </div>
+        ${renderSearchInput({
+          id: 'social-search',
+          placeholder: t('searchConversations') || 'Rechercher...',
+          ariaLabel: t('searchConversations') || 'Rechercher',
+          inputClass: 'input-field w-full text-sm',
+          paddingLeft: 'pl-10',
+        })}
       </div>
 
       <!-- Online friends story circles -->

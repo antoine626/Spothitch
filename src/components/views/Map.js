@@ -6,6 +6,7 @@
 import { t } from '../../i18n/index.js';
 import { countryGuides } from '../../data/guides.js';
 import { icon } from '../../utils/icons.js'
+import { renderSearchInput } from '../../utils/searchInput.js'
 import { escapeJSString } from '../../utils/sanitize.js'
 
 // Build reverse lookup: country name (EN + local variants) → code
@@ -42,21 +43,20 @@ export function renderMap(state) {
     <div class="h-full flex flex-col relative" style="height: calc(100vh - 130px);">
       <!-- Search Bar -->
       <div class="absolute top-2 left-2 right-2 z-30 flex gap-2">
-        <div class="flex-1 relative">
-          <input
-            type="text"
-            id="map-search"
-            placeholder="${t('searchPlace') || 'Search a location...'}"
-            class="w-full pl-12 pr-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-colors"
-            oninput="searchMapSuggestions(this.value)"
-            onkeydown="if(event.key==='Enter') { searchLocation(this.value); hideSearchSuggestions(); }"
-            onfocus="if(this.value.length>=2) searchMapSuggestions(this.value)"
-            aria-label="${t('searchMapLocation') || 'Search a location on the map'}"
-            autocomplete="off"
-          />
-          ${icon('search', 'w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400')}
-          <div id="map-search-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>
-        </div>
+        ${renderSearchInput({
+          id: 'map-search',
+          placeholder: t('searchPlace') || 'Search a location...',
+          ariaLabel: t('searchMapLocation') || 'Search a location on the map',
+          oninput: 'searchMapSuggestions(this.value)',
+          onkeydown: "if(event.key==='Enter') { searchLocation(this.value); hideSearchSuggestions(); }",
+          onfocus: 'if(this.value.length>=2) searchMapSuggestions(this.value)',
+          inputClass: 'w-full pr-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-white placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-colors',
+          paddingLeft: 'pl-12',
+          iconLeft: 'left-4',
+          autocomplete: 'off',
+          wrapperClass: 'flex-1',
+          extraHTML: '<div id="map-search-suggestions" class="absolute top-full left-0 right-0 mt-1 z-50 hidden"></div>',
+        })}
         <button
           onclick="openFilters()"
           class="px-4 py-3 rounded-xl bg-dark-secondary/95 backdrop-blur border border-white/10 text-slate-400 hover:text-white hover:border-primary-500/50 transition-colors"
