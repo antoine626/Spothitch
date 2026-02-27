@@ -6,6 +6,7 @@
  */
 
 import { t, languageConfig } from '../i18n/index.js'
+import { renderToggle } from '../utils/toggle.js'
 import { getState } from '../stores/state.js'
 
 export function renderLanding() {
@@ -161,9 +162,7 @@ export function renderLanding() {
                 <div class="text-[17px] text-slate-200">⛽ ${t('onboardingCookiesFuel')}</div>
                 <div class="text-[14px] text-slate-500">${t('onboardingCookiesFuelDesc')}</div>
               </div>
-              <div class="w-10 h-[22px] rounded-full bg-emerald-600 relative flex-shrink-0" aria-label="${t('required')}">
-                <div class="w-[18px] h-[18px] rounded-full bg-white absolute top-[2px] right-[2px]"></div>
-              </div>
+              ${renderToggle(true, "", t('required') || 'Required')}
             </div>
             <!-- Analytics (toggleable) -->
             <div class="flex items-center justify-between py-3 border-b border-white/5">
@@ -172,10 +171,7 @@ export function renderLanding() {
                 <div class="text-[14px] text-slate-500">${t('onboardingCookiesCoffeeDesc')}</div>
               </div>
               <input type="checkbox" id="landing-cookie-analytics" class="hidden" checked>
-              <button type="button" onclick="toggleFormCheckbox('landing-cookie-analytics',this)" role="switch" aria-checked="true"
-                class="relative w-14 h-7 rounded-full transition-colors shrink-0 bg-emerald-500">
-                <span class="absolute top-0.5 right-0.5 w-6 h-6 rounded-full bg-white flex items-center justify-center text-sm shadow transition-all">👍</span>
-              </button>
+              ${renderToggle(true, "toggleFormToggle('landing-cookie-analytics')", t('onboardingCookiesCoffee') || 'Analytics cookies')}
             </div>
             <!-- Bug tracking (toggleable) -->
             <div class="flex items-center justify-between py-3">
@@ -184,10 +180,7 @@ export function renderLanding() {
                 <div class="text-[14px] text-slate-500">${t('onboardingCookiesMechanicDesc')}</div>
               </div>
               <input type="checkbox" id="landing-cookie-bugs" class="hidden" checked>
-              <button type="button" onclick="toggleFormCheckbox('landing-cookie-bugs',this)" role="switch" aria-checked="true"
-                class="relative w-14 h-7 rounded-full transition-colors shrink-0 bg-emerald-500">
-                <span class="absolute top-0.5 right-0.5 w-6 h-6 rounded-full bg-white flex items-center justify-center text-sm shadow transition-all">👍</span>
-              </button>
+              ${renderToggle(true, "toggleFormToggle('landing-cookie-bugs')", t('onboardingCookiesMechanic') || 'Bug tracking cookies')}
             </div>
           </div>
           <p class="text-[14px] text-slate-600 mt-4">${t('onboardingCookiesNoPub')}</p>

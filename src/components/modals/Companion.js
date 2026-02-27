@@ -17,6 +17,7 @@
 
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { renderToggle } from '../../utils/toggle.js'
 import { getState } from '../../stores/state.js'
 import {
   getCompanionState,
@@ -312,10 +313,7 @@ function renderSetupView(companion) {
             <p class="text-xs text-slate-400">${t('notifyOnDepartureDesc') || 'Sends "I am starting my trip" on start'}</p>
           </div>
           <input type="checkbox" id="companion-notify-departure" class="hidden" ${companion.notifyOnDeparture !== false ? 'checked' : ''}>
-          <button type="button" onclick="toggleFormCheckbox('companion-notify-departure',this)" role="switch" aria-checked="${companion.notifyOnDeparture !== false}"
-            class="relative w-14 h-7 rounded-full transition-colors shrink-0 ${companion.notifyOnDeparture !== false ? 'bg-emerald-500' : 'bg-slate-600'}">
-            <span class="absolute top-0.5 ${companion.notifyOnDeparture !== false ? 'right-0.5' : 'left-0.5'} w-6 h-6 rounded-full bg-white flex items-center justify-center text-sm shadow transition-all">${companion.notifyOnDeparture !== false ? '👍' : '👎'}</span>
-          </button>
+          ${renderToggle(companion.notifyOnDeparture !== false, "toggleFormToggle('companion-notify-departure')", t('notifyOnDeparture') || 'Notify guardian on departure')}
         </label>
 
         <!-- Arrival toggle (#25) -->
@@ -325,10 +323,7 @@ function renderSetupView(companion) {
             <p class="text-xs text-slate-400">${t('notifyOnArrivalDesc') || 'Sends "I arrived safely" on stop'}</p>
           </div>
           <input type="checkbox" id="companion-notify-arrival" class="hidden" ${companion.notifyOnArrival !== false ? 'checked' : ''}>
-          <button type="button" onclick="toggleFormCheckbox('companion-notify-arrival',this)" role="switch" aria-checked="${companion.notifyOnArrival !== false}"
-            class="relative w-14 h-7 rounded-full transition-colors shrink-0 ${companion.notifyOnArrival !== false ? 'bg-emerald-500' : 'bg-slate-600'}">
-            <span class="absolute top-0.5 ${companion.notifyOnArrival !== false ? 'right-0.5' : 'left-0.5'} w-6 h-6 rounded-full bg-white flex items-center justify-center text-sm shadow transition-all">${companion.notifyOnArrival !== false ? '👍' : '👎'}</span>
-          </button>
+          ${renderToggle(companion.notifyOnArrival !== false, "toggleFormToggle('companion-notify-arrival')", t('notifyOnArrival') || 'Notify guardian on arrival')}
         </label>
       </div>
 
