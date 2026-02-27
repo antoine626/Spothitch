@@ -860,3 +860,54 @@ describe('Integration: State flag toggles', () => {
     })
   }
 })
+
+// ===============================================================
+// Integration: FeedbackPanel
+// ===============================================================
+describe('Integration: FeedbackPanel', () => {
+  it('opens with showFeedbackPanel flag', () => {
+    setState({ showFeedbackPanel: true, feedbackActiveTab: 'carte', feedbackDetailFeature: null })
+    const { renderFeedbackPanel } = require('../../src/components/modals/FeedbackPanel.js')
+    const html = renderFeedbackPanel(getState())
+    expect(html).toBeTruthy()
+    expect(html).toContain('closeFeedbackPanel')
+  })
+
+  it('renders tabs for all 5 categories', () => {
+    setState({ showFeedbackPanel: true, feedbackActiveTab: 'carte', feedbackDetailFeature: null })
+    const { renderFeedbackPanel } = require('../../src/components/modals/FeedbackPanel.js')
+    const html = renderFeedbackPanel(getState())
+    expect(html).toContain('setFeedbackTab')
+    // Should contain all 5 tab IDs
+    expect(html).toContain("setFeedbackTab('carte')")
+    expect(html).toContain("setFeedbackTab('voyage')")
+    expect(html).toContain("setFeedbackTab('social')")
+    expect(html).toContain("setFeedbackTab('profil')")
+    expect(html).toContain("setFeedbackTab('securite')")
+  })
+
+  it('renders feature list for active tab', () => {
+    setState({ showFeedbackPanel: true, feedbackActiveTab: 'securite', feedbackDetailFeature: null })
+    const { renderFeedbackPanel } = require('../../src/components/modals/FeedbackPanel.js')
+    const html = renderFeedbackPanel(getState())
+    expect(html).toContain('openFeedbackDetail')
+    expect(html).toContain('sec-sos')
+  })
+
+  it('renders detail view when feedbackDetailFeature is set', () => {
+    setState({ showFeedbackPanel: true, feedbackActiveTab: 'carte', feedbackDetailFeature: 'map-interactive' })
+    const { renderFeedbackPanel } = require('../../src/components/modals/FeedbackPanel.js')
+    const html = renderFeedbackPanel(getState())
+    expect(html).toContain('closeFeedbackDetail')
+    expect(html).toContain('toggleFeedbackReaction')
+    expect(html).toContain('submitFeedback')
+  })
+
+  it('closes with closeFeedbackPanel', () => {
+    setState({ showFeedbackPanel: true })
+    expect(getState().showFeedbackPanel).toBe(true)
+    setState({ showFeedbackPanel: false, feedbackDetailFeature: null })
+    expect(getState().showFeedbackPanel).toBe(false)
+    expect(getState().feedbackDetailFeature).toBeNull()
+  })
+})

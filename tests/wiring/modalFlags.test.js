@@ -40,6 +40,7 @@ import { renderDeleteAccountModal } from '../../src/components/modals/DeleteAcco
 import { renderEmailVerification } from '../../src/components/modals/EmailVerification.js'
 import { renderLocationPermission } from '../../src/components/modals/LocationPermission.js'
 import { renderLanguageSelector } from '../../src/components/modals/LanguageSelector.js'
+import { renderFeedbackPanel } from '../../src/components/modals/FeedbackPanel.js'
 
 // Landing
 import { renderLanding } from '../../src/components/Landing.js'
@@ -425,6 +426,15 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
     expect(html.length).toBeGreaterThan(100)
     expect(html).toContain('closeValidateSpot')
     expect(html).toContain('submitValidation')
+  })
+
+  test('showFeedbackPanel flag renders FeedbackPanel', () => {
+    const state = { ...mockState, showFeedbackPanel: true, feedbackActiveTab: 'carte', feedbackDetailFeature: null }
+    const html = renderFeedbackPanel(state)
+    expect(html).toBeTruthy()
+    expect(html.length).toBeGreaterThan(100)
+    expect(html).toContain('closeFeedbackPanel')
+    expect(html).toContain('setFeedbackTab')
   })
 })
 

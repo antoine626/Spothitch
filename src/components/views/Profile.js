@@ -1775,25 +1775,17 @@ window.toggleNotifications = () => {
   )
 }
 
-window.toggleProximityAlertsSetting = async () => {
-  const state = window.getState?.() || {}
-  const newValue = state.proximityAlerts === false ? true : false
-  window.setState?.({ proximityAlerts: newValue })
-  try {
-    const { initProximityAlerts, stopProximityAlerts } = await import('../../services/proximityAlerts.js')
-    if (newValue) {
-      initProximityAlerts()
-    } else {
-      stopProximityAlerts()
-    }
-  } catch (e) {
-    console.warn('[Profile] Proximity alerts toggle failed:', e)
-  }
-  window.showToast?.(
-    newValue ? (t('proximityAlertsEnabled') || 'Alertes de proximité activées') : (t('proximityAlertsDisabled') || 'Alertes de proximité désactivées'),
-    'info'
-  )
-  window._forceRender?.()
+window.toggleProximityAlertsSetting = () => {
+  // Open "Coming Soon" popup instead of toggling
+  window.setState?.({ showComingSoonProximity: true })
+}
+
+window.openComingSoonProximity = () => {
+  window.setState?.({ showComingSoonProximity: true })
+}
+
+window.closeComingSoonProximity = () => {
+  window.setState?.({ showComingSoonProximity: false })
 }
 
 window.editAvatar = () => {

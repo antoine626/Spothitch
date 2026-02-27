@@ -90,6 +90,7 @@ const _lazyLoaders = {
   renderLocationPermission: () => import('./modals/LocationPermission.js'),
   renderInstallBanner: () => import('../utils/pwa.js'),
   renderLanguageSelector: () => import('./modals/LanguageSelector.js'),
+  renderFeedbackPanel: () => import('./modals/FeedbackPanel.js'),
 }
 
 // Lazy-loaded module cache
@@ -376,6 +377,22 @@ export function renderApp(state) {
       ],
     }) : ''}
 
+    <!-- Coming Soon: Proximity Alerts (Settings toggle) -->
+    ${state.showComingSoonProximity ? renderComingSoonModal({
+      onClose: 'closeComingSoonProximity',
+      icon: 'map-pin',
+      iconColor: 'text-emerald-400',
+      iconBg: 'bg-emerald-500/20',
+      borderColor: 'border-emerald-500/30',
+      title: t('comingSoonProximityTitle') || 'Alertes spot proche',
+      items: [
+        { ic: 'bell', text: t('comingSoonProximityF1') || 'Notification quand tu passes près d\'un spot bien noté' },
+        { ic: 'settings', text: t('comingSoonProximityF2') || 'Rayon personnalisable (500m à 5km)' },
+        { ic: 'battery-charging', text: t('comingSoonProximityF3') || 'Économie de batterie — GPS intelligent' },
+        { ic: 'compass', text: t('comingSoonProximityF4') || 'Actif uniquement en mode voyage' },
+      ],
+    }) : ''}
+
     <!-- Trip History Modal -->
     ${state.showTripHistory ? `
       <div class="fixed inset-0 z-50 bg-black/90 overflow-y-auto" role="dialog" aria-modal="true" onclick="if(event.target===this)closeTripHistory()">
@@ -448,6 +465,18 @@ export function renderApp(state) {
 
     <!-- Cookie Banner (RGPD) - hidden during tutorial, landing, and map-first Voyage view -->
     ${!state.showTutorial && !state.showLanding && !isVoyageMapFirst ? renderCookieBanner() : ''}
+
+    <!-- Feedback Side Tab (hidden during SOS, landing, tutorial, full-screen modals) -->
+    ${!state.showSOS && !state.showLanding && !state.showTutorial && !state.showFeedbackPanel ? `
+      <button onclick="openFeedbackPanel()"
+        class="fixed right-0 top-1/2 -translate-y-1/2 z-30 bg-primary-500/90 hover:bg-primary-500 text-white px-1.5 py-3 rounded-l-xl shadow-lg shadow-primary-500/20 border border-r-0 border-primary-400/30 transition-all writing-vertical-rl"
+        aria-label="${t('fbSideTab') || 'Avis'}">
+        <span class="text-xs font-bold tracking-wider">${t('fbSideTab') || 'Avis'}</span>
+      </button>
+    ` : ''}
+
+    <!-- Feedback Panel -->
+    ${state.showFeedbackPanel ? lazyRender('renderFeedbackPanel', state) : ''}
   `
 
   // Landing overlay for first-time visitors (map loads behind it)

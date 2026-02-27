@@ -401,6 +401,12 @@ const MAIN_JS_HANDLERS = [
   'exportUserData', 'shareLink', 'generateShareUrl',
   'openInGoogleMaps', 'openInWaze', 'openInAppleMaps', 'openInNativeMaps',
   'selectNavigationApp', 'closeNavigationPicker',
+  // Feedback Panel (session 2026-02-27)
+  'openFeedbackPanel', 'closeFeedbackPanel',
+  'setFeedbackTab', 'openFeedbackDetail', 'closeFeedbackDetail',
+  'toggleFeedbackReaction', 'submitFeedback',
+  // Coming Soon Proximity (session 2026-02-27)
+  'openComingSoonProximity', 'closeComingSoonProximity',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

@@ -278,6 +278,12 @@ const initialState = {
   showConsentSettings: false,
   showDeleteAccount: false,
 
+  // Feedback Panel
+  showFeedbackPanel: false,
+  feedbackActiveTab: 'carte',
+  feedbackDetailFeature: null,
+  showComingSoonProximity: false,
+
   // AddSpot wizard
   addSpotStep: 1,
   addSpotType: null,

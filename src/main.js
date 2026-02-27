@@ -738,6 +738,8 @@ function setupKeyboardShortcuts() {
         showLeaderboard: false,
         showDonation: false,
         showCompanionModal: false,
+        showFeedbackPanel: false,
+        feedbackDetailFeature: null,
         selectedSpot: null,
       });
     }
@@ -1943,6 +1945,10 @@ window.openBugReport = () => {
   setState({ showContactForm: true });
   showToast(t('bugReportHint') || 'Décris le problème rencontré', 'info');
 };
+
+// Feedback Panel
+window.openFeedbackPanel = () => setState({ showFeedbackPanel: true })
+window.closeFeedbackPanel = () => setState({ showFeedbackPanel: false, feedbackDetailFeature: null })
 window.openContactForm = () => {
   setState({ showContactForm: true });
 };
