@@ -792,7 +792,8 @@ window.toggleTheme = () => {
   const s = getState()
   const newTheme = s.theme === 'dark' ? 'light' : 'dark'
   setState({ theme: newTheme })
-  document.documentElement.classList.toggle('dark', newTheme === 'dark')
+  document.body.classList.toggle('light-theme', newTheme === 'light')
+  localStorage.setItem('spothitch_theme', newTheme)
 }
 window.setViewMode = (mode) => {
   setState({ viewMode: mode });
