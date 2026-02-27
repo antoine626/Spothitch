@@ -11,9 +11,10 @@
  * and color — no Tailwind utility conflicts.
  * overflow-hidden on the container ensures the dot never
  * visually escapes.
- * onclick immediately toggles 'toggle-on' class -> instant
- * visual feedback, then calls the real handler after 30ms so
- * the animation plays first.
+ *
+ * Uses a handler registry to avoid inline JS interpolation
+ * (CodeQL: improper code sanitization). Handlers are stored
+ * in a Map and executed via a global delegated click handler.
  *
  * Variants:
  *   renderToggle()        — standard size (44x24)
@@ -22,15 +23,13 @@
  * For form toggles that also control a hidden checkbox, use
  * the handler: "toggleFormToggle('checkboxId')"
  * ============================================================
- *
- * @param {boolean} isOn - Current toggle state
- * @param {string} handler - onclick handler string (e.g. "toggleTheme()")
- * @param {string} label - Accessibility aria-label
- * @returns {string} HTML string
  */
 
+// Handler registry — maps toggle IDs to handler strings
+const _handlers = new Map()
+let _nextId = 0
+
 // Sanitize a string for safe use in an HTML attribute context
-// Escapes &, <, >, ", ' to prevent attribute injection (CodeQL: improper code sanitization)
 function escapeAttr(str) {
   if (!str || typeof str !== 'string') return ''
   return str
@@ -41,12 +40,28 @@ function escapeAttr(str) {
     .replace(/'/g, '&#39;')
 }
 
+// Global delegated handler — called from onclick with the toggle element
+// Reads the handler ID from data-tid, looks up the registered handler,
+// and executes it after a 30ms delay (so CSS animation plays first).
+window._toggleExec = (el) => {
+  el.classList.toggle('toggle-on')
+  const on = el.classList.contains('toggle-on')
+  el.setAttribute('aria-checked', on)
+  const tid = el.dataset.tid
+  const handler = _handlers.get(tid)
+  if (handler) {
+    setTimeout(() => {
+      // handler is always developer-controlled (never user input)
+      new Function(handler)()
+    }, 30)
+  }
+}
+
 export function renderToggle(isOn, handler, label) {
   const safeLabel = escapeAttr(label)
-  // handler is always developer-controlled code (never user input),
-  // but we sanitize to prevent accidental attribute breakout
-  const safeHandler = escapeAttr(handler)
-  return `<button onclick="this.classList.toggle('toggle-on');this.setAttribute('aria-checked',this.classList.contains('toggle-on'));setTimeout(()=>{${safeHandler}},30)" role="switch" aria-checked="${isOn}" aria-label="${safeLabel}"
+  const tid = `t${_nextId++}`
+  _handlers.set(tid, handler)
+  return `<button onclick="window._toggleExec(this)" data-tid="${tid}" role="switch" aria-checked="${isOn}" aria-label="${safeLabel}"
     class="spothitch-toggle relative w-[44px] h-[24px] rounded-xl shrink-0 border-2 overflow-hidden ${isOn ? 'toggle-on' : ''}"
     style="outline:none">
     <span class="spothitch-toggle-dot absolute top-[4px] left-[2px] w-4 h-4 rounded-full"></span>
@@ -63,8 +78,9 @@ export function renderToggle(isOn, handler, label) {
  */
 export function renderToggleCompact(isOn, handler, label) {
   const safeLabel = escapeAttr(label)
-  const safeHandler = escapeAttr(handler)
-  return `<button onclick="this.classList.toggle('toggle-on');this.setAttribute('aria-checked',this.classList.contains('toggle-on'));setTimeout(()=>{${safeHandler}},30)" role="switch" aria-checked="${isOn}" aria-label="${safeLabel}"
+  const tid = `t${_nextId++}`
+  _handlers.set(tid, handler)
+  return `<button onclick="window._toggleExec(this)" data-tid="${tid}" role="switch" aria-checked="${isOn}" aria-label="${safeLabel}"
     class="spothitch-toggle spothitch-toggle-compact relative w-[38px] h-[20px] rounded-lg shrink-0 border-2 overflow-hidden ${isOn ? 'toggle-on' : ''}"
     style="outline:none">
     <span class="spothitch-toggle-dot absolute top-[3px] left-[2px] w-3.5 h-3.5 rounded-full"></span>
