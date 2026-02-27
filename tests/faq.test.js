@@ -41,8 +41,8 @@ describe('FAQ Component', () => {
       const state = { faqSearchQuery: '' };
       const html = renderFAQ(state);
 
-      expect(html).toContain('searchFAQ');
       expect(html).toContain('id="faq-search"');
+      expect(html).toContain('filterFAQ');
     });
 
     it('should render quick links for categories', () => {

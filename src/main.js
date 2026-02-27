@@ -1756,6 +1756,21 @@ window.startTeamChallengeAction = async (...args) => {
   return startTeamChallenge(...args)
 }
 
+// Report / moderation handlers (moderation.js is lazy-loaded)
+if (!window.openReport) {
+  window.openReport = async (type, targetId) => {
+    const mod = await import('./services/moderation.js')
+    mod.renderReportModal // ensure module side-effects run (registers window.openReport)
+    window.openReport(type, targetId)
+  }
+}
+if (!window.closeReport) {
+  window.closeReport = () => setState({
+    showReport: false, reportType: null,
+    reportTargetId: null, selectedReportReason: null,
+  })
+}
+
 // Travel groups handlers
 window.openTravelGroups = () => setState({ activeTab: 'travel-groups' })
 window.openCreateTravelGroup = () => setState({ showCreateTravelGroup: true })
