@@ -5,6 +5,7 @@
 
 import { t } from '../../../i18n/index.js'
 import { icon } from '../../../utils/icons.js'
+import { renderEmptyState } from '../../EmptyState.js'
 import { escapeHTML } from '../../../utils/sanitize.js'
 import { formatTime, formatRelativeTime } from '../../../utils/formatters.js'
 import { renderSkeletonChatList } from '../../ui/Skeleton.js'
@@ -149,13 +150,7 @@ function renderConversationList(state) {
         </button>
       </div>
 
-      ${allConversations.length === 0 ? `
-        <div class="text-center py-12">
-          <span class="text-5xl mb-4 block">💬</span>
-          <h3 class="text-lg font-bold mb-2">${t('noConversationsYet')}</h3>
-          <p class="text-slate-400 text-sm">${t('addFriendsToChat')}</p>
-        </div>
-      ` : ''}
+      ${allConversations.length === 0 ? renderEmptyState('conversations') : ''}
     </div>
   `
 }

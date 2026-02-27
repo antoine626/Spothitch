@@ -5,6 +5,7 @@
 
 import { t } from '../../../i18n/index.js'
 import { icon } from '../../../utils/icons.js'
+import { renderEmptyState } from '../../EmptyState.js'
 // renderToggle removed — proximity radar is now "coming soon"
 import { escapeHTML } from '../../../utils/sanitize.js'
 import { formatRelativeTime, formatEventDate } from '../../../utils/formatters.js'
@@ -89,17 +90,7 @@ function renderFeedContent(state, filter) {
   })
 
   if (feedItems.length === 0) {
-    return `
-      <div class="text-center py-16">
-        <span class="text-5xl mb-4 block">📰</span>
-        <h3 class="text-lg font-bold mb-2">${t('noFeedActivity')}</h3>
-        <p class="text-slate-400 text-sm mb-4">${t('noFeedActivityDesc')}</p>
-        <button onclick="setSocialTab('friends')" class="btn-primary">
-          ${icon('user-plus', 'w-5 h-5 mr-1')}
-          ${t('addFriend')}
-        </button>
-      </div>
-    `
+    return renderEmptyState('feed')
   }
 
   return feedItems.map(item => {

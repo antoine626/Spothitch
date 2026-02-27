@@ -7,6 +7,7 @@ import { t } from '../../i18n/index.js'
 import { renderDonationCard } from '../ui/DonationCard.js'
 import { renderTrustScoreCard } from '../../services/trustScore.js'
 import { icon } from '../../utils/icons.js'
+import { renderEmptyState } from '../EmptyState.js'
 import { renderToggle } from '../../utils/toggle.js'
 import { getVipLevel } from '../../data/vip-levels.js'
 import { allBadges } from '../../data/badges.js'
@@ -380,7 +381,7 @@ function renderReferencesCard(_state) {
               </div>
             `).join('')}
           </div>`
-        : `<p class="text-xs text-slate-500 italic">${t('noReferencesYet') || 'Pas encore de références — voyage avec quelqu\'un pour en recevoir !'}</p>`
+        : renderEmptyState('references', { compact: true })
       }
     </div>
   `
@@ -511,18 +512,7 @@ function renderPublicTripsCard(state) {
               </div>
             `).join('')}
           </div>`
-        : `<div class="text-center py-3">
-            <p class="text-xs text-slate-500 italic mb-2">${t('noTripsYet') || 'Aucun voyage encore — commence !'}</p>
-            <div class="flex justify-center gap-3">
-              <button onclick="changeTab('challenges')" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 py-2">
-                ${icon('route', 'w-3 h-3')} ${t('planTrip') || 'Planifier'}
-              </button>
-              <span class="text-slate-600">·</span>
-              <button onclick="openAddPastTrip()" class="text-xs text-primary-400 hover:text-primary-300 flex items-center gap-1 py-2">
-                ${icon('plus', 'w-3 h-3')} ${t('addPastTripShort') || 'Ajouter passé'}
-              </button>
-            </div>
-          </div>`
+        : renderEmptyState('trips', { compact: true })
       }
     </div>
   `
@@ -750,12 +740,7 @@ function renderMySpotsList(state) {
         📍 ${t('myCreatedSpots') || 'Mes spots créés'} (${count})
       </h2>
       ${count === 0
-        ? `<div class="card p-6 text-center">
-            <p class="text-slate-400 text-sm mb-3">${t('noSpotsCreated') || "Tu n'as pas encore créé de spot"}</p>
-            <button onclick="closeProfileDetail(); setTimeout(openAddSpot, 100)" class="text-xs text-primary-400 hover:text-primary-300">
-              ${icon('plus', 'w-3 h-3 mr-1 inline-block')} ${t('addFirstSpot') || 'Créer ton premier spot'}
-            </button>
-          </div>`
+        ? renderEmptyState('mySpots', { compact: true })
         : `<div class="space-y-2">
             ${mockSpots.map(s => `
               <div class="card p-3 flex items-center gap-3">

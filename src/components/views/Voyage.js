@@ -5,6 +5,7 @@
 
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { renderEmptyState } from '../EmptyState.js'
 import { renderToggle, renderToggleCompact } from '../../utils/toggle.js'
 // Use the full Guides.js component (6 sections with vote/suggest)
 import { renderGuides } from './Guides.js'
@@ -611,13 +612,7 @@ function renderSavedTripsPreview(_state) {
   const savedTrips = getSavedTrips()
   const notCompleted = savedTrips.filter(t => !t.completed)
   if (notCompleted.length === 0) {
-    return `
-    <div class="card p-6 text-center">
-      ${icon('route', 'w-10 h-10 text-slate-600 mb-3')}
-      <p class="text-slate-400">${t('noSavedTrips') || 'Aucun voyage sauvegardé'}</p>
-      <p class="text-sm text-slate-400 mt-1">${t('planFirstTrip') || 'Planifie ton premier voyage !'}</p>
-    </div>
-  `
+    return renderEmptyState('trips', { compact: true })
   }
   return `
     <div class="space-y-2">
@@ -800,21 +795,7 @@ function renderMesVoyages() {
   const completedTrips = savedTrips.filter(t => t.completed)
 
   if (completedTrips.length === 0) {
-    return `
-      <div class="card p-8 text-center">
-        ${icon('route', 'w-12 h-12 text-slate-700 mb-3')}
-        <p class="text-slate-400">${t('voyageNoPastTrips') || 'Aucun voyage terminé'}</p>
-        <div class="flex justify-center gap-3 mt-4">
-          <button onclick="setVoyageSubTab('voyage')" class="text-sm text-primary-400 hover:text-primary-300 flex items-center gap-1">
-            ${icon('route', 'w-4 h-4')} ${t('planTrip') || 'Planifier un voyage'}
-          </button>
-          <span class="text-slate-600">&middot;</span>
-          <button onclick="openAddPastTrip()" class="text-sm text-primary-400 hover:text-primary-300 flex items-center gap-1">
-            ${icon('plus', 'w-4 h-4')} ${t('addPastTripShort') || 'Ajouter passé'}
-          </button>
-        </div>
-      </div>
-    `
+    return renderEmptyState('pastTrips')
   }
 
   return `
@@ -901,14 +882,7 @@ function renderMesVoyages() {
 }
 
 function renderAmisTab() {
-  // For now, show empty state — real friend trips would require social features
-  return `
-    <div class="card p-8 text-center">
-      ${icon('users', 'w-12 h-12 text-slate-700 mb-3')}
-      <p class="text-slate-400 font-medium">${t('voyageNoFriendTrips') || "Aucun ami n'a partagé de voyage"}</p>
-      <p class="text-xs text-slate-500 mt-1 max-w-xs mx-auto">${t('voyageNoFriendTripsHint') || "Quand tes amis rendront leur voyage public, tu pourras le voir ici."}</p>
-    </div>
-  `
+  return renderEmptyState('friendTrips')
 }
 
 function renderTripDetail(state, tripIndex) {

@@ -6,6 +6,7 @@
 
 import { t } from '../../i18n/index.js'
 import { icon } from '../../utils/icons.js'
+import { renderEmptyState } from '../EmptyState.js'
 import { renderSearchInput } from '../../utils/searchInput.js'
 // renderToggle removed — proximity radar is now "coming soon"
 import { escapeHTML } from '../../utils/sanitize.js'
@@ -329,17 +330,7 @@ function renderMessagerieTab(state) {
         </button>
       </div>
 
-      ${allConversations.length === 0 && friends.length === 0 ? `
-        <div class="text-center py-12">
-          <span class="text-5xl mb-4 block">💬</span>
-          <h3 class="text-lg font-bold mb-2">${t('noConversationsYet')}</h3>
-          <p class="text-slate-400 text-sm mb-4">${t('addFriendsToChat')}</p>
-          <button onclick="showAddFriend()" class="btn-primary">
-            ${icon('user-plus', 'w-5 h-5 mr-1')}
-            ${t('addFriend')}
-          </button>
-        </div>
-      ` : ''}
+      ${allConversations.length === 0 && friends.length === 0 ? renderEmptyState('conversations') : ''}
 
       <!-- FAB: New message -->
       <button
@@ -406,13 +397,7 @@ function renderEvenementsTab(state) {
           </div>
         ` : ''}
 
-        ${filteredEvents.length === 0 && (eventFilter !== 'all' || activities.length === 0) ? `
-          <div class="text-center py-16">
-            <span class="text-5xl mb-4 block">📅</span>
-            <h3 class="text-lg font-bold mb-2">${t('noUpcomingEvents') || 'Aucun événement'}</h3>
-            <p class="text-slate-400 text-sm mb-4">${t('createFirstEvent') || 'Crée le premier événement !'}</p>
-          </div>
-        ` : ''}
+        ${filteredEvents.length === 0 && (eventFilter !== 'all' || activities.length === 0) ? renderEmptyState('events') : ''}
       </div>
 
       <!-- FAB: Create event -->
@@ -557,13 +542,7 @@ function renderZoneChatOverlay(state) {
     ? renderSkeletonChatList(6)
     : messages.length > 0
       ? messages.slice(-50).map(msg => renderZoneMessage(msg, state)).join('')
-      : `
-            <div class="text-center py-12">
-              <span class="text-5xl mb-4 block">💬</span>
-              <h3 class="text-lg font-bold mb-2">${t('noChatMessages')}</h3>
-              <p class="text-slate-400 text-sm">${t('beFirstToWrite')}</p>
-            </div>
-          `}
+      : renderEmptyState('chat', { compact: true })}
       </div>
 
       <div class="p-3 glass-dark">
@@ -702,12 +681,7 @@ function renderCompanionSearch(state) {
 function renderCompanionRequests(state) {
   const requests = state.companionRequests || []
   if (requests.length === 0) {
-    return `
-      <div class="text-center py-6">
-        <span class="text-4xl mb-3 block">🤝</span>
-        <p class="text-sm text-slate-400">${t('noCompanionRequests')}</p>
-      </div>
-    `
+    return renderEmptyState('companion', { compact: true })
   }
 
   const durationLabels = {
