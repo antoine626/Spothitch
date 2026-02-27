@@ -599,8 +599,8 @@ test.describe('Profile — Settings', () => {
     await page.evaluate(() => window.setProfileSubTab?.('reglages'))
     await page.waitForTimeout(300)
     const html = await page.evaluate(() => document.body.innerHTML)
-    // Profile should have a theme toggle somewhere (button or switch)
-    expect(html).toMatch(/toggleTheme|theme|Thème|Theme/i)
+    // Profile should have a theme toggle (spothitch-toggle with dark mode label)
+    expect(html).toMatch(/spothitch-toggle|darkMode|Mode sombre|Dark mode|Dunkelmodus/i)
   })
 })
 
