@@ -331,14 +331,14 @@ function renderVerificationCard(state) {
       <div class="flex gap-2">
         ${steps.map((s, i) => `
           <div class="flex-1 flex flex-col items-center gap-1.5 ${i === 2 && !s.done ? 'cursor-pointer' : ''}"
-            ${i === 2 && !s.done ? 'onclick="openComingSoonIdentity()"' : ''}>
+            ${i === 2 && !s.done ? 'onclick="openComingSoonIdentity()" role="button" tabindex="0"' : ''}>
             <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
               s.done ? 'bg-emerald-500 text-white' : i === level ? 'bg-primary-500/20 border-2 border-primary-500/50 text-primary-400' : 'bg-white/5 text-slate-600'
             }">
               ${s.done ? icon('check', 'w-4 h-4') : (i + 1)}
             </div>
             <span class="text-[10px] text-center leading-tight ${s.done ? 'text-emerald-400' : 'text-slate-500'}">${s.label}</span>
-            ${i === 2 && !s.done ? `<span class="text-[9px] text-amber-400">${t('comingSoon') || 'À venir'}</span>` : ''}
+            ${i === 2 && !s.done ? `<span class="text-[10px] text-amber-400">${t('comingSoon') || 'À venir'}</span>` : ''}
           </div>
         `).join('')}
       </div>

@@ -698,7 +698,7 @@ function renderCompanionRequests(state) {
       ${requests.map(req => `
         <div class="card p-4">
           <!-- Profile header (clickable) -->
-          <button onclick="openFriendProfile('${escapeHTML(req.userId)}')" class="flex items-center gap-3 mb-3 w-full text-left">
+          <button onclick="showFriendProfile('${escapeHTML(req.userId)}')" class="flex items-center gap-3 mb-3 w-full text-left">
             <span class="text-2xl">${req.avatar || '🤙'}</span>
             <div class="flex-1 min-w-0">
               <div class="font-medium text-sm truncate">${escapeHTML(req.name || '')}</div>
