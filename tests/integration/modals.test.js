@@ -245,7 +245,9 @@ describe('Integration: Filters Modal', () => {
 
   it('has verified toggle', () => {
     const html = renderFiltersModal()
-    expect(html).toContain('toggleVerifiedFilter')
+    // Toggle handler is now in registry (data-tid), check for the toggle element
+    expect(html).toContain('spothitch-toggle')
+    expect(html).toContain('_toggleExec')
   })
 
   it('closes with closeFilters', () => {
