@@ -3109,15 +3109,29 @@ textarea[aria-invalid="true"] {
 }
 
 @keyframes pulse-soft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
 }
 .animate-pulse-soft {
-  animation: pulse-soft 2s ease-in-out infinite;
+  animation: pulse-soft 4s ease-in-out infinite;
+}
+
+@keyframes slidePanelIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.slide-panel-in {
+  animation: slidePanelIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-pulse-soft {
+  .animate-pulse-soft,
+  .slide-panel-in {
     animation: none;
   }
 }

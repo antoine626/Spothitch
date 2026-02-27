@@ -1,73 +1,74 @@
 /**
  * Feedback Panel — Side sliding panel for user feedback on features
- * 30 features organized by 5 tabs, multi-select reactions, Firebase sync
+ * Design: matches design-mockups/feedback6-final.html exactly
+ * 31 features organized by 5 tabs, multi-select reactions, Firebase sync
  */
 
 import { getState, setState } from '../../stores/state.js'
 import { t } from '../../i18n/index.js'
-import { icon } from '../../utils/icons.js'
-import { escapeHTML } from '../../utils/sanitize.js'
+import { escapeHTML, escapeJSString } from '../../utils/sanitize.js'
 
 // ==================== FEATURE DEFINITIONS ====================
 // IDs are stable — never change after deploy (stored in localStorage/Firebase)
 
 const FEATURES = {
   carte: [
-    { id: 'map-interactive', emoji: '🗺️', nameKey: 'fbFeatMapInteractive', descKey: 'fbDescMapInteractive', status: 'available' },
-    { id: 'map-clustering', emoji: '📍', nameKey: 'fbFeatMapClustering', descKey: 'fbDescMapClustering', status: 'available' },
-    { id: 'map-search', emoji: '🔍', nameKey: 'fbFeatMapSearch', descKey: 'fbDescMapSearch', status: 'available' },
-    { id: 'map-gps', emoji: '📡', nameKey: 'fbFeatMapGps', descKey: 'fbDescMapGps', status: 'available' },
-    { id: 'map-offline', emoji: '📴', nameKey: 'fbFeatMapOffline', descKey: 'fbDescMapOffline', status: 'coming' },
-    { id: 'map-filters', emoji: '🎛️', nameKey: 'fbFeatMapFilters', descKey: 'fbDescMapFilters', status: 'available' },
+    { id: 'search-city', emoji: '🔍', nameKey: 'fbFeatSearchCity', descKey: 'fbDescSearchCity', longDescKey: 'fbLongSearchCity', status: 'available' },
+    { id: 'filters', emoji: '⚙️', nameKey: 'fbFeatFilters', descKey: 'fbDescFilters', longDescKey: 'fbLongFilters', status: 'available' },
+    { id: 'create-spot', emoji: '📍', nameKey: 'fbFeatCreateSpot', descKey: 'fbDescCreateSpot', longDescKey: 'fbLongCreateSpot', status: 'available' },
+    { id: 'route', emoji: '🗺️', nameKey: 'fbFeatRoute', descKey: 'fbDescRoute', longDescKey: 'fbLongRoute', status: 'available' },
+    { id: 'gas-stations', emoji: '⛽', nameKey: 'fbFeatGasStations', descKey: 'fbDescGasStations', longDescKey: 'fbLongGasStations', status: 'available' },
+    { id: 'spot-detail', emoji: '📊', nameKey: 'fbFeatSpotDetail', descKey: 'fbDescSpotDetail', longDescKey: 'fbLongSpotDetail', status: 'available' },
+    { id: 'offline-map', emoji: '📶', nameKey: 'fbFeatOfflineMap', descKey: 'fbDescOfflineMap', longDescKey: 'fbLongOfflineMap', status: 'coming' },
+    { id: 'en-route', emoji: '👁️', nameKey: 'fbFeatEnRoute', descKey: 'fbDescEnRoute', longDescKey: 'fbLongEnRoute', status: 'coming' },
+    { id: 'city-pages', emoji: '🏙️', nameKey: 'fbFeatCityPages', descKey: 'fbDescCityPages', longDescKey: 'fbLongCityPages', status: 'coming' },
   ],
   voyage: [
-    { id: 'trip-planner', emoji: '🧭', nameKey: 'fbFeatTripPlanner', descKey: 'fbDescTripPlanner', status: 'available' },
-    { id: 'trip-spots', emoji: '📌', nameKey: 'fbFeatTripSpots', descKey: 'fbDescTripSpots', status: 'available' },
-    { id: 'trip-gas', emoji: '⛽', nameKey: 'fbFeatTripGas', descKey: 'fbDescTripGas', status: 'available' },
-    { id: 'trip-journal', emoji: '📓', nameKey: 'fbFeatTripJournal', descKey: 'fbDescTripJournal', status: 'coming' },
-    { id: 'trip-share', emoji: '🔗', nameKey: 'fbFeatTripShare', descKey: 'fbDescTripShare', status: 'available' },
-    { id: 'trip-history', emoji: '📜', nameKey: 'fbFeatTripHistory', descKey: 'fbDescTripHistory', status: 'available' },
+    { id: 'trip-planner', emoji: '🧭', nameKey: 'fbFeatTripPlanner', descKey: 'fbDescTripPlanner', longDescKey: 'fbLongTripPlanner', status: 'available' },
+    { id: 'badges', emoji: '🏆', nameKey: 'fbFeatBadges', descKey: 'fbDescBadges', longDescKey: 'fbLongBadges', status: 'available' },
+    { id: 'guides', emoji: '📚', nameKey: 'fbFeatGuides', descKey: 'fbDescGuides', longDescKey: 'fbLongGuides', status: 'available' },
+    { id: 'challenges', emoji: '🎯', nameKey: 'fbFeatChallenges', descKey: 'fbDescChallenges', longDescKey: 'fbLongChallenges', status: 'available' },
+    { id: 'quiz', emoji: '🧠', nameKey: 'fbFeatQuiz', descKey: 'fbDescQuiz', longDescKey: 'fbLongQuiz', status: 'available' },
+    { id: 'journal', emoji: '📔', nameKey: 'fbFeatJournal', descKey: 'fbDescJournal', longDescKey: 'fbLongJournal', status: 'coming' },
+    { id: 'hostels', emoji: '🏨', nameKey: 'fbFeatHostels', descKey: 'fbDescHostels', longDescKey: 'fbLongHostels', status: 'coming' },
+    { id: 'leagues', emoji: '🥇', nameKey: 'fbFeatLeagues', descKey: 'fbDescLeagues', longDescKey: 'fbLongLeagues', status: 'coming' },
   ],
   social: [
-    { id: 'social-chat', emoji: '💬', nameKey: 'fbFeatSocialChat', descKey: 'fbDescSocialChat', status: 'available' },
-    { id: 'social-friends', emoji: '👥', nameKey: 'fbFeatSocialFriends', descKey: 'fbDescSocialFriends', status: 'available' },
-    { id: 'social-groups', emoji: '🏕️', nameKey: 'fbFeatSocialGroups', descKey: 'fbDescSocialGroups', status: 'available' },
-    { id: 'social-events', emoji: '📅', nameKey: 'fbFeatSocialEvents', descKey: 'fbDescSocialEvents', status: 'coming' },
-    { id: 'social-dm', emoji: '✉️', nameKey: 'fbFeatSocialDm', descKey: 'fbDescSocialDm', status: 'available' },
-    { id: 'social-ambassador', emoji: '🏅', nameKey: 'fbFeatSocialAmbassador', descKey: 'fbDescSocialAmbassador', status: 'available' },
+    { id: 'friends', emoji: '👫', nameKey: 'fbFeatFriends', descKey: 'fbDescFriends', longDescKey: 'fbLongFriends', status: 'available' },
+    { id: 'private-messages', emoji: '💬', nameKey: 'fbFeatPrivateMessages', descKey: 'fbDescPrivateMessages', longDescKey: 'fbLongPrivateMessages', status: 'available' },
+    { id: 'feed', emoji: '📰', nameKey: 'fbFeatFeed', descKey: 'fbDescFeed', longDescKey: 'fbLongFeed', status: 'available' },
+    { id: 'companion-route', emoji: '🤝', nameKey: 'fbFeatCompanionRoute', descKey: 'fbDescCompanionRoute', longDescKey: 'fbLongCompanionRoute', status: 'available' },
+    { id: 'events', emoji: '🎉', nameKey: 'fbFeatEvents', descKey: 'fbDescEvents', longDescKey: 'fbLongEvents', status: 'coming' },
+    { id: 'groups-races', emoji: '👥', nameKey: 'fbFeatGroupsRaces', descKey: 'fbDescGroupsRaces', longDescKey: 'fbLongGroupsRaces', status: 'coming' },
   ],
   profil: [
-    { id: 'profile-stats', emoji: '📊', nameKey: 'fbFeatProfileStats', descKey: 'fbDescProfileStats', status: 'available' },
-    { id: 'profile-badges', emoji: '🏆', nameKey: 'fbFeatProfileBadges', descKey: 'fbDescProfileBadges', status: 'available' },
-    { id: 'profile-shop', emoji: '🛒', nameKey: 'fbFeatProfileShop', descKey: 'fbDescProfileShop', status: 'available' },
-    { id: 'profile-quiz', emoji: '🧠', nameKey: 'fbFeatProfileQuiz', descKey: 'fbDescProfileQuiz', status: 'available' },
-    { id: 'profile-roadmap', emoji: '🗳️', nameKey: 'fbFeatProfileRoadmap', descKey: 'fbDescProfileRoadmap', status: 'available' },
-    { id: 'profile-verify', emoji: '✅', nameKey: 'fbFeatProfileVerify', descKey: 'fbDescProfileVerify', status: 'coming' },
+    { id: 'my-profile', emoji: '👤', nameKey: 'fbFeatMyProfile', descKey: 'fbDescMyProfile', longDescKey: 'fbLongMyProfile', status: 'available' },
+    { id: 'identity-verify', emoji: '🔐', nameKey: 'fbFeatIdentityVerify', descKey: 'fbDescIdentityVerify', longDescKey: 'fbLongIdentityVerify', status: 'available' },
+    { id: 'settings', emoji: '⚙️', nameKey: 'fbFeatSettings', descKey: 'fbDescSettings', longDescKey: 'fbLongSettings', status: 'available' },
+    { id: 'thumbs-partners', emoji: '👍', nameKey: 'fbFeatThumbsPartners', descKey: 'fbDescThumbsPartners', longDescKey: 'fbLongThumbsPartners', status: 'coming' },
+    { id: 'tech-improvements', emoji: '🚀', nameKey: 'fbFeatTechImprovements', descKey: 'fbDescTechImprovements', longDescKey: 'fbLongTechImprovements', status: 'coming' },
   ],
   securite: [
-    { id: 'sec-sos', emoji: '🆘', nameKey: 'fbFeatSecSos', descKey: 'fbDescSecSos', status: 'available' },
-    { id: 'sec-companion', emoji: '🛡️', nameKey: 'fbFeatSecCompanion', descKey: 'fbDescSecCompanion', status: 'available' },
-    { id: 'sec-guides', emoji: '📖', nameKey: 'fbFeatSecGuides', descKey: 'fbDescSecGuides', status: 'available' },
-    { id: 'sec-radar', emoji: '📡', nameKey: 'fbFeatSecRadar', descKey: 'fbDescSecRadar', status: 'coming' },
-    { id: 'sec-fakeCall', emoji: '📞', nameKey: 'fbFeatSecFakeCall', descKey: 'fbDescSecFakeCall', status: 'available' },
-    { id: 'sec-report', emoji: '🚩', nameKey: 'fbFeatSecReport', descKey: 'fbDescSecReport', status: 'available' },
+    { id: 'sos', emoji: '🆘', nameKey: 'fbFeatSos', descKey: 'fbDescSos', longDescKey: 'fbLongSos', status: 'available' },
+    { id: 'companion-safety', emoji: '🛡️', nameKey: 'fbFeatCompanionSafety', descKey: 'fbDescCompanionSafety', longDescKey: 'fbLongCompanionSafety', status: 'available' },
+    { id: 'guardian-mode', emoji: '👁️', nameKey: 'fbFeatGuardianMode', descKey: 'fbDescGuardianMode', longDescKey: 'fbLongGuardianMode', status: 'coming' },
   ],
 }
 
 const TABS = [
   { id: 'carte', emoji: '🗺️', labelKey: 'fbTabCarte' },
   { id: 'voyage', emoji: '🧭', labelKey: 'fbTabVoyage' },
-  { id: 'social', emoji: '💬', labelKey: 'fbTabSocial' },
+  { id: 'social', emoji: '👥', labelKey: 'fbTabSocial' },
   { id: 'profil', emoji: '👤', labelKey: 'fbTabProfil' },
   { id: 'securite', emoji: '🛡️', labelKey: 'fbTabSecurite' },
 ]
 
 const REACTIONS = [
-  { type: 'like', emoji: '👍', labelKey: 'fbReactLike', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
-  { type: 'love', emoji: '❤️', labelKey: 'fbReactLove', color: 'bg-pink-500/20 text-pink-400 border-pink-500/30' },
-  { type: 'bug', emoji: '🐛', labelKey: 'fbReactBug', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
-  { type: 'idea', emoji: '💡', labelKey: 'fbReactIdea', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
-  { type: 'question', emoji: '❓', labelKey: 'fbReactQuestion', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' },
+  { type: 'like', emoji: '👍', labelKey: 'fbReactLike', selBorder: '#22c55e', selBg: 'rgba(34,197,94,0.08)', tagBg: 'rgba(34,197,94,0.12)', tagColor: '#22c55e' },
+  { type: 'love', emoji: '❤️', labelKey: 'fbReactLove', selBorder: '#ec4899', selBg: 'rgba(236,72,153,0.08)', tagBg: 'rgba(236,72,153,0.12)', tagColor: '#ec4899' },
+  { type: 'bug', emoji: '🐛', labelKey: 'fbReactBug', selBorder: '#ef4444', selBg: 'rgba(239,68,68,0.08)', tagBg: 'rgba(239,68,68,0.12)', tagColor: '#ef4444' },
+  { type: 'idea', emoji: '💡', labelKey: 'fbReactIdea', selBorder: '#f59e0b', selBg: 'rgba(245,158,11,0.08)', tagBg: 'rgba(245,158,11,0.12)', tagColor: '#f59e0b' },
+  { type: 'question', emoji: '❓', labelKey: 'fbReactQuestion', selBorder: '#6366f1', selBg: 'rgba(99,102,241,0.08)', tagBg: 'rgba(99,102,241,0.12)', tagColor: '#6366f1' },
 ]
 
 // ==================== STORAGE HELPERS ====================
@@ -92,11 +93,35 @@ function setFeedbackData(data) {
   localStorage.setItem('spothitch_feedback_data', JSON.stringify(data))
 }
 
-// ==================== RENDER FUNCTIONS ====================
+// ==================== RENDER HELPERS ====================
 
-/**
- * Main panel — slides from right, 88% width
- */
+function renderFeatureItem(feat, reviewed) {
+  const isReviewed = reviewed.includes(feat.id)
+  const statusTag = feat.status === 'available'
+    ? `<span class="text-[8px] font-bold px-1.5 py-px rounded-md" style="background: rgba(34,197,94,0.12); color: #22c55e">${escapeHTML(t('fbStatusAvailable') || 'Dispo')}</span>`
+    : `<span class="text-[8px] font-bold px-1.5 py-px rounded-md" style="background: rgba(245,158,11,0.12); color: #f59e0b">${escapeHTML(t('fbStatusComing') || 'Bientôt')}</span>`
+
+  const checkStyle = isReviewed
+    ? 'border: 2px solid #22c55e; background: rgba(34,197,94,0.15); color: #22c55e'
+    : 'border: 2px solid rgba(255,255,255,0.1)'
+
+  return `
+    <div class="flex items-center gap-2.5 px-4 py-2.5 cursor-pointer transition-colors relative"
+      style="border-bottom: 1px solid rgba(255,255,255,0.03)"
+      onclick="openFeedbackDetail('${escapeJSString(feat.id)}')" role="button" tabindex="0">
+      <div class="text-xl w-9 h-9 flex items-center justify-center rounded-[10px] shrink-0" style="background: rgba(255,255,255,0.04)">${feat.emoji}</div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-1.5 text-[13px] font-semibold">${escapeHTML(t(feat.nameKey) || feat.id)} ${statusTag}</div>
+        <div class="text-[10px] text-slate-400 mt-px">${escapeHTML(t(feat.descKey) || '')}</div>
+      </div>
+      ${!isReviewed ? '<div class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse-soft shrink-0" style="margin-right: 4px"></div>' : ''}
+      <div class="w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 text-[11px] transition-all" style="${checkStyle}">${isReviewed ? '✓' : ''}</div>
+    </div>
+  `
+}
+
+// ==================== MAIN PANEL ====================
+
 export function renderFeedbackPanel(state) {
   const activeTab = state.feedbackActiveTab || 'carte'
   const detailId = state.feedbackDetailFeature
@@ -112,192 +137,170 @@ export function renderFeedbackPanel(state) {
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
 
   const tabFeatures = FEATURES[activeTab] || []
+  const available = tabFeatures.filter(f => f.status === 'available')
+  const coming = tabFeatures.filter(f => f.status === 'coming')
+  const activeTabObj = TABS.find(tb => tb.id === activeTab)
 
   return `
-    <div class="fixed inset-0 z-50 flex justify-end" onclick="if(event.target===this)closeFeedbackPanel()" role="dialog" aria-modal="true" aria-labelledby="feedback-panel-title">
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true"></div>
-      <div class="relative w-[88%] max-w-md h-full bg-dark-primary border-l border-white/10 shadow-2xl overflow-y-auto slide-left-in">
+    <div class="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="fb-panel-title">
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeFeedbackPanel()" aria-hidden="true"></div>
+      <div class="absolute top-0 right-0 bottom-0 w-[88%] max-w-md overflow-hidden flex flex-col shadow-2xl slide-panel-in" style="z-index: 50; background: #1e293b">
 
         <!-- Header -->
-        <div class="sticky top-0 z-10 bg-dark-primary/95 backdrop-blur-xl border-b border-white/10 p-4">
-          <div class="flex items-center justify-between mb-3">
-            <h2 id="feedback-panel-title" class="text-lg font-bold flex items-center gap-2">
-              ${icon('message-circle', 'w-5 h-5 text-primary-400')}
-              ${t('fbTitle') || 'Ton avis compte'}
-            </h2>
-            <button onclick="closeFeedbackPanel()" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center" aria-label="${t('close') || 'Fermer'}">
-              ${icon('x', 'w-5 h-5')}
-            </button>
-          </div>
-          <p class="text-xs text-slate-400 mb-3">${t('fbSubtitle') || 'Aide-nous à améliorer SpotHitch'}</p>
-
-          <!-- Progress bar -->
-          <div class="flex items-center gap-3">
-            <div class="flex-1 h-2 rounded-full bg-white/10 overflow-hidden">
-              <div class="h-full rounded-full bg-gradient-to-r from-primary-500 to-amber-400 transition-all duration-500" style="width:${pct}%"></div>
+        <div class="shrink-0 relative" style="padding: 54px 16px 12px; background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(168,85,247,0.08))">
+          <button onclick="closeFeedbackPanel()" class="absolute right-3 w-8 h-8 rounded-full flex items-center justify-center text-white text-base" style="top: 50px; background: rgba(255,255,255,0.1)" aria-label="${escapeHTML(t('close') || 'Fermer')}">✕</button>
+          <h2 id="fb-panel-title" class="text-lg font-extrabold">${escapeHTML(t('fbTitle') || 'Aide & Feedback')}</h2>
+          <p class="text-xs mt-0.5" style="color: #94a3b8">${escapeHTML(t('fbSubtitle') || 'Ton avis nous aide à améliorer l\'app !')}</p>
+          <div class="flex items-center gap-2 mt-2.5">
+            <div class="flex-1 h-1 rounded-sm overflow-hidden" style="background: rgba(255,255,255,0.1)">
+              <div class="h-full rounded-sm transition-all duration-500" style="width: ${pct}%; background: linear-gradient(90deg, #22c55e, #10b981)"></div>
             </div>
-            <span class="text-xs font-medium text-primary-400">${done}/${total}</span>
+            <span class="text-[11px] font-semibold whitespace-nowrap" style="color: #94a3b8">${done}/${total} ${escapeHTML(t('fbProgressText') || 'avis')}</span>
           </div>
         </div>
 
         <!-- Tab pills -->
-        <div class="flex gap-1.5 p-3 overflow-x-auto no-scrollbar">
+        <div class="flex gap-1.5 px-4 py-3 overflow-x-auto shrink-0" style="-webkit-overflow-scrolling: touch">
           ${TABS.map(tab => {
             const isActive = tab.id === activeTab
             const tabFeats = FEATURES[tab.id] || []
+            const allTabReviewed = tabFeats.every(f => reviewed.includes(f.id))
             const hasUnreviewed = tabFeats.some(f => !reviewed.includes(f.id))
+            const selStyle = isActive
+              ? 'background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #f59e0b'
+              : 'background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: #94a3b8'
             return `
               <button onclick="setFeedbackTab('${tab.id}')"
-                class="relative flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all
-                  ${isActive ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30' : 'bg-white/5 text-slate-400 border border-transparent hover:bg-white/10'}"
+                class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shrink-0 relative transition-all cursor-pointer"
+                style="${selStyle}"
                 aria-pressed="${isActive}">
-                <span>${tab.emoji}</span>
-                <span>${t(tab.labelKey) || tab.id}</span>
-                ${hasUnreviewed ? '<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-orange-400 animate-pulse-soft"></span>' : ''}
+                ${tab.emoji} ${escapeHTML(t(tab.labelKey) || tab.id)}
+                ${hasUnreviewed && !allTabReviewed ? '<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse-soft"></span>' : ''}
+                ${allTabReviewed ? '<span class="text-[10px]">✓</span>' : ''}
               </button>
             `
           }).join('')}
         </div>
 
         <!-- Feature list -->
-        <div class="p-3 space-y-2">
-          ${tabFeatures.map(feat => {
-            const isReviewed = reviewed.includes(feat.id)
-            const statusTag = feat.status === 'available'
-              ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-500/20 text-emerald-400">${t('fbStatusAvailable') || 'Dispo'}</span>`
-              : `<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-500/20 text-amber-400">${t('fbStatusComing') || 'Bientôt'}</span>`
-            return `
-              <button onclick="openFeedbackDetail('${feat.id}')"
-                class="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-left border border-transparent hover:border-white/10">
-                <span class="text-2xl shrink-0">${feat.emoji}</span>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2 mb-0.5">
-                    <span class="text-sm font-medium truncate">${t(feat.nameKey) || feat.id}</span>
-                    ${statusTag}
-                  </div>
-                  <p class="text-xs text-slate-400 truncate">${t(feat.descKey) || ''}</p>
-                </div>
-                <div class="shrink-0 flex items-center gap-1.5">
-                  ${isReviewed
-                    ? `<span class="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">${icon('check', 'w-3.5 h-3.5 text-emerald-400')}</span>`
-                    : `<span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse-soft"></span>`}
-                  ${icon('chevron-right', 'w-4 h-4 text-slate-500')}
-                </div>
-              </button>
-            `
-          }).join('')}
-        </div>
+        <div class="flex-1 overflow-y-auto pb-5">
+          ${available.length > 0 ? `
+            <div class="text-[10px] font-bold uppercase tracking-widest px-4 pt-3 pb-1.5" style="color: #64748b; letter-spacing: 1.5px">✅ ${escapeHTML(t('fbSectionAvailable') || 'Disponible')}</div>
+            ${available.map(feat => renderFeatureItem(feat, reviewed)).join('')}
+          ` : ''}
+          ${coming.length > 0 ? `
+            <div class="text-[10px] font-bold uppercase tracking-widest px-4 pt-3 pb-1.5" style="color: #64748b; letter-spacing: 1.5px">🔜 ${escapeHTML(t('fbSectionComing') || 'À venir')}</div>
+            ${coming.map(feat => renderFeatureItem(feat, reviewed)).join('')}
+          ` : ''}
 
-        <!-- General feedback button -->
-        <div class="p-3 pt-0">
-          <button onclick="openFeedbackDetail('general-${activeTab}')"
-            class="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium hover:bg-primary-500/20 transition-colors">
-            ${icon('message-square', 'w-4 h-4')}
-            ${t('fbGeneralFeedback') || 'Avis général sur cet onglet'}
-          </button>
+          <div class="mx-4 mt-4 mb-2 p-3.5 rounded-xl text-center cursor-pointer"
+            style="background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.06)); border: 1px dashed rgba(99,102,241,0.2)"
+            onclick="openFeedbackDetail('general-${activeTab}')" role="button" tabindex="0">
+            <span class="text-[13px] font-semibold" style="color: #a5b4fc">💬 ${escapeHTML(t('fbGeneralFeedback') || 'Avis général sur')} ${escapeHTML(t(activeTabObj?.labelKey) || activeTab)}</span>
+          </div>
         </div>
-
-        <div class="h-8"></div>
       </div>
     </div>
   `
 }
 
-/**
- * Detail view — single feature with reactions + comment
- */
+// ==================== DETAIL VIEW ====================
+
 function renderFeedbackDetail(state, featureId) {
   const allFeatures = Object.values(FEATURES).flat()
   const feat = allFeatures.find(f => f.id === featureId)
-
-  // General tab feedback
   const isGeneral = featureId.startsWith('general-')
 
   const emoji = feat?.emoji || '💬'
-  const nameKey = feat?.nameKey
-  const descKey = feat?.descKey
-  const status = feat?.status || 'available'
-
   const title = isGeneral
     ? (t('fbGeneralTitle') || 'Avis général')
-    : (t(nameKey) || featureId)
+    : (t(feat?.nameKey) || featureId)
   const desc = isGeneral
-    ? (t('fbGeneralDesc') || 'Donne ton impression sur cet onglet')
-    : (t(descKey) || '')
+    ? (t('fbGeneralDesc') || 'Donne ton avis global sur cet onglet : ce qui te plaît, ce qui manque, ce qui pourrait être mieux.')
+    : (t(feat?.longDescKey) || t(feat?.descKey) || '')
+  const status = feat?.status || 'available'
 
-  // Load existing feedback for this feature
   const allFeedback = getFeedbackData()
   const existing = allFeedback.find(f => f.featureId === featureId) || {}
   const selectedReactions = existing.reactions || []
 
-  const statusLabel = status === 'available'
-    ? `<span class="px-2 py-1 rounded-lg text-xs font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">${t('fbStatusAvailable') || 'Disponible'}</span>`
-    : `<span class="px-2 py-1 rounded-lg text-xs font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30">${t('fbStatusComing') || 'À venir'}</span>`
+  const statusBadge = isGeneral ? '' : (status === 'available'
+    ? `<span class="text-[11px] font-bold px-2.5 py-1 rounded-lg" style="background: rgba(34,197,94,0.12); color: #22c55e">${escapeHTML(t('fbStatusAvailableLong') || 'Disponible')}</span>`
+    : `<span class="text-[11px] font-bold px-2.5 py-1 rounded-lg" style="background: rgba(245,158,11,0.12); color: #f59e0b">${escapeHTML(t('fbStatusComingLong') || 'À venir')}</span>`)
+
+  const isDisabled = selectedReactions.length === 0
+  const submitOpacity = isDisabled ? '; opacity: 0.3; cursor: default' : ''
 
   return `
-    <div class="fixed inset-0 z-50 flex justify-end" onclick="if(event.target===this)closeFeedbackPanel()" role="dialog" aria-modal="true" aria-labelledby="feedback-detail-title">
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" aria-hidden="true"></div>
-      <div class="relative w-[88%] max-w-md h-full bg-dark-primary border-l border-white/10 shadow-2xl overflow-y-auto slide-left-in">
+    <div class="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="fb-detail-title">
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeFeedbackPanel()" aria-hidden="true"></div>
+      <div class="absolute top-0 right-0 bottom-0 w-[88%] max-w-md overflow-hidden flex flex-col shadow-2xl slide-panel-in" style="z-index: 60; background: #1e293b">
 
-        <!-- Header -->
-        <div class="sticky top-0 z-10 bg-dark-primary/95 backdrop-blur-xl border-b border-white/10 p-4">
+        <div class="shrink-0 px-4" style="padding-top: 54px; padding-bottom: 16px">
+          <button onclick="closeFeedbackDetail()" class="flex items-center gap-1.5 text-[13px] cursor-pointer mb-4" style="color: #94a3b8; background: none; border: none">
+            ${escapeHTML(t('fbBack') || '← Retour')}
+          </button>
           <div class="flex items-center gap-3">
-            <button onclick="closeFeedbackDetail()" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center shrink-0" aria-label="${t('back') || 'Retour'}">
-              ${icon('arrow-left', 'w-5 h-5')}
-            </button>
-            <h2 id="feedback-detail-title" class="text-base font-bold truncate">${escapeHTML(title)}</h2>
-          </div>
-        </div>
-
-        <div class="p-4 space-y-5">
-          <!-- Feature info -->
-          <div class="text-center py-4">
-            <div class="text-5xl mb-3">${isGeneral ? '💬' : emoji}</div>
-            <h3 class="text-lg font-bold mb-1">${escapeHTML(title)}</h3>
-            ${!isGeneral ? statusLabel : ''}
-            <p class="text-sm text-slate-300 mt-3 leading-relaxed">${escapeHTML(desc)}</p>
-          </div>
-
-          <!-- Reactions (multi-select) -->
-          <div>
-            <h4 class="text-sm font-medium mb-3">${t('fbReactTitle') || 'Ton ressenti'}</h4>
-            <div class="flex flex-wrap gap-2">
-              ${REACTIONS.map(r => {
-                const isSelected = selectedReactions.includes(r.type)
-                return `
-                  <button onclick="toggleFeedbackReaction('${r.type}')"
-                    class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm border transition-all
-                      ${isSelected ? r.color + ' border ring-1 ring-current' : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/10'}"
-                    aria-pressed="${isSelected}">
-                    <span>${r.emoji}</span>
-                    <span>${t(r.labelKey) || r.type}</span>
-                  </button>
-                `
-              }).join('')}
+            <span class="text-[32px]">${isGeneral ? '💬' : emoji}</span>
+            <div>
+              <h2 id="fb-detail-title" class="text-lg font-extrabold">${escapeHTML(title)}</h2>
+              <div class="mt-1">${statusBadge}</div>
             </div>
           </div>
+          <p class="text-[13px] mt-3 leading-relaxed px-1" style="color: #94a3b8">${escapeHTML(desc)}</p>
+        </div>
 
-          <!-- Comment -->
-          <div>
-            <label for="feedback-comment" class="text-sm font-medium mb-2 block">${t('fbCommentLabel') || 'Un commentaire ?'}</label>
-            <textarea id="feedback-comment" rows="3" maxlength="500"
-              placeholder="${t('fbCommentPlaceholder') || 'Ton avis, une idée, un bug...'}"
-              class="input-field w-full resize-none text-sm">${escapeHTML(existing.comment || '')}</textarea>
+        <div class="flex-1 overflow-y-auto px-4 pb-8">
+          <div class="text-[13px] font-bold mt-5 mb-2.5" style="color: #e2e8f0">${escapeHTML(t('fbReactTitle') || 'Ton avis (choix multiples)')}</div>
+
+          <div class="flex flex-wrap gap-2">
+            ${REACTIONS.map((r, i) => {
+              const isSel = selectedReactions.includes(r.type)
+              const chipStyle = isSel
+                ? `border: 2px solid ${r.selBorder}; background: ${r.selBg}`
+                : 'border: 2px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02)'
+              const widthStyle = i === 4 ? 'min-width: 100%' : 'min-width: calc(50% - 4px)'
+              return `
+                <div onclick="toggleFeedbackReaction('${r.type}')"
+                  class="p-3 rounded-xl cursor-pointer text-center transition-all text-white"
+                  style="${chipStyle}; flex: 1; ${widthStyle}"
+                  role="button" tabindex="0" aria-pressed="${isSel}">
+                  <span class="text-[26px] block">${r.emoji}</span>
+                  <span class="text-[11px] font-semibold block mt-1">${escapeHTML(t(r.labelKey) || r.type)}</span>
+                </div>
+              `
+            }).join('')}
           </div>
 
-          <!-- Submit -->
-          <button onclick="submitFeedback('${featureId}')"
-            class="w-full py-3 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors flex items-center justify-center gap-2">
-            ${icon('send', 'w-4 h-4')}
-            ${t('fbSubmit') || 'Envoyer mon avis'}
+          ${selectedReactions.length > 0 ? `
+            <div class="flex flex-wrap gap-1.5 mt-3">
+              ${selectedReactions.map(type => {
+                const r = REACTIONS.find(rx => rx.type === type)
+                if (!r) return ''
+                return `<span class="px-2.5 py-1 rounded-full text-[11px] font-semibold flex items-center gap-1" style="background: ${r.tagBg}; color: ${r.tagColor}">${r.emoji} ${escapeHTML(t(r.labelKey) || r.type)}</span>`
+              }).join('')}
+            </div>
+          ` : ''}
+
+          <div class="text-[13px] font-bold mt-5 mb-2.5" style="color: #e2e8f0">${escapeHTML(t('fbCommentTitle') || 'Commentaire (optionnel)')}</div>
+          <textarea id="feedback-comment" rows="3"
+            placeholder="${escapeHTML(t('fbCommentPlaceholder') || 'Explique ton avis...')}"
+            class="w-full p-3 rounded-xl text-sm text-white resize-none"
+            style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); min-height: 80px; font-family: inherit"
+            maxlength="500">${escapeHTML(existing.comment || '')}</textarea>
+
+          <button onclick="submitFeedback('${escapeJSString(featureId)}')"
+            class="w-full py-3.5 rounded-xl text-white text-[15px] font-bold mt-3.5 transition-opacity border-none"
+            style="background: linear-gradient(135deg, #6366f1, #818cf8)${submitOpacity}"
+            ${isDisabled ? 'disabled' : ''}>
+            ${escapeHTML(t('fbSubmit') || 'Envoyer mon avis')}
           </button>
+        </div>
 
-          <!-- Success message (hidden by default, shown via JS) -->
-          <div id="feedback-success" class="hidden text-center py-6">
-            <div class="text-5xl mb-2">🎉</div>
-            <p class="text-lg font-bold">${t('fbThanks') || 'Merci !'}</p>
-            <p class="text-sm text-slate-400 mt-1">${t('fbThanksDesc') || 'Ton avis aide à améliorer SpotHitch'}</p>
-          </div>
+        <div id="feedback-success" class="absolute inset-0 items-center justify-center flex-col" style="z-index: 70; background: rgba(30,41,59,0.95); display: none">
+          <div class="text-6xl" style="animation: bounceIn 0.5s ease">🎉</div>
+          <div class="text-lg font-extrabold mt-4">${escapeHTML(t('fbThanks') || 'Merci pour ton avis !')}</div>
+          <div class="text-[13px] mt-1.5" style="color: #94a3b8">${escapeHTML(t('fbThanksDesc') || 'Ça nous aide énormément')}</div>
         </div>
       </div>
     </div>
@@ -343,7 +346,6 @@ window.toggleFeedbackReaction = (type) => {
   }
   setFeedbackData(allFeedback)
 
-  // Force re-render to update button states
   if (window._forceRender) window._forceRender()
 }
 
@@ -370,14 +372,12 @@ window.submitFeedback = async (featureId) => {
   }
   setFeedbackData(allFeedback)
 
-  // Mark as reviewed
   const reviewed = getReviewedIds()
   if (!reviewed.includes(featureId)) {
     reviewed.push(featureId)
     setReviewedIds(reviewed)
   }
 
-  // Firebase async save (best-effort)
   if (state.user?.uid) {
     try {
       const { getFirestore, collection, addDoc } = await import('firebase/firestore')
@@ -397,18 +397,13 @@ window.submitFeedback = async (featureId) => {
     }
   }
 
-  // Show success animation
-  const submitBtn = document.querySelector('[onclick*="submitFeedback"]')
-  const successEl = document.getElementById('feedback-success')
-  if (submitBtn) submitBtn.style.display = 'none'
-  if (successEl) successEl.classList.remove('hidden')
+  const overlay = document.getElementById('feedback-success')
+  if (overlay) overlay.style.display = 'flex'
 
-  // Auto-close detail after 1.5s
   setTimeout(() => {
     setState({ feedbackDetailFeature: null })
-  }, 1500)
+  }, 1800)
 
-  // Toast
   if (window.showToast) {
     window.showToast(t('fbThanks') || 'Merci !', 'success')
   }
