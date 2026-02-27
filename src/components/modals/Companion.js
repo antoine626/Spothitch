@@ -105,11 +105,34 @@ function renderConsentScreen() {
           <h2 id="companion-consent-title" class="text-xl font-bold text-white mb-4">
             ${t('companionConsentTitle') || 'Location sharing consent'}
           </h2>
-          <div class="text-sm text-slate-300 text-left space-y-3 mb-6">
+          <div class="text-sm text-slate-300 text-left space-y-3 mb-5">
             <p>${t('companionConsentText1') || 'Companion mode will share your real-time GPS position with your chosen guardian contact.'}</p>
             <p>${t('companionConsentText2') || 'Your location will be shared only during the active trip and will automatically stop after 8 hours maximum.'}</p>
             <p>${t('companionConsentText3') || 'You can stop sharing at any time. Your location history is never sold or shared with third parties.'}</p>
           </div>
+
+          <!-- Coming soon section -->
+          <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 mb-5 text-left">
+            <div class="flex items-center gap-2 mb-2">
+              ${icon('rocket', 'w-4 h-4 text-emerald-400')}
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">${t('companionComingSoon') || 'Coming soon'}</span>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-1.5">
+              <li class="flex items-start gap-2">
+                ${icon('bell', 'w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0')}
+                <span>${t('companionFuturePush') || 'Your guardian receives automatic push notifications'}</span>
+              </li>
+              <li class="flex items-start gap-2">
+                ${icon('map', 'w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0')}
+                <span>${t('companionFutureLive') || 'Guardian sees your live position on the SpotHitch map'}</span>
+              </li>
+              <li class="flex items-start gap-2">
+                ${icon('message-circle', 'w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0')}
+                <span>${t('companionFutureSMS') || 'Automatic SMS/WhatsApp alerts to your guardian'}</span>
+              </li>
+            </ul>
+          </div>
+
           <button
             onclick="acceptCompanionConsent()"
             class="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg transition-colors mb-3"

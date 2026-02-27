@@ -3400,6 +3400,10 @@ export default {
   companionConsentText2: "Dein Standort wird nur waehrend der aktiven Fahrt geteilt und stoppt automatisch nach maximal 8 Stunden.",
   companionConsentText3: "Du kannst die Freigabe jederzeit beenden. Dein Standortverlauf wird nie verkauft oder an Dritte weitergegeben.",
   companionConsentAccept: "Ich stimme zu, weiter",
+  companionComingSoon: 'Demnächst verfügbar',
+  companionFuturePush: 'Dein Begleiter erhält automatische Push-Benachrichtigungen',
+  companionFutureLive: 'Dein Begleiter sieht deine Live-Position auf der SpotHitch-Karte',
+  companionFutureSMS: 'Automatische SMS/WhatsApp-Benachrichtigungen an deinen Begleiter',
   // Begleitmodus — neue Funktionen (#22-31)
   guardianTitle: 'Hauptbegleiter',
   trustedContacts: 'Vertrauenskontakte',

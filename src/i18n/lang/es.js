@@ -3400,6 +3400,10 @@ export default {
   companionConsentText2: "Tu ubicación se compartira solo durante el viaje activo y se detendra automaticamente despues de 8 horas máximo.",
   companionConsentText3: "Puedes dejar de compartir en cualquier momento. Tu historial de ubicación nunca se vende ni se comparte con terceros.",
   companionConsentAccept: "Acepto, continuar",
+  companionComingSoon: 'Próximamente',
+  companionFuturePush: 'Tu guardián recibe notificaciones push automáticas',
+  companionFutureLive: 'Tu guardián ve tu posición en tiempo real en el mapa de SpotHitch',
+  companionFutureSMS: 'Alertas SMS/WhatsApp automáticas a tu guardián',
   // Companion Mode — nuevas funciones (#22-31)
   guardianTitle: 'Guardian principal',
   trustedContacts: 'Contactos de confianza',

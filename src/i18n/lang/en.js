@@ -3403,6 +3403,10 @@ export default {
   companionConsentText2: "Your location will be shared only during the active trip and will automatically stop after 8 hours maximum.",
   companionConsentText3: "You can stop sharing at any time. Your location history is never sold or shared with third parties.",
   companionConsentAccept: "I agree, continue",
+  companionComingSoon: 'Coming soon',
+  companionFuturePush: 'Your guardian receives automatic push notifications',
+  companionFutureLive: 'Your guardian sees your live position on the SpotHitch map',
+  companionFutureSMS: 'Automatic SMS/WhatsApp alerts to your guardian',
   // Companion Mode — new features (#22-31)
   guardianTitle: 'Primary guardian',
   trustedContacts: 'Trusted contacts',

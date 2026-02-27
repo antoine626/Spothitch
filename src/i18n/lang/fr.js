@@ -3402,7 +3402,11 @@ export default {
   companionConsentText1: "Le mode compagnon partagera votre position GPS en temps reel avec votre contact gardien.",
   companionConsentText2: "Votre position sera partagee uniquement pendant le trajet actif et s'arretera automatiquement apres 8 heures maximum.",
   companionConsentText3: "Vous pouvez arrêter le partage a tout moment. Votre historique de position n'est jamais vendu ni partage avec des tiers.",
-  companionConsentAccept: "J'accepté, continuer",
+  companionConsentAccept: "J'accepte, continuer",
+  companionComingSoon: 'Bientôt disponible',
+  companionFuturePush: 'Ton gardien reçoit des notifications push automatiques',
+  companionFutureLive: 'Ton gardien voit ta position en temps réel sur la carte SpotHitch',
+  companionFutureSMS: 'Alertes SMS/WhatsApp automatiques vers ton gardien',
   // Companion Mode — nouvelles fonctionnalites (#22-31)
   guardianTitle: 'Gardien principal',
   trustedContacts: 'Contacts de confiance',
