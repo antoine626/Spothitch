@@ -176,7 +176,7 @@ function showTipUI(tip) {
   // Create tip container
   const container = document.createElement('div');
   container.id = 'contextual-tip';
-  container.className = 'fixed bottom-24 left-4 right-4 z-[100] animate-slide-up';
+  container.className = 'fixed bottom-24 left-4 right-4 z-[100] animate-slide-up pointer-events-none';
   container.setAttribute('role', 'alert');
   container.setAttribute('aria-live', 'polite');
 
@@ -207,7 +207,7 @@ function showTipUI(tip) {
   const iconClass = iconColorClasses[tip.color] || iconColorClasses.primary;
 
   container.innerHTML = `
-    <div class="bg-gradient-to-r ${gradientClass} backdrop-blur-xl border rounded-2xl p-4 shadow-2xl">
+    <div class="bg-gradient-to-r ${gradientClass} backdrop-blur-xl border rounded-2xl p-4 shadow-2xl pointer-events-auto">
       <div class="flex items-start gap-3">
         <!-- Lightbulb Icon -->
         <div class="shrink-0 w-10 h-10 rounded-xl ${iconClass} flex items-center justify-center">

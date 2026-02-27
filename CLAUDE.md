@@ -221,7 +221,7 @@ VITE_SENTRY_DSN (optionnel)
 ## TODO actuel
 
 - [x] ~~HTTPS~~ : Certificat SSL actif, HTTPS forcé (2026-02-12)
-- [ ] Sentry : créer compte sentry.io → DSN → GitHub Secret `VITE_SENTRY_DSN`
+- [x] ~~Sentry~~ : DSN + Token configurés (2026-02-17), sync GitHub Actions (2026-02-24)
 - [ ] Affiliés : s'inscrire Hostelworld + Booking (action user manuelle)
 
 ---
