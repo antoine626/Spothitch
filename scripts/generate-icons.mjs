@@ -1,142 +1,112 @@
 #!/usr/bin/env node
 /**
- * Generate all app icons from a single source image.
+ * Generate recolored + resized PWA icons from logo-source.png
+ * Uses Playwright's browser canvas for pixel manipulation.
  *
- * Usage:
- *   node scripts/generate-icons.mjs [path-to-source.png]
- *
- * If no path given, uses public/images/branding/logo-source.png
- *
- * Requires: sharp (npm install -D sharp)
- *
- * Output files generated in public/:
- *   logo.png          (192x192)  — Header + Splash screen
- *   favicon.png       (32x32)   — Browser tab
- *   apple-touch-icon  (180x180) — iOS home screen
- *   icon-72.png       (72x72)   — PWA manifest
- *   icon-96.png       (96x96)   — PWA manifest + notifications badge
- *   icon-128.png      (128x128) — PWA manifest
- *   icon-144.png      (144x144) — PWA manifest
- *   icon-152.png      (152x152) — PWA manifest
- *   icon-192.png      (192x192) — PWA manifest + notifications icon
- *   icon-384.png      (384x384) — PWA manifest
- *   icon-512.png      (512x512) — PWA manifest + SEO schema.org
- *   og-image.png      (1200x630) — Open Graph (centered logo on dark bg)
- *   images/branding/logo.webp    — WebP version
- *   images/branding/icon-512.webp — WebP icon
+ * Target colors: hands=#f59e0b, background=#0f1520
+ * Scale: option C (+45%, ~12% padding)
  */
-
-import { join, dirname } from 'path'
+import { chromium } from 'playwright'
+import fs from 'fs'
+import path from 'path'
 import { fileURLToPath } from 'url'
-import { existsSync, copyFileSync, mkdirSync } from 'fs'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const ROOT = join(__dirname, '..')
-const PUBLIC = join(ROOT, 'public')
-const BRANDING = join(PUBLIC, 'images', 'branding')
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const PUBLIC = path.join(__dirname, '..', 'public')
+const BRANDING = path.join(PUBLIC, 'images', 'branding')
 
-// Source image path
-const sourcePath = process.argv[2] || join(BRANDING, 'logo-source.png')
+const SIZES = [32, 72, 96, 128, 144, 152, 180, 192, 384, 512]
+const SCALE_FACTOR = 1.45
 
-if (!existsSync(sourcePath)) {
-  console.error(`Source image not found: ${sourcePath}`)
-  console.error('Usage: node scripts/generate-icons.mjs [path-to-source.png]')
-  console.error('')
-  console.error('Place your high-res logo (512px+ square) at:')
-  console.error('  public/images/branding/logo-source.png')
-  process.exit(1)
-}
-
-let sharp
-try {
-  sharp = (await import('sharp')).default
-} catch {
-  console.error('sharp is not installed. Install it with:')
-  console.error('  npm install -D sharp')
-  console.error('')
-  console.error('Then re-run this script.')
-  process.exit(1)
-}
-
-// Ensure branding dir exists
-if (!existsSync(BRANDING)) mkdirSync(BRANDING, { recursive: true })
-
-// Save source for future reference
-const sourceBackup = join(BRANDING, 'logo-source.png')
-if (sourcePath !== sourceBackup) {
-  copyFileSync(sourcePath, sourceBackup)
-  console.log(`Source saved to: ${sourceBackup}`)
-}
-
-// Icon sizes to generate
-const ICON_SIZES = [32, 72, 96, 128, 144, 152, 180, 192, 384, 512]
-
-console.log('Generating icons from:', sourcePath)
-
-for (const size of ICON_SIZES) {
-  const filename = size === 32
-    ? 'favicon.png'
-    : size === 180
-      ? 'apple-touch-icon.png'
-      : size === 192
-        ? 'icon-192.png'
-        : `icon-${size}.png`
-
-  await sharp(sourcePath)
-    .resize(size, size, { fit: 'cover' })
-    .png({ quality: 90 })
-    .toFile(join(PUBLIC, filename))
-
-  console.log(`  [OK] ${filename} (${size}x${size})`)
-
-  // Also generate logo.png at 192px
-  if (size === 192) {
-    await sharp(sourcePath)
-      .resize(192, 192, { fit: 'cover' })
-      .png({ quality: 90 })
-      .toFile(join(PUBLIC, 'logo.png'))
-    console.log(`  [OK] logo.png (192x192)`)
+// Shared recolor function (runs in browser)
+const RECOLOR_FN = `
+function recolorCanvas(ctx, size) {
+  const imageData = ctx.getImageData(0, 0, size, size)
+  const data = imageData.data
+  const BG_R = 15, BG_G = 21, BG_B = 32
+  const HAND_R = 245, HAND_G = 158, HAND_B = 11
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i], g = data[i+1], b = data[i+2], a = data[i+3]
+    if (a < 10) continue
+    const brightness = (r + g + b) / 3
+    const isBackground = (b >= r - 10 && brightness < 120) || brightness < 40
+    if (isBackground) {
+      data[i] = BG_R; data[i+1] = BG_G; data[i+2] = BG_B
+    } else {
+      const ob = Math.max(r, g, b) / 255
+      if (brightness < 80) {
+        const t = brightness / 80
+        data[i]   = Math.round(BG_R*(1-t) + HAND_R*ob*t)
+        data[i+1] = Math.round(BG_G*(1-t) + HAND_G*ob*t)
+        data[i+2] = Math.round(BG_B*(1-t) + HAND_B*ob*t)
+      } else {
+        data[i]   = Math.round(HAND_R * ob)
+        data[i+1] = Math.round(HAND_G * ob)
+        data[i+2] = Math.round(HAND_B * ob)
+      }
+    }
   }
+  ctx.putImageData(imageData, 0, 0)
+}
+`
+
+async function main() {
+  const sourcePath = path.join(BRANDING, 'logo-source.png')
+  if (!fs.existsSync(sourcePath)) {
+    console.error('Source logo not found:', sourcePath)
+    process.exit(1)
+  }
+  const sourceBase64 = fs.readFileSync(sourcePath).toString('base64')
+  const sourceDataUrl = `data:image/png;base64,${sourceBase64}`
+
+  const browser = await chromium.launch()
+  const page = await browser.newPage()
+
+  for (const size of SIZES) {
+    console.log(`Generating ${size}x${size}...`)
+    const pngBase64 = await page.evaluate(async ({ dataUrl, size, scale, recolorCode }) => {
+      return new Promise((resolve) => {
+        // eslint-disable-next-line no-eval
+        eval(recolorCode)
+        const canvas = document.createElement('canvas')
+        canvas.width = size
+        canvas.height = size
+        const ctx = canvas.getContext('2d')
+        const img = new Image()
+        img.onload = () => {
+          ctx.fillStyle = '#0f1520'
+          ctx.fillRect(0, 0, size, size)
+          const s = size * scale
+          const o = (size - s) / 2
+          ctx.drawImage(img, o, o, s, s)
+          recolorCanvas(ctx, size)
+          resolve(canvas.toDataURL('image/png').split(',')[1])
+        }
+        img.src = dataUrl
+      })
+    }, { dataUrl: sourceDataUrl, size, scale: SCALE_FACTOR, recolorCode: RECOLOR_FN })
+
+    const buf = Buffer.from(pngBase64, 'base64')
+
+    // Save to appropriate files
+    if (size === 32) {
+      fs.writeFileSync(path.join(PUBLIC, 'favicon.png'), buf)
+      console.log(`  -> favicon.png`)
+    } else if (size === 180) {
+      fs.writeFileSync(path.join(PUBLIC, 'apple-touch-icon.png'), buf)
+      console.log(`  -> apple-touch-icon.png`)
+    } else if (size === 192) {
+      fs.writeFileSync(path.join(PUBLIC, `icon-${size}.png`), buf)
+      fs.writeFileSync(path.join(PUBLIC, 'logo.png'), buf)
+      console.log(`  -> icon-${size}.png + logo.png`)
+    } else {
+      fs.writeFileSync(path.join(PUBLIC, `icon-${size}.png`), buf)
+      console.log(`  -> icon-${size}.png`)
+    }
+  }
+
+  await browser.close()
+  console.log('\nAll icons generated!')
 }
 
-// WebP versions
-await sharp(sourcePath)
-  .resize(512, 512, { fit: 'cover' })
-  .webp({ quality: 85 })
-  .toFile(join(BRANDING, 'logo.webp'))
-console.log('  [OK] images/branding/logo.webp')
-
-await sharp(sourcePath)
-  .resize(512, 512, { fit: 'cover' })
-  .webp({ quality: 85 })
-  .toFile(join(BRANDING, 'icon-512.webp'))
-console.log('  [OK] images/branding/icon-512.webp')
-
-// OG image (1200x630 with logo centered on dark background)
-const ogWidth = 1200
-const ogHeight = 630
-const logoSize = 300
-const logoBuf = await sharp(sourcePath)
-  .resize(logoSize, logoSize, { fit: 'cover' })
-  .png()
-  .toBuffer()
-
-await sharp({
-  create: {
-    width: ogWidth,
-    height: ogHeight,
-    channels: 4,
-    background: { r: 15, g: 21, b: 32, alpha: 1 }, // #0f1520
-  },
-})
-  .composite([{
-    input: logoBuf,
-    left: Math.round((ogWidth - logoSize) / 2),
-    top: Math.round((ogHeight - logoSize) / 2),
-  }])
-  .png({ quality: 90 })
-  .toFile(join(PUBLIC, 'og-image.png'))
-console.log('  [OK] og-image.png (1200x630)')
-
-console.log(`\nDone! ${ICON_SIZES.length + 4} files generated.`)
-console.log('Remember to bump the favicon cache version in index.html if needed: href="favicon.png?v=X"')
+main().catch(console.error)
