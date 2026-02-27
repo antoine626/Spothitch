@@ -151,31 +151,25 @@ export function renderInstallBanner() {
   if (!showInstallBanner) return '';
 
   return `
-    <div class="install-banner fixed bottom-20 left-4 right-4 bg-gradient-to-r from-primary-500 to-primary-600
-                rounded-2xl p-4 shadow-xl z-40 animate-slide-up">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-          <span class="text-2xl">📲</span>
+    <div class="install-banner fixed bottom-20 left-3 right-3 bg-gradient-to-br from-primary-500 via-primary-600 to-amber-600
+                rounded-2xl shadow-2xl shadow-primary-500/30 z-40 animate-slide-up overflow-hidden" role="alert">
+      <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2720%27 height=%2720%27%3E%3Ccircle cx=%272%27 cy=%272%27 r=%271%27 fill=%27white%27 opacity=%270.08%27/%3E%3C/svg%3E')]"></div>
+      <div class="relative p-4">
+        <button onclick="dismissInstallBanner()" class="absolute top-2 right-2 w-7 h-7 flex items-center justify-center text-white/50 hover:text-white rounded-full hover:bg-white/10" aria-label="${t('close')}">✕</button>
+        <div class="flex items-start gap-3 pr-6">
+          <div class="w-11 h-11 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center shrink-0">
+            <span class="text-2xl">📲</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-white font-bold text-sm leading-tight">${t('installTitle')}</h3>
+            <p class="text-white/80 text-xs mt-0.5 leading-snug">${t('installDesc')}</p>
+          </div>
         </div>
-        <div class="flex-1">
-          <h3 class="text-white font-bold text-sm">${t('installSpotHitch') || 'Installer SpotHitch'}</h3>
-          <p class="text-white/80 text-xs">${t('installDescription') || 'Accès rapide et mode hors-ligne'}</p>
-        </div>
-        <div class="flex gap-2">
-          <button
-            onclick="dismissInstallBanner()"
-            class="px-3 py-2 text-white/80 text-sm hover:text-white"
-          >
-            ${t('later') || 'Plus tard'}
-          </button>
-          <button
-            onclick="installPWA()"
-            class="px-4 py-2 bg-white text-primary-600 rounded-xl text-sm font-semibold
-                   hover:bg-primary-50 transition-colors"
-          >
-            ${t('install') || 'Installer'}
-          </button>
-        </div>
+        <button onclick="installPWA()"
+          class="w-full mt-3 py-2.5 bg-white text-primary-600 rounded-xl text-sm font-bold
+                 hover:bg-primary-50 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+          <span>⚡</span> ${t('installBtn')}
+        </button>
       </div>
     </div>
   `;
