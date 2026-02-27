@@ -17,6 +17,7 @@ const KNOWN_HANDLERS = new Set()
 const MAIN_JS_HANDLERS = [
   // Reset / Navigation
   'resetApp', 'changeTab', 'openFullMap', 'toggleTheme', 'setViewMode',
+  'goBack',
   't',
   // Spots
   'selectSpot', 'closeSpotDetail', 'openAddSpot', 'openAddSpotPreview', 'closeAddSpot',
@@ -374,7 +375,7 @@ const MAIN_JS_HANDLERS = [
   // City Panel (defined in main.js)
   'openCityPanel', 'closeCityPanel', 'selectCityRoute', 'viewCitySpotsOnMap',
   // Missing close handlers (session 2026-02-22)
-  'closeLanding', 'closeSafety', 'toggleFormCheckbox', 'changeLandingLanguage',
+  'closeLanding', 'closeSafety', 'toggleFormToggle', 'changeLandingLanguage',
   'closeConsentSettings', 'closeJoinTeam', 'closeTeamSettings',
   'closeTitlePopup', 'closeSeasonRewards', 'closeAnniversaryModal',
   'closeAmbassadorSuccess', 'closeAmbassadorProfile', 'closeContactAmbassador',

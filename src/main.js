@@ -68,6 +68,7 @@ import { initWasm } from './utils/wasmGeo.js';
 import { escapeHTML } from './utils/sanitize.js';
 import { runAllCleanup } from './utils/cleanup.js';
 import { initDeepLinkListener } from './utils/deeplink.js';
+import { initBackButton, goBack } from './utils/backButton.js';
 import { setupGlobalErrorHandlers as setupErrorHandlers } from './utils/errorBoundary.js';
 // animations.js, share.js, confetti.js — lazy-loaded (only triggered by user actions)
 import { initAutoOfflineSync } from './services/autoOfflineSync.js';
@@ -385,6 +386,13 @@ async function init() {
       initDeepLinkListener();
     } catch (e) {
       console.warn('Deep link init skipped:', e.message);
+    }
+
+    // Android back button (History API + popstate)
+    try {
+      initBackButton();
+    } catch (e) {
+      console.warn('Back button init skipped:', e.message);
     }
 
     // Setup global error handlers
@@ -760,6 +768,9 @@ window.resetApp = async () => {
     location.reload();
   }
 };
+
+// Back button (Android hardware/gesture back)
+window.goBack = goBack
 
 // Navigation
 window.changeTab = (tab) => {
@@ -1848,18 +1859,11 @@ window.dismissLanding = () => {
 
 window.closeLanding = () => setState({ showLanding: false })
 
-// Toggle a hidden checkbox and update the pill button visual (for Landing cookies, Companion toggles)
-window.toggleFormCheckbox = (checkboxId, btn) => {
+// Toggle a hidden checkbox (visual is handled by renderToggle's onclick)
+// Used by Landing cookies and Companion notification toggles
+window.toggleFormToggle = (checkboxId) => {
   const cb = document.getElementById(checkboxId)
   if (cb) cb.checked = !cb.checked
-  const on = cb?.checked ?? false
-  btn.setAttribute('aria-checked', on)
-  btn.className = `relative w-14 h-7 rounded-full transition-colors shrink-0 ${on ? 'bg-emerald-500' : 'bg-slate-600'}`
-  const knob = btn.querySelector('span')
-  if (knob) {
-    knob.className = `absolute top-0.5 ${on ? 'right-0.5' : 'left-0.5'} w-6 h-6 rounded-full bg-white flex items-center justify-center text-sm shadow transition-all`
-    knob.textContent = on ? '👍' : '👎'
-  }
 }
 
 // Change language from the onboarding carousel without page reload
