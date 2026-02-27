@@ -3885,6 +3885,15 @@ export default {
   eventType_: 'Type d\'événement',
   comingSoon: 'Bientôt disponible',
   featureComingSoon: 'Bientôt disponible',
+  voteToAccelerate: 'Voter pour accélérer',
+  radarFeature1: 'Voir les autostoppeurs proches de toi en temps réel',
+  radarFeature2: 'Les contacter pour faire route ensemble',
+  radarFeature3: "Recevoir une alerte quand quelqu'un est à moins de 5km",
+  radarFeature4: "Visible uniquement si tu l'actives — vie privée respectée",
+  identityFeature1: "Un service externe spécialisé vérifie ton identité (selfie + pièce d'identité)",
+  identityFeature2: "Ta pièce d'identité n'est jamais stockée sur SpotHitch — impossible de la partager, pour protéger ta vie privée",
+  identityFeature3: 'Service payant (quelques euros) car traité par un prestataire certifié — sécurité totale garantie',
+  identityFeature4: 'Badge "Vérifié" sur ton profil — plus de confiance pour voyager ensemble',
 
   // Auto-added by quality-gate --fix
   roadmapConcept: 'Concept',

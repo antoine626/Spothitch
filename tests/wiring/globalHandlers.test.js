@@ -109,6 +109,9 @@ const MAIN_JS_HANDLERS = [
   'openTeamChallenges', 'closeTeamChallenges',
   'openCreateTeam', 'closeCreateTeam',
   'createTeamAction', 'joinTeamAction', 'leaveTeamAction', 'startTeamChallengeAction',
+  // Coming soon feature modals
+  'openComingSoonRadar', 'closeComingSoonRadar',
+  'openComingSoonIdentity', 'closeComingSoonIdentity',
   // Travel groups
   'openTravelGroups', 'openCreateTravelGroup', 'closeCreateTravelGroup',
   'openTravelGroupDetail', 'closeTravelGroupDetail',

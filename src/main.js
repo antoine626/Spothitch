@@ -1771,6 +1771,12 @@ if (!window.closeReport) {
   })
 }
 
+// Coming soon feature modals
+window.openComingSoonRadar = () => setState({ showComingSoonRadar: true })
+window.closeComingSoonRadar = () => setState({ showComingSoonRadar: false })
+window.openComingSoonIdentity = () => setState({ showComingSoonIdentity: true })
+window.closeComingSoonIdentity = () => setState({ showComingSoonIdentity: false })
+
 // Travel groups handlers
 window.openTravelGroups = () => setState({ activeTab: 'travel-groups' })
 window.openCreateTravelGroup = () => setState({ showCreateTravelGroup: true })

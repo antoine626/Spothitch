@@ -3882,6 +3882,15 @@ export default {
   eventType_: 'Ereignistyp',
   comingSoon: 'Demnächst verfügbar',
   featureComingSoon: 'Demnächst verfügbar',
+  voteToAccelerate: 'Abstimmen, um es zu beschleunigen',
+  radarFeature1: 'Tramper in der Nähe in Echtzeit sehen',
+  radarFeature2: 'Sie kontaktieren, um gemeinsam zu reisen',
+  radarFeature3: 'Eine Benachrichtigung erhalten, wenn jemand innerhalb von 5km ist',
+  radarFeature4: 'Nur sichtbar, wenn du es aktivierst — Privatsphäre geschützt',
+  identityFeature1: 'Ein spezialisierter externer Dienst überprüft deine Identität (Selfie + Ausweis)',
+  identityFeature2: 'Dein Ausweis wird nie auf SpotHitch gespeichert — unmöglich zu teilen, zum Schutz deiner Privatsphäre',
+  identityFeature3: 'Kostenpflichtiger Dienst (wenige Euro) von einem zertifizierten Anbieter — totale Sicherheit garantiert',
+  identityFeature4: '"Verifiziert"-Abzeichen auf deinem Profil — mehr Vertrauen beim gemeinsamen Reisen',
 
   // Auto-added by quality-gate --fix
   roadmapConcept: 'Konzept',

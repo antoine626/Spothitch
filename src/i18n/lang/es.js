@@ -3882,6 +3882,15 @@ export default {
   eventType_: 'Tipo de evento',
   comingSoon: 'Próximamente',
   featureComingSoon: 'Próximamente',
+  voteToAccelerate: 'Votar para acelerar',
+  radarFeature1: 'Ver autoestopistas cercanos en tiempo real',
+  radarFeature2: 'Contactarlos para viajar juntos',
+  radarFeature3: 'Recibir una alerta cuando alguien esté a menos de 5km',
+  radarFeature4: 'Visible solo si lo activas — privacidad respetada',
+  identityFeature1: 'Un servicio externo especializado verifica tu identidad (selfie + documento de identidad)',
+  identityFeature2: 'Tu documento nunca se almacena en SpotHitch — imposible compartirlo, para proteger tu privacidad',
+  identityFeature3: 'Servicio de pago (unos euros) gestionado por un proveedor certificado — seguridad total garantizada',
+  identityFeature4: 'Insignia "Verificado" en tu perfil — más confianza para viajar juntos',
 
   // Auto-added by quality-gate --fix
   roadmapConcept: 'Concepto',

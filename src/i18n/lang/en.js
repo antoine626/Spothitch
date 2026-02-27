@@ -3885,6 +3885,15 @@ export default {
   eventType_: 'Event type',
   comingSoon: 'Coming soon',
   featureComingSoon: 'Coming soon',
+  voteToAccelerate: 'Vote to speed it up',
+  radarFeature1: 'See nearby hitchhikers in real time',
+  radarFeature2: 'Contact them to travel together',
+  radarFeature3: 'Get an alert when someone is within 5km',
+  radarFeature4: 'Only visible if you enable it — privacy respected',
+  identityFeature1: 'A specialized external service verifies your identity (selfie + ID card)',
+  identityFeature2: 'Your ID is never stored on SpotHitch — impossible to share, protecting your privacy',
+  identityFeature3: 'Paid service (a few euros) handled by a certified provider — total security guaranteed',
+  identityFeature4: '"Verified" badge on your profile — more trust when traveling together',
 
   // Auto-added by quality-gate --fix
   roadmapConcept: 'Concept',
