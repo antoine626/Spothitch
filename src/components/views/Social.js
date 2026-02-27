@@ -619,44 +619,64 @@ function renderCompanionSearch(state) {
           ${t('lookingForCompanion')}
         </h3>
         <p class="text-sm text-slate-400 mb-4">${t('companionDesc')}</p>
-        <div class="space-y-3">
+        <div class="space-y-4">
           <!-- From / To -->
           <div class="flex gap-2">
-            <input type="text" id="companion-from" class="input-field flex-1" placeholder="${t('from')} *" />
-            <input type="text" id="companion-to" class="input-field flex-1" placeholder="${t('to')} *" />
+            <div class="flex-1">
+              <label class="text-xs text-slate-400 mb-1 block">${t('companionFrom') || 'Départ'} *</label>
+              <input type="text" id="companion-from" class="input-field w-full" placeholder="${t('companionFromPlaceholder') || 'Ville de départ'}" />
+            </div>
+            <div class="flex-1">
+              <label class="text-xs text-slate-400 mb-1 block">${t('companionTo') || 'Arrivée'} *</label>
+              <input type="text" id="companion-to" class="input-field w-full" placeholder="${t('companionToPlaceholder') || 'Destination'}" />
+            </div>
           </div>
-          <!-- Date + Duration -->
-          <div class="flex gap-2">
-            <input type="date" id="companion-date" class="input-field flex-1" min="${new Date().toISOString().split('T')[0]}" />
-            <select id="companion-duration" class="input-field flex-1">
-              <option value="">${t('companionDuration') || 'Durée'}</option>
-              <option value="1d">1 ${t('day') || 'jour'}</option>
-              <option value="2d">2 ${t('days') || 'jours'}</option>
-              <option value="3d">3 ${t('days') || 'jours'}</option>
-              <option value="1w">1 ${t('week') || 'semaine'}</option>
-              <option value="2w">2 ${t('weeks') || 'semaines'}</option>
-              <option value="1m">1 ${t('month') || 'mois'}</option>
-              <option value="2m">2+ ${t('months') || 'mois'}</option>
-            </select>
+          <!-- Date -->
+          <div>
+            <label class="text-xs text-slate-400 mb-1 block">${t('companionDepartureDate') || 'Date de départ'}</label>
+            <input type="date" id="companion-date" class="input-field w-full" min="${new Date().toISOString().split('T')[0]}" />
           </div>
-          <!-- People + Gender -->
+          <!-- Duration + People -->
           <div class="flex gap-2">
-            <select id="companion-people" class="input-field flex-1">
-              <option value="any">${t('companionPeopleAny') || "N'importe"}</option>
-              <option value="1">1 ${t('person') || 'personne'}</option>
-              <option value="2">2 ${t('people') || 'personnes'}</option>
-              <option value="3">3 ${t('people') || 'personnes'}</option>
-            </select>
-            <select id="companion-gender" class="input-field flex-1">
-              <option value="any">${t('companionGenderAny') || "N'importe"}</option>
+            <div class="flex-1">
+              <label class="text-xs text-slate-400 mb-1 block">${t('companionDuration') || 'Durée'}</label>
+              <select id="companion-duration" class="input-field w-full">
+                <option value="flexible">${t('companionDurationFlexible') || "On verra \u{1F937}"}</option>
+                <option value="1d">1 ${t('day') || 'jour'}</option>
+                <option value="2d">2 ${t('days') || 'jours'}</option>
+                <option value="3d">3 ${t('days') || 'jours'}</option>
+                <option value="1w">1 ${t('week') || 'semaine'}</option>
+                <option value="2w">2 ${t('weeks') || 'semaines'}</option>
+                <option value="1m">1 ${t('month') || 'mois'}</option>
+                <option value="2m">2+ ${t('months') || 'mois'}</option>
+              </select>
+            </div>
+            <div class="flex-1">
+              <label class="text-xs text-slate-400 mb-1 block">${t('companionPeopleLabel') || 'Nombre de personnes'}</label>
+              <select id="companion-people" class="input-field w-full">
+                <option value="any">${t('companionPeopleAny') || "Peu importe"}</option>
+                <option value="1">1 ${t('person') || 'personne'}</option>
+                <option value="2">2 ${t('people') || 'personnes'}</option>
+                <option value="3">3 ${t('people') || 'personnes'}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Gender -->
+          <div>
+            <label class="text-xs text-slate-400 mb-1 block">${t('companionGenderLabel') || 'Genre préféré'}</label>
+            <select id="companion-gender" class="input-field w-full">
+              <option value="any">${t('companionGenderAny') || "Peu importe"}</option>
               <option value="female">${t('companionGenderFemale') || 'Femme'}</option>
               <option value="male">${t('companionGenderMale') || 'Homme'}</option>
             </select>
           </div>
           <!-- Description -->
-          <textarea id="companion-desc" class="input-field w-full" rows="2"
-            placeholder="${t('companionDescPlaceholder') || 'Décris ton voyage, ce que tu recherches...'}"
-            maxlength="300"></textarea>
+          <div>
+            <label class="text-xs text-slate-400 mb-1 block">${t('companionDescLabel') || 'Description'}</label>
+            <textarea id="companion-desc" class="input-field w-full" rows="2"
+              placeholder="${t('companionDescPlaceholder') || 'Décris ton voyage, ce que tu recherches...'}"
+              maxlength="300"></textarea>
+          </div>
           <!-- Publish -->
           <button onclick="postCompanionRequest()" class="btn-primary w-full py-3">
             ${icon('send', 'w-5 h-5 mr-1')}
@@ -682,6 +702,7 @@ function renderCompanionRequests(state) {
   }
 
   const durationLabels = {
+    flexible: t('companionDurationFlexible') || 'On verra \u{1F937}',
     '1d': `1 ${t('day') || 'jour'}`, '2d': `2 ${t('days') || 'jours'}`, '3d': `3 ${t('days') || 'jours'}`,
     '1w': `1 ${t('week') || 'semaine'}`, '2w': `2 ${t('weeks') || 'semaines'}`,
     '1m': `1 ${t('month') || 'mois'}`, '2m': `2+ ${t('months') || 'mois'}`,
@@ -689,7 +710,7 @@ function renderCompanionRequests(state) {
   const genderLabels = {
     female: t('companionGenderFemale') || 'Femme',
     male: t('companionGenderMale') || 'Homme',
-    any: t('companionGenderAny') || "N'importe",
+    any: t('companionGenderAny') || 'Peu importe',
   }
 
   return `
