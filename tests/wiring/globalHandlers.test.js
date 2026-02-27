@@ -175,7 +175,7 @@ const MAIN_JS_HANDLERS = [
   'syncTripFieldsAndCalculate', 'toggleRouteAmenities', 'centerTripMapOnGps', 'setRouteFilter',
   // Social view (defined in Social.js + sub-components)
   'setSocialTab', 'postCompanionRequest', 'addFriendByName',
-  'showCompanionSearchView', 'closeCompanionSearch', 'setEventFilter',
+  'showCompanionSearchView', 'closeCompanionSearch', 'toggleCustomSelect', 'selectCustomOption', 'setEventFilter',
   // Feed (defined in Feed.js)
   'setFeedFilter', 'toggleFeedVisibility',
   // Conversations (defined in Conversations.js)

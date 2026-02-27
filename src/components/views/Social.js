@@ -9,6 +9,7 @@ import { icon } from '../../utils/icons.js'
 import { renderSearchInput } from '../../utils/searchInput.js'
 // renderToggle removed — proximity radar is now "coming soon"
 import { escapeHTML } from '../../utils/sanitize.js'
+import { renderCustomSelect } from '../../utils/customSelect.js'
 import { formatTime, formatRelativeTime, formatEventDate } from '../../utils/formatters.js'
 import { renderConversations } from './social/Conversations.js'
 import { renderSkeletonChatList } from '../ui/Skeleton.js'
@@ -638,38 +639,46 @@ function renderCompanionSearch(state) {
           </div>
           <!-- Duration + People -->
           <div class="flex gap-2">
-            <div class="flex-1">
-              <label class="text-xs text-slate-400 mb-1 block">${t('companionDuration') || 'Durée'}</label>
-              <select id="companion-duration" class="input-field w-full">
-                <option value="flexible">${t('companionDurationFlexible') || "On verra \u{1F937}"}</option>
-                <option value="1d">1 ${t('day') || 'jour'}</option>
-                <option value="2d">2 ${t('days') || 'jours'}</option>
-                <option value="3d">3 ${t('days') || 'jours'}</option>
-                <option value="1w">1 ${t('week') || 'semaine'}</option>
-                <option value="2w">2 ${t('weeks') || 'semaines'}</option>
-                <option value="1m">1 ${t('month') || 'mois'}</option>
-                <option value="2m">2+ ${t('months') || 'mois'}</option>
-              </select>
-            </div>
-            <div class="flex-1">
-              <label class="text-xs text-slate-400 mb-1 block">${t('companionPeopleLabel') || 'Nombre de personnes'}</label>
-              <select id="companion-people" class="input-field w-full">
-                <option value="any">${t('companionPeopleAny') || "Peu importe"}</option>
-                <option value="1">1 ${t('person') || 'personne'}</option>
-                <option value="2">2 ${t('people') || 'personnes'}</option>
-                <option value="3">3 ${t('people') || 'personnes'}</option>
-              </select>
-            </div>
+            ${renderCustomSelect({
+              id: 'companion-duration',
+              label: t('companionDuration') || 'Durée',
+              value: 'flexible',
+              className: 'flex-1',
+              options: [
+                { value: 'flexible', text: t('companionDurationFlexible') || 'On verra \u{1F937}' },
+                { value: '1d', text: `1 ${t('day') || 'jour'}` },
+                { value: '2d', text: `2 ${t('days') || 'jours'}` },
+                { value: '3d', text: `3 ${t('days') || 'jours'}` },
+                { value: '1w', text: `1 ${t('week') || 'semaine'}` },
+                { value: '2w', text: `2 ${t('weeks') || 'semaines'}` },
+                { value: '1m', text: `1 ${t('month') || 'mois'}` },
+                { value: '2m', text: `2+ ${t('months') || 'mois'}` },
+              ],
+            })}
+            ${renderCustomSelect({
+              id: 'companion-people',
+              label: t('companionPeopleLabel') || 'Nombre de personnes',
+              value: 'any',
+              className: 'flex-1',
+              options: [
+                { value: 'any', text: t('companionPeopleAny') || 'Peu importe' },
+                { value: '1', text: `1 ${t('person') || 'personne'}` },
+                { value: '2', text: `2 ${t('people') || 'personnes'}` },
+                { value: '3', text: `3 ${t('people') || 'personnes'}` },
+              ],
+            })}
           </div>
           <!-- Gender -->
-          <div>
-            <label class="text-xs text-slate-400 mb-1 block">${t('companionGenderLabel') || 'Genre préféré'}</label>
-            <select id="companion-gender" class="input-field w-full">
-              <option value="any">${t('companionGenderAny') || "Peu importe"}</option>
-              <option value="female">${t('companionGenderFemale') || 'Femme'}</option>
-              <option value="male">${t('companionGenderMale') || 'Homme'}</option>
-            </select>
-          </div>
+          ${renderCustomSelect({
+            id: 'companion-gender',
+            label: t('companionGenderLabel') || 'Genre préféré',
+            value: 'any',
+            options: [
+              { value: 'any', text: t('companionGenderAny') || 'Peu importe' },
+              { value: 'female', text: t('companionGenderFemale') || 'Femme' },
+              { value: 'male', text: t('companionGenderMale') || 'Homme' },
+            ],
+          })}
           <!-- Description -->
           <div>
             <label class="text-xs text-slate-400 mb-1 block">${t('companionDescLabel') || 'Description'}</label>

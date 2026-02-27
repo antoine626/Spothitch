@@ -989,6 +989,17 @@ select.input-modern option {
   @apply bg-slate-100;
 }
 
+/* Custom select dropdown */
+.custom-select-menu {
+  scrollbar-width: thin;
+}
+.light-theme .custom-select-menu {
+  @apply bg-white/95 border-slate-200;
+}
+.light-theme .custom-select-menu button {
+  @apply text-slate-800 border-slate-100 hover:bg-slate-50;
+}
+
 /* Home map — prevent vertical scroll on map tab */
 #home-map-container {
   touch-action: none;

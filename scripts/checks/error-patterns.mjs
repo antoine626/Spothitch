@@ -510,7 +510,7 @@ const PATTERN_CHECKS = [
               'radio-btn', 'tab-btn', 'nav-btn', 'spot-card', 'map-marker',
               // Dynamic classes defined in template literals (false positives)
               'team-avatar-btn', 'landing-dot', 'spot-type-btn', 'language-option',
-              'category-btn', 'hostel-tab', 'faq-answer', 'contact-error',
+              'category-btn', 'hostel-tab', 'faq-answer', 'contact-error', 'custom-select-menu',
               // External library classes
               'maplibregl-popup'])
             if (!KNOWN_CLASSES.has(className)) {
