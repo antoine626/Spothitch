@@ -891,11 +891,11 @@ describe('Integration: FeedbackPanel', () => {
     const { renderFeedbackPanel } = require('../../src/components/modals/FeedbackPanel.js')
     const html = renderFeedbackPanel(getState())
     expect(html).toContain('openFeedbackDetail')
-    expect(html).toContain('sec-sos')
+    expect(html).toContain('sos')
   })
 
   it('renders detail view when feedbackDetailFeature is set', () => {
-    setState({ showFeedbackPanel: true, feedbackActiveTab: 'carte', feedbackDetailFeature: 'map-interactive' })
+    setState({ showFeedbackPanel: true, feedbackActiveTab: 'carte', feedbackDetailFeature: 'search-city' })
     const { renderFeedbackPanel } = require('../../src/components/modals/FeedbackPanel.js')
     const html = renderFeedbackPanel(getState())
     expect(html).toContain('closeFeedbackDetail')
