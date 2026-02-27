@@ -380,7 +380,7 @@ describe('Modal Flags: flag produces non-empty HTML', () => {
     const html = renderDailyRewardModal()
     expect(html).toBeTruthy()
     expect(html.length).toBeGreaterThan(100)
-    expect(html.toLowerCase()).toContain('recompense')
+    expect(html.toLowerCase()).toContain('récompense')
   })
 
   test('showDeleteAccount flag renders DeleteAccount modal', () => {

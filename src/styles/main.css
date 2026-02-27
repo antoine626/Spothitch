@@ -579,6 +579,11 @@
   min-height: 400px;
 }
 
+/* Popups must appear above bottom sheet (z-40) but below modals (z-50) */
+.maplibregl-popup {
+  z-index: 45 !important;
+}
+
 .maplibregl-popup-content {
   @apply bg-dark-primary/95 text-white rounded-2xl border border-white/10 p-3;
 }

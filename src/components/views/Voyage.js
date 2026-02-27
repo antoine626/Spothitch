@@ -93,7 +93,7 @@ export function renderVoyage(state) {
 
 function renderVoyageSubTabs(active, activeTrip) {
   const tabs = [
-    { id: 'voyage', icon: 'route', label: t('voyageTabVoyage') || 'Voyage', dot: !!activeTrip },
+    { id: 'voyage', icon: 'route', label: t('voyageTabVoyage') || 'Itinéraire', dot: !!activeTrip },
     { id: 'guides', icon: 'book-open', label: t('voyageTabGuides') || 'Guides' },
     { id: 'journal', icon: 'notebook-pen', label: t('voyageTabJournal') || 'Journal' },
   ]

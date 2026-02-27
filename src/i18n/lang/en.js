@@ -3700,7 +3700,7 @@ export default {
   trophies: 'Trophies',
   profileStats: 'Stats',
   // Voyage tab (3 sub-tabs: voyage, guides, journal)
-  voyageTabVoyage: 'Trip',
+  voyageTabVoyage: 'Itinerary',
   voyageTabGuides: 'Guides',
   voyageTabJournal: 'Journal',
   // Legacy keys kept for compatibility
