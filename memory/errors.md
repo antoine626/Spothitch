@@ -599,3 +599,26 @@ Chaque erreur suit ce format :
   - **Quand on ajoute un overlay fullscreen (z-50)** → mettre à jour `skipOnboarding` + `dismissOverlays` dans les E2E helpers.
 - **Fichiers** : `src/components/modals/Auth.js`, `src/main.js`, `src/services/firebase.js`, `e2e/helpers.js`
 - **Statut** : CORRIGÉ
+
+### ERR-049 — Google Sign-In broken due to COOP (signInWithPopup hangs forever)
+- **Date** : 2026-02-28
+- **Gravité** : CRITIQUE
+- **Description** : Google Sign-In ne fonctionnait pas. L'utilisateur clique "Continuer avec Google", un popup s'ouvre vers accounts.google.com, mais l'authentification ne se termine jamais. Le popup reste bloqué indéfiniment. Les corrections précédentes (ERR-035) avaient ajouté `_authInProgress` et un fallback redirect, mais le popup était toujours tenté en premier et bloquait.
+- **Cause racine** : Cross-Origin-Opener-Policy (COOP). Google's accounts.google.com définit des headers COOP qui empêchent les navigateurs Chromium de faire du polling `window.closed` en cross-origin. Firebase `signInWithPopup` a besoin de `window.closed` pour détecter quand le popup se ferme. Résultat : `signInWithPopup` ne résout jamais sa Promise. Vérifié avec Playwright : erreur console "Cross-Origin-Opener-Policy policy would block the window.closed call". Le popup s'ouvre mais le SDK Firebase ne peut jamais détecter sa fermeture.
+- **Correction** :
+  - Supprimer complètement `signInWithPopup` de `signInWithGoogle()` dans firebase.js
+  - Utiliser UNIQUEMENT `signInWithRedirect` (la page navigue vers Google, l'utilisateur s'authentifie, la page revient)
+  - `checkRedirectResult()` dans main.js récupère le résultat au retour
+  - Ajout de `sessionStorage.setItem('spothitch_auth_redirect', '1')` avant le redirect pour bloquer l'auto-reload au retour
+  - `doReload()` et `visibilitychange` vérifient aussi `sessionStorage.getItem('spothitch_auth_redirect')` en plus de `_authInProgress`
+  - `checkRedirectResult()` met `_authInProgress = true` pendant le traitement du résultat
+  - Ajout de la gestion `authPendingAction` dans sessionStorage pour survivre au redirect
+  - Ajout de la clé i18n `redirecting` dans les 4 langues
+- **Leçon** :
+  - **JAMAIS utiliser `signInWithPopup` pour Google Sign-In** — COOP rend le popup inutilisable sur Chromium
+  - **TOUJOURS utiliser `signInWithRedirect` pour Google** — seul moyen fiable cross-browser
+  - **Si le popup ne fonctionne pas, NE PAS essayer "popup first, redirect fallback"** — le popup va bloquer indéfiniment avant que le fallback puisse s'exécuter
+  - **Les headers COOP de sites tiers (Google, Facebook, Apple) sont hors de contrôle** — adapter l'auth en conséquence
+  - **Tester l'auth avec Playwright** pour vérifier les erreurs COOP dans la console
+- **Fichiers** : `src/services/firebase.js`, `src/components/modals/Auth.js`, `src/main.js`, `src/i18n/lang/{en,fr,es,de}.js`
+- **Statut** : CORRIGÉ

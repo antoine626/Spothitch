@@ -202,8 +202,11 @@ function startVersionCheck() {
   // On first visit, controller is null → skip. On update, controller changes → reload.
   let hadController = !!navigator.serviceWorker?.controller
   navigator.serviceWorker?.addEventListener('controllerchange', () => {
-    if (hadController) {
-      doReload()
+    if (hadController && !isReloading) {
+      // New SW activated — reload NOW so user gets latest version immediately
+      isReloading = true
+      try { showToast(t('updating') || 'Mise à jour...', 'info') } catch (_e) { /* ok */ }
+      setTimeout(() => window.location.reload(), 800)
     }
     hadController = true
   })
