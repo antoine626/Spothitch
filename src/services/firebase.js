@@ -15,7 +15,6 @@ import {
   FacebookAuthProvider,
   OAuthProvider,
   signInWithPopup,
-  signInWithRedirect,
   getRedirectResult,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
@@ -119,18 +118,27 @@ export async function signIn(email, password) {
 }
 
 /**
- * Sign in with Google via redirect (NOT popup). See ERR-049.
- * signInWithPopup is broken due to COOP on accounts.google.com.
+ * Sign in with Google via POPUP.
+ *
+ * Why popup and not redirect?
+ * - signInWithRedirect breaks on phones with third-party cookie blocking
+ *   (Chrome, Safari block cross-origin storage → getRedirectResult returns null)
+ * - signInWithPopup works because the popup runs on the same origin flow
+ * - The "COOP" issue from ERR-049 was only in Playwright tests, not real browsers
+ * - Tested on production 2026-03-01: popup works on real Android phones
  */
 export async function signInWithGoogle() {
-  // REDIRECT ONLY — do NOT use signInWithPopup (COOP breaks it, see ERR-049)
   const provider = new GoogleAuthProvider()
   try {
-    sessionStorage.setItem('spothitch_auth_redirect', '1')
-    await signInWithRedirect(auth, provider)
-    return { success: false, error: 'redirect' }
+    window._authInProgress = true
+    const result = await signInWithPopup(auth, provider)
+    window._authInProgress = false
+    if (result?.user) {
+      return { success: true, user: result.user }
+    }
+    return { success: false, error: 'no-user' }
   } catch (error) {
-    sessionStorage.removeItem('spothitch_auth_redirect')
+    window._authInProgress = false
     return { success: false, error: error.code }
   }
 }
