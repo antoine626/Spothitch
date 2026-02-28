@@ -119,45 +119,55 @@ export async function signIn(email, password) {
 }
 
 /**
- * Sign in with Google
- * Tries popup first; falls back to redirect if popup is blocked/unavailable.
- * After a redirect, call checkRedirectResult() on page load to complete sign-in.
+ * Sign in with Google — popup first, redirect fallback.
+ *
+ * Popup is faster UX (no page reload). If popup fails (COOP on some
+ * Chromebook builds, popup blocked, etc.) we fall back to redirect.
+ * The COOP issue affects Playwright and some Chromium builds but not all.
+ * Redirect flow: page navigates to Google, comes back, onAuthStateChanged
+ * detects the user + sessionStorage flag closes the auth modal.
  */
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider()
+
+  // Try popup first — instant UX on most browsers
   try {
+    window._authInProgress = true
     const result = await signInWithPopup(auth, provider)
-    return { success: true, user: result.user }
-  } catch (error) {
-    const code = error.code
-    // User deliberately closed the popup — not an error, just cancelled
-    if (code === 'auth/popup-closed-by-user') {
+    window._authInProgress = false
+    if (result?.user) {
+      return { success: true, user: result.user }
+    }
+  } catch (popupError) {
+    window._authInProgress = false
+    const code = popupError?.code || ''
+    // User cancelled — don't fall back to redirect
+    if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
       return { success: false, error: code }
     }
-    // If popup was blocked or cancelled by the browser, fall back to redirect
-    if (code === 'auth/popup-blocked' || code === 'auth/cancelled-popup-request') {
-      try {
-        // Mark that a redirect is in progress so the app doesn't treat the
-        // resulting page reload as an error
-        sessionStorage.setItem('spothitch_auth_redirect', '1')
-        await signInWithRedirect(auth, provider)
-        // signInWithRedirect causes a full page redirect — execution stops here
-        return { success: false, error: 'redirect' }
-      } catch (redirectError) {
-        return { success: false, error: redirectError.code }
-      }
+    // Popup failed — fall back to redirect
+    try {
+      sessionStorage.setItem('spothitch_auth_redirect', '1')
+      await signInWithRedirect(auth, provider)
+      return { success: false, error: 'redirect' }
+    } catch (redirectError) {
+      sessionStorage.removeItem('spothitch_auth_redirect')
+      return { success: false, error: redirectError.code }
     }
-    return { success: false, error: code }
   }
+  return { success: false, error: 'unknown' }
 }
 
 /**
  * Check for pending redirect result after a signInWithRedirect.
- * Must be called once on app startup.
+ * Must be called once on app startup — as early as possible.
  * Returns { success, user } if a redirect completed, or null if none pending.
  */
 export async function checkRedirectResult() {
   try {
+    // Block auto-reload while we're processing a redirect result
+    // (the page just navigated back from Google — don't reload it again)
+    window._authInProgress = true
     const result = await getRedirectResult(auth);
     if (result && result.user) {
       sessionStorage.removeItem('spothitch_auth_redirect')
@@ -167,6 +177,8 @@ export async function checkRedirectResult() {
   } catch (error) {
     sessionStorage.removeItem('spothitch_auth_redirect')
     return { success: false, error: error.code };
+  } finally {
+    window._authInProgress = false
   }
 }
 

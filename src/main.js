@@ -152,8 +152,8 @@ function startVersionCheck() {
 
   async function doReload() {
     if (isReloading) return
-    // Never reload during an auth popup flow (popup steals focus → false visibilitychange)
-    if (window._authInProgress) {
+    // Never reload during an auth flow (popup or redirect)
+    if (window._authInProgress || sessionStorage.getItem('spothitch_auth_redirect')) {
       pendingReload = true
       return
     }
@@ -175,7 +175,7 @@ function startVersionCheck() {
 
   // When user backgrounds the app, apply pending reload
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden' && pendingReload && !isReloading && !window._authInProgress) {
+    if (document.visibilityState === 'hidden' && pendingReload && !isReloading && !window._authInProgress && !sessionStorage.getItem('spothitch_auth_redirect')) {
       isReloading = true
       window.location.reload()
     }
@@ -351,7 +351,7 @@ async function init() {
             actions.setUser(user)
             if (user) {
               const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
-              setState({
+              const updates = {
                 currentUser: user,
                 isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
                 userProfile: {
@@ -360,7 +360,26 @@ async function init() {
                   displayName: user.displayName,
                   photoURL: user.photoURL,
                 },
-              })
+              }
+              // If we're returning from a Google redirect, close the auth modal
+              // (getRedirectResult can return null on some browsers — this is the backup)
+              if (sessionStorage.getItem('spothitch_auth_redirect')) {
+                sessionStorage.removeItem('spothitch_auth_redirect')
+                updates.showAuth = false
+                updates.authPendingAction = null
+                updates.showAuthReason = null
+                fb.createOrUpdateUserProfile(user).catch(() => {})
+                showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
+                // Execute pending action
+                const pendingAction = sessionStorage.getItem('spothitch_auth_pending_action')
+                sessionStorage.removeItem('spothitch_auth_pending_action')
+                if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
+                else if (pendingAction === 'sos') setTimeout(() => window.openSOS?.(), 300)
+                else if (pendingAction === 'companion') setTimeout(() => window.showCompanionModal?.(), 300)
+                else if (pendingAction === 'social') setTimeout(() => setState({ activeTab: 'social' }), 300)
+                else if (pendingAction === 'tripPlanner') setTimeout(() => window.openTripPlanner?.(), 300)
+              }
+              setState(updates)
               // Hydrate profile from Firestore (bio, languages, etc.)
               fb.hydrateLocalProfileFromFirestore(user.uid).catch(() => {})
             } else {
@@ -371,7 +390,7 @@ async function init() {
             } catch (_e) { /* sentry optional */ }
           })
 
-          // Check for pending Google redirect result (signInWithRedirect fallback)
+          // Check for pending Google redirect result (signInWithRedirect)
           try {
             const redirectResult = await fb.checkRedirectResult()
             if (redirectResult?.success && redirectResult.user) {
@@ -381,6 +400,9 @@ async function init() {
               const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
               actions.setUser(user)
               setState({
+                showAuth: false,
+                authPendingAction: null,
+                showAuthReason: null,
                 currentUser: user,
                 isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
                 userProfile: {
@@ -391,6 +413,15 @@ async function init() {
                 },
               })
               showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
+
+              // Execute pending action that was saved before the redirect
+              const pendingAction = sessionStorage.getItem('spothitch_auth_pending_action')
+              sessionStorage.removeItem('spothitch_auth_pending_action')
+              if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
+              else if (pendingAction === 'sos') setTimeout(() => window.openSOS?.(), 300)
+              else if (pendingAction === 'companion') setTimeout(() => window.showCompanionModal?.(), 300)
+              else if (pendingAction === 'social') setTimeout(() => setState({ activeTab: 'social' }), 300)
+              else if (pendingAction === 'tripPlanner') setTimeout(() => window.openTripPlanner?.(), 300)
             }
           } catch (_e) { /* redirect check optional */ }
         } catch (e) { /* optional */ }
@@ -1094,39 +1125,27 @@ window.closeAuth = () => setState({ showAuth: false, authPendingAction: null, sh
 // setAuthMode — canonical in Auth.js
 // Email login/signup is handled by Auth.js via window.handleAuth (with executePendingAction)
 // Social auth handlers are defined in Auth.js (handleGoogleSignIn, handleAppleSignIn, handleFacebookSignIn)
-// Fallback registrations in case Auth.js hasn't loaded yet — must also resume authPendingAction
+// Fallback registrations in case Auth.js hasn't loaded yet
 if (!window.handleGoogleSignIn) {
   window.handleGoogleSignIn = async () => {
-    // Block auto-reload IMMEDIATELY — before any async that could yield control
-    window._authInProgress = true
+    // Google Sign-In uses redirect (not popup) to avoid COOP issues.
+    // The page navigates to Google, then comes back.
+    // checkRedirectResult() handles the result on return.
     try {
       const fb = await getFirebase()
       fb.initializeFirebase()
-      const result = await fb.signInWithGoogle()
-      if (result.success) {
-        await fb.createOrUpdateUserProfile(result.user)
-        fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
-        const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
-        const pendingAction = getState().authPendingAction
-        actions.setUser(result.user)
-        setState({
-          showAuth: false, authPendingAction: null, showAuthReason: null,
-          currentUser: result.user,
-          isAdmin: ADMIN_EMAILS.includes(result.user.email?.toLowerCase()),
-          userProfile: {
-            uid: result.user.uid,
-            email: result.user.email,
-            displayName: result.user.displayName,
-            photoURL: result.user.photoURL,
-          },
-        })
-        showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
-        if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
-      } else {
-        showToast(t('googleLoginError') || 'Google login error', 'error')
+
+      // Save pending action so it survives the redirect
+      const pendingAction = getState().authPendingAction
+      if (pendingAction) {
+        sessionStorage.setItem('spothitch_auth_pending_action', pendingAction)
       }
-    } finally {
-      window._authInProgress = false
+
+      // This navigates the page away to Google
+      await fb.signInWithGoogle()
+    } catch (e) {
+      console.error('Google sign in error:', e)
+      showToast(t('googleLoginError') || 'Google login error', 'error')
     }
   }
 }

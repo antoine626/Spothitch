@@ -341,28 +341,37 @@ window.handleAuth = async (event) => {
 }
 
 window.handleGoogleSignIn = async () => {
-  // Block auto-reload IMMEDIATELY — before any async import that could yield
-  // control and allow a pending visibilitychange reload to fire
-  window._authInProgress = true
+  // Google Sign-In uses redirect (page navigates to Google, then back).
+  // checkRedirectResult() in main.js handles the result on return.
+  // DO NOT use signInWithPopup — broken due to COOP (see ERR-049).
   try {
     const fb = await import('../../services/firebase.js')
-    const { showSuccess, showError } = await import('../../services/notifications.js')
-    const { setState, getState, actions } = await import('../../stores/state.js')
+    const { getState, setState } = await import('../../stores/state.js')
 
     fb.initializeFirebase()
 
+    // Save any pending action so it survives a potential redirect
+    const { authPendingAction } = getState()
+    if (authPendingAction) {
+      sessionStorage.setItem('spothitch_auth_pending_action', authPendingAction)
+    }
+
+    // Show loading state
+    const btn = document.getElementById('auth-google-btn')
+    if (btn) {
+      btn.disabled = true
+      btn.style.opacity = '0.6'
+      btn.textContent = t('redirecting') || 'Connexion...'
+    }
+
     const result = await fb.signInWithGoogle()
 
-    if (result.success) {
+    // If popup succeeded (no redirect), handle the result immediately
+    if (result?.success && result.user) {
       const user = result.user
-      await fb.createOrUpdateUserProfile(user)
+      await fb.createOrUpdateUserProfile(user).catch(() => {})
       fb.hydrateLocalProfileFromFirestore(user.uid).catch(() => {})
-
-      // Set full user state directly (onAuthStateChanged listener in main.js
-      // will also fire, but we set state here for immediate UI feedback)
       const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
-      const { authPendingAction } = getState()
-      actions.setUser(user)
       setState({
         showAuth: false,
         authPendingAction: null,
@@ -376,20 +385,27 @@ window.handleGoogleSignIn = async () => {
           photoURL: user.photoURL,
         },
       })
+      const { showToast } = await import('../../services/notifications.js')
+      showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
 
-      showSuccess(t('googleLoginSuccess') || 'Google login successful!')
-
-      if (authPendingAction) {
-        executePendingAction(authPendingAction)
-      }
-    } else {
-      const errorMsg = getAuthErrorMessage(result.error)
-      showError(errorMsg)
+      // Execute pending action
+      const pendingAction = sessionStorage.getItem('spothitch_auth_pending_action')
+      sessionStorage.removeItem('spothitch_auth_pending_action')
+      if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
+      else if (pendingAction === 'sos') setTimeout(() => window.openSOS?.(), 300)
+      else if (pendingAction === 'companion') setTimeout(() => window.showCompanionModal?.(), 300)
+      else if (pendingAction === 'social') setTimeout(() => setState({ activeTab: 'social' }), 300)
+      else if (pendingAction === 'tripPlanner') setTimeout(() => window.openTripPlanner?.(), 300)
+    } else if (result?.error === 'redirect') {
+      // Redirect in progress — page will navigate away, nothing more to do
+    } else if (result?.error) {
+      // Restore button
+      if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.textContent = 'Google' }
     }
   } catch (error) {
     console.error('Google sign in error:', error)
-  } finally {
-    window._authInProgress = false
+    const { showError } = await import('../../services/notifications.js')
+    showError(t('authError') || 'Authentication error')
   }
 }
 

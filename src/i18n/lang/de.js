@@ -321,6 +321,7 @@ export default {
   alreadyAccount: 'Bereits ein Konto?',
   createAccount: 'Konto erstellen',
   continueWithGoogle: 'Mit Google fortfahren',
+  redirecting: 'Weiterleitung...',
   continueWithFacebook: 'Mit Facebook fortfahren',
   continueWithApple: 'Mit Apple fortfahren',
   orDivider: 'oder',

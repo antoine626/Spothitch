@@ -63,6 +63,7 @@ export default {
   alreadyAccount: '¿Ya tienes cuenta?',
   createAccount: 'Crear cuenta',
   continueWithGoogle: 'Continuar con Google',
+  redirecting: 'Redirigiendo...',
   continueWithFacebook: 'Continuar con Facebook',
   continueWithApple: 'Continuar con Apple',
   orDivider: 'o',
