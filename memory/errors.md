@@ -575,3 +575,27 @@ Chaque erreur suit ce format :
 - **Leçon** : **Ne JAMAIS utiliser `localStorage.setItem()` directement quand le state system persiste déjà la propriété.** Vérifier `persistState()` dans state.js d'abord.
 - **Fichiers** : `src/main.js`
 - **Statut** : CORRIGÉ
+
+### ERR-049 — Google Sign-In rechargeait la page (3 causes racines)
+- **Date** : 2026-02-28
+- **Gravité** : CRITIQUE
+- **Description** : L'auth Google ne fonctionnait pas : 1er clic = l'app se recharge, clics suivants = popup Google s'ouvre puis l'app recharge après sélection du compte.
+- **Cause racine** : 3 problèmes combinés :
+  1. **Race condition auto-reload** : `_authInProgress = true` était placé APRÈS les `await import(...)` dans `handleGoogleSignIn()`. Pendant ces imports asynchrones, l'event loop pouvait traiter un `visibilitychange` event et déclencher un reload (si `pendingReload` était déjà true à cause du version check).
+  2. **Pas de fallback redirect** : `signInWithPopup` échoue silencieusement sur certains navigateurs (ChromeOS, mobile). Aucun fallback vers `signInWithRedirect` n'existait.
+  3. **Firebase non initialisé au démarrage** : le code vérifiait `localStorage.getItem('spothitch_user')` qui n'était JAMAIS écrit nulle part. Résultat : `onAuthStateChanged` n'était jamais enregistré au démarrage, donc les sessions Firebase persistées en IndexedDB étaient ignorées.
+  4. **Bonus** : `getMessaging()` pouvait faire échouer tout `initializeFirebase()` car il n'avait pas de try/catch séparé.
+- **Correction** :
+  - Déplacer `_authInProgress = true` AVANT tout `await` (première ligne de la fonction)
+  - Ajouter `signInWithRedirect` comme fallback si popup bloquée + `checkRedirectResult()` au démarrage
+  - Toujours initialiser Firebase au démarrage (supprimer le check `hasSession`)
+  - Isoler `getMessaging()` dans son propre try/catch
+  - Aussi : E2E cassés par le popup beta (z-50 fullscreen) → ajouter `spothitch_beta_seen` dans `skipOnboarding`
+- **Leçon** :
+  - **JAMAIS placer un flag de protection APRÈS un `await`** — le mettre AVANT le premier `await` de la fonction.
+  - **TOUJOURS avoir un fallback redirect** pour `signInWithPopup` — les popups sont bloquées sur beaucoup de devices.
+  - **TOUJOURS initialiser Firebase au démarrage** — Firebase Auth persiste ses sessions en IndexedDB indépendamment de localStorage.
+  - **TOUJOURS isoler les sous-systèmes optionnels** (messaging, analytics) dans leur propre try/catch.
+  - **Quand on ajoute un overlay fullscreen (z-50)** → mettre à jour `skipOnboarding` + `dismissOverlays` dans les E2E helpers.
+- **Fichiers** : `src/components/modals/Auth.js`, `src/main.js`, `src/services/firebase.js`, `e2e/helpers.js`
+- **Statut** : CORRIGÉ
