@@ -469,10 +469,10 @@ export function renderApp(state) {
     <!-- Feedback Side Tab (hidden during SOS, landing, tutorial, full-screen modals) -->
     ${!state.showSOS && !state.showLanding && !state.showTutorial && !state.showFeedbackPanel ? `
       <button onclick="openFeedbackPanel()"
-        class="fixed right-0 top-[45%] -translate-y-1/2 z-30 text-white px-2 py-3.5 rounded-l-xl writing-vertical-rl transition-all cursor-pointer border-none"
-        style="background: linear-gradient(180deg, #818cf8, #6366f1); box-shadow: -2px 0 15px rgba(99,102,241,0.3); letter-spacing: 1px"
+        class="fixed left-0 top-[45%] -translate-y-1/2 z-30 text-white px-2 py-3.5 rounded-r-xl writing-vertical-rl transition-all cursor-pointer border-none"
+        style="background: linear-gradient(180deg, #fbbf24, #f59e0b); box-shadow: 2px 0 15px rgba(245,158,11,0.3); letter-spacing: 1px"
         aria-label="${t('fbSideTab') || 'Avis'}">
-        <span class="absolute top-2 left-1 w-2 h-2 rounded-full bg-amber-400 animate-pulse-soft"></span>
+        <span class="absolute top-2 right-1 w-2 h-2 rounded-full bg-white/80 animate-pulse-soft"></span>
         <span class="text-[11px] font-bold tracking-wider">💬 ${t('fbSideTab') || 'Avis'}</span>
       </button>
     ` : ''}
