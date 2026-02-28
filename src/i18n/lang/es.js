@@ -4157,4 +4157,17 @@ export default {
   adminSentryTotal: 'Total',
   adminSentry24h: 'Últimas 24h',
   adminSentryIssueList: 'Errores recientes',
+
+  // Beta Banner + Popup
+  betaBannerText: '¡Versión beta — ayúdanos a mejorar SpotHitch!',
+  betaPopupTitle: '¡Bienvenido a SpotHitch!',
+  betaPopupBadge: 'VERSIÓN BETA',
+  betaPopupExplain: '¡Eres de los primeros en probar SpotHitch! La app está en desarrollo y tu opinión es muy importante para nosotros.',
+  betaPopupHelp: '¡Si encuentras un bug o tienes una idea, queremos saberlo!',
+  betaPopupFeedbackTitle: 'Botón "Opinión" en el lado izquierdo',
+  betaPopupFeedbackDesc: 'Haz clic en el botón naranja "Opinión" a la izquierda de la pantalla para calificar cada función y decirnos lo que piensas.',
+  betaPopupBugs: 'Reporta bugs',
+  betaPopupIdeas: 'Propón ideas',
+  betaPopupLike: 'Di lo que te gusta',
+  betaPopupCTA: '¡Vamos, a probar!',
 }

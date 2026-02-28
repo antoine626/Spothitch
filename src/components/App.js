@@ -21,6 +21,7 @@ import { renderCityPanel } from './views/CityPanel.js';
 
 // Core UI — always visible
 import { renderCookieBanner } from './modals/CookieBanner.js';
+import { renderBetaBanner } from './modals/BetaBanner.js';
 import { icon } from '../utils/icons.js'
 import { trapFocus } from '../utils/a11y.js'
 
@@ -465,6 +466,9 @@ export function renderApp(state) {
 
     <!-- Cookie Banner (RGPD) - hidden during tutorial, landing, and map-first Voyage view -->
     ${!state.showTutorial && !state.showLanding && !isVoyageMapFirst ? renderCookieBanner() : ''}
+
+    <!-- Beta Banner + popup (hidden during landing/tutorial) -->
+    ${!state.showLanding && !state.showTutorial ? renderBetaBanner() : ''}
 
     <!-- Feedback Side Tab (hidden during SOS, landing, tutorial, full-screen modals) -->
     ${!state.showSOS && !state.showLanding && !state.showTutorial && !state.showFeedbackPanel ? `

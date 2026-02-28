@@ -120,6 +120,8 @@ import {
 
 let currentVersion = null
 let isReloading = false
+// Guard: block auto-reload while an auth popup is open (popup steals focus → visibilitychange → spurious reload)
+window._authInProgress = false
 
 function startVersionCheck() {
   const CHECK_INTERVAL = 120_000 // 2 minutes (was 10 — faster updates)
@@ -150,6 +152,11 @@ function startVersionCheck() {
 
   async function doReload() {
     if (isReloading) return
+    // Never reload during an auth popup flow (popup steals focus → false visibilitychange)
+    if (window._authInProgress) {
+      pendingReload = true
+      return
+    }
     // Clear all runtime caches so the user gets fresh assets
     if (window.caches) {
       try {
@@ -168,7 +175,7 @@ function startVersionCheck() {
 
   // When user backgrounds the app, apply pending reload
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden' && pendingReload && !isReloading) {
+    if (document.visibilityState === 'hidden' && pendingReload && !isReloading && !window._authInProgress) {
       isReloading = true
       window.location.reload()
     }
@@ -332,34 +339,35 @@ async function init() {
           setupGlobalErrorHandlers()
         } catch (e) { /* optional */ }
 
-        // Firebase (only if user has a saved session)
+        // Firebase — always initialize and listen for auth state
+        // Firebase Auth persists sessions in IndexedDB, so a returning user
+        // may already be signed in even without anything in localStorage.
         try {
-          const hasSession = localStorage.getItem('spothitch_user') || localStorage.getItem('spothitch_firebase_token')
-          if (hasSession) {
-            const fb = await getFirebase()
-            fb.initializeFirebase()
-            fb.onAuthChange((user) => {
-              actions.setUser(user)
-              if (user) {
-                const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
-                setState({
-                  currentUser: user,
-                  isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
-                  userProfile: {
-                    uid: user.uid,
-                    email: user.email,
-                    displayName: user.displayName,
-                    photoURL: user.photoURL,
-                  },
-                })
-              } else {
-                setState({ currentUser: null, userProfile: null })
-              }
-              try {
-                import('./services/sentry.js').then(m => m.setUser(user))
-              } catch (_e) { /* sentry optional */ }
-            })
-          }
+          const fb = await getFirebase()
+          fb.initializeFirebase()
+          fb.onAuthChange((user) => {
+            actions.setUser(user)
+            if (user) {
+              const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
+              setState({
+                currentUser: user,
+                isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
+                userProfile: {
+                  uid: user.uid,
+                  email: user.email,
+                  displayName: user.displayName,
+                  photoURL: user.photoURL,
+                },
+              })
+              // Hydrate profile from Firestore (bio, languages, etc.)
+              fb.hydrateLocalProfileFromFirestore(user.uid).catch(() => {})
+            } else {
+              setState({ currentUser: null, userProfile: null, isAdmin: false })
+            }
+            try {
+              import('./services/sentry.js').then(m => m.setUser(user))
+            } catch (_e) { /* sentry optional */ }
+          })
         } catch (e) { /* optional */ }
 
         // Lazy background services
@@ -1066,13 +1074,20 @@ if (!window.handleGoogleSignIn) {
   window.handleGoogleSignIn = async () => {
     const fb = await getFirebase()
     fb.initializeFirebase()
-    const result = await fb.signInWithGoogle()
+    // Block auto-reload while the Google popup is open
+    window._authInProgress = true
+    let result
+    try {
+      result = await fb.signInWithGoogle()
+    } finally {
+      window._authInProgress = false
+    }
     if (result.success) {
       await fb.createOrUpdateUserProfile(result.user)
       fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
-      fb.onAuthChange((user) => actions.setUser(user))
       const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
       const pendingAction = getState().authPendingAction
+      actions.setUser(result.user)
       setState({
         showAuth: false, authPendingAction: null, showAuthReason: null,
         currentUser: result.user,

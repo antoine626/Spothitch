@@ -286,23 +286,35 @@ window.handleAuth = async (event) => {
     }
 
     if (result.success) {
+      const user = result.user
       // Create/update Firestore profile
-      await fb.createOrUpdateUserProfile(result.user)
+      await fb.createOrUpdateUserProfile(user)
       // Hydrate localStorage with Firestore profile data
-      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
+      fb.hydrateLocalProfileFromFirestore(user.uid).catch(() => {})
 
-      // Setup auth listener
-      fb.onAuthChange(async (user) => {
-        const { actions } = await import('../../stores/state.js')
-        if (actions?.setUser) actions.setUser(user)
-        import('../../services/sentry.js').then(m => m.setUser(user)).catch(() => {})
-      })
+      // Set full user state directly (onAuthStateChanged listener in main.js
+      // will also fire, but we set state here for immediate UI feedback)
+      const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
+      const { actions: stateActions } = await import('../../stores/state.js')
+      stateActions.setUser(user)
 
       showSuccess(authMode === 'register' ? (t('accountCreated') || 'Account created!') : (t('loginSuccess') || 'Login successful!'))
 
       // Execute pending action if any
       const { authPendingAction } = getState()
-      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      setState({
+        showAuth: false,
+        authPendingAction: null,
+        showAuthReason: null,
+        currentUser: user,
+        isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
+        userProfile: {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        },
+      })
       if (authPendingAction) {
         executePendingAction(authPendingAction)
       }
@@ -332,21 +344,46 @@ window.handleGoogleSignIn = async () => {
   try {
     const fb = await import('../../services/firebase.js')
     const { showSuccess, showError } = await import('../../services/notifications.js')
-    const { setState, getState } = await import('../../stores/state.js')
+    const { setState, getState, actions } = await import('../../stores/state.js')
 
     fb.initializeFirebase()
-    const result = await fb.signInWithGoogle()
+
+    // Block auto-reload while the Google popup is open
+    // (popup steals focus → visibilitychange → spurious reload)
+    window._authInProgress = true
+    let result
+    try {
+      result = await fb.signInWithGoogle()
+    } finally {
+      window._authInProgress = false
+    }
 
     if (result.success) {
-      await fb.createOrUpdateUserProfile(result.user)
-      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
-      fb.onAuthChange((user) => {
-        import('../../stores/state.js').then(({ actions }) => actions.setUser(user))
+      const user = result.user
+      await fb.createOrUpdateUserProfile(user)
+      fb.hydrateLocalProfileFromFirestore(user.uid).catch(() => {})
+
+      // Set full user state directly (onAuthStateChanged listener in main.js
+      // will also fire, but we set state here for immediate UI feedback)
+      const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
+      const { authPendingAction } = getState()
+      actions.setUser(user)
+      setState({
+        showAuth: false,
+        authPendingAction: null,
+        showAuthReason: null,
+        currentUser: user,
+        isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
+        userProfile: {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        },
       })
+
       showSuccess(t('googleLoginSuccess') || 'Google login successful!')
 
-      const { authPendingAction } = getState()
-      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
       if (authPendingAction) {
         executePendingAction(authPendingAction)
       }
@@ -356,6 +393,7 @@ window.handleGoogleSignIn = async () => {
     }
   } catch (error) {
     console.error('Google sign in error:', error)
+    window._authInProgress = false
   }
 }
 

@@ -410,6 +410,8 @@ const MAIN_JS_HANDLERS = [
   // Admin Dashboard (session 2026-02-28)
   'setAdminTab', 'loadAdminFeedback', 'setAdminFeedbackPeriod',
   'exportFeedbackCSV', 'loadAdminSentry',
+  // Beta Banner (session 2026-02-28)
+  'closeBetaPopup',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))
