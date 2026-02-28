@@ -615,14 +615,15 @@ describe('Integration: FriendProfile Modal', () => {
 // 18. AdminPanel Modal
 // ===============================================================
 describe('Integration: AdminPanel Modal', () => {
-  it('renders admin panel', () => {
+  it('renders admin panel with tabs', () => {
     const html = renderAdminPanel({ ...baseState, showAdminPanel: true })
     expect(html).toBeTruthy()
     expect(html).toContain('Panneau Admin')
+    expect(html).toContain('setAdminTab')
   })
 
-  it('shows user points in admin', () => {
-    const html = renderAdminPanel({ ...baseState, showAdminPanel: true, points: 500 })
+  it('shows user points in tools tab', () => {
+    const html = renderAdminPanel({ ...baseState, showAdminPanel: true, adminActiveTab: 'tools', points: 500 })
     expect(html).toContain('500')
   })
 
@@ -631,8 +632,8 @@ describe('Integration: AdminPanel Modal', () => {
     expect(html).toContain('closeAdminPanel')
   })
 
-  it('has admin action buttons', () => {
-    const html = renderAdminPanel(baseState)
+  it('has admin action buttons in tools tab', () => {
+    const html = renderAdminPanel({ ...baseState, adminActiveTab: 'tools' })
     expect(html).toContain('adminAddPoints')
   })
 })
