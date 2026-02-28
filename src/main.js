@@ -1319,7 +1319,9 @@ window.finishTutorial = async () => {
 };
 
 // Chat handlers
-// setChatRoom — canonical in Chat.js
+window.setChatRoom = (room) => {
+  window.setState?.({ chatRoom: room })
+}
 // sendMessage — canonical owner is Social.js (full implementation with state + localStorage + Firebase).
 // This fallback only runs if Social.js hasn't loaded yet.
 if (!window.sendMessage) {
