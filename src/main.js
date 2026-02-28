@@ -341,8 +341,10 @@ async function init() {
             fb.onAuthChange((user) => {
               actions.setUser(user)
               if (user) {
+                const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
                 setState({
                   currentUser: user,
+                  isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
                   userProfile: {
                     uid: user.uid,
                     email: user.email,
@@ -1069,8 +1071,19 @@ if (!window.handleGoogleSignIn) {
       await fb.createOrUpdateUserProfile(result.user)
       fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
       fb.onAuthChange((user) => actions.setUser(user))
+      const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
       const pendingAction = getState().authPendingAction
-      setState({ showAuth: false, authPendingAction: null, showAuthReason: null })
+      setState({
+        showAuth: false, authPendingAction: null, showAuthReason: null,
+        currentUser: result.user,
+        isAdmin: ADMIN_EMAILS.includes(result.user.email?.toLowerCase()),
+        userProfile: {
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL,
+        },
+      })
       showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
       if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
     } else {
@@ -1106,7 +1119,7 @@ if (!window.handleLogout) {
     const fb = await getFirebase()
     await fb.logOut()
     actions.setUser(null)
-    setState({ currentUser: null, userProfile: null })
+    setState({ currentUser: null, userProfile: null, isAdmin: false })
     showToast(t('logoutSuccess') || 'Logged out', 'success')
   }
 }

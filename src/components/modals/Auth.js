@@ -220,18 +220,7 @@ export function renderAuth(state) {
           </div>
         </div>
 
-        <!-- Demo Admin Login (only in dev or for testing) -->
-        <div class="px-6 pb-6">
-          <button
-            onclick="loginAsAdmin()"
-            class="btn w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
-            type="button"
-            aria-label="${t('demoAdminLogin') || 'Demo admin login'}"
-          >
-            <span class="mr-2" aria-hidden="true">👑</span>
-            ${t('demoAdminLogin') || 'Admin Mode (Demo)'}
-          </button>
-        </div>
+        <!-- Admin auto-detected by email, no demo button needed -->
       </div>
     </div>
   `
