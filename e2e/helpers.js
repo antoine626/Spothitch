@@ -19,6 +19,13 @@ export async function dismissOverlays(page) {
     await page.waitForTimeout(300)
   }
 
+  // Beta welcome popup
+  const betaClose = page.locator('button[onclick*="closeBetaPopup"]')
+  if (await betaClose.count() > 0 && await betaClose.first().isVisible({ timeout: 500 }).catch(() => false)) {
+    await betaClose.first().click()
+    await page.waitForTimeout(300)
+  }
+
   const modalClose = page.locator('.modal-overlay button[aria-label="Fermer"], .modal-overlay button:has(svg)').first()
   if (await modalClose.isVisible({ timeout: 500 }).catch(() => false)) {
     await modalClose.click()
@@ -59,6 +66,7 @@ export async function skipOnboarding(page, opts = {}) {
     }))
     localStorage.setItem('spothitch_age_verified', 'true')
     localStorage.setItem('spothitch_landing_seen', '1')
+    localStorage.setItem('spothitch_beta_seen', '1')
   }, stateData)
 
   await page.goto('/', { waitUntil: 'domcontentloaded' })
