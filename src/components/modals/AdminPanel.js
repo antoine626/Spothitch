@@ -708,7 +708,7 @@ window.setAdminFeedbackPeriod = (period) => setState({ adminFeedbackPeriod: peri
 
 window.loadAdminFeedback = async () => {
   try {
-    window.showToast?.('Chargement...', 'info')
+    window.showToast?.(t('loading') || 'Chargement...', 'info')
     const { getFirestore, collection, getDocs, query, orderBy } = await import('firebase/firestore')
     const { getApp } = await import('firebase/app')
     const db = getFirestore(getApp())
@@ -716,40 +716,46 @@ window.loadAdminFeedback = async () => {
     const snapshot = await getDocs(q)
     const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }))
     setState({ adminFeedbackData: docs })
-    window.showToast?.(`${docs.length} feedbacks chargés`, 'success')
+    window.showToast?.(`${docs.length} ${t('adminFbTotalReviews') || 'feedbacks'}`, 'success')
   } catch (err) {
     console.error('Error loading feedback:', err)
-    window.showToast?.('Erreur chargement feedbacks', 'error')
+    window.showToast?.(t('loadingError') ||'Erreur de chargement', 'error')
   }
 }
 
 window.loadAdminSentry = async () => {
+  const ghUrl = 'https://api.github.com/repos/Spothitch/spothitch.github.io/issues'
   try {
-    window.showToast?.('Chargement...', 'info')
-    const res = await fetch('https://api.github.com/repos/Spothitch/spothitch.github.io/issues?labels=sentry&state=all&per_page=50&sort=created&direction=desc')
+    window.showToast?.(t('loading') || 'Chargement...', 'info')
+    const res = await fetch(
+      `${ghUrl}?labels=sentry&state=all&per_page=50&sort=created&direction=desc`
+    )
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`)
     const issues = await res.json()
     setState({ adminSentryIssues: issues })
-    window.showToast?.(`${issues.length} erreurs chargées`, 'success')
+    window.showToast?.(`${issues.length} ${t('adminSentryIssueList') || 'errors'}`, 'success')
   } catch (err) {
     console.error('Error loading sentry issues:', err)
-    // Fallback: try without label filter
     try {
-      const res = await fetch('https://api.github.com/repos/Spothitch/spothitch.github.io/issues?state=all&per_page=30&sort=created&direction=desc')
+      const res = await fetch(
+        `${ghUrl}?state=all&per_page=30&sort=created&direction=desc`
+      )
       if (res.ok) {
         const allIssues = await res.json()
         const sentryIssues = allIssues.filter(i =>
           (i.labels || []).some(l => (l.name || '').toLowerCase().includes('sentry'))
         )
         setState({ adminSentryIssues: sentryIssues })
-        window.showToast?.(`${sentryIssues.length} erreurs chargées`, 'success')
+        window.showToast?.(
+          `${sentryIssues.length} ${t('adminSentryIssueList') || 'errors'}`, 'success'
+        )
       } else {
         setState({ adminSentryIssues: [] })
-        window.showToast?.('Aucune erreur trouvée', 'info')
+        window.showToast?.(t('adminSentryNoErrors') || 'No errors', 'info')
       }
     } catch {
       setState({ adminSentryIssues: [] })
-      window.showToast?.('API GitHub inaccessible', 'error')
+      window.showToast?.(t('loadingError') ||'Loading error', 'error')
     }
   }
 }
@@ -758,7 +764,7 @@ window.exportFeedbackCSV = () => {
   const state = getState()
   const data = state.adminFeedbackData
   if (!data || data.length === 0) {
-    window.showToast?.('Aucune donnée à exporter', 'error')
+    window.showToast?.(t('adminFbNoData') || 'No data', 'error')
     return
   }
 
@@ -783,7 +789,7 @@ window.exportFeedbackCSV = () => {
   a.download = `spothitch-feedback-${new Date().toISOString().slice(0, 10)}.csv`
   a.click()
   URL.revokeObjectURL(url)
-  window.showToast?.('CSV exporté', 'success')
+  window.showToast?.(t('adminFbExportCSV') || 'CSV exported', 'success')
 }
 
 window.adminAddPoints = (amount) => {
