@@ -407,6 +407,9 @@ const MAIN_JS_HANDLERS = [
   'toggleFeedbackReaction', 'submitFeedback',
   // Coming Soon Proximity (session 2026-02-27)
   'openComingSoonProximity', 'closeComingSoonProximity',
+  // Admin Dashboard (session 2026-02-28)
+  'setAdminTab', 'loadAdminFeedback', 'setAdminFeedbackPeriod',
+  'exportFeedbackCSV', 'loadAdminSentry',
 ]
 
 MAIN_JS_HANDLERS.forEach(h => KNOWN_HANDLERS.add(h))

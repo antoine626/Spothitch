@@ -284,6 +284,12 @@ const initialState = {
   feedbackDetailFeature: null,
   showComingSoonProximity: false,
 
+  // Admin Dashboard
+  adminActiveTab: 'feedback',
+  adminFeedbackData: null,
+  adminFeedbackPeriod: 'all',
+  adminSentryIssues: null,
+
   // AddSpot wizard
   addSpotStep: 1,
   addSpotType: null,
