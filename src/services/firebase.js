@@ -119,43 +119,20 @@ export async function signIn(email, password) {
 }
 
 /**
- * Sign in with Google — popup first, redirect fallback.
- *
- * Popup is faster UX (no page reload). If popup fails (COOP on some
- * Chromebook builds, popup blocked, etc.) we fall back to redirect.
- * The COOP issue affects Playwright and some Chromium builds but not all.
- * Redirect flow: page navigates to Google, comes back, onAuthStateChanged
- * detects the user + sessionStorage flag closes the auth modal.
+ * Sign in with Google via redirect (NOT popup). See ERR-049.
+ * signInWithPopup is broken due to COOP on accounts.google.com.
  */
 export async function signInWithGoogle() {
+  // REDIRECT ONLY — do NOT use signInWithPopup (COOP breaks it, see ERR-049)
   const provider = new GoogleAuthProvider()
-
-  // Try popup first — instant UX on most browsers
   try {
-    window._authInProgress = true
-    const result = await signInWithPopup(auth, provider)
-    window._authInProgress = false
-    if (result?.user) {
-      return { success: true, user: result.user }
-    }
-  } catch (popupError) {
-    window._authInProgress = false
-    const code = popupError?.code || ''
-    // User cancelled — don't fall back to redirect
-    if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
-      return { success: false, error: code }
-    }
-    // Popup failed — fall back to redirect
-    try {
-      sessionStorage.setItem('spothitch_auth_redirect', '1')
-      await signInWithRedirect(auth, provider)
-      return { success: false, error: 'redirect' }
-    } catch (redirectError) {
-      sessionStorage.removeItem('spothitch_auth_redirect')
-      return { success: false, error: redirectError.code }
-    }
+    sessionStorage.setItem('spothitch_auth_redirect', '1')
+    await signInWithRedirect(auth, provider)
+    return { success: false, error: 'redirect' }
+  } catch (error) {
+    sessionStorage.removeItem('spothitch_auth_redirect')
+    return { success: false, error: error.code }
   }
-  return { success: false, error: 'unknown' }
 }
 
 /**
