@@ -341,6 +341,9 @@ window.handleAuth = async (event) => {
 }
 
 window.handleGoogleSignIn = async () => {
+  // Block auto-reload IMMEDIATELY — before any async import that could yield
+  // control and allow a pending visibilitychange reload to fire
+  window._authInProgress = true
   try {
     const fb = await import('../../services/firebase.js')
     const { showSuccess, showError } = await import('../../services/notifications.js')
@@ -348,15 +351,7 @@ window.handleGoogleSignIn = async () => {
 
     fb.initializeFirebase()
 
-    // Block auto-reload while the Google popup is open
-    // (popup steals focus → visibilitychange → spurious reload)
-    window._authInProgress = true
-    let result
-    try {
-      result = await fb.signInWithGoogle()
-    } finally {
-      window._authInProgress = false
-    }
+    const result = await fb.signInWithGoogle()
 
     if (result.success) {
       const user = result.user
@@ -393,6 +388,7 @@ window.handleGoogleSignIn = async () => {
     }
   } catch (error) {
     console.error('Google sign in error:', error)
+  } finally {
     window._authInProgress = false
   }
 }

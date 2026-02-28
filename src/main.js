@@ -345,6 +345,8 @@ async function init() {
         try {
           const fb = await getFirebase()
           fb.initializeFirebase()
+
+          // Handle auth state changes (fires immediately with current state, then on every change)
           fb.onAuthChange((user) => {
             actions.setUser(user)
             if (user) {
@@ -368,6 +370,29 @@ async function init() {
               import('./services/sentry.js').then(m => m.setUser(user))
             } catch (_e) { /* sentry optional */ }
           })
+
+          // Check for pending Google redirect result (signInWithRedirect fallback)
+          try {
+            const redirectResult = await fb.checkRedirectResult()
+            if (redirectResult?.success && redirectResult.user) {
+              const user = redirectResult.user
+              await fb.createOrUpdateUserProfile(user)
+              fb.hydrateLocalProfileFromFirestore(user.uid).catch(() => {})
+              const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
+              actions.setUser(user)
+              setState({
+                currentUser: user,
+                isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
+                userProfile: {
+                  uid: user.uid,
+                  email: user.email,
+                  displayName: user.displayName,
+                  photoURL: user.photoURL,
+                },
+              })
+              showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
+            }
+          } catch (_e) { /* redirect check optional */ }
         } catch (e) { /* optional */ }
 
         // Lazy background services
@@ -1072,37 +1097,36 @@ window.closeAuth = () => setState({ showAuth: false, authPendingAction: null, sh
 // Fallback registrations in case Auth.js hasn't loaded yet — must also resume authPendingAction
 if (!window.handleGoogleSignIn) {
   window.handleGoogleSignIn = async () => {
-    const fb = await getFirebase()
-    fb.initializeFirebase()
-    // Block auto-reload while the Google popup is open
+    // Block auto-reload IMMEDIATELY — before any async that could yield control
     window._authInProgress = true
-    let result
     try {
-      result = await fb.signInWithGoogle()
+      const fb = await getFirebase()
+      fb.initializeFirebase()
+      const result = await fb.signInWithGoogle()
+      if (result.success) {
+        await fb.createOrUpdateUserProfile(result.user)
+        fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
+        const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
+        const pendingAction = getState().authPendingAction
+        actions.setUser(result.user)
+        setState({
+          showAuth: false, authPendingAction: null, showAuthReason: null,
+          currentUser: result.user,
+          isAdmin: ADMIN_EMAILS.includes(result.user.email?.toLowerCase()),
+          userProfile: {
+            uid: result.user.uid,
+            email: result.user.email,
+            displayName: result.user.displayName,
+            photoURL: result.user.photoURL,
+          },
+        })
+        showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
+        if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
+      } else {
+        showToast(t('googleLoginError') || 'Google login error', 'error')
+      }
     } finally {
       window._authInProgress = false
-    }
-    if (result.success) {
-      await fb.createOrUpdateUserProfile(result.user)
-      fb.hydrateLocalProfileFromFirestore(result.user.uid).catch(() => {})
-      const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
-      const pendingAction = getState().authPendingAction
-      actions.setUser(result.user)
-      setState({
-        showAuth: false, authPendingAction: null, showAuthReason: null,
-        currentUser: result.user,
-        isAdmin: ADMIN_EMAILS.includes(result.user.email?.toLowerCase()),
-        userProfile: {
-          uid: result.user.uid,
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL,
-        },
-      })
-      showToast(t('googleLoginSuccess') || 'Google login successful!', 'success')
-      if (pendingAction === 'addSpot') setTimeout(() => window.openAddSpot?.(), 300)
-    } else {
-      showToast(t('googleLoginError') || 'Google login error', 'error')
     }
   }
 }

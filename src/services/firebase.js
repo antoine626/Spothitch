@@ -15,6 +15,8 @@ import {
   FacebookAuthProvider,
   OAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
   EmailAuthProvider,
@@ -73,8 +75,13 @@ export function initializeFirebase() {
     storage = getStorage(app);
 
     // Initialize messaging only in supported browsers
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-      messaging = getMessaging(app);
+    // Wrapped in its own try/catch so a messaging failure doesn't break auth/db
+    try {
+      if ('serviceWorker' in navigator && 'PushManager' in window) {
+        messaging = getMessaging(app);
+      }
+    } catch (_e) {
+      // Messaging is optional — auth and db still work without it
     }
 
     return true;
@@ -113,13 +120,52 @@ export async function signIn(email, password) {
 
 /**
  * Sign in with Google
+ * Tries popup first; falls back to redirect if popup is blocked/unavailable.
+ * After a redirect, call checkRedirectResult() on page load to complete sign-in.
  */
 export async function signInWithGoogle() {
+  const provider = new GoogleAuthProvider()
   try {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    return { success: true, user: result.user };
+    const result = await signInWithPopup(auth, provider)
+    return { success: true, user: result.user }
   } catch (error) {
+    const code = error.code
+    // User deliberately closed the popup — not an error, just cancelled
+    if (code === 'auth/popup-closed-by-user') {
+      return { success: false, error: code }
+    }
+    // If popup was blocked or cancelled by the browser, fall back to redirect
+    if (code === 'auth/popup-blocked' || code === 'auth/cancelled-popup-request') {
+      try {
+        // Mark that a redirect is in progress so the app doesn't treat the
+        // resulting page reload as an error
+        sessionStorage.setItem('spothitch_auth_redirect', '1')
+        await signInWithRedirect(auth, provider)
+        // signInWithRedirect causes a full page redirect — execution stops here
+        return { success: false, error: 'redirect' }
+      } catch (redirectError) {
+        return { success: false, error: redirectError.code }
+      }
+    }
+    return { success: false, error: code }
+  }
+}
+
+/**
+ * Check for pending redirect result after a signInWithRedirect.
+ * Must be called once on app startup.
+ * Returns { success, user } if a redirect completed, or null if none pending.
+ */
+export async function checkRedirectResult() {
+  try {
+    const result = await getRedirectResult(auth);
+    if (result && result.user) {
+      sessionStorage.removeItem('spothitch_auth_redirect')
+      return { success: true, user: result.user };
+    }
+    return null;
+  } catch (error) {
+    sessionStorage.removeItem('spothitch_auth_redirect')
     return { success: false, error: error.code };
   }
 }
