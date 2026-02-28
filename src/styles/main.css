@@ -449,27 +449,63 @@
   }
 }
 
-/* ===== TOGGLE SWITCH (Design #5 Flat Minimal) ===== */
-/* Pure CSS approach — no Tailwind class conflicts, overflow-hidden prevents dot escape */
+/* ===== TOGGLE SWITCH (Design #11 Neon Glow Thumb 👎→👍) ===== */
+/* ⚠️ CHOSEN BY USER 2026-02-28 — DO NOT CHANGE without explicit approval */
 .spothitch-toggle {
-  background-color: #1e293b;
-  border-color: #475569;
-  transition: border-color 0.25s ease;
+  position: relative;
+  width: 60px;
+  height: 32px;
+  background-color: #0f172a;
+  border: 2px solid #475569;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 .spothitch-toggle.toggle-on {
   border-color: #f59e0b;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.5), inset 0 0 10px rgba(245, 158, 11, 0.1);
 }
-.spothitch-toggle-dot {
-  background-color: #64748b;
-  transform: translateX(0);
-  transition: transform 0.25s ease, background-color 0.25s ease;
+.spothitch-toggle-thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: left 0.35s ease;
+  line-height: 1;
 }
-.spothitch-toggle.toggle-on .spothitch-toggle-dot {
-  background-color: #f59e0b;
-  transform: translateX(20px);
+.spothitch-toggle.toggle-on .spothitch-toggle-thumb {
+  left: 32px;
 }
-.spothitch-toggle-compact.toggle-on .spothitch-toggle-dot {
-  transform: translateX(18px);
+/* Compact variant (for inline lists) */
+.spothitch-toggle.spothitch-toggle-compact {
+  width: 48px;
+  height: 26px;
+}
+.spothitch-toggle-compact .spothitch-toggle-thumb {
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  font-size: 11px;
+}
+.spothitch-toggle-compact.toggle-on .spothitch-toggle-thumb {
+  left: 25px;
+}
+/* Light theme adjustments */
+.light-theme .spothitch-toggle {
+  background-color: #e2e8f0;
+  border-color: #94a3b8;
+}
+.light-theme .spothitch-toggle.toggle-on {
+  border-color: #f59e0b;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4), inset 0 0 8px rgba(245, 158, 11, 0.1);
 }
 
 /* ===== UTILITIES ===== */

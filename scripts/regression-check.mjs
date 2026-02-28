@@ -157,34 +157,34 @@ function checkToggleCSS() {
     }
   }
 
-  // Rule: .spothitch-toggle-dot must have background-color and transform
-  const dotMatch = css.match(/\.spothitch-toggle-dot\s*\{([^}]+)\}/s)
-  if (!dotMatch) {
-    fail('.spothitch-toggle-dot rule exists')
+  // Rule: .spothitch-toggle-thumb must exist with positioning
+  const thumbMatch = css.match(/\.spothitch-toggle-thumb\s*\{([^}]+)\}/s)
+  if (!thumbMatch) {
+    fail('.spothitch-toggle-thumb rule exists')
   } else {
-    const block = dotMatch[1]
-    if (block.includes('background-color')) {
-      ok('.spothitch-toggle-dot has background-color')
+    const block = thumbMatch[1]
+    if (block.includes('position')) {
+      ok('.spothitch-toggle-thumb has position')
     } else {
-      fail('.spothitch-toggle-dot has background-color', 'property missing')
+      fail('.spothitch-toggle-thumb has position', 'property missing')
     }
-    if (block.includes('transform')) {
-      ok('.spothitch-toggle-dot has transform')
+    if (block.includes('left')) {
+      ok('.spothitch-toggle-thumb has left')
     } else {
-      fail('.spothitch-toggle-dot has transform', 'property missing')
+      fail('.spothitch-toggle-thumb has left', 'property missing')
     }
   }
 
-  // Rule: .spothitch-toggle.toggle-on .spothitch-toggle-dot must have transform
-  const dotOnMatch = css.match(/\.spothitch-toggle\.toggle-on\s+\.spothitch-toggle-dot\s*\{([^}]+)\}/s)
-  if (!dotOnMatch) {
-    fail('.spothitch-toggle.toggle-on .spothitch-toggle-dot rule exists')
+  // Rule: .spothitch-toggle.toggle-on .spothitch-toggle-thumb must have left (slide)
+  const thumbOnMatch = css.match(/\.spothitch-toggle\.toggle-on\s+\.spothitch-toggle-thumb\s*\{([^}]+)\}/s)
+  if (!thumbOnMatch) {
+    fail('.spothitch-toggle.toggle-on .spothitch-toggle-thumb rule exists')
   } else {
-    const block = dotOnMatch[1]
-    if (block.includes('transform')) {
-      ok('.spothitch-toggle.toggle-on .spothitch-toggle-dot has transform')
+    const block = thumbOnMatch[1]
+    if (block.includes('left')) {
+      ok('.spothitch-toggle.toggle-on .spothitch-toggle-thumb has left')
     } else {
-      fail('.spothitch-toggle.toggle-on .spothitch-toggle-dot has transform', 'property missing')
+      fail('.spothitch-toggle.toggle-on .spothitch-toggle-thumb has left', 'property missing')
     }
   }
 }
