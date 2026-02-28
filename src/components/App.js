@@ -131,7 +131,7 @@ export function renderApp(state) {
 
     ${isVoyageMapFirst ? '' : renderHeader(state)}
 
-    <main id="main-content" class="${isVoyageMapFirst ? 'h-[100dvh] overflow-hidden' : 'pb-28 pt-[4.5rem] h-[100dvh] overflow-y-auto overflow-x-hidden'}" role="main" tabindex="-1">
+    <main id="main-content" class="${isVoyageMapFirst ? 'min-h-screen overflow-x-hidden' : 'pb-28 pt-[4.5rem] min-h-screen overflow-x-hidden'}" role="main" tabindex="-1">
       <!-- Map is ALWAYS rendered but hidden when not active (A8: persistence) -->
       <div id="panel-map" role="tabpanel" aria-labelledby="tab-map" style="${isMapTab(state) ? '' : 'display:none'}">
         ${renderHome(state)}

@@ -142,8 +142,7 @@
   }
 
   body {
-    @apply bg-dark-primary text-white overflow-hidden;
-    height: 100dvh;
+    @apply bg-dark-primary text-white min-h-screen overflow-x-hidden;
     background: linear-gradient(135deg, #0f1520 0%, #1a2332 100%);
     transition: background 0.3s ease, color 0.3s ease;
   }
