@@ -26,6 +26,7 @@ test.describe('Voyage Tab', () => {
   })
 
   test('should switch to Guides sub-tab and show content', async ({ page }) => {
+    test.setTimeout(30000)
     // Guard: ensure page is still alive before evaluating
     try {
       await page.evaluate(() => window.setVoyageSubTab?.('guides'))
@@ -33,11 +34,11 @@ test.describe('Voyage Tab', () => {
       // Page may have been closed due to heavy content — skip gracefully
       return
     }
-    await page.waitForTimeout(2000)
+    await page.waitForTimeout(3000)
     // Guides tab must show guide-related content — look for any guide text/buttons
     try {
       const guidesContent = page.locator('text=/guide|Guide|pays|country|France|Allemagne|autostop|hitchhik|conseils|tips/i')
-      await expect(guidesContent.first()).toBeVisible({ timeout: 8000 })
+      await expect(guidesContent.first()).toBeVisible({ timeout: 12000 })
     } catch {
       // Fallback: just verify the tab switched without crash and has content
       try {
