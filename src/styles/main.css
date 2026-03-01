@@ -623,7 +623,11 @@
 }
 
 .maplibregl-popup-content {
-  @apply bg-dark-primary/95 text-white rounded-2xl border border-white/10 p-3;
+  background-color: rgba(15, 21, 32, 0.95) !important;
+  color: white !important;
+  border-radius: 1rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 0.75rem !important;
 }
 
 .maplibregl-popup-tip {
@@ -635,11 +639,15 @@
 }
 
 .maplibregl-popup-close-button {
-  @apply text-white text-lg p-1;
+  color: white !important;
+  font-size: 1.125rem;
+  padding: 0.25rem;
 }
 
 .light-theme .maplibregl-popup-content {
-  @apply bg-white text-[#1c1917] border-[#e5e2d9];
+  background-color: white !important;
+  color: #1c1917 !important;
+  border-color: #e5e2d9 !important;
 }
 
 .light-theme .maplibregl-popup-tip {
@@ -651,7 +659,7 @@
 }
 
 .light-theme .maplibregl-popup-close-button {
-  color: #44403c;
+  color: #44403c !important;
 }
 
 /* Popup inner elements: fix dark-mode classes in light mode */
