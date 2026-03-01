@@ -4179,4 +4179,21 @@ export default {
   betaPopupIdeas: 'Propose des idées',
   betaPopupLike: 'Dis ce que tu aimes',
   betaPopupCTA: 'C\'est parti, je teste !',
+
+  // Offline Manager
+  offlineManager: 'Données hors-ligne',
+  storageUsed: 'Espace utilisé',
+  storageUnknown: 'Inconnu',
+  mapTiles: 'Tuiles carte',
+  noOfflineData: 'Aucune donnée hors-ligne',
+  offlineHint: 'Télécharge un pays depuis la carte pour l\'utiliser sans internet',
+  clearAllOffline: 'Tout supprimer',
+  downloadingTiles: 'Téléchargement des tuiles carte...',
+  downloadingStations: 'Téléchargement des stations-service...',
+  tilesDownloaded: 'Tuiles carte téléchargées',
+  stationsDownloaded: 'Stations-service téléchargées',
+  tilesFailed: 'Échec du téléchargement des tuiles',
+  stationsFailed: 'Échec du téléchargement des stations',
+  estimatedSize: 'Taille estimée',
+  offlineMapIncluded: 'Carte hors-ligne incluse',
 }

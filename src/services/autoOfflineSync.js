@@ -326,10 +326,16 @@ export async function clearOfflineData() {
     localStorage.removeItem(key)
   }
 
-  // Clear IDB spots
+  // Clear IDB spots + tiles metadata
   try {
     const { clear } = await import('../utils/idb.js')
     await clear('spots')
+    await clear('tiles')
+  } catch { /* optional */ }
+
+  // Clear tile cache (Cache API)
+  try {
+    await caches.delete('openfreemap-tiles')
   } catch { /* optional */ }
 
   // Clear downloaded countries tracking

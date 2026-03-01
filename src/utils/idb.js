@@ -12,7 +12,7 @@
  */
 
 const DB_NAME = 'spothitch'
-const DB_VERSION = 1
+const DB_VERSION = 2
 
 const STORES = {
   spots: { keyPath: 'id', indexes: ['country', 'rating', 'lastActivity'] },
@@ -20,6 +20,7 @@ const STORES = {
   photos: { keyPath: 'id', indexes: ['spotId', 'timestamp'] },
   trips: { keyPath: 'id', indexes: ['created'] },
   cache: { keyPath: 'key', indexes: ['expires'] },
+  tiles: { keyPath: 'key', indexes: ['country', 'zoom'] },
 }
 
 let dbPromise = null

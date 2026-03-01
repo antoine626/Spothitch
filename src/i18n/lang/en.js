@@ -4179,4 +4179,21 @@ export default {
   betaPopupIdeas: 'Suggest ideas',
   betaPopupLike: 'Tell us what you like',
   betaPopupCTA: 'Let\'s go, I\'m testing!',
+
+  // Offline Manager
+  offlineManager: 'Offline data',
+  storageUsed: 'Storage used',
+  storageUnknown: 'Unknown',
+  mapTiles: 'Map tiles',
+  noOfflineData: 'No offline data',
+  offlineHint: 'Download a country from the map to use it without internet',
+  clearAllOffline: 'Delete all',
+  downloadingTiles: 'Downloading map tiles...',
+  downloadingStations: 'Downloading gas stations...',
+  tilesDownloaded: 'Map tiles downloaded',
+  stationsDownloaded: 'Gas stations downloaded',
+  tilesFailed: 'Failed to download map tiles',
+  stationsFailed: 'Failed to download gas stations',
+  estimatedSize: 'Estimated size',
+  offlineMapIncluded: 'Offline map included',
 }

@@ -1458,10 +1458,81 @@ function renderReglagesTab(state) {
     ${renderSettingsMiniHeader(state)}
     ${renderVerificationCard(state)}
     ${renderAppearanceCard(state)}
+    ${renderOfflineManagerCard(state)}
     ${renderNotificationsCard(state)}
     ${renderPrivacyCard(state)}
     ${renderActionsCard(state)}
     ${renderDonationCard({ variant: 'full' })}
+  `
+}
+
+function renderOfflineManagerCard(_state) {
+  const offlineCountries = (() => {
+    try { return JSON.parse(localStorage.getItem('spothitch_offline_countries') || '[]') } catch { return [] }
+  })()
+
+  const countryRows = offlineCountries.map(c => {
+    const info = COUNTRY_MAP[c.code] || { flag: '🌍', name: c.code }
+    const spots = c.count || 0
+    const stations = c.stationCount || 0
+    const tiles = c.tileSizeMB ? `${c.tileSizeMB} Mo` : '-'
+    return `
+      <div class="flex items-center justify-between p-3 rounded-xl bg-white/5">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="text-lg">${info.flag}</span>
+          <div class="min-w-0">
+            <div class="text-sm font-medium truncate">${info.name}</div>
+            <div class="text-xs text-slate-400">${spots} spots · ${stations} stations · ${tiles}</div>
+          </div>
+        </div>
+        <button
+          onclick="deleteOfflineCountry('${c.code}')"
+          class="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 transition-colors flex-shrink-0"
+          aria-label="${t('delete') || 'Supprimer'} ${info.name}"
+          type="button"
+        >
+          ${icon('trash-2', 'w-4 h-4 text-red-400')}
+        </button>
+      </div>
+    `
+  }).join('')
+
+  const emptyState = offlineCountries.length === 0
+    ? `<div class="text-center py-4">
+        <div class="text-2xl mb-2">📥</div>
+        <div class="text-sm text-slate-400">${t('noOfflineData') || 'Aucune donnée hors-ligne'}</div>
+        <div class="text-xs text-slate-500 mt-1">${t('offlineHint') || 'Télécharge un pays depuis la carte pour l\'utiliser sans internet'}</div>
+      </div>`
+    : ''
+
+  return `
+    <div class="card p-4 space-y-3">
+      <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+        ${icon('download', 'w-4 h-4')}
+        ${t('offlineManager') || 'Données hors-ligne'}
+      </h3>
+      <div class="p-3 rounded-xl bg-white/5">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs text-slate-400">${t('storageUsed') || 'Espace utilisé'}</span>
+          <span class="text-xs font-mono text-slate-300" id="offline-storage-size">...</span>
+        </div>
+        <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all" id="offline-storage-bar" style="width: 0%"></div>
+        </div>
+      </div>
+      ${countryRows}
+      ${emptyState}
+      ${offlineCountries.length > 0 ? `
+        <button
+          onclick="clearAllOfflineData()"
+          class="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-red-500/10 hover:bg-red-500/20 transition-colors text-red-400 text-sm"
+          type="button"
+        >
+          ${icon('trash-2', 'w-4 h-4')}
+          ${t('clearAllOffline') || 'Tout supprimer'}
+        </button>
+      ` : ''}
+    </div>
   `
 }
 

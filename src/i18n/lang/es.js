@@ -4176,4 +4176,21 @@ export default {
   betaPopupIdeas: 'Propón ideas',
   betaPopupLike: 'Di lo que te gusta',
   betaPopupCTA: '¡Vamos, a probar!',
+
+  // Offline Manager
+  offlineManager: 'Datos sin conexión',
+  storageUsed: 'Espacio utilizado',
+  storageUnknown: 'Desconocido',
+  mapTiles: 'Mosaicos de mapa',
+  noOfflineData: 'Sin datos sin conexión',
+  offlineHint: 'Descarga un país desde el mapa para usarlo sin internet',
+  clearAllOffline: 'Eliminar todo',
+  downloadingTiles: 'Descargando mosaicos del mapa...',
+  downloadingStations: 'Descargando gasolineras...',
+  tilesDownloaded: 'Mosaicos del mapa descargados',
+  stationsDownloaded: 'Gasolineras descargadas',
+  tilesFailed: 'Error al descargar los mosaicos',
+  stationsFailed: 'Error al descargar las gasolineras',
+  estimatedSize: 'Tamaño estimado',
+  offlineMapIncluded: 'Mapa sin conexión incluido',
 }

@@ -104,7 +104,7 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: {
               cacheName: 'openfreemap-tiles',
-              expiration: { maxEntries: 1000, maxAgeSeconds: 60 * 60 * 24 * 30 }
+              expiration: { maxEntries: 500000, maxAgeSeconds: 60 * 60 * 24 * 365 }
             }
           },
           {

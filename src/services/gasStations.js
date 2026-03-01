@@ -316,7 +316,140 @@ function hideGasStationMarkers() {
   if (map.getSource('gas-stations')) map.removeSource('gas-stations')
 }
 
+// ==================== OFFLINE COUNTRY STATIONS ====================
+
+const STATION_OFFLINE_TTL = 30 * 24 * 60 * 60 * 1000 // 30 days
+
+/**
+ * Download all fuel stations for a country via Overpass API
+ * Stores lightweight data (GPS + name + brand) in IDB cache
+ * For large countries (>200K km²), splits into sub-regions to avoid Overpass timeout
+ *
+ * @param {string} code - Country code
+ * @param {Function} [onProgress] - Progress callback (0-100)
+ * @returns {Promise<{ stations: Array, count: number }>}
+ */
+export async function downloadCountryStations(code, onProgress) {
+  const { getCountryBoundsBuffered } = await import('../data/countryBounds.js')
+  const countryCode = code.toUpperCase()
+  const bounds = getCountryBoundsBuffered(countryCode, 0)
+  if (!bounds) throw new Error(`No bounds for ${countryCode}`)
+
+  // Estimate area to decide if we need to split
+  const latRange = bounds.north - bounds.south
+  const lngRange = bounds.east - bounds.west
+  const approxArea = latRange * lngRange * 111 * 111 // rough km²
+
+  let allStations = []
+
+  if (approxArea > 200000) {
+    // Split into sub-regions (grid)
+    const latStep = Math.max(5, latRange / 4)
+    const lngStep = Math.max(5, lngRange / 4)
+    const subRegions = []
+    for (let lat = bounds.south; lat < bounds.north; lat += latStep) {
+      for (let lng = bounds.west; lng < bounds.east; lng += lngStep) {
+        subRegions.push({
+          south: lat,
+          west: lng,
+          north: Math.min(lat + latStep, bounds.north),
+          east: Math.min(lng + lngStep, bounds.east),
+        })
+      }
+    }
+
+    for (let i = 0; i < subRegions.length; i++) {
+      try {
+        const regionStations = await fetchStationsInBounds(subRegions[i])
+        allStations.push(...regionStations)
+        // Rate limit: 2 requests per 10s
+        if (i < subRegions.length - 1) {
+          await new Promise(r => setTimeout(r, 5000))
+        }
+      } catch { /* skip failed sub-region */ }
+      if (onProgress) onProgress(Math.round(((i + 1) / subRegions.length) * 100))
+    }
+  } else {
+    // Single query for small countries
+    if (onProgress) onProgress(20)
+    allStations = await fetchStationsInBounds(bounds)
+    if (onProgress) onProgress(90)
+  }
+
+  // Deduplicate by id
+  const seen = new Set()
+  const unique = allStations.filter(s => {
+    if (seen.has(s.id)) return false
+    seen.add(s.id)
+    return true
+  })
+
+  // Save to IDB with 30-day TTL
+  const cacheKey = `stations_${countryCode}`
+  try {
+    await cacheSet(cacheKey, unique, STATION_OFFLINE_TTL)
+  } catch (e) {
+    console.warn('[GasStations] Failed to cache stations:', e)
+  }
+
+  if (onProgress) onProgress(100)
+  return { stations: unique, count: unique.length }
+}
+
+/**
+ * Fetch stations in a bounding box (internal helper)
+ */
+async function fetchStationsInBounds(bounds) {
+  const query = `[out:json][timeout:25];
+    node["amenity"="fuel"](${bounds.south},${bounds.west},${bounds.north},${bounds.east});
+    out body;`
+
+  const response = await fetch(OVERPASS_API, {
+    method: 'POST',
+    body: `data=${encodeURIComponent(query)}`,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  })
+
+  if (!response.ok) throw new Error(`Overpass ${response.status}`)
+  const data = await response.json()
+
+  return (data.elements || [])
+    .filter(el => el.lat && el.lon)
+    .map(el => ({
+      id: el.id,
+      lat: el.lat,
+      lng: el.lon,
+      name: el.tags?.name || el.tags?.brand || '',
+      brand: el.tags?.brand || '',
+    }))
+}
+
+/**
+ * Get offline-cached stations for a country
+ * @param {string} code - Country code
+ * @returns {Promise<Array|null>}
+ */
+export async function getOfflineStations(code) {
+  return cacheGet(`stations_${code.toUpperCase()}`)
+}
+
+/**
+ * Delete offline stations for a country
+ * @param {string} code - Country code
+ */
+export async function deleteOfflineStations(code) {
+  const { remove } = await import('../utils/idb.js')
+  await remove('cache', `stations_${code.toUpperCase()}`)
+}
+
 // Global handlers
 window.toggleGasStations = toggleGasStations
 
-export default { fetchGasStationsAlongRoute, toggleGasStations }
+export default {
+  fetchGasStationsAlongRoute,
+  fetchGasStationsInBounds,
+  toggleGasStations,
+  downloadCountryStations,
+  getOfflineStations,
+  deleteOfflineStations,
+}

@@ -4234,4 +4234,21 @@ export default {
   betaPopupIdeas: 'Ideen vorschlagen',
   betaPopupLike: 'Sag was dir gefällt',
   betaPopupCTA: 'Los geht\'s, ich teste!',
+
+  // Offline Manager
+  offlineManager: 'Offline-Daten',
+  storageUsed: 'Genutzter Speicher',
+  storageUnknown: 'Unbekannt',
+  mapTiles: 'Kartenkacheln',
+  noOfflineData: 'Keine Offline-Daten',
+  offlineHint: 'Lade ein Land von der Karte herunter, um es ohne Internet zu nutzen',
+  clearAllOffline: 'Alles löschen',
+  downloadingTiles: 'Kartenkacheln werden heruntergeladen...',
+  downloadingStations: 'Tankstellen werden heruntergeladen...',
+  tilesDownloaded: 'Kartenkacheln heruntergeladen',
+  stationsDownloaded: 'Tankstellen heruntergeladen',
+  tilesFailed: 'Fehler beim Herunterladen der Kartenkacheln',
+  stationsFailed: 'Fehler beim Herunterladen der Tankstellen',
+  estimatedSize: 'Geschätzte Größe',
+  offlineMapIncluded: 'Offline-Karte enthalten',
 }
