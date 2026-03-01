@@ -15,7 +15,7 @@ import { putAll, getByIndex, remove as idbRemove } from '../utils/idb.js'
 
 const TILE_CACHE_NAME = 'openfreemap-tiles'
 const MAX_ZOOM = 10
-const CONCURRENCY = 6
+const CONCURRENCY = 12
 const TILE_JSON_URL = 'https://tiles.openfreemap.org/planet'
 
 let tileUrlTemplate = null

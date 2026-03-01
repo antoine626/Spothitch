@@ -2387,7 +2387,9 @@ window.downloadCountryFromBubble = async (code, name) => {
     btn.disabled = true
     btn.innerHTML = `${icon('loader-circle', 'w-4 h-4 animate-spin')} ${t('downloadingCountry') || 'Téléchargement...'}`
   }
-  if (pctLabel) pctLabel.style.display = 'block'
+  const flagEl = document.getElementById(`bubble-flag-${code}`)
+  if (pctLabel) pctLabel.style.display = 'flex'
+  if (flagEl) flagEl.style.opacity = '0.2'
   try {
     const { downloadCountrySpots } = await import('./services/offlineDownload.js')
     const result = await downloadCountrySpots(code, (progress) => {
@@ -2400,6 +2402,7 @@ window.downloadCountryFromBubble = async (code, name) => {
       // Fill ring completely
       if (ring) ring.style.strokeDashoffset = '0'
       if (pctLabel) pctLabel.textContent = '\u2713'
+      if (flagEl) flagEl.style.opacity = '1'
       showToast(`${name}: ${result.count} ${t('countryDownloaded') || 'Téléchargé'}`, 'success')
       if (window._refreshCountryBubbles) window._refreshCountryBubbles()
       // Update button to "downloaded" state
@@ -2412,12 +2415,14 @@ window.downloadCountryFromBubble = async (code, name) => {
       showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
       if (ring) ring.style.strokeDashoffset = '157'
       if (pctLabel) pctLabel.style.display = 'none'
+      if (flagEl) flagEl.style.opacity = '1'
       if (btn) { btn.disabled = false; btn.innerHTML = `${icon('download', 'w-4 h-4')} ${t('downloadOffline') || 'Télécharger'}` }
     }
   } catch (e) {
     showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
     if (ring) ring.style.strokeDashoffset = '157'
     if (pctLabel) pctLabel.style.display = 'none'
+    if (flagEl) flagEl.style.opacity = '1'
     if (btn) { btn.disabled = false; btn.innerHTML = `${icon('download', 'w-4 h-4')} ${t('downloadOffline') || 'Télécharger'}` }
   }
 }

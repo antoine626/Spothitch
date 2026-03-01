@@ -362,9 +362,9 @@ export async function downloadCountryStations(code, onProgress) {
       try {
         const regionStations = await fetchStationsInBounds(subRegions[i])
         allStations.push(...regionStations)
-        // Rate limit: 2 requests per 10s
+        // Rate limit: Overpass allows ~2 requests per 10s
         if (i < subRegions.length - 1) {
-          await new Promise(r => setTimeout(r, 5000))
+          await new Promise(r => setTimeout(r, 2000))
         }
       } catch { /* skip failed sub-region */ }
       if (onProgress) onProgress(Math.round(((i + 1) / subRegions.length) * 100))

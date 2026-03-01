@@ -179,10 +179,10 @@ export function createBubblePopup(maplibregl, feature, lngLat) {
             <circle id="bubble-ring-${code}" cx="28" cy="28" r="25" fill="none" stroke="#22c55e" stroke-width="5" stroke-linecap="round"
               stroke-dasharray="157" stroke-dashoffset="157" style="transition:stroke-dashoffset 0.3s ease;filter:drop-shadow(0 0 4px rgba(34,197,94,0.5))"/>
           </svg>
-          <div style="position:absolute;top:0;left:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-size:1.5rem">
+          <div id="bubble-flag-${code}" style="position:absolute;top:0;left:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-size:1.5rem">
             ${getFlagEmoji(code)}
           </div>
-          <div id="bubble-ring-pct-${code}" style="display:none;position:absolute;bottom:-2px;left:0;right:0;text-align:center;font-size:0.55rem;font-weight:700;color:#22c55e"></div>
+          <div id="bubble-ring-pct-${code}" style="display:none;position:absolute;top:0;left:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:#fff;text-shadow:0 0 6px rgba(34,197,94,0.9),0 1px 3px rgba(0,0,0,0.8);letter-spacing:-0.02em"></div>
         </div>
         <div>
           <div class="text-sm font-bold leading-tight">${name}</div>
