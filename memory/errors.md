@@ -1,6 +1,6 @@
 # errors.md - Journal des erreurs et corrections SpotHitch
 
-> Dernière mise à jour : 2026-02-26
+> Dernière mise à jour : 2026-03-01
 > IMPORTANT : Après CHAQUE bug trouvé ou corrigé, ajouter une entrée ici.
 > Le Plan Wolf analyse ce fichier pour éviter les régressions.
 
@@ -598,9 +598,9 @@ Chaque erreur suit ce format :
   - **TOUJOURS isoler les sous-systèmes optionnels** (messaging, analytics) dans leur propre try/catch.
   - **Quand on ajoute un overlay fullscreen (z-50)** → mettre à jour `skipOnboarding` + `dismissOverlays` dans les E2E helpers.
 - **Fichiers** : `src/components/modals/Auth.js`, `src/main.js`, `src/services/firebase.js`, `e2e/helpers.js`
-- **Statut** : CORRIGÉ
+- **Statut** : CORRIGÉ (remplacé par GIS, voir ERR-050)
 
-### ERR-049 — Google Sign-In broken due to COOP (signInWithPopup hangs forever)
+### ERR-049b — Google Sign-In broken due to COOP (signInWithPopup hangs forever)
 - **Date** : 2026-02-28
 - **Gravité** : CRITIQUE
 - **Description** : Google Sign-In ne fonctionnait pas. L'utilisateur clique "Continuer avec Google", un popup s'ouvre vers accounts.google.com, mais l'authentification ne se termine jamais. Le popup reste bloqué indéfiniment. Les corrections précédentes (ERR-035) avaient ajouté `_authInProgress` et un fallback redirect, mais le popup était toujours tenté en premier et bloquait.
@@ -621,4 +621,23 @@ Chaque erreur suit ce format :
   - **Les headers COOP de sites tiers (Google, Facebook, Apple) sont hors de contrôle** — adapter l'auth en conséquence
   - **Tester l'auth avec Playwright** pour vérifier les erreurs COOP dans la console
 - **Fichiers** : `src/services/firebase.js`, `src/components/modals/Auth.js`, `src/main.js`, `src/i18n/lang/{en,fr,es,de}.js`
+- **Statut** : CORRIGÉ (remplacé par GIS, voir ERR-050)
+
+### ERR-050 — Firebase handler page visible pendant Google Sign-In
+- **Date** : 2026-03-01
+- **Gravité** : MAJEUR
+- **Description** : L'utilisateur voit une page `spothitch.firebaseapp.com/__/auth/handler` qui charge brièvement avant d'être redirigé vers Google. Les autres sites Google Sign-In n'ont pas cette page intermédiaire. L'utilisateur a dit : "on voit une page se charger firebase alors que j'ai jamais vu ça quand je me connect sur d'autre site avec google".
+- **Cause racine** : `signInWithPopup` de Firebase Auth ouvre un popup vers `spothitch.firebaseapp.com/__/auth/handler` qui sert d'intermédiaire entre l'app et Google. C'est le comportement normal du SDK Firebase, mais les autres sites utilisent Google Identity Services (GIS) directement, ce qui montre le sélecteur de compte natif du navigateur sans page intermédiaire.
+- **Correction** :
+  - Ajout de Google Identity Services (GIS) : chargement dynamique de `https://accounts.google.com/gsi/client`
+  - `signInWithGoogle()` tente d'abord GIS `google.accounts.id.prompt()` (sélecteur natif)
+  - Si GIS indisponible (pas de session Google, prompt dismissed) → fallback vers `signInWithPopup`
+  - L'ID token GIS est passé à Firebase via `signInWithCredential(auth, GoogleAuthProvider.credential(idToken))`
+  - CSP mise à jour : `https://accounts.google.com` ajouté à `script-src` et `style-src`
+- **Leçon** :
+  - **Utiliser Google Identity Services (GIS) pour le Google Sign-In** — expérience native, pas de page Firebase intermédiaire
+  - **Toujours garder `signInWithPopup` comme fallback** — GIS ne fonctionne pas si l'utilisateur n'a pas de session Google
+  - **CSP doit inclure `accounts.google.com`** dans script-src ET style-src pour GIS
+  - **`GoogleAuthProvider.credential(idToken)` + `signInWithCredential`** = pont entre GIS et Firebase Auth
+- **Fichiers** : `src/services/firebase.js`, `index.html`
 - **Statut** : CORRIGÉ

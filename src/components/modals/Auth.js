@@ -287,6 +287,8 @@ window.handleAuth = async (event) => {
 
     if (result.success) {
       const user = result.user
+      // Block page reloads for 15s after auth (SW update, version.json)
+      window._authJustCompleted = Date.now()
       // Create/update Firestore profile
       await fb.createOrUpdateUserProfile(user)
       // Hydrate localStorage with Firestore profile data
@@ -360,6 +362,8 @@ window.handleGoogleSignIn = async () => {
 
     if (result?.success && result.user) {
       const user = result.user
+      // Block page reloads for 15s after auth (SW update, version.json)
+      window._authJustCompleted = Date.now()
       await fb.createOrUpdateUserProfile(user).catch(() => {})
       fb.hydrateLocalProfileFromFirestore(user.uid).catch(() => {})
       const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
@@ -368,6 +372,9 @@ window.handleGoogleSignIn = async () => {
         authPendingAction: null,
         showAuthReason: null,
         currentUser: user,
+        isLoggedIn: true,
+        user,
+        username: user.displayName || 'Hitchhiker',
         isAdmin: ADMIN_EMAILS.includes(user.email?.toLowerCase()),
         userProfile: {
           uid: user.uid,

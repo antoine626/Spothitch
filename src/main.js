@@ -122,6 +122,8 @@ let currentVersion = null
 let isReloading = false
 // Guard: block auto-reload while an auth popup is open (popup steals focus → visibilitychange → spurious reload)
 window._authInProgress = false
+// Guard: block auto-reload for 15 seconds after auth completes (SW update + version.json would reload during sign-in)
+window._authJustCompleted = 0
 
 function startVersionCheck() {
   const CHECK_INTERVAL = 120_000 // 2 minutes (was 10 — faster updates)
@@ -152,8 +154,8 @@ function startVersionCheck() {
 
   async function doReload() {
     if (isReloading) return
-    // Never reload during an auth flow (popup or redirect)
-    if (window._authInProgress || sessionStorage.getItem('spothitch_auth_redirect')) {
+    // Never reload during an auth flow or within 15s after auth completed
+    if (window._authInProgress || sessionStorage.getItem('spothitch_auth_redirect') || (Date.now() - window._authJustCompleted < 15000)) {
       pendingReload = true
       return
     }
@@ -175,7 +177,7 @@ function startVersionCheck() {
 
   // When user backgrounds the app, apply pending reload
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden' && pendingReload && !isReloading && !window._authInProgress && !sessionStorage.getItem('spothitch_auth_redirect')) {
+    if (document.visibilityState === 'hidden' && pendingReload && !isReloading && !window._authInProgress && !sessionStorage.getItem('spothitch_auth_redirect') && (Date.now() - window._authJustCompleted >= 15000)) {
       isReloading = true
       window.location.reload()
     }
@@ -203,6 +205,12 @@ function startVersionCheck() {
   let hadController = !!navigator.serviceWorker?.controller
   navigator.serviceWorker?.addEventListener('controllerchange', () => {
     if (hadController && !isReloading) {
+      // Block reload if auth just completed (user would see a jarring reload right after sign-in)
+      if (window._authInProgress || (Date.now() - window._authJustCompleted < 15000)) {
+        pendingReload = true
+        hadController = true
+        return
+      }
       // New SW activated — reload NOW so user gets latest version immediately
       isReloading = true
       try { showToast(t('updating') || 'Mise à jour...', 'info') } catch (_e) { /* ok */ }
@@ -351,8 +359,17 @@ async function init() {
 
           // Handle auth state changes (fires immediately with current state, then on every change)
           fb.onAuthChange((user) => {
-            actions.setUser(user)
             if (user) {
+              // Skip if handleGoogleSignIn already set the same user (avoid duplicate re-render)
+              const current = getState()
+              if (current.currentUser?.uid === user.uid && !current.showAuth) {
+                // User already set by the sign-in handler — just ensure isLoggedIn is synced
+                if (!current.isLoggedIn) {
+                  actions.setUser(user)
+                }
+                return
+              }
+              actions.setUser(user)
               const ADMIN_EMAILS = ['antoine.v.ville@gmail.com']
               const updates = {
                 currentUser: user,
@@ -386,6 +403,7 @@ async function init() {
               // Hydrate profile from Firestore (bio, languages, etc.)
               fb.hydrateLocalProfileFromFirestore(user.uid).catch(() => {})
             } else {
+              actions.setUser(null)
               setState({ currentUser: null, userProfile: null, isAdmin: false })
             }
             try {
