@@ -868,6 +868,7 @@ function initHomeMap(state) {
           'text-field': ['get', 'point_count_abbreviated'],
           'text-size': 12,
           'text-font': ['Noto Sans Bold'],
+          'text-allow-overlap': true,
         },
         paint: { 'text-color': '#ffffff' },
       })
@@ -1296,9 +1297,9 @@ function initTripMap(state) {
             'text-field': ['to-string', ['get', 'index']],
             'text-size': 11,
             'text-font': ['Noto Sans Bold'],
-            'text-allow-overlap': false,
-            'text-ignore-placement': false,
-            'text-padding': 4,
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+            'text-padding': 2,
           },
           paint: {
             'text-color': '#ffffff',

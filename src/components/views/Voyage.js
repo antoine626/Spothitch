@@ -211,7 +211,7 @@ function renderMapFirstView(state) {
           class="w-10 h-10 rounded-xl bg-dark-secondary/90 backdrop-blur border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors shadow-lg"
           aria-label="${t('tripFitBounds') || 'Voir tout'}"
         >
-          ${icon('maximize', 'w-5 h-5')}
+          ${icon('expand', 'w-5 h-5')}
         </button>
       </div>
 
@@ -1434,16 +1434,28 @@ window.toggleTripGasStations = () => {
   const show = !state.tripShowGasStations
   window.setState?.({ tripShowGasStations: show })
   if (show) {
-    // Load and show gas stations
+    // Load and show gas stations along route
     const results = state.tripResults
     if (results?.routeGeometry?.length > 1) {
+      window.showToast?.(t('loadingGasStations') || 'Chargement des stations...', 'info')
       import('../../services/overpass.js').then(({ getAmenitiesAlongRoute }) => {
         getAmenitiesAlongRoute(results.routeGeometry, 2, { showFuel: true, showRestAreas: true })
           .then(amenities => {
-            window._tripMapAddAmenities?.(amenities)
+            if (amenities.length === 0) {
+              window.showToast?.(t('noGasStationsFound') || 'Aucune station trouvée', 'warning')
+            } else {
+              window._tripMapAddAmenities?.(amenities)
+              window.showToast?.(`${amenities.length} ${t('gasStationsFound') || 'stations trouvées'}`, 'success')
+            }
           })
-          .catch(() => {})
-      }).catch(() => {})
+          .catch(() => {
+            window.showToast?.(t('gasStationsError') || 'Erreur de chargement des stations', 'error')
+            window.setState?.({ tripShowGasStations: false })
+          })
+      }).catch(() => {
+        window.showToast?.(t('gasStationsError') || 'Erreur de chargement des stations', 'error')
+        window.setState?.({ tripShowGasStations: false })
+      })
     }
   } else {
     window._tripMapRemoveAmenities?.()

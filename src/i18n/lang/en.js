@@ -1755,6 +1755,10 @@ export default {
   // Map & Spots
   gasStation: 'Gas station',
   gasStations: 'Gas stations',
+  loadingGasStations: 'Loading gas stations...',
+  noGasStationsFound: 'No gas stations found along this route',
+  gasStationsFound: 'stations found',
+  gasStationsError: 'Failed to load gas stations',
   navigationActive: 'Navigation active',
   hitchSpot: 'Spot',
   spotPhoto: 'Spot photo',

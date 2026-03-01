@@ -1755,6 +1755,10 @@ export default {
   // Map & Spots
   gasStation: 'Station essence',
   gasStations: 'Stations-service',
+  loadingGasStations: 'Chargement des stations...',
+  noGasStationsFound: 'Aucune station trouvée sur ce trajet',
+  gasStationsFound: 'stations trouvées',
+  gasStationsError: 'Impossible de charger les stations',
   navigationActive: 'Navigation active',
   hitchSpot: 'Spot',
   spotPhoto: 'Photo du spot',
