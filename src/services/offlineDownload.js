@@ -1,66 +1,35 @@
 /**
  * Offline Download Service
- * Downloads country spot data to IndexedDB for offline use
- * Users can download specific countries and browse spots without network
+ * Tracks which countries are downloaded for offline use
+ * Actual spot loading & IDB persistence is handled by spotLoader.js
  */
 
-import { putAll, getByIndex, count, getAll } from '../utils/idb.js'
+import { getByIndex, count, remove as idbRemove } from '../utils/idb.js'
 
 const STORAGE_KEY = 'spothitch_offline_countries'
 const BASE = import.meta.env.BASE_URL || '/'
-const HITCHMAP_ENABLED = import.meta.env.VITE_HITCHMAP_ENABLED !== 'false'
 
 /**
  * Download spots for a country and save to IndexedDB
+ * Delegates to spotLoader for the actual fetch + IDB save
  * @param {string} countryCode - ISO country code (e.g. 'FR', 'DE')
  * @param {Function} [onProgress] - Progress callback (0-100)
  * @returns {Promise<{success: boolean, count: number}>}
  */
 export async function downloadCountrySpots(countryCode, onProgress) {
-  if (!HITCHMAP_ENABLED) return { success: true, count: 0 }
   const code = countryCode.toUpperCase()
 
   try {
     if (onProgress) onProgress(10)
 
-    const response = await fetch(`${BASE}data/spots/${code.toLowerCase()}.json`)
-    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    // Use spotLoader which handles fetch → IDB persistence
+    const { loadCountrySpots } = await import('./spotLoader.js')
+    if (onProgress) onProgress(30)
 
-    if (onProgress) onProgress(40)
+    const spots = await loadCountrySpots(code)
+    if (onProgress) onProgress(80)
 
-    const data = await response.json()
-    const spots = (data.spots || []).map((spot, i) => ({
-      ...spot,
-      id: spot.id || `offline_${code}_${i}`,
-      country: code,
-      _offline: true,
-      _downloadedAt: Date.now(),
-    }))
-
-    if (onProgress) onProgress(70)
-
-    // Save to IndexedDB
-    await putAll('spots', spots)
-
-    if (onProgress) onProgress(90)
-
-    // Track downloaded countries in localStorage
-    const countries = getDownloadedCountries()
-    const existing = countries.find(c => c.code === code)
-    if (existing) {
-      existing.count = spots.length
-      existing.downloadedAt = Date.now()
-    } else {
-      countries.push({
-        code,
-        count: spots.length,
-        downloadedAt: Date.now(),
-      })
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(countries))
-
-
-    // Download cities for this country (3-layer suggestions system)
+    // Also download cities for this country (3-layer suggestions system)
     try {
       const citiesRes = await fetch(`${BASE}data/cities/${code.toLowerCase()}.json`)
       if (citiesRes.ok) {
@@ -69,8 +38,13 @@ export async function downloadCountrySpots(countryCode, onProgress) {
         localStorage.setItem(key, JSON.stringify(citiesData.cities || []))
       }
     } catch {
-      // Cities download failed — not critical, spots still saved
+      // Cities download failed — not critical
     }
+
+    if (onProgress) onProgress(90)
+
+    // Track downloaded country in localStorage
+    markCountryDownloaded(code, spots.length)
 
     if (onProgress) onProgress(100)
 
@@ -79,6 +53,27 @@ export async function downloadCountrySpots(countryCode, onProgress) {
     console.error(`[OfflineDownload] Failed to download ${code}:`, error)
     return { success: false, count: 0, error: error.message }
   }
+}
+
+/**
+ * Mark a country as downloaded for offline
+ * @param {string} code - Country code
+ * @param {number} spotCount - Number of spots
+ */
+export function markCountryDownloaded(code, spotCount) {
+  const countries = getDownloadedCountries()
+  const existing = countries.find(c => c.code === code)
+  if (existing) {
+    existing.count = spotCount
+    existing.downloadedAt = Date.now()
+  } else {
+    countries.push({
+      code,
+      count: spotCount,
+      downloadedAt: Date.now(),
+    })
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(countries))
 }
 
 /**
@@ -110,17 +105,13 @@ export function isCountryDownloaded(countryCode) {
 export async function deleteOfflineCountry(countryCode) {
   const code = countryCode.toUpperCase()
   try {
-    // Get spots for this country and delete them
+    // Get spots for this country from IDB and delete them
     const spots = await getByIndex('spots', 'country', code)
-    const offlineSpots = spots.filter(s => s._offline)
-
-    // Delete from IDB one by one (getByIndex returns read-only)
-    const { remove } = await import('../utils/idb.js')
-    for (const spot of offlineSpots) {
-      await remove('spots', spot.id)
+    for (const spot of spots) {
+      await idbRemove('spots', spot.id)
     }
 
-    // Update localStorage
+    // Update localStorage tracking
     const countries = getDownloadedCountries().filter(c => c.code !== code)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(countries))
 
@@ -145,8 +136,8 @@ export async function getOfflineCountrySpots(countryCode) {
  * @returns {Promise<Array>}
  */
 export async function getAllOfflineSpots() {
-  const spots = await getAll('spots')
-  return spots.filter(s => s._offline)
+  const { getAll } = await import('../utils/idb.js')
+  return getAll('spots')
 }
 
 /**
@@ -179,4 +170,5 @@ export default {
   getOfflineCountrySpots,
   getAllOfflineSpots,
   getOfflineStorageInfo,
+  markCountryDownloaded,
 }

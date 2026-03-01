@@ -241,6 +241,8 @@ const MAIN_JS_HANDLERS = [
   'loadCountryOnMap', 'downloadCountryFromBubble',
   // Offline download
   'downloadCountryOffline', 'deleteOfflineCountry',
+  'downloadCountryForOffline', 'getOfflineStorageInfo',
+  'clearAllOfflineData', 'toggleAutoOfflineDownload',
   // Push notifications
   'togglePushNotifications',
   // Companion Mode

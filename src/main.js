@@ -453,6 +453,9 @@ async function init() {
         try { const { initProximityNotify } = await import('./services/proximityNotify.js'); initProximityNotify() } catch (e) { /* optional */ }
         try { const { initPostHog } = await import('./utils/posthog.js'); initPostHog() } catch (e) { /* optional */ }
 
+        // Request persistent storage (prevents browser from evicting IDB data)
+        try { navigator.storage?.persist?.() } catch (e) { /* optional */ }
+
         // Preload, cleanup, monitoring
         try { preloadOnIdle() } catch (e) { /* optional */ }
         try { cleanupOldData() } catch (e) { /* optional */ }
@@ -608,7 +611,7 @@ function loadInitialData() {
  */
 async function loadNearbySpots(loc) {
   try {
-    const { loadSpotsInBounds } = await import('./services/spotLoader.js')
+    const { loadSpotsInBounds, autoDownloadUserCountry } = await import('./services/spotLoader.js')
     const bounds = {
       north: loc.lat + 3,
       south: loc.lat - 3,
@@ -624,6 +627,8 @@ async function loadNearbySpots(loc) {
         actions.setSpots([...current, ...newSpots])
       }
     }
+    // Auto-download user's country to IDB for offline use
+    autoDownloadUserCountry(loc.lat, loc.lng).catch(() => {})
   } catch (e) {
     console.warn('loadNearbySpots failed:', e)
   }
@@ -2447,6 +2452,54 @@ window.deleteOfflineCountry = async (code) => {
   } catch (e) {
     showToast(t('deletionError') || 'Erreur lors de la suppression', 'error')
   }
+}
+
+window.downloadCountryForOffline = async (code) => {
+  try {
+    setState({ offlineDownloadingCountry: code, offlineDownloadProgress: 0 })
+    const { downloadCountrySpots } = await import('./services/offlineDownload.js')
+    const result = await downloadCountrySpots(code, (progress) => {
+      setState({ offlineDownloadProgress: progress })
+    })
+    setState({ offlineDownloadingCountry: null, offlineDownloadProgress: 0 })
+    if (result.success) {
+      showToast(`${result.count} ${t('spotsDownloaded') || 'spots téléchargés'}`, 'success')
+      if (window._refreshCountryBubbles) window._refreshCountryBubbles()
+    } else {
+      showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
+    }
+  } catch (e) {
+    setState({ offlineDownloadingCountry: null, offlineDownloadProgress: 0 })
+    showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
+  }
+}
+
+window.getOfflineStorageInfo = async () => {
+  const { getOfflineStorageInfo } = await import('./services/offlineDownload.js')
+  return getOfflineStorageInfo()
+}
+
+window.clearAllOfflineData = async () => {
+  try {
+    const { clearOfflineData } = await import('./services/autoOfflineSync.js')
+    await clearOfflineData()
+    showToast(t('offlineDataCleared') || 'Données hors-ligne supprimées', 'success')
+    if (window._refreshCountryBubbles) window._refreshCountryBubbles()
+    scheduleRender(() => render(getState()))
+  } catch (e) {
+    showToast(t('deletionError') || 'Erreur lors de la suppression', 'error')
+  }
+}
+
+window.toggleAutoOfflineDownload = () => {
+  const current = getState().offlineAutoDownloadEnabled
+  setState({ offlineAutoDownloadEnabled: !current })
+  showToast(
+    !current
+      ? (t('autoOfflineEnabled') || 'Téléchargement auto activé')
+      : (t('autoOfflineDisabled') || 'Téléchargement auto désactivé'),
+    'info'
+  )
 }
 
 // ==================== HOME HANDLERS ====================

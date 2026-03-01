@@ -2316,6 +2316,11 @@ export default {
 
   // offline
   offlineConnectionRestored: 'Verbindung wiederhergestellt',
+  offlineDataCleared: 'Alle Offline-Daten gelöscht',
+  autoOfflineEnabled: 'Automatischer Download aktiviert',
+  autoOfflineDisabled: 'Automatischer Download deaktiviert',
+  offlineAvailable: 'Offline verfügbar',
+  stationsCached: 'Tankstellen im Cache',
 
   // shareCard
   shareCardTagline: 'Die Tramper-Community',

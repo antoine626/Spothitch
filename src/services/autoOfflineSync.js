@@ -1,7 +1,7 @@
 /**
  * Auto Offline Sync Service
  * Automatically downloads offline data when on WiFi/4G
- * Syncs spots, guides, and map data for user's saved trips
+ * Uses spotLoader (IDB-first) for spot data instead of localStorage
  */
 
 import { showToast } from './notifications.js'
@@ -10,8 +10,6 @@ import { t } from '../i18n/index.js'
 
 const STORAGE_PREFIX = 'spothitch_offline_'
 const SYNC_INTERVAL = 60 * 60 * 1000 // 1 hour
-const MAX_CACHE_AGE = 7 * 24 * 60 * 60 * 1000 // 7 days
-const HITCHMAP_ENABLED = import.meta.env.VITE_HITCHMAP_ENABLED !== 'false'
 
 let isInitialized = false
 let syncInterval = null
@@ -116,7 +114,7 @@ function shouldAutoSync() {
 
 /**
  * Perform auto sync
- * Downloads spots, guides, and map data for relevant countries
+ * Uses spotLoader (IDB-first) for spot downloads
  * @returns {Promise<Object>}
  */
 export async function performAutoSync() {
@@ -126,25 +124,25 @@ export async function performAutoSync() {
       countries: [],
       spotsCount: 0,
       guidesCount: 0,
-      size: 0,
     }
 
-    // Get relevant countries from:
-    // 1. Saved trips
-    // 2. User location (if available)
-    // 3. Recent spots visited
+    // Get relevant countries from trips, location, checkins
     const countries = await getRelevantCountries()
 
     if (countries.length === 0) {
       return { success: true, synced: syncedData }
     }
 
-    // Download spot data for each country
+    // Download spot data via spotLoader (auto-caches in IDB)
+    const { loadCountrySpots } = await import('./spotLoader.js')
+    const { markCountryDownloaded } = await import('./offlineDownload.js')
+
     for (const countryCode of countries) {
       try {
-        await downloadCountrySpots(countryCode)
+        const spots = await loadCountrySpots(countryCode)
         syncedData.countries.push(countryCode)
-        syncedData.spotsCount += await getOfflineSpotsCount(countryCode)
+        syncedData.spotsCount += spots.length
+        markCountryDownloaded(countryCode, spots.length)
       } catch (err) {
         console.warn(`[AutoOfflineSync] Failed to download spots for ${countryCode}:`, err.message)
       }
@@ -159,9 +157,6 @@ export async function performAutoSync() {
         console.warn(`[AutoOfflineSync] Failed to download guide for ${countryCode}:`, err.message)
       }
     }
-
-    // Calculate total cache size
-    syncedData.size = calculateOfflineStorageSize()
 
     // Update last sync time
     lastSyncTime = Date.now()
@@ -194,7 +189,6 @@ async function getRelevantCountries() {
     for (const trip of savedTrips) {
       if (trip.steps && Array.isArray(trip.steps)) {
         for (const step of trip.steps) {
-          // Extract country code from step location (if available)
           const countryCode = extractCountryCode(step)
           if (countryCode) {
             countries.add(countryCode)
@@ -207,16 +201,16 @@ async function getRelevantCountries() {
     const state = getState()
     if (state.userLocation && state.userLocation.lat && state.userLocation.lng) {
       try {
-        const countryCode = await getCountryFromCoords(state.userLocation.lat, state.userLocation.lng)
-        if (countryCode) {
-          countries.add(countryCode)
-        }
+        const { autoDownloadUserCountry } = await import('./spotLoader.js')
+        // autoDownloadUserCountry returns the country code
+        const code = await autoDownloadUserCountry(state.userLocation.lat, state.userLocation.lng)
+        if (code) countries.add(code)
       } catch (err) {
         console.warn('[AutoOfflineSync] Could not determine country from location:', err.message)
       }
     }
 
-    // 3. Get countries from recent checkins (stored in localStorage)
+    // 3. Get countries from recent checkins
     const recentCheckins = getRecentCheckins()
     for (const checkin of recentCheckins) {
       if (checkin.country) {
@@ -232,45 +226,11 @@ async function getRelevantCountries() {
 }
 
 /**
- * Download spot data for a country
- * @param {string} countryCode - Country code (e.g., 'FR', 'DE')
- * @returns {Promise<void>}
- */
-async function downloadCountrySpots(countryCode) {
-  if (!HITCHMAP_ENABLED) return
-  try {
-    // Check if file exists at public/data/spots/{country}.json
-    const url = `/data/spots/${countryCode.toLowerCase()}.json`
-    const response = await fetch(url)
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`)
-    }
-
-    const spots = await response.json()
-
-    // Store in localStorage
-    const key = `${STORAGE_PREFIX}spots_${countryCode}`
-    localStorage.setItem(key, JSON.stringify({
-      countryCode,
-      spots,
-      cachedAt: Date.now(),
-    }))
-
-  } catch (err) {
-    console.warn(`[AutoOfflineSync] Could not download spots for ${countryCode}:`, err.message)
-    throw err
-  }
-}
-
-/**
  * Download guide data for a country
  * @param {string} countryCode - Country code
- * @returns {Promise<void>}
  */
 async function downloadCountryGuide(countryCode) {
   try {
-    // Import guides dynamically
     const { getGuideByCode } = await import('../data/guides.js')
     const guide = getGuideByCode(countryCode)
 
@@ -289,80 +249,33 @@ async function downloadCountryGuide(countryCode) {
 }
 
 /**
- * Get offline spots for a country
- * @param {string} countryCode - Country code
- * @returns {Array} Array of spots
- */
-export function getOfflineSpots(countryCode) {
-  try {
-    const key = `${STORAGE_PREFIX}spots_${countryCode}`
-    const cached = localStorage.getItem(key)
-
-    if (!cached) return []
-
-    const data = JSON.parse(cached)
-
-    // Check if cache is still valid
-    if (Date.now() - data.cachedAt > MAX_CACHE_AGE) {
-      localStorage.removeItem(key)
-      return []
-    }
-
-    return data.spots || []
-  } catch (err) {
-    console.warn(`[AutoOfflineSync] Error reading offline spots for ${countryCode}:`, err)
-    return []
-  }
-}
-
-/**
- * Get offline spots count for a country
- * @param {string} countryCode - Country code
- * @returns {Promise<number>}
- */
-async function getOfflineSpotsCount(countryCode) {
-  const spots = getOfflineSpots(countryCode)
-  return spots.length
-}
-
-/**
- * Check if offline data is available for a country
- * @param {string} countryCode - Country code
- * @returns {boolean}
- */
-export function isOfflineDataAvailable(countryCode) {
-  const spots = getOfflineSpots(countryCode)
-  return spots.length > 0
-}
-
-/**
- * Get offline sync status
- * @returns {Object} Status object with countries, size, last sync
+ * Get offline sync status (reads from IDB via spotLoader data)
+ * @returns {Object} Status object with countries, last sync
  */
 export function getOfflineStatus() {
-  const countries = []
   const guides = []
   let totalSize = 0
 
-  // Scan localStorage for offline data
+  // Scan localStorage for guide data only (spots are in IDB now)
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i)
     if (key && key.startsWith(STORAGE_PREFIX)) {
       const value = localStorage.getItem(key)
       if (value) {
         totalSize += value.length
-
-        // Extract country code
-        if (key.includes('_spots_')) {
-          const countryCode = key.replace(`${STORAGE_PREFIX}spots_`, '')
-          countries.push(countryCode.toUpperCase())
-        } else if (key.includes('_guide_')) {
+        if (key.includes('_guide_')) {
           const countryCode = key.replace(`${STORAGE_PREFIX}guide_`, '')
           guides.push(countryCode.toUpperCase())
         }
       }
     }
   }
+
+  // Get downloaded countries from offlineDownload tracking
+  let countries = []
+  try {
+    countries = JSON.parse(localStorage.getItem('spothitch_offline_countries') || '[]').map(c => c.code)
+  } catch { /* empty */ }
 
   const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2)
 
@@ -398,9 +311,10 @@ export async function forceOfflineSync() {
 }
 
 /**
- * Clear all offline data
+ * Clear all offline data (guides in localStorage, spots via IDB)
  */
-export function clearOfflineData() {
+export async function clearOfflineData() {
+  // Clear localStorage guide caches
   const keys = []
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i)
@@ -408,10 +322,18 @@ export function clearOfflineData() {
       keys.push(key)
     }
   }
-
   for (const key of keys) {
     localStorage.removeItem(key)
   }
+
+  // Clear IDB spots
+  try {
+    const { clear } = await import('../utils/idb.js')
+    await clear('spots')
+  } catch { /* optional */ }
+
+  // Clear downloaded countries tracking
+  localStorage.removeItem('spothitch_offline_countries')
 
   lastSyncTime = null
 }
@@ -420,144 +342,44 @@ export function clearOfflineData() {
 // Helper functions
 // ============================================
 
-/**
- * Get saved trips from planner
- * @returns {Array}
- */
 function getSavedTrips() {
   try {
     const saved = localStorage.getItem('spothitch_saved_trips')
-    if (saved) {
-      return JSON.parse(saved)
-    }
-  } catch (err) {
-    console.warn('[AutoOfflineSync] Error reading saved trips:', err)
-  }
+    if (saved) return JSON.parse(saved)
+  } catch { /* empty */ }
   return []
 }
 
-/**
- * Extract country code from trip step
- * @param {Object} step - Trip step object
- * @returns {string|null}
- */
 function extractCountryCode(step) {
-  // Try to extract from fullName (e.g., "Paris, France")
   if (step.fullName && typeof step.fullName === 'string') {
     const parts = step.fullName.split(',').map(s => s.trim())
     if (parts.length >= 2) {
       const country = parts[parts.length - 1]
-      // Map country names to codes (simplified)
       const countryMap = {
-        France: 'FR',
-        Germany: 'DE',
-        Spain: 'ES',
-        Italy: 'IT',
-        Belgium: 'BE',
-        Netherlands: 'NL',
-        Portugal: 'PT',
-        Poland: 'PL',
-        Austria: 'AT',
-        Switzerland: 'CH',
-        'Czech Republic': 'CZ',
-        Sweden: 'SE',
-        Denmark: 'DK',
-        Norway: 'NO',
-        Finland: 'FI',
+        France: 'FR', Germany: 'DE', Spain: 'ES', Italy: 'IT',
+        Belgium: 'BE', Netherlands: 'NL', Portugal: 'PT', Poland: 'PL',
+        Austria: 'AT', Switzerland: 'CH', 'Czech Republic': 'CZ',
+        Sweden: 'SE', Denmark: 'DK', Norway: 'NO', Finland: 'FI',
       }
       return countryMap[country] || null
     }
   }
-
-  // Try to extract from country field
-  if (step.country) {
-    return step.country
-  }
-
+  if (step.country) return step.country
   return null
 }
 
-/**
- * Get country code from GPS coordinates
- * @param {number} lat - Latitude
- * @param {number} lng - Longitude
- * @returns {Promise<string|null>}
- */
-async function getCountryFromCoords(lat, lng) {
-  // Simple bbox check for major European countries
-  // In production, you'd use reverse geocoding API
-
-  // France
-  if (lat >= 41 && lat <= 51 && lng >= -5 && lng <= 10) return 'FR'
-
-  // Germany
-  if (lat >= 47 && lat <= 55 && lng >= 5 && lng <= 15) return 'DE'
-
-  // Spain
-  if (lat >= 36 && lat <= 44 && lng >= -10 && lng <= 4) return 'ES'
-
-  // Italy
-  if (lat >= 36 && lat <= 47 && lng >= 6 && lng <= 19) return 'IT'
-
-  // UK
-  if (lat >= 50 && lat <= 59 && lng >= -8 && lng <= 2) return 'GB'
-
-  // Default: try to use OSRM reverse geocoding if available
-  try {
-    const { reverseGeocode } = await import('./osrm.js')
-    const result = await reverseGeocode(lat, lng)
-    if (result && result.country) {
-      return result.country
-    }
-  } catch (err) {
-    console.warn('[AutoOfflineSync] Could not reverse geocode:', err.message)
-  }
-
-  return null
-}
-
-/**
- * Get recent checkins from localStorage
- * @returns {Array}
- */
 function getRecentCheckins() {
   try {
     const checkins = localStorage.getItem('spothitch_checkin_history')
-    if (checkins) {
-      const parsed = JSON.parse(checkins)
-      // Return last 10 checkins
-      return parsed.slice(-10)
-    }
-  } catch (err) {
-    console.warn('[AutoOfflineSync] Error reading checkin history:', err)
-  }
+    if (checkins) return JSON.parse(checkins).slice(-10)
+  } catch { /* empty */ }
   return []
-}
-
-/**
- * Calculate total offline storage size
- * @returns {number} Size in bytes
- */
-function calculateOfflineStorageSize() {
-  let total = 0
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i)
-    if (key && key.startsWith(STORAGE_PREFIX)) {
-      const value = localStorage.getItem(key)
-      if (value) {
-        total += value.length
-      }
-    }
-  }
-  return total
 }
 
 // Cleanup on page unload
 if (typeof window !== 'undefined') {
   window.addEventListener('beforeunload', () => {
-    if (syncInterval) {
-      clearInterval(syncInterval)
-    }
+    if (syncInterval) clearInterval(syncInterval)
   })
 
   // Expose force sync globally
@@ -567,8 +389,6 @@ if (typeof window !== 'undefined') {
 export default {
   initAutoOfflineSync,
   performAutoSync,
-  getOfflineSpots,
-  isOfflineDataAvailable,
   getOfflineStatus,
   forceOfflineSync,
   clearOfflineData,

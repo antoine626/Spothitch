@@ -3,30 +3,52 @@
  * Dynamically loads hitchhiking spots from JSON files per country
  * Source: Hitchmap (ODBL license)
  * Set VITE_HITCHMAP_ENABLED=false to disable all Hitchmap data loading
+ *
+ * Loading strategy (IDB-first):
+ * 1. In-memory Map cache → instantaneous
+ * 2. IndexedDB (by country index) → fast, persists across sessions
+ * 3. Network fetch JSON → slow, saves to IDB for next time
+ * 4. If offline + nothing in IDB → empty array (no crash)
  */
 
 import { haversineKm } from '../utils/geo.js'
+import { getByIndex, putAll, cacheGet, cacheSet } from '../utils/idb.js'
 
 const BASE = import.meta.env.BASE_URL || '/'
 const HITCHMAP_ENABLED = import.meta.env.VITE_HITCHMAP_ENABLED !== 'false'
 
-// Cache loaded country data
+// TTL constants
+const INDEX_TTL = 24 * 60 * 60 * 1000 // 24h for spot index
+const SPOTS_VERSION_TTL = 30 * 24 * 60 * 60 * 1000 // 30 days for version tracking
+
+// Cache loaded country data (in-memory)
 const loadedCountries = new Map()
 let countryIndex = null
 let allLoadedSpots = []
-let nextId = 100000 // Start high to avoid conflicts with sample spots
 
 /**
  * Load country index (list of available countries)
+ * Uses IDB cache with 24h TTL
  */
 export async function loadSpotIndex() {
   if (!HITCHMAP_ENABLED) return null
   if (countryIndex) return countryIndex
 
+  // Try IDB cache first
+  try {
+    const cached = await cacheGet('spot_index')
+    if (cached) {
+      countryIndex = cached
+      return countryIndex
+    }
+  } catch { /* IDB unavailable, continue to network */ }
+
   try {
     const response = await fetch(`${BASE}data/spots/index.json`)
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
     countryIndex = await response.json()
+    // Cache in IDB with 24h TTL
+    try { await cacheSet('spot_index', countryIndex, INDEX_TTL) } catch { /* optional */ }
     return countryIndex
   } catch (error) {
     console.warn('Failed to load spot index:', error)
@@ -36,6 +58,7 @@ export async function loadSpotIndex() {
 
 /**
  * Load spots for a specific country
+ * IDB-first: memory → IndexedDB → network
  * @param {string} countryCode - ISO country code (e.g. 'FR', 'DE')
  * @returns {Array} spots in app format
  */
@@ -43,11 +66,24 @@ export async function loadCountrySpots(countryCode) {
   if (!HITCHMAP_ENABLED) return []
   const code = countryCode.toUpperCase()
 
-  // Return cached data
+  // 1. In-memory cache → instantaneous
   if (loadedCountries.has(code)) {
     return loadedCountries.get(code)
   }
 
+  // 2. IndexedDB cache → fast, persists
+  try {
+    const idbSpots = await getByIndex('spots', 'country', code)
+    if (idbSpots && idbSpots.length > 0) {
+      loadedCountries.set(code, idbSpots)
+      allLoadedSpots = [...allLoadedSpots, ...idbSpots]
+      // Check if we should refresh from network in background (version check)
+      refreshFromNetworkIfNeeded(code).catch(() => {})
+      return idbSpots
+    }
+  } catch { /* IDB unavailable, continue to network */ }
+
+  // 3. Network fetch → slow, saves to IDB
   try {
     const response = await fetch(`${BASE}data/spots/${code.toLowerCase()}.json`)
     if (!response.ok) throw new Error(`HTTP ${response.status}`)
@@ -56,15 +92,93 @@ export async function loadCountrySpots(countryCode) {
     const spots = convertToAppFormat(data.spots, code)
 
     loadedCountries.set(code, spots)
-
-    // Update global spots array
     allLoadedSpots = [...allLoadedSpots, ...spots]
+
+    // Save to IDB for offline use (fire-and-forget)
+    saveCountrySpotsToIDB(spots, code).catch(() => {})
 
     return spots
   } catch (error) {
+    // 4. Offline + nothing in IDB → empty (no crash)
     console.warn(`Failed to load spots for ${code}:`, error)
     return []
   }
+}
+
+/**
+ * Save spots to IndexedDB for offline persistence
+ */
+async function saveCountrySpotsToIDB(spots, code) {
+  try {
+    await putAll('spots', spots)
+    // Store version for this country
+    const index = await loadSpotIndex()
+    if (index?.lastUpdated) {
+      await cacheSet(`spots_version_${code}`, index.lastUpdated, SPOTS_VERSION_TTL)
+    }
+  } catch (e) {
+    console.warn(`[SpotLoader] Failed to save ${code} to IDB:`, e)
+  }
+}
+
+/**
+ * Check if spots need refreshing from network (version changed)
+ */
+async function refreshFromNetworkIfNeeded(code) {
+  try {
+    const index = await loadSpotIndex()
+    if (!index?.lastUpdated) return
+
+    const cachedVersion = await cacheGet(`spots_version_${code}`)
+    if (cachedVersion && cachedVersion === index.lastUpdated) return // Up to date
+
+    // Version changed or not tracked — re-download
+    if (!navigator.onLine) return
+
+    const response = await fetch(`${BASE}data/spots/${code.toLowerCase()}.json`)
+    if (!response.ok) return
+
+    const data = await response.json()
+    const spots = convertToAppFormat(data.spots, code)
+
+    // Update caches
+    loadedCountries.set(code, spots)
+    // Rebuild allLoadedSpots (remove old spots for this country, add new ones)
+    allLoadedSpots = allLoadedSpots.filter(s => s.country !== code).concat(spots)
+
+    await putAll('spots', spots)
+    await cacheSet(`spots_version_${code}`, index.lastUpdated, SPOTS_VERSION_TTL)
+  } catch { /* best-effort background refresh */ }
+}
+
+/**
+ * Auto-download spots for the user's current country
+ * Detects country from GPS coordinates using country centers
+ * @param {number} lat - User latitude
+ * @param {number} lng - User longitude
+ */
+export async function autoDownloadUserCountry(lat, lng) {
+  if (!HITCHMAP_ENABLED) return null
+  const countryCenters = getCountryCenters()
+
+  // Find closest country center
+  let closestCode = null
+  let closestDist = Infinity
+  for (const [code, center] of Object.entries(countryCenters)) {
+    const dist = haversineKm(lat, lng, center.lat, center.lon)
+    if (dist < closestDist) {
+      closestDist = dist
+      closestCode = code
+    }
+  }
+
+  if (!closestCode || closestDist > 500) return null // Too far from any known country
+
+  // Load if not already loaded
+  if (!loadedCountries.has(closestCode)) {
+    await loadCountrySpots(closestCode)
+  }
+  return closestCode
 }
 
 /**
@@ -93,12 +207,13 @@ function shouldExcludeSpot(s) {
 /**
  * Convert Hitchmap format to app spot format
  * HitchWiki ratings are NOT used — all imported spots start as unverified (grey)
+ * IDs are deterministic: hm_{countryCode}_{originalIndex} for stable persistence
  */
 function convertToAppFormat(rawSpots, countryCode) {
   return rawSpots
     .filter(s => !shouldExcludeSpot(s))
-    .map(s => {
-      const id = nextId++
+    .map((s, i) => {
+      const id = `hm_${countryCode}_${i}`
       const bestComment = s.comments?.[0]?.text || ''
 
       return {
@@ -365,7 +480,6 @@ export function prefetchNearbyCountries(lat, lng, radiusKm = 800) {
 export function clearSpotCache() {
   loadedCountries.clear()
   allLoadedSpots = []
-  nextId = 100000
 }
 
 export default {
@@ -381,4 +495,5 @@ export default {
   getSpotStats,
   clearSpotCache,
   prefetchNearbyCountries,
+  autoDownloadUserCountry,
 }

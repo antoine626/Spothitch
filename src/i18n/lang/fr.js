@@ -2318,7 +2318,12 @@ export default {
   autoOfflineSyncError: 'Erreur lors de la synchronisation',
 
   // offline
-  offlineConnectionRestored: 'Connexion retablie',
+  offlineConnectionRestored: 'Connexion rétablie',
+  offlineDataCleared: 'Toutes les données hors-ligne supprimées',
+  autoOfflineEnabled: 'Téléchargement automatique activé',
+  autoOfflineDisabled: 'Téléchargement automatique désactivé',
+  offlineAvailable: 'Disponible hors-ligne',
+  stationsCached: 'Stations-service en cache',
 
   // shareCard
   shareCardTagline: 'La communauté des autostoppeurs',

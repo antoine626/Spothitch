@@ -2316,6 +2316,11 @@ export default {
 
   // offline
   offlineConnectionRestored: 'Conexión restablecida',
+  offlineDataCleared: 'Todos los datos sin conexión eliminados',
+  autoOfflineEnabled: 'Descarga automática activada',
+  autoOfflineDisabled: 'Descarga automática desactivada',
+  offlineAvailable: 'Disponible sin conexión',
+  stationsCached: 'Gasolineras en caché',
 
   // shareCard
   shareCardTagline: 'La comunidad de autoestopistas',

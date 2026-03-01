@@ -2319,6 +2319,11 @@ export default {
 
   // offline
   offlineConnectionRestored: 'Connection restored',
+  offlineDataCleared: 'All offline data deleted',
+  autoOfflineEnabled: 'Auto download enabled',
+  autoOfflineDisabled: 'Auto download disabled',
+  offlineAvailable: 'Available offline',
+  stationsCached: 'Gas stations cached',
 
   // shareCard
   shareCardTagline: 'The hitchhiking community',

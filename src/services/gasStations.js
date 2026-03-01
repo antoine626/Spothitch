@@ -1,12 +1,23 @@
 /**
  * Gas Stations Service
  * Fetches fuel stations along a route using Overpass API (OpenStreetMap)
+ * Results cached in IndexedDB (7-day TTL, grid-based keys at 0.1° resolution)
  */
 
 import { getState, setState } from '../stores/state.js'
 import { t } from '../i18n/index.js'
+import { cacheGet, cacheSet } from '../utils/idb.js'
 
 const OVERPASS_API = 'https://overpass-api.de/api/interpreter'
+const STATION_CACHE_TTL = 7 * 24 * 60 * 60 * 1000 // 7 days
+
+/**
+ * Build a cache key from bounds (rounded to 0.1° grid)
+ */
+function stationCacheKey(south, west, north, east) {
+  const r = (v) => Math.round(v * 10) / 10
+  return `stations_${r(south)}_${r(west)}_${r(north)}_${r(east)}`
+}
 
 /**
  * Fetch gas stations along a route geometry
@@ -44,6 +55,13 @@ export async function fetchGasStationsAlongRoute(routeCoords, bufferKm = 2) {
   minLng -= bufferDeg
   maxLng += bufferDeg
 
+  // Check IDB cache for route stations
+  const routeKey = stationCacheKey(minLat, minLng, maxLat, maxLng)
+  try {
+    const cached = await cacheGet(routeKey)
+    if (cached) return cached
+  } catch { /* IDB unavailable */ }
+
   // Overpass query for fuel stations in bbox
   const query = `[out:json][timeout:10];
     node["amenity"="fuel"](${minLat},${minLng},${maxLat},${maxLng});
@@ -72,6 +90,9 @@ export async function fetchGasStationsAlongRoute(routeCoords, bufferKm = 2) {
         opening_hours: el.tags?.opening_hours || '',
       }))
       .filter(station => isNearRoute(station, routeCoords, bufferKm))
+
+    // Cache route stations (7 days)
+    try { await cacheSet(routeKey, stations, STATION_CACHE_TTL) } catch { /* optional */ }
 
     return stations
   } catch (error) {
@@ -108,11 +129,19 @@ function haversineKm(lat1, lng1, lat2, lng2) {
 
 /**
  * Fetch gas stations in map viewport
+ * Cached in IDB with 7-day TTL on a 0.1° grid
  * @param {Object} bounds - { north, south, east, west }
  * @returns {Promise<Array>} stations
  */
 export async function fetchGasStationsInBounds(bounds) {
   if (!bounds) return []
+
+  // Check IDB cache first
+  const key = stationCacheKey(bounds.south, bounds.west, bounds.north, bounds.east)
+  try {
+    const cached = await cacheGet(key)
+    if (cached) return cached
+  } catch { /* IDB unavailable */ }
 
   const query = `[out:json][timeout:10];
     node["amenity"="fuel"](${bounds.south},${bounds.west},${bounds.north},${bounds.east});
@@ -125,10 +154,17 @@ export async function fetchGasStationsInBounds(bounds) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     })
 
-    if (!response.ok) return []
+    if (!response.ok) {
+      // Offline fallback: try expired cache
+      try {
+        const expired = await cacheGet(key)
+        if (expired) return expired
+      } catch { /* no fallback */ }
+      return []
+    }
     const data = await response.json()
 
-    return (data.elements || [])
+    const stations = (data.elements || [])
       .filter(el => el.lat && el.lon)
       .map(el => ({
         id: el.id,
@@ -137,7 +173,18 @@ export async function fetchGasStationsInBounds(bounds) {
         name: el.tags?.name || el.tags?.brand || t('gasStation') || 'Station-service',
         brand: el.tags?.brand || '',
       }))
+
+    // Save to IDB cache (7 days)
+    try { await cacheSet(key, stations, STATION_CACHE_TTL) } catch { /* optional */ }
+
+    return stations
   } catch {
+    // Offline: try IDB cache even if expired
+    try {
+      const { get } = await import('../utils/idb.js')
+      const item = await get('cache', key)
+      if (item?.data) return item.data
+    } catch { /* no fallback */ }
     return []
   }
 }

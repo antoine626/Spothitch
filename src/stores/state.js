@@ -371,6 +371,11 @@ const initialState = {
   selectedRoute: null,
   cityData: null,
 
+  // Offline download
+  offlineDownloadingCountry: null,
+  offlineDownloadProgress: 0,
+  offlineAutoDownloadEnabled: true,
+
   // Loading states
   isLoading: false,
   isLoadingSpots: false,
