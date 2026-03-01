@@ -38,7 +38,7 @@ export function buildCountryBubblesGeoJSON(
         spotCount: country.locations || 0,
         isDownloaded: downloadedCodes.has(code) ? 1 : 0,
         isLoaded: loadedCodes.has(code) ? 1 : 0,
-        label: `${getFlagEmoji(code)} ${country.locations || 0}`,
+        label: `${country.locations || 0}`,
       },
     })
   }

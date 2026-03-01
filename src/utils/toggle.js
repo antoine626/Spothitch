@@ -39,6 +39,38 @@ function escapeAttr(str) {
     .replace(/'/g, '&#39;')
 }
 
+// Parse a handler string like "toggleTheme()" or "togglePrivacy('showToNonFriends')"
+// into a function call on window, without using new Function (CSP-safe).
+function execHandler(handlerStr) {
+  if (!handlerStr) return
+  const match = handlerStr.match(/^(\w+)\((.*)\)$/)
+  if (!match) return
+  const fnName = match[1]
+  const fn = window[fnName]
+  if (typeof fn !== 'function') return
+  const rawArgs = match[2].trim()
+  if (!rawArgs) {
+    fn()
+  } else {
+    // Parse arguments: supports 'string', "string", and numbers
+    const args = rawArgs.split(',').map(a => {
+      a = a.trim()
+      // String argument (single or double quotes)
+      if ((a.startsWith("'") && a.endsWith("'")) || (a.startsWith('"') && a.endsWith('"'))) {
+        return a.slice(1, -1)
+      }
+      // Boolean
+      if (a === 'true') return true
+      if (a === 'false') return false
+      // Number
+      const n = Number(a)
+      if (!isNaN(n)) return n
+      return a
+    })
+    fn(...args)
+  }
+}
+
 // Global delegated handler — called from onclick with the toggle element
 // Reads the handler ID from data-tid, looks up the registered handler,
 // and executes it after a 30ms delay (so CSS animation plays first).
@@ -54,7 +86,8 @@ window._toggleExec = (el) => {
   if (handler) {
     setTimeout(() => {
       // handler is always developer-controlled (never user input)
-      new Function(handler)()
+      // CSP-safe: parsed and called via window[fnName] instead of new Function
+      execHandler(handler)
     }, 30)
   }
 }
