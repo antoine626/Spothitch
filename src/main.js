@@ -2381,27 +2381,43 @@ window.loadCountryOnMap = async (code) => {
 
 window.downloadCountryFromBubble = async (code, name) => {
   const btn = document.getElementById(`bubble-download-${code}`)
+  const ring = document.getElementById(`bubble-ring-${code}`)
+  const pctLabel = document.getElementById(`bubble-ring-pct-${code}`)
   if (btn) {
     btn.disabled = true
     btn.innerHTML = `${icon('loader-circle', 'w-4 h-4 animate-spin')} ${t('downloadingCountry') || 'Téléchargement...'}`
   }
+  if (pctLabel) pctLabel.style.display = 'block'
   try {
     const { downloadCountrySpots } = await import('./services/offlineDownload.js')
     const result = await downloadCountrySpots(code, (progress) => {
       if (btn) btn.innerHTML = `${icon('loader-circle', 'w-4 h-4 animate-spin')} ${progress}%`
+      // Animate the glow ring (circumference = 157)
+      if (ring) ring.style.strokeDashoffset = 157 * (1 - progress / 100)
+      if (pctLabel) pctLabel.textContent = `${progress}%`
     })
     if (result.success) {
+      // Fill ring completely
+      if (ring) ring.style.strokeDashoffset = '0'
+      if (pctLabel) pctLabel.textContent = '\u2713'
       showToast(`${name}: ${result.count} ${t('countryDownloaded') || 'Téléchargé'}`, 'success')
       if (window._refreshCountryBubbles) window._refreshCountryBubbles()
-      // Close popup
-      const popups = document.querySelectorAll('.maplibregl-popup')
-      popups.forEach(p => p.remove())
+      // Update button to "downloaded" state
+      if (btn) {
+        btn.disabled = true
+        btn.className = 'w-full px-3 py-2 rounded-xl bg-green-500/20 text-green-400 text-sm font-medium flex items-center justify-center gap-2'
+        btn.innerHTML = `${icon('check', 'w-4 h-4')} ${t('countryDownloaded') || 'Téléchargé'}`
+      }
     } else {
       showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
+      if (ring) ring.style.strokeDashoffset = '157'
+      if (pctLabel) pctLabel.style.display = 'none'
       if (btn) { btn.disabled = false; btn.innerHTML = `${icon('download', 'w-4 h-4')} ${t('downloadOffline') || 'Télécharger'}` }
     }
   } catch (e) {
     showToast(t('downloadFailed') || 'Échec du téléchargement', 'error')
+    if (ring) ring.style.strokeDashoffset = '157'
+    if (pctLabel) pctLabel.style.display = 'none'
     if (btn) { btn.disabled = false; btn.innerHTML = `${icon('download', 'w-4 h-4')} ${t('downloadOffline') || 'Télécharger'}` }
   }
 }

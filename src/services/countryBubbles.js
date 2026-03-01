@@ -153,37 +153,54 @@ export function updateCountryBubbleData(map, indexData, countryCenters, loadedCo
 
 /**
  * Create a MapLibre popup for a country bubble
+ * Download button shows a thick glow ring animation during progress
  */
 export function createBubblePopup(maplibregl, feature, lngLat) {
   const { code, name, spotCount, isDownloaded } = feature.properties
 
+  const downloadBtn = isDownloaded
+    ? `<div class="w-full px-3 py-2 rounded-xl bg-green-500/20 text-green-400 text-sm font-medium flex items-center justify-center gap-2">
+        ${icon('check', 'w-4 h-4')}
+        ${t('countryDownloaded') || 'Téléchargé'}
+      </div>`
+    : `<button onclick="downloadCountryFromBubble('${code}', '${escapeJSString(name)}')"
+        id="bubble-download-${code}"
+        class="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-sm font-medium hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
+        ${icon('download', 'w-4 h-4')}
+        ${t('downloadOffline') || 'Télécharger'}
+      </button>`
+
   const html = `
-    <div class="p-3 min-w-[180px]">
-      <div class="text-base font-bold mb-1">${getFlagEmoji(code)} ${name}</div>
-      <div class="text-sm text-slate-300 mb-3">${spotCount} ${t('spotsInCountry') || 'spots'}</div>
+    <div class="p-3 min-w-[200px]">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="relative flex-shrink-0" id="bubble-ring-wrap-${code}" style="width:56px;height:56px">
+          <svg viewBox="0 0 56 56" style="position:absolute;top:0;left:0;width:56px;height:56px;transform:rotate(-90deg)">
+            <circle cx="28" cy="28" r="25" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/>
+            <circle id="bubble-ring-${code}" cx="28" cy="28" r="25" fill="none" stroke="#22c55e" stroke-width="5" stroke-linecap="round"
+              stroke-dasharray="157" stroke-dashoffset="157" style="transition:stroke-dashoffset 0.3s ease;filter:drop-shadow(0 0 4px rgba(34,197,94,0.5))"/>
+          </svg>
+          <div style="position:absolute;top:0;left:0;width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-size:1.5rem">
+            ${getFlagEmoji(code)}
+          </div>
+          <div id="bubble-ring-pct-${code}" style="display:none;position:absolute;bottom:-2px;left:0;right:0;text-align:center;font-size:0.55rem;font-weight:700;color:#22c55e"></div>
+        </div>
+        <div>
+          <div class="text-sm font-bold leading-tight">${name}</div>
+          <div class="text-xs text-slate-400 mt-0.5">${spotCount} ${t('spotsInCountry') || 'spots'}</div>
+        </div>
+      </div>
       <div class="flex flex-col gap-2">
         <button onclick="loadCountryOnMap('${code}')"
           class="w-full px-3 py-2 rounded-xl bg-amber-500/20 text-amber-400 text-sm font-medium hover:bg-amber-500/30 transition-colors flex items-center justify-center gap-2">
           ${icon('eye', 'w-4 h-4')}
           ${t('displayCountry') || 'Afficher'}
         </button>
-        ${isDownloaded
-          ? `<div class="w-full px-3 py-2 rounded-xl bg-green-500/20 text-green-400 text-sm font-medium flex items-center justify-center gap-2">
-              ${icon('check', 'w-4 h-4')}
-              ${t('countryDownloaded') || 'Téléchargé'}
-            </div>`
-          : `<button onclick="downloadCountryFromBubble('${code}', '${escapeJSString(name)}')"
-              id="bubble-download-${code}"
-              class="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-sm font-medium hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
-              ${icon('download', 'w-4 h-4')}
-              ${t('downloadOffline') || 'Télécharger'}
-            </button>`
-        }
+        ${downloadBtn}
       </div>
     </div>
   `
 
-  return new maplibregl.Popup({ closeButton: true, maxWidth: '260px' })
+  return new maplibregl.Popup({ closeButton: true, maxWidth: '280px' })
     .setLngLat(lngLat)
     .setHTML(html)
 }
