@@ -15,6 +15,7 @@ import {
   FacebookAuthProvider,
   OAuthProvider,
   signInWithPopup,
+  signInWithCredential,
   getRedirectResult,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
@@ -118,28 +119,101 @@ export async function signIn(email, password) {
 }
 
 /**
- * Sign in with Google via POPUP.
+ * Load Google Identity Services (GIS) script dynamically.
+ * Returns a promise that resolves when the script is ready.
+ */
+let _gisLoaded = false
+function loadGIS() {
+  return new Promise((resolve, reject) => {
+    if (_gisLoaded && window.google?.accounts?.id) return resolve()
+    if (document.querySelector('script[src*="accounts.google.com/gsi/client"]')) {
+      // Script tag exists, wait for it
+      const check = setInterval(() => {
+        if (window.google?.accounts?.id) {
+          clearInterval(check)
+          _gisLoaded = true
+          resolve()
+        }
+      }, 100)
+      setTimeout(() => { clearInterval(check); reject(new Error('gis-timeout')) }, 5000)
+      return
+    }
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    script.async = true
+    script.onload = () => { _gisLoaded = true; resolve() }
+    script.onerror = () => reject(new Error('gis-load-failed'))
+    document.head.appendChild(script)
+  })
+}
+
+// Google OAuth Client ID (from Firebase Console → Authentication → Sign-in method → Google)
+const GOOGLE_CLIENT_ID = '314974309234-eh794g3edfe35h8r7eom2q0i092c5h35.apps.googleusercontent.com'
+
+/**
+ * Sign in with Google using Google Identity Services (GIS).
  *
- * Why popup and not redirect?
- * - signInWithRedirect breaks on phones with third-party cookie blocking
- *   (Chrome, Safari block cross-origin storage → getRedirectResult returns null)
- * - signInWithPopup works because the popup runs on the same origin flow
- * - The "COOP" issue from ERR-049 was only in Playwright tests, not real browsers
- * - Tested on production 2026-03-01: popup works on real Android phones
+ * Why GIS instead of Firebase signInWithPopup?
+ * - signInWithPopup opens spothitch.firebaseapp.com/__/auth/handler first,
+ *   which shows a visible Firebase loading page before redirecting to Google.
+ * - GIS shows the native Google account picker directly — no intermediate page.
+ * - The ID token from GIS is passed to Firebase via signInWithCredential.
+ * - Fallback to signInWithPopup if GIS fails (script blocked, One Tap dismissed).
  */
 export async function signInWithGoogle() {
-  const provider = new GoogleAuthProvider()
   try {
     window._authInProgress = true
-    const result = await signInWithPopup(auth, provider)
-    window._authInProgress = false
-    if (result?.user) {
-      return { success: true, user: result.user }
+
+    // Try Google Identity Services first (native picker, no Firebase page)
+    try {
+      await loadGIS()
+
+      const idToken = await new Promise((resolve, reject) => {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: (response) => {
+            if (response.credential) {
+              resolve(response.credential)
+            } else {
+              reject(new Error('no-credential'))
+            }
+          },
+          auto_select: false,
+          cancel_on_tap_outside: false,
+        })
+
+        window.google.accounts.id.prompt((notification) => {
+          if (notification.isNotDisplayed()) {
+            reject(new Error('prompt-not-displayed'))
+          } else if (notification.isSkippedMoment()) {
+            reject(new Error('prompt-skipped'))
+          }
+          // If displayed, the callback above will fire when user picks account
+        })
+      })
+
+      // Got ID token from Google — sign into Firebase with it
+      const credential = GoogleAuthProvider.credential(idToken)
+      const result = await signInWithCredential(auth, credential)
+      window._authInProgress = false
+      if (result?.user) {
+        return { success: true, user: result.user }
+      }
+      return { success: false, error: 'no-user' }
+    } catch (gisError) {
+      // GIS unavailable — fallback to Firebase popup
+      console.log('GIS fallback to popup:', gisError.message)
+      const provider = new GoogleAuthProvider()
+      const result = await signInWithPopup(auth, provider)
+      window._authInProgress = false
+      if (result?.user) {
+        return { success: true, user: result.user }
+      }
+      return { success: false, error: 'no-user' }
     }
-    return { success: false, error: 'no-user' }
   } catch (error) {
     window._authInProgress = false
-    return { success: false, error: error.code }
+    return { success: false, error: error.code || error.message }
   }
 }
 
